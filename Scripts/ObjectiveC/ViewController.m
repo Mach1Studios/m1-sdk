@@ -1,8 +1,9 @@
-//
-//  ViewController.m
-//  3DMusicPlayer
-//
+/*
 
+ Mach1 - M1
+ Example scripts deployed on iOS platform
+ 
+*/
 
 #define kUpdateInterval (1.0f / 60.0f)
 #define radiansToDegrees(x) (180/M_PI)*x
@@ -10,7 +11,7 @@
 #import "ViewController.h"
 #import <CoreMotion/CoreMotion.h>
 #import <AVFoundation/AVFoundation.h>
-#import "MusicPlayerItem.h"
+#import "PlayerItem.h"
 
 @interface ViewController ()
 @property (strong, nonatomic) CMMotionManager  *motionManager;
@@ -30,7 +31,7 @@
     
     self.motionManager.accelerometerUpdateInterval = kUpdateInterval;
 
-    /*To use MusicPlayerItem, just create object set below properties on that
+    /*To use PlayerItem, just create object set below properties on that
      @property (assign, nonatomic) CGPoint  audioAngle;
      @property (assign, nonatomic) CGPoint  minAngle;
      @property (assign, nonatomic) CGPoint  maxAngle;
@@ -40,26 +41,27 @@
      & call play.
      These objects will keep playing media file and will fluctuate volume depending upon x,y angles provided by motion manager.
      */
-    NSURL * url = [[NSBundle mainBundle] URLForResource:@"AMB_Bedroom_000" withExtension:@"mp3"];
-    MusicPlayerItem * item = [[MusicPlayerItem alloc] init];
+    
+    NSURL * url = [[NSBundle mainBundle] URLForResource:@"000" withExtension:@"mp3"];
+    PlayerItem * item = [[PlayerItem alloc] init];
     item.audioAngle = CGPointMake(0, 0);
     [item setAudioURL:url];
     [item play];
     
-    url = [[NSBundle mainBundle] URLForResource:@"AMB_Bedroom_090" withExtension:@"mp3"];
-    MusicPlayerItem * item1 = [[MusicPlayerItem alloc] init];
+    url = [[NSBundle mainBundle] URLForResource:@"090" withExtension:@"mp3"];
+    PlayerItem * item1 = [[PlayerItem alloc] init];
     item1.audioAngle = CGPointMake(90, 0);
     [item1 setAudioURL:url];
     [item1 play];
     
-    url = [[NSBundle mainBundle] URLForResource:@"AMB_Bedroom_180" withExtension:@"mp3"];
-    MusicPlayerItem * item2 = [[MusicPlayerItem alloc] init];
+    url = [[NSBundle mainBundle] URLForResource:@"180" withExtension:@"mp3"];
+    PlayerItem * item2 = [[PlayerItem alloc] init];
     item2.audioAngle = CGPointMake(180, 0);
     [item2 setAudioURL:url];
     [item2 play];
     
-    url = [[NSBundle mainBundle] URLForResource:@"AMB_Bedroom_270" withExtension:@"mp3"];
-    MusicPlayerItem * item3 = [[MusicPlayerItem alloc] init];
+    url = [[NSBundle mainBundle] URLForResource:@"270" withExtension:@"mp3"];
+    PlayerItem * item3 = [[PlayerItem alloc] init];
     item3.audioAngle = CGPointMake(270, 0);
     [item3 setAudioURL:url];
     [item3 play];
@@ -84,8 +86,10 @@
                 
                 yAngle = 360 +yAngle;
             }
-            [self updateYAngleBar:yAngle];
-            [self updateXAngleBar:xAngle];
+
+//            Debug
+//            [self updateYAngleBar:yAngle];
+//            [self updateXAngleBar:xAngle];
 
             NSLog(@"X- %f, Y - %f",xAngle,yAngle);
             NSDictionary * dict = @{@"xAngle":[NSNumber numberWithFloat:xAngle],

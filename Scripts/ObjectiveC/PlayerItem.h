@@ -1,7 +1,9 @@
-//
-//  MusicPlayerItem.h
-//  3DMusicPlayer
-//
+/*
+ 
+ Mach1 - M1
+ Example scripts deployed on iOS platform
+ 
+ */
 
 
 #import <Foundation/Foundation.h>
@@ -9,7 +11,7 @@
 
 #define DeviceMotionUpdateNotificaion @"DeviceMotionUpdateNotificaion"
 
-@interface MusicPlayerItem : NSObject
+@interface PlayerItem : NSObject
 @property (strong, nonatomic) NSURL *audioURL;
 
 @property (assign, nonatomic) CGPoint  audioAngle;

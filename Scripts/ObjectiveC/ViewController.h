@@ -1,12 +1,13 @@
-//
-//  ViewController.h
-//  3DMusicPlayer
-//
+/*
+ 
+ Mach1 - M1
+ Example scripts deployed on iOS platform
+ 
+ */
 
 
 #import <UIKit/UIKit.h>
 
-extern BOOL bReady;
 @interface ViewController : UIViewController
 
 

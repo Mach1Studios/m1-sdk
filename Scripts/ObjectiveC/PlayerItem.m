@@ -1,17 +1,19 @@
-//
-//  MusicPlayerItem.m
-//  3DMusicPlayer
-//
+/*
+ 
+ Mach1 - M1
+ Example scripts deployed on iOS platform
+ 
+ */
 
 
-#import "MusicPlayerItem.h"
+#import "PlayerItem.h"
 
-@interface MusicPlayerItem()
+@interface PlayerItem()
 @property (strong, nonatomic) AVPlayer *player;
 
 @end
 
-@implementation MusicPlayerItem
+@implementation PlayerItem
 - (instancetype)init
 {
     self = [super init];

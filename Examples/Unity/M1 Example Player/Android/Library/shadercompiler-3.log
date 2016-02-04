@@ -1,0 +1,24 @@
+Base path: /Applications/Unity 4.6.5/Unity.app/Contents
+Pipe name: \\.\pipe\UnityShaderCompiler-3--1330941952
+Cmd: getPlatforms
+Cmd: compileSnippet
+  api=5 type=0 insize=4469 outsize=1465 kw=DIRECTIONAL LIGHTMAP_ON DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=5 type=0 insize=4469 outsize=4482 kw=DIRECTIONAL LIGHTMAP_OFF DIRLIGHTMAP_OFF VERTEXLIGHT_ON ok=1
+Cmd: compileSnippet
+  api=5 type=1 insize=4469 outsize=6 kw=DIRECTIONAL LIGHTMAP_ON DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=9 type=0 insize=2490 outsize=2545 kw=POINT ok=1
+Cmd: compileSnippet
+  api=5 type=0 insize=2490 outsize=2776 kw=SPOT ok=1
+Cmd: compileSnippet
+  api=5 type=0 insize=2490 outsize=2342 kw=DIRECTIONAL_COOKIE ok=1
+Cmd: compileSnippet
+  api=9 type=1 insize=2490 outsize=7 kw=DIRECTIONAL ok=1
+Cmd: compileSnippet
+  api=5 type=1 insize=2490 outsize=6 kw=POINT_COOKIE ok=1
+Cmd: compileSnippet
+  api=9 type=1 insize=897 outsize=7 kw= ok=1
+End of pipe
+
+Quitting shader compiler process

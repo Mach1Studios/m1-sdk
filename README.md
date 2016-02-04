@@ -17,10 +17,10 @@ Use the orientation data to properly change gain between *n* channels
 ### Included ###
 
 API & Scripts/Examples
-#Java
-#Cs
-#ObjC
-#C++
+Java
+Cs
+ObjC
+C++
 
 ### Contact ###
 

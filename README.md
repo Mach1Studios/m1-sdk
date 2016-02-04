@@ -35,6 +35,6 @@ Implementation:
 ### Contact ###
 
 
-Mach1
-Dylan Marcus
+
+Dylan Marcus - 
 dylan@mach1studios.com

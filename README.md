@@ -13,18 +13,19 @@ Examples and scripts of the logic used to load *n* number of channels that equal
 ### Included ###
 
 API & Scripts/Examples:
-*Java
-*Cs
-*ObjC
-*C++
+* Java
+* Cs
+* ObjC
+* C++ 
 
 Debug Tools: 
-*Unity Test Project
+* Unity Test Project
 
 Implementation: 
-*Unreal Engine Actors / Directional Sound Suite
+* Unreal Engine Actors / Directional Sound Suite
 
 ### Contact ###
+
 
 Mach1
 Dylan Marcus

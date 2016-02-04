@@ -1,8 +1,12 @@
-﻿using UnityEngine;
+//Mach1
+//
+//Set each audio item calls script
+
+using UnityEngine;
 using System.Collections;
 
 public class DirectionalSound : MonoBehaviour {
-	
+
 	public string audioPath;
 	public Vector2 audioOrigin;
 	public Vector2 minAngle;
@@ -10,16 +14,16 @@ public class DirectionalSound : MonoBehaviour {
 	public Vector2 minFalloff;
 	public Vector2 maxFalloff;
 
-	
+
 	private AudioClip audio_clip;
 	private AudioSource source;
 	private Vector3 audioAngle;
-	
+
 	void Awake (){
 		source = GetComponent<AudioSource> ();
-		
+
 	}
-	
+
 	// Use this for initialization
 	void Start () {
 
@@ -32,17 +36,16 @@ public class DirectionalSound : MonoBehaviour {
 		audioAngle = audioOrigin;
 
         StartCoroutine(LoadAudio());
-		
+
 	}
 
     IEnumerator LoadAudio()
     {
         // load the audio sources if available
-        // eg "/storage/extSdCard/Oculus/PassionVR/Trailer/DearAngelica_Trailer_v013_TB.wav"
         WWW www = new WWW(audioPath);
         yield return www;
         audio_clip = www.GetAudioClip(false, false);
-        
+
         // our audio is ready and not null
 
         yield break;
@@ -63,7 +66,7 @@ public class DirectionalSound : MonoBehaviour {
 
         //source.PlayOneShot(audio_clip, 1F);
     }
-	
+
 	float FlipCheck (float camAngle, float curAudioAngle, float curBoundryAngleMin, float curBoundryAngleMax){
 		float result = camAngle;
 		if (curAudioAngle + curBoundryAngleMin < 0){
@@ -87,7 +90,7 @@ public class DirectionalSound : MonoBehaviour {
 		// X is the up/down angle, Y is the left/right angle of camera
 		float rotX = Camera.main.transform.eulerAngles.x;
 		float rotY = Camera.main.transform.eulerAngles.y;
-		
+
 		// if the min boundry dips below 0 or the max boundry goes above 360 then we have to subtract or add 360 to the cam angle
 		float tempCamAngleY = FlipCheck (rotY, audioAngle.y, minAngle.y, maxAngle.y);
 		float tempCamAngleX = FlipCheck (rotX, audioAngle.x, minAngle.x, maxAngle.x);
@@ -131,14 +134,6 @@ public class DirectionalSound : MonoBehaviour {
 			source.volume = 0F;
 		}
 
-
-		
-		Debug.Log ("up/down: " + Camera.main.transform.eulerAngles.x); //below 35
-		//Debug.Log ("left/right: " + Camera.main.transform.eulerAngles.y);
-		//Debug.Log ("Z: " + Camera.main.transform.eulerAngles.z);
-		
-		//Debug.Log ("water: " + );
-		
 	}
-	
+
 }

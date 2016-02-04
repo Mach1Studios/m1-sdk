@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+//Mach1
+//Utility script to ensure all media is in sync upon play
+
+using UnityEngine;
 using System;
 using System.Collections.Generic;
 
@@ -29,7 +32,7 @@ public class StartupManager : MonoBehaviour
             Debug.LogWarning("Warning: No DirectionalSounds assigned");
         }
     }
-	
+
 	/// <summary>
     /// This method has 3 stages:
     /// 1. Wait until audio is complete loading
@@ -53,7 +56,7 @@ public class StartupManager : MonoBehaviour
                 sounds[i].PlayAudio();
             }
             gameObject.SetActive(false);
-        }	
+        }
 	}
 
     /// <summary>

@@ -3,8 +3,8 @@
 ### M1 SDK ###
 
 * Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* Included
+* Contact
 
 ### Summary ###
 

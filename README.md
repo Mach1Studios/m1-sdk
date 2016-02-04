@@ -16,10 +16,10 @@ API & Scripts/Examples:
 * Java
 * Cs
 * ObjC
-* C++ 
+* C++  
 
 Debug Tools: 
-* Unity Test Project
+* Unity Test Project 
 
 Implementation: 
 * Unreal Engine Actors / Directional Sound Suite

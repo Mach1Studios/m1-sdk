@@ -1,3 +1,49 @@
-Base path: C:/Program Files (x86)/Unity4.6.5/Editor/Data
-Pipe name: \\.\pipe\UnityShaderCompiler-1-24440
+Base path: /Applications/Unity 4.6.5/Unity.app/Contents
+Pipe name: \\.\pipe\UnityShaderCompiler-1--1593310764
 Cmd: getPlatforms
+Cmd: preprocess
+  insize=958 outsize=360 ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=5121 outsize=1354 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=5121 outsize=669 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=746 outsize=328 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=746 outsize=224 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=998 outsize=397 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=998 outsize=225 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=990 outsize=397 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=990 outsize=225 kw= ok=1
+Cmd: compileSnippet
+  api=5 type=0 insize=4450 outsize=3356 kw=DIRECTIONAL LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=5 type=0 insize=4450 outsize=1603 kw=DIRECTIONAL LIGHTMAP_ON DIRLIGHTMAP_ON ok=1
+Cmd: compileSnippet
+  api=9 type=0 insize=4450 outsize=1632 kw=DIRECTIONAL LIGHTMAP_ON DIRLIGHTMAP_ON ok=1
+Cmd: compileSnippet
+  api=5 type=1 insize=4450 outsize=6 kw=DIRECTIONAL LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=5 type=1 insize=4450 outsize=6 kw=DIRECTIONAL LIGHTMAP_ON DIRLIGHTMAP_ON ok=1
+Cmd: compileSnippet
+  api=5 type=0 insize=2471 outsize=2534 kw=POINT ok=1
+Cmd: compileSnippet
+  api=9 type=0 insize=2471 outsize=2642 kw=POINT_COOKIE ok=1
+Cmd: compileSnippet
+  api=5 type=1 insize=2471 outsize=6 kw=POINT ok=1
+Cmd: compileSnippet
+  api=5 type=1 insize=2471 outsize=6 kw=SPOT ok=1
+Cmd: compileSnippet
+  api=5 type=1 insize=2471 outsize=6 kw=DIRECTIONAL_COOKIE ok=1
+Cmd: compileSnippet
+  api=5 type=0 insize=984 outsize=818 kw= ok=1
+Cmd: compileSnippet
+  api=5 type=1 insize=984 outsize=6 kw= ok=1
+Cmd: compileSnippet
+  api=5 type=0 insize=952 outsize=691 kw= ok=1
+Cmd: compileSnippet
+  api=5 type=1 insize=952 outsize=6 kw= ok=1

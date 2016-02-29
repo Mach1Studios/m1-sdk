@@ -6,4 +6,4 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: assets/scenes/360Video.unity
+    path: assets/scenes/TestScene.unity

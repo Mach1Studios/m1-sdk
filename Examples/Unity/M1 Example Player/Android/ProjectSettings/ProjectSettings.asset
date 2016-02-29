@@ -68,7 +68,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  iPhoneBundleIdentifier: com.Mach1.VRtest2
+  iPhoneBundleIdentifier: com.Mach1.TestApp
   metroEnableIndependentInputSource: 0
   metroEnableLowLatencyPresentationAPI: 0
   productGUID: 70a4850d885a449d5bebe13f318b89e5

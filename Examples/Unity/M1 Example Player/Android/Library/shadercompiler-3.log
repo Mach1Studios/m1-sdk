@@ -1,25 +1,9 @@
-Base path: C:/Program Files (x86)/Unity4.6.5/Editor/Data
-Pipe name: \\.\pipe\UnityShaderCompiler-3-2348
+Base path: /Applications/Unity 4.6.5/Unity.app/Contents
+Pipe name: \\.\pipe\UnityShaderCompiler-3--1331949568
 Cmd: getPlatforms
 Cmd: compileSnippet
-  api=9 type=0 insize=4450 outsize=3378 kw=DIRECTIONAL LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=1
+  api=0 type=0 insize=4469 outsize=1566 kw=DIRECTIONAL LIGHTMAP_OFF DIRLIGHTMAP_OFF VERTEXLIGHT_ON ok=1
 Cmd: compileSnippet
-  api=9 type=1 insize=4450 outsize=7 kw=DIRECTIONAL LIGHTMAP_ON DIRLIGHTMAP_OFF ok=1
+  api=0 type=0 insize=2490 outsize=560 kw=DIRECTIONAL ok=1
 Cmd: compileSnippet
-  api=9 type=0 insize=2471 outsize=2110 kw=DIRECTIONAL ok=1
-Cmd: compileSnippet
-  api=9 type=0 insize=2471 outsize=2642 kw=POINT_COOKIE ok=1
-Cmd: compileSnippet
-  api=9 type=1 insize=2471 outsize=7 kw=POINT ok=1
-Cmd: compileSnippet
-  api=9 type=1 insize=2471 outsize=7 kw=POINT_COOKIE ok=1
-Cmd: compileSnippet
-  api=9 type=0 insize=984 outsize=851 kw= ok=1
-Cmd: compileSnippet
-  api=9 type=0 insize=952 outsize=724 kw= ok=1
-Cmd: compileSnippet
-  api=9 type=1 insize=952 outsize=7 kw= ok=1
-Unhandled exception: Readfile from pipe failed. GLE=Канал был закрыт.
-
-
-Quitting shader compiler process
+  api=0 type=1 insize=2490 outsize=424 kw=DIRECTIONAL ok=1

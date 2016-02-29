@@ -360,6 +360,7 @@ GameObject:
   - 4: {fileID: 369025874}
   - 20: {fileID: 369025876}
   - 124: {fileID: 369025875}
+  - 114: {fileID: 369025877}
   m_Layer: 0
   m_Name: LeftEyeAnchor
   m_TagString: MainCamera
@@ -421,6 +422,18 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: .0219999999
+--- !u!114 &369025877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 369025873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3eac2028bdceb8488c9700b0130c30c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UpdateTime: 200
 --- !u!1 &454776359
 GameObject:
   m_ObjectHideFlags: 0
@@ -504,7 +517,6 @@ GameObject:
   - 4: {fileID: 460546005}
   - 82: {fileID: 460546004}
   - 114: {fileID: 460546006}
-  - 114: {fileID: 460546007}
   m_Layer: 0
   m_Name: Audio_0
   m_TagString: Untagged
@@ -599,18 +611,6 @@ MonoBehaviour:
   maxAngle: {x: 60, y: 90}
   minFalloff: {x: 0, y: 1}
   maxFalloff: {x: 1, y: 1}
---- !u!114 &460546007
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 460546003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bff6ab997c3dfcb49b1b69f996748014, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keyName: 
 --- !u!1 &538159389
 GameObject:
   m_ObjectHideFlags: 0
@@ -1123,9 +1123,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db8fdd13e14fc2740ae15a3ad9db3159, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Sounds: []
-  Movies: []
-  LoadingScreen: {fileID: 0}
+  Sounds:
+  - {fileID: 460546006}
+  - {fileID: 1315290740}
+  - {fileID: 1469676443}
+  - {fileID: 1798400486}
+  Movies:
+  - {fileID: 1270505263}
+  - {fileID: 1591574297}
+  LoadingScreen: {fileID: 143907558}
   LoadingWheel: {fileID: 1621617053}
 --- !u!4 &1054549547
 Transform:
@@ -1150,7 +1156,6 @@ GameObject:
   - 33: {fileID: 1270505265}
   - 23: {fileID: 1270505264}
   - 114: {fileID: 1270505263}
-  - 114: {fileID: 1270505267}
   m_Layer: 8
   m_Name: projection_sphere_L
   m_TagString: Untagged
@@ -1211,18 +1216,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
---- !u!114 &1270505267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1270505262}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bff6ab997c3dfcb49b1b69f996748014, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keyName: video
 --- !u!1 &1315290737
 GameObject:
   m_ObjectHideFlags: 0
@@ -1233,7 +1226,6 @@ GameObject:
   - 4: {fileID: 1315290739}
   - 82: {fileID: 1315290738}
   - 114: {fileID: 1315290740}
-  - 114: {fileID: 1315290741}
   m_Layer: 0
   m_Name: Audio_90
   m_TagString: Untagged
@@ -1328,18 +1320,6 @@ MonoBehaviour:
   maxAngle: {x: 60, y: 90}
   minFalloff: {x: 0, y: 1}
   maxFalloff: {x: 1, y: 1}
---- !u!114 &1315290741
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1315290737}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bff6ab997c3dfcb49b1b69f996748014, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keyName: 
 --- !u!1 &1356048711
 GameObject:
   m_ObjectHideFlags: 0
@@ -1520,7 +1500,6 @@ GameObject:
   - 4: {fileID: 1469676442}
   - 82: {fileID: 1469676441}
   - 114: {fileID: 1469676443}
-  - 114: {fileID: 1469676444}
   m_Layer: 0
   m_Name: Audio_180
   m_TagString: Untagged
@@ -1615,18 +1594,6 @@ MonoBehaviour:
   maxAngle: {x: 60, y: 90}
   minFalloff: {x: 0, y: 1}
   maxFalloff: {x: 1, y: 1}
---- !u!114 &1469676444
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1469676440}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bff6ab997c3dfcb49b1b69f996748014, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keyName: 
 --- !u!1 &1472753241
 GameObject:
   m_ObjectHideFlags: 0
@@ -1742,7 +1709,6 @@ GameObject:
   - 114: {fileID: 1476149566}
   - 114: {fileID: 1476149565}
   - 114: {fileID: 1476149568}
-  - 114: {fileID: 1476149569}
   m_Layer: 0
   m_Name: OVRCameraRig
   m_TagString: Untagged
@@ -1811,18 +1777,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CameraHorizontalSpeed: 50
   CameraVerticalSpeed: 50
---- !u!114 &1476149569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1476149564}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3eac2028bdceb8488c9700b0130c30c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UpdateTime: 200
 --- !u!1001 &1500330603
 Prefab:
   m_ObjectHideFlags: 0
@@ -1911,7 +1865,6 @@ GameObject:
   - 33: {fileID: 1591574299}
   - 23: {fileID: 1591574298}
   - 114: {fileID: 1591574297}
-  - 114: {fileID: 1591574301}
   m_Layer: 9
   m_Name: projection_sphere_R
   m_TagString: Untagged
@@ -1972,18 +1925,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
---- !u!114 &1591574301
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1591574296}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bff6ab997c3dfcb49b1b69f996748014, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keyName: video
 --- !u!1 &1621617053
 GameObject:
   m_ObjectHideFlags: 0
@@ -2208,7 +2149,6 @@ GameObject:
   - 4: {fileID: 1798400485}
   - 82: {fileID: 1798400484}
   - 114: {fileID: 1798400486}
-  - 114: {fileID: 1798400487}
   m_Layer: 0
   m_Name: Audio_270
   m_TagString: Untagged
@@ -2303,18 +2243,6 @@ MonoBehaviour:
   maxAngle: {x: 60, y: 90}
   minFalloff: {x: 0, y: 1}
   maxFalloff: {x: 1, y: 1}
---- !u!114 &1798400487
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1798400483}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bff6ab997c3dfcb49b1b69f996748014, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keyName: 
 --- !u!1 &1985366186
 GameObject:
   m_ObjectHideFlags: 0

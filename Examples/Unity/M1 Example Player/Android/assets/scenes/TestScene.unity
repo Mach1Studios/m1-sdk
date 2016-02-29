@@ -281,75 +281,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
---- !u!1 &143907558
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 143907562}
-  - 33: {fileID: 143907561}
-  - 65: {fileID: 143907560}
-  - 23: {fileID: 143907559}
-  m_Layer: 0
-  m_Name: LoadObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!23 &143907559
-Renderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 143907558}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_LightmapIndex: 255
-  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
-  m_Materials:
-  - {fileID: 2100000, guid: 96d41901255b04f27953a3f815c813e9, type: 2}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
-  m_LightProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
---- !u!65 &143907560
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 143907558}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!33 &143907561
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 143907558}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &143907562
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 143907558}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.000594139099, y: -.000357391487, z: -.000177383743}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
 --- !u!1 &369025873
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,7 +423,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
 --- !u!1 &460546003
 GameObject:
   m_ObjectHideFlags: 0
@@ -592,7 +523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc12c20b2e58a4e4a81d0b83f762d749, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioPath: file:///storage/emulated/0/Mach1/TestApp/000.wav
+  audioPath: file:///storage/emulated/0/Mach1/MuseSD/000.wav
   audioOrigin: {x: 0, y: 0}
   minAngle: {x: -90, y: -90}
   maxAngle: {x: 60, y: 90}
@@ -648,7 +579,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
 --- !u!1 &586682032
 GameObject:
   m_ObjectHideFlags: 0
@@ -779,7 +710,7 @@ Transform:
   - {fileID: 8486559}
   - {fileID: 586682033}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
 --- !u!114 &769944292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1000,7 +931,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 15
 --- !u!1 &1047514768
 GameObject:
   m_ObjectHideFlags: 0
@@ -1106,9 +1037,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db8fdd13e14fc2740ae15a3ad9db3159, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Sounds: []
-  Movies: []
-  LoadingScreen: {fileID: 0}
+  Sounds:
+  - {fileID: 460546006}
+  - {fileID: 1315290740}
+  - {fileID: 1469676443}
+  - {fileID: 1798400486}
+  Movies:
+  - {fileID: 1270505263}
+  - {fileID: 1591574297}
+  LoadingScreen: {fileID: 1621617053}
   LoadingWheel: {fileID: 1621617053}
 --- !u!4 &1054549547
 Transform:
@@ -1152,7 +1089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b666ca80b3aa42efac718fe4903bff5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moviePath: /storage/emulated/0/Mach1/TestApp/video.mp4
+  moviePath: /storage/emulated/0/Mach1/MuseSD/video.mp4
 --- !u!23 &1270505264
 Renderer:
   m_ObjectHideFlags: 0
@@ -1305,7 +1242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc12c20b2e58a4e4a81d0b83f762d749, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioPath: file:///storage/emulated/0/Mach1/TestApp/090.wav
+  audioPath: file:///storage/emulated/0/Mach1/MuseSD/090.wav
   audioOrigin: {x: 0, y: 90}
   minAngle: {x: -90, y: -90}
   maxAngle: {x: 60, y: 90}
@@ -1592,7 +1529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc12c20b2e58a4e4a81d0b83f762d749, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioPath: file:///storage/emulated/0/Mach1/TestApp/180.wav
+  audioPath: file:///storage/emulated/0/Mach1/MuseSD/180.wav
   audioOrigin: {x: 0, y: 180}
   minAngle: {x: -90, y: -90}
   maxAngle: {x: 60, y: 90}
@@ -1780,7 +1717,7 @@ Transform:
   m_Children:
   - {fileID: 864522909}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
 --- !u!114 &1476149568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1913,7 +1850,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b666ca80b3aa42efac718fe4903bff5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moviePath: /storage/emulated/0/Mach1/TestApp/video.mp4
+  moviePath: /storage/emulated/0/Mach1/MuseSD/video.mp4
 --- !u!23 &1591574298
 Renderer:
   m_ObjectHideFlags: 0
@@ -2280,7 +2217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc12c20b2e58a4e4a81d0b83f762d749, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioPath: file:///storage/emulated/0/Mach1/TestApp/270.wav
+  audioPath: file:///storage/emulated/0/Mach1/MuseSD/270.wav
   audioOrigin: {x: 0, y: 270}
   minAngle: {x: -90, y: -90}
   maxAngle: {x: 60, y: 90}
@@ -2331,7 +2268,7 @@ RectTransform:
   - {fileID: 1621617054}
   - {fileID: 1641830159}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}

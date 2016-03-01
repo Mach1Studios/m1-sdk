@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mach1.AudioRouting.WPFClient"
         mc:Ignorable="d"
-        Title="M1 Routing"
+        Title="M1 Routing 0.2.1"
         Height="350"
         Width="400"
         Closing="MainWindow_OnClosing">

@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="M1 Routing"
         Height="350"
-        Width="400">
+        Width="400"
+        Closing="MainWindow_OnClosing">
     <Window.Resources>
 
         <Style TargetType="TextBlock"
@@ -17,7 +18,7 @@
                     Value="10,5" />
 
             <Setter Property="HorizontalAlignment"
-                    Value="Center" />
+                    Value="Left" />
 
         </Style>
 
@@ -31,7 +32,10 @@
                     Value="Left" />
 
             <Setter Property="Width"
-                    Value="120" />
+                    Value="80" />
+            
+            <Setter Property="Margin"
+                    Value="0,0,5,0"/>
 
         </Style>
 
@@ -47,13 +51,13 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto" />
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0"
-              VerticalAlignment="Center">
+        <Grid Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
@@ -62,14 +66,43 @@
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="3*" />
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
 
                 <TextBlock Text="Multichannel"
-                           Grid.Column="0" />
+                           Grid.Column="0" 
+                           Grid.Row="0"/>
 
-                <Button Content="Load File"
-                        Grid.Column="1" />
+                <StackPanel Grid.Column="1"
+                            Grid.Row="0"
+                            Orientation="Horizontal">
+
+                    <Button Content="Load File..."
+                            Click="ButtonLoadMultichannelFile_OnClick" />
+                    
+                    <Button Content="Play"
+                            x:Name="ButtonPlayMultichannelFile"
+                            IsEnabled="False"
+                            Click="ButtonPlayMultichannelFile_OnClick"/>
+                    
+                    <Button Content="Stop"
+                            x:Name="ButtonStopMultichannelFile"
+                            IsEnabled="False"
+                            Click="ButtonStopMultichannelFile_OnClick"/>
+
+                </StackPanel>
+                
+                <TextBlock Text="Current file:"
+                           Grid.Column="0"
+                           Grid.Row="1"/>
+                
+                <TextBlock x:Name="TextBlockMultichannelFileName"
+                           Grid.Column="1"
+                           Grid.Row="1"/>
 
             </Grid>
 
@@ -89,8 +122,11 @@
             </Grid>
 
         </Grid>
+        
+        <Separator Grid.Row="1"
+                   Margin="5"/>
 
-        <Grid Grid.Row="1"
+        <Grid Grid.Row="2"
               VerticalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -100,14 +136,29 @@
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="3*" />
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
 
                 <TextBlock Text="M/St Omni"
-                           Grid.Column="0" />
+                           Grid.Column="0"
+                           Grid.Row="0"/>
 
-                <Button Content="Load File"
-                        Grid.Column="1" />
+                <Button Content="Load File..."
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        Click="ButtonLoadOmniFile_OnClick"/>
+
+                <TextBlock Text="Current file:"
+                           Grid.Column="0"
+                           Grid.Row="1" />
+
+                <TextBlock x:Name="TextBlockOmniFileName"
+                           Grid.Column="1"
+                           Grid.Row="1" />
 
             </Grid>
 
@@ -127,7 +178,7 @@
             </Grid>
         </Grid>
 
-        <Grid Grid.Row="2"
+        <Grid Grid.Row="3"
               Height="150"
               VerticalAlignment="Center">
 

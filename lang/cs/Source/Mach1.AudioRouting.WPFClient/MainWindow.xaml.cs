@@ -1,5 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.IO;
+using System.Reflection;
 using System.Windows;
 using Microsoft.Win32;
 
@@ -7,26 +9,39 @@ namespace Mach1.AudioRouting.WPFClient
 {
 	public partial class MainWindow : Window
 	{
-		private string _multichannelFilePath;
+		private string _multiFilePath;
 		private string _omniFilePath;
 
 		private readonly IAudioProcessor _audioProcessor;
 
 		public MainWindow()
 		{
-			InitializeComponent();
 			_audioProcessor = new CSCoreAudioProcessor();
+			_audioProcessor.MultiPeakCalculated += OnMultiPeakCalculated;
+			_audioProcessor.OmniPeakCalculated += OnOmniPeakCalculated;
+			InitializeComponent();
+			Title += GetVersionNumber();
 		}
 
-		private void ButtonLoadMultichannelFile_OnClick(object sender, RoutedEventArgs e)
+		private void OnOmniPeakCalculated(object sender, float e)
+		{
+			Dispatcher.Invoke(delegate { TextBlockOmniPeakValue.Text = e.ToString("F1"); });
+		}
+
+		private void OnMultiPeakCalculated(object sender, float e)
+		{
+			Dispatcher.Invoke(delegate { TextBlockMultiPeakValue.Text = e.ToString("F1"); });
+		}
+
+		private void ButtonLoadMultiFile_OnClick(object sender, RoutedEventArgs e)
 		{
 			FileInfo file = GetFile();
 			if (file != null)
 			{
-				_multichannelFilePath = file.FullName;
-				TextBlockMultichannelFileName.Text = file.Name;
-				ButtonPlayMultichannelFile.IsEnabled = true;
-				ButtonStopMultichannelFile.IsEnabled = true;
+				_multiFilePath = file.FullName;
+				TextBlockMultiFileName.Text = file.Name;
+				ButtonPlayMultiFile.IsEnabled = true;
+				ButtonStopMultiFile.IsEnabled = true;
 			}
 		}
 
@@ -37,21 +52,35 @@ namespace Mach1.AudioRouting.WPFClient
 			{
 				_omniFilePath = file.FullName;
 				TextBlockOmniFileName.Text = file.Name;
+				ButtonPlayOmniFile.IsEnabled = true;
+				ButtonStopOmniFile.IsEnabled = true;
 			}
 		}
 
-		private void ButtonPlayMultichannelFile_OnClick(object sender, RoutedEventArgs e)
+		private void ButtonPlayMultiFile_OnClick(object sender, RoutedEventArgs e)
 		{
-			_audioProcessor.Play(_multichannelFilePath);
+			_audioProcessor.PlayMulti(_multiFilePath);
 		}
 
-		private void ButtonStopMultichannelFile_OnClick(object sender, RoutedEventArgs e)
+		private void ButtonPlayOmniFile_OnClick(object sender, RoutedEventArgs e)
 		{
-			_audioProcessor.Stop();
+			_audioProcessor.PlayOmni(_omniFilePath);
+		}
+
+		private void ButtonStopMultiFile_OnClick(object sender, RoutedEventArgs e)
+		{
+			_audioProcessor.StopMulti();
+		}
+
+		private void ButtonStopOmniFile_OnClick(object sender, RoutedEventArgs e)
+		{
+			_audioProcessor.StopOmni();
 		}
 
 		private void MainWindow_OnClosing(object sender, CancelEventArgs e)
 		{
+			_audioProcessor.OmniPeakCalculated -= OnOmniPeakCalculated;
+			_audioProcessor.MultiPeakCalculated -= OnMultiPeakCalculated;
 			_audioProcessor.Dispose();
 		}
 
@@ -64,6 +93,23 @@ namespace Mach1.AudioRouting.WPFClient
 				return new FileInfo(dialog.FileName);
 			}
 			return null;
+		}
+
+		private void SliderMultiVolume_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+		{
+			_audioProcessor.SetMultiVolume(e.NewValue);
+		}
+
+		private void SliderOmniVolume_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+		{
+			_audioProcessor.SetOmniVolume(e.NewValue);
+		}
+
+		public static string GetVersionNumber()
+		{
+			Assembly assembly = Assembly.GetExecutingAssembly();
+			Version version = AssemblyName.GetAssemblyName(assembly.Location).Version;
+			return string.Format("{0}.{1}.{2}", version.Major, version.Minor, version.Build);
 		}
 	}
 }

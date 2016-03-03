@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mach1.AudioRouting.WPFClient"
         mc:Ignorable="d"
-        Title="M1 Routing 0.2.1"
-        Height="350"
+        Title="M1 Routing "
+        Height="Auto"
         Width="400"
+        SizeToContent="Height"
         Closing="MainWindow_OnClosing">
     <Window.Resources>
 
@@ -82,17 +83,17 @@
                             Orientation="Horizontal">
 
                     <Button Content="Load File..."
-                            Click="ButtonLoadMultichannelFile_OnClick" />
+                            Click="ButtonLoadMultiFile_OnClick" />
                     
                     <Button Content="Play"
-                            x:Name="ButtonPlayMultichannelFile"
+                            x:Name="ButtonPlayMultiFile"
                             IsEnabled="False"
-                            Click="ButtonPlayMultichannelFile_OnClick"/>
+                            Click="ButtonPlayMultiFile_OnClick"/>
                     
                     <Button Content="Stop"
-                            x:Name="ButtonStopMultichannelFile"
+                            x:Name="ButtonStopMultiFile"
                             IsEnabled="False"
-                            Click="ButtonStopMultichannelFile_OnClick"/>
+                            Click="ButtonStopMultiFile_OnClick"/>
 
                 </StackPanel>
                 
@@ -100,7 +101,7 @@
                            Grid.Column="0"
                            Grid.Row="1"/>
                 
-                <TextBlock x:Name="TextBlockMultichannelFileName"
+                <TextBlock x:Name="TextBlockMultiFileName"
                            Grid.Column="1"
                            Grid.Row="1"/>
 
@@ -112,12 +113,15 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <Slider Value="0.5"
+                <Slider Value="1"
                         Maximum="1.0"
-                        Grid.Column="0" />
+                        Grid.Column="0" 
+                        x:Name="SliderMultiVolume"
+                        ValueChanged="SliderMultiVolume_OnValueChanged"/>
 
-                <TextBlock Text="-6.6"
-                           Grid.Column="1" />
+                <TextBlock Text=""
+                           Grid.Column="1"
+                           x:Name="TextBlockMultiPeakValue"/>
 
             </Grid>
 
@@ -147,10 +151,24 @@
                            Grid.Column="0"
                            Grid.Row="0"/>
 
-                <Button Content="Load File..."
-                        Grid.Column="1"
-                        Grid.Row="0"
-                        Click="ButtonLoadOmniFile_OnClick"/>
+                <StackPanel Grid.Column="1"
+                            Grid.Row="0"
+                            Orientation="Horizontal">
+
+                    <Button Content="Load File..."
+                            Click="ButtonLoadOmniFile_OnClick" />
+
+                    <Button Content="Play"
+                            x:Name="ButtonPlayOmniFile"
+                            IsEnabled="False"
+                            Click="ButtonPlayOmniFile_OnClick" />
+
+                    <Button Content="Stop"
+                            x:Name="ButtonStopOmniFile"
+                            IsEnabled="False"
+                            Click="ButtonStopOmniFile_OnClick" />
+
+                </StackPanel>
 
                 <TextBlock Text="Current file:"
                            Grid.Column="0"
@@ -168,19 +186,20 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <Slider Value="0.5"
+                <Slider Value="1"
                         Maximum="1.0"
-                        Grid.Column="0" />
+                        Grid.Column="0"
+                        x:Name="SliderOmniVolume"
+                        ValueChanged="SliderOmniVolume_OnValueChanged" />
 
-                <TextBlock Text="-6.6"
-                           Grid.Column="1" />
+                <TextBlock Text=""
+                           Grid.Column="1" 
+                           x:Name="TextBlockOmniPeakValue"/>
 
             </Grid>
         </Grid>
 
-        <Grid Grid.Row="3"
-              Height="150"
-              VerticalAlignment="Center">
+        <Grid Grid.Row="3" VerticalAlignment="Center">
 
             <Grid VerticalAlignment="Bottom"
                   Margin="5">

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+	<ProductVersion>10.0.20506</ProductVersion>
+	<SchemaVersion>2.0</SchemaVersion>
+	<ProjectGuid>{75F242C2-F409-2957-D038-71B2D580D9BF}</ProjectGuid>
+	<OutputType>Library</OutputType>
+	<AppDesignerFolder>Properties</AppDesignerFolder>
+	<RootNamespace></RootNamespace>
+	<AssemblyName>Assembly-CSharp-Editor</AssemblyName>
+	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+	<FileAlignment>512</FileAlignment>
+	<BaseDirectory>Assets</BaseDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+	<DebugSymbols>true</DebugSymbols>
+	<DebugType>full</DebugType>
+	<Optimize>false</Optimize>
+	<OutputPath>Temp\bin\Debug\</OutputPath>
+	<DefineConstants>DEBUG;TRACE;UNITY_4_6_5;UNITY_4_6;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_IL2CPP;INCLUDE_WP8SUPPORT;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;UNITY5_SCRIPTING_IN_UNITY4;ENABLE_CACHING;ENABLE_CLOTH;UNITY_ANDROID_API;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_MONO;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN;ENABLE_DUCK_TYPING</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+	<DebugType>pdbonly</DebugType>
+	<Optimize>true</Optimize>
+	<OutputPath>Temp\bin\Release\</OutputPath>
+	<DefineConstants>TRACE</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+	<Reference Include="System" />
+    <Reference Include="System.XML" />
+	<Reference Include="System.Core" />
+	<Reference Include="System.Xml.Linq" />
+	<Reference Include="UnityEngine">
+	  <HintPath>C:/Program Files (x86)/Unity4.6.5/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	</Reference>
+	<Reference Include="UnityEditor">
+	  <HintPath>C:/Program Files (x86)/Unity4.6.5/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	</Reference>
+  </ItemGroup>
+  <ItemGroup>
+     <Compile Include="assets\Cardboard\Editor\CardboardAudioListenerEditor.cs" />
+     <Compile Include="assets\Cardboard\Editor\CardboardAudioRoomEditor.cs" />
+     <Compile Include="assets\Cardboard\Editor\CardboardAudioSourceEditor.cs" />
+     <Compile Include="assets\Cardboard\Editor\CardboardEditor.cs" />
+     <Compile Include="assets\Cardboard\Editor\CardboardMenu.cs" />
+     <Compile Include="assets\Cardboard\Editor\CardboardSetup.cs" />
+     <Compile Include="assets\Cardboard\Editor\StereoControllerEditor.cs" />
+     <Compile Include="assets\Editor\SDKExamplesBuild.cs" />
+     <Compile Include="assets\ovr\Editor\OVRBuild.cs" />
+     <Compile Include="assets\ovr\Editor\OVRGameView.cs" />
+     <Compile Include="assets\ovr\Editor\OVRPrefabs.cs" />
+     <Compile Include="assets\ovr\Editor\OVRShimLoader.cs" />
+     <Compile Include="assets\ovr\moonlight\Editor\OVRMoonlightLoader.cs" />
+     <None Include="assets\Cardboard\Resources\SkyboxMesh.shader" />
+     <None Include="assets\plugins\donotdelete.txt" />
+     <None Include="assets\Cardboard\Distortion\CardboardDistortion.cginc" />
+     <None Include="assets\Cardboard\Resources\UnlitTexture.shader" />
+     <None Include="assets\ovr\Shaders\TextShader3D.shader" />
+     <None Include="assets\Shaders\InsideVisible.shader" />
+     <None Include="assets\Shaders\Unlit Crosshair.shader" />
+     <None Include="assets\ovr\Shaders\Unlit Transparent HUD.shader" />
+     <None Include="assets\plugins\Android\AndroidManifest.xml" />
+     <None Include="assets\ovr\moonlight\Materials\GlobalMenu\OVRCutoutRamp.shader" />
+     <None Include="assets\Cardboard\Resources\UI\CardboardReticleShader.shader" />
+     <None Include="assets\ovr\Shaders\OVRGUIShader.shader" />
+     <None Include="assets\plugins\Android\assets\donotdelete.txt" />
+     <None Include="assets\Cardboard\Resources\SolidColor.shader" />
+     <None Include="assets\Shaders\GlassReflective.shader" />
+     <None Include="assets\Shaders\Unlit Transparent Tinted.shader" />
+     <None Include="assets\Shaders\Unlit Neon Tinted.shader" />
+ <Reference Include="UnityEngine.UI">
+ <HintPath>C:/Program Files (x86)/Unity4.6.5/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.5/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.UI">
+ <HintPath>C:/Program Files (x86)/Unity4.6.5/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.5/Editor/UnityEditor.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+ <HintPath>E:/Upwork project/m1-sdk/Examples/Unity/M1 Example Player/Android/Assets/UnityVS/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+ </Reference>
+ <Reference Include="SyntaxTree.VisualStudio.Unity.Messaging">
+ <HintPath>E:/Upwork project/m1-sdk/Examples/Unity/M1 Example Player/Android/Assets/UnityVS/Editor/SyntaxTree.VisualStudio.Unity.Messaging.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityVS.VersionSpecific">
+ <HintPath>E:/Upwork project/m1-sdk/Examples/Unity/M1 Example Player/Android/Assets/UnityVS/Editor/UnityVS.VersionSpecific.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Graphs">
+ <HintPath>C:/Program Files (x86)/Unity4.6.5/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
+ </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp.csproj">
+      <Project>{F1BCAC2F-128A-ECD7-7052-82DCEBB615A3}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+	   Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  
+</Project>

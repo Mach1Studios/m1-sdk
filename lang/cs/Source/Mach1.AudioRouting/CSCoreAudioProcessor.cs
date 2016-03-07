@@ -8,8 +8,8 @@ namespace Mach1.AudioRouting
 {
 	public class CSCoreAudioProcessor : IAudioProcessor
 	{
-		public event EventHandler<float> MultiPeakCalculated;
-		public event EventHandler<float> OmniPeakCalculated;
+		public event EventHandler<PeakEventArgs> MultiPeakCalculated;
+		public event EventHandler<PeakEventArgs> OmniPeakCalculated;
 
 		private readonly ISoundOut _multiOut;
 		private readonly ISoundOut _omniOut;
@@ -43,15 +43,20 @@ namespace Mach1.AudioRouting
 
 		private void Play(ISoundOut soundOut, PeakMeter peakMeter, float volume)
 		{
-			peakMeter.Interval = 200;
+			peakMeter.Interval = 50;
 			soundOut.Initialize(peakMeter.ToWaveSource());
 			soundOut.Volume = volume;
 			soundOut.Play();
 		}
 
-		private void SubscribeToPeakCalculated(PeakMeter peakMeter, EventHandler<float> onPeakCalculated)
+		private void SubscribeToPeakCalculated(PeakMeter peakMeter, 
+			EventHandler<PeakEventArgs> onPeakCalculated)
 		{
-			peakMeter.PeakCalculated += (sender, args) => onPeakCalculated(this, args.PeakValue);
+			peakMeter.PeakCalculated += (sender, args) => onPeakCalculated(this, new PeakEventArgs
+			{
+				ChannelPeakValues = args.ChannelPeakValues,
+				PeakValue = args.PeakValue
+			});
 		}
 
 		public void StopMulti()

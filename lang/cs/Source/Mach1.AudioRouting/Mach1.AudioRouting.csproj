@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="CSCoreAudioProcessor.cs" />
     <Compile Include="IAudioProcessor.cs" />
+    <Compile Include="PeakEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -23,14 +23,24 @@ namespace Mach1.AudioRouting.WPFClient
 			Title += GetVersionNumber();
 		}
 
-		private void OnOmniPeakCalculated(object sender, float e)
+		private void OnOmniPeakCalculated(object sender, PeakEventArgs peakEventArgs)
 		{
-			Dispatcher.Invoke(delegate { TextBlockOmniPeakValue.Text = e.ToString("F1"); });
+			Dispatcher.Invoke(delegate
+			{
+				TextBlockOmniPeakValue.Text = peakEventArgs.PeakValue.ToString("F1");
+				OmniLeftPeakBar.Value = peakEventArgs.ChannelPeakValues[0];
+				OmniRightPeakBar.Value = peakEventArgs.ChannelPeakValues[1];
+			});
 		}
 
-		private void OnMultiPeakCalculated(object sender, float e)
+		private void OnMultiPeakCalculated(object sender, PeakEventArgs peakEventArgs)
 		{
-			Dispatcher.Invoke(delegate { TextBlockMultiPeakValue.Text = e.ToString("F1"); });
+			Dispatcher.Invoke(delegate
+			{
+				TextBlockMultiPeakValue.Text = peakEventArgs.PeakValue.ToString("F1");
+				MasterLeftPeakBar.Value = peakEventArgs.ChannelPeakValues[0];
+				MasterRightPeakBar.Value = peakEventArgs.ChannelPeakValues[1];
+			});
 		}
 
 		private void ButtonLoadMultiFile_OnClick(object sender, RoutedEventArgs e)

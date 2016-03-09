@@ -9,15 +9,12 @@ namespace Mach1.AudioRouting.WPFClient
 {
 	public partial class MainWindow : Window
 	{
-		private string _multiFilePath;
-		private string _omniFilePath;
-
 		private readonly IAudioProcessor _audioProcessor;
 
 		public MainWindow()
 		{
 			_audioProcessor = new CSCoreAudioProcessor();
-			_audioProcessor.MultiPeakCalculated += OnMultiPeakCalculated;
+			_audioProcessor.MasterPeakCalculated += OnMasterPeakCalculated;
 			_audioProcessor.OmniPeakCalculated += OnOmniPeakCalculated;
 			InitializeComponent();
 			Title += GetVersionNumber();
@@ -25,22 +22,22 @@ namespace Mach1.AudioRouting.WPFClient
 
 		private void OnOmniPeakCalculated(object sender, PeakEventArgs peakEventArgs)
 		{
-			Dispatcher.Invoke(delegate
+			Dispatcher.BeginInvoke(new Action(() =>
 			{
 				TextBlockOmniPeakValue.Text = peakEventArgs.PeakValue.ToString("F1");
 				OmniLeftPeakBar.Value = peakEventArgs.ChannelPeakValues[0];
 				OmniRightPeakBar.Value = peakEventArgs.ChannelPeakValues[1];
-			});
+			}));
 		}
 
-		private void OnMultiPeakCalculated(object sender, PeakEventArgs peakEventArgs)
+		private void OnMasterPeakCalculated(object sender, PeakEventArgs peakEventArgs)
 		{
-			Dispatcher.Invoke(delegate
+			Dispatcher.BeginInvoke(new Action(() =>
 			{
 				TextBlockMultiPeakValue.Text = peakEventArgs.PeakValue.ToString("F1");
 				MasterLeftPeakBar.Value = peakEventArgs.ChannelPeakValues[0];
 				MasterRightPeakBar.Value = peakEventArgs.ChannelPeakValues[1];
-			});
+			}));
 		}
 
 		private void ButtonLoadMultiFile_OnClick(object sender, RoutedEventArgs e)
@@ -48,10 +45,11 @@ namespace Mach1.AudioRouting.WPFClient
 			FileInfo file = GetFile();
 			if (file != null)
 			{
-				_multiFilePath = file.FullName;
+				_audioProcessor.InitializeMultiSource(file.FullName);
 				TextBlockMultiFileName.Text = file.Name;
 				ButtonPlayMultiFile.IsEnabled = true;
 				ButtonStopMultiFile.IsEnabled = true;
+				ButtonLoadOmniFile.IsEnabled = true;
 			}
 		}
 
@@ -60,38 +58,33 @@ namespace Mach1.AudioRouting.WPFClient
 			FileInfo file = GetFile();
 			if (file != null)
 			{
-				_omniFilePath = file.FullName;
+				_audioProcessor.InitializeOmniSource(file.FullName);
 				TextBlockOmniFileName.Text = file.Name;
-				ButtonPlayOmniFile.IsEnabled = true;
-				ButtonStopOmniFile.IsEnabled = true;
+				ButtonClearOmniFile.IsEnabled = true;
 			}
 		}
 
 		private void ButtonPlayMultiFile_OnClick(object sender, RoutedEventArgs e)
 		{
-			_audioProcessor.PlayMulti(_multiFilePath);
-		}
-
-		private void ButtonPlayOmniFile_OnClick(object sender, RoutedEventArgs e)
-		{
-			_audioProcessor.PlayOmni(_omniFilePath);
+			_audioProcessor.Play();
 		}
 
 		private void ButtonStopMultiFile_OnClick(object sender, RoutedEventArgs e)
 		{
-			_audioProcessor.StopMulti();
+			_audioProcessor.Stop();
 		}
 
-		private void ButtonStopOmniFile_OnClick(object sender, RoutedEventArgs e)
+		private void ButtonClearOmniFile_OnClick(object sender, RoutedEventArgs e)
 		{
-			_audioProcessor.StopOmni();
+			_audioProcessor.InitializeOmniSource(string.Empty);
+			TextBlockOmniFileName.Text = string.Empty;
+			TextBlockOmniPeakValue.Text = string.Empty;
+			ButtonClearOmniFile.IsEnabled = false;
 		}
 
 		private void MainWindow_OnClosing(object sender, CancelEventArgs e)
 		{
-			_audioProcessor.OmniPeakCalculated -= OnOmniPeakCalculated;
-			_audioProcessor.MultiPeakCalculated -= OnMultiPeakCalculated;
-			_audioProcessor.Dispose();
+			_audioProcessor.Stop();
 		}
 
 		private FileInfo GetFile()

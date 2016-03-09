@@ -46,8 +46,11 @@
   <ItemGroup>
     <Compile Include="CSCoreAudioProcessor.cs" />
     <Compile Include="IAudioProcessor.cs" />
+    <Compile Include="M1ChannelMatrix.cs" />
+    <Compile Include="Mixer.cs" />
     <Compile Include="PeakEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VolumeControlSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

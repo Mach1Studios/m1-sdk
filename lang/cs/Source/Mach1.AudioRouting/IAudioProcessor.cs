@@ -4,17 +4,16 @@ namespace Mach1.AudioRouting
 {
 	public interface IAudioProcessor : IDisposable
 	{
-		event EventHandler<PeakEventArgs> MultiPeakCalculated;
+		event EventHandler<PeakEventArgs> MasterPeakCalculated;
 		event EventHandler<PeakEventArgs> OmniPeakCalculated;
 
-		void PlayMulti(string filePath);
-		void PlayOmni(string filePath);
+		void InitializeOmniSource(string omniFilePath);
+		void InitializeMultiSource(string multiFilePath);
 
-		void StopMulti();
-		void StopOmni();
+		void Play();
+		void Stop();
 
 		string[] GetSupportedExtensions();
-
 		string GetSupportedExtensionsFilterString();
 
 		void SetMultiVolume(double volume);

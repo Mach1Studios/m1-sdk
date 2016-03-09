@@ -1,6 +1,7 @@
 ﻿using System;
 using CSCore;
 using CSCore.Codecs;
+using CSCore.DSP;
 using CSCore.SoundOut;
 using CSCore.Streams;
 
@@ -8,45 +9,96 @@ namespace Mach1.AudioRouting
 {
 	public class CSCoreAudioProcessor : IAudioProcessor
 	{
-		public event EventHandler<PeakEventArgs> MultiPeakCalculated;
+		public event EventHandler<PeakEventArgs> MasterPeakCalculated;
 		public event EventHandler<PeakEventArgs> OmniPeakCalculated;
 
-		private readonly ISoundOut _multiOut;
-		private readonly ISoundOut _omniOut;
+		private readonly ISoundOut _soundOut;
 
 		private float _multiVolume;
 		private float _omniVolume;
-		private PeakMeter _multiPeakMeter;
+		private PeakMeter _masterPeakMeter;
 		private PeakMeter _omniPeakMeter;
+		private VolumeControlSource _omniVolumeControl;
+
+		private Mixer _mixer;
+		private string _omniFilePath;
 
 		public CSCoreAudioProcessor()
 		{
-			_multiOut = new WasapiOut();
-			_omniOut = new WasapiOut();
+			_soundOut = new WasapiOut();
 		}
 
-		public void PlayMulti(string filePath)
+		public void InitializeMultiSource(string multiFilePath)
 		{
-			StopMulti();
-			_multiPeakMeter = new PeakMeter(CodecFactory.Instance.GetCodec(filePath).ToSampleSource());
-			Play(_multiOut, _multiPeakMeter, _multiVolume);
-			SubscribeToPeakCalculated(_multiPeakMeter, MultiPeakCalculated);
+			Stop();
+			_mixer?.Dispose();
+			IWaveSource waveSource = CodecFactory.Instance.GetCodec(multiFilePath);
+			waveSource = ApplyChannelMatrix(waveSource);
+			_mixer = new Mixer(waveSource.WaveFormat.Channels, waveSource.WaveFormat.SampleRate);
+			_mixer.AddSource(waveSource.ToSampleSource());
+			_masterPeakMeter = new PeakMeter(_mixer);
+			_masterPeakMeter.Interval = 50;
+			SubscribeToPeakCalculated(_masterPeakMeter, MasterPeakCalculated);
+			if (_omniPeakMeter != null)
+			{
+				InitializeOmniSource(_omniFilePath);
+			}
+			_soundOut.Initialize(_masterPeakMeter.ToWaveSource());
 		}
 
-		public void PlayOmni(string filePath)
+		private IWaveSource ApplyChannelMatrix(IWaveSource waveSource)
 		{
-			StopOmni();
-			_omniPeakMeter = new PeakMeter(CodecFactory.Instance.GetCodec(filePath).ToSampleSource());
-			Play(_omniOut, _omniPeakMeter, _omniVolume);
-			SubscribeToPeakCalculated(_omniPeakMeter, OmniPeakCalculated);
+			ChannelMatrix matrix = null;
+			switch (waveSource.WaveFormat.Channels)
+			{
+				case 8:
+					matrix = M1ChannelMatrix.SevenOneToStereo;
+					break;
+				case 6:
+					matrix = M1ChannelMatrix.FiveOneToStereo;
+					break;
+				case 4:
+					matrix = M1ChannelMatrix.QuadToStereo;
+					break;
+			}
+			if (matrix == null)
+			{
+				return waveSource;
+			}
+			return waveSource.AppendSource(s => new DmoChannelResampler(s, matrix));
 		}
 
-		private void Play(ISoundOut soundOut, PeakMeter peakMeter, float volume)
+		public void InitializeOmniSource(string omniFilePath)
 		{
-			peakMeter.Interval = 50;
-			soundOut.Initialize(peakMeter.ToWaveSource());
-			soundOut.Volume = volume;
-			soundOut.Play();
+			Stop();
+			_omniFilePath = omniFilePath;
+			if (string.IsNullOrEmpty(omniFilePath) && _omniPeakMeter != null)
+			{
+				_mixer.RemoveSource(_omniPeakMeter);
+				_omniPeakMeter.Dispose();
+				_omniPeakMeter = null;
+				_omniVolumeControl = null;
+			}
+			else
+			{
+				_mixer.RemoveSource(_omniPeakMeter);
+				_omniPeakMeter?.Dispose();
+				IWaveSource waveSource = CodecFactory.Instance.GetCodec(omniFilePath);
+				_omniPeakMeter = new PeakMeter(waveSource.ToSampleSource());
+				_omniPeakMeter.Interval = 50;
+				_omniVolumeControl = new VolumeControlSource(_omniPeakMeter)
+				{
+					Volume = _omniVolume
+				};
+				_mixer.AddSource(_omniVolumeControl);
+				SubscribeToPeakCalculated(_omniPeakMeter, OmniPeakCalculated);
+			}
+		}
+
+		public void Play()
+		{
+			_soundOut.Volume = _multiVolume;
+			_soundOut.Play();
 		}
 
 		private void SubscribeToPeakCalculated(PeakMeter peakMeter, 
@@ -59,23 +111,11 @@ namespace Mach1.AudioRouting
 			});
 		}
 
-		public void StopMulti()
+		public void Stop()
 		{
-			Stop(_multiOut);
-			_multiPeakMeter?.Dispose();
-		}
-
-		public void StopOmni()
-		{
-			Stop(_omniOut);
-			_omniPeakMeter?.Dispose();
-		}
-
-		private void Stop(ISoundOut soundOut)
-		{
-			if (soundOut.PlaybackState == PlaybackState.Playing)
+			if (_soundOut.PlaybackState == PlaybackState.Playing)
 			{
-				soundOut.Stop();
+				_soundOut.Stop();
 			}
 		}
 
@@ -92,27 +132,24 @@ namespace Mach1.AudioRouting
 		public void SetMultiVolume(double volume)
 		{
 			_multiVolume = (float)volume;
-			SetVolume(_multiVolume, _multiOut);
+			if (_soundOut.PlaybackState == PlaybackState.Playing)
+			{
+				_soundOut.Volume = _multiVolume;
+			}
 		}
 
 		public void SetOmniVolume(double volume)
 		{
 			_omniVolume = (float)volume;
-			SetVolume(_omniVolume, _omniOut);
-		}
-
-		private void SetVolume(float volume, ISoundOut soundOut)
-		{
-			if (soundOut.PlaybackState == PlaybackState.Playing)
+			if (_omniVolumeControl != null)
 			{
-				soundOut.Volume = volume;
+				_omniVolumeControl.Volume = _omniVolume;
 			}
 		}
 
 		public void Dispose()
 		{
-			_omniPeakMeter?.Dispose();
-			_multiPeakMeter?.Dispose();
+			_mixer?.Dispose();
 		}
 	}
 }

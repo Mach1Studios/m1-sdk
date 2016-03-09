@@ -162,17 +162,14 @@
                             Orientation="Horizontal">
 
                     <Button Content="Load File..."
-                            Click="ButtonLoadOmniFile_OnClick" />
+                            x:Name="ButtonLoadOmniFile"
+                            Click="ButtonLoadOmniFile_OnClick"
+                            IsEnabled="False"/>
 
-                    <Button Content="Play"
-                            x:Name="ButtonPlayOmniFile"
+                    <Button Content="Clear"
+                            x:Name="ButtonClearOmniFile"
                             IsEnabled="False"
-                            Click="ButtonPlayOmniFile_OnClick" />
-
-                    <Button Content="Stop"
-                            x:Name="ButtonStopOmniFile"
-                            IsEnabled="False"
-                            Click="ButtonStopOmniFile_OnClick" />
+                            Click="ButtonClearOmniFile_OnClick" />
 
                 </StackPanel>
 

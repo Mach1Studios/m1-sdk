@@ -4,12 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mach1.AudioRouting.WPFClient"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Title="M1 Routing "
-        Height="Auto"
-        Width="400"
-        SizeToContent="Height"
-        Closing="MainWindow_OnClosing">
+        Height="600"
+        Width="550"
+        ResizeMode="CanMinimize">
+    <d:MainWindow.DataContext>
+        <local:MainWindowViewModel />
+    </d:MainWindow.DataContext>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding StopCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Window.Resources>
 
         <Style TargetType="TextBlock"
@@ -53,6 +61,26 @@
 
         </Style>
 
+        <Style TargetType="TextBox"
+               BasedOn="{StaticResource {x:Type TextBox}}">
+
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+
+            <Setter Property="HorizontalAlignment"
+                    Value="Center" />
+
+            <Setter Property="Width"
+                    Value="50" />
+
+            <Setter Property="Height"
+                    Value="20" />
+
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Center" />
+
+        </Style>
+
     </Window.Resources>
 
     <Grid>
@@ -88,17 +116,13 @@
                             Orientation="Horizontal">
 
                     <Button Content="Load File..."
-                            Click="ButtonLoadMultiFile_OnClick" />
+                            Command="{Binding LoadMultiFileCommand}" />
 
                     <Button Content="Play"
-                            x:Name="ButtonPlayMultiFile"
-                            IsEnabled="False"
-                            Click="ButtonPlayMultiFile_OnClick" />
+                            Command="{Binding PlayCommand}" />
 
                     <Button Content="Stop"
-                            x:Name="ButtonStopMultiFile"
-                            IsEnabled="False"
-                            Click="ButtonStopMultiFile_OnClick" />
+                            Command="{Binding StopCommand}" />
 
                 </StackPanel>
 
@@ -106,9 +130,9 @@
                            Grid.Column="0"
                            Grid.Row="1" />
 
-                <TextBlock x:Name="TextBlockMultiFileName"
-                           Grid.Column="1"
-                           Grid.Row="1" />
+                <TextBlock Grid.Column="1"
+                           Grid.Row="1"
+                           Text="{Binding MultiFileName}" />
 
             </Grid>
 
@@ -118,15 +142,12 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <Slider Value="1"
+                <Slider Grid.Column="0"
                         Maximum="1.0"
-                        Grid.Column="0"
-                        x:Name="SliderMultiVolume"
-                        ValueChanged="SliderMultiVolume_OnValueChanged" />
+                        Value="{Binding MasterVolume, Mode=TwoWay}" />
 
-                <TextBlock Text=""
-                           Grid.Column="1"
-                           x:Name="TextBlockMultiPeakValue" />
+                <TextBlock Grid.Column="1"
+                           Text="{Binding MasterPeakInfo.PeakValue, StringFormat=F1}" />
 
             </Grid>
 
@@ -162,14 +183,10 @@
                             Orientation="Horizontal">
 
                     <Button Content="Load File..."
-                            x:Name="ButtonLoadOmniFile"
-                            Click="ButtonLoadOmniFile_OnClick"
-                            IsEnabled="False"/>
+                            Command="{Binding LoadOmniFileCommand}" />
 
                     <Button Content="Clear"
-                            x:Name="ButtonClearOmniFile"
-                            IsEnabled="False"
-                            Click="ButtonClearOmniFile_OnClick" />
+                            Command="{Binding ClearOmniFileCommand}" />
 
                 </StackPanel>
 
@@ -177,9 +194,9 @@
                            Grid.Column="0"
                            Grid.Row="1" />
 
-                <TextBlock x:Name="TextBlockOmniFileName"
-                           Grid.Column="1"
-                           Grid.Row="1" />
+                <TextBlock Grid.Column="1"
+                           Grid.Row="1"
+                           Text="{Binding OmniFilename}" />
 
             </Grid>
 
@@ -189,76 +206,79 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <Slider Value="1"
+                <Slider Grid.Column="0"
                         Maximum="1.0"
-                        Grid.Column="0"
-                        x:Name="SliderOmniVolume"
-                        ValueChanged="SliderOmniVolume_OnValueChanged" />
+                        Value="{Binding OmniVolume, Mode=TwoWay}" />
 
-                <TextBlock Text=""
-                           Grid.Column="1"
-                           x:Name="TextBlockOmniPeakValue" />
+                <TextBlock Grid.Column="1"
+                           Text="{Binding OmniPeakInfo.PeakValue, StringFormat=F1}" />
 
             </Grid>
-            
+
             <Grid Grid.Row="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="250" />
                 </Grid.ColumnDefinitions>
-                
+
                 <TextBlock Text="L"
                            Grid.Row="0"
-                           Grid.Column="0"/>
-                
+                           Grid.Column="0" />
+
                 <ProgressBar Grid.Row="0"
                              Grid.Column="1"
-                             x:Name="OmniLeftPeakBar"
                              Maximum="1.0"
-                             Margin="0,1,10,1"/>
-                
+                             Margin="0,1,10,1"
+                             Value="{Binding OmniPeakInfo.LeftPeakValue}" />
+
                 <TextBlock Text="R"
                            Grid.Row="1"
-                           Grid.Column="0"/>
-                
+                           Grid.Column="0" />
+
                 <ProgressBar Grid.Row="1"
                              Grid.Column="1"
-                             x:Name="OmniRightPeakBar"
                              Maximum="1.0"
-                             Margin="0,1,10,1"/>
-                
+                             Margin="0,1,10,1"
+                             Value="{Binding OmniPeakInfo.RightPeakValue}" />
+
             </Grid>
         </Grid>
 
         <Grid Grid.Row="3"
               VerticalAlignment="Center">
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
 
             <Grid Grid.Row="0"
-                  HorizontalAlignment="Right">
+                  Grid.Column="1"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Bottom">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="250" />
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                
+
                 <TextBlock Text="Master Output"
                            Grid.Column="0"
                            Grid.ColumnSpan="4"
-                           Grid.Row="2"/>
+                           Grid.Row="2" />
 
                 <TextBlock Text="L"
                            Grid.Row="0"
@@ -266,10 +286,10 @@
 
                 <ProgressBar Grid.Row="1"
                              Grid.Column="1"
-                             x:Name="MasterLeftPeakBar"
                              Maximum="1.0"
                              Margin="1,10,1,0"
-                             Orientation="Vertical"/>
+                             Orientation="Vertical"
+                             Value="{Binding MasterPeakInfo.LeftPeakValue}" />
 
                 <TextBlock Text="R"
                            Grid.Row="0"
@@ -277,16 +297,18 @@
 
                 <ProgressBar Grid.Row="1"
                              Grid.Column="2"
-                             x:Name="MasterRightPeakBar"
                              Maximum="1.0"
                              Margin="1,10,1,0"
-                             Orientation="Vertical"/>
+                             Orientation="Vertical"
+                             Value="{Binding MasterPeakInfo.RightPeakValue}" />
 
             </Grid>
 
             <Grid VerticalAlignment="Bottom"
                   Margin="5"
-                  Grid.Row="1">
+                  Grid.Row="1"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
@@ -295,7 +317,102 @@
                 <TextBlock Text="Orientation Input" />
 
                 <ComboBox VerticalAlignment="Bottom"
-                          Grid.Column="1" />
+                          Grid.Column="1"
+                          Width="200"
+                          HorizontalAlignment="Left" />
+
+            </Grid>
+
+            <Grid Grid.Row="0"
+                  Grid.Column="0"
+                  Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0"
+                      Grid.Column="0"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="1"
+                               Text="0"
+                               HorizontalAlignment="Center" />
+
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="2"
+                               Text="90"
+                               VerticalAlignment="Center" />
+
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="1"
+                               Text="180"
+                               HorizontalAlignment="Center" />
+
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="0"
+                               Text="270"
+                               VerticalAlignment="Center" />
+
+                    <Grid Grid.Column="1"
+                          Grid.Row="1"
+                          Width="200"
+                          Height="200">
+
+                        <Border CornerRadius="100"
+                                Background="LightSteelBlue" />
+                        
+                        <Border VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Height="100"
+                                Width="2"
+                                Background="Red"
+                                Margin="0,-100,0,0"
+                                RenderTransformOrigin="0,1">
+                            <Border.RenderTransform>
+                                <RotateTransform Angle="{Binding HorizontalAngle}"/>
+                            </Border.RenderTransform>
+                        </Border>
+
+                        <TextBox Text="{Binding HorizontalAngle, Mode=TwoWay, StringFormat=F0, UpdateSourceTrigger=PropertyChanged}" />
+
+                    </Grid>
+
+                </Grid>
+
+                <Slider Grid.Row="1"
+                        Grid.Column="0"
+                        Minimum="0"
+                        Maximum="360"
+                        Value="{Binding HorizontalAngle, Mode=TwoWay}" />
+
+                <TextBox Grid.Row="0"
+                         Grid.Column="1"
+                         Text="{Binding VerticalAngle, Mode=TwoWay, StringFormat=F0, UpdateSourceTrigger=PropertyChanged}" />
+
+                <Slider Grid.Row="0"
+                        Grid.Column="2"
+                        Orientation="Vertical"
+                        Minimum="-90"
+                        Maximum="90"
+                        Value="{Binding VerticalAngle, Mode=TwoWay}" />
 
             </Grid>
 

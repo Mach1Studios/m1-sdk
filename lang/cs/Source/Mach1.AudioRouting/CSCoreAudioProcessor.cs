@@ -14,8 +14,8 @@ namespace Mach1.AudioRouting
 
 		private readonly ISoundOut _soundOut;
 
-		private float _multiVolume;
-		private float _omniVolume;
+		private float _multiVolume = 1;
+		private float _omniVolume = 1;
 		private PeakMeter _masterPeakMeter;
 		private PeakMeter _omniPeakMeter;
 		private VolumeControlSource _omniVolumeControl;
@@ -74,7 +74,7 @@ namespace Mach1.AudioRouting
 			_omniFilePath = omniFilePath;
 			if (string.IsNullOrEmpty(omniFilePath) && _omniPeakMeter != null)
 			{
-				_mixer.RemoveSource(_omniPeakMeter);
+				_mixer.RemoveSource(_omniVolumeControl);
 				_omniPeakMeter.Dispose();
 				_omniPeakMeter = null;
 				_omniVolumeControl = null;

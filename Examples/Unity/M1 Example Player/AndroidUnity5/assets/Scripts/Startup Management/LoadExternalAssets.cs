@@ -95,11 +95,11 @@ public class LoadExternalAssets : MonoBehaviour
             }
             string filePath = GetPath(mediaSettings[key.GetKeyName()]);
 
-            DirectionalSound ds = key.GetComponent<DirectionalSound>();
-            if(ds != null)
-            {
-                ds.audioPath = filePath;
-            }
+            //DirectionalSound ds = key.GetComponent<DirectionalSound>();
+            //if(ds != null)
+            //{
+            //    ds._audioPath = filePath;
+            //}
 
             MoviePlayerSample mps = key.GetComponent<MoviePlayerSample>();
             if(mps != null)

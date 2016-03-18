@@ -69,11 +69,10 @@ namespace assets.Scripts.Startup_Management
             {
                 for (int i = 0; i < Movies.Count; i++)
                 {
-                    Movies[i].PlayVideo();
+                   // Movies[i].PlayVideo();
                 }
                 for (int i = 0; i < Sounds.Count; i++)
                 {
-                    //Sounds[i].Loaded = true;
                     Sounds[i].PlayAudio();
                 }
 
@@ -90,7 +89,7 @@ namespace assets.Scripts.Startup_Management
             bool bReady = true;
             for (int i = 0; i < Sounds.Count; i++)
             {
-                if (!Sounds[i].IsReady())
+                if (!Sounds[i].IsAudioLoaded)
                 {
                     bReady = false;
                 }

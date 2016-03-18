@@ -63,25 +63,25 @@ public class MoviePlayerSample : MonoBehaviour
 {
     public string moviePath = "/storage/extSdCard/DearAngelica/DearAngelica_Trailer_16C_LONDON_adamb_mute.mov";
     private int nativeTextureID;
-	bool	startedVideo = false;
+    bool startedVideo = false;
 
 #if (UNITY_ANDROID && !UNITY_EDITOR)
 	bool	videoPaused = false;
 	AndroidJavaObject	mediaPlayer = null;
 #endif
 
-	/// <summary>
-	/// Initialization of the movie surface
-	/// </summary>
-	void Awake()
-	{
+    /// <summary>
+    /// Initialization of the movie surface
+    /// </summary>
+    void Awake()
+    {
         Renderer r = GetComponent<Renderer>();
         if (r != null)
         {
             Material m = r.material;
             if (m == null || m.mainTexture == null)
             {
-               // Debug.LogError("Can't GetNativeTextureID() for movie surface");
+                Debug.LogError("Can't GetNativeTextureID() for movie surface");
                 return;
             }
 
@@ -91,7 +91,7 @@ public class MoviePlayerSample : MonoBehaviour
             {
                 if (m.mainTexture != null)
                 {
-                    nativeTextureID = (int) m.mainTexture.GetNativeTexturePtr();
+                    nativeTextureID = (int)m.mainTexture.GetNativeTexturePtr();
                 }
             }
             Debug.Log("Movie Texture id: " + nativeTextureID);
@@ -100,36 +100,36 @@ public class MoviePlayerSample : MonoBehaviour
         {
             Debug.LogError("No renderer component");
         }
-	}
+    }
 
-	/// <summary>
-	/// Auto-starts video playback
-	/// </summary>
-	void DelayedStartVideo()
-	{
-		if (!startedVideo)
-		{
-			startedVideo = true;
+    /// <summary>
+    /// Auto-starts video playback
+    /// </summary>
+    void DelayedStartVideo()
+    {
+        if (!startedVideo)
+        {
+            startedVideo = true;
 #if (UNITY_ANDROID && !UNITY_EDITOR)
 			// This can only be done once multithreaded rendering is running
 			mediaPlayer = StartVideoPlayerOnTextureId(nativeTextureID);
 #endif
-		}
-	}
+        }
+    }
 
-	public void PlayVideo()
-	{
+    public void PlayVideo()
+    {
 #if (UNITY_ANDROID && !UNITY_EDITOR)
 		DelayedStartVideo();
 #endif
-	}
+    }
 
-	/// <summary>
-	/// Pauses video playback when the app loses or gains focus
-	/// </summary>
-	void OnApplicationPause(bool wasPaused)
-	{
-		Debug.Log("OnApplicationPause: " + wasPaused);
+    /// <summary>
+    /// Pauses video playback when the app loses or gains focus
+    /// </summary>
+    void OnApplicationPause(bool wasPaused)
+    {
+        Debug.Log("OnApplicationPause: " + wasPaused);
 #if (UNITY_ANDROID && !UNITY_EDITOR)
 		if (mediaPlayer != null)
 		{
@@ -137,7 +137,7 @@ public class MoviePlayerSample : MonoBehaviour
 			mediaPlayer.Call(( videoPaused ) ? "pause" : "start");
 		}
 #endif
-	}
+    }
 
 #if (UNITY_ANDROID && !UNITY_EDITOR)
 	// This function returns an Android Surface object that is

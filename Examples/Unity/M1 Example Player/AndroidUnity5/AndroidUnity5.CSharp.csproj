@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="assets\AudioPlayerController.cs" />
     <Compile Include="assets\Cardboard\Legacy\Scripts\CardboardOnGUI.cs" />
     <Compile Include="assets\Cardboard\Legacy\Scripts\CardboardOnGUIMouse.cs" />
     <Compile Include="assets\Cardboard\Legacy\Scripts\CardboardOnGUIWindow.cs" />
@@ -90,8 +91,6 @@
     <Compile Include="assets\Cardboard\Scripts\VRDevices\CardboardAndroidDevice.cs" />
     <Compile Include="assets\Cardboard\Scripts\VRDevices\CardboardiOSDevice.cs" />
     <Compile Include="assets\Cardboard\Scripts\VRDevices\UnityEditorDevice.cs" />
-    <Compile Include="assets\OSscripts\Utilities\MaterialsNameMapping.cs" />
-    <Compile Include="assets\OSscripts\Utilities\Tags.cs" />
     <Compile Include="assets\Scripts\ButtonsScripts\AbstractButtonBehavior.cs" />
     <Compile Include="assets\Scripts\ButtonsScripts\ButtonBehavior.cs" />
     <Compile Include="assets\Scripts\ButtonsScripts\ButtonsController.cs" />
@@ -101,13 +100,16 @@
     <Compile Include="assets\Scripts\Input Management\MouseController.cs" />
     <Compile Include="assets\Scripts\LoadingWheelController.cs" />
     <Compile Include="assets\Scripts\MoviePlayerSample.cs" />
+    <Compile Include="assets\Scripts\Player Scripts\PlayerRaycaster.cs" />
     <Compile Include="assets\Scripts\Startup Management\KeyMapping.cs" />
     <Compile Include="assets\Scripts\Startup Management\LoadExternalAssets.cs" />
     <Compile Include="assets\Scripts\Startup Management\StartupManager.cs" />
     <Compile Include="assets\Scripts\Utility\DiagnosticMessage.cs" />
     <Compile Include="assets\Scripts\Utility\INIReader.cs" />
+    <Compile Include="assets\Scripts\Utility\MaterialsNameMapping.cs" />
+    <Compile Include="assets\Scripts\Utility\MoveToMainCamera.cs" />
+    <Compile Include="assets\Scripts\Utility\Tags.cs" />
     <Compile Include="assets\Scripts\Utility\TransportControlButtonTest.cs" />
-    <Compile Include="assets\Scripts\Video Player Scripts\VideoPlayerController.cs" />
     <Compile Include="assets\ovr\Scripts\OVRCameraRig.cs" />
     <Compile Include="assets\ovr\Scripts\OVRCommon.cs" />
     <Compile Include="assets\ovr\Scripts\OVRDisplay.cs" />

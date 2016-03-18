@@ -1,5 +1,5 @@
 ﻿using System;
-using assets.OSscripts.Utilities;
+using assets.Scripts.Utility;
 using UnityEngine;
 
 namespace assets.Scripts.ButtonsScripts

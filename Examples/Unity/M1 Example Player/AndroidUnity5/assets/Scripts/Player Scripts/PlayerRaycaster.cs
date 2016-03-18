@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using assets.OSscripts.Utilities;
 using assets.Scripts.ButtonsScripts;
 using assets.Scripts.Input_Management;
 using assets.Scripts.Startup_Management;
+using assets.Scripts.Utility;
 using UnityEngine;
 
-namespace assets.Scripts.Video_Player_Scripts
+namespace assets.Scripts.Player_Scripts
 {
-    public class VideoPlayerController : MonoBehaviour
+    public class PlayerRaycaster : MonoBehaviour
     {
         private readonly Dictionary<string, AbstractButtonBehavior> _videoControlButtons = new Dictionary<string, AbstractButtonBehavior>();
 

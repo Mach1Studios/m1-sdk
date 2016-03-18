@@ -1,11 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 
 public class DirectionalSound : MonoBehaviour
 {
+    [Header("Name of file in \"Resources\" folder")]
     public string FileName;
 
-    public string audioPath;
+    public bool IsAudioLoaded { get; private set; }
+
+    //public string audioPath;
     public Vector2 audioOrigin;
     public Vector2 minAngle;
     public Vector2 maxAngle;
@@ -16,7 +20,6 @@ public class DirectionalSound : MonoBehaviour
     private AudioClip _audioClip;
     private AudioSource source;
     private Vector3 audioAngle;
-    private bool _firstTime;
 
     void Awake()
     {
@@ -34,78 +37,57 @@ public class DirectionalSound : MonoBehaviour
         //audioAngle = qRot.eulerAngles;
 
         audioAngle = audioOrigin;
-
-        _audioClip = LoadAudioFromResources(FileName);
-
-        _firstTime = true;
-        //StartCoroutine(LoadAudio());
+        StartCoroutine(LoadAudioFromResourcesAsync(FileName, x => { IsAudioLoaded = true; }));
     }
 
-    private AudioClip LoadAudioFromResources(string fileName)
+    IEnumerator LoadAudioFromResourcesAsync(string fileName, AsyncCallback callback)
     {
-        var audioClip = Resources.Load<AudioClip>(fileName);
-        return audioClip;
-    }
-
-    IEnumerator LoadAudio()
-    {
-        // load the audio sources if available
-        // eg "/storage/extSdCard/Oculus/PassionVR/Trailer/DearAngelica_Trailer_v013_TB.wav"
-        WWW www = new WWW(audioPath);
-        yield return www;
-        //_audioClip = www.GetAudioClip(false, false);
-
-        // our audio is ready and not null
-
-        yield break;
-    }
-
-    public bool IsReady()
-    {
-        return _audioClip != null;
+        ResourceRequest request = Resources.LoadAsync<AudioClip>(fileName);
+        yield return request;
+        _audioClip = request.asset as AudioClip;
+        callback.Invoke(null);
     }
 
     public void PlayAudio()
     {
-        if (_audioClip == null)
+        if (_audioClip != null)
         {
-            //Debug.LogError("Audio was not loaded");
-            return;
+            source.clip = _audioClip;
+            source.Play(0);
         }
-
-        source.PlayOneShot(_audioClip, 1F);
-        _firstTime = false;
+        else
+        {
+            Debug.LogError("Audio was not loaded");
+        }
     }
 
-    float FlipCheck(float camAngle, float curAudioAngle, float curBoundryAngleMin, float curBoundryAngleMax)
+    public void PauseAudio()
     {
-        float result = camAngle;
-        if (curAudioAngle + curBoundryAngleMin < 0)
+        if (_audioClip != null)
         {
-            if (camAngle < (curAudioAngle + 360) && camAngle > (curAudioAngle + 360) + curBoundryAngleMin)
-            {
-                result -= 360;
-            }
+            source.Pause();
         }
-        if (curAudioAngle + curBoundryAngleMax > 360)
+        else
         {
-            if (camAngle > (curAudioAngle - 360) && camAngle < (curAudioAngle - 360) + curBoundryAngleMax)
-            {
-                result += 360;
-            }
+            Debug.LogError("Audio was not loaded");
         }
-        return result;
     }
 
+    //public void PlayAudio()
+    //{
+    //    if (_audioClip != null)
+    //    {
+    //        source.PlayOneShot(_audioClip, 1F);
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("Audio was not loaded");
+    //    }
+    //}
 
     // Update is called once per frame
     void Update()
     {
-        if (Loaded && _firstTime)
-        {
-            PlayAudio();
-        }
-
         // get the angle of the camera
 
         // X is the up/down angle, Y is the left/right angle of camera
@@ -161,8 +143,25 @@ public class DirectionalSound : MonoBehaviour
         {
             source.volume = 0F;
         }
-
     }
 
-    public bool Loaded = false;
+    float FlipCheck(float camAngle, float curAudioAngle, float curBoundryAngleMin, float curBoundryAngleMax)
+    {
+        float result = camAngle;
+        if (curAudioAngle + curBoundryAngleMin < 0)
+        {
+            if (camAngle < (curAudioAngle + 360) && camAngle > (curAudioAngle + 360) + curBoundryAngleMin)
+            {
+                result -= 360;
+            }
+        }
+        if (curAudioAngle + curBoundryAngleMax > 360)
+        {
+            if (camAngle > (curAudioAngle - 360) && camAngle < (curAudioAngle - 360) + curBoundryAngleMax)
+            {
+                result += 360;
+            }
+        }
+        return result;
+    }
 }

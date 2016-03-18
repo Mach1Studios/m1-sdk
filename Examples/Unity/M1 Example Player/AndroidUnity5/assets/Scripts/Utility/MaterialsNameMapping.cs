@@ -1,4 +1,4 @@
-﻿namespace assets.OSscripts.Utilities
+﻿namespace assets.Scripts.Utility
 {
     public class MaterialsNameMapping
     {

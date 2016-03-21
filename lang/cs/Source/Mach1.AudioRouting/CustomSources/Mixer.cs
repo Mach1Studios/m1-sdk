@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using CSCore;
 
-namespace Mach1.AudioRouting
+namespace Mach1.AudioRouting.CustomSources
 {
 	class Mixer : ISampleSource
 	{

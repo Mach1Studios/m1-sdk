@@ -18,5 +18,8 @@ namespace Mach1.AudioRouting
 
 		void SetMultiVolume(double volume);
 		void SetOmniVolume(double volume);
+
+		void SetHorizontalAngle(double angle);
+		void SetVerticalAngle(double angle);
 	}
 }

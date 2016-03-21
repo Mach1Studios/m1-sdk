@@ -1,5 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Windows.Input;
+using System.Windows.Threading;
+using System.Xml.Serialization;
 using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -13,6 +16,8 @@ namespace Mach1.AudioRouting.WPFClient
 		public ICommand PlayCommand { get; private set; }
 		public ICommand StopCommand { get; private set; }
 		public ICommand ClearOmniFileCommand { get; private set; }
+		public ICommand LoadOrientationXMLCommand { get; private set; }
+		public ICommand StartOrientationXMLCommand { get; private set; }
 
 		public PeakInfoViewModel OmniPeakInfo { get; }
 		public PeakInfoViewModel MasterPeakInfo { get; }
@@ -27,6 +32,12 @@ namespace Mach1.AudioRouting.WPFClient
 		{
 			get { return _omniFileName; }
 			set { SetProperty(ref _omniFileName, value); }
+		}
+
+		public string OrientationXMLFilename
+		{
+			get { return _orientationXMLFilename; }
+			set { SetProperty(ref _orientationXMLFilename, value); }
 		}
 
 		public double MasterVolume
@@ -56,21 +67,37 @@ namespace Mach1.AudioRouting.WPFClient
 		public double HorizontalAngle
 		{
 			get { return _horizontalAngle; }
-			set { SetProperty(ref _horizontalAngle, value); }
+			set
+			{
+				if (SetProperty(ref _horizontalAngle, value))
+				{
+					_audioProcessor.SetHorizontalAngle(value);
+				}
+			}
 		}
 
 		public double VerticalAngle
 		{
 			get { return _verticalAngle; }
-			set { SetProperty(ref _verticalAngle, value); }
+			set
+			{
+				if (SetProperty(ref _verticalAngle, value))
+				{
+					_audioProcessor.SetVerticalAngle(value);
+				}
+			}
 		}
 
 		private string _multiFileName;
 		private string _omniFileName;
+		private string _orientationXMLFilename;
 		private double _masterVolume = 1;
 		private double _omniVolume = 1;
 		private double _horizontalAngle;
 		private double _verticalAngle;
+		private readonly DispatcherTimer _timer = new DispatcherTimer();
+		private OrientationList _orientationList;
+		private int _currentOrientationIndex;
 
 		private readonly IAudioProcessor _audioProcessor;
 
@@ -82,6 +109,8 @@ namespace Mach1.AudioRouting.WPFClient
 			InitializeCommands();
 			_audioProcessor.MasterPeakCalculated += OnMasterPeakCalculated;
 			_audioProcessor.OmniPeakCalculated += OnOmniPeakCalculated;
+			_timer.Tick += (s, e) 
+				=> UpdateOrientationFromXML();
 		}
 
 		private void InitializeCommands()
@@ -92,6 +121,45 @@ namespace Mach1.AudioRouting.WPFClient
 			StopCommand = new DelegateCommand(Stop, IsMultiFileLoaded);
 			ClearOmniFileCommand = new DelegateCommand(ClearOmniFile,
 				() => !string.IsNullOrEmpty(_omniFileName));
+			LoadOrientationXMLCommand = new DelegateCommand(LoadOrientationXML);
+			StartOrientationXMLCommand = new DelegateCommand(StartOrientationXML, 
+				() => !string.IsNullOrEmpty(_orientationXMLFilename));
+		}
+
+		private void StartOrientationXML()
+		{
+			_currentOrientationIndex = 0;
+			UpdateOrientationFromXML();
+		}
+
+		private void UpdateOrientationFromXML()
+		{
+			_timer.Stop();
+			Orientation orientation = _orientationList.Orientations[_currentOrientationIndex];
+			HorizontalAngle = orientation.Horizontal;
+			VerticalAngle = orientation.Vertical;
+			_currentOrientationIndex++;
+			if (orientation.Duration > 0 && _currentOrientationIndex < _orientationList.Orientations.Count)
+			{
+				_timer.Interval = TimeSpan.FromSeconds(orientation.Duration);
+				_timer.Start();
+			}
+		}
+
+		private void LoadOrientationXML()
+		{
+			FileInfo file = GetFile("XML Files (*.xml)|*.xml");
+			if (file != null)
+			{
+				_timer?.Stop();
+				XmlSerializer serializer = new XmlSerializer(typeof(OrientationList));
+				using (FileStream fileStream = new FileStream(file.FullName, FileMode.Open))
+				{
+					_orientationList = (OrientationList)serializer.Deserialize(fileStream);
+				}
+				OrientationXMLFilename = file.Name;
+				((DelegateCommand)StartOrientationXMLCommand).RaiseCanExecuteChanged();
+			}
 		}
 
 		private bool IsMultiFileLoaded()
@@ -101,7 +169,7 @@ namespace Mach1.AudioRouting.WPFClient
 
 		private void LoadMultiFile()
 		{
-			FileInfo file = GetFile();
+			FileInfo file = GetFile(_audioProcessor.GetSupportedExtensionsFilterString());
 			if (file != null)
 			{
 				_audioProcessor.InitializeMultiSource(file.FullName);
@@ -115,7 +183,7 @@ namespace Mach1.AudioRouting.WPFClient
 
 		private void LoadOmniFile()
 		{
-			FileInfo file = GetFile();
+			FileInfo file = GetFile(_audioProcessor.GetSupportedExtensionsFilterString());
 			if (file != null)
 			{
 				_audioProcessor.InitializeOmniSource(file.FullName);
@@ -157,10 +225,10 @@ namespace Mach1.AudioRouting.WPFClient
 			MasterPeakInfo.RightPeakValue = peakEventArgs.ChannelPeakValues[1];
 		}
 
-		private FileInfo GetFile()
+		private FileInfo GetFile(string filter)
 		{
 			OpenFileDialog dialog = new OpenFileDialog();
-			dialog.Filter = _audioProcessor.GetSupportedExtensionsFilterString();
+			dialog.Filter = filter;
 			if (dialog.ShowDialog() == true)
 			{
 				return new FileInfo(dialog.FileName);

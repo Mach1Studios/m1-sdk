@@ -7,7 +7,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Title="M1 Routing "
-        Height="600"
+        Height="660"
         Width="550"
         ResizeMode="CanMinimize">
     <d:MainWindow.DataContext>
@@ -309,17 +309,62 @@
                   Grid.Row="1"
                   Grid.Column="0"
                   Grid.ColumnSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Text="Orientation Input" />
+                <TextBlock Grid.Row="0"
+                           Text="Orientation Input" />
 
-                <ComboBox VerticalAlignment="Bottom"
+                <ComboBox Grid.Row="0"
+                          VerticalAlignment="Bottom"
                           Grid.Column="1"
                           Width="200"
-                          HorizontalAlignment="Left" />
+                          HorizontalAlignment="Left">
+                    <ComboBoxItem Content="XML File"
+                                  IsSelected="True" />
+                </ComboBox>
+                
+                <Grid Grid.Row="1"
+                      Grid.Column="0"
+                      Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                Grid.Row="0"
+                                Margin="10, 10, 0, 0"
+                                Orientation="Horizontal">
+
+                        <Button Content="Load File..."
+                                Command="{Binding LoadOrientationXMLCommand}" />
+
+                        <Button Content="Start"
+                                Command="{Binding StartOrientationXMLCommand}" />
+
+                    </StackPanel>
+
+                    <TextBlock Text="Current file:"
+                               Grid.Column="0"
+                               Grid.Row="1" />
+
+                    <TextBlock Grid.Column="1"
+                               Grid.Row="1"
+                               Text="{Binding OrientationXMLFilename}" />
+
+                </Grid>
 
             </Grid>
 
@@ -378,7 +423,7 @@
 
                         <Border CornerRadius="100"
                                 Background="LightSteelBlue" />
-                        
+
                         <Border VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
                                 Height="100"
@@ -387,7 +432,7 @@
                                 Margin="0,-100,0,0"
                                 RenderTransformOrigin="0,1">
                             <Border.RenderTransform>
-                                <RotateTransform Angle="{Binding HorizontalAngle}"/>
+                                <RotateTransform Angle="{Binding HorizontalAngle}" />
                             </Border.RenderTransform>
                         </Border>
 

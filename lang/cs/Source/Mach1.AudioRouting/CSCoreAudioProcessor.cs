@@ -4,6 +4,8 @@ using CSCore.Codecs;
 using CSCore.DSP;
 using CSCore.SoundOut;
 using CSCore.Streams;
+using Mach1.AudioRouting.CustomSources;
+using Mach1.AudioRouting.DirectionToChannelsMapping;
 
 namespace Mach1.AudioRouting
 {
@@ -16,8 +18,12 @@ namespace Mach1.AudioRouting
 
 		private float _multiVolume = 1;
 		private float _omniVolume = 1;
+		private float _horizontalAngle;
+		private float _verticalAngle;
 		private PeakMeter _masterPeakMeter;
 		private PeakMeter _omniPeakMeter;
+		private DmoChannelResampler _channelResampler;
+		private DirectionToChannelsMapper _directionToChannelsMapper;
 		private VolumeControlSource _omniVolumeControl;
 
 		private Mixer _mixer;
@@ -63,9 +69,15 @@ namespace Mach1.AudioRouting
 			}
 			if (matrix == null)
 			{
+				_channelResampler = null;
+				_directionToChannelsMapper = null;
 				return waveSource;
 			}
-			return waveSource.AppendSource(s => new DmoChannelResampler(s, matrix));
+			var source = waveSource.AppendSource(s => new DmoChannelResampler(s, matrix), out _channelResampler);
+			_directionToChannelsMapper = DirectionToChannelsMapper.CreateMapper(_channelResampler);
+			_directionToChannelsMapper.ApplyHorizontalAngle(_horizontalAngle);
+			_directionToChannelsMapper.ApplyVerticalAngle(_verticalAngle);
+			return source;
 		}
 
 		public void InitializeOmniSource(string omniFilePath)
@@ -145,6 +157,18 @@ namespace Mach1.AudioRouting
 			{
 				_omniVolumeControl.Volume = _omniVolume;
 			}
+		}
+
+		public void SetHorizontalAngle(double angle)
+		{
+			_horizontalAngle = (float)angle;
+			_directionToChannelsMapper?.ApplyHorizontalAngle(_horizontalAngle);
+		}
+
+		public void SetVerticalAngle(double angle)
+		{
+			_verticalAngle = (float)angle;
+			_directionToChannelsMapper?.ApplyVerticalAngle(_verticalAngle);
 		}
 
 		public void Dispose()

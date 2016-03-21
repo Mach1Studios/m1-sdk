@@ -1,11 +1,10 @@
 ﻿using System;
 using CSCore;
 
-namespace Mach1.AudioRouting
+namespace Mach1.AudioRouting.CustomSources
 {
 	class VolumeControlSource : ISampleSource
 	{
-		//todo: add some validation
 		public float Volume { get; set; }
 
 		public bool CanSeek { get; }

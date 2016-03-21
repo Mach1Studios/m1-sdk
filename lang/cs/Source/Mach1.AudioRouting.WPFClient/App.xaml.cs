@@ -18,6 +18,7 @@ namespace Mach1.AudioRouting.WPFClient
 		void Current_DispatcherUnhandledException(object sender,
 			DispatcherUnhandledExceptionEventArgs e)
 		{
+			MessageBox.Show(e.Exception.Message, "Error");
 			string path = @"ErrorLog.txt";
 			if (!File.Exists(path))
 			{

@@ -10,6 +10,8 @@ namespace Mach1.AudioRouting.WPFClient
 	/// </summary>
 	public partial class App : Application
 	{
+		private static readonly object LockObject = new object();
+
 		public App()
 		{
 			Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
@@ -18,18 +20,24 @@ namespace Mach1.AudioRouting.WPFClient
 		void Current_DispatcherUnhandledException(object sender,
 			DispatcherUnhandledExceptionEventArgs e)
 		{
-			MessageBox.Show(e.Exception.Message, "Error");
-			string path = @"ErrorLog.txt";
-			if (!File.Exists(path))
+			lock (LockObject)
 			{
-				File.Create(path);
+				MessageBox.Show(e.Exception.Message, "Error");
+				string path = @"ErrorLog.txt";
+				if (!File.Exists(path))
+				{
+					File.Create(path);
+				}
+				TextWriter tw = new StreamWriter(path, true);
+				tw.WriteLine(DateTime.Now.ToString());
+				tw.WriteLine("Exception: {0}", ExceptionToString(e.Exception));
+				if (e.Exception.InnerException != null)
+				{
+					tw.WriteLine("Inner Exception: {0}", ExceptionToString(e.Exception.InnerException));
+				}
+				tw.WriteLine();
+				tw.Close();
 			}
-			TextWriter tw = new StreamWriter(path, true);
-			tw.WriteLine(DateTime.Now.ToString());
-			tw.WriteLine("Exception: {0}", ExceptionToString(e.Exception));
-			tw.WriteLine("Inner Exception: {0}", ExceptionToString(e.Exception.InnerException));
-			tw.WriteLine();
-			tw.Close();
 		}
 
 		private string ExceptionToString(Exception exception)

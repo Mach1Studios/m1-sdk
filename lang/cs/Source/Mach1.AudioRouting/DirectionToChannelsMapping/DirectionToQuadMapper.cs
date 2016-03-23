@@ -23,7 +23,13 @@ namespace Mach1.AudioRouting.DirectionToChannelsMapping
 					{ pair3Coeff, pair2Coeff }
 				};
 			_resampler.ChannelMatrix.SetMatrix(channelMatrix);
-			_resampler.CommitChannelMatrixChanges();
+			try
+			{
+				_resampler.CommitChannelMatrixChanges();
+			}
+			catch
+			{
+			}
 		}
 
 		public override void ApplyVerticalAngle(float angle)

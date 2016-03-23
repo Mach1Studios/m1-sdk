@@ -52,7 +52,13 @@ namespace Mach1.AudioRouting.DirectionToChannelsMapping
 					{ pairB3Coeff, pairB2Coeff }
 				};
 			_resampler.ChannelMatrix.SetMatrix(channelMatrix);
-			_resampler.CommitChannelMatrixChanges();
+			try
+			{
+				_resampler.CommitChannelMatrixChanges();
+			}
+			catch
+			{
+			}
 		}
 	}
 }

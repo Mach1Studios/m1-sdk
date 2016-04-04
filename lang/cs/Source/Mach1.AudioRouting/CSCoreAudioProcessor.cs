@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using CSCore;
 using CSCore.Codecs;
 using CSCore.DSP;
@@ -6,9 +8,16 @@ using CSCore.SoundOut;
 using CSCore.Streams;
 using Mach1.AudioRouting.CustomSources;
 using Mach1.AudioRouting.DirectionToChannelsMapping;
+using Mach1.AudioRouting.DirectionToPairsVolumeMapping;
 
 namespace Mach1.AudioRouting
 {
+	enum MultiInputType
+	{
+		SingleFile,
+		MultipleFiles
+	}
+
 	public class CSCoreAudioProcessor : IAudioProcessor
 	{
 		public event EventHandler<PeakEventArgs> MasterPeakCalculated;
@@ -24,30 +33,62 @@ namespace Mach1.AudioRouting
 		private PeakMeter _omniPeakMeter;
 		private DmoChannelResampler _channelResampler;
 		private DirectionToChannelsMapper _directionToChannelsMapper;
+		private DirectionToPairsVolumeMapper _directionToPairsVolumeMapper;
 		private VolumeControlSource _omniVolumeControl;
-
 		private Mixer _mixer;
 		private string _omniFilePath;
+		private MultiInputType _multiInputType;
+		private VolumeControlSource[] _multiPairVolumeSources;
 
 		public CSCoreAudioProcessor()
 		{
 			_soundOut = new WasapiOut();
 		}
 
-		public void InitializeMultiSource(string multiFilePath)
+		public void LoadMultiSource(IReadOnlyList<string> multiFilePaths)
 		{
 			Stop();
 			_mixer?.Dispose();
-			IWaveSource waveSource = CodecFactory.Instance.GetCodec(multiFilePath);
-			waveSource = ApplyChannelMatrix(waveSource);
-			_mixer = new Mixer(waveSource.WaveFormat.Channels, waveSource.WaveFormat.SampleRate);
-			_mixer.AddSource(waveSource.ToSampleSource());
+			_mixer = null;
+			_multiInputType = multiFilePaths.Count == 1
+				? MultiInputType.SingleFile
+				: MultiInputType.MultipleFiles;
+			_multiPairVolumeSources = _multiInputType == MultiInputType.MultipleFiles
+				? new VolumeControlSource[multiFilePaths.Count] : null;
+			IWaveSource[] waveSources = multiFilePaths.Select(
+				filePath => CodecFactory.Instance.GetCodec(filePath)).ToArray();
+			for (int i = 0; i < waveSources.Length; i++)
+			{
+				IWaveSource waveSource = waveSources[i];
+				if (_mixer == null)
+				{
+					_mixer = new Mixer(2, waveSource.WaveFormat.SampleRate);
+				}
+				if (_multiInputType == MultiInputType.SingleFile)
+				{
+					_mixer.AddSource(ApplyChannelMatrix(waveSource).ToSampleSource());
+				}
+				else if (_multiInputType == MultiInputType.MultipleFiles)
+				{
+					VolumeControlSource pairVolumeSource
+						= new VolumeControlSource(waveSource.ToSampleSource());
+					_multiPairVolumeSources[i] = pairVolumeSource;
+					_mixer.AddSource(pairVolumeSource);
+				}
+			}
+			if (_multiInputType == MultiInputType.MultipleFiles)
+			{
+				_directionToPairsVolumeMapper = DirectionToPairsVolumeMapper
+					.CreateMapper(_multiPairVolumeSources);
+				_directionToPairsVolumeMapper.ApplyVerticalAngle(_verticalAngle);
+				_directionToPairsVolumeMapper.ApplyHorizontalAngle(_horizontalAngle);
+			}
 			_masterPeakMeter = new PeakMeter(_mixer);
 			_masterPeakMeter.Interval = 50;
 			SubscribeToPeakCalculated(_masterPeakMeter, MasterPeakCalculated);
 			if (_omniPeakMeter != null)
 			{
-				InitializeOmniSource(_omniFilePath);
+				LoadOmniSource(_omniFilePath);
 			}
 			_soundOut.Initialize(_masterPeakMeter.ToWaveSource());
 		}
@@ -73,14 +114,15 @@ namespace Mach1.AudioRouting
 				_directionToChannelsMapper = null;
 				return waveSource;
 			}
-			var source = waveSource.AppendSource(s => new DmoChannelResampler(s, matrix), out _channelResampler);
+			var source = waveSource.AppendSource(
+				s => new DmoChannelResampler(s, matrix), out _channelResampler);
 			_directionToChannelsMapper = DirectionToChannelsMapper.CreateMapper(_channelResampler);
 			_directionToChannelsMapper.ApplyHorizontalAngle(_horizontalAngle);
 			_directionToChannelsMapper.ApplyVerticalAngle(_verticalAngle);
 			return source;
 		}
 
-		public void InitializeOmniSource(string omniFilePath)
+		public void LoadOmniSource(string omniFilePath)
 		{
 			Stop();
 			_omniFilePath = omniFilePath;
@@ -93,7 +135,7 @@ namespace Mach1.AudioRouting
 			}
 			else
 			{
-				_mixer.RemoveSource(_omniPeakMeter);
+				_mixer.RemoveSource(_omniVolumeControl);
 				_omniPeakMeter?.Dispose();
 				IWaveSource waveSource = CodecFactory.Instance.GetCodec(omniFilePath);
 				_omniPeakMeter = new PeakMeter(waveSource.ToSampleSource());
@@ -113,7 +155,7 @@ namespace Mach1.AudioRouting
 			_soundOut.Play();
 		}
 
-		private void SubscribeToPeakCalculated(PeakMeter peakMeter, 
+		private void SubscribeToPeakCalculated(PeakMeter peakMeter,
 			EventHandler<PeakEventArgs> onPeakCalculated)
 		{
 			peakMeter.PeakCalculated += (sender, args) => onPeakCalculated(this, new PeakEventArgs
@@ -162,13 +204,27 @@ namespace Mach1.AudioRouting
 		public void SetHorizontalAngle(double angle)
 		{
 			_horizontalAngle = (float)angle;
-			_directionToChannelsMapper?.ApplyHorizontalAngle(_horizontalAngle);
+			if (_multiInputType == MultiInputType.SingleFile)
+			{
+				_directionToChannelsMapper.ApplyHorizontalAngle(_horizontalAngle);
+			}
+			else if (_multiInputType == MultiInputType.MultipleFiles)
+			{
+				_directionToPairsVolumeMapper.ApplyHorizontalAngle(_horizontalAngle);
+			}
 		}
 
 		public void SetVerticalAngle(double angle)
 		{
 			_verticalAngle = (float)angle;
-			_directionToChannelsMapper?.ApplyVerticalAngle(_verticalAngle);
+			if (_multiInputType == MultiInputType.SingleFile)
+			{
+				_directionToChannelsMapper.ApplyVerticalAngle(_verticalAngle);
+			}
+			else if (_multiInputType == MultiInputType.MultipleFiles)
+			{
+				_directionToPairsVolumeMapper.ApplyVerticalAngle(_verticalAngle);
+			}
 		}
 
 		public void Dispose()

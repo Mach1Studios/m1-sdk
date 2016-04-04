@@ -5,11 +5,11 @@ Included are integration actors for Unreal Engine as well as previous versions.
 All current actors rely on component to work properly.
 
 #INSTALLATION#
-Please import the 'DirectionalSoundBlueprint' folder named as is into the root of the project /Content/DirectionalSoundBlueprint.
+Please move the 'DirectionalSoundBlueprint' folder named as is into the root of the project /Content/DirectionalSoundBlueprint.
 
 After initial import you may move the folder form within Unreal Engine (otherwise the componenets and actors will not link correctly).
 
-Actors will automatically locate and snap to the HMD camera in the project.
+Actors will automatically locate and snap to the camera in the project.
 
 #CHANGELOG#
 

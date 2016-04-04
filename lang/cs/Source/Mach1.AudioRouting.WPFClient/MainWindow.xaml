@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mach1.AudioRouting.WPFClient"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:hammer="clr-namespace:Hammer.SpinningWheel;assembly=Hammer.SpinningWheel"
         mc:Ignorable="d"
         Title="M1 Routing "
-        Height="660"
-        Width="550"
+        SizeToContent="WidthAndHeight"
         ResizeMode="CanMinimize">
     <d:MainWindow.DataContext>
         <local:MainWindowViewModel />
@@ -19,6 +19,9 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Window.Resources>
+
+        <local:TrueToVisibleConverter x:Key="TrueToVisibleConverter" />
+        <local:FalseToVisibleConverter x:Key="FalseToVisibleConverter" />
 
         <Style TargetType="TextBlock"
                BasedOn="{StaticResource {x:Type TextBlock}}">
@@ -80,175 +83,267 @@
                     Value="Center" />
 
         </Style>
+        
+        <Style TargetType="hammer:SpinningWheel"
+               BasedOn="{StaticResource {x:Type hammer:SpinningWheel}}">
+            
+            <Setter Property="Margin"
+                    Value="5,0"/>
+            
+            <Setter Property="VerticalAlignment"
+                    Value="Center"/>
+            
+            <Setter Property="CircleColor"
+                    Value="CornflowerBlue"/>
+
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <ScaleTransform ScaleY="0.3"
+                                    ScaleX="0.3"/>
+                </Setter.Value>
+            </Setter>
+            
+        </Style>
 
     </Window.Resources>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="0">
+        <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-
-            <Grid Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="3*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-
-                <TextBlock Text="Multichannel"
-                           Grid.Column="0"
-                           Grid.Row="0" />
-
-                <StackPanel Grid.Column="1"
-                            Grid.Row="0"
-                            Orientation="Horizontal">
-
-                    <Button Content="Load File..."
-                            Command="{Binding LoadMultiFileCommand}" />
-
-                    <Button Content="Play"
-                            Command="{Binding PlayCommand}" />
-
-                    <Button Content="Stop"
-                            Command="{Binding StopCommand}" />
-
-                </StackPanel>
-
-                <TextBlock Text="Current file:"
-                           Grid.Column="0"
-                           Grid.Row="1" />
-
-                <TextBlock Grid.Column="1"
-                           Grid.Row="1"
-                           Text="{Binding MultiFileName}" />
-
-            </Grid>
-
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <Slider Grid.Column="0"
-                        Maximum="1.0"
-                        Value="{Binding MasterVolume, Mode=TwoWay}" />
-
-                <TextBlock Grid.Column="1"
-                           Text="{Binding MasterPeakInfo.PeakValue, StringFormat=F1}" />
-
-            </Grid>
-
-        </Grid>
-
-        <Separator Grid.Row="1"
-                   Margin="5" />
-
-        <Grid Grid.Row="2"
-              VerticalAlignment="Center">
-            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0">
+            <Grid Grid.Row="0"
+                  Margin="0,0,0,5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0"
+                           Text="Multichannel Input Type " />
 
-                <TextBlock Text="M/St Omni"
-                           Grid.Column="0"
-                           Grid.Row="0" />
-
-                <StackPanel Grid.Column="1"
-                            Grid.Row="0"
-                            Orientation="Horizontal">
-
-                    <Button Content="Load File..."
-                            Command="{Binding LoadOmniFileCommand}" />
-
-                    <Button Content="Clear"
-                            Command="{Binding ClearOmniFileCommand}" />
-
-                </StackPanel>
-
-                <TextBlock Text="Current file:"
-                           Grid.Column="0"
-                           Grid.Row="1" />
-
-                <TextBlock Grid.Column="1"
-                           Grid.Row="1"
-                           Text="{Binding OmniFilename}" />
-
+                <ComboBox Grid.Row="0"
+                          VerticalAlignment="Bottom"
+                          Grid.Column="1"
+                          Width="200"
+                          HorizontalAlignment="Left"
+                          SelectedIndex="{Binding SelectedMultichannelInputType, Mode=TwoWay}">
+                    <ComboBoxItem Content="Single File"
+                                  IsSelected="True" />
+                    <ComboBoxItem Content="4 Pairs" />
+                    <ComboBoxItem Content="8 Pairs" />
+                </ComboBox>
             </Grid>
 
             <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <Slider Grid.Column="0"
-                        Maximum="1.0"
-                        Value="{Binding OmniVolume, Mode=TwoWay}" />
-
-                <TextBlock Grid.Column="1"
-                           Text="{Binding OmniPeakInfo.PeakValue, StringFormat=F1}" />
-
-            </Grid>
-
-            <Grid Grid.Row="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="250" />
-                </Grid.ColumnDefinitions>
 
-                <TextBlock Text="L"
-                           Grid.Row="0"
-                           Grid.Column="0" />
+                <ItemsControl Grid.Row="0"
+                              ItemsSource="{Binding ChannelPairs}"
+                              Margin="10,0,0,0"
+                              x:Name="ItemsControl">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type local:InputFileViewModel}">
+                            <Grid Margin="0,0,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
 
-                <ProgressBar Grid.Row="0"
-                             Grid.Column="1"
-                             Maximum="1.0"
-                             Margin="0,1,10,1"
-                             Value="{Binding OmniPeakInfo.LeftPeakValue}" />
+                                <TextBlock Text="{Binding Header}"
+                                           Grid.Column="0"
+                                           Grid.Row="0"
+                                           MinWidth="75"
+                                           Margin="0,0,10,0" />
 
-                <TextBlock Text="R"
-                           Grid.Row="1"
-                           Grid.Column="0" />
+                                <StackPanel Grid.Column="1"
+                                            Grid.Row="0"
+                                            Orientation="Horizontal">
 
-                <ProgressBar Grid.Row="1"
-                             Grid.Column="1"
-                             Maximum="1.0"
-                             Margin="0,1,10,1"
-                             Value="{Binding OmniPeakInfo.RightPeakValue}" />
+                                    <Button Content="Load File..."
+                                            Command="{Binding ElementName=ItemsControl, Path=DataContext.LoadMultiFileCommand}"
+                                            CommandParameter="{Binding Id}" />
+
+                                    <TextBlock Text="{Binding FileName}"
+                                               MaxWidth="300"
+                                               TextTrimming="CharacterEllipsis"
+                                               VerticalAlignment="Center" />
+
+                                </StackPanel>
+
+                                <hammer:SpinningWheel Grid.Column="2"
+                                                      Visibility="{Binding IsLoading, Converter={StaticResource TrueToVisibleConverter}}"/>
+
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0"
+                                Orientation="Horizontal"
+                                Margin="10,0,0,0">
+
+                        <Button Content="Play"
+                                Command="{Binding PlayCommand}" />
+
+                        <Button Content="Stop"
+                                Command="{Binding StopCommand}" />
+
+                    </StackPanel>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Slider Grid.Column="0"
+                                Maximum="1.0"
+                                Value="{Binding MasterVolume, Mode=TwoWay}" />
+
+                        <TextBlock Grid.Column="1"
+                                   Text="{Binding MasterPeakInfo.PeakValue, StringFormat=F1}" />
+
+                    </Grid>
+
+                </Grid>
 
             </Grid>
+
+            <StackPanel Grid.Row="2"
+                        Orientation="Vertical"
+                        Margin="0,5">
+                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+            </StackPanel>
+
+            <Grid Grid.Row="3"
+                  VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="M/St Omni"
+                               Grid.Column="0"
+                               Grid.Row="0" 
+                               MinWidth="75"/>
+
+                    <StackPanel Grid.Column="1"
+                                Grid.Row="0"
+                                Orientation="Horizontal">
+
+                        <Button Content="Load File..."
+                                Command="{Binding LoadOmniFileCommand}" />
+
+                        <Button Content="Clear"
+                                Command="{Binding ClearOmniFileCommand}" />
+
+                    </StackPanel>
+                    
+                    <hammer:SpinningWheel Grid.Column="2"
+                                          Grid.Row="0"
+                                          Visibility="{Binding IsOmniFileLoading, Converter={StaticResource TrueToVisibleConverter}}"/>
+
+                    <TextBlock Text="Current file:"
+                               Grid.Column="0"
+                               Grid.Row="1" />
+
+                    <TextBlock Grid.Column="1"
+                               Grid.Row="1"
+                               Text="{Binding OmniFilename}" />
+
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Slider Grid.Column="0"
+                            Maximum="1.0"
+                            Value="{Binding OmniVolume, Mode=TwoWay}" />
+
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding OmniPeakInfo.PeakValue, StringFormat=F1}" />
+
+                </Grid>
+
+                <Grid Grid.Row="2"
+                      Margin="0,0,0,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="250" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="L"
+                               Grid.Row="0"
+                               Grid.Column="0" />
+
+                    <ProgressBar Grid.Row="0"
+                                 Grid.Column="1"
+                                 Maximum="1.0"
+                                 Margin="0,1,10,1"
+                                 Value="{Binding OmniPeakInfo.LeftPeakValue}" />
+
+                    <TextBlock Text="R"
+                               Grid.Row="1"
+                               Grid.Column="0" />
+
+                    <ProgressBar Grid.Row="1"
+                                 Grid.Column="1"
+                                 Maximum="1.0"
+                                 Margin="0,1,10,1"
+                                 Value="{Binding OmniPeakInfo.RightPeakValue}" />
+
+                </Grid>
+            </Grid>
+
         </Grid>
 
-        <Grid Grid.Row="3"
+        <StackPanel Grid.Column="1"
+                    Orientation="Horizontal"
+                    Margin="5,0">
+            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+        </StackPanel>
+
+        <Grid Grid.Column="2"
               VerticalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition />
@@ -329,7 +424,7 @@
                     <ComboBoxItem Content="XML File"
                                   IsSelected="True" />
                 </ComboBox>
-                
+
                 <Grid Grid.Row="1"
                       Grid.Column="0"
                       Grid.ColumnSpan="2">
@@ -464,4 +559,18 @@
         </Grid>
     </Grid>
 </Window>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

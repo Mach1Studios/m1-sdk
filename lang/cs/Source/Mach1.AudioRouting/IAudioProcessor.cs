@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Mach1.AudioRouting
 {
@@ -7,8 +8,8 @@ namespace Mach1.AudioRouting
 		event EventHandler<PeakEventArgs> MasterPeakCalculated;
 		event EventHandler<PeakEventArgs> OmniPeakCalculated;
 
-		void InitializeOmniSource(string omniFilePath);
-		void InitializeMultiSource(string multiFilePath);
+		void LoadOmniSource(string omniFilePath);
+		void LoadMultiSource(IReadOnlyList<string> multiFilePaths);
 
 		void Play();
 		void Stop();

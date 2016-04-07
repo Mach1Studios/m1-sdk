@@ -30,10 +30,14 @@ Icon?
 ehthumbs.db
 [Tt]humbs.db
 
-lang/cs/Proposals
-lang/cs/Resources
+lang/cs/Proposals/
+lang/cs/Resources/
 Examples/Unreal Engine/Mach1 DS UE Pack.zip
 lang/cs/m1-sdk_v1.02.zip
 lang/cs/Resources/DebugAudio/TestQuads/quadDebugTicking.wav
 lang/cs/Resources/DebugAudio/TestQuads/quadDrums.wav
 lang/cs/Resources/DebugAudio/TestQuads/quadGuitar.wav
+lang/cs/Proposals
+lang/cs/Resources
+lang/cs/Proposals/M1 Test Application Plan 0.1-1.0.docx
+lang/cs/Proposals/M1 Test Application Plan 1.1-1.x.docx

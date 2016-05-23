@@ -4,7 +4,7 @@ using CSCore.DSP;
 
 namespace Mach1.AudioRouting.DirectionToChannelsMapping
 {
-	class DirectionToQuadMapper : DirectionToChannelsMapper
+	public class DirectionToQuadMapper : DirectionToChannelsMapper
 	{
 		public DirectionToQuadMapper(DmoChannelResampler resampler) : base(resampler)
 		{
@@ -17,16 +17,16 @@ namespace Mach1.AudioRouting.DirectionToChannelsMapping
 			_coefficients[1] = 1f - Math.Min(1f, Math.Abs(90f - angle) / 90f);
 			_coefficients[2] = 1f - Math.Min(1f, Math.Abs(180f - angle) / 90f);
 			_coefficients[3] = 1f - Math.Min(1f, Math.Abs(270f - angle) / 90f);
-			float[,] channelMatrix =
+			_channelMatrix = new [,]
 				{
 					{ _coefficients[0], _coefficients[3] },
 					{ _coefficients[1], _coefficients[0] },
 					{ _coefficients[3], _coefficients[2] },
 					{ _coefficients[2], _coefficients[1] }
 				};
-			_resampler.ChannelMatrix.SetMatrix(channelMatrix);
 			try
 			{
+				_resampler.ChannelMatrix.SetMatrix(_channelMatrix);
 				_resampler.CommitChannelMatrixChanges();
 			}
 			catch

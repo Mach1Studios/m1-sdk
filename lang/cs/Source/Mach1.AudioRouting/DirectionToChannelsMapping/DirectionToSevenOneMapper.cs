@@ -4,7 +4,7 @@ using CSCore.DSP;
 
 namespace Mach1.AudioRouting.DirectionToChannelsMapping
 {
-	class DirectionToSevenOneMapper : DirectionToChannelsMapper
+	public class DirectionToSevenOneMapper : DirectionToChannelsMapper
 	{
 		private float _horizontalAngle;
 		private float _verticalAngle;
@@ -51,24 +51,24 @@ namespace Mach1.AudioRouting.DirectionToChannelsMapping
 			_coefficients[7] *= bottomCoeff;
 			float tiltRCoeff = 2f - (90f - _tiltAngle) / 90f;
 			float tiltLCoeff = 2f - tiltRCoeff;
-			float[,] channelMatrix =
+			_channelMatrix = new [,]
 				{
-					{ tiltRCoeff * _coefficients[0], _coefficients[3] * tiltLCoeff },	// L Front
-					{ tiltRCoeff * _coefficients[2], _coefficients[1] * tiltLCoeff },	// R Front
-					{ tiltRCoeff * _coefficients[1], _coefficients[0] * tiltLCoeff },	// Center
-					{ tiltLCoeff * _coefficients[7], _coefficients[6] * tiltRCoeff },	// Low Freq
-					{ tiltRCoeff * _coefficients[3], _coefficients[2] * tiltLCoeff },	// L Side
-					{ tiltLCoeff * _coefficients[4], _coefficients[7] * tiltRCoeff },	// R Side
-					{ tiltLCoeff * _coefficients[5], _coefficients[4] * tiltRCoeff },	// L Rear
-					{ tiltLCoeff * _coefficients[6], _coefficients[5] * tiltRCoeff }	// R Rear
+					{ tiltRCoeff * _coefficients[0], _coefficients[3] * tiltLCoeff },	// {P1, P4} L Front
+					{ tiltRCoeff * _coefficients[2], _coefficients[1] * tiltLCoeff },	// {P3, P2} R Front
+					{ tiltRCoeff * _coefficients[1], _coefficients[0] * tiltLCoeff },	// {P2, P1} Center
+					{ tiltLCoeff * _coefficients[7], _coefficients[6] * tiltRCoeff },	// {P8, P7} Low Freq
+					{ tiltRCoeff * _coefficients[3], _coefficients[2] * tiltLCoeff },	// {P4, P3} L Side
+					{ tiltLCoeff * _coefficients[4], _coefficients[7] * tiltRCoeff },	// {P5, P8} R Side
+					{ tiltLCoeff * _coefficients[5], _coefficients[4] * tiltRCoeff },	// {P6, P5} L Rear
+					{ tiltLCoeff * _coefficients[6], _coefficients[5] * tiltRCoeff }	// {P7, P6} R Rear
 				};
 			if (CSCoreAudioProcessor.DebugModeEnabled)
 			{
-				DebugOutput.ShowChannelMatrix(channelMatrix);
+				DebugOutput.ShowChannelMatrix(_channelMatrix);
 			}
-			_resampler.ChannelMatrix.SetMatrix(channelMatrix);
 			try
 			{
+				_resampler.ChannelMatrix.SetMatrix(_channelMatrix);
 				_resampler.CommitChannelMatrixChanges();
 			}
 			catch

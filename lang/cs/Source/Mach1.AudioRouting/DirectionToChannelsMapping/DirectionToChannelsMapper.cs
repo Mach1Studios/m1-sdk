@@ -4,11 +4,14 @@ using CSCore.DSP;
 
 namespace Mach1.AudioRouting.DirectionToChannelsMapping
 {
-	abstract class DirectionToChannelsMapper
+	public abstract class DirectionToChannelsMapper
 	{
+		public float[,] ChannelMatrix => _channelMatrix;
+
 		protected readonly DmoChannelResampler _resampler;
 
 		protected List<float> _coefficients;
+		protected float[,] _channelMatrix;
 
 		protected DirectionToChannelsMapper(DmoChannelResampler resampler)
 		{

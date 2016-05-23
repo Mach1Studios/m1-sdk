@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-
-<OrientationList>
-	<Orientation Horizontal="0" Vertical="0" Duration="5"/>
-	<Orientation Horizontal="90" Vertical="45" Duration="5"/>
-	<Orientation Horizontal="270" Vertical="-45" />
-</OrientationList>

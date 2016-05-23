@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CSCore.DSP;
 
 namespace Mach1.AudioRouting.DirectionToChannelsMapping
@@ -7,20 +8,21 @@ namespace Mach1.AudioRouting.DirectionToChannelsMapping
 	{
 		public DirectionToQuadMapper(DmoChannelResampler resampler) : base(resampler)
 		{
+			_coefficients = new List<float> {0, 0, 0, 0};
 		}
 
 		public override void ApplyHorizontalAngle(float angle)
 		{
-			float pair1Coeff = 1f - Math.Min(1f, Math.Min(360f - angle, angle) / 90f);
-			float pair2Coeff = 1f - Math.Min(1f, Math.Abs(90f - angle) / 90f);
-			float pair3Coeff = 1f - Math.Min(1f, Math.Abs(180f - angle) / 90f);
-			float pair4Coeff = 1f - Math.Min(1f, Math.Abs(270f - angle) / 90f);
+			_coefficients[0] = 1f - Math.Min(1f, Math.Min(360f - angle, angle) / 90f);
+			_coefficients[1] = 1f - Math.Min(1f, Math.Abs(90f - angle) / 90f);
+			_coefficients[2] = 1f - Math.Min(1f, Math.Abs(180f - angle) / 90f);
+			_coefficients[3] = 1f - Math.Min(1f, Math.Abs(270f - angle) / 90f);
 			float[,] channelMatrix =
 				{
-					{ pair1Coeff, pair4Coeff },
-					{ pair2Coeff, pair1Coeff },
-					{ pair4Coeff, pair3Coeff },
-					{ pair3Coeff, pair2Coeff }
+					{ _coefficients[0], _coefficients[3] },
+					{ _coefficients[1], _coefficients[0] },
+					{ _coefficients[3], _coefficients[2] },
+					{ _coefficients[2], _coefficients[1] }
 				};
 			_resampler.ChannelMatrix.SetMatrix(channelMatrix);
 			try

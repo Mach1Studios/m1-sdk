@@ -27,6 +27,7 @@ namespace Mach1.AudioRouting.WPFClient
 		public ICommand PlayCommand { get; private set; }
 		public ICommand StopCommand { get; private set; }
 		public ICommand ClearOmniFileCommand { get; private set; }
+		public ICommand ClearMultiFilesCommand { get; private set; }
 		public ICommand LoadOrientationXMLCommand { get; private set; }
 		public ICommand StartOrientationXMLCommand { get; private set; }
 
@@ -88,7 +89,8 @@ namespace Mach1.AudioRouting.WPFClient
 			{
 				if (SetProperty(ref _horizontalAngle, value))
 				{
-					_audioProcessor.SetHorizontalAngle(value);
+					Dispatcher.CurrentDispatcher.InvokeAsync(
+						async () => _audioProcessor.SetHorizontalAngle(value));
 				}
 			}
 		}
@@ -100,7 +102,21 @@ namespace Mach1.AudioRouting.WPFClient
 			{
 				if (SetProperty(ref _verticalAngle, value))
 				{
-					_audioProcessor.SetVerticalAngle(value);
+					Dispatcher.CurrentDispatcher.InvokeAsync(
+						async () => _audioProcessor.SetVerticalAngle(value));
+				}
+			}
+		}
+
+		public double TiltAngle
+		{
+			get { return _tiltAngle; }
+			set
+			{
+				if (SetProperty(ref _tiltAngle, value))
+				{
+					Dispatcher.CurrentDispatcher.InvokeAsync(
+						async () => _audioProcessor.SetTiltAngle(value));
 				}
 			}
 		}
@@ -117,6 +133,7 @@ namespace Mach1.AudioRouting.WPFClient
 		private double _omniVolume = 1;
 		private double _horizontalAngle;
 		private double _verticalAngle;
+		private double _tiltAngle;
 		private readonly DispatcherTimer _timer = new DispatcherTimer();
 		private OrientationList _orientationList;
 		private int _currentOrientationIndex;
@@ -128,7 +145,7 @@ namespace Mach1.AudioRouting.WPFClient
 		public MainWindowViewModel()
 		{
 			SelectedMultichannelInputType = MultichannelInputType.SingleFile;
-			_audioProcessor = new CSCoreAudioProcessor();
+			_audioProcessor = new CSCoreAudioProcessor(App.DebugModeEnabled);
 			OmniPeakInfo = new PeakInfoViewModel();
 			MasterPeakInfo = new PeakInfoViewModel();
 			InitializeCommands();
@@ -146,9 +163,15 @@ namespace Mach1.AudioRouting.WPFClient
 			StopCommand = new DelegateCommand(Stop, IsMultiInputLoaded);
 			ClearOmniFileCommand = new DelegateCommand(ClearOmniFile,
 				() => !string.IsNullOrEmpty(_omniFileName));
+			ClearMultiFilesCommand = new DelegateCommand(ClearMultiFiles);
 			LoadOrientationXMLCommand = new DelegateCommand(LoadOrientationXML);
 			StartOrientationXMLCommand = new DelegateCommand(StartOrientationXML,
 				() => !string.IsNullOrEmpty(_orientationXMLFilename));
+		}
+
+		private void ClearMultiFiles()
+		{
+			UpdateInputFileList(_selectedMultichannelInputType);
 		}
 
 		private void UpdateInputFileList(MultichannelInputType inputType)
@@ -187,6 +210,9 @@ namespace Mach1.AudioRouting.WPFClient
 					throw new ArgumentOutOfRangeException(nameof(inputType), inputType, null);
 			}
 			OnPropertyChanged(() => ChannelPairs);
+			Stop();
+			((DelegateCommand)PlayCommand)?.RaiseCanExecuteChanged();
+			((DelegateCommand)StopCommand)?.RaiseCanExecuteChanged();
 		}
 
 		private void StartOrientationXML()
@@ -290,7 +316,7 @@ namespace Mach1.AudioRouting.WPFClient
 
 		private void Stop()
 		{
-			_audioProcessor.Stop();
+			_audioProcessor?.Stop();
 		}
 
 		private void ClearOmniFile()

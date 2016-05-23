@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -10,11 +11,31 @@ namespace Mach1.AudioRouting.WPFClient
 	/// </summary>
 	public partial class App : Application
 	{
+		[DllImport("kernel32.dll", SetLastError = true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		static extern bool AllocConsole();
+
+		public static bool DebugModeEnabled { get; private set; }
+
 		private static readonly object LockObject = new object();
 
 		public App()
 		{
+			ReadArgs();
 			Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
+		}
+
+		private void ReadArgs()
+		{
+			string[] args = Environment.GetCommandLineArgs();
+			if (args.Length > 1)
+			{
+				if (args[1] == "debug")
+				{
+					AllocConsole();
+					DebugModeEnabled = true;
+				}
+			}
 		}
 
 		void Current_DispatcherUnhandledException(object sender,

@@ -22,8 +22,12 @@ namespace Mach1.AudioRouting.CustomSources
 
 		public bool DivideResult { get; set; }
 
+		public List<float> MultiVolumes { get; }
+		public float OmniVolume { get; set; }
+
 		private readonly WaveFormat _waveFormat;
 		private readonly List<ISampleSource> _sampleSources = new List<ISampleSource>();
+		private ISampleSource _omniSource;
 		private readonly object _lockObj = new object();
 		private float[] _mixerBuffer;
 
@@ -37,8 +41,15 @@ namespace Mach1.AudioRouting.CustomSources
 			{
 				throw new ArgumentOutOfRangeException(nameof(sampleRate));
 			}
+			MultiVolumes = new List<float>();
+			_omniSource = null;
 			_waveFormat = new WaveFormat(sampleRate, 32, channelCount, AudioEncoding.IeeeFloat);
 			FillWithZeros = false;
+		}
+
+		public void ShowDebugInfo()
+		{
+			DebugOutput.ShowPairVolume(MultiVolumes);
 		}
 
 		public bool Contains(ISampleSource source)
@@ -63,8 +74,26 @@ namespace Mach1.AudioRouting.CustomSources
 			{
 				if (!Contains(source))
 				{
+					MultiVolumes.Add(1f);
 					_sampleSources.Add(source);
 				}
+			}
+		}
+
+		public void AddOmniSource(ISampleSource source)
+		{
+			if (source == null)
+			{
+				throw new ArgumentNullException(nameof(source));
+			}
+			if (source.WaveFormat.Channels != WaveFormat.Channels ||
+				source.WaveFormat.SampleRate != WaveFormat.SampleRate)
+			{
+				throw new ArgumentException("Invalid format.", nameof(source));
+			}
+			lock (_lockObj)
+			{
+				_omniSource = source;
 			}
 		}
 
@@ -74,8 +103,18 @@ namespace Mach1.AudioRouting.CustomSources
 			{
 				if (Contains(source))
 				{
+					int index = _sampleSources.IndexOf(source);
 					_sampleSources.Remove(source);
+					MultiVolumes.RemoveAt(index);
 				}
+			}
+		}
+
+		public void RemoveOmniSource()
+		{
+			lock (_lockObj)
+			{
+				_omniSource = null;
 			}
 		}
 
@@ -95,9 +134,9 @@ namespace Mach1.AudioRouting.CustomSources
 						for (int i = offset, n = 0; n < read; i++, n++)
 						{
 							if (numberOfStoredSamples <= i)
-								buffer[i] = _mixerBuffer[n];
+								buffer[i] = _mixerBuffer[n] * MultiVolumes[m];
 							else
-								buffer[i] += _mixerBuffer[n];
+								buffer[i] += _mixerBuffer[n] * MultiVolumes[m];
 						}
 						if (read > numberOfStoredSamples)
 							numberOfStoredSamples = read;
@@ -107,8 +146,25 @@ namespace Mach1.AudioRouting.CustomSources
 						else
 						{
 							//raise event here
-							RemoveSource(sampleSource); //remove the input to make sure that the event gets only raised once.
+							//RemoveSource(sampleSource); //remove the input to make sure that the event gets only raised once.
 						}
+					}
+					if (_omniSource != null)
+					{
+						var sampleSource = _omniSource;
+						int read = sampleSource.Read(_mixerBuffer, 0, count);
+						for (int i = offset, n = 0; n < read; i++, n++)
+						{
+							if (numberOfStoredSamples <= i)
+								buffer[i] = _mixerBuffer[n] * OmniVolume;
+							else
+								buffer[i] += _mixerBuffer[n] * OmniVolume;
+						}
+						if (read > numberOfStoredSamples)
+							numberOfStoredSamples = read;
+
+						if (read > 0)
+							numberOfReadSamples.Add(read);
 					}
 
 					if (DivideResult)

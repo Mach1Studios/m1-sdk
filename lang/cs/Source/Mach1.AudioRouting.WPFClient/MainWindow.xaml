@@ -208,6 +208,9 @@
 
                         <Button Content="Stop"
                                 Command="{Binding StopCommand}" />
+                        
+                        <Button Content="Clear"
+                                Command="{Binding ClearMultiFilesCommand}"/>
 
                     </StackPanel>
 
@@ -469,14 +472,36 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0"
+                      Grid.Column="0"
+                      Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Roll" />
+
+                    <Slider Grid.Column="2"
+                            Grid.Row="0"
+                            Minimum="-90"
+                            Maximum="90"
+                            Value="{Binding TiltAngle, Mode=TwoWay}" />
+
+                    <TextBox Grid.Column="1"
+                             Text="{Binding TiltAngle, Mode=TwoWay, StringFormat=F0, UpdateSourceTrigger=PropertyChanged}" />
+
+                </Grid>
+
+                <Grid Grid.Row="1"
                       Grid.Column="0"
                       VerticalAlignment="Center"
                       HorizontalAlignment="Center">
@@ -537,22 +562,45 @@
 
                 </Grid>
 
-                <Slider Grid.Row="1"
-                        Grid.Column="0"
-                        Minimum="0"
-                        Maximum="360"
-                        Value="{Binding HorizontalAngle, Mode=TwoWay}" />
+                <Grid Grid.Row="2"
+                      Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-                <TextBox Grid.Row="0"
-                         Grid.Column="1"
-                         Text="{Binding VerticalAngle, Mode=TwoWay, StringFormat=F0, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Text="Yaw" />
 
-                <Slider Grid.Row="0"
-                        Grid.Column="2"
-                        Orientation="Vertical"
-                        Minimum="-90"
-                        Maximum="90"
-                        Value="{Binding VerticalAngle, Mode=TwoWay}" />
+                    <Slider Grid.Column="1"
+                            Minimum="0"
+                            Maximum="360"
+                            Value="{Binding HorizontalAngle, Mode=TwoWay}" />
+
+                </Grid>
+                
+                <Grid Grid.Row="1"
+                      Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="Pitch"
+                               HorizontalAlignment="Right"/>
+
+                    <TextBox Grid.Row="1"
+                             Text="{Binding VerticalAngle, Mode=TwoWay, StringFormat=F0, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <Slider Grid.Row="2"
+                            HorizontalAlignment="Center"
+                            Orientation="Vertical"
+                            Minimum="-90"
+                            Maximum="90"
+                            Value="{Binding VerticalAngle, Mode=TwoWay}" />
+
+                </Grid>
 
             </Grid>
 

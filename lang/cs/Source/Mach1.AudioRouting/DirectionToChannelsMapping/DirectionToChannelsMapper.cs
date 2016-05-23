@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CSCore.DSP;
 
 namespace Mach1.AudioRouting.DirectionToChannelsMapping
@@ -6,6 +7,8 @@ namespace Mach1.AudioRouting.DirectionToChannelsMapping
 	abstract class DirectionToChannelsMapper
 	{
 		protected readonly DmoChannelResampler _resampler;
+
+		protected List<float> _coefficients;
 
 		protected DirectionToChannelsMapper(DmoChannelResampler resampler)
 		{
@@ -30,5 +33,10 @@ namespace Mach1.AudioRouting.DirectionToChannelsMapping
 		public abstract void ApplyHorizontalAngle(float angle);
 
 		public abstract void ApplyVerticalAngle(float angle);
+
+		public void ShowDebugInfo()
+		{
+			DebugOutput.ShowPairVolume(_coefficients);
+		}
 	}
 }

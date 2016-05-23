@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CSCoreAudioProcessor.cs" />
+    <Compile Include="DebugOutput.cs" />
     <Compile Include="DirectionToChannelsMapping\DirectionToChannelsMapper.cs" />
     <Compile Include="DirectionToChannelsMapping\DirectionToFiveOneMapper.cs" />
     <Compile Include="DirectionToChannelsMapping\DirectionToQuadMapper.cs" />

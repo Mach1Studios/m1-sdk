@@ -22,5 +22,6 @@ namespace Mach1.AudioRouting
 
 		void SetHorizontalAngle(double angle);
 		void SetVerticalAngle(double angle);
+		void SetTiltAngle(double angle);
 	}
 }

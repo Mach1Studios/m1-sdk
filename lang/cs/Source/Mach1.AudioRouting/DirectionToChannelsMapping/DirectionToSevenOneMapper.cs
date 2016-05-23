@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using CSCore.DSP;
 
@@ -53,14 +53,14 @@ namespace Mach1.AudioRouting.DirectionToChannelsMapping
 			float tiltLCoeff = 2f - tiltRCoeff;
 			float[,] channelMatrix =
 				{
-					{ tiltRCoeff * _coefficients[0], _coefficients[3] * tiltLCoeff },
-					{ tiltLCoeff * _coefficients[4], _coefficients[7] * tiltRCoeff },
-					{ tiltRCoeff * _coefficients[1], _coefficients[0] * tiltLCoeff },
-					{ tiltLCoeff * _coefficients[7], _coefficients[6] * tiltRCoeff },
-					{ tiltLCoeff * _coefficients[5], _coefficients[4] * tiltRCoeff },
-					{ tiltRCoeff * _coefficients[2], _coefficients[1] * tiltLCoeff },
-					{ tiltRCoeff * _coefficients[3], _coefficients[2] * tiltLCoeff },
-					{ tiltLCoeff * _coefficients[6], _coefficients[5] * tiltRCoeff }
+					{ tiltRCoeff * _coefficients[0], _coefficients[3] * tiltLCoeff },	// L Front
+					{ tiltRCoeff * _coefficients[2], _coefficients[1] * tiltLCoeff },	// R Front
+					{ tiltRCoeff * _coefficients[1], _coefficients[0] * tiltLCoeff },	// Center
+					{ tiltLCoeff * _coefficients[7], _coefficients[6] * tiltRCoeff },	// Low Freq
+					{ tiltRCoeff * _coefficients[3], _coefficients[2] * tiltLCoeff },	// L Side
+					{ tiltLCoeff * _coefficients[4], _coefficients[7] * tiltRCoeff },	// R Side
+					{ tiltLCoeff * _coefficients[5], _coefficients[4] * tiltRCoeff },	// L Rear
+					{ tiltLCoeff * _coefficients[6], _coefficients[5] * tiltRCoeff }	// R Rear
 				};
 			if (CSCoreAudioProcessor.DebugModeEnabled)
 			{

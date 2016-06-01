@@ -37,7 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CSCore">
-      <HintPath>..\cscore\CSCore\bin\Release\CSCore.dll</HintPath>
+      <HintPath>..\CSCore.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>

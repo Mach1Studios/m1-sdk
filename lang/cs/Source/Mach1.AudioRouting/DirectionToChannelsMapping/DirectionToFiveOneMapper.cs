@@ -12,7 +12,7 @@ namespace Mach1.AudioRouting.DirectionToChannelsMapping
 			_coefficients = new List<float> {0, 0, 0, 0, 0};
 		}
 
-		public override void ApplyHorizontalAngle(float angle)
+		public override void ApplyYawAngle(float angle)
 		{
 			_coefficients[0] = (1f - Math.Min(1f, Math.Min(360f - angle, angle) / 90f)) * 0.5f;
 			_coefficients[1] = (1f - Math.Min(1f, Math.Abs(90f - angle) / 90f)) * 0.5f;
@@ -38,7 +38,7 @@ namespace Mach1.AudioRouting.DirectionToChannelsMapping
 			}
 		}
 
-		public override void ApplyVerticalAngle(float angle)
+		public override void ApplyPitchAngle(float angle)
 		{
 			// Nothing to do
 		}

@@ -12,13 +12,13 @@ namespace Mach1.AudioRouting.DirectionToPairsVolumeMapping
 		{
 		}
 
-		public override void ApplyHorizontalAngle(float angle)
+		public override void ApplyYawAngle(float angle)
 		{
 			_horizontalAngle = angle;
 			ApplyAngles();
 		}
 
-		public override void ApplyVerticalAngle(float angle)
+		public override void ApplyPitchAngle(float angle)
 		{
 			_verticalAngle = angle;
 			ApplyAngles();

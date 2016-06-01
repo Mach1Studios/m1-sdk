@@ -45,20 +45,20 @@ namespace Mach1.AudioRouting.Tests
 		[TestMethod]
 		public void DirectionToSevenOneMapper_Yaw0Pitch0Roll0_ChMatrixCoeffs()
 		{
-			_directionMapper.ApplyHorizontalAngle(0);
-			_directionMapper.ApplyVerticalAngle(0);
-			_directionMapper.ApplyTiltAngle(0);
+			_directionMapper.ApplyYawAngle(0);
+			_directionMapper.ApplyPitchAngle(0);
+			_directionMapper.ApplyRollAngle(0);
 
 			float[,] expected =
 			{
-				{ 0.5f,	0f },	// {P1, P4} L Front
-				{ 0f,	0f },	// {P3, P2} R Front
-				{ 0f,	0.5f },	// {P2, P1} Center
-				{ 0f,	0f },	// {P8, P7} Low Freq
-				{ 0f,	0f },	// {P4, P3} L Side
-				{ 0.5f,	0f },	// {P5, P8} R Side
-				{ 0f,	0.5f },	// {P6, P5} L Rear
-				{ 0f,	0f }	// {P7, P6} R Rear
+				{ 0.5f,	0f },	// {P1, P4} L
+				{ 0f,   0.5f },	// {P2, P1} C
+				{ 0f,	0f },	// {P3, P2} R
+				{ 0f,   0f },	// {P4, P3} Lss
+				{ 0.5f, 0f },	// {P5, P8} Rss
+				{ 0f,	0.5f },	// {P6, P5} Lsr
+				{ 0f,	0f },	// {P7, P6} Rsr
+				{ 0f,   0f }	// {P8, P7} LFE
 			};
 
 			Assert.IsTrue(AreEqual(_directionMapper.ChannelMatrix, expected, Tolerance));
@@ -70,20 +70,20 @@ namespace Mach1.AudioRouting.Tests
 		[TestMethod]
 		public void DirectionToSevenOneMapper_Yaw0Pitch0Roll45_ChMatrixCoeffs()
 		{
-			_directionMapper.ApplyHorizontalAngle(0);
-			_directionMapper.ApplyVerticalAngle(0);
-			_directionMapper.ApplyTiltAngle(45);
+			_directionMapper.ApplyYawAngle(0);
+			_directionMapper.ApplyPitchAngle(0);
+			_directionMapper.ApplyRollAngle(45);
 
 			float[,] expected =
 			{
-				{ 0.75f,	0f },	// {P1, P4} L Front
-				{ 0f,		0f },	// {P3, P2} R Front
-				{ 0f,		0.25f },// {P2, P1} Center
-				{ 0f,		0f },	// {P8, P7} Low Freq
-				{ 0f,		0f },	// {P4, P3} L Side
-				{ 0.25f,	0f },	// {P5, P8} R Side
-				{ 0f,		0.75f },// {P6, P5} L Rear
-				{ 0f,		0f }	// {P7, P6} R Rear
+				{ 0.75f,	0f },	// {P1, P4} L
+				{ 0f,       0.25f },// {P2, P1} C
+				{ 0f,		0f },	// {P3, P2} R
+				{ 0f,		0f },	// {P4, P3} Lss
+				{ 0.25f,	0f },	// {P5, P8} Rss
+				{ 0f,		0.75f },// {P6, P5} Lsr
+				{ 0f,		0f },	// {P7, P6} Rsr
+				{ 0f,       0f }	// {P8, P7} LFE
 			};
 
 			Assert.IsTrue(AreEqual(_directionMapper.ChannelMatrix, expected, Tolerance));
@@ -95,20 +95,20 @@ namespace Mach1.AudioRouting.Tests
 		[TestMethod]
 		public void DirectionToSevenOneMapper_Yaw0Pitch0RollNeg90_ChMatrixCoeffs()
 		{
-			_directionMapper.ApplyHorizontalAngle(0);
-			_directionMapper.ApplyVerticalAngle(0);
-			_directionMapper.ApplyTiltAngle(-90);
+			_directionMapper.ApplyYawAngle(0);
+			_directionMapper.ApplyPitchAngle(0);
+			_directionMapper.ApplyRollAngle(-90);
 
 			float[,] expected =
 			{
-				{ 0f,	0f },	// {P1, P4} L Front
-				{ 0f,   0f },	// {P3, P2} R Front
-				{ 0f,   1f },	// {P2, P1} Center
-				{ 0f,   0f },	// {P8, P7} Low Freq
-				{ 0f,   0f },	// {P4, P3} L Side
-				{ 1f,	0f },	// {P5, P8} R Side
-				{ 0f,   0f },	// {P6, P5} L Rear
-				{ 0f,   0f }	// {P7, P6} R Rear
+				{ 0f,	0f },	// {P1, P4} L
+				{ 0f,   1f },	// {P2, P1} C
+				{ 0f,   0f },	// {P3, P2} R
+				{ 0f,   0f },	// {P4, P3} Lss
+				{ 1f,	0f },	// {P5, P8} Rss
+				{ 0f,   0f },	// {P6, P5} Lsr
+				{ 0f,   0f },	// {P7, P6} Rsr
+				{ 0f,   0f }	// {P8, P7} LFE
 			};
 
 			Assert.IsTrue(AreEqual(_directionMapper.ChannelMatrix, expected, Tolerance));
@@ -120,20 +120,20 @@ namespace Mach1.AudioRouting.Tests
 		[TestMethod]
 		public void DirectionToSevenOneMapper_Yaw45Pitch0Roll45_ChMatrixCoeffs()
 		{
-			_directionMapper.ApplyHorizontalAngle(45);
-			_directionMapper.ApplyVerticalAngle(0);
-			_directionMapper.ApplyTiltAngle(45);
+			_directionMapper.ApplyYawAngle(45);
+			_directionMapper.ApplyPitchAngle(0);
+			_directionMapper.ApplyRollAngle(45);
 
 			float[,] expected =
 			{
-				{ 0.1875f,  0f },		// {P1, P4} L Front
-				{ 0f,		0.0625f },	// {P3, P2} R Front
-				{ 0.1875f,	0.0625f },	// {P2, P1} Center
-				{ 0f,		0f },		// {P8, P7} Low Freq
-				{ 0f,		0f },		// {P4, P3} L Side
-				{ 0.0625f,	0f },		// {P5, P8} R Side
-				{ 0.0625f,	0.1875f },	// {P6, P5} L Rear
-				{ 0f,		0.1875f }	// {P7, P6} R Rear
+				{ 0.1875f,  0f },		// {P1, P4} L
+				{ 0.1875f,  0.0625f },	// {P2, P1} C
+				{ 0f,		0.0625f },	// {P3, P2} R
+				{ 0f,		0f },		// {P4, P3} Lss
+				{ 0.0625f,	0f },		// {P5, P8} Rss
+				{ 0.0625f,	0.1875f },	// {P6, P5} Lsr
+				{ 0f,		0.1875f },	// {P7, P6} Rsr
+				{ 0f,       0f }		// {P8, P7} LFE
 			};
 
 			Assert.IsTrue(AreEqual(_directionMapper.ChannelMatrix, expected, Tolerance));
@@ -145,20 +145,20 @@ namespace Mach1.AudioRouting.Tests
 		[TestMethod]
 		public void DirectionToSevenOneMapper_Yaw45Pitch45Roll45_ChMatrixCoeffs()
 		{
-			_directionMapper.ApplyHorizontalAngle(45);
-			_directionMapper.ApplyVerticalAngle(45);
-			_directionMapper.ApplyTiltAngle(45);
+			_directionMapper.ApplyYawAngle(45);
+			_directionMapper.ApplyPitchAngle(45);
+			_directionMapper.ApplyRollAngle(45);
 
 			float[,] expected =
 			{
-				{ 0.28125f, 0f },		// {P1, P4} L Front
-				{ 0f,       0.09375f },	// {P3, P2} R Front
-				{ 0.28125f, 0.09375f },	// {P2, P1} Center
-				{ 0f,       0f },		// {P8, P7} Low Freq
-				{ 0f,       0f },		// {P4, P3} L Side
-				{ 0.03125f, 0f },		// {P5, P8} R Side
-				{ 0.03125f, 0.09375f },	// {P6, P5} L Rear
-				{ 0f,		0.09375f }	// {P7, P6} R Rear
+				{ 0.28125f, 0f },		// {P1, P4} L
+				{ 0.28125f, 0.09375f },	// {P2, P1} C
+				{ 0f,       0.09375f },	// {P3, P2} R
+				{ 0f,       0f },		// {P4, P3} Lss
+				{ 0.03125f, 0f },		// {P5, P8} Rss
+				{ 0.03125f, 0.09375f },	// {P6, P5} Lsr
+				{ 0f,		0.09375f },	// {P7, P6} Rsr
+				{ 0f,       0f }		// {P8, P7} LFE
 			};
 
 			Assert.IsTrue(AreEqual(_directionMapper.ChannelMatrix, expected, Tolerance));

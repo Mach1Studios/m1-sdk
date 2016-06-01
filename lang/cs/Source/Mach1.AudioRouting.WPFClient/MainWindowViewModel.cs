@@ -82,41 +82,41 @@ namespace Mach1.AudioRouting.WPFClient
 			}
 		}
 
-		public double HorizontalAngle
+		public double YawAngle
 		{
-			get { return _horizontalAngle; }
+			get { return _yawAngle; }
 			set
 			{
-				if (SetProperty(ref _horizontalAngle, value))
+				if (SetProperty(ref _yawAngle, value))
 				{
 					Dispatcher.CurrentDispatcher.InvokeAsync(
-						async () => _audioProcessor.SetHorizontalAngle(value));
+						async () => _audioProcessor.SetYawAngle(value));
 				}
 			}
 		}
 
-		public double VerticalAngle
+		public double PitchAngle
 		{
-			get { return _verticalAngle; }
+			get { return _pitchAngle; }
 			set
 			{
-				if (SetProperty(ref _verticalAngle, value))
+				if (SetProperty(ref _pitchAngle, value))
 				{
 					Dispatcher.CurrentDispatcher.InvokeAsync(
-						async () => _audioProcessor.SetVerticalAngle(value));
+						async () => _audioProcessor.SetPitchAngle(value));
 				}
 			}
 		}
 
-		public double TiltAngle
+		public double RollAngle
 		{
-			get { return _tiltAngle; }
+			get { return _rollAngle; }
 			set
 			{
-				if (SetProperty(ref _tiltAngle, value))
+				if (SetProperty(ref _rollAngle, value))
 				{
 					Dispatcher.CurrentDispatcher.InvokeAsync(
-						async () => _audioProcessor.SetTiltAngle(value));
+						async () => _audioProcessor.SetRollAngle(value));
 				}
 			}
 		}
@@ -131,9 +131,9 @@ namespace Mach1.AudioRouting.WPFClient
 		private string _orientationXMLFilename;
 		private double _masterVolume = 1;
 		private double _omniVolume = 1;
-		private double _horizontalAngle;
-		private double _verticalAngle;
-		private double _tiltAngle;
+		private double _yawAngle;
+		private double _pitchAngle;
+		private double _rollAngle;
 		private readonly DispatcherTimer _timer = new DispatcherTimer();
 		private OrientationList _orientationList;
 		private int _currentOrientationIndex;
@@ -225,8 +225,8 @@ namespace Mach1.AudioRouting.WPFClient
 		{
 			_timer.Stop();
 			Orientation orientation = _orientationList.Orientations[_currentOrientationIndex];
-			HorizontalAngle = orientation.Horizontal;
-			VerticalAngle = orientation.Vertical;
+			YawAngle = orientation.Horizontal;
+			PitchAngle = orientation.Vertical;
 			_currentOrientationIndex++;
 			if (orientation.Duration > 0 && _currentOrientationIndex < _orientationList.Orientations.Count)
 			{

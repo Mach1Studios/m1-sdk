@@ -33,9 +33,9 @@ namespace Mach1.AudioRouting.DirectionToChannelsMapping
 			}
 		}
 
-		public abstract void ApplyHorizontalAngle(float angle);
+		public abstract void ApplyYawAngle(float angle);
 
-		public abstract void ApplyVerticalAngle(float angle);
+		public abstract void ApplyPitchAngle(float angle);
 
 		public void ShowDebugInfo()
 		{

@@ -75,8 +75,8 @@ namespace Mach1.AudioRouting
 			{
 				_directionToPairsVolumeMapper = DirectionToPairsVolumeMapper
 					.CreateMapper(_mixer);
-				_directionToPairsVolumeMapper.ApplyVerticalAngle(_verticalAngle);
-				_directionToPairsVolumeMapper.ApplyHorizontalAngle(_horizontalAngle);
+				_directionToPairsVolumeMapper.ApplyPitchAngle(_verticalAngle);
+				_directionToPairsVolumeMapper.ApplyYawAngle(_horizontalAngle);
 			}
 			_masterPeakMeter = new PeakMeter(_mixer);
 			_masterPeakMeter.Interval = 50;
@@ -112,8 +112,8 @@ namespace Mach1.AudioRouting
 			var source = waveSource.AppendSource(
 				s => new DmoChannelResampler(s, matrix), out _channelResampler);
 			_directionToChannelsMapper = DirectionToChannelsMapper.CreateMapper(_channelResampler);
-			_directionToChannelsMapper.ApplyHorizontalAngle(_horizontalAngle);
-			_directionToChannelsMapper.ApplyVerticalAngle(_verticalAngle);
+			_directionToChannelsMapper.ApplyYawAngle(_horizontalAngle);
+			_directionToChannelsMapper.ApplyPitchAngle(_verticalAngle);
 			return source;
 		}
 
@@ -189,12 +189,12 @@ namespace Mach1.AudioRouting
 			_mixer.OmniVolume = _omniVolume;
 		}
 
-		public void SetHorizontalAngle(double angle)
+		public void SetYawAngle(double angle)
 		{
 			_horizontalAngle = (float)angle;
 			if (_multiInputType == MultiInputType.SingleFile)
 			{
-				_directionToChannelsMapper?.ApplyHorizontalAngle(_horizontalAngle);
+				_directionToChannelsMapper?.ApplyYawAngle(_horizontalAngle);
 				if (DebugModeEnabled)
 				{
 					_directionToChannelsMapper?.ShowDebugInfo();
@@ -202,7 +202,7 @@ namespace Mach1.AudioRouting
 			}
 			else if (_multiInputType == MultiInputType.MultipleFiles)
 			{
-				_directionToPairsVolumeMapper?.ApplyHorizontalAngle(_horizontalAngle);
+				_directionToPairsVolumeMapper?.ApplyYawAngle(_horizontalAngle);
 				if (DebugModeEnabled)
 				{
 					_mixer.ShowDebugInfo();
@@ -210,12 +210,12 @@ namespace Mach1.AudioRouting
 			}
 		}
 
-		public void SetVerticalAngle(double angle)
+		public void SetPitchAngle(double angle)
 		{
 			_verticalAngle = (float)angle;
 			if (_multiInputType == MultiInputType.SingleFile)
 			{
-				_directionToChannelsMapper?.ApplyVerticalAngle(_verticalAngle);
+				_directionToChannelsMapper?.ApplyPitchAngle(_verticalAngle);
 				if (DebugModeEnabled)
 				{
 					_directionToChannelsMapper?.ShowDebugInfo();
@@ -223,7 +223,7 @@ namespace Mach1.AudioRouting
 			}
 			else if (_multiInputType == MultiInputType.MultipleFiles)
 			{
-				_directionToPairsVolumeMapper?.ApplyVerticalAngle(_verticalAngle);
+				_directionToPairsVolumeMapper?.ApplyPitchAngle(_verticalAngle);
 				if (DebugModeEnabled)
 				{
 					_mixer.ShowDebugInfo();
@@ -231,12 +231,12 @@ namespace Mach1.AudioRouting
 			}
 		}
 
-		public void SetTiltAngle(double angle)
+		public void SetRollAngle(double angle)
 		{
 			if (_multiInputType == MultiInputType.SingleFile 
 				&& _directionToChannelsMapper is DirectionToSevenOneMapper)
 			{
-				((DirectionToSevenOneMapper)_directionToChannelsMapper).ApplyTiltAngle((float)angle);
+				((DirectionToSevenOneMapper)_directionToChannelsMapper).ApplyRollAngle((float)angle);
 				if (DebugModeEnabled)
 				{
 					_directionToChannelsMapper.ShowDebugInfo();

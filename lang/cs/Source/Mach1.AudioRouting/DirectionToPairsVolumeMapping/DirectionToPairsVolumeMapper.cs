@@ -25,8 +25,8 @@ namespace Mach1.AudioRouting.DirectionToPairsVolumeMapping
 			throw new ArgumentException(nameof(mixer));
 		}
 
-		public abstract void ApplyHorizontalAngle(float angle);
+		public abstract void ApplyYawAngle(float angle);
 
-		public abstract void ApplyVerticalAngle(float angle);
+		public abstract void ApplyPitchAngle(float angle);
 	}
 }

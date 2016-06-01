@@ -9,7 +9,7 @@ namespace Mach1.AudioRouting.DirectionToPairsVolumeMapping
 		{
 		}
 
-		public override void ApplyHorizontalAngle(float angle)
+		public override void ApplyYawAngle(float angle)
 		{
 			Mixer.MultiVolumes[0] = 1f - Math.Min(1f, Math.Min(360f - angle, angle) / 90f);
 			Mixer.MultiVolumes[1] = 1f - Math.Min(1f, Math.Abs(90f - angle) / 90f);
@@ -17,7 +17,7 @@ namespace Mach1.AudioRouting.DirectionToPairsVolumeMapping
 			Mixer.MultiVolumes[3] = 1f - Math.Min(1f, Math.Abs(270f - angle) / 90f);
 		}
 
-		public override void ApplyVerticalAngle(float angle)
+		public override void ApplyPitchAngle(float angle)
 		{
 			// Nothing to do
 		}

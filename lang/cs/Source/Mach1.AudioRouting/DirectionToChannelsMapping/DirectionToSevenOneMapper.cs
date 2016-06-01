@@ -15,19 +15,19 @@ namespace Mach1.AudioRouting.DirectionToChannelsMapping
 			_coefficients = new List<float> {0, 0, 0, 0, 0, 0, 0, 0};
 		}
 
-		public override void ApplyHorizontalAngle(float angle)
+		public override void ApplyYawAngle(float angle)
 		{
 			_horizontalAngle = angle;
 			ApplyAngles();
 		}
 
-		public override void ApplyVerticalAngle(float angle)
+		public override void ApplyPitchAngle(float angle)
 		{
 			_verticalAngle = angle;
 			ApplyAngles();
 		}
 
-		public void ApplyTiltAngle(float angle)
+		public void ApplyRollAngle(float angle)
 		{
 			_tiltAngle = angle;
 			ApplyAngles();
@@ -53,14 +53,14 @@ namespace Mach1.AudioRouting.DirectionToChannelsMapping
 			float tiltLCoeff = 2f - tiltRCoeff;
 			_channelMatrix = new [,]
 				{
-					{ tiltRCoeff * _coefficients[0], _coefficients[3] * tiltLCoeff },	// {P1, P4} L Front
-					{ tiltRCoeff * _coefficients[2], _coefficients[1] * tiltLCoeff },	// {P3, P2} R Front
-					{ tiltRCoeff * _coefficients[1], _coefficients[0] * tiltLCoeff },	// {P2, P1} Center
-					{ tiltLCoeff * _coefficients[7], _coefficients[6] * tiltRCoeff },	// {P8, P7} Low Freq
-					{ tiltRCoeff * _coefficients[3], _coefficients[2] * tiltLCoeff },	// {P4, P3} L Side
-					{ tiltLCoeff * _coefficients[4], _coefficients[7] * tiltRCoeff },	// {P5, P8} R Side
-					{ tiltLCoeff * _coefficients[5], _coefficients[4] * tiltRCoeff },	// {P6, P5} L Rear
-					{ tiltLCoeff * _coefficients[6], _coefficients[5] * tiltRCoeff }	// {P7, P6} R Rear
+					{ tiltRCoeff * _coefficients[0], _coefficients[3] * tiltLCoeff },	// {P1, P4} L
+					{ tiltRCoeff * _coefficients[1], _coefficients[0] * tiltLCoeff },	// {P2, P1} C
+					{ tiltRCoeff * _coefficients[2], _coefficients[1] * tiltLCoeff },	// {P3, P2} R
+					{ tiltRCoeff * _coefficients[3], _coefficients[2] * tiltLCoeff },	// {P4, P3} Lss
+					{ tiltLCoeff * _coefficients[4], _coefficients[7] * tiltRCoeff },	// {P5, P8} Rss
+					{ tiltLCoeff * _coefficients[5], _coefficients[4] * tiltRCoeff },	// {P6, P5} Lsr
+					{ tiltLCoeff * _coefficients[6], _coefficients[5] * tiltRCoeff },	// {P7, P6} Rsr
+					{ tiltLCoeff * _coefficients[7], _coefficients[6] * tiltRCoeff }	// {P8, P7} LFE
 				};
 			if (CSCoreAudioProcessor.DebugModeEnabled)
 			{

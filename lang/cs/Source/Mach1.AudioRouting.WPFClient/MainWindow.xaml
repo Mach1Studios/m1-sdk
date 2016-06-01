@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Mach1.AudioRouting.WPFClient"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:hammer="clr-namespace:Hammer.SpinningWheel;assembly=Hammer.SpinningWheel"
+        xmlns:helix="http://helix-toolkit.org/wpf"
         mc:Ignorable="d"
         Title="M1 Routing "
         SizeToContent="WidthAndHeight"
@@ -83,26 +84,26 @@
                     Value="Center" />
 
         </Style>
-        
+
         <Style TargetType="hammer:SpinningWheel"
                BasedOn="{StaticResource {x:Type hammer:SpinningWheel}}">
-            
+
             <Setter Property="Margin"
-                    Value="5,0"/>
-            
+                    Value="5,0" />
+
             <Setter Property="VerticalAlignment"
-                    Value="Center"/>
-            
+                    Value="Center" />
+
             <Setter Property="CircleColor"
-                    Value="CornflowerBlue"/>
+                    Value="CornflowerBlue" />
 
             <Setter Property="RenderTransform">
                 <Setter.Value>
                     <ScaleTransform ScaleY="0.3"
-                                    ScaleX="0.3"/>
+                                    ScaleX="0.3" />
                 </Setter.Value>
             </Setter>
-            
+
         </Style>
 
     </Window.Resources>
@@ -161,7 +162,7 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Text="{Binding Header}"
@@ -186,7 +187,7 @@
                                 </StackPanel>
 
                                 <hammer:SpinningWheel Grid.Column="2"
-                                                      Visibility="{Binding IsLoading, Converter={StaticResource TrueToVisibleConverter}}"/>
+                                                      Visibility="{Binding IsLoading, Converter={StaticResource TrueToVisibleConverter}}" />
 
                             </Grid>
                         </DataTemplate>
@@ -208,9 +209,9 @@
 
                         <Button Content="Stop"
                                 Command="{Binding StopCommand}" />
-                        
+
                         <Button Content="Clear"
-                                Command="{Binding ClearMultiFilesCommand}"/>
+                                Command="{Binding ClearMultiFilesCommand}" />
 
                     </StackPanel>
 
@@ -251,7 +252,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -260,8 +261,8 @@
 
                     <TextBlock Text="M/St Omni"
                                Grid.Column="0"
-                               Grid.Row="0" 
-                               MinWidth="75"/>
+                               Grid.Row="0"
+                               MinWidth="75" />
 
                     <StackPanel Grid.Column="1"
                                 Grid.Row="0"
@@ -274,10 +275,10 @@
                                 Command="{Binding ClearOmniFileCommand}" />
 
                     </StackPanel>
-                    
+
                     <hammer:SpinningWheel Grid.Column="2"
                                           Grid.Row="0"
-                                          Visibility="{Binding IsOmniFileLoading, Converter={StaticResource TrueToVisibleConverter}}"/>
+                                          Visibility="{Binding IsOmniFileLoading, Converter={StaticResource TrueToVisibleConverter}}" />
 
                     <TextBlock Text="Current file:"
                                Grid.Column="0"
@@ -469,136 +470,115 @@
             <Grid Grid.Row="0"
                   Grid.Column="0"
                   Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0"
-                      Grid.Column="0"
-                      Grid.ColumnSpan="2">
+                <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="Roll" />
-
-                    <Slider Grid.Column="2"
-                            Grid.Row="0"
-                            Minimum="-90"
-                            Maximum="90"
-                            Value="{Binding TiltAngle, Mode=TwoWay}" />
-
-                    <TextBox Grid.Column="1"
-                             Text="{Binding TiltAngle, Mode=TwoWay, StringFormat=F0, UpdateSourceTrigger=PropertyChanged}" />
-
-                </Grid>
-
-                <Grid Grid.Row="1"
-                      Grid.Column="0"
-                      VerticalAlignment="Center"
-                      HorizontalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Grid.Row="0"
-                               Grid.Column="1"
-                               Text="0"
-                               HorizontalAlignment="Center" />
-
-                    <TextBlock Grid.Row="1"
-                               Grid.Column="2"
-                               Text="90"
-                               VerticalAlignment="Center" />
-
-                    <TextBlock Grid.Row="2"
-                               Grid.Column="1"
-                               Text="180"
-                               HorizontalAlignment="Center" />
-
-                    <TextBlock Grid.Row="1"
-                               Grid.Column="0"
-                               Text="270"
-                               VerticalAlignment="Center" />
-
-                    <Grid Grid.Column="1"
-                          Grid.Row="1"
-                          Width="200"
-                          Height="200">
-
-                        <Border CornerRadius="100"
-                                Background="LightSteelBlue" />
-
-                        <Border VerticalAlignment="Center"
-                                HorizontalAlignment="Center"
-                                Height="100"
-                                Width="2"
-                                Background="Red"
-                                Margin="0,-100,0,0"
-                                RenderTransformOrigin="0,1">
-                            <Border.RenderTransform>
-                                <RotateTransform Angle="{Binding HorizontalAngle}" />
-                            </Border.RenderTransform>
-                        </Border>
-
-                        <TextBox Text="{Binding HorizontalAngle, Mode=TwoWay, StringFormat=F0, UpdateSourceTrigger=PropertyChanged}" />
-
-                    </Grid>
-
-                </Grid>
-
-                <Grid Grid.Row="2"
-                      Grid.Column="0">
-                    <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="Yaw" />
+                    <TextBlock Text="Roll"
+                               Width="30" />
 
-                    <Slider Grid.Column="1"
-                            Minimum="0"
-                            Maximum="360"
-                            Value="{Binding HorizontalAngle, Mode=TwoWay}" />
+                    <TextBox Grid.Column="1"
+                             Text="{Binding RollAngle, Mode=TwoWay, StringFormat=F0, UpdateSourceTrigger=PropertyChanged}" />
 
-                </Grid>
-                
-                <Grid Grid.Row="1"
-                      Grid.Column="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Grid.Row="0"
-                               Text="Pitch"
-                               HorizontalAlignment="Right"/>
-
-                    <TextBox Grid.Row="1"
-                             Text="{Binding VerticalAngle, Mode=TwoWay, StringFormat=F0, UpdateSourceTrigger=PropertyChanged}" />
-
-                    <Slider Grid.Row="2"
-                            HorizontalAlignment="Center"
-                            Orientation="Vertical"
+                    <Slider Grid.Column="2"
                             Minimum="-90"
                             Maximum="90"
-                            Value="{Binding VerticalAngle, Mode=TwoWay}" />
+                            Value="{Binding RollAngle, Mode=TwoWay}" />
+
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0"
+                               Text="Pitch"
+                               Width="30" />
+
+                    <TextBox Grid.Column="1"
+                             Text="{Binding PitchAngle, Mode=TwoWay, StringFormat=F0, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <Slider Grid.Column="2"
+                            Minimum="-90"
+                            Maximum="90"
+                            Value="{Binding PitchAngle, Mode=TwoWay}" />
+
+                </Grid>
+
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Yaw"
+                               Width="30" />
+
+                    <TextBox Grid.Column="1"
+                             Text="{Binding YawAngle, Mode=TwoWay, StringFormat=F0, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <Slider Grid.Column="2"
+                            Minimum="0"
+                            Maximum="360"
+                            Value="{Binding YawAngle, Mode=TwoWay}" />
+
+                </Grid>
+
+                <Grid Grid.Row="3"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center"
+                      Width="300"
+                      Height="300">
+
+                    <helix:HelixViewport3D>
+
+                        <helix:DefaultLights />
+
+                        <helix:GridLinesVisual3D Thickness="0.1" />
+
+                        <helix:CombinedManipulator>
+                            <helix:CombinedManipulator.Transform>
+                                <Transform3DGroup>
+                                    <ScaleTransform3D ScaleX="5"
+                                                      ScaleY="5"
+                                                      ScaleZ="5" />
+                                    <RotateTransform3D>
+                                        <RotateTransform3D.Rotation>
+                                            <AxisAngleRotation3D Angle="{Binding RollAngle}"
+                                                                 Axis="-1,0,0" />
+                                        </RotateTransform3D.Rotation>
+                                    </RotateTransform3D>
+                                    <RotateTransform3D>
+                                        <RotateTransform3D.Rotation>
+                                            <AxisAngleRotation3D Angle="{Binding PitchAngle}"
+                                                                 Axis="0,-1,0" />
+                                        </RotateTransform3D.Rotation>
+                                    </RotateTransform3D>
+                                    <RotateTransform3D>
+                                        <RotateTransform3D.Rotation>
+                                            <AxisAngleRotation3D Angle="{Binding YawAngle}"
+                                                                 Axis="0,0,-1" />
+                                        </RotateTransform3D.Rotation>
+                                    </RotateTransform3D>
+                                </Transform3DGroup>
+                            </helix:CombinedManipulator.Transform>
+                        </helix:CombinedManipulator>
+
+                    </helix:HelixViewport3D>
 
                 </Grid>
 

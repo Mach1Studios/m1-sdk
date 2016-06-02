@@ -550,12 +550,25 @@
 
                         <helix:GridLinesVisual3D Thickness="0.1" />
 
-                        <helix:CombinedManipulator>
-                            <helix:CombinedManipulator.Transform>
+                        <helix:FileModelVisual3D Source="Face/face.obj">
+                            <helix:FileModelVisual3D.Transform>
                                 <Transform3DGroup>
-                                    <ScaleTransform3D ScaleX="5"
-                                                      ScaleY="5"
-                                                      ScaleZ="5" />
+                                    <TranslateTransform3D OffsetY="-10"/>
+                                    <ScaleTransform3D ScaleY="0.6"
+                                                      ScaleX="0.6"
+                                                      ScaleZ="0.6"/>
+                                    <RotateTransform3D>
+                                        <RotateTransform3D.Rotation>
+                                            <AxisAngleRotation3D Angle="90"
+                                                                 Axis="1,0,0"/>
+                                        </RotateTransform3D.Rotation>
+                                    </RotateTransform3D>
+                                    <RotateTransform3D>
+                                        <RotateTransform3D.Rotation>
+                                            <AxisAngleRotation3D Angle="90"
+                                                                 Axis="0,0,1"/>
+                                        </RotateTransform3D.Rotation>
+                                    </RotateTransform3D>
                                     <RotateTransform3D>
                                         <RotateTransform3D.Rotation>
                                             <AxisAngleRotation3D Angle="{Binding RollAngle}"
@@ -575,8 +588,8 @@
                                         </RotateTransform3D.Rotation>
                                     </RotateTransform3D>
                                 </Transform3DGroup>
-                            </helix:CombinedManipulator.Transform>
-                        </helix:CombinedManipulator>
+                            </helix:FileModelVisual3D.Transform>
+                        </helix:FileModelVisual3D>
 
                     </helix:HelixViewport3D>
 
@@ -587,6 +600,54 @@
         </Grid>
     </Grid>
 </Window>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

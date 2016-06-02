@@ -62,6 +62,7 @@ namespace Mach1.AudioRouting.DirectionToChannelsMapping
 					{ tiltLCoeff * _coefficients[6], _coefficients[5] * tiltRCoeff },	// {P7, P6} Rsr
 					{ tiltLCoeff * _coefficients[7], _coefficients[6] * tiltRCoeff }	// {P8, P7} LFE
 				};
+			_channelMatrix = NormalizeMatrix(_channelMatrix);
 			if (CSCoreAudioProcessor.DebugModeEnabled)
 			{
 				DebugOutput.ShowChannelMatrix(_channelMatrix);
@@ -74,6 +75,25 @@ namespace Mach1.AudioRouting.DirectionToChannelsMapping
 			catch
 			{
 			}
+		}
+
+		private float[,] NormalizeMatrix(float[,] matrix)
+		{
+			float sumL = 0;
+			float sumR = 0;
+			for (int i = 0; i < matrix.GetLength(0); i++)
+			{
+				sumL += matrix[i, 0];
+				sumR += matrix[i, 1];
+			}
+			float scalerL = 1.0f / sumL;
+			float scalerR = 1.0f / sumR;
+			for (int i = 0; i < matrix.GetLength(0); i++)
+			{
+				matrix[i, 0] *= scalerL;
+				matrix[i, 1] *= scalerR;
+			}
+			return matrix;
 		}
 	}
 }

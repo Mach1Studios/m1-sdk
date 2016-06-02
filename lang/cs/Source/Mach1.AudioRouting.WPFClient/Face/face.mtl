@@ -1,0 +1,22 @@
+newmtl blinn1SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd iris.jpg
+Ni 1.00
+Ks 0.17 0.17 0.17
+newmtl lambert5SG
+illum 4
+Kd 0.76 0.65 0.45
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+newmtl phong1SG
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 0.00 0.00 0.00
+Ni 1.00
+Ks 0.64 0.64 0.64
+Ns 40.21

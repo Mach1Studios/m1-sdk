@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Windows;
+using HelixToolkit.Wpf;
 
 namespace Mach1.AudioRouting.WPFClient
 {

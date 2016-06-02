@@ -195,7 +195,7 @@ namespace Mach1.AudioRouting
 			if (_multiInputType == MultiInputType.SingleFile)
 			{
 				_directionToChannelsMapper?.ApplyYawAngle(_horizontalAngle);
-				if (DebugModeEnabled)
+				if (DebugModeEnabled && !(_directionToChannelsMapper is DirectionToSevenOneMapper))
 				{
 					_directionToChannelsMapper?.ShowDebugInfo();
 				}

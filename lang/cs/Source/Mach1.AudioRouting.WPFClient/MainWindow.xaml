@@ -550,13 +550,13 @@
 
                         <helix:GridLinesVisual3D Thickness="0.1" />
 
-                        <helix:FileModelVisual3D Source="Face/face.obj">
+                        <helix:FileModelVisual3D Source="Face\Basehead.obj">
                             <helix:FileModelVisual3D.Transform>
                                 <Transform3DGroup>
-                                    <TranslateTransform3D OffsetY="-10"/>
-                                    <ScaleTransform3D ScaleY="0.6"
-                                                      ScaleX="0.6"
-                                                      ScaleZ="0.6"/>
+                                    <TranslateTransform3D OffsetY="0.5"/>
+                                    <ScaleTransform3D ScaleY="1"
+                                                      ScaleX="1"
+                                                      ScaleZ="1"/>
                                     <RotateTransform3D>
                                         <RotateTransform3D.Rotation>
                                             <AxisAngleRotation3D Angle="90"

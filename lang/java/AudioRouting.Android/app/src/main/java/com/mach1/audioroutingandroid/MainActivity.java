@@ -14,6 +14,8 @@ import java.io.DataInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 class PlayFilesTask extends AsyncTask<Void, Void, Void> {
 
@@ -32,43 +34,46 @@ class PlayFilesTask extends AsyncTask<Void, Void, Void> {
                 AudioFormat.ENCODING_PCM_16BIT);
         int bufferSize = 512;
         DataInputStream[] inputStreams = new DataInputStream[8];
-        AudioTrack[] audioTracks = new AudioTrack[8];
+        AudioTrack audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 44100,
+                AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT, minBufferSize,
+                AudioTrack.MODE_STREAM);
         byte[][] buffers = new byte[8][];
         int[] positions = new int[8];
+        ByteBuffer outputBuffer = ByteBuffer.allocate(bufferSize);
+        outputBuffer.order(ByteOrder.LITTLE_ENDIAN);
         for (int i = 0; i < 8; i++) {
             positions[i] = 0;
             buffers[i] = new byte[bufferSize];
-            audioTracks[i] = new AudioTrack(AudioManager.STREAM_MUSIC, 44100,
-                    AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT, minBufferSize,
-                    AudioTrack.MODE_STREAM);
             inputStreams[i] = new DataInputStream(_resources[i]);
         }
+        audioTrack.play();
         try {
-            for (int i = 0; i < 8; i++){
-                audioTracks[i].play();
-            }
             boolean trackFinished = false;
             do {
+                short[] values = new short[bufferSize];
                 for (int i = 0; i < 8; i++){
                     if((positions[i] = inputStreams[i].read(buffers[i], 0, bufferSize)) > 1){
-                        for (int j = 0; j < bufferSize; j++){
-                            buffers[i][j] *= _levels[i];
+                        for (int j = 0; j < bufferSize; j+=2){
+                            outputBuffer.put(j, buffers[i][j]);
+                            outputBuffer.put(j+1, buffers[i][j+1]);
+                            short value = outputBuffer.getShort(j);
+                            value *= _levels[i];
+                            values[j] += value;
+                            outputBuffer.putShort(j, values[j]);
                         }
-                        audioTracks[i].write(buffers[i], 0, positions[i]);
                     } else {
                         trackFinished = true;
                         break;
                     }
                 }
-            } while(trackFinished == false);
+                audioTrack.write(outputBuffer.array(), 0, positions[0]);
+            } while(!trackFinished);
+            audioTrack.stop();
+            audioTrack.release();
             for (int i = 0; i < 8; i++){
-                audioTracks[i].stop();
-                audioTracks[i].release();
                 inputStreams[i].close();
                 _resources[i].close();
             }
-        } catch (FileNotFoundException e){
-            e.printStackTrace();
         } catch (IOException e){
             e.printStackTrace();
         }

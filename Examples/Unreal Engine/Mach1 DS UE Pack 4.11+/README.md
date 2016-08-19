@@ -9,7 +9,7 @@ Please move the 'DirectionalSoundBlueprint' folder named as is into the root of 
 
 After initial import you may move the folder form within Unreal Engine (otherwise the componenets and actors will not link correctly).
 
-Actors will automatically locate and snap to the camera in the project.
+Actors will automatically locate and snap to the camera in the project. If the project does not have a camera component simply add one to the pawn/character in the project. 
 
 #CHANGELOG#
 

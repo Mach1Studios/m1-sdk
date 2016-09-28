@@ -2,6 +2,8 @@
 #ifndef BaseAudioTest_h
 #define BaseAudioTest_h
 
+#include "M1DSPAlgorithms.h"
+
 class BaseAudioTest {
 public:
     BaseAudioTest() {

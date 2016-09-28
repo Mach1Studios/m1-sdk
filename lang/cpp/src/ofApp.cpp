@@ -2,17 +2,21 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    
+    ofSetDataPathRoot("../Resources/");
+    
     logo.load("logo.png");
     
-    tests.push_back(new FourChannelTest());
-    tests.push_back(new FourPairTest());
-    tests.push_back(new EightChannelTest());
-    tests.push_back(new ThreeChannelTest());
-    tests.push_back(new SixChannelTest());
+    watermark.init("m1mark.png", "b2318ada53073a1eac0b20560718d58e");
     
+    //hardcode controller input if available
+    serial.setup("/dev/cu.Mach1-02-DevB", 115200);
+    
+    tests.push_back(new AudioOne());
+    tests.push_back(new AudioTwo());
+
     angleX = 0;
     updateSimulationAngles();
-    
     
     // Visualising setup
     
@@ -41,6 +45,39 @@ void ofApp::updateSimulationAngles() {
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    
+    if (serial.available()) {
+        if (queueBuffer.size() > 0) {
+            queueBuffer.clear();
+        }
+        vector<unsigned char> inputs;
+        while (serial.available() > 0) {
+            unsigned char i = serial.readByte();
+            inputs.push_back(i);
+        }
+        for (int i = 0; i < inputs.size(); i++) {
+            queueBuffer.insert(queueBuffer.begin() + i, (int)inputs[i]);
+        }
+    }
+    
+    vector<unsigned char> queueBackupDebug = queueBuffer;
+    while (queueBuffer.size() > 4) {
+        
+        
+        int Y, P;
+        
+        if (getNewDataFromQueue(Y, P)) {
+            
+            lastY = Y;
+            lastP = P;
+            
+        }
+        
+    }
+    
+    // angle handler//
+    if (angleZ)
+    
     pointLight.setPosition((ofGetWidth()*.5)+ cos(ofGetElapsedTimef()*.15)*(ofGetWidth()*.3), ofGetHeight()/2, 500);
     pointLight2.setPosition((ofGetWidth()*.5)+ cos(ofGetElapsedTimef()*.015)*(ofGetWidth()*.3),
                             ofGetHeight()*.5 + sin(ofGetElapsedTimef()*.07)*(ofGetHeight()), -300);
@@ -58,15 +95,25 @@ void ofApp::update(){
         i->angleX = angleX;
         i->angleY = angleY;
         i->angleZ = angleZ;
+        
+        float pitchAngle = mmap(lastP, 0, 360, 180.0, -180.0, true);
+        float pitchAngleClamp = ofClamp(pitchAngle, -90.0, 90.0);
+
+        serialAngleUpdate(lastY, pitchAngleClamp);
     }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    
     ofEnableDepthTest();
     
     ofBackground(0);
     
+    watermark.draw(); // watermark also inherits ofImage
+    //ofDrawBitmapStringHighlight("Y : " + ofToString(lastY), 20, 40);
+    //ofDrawBitmapStringHighlight("P : " + ofToString(pitchAngle), 20, 60);
+
     float arg = (float)ofGetMouseX() / (float)ofGetWidth();
     float time = ofGetElapsedTimef() * 12;
     
@@ -89,8 +136,6 @@ void ofApp::draw(){
             ofLine(i * 100, -100 * lCount, i * 100, 100 * lCount);
             ofLine( -100 * lCount, i * 100, 100 * lCount, i * 100);
         }
-    
-    
     
         // Drawing axis
     
@@ -179,11 +224,11 @@ void ofApp::draw(){
     ImGui::Begin("M1 SDK Tests", &aWindow, window_flags);
     
         ImGui::Text("Select source");
-        const char* source_options[] = { "4 channel", "4 pairs", "8 channels", "3 channels", "6 channels"};
+        const char* source_options[] = {"Sideload #1", "Sideload #2"};
         
         ImGui::PushItemWidth(-1);
-        ImGui::ListBox("##", &selectedTest, source_options, 5, 5);
-
+        ImGui::ListBox("##", &selectedTest, source_options, 2, 2);
+    
         ImGui::Text("Angles:");
         bool angleChanged = false;
         angleChanged += (ImGui::SliderFloat("", &angleY, 0, 360, "Y / Yaw: %.0f deg"));
@@ -202,7 +247,14 @@ void ofApp::draw(){
     //
     
     tests[selectedTest]->drawOverlay();
+    
+}
 
+//--------------------------------------------------------------
+void ofApp::serialAngleUpdate(float serialY, float serialP){
+    angleY = mmap(serialY, 0., 360., 0., 360., true);
+    angleX = serialP;
+    updateSimulationAngles();
 }
 
 //--------------------------------------------------------------
@@ -229,10 +281,10 @@ void ofApp::mouseDragged(int x, int y, int button){
     if (dragginCamera) {
         spectatorCam.x = -ofWrap(spectatorCamStart.x + delta.x, 0., 1.);
         spectatorCam.y = ofClamp(spectatorCamStart.y + delta.y, 0., 1.);
-    } else {
-        angleY = ofClamp(delta.x * 500 + anglesDragStart.y, 0, 360);
-        angleX = ofClamp(delta.y * 500 + anglesDragStart.x, 0, 180);
-        updateSimulationAngles();
+//    } else {
+//        angleY = ofClamp(delta.x * 500 + anglesDragStart.y, 0, 360);
+//        angleX = ofClamp(delta.y * 500 + anglesDragStart.x, -90, 90);
+//        updateSimulationAngles();
     }
 }
 

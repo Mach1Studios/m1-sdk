@@ -10,7 +10,22 @@ void ofApp::setup(){
     watermark.init("m1mark.png", "b2318ada53073a1eac0b20560718d58e");
     
     //hardcode controller input if available
-    serial.setup("/dev/cu.Mach1-02-DevB", 115200);
+    //serial.setup("/dev/cu.Mach1-01-DevB", 115200);
+    arduinoWatcher.arduinoFound = [&](std::string address) {
+        ofLog() << "arduino found at " << address;
+        initializedController = true;
+        serial.setup(address, 115200);
+        while(!serial.isInitialized()) {
+            
+        }
+        
+        ofLog() << "serial initialized";
+        std::string message = std::string("m1heard");
+        for (int i = 0; i < message.size(); i++) {
+            serial.writeByte(message[i]);
+        }
+        initializedController = true;
+    };
     
     tests.push_back(new AudioOne());
     tests.push_back(new AudioTwo());

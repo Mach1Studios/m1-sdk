@@ -8,7 +8,7 @@ class ArduinoWatcher: public ofThread {
 public:
     ArduinoWatcher() {
 #ifndef _WIN32
-        auto result = separateString(ofSystem("ls /dev/cu*"));
+        auto result = separateString(ofSystem("ls /dev/cu.Mach1*"));
         for (int i = 0; i < result.size(); i++) {
             ofLog() << i << " : " << result[i];
         }

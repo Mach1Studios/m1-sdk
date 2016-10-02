@@ -59,14 +59,14 @@ namespace Mach1.AudioRouting.DirectionToChannelsMapping
 			
 			_channelMatrix = new [,]
 				{
-					{ tiltRCoeff * _coefficients[0], _coefficients[3] * tiltLCoeff },	// {P1, P4} L
-					{ tiltRCoeff * _coefficients[1], _coefficients[0] * tiltLCoeff },	// {P2, P1} C
-					{ tiltRCoeff * _coefficients[2], _coefficients[1] * tiltRCoeff },	// {P3, P2} R
-					{ tiltRCoeff * _coefficients[3], _coefficients[2] * tiltRCoeff },	// {P4, P3} Lss
-					{ tiltLCoeff * _coefficients[4], _coefficients[7] * tiltRCoeff },	// {P5, P8} Rss
-					{ tiltLCoeff * _coefficients[5], _coefficients[4] * tiltRCoeff },	// {P6, P5} Lsr
-					{ tiltLCoeff * _coefficients[6], _coefficients[5] * tiltLCoeff },	// {P7, P6} Rsr
-					{ tiltLCoeff * _coefficients[7], _coefficients[6] * tiltLCoeff }	// {P8, P7} LFE
+					{ tiltLCoeff * _coefficients[0], _coefficients[3] * tiltRCoeff },	// {P1, P4} L
+					{ tiltLCoeff * _coefficients[1], _coefficients[0] * tiltRCoeff },	// {P2, P1} C
+					{ tiltRCoeff * _coefficients[2], _coefficients[1] * tiltLCoeff },	// {P3, P2} R
+					{ tiltRCoeff * _coefficients[3], _coefficients[2] * tiltLCoeff },	// {P4, P3} Lss
+					{ tiltRCoeff * _coefficients[4], _coefficients[7] * tiltLCoeff },	// {P5, P8} Rss
+					{ tiltRCoeff * _coefficients[5], _coefficients[4] * tiltLCoeff },	// {P6, P5} Lsr
+					{ tiltLCoeff * _coefficients[6], _coefficients[5] * tiltRCoeff },	// {P7, P6} Rsr
+					{ tiltLCoeff * _coefficients[7], _coefficients[6] * tiltRCoeff }	// {P8, P7} LFE
 				};
 			_channelMatrix = NormalizeMatrix(_channelMatrix);
 			if (CSCoreAudioProcessor.DebugModeEnabled)

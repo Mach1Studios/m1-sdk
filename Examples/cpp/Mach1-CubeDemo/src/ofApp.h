@@ -4,7 +4,7 @@
 #include "ofxImGui.h"
 #include "ofxWatermark.h"
 
-//
+#include "ArduinoWatcher.h"
 
 #include "BaseAudioTest.h"
 #include "Audio1.h"
@@ -44,6 +44,9 @@ public:
     void updateSimulationAngles();
     
     float angleX, angleY, angleZ;
+
+    ArduinoWatcher arduinoWatcher;
+    bool initializedController = false;
     
     // Visualizing
     

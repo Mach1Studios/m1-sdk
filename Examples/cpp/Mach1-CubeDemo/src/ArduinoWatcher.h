@@ -47,6 +47,14 @@ public:
             for (int i = 0; i < search.size(); i++) {
                 if (!searchMap(search[i])) {
                     ofLog() << "found new device: " << search[i];
+                    
+                    // Temporarily:
+                    // bypass testing and just go to using this device
+                    arduinoFound(search[i]);
+                    return;
+                    
+                    //
+                    
                     serialMap[search[i]] = true;
                     testSubjects.push_back(search[i]);
                 }

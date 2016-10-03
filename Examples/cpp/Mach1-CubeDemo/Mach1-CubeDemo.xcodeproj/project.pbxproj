@@ -7,32 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		04A1B67F72E78C3C50C5D496 /* ofxOscParameterSync.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 29E5A84494A159405C658395 /* ofxOscParameterSync.cpp */; };
-		172513EF0A37F0353FBED5DF /* ofxOscMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A653A647A4568CB0DBCE3B /* ofxOscMessage.cpp */; };
-		2DD35313C3C7107B0C7B56A8 /* ofxImGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EFEED04062980FBAAA1D5E87 /* ofxImGui.cpp */; };
-		2FD33611407580C3266D3925 /* OscReceivedElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BB1A268C020202BB5F23828 /* OscReceivedElements.cpp */; };
-		44A35064D139C35523A14874 /* OscOutboundPacketStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 421391EA5EE440CC0A4D1441 /* OscOutboundPacketStream.cpp */; };
-		46CCEEF78216D36E9D5AAC05 /* ofxOscReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E666C7979E244C7F8EFB137 /* ofxOscReceiver.cpp */; };
-		4DF6D06EF91A768912825706 /* ofxJSONElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CAFF81FEBD8AA166881B1D3 /* ofxJSONElement.cpp */; };
-		60476CA392A3D532EA8F87BD /* OscPrintReceivedElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD7B132F26429378A5F4B429 /* OscPrintReceivedElements.cpp */; };
-		6E2433459FE22DF4B23DC676 /* EngineOpenGLES.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F50A60FE55AAF9ABDEB8122 /* EngineOpenGLES.cpp */; };
-		7544DCBB03C3B14AB1A6F939 /* ofxWatermark.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F9F47224A9378DEBD2C0036 /* ofxWatermark.cpp */; };
-		7B6CC54CA98C7D2C6C5DA243 /* UdpSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 862318F9181D9731B26A7D12 /* UdpSocket.cpp */; };
-		84C274DEF5A11BBA33DA5166 /* imgui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C00533E3870681E1024951C /* imgui.cpp */; };
-		85F8F48AE0B817855C887B34 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9EC053FD45B40195ECBFE7C /* jsoncpp.cpp */; };
-		8C9561053A4DDA535D723E05 /* IpEndpointName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A96D17E1350034289CF0A204 /* IpEndpointName.cpp */; };
-		8E9EFA1E7056DFCA71763C38 /* BaseTheme.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B156B9383388BC6B9DB78DDC /* BaseTheme.cpp */; };
-		9C1F6DE5B9BF766027AC522E /* EngineGLFW.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 633D9A9C072A5EA143E62BE5 /* EngineGLFW.cpp */; };
-		9C38248E00C38F3FE8A3CD48 /* OscTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8164B4532958D713015BAD1E /* OscTypes.cpp */; };
-		9FE36281A605FA2D6872B2A0 /* ofxOscSender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B05D61FE77EF8123BEB2411 /* ofxOscSender.cpp */; };
-		AF7D4C5C3CCD200B0A74A6B1 /* NetworkingUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72F099C5F33B207C4889B181 /* NetworkingUtils.cpp */; };
-		CB727100FA02D41902B85DF3 /* ofxOscBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 454FFAAECF5797C388EC4185 /* ofxOscBundle.cpp */; };
+		05D72DF734AAB1E154FF1A10 /* ofxOscReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 602C384091520C2D9744AFAB /* ofxOscReceiver.cpp */; };
+		0A1EB9651285A998372362AA /* NetworkingUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B304340E68F4B8BEB1AF2A62 /* NetworkingUtils.cpp */; };
+		2F3826A13709AF2362F9AF58 /* OscReceivedElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69F035E6B68BEA0D48B0454F /* OscReceivedElements.cpp */; };
+		32A4D934478EDC262BCAD208 /* OscPrintReceivedElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6AF85268E931EF7F4F026F6 /* OscPrintReceivedElements.cpp */; };
+		33EFFA330FBFA6C15D27CB24 /* EngineGLFW.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1885D13FCDA7BB9DA92FCE8C /* EngineGLFW.cpp */; };
+		3A875D5E3896B4FE2C2F1F49 /* imgui_demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0E60E10E5D0A6F18D76141E /* imgui_demo.cpp */; };
+		44B15FD0FDADC9330E81D72F /* IpEndpointName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28B91047A6EB9877FC2987CE /* IpEndpointName.cpp */; };
+		53DD1CEEFEA206BE8748FAE4 /* imgui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C197E6DBB38D0EC9AFF068B2 /* imgui.cpp */; };
+		5CA4A83AB278B22DF946B99B /* OscOutboundPacketStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8A80EB3A42826E52A290CC4 /* OscOutboundPacketStream.cpp */; };
+		633F3E660B4C8544D0BAB25E /* UdpSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA5B930A759078D16D174155 /* UdpSocket.cpp */; };
+		76298571FE881F3EF4BEE5B4 /* ofxOscParameterSync.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BDF6AB9BC6A16A76E891B919 /* ofxOscParameterSync.cpp */; };
+		79A20FE56E956E65BA29C576 /* ofxImGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDBC56A2C6BF16D90D2759E /* ofxImGui.cpp */; };
+		81EEA426E0D2E7EDB1BBD920 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9D2AD6CA6BE0C95940D2DB74 /* jsoncpp.cpp */; };
+		8AA8C9CAE0657C8C4D2C323C /* ofxJSONElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D374F839F5DFB1FE9E40717E /* ofxJSONElement.cpp */; };
+		959BF6248A59FCCB945471C9 /* EngineOpenGLES.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACEF4F0413902ED1E779E644 /* EngineOpenGLES.cpp */; };
+		B15F02DA745978EC37B88EE2 /* OscTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FFA44576F80A63AB2FA4EAB1 /* OscTypes.cpp */; };
+		B2923526521BA9C442B0AC57 /* BaseTheme.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 06AF63A8553AE76BB16F8B99 /* BaseTheme.cpp */; };
+		CEF7125C4492C996B2F8A143 /* ofxOscSender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0088CED5ABCB6BF5531A403B /* ofxOscSender.cpp */; };
+		CFD987AB1B8DC0DD0123DDEA /* ofxOscMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BB56EAF7F63631F0A622D8AB /* ofxOscMessage.cpp */; };
+		D524843981B1CC7E315635DC /* ofxOscBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E941BE98A50DDD4C46EE9708 /* ofxOscBundle.cpp */; };
+		DC7B4273E477EBBFA84F4E00 /* ofxWatermark.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80E295BC19E0EA2005D3D665 /* ofxWatermark.cpp */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1D0A3A1BDC003C02F2 /* main.cpp */; };
 		E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */; };
-		F0A6C03A0F835AA7D39CCB49 /* imgui_draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BB87EB8211BFDB6980D943B0 /* imgui_draw.cpp */; };
-		F6DAFC6A3FB988B4CA4B18A5 /* imgui_demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E129F2033912FDEF1B96D32 /* imgui_demo.cpp */; };
-		FFB5EB598075A190C590AD2D /* BaseEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73D957D15CA0A3BDB4680D68 /* BaseEngine.cpp */; };
+		F2767DA61FE6C0C4841FD224 /* imgui_draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B855897C33FA24DC406B7B22 /* imgui_draw.cpp */; };
+		F949C4D1448977713182C0A9 /* BaseEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDFC42327CD96A66A428E117 /* BaseEngine.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,79 +65,79 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		096BE7B32DBB810C302EB1E1 /* OscOutboundPacketStream.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscOutboundPacketStream.h; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscOutboundPacketStream.h; sourceTree = SOURCE_ROOT; };
-		0A8C5C53E90ED59044C0D964 /* imgui_internal.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = imgui_internal.h; path = ../../of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src/imgui_internal.h; sourceTree = SOURCE_ROOT; };
-		0B05D61FE77EF8123BEB2411 /* ofxOscSender.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxOscSender.cpp; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOscSender.cpp; sourceTree = SOURCE_ROOT; };
-		0C00533E3870681E1024951C /* imgui.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = imgui.cpp; path = ../../of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src/imgui.cpp; sourceTree = SOURCE_ROOT; };
-		0D1705C0583BA2428268050B /* ofxWatermark.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxWatermark.h; path = ../../of_v0.9.3_osx_release/addons/ofxWatermark/src/ofxWatermark.h; sourceTree = SOURCE_ROOT; };
-		12B66084FF2CF7E9003DD606 /* OscException.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscException.h; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscException.h; sourceTree = SOURCE_ROOT; };
-		196A69EFC3D616FADACFD751 /* Audio2.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = Audio2.h; path = src/Audio2.h; sourceTree = SOURCE_ROOT; };
-		2662086B2B70761DFB5D7899 /* EngineOpenGLES.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = EngineOpenGLES.h; path = ../../of_v0.9.3_osx_release/addons/ofxImGui/src/EngineOpenGLES.h; sourceTree = SOURCE_ROOT; };
-		27C23E72677CDA8043BF53CA /* ofxOsc.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOsc.h; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOsc.h; sourceTree = SOURCE_ROOT; };
-		288E85902148476D3B9D2D14 /* ofxJSONElement.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxJSONElement.h; path = ../../of_v0.9.3_osx_release/addons/ofxJSON/src/ofxJSONElement.h; sourceTree = SOURCE_ROOT; };
-		29E5A84494A159405C658395 /* ofxOscParameterSync.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxOscParameterSync.cpp; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOscParameterSync.cpp; sourceTree = SOURCE_ROOT; };
-		2A9EF7E195F59BA94C2E9A05 /* stb_rect_pack.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = stb_rect_pack.h; path = ../../of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src/stb_rect_pack.h; sourceTree = SOURCE_ROOT; };
-		2E129F2033912FDEF1B96D32 /* imgui_demo.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = imgui_demo.cpp; path = ../../of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src/imgui_demo.cpp; sourceTree = SOURCE_ROOT; };
-		2EEBDDEEA8CACA9051836C2E /* ofxOscParameterSync.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOscParameterSync.h; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOscParameterSync.h; sourceTree = SOURCE_ROOT; };
-		33B3BA113B38C072E7D5CF71 /* imgui.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = imgui.h; path = ../../of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src/imgui.h; sourceTree = SOURCE_ROOT; };
-		40CA31C413F7C55CEB119220 /* ofxOscMessage.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOscMessage.h; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOscMessage.h; sourceTree = SOURCE_ROOT; };
-		41F292A6FB83ABD3C05B055A /* ofxOscReceiver.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOscReceiver.h; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOscReceiver.h; sourceTree = SOURCE_ROOT; };
-		421391EA5EE440CC0A4D1441 /* OscOutboundPacketStream.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = OscOutboundPacketStream.cpp; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscOutboundPacketStream.cpp; sourceTree = SOURCE_ROOT; };
-		454FFAAECF5797C388EC4185 /* ofxOscBundle.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxOscBundle.cpp; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOscBundle.cpp; sourceTree = SOURCE_ROOT; };
-		46377CAC14742E5243EB5B51 /* imconfig.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = imconfig.h; path = ../../of_v0.9.3_osx_release/addons/ofxImGui/src/imconfig.h; sourceTree = SOURCE_ROOT; };
-		4962271C5E616A65521819EE /* TimerListener.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = TimerListener.h; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/TimerListener.h; sourceTree = SOURCE_ROOT; };
-		4F50A60FE55AAF9ABDEB8122 /* EngineOpenGLES.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = EngineOpenGLES.cpp; path = ../../of_v0.9.3_osx_release/addons/ofxImGui/src/EngineOpenGLES.cpp; sourceTree = SOURCE_ROOT; };
-		557DB0F9118FAC9C3BFC2585 /* EngineGLFW.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = EngineGLFW.h; path = ../../of_v0.9.3_osx_release/addons/ofxImGui/src/EngineGLFW.h; sourceTree = SOURCE_ROOT; };
-		5CAFF81FEBD8AA166881B1D3 /* ofxJSONElement.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxJSONElement.cpp; path = ../../of_v0.9.3_osx_release/addons/ofxJSON/src/ofxJSONElement.cpp; sourceTree = SOURCE_ROOT; };
-		5E666C7979E244C7F8EFB137 /* ofxOscReceiver.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxOscReceiver.cpp; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOscReceiver.cpp; sourceTree = SOURCE_ROOT; };
-		5FCDE4887EA292C78EE7000E /* ofxOscSender.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOscSender.h; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOscSender.h; sourceTree = SOURCE_ROOT; };
-		633D9A9C072A5EA143E62BE5 /* EngineGLFW.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = EngineGLFW.cpp; path = ../../of_v0.9.3_osx_release/addons/ofxImGui/src/EngineGLFW.cpp; sourceTree = SOURCE_ROOT; };
-		67DA93F646CBFFD4FEACE44E /* ofxJSON.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxJSON.h; path = ../../of_v0.9.3_osx_release/addons/ofxJSON/src/ofxJSON.h; sourceTree = SOURCE_ROOT; };
-		6E3F832E4EF80E030112A70D /* ThemeTest.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ThemeTest.h; path = ../../of_v0.9.3_osx_release/addons/ofxImGui/src/ThemeTest.h; sourceTree = SOURCE_ROOT; };
-		6F9F47224A9378DEBD2C0036 /* ofxWatermark.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxWatermark.cpp; path = ../../of_v0.9.3_osx_release/addons/ofxWatermark/src/ofxWatermark.cpp; sourceTree = SOURCE_ROOT; };
-		711CF3163D3F03A2490E8EB0 /* Audio1.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = Audio1.h; path = src/Audio1.h; sourceTree = SOURCE_ROOT; };
-		7149A7496264C54E3B72C6DD /* ofxImGui.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxImGui.h; path = ../../of_v0.9.3_osx_release/addons/ofxImGui/src/ofxImGui.h; sourceTree = SOURCE_ROOT; };
-		72F099C5F33B207C4889B181 /* NetworkingUtils.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = NetworkingUtils.cpp; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/posix/NetworkingUtils.cpp; sourceTree = SOURCE_ROOT; };
-		73D957D15CA0A3BDB4680D68 /* BaseEngine.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = BaseEngine.cpp; path = ../../of_v0.9.3_osx_release/addons/ofxImGui/src/BaseEngine.cpp; sourceTree = SOURCE_ROOT; };
-		8131096EF548CFAE1E67DB8D /* OscPrintReceivedElements.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscPrintReceivedElements.h; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscPrintReceivedElements.h; sourceTree = SOURCE_ROOT; };
-		8164B4532958D713015BAD1E /* OscTypes.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = OscTypes.cpp; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscTypes.cpp; sourceTree = SOURCE_ROOT; };
-		8269E5B8852E09EF3B7F3C14 /* MessageMappingOscPacketListener.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = MessageMappingOscPacketListener.h; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/MessageMappingOscPacketListener.h; sourceTree = SOURCE_ROOT; };
-		83FDF213A1FE0ADCC5BAF6EE /* ofxOscBundle.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOscBundle.h; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOscBundle.h; sourceTree = SOURCE_ROOT; };
-		862318F9181D9731B26A7D12 /* UdpSocket.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = UdpSocket.cpp; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/posix/UdpSocket.cpp; sourceTree = SOURCE_ROOT; };
-		89369D2D30D50C352971D97D /* BaseTheme.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = BaseTheme.h; path = ../../of_v0.9.3_osx_release/addons/ofxImGui/src/BaseTheme.h; sourceTree = SOURCE_ROOT; };
-		89E9571BBB508D2DBEC05EE8 /* stb_textedit.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = stb_textedit.h; path = ../../of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src/stb_textedit.h; sourceTree = SOURCE_ROOT; };
-		8BB1A268C020202BB5F23828 /* OscReceivedElements.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = OscReceivedElements.cpp; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscReceivedElements.cpp; sourceTree = SOURCE_ROOT; };
-		9063D0D0EA1BADB56ABC58B7 /* json.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = json.h; path = ../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include/json/json.h; sourceTree = SOURCE_ROOT; };
-		98A5B2ADDA6F85EAD7101029 /* json-forwards.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = "json-forwards.h"; path = "../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include/json/json-forwards.h"; sourceTree = SOURCE_ROOT; };
-		9F6D9137EF0F5340B863F6EE /* NetworkingUtils.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = NetworkingUtils.h; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/NetworkingUtils.h; sourceTree = SOURCE_ROOT; };
-		A2E7989F108FDBE61B365E5E /* BaseEngine.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = BaseEngine.h; path = ../../of_v0.9.3_osx_release/addons/ofxImGui/src/BaseEngine.h; sourceTree = SOURCE_ROOT; };
-		A429D4E91D9DA05800BEEEAC /* ArduinoWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArduinoWatcher.h; sourceTree = "<group>"; };
-		A96D17E1350034289CF0A204 /* IpEndpointName.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = IpEndpointName.cpp; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/IpEndpointName.cpp; sourceTree = SOURCE_ROOT; };
-		AAB20AA4C5259DB90258770A /* UdpSocket.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = UdpSocket.h; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/UdpSocket.h; sourceTree = SOURCE_ROOT; };
-		B156B9383388BC6B9DB78DDC /* BaseTheme.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = BaseTheme.cpp; path = ../../of_v0.9.3_osx_release/addons/ofxImGui/src/BaseTheme.cpp; sourceTree = SOURCE_ROOT; };
-		BB87EB8211BFDB6980D943B0 /* imgui_draw.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = imgui_draw.cpp; path = ../../of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src/imgui_draw.cpp; sourceTree = SOURCE_ROOT; };
-		BC40CCACF6A8B0B80B10B65D /* stb_truetype.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = stb_truetype.h; path = ../../of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src/stb_truetype.h; sourceTree = SOURCE_ROOT; };
-		C3A653A647A4568CB0DBCE3B /* ofxOscMessage.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxOscMessage.cpp; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOscMessage.cpp; sourceTree = SOURCE_ROOT; };
-		C7AE5E5D175C3CB61FB6E1DF /* OscPacketListener.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscPacketListener.h; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscPacketListener.h; sourceTree = SOURCE_ROOT; };
-		C86809FF9C33CF61A7CD658C /* OscReceivedElements.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscReceivedElements.h; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscReceivedElements.h; sourceTree = SOURCE_ROOT; };
-		C9CDC41543676766303A2636 /* IpEndpointName.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = IpEndpointName.h; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/IpEndpointName.h; sourceTree = SOURCE_ROOT; };
+		0088CED5ABCB6BF5531A403B /* ofxOscSender.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxOscSender.cpp; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOscSender.cpp; sourceTree = SOURCE_ROOT; };
+		06AF63A8553AE76BB16F8B99 /* BaseTheme.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = BaseTheme.cpp; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/src/BaseTheme.cpp; sourceTree = SOURCE_ROOT; };
+		0765A4626175A12366AC1191 /* TimerListener.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = TimerListener.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/TimerListener.h; sourceTree = SOURCE_ROOT; };
+		12D9D5338AE4A8B6895758A6 /* ofxOscMessage.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOscMessage.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOscMessage.h; sourceTree = SOURCE_ROOT; };
+		1885D13FCDA7BB9DA92FCE8C /* EngineGLFW.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = EngineGLFW.cpp; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/src/EngineGLFW.cpp; sourceTree = SOURCE_ROOT; };
+		18899F70D34A7679835F410E /* EngineOpenGLES.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = EngineOpenGLES.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/src/EngineOpenGLES.h; sourceTree = SOURCE_ROOT; };
+		1C4C2BF6F61924D2C6A9E633 /* BaseEngine.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = BaseEngine.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/src/BaseEngine.h; sourceTree = SOURCE_ROOT; };
+		1C9089570D4F9908B27192B7 /* UdpSocket.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = UdpSocket.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/UdpSocket.h; sourceTree = SOURCE_ROOT; };
+		263138D9B1BF61CAEB8AA31A /* stb_truetype.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = stb_truetype.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src/stb_truetype.h; sourceTree = SOURCE_ROOT; };
+		2638D5D1C9534D43406F0200 /* OscException.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscException.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscException.h; sourceTree = SOURCE_ROOT; };
+		28B91047A6EB9877FC2987CE /* IpEndpointName.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = IpEndpointName.cpp; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/IpEndpointName.cpp; sourceTree = SOURCE_ROOT; };
+		2E5A744481B2406D306771DE /* ofxJSON.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxJSON.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/src/ofxJSON.h; sourceTree = SOURCE_ROOT; };
+		2F10A24F0E0B7EE52A57F331 /* json.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = json.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include/json/json.h; sourceTree = SOURCE_ROOT; };
+		38DF01F6EF75FB7EDFBF40CC /* PacketListener.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = PacketListener.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/PacketListener.h; sourceTree = SOURCE_ROOT; };
+		4A080512449E2F43C25630BF /* NetworkingUtils.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = NetworkingUtils.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/NetworkingUtils.h; sourceTree = SOURCE_ROOT; };
+		4AD8F286C09639079B98AAAF /* ofxOscReceiver.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOscReceiver.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOscReceiver.h; sourceTree = SOURCE_ROOT; };
+		4DDBC56A2C6BF16D90D2759E /* ofxImGui.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxImGui.cpp; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/src/ofxImGui.cpp; sourceTree = SOURCE_ROOT; };
+		4EEF57A55457E195F9915C46 /* stb_rect_pack.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = stb_rect_pack.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src/stb_rect_pack.h; sourceTree = SOURCE_ROOT; };
+		5733DE172C0B8239D45BC399 /* EngineGLFW.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = EngineGLFW.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/src/EngineGLFW.h; sourceTree = SOURCE_ROOT; };
+		5E846AE787D21FF1EFEAA96E /* OscPacketListener.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscPacketListener.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscPacketListener.h; sourceTree = SOURCE_ROOT; };
+		602C384091520C2D9744AFAB /* ofxOscReceiver.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxOscReceiver.cpp; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOscReceiver.cpp; sourceTree = SOURCE_ROOT; };
+		62D129BCDAEE24E506717CC2 /* BaseTheme.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = BaseTheme.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/src/BaseTheme.h; sourceTree = SOURCE_ROOT; };
+		688248CA5ACFA3458D83B832 /* IpEndpointName.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = IpEndpointName.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/IpEndpointName.h; sourceTree = SOURCE_ROOT; };
+		69F035E6B68BEA0D48B0454F /* OscReceivedElements.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = OscReceivedElements.cpp; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscReceivedElements.cpp; sourceTree = SOURCE_ROOT; };
+		74B02274D9C6469BABA60508 /* imgui.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = imgui.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src/imgui.h; sourceTree = SOURCE_ROOT; };
+		80E295BC19E0EA2005D3D665 /* ofxWatermark.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxWatermark.cpp; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxWatermark/src/ofxWatermark.cpp; sourceTree = SOURCE_ROOT; };
+		826ECE1A53BEF9DD7A574ACA /* OscHostEndianness.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscHostEndianness.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscHostEndianness.h; sourceTree = SOURCE_ROOT; };
+		881CDE283ACB60F520F8E49D /* imconfig.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = imconfig.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/src/imconfig.h; sourceTree = SOURCE_ROOT; };
+		90510F8F3E5DBE0ECA313694 /* OscOutboundPacketStream.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscOutboundPacketStream.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscOutboundPacketStream.h; sourceTree = SOURCE_ROOT; };
+		93D7C3465CE38BE03E807607 /* ArduinoWatcher.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ArduinoWatcher.h; path = src/ArduinoWatcher.h; sourceTree = SOURCE_ROOT; };
+		9D2AD6CA6BE0C95940D2DB74 /* jsoncpp.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = jsoncpp.cpp; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/src/jsoncpp.cpp; sourceTree = SOURCE_ROOT; };
+		A03EC85FEADF15BDFC8130DA /* OscReceivedElements.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscReceivedElements.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscReceivedElements.h; sourceTree = SOURCE_ROOT; };
+		A6AF85268E931EF7F4F026F6 /* OscPrintReceivedElements.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = OscPrintReceivedElements.cpp; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscPrintReceivedElements.cpp; sourceTree = SOURCE_ROOT; };
+		ACEF4F0413902ED1E779E644 /* EngineOpenGLES.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = EngineOpenGLES.cpp; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/src/EngineOpenGLES.cpp; sourceTree = SOURCE_ROOT; };
+		B304340E68F4B8BEB1AF2A62 /* NetworkingUtils.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = NetworkingUtils.cpp; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/posix/NetworkingUtils.cpp; sourceTree = SOURCE_ROOT; };
+		B3980EFD24F14EBF2869CE55 /* ofxOscArg.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOscArg.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOscArg.h; sourceTree = SOURCE_ROOT; };
+		B5D6575FB1EC0EBF322B12D2 /* MessageMappingOscPacketListener.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = MessageMappingOscPacketListener.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/MessageMappingOscPacketListener.h; sourceTree = SOURCE_ROOT; };
+		B7477386CE7D3C27447233AA /* ofxOsc.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOsc.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOsc.h; sourceTree = SOURCE_ROOT; };
+		B855897C33FA24DC406B7B22 /* imgui_draw.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = imgui_draw.cpp; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src/imgui_draw.cpp; sourceTree = SOURCE_ROOT; };
+		BB2439C4BBE0F469F0DC73F7 /* ofxWatermark.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxWatermark.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxWatermark/src/ofxWatermark.h; sourceTree = SOURCE_ROOT; };
+		BB56EAF7F63631F0A622D8AB /* ofxOscMessage.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxOscMessage.cpp; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOscMessage.cpp; sourceTree = SOURCE_ROOT; };
+		BDF6AB9BC6A16A76E891B919 /* ofxOscParameterSync.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxOscParameterSync.cpp; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOscParameterSync.cpp; sourceTree = SOURCE_ROOT; };
+		C18B33E134279255455AC195 /* OscPrintReceivedElements.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscPrintReceivedElements.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscPrintReceivedElements.h; sourceTree = SOURCE_ROOT; };
+		C197E6DBB38D0EC9AFF068B2 /* imgui.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = imgui.cpp; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src/imgui.cpp; sourceTree = SOURCE_ROOT; };
+		C45031895D520F733EFA8699 /* ThemeTest.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ThemeTest.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/src/ThemeTest.h; sourceTree = SOURCE_ROOT; };
+		CDAE5003BC5E3AAA762E9BD9 /* Audio1.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = Audio1.h; path = src/Audio1.h; sourceTree = SOURCE_ROOT; };
 		CEE10B205FE425B0564EE456 /* M1DSPAlgorithms.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = M1DSPAlgorithms.h; path = src/M1DSPAlgorithms.h; sourceTree = SOURCE_ROOT; };
-		DC631AEA4961A1F0D2E6070D /* ofxOscArg.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOscArg.h; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOscArg.h; sourceTree = SOURCE_ROOT; };
-		DD3F36E27BB1AEAB17C01777 /* PacketListener.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = PacketListener.h; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/PacketListener.h; sourceTree = SOURCE_ROOT; };
-		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../of_v0.9.3_osx_release/libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
+		CFAC69C6233F6686C8EC6460 /* Audio2.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = Audio2.h; path = src/Audio2.h; sourceTree = SOURCE_ROOT; };
+		D374F839F5DFB1FE9E40717E /* ofxJSONElement.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxJSONElement.cpp; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/src/ofxJSONElement.cpp; sourceTree = SOURCE_ROOT; };
+		D4D7E175398B9CE3DAFAD11D /* imgui_internal.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = imgui_internal.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src/imgui_internal.h; sourceTree = SOURCE_ROOT; };
+		D52F7778B6982BD46E382213 /* ofxOscSender.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOscSender.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOscSender.h; sourceTree = SOURCE_ROOT; };
+		DDFC42327CD96A66A428E117 /* BaseEngine.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = BaseEngine.cpp; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/src/BaseEngine.cpp; sourceTree = SOURCE_ROOT; };
+		E0E60E10E5D0A6F18D76141E /* imgui_demo.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = imgui_demo.cpp; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src/imgui_demo.cpp; sourceTree = SOURCE_ROOT; };
+		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E4B69B5B0A3A1756003C02F2 /* Mach1-CubeDemoDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mach1-CubeDemoDebug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
 		E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofApp.cpp; path = src/ofApp.cpp; sourceTree = SOURCE_ROOT; };
 		E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ofApp.h; path = src/ofApp.h; sourceTree = SOURCE_ROOT; };
 		E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "openFrameworks-Info.plist"; sourceTree = "<group>"; };
-		E4EB691F138AFCF100A09F29 /* CoreOF.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = CoreOF.xcconfig; path = ../../of_v0.9.3_osx_release/libs/openFrameworksCompiled/project/osx/CoreOF.xcconfig; sourceTree = SOURCE_ROOT; };
+		E4EB691F138AFCF100A09F29 /* CoreOF.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = CoreOF.xcconfig; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/libs/openFrameworksCompiled/project/osx/CoreOF.xcconfig; sourceTree = SOURCE_ROOT; };
 		E4EB6923138AFD0F00A09F29 /* Project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Project.xcconfig; sourceTree = "<group>"; };
 		E5C857A1EB110EFD950551BF /* BaseAudioTest.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = BaseAudioTest.h; path = src/BaseAudioTest.h; sourceTree = SOURCE_ROOT; };
-		E9EC053FD45B40195ECBFE7C /* jsoncpp.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = jsoncpp.cpp; path = ../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/src/jsoncpp.cpp; sourceTree = SOURCE_ROOT; };
-		EFEED04062980FBAAA1D5E87 /* ofxImGui.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxImGui.cpp; path = ../../of_v0.9.3_osx_release/addons/ofxImGui/src/ofxImGui.cpp; sourceTree = SOURCE_ROOT; };
-		FCA22F20BF599A22501F38B8 /* OscHostEndianness.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscHostEndianness.h; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscHostEndianness.h; sourceTree = SOURCE_ROOT; };
-		FCF02C7CEF17598E87CE5A2D /* OscTypes.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscTypes.h; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscTypes.h; sourceTree = SOURCE_ROOT; };
-		FD7B132F26429378A5F4B429 /* OscPrintReceivedElements.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = OscPrintReceivedElements.cpp; path = ../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscPrintReceivedElements.cpp; sourceTree = SOURCE_ROOT; };
+		E941BE98A50DDD4C46EE9708 /* ofxOscBundle.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxOscBundle.cpp; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOscBundle.cpp; sourceTree = SOURCE_ROOT; };
+		EA1B14CE37CF4C4AE839C77A /* ofxOscBundle.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOscBundle.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOscBundle.h; sourceTree = SOURCE_ROOT; };
+		EAE949F0E0B869251F157304 /* ofxOscParameterSync.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOscParameterSync.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/src/ofxOscParameterSync.h; sourceTree = SOURCE_ROOT; };
+		F152A2A72423AC874BE8200B /* ofxImGui.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxImGui.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/src/ofxImGui.h; sourceTree = SOURCE_ROOT; };
+		F1F20D174A07C4FC0B0D5527 /* OscTypes.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscTypes.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscTypes.h; sourceTree = SOURCE_ROOT; };
+		F523DF2AC1C37BACB345BEB1 /* stb_textedit.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = stb_textedit.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src/stb_textedit.h; sourceTree = SOURCE_ROOT; };
+		F8A80EB3A42826E52A290CC4 /* OscOutboundPacketStream.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = OscOutboundPacketStream.cpp; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscOutboundPacketStream.cpp; sourceTree = SOURCE_ROOT; };
+		FA5B930A759078D16D174155 /* UdpSocket.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = UdpSocket.cpp; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/posix/UdpSocket.cpp; sourceTree = SOURCE_ROOT; };
+		FD00E59769A8E9362FD7726D /* json-forwards.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = "json-forwards.h"; path = "../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include/json/json-forwards.h"; sourceTree = SOURCE_ROOT; };
+		FD61C43B476078245887EBEE /* ofxJSONElement.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxJSONElement.h; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/src/ofxJSONElement.h; sourceTree = SOURCE_ROOT; };
+		FFA44576F80A63AB2FA4EAB1 /* OscTypes.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = OscTypes.cpp; path = ../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc/OscTypes.cpp; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,9 +172,9 @@
 		292AF6148769654D0DF26018 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				67DA93F646CBFFD4FEACE44E /* ofxJSON.h */,
-				5CAFF81FEBD8AA166881B1D3 /* ofxJSONElement.cpp */,
-				288E85902148476D3B9D2D14 /* ofxJSONElement.h */,
+				2E5A744481B2406D306771DE /* ofxJSON.h */,
+				D374F839F5DFB1FE9E40717E /* ofxJSONElement.cpp */,
+				FD61C43B476078245887EBEE /* ofxJSONElement.h */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -182,18 +182,18 @@
 		30CB364908817057B430D528 /* osc */ = {
 			isa = PBXGroup;
 			children = (
-				8269E5B8852E09EF3B7F3C14 /* MessageMappingOscPacketListener.h */,
-				12B66084FF2CF7E9003DD606 /* OscException.h */,
-				FCA22F20BF599A22501F38B8 /* OscHostEndianness.h */,
-				421391EA5EE440CC0A4D1441 /* OscOutboundPacketStream.cpp */,
-				096BE7B32DBB810C302EB1E1 /* OscOutboundPacketStream.h */,
-				C7AE5E5D175C3CB61FB6E1DF /* OscPacketListener.h */,
-				FD7B132F26429378A5F4B429 /* OscPrintReceivedElements.cpp */,
-				8131096EF548CFAE1E67DB8D /* OscPrintReceivedElements.h */,
-				8BB1A268C020202BB5F23828 /* OscReceivedElements.cpp */,
-				C86809FF9C33CF61A7CD658C /* OscReceivedElements.h */,
-				8164B4532958D713015BAD1E /* OscTypes.cpp */,
-				FCF02C7CEF17598E87CE5A2D /* OscTypes.h */,
+				B5D6575FB1EC0EBF322B12D2 /* MessageMappingOscPacketListener.h */,
+				2638D5D1C9534D43406F0200 /* OscException.h */,
+				826ECE1A53BEF9DD7A574ACA /* OscHostEndianness.h */,
+				F8A80EB3A42826E52A290CC4 /* OscOutboundPacketStream.cpp */,
+				90510F8F3E5DBE0ECA313694 /* OscOutboundPacketStream.h */,
+				5E846AE787D21FF1EFEAA96E /* OscPacketListener.h */,
+				A6AF85268E931EF7F4F026F6 /* OscPrintReceivedElements.cpp */,
+				C18B33E134279255455AC195 /* OscPrintReceivedElements.h */,
+				69F035E6B68BEA0D48B0454F /* OscReceivedElements.cpp */,
+				A03EC85FEADF15BDFC8130DA /* OscReceivedElements.h */,
+				FFA44576F80A63AB2FA4EAB1 /* OscTypes.cpp */,
+				F1F20D174A07C4FC0B0D5527 /* OscTypes.h */,
 			);
 			name = osc;
 			sourceTree = "<group>";
@@ -209,8 +209,8 @@
 		4790F76805929A69535A6A31 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				6F9F47224A9378DEBD2C0036 /* ofxWatermark.cpp */,
-				0D1705C0583BA2428268050B /* ofxWatermark.h */,
+				80E295BC19E0EA2005D3D665 /* ofxWatermark.cpp */,
+				BB2439C4BBE0F469F0DC73F7 /* ofxWatermark.h */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -218,8 +218,8 @@
 		58AD3BD71B781D9BC25763C8 /* json */ = {
 			isa = PBXGroup;
 			children = (
-				98A5B2ADDA6F85EAD7101029 /* json-forwards.h */,
-				9063D0D0EA1BADB56ABC58B7 /* json.h */,
+				FD00E59769A8E9362FD7726D /* json-forwards.h */,
+				2F10A24F0E0B7EE52A57F331 /* json.h */,
 			);
 			name = json;
 			sourceTree = "<group>";
@@ -227,8 +227,8 @@
 		641362CA659FAFEE4E81001B /* posix */ = {
 			isa = PBXGroup;
 			children = (
-				72F099C5F33B207C4889B181 /* NetworkingUtils.cpp */,
-				862318F9181D9731B26A7D12 /* UdpSocket.cpp */,
+				B304340E68F4B8BEB1AF2A62 /* NetworkingUtils.cpp */,
+				FA5B930A759078D16D174155 /* UdpSocket.cpp */,
 			);
 			name = posix;
 			sourceTree = "<group>";
@@ -243,18 +243,18 @@
 		6FF8AA08E79CFA38503CDB0E /* src */ = {
 			isa = PBXGroup;
 			children = (
-				73D957D15CA0A3BDB4680D68 /* BaseEngine.cpp */,
-				A2E7989F108FDBE61B365E5E /* BaseEngine.h */,
-				B156B9383388BC6B9DB78DDC /* BaseTheme.cpp */,
-				89369D2D30D50C352971D97D /* BaseTheme.h */,
-				633D9A9C072A5EA143E62BE5 /* EngineGLFW.cpp */,
-				557DB0F9118FAC9C3BFC2585 /* EngineGLFW.h */,
-				4F50A60FE55AAF9ABDEB8122 /* EngineOpenGLES.cpp */,
-				2662086B2B70761DFB5D7899 /* EngineOpenGLES.h */,
-				46377CAC14742E5243EB5B51 /* imconfig.h */,
-				EFEED04062980FBAAA1D5E87 /* ofxImGui.cpp */,
-				7149A7496264C54E3B72C6DD /* ofxImGui.h */,
-				6E3F832E4EF80E030112A70D /* ThemeTest.h */,
+				DDFC42327CD96A66A428E117 /* BaseEngine.cpp */,
+				1C4C2BF6F61924D2C6A9E633 /* BaseEngine.h */,
+				06AF63A8553AE76BB16F8B99 /* BaseTheme.cpp */,
+				62D129BCDAEE24E506717CC2 /* BaseTheme.h */,
+				1885D13FCDA7BB9DA92FCE8C /* EngineGLFW.cpp */,
+				5733DE172C0B8239D45BC399 /* EngineGLFW.h */,
+				ACEF4F0413902ED1E779E644 /* EngineOpenGLES.cpp */,
+				18899F70D34A7679835F410E /* EngineOpenGLES.h */,
+				881CDE283ACB60F520F8E49D /* imconfig.h */,
+				4DDBC56A2C6BF16D90D2759E /* ofxImGui.cpp */,
+				F152A2A72423AC874BE8200B /* ofxImGui.h */,
+				C45031895D520F733EFA8699 /* ThemeTest.h */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -271,14 +271,14 @@
 		807146441E0D13714E9F4654 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				0C00533E3870681E1024951C /* imgui.cpp */,
-				33B3BA113B38C072E7D5CF71 /* imgui.h */,
-				2E129F2033912FDEF1B96D32 /* imgui_demo.cpp */,
-				BB87EB8211BFDB6980D943B0 /* imgui_draw.cpp */,
-				0A8C5C53E90ED59044C0D964 /* imgui_internal.h */,
-				2A9EF7E195F59BA94C2E9A05 /* stb_rect_pack.h */,
-				89E9571BBB508D2DBEC05EE8 /* stb_textedit.h */,
-				BC40CCACF6A8B0B80B10B65D /* stb_truetype.h */,
+				C197E6DBB38D0EC9AFF068B2 /* imgui.cpp */,
+				74B02274D9C6469BABA60508 /* imgui.h */,
+				E0E60E10E5D0A6F18D76141E /* imgui_demo.cpp */,
+				B855897C33FA24DC406B7B22 /* imgui_draw.cpp */,
+				D4D7E175398B9CE3DAFAD11D /* imgui_internal.h */,
+				4EEF57A55457E195F9915C46 /* stb_rect_pack.h */,
+				F523DF2AC1C37BACB345BEB1 /* stb_textedit.h */,
+				263138D9B1BF61CAEB8AA31A /* stb_truetype.h */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -322,18 +322,18 @@
 		BD2F1A9F8D0C05EDB29122D0 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				27C23E72677CDA8043BF53CA /* ofxOsc.h */,
-				DC631AEA4961A1F0D2E6070D /* ofxOscArg.h */,
-				454FFAAECF5797C388EC4185 /* ofxOscBundle.cpp */,
-				83FDF213A1FE0ADCC5BAF6EE /* ofxOscBundle.h */,
-				C3A653A647A4568CB0DBCE3B /* ofxOscMessage.cpp */,
-				40CA31C413F7C55CEB119220 /* ofxOscMessage.h */,
-				29E5A84494A159405C658395 /* ofxOscParameterSync.cpp */,
-				2EEBDDEEA8CACA9051836C2E /* ofxOscParameterSync.h */,
-				5E666C7979E244C7F8EFB137 /* ofxOscReceiver.cpp */,
-				41F292A6FB83ABD3C05B055A /* ofxOscReceiver.h */,
-				0B05D61FE77EF8123BEB2411 /* ofxOscSender.cpp */,
-				5FCDE4887EA292C78EE7000E /* ofxOscSender.h */,
+				B7477386CE7D3C27447233AA /* ofxOsc.h */,
+				B3980EFD24F14EBF2869CE55 /* ofxOscArg.h */,
+				E941BE98A50DDD4C46EE9708 /* ofxOscBundle.cpp */,
+				EA1B14CE37CF4C4AE839C77A /* ofxOscBundle.h */,
+				BB56EAF7F63631F0A622D8AB /* ofxOscMessage.cpp */,
+				12D9D5338AE4A8B6895758A6 /* ofxOscMessage.h */,
+				BDF6AB9BC6A16A76E891B919 /* ofxOscParameterSync.cpp */,
+				EAE949F0E0B869251F157304 /* ofxOscParameterSync.h */,
+				602C384091520C2D9744AFAB /* ofxOscReceiver.cpp */,
+				4AD8F286C09639079B98AAAF /* ofxOscReceiver.h */,
+				0088CED5ABCB6BF5531A403B /* ofxOscSender.cpp */,
+				D52F7778B6982BD46E382213 /* ofxOscSender.h */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -349,7 +349,7 @@
 		CCDC6F9CCF925CC402160B85 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				E9EC053FD45B40195ECBFE7C /* jsoncpp.cpp */,
+				9D2AD6CA6BE0C95940D2DB74 /* jsoncpp.cpp */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -398,11 +398,11 @@
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
+				93D7C3465CE38BE03E807607 /* ArduinoWatcher.h */,
+				CDAE5003BC5E3AAA762E9BD9 /* Audio1.h */,
+				CFAC69C6233F6686C8EC6460 /* Audio2.h */,
 				E5C857A1EB110EFD950551BF /* BaseAudioTest.h */,
-				711CF3163D3F03A2490E8EB0 /* Audio1.h */,
-				196A69EFC3D616FADACFD751 /* Audio2.h */,
 				CEE10B205FE425B0564EE456 /* M1DSPAlgorithms.h */,
-				A429D4E91D9DA05800BEEEAC /* ArduinoWatcher.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -436,13 +436,13 @@
 		FF8CDF57858E9B94E3237115 /* ip */ = {
 			isa = PBXGroup;
 			children = (
-				A96D17E1350034289CF0A204 /* IpEndpointName.cpp */,
-				C9CDC41543676766303A2636 /* IpEndpointName.h */,
-				9F6D9137EF0F5340B863F6EE /* NetworkingUtils.h */,
-				DD3F36E27BB1AEAB17C01777 /* PacketListener.h */,
+				28B91047A6EB9877FC2987CE /* IpEndpointName.cpp */,
+				688248CA5ACFA3458D83B832 /* IpEndpointName.h */,
+				4A080512449E2F43C25630BF /* NetworkingUtils.h */,
+				38DF01F6EF75FB7EDFBF40CC /* PacketListener.h */,
 				641362CA659FAFEE4E81001B /* posix */,
-				4962271C5E616A65521819EE /* TimerListener.h */,
-				AAB20AA4C5259DB90258770A /* UdpSocket.h */,
+				0765A4626175A12366AC1191 /* TimerListener.h */,
+				1C9089570D4F9908B27192B7 /* UdpSocket.h */,
 			);
 			name = ip;
 			sourceTree = "<group>";
@@ -526,7 +526,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"$GCC_PREPROCESSOR_DEFINITIONS\";\nAPPSTORE=`expr \"$GCC_PREPROCESSOR_DEFINITIONS\" : \".*APPSTORE=\\([0-9]*\\)\"`\nif [ -z \"$APPSTORE\" ] ; then\necho \"Note: Not copying bin/data to App Package or doing App Code signing. Use AppStore target for AppStore distribution\";\nelse\n# Copy bin/data into App/Resources\nrsync -avz --exclude='.DS_Store' \"${SRCROOT}/bin/data/\" \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/data/\"\n\n# ---- Code Sign App Package ----\n \n# WARNING: You may have to run Clean in Xcode after changing CODE_SIGN_IDENTITY!\n\n# Verify that $CODE_SIGN_IDENTITY is set\nif [ -z \"${CODE_SIGN_IDENTITY}\" ] ; then\necho \"CODE_SIGN_IDENTITY needs to be set for framework code-signing\"\nexit 0\nfi\n\nif [ -z \"${CODE_SIGN_ENTITLEMENTS}\" ] ; then\necho \"CODE_SIGN_ENTITLEMENTS needs to be set for framework code-signing!\"\n\nif [ \"${CONFIGURATION}\" = \"Release\" ] ; then\nexit 1\nelse\n# Code-signing is optional for non-release builds.\nexit 0\nfi\nfi\n\nITEMS=\"\"\n\nFRAMEWORKS_DIR=\"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\necho \"$FRAMEWORKS_DIR\"\nif [ -d \"$FRAMEWORKS_DIR\" ] ; then\nFRAMEWORKS=$(find \"${FRAMEWORKS_DIR}\" -depth -type d -name \"*.framework\" -or -name \"*.dylib\" -or -name \"*.bundle\" | sed -e \"s/\\(.*framework\\)/\\1\\/Versions\\/A\\//\")\nRESULT=$?\nif [[ $RESULT != 0 ]] ; then\nexit 1\nfi\n\nITEMS=\"${FRAMEWORKS}\"\nfi\n\nLOGINITEMS_DIR=\"${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Library/LoginItems/\"\nif [ -d \"$LOGINITEMS_DIR\" ] ; then\nLOGINITEMS=$(find \"${LOGINITEMS_DIR}\" -depth -type d -name \"*.app\")\nRESULT=$?\nif [[ $RESULT != 0 ]] ; then\nexit 1\nfi\n\nITEMS=\"${ITEMS}\"$'\\n'\"${LOGINITEMS}\"\nfi\n\n# Prefer the expanded name, if available.\nCODE_SIGN_IDENTITY_FOR_ITEMS=\"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\"\nif [ \"${CODE_SIGN_IDENTITY_FOR_ITEMS}\" = \"\" ] ; then\n# Fall back to old behavior.\nCODE_SIGN_IDENTITY_FOR_ITEMS=\"${CODE_SIGN_IDENTITY}\"\nfi\n\necho \"Identity:\"\necho \"${CODE_SIGN_IDENTITY_FOR_ITEMS}\"\n\necho \"Entitlements:\"\necho \"${CODE_SIGN_ENTITLEMENTS}\"\n\necho \"Found:\"\necho \"${ITEMS}\"\n\n# Change the Internal Field Separator (IFS) so that spaces in paths will not cause problems below.\nSAVED_IFS=$IFS\nIFS=$(echo -en \"\\n\\b\")\n\n# Loop through all items.\nfor ITEM in $ITEMS;\ndo\necho \"Signing '${ITEM}'\"\ncodesign --force --verbose --sign \"${CODE_SIGN_IDENTITY_FOR_ITEMS}\" --entitlements \"${CODE_SIGN_ENTITLEMENTS}\" \"${ITEM}\"\nRESULT=$?\nif [[ $RESULT != 0 ]] ; then\necho \"Failed to sign '${ITEM}'.\"\nIFS=$SAVED_IFS\nexit 1\nfi\ndone\n\n# Restore $IFS.\nIFS=$SAVED_IFS\n\nfi\n\ncp -r ./bin/data/ \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources/\"\n\ncp -r ./bin/data/*.png \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources\"";
+			shellScript = "echo \"$GCC_PREPROCESSOR_DEFINITIONS\";\nAPPSTORE=`expr \"$GCC_PREPROCESSOR_DEFINITIONS\" : \".*APPSTORE=\\([0-9]*\\)\"`\nif [ -z \"$APPSTORE\" ] ; then\necho \"Note: Not copying bin/data to App Package or doing App Code signing. Use AppStore target for AppStore distribution\";\nelse\n# Copy bin/data into App/Resources\nrsync -avz --exclude='.DS_Store' \"${SRCROOT}/bin/data/\" \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/data/\"\n\n# ---- Code Sign App Package ----\n \n# WARNING: You may have to run Clean in Xcode after changing CODE_SIGN_IDENTITY!\n\n# Verify that $CODE_SIGN_IDENTITY is set\nif [ -z \"${CODE_SIGN_IDENTITY}\" ] ; then\necho \"CODE_SIGN_IDENTITY needs to be set for framework code-signing\"\nexit 0\nfi\n\nif [ -z \"${CODE_SIGN_ENTITLEMENTS}\" ] ; then\necho \"CODE_SIGN_ENTITLEMENTS needs to be set for framework code-signing!\"\n\nif [ \"${CONFIGURATION}\" = \"Release\" ] ; then\nexit 1\nelse\n# Code-signing is optional for non-release builds.\nexit 0\nfi\nfi\n\nITEMS=\"\"\n\nFRAMEWORKS_DIR=\"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\necho \"$FRAMEWORKS_DIR\"\nif [ -d \"$FRAMEWORKS_DIR\" ] ; then\nFRAMEWORKS=$(find \"${FRAMEWORKS_DIR}\" -depth -type d -name \"*.framework\" -or -name \"*.dylib\" -or -name \"*.bundle\" | sed -e \"s/\\(.*framework\\)/\\1\\/Versions\\/A\\//\")\nRESULT=$?\nif [[ $RESULT != 0 ]] ; then\nexit 1\nfi\n\nITEMS=\"${FRAMEWORKS}\"\nfi\n\nLOGINITEMS_DIR=\"${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Library/LoginItems/\"\nif [ -d \"$LOGINITEMS_DIR\" ] ; then\nLOGINITEMS=$(find \"${LOGINITEMS_DIR}\" -depth -type d -name \"*.app\")\nRESULT=$?\nif [[ $RESULT != 0 ]] ; then\nexit 1\nfi\n\nITEMS=\"${ITEMS}\"$'\\n'\"${LOGINITEMS}\"\nfi\n\n# Prefer the expanded name, if available.\nCODE_SIGN_IDENTITY_FOR_ITEMS=\"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\"\nif [ \"${CODE_SIGN_IDENTITY_FOR_ITEMS}\" = \"\" ] ; then\n# Fall back to old behavior.\nCODE_SIGN_IDENTITY_FOR_ITEMS=\"${CODE_SIGN_IDENTITY}\"\nfi\n\necho \"Identity:\"\necho \"${CODE_SIGN_IDENTITY_FOR_ITEMS}\"\n\necho \"Entitlements:\"\necho \"${CODE_SIGN_ENTITLEMENTS}\"\n\necho \"Found:\"\necho \"${ITEMS}\"\n\n# Change the Internal Field Separator (IFS) so that spaces in paths will not cause problems below.\nSAVED_IFS=$IFS\nIFS=$(echo -en \"\\n\\b\")\n\n# Loop through all items.\nfor ITEM in $ITEMS;\ndo\necho \"Signing '${ITEM}'\"\ncodesign --force --verbose --sign \"${CODE_SIGN_IDENTITY_FOR_ITEMS}\" --entitlements \"${CODE_SIGN_ENTITLEMENTS}\" \"${ITEM}\"\nRESULT=$?\nif [[ $RESULT != 0 ]] ; then\necho \"Failed to sign '${ITEM}'.\"\nIFS=$SAVED_IFS\nexit 1\nfi\ndone\n\n# Restore $IFS.\nIFS=$SAVED_IFS\n\nfi\n\ncp -r ./bin/data/ \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources/\"\ncp -r ./bin/data/*.png \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources\"";
 		};
 		E4B6FFFD0C3F9AB9008CF71C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -539,7 +539,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources/\"\n# Copy default icon file into App/Resources\nrsync -aved \"$ICON_FILE\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources/\"\n# Copy libfmod and change install directory for fmod to run\nrsync -aved ../../of_v0.9.3_osx_release/libs/fmodex/lib/osx/libfmodex.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/\";\ninstall_name_tool -change @executable_path/libfmodex.dylib @executable_path/../Frameworks/libfmodex.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\";\n\necho \"$GCC_PREPROCESSOR_DEFINITIONS\";\nAPPSTORE=`expr \"$GCC_PREPROCESSOR_DEFINITIONS\" : \".*APPSTORE=\\([0-9]*\\)\"`\nif [ -z \"${APPSTORE}\" ] ; then\necho \"Copying GLUT framework\";\n# Copy GLUT framework (must remove for AppStore submissions)\nrsync -aved ../../of_v0.9.3_osx_release/libs/glut/lib/osx/GLUT.framework \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/\"\nelse\necho \"Not including GLUT\";\nfi\n";
+			shellScript = "mkdir -p \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources/\"\n# Copy default icon file into App/Resources\nrsync -aved \"$ICON_FILE\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources/\"\n# Copy libfmod and change install directory for fmod to run\nrsync -aved ../../../../_BUILDENV_/of_v0.9.3_osx_release/libs/fmodex/lib/osx/libfmodex.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/\";\ninstall_name_tool -change @executable_path/libfmodex.dylib @executable_path/../Frameworks/libfmodex.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\";\n\necho \"$GCC_PREPROCESSOR_DEFINITIONS\";\nAPPSTORE=`expr \"$GCC_PREPROCESSOR_DEFINITIONS\" : \".*APPSTORE=\\([0-9]*\\)\"`\nif [ -z \"${APPSTORE}\" ] ; then\necho \"Copying GLUT framework\";\n# Copy GLUT framework (must remove for AppStore submissions)\nrsync -aved ../../../../_BUILDENV_/of_v0.9.3_osx_release/libs/glut/lib/osx/GLUT.framework \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/\"\nelse\necho \"Not including GLUT\";\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -550,29 +550,29 @@
 			files = (
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
-				FFB5EB598075A190C590AD2D /* BaseEngine.cpp in Sources */,
-				8E9EFA1E7056DFCA71763C38 /* BaseTheme.cpp in Sources */,
-				9C1F6DE5B9BF766027AC522E /* EngineGLFW.cpp in Sources */,
-				6E2433459FE22DF4B23DC676 /* EngineOpenGLES.cpp in Sources */,
-				2DD35313C3C7107B0C7B56A8 /* ofxImGui.cpp in Sources */,
-				84C274DEF5A11BBA33DA5166 /* imgui.cpp in Sources */,
-				F6DAFC6A3FB988B4CA4B18A5 /* imgui_demo.cpp in Sources */,
-				F0A6C03A0F835AA7D39CCB49 /* imgui_draw.cpp in Sources */,
-				4DF6D06EF91A768912825706 /* ofxJSONElement.cpp in Sources */,
-				85F8F48AE0B817855C887B34 /* jsoncpp.cpp in Sources */,
-				CB727100FA02D41902B85DF3 /* ofxOscBundle.cpp in Sources */,
-				172513EF0A37F0353FBED5DF /* ofxOscMessage.cpp in Sources */,
-				04A1B67F72E78C3C50C5D496 /* ofxOscParameterSync.cpp in Sources */,
-				46CCEEF78216D36E9D5AAC05 /* ofxOscReceiver.cpp in Sources */,
-				9FE36281A605FA2D6872B2A0 /* ofxOscSender.cpp in Sources */,
-				8C9561053A4DDA535D723E05 /* IpEndpointName.cpp in Sources */,
-				AF7D4C5C3CCD200B0A74A6B1 /* NetworkingUtils.cpp in Sources */,
-				7B6CC54CA98C7D2C6C5DA243 /* UdpSocket.cpp in Sources */,
-				44A35064D139C35523A14874 /* OscOutboundPacketStream.cpp in Sources */,
-				60476CA392A3D532EA8F87BD /* OscPrintReceivedElements.cpp in Sources */,
-				2FD33611407580C3266D3925 /* OscReceivedElements.cpp in Sources */,
-				9C38248E00C38F3FE8A3CD48 /* OscTypes.cpp in Sources */,
-				7544DCBB03C3B14AB1A6F939 /* ofxWatermark.cpp in Sources */,
+				F949C4D1448977713182C0A9 /* BaseEngine.cpp in Sources */,
+				B2923526521BA9C442B0AC57 /* BaseTheme.cpp in Sources */,
+				33EFFA330FBFA6C15D27CB24 /* EngineGLFW.cpp in Sources */,
+				959BF6248A59FCCB945471C9 /* EngineOpenGLES.cpp in Sources */,
+				79A20FE56E956E65BA29C576 /* ofxImGui.cpp in Sources */,
+				53DD1CEEFEA206BE8748FAE4 /* imgui.cpp in Sources */,
+				3A875D5E3896B4FE2C2F1F49 /* imgui_demo.cpp in Sources */,
+				F2767DA61FE6C0C4841FD224 /* imgui_draw.cpp in Sources */,
+				8AA8C9CAE0657C8C4D2C323C /* ofxJSONElement.cpp in Sources */,
+				81EEA426E0D2E7EDB1BBD920 /* jsoncpp.cpp in Sources */,
+				D524843981B1CC7E315635DC /* ofxOscBundle.cpp in Sources */,
+				CFD987AB1B8DC0DD0123DDEA /* ofxOscMessage.cpp in Sources */,
+				76298571FE881F3EF4BEE5B4 /* ofxOscParameterSync.cpp in Sources */,
+				05D72DF734AAB1E154FF1A10 /* ofxOscReceiver.cpp in Sources */,
+				CEF7125C4492C996B2F8A143 /* ofxOscSender.cpp in Sources */,
+				44B15FD0FDADC9330E81D72F /* IpEndpointName.cpp in Sources */,
+				0A1EB9651285A998372362AA /* NetworkingUtils.cpp in Sources */,
+				633F3E660B4C8544D0BAB25E /* UdpSocket.cpp in Sources */,
+				5CA4A83AB278B22DF946B99B /* OscOutboundPacketStream.cpp in Sources */,
+				32A4D934478EDC262BCAD208 /* OscPrintReceivedElements.cpp in Sources */,
+				2F3826A13709AF2362F9AF58 /* OscReceivedElements.cpp in Sources */,
+				B15F02DA745978EC37B88EE2 /* OscTypes.cpp in Sources */,
+				DC7B4273E477EBBFA84F4E00 /* ofxWatermark.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -611,25 +611,25 @@
 				HEADER_SEARCH_PATHS = (
 					"$(OF_CORE_HEADERS)",
 					src,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/libs,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/src,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include/json,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/src,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/src,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/posix,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/win32,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/src,
-					../../of_v0.9.3_osx_release/addons/ofxWatermark/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include/json,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/posix,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/win32,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxWatermark/src,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CPLUSPLUSFLAGS = (
@@ -650,39 +650,40 @@
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../of_v0.9.3_osx_release/libs/glut/lib/osx\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../../_BUILDENV_/of_v0.9.3_osx_release/libs/glut/lib/osx\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = NONE;
 				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "APPSTORE=1";
 				HEADER_SEARCH_PATHS = (
 					"$(OF_CORE_HEADERS)",
 					src,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/libs,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/src,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include/json,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/src,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/src,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/posix,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/win32,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/src,
-					../../of_v0.9.3_osx_release/addons/ofxWatermark/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include/json,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/posix,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/win32,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxWatermark/src,
 				);
 				ICON = "$(ICON_NAME_RELEASE)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
 				INSTALL_PATH = /Applications;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mach1.cubeloader;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mach1.cubedemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 				baseConfigurationReference = E4EB6923138AFD0F00A09F29;
@@ -711,25 +712,25 @@
 				HEADER_SEARCH_PATHS = (
 					"$(OF_CORE_HEADERS)",
 					src,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/libs,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/src,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include/json,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/src,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/src,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/posix,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/win32,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/src,
-					../../of_v0.9.3_osx_release/addons/ofxWatermark/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include/json,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/posix,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/win32,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxWatermark/src,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
@@ -764,25 +765,25 @@
 				HEADER_SEARCH_PATHS = (
 					"$(OF_CORE_HEADERS)",
 					src,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/libs,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/src,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include/json,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/src,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/src,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/posix,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/win32,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/src,
-					../../of_v0.9.3_osx_release/addons/ofxWatermark/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include/json,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/posix,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/win32,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxWatermark/src,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CPLUSPLUSFLAGS = (
@@ -803,39 +804,40 @@
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../of_v0.9.3_osx_release/libs/glut/lib/osx\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../../_BUILDENV_/of_v0.9.3_osx_release/libs/glut/lib/osx\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = NONE;
 				HEADER_SEARCH_PATHS = (
 					"$(OF_CORE_HEADERS)",
 					src,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/libs,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/src,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include/json,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/src,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/src,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/posix,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/win32,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/src,
-					../../of_v0.9.3_osx_release/addons/ofxWatermark/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include/json,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/posix,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/win32,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxWatermark/src,
 				);
 				ICON = "$(ICON_NAME_DEBUG)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
 				INSTALL_PATH = /Applications;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mach1.cubeloader;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mach1.cubedemo;
 				PRODUCT_NAME = "$(TARGET_NAME)Debug";
 				WRAPPER_EXTENSION = app;
 			};
@@ -851,38 +853,39 @@
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../of_v0.9.3_osx_release/libs/glut/lib/osx\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../../_BUILDENV_/of_v0.9.3_osx_release/libs/glut/lib/osx\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = NONE;
 				HEADER_SEARCH_PATHS = (
 					"$(OF_CORE_HEADERS)",
 					src,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/libs,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src,
-					../../of_v0.9.3_osx_release/addons/ofxImGui/src,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include/json,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/src,
-					../../of_v0.9.3_osx_release/addons/ofxJSON/src,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/posix,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/win32,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc,
-					../../of_v0.9.3_osx_release/addons/ofxOsc/src,
-					../../of_v0.9.3_osx_release/addons/ofxWatermark/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/libs/imgui/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxImGui/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/include/json,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/libs/jsoncpp/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxJSON/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/posix,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/ip/win32,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/libs/oscpack/src/osc,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxOsc/src,
+					../../../../_BUILDENV_/of_v0.9.3_osx_release/addons/ofxWatermark/src,
 				);
 				ICON = "$(ICON_NAME_RELEASE)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
 				INSTALL_PATH = /Applications;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mach1.cubeloader;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mach1.cubedemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 				baseConfigurationReference = E4EB6923138AFD0F00A09F29;

@@ -33,6 +33,8 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     
+    bool setupFinished = false;
+    
     ofSerial serial;
     
     int selectedTest = 0;

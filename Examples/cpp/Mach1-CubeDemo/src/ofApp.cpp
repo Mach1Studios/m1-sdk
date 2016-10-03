@@ -10,9 +10,15 @@ void ofApp::setup(){
     watermark.init("m1mark.png", "b2318ada53073a1eac0b20560718d58e");
     
     //hardcode controller input if available
-    //serial.setup("/dev/cu.Mach1-01-DevB", 115200);
+//    serial.setup("/dev/cu.Mach1-01-DevB", 115200);
     arduinoWatcher.arduinoFound = [&](std::string address) {
         ofLog() << "arduino found at " << address;
+        ofLog() << "waiting for setup to finish...";
+        
+        while (!setupFinished) {
+            
+        };
+        
         initializedController = true;
         serial.setup(address, 115200);
         while(!serial.isInitialized()) {
@@ -51,6 +57,8 @@ void ofApp::setup(){
     material.setShininess( 120 );
     // the light highlight of the material //
     material.setSpecularColor(ofColor(255, 255, 255, 255));
+    
+    setupFinished = true;
 }
 
 //--------------------------------------------------------------

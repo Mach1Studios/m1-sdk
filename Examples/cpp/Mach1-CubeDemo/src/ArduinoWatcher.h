@@ -40,7 +40,7 @@ public:
     }
     
     void threadedFunction() {
-        while (true) {
+        while (isThreadRunning()) {
             // Searching for new arduinos
             
             auto search = separateString(ofSystem("ls /dev/cu.Mach1*"));
@@ -52,18 +52,32 @@ public:
                 }
             }
             
+            ofLog() << "yet to test: " << testSubjects.size();
+            if (testSubjects.size() == 0) {
+                stopThread();
+                return;
+            }
             // Evaluating older ones
             
             while (testSubjects.size() > 0) {
                 ofSerial serial;
-                //ofSleepMillis(500);
+                
+                if (!isThreadRunning()) return;
+
+                
                 if (serial.setup(testSubjects[testSubjects.size() - 1], 115200)) {
                     float testStarted = ofGetElapsedTimef();
                     int gotBytes = 0;
                     std::string result = "";
                     while (((ofGetElapsedTimef() - testStarted) < 2)
                            && (gotBytes < 100)) {
+                        
+                        if (!isThreadRunning()) return;
+                        
                         while ((serial.available()) && (gotBytes < 100)) {
+                            
+                            if (!isThreadRunning()) return;
+                            
                             result += (char)serial.readByte();
                             gotBytes++;
                         }
@@ -85,6 +99,7 @@ public:
                     ofLog() << "Code Count: " << slCount;
                     
                     serial.close();
+                    while (serial.isInitialized()) {};
                     if (slCount > 10) arduinoFound(testSubjects[testSubjects.size() - 1]);
                     
                 } else {

@@ -11,9 +11,13 @@ void ofApp::setup(){
     
     //hardcode controller input if available
 //    serial.setup("/dev/cu.Mach1-01-DevB", 115200);
-    arduinoWatcher.arduinoFound = [&](std::string address) {
+    arduinoWatcher = new ArduinoWatcher();
+    arduinoWatcher->arduinoFound = [&](std::string address) {
         ofLog() << "arduino found at " << address;
         ofLog() << "waiting for setup to finish...";
+        
+        arduinoWatcher->stopThread();
+
         
         while (!setupFinished) {
             
@@ -43,15 +47,18 @@ void ofApp::setup(){
     
     sphere.setRadius( ofGetWidth() / 20 );
     
+    pointLight = new ofLight();
     ofSetSmoothLighting(true);
-    pointLight.setDiffuseColor( ofFloatColor(.85, .85, .55) );
-    pointLight.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
+    pointLight->setDiffuseColor( ofFloatColor(.85, .85, .55) );
+    pointLight->setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
     
-    pointLight2.setDiffuseColor( ofFloatColor( 238.f/255.f, 57.f/255.f, 135.f/255.f ));
-    pointLight2.setSpecularColor(ofFloatColor(.8f, .8f, .9f));
+    pointLight2 = new ofLight();
+    pointLight2->setDiffuseColor( ofFloatColor( 238.f/255.f, 57.f/255.f, 135.f/255.f ));
+    pointLight2->setSpecularColor(ofFloatColor(.8f, .8f, .9f));
     
-    pointLight3.setDiffuseColor( ofFloatColor(19.f/255.f,94.f/255.f,77.f/255.f) );
-    pointLight3.setSpecularColor( ofFloatColor(18.f/255.f,150.f/255.f,135.f/255.f) );
+    pointLight3 = new ofLight();
+    pointLight3->setDiffuseColor( ofFloatColor(19.f/255.f,94.f/255.f,77.f/255.f) );
+    pointLight3->setSpecularColor( ofFloatColor(18.f/255.f,150.f/255.f,135.f/255.f) );
     
     // shininess is a value between 0 - 128, 128 being the most shiny //
     material.setShininess( 120 );
@@ -69,6 +76,8 @@ void ofApp::updateSimulationAngles() {
 //--------------------------------------------------------------
 void ofApp::update(){
     
+    if (initializedController)
+    if (serial.isInitialized())
     if (serial.available()) {
         if (queueBuffer.size() > 0) {
             queueBuffer.clear();
@@ -101,11 +110,11 @@ void ofApp::update(){
     // angle handler//
     if (angleZ)
         
-        pointLight.setPosition((ofGetWidth()*.5)+ cos(ofGetElapsedTimef()*.15)*(ofGetWidth()*.3), ofGetHeight()/2, 500);
-    pointLight2.setPosition((ofGetWidth()*.5)+ cos(ofGetElapsedTimef()*.015)*(ofGetWidth()*.3),
+        pointLight->setPosition((ofGetWidth()*.5)+ cos(ofGetElapsedTimef()*.15)*(ofGetWidth()*.3), ofGetHeight()/2, 500);
+    pointLight2->setPosition((ofGetWidth()*.5)+ cos(ofGetElapsedTimef()*.015)*(ofGetWidth()*.3),
                             ofGetHeight()*.5 + sin(ofGetElapsedTimef()*.07)*(ofGetHeight()), -300);
     
-    pointLight3.setPosition(
+    pointLight3->setPosition(
                             cos(ofGetElapsedTimef()*0.15) * ofGetWidth()*.5,
                             sin(ofGetElapsedTimef()*0.15f) * ofGetWidth()*.5,
                             cos(ofGetElapsedTimef()*.02) * ofGetWidth()
@@ -200,9 +209,9 @@ void ofApp::draw(){
     // Drawing spectator and arrow
     
     ofEnableLighting();
-    pointLight.enable();
-    pointLight2.enable();
-    pointLight3.enable();
+    pointLight->enable();
+    pointLight2->enable();
+    pointLight3->enable();
     
     material.begin();
     
@@ -228,7 +237,7 @@ void ofApp::draw(){
     // UI
     
     ofSetColor(255);
-    logo.draw(0, 0, 75, 80);
+    //logo.draw(0, 0, 75, 80);
     
     ImGuiWindowFlags window_flags = 0;
     window_flags |= ImGuiWindowFlags_NoTitleBar;

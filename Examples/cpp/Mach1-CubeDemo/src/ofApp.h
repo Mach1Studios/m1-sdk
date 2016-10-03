@@ -19,6 +19,17 @@ public:
     void setup();
     void update();
     void draw();
+    void exit() {
+        delete pointLight;
+        delete pointLight2;
+        delete pointLight3;
+        
+        serial.close();
+        arduinoWatcher->stopThread();
+        ofSleepMillis(5000);
+        
+        delete arduinoWatcher;
+    }
     
     void serialAngleUpdate(float serialY, float serialP);
     void keyPressed(int key);
@@ -47,16 +58,16 @@ public:
     
     float angleX, angleY, angleZ;
 
-    ArduinoWatcher arduinoWatcher;
+    ArduinoWatcher *arduinoWatcher;
     bool initializedController = false;
     
     // Visualizing
     
     ofPoint spectatorCam = ofPoint(0.25, 0.5); // spectator cam angle
     
-    ofLight pointLight;
-    ofLight pointLight2;
-    ofLight pointLight3;
+    ofLight *pointLight;
+    ofLight *pointLight2;
+    ofLight *pointLight3;
     ofMaterial material;
     
     ofSpherePrimitive sphere;

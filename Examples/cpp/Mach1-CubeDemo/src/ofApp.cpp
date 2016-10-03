@@ -19,9 +19,9 @@ void ofApp::setup(){
         arduinoWatcher->stopThread();
 
         
-        while (!setupFinished) {
-            
-        };
+//        while (!setupFinished) {
+//            
+//        };
         
         initializedController = true;
         serial.setup(address, 115200);
@@ -29,7 +29,7 @@ void ofApp::setup(){
             
         }
         
-        ofLog() << "serial initialized";
+        ofLog() << "serial initialized at " << ofGetElapsedTimef();
         std::string message = std::string("m1heard");
         for (int i = 0; i < message.size(); i++) {
             serial.writeByte(message[i]);

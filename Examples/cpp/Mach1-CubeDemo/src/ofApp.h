@@ -26,7 +26,7 @@ public:
         
         serial.close();
         arduinoWatcher->stopThread();
-        ofSleepMillis(5000);
+        ofSleepMillis(1000);
         
         delete arduinoWatcher;
     }

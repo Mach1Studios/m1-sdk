@@ -70,11 +70,11 @@ public:
                     int gotBytes = 0;
                     std::string result = "";
                     while (((ofGetElapsedTimef() - testStarted) < 2)
-                           && (gotBytes < 100)) {
+                           && (gotBytes < 30)) {
                         
                         if (!isThreadRunning()) return;
                         
-                        while ((serial.available()) && (gotBytes < 100)) {
+                        while ((serial.available()) && (gotBytes < 30)) {
                             
                             if (!isThreadRunning()) return;
                             
@@ -96,11 +96,12 @@ public:
                     std::string testStr;
                     testStr += '\377';
                     int slCount = stringCount(result, testStr);
-                    ofLog() << "Code Count: " << slCount;
+                    ofLog() << "Code Count: " << slCount << " ; time:" << ofGetElapsedTimef();
                     
+                    serial.flush();
                     serial.close();
                     while (serial.isInitialized()) {};
-                    if (slCount > 10) arduinoFound(testSubjects[testSubjects.size() - 1]);
+                    if (slCount > 4) arduinoFound(testSubjects[testSubjects.size() - 1]);
                     
                 } else {
                     ofLog() << "failed to open port " << testSubjects[testSubjects.size() - 1];

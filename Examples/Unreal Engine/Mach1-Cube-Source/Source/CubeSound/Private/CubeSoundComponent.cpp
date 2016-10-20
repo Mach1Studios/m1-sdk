@@ -155,7 +155,7 @@ void UCubeSoundComponent::SetVolume(float NewVolume)
 	Volume = FMath::Max(MIN_SOUND_VOLUME, NewVolume);
 
 
-	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
+	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL/2; i+=2)
 	{
 		float NetVolume = VolumeFactor[i] * Volume;
 
@@ -163,7 +163,7 @@ void UCubeSoundComponent::SetVolume(float NewVolume)
 
 		LeftChannels[i]->SetVolumeMultiplier(NetVolume);
 		
-		NetVolume = VolumeFactor[i+8] * Volume;
+		NetVolume = VolumeFactor[i+1] * Volume;
 
 		NetVolume = FMath::Max(MIN_SOUND_VOLUME, NetVolume);
 
@@ -177,9 +177,8 @@ void UCubeSoundComponent::CalculateChannelVolumes()
 		return;
 	FRotator CameraRotation = APCM->GetCameraRotation();
 
-	std::vector<float> result = eightChannelsAlgorithm(CameraRotation.Yaw, CameraRotation.Pitch, CameraRotation.Roll);
-
-	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL*2; i++)
+	std::vector<float> result = eightChannelsAlgorithm(CameraRotation.Pitch >= 270 ? CameraRotation.Pitch - 270 : CameraRotation.Pitch + 90, CameraRotation.Yaw, CameraRotation.Roll - 180);
+ 	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL*2; i++)
 		VolumeFactor[i] = result[i];
 
 	SetVolume(Volume);

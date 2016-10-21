@@ -13,13 +13,13 @@ UCubeSoundComponent::UCubeSoundComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 	Volume = 1;
 
-	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL*2; i++)
+	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
 		VolumeFactor.Add(1);
 
 	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 	{
-		LeftChannels.Add( CreateDefaultSubobject<UAudioComponent>(FName(*("Left Channel "+FString::FromInt(i)))) );
-		RightChannels.Add( CreateDefaultSubobject<UAudioComponent>(FName(*("Right Channel " + FString::FromInt(i)))) );
+		LeftChannels.Add(CreateDefaultSubobject<UAudioComponent>(FName(*("Left Channel " + FString::FromInt(i)))));
+		RightChannels.Add(CreateDefaultSubobject<UAudioComponent>(FName(*("Right Channel " + FString::FromInt(i)))));
 	}
 	// ...
 }
@@ -44,7 +44,7 @@ void UCubeSoundComponent::SetSoundSet(UEightChannelAudioSet* NewAudioSet)
 		return;
 
 	Sounds.Empty();
-	
+
 	CurrentAudioSet = NewAudioSet;
 
 	Sounds.Add(NewAudioSet->FrontUpLeftChannel);
@@ -64,7 +64,7 @@ void UCubeSoundComponent::SetSoundSet(UEightChannelAudioSet* NewAudioSet)
 }
 
 // Called every frame
-void UCubeSoundComponent::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
+void UCubeSoundComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
@@ -87,7 +87,7 @@ bool UCubeSoundComponent::ShouldTryInitialisation()
 
 void UCubeSoundComponent::Init()
 {
-	
+
 	OwningActor = GetOwner();
 
 	if (OwningActor != nullptr)
@@ -100,7 +100,7 @@ void UCubeSoundComponent::Init()
 		/*
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL / 2; i++)
 		{
-			VirtualPositions.Add(FRotator(45, -45 + (i * 90), 0).Vector());	
+			VirtualPositions.Add(FRotator(45, -45 + (i * 90), 0).Vector());
 			UE_LOG(LogTemp, Warning, TEXT("Virtual position %s %i"), *VirtualPositions[i].ToString(),i);
 
 		}
@@ -124,7 +124,7 @@ void UCubeSoundComponent::Init()
 			RightChannels[i]->SetRelativeLocation(FVector(0, 1, 0));
 		}
 
-		
+
 		SetSoundSet(NewObject<UEightChannelAudioSet>(OwningActor, AudioSet));
 
 		bInitSuccess = true;
@@ -155,15 +155,15 @@ void UCubeSoundComponent::SetVolume(float NewVolume)
 	Volume = FMath::Max(MIN_SOUND_VOLUME, NewVolume);
 
 
-	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL/2; i+=2)
+	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i ++)
 	{
 		float NetVolume = VolumeFactor[i] * Volume;
 
 		NetVolume = FMath::Max(MIN_SOUND_VOLUME, NetVolume);
 
 		LeftChannels[i]->SetVolumeMultiplier(NetVolume);
-		
-		NetVolume = VolumeFactor[i+1] * Volume;
+
+		NetVolume = VolumeFactor[i + 8] * Volume;
 
 		NetVolume = FMath::Max(MIN_SOUND_VOLUME, NetVolume);
 
@@ -177,8 +177,9 @@ void UCubeSoundComponent::CalculateChannelVolumes()
 		return;
 	FRotator CameraRotation = APCM->GetCameraRotation();
 
-	std::vector<float> result = eightChannelsAlgorithm(CameraRotation.Pitch >= 270 ? CameraRotation.Pitch - 270 : CameraRotation.Pitch + 90, CameraRotation.Yaw, CameraRotation.Roll - 180);
- 	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL*2; i++)
+	std::vector<float> result = eightChannelsAlgorithm(CameraRotation.Pitch >= 270 ? CameraRotation.Pitch - 360 : CameraRotation.Pitch, CameraRotation.Yaw, CameraRotation.Roll > 270 ? CameraRotation.Roll - 360 : CameraRotation.Roll);
+
+	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
 		VolumeFactor[i] = result[i];
 
 	SetVolume(Volume);

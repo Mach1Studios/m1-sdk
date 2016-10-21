@@ -157,19 +157,30 @@ void UCubeSoundComponent::SetVolume(float NewVolume)
 
 	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i ++)
 	{
-		float NetVolume = VolumeFactor[i] * Volume;
+		float NetVolume = VolumeFactor[i*2] * Volume;
 
 		NetVolume = FMath::Max(MIN_SOUND_VOLUME, NetVolume);
 
 		LeftChannels[i]->SetVolumeMultiplier(NetVolume);
 
-		NetVolume = VolumeFactor[i + 8] * Volume;
+		NetVolume = VolumeFactor[i*2 + 1] * Volume;
 
 		NetVolume = FMath::Max(MIN_SOUND_VOLUME, NetVolume);
 
 		RightChannels[i]->SetVolumeMultiplier(NetVolume);
 	}
 }
+
+#include <sstream>
+
+template<typename T>
+std::string toString(const T& value)
+{
+	std::ostringstream oss;
+	oss.precision(2);
+	oss << std::fixed << value;
+	return oss.str();
+} 
 
 void UCubeSoundComponent::CalculateChannelVolumes()
 {
@@ -178,6 +189,28 @@ void UCubeSoundComponent::CalculateChannelVolumes()
 	FRotator CameraRotation = APCM->GetCameraRotation();
 
 	std::vector<float> result = eightChannelsAlgorithm(CameraRotation.Pitch >= 270 ? CameraRotation.Pitch - 360 : CameraRotation.Pitch, CameraRotation.Yaw, CameraRotation.Roll > 270 ? CameraRotation.Roll - 360 : CameraRotation.Roll);
+
+	//#if UE_BUILD_DEBUG
+	std::string str = "angles: " + toString(CameraRotation.Pitch >= 270 ? CameraRotation.Pitch - 360 : CameraRotation.Pitch) + " , " + toString(CameraRotation.Yaw) + " , " + toString(CameraRotation.Roll > 270 ? CameraRotation.Roll - 360 : CameraRotation.Roll);
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, str.c_str());
+
+	std::string info;
+	info = "left:  ";
+	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL ; i++)
+	{
+		info += toString(result[i*2]) + ", ";
+	}
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, info.c_str());
+
+	info = "right: ";
+	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
+	{
+		info += toString(result[i*2 + 1]) + ", ";
+	}
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, info.c_str());
+
+	//UE_LOG(LogTemp, Log, TEXT("Your message"));
+	//#endif
 
 	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
 		VolumeFactor[i] = result[i];

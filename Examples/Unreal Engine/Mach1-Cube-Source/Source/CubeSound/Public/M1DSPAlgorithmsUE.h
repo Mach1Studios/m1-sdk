@@ -33,6 +33,19 @@ static float mmap(float value, float inputMin, float inputMax, float outputMin, 
 }
 
 
+float clamp(float a, float min, float max )
+{
+	return (a < min) ? min : ((a > max) ? max : a);
+}
+
+float alignAngle(float a, float min = -180, float max = 180)
+{
+	while (a < min) a += 360;
+	while (a > max) a -= 360;
+
+	return a;
+}
+
 
 //--------------------------------------------------
 
@@ -77,6 +90,16 @@ static std::vector<float> fourChannelAlgorithm(float X, float Y, float Z) {
 //
 
 static std::vector<float> eightChannelsAlgorithm(float X, float Y, float Z) {
+	
+	X = alignAngle(X, -180, 180);
+	X = clamp(X, -90, 90); // -90, 90
+
+	Y = alignAngle(Y, 0, 360);
+
+	Z = alignAngle(Z, -180, 180);
+	Z = clamp(Z, -90, 90); // -90, 90
+	 
+	
 	float coefficients[8];
 	coefficients[0] = 1. - FMath::Min(1., FMath::Min((float)360. - Y, Y) / 90.);
 	coefficients[1] = 1. - FMath::Min(1., std::abs((float)90. - Y) / 90.);

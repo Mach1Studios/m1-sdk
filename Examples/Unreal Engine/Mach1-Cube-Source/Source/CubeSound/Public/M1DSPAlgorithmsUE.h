@@ -33,12 +33,12 @@ static float mmap(float value, float inputMin, float inputMax, float outputMin, 
 }
 
 
-float clamp(float a, float min, float max )
+static float clamp(float a, float min, float max )
 {
 	return (a < min) ? min : ((a > max) ? max : a);
 }
 
-float alignAngle(float a, float min = -180, float max = 180)
+static float alignAngle(float a, float min = -180, float max = 180)
 {
 	while (a < min) a += 360;
 	while (a > max) a -= 360;

@@ -1,4 +1,11 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+//
+//  Mach1 SDK
+//
+//  Multichannel audio format family
+//
+//  Mixing algorithms v 0.8.3
+//
+//  Please fill out the appropriate copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -108,9 +115,14 @@ static std::vector<float> eightChannelsAlgorithm(float X, float Y, float Z) {
 
 	fourChannelAlgorithm(X, Y, Z);
 
-	float tiltAngle = mmap(Z, -90, 90, 0., 1., true);
-	float tiltHigh = cos(tiltAngle * (0.5 * PI));
-	float tiltLow = cos((1.0 - tiltAngle) * (0.5 * PI));
+    float tiltAngle = mmap(Z, -90, 90, 0., 1., true);
+    //Use Equal Power if engine requires
+    /*
+     float tiltHigh = cos(tiltAngle * (0.5 * PI));
+     float tiltLow = cos((1.0 - tiltAngle) * (0.5 * PI));
+     */
+    float tiltHigh = tiltAngle;
+    float tiltLow = 1 - tiltHigh;
 
 	//ISSUE//
 	//Able to kill stereo by making both pitch and tilt at max or min values together

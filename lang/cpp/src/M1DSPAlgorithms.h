@@ -3,7 +3,7 @@
 //
 //  Multichannel audio format family
 //
-//  Mixing algorithms v 0.8.2
+//  Mixing algorithms v 0.8.3
 //
 
 #pragma once
@@ -42,13 +42,26 @@ static float mmap(float value, float inputMin, float inputMax, float outputMin, 
     
 }
 
+static float clamp(float a, float min, float max )
+{
+    return (a < min) ? min : ((a > max) ? max : a);
+}
+
+static float alignAngle(float a, float min = -180, float max = 180)
+{
+    while (a < min) a += 360;
+    while (a > max) a -= 360;
+    
+    return a;
+}
+
 //--------------------------------------------------
 
 //
 //  Four channel audio format.
 //
-//  X = Yaw in angles
-//  Y = Pitch in angles
+//  X = Pitch in angles
+//  Y = Yaw in angles
 //  Z = Roll in angles
 //
 
@@ -78,8 +91,8 @@ static std::vector<float> fourChannelAlgorithm(float X, float Y, float Z) {
 //
 //  Four pairs audio format.
 //
-//  X = Yaw in angles
-//  Y = Pitch in angles
+//  X = Pitch in angles
+//  Y = Yaw in angles
 //  Z = Roll in angles
 //
 
@@ -103,12 +116,22 @@ static std::vector<float> fourPairsAlgorithm(float X, float Y, float Z) {
 //
 //  Eight channel audio format.
 //
-//  X = Yaw in angles
-//  Y = Pitch in angles
+//  X = Pitch in angles
+//  Y = Yaw in angles
 //  Z = Roll in angles
 //
 
 static std::vector<float> eightChannelsAlgorithm(float X, float Y, float Z) {
+    
+    //Orientation input safety clamps/alignment
+    X = alignAngle(X, -180, 180);
+    X = clamp(X, -90, 90); // -90, 90
+    
+    Y = alignAngle(Y, 0, 360);
+    
+    Z = alignAngle(Z, -180, 180);
+    Z = clamp(Z, -90, 90); // -90, 90
+    
     float coefficients[8];
     coefficients[0] = 1. - std::min(1., std::min((float)360. - Y, Y) / 90.);
     coefficients[1] = 1. - std::min(1., std::abs((float)90. - Y) / 90.);
@@ -118,13 +141,16 @@ static std::vector<float> eightChannelsAlgorithm(float X, float Y, float Z) {
     fourChannelAlgorithm(X, Y, Z);
     
     float tiltAngle = mmap(Z, -90, 90, 0., 1., true);
-//    float tiltHigh = cos(tiltAngle * (0.5 * PI));
-//    float tiltLow = cos((1.0 - tiltAngle) * (0.5 * PI));
+    //Use Equal Power if engine requires
+    /*
+    float tiltHigh = cos(tiltAngle * (0.5 * PI));
+    float tiltLow = cos((1.0 - tiltAngle) * (0.5 * PI));
+     */
     float tiltHigh = tiltAngle;
     float tiltLow = 1 - tiltHigh;
     
     //ISSUE//
-    //Able to kill stereo by making both pitch and tilt at max or min values together
+    //Able to kill stereo by making both pitch and tilt at max or min values together without proper clamps
     
     std::vector<float> result;
     result.resize(16);
@@ -147,8 +173,11 @@ static std::vector<float> eightChannelsAlgorithm(float X, float Y, float Z) {
     result[7 + 8] = coefficients[1] * tiltLow ; //   right
     
     float pitchAngle = mmap(X, 90, -90, 0., 1., true);
-    //float pitchHigherHalf = cos(pitchAngle * (0.5*PI));
-    //float pitchLowerHalf = cos((1.0 - pitchAngle) * (0.5*PI));
+    //Use Equal Power if engine requires
+    /*
+    float pitchHigherHalf = cos(pitchAngle * (0.5*PI));
+    float pitchLowerHalf = cos((1.0 - pitchAngle) * (0.5*PI));
+    */
     float pitchHigherHalf = pitchAngle;
     float pitchLowerHalf = 1 - pitchHigherHalf;
     
@@ -165,8 +194,8 @@ static std::vector<float> eightChannelsAlgorithm(float X, float Y, float Z) {
 //
 //  Eight pairs audio format.
 //
-//  X = Yaw in angles
-//  Y = Pitch in angles
+//  X = Pitch in angles
+//  Y = Yaw in angles
 //  Z = Roll in angles
 //
 

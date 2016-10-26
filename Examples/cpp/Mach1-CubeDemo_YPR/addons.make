@@ -1,0 +1,4 @@
+ofxImGui
+ofxJSON
+ofxOsc
+ofxWatermark

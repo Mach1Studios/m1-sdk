@@ -204,7 +204,7 @@ static std::vector<float> eightChannelsAlgorithm(float Yaw, float Pitch, float R
 //
 
 static std::vector<float> eightPairsAlgorithm(float Yaw, float Pitch, float Roll) {
-    float volumes[4];
+    float volumes[8];
     volumes[0] = 1. - std::min(1., std::min((float)360. - Yaw, Yaw) / 90.);
     volumes[1] = 1. - std::min(1., std::abs((float)90. - Yaw) / 90.);
     volumes[2] = 1. - std::min(1., std::abs((float)180. - Yaw) / 90.);

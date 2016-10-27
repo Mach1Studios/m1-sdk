@@ -3,7 +3,7 @@
 //
 //  Multichannel audio format family
 //
-//  Mixing algorithms v 0.8.3
+//  Mixing algorithms v 0.9.0
 //
 
 #pragma once
@@ -58,19 +58,20 @@ static float alignAngle(float a, float min = -180, float max = 180)
 //--------------------------------------------------
 
 //
-//  Four channel audio format.
+//  Four channel audio format
 //
-//  X = Pitch in angles
+//  Order of input angles:
 //  Y = Yaw in angles
-//  Z = Roll in angles
+//  P = Pitch in angles
+//  R = Roll in angles
 //
 
-static std::vector<float> fourChannelAlgorithm(float X, float Y, float Z) {
+static std::vector<float> fourChannelAlgorithm(float Yaw, float Pitch, float Roll) {
     float coefficients[4];
-    coefficients[0] = 1. - std::min(1., std::min((float)360. - Y, Y) / 90.);
-    coefficients[1] = 1. - std::min(1., std::abs((float)90. - Y) / 90.);
-    coefficients[2] = 1. - std::min(1., std::abs((float)180. - Y) / 90.);
-    coefficients[3] = 1. - std::min(1., std::abs((float)270. - Y) / 90.);
+    coefficients[0] = 1. - std::min(1., std::min((float)360. - Yaw, Yaw) / 90.);
+    coefficients[1] = 1. - std::min(1., std::abs((float)90. - Yaw) / 90.);
+    coefficients[2] = 1. - std::min(1., std::abs((float)180. - Yaw) / 90.);
+    coefficients[3] = 1. - std::min(1., std::abs((float)270. - Yaw) / 90.);
     
     
     std::vector<float> result;
@@ -91,17 +92,18 @@ static std::vector<float> fourChannelAlgorithm(float X, float Y, float Z) {
 //
 //  Four pairs audio format.
 //
-//  X = Pitch in angles
+//  Order of input angles:
 //  Y = Yaw in angles
-//  Z = Roll in angles
+//  P = Pitch in angles
+//  R = Roll in angles
 //
 
-static std::vector<float> fourPairsAlgorithm(float X, float Y, float Z) {
+static std::vector<float> fourPairsAlgorithm(float Yaw, float Pitch, float Roll) {
     float volumes[4];
-    volumes[0] = 1. - std::min(1., std::min((float)360. - Y, Y) / 90.);
-    volumes[1] = 1. - std::min(1., std::abs((float)90. - Y) / 90.);
-    volumes[2] = 1. - std::min(1., std::abs((float)180. - Y) / 90.);
-    volumes[3] = 1. - std::min(1., std::abs((float)270. - Y) / 90.);
+    volumes[0] = 1. - std::min(1., std::min((float)360. - Yaw, Yaw) / 90.);
+    volumes[1] = 1. - std::min(1., std::abs((float)90. - Yaw) / 90.);
+    volumes[2] = 1. - std::min(1., std::abs((float)180. - Yaw) / 90.);
+    volumes[3] = 1. - std::min(1., std::abs((float)270. - Yaw) / 90.);
     
     std::vector<float> result;
     result.push_back(volumes[0]);
@@ -116,38 +118,39 @@ static std::vector<float> fourPairsAlgorithm(float X, float Y, float Z) {
 //
 //  Eight channel audio format.
 //
-//  X = Pitch in angles
+//  Order of input angles:
 //  Y = Yaw in angles
-//  Z = Roll in angles
+//  P = Pitch in angles
+//  R = Roll in angles
 //
 
-static std::vector<float> eightChannelsAlgorithm(float X, float Y, float Z) {
+static std::vector<float> eightChannelsAlgorithm(float Yaw, float Pitch, float Roll) {
     
     //Orientation input safety clamps/alignment
-    X = alignAngle(X, -180, 180);
-    X = clamp(X, -90, 90); // -90, 90
+    Pitch = alignAngle(Pitch, -180, 180);
+    Pitch = clamp(Pitch, -90, 90); // -90, 90
     
-    Y = alignAngle(Y, 0, 360);
+    Yaw = alignAngle(Yaw, 0, 360);
     
-    Z = alignAngle(Z, -180, 180);
-    Z = clamp(Z, -90, 90); // -90, 90
+    Roll = alignAngle(Roll, -180, 180);
+    Roll = clamp(Roll, -90, 90); // -90, 90
     
     float coefficients[8];
-    coefficients[0] = 1. - std::min(1., std::min((float)360. - Y, Y) / 90.);
-    coefficients[1] = 1. - std::min(1., std::abs((float)90. - Y) / 90.);
-    coefficients[2] = 1. - std::min(1., std::abs((float)180. - Y) / 90.);
-    coefficients[3] = 1. - std::min(1., std::abs((float)270. - Y) / 90.);
+    coefficients[0] = 1. - std::min(1., std::min((float)360. - Yaw, Yaw) / 90.);
+    coefficients[1] = 1. - std::min(1., std::abs((float)90. - Yaw) / 90.);
+    coefficients[2] = 1. - std::min(1., std::abs((float)180. - Yaw) / 90.);
+    coefficients[3] = 1. - std::min(1., std::abs((float)270. - Yaw) / 90.);
     
-    fourChannelAlgorithm(X, Y, Z);
+    fourChannelAlgorithm(Yaw, Pitch, Roll);
     
-    float tiltAngle = mmap(Z, -90, 90, 0., 1., true);
+    float tiltAngle = mmap(Roll, -90., 90., 0., 1., true);
     //Use Equal Power if engine requires
     /*
-    float tiltHigh = cos(tiltAngle * (0.5 * PI));
-    float tiltLow = cos((1.0 - tiltAngle) * (0.5 * PI));
+     float tiltHigh = cos(tiltAngle * (0.5 * PI));
+     float tiltLow = cos((1.0 - tiltAngle) * (0.5 * PI));
      */
     float tiltHigh = tiltAngle;
-    float tiltLow = 1 - tiltHigh;
+    float tiltLow = 1. - tiltHigh;
     
     //ISSUE//
     //Able to kill stereo by making both pitch and tilt at max or min values together without proper clamps
@@ -172,14 +175,14 @@ static std::vector<float> eightChannelsAlgorithm(float X, float Y, float Z) {
     result[6 + 8] = coefficients[2] * tiltLow ; // 4 left
     result[7 + 8] = coefficients[1] * tiltLow ; //   right
     
-    float pitchAngle = mmap(X, 90, -90, 0., 1., true);
+    float pitchAngle = mmap(Pitch, 90., -90., 0., 1., true);
     //Use Equal Power if engine requires
     /*
-    float pitchHigherHalf = cos(pitchAngle * (0.5*PI));
-    float pitchLowerHalf = cos((1.0 - pitchAngle) * (0.5*PI));
-    */
+     float pitchHigherHalf = cos(pitchAngle * (0.5*PI));
+     float pitchLowerHalf = cos((1.0 - pitchAngle) * (0.5*PI));
+     */
     float pitchHigherHalf = pitchAngle;
-    float pitchLowerHalf = 1 - pitchHigherHalf;
+    float pitchLowerHalf = 1. - pitchHigherHalf;
     
     for (int i = 0; i < 8; i++) {
         result[i] *= pitchLowerHalf;
@@ -194,23 +197,37 @@ static std::vector<float> eightChannelsAlgorithm(float X, float Y, float Z) {
 //
 //  Eight pairs audio format.
 //
-//  X = Pitch in angles
+//  Order of input angles:
 //  Y = Yaw in angles
-//  Z = Roll in angles
+//  P = Pitch in angles
+//  R = Roll in angles
 //
 
-static std::vector<float> eightPairsAlgorithm(float X, float Y, float Z) {
+static std::vector<float> eightPairsAlgorithm(float Yaw, float Pitch, float Roll) {
     float volumes[4];
-    volumes[0] = 1. - std::min(1., std::min((float)360. - Y, Y) / 90.);
-    volumes[1] = 1. - std::min(1., std::abs((float)90. - Y) / 90.);
-    volumes[2] = 1. - std::min(1., std::abs((float)180. - Y) / 90.);
-    volumes[3] = 1. - std::min(1., std::abs((float)270. - Y) / 90.);
+    volumes[0] = 1. - std::min(1., std::min((float)360. - Yaw, Yaw) / 90.);
+    volumes[1] = 1. - std::min(1., std::abs((float)90. - Yaw) / 90.);
+    volumes[2] = 1. - std::min(1., std::abs((float)180. - Yaw) / 90.);
+    volumes[3] = 1. - std::min(1., std::abs((float)270. - Yaw) / 90.);
+    
+    float pitchAngle = mmap(Pitch, 90., -90., 0., 1., true);
+    //Use Equal Power if engine requires
+    /*
+     float pitchHigherHalf = cos(pitchAngle * (0.5*PI));
+     float pitchLowerHalf = cos((1.0 - pitchAngle) * (0.5*PI));
+     */
+    float pitchHigherHalf = pitchAngle;
+    float pitchLowerHalf = 1. - pitchHigherHalf;
     
     std::vector<float> result;
-    result.push_back(volumes[0]);
-    result.push_back(volumes[1]);
-    result.push_back(volumes[2]);
-    result.push_back(volumes[3]);
+    result.push_back(volumes[0] * pitchHigherHalf);
+    result.push_back(volumes[1] * pitchHigherHalf);
+    result.push_back(volumes[2] * pitchHigherHalf);
+    result.push_back(volumes[3] * pitchHigherHalf);
+    result.push_back(volumes[4] * pitchLowerHalf);
+    result.push_back(volumes[5] * pitchLowerHalf);
+    result.push_back(volumes[6] * pitchLowerHalf);
+    result.push_back(volumes[7] * pitchLowerHalf);
     return result;
 }
 

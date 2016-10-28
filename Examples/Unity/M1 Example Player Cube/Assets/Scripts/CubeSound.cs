@@ -9,16 +9,26 @@ using System.IO;
 
 public class CubeSound : MonoBehaviour
 {
-    public string audioPath = "file:///C:/Projects/Dylan/Observatory%20Ambience%201/Observatory%20Ambience%201/";
-    public string audioFilename01 = "Observatory_AMB_1_T000.wav";
-    public string audioFilename02 = "Observatory_AMB_1_T090.wav";
-    public string audioFilename03 = "Observatory_AMB_1_T180.wav";
-    public string audioFilename04 = "Observatory_AMB_1_T270.wav";
-    public string audioFilename05 = "Observatory_AMB_1_B000.wav";
-    public string audioFilename06 = "Observatory_AMB_1_B090.wav";
-    public string audioFilename07 = "Observatory_AMB_1_B180.wav";
-    public string audioFilename08 = "Observatory_AMB_1_B270.wav";
-
+    public string audioPath = "file:///C:/Projects/Dylan/testSound3d/";
+    public string audioFilename1 = "1.wav";
+    public string audioFilename2 = "2.wav";
+    public string audioFilename3 = "3.wav";
+    public string audioFilename4 = "4.wav";
+    public string audioFilename5 = "5.wav";
+    public string audioFilename6 = "6.wav";
+    public string audioFilename7 = "7.wav";
+    public string audioFilename8 = "8.wav";
+    /*
+      public string audioFilename01 = "Observatory_AMB_1_T000.wav";
+        public string audioFilename02 = "Observatory_AMB_1_T090.wav";
+        public string audioFilename03 = "Observatory_AMB_1_T180.wav";
+        public string audioFilename04 = "Observatory_AMB_1_T270.wav";
+        public string audioFilename05 = "Observatory_AMB_1_B000.wav";
+        public string audioFilename06 = "Observatory_AMB_1_B090.wav";
+        public string audioFilename07 = "Observatory_AMB_1_B180.wav";
+        public string audioFilename08 = "Observatory_AMB_1_B270.wav";
+    
+         */
     private int loadedCount;
 
     private AudioSource[] audioSource;
@@ -36,14 +46,14 @@ public class CubeSound : MonoBehaviour
 
         loadedCount = 0;
 
-        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename01), 0));
-        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename02), 1));
-        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename03), 2));
-        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename04), 3));
-        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename05), 4));
-        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename06), 5));
-        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename07), 6));
-        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename08), 7));
+        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename1), 0));
+        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename2), 1));
+        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename3), 2));
+        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename4), 3));
+        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename5), 4));
+        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename6), 5));
+        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename7), 6));
+        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename8), 7));
     }
 
     // Helper function to add audio clip to source, and add this to scene
@@ -66,7 +76,7 @@ public class CubeSound : MonoBehaviour
         Gizmos.color = Color.gray;
         Gizmos.DrawIcon(transform.position, "sound_icon.png", true);
 
-        Gizmos.matrix = gameObject.transform.localToWorldMatrix;
+        Gizmos.matrix = mat; // gameObject.transform.localToWorldMatrix; // mat;// 
         Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
     }
 
@@ -118,13 +128,30 @@ public class CubeSound : MonoBehaviour
         }
     }
 
+
+    Quaternion quat;
+    Matrix4x4 mat;
+
     // Update is called once per frame
     void Update()
     {
         if (IsReady())
         {
-            Vector3 eulerAngles = Camera.main.transform.rotation.eulerAngles;
+            Quaternion quatCamera = Camera.main.transform.rotation;
+            quatCamera.eulerAngles = new Vector3(0, quatCamera.eulerAngles.y, quatCamera.eulerAngles.z);
 
+            Vector3 dir = Camera.main.transform.position - gameObject.transform.position;
+            dir.y = 0;
+            quat = Quaternion.Inverse(Quaternion.LookRotation(dir, Vector3.up)) * quatCamera;
+
+            mat = Matrix4x4.TRS(Camera.main.transform.position,  Quaternion.LookRotation(dir, Vector3.up), new Vector3(1, 1, 1));// gameObject.transform.position, quat, new Vector3(1, 1, 1));
+
+            //Quaternion.RotateTowards(gameObject.transform.rotation, Camera.main.transform.rotation, 360);
+            //quat = Camera.main.transform.rotation * quat;
+
+            //gameObject.transform.rotation = quat;
+
+            Vector3 eulerAngles = quat.eulerAngles;
             eulerAngles.x = eulerAngles.x > 180 ? 360 - eulerAngles.x : -eulerAngles.x;
 
             Debug.Log("eulerAngles:" + eulerAngles);
@@ -136,11 +163,24 @@ public class CubeSound : MonoBehaviour
             }
         }
 
-        //Debug.DrawLine(new Vector3(0, 0, 0), new Vector3(2, 1, 10), Color.red);
+        // Debug
+        {
+            // Draw forward vector from camera
+            Quaternion quatCamera = Camera.main.transform.rotation;
+            quatCamera.eulerAngles = new Vector3(0, quatCamera.eulerAngles.y, quatCamera.eulerAngles.z);
+
+            Vector3 targetForward = quatCamera * (Vector3.forward * 3);
+            Debug.DrawLine(Camera.main.transform.position, Camera.main.transform.position + targetForward, Color.blue);
+
+            // Draw direction from camera to object
+            Debug.DrawLine(Camera.main.transform.position, gameObject.transform.position, Color.red);
+        }
+
+
         /*
          LineRenderer.SetPosition(0, transform.position);
-LineRenderer.SetPosition(1, target.position); 
-*/
+         LineRenderer.SetPosition(1, target.position); 
+        */
 
 
 

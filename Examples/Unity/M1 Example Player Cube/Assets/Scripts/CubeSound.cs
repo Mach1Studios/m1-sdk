@@ -78,8 +78,13 @@ public class CubeSound : MonoBehaviour
 
         if (www.error == null)
         {
-            audioSource[n * 2] = AddAudio(www.GetAudioClip(false, false), false, true, 1.0f);
-            audioSource[n * 2 + 1] = AddAudio(www.GetAudioClip(false, false), false, true, 1.0f);
+            AudioClip clip = www.GetAudioClip(false, false);
+
+            audioSource[n * 2] = AddAudio(clip, false, true, 1.0f);
+            audioSource[n * 2].panStereo = -1;
+
+            audioSource[n * 2 + 1] = AddAudio(clip, false, true, 1.0f);
+            audioSource[n * 2 + 1].panStereo = 1;
             loadedCount++;
         }
         else
@@ -99,6 +104,9 @@ public class CubeSound : MonoBehaviour
     {
         if (IsReady())
         {
+            //audioSource[0].Play();
+            //audioSource[1].Play();
+
             for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
             {
                 audioSource[i].Play();

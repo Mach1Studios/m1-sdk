@@ -30,6 +30,7 @@ Debug Tools:
 Implementation: 
 
 * Unreal Engine Actors / Directional Sound Suite
+* Unity Directional Sound Suite 
 
 
 ### Contact ###

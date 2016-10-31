@@ -9,7 +9,7 @@ using System.IO;
 
 public class CubeSound : MonoBehaviour
 {
-    public string audioPath = "file:///C:/Projects/Dylan/testSound3d/";
+    public string audioPath = "file://";
     public string[] audioFilename;
 
     public bool useFalloff = true;
@@ -157,6 +157,7 @@ public class CubeSound : MonoBehaviour
 
             Vector3 eulerAngles = quat.eulerAngles;
             eulerAngles.x = eulerAngles.x > 180 ? 360 - eulerAngles.x : -eulerAngles.x;
+			eulerAngles.y += 180;
 
             //Debug.Log("eulerAngles:" + eulerAngles);
 

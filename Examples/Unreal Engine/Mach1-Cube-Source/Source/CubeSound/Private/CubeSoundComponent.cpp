@@ -1,4 +1,10 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+//
+//  Mach1 SDK
+//
+//  Multichannel audio format family
+//
+//  CubeComponent
+//
 
 #include "CubeSound.h"
 #include "CubeSoundComponent.h"

@@ -3,9 +3,8 @@
 //
 //  Multichannel audio format family
 //
-//  Mixing algorithms v 0.8.3
+//  Mixing algorithms UE
 //
-//  Please fill out the appropriate copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -15,7 +14,7 @@
 
 #define __FLT_EPSILON__ 1.19209290e-07F
 
-
+//Utility function for mapping values
 static float mmap(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp) {
 
 	if (fabs(inputMin - inputMax) < __FLT_EPSILON__) {
@@ -39,12 +38,13 @@ static float mmap(float value, float inputMin, float inputMax, float outputMin, 
 
 }
 
-
+//Utility function for clamping values 
 static float clamp(float a, float min, float max )
 {
 	return (a < min) ? min : ((a > max) ? max : a);
 }
 
+//Utility function for ensuring angle is aligned to -180/180 range
 static float alignAngle(float a, float min = -180, float max = 180)
 {
 	while (a < min) a += 360;
@@ -58,6 +58,9 @@ static float alignAngle(float a, float min = -180, float max = 180)
 
 //
 //  Four channel audio format.
+//
+//	This calculates 4 input channels setup in a quad/square around listener and creates 4 sets of stereo pairs
+//	positioned 0,90,180,270 degrees around the listener and tracks the listeners yaw orientation to crossfade between them.
 //
 //  X = Yaw in angles
 //  Y = Pitch in angles
@@ -91,13 +94,17 @@ static std::vector<float> fourChannelAlgorithm(float X, float Y, float Z) {
 //
 //  Eight channel audio format.
 //
+//	This calculates 8 input channels setup in a cube around listener and creates 8 sets of stereo pairs
+//	positioned in two sets of 0,90,180,270 degrees aabove and below the listener and tracks the listeners 
+//	yaw/pitch/roll orientation to crossfade between them.
+//
 //  X = Yaw in angles
 //  Y = Pitch in angles
 //  Z = Roll in angles
 //
 
 static std::vector<float> eightChannelsAlgorithm(float X, float Y, float Z) {
-	
+	//ensure the angles are clamped and aligned on input
 	X = alignAngle(X, -180, 180);
 	X = clamp(X, -90, 90); // -90, 90
 
@@ -106,7 +113,7 @@ static std::vector<float> eightChannelsAlgorithm(float X, float Y, float Z) {
 	Z = alignAngle(Z, -180, 180);
 	Z = clamp(Z, -90, 90); // -90, 90
 	 
-	
+	//setup the yaw math
 	float coefficients[8];
 	coefficients[0] = 1. - FMath::Min(1., FMath::Min((float)360. - Y, Y) / 90.);
 	coefficients[1] = 1. - FMath::Min(1., std::abs((float)90. - Y) / 90.);
@@ -115,18 +122,18 @@ static std::vector<float> eightChannelsAlgorithm(float X, float Y, float Z) {
 
 	fourChannelAlgorithm(X, Y, Z);
 
-    float tiltAngle = mmap(Z, -90, 90, 0., 1., true);
-    //Use Equal Power if engine requires
-    /*
-     float tiltHigh = cos(tiltAngle * (0.5 * PI));
-     float tiltLow = cos((1.0 - tiltAngle) * (0.5 * PI));
-     */
-    float tiltHigh = tiltAngle;
-    float tiltLow = 1 - tiltHigh;
+	float tiltAngle = mmap(Z, -90, 90, 0., 1., true);
+	//Equal Power crossfade if needed
+	//float tiltHigh = cos(tiltAngle * (0.5 * PI));
+	//float tiltLow = cos((1.0 - tiltAngle) * (0.5 * PI));
+	float tiltHigh = tiltAngle;
+	float tiltLow = 1 - tiltHigh;
 
 	//ISSUE//
 	//Able to kill stereo by making both pitch and tilt at max or min values together
+	//With an HMD this is difficult for a user to exploit
 
+	//routes the coeffs to all the needed stereo pairs and applies tilt multiplier
 	std::vector<float> result;
 	result.resize(16);
 	result[0] = coefficients[0] * tiltHigh; // 1 left
@@ -147,7 +154,9 @@ static std::vector<float> eightChannelsAlgorithm(float X, float Y, float Z) {
 	result[6 + 8] = coefficients[2] * tiltLow; // 4 left
 	result[7 + 8] = coefficients[1] * tiltLow; //   right
 
+	//Pitch orientation input
 	float pitchAngle = mmap(X, 90, -90, 0., 1., true);
+	//Equal Power crossfade if needed
 	//float pitchHigherHalf = cos(pitchAngle * (0.5*PI));
 	//float pitchLowerHalf = cos((1.0 - pitchAngle) * (0.5*PI));
 	float pitchHigherHalf = pitchAngle;

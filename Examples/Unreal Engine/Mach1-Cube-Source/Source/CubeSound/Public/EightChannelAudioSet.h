@@ -1,4 +1,10 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+//
+//  Mach1 SDK
+//
+//  Multichannel audio format family
+//
+//  CubeComponent
+//
 
 #pragma once
 
@@ -16,7 +22,7 @@ class CUBESOUND_API UEightChannelAudioSet : public UObject
 public:
 
 
-
+//Audio positions for the 8channel cube
 	UPROPERTY(EditAnywhere, Category = "Sound")
 		USoundBase* FrontUpLeftChannel;
 

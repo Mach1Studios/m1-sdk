@@ -18,30 +18,38 @@ public class CubeSound : MonoBehaviour
     public string audioFilename6 = "6.wav";
     public string audioFilename7 = "7.wav";
     public string audioFilename8 = "8.wav";
-    /*
-      public string audioFilename01 = "Observatory_AMB_1_T000.wav";
-        public string audioFilename02 = "Observatory_AMB_1_T090.wav";
-        public string audioFilename03 = "Observatory_AMB_1_T180.wav";
-        public string audioFilename04 = "Observatory_AMB_1_T270.wav";
-        public string audioFilename05 = "Observatory_AMB_1_B000.wav";
-        public string audioFilename06 = "Observatory_AMB_1_B090.wav";
-        public string audioFilename07 = "Observatory_AMB_1_B180.wav";
-        public string audioFilename08 = "Observatory_AMB_1_B270.wav";
-    
-         */
-    private int loadedCount;
 
+    public bool useFalloff = true;
+    public AnimationCurve curveFalloff; 
+
+    private int loadedCount;
     private AudioSource[] audioSource;
 
     private const int MAX_SOUNDS_PER_CHANNEL = 8;
 
+    CubeSound()
+    {
+        // Falloff
+        Keyframe[] keyframes = new Keyframe[3];
+        for (int i = 0; i < keyframes.Length; i++)
+        {
+            keyframes[i] = new Keyframe(i * 10, 1 - 1.0f * i / (keyframes.Length - 1));
+        }
+
+        curveFalloff = new AnimationCurve(keyframes);
+        for (int i = 0; i < keyframes.Length; i++)
+        {
+            curveFalloff.SmoothTangents(i, 0);
+        }
+    }
+
     void Awake()
     {
-
     }
 
     void Start()
     {
+        // Sounds
         audioSource = new AudioSource[MAX_SOUNDS_PER_CHANNEL * 2];
 
         loadedCount = 0;
@@ -138,37 +146,32 @@ public class CubeSound : MonoBehaviour
         if (IsReady())
         {
             Quaternion quatCamera = Camera.main.transform.rotation;
-            quatCamera.eulerAngles = new Vector3(0, quatCamera.eulerAngles.y, quatCamera.eulerAngles.z);
+            //quatCamera.eulerAngles = new Vector3(0, quatCamera.eulerAngles.y, quatCamera.eulerAngles.z);
 
             Vector3 dir = Camera.main.transform.position - gameObject.transform.position;
-            dir.y = 0;
-            quat = Quaternion.Inverse(Quaternion.LookRotation(dir, Vector3.up)) * quatCamera;
+            //dir.y = 0;
+            quat = Quaternion.Inverse(Quaternion.LookRotation(dir, Vector3.up)) * quatCamera * gameObject.transform.rotation;
 
-            mat = Matrix4x4.TRS(Camera.main.transform.position,  Quaternion.LookRotation(dir, Vector3.up), new Vector3(1, 1, 1));// gameObject.transform.position, quat, new Vector3(1, 1, 1));
-
+            mat = Matrix4x4.TRS(Camera.main.transform.position,  Quaternion.LookRotation(dir, Vector3.up) * Quaternion.Inverse(gameObject.transform.rotation) , new Vector3(1, 1, 1));
+            
             //Quaternion.RotateTowards(gameObject.transform.rotation, Camera.main.transform.rotation, 360);
             //quat = Camera.main.transform.rotation * quat;
-
-            //gameObject.transform.rotation = quat;
 
             Vector3 eulerAngles = quat.eulerAngles;
             eulerAngles.x = eulerAngles.x > 180 ? 360 - eulerAngles.x : -eulerAngles.x;
 
-            Debug.Log("eulerAngles:" + eulerAngles);
+            //Debug.Log("eulerAngles:" + eulerAngles);
+
+            float volumeFalloff = useFalloff ? curveFalloff.Evaluate(Vector3.Distance(Camera.main.transform.position, gameObject.transform.position)) : 1;
 
             float[] volumes = M1DSPAlgorithms.eightChannelsAlgorithm(eulerAngles.x, eulerAngles.y, eulerAngles.z);
             for (int i = 0; i < volumes.Length; i++)
             {
-                audioSource[i].volume = volumes[i];
+                audioSource[i].volume = volumeFalloff * volumes[i];
             }
-        }
+         
 
-        // Debug
-        {
             // Draw forward vector from camera
-            Quaternion quatCamera = Camera.main.transform.rotation;
-            quatCamera.eulerAngles = new Vector3(0, quatCamera.eulerAngles.y, quatCamera.eulerAngles.z);
-
             Vector3 targetForward = quatCamera * (Vector3.forward * 3);
             Debug.DrawLine(Camera.main.transform.position, Camera.main.transform.position + targetForward, Color.blue);
 
@@ -181,71 +184,7 @@ public class CubeSound : MonoBehaviour
          LineRenderer.SetPosition(0, transform.position);
          LineRenderer.SetPosition(1, target.position); 
         */
-
-
-
-
-
-
-
-        /*
-        
-        // get the angle of the camera
-
-        // X is the up/down angle, Y is the left/right angle of camera
-        float rotX = Camera.main.transform.eulerAngles.x;
-        float rotY = Camera.main.transform.eulerAngles.y;
-
-        // if the min boundry dips below 0 or the max boundry goes above 360 then we have to subtract or add 360 to the cam angle
-        float tempCamAngleY = FlipCheck(rotY, audioAngle.y, minAngle.y, maxAngle.y);
-        float tempCamAngleX = FlipCheck(rotX, audioAngle.x, minAngle.x, maxAngle.x);
-
-
-        // if the camera angle is within all the min/max bounds then set the volume
-        if (tempCamAngleY > audioAngle.y + minAngle.y && tempCamAngleY < audioAngle.y + maxAngle.y && tempCamAngleX > audioAngle.x + minAngle.x && tempCamAngleX < audioAngle.x + maxAngle.x)
-        {
-            //
-            float yVol = 0;
-            float xVol = 0;
-            // calculate y volume, if attuation is greater than 0 than add a falloff
-            if (tempCamAngleY < audioAngle.y)
-            {
-                yVol = 1;
-                if (minFalloff.y > 0)
-                    yVol -= (Mathf.Abs((audioAngle.y - tempCamAngleY) / (minAngle.y)));
-            }
-            else
-            {
-                yVol = 1;
-                if (maxFalloff.y > 0)
-                    yVol -= (Mathf.Abs((tempCamAngleY - audioAngle.y) / (maxAngle.y)));
-            }
-
-            // calculate the x volume
-            if (tempCamAngleX < audioAngle.x)
-            {
-                xVol = 1;
-                if (minFalloff.x > 0)
-                    xVol -= (Mathf.Abs((audioAngle.x - tempCamAngleX) / (minAngle.x)));
-            }
-            else
-            {
-                xVol = 1;
-                if (maxFalloff.x > 0)
-                    xVol -= (Mathf.Abs((tempCamAngleX - audioAngle.x) / (maxAngle.x)));
-            }
-
-            // multiply the two volumes to find the final output volume
-            float finalvol = yVol * xVol;
-            audioSource.volume = finalvol;
-            //float debug = finalvol;
-            //Debug.Log ("Audio: " + debug);
-        }
-        else
-        {
-            audioSource.volume = 0.0f;
-        }
-        */
+ 
     }
 
 }

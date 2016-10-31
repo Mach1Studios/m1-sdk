@@ -10,14 +10,7 @@ using System.IO;
 public class CubeSound : MonoBehaviour
 {
     public string audioPath = "file:///C:/Projects/Dylan/testSound3d/";
-    public string audioFilename1 = "1.wav";
-    public string audioFilename2 = "2.wav";
-    public string audioFilename3 = "3.wav";
-    public string audioFilename4 = "4.wav";
-    public string audioFilename5 = "5.wav";
-    public string audioFilename6 = "6.wav";
-    public string audioFilename7 = "7.wav";
-    public string audioFilename8 = "8.wav";
+    public string[] audioFilename;
 
     public bool useFalloff = true;
     public AnimationCurve curveFalloff; 
@@ -41,6 +34,12 @@ public class CubeSound : MonoBehaviour
         {
             curveFalloff.SmoothTangents(i, 0);
         }
+
+        audioFilename = new string[MAX_SOUNDS_PER_CHANNEL];
+        for (int i = 0; i < audioFilename.Length; i++)
+        {
+            audioFilename[i] = (i + 1) + ".wav";
+        }
     }
 
     void Awake()
@@ -54,14 +53,10 @@ public class CubeSound : MonoBehaviour
 
         loadedCount = 0;
 
-        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename1), 0));
-        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename2), 1));
-        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename3), 2));
-        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename4), 3));
-        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename5), 4));
-        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename6), 5));
-        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename7), 6));
-        StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename8), 7));
+        for (int i = 0; i < audioFilename.Length; i++)
+        {
+            StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename[i]), i));
+        }
     }
 
     // Helper function to add audio clip to source, and add this to scene
@@ -83,6 +78,9 @@ public class CubeSound : MonoBehaviour
     {
         Gizmos.color = Color.gray;
         Gizmos.DrawIcon(transform.position, "sound_icon.png", true);
+
+        Gizmos.matrix = gameObject.transform.localToWorldMatrix;
+        Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
 
         Gizmos.matrix = mat; // gameObject.transform.localToWorldMatrix; // mat;// 
         Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));

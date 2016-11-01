@@ -202,6 +202,8 @@ public class CubeSound : MonoBehaviour
     {
         if (IsReady())
         {
+            float volume = 1.0f;
+
             // Find closest point
             Vector3 point = gameObject.transform.position;
             if (useClosestPoint)
@@ -214,6 +216,10 @@ public class CubeSound : MonoBehaviour
                     {
                         Debug.DrawLine(gameObject.transform.position, point, Color.red);
                     }
+                }
+                else
+                {
+                    volume = 0;
                 }
             }
 
@@ -236,12 +242,15 @@ public class CubeSound : MonoBehaviour
             eulerAngles.y += 180;
             Debug.Log("eulerAngles:" + eulerAngles);
 
-            float volumeFalloff = useFalloff ? curveFalloff.Evaluate(Vector3.Distance(Camera.main.transform.position, point)) : 1;
+            if (useFalloff)
+            {
+                volume = volume * curveFalloff.Evaluate(Vector3.Distance(Camera.main.transform.position, point));
+            }
 
             float[] volumes = M1DSPAlgorithms.eightChannelsAlgorithm(eulerAngles.x, eulerAngles.y, eulerAngles.z);
             for (int i = 0; i < volumes.Length; i++)
             {
-                audioSource[i].volume = volumeFalloff * volumes[i];
+                audioSource[i].volume = volume * volumes[i];
             }
 
             if (drawHelpers)

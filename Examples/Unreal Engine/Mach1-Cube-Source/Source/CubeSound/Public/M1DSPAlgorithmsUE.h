@@ -120,8 +120,6 @@ static std::vector<float> eightChannelsAlgorithm(float X, float Y, float Z) {
 	coefficients[2] = 1. - FMath::Min(1., std::abs((float)180. - Y) / 90.);
 	coefficients[3] = 1. - FMath::Min(1., std::abs((float)270. - Y) / 90.);
 
-	fourChannelAlgorithm(X, Y, Z);
-
 	float tiltAngle = mmap(Z, -90, 90, 0., 1., true);
 	//Equal Power crossfade if needed
 	//float tiltHigh = cos(tiltAngle * (0.5 * PI));

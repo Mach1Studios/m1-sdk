@@ -3,7 +3,7 @@
 //
 //  Multichannel audio format family
 //
-//  Mixing algorithms v 0.9.0
+//  Mixing algorithms v 0.9.1
 //
 
 #pragma once
@@ -140,9 +140,7 @@ static std::vector<float> eightChannelsAlgorithm(float Yaw, float Pitch, float R
     coefficients[1] = 1. - std::min(1., std::abs((float)90. - Yaw) / 90.);
     coefficients[2] = 1. - std::min(1., std::abs((float)180. - Yaw) / 90.);
     coefficients[3] = 1. - std::min(1., std::abs((float)270. - Yaw) / 90.);
-    
-    fourChannelAlgorithm(Yaw, Pitch, Roll);
-    
+        
     float tiltAngle = mmap(Roll, -90., 90., 0., 1., true);
     //Use Equal Power if engine requires
     /*

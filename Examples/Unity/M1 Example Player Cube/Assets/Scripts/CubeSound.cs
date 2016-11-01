@@ -9,16 +9,22 @@ using System.IO;
 
 public class CubeSound : MonoBehaviour
 {
-    public string audioPath = "file://";
+    public string audioPath = "file:///";
     public string[] audioFilename;
 
     public bool useFalloff = true;
-    public AnimationCurve curveFalloff; 
+    public AnimationCurve curveFalloff;
 
     private int loadedCount;
     private AudioSource[] audioSource;
 
     private const int MAX_SOUNDS_PER_CHANNEL = 8;
+    private Matrix4x4 mat;
+
+    public bool useClosestPoint = true;
+    public bool drawHelpers = true;
+
+
 
     CubeSound()
     {
@@ -35,6 +41,7 @@ public class CubeSound : MonoBehaviour
             curveFalloff.SmoothTangents(i, 0);
         }
 
+        // Init filenames
         audioFilename = new string[MAX_SOUNDS_PER_CHANNEL];
         for (int i = 0; i < audioFilename.Length; i++)
         {
@@ -76,14 +83,17 @@ public class CubeSound : MonoBehaviour
     // Draw gizmo in editor (you may display this also in game windows if set "Gizmo" button)
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.gray;
-        Gizmos.DrawIcon(transform.position, "sound_icon.png", true);
+        if (drawHelpers)
+        {
+            Gizmos.color = Color.gray;
+            Gizmos.DrawIcon(transform.position, "sound_icon.png", true);
 
-        Gizmos.matrix = gameObject.transform.localToWorldMatrix;
-        Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
+            Gizmos.matrix = gameObject.transform.localToWorldMatrix;
+            Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
 
-        Gizmos.matrix = mat; // gameObject.transform.localToWorldMatrix; // mat;// 
-        Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
+            Gizmos.matrix = mat;
+            Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
+        }
     }
 
     // Load audio
@@ -135,55 +145,108 @@ public class CubeSound : MonoBehaviour
     }
 
 
-    Quaternion quat;
-    Matrix4x4 mat;
+    public static float ClosestPointOnBox(Vector3 point, Vector3 center, Vector3 axis0, Vector3 axis1, Vector3 axis2, Vector3 extents, out Vector3 closestPoint)
+    {
+        Vector3 vector = point - center;
+        float num = 0f;
+
+        float num0 = Vector3.Dot(vector, axis0);
+        if (num0 < -extents.x)
+        {
+            num += Mathf.Pow(num0 + extents.x, 2);
+            num0 = -extents.x;
+        }
+        else if (num0 > extents.x)
+        {
+            num += Mathf.Pow(num0 - extents.x, 2);
+            num0 = extents.x;
+        }
+
+        float num1 = Vector3.Dot(vector, axis1);
+        if (num1 < -extents.y)
+        {
+            num += Mathf.Pow(num1 + extents.y, 2);
+            num1 = -extents.y;
+        }
+        else if (num1 > extents.y)
+        {
+            num += Mathf.Pow(num1 - extents.y, 2);
+            num1 = extents.y;
+        }
+
+        float num2 = Vector3.Dot(vector, axis2);
+        if (num2 < -extents.z)
+        {
+            num += Mathf.Pow(num2 + extents.z, 2);
+            num2 = -extents.z;
+        }
+        else if (num2 > extents.z)
+        {
+            num += Mathf.Pow(num2 - extents.z, 2);
+            num2 = extents.z;
+        }
+        closestPoint = center + num0 * axis0 + num1 * axis1 + num2 * axis2;
+
+        return Mathf.Sqrt(num);
+    }
 
     // Update is called once per frame
     void Update()
     {
         if (IsReady())
         {
+            // Find closest point
+            Vector3 point = gameObject.transform.position;
+            if (useClosestPoint)
+            {
+                Vector3 closestPoint;
+                if (ClosestPointOnBox(Camera.main.transform.position, gameObject.transform.position, gameObject.transform.right, gameObject.transform.up, gameObject.transform.forward, gameObject.transform.localScale / 2, out closestPoint) > 0)
+                {
+                    point = closestPoint;
+                    if (drawHelpers)
+                    {
+                        Debug.DrawLine(gameObject.transform.position, point, Color.red);
+                    }
+                }
+            }
+
+            Vector3 dir = Camera.main.transform.position - point;
+            //dir.y = 0;
+
+            // Compute matrix for draw gizmo
+            mat = Matrix4x4.TRS(Camera.main.transform.position, Quaternion.LookRotation(dir, Vector3.up) * Quaternion.Inverse(gameObject.transform.rotation), new Vector3(1, 1, 1));
+
+            // Compute rotation for sound
             Quaternion quatCamera = Camera.main.transform.rotation;
             //quatCamera.eulerAngles = new Vector3(0, quatCamera.eulerAngles.y, quatCamera.eulerAngles.z);
+            Quaternion quat = Quaternion.Inverse(Quaternion.LookRotation(dir, Vector3.up)) * quatCamera * gameObject.transform.rotation;
 
-            Vector3 dir = Camera.main.transform.position - gameObject.transform.position;
-            //dir.y = 0;
-            quat = Quaternion.Inverse(Quaternion.LookRotation(dir, Vector3.up)) * quatCamera * gameObject.transform.rotation;
 
-            mat = Matrix4x4.TRS(Camera.main.transform.position,  Quaternion.LookRotation(dir, Vector3.up) * Quaternion.Inverse(gameObject.transform.rotation) , new Vector3(1, 1, 1));
-            
-            //Quaternion.RotateTowards(gameObject.transform.rotation, Camera.main.transform.rotation, 360);
-            //quat = Camera.main.transform.rotation * quat;
-
+            // Compute volumes
             Vector3 eulerAngles = quat.eulerAngles;
             eulerAngles.x = eulerAngles.x > 180 ? 360 - eulerAngles.x : -eulerAngles.x;
-			eulerAngles.y += 180;
-
+            //eulerAngles.y += 180;
             //Debug.Log("eulerAngles:" + eulerAngles);
 
-            float volumeFalloff = useFalloff ? curveFalloff.Evaluate(Vector3.Distance(Camera.main.transform.position, gameObject.transform.position)) : 1;
+            float volumeFalloff = useFalloff ? curveFalloff.Evaluate(Vector3.Distance(Camera.main.transform.position, point)) : 1;
 
             float[] volumes = M1DSPAlgorithms.eightChannelsAlgorithm(eulerAngles.x, eulerAngles.y, eulerAngles.z);
             for (int i = 0; i < volumes.Length; i++)
             {
                 audioSource[i].volume = volumeFalloff * volumes[i];
             }
-         
 
-            // Draw forward vector from camera
-            Vector3 targetForward = quatCamera * (Vector3.forward * 3);
-            Debug.DrawLine(Camera.main.transform.position, Camera.main.transform.position + targetForward, Color.blue);
+            if (drawHelpers)
+            {
+                // Draw forward vector from camera
+                Vector3 targetForward = quatCamera * (Vector3.forward * 3);
+                Debug.DrawLine(Camera.main.transform.position, Camera.main.transform.position + targetForward, Color.blue);
 
-            // Draw direction from camera to object
-            Debug.DrawLine(Camera.main.transform.position, gameObject.transform.position, Color.red);
+                // Draw direction from camera to object
+                Debug.DrawLine(Camera.main.transform.position, point, Color.green);
+            }
         }
 
-
-        /*
-         LineRenderer.SetPosition(0, transform.position);
-         LineRenderer.SetPosition(1, target.position); 
-        */
- 
     }
 
 }

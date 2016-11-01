@@ -225,7 +225,7 @@ public class CubeSound : MonoBehaviour
             // Compute volumes
             Vector3 eulerAngles = quat.eulerAngles;
             eulerAngles.x = eulerAngles.x > 180 ? 360 - eulerAngles.x : -eulerAngles.x;
-            //eulerAngles.y += 180;
+            eulerAngles.y += 180;
             //Debug.Log("eulerAngles:" + eulerAngles);
 
             float volumeFalloff = useFalloff ? curveFalloff.Evaluate(Vector3.Distance(Camera.main.transform.position, point)) : 1;

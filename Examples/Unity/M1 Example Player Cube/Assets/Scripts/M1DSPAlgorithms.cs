@@ -3,7 +3,7 @@
 //
 //  Multichannel audio format family
 //
-//  Mixing algorithms v 0.0f8.3
+//  Mixing algorithms v 0.0f9.1
 //
 //  Please fill out the appropriate copyright notice in the Description page of Project Settings.
 
@@ -116,8 +116,6 @@ public class M1DSPAlgorithms
         coefficients[2] = 1.0f - Math.Min(1.0f, Math.Abs((float)180.0f - Y) / 90.0f);
         coefficients[3] = 1.0f - Math.Min(1.0f, Math.Abs((float)270.0f - Y) / 90.0f);
 
-        fourChannelAlgorithm(X, Y, Z);
-
         float tiltAngle = mmap(Z, -90, 90, 0.0f, 1.0f, true);
         //Use Equal Power if engine requires
         /*
@@ -126,9 +124,6 @@ public class M1DSPAlgorithms
          */
         float tiltHigh = tiltAngle;
         float tiltLow = 1 - tiltHigh;
-
-        //ISSUE//
-        //Able to kill stereo by making both pitch and tilt at max or min values together
 
         float[] result = new float[16];
         result[0] = coefficients[0] * tiltHigh; // 1 left
@@ -163,4 +158,45 @@ public class M1DSPAlgorithms
 
         return result;
     }
+    
+    // ------------------------------------------------------------------
+
+    //
+    //  Eight pairs audio format.
+    //
+    //  Order of input angles:
+    //  Y = Yaw in angles
+    //  P = Pitch in angles
+    //  R = Roll in angles
+    //
+
+    static std::vector<float> eightPairsAlgorithm(float Yaw, float Pitch, float Roll) {
+        float volumes[8];
+        volumes[0] = 1. - std::min(1., std::min((float)360. - Yaw, Yaw) / 90.);
+        volumes[1] = 1. - std::min(1., std::abs((float)90. - Yaw) / 90.);
+        volumes[2] = 1. - std::min(1., std::abs((float)180. - Yaw) / 90.);
+        volumes[3] = 1. - std::min(1., std::abs((float)270. - Yaw) / 90.);
+        
+        float pitchAngle = mmap(Pitch, 90., -90., 0., 1., true);
+        //Use Equal Power if engine requires
+        /*
+         float pitchHigherHalf = cos(pitchAngle * (0.5*PI));
+         float pitchLowerHalf = cos((1.0 - pitchAngle) * (0.5*PI));
+         */
+        float pitchHigherHalf = pitchAngle;
+        float pitchLowerHalf = 1. - pitchHigherHalf;
+        
+        std::vector<float> result;
+        result.push_back(volumes[0] * pitchHigherHalf);
+        result.push_back(volumes[1] * pitchHigherHalf);
+        result.push_back(volumes[2] * pitchHigherHalf);
+        result.push_back(volumes[3] * pitchHigherHalf);
+        result.push_back(volumes[4] * pitchLowerHalf);
+        result.push_back(volumes[5] * pitchLowerHalf);
+        result.push_back(volumes[6] * pitchLowerHalf);
+        result.push_back(volumes[7] * pitchLowerHalf);
+        return result;
+    }
+
+    // ------------------------------------------------------------------
 }

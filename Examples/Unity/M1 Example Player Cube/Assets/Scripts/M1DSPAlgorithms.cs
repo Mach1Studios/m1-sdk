@@ -126,23 +126,23 @@ public class M1DSPAlgorithms
         float tiltLow = 1 - tiltHigh;
 
         float[] result = new float[16];
-        result[0] = coefficients[0] * tiltHigh * 2.0; // 1 left
-        result[1] = coefficients[3] * tiltHigh * 2.0; //   right
-        result[2] = coefficients[1] * tiltLow * 2.0; // 2 left
-        result[3] = coefficients[0] * tiltLow * 2.0; //   right
-        result[4] = coefficients[3] * tiltLow * 2.0; // 3 left
-        result[5] = coefficients[2] * tiltLow * 2.0; //   right
-        result[6] = coefficients[2] * tiltHigh * 2.0; // 4 left
-        result[7] = coefficients[1] * tiltHigh * 2.0; //   right
+        result[0] = coefficients[0] * tiltHigh * 2; // 1 left
+        result[1] = coefficients[3] * tiltHigh * 2; //   right
+        result[2] = coefficients[1] * tiltLow * 2; // 2 left
+        result[3] = coefficients[0] * tiltLow * 2; //   right
+        result[4] = coefficients[3] * tiltLow * 2; // 3 left
+        result[5] = coefficients[2] * tiltLow * 2; //   right
+        result[6] = coefficients[2] * tiltHigh * 2; // 4 left
+        result[7] = coefficients[1] * tiltHigh * 2; //   right
 
-        result[0 + 8] = coefficients[0] * tiltLow * 2.0; // 1 left
-        result[1 + 8] = coefficients[3] * tiltLow * 2.0; //   right
-        result[2 + 8] = coefficients[1] * tiltHigh * 2.0; // 2 left
-        result[3 + 8] = coefficients[0] * tiltHigh * 2.0; //   right
-        result[4 + 8] = coefficients[3] * tiltHigh * 2.0; // 3 left
-        result[5 + 8] = coefficients[2] * tiltHigh * 2.0; //   right
-        result[6 + 8] = coefficients[2] * tiltLow * 2.0; // 4 left
-        result[7 + 8] = coefficients[1] * tiltLow * 2.0; //   right
+        result[0 + 8] = coefficients[0] * tiltLow * 2; // 1 left
+        result[1 + 8] = coefficients[3] * tiltLow * 2; //   right
+        result[2 + 8] = coefficients[1] * tiltHigh * 2; // 2 left
+        result[3 + 8] = coefficients[0] * tiltHigh * 2; //   right
+        result[4 + 8] = coefficients[3] * tiltHigh * 2; // 3 left
+        result[5 + 8] = coefficients[2] * tiltHigh * 2; //   right
+        result[6 + 8] = coefficients[2] * tiltLow * 2; // 4 left
+        result[7 + 8] = coefficients[1] * tiltLow * 2; //   right
 
         float pitchAngle = mmap(X, 90, -90, 0.0f, 1.0f, true);
         //float pitchHigherHalf = cos(pitchAngle * (0.0f5*PI));

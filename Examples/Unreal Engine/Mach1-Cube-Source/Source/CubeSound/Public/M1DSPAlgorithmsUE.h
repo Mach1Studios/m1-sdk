@@ -132,25 +132,25 @@ static std::vector<float> eightChannelsAlgorithm(float X, float Y, float Z) {
 	//With an HMD this is difficult for a user to exploit
 
 	//routes the coeffs to all the needed stereo pairs and applies tilt multiplier
-	std::vector<float> result;
-	result.resize(16);
-	result[0] = coefficients[0] * tiltHigh; // 1 left
-	result[1] = coefficients[3] * tiltHigh; //   right
-	result[2] = coefficients[1] * tiltLow; // 2 left
-	result[3] = coefficients[0] * tiltLow; //   right
-	result[4] = coefficients[3] * tiltLow; // 3 left
-	result[5] = coefficients[2] * tiltLow; //   right
-	result[6] = coefficients[2] * tiltHigh; // 4 left
-	result[7] = coefficients[1] * tiltHigh; //   right
-
-	result[0 + 8] = coefficients[0] * tiltLow; // 1 left
-	result[1 + 8] = coefficients[3] * tiltLow; //   right
-	result[2 + 8] = coefficients[1] * tiltHigh; // 2 left
-	result[3 + 8] = coefficients[0] * tiltHigh; //   right
-	result[4 + 8] = coefficients[3] * tiltHigh; // 3 left
-	result[5 + 8] = coefficients[2] * tiltHigh; //   right
-	result[6 + 8] = coefficients[2] * tiltLow; // 4 left
-	result[7 + 8] = coefficients[1] * tiltLow; //   right
+    std::vector<float> result;
+    result.resize(16);
+    result[0] = coefficients[0] * tiltHigh * 2.0; // 1 left
+    result[1] = coefficients[3] * tiltHigh * 2.0; //   right
+    result[2] = coefficients[1] * tiltLow * 2.0; // 2 left
+    result[3] = coefficients[0] * tiltLow * 2.0; //   right
+    result[4] = coefficients[3] * tiltLow * 2.0; // 3 left
+    result[5] = coefficients[2] * tiltLow * 2.0; //   right
+    result[6] = coefficients[2] * tiltHigh * 2.0; // 4 left
+    result[7] = coefficients[1] * tiltHigh * 2.0; //   right
+    
+    result[0 + 8] = coefficients[0] * tiltLow * 2.0; // 1 left
+    result[1 + 8] = coefficients[3] * tiltLow * 2.0; //   right
+    result[2 + 8] = coefficients[1] * tiltHigh * 2.0; // 2 left
+    result[3 + 8] = coefficients[0] * tiltHigh * 2.0; //   right
+    result[4 + 8] = coefficients[3] * tiltHigh * 2.0; // 3 left
+    result[5 + 8] = coefficients[2] * tiltHigh * 2.0; //   right
+    result[6 + 8] = coefficients[2] * tiltLow * 2.0; // 4 left
+    result[7 + 8] = coefficients[1] * tiltLow * 2.0; //   right
 
 	//Pitch orientation input
 	float pitchAngle = mmap(X, 90, -90, 0., 1., true);

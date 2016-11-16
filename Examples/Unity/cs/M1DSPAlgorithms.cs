@@ -3,7 +3,7 @@
 //
 //  Multichannel audio format family
 //
-//  Mixing algorithms v 0.0f9.1
+//  Mixing algorithms v 0.0f9.2
 //
 //  Please fill out the appropriate copyright notice in the Description page of Project Settings.
 
@@ -126,23 +126,23 @@ public class M1DSPAlgorithms
         float tiltLow = 1 - tiltHigh;
 
         float[] result = new float[16];
-        result[0] = coefficients[0] * tiltHigh; // 1 left
-        result[1] = coefficients[3] * tiltHigh; //   right
-        result[2] = coefficients[1] * tiltLow; // 2 left
-        result[3] = coefficients[0] * tiltLow; //   right
-        result[4] = coefficients[3] * tiltLow; // 3 left
-        result[5] = coefficients[2] * tiltLow; //   right
-        result[6] = coefficients[2] * tiltHigh; // 4 left
-        result[7] = coefficients[1] * tiltHigh; //   right
+        result[0] = coefficients[0] * tiltHigh * 2.0; // 1 left
+        result[1] = coefficients[3] * tiltHigh * 2.0; //   right
+        result[2] = coefficients[1] * tiltLow * 2.0; // 2 left
+        result[3] = coefficients[0] * tiltLow * 2.0; //   right
+        result[4] = coefficients[3] * tiltLow * 2.0; // 3 left
+        result[5] = coefficients[2] * tiltLow * 2.0; //   right
+        result[6] = coefficients[2] * tiltHigh * 2.0; // 4 left
+        result[7] = coefficients[1] * tiltHigh * 2.0; //   right
 
-        result[0 + 8] = coefficients[0] * tiltLow; // 1 left
-        result[1 + 8] = coefficients[3] * tiltLow; //   right
-        result[2 + 8] = coefficients[1] * tiltHigh; // 2 left
-        result[3 + 8] = coefficients[0] * tiltHigh; //   right
-        result[4 + 8] = coefficients[3] * tiltHigh; // 3 left
-        result[5 + 8] = coefficients[2] * tiltHigh; //   right
-        result[6 + 8] = coefficients[2] * tiltLow; // 4 left
-        result[7 + 8] = coefficients[1] * tiltLow; //   right
+        result[0 + 8] = coefficients[0] * tiltLow * 2.0; // 1 left
+        result[1 + 8] = coefficients[3] * tiltLow * 2.0; //   right
+        result[2 + 8] = coefficients[1] * tiltHigh * 2.0; // 2 left
+        result[3 + 8] = coefficients[0] * tiltHigh * 2.0; //   right
+        result[4 + 8] = coefficients[3] * tiltHigh * 2.0; // 3 left
+        result[5 + 8] = coefficients[2] * tiltHigh * 2.0; //   right
+        result[6 + 8] = coefficients[2] * tiltLow * 2.0; // 4 left
+        result[7 + 8] = coefficients[1] * tiltLow * 2.0; //   right
 
         float pitchAngle = mmap(X, 90, -90, 0.0f, 1.0f, true);
         //float pitchHigherHalf = cos(pitchAngle * (0.0f5*PI));
@@ -158,45 +158,5 @@ public class M1DSPAlgorithms
 
         return result;
     }
-    
-    // ------------------------------------------------------------------
 
-    //
-    //  Eight pairs audio format.
-    //
-    //  Order of input angles:
-    //  Y = Yaw in angles
-    //  P = Pitch in angles
-    //  R = Roll in angles
-    //
-
-    static std::vector<float> eightPairsAlgorithm(float Yaw, float Pitch, float Roll) {
-        float volumes[8];
-        volumes[0] = 1. - std::min(1., std::min((float)360. - Yaw, Yaw) / 90.);
-        volumes[1] = 1. - std::min(1., std::abs((float)90. - Yaw) / 90.);
-        volumes[2] = 1. - std::min(1., std::abs((float)180. - Yaw) / 90.);
-        volumes[3] = 1. - std::min(1., std::abs((float)270. - Yaw) / 90.);
-        
-        float pitchAngle = mmap(Pitch, 90., -90., 0., 1., true);
-        //Use Equal Power if engine requires
-        /*
-         float pitchHigherHalf = cos(pitchAngle * (0.5*PI));
-         float pitchLowerHalf = cos((1.0 - pitchAngle) * (0.5*PI));
-         */
-        float pitchHigherHalf = pitchAngle;
-        float pitchLowerHalf = 1. - pitchHigherHalf;
-        
-        std::vector<float> result;
-        result.push_back(volumes[0] * pitchHigherHalf);
-        result.push_back(volumes[1] * pitchHigherHalf);
-        result.push_back(volumes[2] * pitchHigherHalf);
-        result.push_back(volumes[3] * pitchHigherHalf);
-        result.push_back(volumes[4] * pitchLowerHalf);
-        result.push_back(volumes[5] * pitchLowerHalf);
-        result.push_back(volumes[6] * pitchLowerHalf);
-        result.push_back(volumes[7] * pitchLowerHalf);
-        return result;
-    }
-
-    // ------------------------------------------------------------------
 }

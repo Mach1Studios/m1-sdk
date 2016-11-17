@@ -3,7 +3,7 @@
 //
 //  Multichannel audio format family
 //
-//  Mixing algorithms v 0.9.2
+//  Mixing algorithms v 0.9.4
 //
 
 #pragma once
@@ -16,6 +16,135 @@
 #include <cmath>
 
 #define PI       3.14159265358979323846
+
+//
+// Point utility class
+//
+
+//////////////
+
+#ifndef DEG_TO_RAD
+#define DEG_TO_RAD (PI/180.0)
+#endif
+
+
+struct mPoint {
+    float x, y, z;
+    
+    mPoint() {
+        x = 0;
+        y = 0;
+        z = 0;
+    }
+    
+    mPoint(float X, float Y, float Z) {
+        x = X;
+        y = Y;
+        z = Z;
+    }
+    
+    mPoint(float X, float Y) {
+        x = X;
+        y = Y;
+        z = 0;
+    }
+    
+    inline mPoint operator+( const mPoint& pnt ) const {
+        return mPoint( x+pnt.x, y+pnt.y, z+pnt.z );
+    }
+    
+    
+    inline mPoint operator*( const float f ) const {
+        return mPoint( x*f, y*f, z*f );
+    }
+    
+    
+    inline mPoint operator*( const mPoint& vec ) const {
+        return mPoint( x*vec.x, y*vec.y, z*vec.z );
+    }
+    
+    
+    inline mPoint operator-( const mPoint& vec ) const {
+        return mPoint( x-vec.x, y-vec.y, z-vec.z );
+    }
+    
+    inline float length() const {
+        return (float)sqrt( x*x + y*y + z*z );
+    }
+    
+    
+    float operator[] (int index) {
+        float arr[3] = {x, y, z};
+        return arr[index];
+    }
+    
+    inline mPoint& rotate( float angle, const mPoint& axis ) {
+        mPoint ax = axis.getNormalized();
+        float a = (float)(angle*DEG_TO_RAD);
+        float sina = sin( a );
+        float cosa = cos( a );
+        float cosb = 1.0f - cosa;
+        
+        float nx = x*(ax.x*ax.x*cosb + cosa)
+        + y*(ax.x*ax.y*cosb - ax.z*sina)
+        + z*(ax.x*ax.z*cosb + ax.y*sina);
+        float ny = x*(ax.y*ax.x*cosb + ax.z*sina)
+        + y*(ax.y*ax.y*cosb + cosa)
+        + z*(ax.y*ax.z*cosb - ax.x*sina);
+        float nz = x*(ax.z*ax.x*cosb - ax.y*sina)
+        + y*(ax.z*ax.y*cosb + ax.x*sina)
+        + z*(ax.z*ax.z*cosb + cosa);
+        x = nx; y = ny; z = nz;
+        return *this;
+    }
+    
+    inline mPoint& normalize() {
+        float length = (float)sqrt(x*x + y*y + z*z);
+        if( length > 0 ) {
+            x /= length;
+            y /= length;
+            z /= length;
+        }
+        return *this;
+    }
+    
+    
+    inline mPoint getNormalized() const {
+        float length = (float)sqrt(x*x + y*y + z*z);
+        if( length > 0 ) {
+            return mPoint( x/length, y/length, z/length );
+        } else {
+            return mPoint();
+        }
+    }
+    
+    
+    inline mPoint getRotated( float angle, const mPoint& axis ) const {
+        mPoint ax = axis.getNormalized();
+        float a = (float)(angle*DEG_TO_RAD);
+        float sina = sin( a );
+        float cosa = cos( a );
+        float cosb = 1.0f - cosa;
+        
+        return mPoint( x*(ax.x*ax.x*cosb + cosa)
+                      + y*(ax.x*ax.y*cosb - ax.z*sina)
+                      + z*(ax.x*ax.z*cosb + ax.y*sina),
+                      x*(ax.y*ax.x*cosb + ax.z*sina)
+                      + y*(ax.y*ax.y*cosb + cosa)
+                      + z*(ax.y*ax.z*cosb - ax.x*sina),
+                      x*(ax.z*ax.x*cosb - ax.y*sina)
+                      + y*(ax.z*ax.y*cosb + ax.x*sina)
+                      + z*(ax.z*ax.z*cosb + cosa) );
+    }
+    
+};
+
+//
+
+static float mDegToRad(float degrees) {
+    return degrees * DEG_TO_RAD;
+}
+
 
 //
 // Map utility
@@ -67,6 +196,10 @@ static float alignAngle(float a, float min = -180, float max = 180)
 //
 
 static std::vector<float> fourChannelAlgorithm(float Yaw, float Pitch, float Roll) {
+    
+    //Orientation input safety clamps/alignment
+    Yaw = alignAngle(Yaw, 0, 360);
+    
     float coefficients[4];
     coefficients[0] = 1. - std::min(1., std::min((float)360. - Yaw, Yaw) / 90.);
     coefficients[1] = 1. - std::min(1., std::abs((float)90. - Yaw) / 90.);
@@ -99,6 +232,10 @@ static std::vector<float> fourChannelAlgorithm(float Yaw, float Pitch, float Rol
 //
 
 static std::vector<float> fourPairsAlgorithm(float Yaw, float Pitch, float Roll) {
+    
+    //Orientation input safety clamps/alignment
+    Yaw = alignAngle(Yaw, 0, 360);
+    
     float volumes[4];
     volumes[0] = 1. - std::min(1., std::min((float)360. - Yaw, Yaw) / 90.);
     volumes[1] = 1. - std::min(1., std::abs((float)90. - Yaw) / 90.);
@@ -110,6 +247,91 @@ static std::vector<float> fourPairsAlgorithm(float Yaw, float Pitch, float Roll)
     result.push_back(volumes[1]);
     result.push_back(volumes[2]);
     result.push_back(volumes[3]);
+    return result;
+}
+
+// ------------------------------------------------------------------
+
+//
+//  Eight channel audio format (isotropic version).
+//
+//  Order of input angles:
+//  Y = Yaw in angles
+//  P = Pitch in angles
+//  R = Roll in angles
+//
+
+static std::vector<float> eightChannelsIsotropicAlgorithm(float Yaw, float Pitch, float Roll) {
+    mPoint simulationAngles = mPoint(Yaw, Pitch, Roll);
+    
+    mPoint faceVector1 = mPoint(  cos(mDegToRad(simulationAngles[1])),
+                                sin(mDegToRad(simulationAngles[1]))).normalize();
+    
+    
+    mPoint faceVector2 = faceVector1.getRotated(simulationAngles[0],
+                                                mPoint(cos(mDegToRad(simulationAngles[1] - 90)),
+                                                       sin(mDegToRad(simulationAngles[1] - 90))).normalize());
+    
+    
+    mPoint faceVector21 = faceVector1.getRotated(simulationAngles[0] + 90,
+                                                 mPoint(cos(mDegToRad(simulationAngles[1] - 90)),
+                                                        sin(mDegToRad(simulationAngles[1] - 90))).normalize());
+    
+    mPoint faceVectorLeft = faceVector21.getRotated(-simulationAngles[2] - 90, faceVector2);
+    mPoint faceVectorRight = faceVector21.getRotated(-simulationAngles[2] + 90, faceVector2);
+    
+    
+    float time = ofGetElapsedTimef() * 5;
+    
+    mPoint faceVectorOffsetted = mPoint(cos(mDegToRad(simulationAngles[1])),
+                                        sin(mDegToRad(simulationAngles[1]))).normalize().rotate(
+                                                                                                 simulationAngles[0] + 10,
+                                                                                                 mPoint(cos(mDegToRad(simulationAngles[1] - 90)),
+                                                                                                        sin(mDegToRad(simulationAngles[1] - 90))).normalize()) - faceVector2;
+    
+    mPoint tiltSphereRotated = faceVectorOffsetted.rotate(-simulationAngles[2], faceVector2);
+    
+    // Drawing another 8 dots
+    
+    mPoint points[8] =
+    {   mPoint(100, -100, -100),
+        mPoint(100, 100, -100),
+        mPoint(-100, -100, -100),
+        mPoint(-100, 100, -100),
+        
+        mPoint(100, -100, 100),
+        mPoint(100, 100, 100),
+        mPoint(-100, -100, 100),
+        mPoint(-100, 100, 100)
+        
+    };
+    
+    float qL[8];
+    for (int i = 0; i < 8; i++) {
+        qL[i] = (faceVectorLeft * 100 + faceVector2 * 100 - points[i]).length();
+    }
+    
+    float qR[8];
+    for (int i = 0; i < 8; i++) {
+        qR[i] = (faceVectorRight * 100 + faceVector2 * 100 - points[i]).length();
+    }
+    
+    std::vector<float> result;
+    result.resize(16);
+    
+    for (int i = 0; i < 8; i++) {
+        float vL = ofClamp(ofMap(qL[i] * 2, 250, 400, 1., 0.), 0, 1) / 2;
+        float vR = ofClamp(ofMap(qR[i] * 2, 250, 400, 1., 0.), 0, 1) / 2;
+        
+        // TODO: why did I need to put / 2 here to match what I had with other
+        // algo? Isn't that other one normalized to max 1?
+        
+        result[i * 2] = vR;
+        result[i  * 2 + 1] = vL;
+        
+    }
+    
+    
     return result;
 }
 
@@ -140,7 +362,7 @@ static std::vector<float> eightChannelsAlgorithm(float Yaw, float Pitch, float R
     coefficients[1] = 1. - std::min(1., std::abs((float)90. - Yaw) / 90.);
     coefficients[2] = 1. - std::min(1., std::abs((float)180. - Yaw) / 90.);
     coefficients[3] = 1. - std::min(1., std::abs((float)270. - Yaw) / 90.);
-    
+        
     float tiltAngle = mmap(Roll, -90., 90., 0., 1., true);
     //Use Equal Power if engine requires
     /*
@@ -202,6 +424,13 @@ static std::vector<float> eightChannelsAlgorithm(float Yaw, float Pitch, float R
 //
 
 static std::vector<float> eightPairsAlgorithm(float Yaw, float Pitch, float Roll) {
+    
+    //Orientation input safety clamps/alignment
+    Pitch = alignAngle(Pitch, -180, 180);
+    Pitch = clamp(Pitch, -90, 90); // -90, 90
+    
+    Yaw = alignAngle(Yaw, 0, 360);
+    
     float volumes[8];
     volumes[0] = 1. - std::min(1., std::min((float)360. - Yaw, Yaw) / 90.);
     volumes[1] = 1. - std::min(1., std::abs((float)90. - Yaw) / 90.);

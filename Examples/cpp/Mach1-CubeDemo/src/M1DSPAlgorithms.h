@@ -150,7 +150,7 @@ static float mDegToRad(float degrees) {
 // Map utility
 //
 
-static float mmap(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp) {
+static float mmap(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp = false) {
     
     if (fabs(inputMin - inputMax) < __FLT_EPSILON__){
         return outputMin;
@@ -281,8 +281,6 @@ static std::vector<float> eightChannelsIsotropicAlgorithm(float Yaw, float Pitch
     mPoint faceVectorRight = faceVector21.getRotated(-simulationAngles[2] + 90, faceVector2);
     
     
-    float time = ofGetElapsedTimef() * 5;
-    
     mPoint faceVectorOffsetted = mPoint(cos(mDegToRad(simulationAngles[1])),
                                         sin(mDegToRad(simulationAngles[1]))).normalize().rotate(
                                                                                                  simulationAngles[0] + 10,
@@ -320,8 +318,8 @@ static std::vector<float> eightChannelsIsotropicAlgorithm(float Yaw, float Pitch
     result.resize(16);
     
     for (int i = 0; i < 8; i++) {
-        float vL = ofClamp(ofMap(qL[i] * 2, 250, 400, 1., 0.), 0, 1) / 2;
-        float vR = ofClamp(ofMap(qR[i] * 2, 250, 400, 1., 0.), 0, 1) / 2;
+        float vL = clamp(mmap(qL[i] * 2, 250, 400, 1., 0.), 0, 1) / 2;
+        float vR = clamp(mmap(qR[i] * 2, 250, 400, 1., 0.), 0, 1) / 2;
         
         // TODO: why did I need to put / 2 here to match what I had with other
         // algo? Isn't that other one normalized to max 1?

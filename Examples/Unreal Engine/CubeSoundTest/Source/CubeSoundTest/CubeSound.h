@@ -46,16 +46,16 @@ public:
 
 	void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Debug")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Display Debug")
 		bool Debug = true;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Pitch")
-		bool usePitch = true;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Yaw")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Yaw for Positional Rotation")
 		bool useYaw = true;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Roll")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Pitch for Positional Rotation")
+		bool usePitch = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Roll for Positional Rotation")
 		bool useRoll = true;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Sound")

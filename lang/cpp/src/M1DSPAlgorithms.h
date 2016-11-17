@@ -3,7 +3,7 @@
 //
 //  Multichannel audio format family
 //
-//  Mixing algorithms v 0.9.2
+//  Mixing algorithms v 0.9.3
 //
 
 #pragma once
@@ -67,6 +67,10 @@ static float alignAngle(float a, float min = -180, float max = 180)
 //
 
 static std::vector<float> fourChannelAlgorithm(float Yaw, float Pitch, float Roll) {
+    
+    //Orientation input safety clamps/alignment
+    Yaw = alignAngle(Yaw, 0, 360);
+    
     float coefficients[4];
     coefficients[0] = 1. - std::min(1., std::min((float)360. - Yaw, Yaw) / 90.);
     coefficients[1] = 1. - std::min(1., std::abs((float)90. - Yaw) / 90.);
@@ -99,6 +103,10 @@ static std::vector<float> fourChannelAlgorithm(float Yaw, float Pitch, float Rol
 //
 
 static std::vector<float> fourPairsAlgorithm(float Yaw, float Pitch, float Roll) {
+    
+    //Orientation input safety clamps/alignment
+    Yaw = alignAngle(Yaw, 0, 360);
+    
     float volumes[4];
     volumes[0] = 1. - std::min(1., std::min((float)360. - Yaw, Yaw) / 90.);
     volumes[1] = 1. - std::min(1., std::abs((float)90. - Yaw) / 90.);
@@ -202,6 +210,13 @@ static std::vector<float> eightChannelsAlgorithm(float Yaw, float Pitch, float R
 //
 
 static std::vector<float> eightPairsAlgorithm(float Yaw, float Pitch, float Roll) {
+    
+    //Orientation input safety clamps/alignment
+    Pitch = alignAngle(Pitch, -180, 180);
+    Pitch = clamp(Pitch, -90, 90); // -90, 90
+    
+    Yaw = alignAngle(Yaw, 0, 360);
+    
     float volumes[8];
     volumes[0] = 1. - std::min(1., std::min((float)360. - Yaw, Yaw) / 90.);
     volumes[1] = 1. - std::min(1., std::abs((float)90. - Yaw) / 90.);

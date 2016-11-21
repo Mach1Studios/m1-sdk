@@ -253,7 +253,7 @@ void ACubeSound::Tick(float DeltaTime)
 			UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(DeviceRotation, DevicePosition);
 			GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, TEXT(">> " + DeviceRotation.Euler().ToString()));
 			*/
-
+ 
 			/*
 			GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Red, TEXT(">> " + player->GetControlRotation().Euler().ToString()));
 			GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, isInit ? TEXT("init ok") : TEXT("no init"));

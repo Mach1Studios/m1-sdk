@@ -67,8 +67,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Roll for Positional Rotation")
 		bool useRoll = true;
 
-	UPROPERTY(BlueprintReadOnly, Category = "Sound")
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound", DisplayName = "Volume")
 		float Volume = 1.0f;
 

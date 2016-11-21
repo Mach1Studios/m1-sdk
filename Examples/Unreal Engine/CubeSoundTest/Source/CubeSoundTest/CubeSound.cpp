@@ -1,12 +1,12 @@
 //
 //  Mach1 SDK
 //
-#include "CubeSoundTest.h"
+#include "CubeSoundTest.h" // Change to your project name!
 #include "Kismet/HeadMountedDisplayFunctionLibrary.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "HeadMountedDisplay.h"
 
-#include "CubeSound.h" // Change to your project name!
+#include "CubeSound.h"
 
 #include <sstream>
 #include "M1DSPAlgorithmsUE.h"

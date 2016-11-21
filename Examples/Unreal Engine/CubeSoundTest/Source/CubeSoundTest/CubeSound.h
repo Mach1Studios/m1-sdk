@@ -28,8 +28,8 @@ class CUBESOUNDTEST_API ACubeSound : public AActor
 
 	void Init();
 	void SetSoundSet();
-	void CalculateChannelVolumes(FQuat quat);
-	void SetVolume(float NewVolume);
+	void CalculateChannelVolumes(FRotator rotator, FQuat quat);
+	void SetVolume(float Volume);
 
 public:
 	// Sets default values for this actor's properties
@@ -46,6 +46,15 @@ public:
 
 	void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 
+	UFUNCTION(BlueprintCallable, Category = "Audio")
+		void Play();
+
+	UFUNCTION(BlueprintCallable, Category = "Audio")
+		void Stop();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Attenuation Curve")
+		UCurveFloat* attenuationCurve;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Display Debug")
 		bool Debug = true;
 
@@ -59,13 +68,9 @@ public:
 		bool useRoll = true;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Sound")
-		float Volume;
 
-	UFUNCTION(BlueprintCallable, Category = "Audio")
-		void Play();
-
-	UFUNCTION(BlueprintCallable, Category = "Audio")
-		void Stop();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound", DisplayName = "Volume")
+		float Volume = 1.0f;
 
 	// Audio positions for the 8channel cube
 	UPROPERTY(EditAnywhere, Category = "Sound")

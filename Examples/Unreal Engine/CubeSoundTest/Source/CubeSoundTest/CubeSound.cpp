@@ -67,17 +67,17 @@ ACubeSound::ACubeSound()
 	PrimaryActorTick.bCanEverTick = true;
 
 	Root = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
-	Root->AttachTo(RootComponent);
+	Root->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 
 	Collision = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollision"));
 	Collision->InitBoxExtent(FVector(100, 100, 100));
 	Collision->bEditableWhenInherited = false;
 	Collision->SetHiddenInGame(false);
-	Collision->AttachTo(Root);
+	Collision->AttachToComponent(Root, FAttachmentTransformRules::KeepRelativeTransform);
 
 	Billboard = CreateDefaultSubobject< UBillboardComponent>(TEXT("Billboard"));
 	Billboard->SetHiddenInGame(false);
-	Billboard->AttachTo(Root);
+	Billboard->AttachToComponent(Root, FAttachmentTransformRules::KeepRelativeTransform);
 
 	LeftChannels.SetNum(MAX_SOUNDS_PER_CHANNEL);
 	RightChannels.SetNum(MAX_SOUNDS_PER_CHANNEL);
@@ -261,7 +261,11 @@ void ACubeSound::Tick(float DeltaTime)
 			*/
 
 			FVector closestPoint = GetActorLocation();
-			if (ClosestPointOnBox(player->GetPawn()->GetActorLocation(), GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), GetActorScale() * Collision->GetScaledBoxExtent() / 2, closestPoint) > 0)
+
+			FVector scale = Collision->GetScaledBoxExtent(); // GetActorScale() / 2 * 
+			scale = FVector(scale.Y, scale.Z, scale.X);
+
+			if (ClosestPointOnBox(player->GetPawn()->GetActorLocation(), GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, closestPoint) > 0)
 			{
 				DrawDebugLine(
 					GetWorld(),
@@ -284,14 +288,19 @@ void ACubeSound::Tick(float DeltaTime)
 				);
 			}
 
-		
+	
+			//FindLookAtRotation seems wrong angle
+			// compate with unity 
+
 		 	// Compute rotation for sound
 			FQuat quat = UKismetMathLibrary::FindLookAtRotation( player->GetPawn()->GetActorLocation(), closestPoint).Quaternion().Inverse() * GetActorRotation().Quaternion();
 			quat = FQuat::MakeFromEuler(FVector(useRoll ? quat.Euler().X : 0, usePitch ? quat.Euler().Y : 0, useYaw ? quat.Euler().Z : 0));
 			quat *= player->GetControlRotation().Quaternion();
 
-			
-			CalculateChannelVolumes(quat); 
+			CalculateChannelVolumes(player->GetControlRotation(), quat);
+
+			float dist = FVector::Dist(closestPoint, player->GetPawn()->GetActorLocation());
+			SetVolume(Volume * (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
 		}
 	}
 }
@@ -319,13 +328,21 @@ std::string toDebugString(const T& value)
 	return oss.str();
 }
 
-void ACubeSound::CalculateChannelVolumes(FQuat quat)
+void ACubeSound::CalculateChannelVolumes(FRotator CameraRotation, FQuat quat)
 {
 	//quat.Euler().X
 	std::vector<float> result = eightChannelsAlgorithm(quat.Euler().Y, quat.Euler().Z < 0 ? 360 + quat.Euler().Z : quat.Euler().Z, quat.Euler().X);
 
+	
+	// test
+//	FVector vec = UKismetMathLibrary::FindLookAtRotation(FVector(0,0,0), FVector(100,100,100)).Quaternion().Euler();
+//	GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, vec.ToString());
+
 	//#if UE_BUILD_DEBUG
-	std::string str = "angles: " + toDebugString(quat.Euler().Y) + " , " + toDebugString(quat.Euler().Z < 0 ? 360 + quat.Euler().Z : quat.Euler().Z) + " , " + toDebugString(quat.Euler().X);
+	std::string str = "angles:    " + toDebugString(quat.Euler().Y) + " , " + toDebugString(quat.Euler().Z < 0 ? 360 + quat.Euler().Z : quat.Euler().Z) + " , " + toDebugString(quat.Euler().X);
+	GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, str.c_str());
+
+	str  ="angles Orig: " + toDebugString(CameraRotation.Pitch >= 270 ? CameraRotation.Pitch - 360 : CameraRotation.Pitch) + " , " + toDebugString(CameraRotation.Yaw) + " , " + toDebugString(CameraRotation.Roll > 270 ? CameraRotation.Roll - 360 : CameraRotation.Roll);
 	GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, str.c_str());
 
 	 
@@ -349,26 +366,24 @@ void ACubeSound::CalculateChannelVolumes(FQuat quat)
 
 	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
 		VolumeFactor[i] = result[i];
-
-	SetVolume(Volume);
 }
 
-void ACubeSound::SetVolume(float NewVolume)
+void ACubeSound::SetVolume(float Volume)
 {
 	if (isInit)
 	{
-		Volume = FMath::Max(MIN_SOUND_VOLUME, NewVolume);
+		float vol = FMath::Max(MIN_SOUND_VOLUME, this->Volume * Volume);
+		float newVolume = 0;
 
-		float NetVolume = 0;
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
-			NetVolume = VolumeFactor[i * 2] * Volume;
-			NetVolume = FMath::Max(MIN_SOUND_VOLUME, NetVolume);
-			LeftChannels[i]->SetVolumeMultiplier(NetVolume);
+			newVolume = VolumeFactor[i * 2] * vol;
+			newVolume = FMath::Max(MIN_SOUND_VOLUME, newVolume);
+			LeftChannels[i]->SetVolumeMultiplier(newVolume);
 
-			NetVolume = VolumeFactor[i * 2 + 1] * Volume;
-			NetVolume = FMath::Max(MIN_SOUND_VOLUME, NetVolume);
-			RightChannels[i]->SetVolumeMultiplier(NetVolume);
+			newVolume = VolumeFactor[i * 2 + 1] * vol;
+			newVolume = FMath::Max(MIN_SOUND_VOLUME, newVolume);
+			RightChannels[i]->SetVolumeMultiplier(newVolume);
 		}
 	}
 }

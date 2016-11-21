@@ -10,63 +10,54 @@ public class StartupManager : MonoBehaviour
     /// <summary>
     /// This holds references to the sounds we want to load and then play in unison
     /// </summary>
-
-    public CubeSound[] sounds;
-    //public MoviePlayerSample[] movies;
-
+    public List<DirectionalSound> sounds = new List<DirectionalSound>();
+    public List<MoviePlayerSample> movies = new List<MoviePlayerSample>();
     public static Action OnLoadComplete;
     public GameObject loadingScreen;
 
     bool bLoadComplete;
 
-    void Start()
+	void Start ()
     {
-        sounds = GameObject.FindObjectsOfType<CubeSound>();
-
         // enable loading screen
         if (loadingScreen != null) loadingScreen.SetActive(true);
 
-        /*
         if (movies.Count == 0)
         {
             Debug.LogWarning("Error: No MoviePlayerSamples assigned");
         }
-        */
 
-        if (sounds.Length == 0)
+        if (sounds.Count == 0)
         {
             Debug.LogWarning("Warning: No DirectionalSounds assigned");
         }
     }
 
-    /// <summary>
+	/// <summary>
     /// This method has 3 stages:
     /// 1. Wait until audio is complete loading
     /// 2. Once ready, play media in the same frame
     /// 3. After that, disable self
     /// </summary>
-    void Update()
+	void Update ()
     {
-        if (!bLoadComplete)
+        if(!bLoadComplete)
         {
             CheckAudioReady();
         }
         else
         {
-            /*
             for (int i = 0; i < movies.Count; i++)
             {
                 movies[i].PlayVideo();
             }
-            */
-            for (int i = 0; i < sounds.Length; i++)
+            for (int i = 0; i < sounds.Count; i++)
             {
                 sounds[i].PlayAudio();
             }
-
             gameObject.SetActive(false);
         }
-    }
+	}
 
     /// <summary>
     /// Query our directional sounds to see if the audio was loaded
@@ -74,7 +65,7 @@ public class StartupManager : MonoBehaviour
     void CheckAudioReady()
     {
         bool bReady = true;
-        for (int i = 0; i < sounds.Length; i++)
+        for (int i = 0; i < sounds.Count; i++)
         {
             if (!sounds[i].IsReady())
             {
@@ -84,7 +75,7 @@ public class StartupManager : MonoBehaviour
 
         if (bReady)
         {
-            if (OnLoadComplete != null)
+            if(OnLoadComplete != null)
             {
                 OnLoadComplete();
             }

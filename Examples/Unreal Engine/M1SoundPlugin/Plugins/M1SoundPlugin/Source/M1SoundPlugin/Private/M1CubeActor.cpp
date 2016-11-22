@@ -1,7 +1,7 @@
 //
 //  Mach1 SDK
 //
-#include "M1CubeActorExample.h" // Change to your project name!
+#include "M1SoundPluginPrivatePCH.h" // Change to your project name!
 
 #include "Kismet/HeadMountedDisplayFunctionLibrary.h"
 #include "Kismet/KismetMathLibrary.h"

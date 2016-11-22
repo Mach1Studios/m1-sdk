@@ -7,7 +7,7 @@
 #include "M1CubeActor.generated.h" 
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class M1CUBEACTOREXAMPLE_API AM1CubeActor : public AActor // M1CUBEACTOREXAMPLE_API - change to your project name
+class M1SOUNDPLUGIN_API AM1CubeActor : public AActor // M1SOUNDPLUGIN_API - change to your project name
 {
 	GENERATED_BODY()
 

@@ -140,8 +140,8 @@ void AM1CubeActor::Init()
 			for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 			{
 
-				LeftChannels[i] = NewObject <UAudioComponent>(cameraComponent, FName(*FString::Printf(TEXT("Left Channel %d"), i))); 
-				RightChannels[i] = NewObject <UAudioComponent>(cameraComponent, FName(*FString::Printf(TEXT("Right Channel %d"), i))); 
+				LeftChannels[i] = NewObject <UAudioComponent>(cameraComponent, FName(*FString::Printf(TEXT("Left Channel %d"), i)));
+				RightChannels[i] = NewObject <UAudioComponent>(cameraComponent, FName(*FString::Printf(TEXT("Right Channel %d"), i)));
 
 				LeftChannels[i]->RegisterComponent(); // only for runtime
 				RightChannels[i]->RegisterComponent(); // only for runtime
@@ -236,7 +236,6 @@ void AM1CubeActor::Tick(float DeltaTime)
 	{
 		if (APlayerController* player = GetWorld()->GetFirstPlayerController())
 		{
-
 			/*
 			bool bHMDIsReady = (GEngine && GEngine->HMDDevice.IsValid() && GEngine->HMDDevice->IsHMDConnected());
 			if (bHMDIsReady)
@@ -253,54 +252,63 @@ void AM1CubeActor::Tick(float DeltaTime)
 			UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(DeviceRotation, DevicePosition);
 			GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, TEXT(">> " + DeviceRotation.Euler().ToString()));
 			*/
- 
+
 			/*
 			GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Red, TEXT(">> " + player->GetControlRotation().Euler().ToString()));
 			GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, isInit ? TEXT("init ok") : TEXT("no init"));
 			GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Purple, GetWorld()->GetFirstPlayerController()->GetPawn()->GetName());
 			*/
 
-			FVector closestPoint = GetActorLocation();
+			FVector point = GetActorLocation();
 
 			FVector scale = Collision->GetScaledBoxExtent(); // GetActorScale() / 2 * 
 			scale = FVector(scale.Y, scale.Z, scale.X);
 
-			if (ClosestPointOnBox(player->GetPawn()->GetActorLocation(), GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, closestPoint) > 0)
+			float vol = Volume;
+			if (useClosestPoint)
 			{
-				DrawDebugLine(
-					GetWorld(),
-					GetActorLocation(),
-					closestPoint,
-					FColor(255, 0, 0),
-					false,
-					-1,
-					0,
-					0
-				);
+				if (ClosestPointOnBox(player->GetPawn()->GetActorLocation(), GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, point) > 0)
+				{
+					DrawDebugLine(
+						GetWorld(),
+						GetActorLocation(),
+						point,
+						FColor(255, 0, 0),
+						false,
+						-1,
+						0,
+						0
+					);
 
-				DrawDebugPoint(GetWorld(),
-					closestPoint,
-					10.0,
-					FColor(255, 0, 0),
-					false,
-					-1,
-					0
-				);
+					DrawDebugPoint(GetWorld(),
+						point,
+						10.0,
+						FColor(255, 0, 0),
+						false,
+						-1,
+						0
+					);
+				}
+				else
+				{
+					vol = 0;
+				}
 			}
 
-	
+
+
 			//FindLookAtRotation seems wrong angle
 			// compate with unity 
 
-		 	// Compute rotation for sound
-			FQuat quat = UKismetMathLibrary::FindLookAtRotation( player->GetPawn()->GetActorLocation(), closestPoint).Quaternion().Inverse() * GetActorRotation().Quaternion();
+			// Compute rotation for sound
+			FQuat quat = UKismetMathLibrary::FindLookAtRotation(player->GetPawn()->GetActorLocation(), point).Quaternion().Inverse() * GetActorRotation().Quaternion();
 			quat = FQuat::MakeFromEuler(FVector(useRoll ? quat.Euler().X : 0, usePitch ? quat.Euler().Y : 0, useYaw ? quat.Euler().Z : 0));
 			quat *= player->GetControlRotation().Quaternion();
 
 			CalculateChannelVolumes(player->GetControlRotation(), quat);
 
-			float dist = FVector::Dist(closestPoint, player->GetPawn()->GetActorLocation());
-			SetVolume(Volume * (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
+			float dist = FVector::Dist(point, player->GetPawn()->GetActorLocation());
+			SetVolume(vol * (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
 		}
 	}
 }
@@ -333,7 +341,7 @@ void AM1CubeActor::CalculateChannelVolumes(FRotator CameraRotation, FQuat quat)
 	//quat.Euler().X
 	std::vector<float> result = eightChannelsAlgorithm(quat.Euler().Y, quat.Euler().Z < 0 ? 360 + quat.Euler().Z : quat.Euler().Z, quat.Euler().X);
 
-	
+
 	// test
 //	FVector vec = UKismetMathLibrary::FindLookAtRotation(FVector(0,0,0), FVector(100,100,100)).Quaternion().Euler();
 //	GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, vec.ToString());
@@ -342,10 +350,10 @@ void AM1CubeActor::CalculateChannelVolumes(FRotator CameraRotation, FQuat quat)
 	std::string str = "angles:    " + toDebugString(quat.Euler().Y) + " , " + toDebugString(quat.Euler().Z < 0 ? 360 + quat.Euler().Z : quat.Euler().Z) + " , " + toDebugString(quat.Euler().X);
 	GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, str.c_str());
 
-	str  ="angles Orig: " + toDebugString(CameraRotation.Pitch >= 270 ? CameraRotation.Pitch - 360 : CameraRotation.Pitch) + " , " + toDebugString(CameraRotation.Yaw) + " , " + toDebugString(CameraRotation.Roll > 270 ? CameraRotation.Roll - 360 : CameraRotation.Roll);
+	str = "angles Orig: " + toDebugString(CameraRotation.Pitch >= 270 ? CameraRotation.Pitch - 360 : CameraRotation.Pitch) + " , " + toDebugString(CameraRotation.Yaw) + " , " + toDebugString(CameraRotation.Roll > 270 ? CameraRotation.Roll - 360 : CameraRotation.Roll);
 	GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, str.c_str());
 
-	 
+
 	std::string info;
 	info = "left:  ";
 	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)

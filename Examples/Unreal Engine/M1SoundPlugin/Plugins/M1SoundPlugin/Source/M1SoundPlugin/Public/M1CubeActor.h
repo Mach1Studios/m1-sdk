@@ -58,6 +58,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Display Debug")
 		bool Debug = true;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Closest Point")
+		bool useClosestPoint = true;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Yaw for Positional Rotation")
 		bool useYaw = true;
 

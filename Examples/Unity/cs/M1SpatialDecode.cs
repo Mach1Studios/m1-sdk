@@ -7,13 +7,13 @@ using UnityEngine;
 using System.Collections;
 using System.IO;
 
-public class CubeSound : MonoBehaviour
+public class M1SpatialDecode : MonoBehaviour
 {
     public string audioPath = "file:///";
     public string[] audioFilename;
 
     [Space(10)]
-    public bool useFalloff = true;
+	public bool useFalloff = false;
     public AnimationCurve curveFalloff;
 
     private int loadedCount;
@@ -23,17 +23,16 @@ public class CubeSound : MonoBehaviour
     private Matrix4x4 mat;
 
     [Space(10)]
-    public bool useClosestPoint = true;
+	public bool useClosestPoint = false;
 
-    [Space(10)]
-    public bool useYaw = true;
-    public bool usePitch = true;
-    public bool useRoll = true;
+    public bool useYawForClosestPoint = true;
+    public bool usePitchForClosestPoint = true;
+	public bool useRollForClosestPoint = false;
 
     [Space(10)]
     public bool drawHelpers = true;
      
-    CubeSound()
+    M1SpatialDecode()
     {
         // Falloff
         Keyframe[] keyframes = new Keyframe[3];
@@ -228,19 +227,19 @@ public class CubeSound : MonoBehaviour
 
             // Compute matrix for draw gizmo
             Quaternion quatGizmo = Quaternion.LookRotation(dir, Vector3.up) * Quaternion.Inverse(gameObject.transform.rotation);
-            quatGizmo.eulerAngles = new Vector3(usePitch ? quatGizmo.eulerAngles.x : 0, useYaw ? quatGizmo.eulerAngles.y : 0, useRoll ? quatGizmo.eulerAngles.z : 0);
+            quatGizmo.eulerAngles = new Vector3(usePitchForClosestPoint ? quatGizmo.eulerAngles.x : 0, useYawForClosestPoint ? quatGizmo.eulerAngles.y : 0, useRollForClosestPoint ? quatGizmo.eulerAngles.z : 0);
             mat = Matrix4x4.TRS(Camera.main.transform.position, quatGizmo, new Vector3(1, 1, 1));
             
             // Compute rotation for sound
             Quaternion quat = Quaternion.Inverse(Quaternion.LookRotation(dir, Vector3.up)) * gameObject.transform.rotation;
-            quat.eulerAngles = new Vector3(usePitch ? quat.eulerAngles.x : 0, useYaw ? quat.eulerAngles.y : 0, useRoll ? quat.eulerAngles.z : 0);
+            quat.eulerAngles = new Vector3(usePitchForClosestPoint ? quat.eulerAngles.x : 0, useYawForClosestPoint ? quat.eulerAngles.y : 0, useRollForClosestPoint ? quat.eulerAngles.z : 0);
             quat *= Camera.main.transform.rotation;
 
             // Compute volumes
             Vector3 eulerAngles = quat.eulerAngles;
             eulerAngles.x = eulerAngles.x > 180 ? 360 - eulerAngles.x : -eulerAngles.x;
             eulerAngles.y += 180;
-            Debug.Log("eulerAngles:" + eulerAngles);
+            //Debug.Log("eulerAngles:" + eulerAngles);
 
             if (useFalloff)
             {

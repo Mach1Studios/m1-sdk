@@ -11,7 +11,9 @@ public class StartupManager : MonoBehaviour
     /// This holds references to the sounds we want to load and then play in unison
     /// </summary>
 
-    public CubeSound[] sounds;
+    public M1HorizonDecode[] sounds;
+	//public M1HorizonDecode[] sounds2;
+
     //public MoviePlayerSample[] movies;
 
     public static Action OnLoadComplete;
@@ -21,7 +23,8 @@ public class StartupManager : MonoBehaviour
 
     void Start()
     {
-        sounds = GameObject.FindObjectsOfType<CubeSound>();
+		sounds = GameObject.FindObjectsOfType<M1HorizonDecode>();
+		//sounds2 = GameObject.FindObjectsOfType<M1HorizonDecode> ();
 
         // enable loading screen
         if (loadingScreen != null) loadingScreen.SetActive(true);
@@ -62,6 +65,7 @@ public class StartupManager : MonoBehaviour
             for (int i = 0; i < sounds.Length; i++)
             {
                 sounds[i].PlayAudio();
+				//sounds2 [i].PlayAudio ();
             }
 
             gameObject.SetActive(false);
@@ -76,7 +80,7 @@ public class StartupManager : MonoBehaviour
         bool bReady = true;
         for (int i = 0; i < sounds.Length; i++)
         {
-            if (!sounds[i].IsReady())
+			if (!sounds[i].IsReady() )
             {
                 bReady = false;
             }

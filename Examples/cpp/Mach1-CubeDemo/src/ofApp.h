@@ -9,6 +9,7 @@
 #include "BaseAudioTest.h"
 #include "Audio1.h"
 #include "Audio2.h"
+#include "IsotropicEightChannelTest.h"
 
 
 #define SETTINGS_TOOLBAR_WIDTH 200
@@ -48,7 +49,7 @@ public:
     
     ofSerial serial;
     
-    int selectedTest = 0;
+    int selectedTest = 2;
     std::vector<BaseAudioTest*> tests;
     
     // Simulation

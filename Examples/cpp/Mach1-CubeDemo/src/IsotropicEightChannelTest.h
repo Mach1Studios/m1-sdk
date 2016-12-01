@@ -18,23 +18,23 @@ public:
         volumes.resize(8);
         
         for (int i = 0; i < 8; i++){
-            playersLeft[0].load("8ChannelAudio/1/1.wav"); playersLeft[0].setLoop(true);
-            playersLeft[1].load("8ChannelAudio/1/2.wav"); playersLeft[1].setLoop(true);
-            playersLeft[2].load("8ChannelAudio/1/3.wav"); playersLeft[2].setLoop(true);
-            playersLeft[3].load("8ChannelAudio/1/4.wav"); playersLeft[3].setLoop(true);
-            playersLeft[4].load("8ChannelAudio/1/5.wav"); playersLeft[4].setLoop(true);
-            playersLeft[5].load("8ChannelAudio/1/6.wav"); playersLeft[5].setLoop(true);
-            playersLeft[6].load("8ChannelAudio/1/7.wav"); playersLeft[6].setLoop(true);
-            playersLeft[7].load("8ChannelAudio/1/8.wav"); playersLeft[7].setLoop(true);
+            playersLeft[0].load("1/1.wav"); playersLeft[0].setLoop(true);
+            playersLeft[1].load("1/2.wav"); playersLeft[1].setLoop(true);
+            playersLeft[2].load("1/3.wav"); playersLeft[2].setLoop(true);
+            playersLeft[3].load("1/4.wav"); playersLeft[3].setLoop(true);
+            playersLeft[4].load("1/5.wav"); playersLeft[4].setLoop(true);
+            playersLeft[5].load("1/6.wav"); playersLeft[5].setLoop(true);
+            playersLeft[6].load("1/7.wav"); playersLeft[6].setLoop(true);
+            playersLeft[7].load("1/8.wav"); playersLeft[7].setLoop(true);
             playersLeft[i].setPan(-1);
-            playersRight[0].load("8ChannelAudio/1/1.wav"); playersRight[0].setLoop(true);
-            playersRight[1].load("8ChannelAudio/1/2.wav"); playersRight[1].setLoop(true);
-            playersRight[2].load("8ChannelAudio/1/3.wav"); playersRight[2].setLoop(true);
-            playersRight[3].load("8ChannelAudio/1/4.wav"); playersRight[3].setLoop(true);
-            playersRight[4].load("8ChannelAudio/1/5.wav"); playersRight[4].setLoop(true);
-            playersRight[5].load("8ChannelAudio/1/6.wav"); playersRight[5].setLoop(true);
-            playersRight[6].load("8ChannelAudio/1/7.wav"); playersRight[6].setLoop(true);
-            playersRight[7].load("8ChannelAudio/1/8.wav"); playersRight[7].setLoop(true);
+            playersRight[0].load("1/1.wav"); playersRight[0].setLoop(true);
+            playersRight[1].load("1/2.wav"); playersRight[1].setLoop(true);
+            playersRight[2].load("1/3.wav"); playersRight[2].setLoop(true);
+            playersRight[3].load("1/4.wav"); playersRight[3].setLoop(true);
+            playersRight[4].load("1/5.wav"); playersRight[4].setLoop(true);
+            playersRight[5].load("1/6.wav"); playersRight[5].setLoop(true);
+            playersRight[6].load("1/7.wav"); playersRight[6].setLoop(true);
+            playersRight[7].load("1/8.wav"); playersRight[7].setLoop(true);
             playersRight[i].setPan(1);
         }
     }
@@ -167,7 +167,22 @@ public:
     }
     
     void drawOverlay() {
-        ofDrawBitmapStringHighlight("Eight channel test", 20, ofGetHeight() - 70);
+        ofDrawBitmapStringHighlight("Please turn Mach1 IMU on before launching this application", 10, 20);
+        ofDrawBitmapStringHighlight("Sideload into app by right clicking app", 10, 40);
+        ofDrawBitmapStringHighlight("and Showing Package Contents", 10, 60);
+        ofDrawBitmapStringHighlight("Directory: Mach1-CubeDemo/Contents/Resources/1/*.wav", 10, 100);
+        ofDrawBitmapStringHighlight("Instructions:", ofGetWidth() - 500, 20);
+        ofDrawBitmapStringHighlight("-Press 'spacebar' to play", ofGetWidth() - 500, 40);
+        ofDrawBitmapStringHighlight("-Use the Yaw,Pitch,Roll sliders to", ofGetWidth() - 500, 60);
+        ofDrawBitmapStringHighlight("simulate different head orientations", ofGetWidth() - 500, 80);
+        
+        // Player controls
+        ofSetColor(255);
+        ofLine(30, ofGetHeight() - 30, ofGetWidth() - 170 - 60, ofGetHeight() - 30);
+        ofFill();
+        ofCircle(ofLerp(30, ofGetWidth() - 170 - 60, playersLeft[0].getPosition()), ofGetWidth() - 170 - 60 , 20);
+        
+        ofCircle(30 + playersLeft[0].getPosition() * (ofGetWidth() - 200 - 60), ofGetHeight() - 30, 10);
     }
 
     void setOverallVolume(float volume) {
@@ -374,6 +389,17 @@ public:
         
         return eightChannelsIsotropicAlgorithm(X, Y, Z);
     }
+    
+    virtual void mousePressed(int x, int y) {
+        // Player controls
+        if ((x > 30 && (x < (ofGetWidth() - 200 - 60)) ) && (y > (ofGetHeight() - 70))) {
+            for (int i = 0; i < 8; i++) {
+                playersLeft[i].setPosition((((float)x - 30) / (ofGetWidth() - 200 - 60)));
+                playersRight[i].setPosition((((float)x - 30) / (ofGetWidth() - 200 - 60)));
+            }
+        }
+    };
+
     
     int scheduleRestart = 30;
     

@@ -8,7 +8,7 @@
 
 #include "BaseAudioTest.h"
 #include "Audio1.h"
-#include "Audio2.h"
+//#include "Audio2.h"
 #include "IsotropicEightChannelTest.h"
 
 
@@ -49,7 +49,7 @@ public:
     
     ofSerial serial;
     
-    int selectedTest = 2;
+    int selectedTest = 0;
     std::vector<BaseAudioTest*> tests;
     
     // Simulation

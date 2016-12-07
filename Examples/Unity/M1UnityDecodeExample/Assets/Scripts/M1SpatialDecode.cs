@@ -10,6 +10,7 @@ using System.IO;
 public class M1SpatialDecode : MonoBehaviour
 {
     public string audioPath = "file:///";
+    public bool isFromResource = true;
     public string[] audioFilename;
 
     [Space(10)]
@@ -68,7 +69,7 @@ public class M1SpatialDecode : MonoBehaviour
 
         for (int i = 0; i < audioFilename.Length; i++)
         {
-            StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename[i]), i));
+            StartCoroutine(LoadAudio(isFromResource ? audioFilename[i] : Path.Combine(audioPath, audioFilename[i]), i, isFromResource));
         }
     }
 
@@ -103,25 +104,36 @@ public class M1SpatialDecode : MonoBehaviour
     }
 
     // Load audio
-    IEnumerator LoadAudio(string url, int n)
+    IEnumerator LoadAudio(string url, int n, bool isFromResource)
     {
-        WWW www = new WWW(url);
-        yield return www;
+        AudioClip clip = null;
 
-        if (www.error == null)
+        if (isFromResource)
         {
-            AudioClip clip = www.GetAudioClip(false, false);
+            clip = Resources.Load< AudioClip>(url);
+        }
+        else
+        {
+            WWW www = new WWW(url);
+            yield return www;
+            if (www.error == null)
+            {
+                clip = www.GetAudioClip(false, false);
+            }
+            else
+            {
+                Debug.Log("WWW Error: " + www.error);
+            }
+        }
 
+        if (clip != null)
+        {
             audioSource[n * 2] = AddAudio(clip, false, true, 1.0f);
             audioSource[n * 2].panStereo = -1;
 
             audioSource[n * 2 + 1] = AddAudio(clip, false, true, 1.0f);
             audioSource[n * 2 + 1].panStereo = 1;
             loadedCount++;
-        }
-        else
-        {
-            Debug.Log("WWW Error: " + www.error);
         }
 
         yield break;

@@ -73,7 +73,7 @@ public class M1HorizonDecode : MonoBehaviour
 
         for (int i = 0; i < audioFilename.Length; i++)
         {
-            StartCoroutine(LoadAudio(isFromResource ? audioFilename[i] : Path.Combine(audioPath, audioFilename[i]), i, isFromResource));
+            StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename[i]), i, isFromResource));
         }
     }
 

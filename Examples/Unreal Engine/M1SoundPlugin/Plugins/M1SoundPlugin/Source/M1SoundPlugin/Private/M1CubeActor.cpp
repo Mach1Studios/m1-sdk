@@ -5,7 +5,7 @@
 
 #include "Kismet/HeadMountedDisplayFunctionLibrary.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "HeadMountedDisplay.h"
+//#include "HeadMountedDisplay.h"
 
 #include <sstream>
 #include "M1CubeActor.h"

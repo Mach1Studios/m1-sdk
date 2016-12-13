@@ -1,3 +1,4 @@
+ofxAudioDecoder
 ofxImGui
 ofxJSON
 ofxOsc

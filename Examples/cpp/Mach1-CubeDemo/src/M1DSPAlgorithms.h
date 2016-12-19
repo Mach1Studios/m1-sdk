@@ -11,7 +11,11 @@
 #ifndef M1DSPAlgorithms_h
 #define M1DSPAlgorithms_h
 
+#ifdef WIN32
+#define __FLT_EPSILON__    FLT_EPSILON
+#endif
 
+#include <algorithm>
 #include <vector>
 #include <cmath>
 

@@ -2,4 +2,5 @@ ofxAudioDecoder
 ofxImGui
 ofxJSON
 ofxOsc
+ofxVideoPlayer
 ofxWatermark

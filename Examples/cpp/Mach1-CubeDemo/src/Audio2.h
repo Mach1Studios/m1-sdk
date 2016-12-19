@@ -52,7 +52,12 @@ public:
         }
     }
     
-    
+	void audioOut(float * output, int bufferSize, int nChannels)
+	{
+
+	}
+
+
     void draw() {
         
         // Restart offset fix

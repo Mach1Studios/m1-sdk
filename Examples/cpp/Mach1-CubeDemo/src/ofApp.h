@@ -10,12 +10,19 @@
 #include "Audio1.h"
 //#include "Audio2.h"
 #include "IsotropicEightChannelTest.h"
+#include "AbmisonicTest.h"
 
+#include "ofxVideoPlayer.h"
 
 #define SETTINGS_TOOLBAR_WIDTH 200
 
 class ofApp : public ofBaseApp{
     
+	ofxVideoPlayer videoPlayer;
+	ofCamera camera;
+	ofSpherePrimitive sphereVideo;
+	ofMatrix4x4 matrix;
+
 public:
     void setup();
     void update();
@@ -44,7 +51,8 @@ public:
     void windowResized(int w, int h);
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
-    
+	void audioOut(float * input, int bufferSize, int nChannels);
+
     bool setupFinished = false;
     
     ofSerial serial;

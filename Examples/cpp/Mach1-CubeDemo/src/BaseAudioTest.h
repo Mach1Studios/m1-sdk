@@ -9,8 +9,10 @@ public:
     BaseAudioTest() {
         
     }
-    
-    virtual void draw() = 0;
+
+	virtual void audioOut(float * output, int bufferSize, int nChannels) = 0;
+
+	virtual void draw() = 0;
     virtual void update() {};
     
     virtual void drawOverlay() = 0;

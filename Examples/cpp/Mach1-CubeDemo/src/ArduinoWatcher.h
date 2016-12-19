@@ -128,7 +128,7 @@ public:
         int i = 0, lastWordIndex = 0;
         std::vector<std::string> result;
         
-        if (arg.length() < 4) return;
+        if (arg.length() < 4) return std::vector<std::string>();
         
         while (i <= arg.size()-1) {
             if ((arg[i] == 10)||(i == arg.size() - 1)) {

@@ -23,6 +23,8 @@ class ofApp : public ofBaseApp{
 	ofSpherePrimitive sphereVideo;
 	ofMatrix4x4 matrix;
 
+	ofSoundStream soundStream;
+
 public:
     void setup();
     void update();

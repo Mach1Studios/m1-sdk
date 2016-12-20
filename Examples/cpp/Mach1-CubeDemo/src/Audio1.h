@@ -1,4 +1,5 @@
 #include "BaseAudioTest.h"
+#include "ofxAudioDecoder.h"
 
 class AudioOne: public BaseAudioTest {
 public:
@@ -18,42 +19,68 @@ public:
         volumes.resize(8);
         
         for (int i = 0; i < 8; i++){
-            playersLeft[0].load("1/1.wav"); playersLeft[0].setLoop(true);
-            playersLeft[1].load("1/2.wav"); playersLeft[1].setLoop(true);
-            playersLeft[2].load("1/3.wav"); playersLeft[2].setLoop(true);
-            playersLeft[3].load("1/4.wav"); playersLeft[3].setLoop(true);
-            playersLeft[4].load("1/5.wav"); playersLeft[4].setLoop(true);
-            playersLeft[5].load("1/6.wav"); playersLeft[5].setLoop(true);
-            playersLeft[6].load("1/7.wav"); playersLeft[6].setLoop(true);
-            playersLeft[7].load("1/8.wav"); playersLeft[7].setLoop(true);
-            playersLeft[i].setPan(-1);
-            playersRight[0].load("1/1.wav"); playersRight[0].setLoop(true);
-            playersRight[1].load("1/2.wav"); playersRight[1].setLoop(true);
-            playersRight[2].load("1/3.wav"); playersRight[2].setLoop(true);
-            playersRight[3].load("1/4.wav"); playersRight[3].setLoop(true);
-            playersRight[4].load("1/5.wav"); playersRight[4].setLoop(true);
-            playersRight[5].load("1/6.wav"); playersRight[5].setLoop(true);
-            playersRight[6].load("1/7.wav"); playersRight[6].setLoop(true);
-            playersRight[7].load("1/8.wav"); playersRight[7].setLoop(true);
-            playersRight[i].setPan(1);
-        }
+            sounds[0].load("1/1.wav"); 
+            sounds[1].load("1/2.wav"); 
+            sounds[2].load("1/3.wav"); 
+            sounds[3].load("1/4.wav"); 
+            sounds[4].load("1/5.wav"); 
+            sounds[5].load("1/6.wav"); 
+            sounds[6].load("1/7.wav");  
+            sounds[7].load("1/8.wav"); 
+         }
+
+		pos = 0;
     }
     
     void update() {
-        // Handling audio
-        
-        //angleY = yaw, angleX = pitch
-        volumes = audioMixAlgorithm(angleY, angleX, angleZ);
-        
-        for (int i = 0; i < 8; i++) {
-            playersLeft[i].setVolume(volumes[i * 2] * overallVolume);
-            playersRight[i].setVolume(volumes[i * 2 + 1] * overallVolume);
-        }
+         
+       
     }
 
 	void audioOut(float * output, int bufferSize, int nChannels)
 	{
+		// Handling audio
 
+		//angleY = yaw, angleX = pitch
+		volumes = audioMixAlgorithm(angleY, angleX, angleZ);
+
+		if (isPlay)
+		{
+			float sample;
+
+			for (int i = 0; i < bufferSize; i++)
+			{
+				sample = 0;
+				for (int i = 0; i < 8; i++) {
+					sample += sounds[i].getRawSamples()[pos] * (volumes[i * 2] * overallVolume);
+				}
+				output[i*nChannels] = sample / 8;
+				
+				sample = 0;
+				for (int i = 0; i < 8; i++) {
+					sample += sounds[i].getRawSamples()[pos] * (volumes[i * 2 + 1] * overallVolume);
+				}
+				output[i*nChannels+1] = sample / 8;
+
+				pos++;
+			}
+		}
+ 
+	}
+
+	void setPosition(float percent)
+	{
+		pos = percent * sounds[0].getNumSamples() / sounds[0].getSampleRate();
+	}
+
+	void play()
+	{
+		isPlay = true;
+	}
+
+	void pause()
+	{
+		isPlay = false;
 	}
 
     void draw() {
@@ -98,13 +125,7 @@ public:
         ofDrawBitmapStringHighlight("-Use the Yaw,Pitch,Roll sliders to", ofGetWidth() - 500, 60);
         ofDrawBitmapStringHighlight("simulate different head orientations", ofGetWidth() - 500, 80);
         
-        // Player controls
-        ofSetColor(255);
-        ofLine(30, ofGetHeight() - 30, ofGetWidth() - 170 - 60, ofGetHeight() - 30);
-        ofFill();
-        ofCircle(ofLerp(30, ofGetWidth() - 170 - 60, playersLeft[0].getPosition()), ofGetWidth() - 170 - 60 , 20);
-        
-        ofCircle(30 + playersLeft[0].getPosition() * (ofGetWidth() - 200 - 60), ofGetHeight() - 30, 10);
+      
     }
 
     void setOverallVolume(float volume) {
@@ -120,10 +141,7 @@ public:
     virtual void mousePressed(int x, int y) {
         // Player controls
         if ((x > 30 && (x < (ofGetWidth() - 200 - 60)) ) && (y > (ofGetHeight() - 70))) {
-            for (int i = 0; i < 8; i++) {
-                playersLeft[i].setPosition((((float)x - 30) / (ofGetWidth() - 200 - 60)));
-                playersRight[i].setPosition((((float)x - 30) / (ofGetWidth() - 200 - 60)));
-            }
+			setPosition(((float)x - 30) / (ofGetWidth() - 200 - 60));
         }
     };
     
@@ -133,8 +151,10 @@ public:
     std::vector<float> volumes;
     float overallVolume = 0;
     float coefficients[8];
-    ofSoundPlayer playersLeft[8];
-    ofSoundPlayer playersRight[8];
+	ofxAudioDecoder sounds[8];
+	long int pos;
+
+	bool isPlay;
 
     //////////////
     
@@ -146,31 +166,12 @@ public:
     int scheduleRestart = 30;
     
     void restart() {
-        for (int i = 0; i < 8; i++) {
-            playersLeft[i].setPosition(0);
-            playersRight[i].setPosition(0);
-        }
+		pos = 0;
     }
     
     void keyPressed(int key) {
         if (key == ' ') {
-            playersLeft[0].play();
-            playersRight[0].play();
-            playersLeft[1].play();
-            playersRight[1].play();
-            playersLeft[2].play();
-            playersRight[2].play();
-            playersLeft[3].play();
-            playersRight[3].play();
-            playersLeft[4].play();
-            playersRight[4].play();
-            playersLeft[5].play();
-            playersRight[5].play();
-            playersLeft[6].play();
-            playersRight[6].play();
-            playersLeft[7].play();
-            playersRight[7].play();
-            restart();
+           
         }
     }
 

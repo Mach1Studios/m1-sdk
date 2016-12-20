@@ -10,9 +10,8 @@ void ofApp::setup(){
     logo.load("logo.png");
  
     watermark.init("m1mark.png", "b2318ada53073a1eac0b20560718d58e");
- 
-	videoPlayer.load("E:/Projects/Dylan/Ref1/video_monoscopic.mp4");
-	videoPlayer.play();
+
+	videoPlayer.load("video.mp4");
 
     //hardcode controller input if available
 //    serial.setup("/dev/cu.Mach1-01-DevB", 115200);
@@ -42,7 +41,7 @@ void ofApp::setup(){
         initializedController = true;
     };
     
-
+ 
 
     tests.push_back(new AudioOne());
 //    tests.push_back(new AudioTwo());
@@ -74,7 +73,9 @@ void ofApp::setup(){
     // the light highlight of the material //
     material.setSpecularColor(ofColor(255, 255, 255, 255));
     
-
+	// auto play
+	tests[selectedTest]->play();
+	videoPlayer.play();
 
 	// setup for video
 	camera.setPosition(0, 0, 0);
@@ -85,6 +86,9 @@ void ofApp::setup(){
 	sphereVideo.rotate(-180, 0, 0, 1);
 
 
+	//	soundStream.printDeviceList();
+	//soundStream.setDeviceID(1); 	//note some devices are input only and some are output only 
+	soundStream.setup(this, 2, 0, 44100, 512, 1);
 
     setupFinished = true;
 }
@@ -291,16 +295,13 @@ void ofApp::draw(){
 		sphereVideo.draw();
 		videoPlayer.getTextureReference().unbind();
 
-		//if (videoPlayer.getPosition() - tests  > 500)
-		{
-		//	tests[selectedTest]->start();
-		}
+
 
 		ofPopMatrix();
 
 		camera.end();
 
-		ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), 50, 50);
+		ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), 10, 20);
 		ofDisableDepthTest();
 
 		// Player controls
@@ -340,7 +341,16 @@ void ofApp::draw(){
     const char* source_options[] = {"M1Spatial-Periphonic", "M1Spatial-Isotropic" , "Ambisonic" };
     
     ImGui::PushItemWidth(-1);
-    ImGui::ListBox("##", &selectedTest, source_options, 3, 3);
+	if (ImGui::ListBox("##", &selectedTest, source_options, 3, 3))
+	{
+		for (int i = 0; i < tests.size(); i++)
+		{
+			if (i != selectedTest) tests[i]->pause();
+		}
+		 
+		tests[selectedTest]->play();
+		tests[selectedTest]->setPosition( videoPlayer.getPosition() / videoPlayer.getDuration());
+	}
     
     ImGui::Text("Angles:");
     bool angleChanged = false;
@@ -376,7 +386,11 @@ void ofApp::serialAngleUpdate(float serialY, float serialP){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    tests[selectedTest]->keyPressed(key);
+    //tests[selectedTest]->keyPressed(key);
+
+	if (key == ' ') {
+//		restart();
+	}
 }
 
 //--------------------------------------------------------------
@@ -407,7 +421,17 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-    if ((ofVec3f(ofGetWidth() / 2, ofGetHeight() / 2) - ofVec3f(x, y)).length() > (ofGetWidth() / 10)) {
+    
+
+		// Video Player controls
+		if ((x > 30 && (x < (ofGetWidth() - 200 - 60))) && (y >(ofGetHeight() - 70))) {
+			for (int i = 0; i < 8; i++) {
+				//playersLeft[i].setPosition((((float)x - 30) / (ofGetWidth() - 200 - 60)));
+			}
+		}
+	
+	
+	if ((ofVec3f(ofGetWidth() / 2, ofGetHeight() / 2) - ofVec3f(x, y)).length() > (ofGetWidth() / 10)) {
         if (x < (ofGetWidth() - SETTINGS_TOOLBAR_WIDTH)) {
             dragginCamera = true;
             dragStart = ofPoint(x, y);
@@ -423,7 +447,7 @@ void ofApp::mousePressed(int x, int y, int button){
     
     //
     
-    tests[selectedTest]->mousePressed(x, y);
+    //tests[selectedTest]->mousePressed(x, y);
     
 }
 

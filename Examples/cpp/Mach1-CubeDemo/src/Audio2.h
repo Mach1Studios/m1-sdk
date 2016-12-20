@@ -57,7 +57,31 @@ public:
 
 	}
 
+	void setPosition(float percent)
+	{
+		for (int i = 0; i < 8; i++) {
+			playersLeft[i].setPosition(percent);
+			playersRight[i].setPosition(percent);
+		}
+	}
 
+	void play()
+	{
+		for (int i = 0; i < 8; i++) {
+			playersLeft[i].play();
+			playersRight[i].play();
+		}
+
+		restart();
+	}
+
+	void pause()
+	{
+		for (int i = 0; i < 8; i++) {
+			playersLeft[i].stop();
+			playersRight[i].stop();
+		}
+	}
     void draw() {
         
         // Restart offset fix

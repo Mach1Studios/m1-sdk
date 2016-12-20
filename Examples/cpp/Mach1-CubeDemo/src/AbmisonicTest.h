@@ -2,17 +2,20 @@
 #include "ofxAudioDecoder.h"
 #include "AmbiX.h"
 
-class AbmisonicTest: public BaseAudioTest {
-	ofxAudioDecoder audio;
+class AbmisonicTest : public BaseAudioTest {
 	float overallVolume = 0;
+
+	ofxAudioDecoder audio;
 	long int pos;
 
+	bool isPlay;
+
 public:
-    AbmisonicTest() {
-		audio.load("ACNSN3D.wav");
+	AbmisonicTest() {
+		audio.load("2/sound.wav");
 		pos = 0;
-    }
-    
+	}
+
 	void update() {
 		// Handling audio
 	}
@@ -36,59 +39,76 @@ public:
 
 	void audioOut(float * output, int bufferSize, int nChannels)
 	{
-		ofMatrix4x4 matrix;
-		matrix.rotate(eulerToQuat(ofVec3f(angleX, angleY, angleZ)));
-
-		const vector<float>& rawSamples = audio.getRawSamples();
-		int channels = audio.getNumChannels();
-
-		vector<float> dest(bufferSize * nChannels);
-
-		interleavedAmbiXBufferSpatialRender(matrix, channels, 0, bufferSize * channels * sizeof(float), (float*)&rawSamples[pos], &dest[0]);
-		pos += bufferSize * channels;
-		for (int i = 0; i < bufferSize; i++)
+		if (isPlay)
 		{
-			output[i*nChannels] = dest[i*nChannels] * overallVolume;
-			output[i*nChannels + 1] = dest[i*nChannels + 1] * overallVolume;
+			ofMatrix4x4 matrix;
+			matrix.rotate(eulerToQuat(ofVec3f(angleX, angleY, angleZ)));
+
+			const vector<float>& rawSamples = audio.getRawSamples();
+			int channels = audio.getNumChannels();
+
+			vector<float> dest(bufferSize * nChannels);
+
+			interleavedAmbiXBufferSpatialRender(matrix, channels, 0, bufferSize * channels * sizeof(float), (float*)&rawSamples[pos], &dest[0]);
+			pos += bufferSize * channels;
+			for (int i = 0; i < bufferSize; i++)
+			{
+				output[i*nChannels] = dest[i*nChannels] * overallVolume;
+				output[i*nChannels + 1] = dest[i*nChannels + 1] * overallVolume;
+			}
+
+			/*for (int i = 0; i < bufferSize && pos < audio.getNumSamples(); i++, pos += channels)
+			{
+			output[i*nChannels] = output[i*nChannels + 1] = *((float*)&rawSamples[pos]);
+			}*/
+
+			//if (pos >= audio.getNumSamples()) pos = 0;
 		}
 
-		/*for (int i = 0; i < bufferSize && pos < audio.getNumSamples(); i++, pos += channels)
-		{
-		output[i*nChannels] = output[i*nChannels + 1] = *((float*)&rawSamples[pos]);
-		}*/
+	}
 
-		//if (pos >= audio.getNumSamples()) pos = 0;
+	void setPosition(float percent)
+	{
+		pos = audio.getNumChannels() * (int)(percent * audio.getNumSamples() / audio.getSampleRate());
+	}
+
+	void draw() {
+	}
+
+	void drawOverlay() {
 
 	}
 
-    void draw() {
+	void play()
+	{
+		isPlay = true;
 	}
-    
-    void drawOverlay() {
-        
-    }
 
-    void setOverallVolume(float volume) {
-        overallVolume = volume;
+	void pause()
+	{
+		isPlay = false;
+	}
 
-    }
-      
-    std::vector<float> audioMixAlgorithm(float X, float Y, float Z) {
-        return std::vector<float>();
-    }
-    
-    virtual void mousePressed(int x, int y) {
-        
-    };
+	void setOverallVolume(float volume) {
+		overallVolume = volume;
+	}
+
+	std::vector<float> audioMixAlgorithm(float X, float Y, float Z) {
+		return std::vector<float>();
+	}
+
+	virtual void mousePressed(int x, int y) {
+
+	};
 
 	void restart() {
 		pos = 0;
 	}
-    
-    void keyPressed(int key) {
-        if (key == ' ') {
-             restart();
-        }
-    }
+
+	void keyPressed(int key) {
+		if (key == ' ') {
+			restart();
+		}
+	}
 
 };

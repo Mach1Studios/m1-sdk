@@ -48,13 +48,13 @@ public:
 				for (int i = 0; i < 8; i++) {
 					sample += sounds[i].getRawSamples()[pos] * (volumes[i * 2] * overallVolume);
 				}
-				output[i*nChannels] = sample / 8;
+				output[i*nChannels + 1] = sample / 8;
 
 				sample = 0;
 				for (int i = 0; i < 8; i++) {
 					sample += sounds[i].getRawSamples()[pos] * (volumes[i * 2 + 1] * overallVolume);
 				}
-				output[i*nChannels + 1] = sample / 8;
+				output[i*nChannels] = sample / 8;
 
 				pos++;
 			}

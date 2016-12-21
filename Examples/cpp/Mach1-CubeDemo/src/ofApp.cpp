@@ -74,8 +74,8 @@ void ofApp::setup(){
     material.setSpecularColor(ofColor(255, 255, 255, 255));
     
 	// auto play
-	tests[selectedTest]->play();
-	videoPlayer.play();
+	//tests[selectedTest]->play();
+	//videoPlayer.play();
 
 	// setup for video
 	camera.setPosition(0, 0, 0);
@@ -88,6 +88,7 @@ void ofApp::setup(){
 	//	soundStream.printDeviceList();
 	//soundStream.setDeviceID(1); 	//note some devices are input only and some are output only 
 	soundStream.setup(this, 2, 0, 44100, 512, 1);
+
 
     setupFinished = true;
 }
@@ -180,18 +181,19 @@ void ofApp::update(){
 
 	videoPlayer.update();
 
-	if (fabs(videoPlayer.getPosition() - tests[selectedTest]->getPosition()) > 0.2)
+	if (fabs(videoPlayer.getPosition() - tests[selectedTest]->getPosition()) > 0.5)
 	{
 		ofLog() << "sync video and audio: " << videoPlayer.getPosition() << " , " << tests[selectedTest]->getPosition();
-		tests[selectedTest]->setPosition(videoPlayer.getPosition() );
+		tests[selectedTest]->setPosition(videoPlayer.getPosition());
 	}
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
  
-   ofBackground(0);
-    
+   ofBackground(ofColor::black);
+   ofEnableAlphaBlending();
+
 	if (ofGetKeyPressed('s'))
 	{
 		ofEnableDepthTest();
@@ -297,10 +299,12 @@ void ofApp::draw(){
 
 		ofPushMatrix();
 
-		videoPlayer.getTextureReference().bind();
-		sphereVideo.draw();
-		videoPlayer.getTextureReference().unbind();
-
+		if(videoPlayer.isTextureAllocated())
+		{
+			videoPlayer.getTextureReference().bind();
+			sphereVideo.draw();
+			videoPlayer.getTextureReference().unbind();
+		}
 
 		ofPopMatrix();
 
@@ -354,7 +358,7 @@ void ofApp::draw(){
 		}
 		 
 		tests[selectedTest]->play();
-	//	tests[selectedTest]->setPosition( videoPlayer.getPosition() / videoPlayer.getDuration());
+		//tests[selectedTest]->setPosition( videoPlayer.getPosition());
 	}
     
     ImGui::Text("Angles:");
@@ -379,7 +383,10 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
-	tests[selectedTest]->audioOut(output, bufferSize, nChannels);
+	if(videoPlayer.isPlaying())
+	{
+		tests[selectedTest]->audioOut(output, bufferSize, nChannels);
+	}
 }
 
 //--------------------------------------------------------------
@@ -394,7 +401,19 @@ void ofApp::keyPressed(int key){
     //tests[selectedTest]->keyPressed(key);
 
 	if (key == ' ') {
-//		restart();
+		if (videoPlayer.isPlaying())
+		{
+			videoPlayer.stop();
+			
+			tests[selectedTest]->pause();
+		}
+		else
+		{
+			videoPlayer.setPosition(0);
+			videoPlayer.play();
+
+			tests[selectedTest]->play();
+		}
 	}
 }
 
@@ -428,12 +447,13 @@ void ofApp::mouseDragged(int x, int y, int button){
 void ofApp::mousePressed(int x, int y, int button){
     
 
-		// Video Player controls
-		if ((x > 30 && (x < (ofGetWidth() - 200 - 60))) && (y >(ofGetHeight() - 70))) {
-			for (int i = 0; i < 8; i++) {
-				//playersLeft[i].setPosition((((float)x - 30) / (ofGetWidth() - 200 - 60)));
-			}
-		}
+	// Video Player controls
+	if ((x > 30 && (x < (ofGetWidth() - 200 - 60))) && (y >(ofGetHeight() - 70))) {
+		float pos = (((float)x - 30) / (ofGetWidth() - 200 - 60));
+
+		videoPlayer.setPosition(videoPlayer.getDuration() * pos);
+		//tests[selectedTest]->setPosition(videoPlayer.getDuration() * pos);
+	}
 	
 	
 	if ((ofVec3f(ofGetWidth() / 2, ofGetHeight() / 2) - ofVec3f(x, y)).length() > (ofGetWidth() / 10)) {

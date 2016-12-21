@@ -85,7 +85,6 @@ void ofApp::setup(){
 	sphereVideo.setPosition(0, 0, 0);
 	sphereVideo.rotate(-180, 0, 0, 1);
 
-
 	//	soundStream.printDeviceList();
 	//soundStream.setDeviceID(1); 	//note some devices are input only and some are output only 
 	soundStream.setup(this, 2, 0, 44100, 512, 1);
@@ -164,21 +163,28 @@ void ofApp::update(){
                             cos(ofGetElapsedTimef()*.02) * ofGetWidth()
                             );
     
-    for (auto &i : tests) {
-        i->setOverallVolume( (i == tests[selectedTest]) );
-        i->update();
+	for (auto &i : tests) {
+		i->setOverallVolume((i == tests[selectedTest]));
+		i->update();
+
+		i->angleX = angleX;
+		i->angleY = angleY;
+		i->angleZ = angleZ;
+	}
+	//ofLog() << " X: " << angleX << " Y: " << angleY << " Z: " << angleZ << endl;
+
+	float pitchAngle = mmap(lastP, 0, 360, 180.0, -180.0, true);
+    float pitchAngleClamp = ofClamp(pitchAngle, -90.0, 90.0);
         
-        i->angleX = angleX;
-        i->angleY = angleY;
-        i->angleZ = angleZ;
-        
-        float pitchAngle = mmap(lastP, 0, 360, 180.0, -180.0, true);
-        float pitchAngleClamp = ofClamp(pitchAngle, -90.0, 90.0);
-        
-        serialAngleUpdate(lastY, pitchAngleClamp);
-    }
+    serialAngleUpdate(lastY, pitchAngleClamp);
 
 	videoPlayer.update();
+
+	if (fabs(videoPlayer.getPosition() - tests[selectedTest]->getPosition()) > 0.2)
+	{
+		ofLog() << "sync video and audio: " << videoPlayer.getPosition() << " , " << tests[selectedTest]->getPosition();
+		tests[selectedTest]->setPosition(videoPlayer.getPosition() );
+	}
 }
 
 //--------------------------------------------------------------
@@ -282,10 +288,10 @@ void ofApp::draw(){
 		matrix.rotate(eulerToQuat(ofVec3f(-PI / 2 * (2.0*mouseY / ofGetHeight() - 1), -PI * (2.0*mouseX / ofGetWidth() - 1), 0)));
 
 		ofVec3f rot = matrix.getRotate().getEuler();
-		angleX = rot.x;
+	 	angleX = rot.x;
 		angleY = rot.y;
 		angleZ = rot.z;
-
+ 
 		camera.setTransformMatrix(matrix);
 		camera.begin();
 
@@ -294,7 +300,6 @@ void ofApp::draw(){
 		videoPlayer.getTextureReference().bind();
 		sphereVideo.draw();
 		videoPlayer.getTextureReference().unbind();
-
 
 
 		ofPopMatrix();
@@ -349,7 +354,7 @@ void ofApp::draw(){
 		}
 		 
 		tests[selectedTest]->play();
-		tests[selectedTest]->setPosition( videoPlayer.getPosition() / videoPlayer.getDuration());
+	//	tests[selectedTest]->setPosition( videoPlayer.getPosition() / videoPlayer.getDuration());
 	}
     
     ImGui::Text("Angles:");

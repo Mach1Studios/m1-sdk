@@ -42,14 +42,17 @@ public:
 		if (isPlay)
 		{
 			ofMatrix4x4 matrix;
-			matrix.rotate(eulerToQuat(ofVec3f(angleX, angleY, angleZ)));
+		 	matrix.rotate(eulerToQuat(ofVec3f(ofDegToRad(angleX), ofDegToRad(angleY), ofDegToRad(angleZ))));
+
+			ofMatrix4x4 imatrix;
+			imatrix = matrix.getInverse();
+			imatrix.rotate(-90, 0, 1, 0); // rotate matrix from Stanley to Ambisonic
 
 			const vector<float>& rawSamples = audio.getRawSamples();
 			int channels = audio.getNumChannels();
 
 			vector<float> dest(bufferSize * nChannels);
-
-			interleavedAmbiXBufferSpatialRender(matrix, channels, 0, bufferSize * channels * sizeof(float), (float*)&rawSamples[pos], &dest[0]);
+			interleavedAmbiXBufferSpatialRender(imatrix, channels, 0, bufferSize * channels * sizeof(float), (float*)&rawSamples[pos], &dest[0]);
 			pos += bufferSize * channels;
 			for (int i = 0; i < bufferSize; i++)
 			{
@@ -67,10 +70,16 @@ public:
 
 	}
 
-	void setPosition(float percent)
+	void setPosition(float seconds)
 	{
-		pos = audio.getNumChannels() * (int)(percent * audio.getNumSamples() / audio.getSampleRate());
+		pos = audio.getNumChannels() * (int)(seconds * audio.getSampleRate());
 	}
+
+	float getPosition()
+	{
+		return 1.0 * pos / (audio.getNumChannels() * audio.getSampleRate());
+	}
+
 
 	void draw() {
 	}

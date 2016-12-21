@@ -10,7 +10,9 @@ public:
         
     }
 
-	virtual void setPosition(float percent) = 0;
+	virtual void setPosition(float seconds) = 0;
+	virtual float getPosition() = 0;
+
 	virtual void audioOut(float * output, int bufferSize, int nChannels) = 0;
 
 	virtual void play() = 0;

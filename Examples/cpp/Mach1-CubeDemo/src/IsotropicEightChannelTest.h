@@ -18,16 +18,14 @@ public:
         
         volumes.resize(8);
         
-		for (int i = 0; i < 8; i++) {
-			sounds[0].load("1/1.wav");
-			sounds[1].load("1/2.wav");
-			sounds[2].load("1/3.wav");
-			sounds[3].load("1/4.wav");
-			sounds[4].load("1/5.wav");
-			sounds[5].load("1/6.wav");
-			sounds[6].load("1/7.wav");
-			sounds[7].load("1/8.wav");
-		}
+		sounds[0].load("1/1.wav");
+		sounds[1].load("1/2.wav");
+		sounds[2].load("1/3.wav");
+		sounds[3].load("1/4.wav");
+		sounds[4].load("1/5.wav");
+		sounds[5].load("1/6.wav");
+		sounds[6].load("1/7.wav");
+		sounds[7].load("1/8.wav");
 
 		pos = 0;
     }
@@ -64,9 +62,14 @@ public:
 
 	}
 
-	void setPosition(float percent)
+	void setPosition(float seconds)
 	{
-		pos = percent * sounds[0].getNumSamples() / sounds[0].getSampleRate();
+		pos = sounds[0].getNumChannels() * (int)(seconds * sounds[0].getSampleRate());
+	}
+
+	float getPosition()
+	{
+		return 1.0 * pos / (sounds[0].getNumChannels() * sounds[0].getSampleRate());
 	}
 
 	void play()

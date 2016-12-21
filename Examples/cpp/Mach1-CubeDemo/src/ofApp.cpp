@@ -89,7 +89,6 @@ void ofApp::setup(){
 	//soundStream.setDeviceID(1); 	//note some devices are input only and some are output only 
 	soundStream.setup(this, 2, 0, 44100, 512, 1);
 
-
     setupFinished = true;
 }
 
@@ -403,17 +402,21 @@ void ofApp::keyPressed(int key){
 	if (key == ' ') {
 		if (videoPlayer.isPlaying())
 		{
-			videoPlayer.stop();
+			videoPlayer.setPaused(true);
 			
 			tests[selectedTest]->pause();
 		}
 		else
 		{
 			videoPlayer.setPosition(0);
-			videoPlayer.play();
+			videoPlayer.setPaused(false);
 
+			videoPlayer.play();
 			tests[selectedTest]->play();
 		}
+
+	 
+
 	}
 }
 

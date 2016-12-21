@@ -16,7 +16,7 @@ public:
         
         //
         
-        volumes.resize(8);
+        volumes.resize(16);
         
 		sounds[0].load("1/1.wav");
 		sounds[1].load("1/2.wav");
@@ -36,6 +36,7 @@ public:
 	void audioOut(float * output, int bufferSize, int nChannels)
 	{
 		// Handling audio
+		vector<float> volumesPrev = volumes;
 		volumes = audioMixAlgorithm(angleX, angleY, angleZ);
 
 		if (isPlay)
@@ -45,16 +46,16 @@ public:
 			for (int i = 0; i < bufferSize; i++)
 			{
 				sample = 0;
-				for (int i = 0; i < 8; i++) {
-					sample += sounds[i].getRawSamples()[pos] * (volumes[i * 2] * overallVolume);
+				for (int j = 0; j < 8; j++) {
+					sample += sounds[j].getRawSamples()[pos] * ofLerp(volumesPrev[j * 2], volumes[j * 2], 1.0 *  i  / bufferSize);
 				}
-				output[i*nChannels + 1] = sample / 8;
-
+				output[i*nChannels + 1] = sample / 8 * overallVolume;
+				
 				sample = 0;
-				for (int i = 0; i < 8; i++) {
-					sample += sounds[i].getRawSamples()[pos] * (volumes[i * 2 + 1] * overallVolume);
+				for (int j = 0; j < 8; j++) {
+					sample += sounds[j].getRawSamples()[pos] * ofLerp(volumesPrev[j * 2 + 1], volumes[j * 2 + 1], 1.0 * i / bufferSize);
 				}
-				output[i*nChannels] = sample / 8;
+				output[i*nChannels] = sample / 8 * overallVolume;
 
 				pos++;
 			}

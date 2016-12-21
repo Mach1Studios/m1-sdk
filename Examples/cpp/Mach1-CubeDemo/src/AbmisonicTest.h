@@ -5,6 +5,8 @@
 class AbmisonicTest : public BaseAudioTest {
 	float overallVolume = 0;
 
+	ofMatrix4x4 imatrix;
+
 	ofxAudioDecoder audio;
 	long int pos;
 
@@ -44,20 +46,22 @@ public:
 			ofMatrix4x4 matrix;
 		 	matrix.rotate(eulerToQuat(ofVec3f(ofDegToRad(angleX), ofDegToRad(angleY), ofDegToRad(angleZ))));
 
-			ofMatrix4x4 imatrix;
+			ofMatrix4x4 imatrixPrev = imatrix;
 			imatrix = matrix.getInverse();
 			imatrix.rotate(0, 0, 1, 0); // rotate matrix from Stanley to Ambisonic
 
 			const vector<float>& rawSamples = audio.getRawSamples();
 			int channels = audio.getNumChannels();
 
+			vector<float> destPrev(bufferSize * nChannels);
 			vector<float> dest(bufferSize * nChannels);
+			interleavedAmbiXBufferSpatialRender(imatrixPrev, channels, 0, bufferSize * channels * sizeof(float), (float*)&rawSamples[pos], &destPrev[0]);
 			interleavedAmbiXBufferSpatialRender(imatrix, channels, 0, bufferSize * channels * sizeof(float), (float*)&rawSamples[pos], &dest[0]);
 			pos += bufferSize * channels;
 			for (int i = 0; i < bufferSize; i++)
 			{
-				output[i*nChannels] = dest[i*nChannels] * overallVolume * 0.25;
-				output[i*nChannels + 1] = dest[i*nChannels + 1] * overallVolume * 0.25;
+				output[i*nChannels] = ofLerp(destPrev[i*nChannels], dest[i*nChannels], 1.0 * i / bufferSize) * overallVolume * 0.25;
+				output[i*nChannels + 1] = ofLerp(destPrev[i*nChannels + 1], dest[i*nChannels + 1], 1.0 * i / bufferSize) * overallVolume * 0.25;
 			}
 
 			/*for (int i = 0; i < bufferSize && pos < audio.getNumSamples(); i++, pos += channels)

@@ -46,7 +46,7 @@ public:
 
 			ofMatrix4x4 imatrix;
 			imatrix = matrix.getInverse();
-			imatrix.rotate(-90, 0, 1, 0); // rotate matrix from Stanley to Ambisonic
+			imatrix.rotate(0, 0, 1, 0); // rotate matrix from Stanley to Ambisonic
 
 			const vector<float>& rawSamples = audio.getRawSamples();
 			int channels = audio.getNumChannels();
@@ -56,8 +56,8 @@ public:
 			pos += bufferSize * channels;
 			for (int i = 0; i < bufferSize; i++)
 			{
-				output[i*nChannels] = dest[i*nChannels] * overallVolume;
-				output[i*nChannels + 1] = dest[i*nChannels + 1] * overallVolume;
+				output[i*nChannels] = dest[i*nChannels] * overallVolume * 0.25;
+				output[i*nChannels + 1] = dest[i*nChannels + 1] * overallVolume * 0.25;
 			}
 
 			/*for (int i = 0; i < bufferSize && pos < audio.getNumSamples(); i++, pos += channels)

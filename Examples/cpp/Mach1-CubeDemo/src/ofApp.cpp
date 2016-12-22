@@ -44,9 +44,10 @@ void ofApp::setup(){
  
 
     tests.push_back(new AudioOne());
-//    tests.push_back(new AudioTwo());
 	tests.push_back(new IsotropicEightChannelTest());
 	tests.push_back(new AbmisonicTest());
+
+	//    tests.push_back(new AudioTwo());
 
     angleX = 0;
     updateSimulationAngles();
@@ -179,10 +180,15 @@ void ofApp::update(){
     serialAngleUpdate(lastY, pitchAngleClamp);
 
 	videoPlayer.update();
-
-	if (fabs(videoPlayer.getPosition() - tests[selectedTest]->getPosition()) > 0.5)
+	// loop
+	if (videoPlayer.isPlaying() && videoPlayer.getPosition() >= videoPlayer.getDuration() - 0.2)
 	{
-		ofLog() << "sync video and audio: " << videoPlayer.getPosition() << " , " << tests[selectedTest]->getPosition();
+		videoPlayer.setPosition(0);
+	}
+
+	if (fabs(videoPlayer.getPosition() - tests[selectedTest]->getPosition()) > 0.25)
+	{
+		ofLog() << "sync video and audio: " << videoPlayer.getPosition() << "         ,         " << tests[selectedTest]->getPosition();
 		tests[selectedTest]->setPosition(videoPlayer.getPosition());
 	}
 }
@@ -285,8 +291,10 @@ void ofApp::draw(){
 		// video player
 		ofEnableDepthTest();
 
+		ofLog() << spectatorCam;
+
 		matrix.makeIdentityMatrix();
-		matrix.rotate(eulerToQuat(ofVec3f(-PI / 2 * (2.0*mouseY / ofGetHeight() - 1), -PI * (2.0*mouseX / ofGetWidth() - 1), 0)));
+		matrix.rotate(eulerToQuat(ofVec3f(spectatorCam.y, spectatorCam.x, 0)));
 
 		ofVec3f rot = matrix.getRotate().getEuler();
 	 	angleX = rot.x;
@@ -335,8 +343,6 @@ void ofApp::draw(){
     window_flags |= ImGuiWindowFlags_NoMove;
     
     
-    bool *x;
-    
     gui.begin();
     
     bool aWindow;
@@ -362,9 +368,9 @@ void ofApp::draw(){
     
     ImGui::Text("Angles:");
     bool angleChanged = false;
-    angleChanged += (ImGui::SliderFloat("", &angleY, 0, 360, "Y / Yaw: %.0f deg"));
-    angleChanged += (!ImGui::SliderFloat("X / Pitch", &angleX, -90, 90, "X / Pitch: %.0f deg"));
-    angleChanged += (ImGui::SliderFloat("Z / Roll", &angleZ, -90, 90, "Z / Roll: %.0f deg"));
+    angleChanged |= (ImGui::SliderFloat("", &angleY, 0, 360, "Y / Yaw: %.0f deg"));
+    angleChanged |= (!ImGui::SliderFloat("X / Pitch", &angleX, -90, 90, "X / Pitch: %.0f deg"));
+    angleChanged |= (ImGui::SliderFloat("Z / Roll", &angleZ, -90, 90, "Z / Roll: %.0f deg"));
     if (angleChanged) {
         simulationAngles = ofPoint(angleX, angleY, angleZ);
     }
@@ -373,10 +379,6 @@ void ofApp::draw(){
     ImGui::End();
     
     gui.end();
-    
-    
-    //
- 
 }
 
 
@@ -432,13 +434,12 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-    ofPoint delta = ofPoint(x - dragStart.x, y - dragStart.y) / 500.;
+    ofPoint delta = ofPoint(x - dragStart.x, y - dragStart.y) / 400.;
     
     if (x > (ofGetWidth() - SETTINGS_TOOLBAR_WIDTH)) return;
     
     if (dragginCamera) {
-        spectatorCam.x = -ofWrap(spectatorCamStart.x + delta.x, 0., 1.);
-        spectatorCam.y = ofClamp(spectatorCamStart.y + delta.y, 0., 1.);
+		spectatorCam = spectatorCamStart + delta; 
         //    } else {
         //        angleY = ofClamp(delta.x * 500 + anglesDragStart.y, 0, 360);
         //        angleX = ofClamp(delta.y * 500 + anglesDragStart.x, -90, 90);
@@ -459,20 +460,20 @@ void ofApp::mousePressed(int x, int y, int button){
 	}
 	
 	
-	if ((ofVec3f(ofGetWidth() / 2, ofGetHeight() / 2) - ofVec3f(x, y)).length() > (ofGetWidth() / 10)) {
-        if (x < (ofGetWidth() - SETTINGS_TOOLBAR_WIDTH)) {
+	    if (x < (ofGetWidth() - SETTINGS_TOOLBAR_WIDTH)) {
             dragginCamera = true;
             dragStart = ofPoint(x, y);
             spectatorCamStart = spectatorCam;
         } else dragginCamera = false;
-    } else {
+     
+	/*else {
         if (x < (ofGetWidth() - SETTINGS_TOOLBAR_WIDTH)) {
             dragginCamera = false;
             dragStart = ofPoint(x, y);
             anglesDragStart = ofVec3f(angleX, angleY, angleZ);
         }
     }
-    
+    */
     //
     
     //tests[selectedTest]->mousePressed(x, y);

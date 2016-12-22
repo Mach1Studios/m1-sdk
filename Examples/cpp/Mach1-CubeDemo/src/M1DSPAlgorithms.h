@@ -143,8 +143,6 @@ struct mPoint {
     
 };
 
-//
-
 static float mDegToRad(float degrees) {
     return degrees * DEG_TO_RAD;
 }

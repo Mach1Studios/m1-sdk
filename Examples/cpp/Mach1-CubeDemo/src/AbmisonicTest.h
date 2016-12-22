@@ -60,8 +60,8 @@ public:
 			pos += bufferSize * channels;
 			for (int i = 0; i < bufferSize; i++)
 			{
-				output[i*nChannels] = ofLerp(destPrev[i*nChannels], dest[i*nChannels], 1.0 * i / bufferSize) * overallVolume * 0.25;
-				output[i*nChannels + 1] = ofLerp(destPrev[i*nChannels + 1], dest[i*nChannels + 1], 1.0 * i / bufferSize) * overallVolume * 0.25;
+				output[i*nChannels + 1] = ofLerp(destPrev[i*nChannels], dest[i*nChannels], 1.0 * i / bufferSize) * overallVolume * 0.25;
+				output[i*nChannels] = ofLerp(destPrev[i*nChannels + 1], dest[i*nChannels + 1], 1.0 * i / bufferSize) * overallVolume * 0.25;
 			}
 
 			/*for (int i = 0; i < bufferSize && pos < audio.getNumSamples(); i++, pos += channels)

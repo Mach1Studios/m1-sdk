@@ -291,8 +291,6 @@ void ofApp::draw(){
 		// video player
 		ofEnableDepthTest();
 
-		ofLog() << spectatorCam;
-
 		matrix.makeIdentityMatrix();
 		matrix.rotate(eulerToQuat(ofVec3f(spectatorCam.y, spectatorCam.x, 0)));
 

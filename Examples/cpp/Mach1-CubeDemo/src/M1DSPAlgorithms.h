@@ -3,7 +3,7 @@
 //
 //  Multichannel audio format family
 //
-//  Mixing algorithms v 0.9.4
+//  Mixing algorithms v 0.9.5
 //
 
 #pragma once
@@ -180,10 +180,7 @@ static float clamp(float a, float min, float max )
 
 static float alignAngle(float a, float min = -180, float max = 180)
 {
-    while (a < min) a += 360;
-    while (a > max) a -= 360;
-    
-    return a;
+    return fmod(a+max, max);
 }
 
 //--------------------------------------------------

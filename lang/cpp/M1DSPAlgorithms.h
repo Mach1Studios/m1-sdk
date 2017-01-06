@@ -3,7 +3,7 @@
 //
 //  Multichannel audio format family
 //
-//  Mixing algorithms v 0.9.4
+//  Mixing algorithms v 0.9.5
 //
 
 #pragma once
@@ -11,7 +11,11 @@
 #ifndef M1DSPAlgorithms_h
 #define M1DSPAlgorithms_h
 
+#ifdef WIN32
+#define __FLT_EPSILON__    FLT_EPSILON
+#endif
 
+#include <algorithm>
 #include <vector>
 #include <cmath>
 
@@ -22,6 +26,11 @@
 //
 
 //////////////
+
+#ifndef DEG_TO_RAD
+#define DEG_TO_RAD (PI/180.0)
+#endif
+
 
 struct mPoint {
     float x, y, z;
@@ -134,11 +143,16 @@ struct mPoint {
     
 };
 
+static float mDegToRad(float degrees) {
+    return degrees * DEG_TO_RAD;
+}
+
+
 //
 // Map utility
 //
 
-static float mmap(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp) {
+static float mmap(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp = false) {
     
     if (fabs(inputMin - inputMax) < __FLT_EPSILON__){
         return outputMin;
@@ -166,10 +180,7 @@ static float clamp(float a, float min, float max )
 
 static float alignAngle(float a, float min = -180, float max = 180)
 {
-    while (a < min) a += 360;
-    while (a > max) a -= 360;
-    
-    return a;
+    return fmod(a+max, max);
 }
 
 //--------------------------------------------------
@@ -252,30 +263,28 @@ static std::vector<float> fourPairsAlgorithm(float Yaw, float Pitch, float Roll)
 static std::vector<float> eightChannelsIsotropicAlgorithm(float Yaw, float Pitch, float Roll) {
     mPoint simulationAngles = mPoint(Yaw, Pitch, Roll);
     
-    mPoint faceVector1 = mPoint(  cos(ofDegToRad(simulationAngles[1])),
-                                sin(ofDegToRad(simulationAngles[1]))).normalize();
+    mPoint faceVector1 = mPoint(  cos(mDegToRad(simulationAngles[1])),
+                                sin(mDegToRad(simulationAngles[1]))).normalize();
     
     
     mPoint faceVector2 = faceVector1.getRotated(simulationAngles[0],
-                                                mPoint(cos(ofDegToRad(simulationAngles[1] - 90)),
-                                                       sin(ofDegToRad(simulationAngles[1] - 90))).normalize());
+                                                mPoint(cos(mDegToRad(simulationAngles[1] - 90)),
+                                                       sin(mDegToRad(simulationAngles[1] - 90))).normalize());
     
     
     mPoint faceVector21 = faceVector1.getRotated(simulationAngles[0] + 90,
-                                                 mPoint(cos(ofDegToRad(simulationAngles[1] - 90)),
-                                                        sin(ofDegToRad(simulationAngles[1] - 90))).normalize());
+                                                 mPoint(cos(mDegToRad(simulationAngles[1] - 90)),
+                                                        sin(mDegToRad(simulationAngles[1] - 90))).normalize());
     
     mPoint faceVectorLeft = faceVector21.getRotated(-simulationAngles[2] - 90, faceVector2);
     mPoint faceVectorRight = faceVector21.getRotated(-simulationAngles[2] + 90, faceVector2);
     
     
-    float time = ofGetElapsedTimef() * 5;
-    
-    mPoint faceVectorOffsetted = mPoint(cos(ofDegToRad(simulationAngles[1])),
-                                        sin(ofDegToRad(simulationAngles[1]))).normalize().rotate(
-                                                                                                 simulationAngles[0] + 10,
-                                                                                                 mPoint(cos(ofDegToRad(simulationAngles[1] - 90)),
-                                                                                                        sin(ofDegToRad(simulationAngles[1] - 90))).normalize()) - faceVector2;
+    mPoint faceVectorOffsetted = mPoint(cos(mDegToRad(simulationAngles[1])),
+                                        sin(mDegToRad(simulationAngles[1]))).normalize().rotate(
+                                                                                                simulationAngles[0] + 10,
+                                                                                                mPoint(cos(mDegToRad(simulationAngles[1] - 90)),
+                                                                                                       sin(mDegToRad(simulationAngles[1] - 90))).normalize()) - faceVector2;
     
     mPoint tiltSphereRotated = faceVectorOffsetted.rotate(-simulationAngles[2], faceVector2);
     
@@ -308,8 +317,8 @@ static std::vector<float> eightChannelsIsotropicAlgorithm(float Yaw, float Pitch
     result.resize(16);
     
     for (int i = 0; i < 8; i++) {
-        float vL = ofClamp(ofMap(qL[i] * 2, 250, 400, 1., 0.), 0, 1) / 2;
-        float vR = ofClamp(ofMap(qR[i] * 2, 250, 400, 1., 0.), 0, 1) / 2;
+        float vL = clamp(mmap(qL[i] * 2, 250, 400, 1., 0.), 0, 1) / 2;
+        float vR = clamp(mmap(qR[i] * 2, 250, 400, 1., 0.), 0, 1) / 2;
         
         // TODO: why did I need to put / 2 here to match what I had with other
         // algo? Isn't that other one normalized to max 1?
@@ -350,7 +359,7 @@ static std::vector<float> eightChannelsAlgorithm(float Yaw, float Pitch, float R
     coefficients[1] = 1. - std::min(1., std::abs((float)90. - Yaw) / 90.);
     coefficients[2] = 1. - std::min(1., std::abs((float)180. - Yaw) / 90.);
     coefficients[3] = 1. - std::min(1., std::abs((float)270. - Yaw) / 90.);
-        
+    
     float tiltAngle = mmap(Roll, -90., 90., 0., 1., true);
     //Use Equal Power if engine requires
     /*

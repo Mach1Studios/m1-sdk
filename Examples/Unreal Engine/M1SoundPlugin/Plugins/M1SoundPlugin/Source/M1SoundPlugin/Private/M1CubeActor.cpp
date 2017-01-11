@@ -14,6 +14,7 @@
 #define MAX_SOUNDS_PER_CHANNEL 8
 #define MIN_SOUND_VOLUME (KINDA_SMALL_NUMBER*2)
 
+
 template<typename T>
 std::string toDebugString(const T& value)
 {
@@ -23,6 +24,16 @@ std::string toDebugString(const T& value)
 	return oss.str();
 }
 
+template < >
+std::string toDebugString<FVector>(const FVector& value)
+{
+	std::ostringstream oss;
+	oss.precision(2);
+	oss << std::fixed << "(" << value.X << ", " << value.Y << ", " << value.Z << ")";
+	return oss.str();
+}
+
+ 
 float AM1CubeActor::ClosestPointOnBox(FVector point, FVector center, FVector axis0, FVector axis1, FVector axis2, FVector extents, FVector & closestPoint)
 {
 	FVector vector = point - center;
@@ -334,7 +345,13 @@ void AM1CubeActor::Tick(float DeltaTime)
 
 			FVector outsideClosestPoint;
 			FVector insidePoint0, insidePoint1;
-			 
+			
+			FVector cameraPosition = player->GetPawn()->GetActorLocation();
+			if (ignoreTopBottom)
+			{
+				cameraPosition.Z = GetActorLocation().Z;
+			}
+
 			if (useClosestPoint && ClosestPointOnBox(player->GetPawn()->GetActorLocation(), GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, outsideClosestPoint) > 0)
 			{
 				point = outsideClosestPoint;
@@ -362,9 +379,16 @@ void AM1CubeActor::Tick(float DeltaTime)
 					0
 				);
 			}
-			else if (roomMode && DoClipping(0, std::numeric_limits<float>::max(), player->GetPawn()->GetActorLocation(), (player->GetPawn()->GetActorLocation() - GetActorLocation()).GetSafeNormal(), GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, true, insidePoint0, insidePoint1) == 2)
+			else if (roomMode && DoClipping(0, std::numeric_limits<float>::max(), cameraPosition, (cameraPosition - GetActorLocation()).GetSafeNormal(), GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, true, insidePoint0, insidePoint1) == 2)
 			{
-				float dist = 1.0f - (player->GetPawn()->GetActorLocation() - GetActorLocation()).Size() / (insidePoint1 - GetActorLocation()).Size();
+				/*
+				FVector p0 = GetActorTransform().InverseTransformPosition(player->GetPawn()->GetActorLocation()) / 100;
+				float d = FMath::Max(FMath::Abs(p0.X), FMath::Max(FMath::Abs(p0.Y), FMath::Abs(p0.Z)));
+				std::string str0 = "d:    " + toDebugString(d);
+				GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Blue, str0.c_str());
+				*/
+
+				float dist = 1.0f - (cameraPosition - GetActorLocation()).Size() / (insidePoint1 - GetActorLocation()).Size();
 				SetVolume(vol * (attenuationRoomModeCurve ? attenuationRoomModeCurve->GetFloatValue(dist) : 1));
 				 
 				DrawDebugPoint(GetWorld(),

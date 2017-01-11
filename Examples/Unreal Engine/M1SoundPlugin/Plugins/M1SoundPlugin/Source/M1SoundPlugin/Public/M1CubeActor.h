@@ -69,6 +69,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Room Mode")
 		bool roomMode = false;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Ignore Top Bottom Walls")
+		bool ignoreTopBottom = true;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Closest Point")
 		bool useClosestPoint = true;
 

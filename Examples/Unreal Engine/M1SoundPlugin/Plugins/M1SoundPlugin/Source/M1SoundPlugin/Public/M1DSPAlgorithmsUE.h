@@ -362,15 +362,14 @@ static std::vector<float> eightChannelsIsotropicAlgorithm(float Yaw, float Pitch
     result.resize(16);
     
     for (int i = 0; i < 8; i++) {
-        float vL = clamp(mmap(qL[i] * 2, 250, 400, 1., 0.), 0, 1) / 2;
-        float vR = clamp(mmap(qR[i] * 2, 250, 400, 1., 0.), 0, 1) / 2;
+        float vL = clamp(mmap(qL[i] * 2, 250, 400, 1., 0., false), 0, 1) / 2;
+        float vR = clamp(mmap(qR[i] * 2, 250, 400, 1., 0., false), 0, 1) / 2;
         
         // TODO: why did I need to put / 2 here to match what I had with other
         // algo? Isn't that other one normalized to max 1?
         
         result[i * 2] = vR;
         result[i  * 2 + 1] = vL;
-        
     }
     
     

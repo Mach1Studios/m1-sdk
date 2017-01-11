@@ -14,6 +14,15 @@
 #define MAX_SOUNDS_PER_CHANNEL 8
 #define MIN_SOUND_VOLUME (KINDA_SMALL_NUMBER*2)
 
+template<typename T>
+std::string toDebugString(const T& value)
+{
+	std::ostringstream oss;
+	oss.precision(2);
+	oss << std::fixed << value;
+	return oss.str();
+}
+
 float AM1CubeActor::ClosestPointOnBox(FVector point, FVector center, FVector axis0, FVector axis1, FVector axis2, FVector extents, FVector & closestPoint)
 {
 	FVector vector = point - center;
@@ -59,6 +68,63 @@ float AM1CubeActor::ClosestPointOnBox(FVector point, FVector center, FVector axi
 	return sqrt(num);
 }
 
+
+bool AM1CubeActor::Clip(float denom, float numer, float& t0, float& t1)
+{
+	if ((double)denom > 0.0)
+	{
+		if ((double)numer > (double)denom * (double)t1)
+			return false;
+		if ((double)numer > (double)denom * (double)t0)
+			t0 = numer / denom;
+		return true;
+	}
+	if ((double)denom >= 0.0)
+		return (double)numer <= 0.0;
+	if ((double)numer > (double)denom * (double)t0)
+		return false;
+	if ((double)numer > (double)denom * (double)t1)
+		t1 = numer / denom;
+	return true;
+}
+
+int AM1CubeActor::DoClipping(float t0, float t1, FVector origin, FVector direction, FVector center, FVector axis0, FVector axis1, FVector axis2, FVector extents, bool solid, FVector& point0, FVector& point1)
+{
+	FVector vector = origin - center;
+	FVector vector2 = FVector(FVector::DotProduct(vector, axis0), FVector::DotProduct(vector, axis1), FVector::DotProduct(vector, axis2));
+	FVector vector3 = FVector(FVector::DotProduct(direction, axis0), FVector::DotProduct(direction, axis1), FVector::DotProduct(direction, axis2));
+
+	float num = t0;
+	float num2 = t1;
+
+	int quantity = 0;
+
+	bool flag = Clip(vector3.X, -vector2.X - extents.X, t0, t1) && Clip(-vector3.X, vector2.X - extents.X, t0, t1) && Clip(vector3.Y, -vector2.Y - extents.Y, t0, t1) && Clip(-vector3.Y, vector2.Y - extents.Y, t0, t1) && Clip(vector3.Z, -vector2.Z - extents.Z, t0, t1) && Clip(-vector3.Z, vector2.Z - extents.Z, t0, t1);
+	if (flag && (solid || t0 != num || t1 != num2))
+	{
+		if (t1 > t0)
+		{
+			quantity = 2;
+			point0 = origin + t0 * direction;
+			point1 = origin + t1 * direction;
+		}
+		else
+		{
+
+			quantity = 1;
+			point0 = origin + t0 * direction;
+			point1 = FVector::ZeroVector;
+		}
+	}
+	else
+	{
+		quantity = 0;
+		point0 = FVector::ZeroVector;
+		point1 = FVector::ZeroVector;
+	}
+
+	return quantity;
+}
 
 // Sets default values
 AM1CubeActor::AM1CubeActor()
@@ -265,37 +331,58 @@ void AM1CubeActor::Tick(float DeltaTime)
 			scale = FVector(scale.Y, scale.Z, scale.X);
 
 			float vol = Volume;
-			if (useClosestPoint)
+
+			FVector outsideClosestPoint;
+			FVector insidePoint0, insidePoint1;
+			 
+			if (useClosestPoint && ClosestPointOnBox(player->GetPawn()->GetActorLocation(), GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, outsideClosestPoint) > 0)
 			{
-				if (ClosestPointOnBox(player->GetPawn()->GetActorLocation(), GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, point) > 0)
-				{
-					DrawDebugLine(
-						GetWorld(),
-						GetActorLocation(),
-						point,
-						FColor(255, 0, 0),
-						false,
-						-1,
-						0,
-						0
-					);
+				point = outsideClosestPoint;
 
-					DrawDebugPoint(GetWorld(),
-						point,
-						10.0,
-						FColor(255, 0, 0),
-						false,
-						-1,
-						0
-					);
-				}
-				else
-				{
-					vol = 0;
-				}
+				float dist = FVector::Dist(point, player->GetPawn()->GetActorLocation());
+				SetVolume(vol * (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
+
+				DrawDebugLine(
+					GetWorld(),
+					GetActorLocation(),
+					point,
+					FColor(255, 0, 0),
+					false,
+					-1,
+					0,
+					0
+				);
+
+				DrawDebugPoint(GetWorld(),
+					point,
+					10.0,
+					FColor(255, 0, 0),
+					false,
+					-1,
+					0
+				);
 			}
+			else if (roomMode && DoClipping(0, std::numeric_limits<float>::max(), player->GetPawn()->GetActorLocation(), (player->GetPawn()->GetActorLocation() - GetActorLocation()).GetSafeNormal(), GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, true, insidePoint0, insidePoint1) == 2)
+			{
+				float dist = 1.0f - (player->GetPawn()->GetActorLocation() - GetActorLocation()).Size() / (insidePoint1 - GetActorLocation()).Size();
+				SetVolume(vol * (attenuationRoomModeCurve ? attenuationRoomModeCurve->GetFloatValue(dist) : 1));
+				 
+				DrawDebugPoint(GetWorld(),
+					insidePoint1,
+					10.0,
+					FColor(255, 255, 0),
+					false,
+					-1,
+					0
+				);
 
-
+				std::string str = "vol:    " + toDebugString((attenuationRoomModeCurve ? attenuationRoomModeCurve->GetFloatValue(dist) : 1) )  ;
+				GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Blue, str.c_str());
+			}
+			else
+			{
+				vol = 0;
+			}
 
 			//FindLookAtRotation seems wrong angle
 			// compate with unity 
@@ -306,9 +393,6 @@ void AM1CubeActor::Tick(float DeltaTime)
 			quat *= player->GetControlRotation().Quaternion();
 
 			CalculateChannelVolumes(player->GetControlRotation(), quat);
-
-			float dist = FVector::Dist(point, player->GetPawn()->GetActorLocation());
-			SetVolume(vol * (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
 		}
 	}
 }
@@ -327,14 +411,6 @@ void AM1CubeActor::PostEditChangeProperty(FPropertyChangedEvent & PropertyChange
 	Super::PostEditChangeProperty(PropertyChangedEvent);
 }
 
-template<typename T>
-std::string toDebugString(const T& value)
-{
-	std::ostringstream oss;
-	oss.precision(2);
-	oss << std::fixed << value;
-	return oss.str();
-}
 
 void AM1CubeActor::CalculateChannelVolumes(FRotator CameraRotation, FQuat quat)
 {

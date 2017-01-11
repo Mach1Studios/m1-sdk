@@ -12,7 +12,12 @@ class M1SOUNDPLUGIN_API AM1CubeActor : public AActor // M1SOUNDPLUGIN_API - chan
 	GENERATED_BODY()
 
 	static float ClosestPointOnBox(FVector point, FVector center, FVector axis0, FVector axis1, FVector axis2, FVector extents, FVector& closestPoint);
- 
+	
+	static bool Clip(float denom, float numer, float& t0, float& t1);
+	static int DoClipping(float t0, float t1, FVector origin, FVector direction, FVector center, FVector axis0, FVector axis1, FVector axis2, FVector extents, bool solid, FVector& point0, FVector& point1);
+
+
+
 	USoundAttenuation* NullAttenuation;
 	TArray<USoundBase*> Sounds;
 	TArray<float> VolumeFactor;
@@ -55,8 +60,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Attenuation Curve")
 		UCurveFloat* attenuationCurve;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Attenuation RoomMode Curve")
+		UCurveFloat* attenuationRoomModeCurve;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Display Debug")
 		bool Debug = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Room Mode")
+		bool roomMode = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Closest Point")
 		bool useClosestPoint = true;

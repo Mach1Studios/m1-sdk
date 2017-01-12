@@ -14,7 +14,6 @@
 #define MAX_SOUNDS_PER_CHANNEL 8
 #define MIN_SOUND_VOLUME (KINDA_SMALL_NUMBER*2)
 
-
 template<typename T>
 std::string toDebugString(const T& value)
 {
@@ -216,9 +215,8 @@ void AM1CubeActor::Init()
 
 			for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 			{
-
-				LeftChannels[i] = NewObject <UAudioComponent>(cameraComponent, FName(*FString::Printf(TEXT("Left Channel %d"), i)));
-				RightChannels[i] = NewObject <UAudioComponent>(cameraComponent, FName(*FString::Printf(TEXT("Right Channel %d"), i)));
+				LeftChannels[i] = NewObject <UAudioComponent>(cameraComponent, FName(*FString::Printf(TEXT("SoundCube %d_L_%d"), GetUniqueID(), i)));
+				RightChannels[i] = NewObject <UAudioComponent>(cameraComponent, FName(*FString::Printf(TEXT("SoundCube %d_R_%d"), GetUniqueID(), i)));
 
 				LeftChannels[i]->RegisterComponent(); // only for runtime
 				RightChannels[i]->RegisterComponent(); // only for runtime
@@ -263,6 +261,9 @@ void AM1CubeActor::SetSoundSet()
 	}
 
 }
+
+
+
 
 void AM1CubeActor::Play()
 {
@@ -381,18 +382,41 @@ void AM1CubeActor::Tick(float DeltaTime)
 			}
 			else if (roomMode && DoClipping(0, std::numeric_limits<float>::max(), cameraPosition, (cameraPosition - GetActorLocation()).GetSafeNormal(), GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, true, insidePoint0, insidePoint1) == 2)
 			{
-				/*
-				FVector p0 = GetActorTransform().InverseTransformPosition(player->GetPawn()->GetActorLocation()) / 100;
-				float d = FMath::Max(FMath::Abs(p0.X), FMath::Max(FMath::Abs(p0.Y), FMath::Abs(p0.Z)));
-				std::string str0 = "d:    " + toDebugString(d);
-				GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Blue, str0.c_str());
-				*/
+				FVector p0 = GetActorTransform().InverseTransformPosition(cameraPosition) / 100;
+				
+				FVector p1 = p0;
+				if (FMath::Abs(p0.X) > FMath::Abs(p0.Y) && FMath::Abs(p0.X) > FMath::Abs(p0.Z))
+				{
+					p1.X = p0.X > 0 ? 1 : -1;
+				}
+				if (FMath::Abs(p0.Y) > FMath::Abs(p0.X) && FMath::Abs(p0.Y) > FMath::Abs(p0.Z))
+				{
+					p1.Y = p0.Y > 0 ? 1 : -1;
+				}
+				if (FMath::Abs(p0.Z) > FMath::Abs(p0.X) && FMath::Abs(p0.Z) > FMath::Abs(p0.Y))
+				{
+					p1.Z = p0.Z > 0 ? 1 : -1;
+				}
+				p1 = GetActorTransform().TransformPosition(p1 * 100);
+				
+				float dist = 1 - FMath::Max(FMath::Abs(p0.X), FMath::Max(FMath::Abs(p0.Y), FMath::Abs(p0.Z)));
 
-				float dist = 1.0f - (cameraPosition - GetActorLocation()).Size() / (insidePoint1 - GetActorLocation()).Size();
+				//float dist = 1.0f - (cameraPosition - GetActorLocation()).Size() / (insidePoint1 - GetActorLocation()).Size();
 				SetVolume(vol * (attenuationRoomModeCurve ? attenuationRoomModeCurve->GetFloatValue(dist) : 1));
-				 
+				
+				DrawDebugLine(
+					GetWorld(),
+					cameraPosition,
+					p1,
+					FColor(255, 255, 0),
+					false,
+					-1,
+					0,
+					0
+				);
+
 				DrawDebugPoint(GetWorld(),
-					insidePoint1,
+					p1,
 					10.0,
 					FColor(255, 255, 0),
 					false,
@@ -419,6 +443,7 @@ void AM1CubeActor::Tick(float DeltaTime)
 			CalculateChannelVolumes(player->GetControlRotation(), quat);
 		}
 	}
+
 }
 
 void AM1CubeActor::PostEditChangeProperty(FPropertyChangedEvent & PropertyChangedEvent)

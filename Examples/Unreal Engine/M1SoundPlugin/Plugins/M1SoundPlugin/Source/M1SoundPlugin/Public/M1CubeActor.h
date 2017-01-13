@@ -11,19 +11,23 @@ class M1SOUNDPLUGIN_API AM1CubeActor : public AActor // M1SOUNDPLUGIN_API - chan
 {
 	GENERATED_BODY()
 
+	// geometric utils
 	static float ClosestPointOnBox(FVector point, FVector center, FVector axis0, FVector axis1, FVector axis2, FVector extents, FVector& closestPoint);
 	
 	static bool Clip(float denom, float numer, float& t0, float& t1);
 	static int DoClipping(float t0, float t1, FVector origin, FVector direction, FVector center, FVector axis0, FVector axis1, FVector axis2, FVector extents, bool solid, FVector& point0, FVector& point1);
 
-
-
 	USoundAttenuation* NullAttenuation;
-	TArray<USoundBase*> Sounds;
+
 	TArray<float> VolumeFactor;
 
-	TArray<UAudioComponent*> LeftChannels;
-	TArray<UAudioComponent*> RightChannels;
+	TArray<USoundBase*> SoundsWalls;
+	TArray<UAudioComponent*> LeftChannelsWalls;
+	TArray<UAudioComponent*> RightChannelsWalls;
+
+	TArray<USoundBase*> SoundsCenter;
+	TArray<UAudioComponent*> LeftChannelsCenter;
+	TArray<UAudioComponent*> RightChannelsCenter;
 
 	USceneComponent* Root;
 	UBoxComponent* Collision;
@@ -34,7 +38,8 @@ class M1SOUNDPLUGIN_API AM1CubeActor : public AActor // M1SOUNDPLUGIN_API - chan
 	void Init();
 	void SetSoundSet();
 	void CalculateChannelVolumes(FRotator rotator, FQuat quat);
-	void SetVolume(float Volume);
+	void SetVolumeWalls(float Volume);
+	void SetVolumeCenter(float Volume);
 
 public:
 	// Sets default values for this actor's properties
@@ -66,14 +71,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Display Debug")
 		bool Debug = true;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Room Mode")
-		bool roomMode = false;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Ignore Top Bottom Walls")
-		bool ignoreTopBottom = true;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Room Mode")
+		bool useRoomMode = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Closest Point")
 		bool useClosestPoint = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Ignore Top Bottom Walls")
+		bool ignoreTopBottom = true;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Yaw for Positional Rotation")
 		bool useYaw = true;
@@ -89,26 +94,52 @@ public:
 
 	// Audio positions for the 8channel cube
 	UPROPERTY(EditAnywhere, Category = "Sound")
-		USoundBase* FrontUpLeftChannel;
+		USoundBase* FrontUpLeftChannelWalls;
 
 	UPROPERTY(EditAnywhere, Category = "Sound")
-		USoundBase* FrontUpRightChannel;
+		USoundBase* FrontUpRightChannelWalls;
 
 	UPROPERTY(EditAnywhere, Category = "Sound")
-		USoundBase* BackUpLeftChannel;
+		USoundBase* BackUpLeftChannelWalls;
 
 	UPROPERTY(EditAnywhere, Category = "Sound")
-		USoundBase* BackUpRightChannel;
+		USoundBase* BackUpRightChannelWalls;
 
 	UPROPERTY(EditAnywhere, Category = "Sound")
-		USoundBase* FrontDownLeftChannel;
+		USoundBase* FrontDownLeftChannelWalls;
 
 	UPROPERTY(EditAnywhere, Category = "Sound")
-		USoundBase* FrontDownRightChannel;
+		USoundBase* FrontDownRightChannelWalls;
 
 	UPROPERTY(EditAnywhere, Category = "Sound")
-		USoundBase* BackDownLeftChannel;
+		USoundBase* BackDownLeftChannelWalls;
 
 	UPROPERTY(EditAnywhere, Category = "Sound")
-		USoundBase* BackDownRightChannel;
+		USoundBase* BackDownRightChannelWalls;
+
+
+	// Audio positions for the 8channel cube
+	UPROPERTY(EditAnywhere, Category = "Sound RoomMode")
+		USoundBase* FrontUpLeftChannelCenter;
+
+	UPROPERTY(EditAnywhere, Category = "Sound RoomMode")
+		USoundBase* FrontUpRightChannelCenter;
+
+	UPROPERTY(EditAnywhere, Category = "Sound RoomMode")
+		USoundBase* BackUpLeftChannelCenter;
+
+	UPROPERTY(EditAnywhere, Category = "Sound RoomMode")
+		USoundBase* BackUpRightChannelCenter;
+
+	UPROPERTY(EditAnywhere, Category = "Sound RoomMode")
+		USoundBase* FrontDownLeftChannelCenter;
+
+	UPROPERTY(EditAnywhere, Category = "Sound RoomMode")
+		USoundBase* FrontDownRightChannelCenter;
+
+	UPROPERTY(EditAnywhere, Category = "Sound RoomMode")
+		USoundBase* BackDownLeftChannelCenter;
+
+	UPROPERTY(EditAnywhere, Category = "Sound RoomMode")
+		USoundBase* BackDownRightChannelCenter;
 };

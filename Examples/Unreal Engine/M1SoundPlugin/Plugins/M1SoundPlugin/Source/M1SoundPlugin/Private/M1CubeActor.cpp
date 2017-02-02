@@ -159,11 +159,8 @@ AM1CubeActor::AM1CubeActor()
 	LeftChannelsWalls.SetNum(MAX_SOUNDS_PER_CHANNEL);
 	RightChannelsWalls.SetNum(MAX_SOUNDS_PER_CHANNEL);
 
-	if (useRoomMode)
-	{
-		LeftChannelsCenter.SetNum(MAX_SOUNDS_PER_CHANNEL);
-		RightChannelsCenter.SetNum(MAX_SOUNDS_PER_CHANNEL);
-	}
+	LeftChannelsCenter.SetNum(MAX_SOUNDS_PER_CHANNEL);
+	RightChannelsCenter.SetNum(MAX_SOUNDS_PER_CHANNEL);
 
 	Volume = 1;
 	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++) VolumeFactor.Add(1);

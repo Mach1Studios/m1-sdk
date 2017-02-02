@@ -534,7 +534,7 @@ void AM1CubeActor::PostEditChangeProperty(FPropertyChangedEvent & PropertyChange
 void AM1CubeActor::CalculateChannelVolumes(FRotator CameraRotation, FQuat quat)
 {
 	//quat.Euler().X
-	std::vector<float> result = eightChannelsAlgorithm(quat.Euler().Y, quat.Euler().Z < 0 ? 360 + quat.Euler().Z : quat.Euler().Z, quat.Euler().X);
+	std::vector<float> result = eightChannelsIsotropicAlgorithm(quat.Euler().Y, quat.Euler().Z < 0 ? 360 + quat.Euler().Z : quat.Euler().Z, quat.Euler().X);
 
 
 	// test

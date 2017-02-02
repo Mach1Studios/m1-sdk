@@ -65,20 +65,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Attenuation Curve")
 		UCurveFloat* attenuationCurve;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Attenuation RoomMode Curve")
-		UCurveFloat* attenuationRoomModeCurve;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Display Debug")
 		bool Debug = true;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Room Mode")
-		bool useRoomMode = false;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Closest Point")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Closest Point/Activate Exterior Sounds")
 		bool useClosestPoint = true;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Ignore Top Bottom Walls")
-		bool ignoreTopBottom = true;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Yaw for Positional Rotation")
 		bool useYaw = true;
@@ -93,53 +84,62 @@ public:
 		float Volume = 1.0f;
 
 	// Audio positions for the 8channel cube
-	UPROPERTY(EditAnywhere, Category = "Sound")
+	UPROPERTY(EditAnywhere, Category = "Sound INT")
 		USoundBase* FrontUpLeftChannelWalls;
 
-	UPROPERTY(EditAnywhere, Category = "Sound")
+	UPROPERTY(EditAnywhere, Category = "Sound INT")
 		USoundBase* FrontUpRightChannelWalls;
 
-	UPROPERTY(EditAnywhere, Category = "Sound")
+	UPROPERTY(EditAnywhere, Category = "Sound INT")
 		USoundBase* BackUpLeftChannelWalls;
 
-	UPROPERTY(EditAnywhere, Category = "Sound")
+	UPROPERTY(EditAnywhere, Category = "Sound INT")
 		USoundBase* BackUpRightChannelWalls;
 
-	UPROPERTY(EditAnywhere, Category = "Sound")
+	UPROPERTY(EditAnywhere, Category = "Sound INT")
 		USoundBase* FrontDownLeftChannelWalls;
 
-	UPROPERTY(EditAnywhere, Category = "Sound")
+	UPROPERTY(EditAnywhere, Category = "Sound INT")
 		USoundBase* FrontDownRightChannelWalls;
 
-	UPROPERTY(EditAnywhere, Category = "Sound")
+	UPROPERTY(EditAnywhere, Category = "Sound INT")
 		USoundBase* BackDownLeftChannelWalls;
 
-	UPROPERTY(EditAnywhere, Category = "Sound")
+	UPROPERTY(EditAnywhere, Category = "Sound INT")
 		USoundBase* BackDownRightChannelWalls;
 
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use RoomMode")
+		bool useRoomMode = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Attenuation RoomMode Curve")
+		UCurveFloat* attenuationRoomModeCurve;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Ignore Top Bottom Walls")
+		bool ignoreTopBottom = true;
+
 	// Audio positions for the 8channel cube
-	UPROPERTY(EditAnywhere, Category = "Sound RoomMode")
+	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
 		USoundBase* FrontUpLeftChannelCenter;
 
-	UPROPERTY(EditAnywhere, Category = "Sound RoomMode")
+	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
 		USoundBase* FrontUpRightChannelCenter;
 
-	UPROPERTY(EditAnywhere, Category = "Sound RoomMode")
+	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
 		USoundBase* BackUpLeftChannelCenter;
 
-	UPROPERTY(EditAnywhere, Category = "Sound RoomMode")
+	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
 		USoundBase* BackUpRightChannelCenter;
 
-	UPROPERTY(EditAnywhere, Category = "Sound RoomMode")
+	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
 		USoundBase* FrontDownLeftChannelCenter;
 
-	UPROPERTY(EditAnywhere, Category = "Sound RoomMode")
+	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
 		USoundBase* FrontDownRightChannelCenter;
 
-	UPROPERTY(EditAnywhere, Category = "Sound RoomMode")
+	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
 		USoundBase* BackDownLeftChannelCenter;
 
-	UPROPERTY(EditAnywhere, Category = "Sound RoomMode")
+	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
 		USoundBase* BackDownRightChannelCenter;
 };

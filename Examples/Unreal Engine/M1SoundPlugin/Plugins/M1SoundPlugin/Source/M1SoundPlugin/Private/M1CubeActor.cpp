@@ -377,25 +377,22 @@ void AM1CubeActor::Tick(float DeltaTime)
 	{
 		if (APlayerController* player = GetWorld()->GetFirstPlayerController())
 		{
-			/*
-			bool bHMDIsReady = (GEngine && GEngine->HMDDevice.IsValid() && GEngine->HMDDevice->IsHMDConnected());
-			if (bHMDIsReady)
+  			FRotator PlayerRotation;
+			FVector PlayerPosition;
+			if (ForceHMDRotation && UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled())
 			{
-			GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, TEXT("HMD detected"));
-			FQuat DeviceRotation;
-			FVector  DevicePosition;
-			GEngine->HMDDevice->GetCurrentOrientationAndPosition(DeviceRotation, DevicePosition);
-			GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, TEXT(">> " + DeviceRotation.Euler().ToString()));
+				UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(PlayerRotation, PlayerPosition);
+				//GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, TEXT(">> " + DeviceRotation.Euler().ToString()));
 			}
-
-			FRotator DeviceRotation;
-			FVector  DevicePosition;
-			UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(DeviceRotation, DevicePosition);
-			GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, TEXT(">> " + DeviceRotation.Euler().ToString()));
-			*/
+			else
+			{
+				PlayerRotation = player->GetControlRotation();
+			}
+			// maybe use cameraComponent->bAbsoluteRotation & bAbsolutePosition
+			PlayerPosition = PlayerPosition;
 
 			/*
-			GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Red, TEXT(">> " + player->GetControlRotation().Euler().ToString()));
+			GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Red, TEXT(">> " + PlayerRotation.Euler().ToString()));
 			GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, isInit ? TEXT("init ok") : TEXT("no init"));
 			GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Purple, GetWorld()->GetFirstPlayerController()->GetPawn()->GetName());
 			*/
@@ -410,13 +407,13 @@ void AM1CubeActor::Tick(float DeltaTime)
 			FVector outsideClosestPoint;
 			FVector insidePoint0, insidePoint1;
 
-			FVector cameraPosition = player->GetPawn()->GetActorLocation();
+			FVector cameraPosition = PlayerPosition;
 			if (ignoreTopBottom)
 			{
 				cameraPosition.Z = GetActorLocation().Z;
 			}
 
-			bool isOutside = (ClosestPointOnBox(player->GetPawn()->GetActorLocation(), GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, outsideClosestPoint) > 0);
+			bool isOutside = (ClosestPointOnBox(PlayerPosition, GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, outsideClosestPoint) > 0);
 
 
 
@@ -424,7 +421,7 @@ void AM1CubeActor::Tick(float DeltaTime)
 			{
 				point = outsideClosestPoint;
 
-				float dist = FVector::Dist(point, player->GetPawn()->GetActorLocation());
+				float dist = FVector::Dist(point, PlayerPosition);
 				SetVolumeWalls(vol * (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
 
 				DrawDebugLine(
@@ -506,11 +503,11 @@ void AM1CubeActor::Tick(float DeltaTime)
 			// compate with unity 
 
 			// Compute rotation for sound
-			FQuat quat = UKismetMathLibrary::FindLookAtRotation(player->GetPawn()->GetActorLocation(), point).Quaternion().Inverse() * GetActorRotation().Quaternion();
+			FQuat quat = UKismetMathLibrary::FindLookAtRotation(PlayerPosition, point).Quaternion().Inverse() * GetActorRotation().Quaternion();
 			quat = FQuat::MakeFromEuler(FVector(useRoll ? quat.Euler().X : 0, usePitch ? quat.Euler().Y : 0, useYaw ? quat.Euler().Z : 0));
-			quat *= player->GetControlRotation().Quaternion();
+			quat *= PlayerRotation.Quaternion();
 
-			CalculateChannelVolumes(player->GetControlRotation(), quat);
+			CalculateChannelVolumes(PlayerRotation, quat);
 		}
 	}
 
@@ -573,11 +570,11 @@ void AM1CubeActor::CalculateChannelVolumes(FRotator CameraRotation, FQuat quat)
 	}
 }
 
-void AM1CubeActor::SetVolumeWalls(float Volume)
+void AM1CubeActor::SetVolumeWalls(float volume)
 {
 	if (isInit)
 	{
-		float vol = FMath::Max(MIN_SOUND_VOLUME, this->Volume * Volume);
+		float vol = FMath::Max(MIN_SOUND_VOLUME, this->Volume * volume);
 		float newVolume = 0;
 
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
@@ -593,11 +590,11 @@ void AM1CubeActor::SetVolumeWalls(float Volume)
 	}
 }
 
-void AM1CubeActor::SetVolumeCenter(float Volume)
+void AM1CubeActor::SetVolumeCenter(float volume)
 {
 	if (isInit && useRoomMode)
 	{
-		float vol = FMath::Max(MIN_SOUND_VOLUME, this->Volume * Volume);
+		float vol = FMath::Max(MIN_SOUND_VOLUME, this->Volume * volume);
 		float newVolume = 0;
 
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)

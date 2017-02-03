@@ -38,8 +38,8 @@ class M1SOUNDPLUGIN_API AM1CubeActor : public AActor // M1SOUNDPLUGIN_API - chan
 	void Init();
 	void SetSoundSet();
 	void CalculateChannelVolumes(FRotator rotator, FQuat quat);
-	void SetVolumeWalls(float Volume);
-	void SetVolumeCenter(float Volume);
+	void SetVolumeWalls(float volume);
+	void SetVolumeCenter(float volume);
 
 public:
 	// Sets default values for this actor's properties
@@ -55,6 +55,9 @@ public:
 	bool ShouldTickIfViewportsOnly() const override { return true; }
 
 	void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Force HMD rotation instead of Player Controller")
+		bool ForceHMDRotation = true;
 
 	UFUNCTION(BlueprintCallable, Category = "Audio")
 		void Play();

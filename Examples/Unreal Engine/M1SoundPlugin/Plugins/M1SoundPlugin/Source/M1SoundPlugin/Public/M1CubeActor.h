@@ -18,7 +18,7 @@ class M1SOUNDPLUGIN_API AM1CubeActor : public AActor // M1SOUNDPLUGIN_API - chan
 	static int DoClipping(float t0, float t1, FVector origin, FVector direction, FVector center, FVector axis0, FVector axis1, FVector axis2, FVector extents, bool solid, FVector& point0, FVector& point1);
 	 
 	USoundAttenuation* NullAttenuation;
-
+	 
 	TArray<float> VolumeFactor;
 
 	TArray<USoundBase*> SoundsWalls;

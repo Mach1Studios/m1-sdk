@@ -4,6 +4,9 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+
+#include "Developer/TargetPlatform/Public/Interfaces/IAudioFormat.h"
+
 #include "M1StSPActor.generated.h" 
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
@@ -22,7 +25,7 @@ class M1SOUNDPLUGIN_API AM1StSPActor : public AActor // M1SOUNDPLUGIN_API - chan
 
 public:
 	// Sets default values for this actor's properties
-	AMyActor();
+	AM1StSPActor();
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

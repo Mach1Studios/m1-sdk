@@ -3,19 +3,18 @@
 //
 #include "M1SoundPluginPrivatePCH.h" // Change to your project name!
 
-#include "M1StSPActor.h"
 #include "Runtime/Engine/Public/AudioDecompress.h"
 #include "Runtime/Engine/Public/AudioDevice.h"
 
-#include "Developer/TargetPlatform/Public/Interfaces/IAudioFormat.h"
 #include "Developer/TargetPlatform/Public/Interfaces/ITargetPlatformManagerModule.h"
 #include "Developer/TargetPlatform/Public/Interfaces/ITargetPlatform.h"
 
 #include "Kismet/HeadMountedDisplayFunctionLibrary.h"
 #include "Kismet/KismetMathLibrary.h" 
-
-USoundWave* M1StSPActor::MakeSoundWaveFromBuffer(FName PlatformFormat, TArray<uint8>& rawFile, FSoundQualityInfo QualityInfo)
-{
+#include "M1StSPActor.h"
+ 
+USoundWave* AM1StSPActor::MakeSoundWaveFromBuffer(FName PlatformFormat, TArray<uint8>& rawFile, FSoundQualityInfo QualityInfo)
+{ 
 	const IAudioFormat* AudioFormat = GetTargetPlatformManager()->FindAudioFormat(PlatformFormat);
 	TArray<uint8> rawFileNew;
 	AudioFormat->Cook(PlatformFormat, rawFile, QualityInfo, rawFileNew);
@@ -40,7 +39,7 @@ USoundWave* M1StSPActor::MakeSoundWaveFromBuffer(FName PlatformFormat, TArray<ui
 
 
 // Sets default values
-M1StSPActor::M1StSPActor()
+AM1StSPActor::AM1StSPActor()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -49,13 +48,22 @@ M1StSPActor::M1StSPActor()
 	Root->bAutoActivate = true;
 	Root->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 
-	audioComponentMidLeft = NewObject <UAudioComponent>(Root, TEXT("audioComponentMidLeft"));
-	audioComponentMidRight = NewObject <UAudioComponent>(Root, TEXT("audioComponentMidRight"));
-	audioComponent = NewObject <UAudioComponent>(Root, TEXT("audioComponent"));
+	audioComponentMidLeft = CreateDefaultSubobject< UAudioComponent>(TEXT("audioComponentMidLeft"));
+	audioComponentMidRight = CreateDefaultSubobject< UAudioComponent>(TEXT("audioComponentMidRight"));
+	audioComponent = CreateDefaultSubobject< UAudioComponent>(TEXT("audioComponent"));
+
+	audioComponentMidLeft->AttachToComponent(Root, FAttachmentTransformRules::KeepRelativeTransform);
+	audioComponentMidRight->AttachToComponent(Root, FAttachmentTransformRules::KeepRelativeTransform);
+	audioComponent->AttachToComponent(Root, FAttachmentTransformRules::KeepRelativeTransform);
+
+	audioComponentMidLeft->SetRelativeLocation(FVector(0, 0, 0));
+	audioComponentMidRight->SetRelativeLocation(FVector(0, 0, 0));
+	audioComponent->SetRelativeLocation(FVector(0, 0, 0));
+
 }
 
 // Called when the game starts or when spawned
-void M1StSPActor::BeginPlay()
+void AM1StSPActor::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -138,7 +146,7 @@ void M1StSPActor::BeginPlay()
 }
 
 // Called every frame
-void M1StSPActor::Tick(float DeltaTime)
+void AM1StSPActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
@@ -168,7 +176,7 @@ void M1StSPActor::Tick(float DeltaTime)
 
 }
 
-void M1StSPActor::Play()
+void AM1StSPActor::Play()
 {
 	if (soundWave != nullptr)
 	{
@@ -178,7 +186,7 @@ void M1StSPActor::Play()
 	}
 }
 
-void M1StSPActor::Stop()
+void AM1StSPActor::Stop()
 {
 	if (soundWave != nullptr)
 	{

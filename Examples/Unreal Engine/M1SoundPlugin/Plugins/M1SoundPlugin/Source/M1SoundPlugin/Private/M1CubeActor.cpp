@@ -382,14 +382,15 @@ void AM1CubeActor::Tick(float DeltaTime)
 			if (ForceHMDRotation && UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled())
 			{
 				UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(PlayerRotation, PlayerPosition);
+				PlayerPosition = player->GetPawn()->GetActorLocation();
 				//GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, TEXT(">> " + DeviceRotation.Euler().ToString()));
 			}
 			else
 			{
 				PlayerRotation = player->GetControlRotation();
+				PlayerPosition = player->GetPawn()->GetActorLocation();
 			}
-			// maybe use cameraComponent->bAbsoluteRotation & bAbsolutePosition
-			PlayerPosition = PlayerPosition;
+			// maybe use cameraComponent->bAbsoluteRotation & bAbsolutePosition for position?
 
 			/*
 			GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Red, TEXT(">> " + PlayerRotation.Euler().ToString()));

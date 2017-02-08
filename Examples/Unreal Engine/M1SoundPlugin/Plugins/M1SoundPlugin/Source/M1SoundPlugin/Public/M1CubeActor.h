@@ -71,6 +71,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Display Debug")
 		bool Debug = true;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Rotator mode")
+		bool useRotator = false;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Closest Point/Activate Exterior Sounds")
 		bool useClosestPoint = true;
 

@@ -493,6 +493,11 @@ void AM1CubeActor::Tick(float DeltaTime)
 				std::string str = "vol:    " + toDebugString((attenuationRoomModeCurve ? attenuationRoomModeCurve->GetFloatValue(dist) : 1));
 				GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Blue, str.c_str());
 			}
+			else if (useRotator)
+			{
+				float dist = FVector::Dist(point, PlayerPosition);
+				SetVolumeWalls(vol * (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
+			}
 			else
 			{
 				vol = 0;

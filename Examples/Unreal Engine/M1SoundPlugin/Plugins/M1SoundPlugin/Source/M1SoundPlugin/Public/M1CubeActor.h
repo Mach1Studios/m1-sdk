@@ -21,11 +21,11 @@ class M1SOUNDPLUGIN_API AM1CubeActor : public AActor // M1SOUNDPLUGIN_API - chan
 	 
 	TArray<float> VolumeFactor;
 
-	TArray<USoundBase*> SoundsWalls;
+	TArray<USoundWave*> SoundsWalls;
 	TArray<UAudioComponent*> LeftChannelsWalls;
 	TArray<UAudioComponent*> RightChannelsWalls;
 
-	TArray<USoundBase*> SoundsCenter;
+	TArray<USoundWave*> SoundsCenter;
 	TArray<UAudioComponent*> LeftChannelsCenter;
 	TArray<UAudioComponent*> RightChannelsCenter;
 
@@ -65,6 +65,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Audio")
 		void Stop();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio", DisplayName = "Fade In Duration")
+		float fadeInDuration = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio", DisplayName = "Fade Out Duration")
+		float fadeOutDuration = 0;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Attenuation Curve")
 		UCurveFloat* attenuationCurve;
 
@@ -91,28 +97,28 @@ public:
 
 	// Audio positions for the 8channel cube
 	UPROPERTY(EditAnywhere, Category = "Sound INT")
-		USoundBase* FrontUpLeftChannelWalls;
+		USoundWave* FrontUpLeftChannelWalls;
 
 	UPROPERTY(EditAnywhere, Category = "Sound INT")
-		USoundBase* FrontUpRightChannelWalls;
+		USoundWave* FrontUpRightChannelWalls;
 
 	UPROPERTY(EditAnywhere, Category = "Sound INT")
-		USoundBase* BackUpLeftChannelWalls;
+		USoundWave* BackUpLeftChannelWalls;
 
 	UPROPERTY(EditAnywhere, Category = "Sound INT")
-		USoundBase* BackUpRightChannelWalls;
+		USoundWave* BackUpRightChannelWalls;
 
 	UPROPERTY(EditAnywhere, Category = "Sound INT")
-		USoundBase* FrontDownLeftChannelWalls;
+		USoundWave* FrontDownLeftChannelWalls;
 
 	UPROPERTY(EditAnywhere, Category = "Sound INT")
-		USoundBase* FrontDownRightChannelWalls;
+		USoundWave* FrontDownRightChannelWalls;
 
 	UPROPERTY(EditAnywhere, Category = "Sound INT")
-		USoundBase* BackDownLeftChannelWalls;
+		USoundWave* BackDownLeftChannelWalls;
 
 	UPROPERTY(EditAnywhere, Category = "Sound INT")
-		USoundBase* BackDownRightChannelWalls;
+		USoundWave* BackDownRightChannelWalls;
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use RoomMode")
@@ -126,26 +132,26 @@ public:
 
 	// Audio positions for the 8channel cube
 	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
-		USoundBase* FrontUpLeftChannelCenter;
+		USoundWave* FrontUpLeftChannelCenter;
 
 	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
-		USoundBase* FrontUpRightChannelCenter;
+		USoundWave* FrontUpRightChannelCenter;
 
 	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
-		USoundBase* BackUpLeftChannelCenter;
+		USoundWave* BackUpLeftChannelCenter;
 
 	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
-		USoundBase* BackUpRightChannelCenter;
+		USoundWave* BackUpRightChannelCenter;
 
 	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
-		USoundBase* FrontDownLeftChannelCenter;
+		USoundWave* FrontDownLeftChannelCenter;
 
 	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
-		USoundBase* FrontDownRightChannelCenter;
+		USoundWave* FrontDownRightChannelCenter;
 
 	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
-		USoundBase* BackDownLeftChannelCenter;
+		USoundWave* BackDownLeftChannelCenter;
 
 	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
-		USoundBase* BackDownRightChannelCenter;
+		USoundWave* BackDownRightChannelCenter;
 };

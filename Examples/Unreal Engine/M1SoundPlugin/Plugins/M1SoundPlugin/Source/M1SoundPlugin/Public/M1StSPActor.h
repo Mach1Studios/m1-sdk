@@ -19,7 +19,7 @@ class M1SOUNDPLUGIN_API AM1StSPActor : public AActor // M1SOUNDPLUGIN_API - chan
 	UAudioComponent* audioComponentMidLeft;
 	UAudioComponent* audioComponentMidRight;
 	UAudioComponent* audioComponent;
-
+	 
 	USoundWave* soundWaveMidLeft;
 	USoundWave* soundWaveMidRight;
 
@@ -43,6 +43,12 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Attenuation Curve")
 		UCurveFloat* attenuationCurve;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio", DisplayName = "Fade In Duration")
+		float fadeInDuration = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio", DisplayName = "Fade Out Duration")
+		float fadeOutDuration = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Sound, meta = (ClampMin = "-1.0", ClampMax = "1.0", UIMin = "-1.0", UIMax = "1.0"))
 		float Spatialize = 0;

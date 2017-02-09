@@ -233,6 +233,8 @@ void AM1CubeActor::Init()
 
 				LeftChannelsWalls[i]->AttachToComponent(cameraComponent, FAttachmentTransformRules::KeepRelativeTransform); // AttachToComponent(Root, FAttachmentTransformRules::KeepRelativeTransform);//   AttachTo(sceneComponent);
 				RightChannelsWalls[i]->AttachToComponent(cameraComponent, FAttachmentTransformRules::KeepRelativeTransform);
+
+				 
 			}
 
 			if (useRoomMode)
@@ -268,7 +270,7 @@ void AM1CubeActor::SetSoundSet()
 	if (isInit)
 	{
 		SoundsWalls.Empty();
-
+ 
 		SoundsWalls.Add(FrontUpLeftChannelWalls);
 		SoundsWalls.Add(FrontUpRightChannelWalls);
 		SoundsWalls.Add(BackUpLeftChannelWalls);
@@ -277,6 +279,11 @@ void AM1CubeActor::SetSoundSet()
 		SoundsWalls.Add(FrontDownRightChannelWalls);
 		SoundsWalls.Add(BackDownLeftChannelWalls);
 		SoundsWalls.Add(BackDownRightChannelWalls);
+		 
+		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
+		{
+			SoundsWalls[i]->bVirtualizeWhenSilent = true;
+		}
 
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
@@ -299,6 +306,11 @@ void AM1CubeActor::SetSoundSet()
 
 			for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 			{
+				SoundsCenter[i]->bVirtualizeWhenSilent = true;
+			}
+
+			for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
+			{
 				LeftChannelsCenter[i]->SetSound(SoundsCenter[i]);
 				RightChannelsCenter[i]->SetSound(SoundsCenter[i]);
 			}
@@ -316,8 +328,8 @@ void AM1CubeActor::Play()
 	{
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
-			LeftChannelsWalls[i]->Play();
-			RightChannelsWalls[i]->Play();
+			LeftChannelsWalls[i]->FadeIn(fadeInDuration);
+			RightChannelsWalls[i]->FadeIn(fadeInDuration);
 		}
 	}
 
@@ -325,8 +337,8 @@ void AM1CubeActor::Play()
 	{
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
-			LeftChannelsCenter[i]->Play();
-			RightChannelsCenter[i]->Play();
+			LeftChannelsCenter[i]->FadeIn(fadeInDuration);
+			RightChannelsCenter[i]->FadeIn(fadeInDuration);
 		}
 	}
 }
@@ -337,8 +349,8 @@ void AM1CubeActor::Stop()
 	{
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
-			LeftChannelsWalls[i]->Stop();
-			RightChannelsWalls[i]->Stop();
+			LeftChannelsWalls[i]->FadeOut(fadeOutDuration, 0);
+			RightChannelsWalls[i]->FadeOut(fadeOutDuration, 0);
 		}
 	}
 
@@ -346,8 +358,8 @@ void AM1CubeActor::Stop()
 	{
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
-			LeftChannelsCenter[i]->Stop();
-			RightChannelsCenter[i]->Stop();
+			LeftChannelsCenter[i]->FadeOut(fadeOutDuration, 0);
+			RightChannelsCenter[i]->FadeOut(fadeOutDuration, 0);
 		}
 	}
 }

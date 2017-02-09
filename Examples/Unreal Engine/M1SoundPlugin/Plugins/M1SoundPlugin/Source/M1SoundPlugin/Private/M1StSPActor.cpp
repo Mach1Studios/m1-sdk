@@ -5,6 +5,7 @@
 
 #include "Runtime/Engine/Public/AudioDecompress.h"
 #include "Runtime/Engine/Public/AudioDevice.h"
+#include "Runtime/Engine/Classes/Sound/AudioSettings.h"
 
 #include "Developer/TargetPlatform/Public/Interfaces/ITargetPlatformManagerModule.h"
 #include "Developer/TargetPlatform/Public/Interfaces/ITargetPlatform.h"
@@ -131,24 +132,31 @@ void AM1StSPActor::BeginPlay()
 			}
 		}
 
-		soundWaveMidLeft->bLooping = true;
-		soundWaveMidRight->bLooping = true;
-		soundWave->bLooping = true;
-
-		//soundWave->RemoveAudioResource();
-
+	 
 		audioComponentMidLeft->SetSound(soundWaveMidLeft);
 		audioComponentMidRight->SetSound(soundWaveMidRight);
 		audioComponent->SetSound(soundWave);
 
+		soundWaveMidLeft->bVirtualizeWhenSilent = true;
+		soundWaveMidRight->bVirtualizeWhenSilent = true;
+		soundWave->bVirtualizeWhenSilent = true;
+
+		 	/*
+		soundWaveMidLeft->bLooping = true;
+		soundWaveMidRight->bLooping = true;
+		soundWave->bLooping = true;
 		Play();
+		 	*/
+
+		//soundWave->RemoveAudioResource();
+
 	}
 }
 
 // Called every frame
 void AM1StSPActor::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
+	Super::Tick(DeltaTime); 
 
 	if (GEngine && Root->IsActive())
 	{
@@ -163,9 +171,11 @@ void AM1StSPActor::Tick(float DeltaTime)
 			float dist = FVector::Dist(GetActorLocation(), player->GetPawn()->GetActorLocation());
 			float vol = Volume *  (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1);
 
+
+			// AdjustVolume
 			audioComponentMidLeft->SetVolumeMultiplier(vol * panL);
 			audioComponentMidRight->SetVolumeMultiplier(vol * panR);
-			audioComponent->SetVolumeMultiplier(vol);
+			audioComponent->SetVolumeMultiplier(vol); 
 
 			if (Debug)
 			{
@@ -180,9 +190,9 @@ void AM1StSPActor::Play()
 {
 	if (soundWave != nullptr)
 	{
-		audioComponentMidLeft->Play();
-		audioComponentMidRight->Play();
-		audioComponent->Play();
+		audioComponentMidLeft->FadeIn(fadeInDuration);
+		audioComponentMidRight->FadeIn(fadeInDuration);
+		audioComponent->FadeIn(fadeInDuration);
 	}
 }
 
@@ -190,8 +200,8 @@ void AM1StSPActor::Stop()
 {
 	if (soundWave != nullptr)
 	{
-		audioComponentMidLeft->Stop();
-		audioComponentMidRight->Stop();
-		audioComponent->Stop();
+		audioComponentMidLeft->FadeOut(fadeOutDuration, 0);
+		audioComponentMidRight->FadeOut(fadeOutDuration, 0);
+		audioComponent->FadeOut(fadeOutDuration, 0);
 	}
 }

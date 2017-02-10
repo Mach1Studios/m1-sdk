@@ -485,8 +485,11 @@ void AM1BaseActor::Tick(float DeltaTime)
 					0
 				);
 
+				if (Debug)
+				{
 				std::string str = "vol:    " + toDebugString((attenuationRoomModeCurve ? attenuationRoomModeCurve->GetFloatValue(dist) : 1));
 				GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Blue, str.c_str());
+			}
 			}
 			else if (useRotator)
 			{
@@ -531,7 +534,7 @@ void AM1BaseActor::PostEditChangeProperty(FPropertyChangedEvent & PropertyChange
 
 void AM1BaseActor::CalculateChannelVolumes(FRotator CameraRotation, FQuat quat)
 {
-	std::vector<float> result = SoundAlgorithm(quat.Euler().Y, quat.Euler().Z < 0 ? 360 + quat.Euler().Z : quat.Euler().Z, quat.Euler().X);
+	std::vector<float> result = SoundAlgorithm(quat.Euler().Y, -( quat.Euler().Z < 0 ? 360 + quat.Euler().Z : quat.Euler().Z), quat.Euler().X);
 
 
 	// test
@@ -539,27 +542,30 @@ void AM1BaseActor::CalculateChannelVolumes(FRotator CameraRotation, FQuat quat)
 //	GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, vec.ToString());
 
 	//#if UE_BUILD_DEBUG
-	std::string str = "angles:    " + toDebugString(quat.Euler().Y) + " , " + toDebugString(quat.Euler().Z < 0 ? 360 + quat.Euler().Z : quat.Euler().Z) + " , " + toDebugString(quat.Euler().X);
-	GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, str.c_str());
-
-	str = "angles Orig: " + toDebugString(CameraRotation.Pitch >= 270 ? CameraRotation.Pitch - 360 : CameraRotation.Pitch) + " , " + toDebugString(CameraRotation.Yaw) + " , " + toDebugString(CameraRotation.Roll > 270 ? CameraRotation.Roll - 360 : CameraRotation.Roll);
-	GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, str.c_str());
-
-
-	std::string info;
-	info = "left:  ";
-	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
+	if (Debug)
 	{
-		info += toDebugString(result[i * 2]) + ", ";
-	}
-	GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, info.c_str());
+		std::string str = "angles:    " + toDebugString(quat.Euler().Y) + " , " + toDebugString(quat.Euler().Z < 0 ? 360 + quat.Euler().Z : quat.Euler().Z) + " , " + toDebugString(quat.Euler().X);
+		GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, str.c_str());
 
-	info = "right: ";
-	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
-	{
-		info += toDebugString(result[i * 2 + 1]) + ", ";
+		str = "angles Orig: " + toDebugString(CameraRotation.Pitch >= 270 ? CameraRotation.Pitch - 360 : CameraRotation.Pitch) + " , " + toDebugString(CameraRotation.Yaw) + " , " + toDebugString(CameraRotation.Roll > 270 ? CameraRotation.Roll - 360 : CameraRotation.Roll);
+		GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, str.c_str());
+
+
+		std::string info;
+		info = "left:  ";
+		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
+		{
+			info += toDebugString(result[i * 2]) + ", ";
+		}
+		GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, info.c_str());
+
+		info = "right: ";
+		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
+		{
+			info += toDebugString(result[i * 2 + 1]) + ", ";
+		}
+		GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, info.c_str());
 	}
-	GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, info.c_str());
 
 	//UE_LOG(LogTemp, Log, TEXT("Your message"));
 	//#endif

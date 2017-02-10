@@ -14,6 +14,8 @@
 #include "Kismet/KismetMathLibrary.h" 
 #include "M1StSPActor.h"
  
+#define MIN_SOUND_VOLUME (KINDA_SMALL_NUMBER*2)
+
 USoundWave* AM1StSPActor::MakeSoundWaveFromBuffer(FName PlatformFormat, TArray<uint8>& rawFile, FSoundQualityInfo QualityInfo)
 { 
 	const IAudioFormat* AudioFormat = GetTargetPlatformManager()->FindAudioFormat(PlatformFormat);
@@ -36,8 +38,6 @@ USoundWave* AM1StSPActor::MakeSoundWaveFromBuffer(FName PlatformFormat, TArray<u
 
 	return sw;
 }
-
-
 
 // Sets default values
 AM1StSPActor::AM1StSPActor()
@@ -141,15 +141,14 @@ void AM1StSPActor::BeginPlay()
 		soundWaveMidRight->bVirtualizeWhenSilent = true;
 		soundWave->bVirtualizeWhenSilent = true;
 
-		 	/*
+		/*
 		soundWaveMidLeft->bLooping = true;
 		soundWaveMidRight->bLooping = true;
 		soundWave->bLooping = true;
 		Play();
-		 	*/
+		*/
 
 		//soundWave->RemoveAudioResource();
-
 	}
 }
 
@@ -171,11 +170,10 @@ void AM1StSPActor::Tick(float DeltaTime)
 			float dist = FVector::Dist(GetActorLocation(), player->GetPawn()->GetActorLocation());
 			float vol = Volume *  (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1);
 
-
 			// AdjustVolume
-			audioComponentMidLeft->SetVolumeMultiplier(vol * panL);
-			audioComponentMidRight->SetVolumeMultiplier(vol * panR);
-			audioComponent->SetVolumeMultiplier(vol); 
+			audioComponentMidLeft->SetVolumeMultiplier(FMath::Max(MIN_SOUND_VOLUME, vol * panL));
+			audioComponentMidRight->SetVolumeMultiplier(FMath::Max(MIN_SOUND_VOLUME, vol * panR));
+			audioComponent->SetVolumeMultiplier(FMath::Max(MIN_SOUND_VOLUME, vol));
 
 			if (Debug)
 			{
@@ -200,8 +198,8 @@ void AM1StSPActor::Stop()
 {
 	if (soundWave != nullptr)
 	{
-		audioComponentMidLeft->FadeOut(fadeOutDuration, 0);
-		audioComponentMidRight->FadeOut(fadeOutDuration, 0);
-		audioComponent->FadeOut(fadeOutDuration, 0);
+		audioComponentMidLeft->FadeOut(fadeOutDuration, MIN_SOUND_VOLUME);
+		audioComponentMidRight->FadeOut(fadeOutDuration, MIN_SOUND_VOLUME);
+		audioComponent->FadeOut(fadeOutDuration, MIN_SOUND_VOLUME);
 	}
 }

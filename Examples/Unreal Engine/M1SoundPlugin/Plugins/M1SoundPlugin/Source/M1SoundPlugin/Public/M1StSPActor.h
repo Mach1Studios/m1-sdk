@@ -64,7 +64,4 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Audio")
 		void Stop();
-
-
-
 };

@@ -29,21 +29,6 @@ std::vector<float> AM1HorizonActor::SoundAlgorithm(float Yaw, float Pitch, float
 
 AM1HorizonActor::AM1HorizonActor()
 {
-	AM1BaseActor::Init(4);
+	InitComponents(4);
 }
-
-// Called when the game starts or when spawned
-void AM1HorizonActor::BeginPlay()
-{
-	Super::BeginPlay();
-
-	AM1BaseActor::BeginPlay();
-}
-
-// Called every frame
-void AM1HorizonActor::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-	AM1BaseActor::Tick(DeltaTime);
-}
+ 

@@ -14,17 +14,12 @@ class M1SOUNDPLUGIN_API AM1HorizonActor : public AM1BaseActor
 
 	void SetSoundsWalls();
 	void SetSoundsCenter();
-	std::vector<float> SoundAlgorithm(float Yaw, float Pitch, float Roll);
+
+	virtual std::vector<float> SoundAlgorithm(float Yaw, float Pitch, float Roll)  override;
 
 public:
 	// Sets default values for this actor's properties
 	AM1HorizonActor();
-
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-	// Called every frame
-	virtual void Tick(float DeltaSeconds) override;
 
 	// Audio positions for the 8channel cube
 	UPROPERTY(EditAnywhere, Category = "Sound INT")

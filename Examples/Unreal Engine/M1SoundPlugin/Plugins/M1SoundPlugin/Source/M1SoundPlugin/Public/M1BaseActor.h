@@ -50,9 +50,9 @@ protected:
 	virtual std::vector<float> SoundAlgorithm(float Yaw, float Pitch, float Roll) { return std::vector<float>(); };
 
 public:
-	// Sets default values for this actor's properties
-	void Init(int MAX_SOUNDS_PER_CHANNEL);
 
+	void InitComponents(int MAX_SOUNDS_PER_CHANNEL);
+		
 	// Called when the game starts or when spawned
 	void BeginPlay();
 

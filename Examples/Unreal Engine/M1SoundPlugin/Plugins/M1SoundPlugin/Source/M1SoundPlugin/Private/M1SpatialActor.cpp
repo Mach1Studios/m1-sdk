@@ -36,23 +36,8 @@ std::vector<float> AM1SpatialActor::SoundAlgorithm(float Yaw, float Pitch, float
 	return eightChannelsIsotropicAlgorithm(Yaw, Pitch, Roll);
 }
 
-AM1SpatialActor::AM1SpatialActor()
+AM1SpatialActor::AM1SpatialActor() 
 {
-	AM1BaseActor::Init(8);
+	InitComponents(8);
 }
-
-// Called when the game starts or when spawned
-void AM1SpatialActor::BeginPlay()
-{
-	Super::BeginPlay();
-
-	AM1BaseActor::BeginPlay();
-}
-
-// Called every frame
-void AM1SpatialActor::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-	AM1BaseActor::Tick(DeltaTime);
-}
+ 

@@ -134,9 +134,9 @@ int AM1BaseActor::DoClipping(float t0, float t1, FVector origin, FVector directi
 }
 
 // Sets default values
-void AM1BaseActor::Init(int MAX_SOUNDS_PER_CHANNEL)
+void AM1BaseActor::InitComponents(int MAX_SOUNDS_PER_CHANNEL)
 {
-	this->MAX_SOUNDS_PER_CHANNEL;
+	this->MAX_SOUNDS_PER_CHANNEL = MAX_SOUNDS_PER_CHANNEL;
 
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -350,7 +350,7 @@ void AM1BaseActor::Stop()
 // Called when the game starts or when spawned
 void AM1BaseActor::BeginPlay()
 {
-//	Super::BeginPlay();
+	Super::BeginPlay();
 
 	if (GEngine)
 	{
@@ -366,7 +366,7 @@ void AM1BaseActor::BeginPlay()
 // Called every frame
 void AM1BaseActor::Tick(float DeltaTime)
 {
-//	Super::Tick(DeltaTime);
+	Super::Tick(DeltaTime);
 
 	if (GEngine && Root->IsActive())
 	{

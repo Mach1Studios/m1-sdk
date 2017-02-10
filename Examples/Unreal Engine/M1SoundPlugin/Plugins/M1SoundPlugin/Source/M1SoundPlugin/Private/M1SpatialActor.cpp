@@ -3,16 +3,10 @@
 //
 #include "M1SoundPluginPrivatePCH.h" // Change to your project name!
 
-#include "Kismet/HeadMountedDisplayFunctionLibrary.h"
-#include "Kismet/KismetMathLibrary.h"
-//#include "HeadMountedDisplay.h"
-
-#include <sstream>
-#include "M1SpatialActor8.h"
-
+#include "M1SpatialActor.h"
 #include "M1DSPAlgorithmsUE.h"
 
-void AM1SpatialActor8::SetSoundsWalls()
+void AM1SpatialActor::SetSoundsWalls()
 {
 	SoundsWalls.Add(FrontUpLeftChannelWalls);
 	SoundsWalls.Add(FrontUpRightChannelWalls);
@@ -24,7 +18,7 @@ void AM1SpatialActor8::SetSoundsWalls()
 	SoundsWalls.Add(BackDownRightChannelWalls);
 }
 
-void AM1SpatialActor8::SetSoundsCenter()
+void AM1SpatialActor::SetSoundsCenter()
 {
 	SoundsCenter.Add(FrontUpLeftChannelCenter);
 	SoundsCenter.Add(FrontUpRightChannelCenter);
@@ -37,18 +31,18 @@ void AM1SpatialActor8::SetSoundsCenter()
 
 }
 
-std::vector<float> AM1SpatialActor8::SoundAlgorithm(float Yaw, float Pitch, float Roll) 
+std::vector<float> AM1SpatialActor::SoundAlgorithm(float Yaw, float Pitch, float Roll) 
 {
 	return eightChannelsIsotropicAlgorithm(Yaw, Pitch, Roll);
 }
 
-AM1SpatialActor8::AM1SpatialActor8()
+AM1SpatialActor::AM1SpatialActor()
 {
 	AM1BaseActor::Init(8);
 }
 
 // Called when the game starts or when spawned
-void AM1SpatialActor8::BeginPlay()
+void AM1SpatialActor::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -56,7 +50,7 @@ void AM1SpatialActor8::BeginPlay()
 }
 
 // Called every frame
-void AM1SpatialActor8::Tick(float DeltaTime)
+void AM1SpatialActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 

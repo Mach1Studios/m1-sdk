@@ -3,16 +3,10 @@
 //
 #include "M1SoundPluginPrivatePCH.h" // Change to your project name!
 
-#include "Kismet/HeadMountedDisplayFunctionLibrary.h"
-#include "Kismet/KismetMathLibrary.h"
-//#include "HeadMountedDisplay.h"
-
-#include <sstream>
-#include "M1SpatialActor4.h"
-
+#include "M1HorizonActor.h"
 #include "M1DSPAlgorithmsUE.h"
 
-void AM1SpatialActor4::SetSoundsWalls()
+void AM1HorizonActor::SetSoundsWalls()
 {
 	SoundsWalls.Add(FrontUpLeftChannelWalls);
 	SoundsWalls.Add(FrontUpRightChannelWalls);
@@ -20,7 +14,7 @@ void AM1SpatialActor4::SetSoundsWalls()
 	SoundsWalls.Add(BackUpRightChannelWalls);
 }
 
-void AM1SpatialActor4::SetSoundsCenter()
+void AM1HorizonActor::SetSoundsCenter()
 {
 	SoundsCenter.Add(FrontUpLeftChannelCenter);
 	SoundsCenter.Add(FrontUpRightChannelCenter);
@@ -28,18 +22,18 @@ void AM1SpatialActor4::SetSoundsCenter()
 	SoundsCenter.Add(BackUpRightChannelCenter);
 }
 
-std::vector<float> AM1SpatialActor4::SoundAlgorithm(float Yaw, float Pitch, float Roll) 
+std::vector<float> AM1HorizonActor::SoundAlgorithm(float Yaw, float Pitch, float Roll) 
 {
 	return fourChannelAlgorithm(Yaw, Pitch, Roll);
 }
 
-AM1SpatialActor4::AM1SpatialActor4()
+AM1HorizonActor::AM1HorizonActor()
 {
 	AM1BaseActor::Init(4);
 }
 
 // Called when the game starts or when spawned
-void AM1SpatialActor4::BeginPlay()
+void AM1HorizonActor::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -47,7 +41,7 @@ void AM1SpatialActor4::BeginPlay()
 }
 
 // Called every frame
-void AM1SpatialActor4::Tick(float DeltaTime)
+void AM1HorizonActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 

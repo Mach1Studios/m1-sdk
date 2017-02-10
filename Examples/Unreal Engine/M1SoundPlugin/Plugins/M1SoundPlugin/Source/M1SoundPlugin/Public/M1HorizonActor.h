@@ -5,10 +5,10 @@
 
 #include "GameFramework/Actor.h"
 #include "M1BaseActor.h" 
-#include "M1SpatialActor8.generated.h" 
+#include "M1HorizonActor.generated.h" 
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class M1SOUNDPLUGIN_API AM1SpatialActor8 : public AM1BaseActor
+class M1SOUNDPLUGIN_API AM1HorizonActor : public AM1BaseActor
 {
 	GENERATED_BODY()
 
@@ -18,7 +18,7 @@ class M1SOUNDPLUGIN_API AM1SpatialActor8 : public AM1BaseActor
 
 public:
 	// Sets default values for this actor's properties
-	AM1SpatialActor8();
+	AM1HorizonActor();
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -39,18 +39,6 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Sound INT")
 		USoundWave* BackUpRightChannelWalls;
 
-	UPROPERTY(EditAnywhere, Category = "Sound INT")
-		USoundWave* FrontDownLeftChannelWalls;
-
-	UPROPERTY(EditAnywhere, Category = "Sound INT")
-		USoundWave* FrontDownRightChannelWalls;
-
-	UPROPERTY(EditAnywhere, Category = "Sound INT")
-		USoundWave* BackDownLeftChannelWalls;
-
-	UPROPERTY(EditAnywhere, Category = "Sound INT")
-		USoundWave* BackDownRightChannelWalls;
-
 
 	// Audio positions for the 8channel cube
 	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
@@ -65,15 +53,4 @@ public:
 	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
 		USoundWave* BackUpRightChannelCenter;
 
-	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
-		USoundWave* FrontDownLeftChannelCenter;
-
-	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
-		USoundWave* FrontDownRightChannelCenter;
-
-	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
-		USoundWave* BackDownLeftChannelCenter;
-
-	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
-		USoundWave* BackDownRightChannelCenter;
 };

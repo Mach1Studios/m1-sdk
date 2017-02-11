@@ -174,16 +174,18 @@ void AM1BaseActor::Init()
 		if (APlayerController* player = GetWorld()->GetFirstPlayerController())//UGameplayStatics::GetPlayerCharacter(GetWorld(), 0))
 		{
 			TArray<UCameraComponent*> Cameras;
-			GetWorld()->GetFirstPlayerController()->GetPawn()->GetComponents<UCameraComponent>(Cameras);
-
-			if (Cameras.Num() == 0)
+			if (APawn* playerPawn = player->GetPawn())
 			{
-				APlayerCameraManager* GameCameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
-				cameraComponent = GameCameraManager->GetRootComponent();
-			}
-			else
-			{
-				cameraComponent = Cameras[0];
+				playerPawn->GetComponents<UCameraComponent>(Cameras);
+				if (Cameras.Num() < 1)
+				{
+					APlayerCameraManager* GameCameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
+					cameraComponent = GameCameraManager->GetRootComponent();
+				}
+				else
+				{
+					cameraComponent = Cameras[0];
+				}
 			}
 			//GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Purple, FString::FromInt(Cameras.Num()));
 
@@ -233,7 +235,7 @@ void AM1BaseActor::Init()
 				LeftChannelsWalls[i]->AttachToComponent(cameraComponent, FAttachmentTransformRules::KeepRelativeTransform); // AttachToComponent(Root, FAttachmentTransformRules::KeepRelativeTransform);//   AttachTo(sceneComponent);
 				RightChannelsWalls[i]->AttachToComponent(cameraComponent, FAttachmentTransformRules::KeepRelativeTransform);
 
-				 
+
 			}
 
 			if (useRoomMode)
@@ -269,9 +271,9 @@ void AM1BaseActor::SetSoundSet()
 	if (isInit)
 	{
 		SoundsWalls.Empty();
- 
+
 		SetSoundsWalls();
-		 
+
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
 			SoundsWalls[i]->bVirtualizeWhenSilent = true;
@@ -372,146 +374,149 @@ void AM1BaseActor::Tick(float DeltaTime)
 	{
 		if (APlayerController* player = GetWorld()->GetFirstPlayerController())
 		{
-  			FRotator PlayerRotation;
-			FVector PlayerPosition;
-			if (ForceHMDRotation && UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled())
+			if (APawn* playerPawn = player->GetPawn())
 			{
-				UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(PlayerRotation, PlayerPosition);
-				PlayerPosition = player->GetPawn()->GetActorLocation();
-				//GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, TEXT(">> " + DeviceRotation.Euler().ToString()));
-			}
-			else
-			{
-				PlayerRotation = player->GetControlRotation();
-				PlayerPosition = player->GetPawn()->GetActorLocation();
-			}
-			// maybe use cameraComponent->bAbsoluteRotation & bAbsolutePosition for position?
-
-			/*
-			GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Red, TEXT(">> " + PlayerRotation.Euler().ToString()));
-			GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, isInit ? TEXT("init ok") : TEXT("no init"));
-			GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Purple, GetWorld()->GetFirstPlayerController()->GetPawn()->GetName());
-			*/
-
-			FVector point = GetActorLocation();
-
-			FVector scale = Collision->GetScaledBoxExtent(); // GetActorScale() / 2 * 
-			scale = FVector(scale.Y, scale.Z, scale.X);
-
-			float vol = Volume;
-
-			FVector outsideClosestPoint;
-			FVector insidePoint0, insidePoint1;
-
-			FVector cameraPosition = PlayerPosition;
-			if (ignoreTopBottom)
-			{
-				cameraPosition.Z = GetActorLocation().Z;
-			}
-
-			bool isOutside = (ClosestPointOnBox(PlayerPosition, GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, outsideClosestPoint) > 0);
-
-
-
-			if (useClosestPoint && isOutside)
-			{
-				point = outsideClosestPoint;
-
-				float dist = FVector::Dist(point, PlayerPosition);
-				SetVolumeWalls(vol * (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
-
-				DrawDebugLine(
-					GetWorld(),
-					GetActorLocation(),
-					point,
-					FColor(255, 0, 0),
-					false,
-					-1,
-					0,
-					0
-				);
-
-				DrawDebugPoint(GetWorld(),
-					point,
-					10.0,
-					FColor(255, 0, 0),
-					false,
-					-1,
-					0
-				);
-			}
-			else if (useRoomMode && !isOutside)// && DoClipping(0, std::numeric_limits<float>::max(), cameraPosition, (cameraPosition - GetActorLocation()).GetSafeNormal(), GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, true, insidePoint0, insidePoint1) == 2)
-			{
-				FVector p0 = GetActorTransform().InverseTransformPosition(cameraPosition) / 100;
-
-				FVector p1 = p0;
-				if (FMath::Abs(p0.X) > FMath::Abs(p0.Y) && FMath::Abs(p0.X) > FMath::Abs(p0.Z))
+				FRotator PlayerRotation;
+				FVector PlayerPosition;
+				if (ForceHMDRotation && UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled())
 				{
-					p1.X = p0.X > 0 ? 1 : -1;
+					UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(PlayerRotation, PlayerPosition);
+					PlayerPosition = playerPawn->GetActorLocation();
+					//GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, TEXT(">> " + DeviceRotation.Euler().ToString()));
 				}
-				if (FMath::Abs(p0.Y) > FMath::Abs(p0.X) && FMath::Abs(p0.Y) > FMath::Abs(p0.Z))
+				else
 				{
-					p1.Y = p0.Y > 0 ? 1 : -1;
+					PlayerRotation = player->GetControlRotation();
+					PlayerPosition = playerPawn->GetActorLocation();
 				}
-				if (FMath::Abs(p0.Z) > FMath::Abs(p0.X) && FMath::Abs(p0.Z) > FMath::Abs(p0.Y))
+				// maybe use cameraComponent->bAbsoluteRotation & bAbsolutePosition for position?
+
+				/*
+				GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Red, TEXT(">> " + PlayerRotation.Euler().ToString()));
+				GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, isInit ? TEXT("init ok") : TEXT("no init"));
+				GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Purple, GetWorld()->GetFirstPlayerController()->GetPawn()->GetName());
+				*/
+
+				FVector point = GetActorLocation();
+
+				FVector scale = Collision->GetScaledBoxExtent(); // GetActorScale() / 2 * 
+				scale = FVector(scale.Y, scale.Z, scale.X);
+
+				float vol = Volume;
+
+				FVector outsideClosestPoint;
+				FVector insidePoint0, insidePoint1;
+
+				FVector cameraPosition = PlayerPosition;
+				if (ignoreTopBottom)
 				{
-					p1.Z = p0.Z > 0 ? 1 : -1;
+					cameraPosition.Z = GetActorLocation().Z;
 				}
-				p1 = GetActorTransform().TransformPosition(p1 * 100);
 
-				float dist = 1 - FMath::Max(FMath::Abs(p0.X), FMath::Max(FMath::Abs(p0.Y), FMath::Abs(p0.Z)));
+				bool isOutside = (ClosestPointOnBox(PlayerPosition, GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, outsideClosestPoint) > 0);
 
-				//float dist = 1.0f - (cameraPosition - GetActorLocation()).Size() / (insidePoint1 - GetActorLocation()).Size();
-				SetVolumeWalls(vol * (attenuationRoomModeCurve ? attenuationRoomModeCurve->GetFloatValue(dist) : 1));
-				SetVolumeCenter(vol * (1 - (attenuationRoomModeCurve ? attenuationRoomModeCurve->GetFloatValue(dist) : 1)));
 
-				DrawDebugLine(
-					GetWorld(),
-					cameraPosition,
-					p1,
-					FColor(255, 255, 0),
-					false,
-					-1,
-					0,
-					0
-				);
 
-				DrawDebugPoint(GetWorld(),
-					p1,
-					10.0,
-					FColor(255, 255, 0),
-					false,
-					-1,
-					0
-				);
-
-				if (Debug)
+				if (useClosestPoint && isOutside)
 				{
-				std::string str = "vol:    " + toDebugString((attenuationRoomModeCurve ? attenuationRoomModeCurve->GetFloatValue(dist) : 1));
-				GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Blue, str.c_str());
-			}
-			}
-			else if (useRotator)
-			{
-				float dist = FVector::Dist(point, PlayerPosition);
-				SetVolumeWalls(vol * (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
-			}
-			else
-			{
-				vol = 0;
-				SetVolumeWalls(vol);
-				SetVolumeCenter(vol);
-			}
+					point = outsideClosestPoint;
 
-			//FindLookAtRotation seems wrong angle
-			// compate with unity 
+					float dist = FVector::Dist(point, PlayerPosition);
+					SetVolumeWalls(vol * (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
 
-			// Compute rotation for sound
-			FQuat quat = UKismetMathLibrary::FindLookAtRotation(PlayerPosition, point).Quaternion().Inverse() * GetActorRotation().Quaternion();
-			quat = FQuat::MakeFromEuler(FVector(useRoll ? quat.Euler().X : 0, usePitch ? quat.Euler().Y : 0, useYaw ? quat.Euler().Z : 0));
-			quat *= PlayerRotation.Quaternion();
+					DrawDebugLine(
+						GetWorld(),
+						GetActorLocation(),
+						point,
+						FColor(255, 0, 0),
+						false,
+						-1,
+						0,
+						0
+					);
 
-			CalculateChannelVolumes(PlayerRotation, quat);
+					DrawDebugPoint(GetWorld(),
+						point,
+						10.0,
+						FColor(255, 0, 0),
+						false,
+						-1,
+						0
+					);
+				}
+				else if (useRoomMode && !isOutside)// && DoClipping(0, std::numeric_limits<float>::max(), cameraPosition, (cameraPosition - GetActorLocation()).GetSafeNormal(), GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, true, insidePoint0, insidePoint1) == 2)
+				{
+					FVector p0 = GetActorTransform().InverseTransformPosition(cameraPosition) / 100;
+
+					FVector p1 = p0;
+					if (FMath::Abs(p0.X) > FMath::Abs(p0.Y) && FMath::Abs(p0.X) > FMath::Abs(p0.Z))
+					{
+						p1.X = p0.X > 0 ? 1 : -1;
+					}
+					if (FMath::Abs(p0.Y) > FMath::Abs(p0.X) && FMath::Abs(p0.Y) > FMath::Abs(p0.Z))
+					{
+						p1.Y = p0.Y > 0 ? 1 : -1;
+					}
+					if (FMath::Abs(p0.Z) > FMath::Abs(p0.X) && FMath::Abs(p0.Z) > FMath::Abs(p0.Y))
+					{
+						p1.Z = p0.Z > 0 ? 1 : -1;
+					}
+					p1 = GetActorTransform().TransformPosition(p1 * 100);
+
+					float dist = 1 - FMath::Max(FMath::Abs(p0.X), FMath::Max(FMath::Abs(p0.Y), FMath::Abs(p0.Z)));
+
+					//float dist = 1.0f - (cameraPosition - GetActorLocation()).Size() / (insidePoint1 - GetActorLocation()).Size();
+					SetVolumeWalls(vol * (attenuationRoomModeCurve ? attenuationRoomModeCurve->GetFloatValue(dist) : 1));
+					SetVolumeCenter(vol * (1 - (attenuationRoomModeCurve ? attenuationRoomModeCurve->GetFloatValue(dist) : 1)));
+
+					DrawDebugLine(
+						GetWorld(),
+						cameraPosition,
+						p1,
+						FColor(255, 255, 0),
+						false,
+						-1,
+						0,
+						0
+					);
+
+					DrawDebugPoint(GetWorld(),
+						p1,
+						10.0,
+						FColor(255, 255, 0),
+						false,
+						-1,
+						0
+					);
+
+					if (Debug)
+					{
+						std::string str = "vol:    " + toDebugString((attenuationRoomModeCurve ? attenuationRoomModeCurve->GetFloatValue(dist) : 1));
+						GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Blue, str.c_str());
+					}
+				}
+				else if (useRotator)
+				{
+					float dist = FVector::Dist(point, PlayerPosition);
+					SetVolumeWalls(vol * (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
+				}
+				else
+				{
+					vol = 0;
+					SetVolumeWalls(vol);
+					SetVolumeCenter(vol);
+				}
+
+				//FindLookAtRotation seems wrong angle
+				// compate with unity 
+
+				// Compute rotation for sound
+				FQuat quat = UKismetMathLibrary::FindLookAtRotation(PlayerPosition, point).Quaternion().Inverse() * GetActorRotation().Quaternion();
+				quat = FQuat::MakeFromEuler(FVector(useRoll ? quat.Euler().X : 0, usePitch ? quat.Euler().Y : 0, useYaw ? quat.Euler().Z : 0));
+				quat *= PlayerRotation.Quaternion();
+
+				CalculateChannelVolumes(PlayerRotation, quat);
+			}
 		}
 	}
 
@@ -534,7 +539,7 @@ void AM1BaseActor::PostEditChangeProperty(FPropertyChangedEvent & PropertyChange
 
 void AM1BaseActor::CalculateChannelVolumes(FRotator CameraRotation, FQuat quat)
 {
-	std::vector<float> result = SoundAlgorithm(quat.Euler().Y, -( quat.Euler().Z < 0 ? 360 + quat.Euler().Z : quat.Euler().Z), quat.Euler().X);
+	std::vector<float> result = SoundAlgorithm(quat.Euler().Y, -(quat.Euler().Z < 0 ? 360 + quat.Euler().Z : quat.Euler().Z), quat.Euler().X);
 
 
 	// test

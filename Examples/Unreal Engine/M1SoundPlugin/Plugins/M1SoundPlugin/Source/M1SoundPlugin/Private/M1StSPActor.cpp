@@ -4,7 +4,10 @@
 #include "M1SoundPluginPrivatePCH.h" // Change to your project name!
 
 #include "Runtime/Engine/Public/AudioDecompress.h"
+#include "Runtime/Engine/Public/AudioDeviceManager.h"
 #include "Runtime/Engine/Public/AudioDevice.h"
+
+
 #include "Runtime/Engine/Classes/Sound/AudioSettings.h"
 
 #include "Developer/TargetPlatform/Public/Interfaces/ITargetPlatformManagerModule.h"
@@ -13,11 +16,11 @@
 #include "Kismet/HeadMountedDisplayFunctionLibrary.h"
 #include "Kismet/KismetMathLibrary.h" 
 #include "M1StSPActor.h"
- 
+
 #define MIN_SOUND_VOLUME (KINDA_SMALL_NUMBER*2)
 
 USoundWave* AM1StSPActor::MakeSoundWaveFromBuffer(FName PlatformFormat, TArray<uint8>& rawFile, FSoundQualityInfo QualityInfo)
-{ 
+{
 	const IAudioFormat* AudioFormat = GetTargetPlatformManager()->FindAudioFormat(PlatformFormat);
 	TArray<uint8> rawFileNew;
 	AudioFormat->Cook(PlatformFormat, rawFile, QualityInfo, rawFileNew);
@@ -67,6 +70,11 @@ AM1StSPActor::AM1StSPActor()
 void AM1StSPActor::BeginPlay()
 {
 	Super::BeginPlay();
+
+	FAudioDevice* AudioDevice = GEngine->GetActiveAudioDevice();
+	//AudioDevice->CreateSoundSource()->
+
+
 
 	if (soundWave != nullptr)
 	{
@@ -132,21 +140,30 @@ void AM1StSPActor::BeginPlay()
 			}
 		}
 
-	 
+
+  
 		audioComponentMidLeft->SetSound(soundWaveMidLeft);
 		audioComponentMidRight->SetSound(soundWaveMidRight);
 		audioComponent->SetSound(soundWave);
+
+		audioComponentMidLeft->AudioDeviceHandle = GEngine->GetActiveAudioDevice()->DeviceHandle;
+		audioComponentMidRight->AudioDeviceHandle = GEngine->GetActiveAudioDevice()->DeviceHandle;
+		audioComponent->AudioDeviceHandle = GEngine->GetActiveAudioDevice()->DeviceHandle;
 
 		soundWaveMidLeft->bVirtualizeWhenSilent = true;
 		soundWaveMidRight->bVirtualizeWhenSilent = true;
 		soundWave->bVirtualizeWhenSilent = true;
 
-		/*
+
 		soundWaveMidLeft->bLooping = true;
 		soundWaveMidRight->bLooping = true;
 		soundWave->bLooping = true;
-		Play();
-		*/
+
+		 	Play();
+		//audioComponentMidLeft->Play();// FadeIn(fadeInDuration);
+		//audioComponentMidRight->Play();//FadeIn(fadeInDuration);
+		//audioComponent->Play();//FadeIn(fadeInDuration);
+
 
 		//soundWave->RemoveAudioResource();
 	}
@@ -155,29 +172,34 @@ void AM1StSPActor::BeginPlay()
 // Called every frame
 void AM1StSPActor::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime); 
+	Super::Tick(DeltaTime);
 
 	if (GEngine && Root->IsActive())
 	{
 		APlayerController* player = GetWorld()->GetFirstPlayerController();
+
 		if (player != nullptr && soundWave != nullptr)
 		{
-			float s = UKismetMathLibrary::MapRangeClamped(Spatialize, -1, 1, 0, 1);
-
-			float panL = cos(s * (0.5 * PI));
-			float panR = cos((1.0 - s) * (0.5 *  PI));
-
-			float dist = FVector::Dist(GetActorLocation(), player->GetPawn()->GetActorLocation());
-			float vol = Volume *  (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1);
-
-			// AdjustVolume
-			audioComponentMidLeft->SetVolumeMultiplier(FMath::Max(MIN_SOUND_VOLUME, vol * panL));
-			audioComponentMidRight->SetVolumeMultiplier(FMath::Max(MIN_SOUND_VOLUME, vol * panR));
-			audioComponent->SetVolumeMultiplier(FMath::Max(MIN_SOUND_VOLUME, vol));
-
-			if (Debug)
+			APawn* playerPawn = player->GetPawn();
+			if (playerPawn != nullptr)
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "panL: " + FString::SanitizeFloat(panL) + " , panR: " + FString::SanitizeFloat(panR));
+				float s = UKismetMathLibrary::MapRangeClamped(Spatialize, -1, 1, 0, 1);
+
+				float panL = cos(s * (0.5 * PI));
+				float panR = cos((1.0 - s) * (0.5 *  PI));
+
+				float dist = FVector::Dist(GetActorLocation(), playerPawn->GetActorLocation());
+				float vol = Volume *  (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1);
+
+				// AdjustVolume
+				audioComponentMidLeft->SetVolumeMultiplier(FMath::Max(MIN_SOUND_VOLUME, vol * panL));
+				audioComponentMidRight->SetVolumeMultiplier(FMath::Max(MIN_SOUND_VOLUME, vol * panR));
+				audioComponent->SetVolumeMultiplier(FMath::Max(MIN_SOUND_VOLUME, vol));
+
+				if (Debug)
+				{
+					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "panL: " + FString::SanitizeFloat(panL) + " , panR: " + FString::SanitizeFloat(panR));
+				}
 			}
 		}
 	}

@@ -424,25 +424,28 @@ void AM1BaseActor::Tick(float DeltaTime)
 					float dist = FVector::Dist(point, PlayerPosition);
 					SetVolumeWalls(vol * (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
 
-					DrawDebugLine(
-						GetWorld(),
-						GetActorLocation(),
-						point,
-						FColor(255, 0, 0),
-						false,
-						-1,
-						0,
-						0
-					);
+					if (Debug)
+					{
+						DrawDebugLine(
+							GetWorld(),
+							GetActorLocation(),
+							point,
+							FColor(255, 0, 0),
+							false,
+							-1,
+							0,
+							0
+						);
 
-					DrawDebugPoint(GetWorld(),
-						point,
-						10.0,
-						FColor(255, 0, 0),
-						false,
-						-1,
-						0
-					);
+						DrawDebugPoint(GetWorld(),
+							point,
+							10.0,
+							FColor(255, 0, 0),
+							false,
+							-1,
+							0
+						);
+					}
 				}
 				else if (useRoomMode && !isOutside)// && DoClipping(0, std::numeric_limits<float>::max(), cameraPosition, (cameraPosition - GetActorLocation()).GetSafeNormal(), GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, true, insidePoint0, insidePoint1) == 2)
 				{
@@ -469,25 +472,28 @@ void AM1BaseActor::Tick(float DeltaTime)
 					SetVolumeWalls(vol * (attenuationRoomModeCurve ? attenuationRoomModeCurve->GetFloatValue(dist) : 1));
 					SetVolumeCenter(vol * (1 - (attenuationRoomModeCurve ? attenuationRoomModeCurve->GetFloatValue(dist) : 1)));
 
-					DrawDebugLine(
-						GetWorld(),
-						cameraPosition,
-						p1,
-						FColor(255, 255, 0),
-						false,
-						-1,
-						0,
-						0
-					);
+					if (Debug)
+					{
+						DrawDebugLine(
+							GetWorld(),
+							cameraPosition,
+							p1,
+							FColor(255, 255, 0),
+							false,
+							-1,
+							0,
+							0
+						);
 
-					DrawDebugPoint(GetWorld(),
-						p1,
-						10.0,
-						FColor(255, 255, 0),
-						false,
-						-1,
-						0
-					);
+						DrawDebugPoint(GetWorld(),
+							p1,
+							10.0,
+							FColor(255, 255, 0),
+							false,
+							-1,
+							0
+						);
+					}
 
 					if (Debug)
 					{

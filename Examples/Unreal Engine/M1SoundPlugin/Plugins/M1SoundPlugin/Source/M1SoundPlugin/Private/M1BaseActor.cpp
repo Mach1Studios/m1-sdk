@@ -148,11 +148,19 @@ void AM1BaseActor::InitComponents(int MAX_SOUNDS_PER_CHANNEL)
 	Collision = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollision"));
 	Collision->InitBoxExtent(FVector(100, 100, 100));
 	Collision->bEditableWhenInherited = false;
-	Collision->SetHiddenInGame(false);
+	if (Debug) {
+		Collision->SetHiddenInGame(true);
+	} else {
+		Collision->SetHiddenInGame(false);
+	}
 	Collision->AttachToComponent(Root, FAttachmentTransformRules::KeepRelativeTransform);
 
 	Billboard = CreateDefaultSubobject< UBillboardComponent>(TEXT("Billboard"));
-	Billboard->SetHiddenInGame(false);
+	if (Debug) {
+		Billboard->SetHiddenInGame(true);
+	} else {
+		Billboard->SetHiddenInGame(false);
+	}
 	Billboard->AttachToComponent(Root, FAttachmentTransformRules::KeepRelativeTransform);
 
 	LeftChannelsWalls.SetNum(MAX_SOUNDS_PER_CHANNEL);

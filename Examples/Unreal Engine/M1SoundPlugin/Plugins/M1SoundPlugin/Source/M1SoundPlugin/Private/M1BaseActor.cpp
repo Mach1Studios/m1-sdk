@@ -385,8 +385,11 @@ void AM1BaseActor::Tick(float DeltaTime)
 				{
 					FRotator rotator;
 					UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(rotator, PlayerPosition);
-					PlayerRotation = rotator.Quaternion() * player->GetControlRotation().Quaternion();
-					PlayerPosition = PlayerPosition + playerPawn->GetActorLocation();
+				
+
+					// invert angles
+					PlayerRotation = player->GetControlRotation().Quaternion() * FQuat::MakeFromEuler(FVector(-rotator.Quaternion().Euler().X, -rotator.Quaternion().Euler().Y, rotator.Quaternion().Euler().Z)) ;// rotator.Quaternion() * player->GetControlRotation().Quaternion();
+					PlayerPosition = playerPawn->GetActorLocation() + PlayerPosition;
 					//GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, TEXT(">> " + DeviceRotation.Euler().ToString()));
 				}
 				else
@@ -550,7 +553,7 @@ void AM1BaseActor::PostEditChangeProperty(FPropertyChangedEvent & PropertyChange
 
 void AM1BaseActor::CalculateChannelVolumes(FQuat quat)
 {
-	std::vector<float> result = SoundAlgorithm(quat.Euler().Y, -(quat.Euler().Z < 0 ? 360 + quat.Euler().Z : quat.Euler().Z), quat.Euler().X);
+	std::vector<float> result = SoundAlgorithm(quat.Euler().Y, (quat.Euler().Z < 0 ? 360 + quat.Euler().Z : quat.Euler().Z), quat.Euler().X);
 
 
 	// test

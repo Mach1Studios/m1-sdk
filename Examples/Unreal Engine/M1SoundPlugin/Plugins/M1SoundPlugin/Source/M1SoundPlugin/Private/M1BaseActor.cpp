@@ -477,25 +477,28 @@ void AM1BaseActor::Tick(float DeltaTime)
 					SetVolumeWalls(vol * (attenuationRoomModeCurve ? attenuationRoomModeCurve->GetFloatValue(dist) : 1));
 					SetVolumeCenter(vol * (1 - (attenuationRoomModeCurve ? attenuationRoomModeCurve->GetFloatValue(dist) : 1)));
 
-					DrawDebugLine(
-						GetWorld(),
-						cameraPosition,
-						p1,
-						FColor(255, 255, 0),
-						false,
-						-1,
-						0,
-						0
-					);
+					if (Debug)
+					{
+						DrawDebugLine(
+							GetWorld(),
+							cameraPosition,
+							p1,
+							FColor(255, 255, 0),
+							false,
+							-1,
+							0,
+							0
+						);
 
-					DrawDebugPoint(GetWorld(),
-						p1,
-						10.0,
-						FColor(255, 255, 0),
-						false,
-						-1,
-						0
-					);
+						DrawDebugPoint(GetWorld(),
+							p1,
+							10.0,
+							FColor(255, 255, 0),
+							false,
+							-1,
+							0
+						);
+					}
 
 					if (Debug)
 					{

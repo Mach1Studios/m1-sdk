@@ -1,0 +1,22 @@
+{
+    "name": "VR",
+    "version": "0.0.1",
+    "scripts": {
+        "start": "node ./bin/www"
+    },
+    "dependencies": {
+        "webpack": "latest",
+        "babel-loader": "latest",
+        "babel-core": "latest",
+        "babel-preset-es2015": "latest",
+        "babel-plugin-transform-es2015-modules-commonjs": "latest",
+        "jquery": "latest",
+        "imports-loader": "latest",
+        "soundjs": "latest",
+
+
+        "path": "latest",
+        "debug" : "latest",
+        "express": "latest"
+    }
+}

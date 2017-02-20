@@ -384,17 +384,25 @@ void AM1BaseActor::Tick(float DeltaTime)
 		{
 			if (APawn* playerPawn = player->GetPawn())
 			{
-				FRotator PlayerRotation;
+				Collision->SetHiddenInGame(!Debug);
+				Billboard->SetHiddenInGame(!Debug);
+				
+				FQuat PlayerRotation;
 				FVector PlayerPosition;
 				if (ForceHMDRotation && UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled())
 				{
-					UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(PlayerRotation, PlayerPosition);
-					PlayerPosition = playerPawn->GetActorLocation();
+					FRotator rotator;
+					UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(rotator, PlayerPosition);
+				
+
+					// invert angles
+					PlayerRotation = player->GetControlRotation().Quaternion() * FQuat::MakeFromEuler(FVector(-rotator.Quaternion().Euler().X, -rotator.Quaternion().Euler().Y, rotator.Quaternion().Euler().Z)) ;// rotator.Quaternion() * player->GetControlRotation().Quaternion();
+					PlayerPosition = playerPawn->GetActorLocation() + PlayerPosition;
 					//GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, TEXT(">> " + DeviceRotation.Euler().ToString()));
 				}
 				else
 				{
-					PlayerRotation = player->GetControlRotation();
+					PlayerRotation = player->GetControlRotation().Quaternion();
 					PlayerPosition = playerPawn->GetActorLocation();
 				}
 				// maybe use cameraComponent->bAbsoluteRotation & bAbsolutePosition for position?
@@ -527,9 +535,9 @@ void AM1BaseActor::Tick(float DeltaTime)
 				// Compute rotation for sound
 				FQuat quat = UKismetMathLibrary::FindLookAtRotation(PlayerPosition, point).Quaternion().Inverse() * GetActorRotation().Quaternion();
 				quat = FQuat::MakeFromEuler(FVector(useRoll ? quat.Euler().X : 0, usePitch ? quat.Euler().Y : 0, useYaw ? quat.Euler().Z : 0));
-				quat *= PlayerRotation.Quaternion();
+				quat *= PlayerRotation; 
 
-				CalculateChannelVolumes(PlayerRotation, quat);
+				CalculateChannelVolumes(quat);
 			}
 		}
 	}
@@ -551,9 +559,9 @@ void AM1BaseActor::PostEditChangeProperty(FPropertyChangedEvent & PropertyChange
 }
 
 
-void AM1BaseActor::CalculateChannelVolumes(FRotator CameraRotation, FQuat quat)
+void AM1BaseActor::CalculateChannelVolumes(FQuat quat)
 {
-	std::vector<float> result = SoundAlgorithm(quat.Euler().Y, -(quat.Euler().Z < 0 ? 360 + quat.Euler().Z : quat.Euler().Z), quat.Euler().X);
+	std::vector<float> result = SoundAlgorithm(quat.Euler().Y, (quat.Euler().Z < 0 ? 360 + quat.Euler().Z : quat.Euler().Z), quat.Euler().X);
 
 
 	// test
@@ -565,10 +573,6 @@ void AM1BaseActor::CalculateChannelVolumes(FRotator CameraRotation, FQuat quat)
 	{
 		std::string str = "angles:    " + toDebugString(quat.Euler().Y) + " , " + toDebugString(quat.Euler().Z < 0 ? 360 + quat.Euler().Z : quat.Euler().Z) + " , " + toDebugString(quat.Euler().X);
 		GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, str.c_str());
-
-		str = "angles Orig: " + toDebugString(CameraRotation.Pitch >= 270 ? CameraRotation.Pitch - 360 : CameraRotation.Pitch) + " , " + toDebugString(CameraRotation.Yaw) + " , " + toDebugString(CameraRotation.Roll > 270 ? CameraRotation.Roll - 360 : CameraRotation.Roll);
-		GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, str.c_str());
-
 
 		std::string info;
 		info = "left:  ";

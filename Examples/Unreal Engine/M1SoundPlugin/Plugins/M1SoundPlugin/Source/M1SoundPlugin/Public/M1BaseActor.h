@@ -41,7 +41,7 @@ protected:
 
 	void Init();
 	void SetSoundSet();
-	void CalculateChannelVolumes(FRotator rotator, FQuat quat);
+	void CalculateChannelVolumes(FQuat quat);
 	void SetVolumeWalls(float volume);
 	void SetVolumeCenter(float volume);
 

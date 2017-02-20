@@ -148,19 +148,11 @@ void AM1BaseActor::InitComponents(int MAX_SOUNDS_PER_CHANNEL)
 	Collision = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollision"));
 	Collision->InitBoxExtent(FVector(100, 100, 100));
 	Collision->bEditableWhenInherited = false;
-	if (Debug) {
-		Collision->SetHiddenInGame(true);
-	} else {
-		Collision->SetHiddenInGame(false);
-	}
+	Collision->SetHiddenInGame(false);
 	Collision->AttachToComponent(Root, FAttachmentTransformRules::KeepRelativeTransform);
 
 	Billboard = CreateDefaultSubobject< UBillboardComponent>(TEXT("Billboard"));
-	if (Debug) {
-		Billboard->SetHiddenInGame(true);
-	} else {
-		Billboard->SetHiddenInGame(false);
-	}
+	Billboard->SetHiddenInGame(false);
 	Billboard->AttachToComponent(Root, FAttachmentTransformRules::KeepRelativeTransform);
 
 	LeftChannelsWalls.SetNum(MAX_SOUNDS_PER_CHANNEL);
@@ -386,17 +378,17 @@ void AM1BaseActor::Tick(float DeltaTime)
 			{
 				Collision->SetHiddenInGame(!Debug);
 				Billboard->SetHiddenInGame(!Debug);
-				
+
 				FQuat PlayerRotation;
 				FVector PlayerPosition;
 				if (ForceHMDRotation && UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled())
 				{
 					FRotator rotator;
 					UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(rotator, PlayerPosition);
-				
 
 					// invert angles
-					PlayerRotation = player->GetControlRotation().Quaternion() * FQuat::MakeFromEuler(FVector(-rotator.Quaternion().Euler().X, -rotator.Quaternion().Euler().Y, rotator.Quaternion().Euler().Z)) ;// rotator.Quaternion() * player->GetControlRotation().Quaternion();
+					//PlayerRotation = player->GetControlRotation().Quaternion() * FQuat::MakeFromEuler(FVector(-rotator.Quaternion().Euler().X, -rotator.Quaternion().Euler().Y, rotator.Quaternion().Euler().Z));// rotator.Quaternion() * player->GetControlRotation().Quaternion();
+					PlayerRotation = playerPawn->GetActorRotation().Quaternion() * FQuat::MakeFromEuler(FVector(-rotator.Quaternion().Euler().X, -rotator.Quaternion().Euler().Y, rotator.Quaternion().Euler().Z));// rotator.Quaternion() * player->GetControlRotation().Quaternion();
 					PlayerPosition = playerPawn->GetActorLocation() + PlayerPosition;
 					//GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, TEXT(">> " + DeviceRotation.Euler().ToString()));
 				}
@@ -415,7 +407,7 @@ void AM1BaseActor::Tick(float DeltaTime)
 
 				FVector point = GetActorLocation();
 
-				FVector scale = Collision->GetScaledBoxExtent(); // GetActorScale() / 2 * 
+				FVector scale = Collision->GetScaledBoxExtent(); // GetActorScale() / 2 *
 				scale = FVector(scale.Y, scale.Z, scale.X);
 
 				float vol = Volume;
@@ -530,12 +522,12 @@ void AM1BaseActor::Tick(float DeltaTime)
 				}
 
 				//FindLookAtRotation seems wrong angle
-				// compate with unity 
+				// compate with unity
 
 				// Compute rotation for sound
 				FQuat quat = UKismetMathLibrary::FindLookAtRotation(PlayerPosition, point).Quaternion().Inverse() * GetActorRotation().Quaternion();
 				quat = FQuat::MakeFromEuler(FVector(useRoll ? quat.Euler().X : 0, usePitch ? quat.Euler().Y : 0, useYaw ? quat.Euler().Z : 0));
-				quat *= PlayerRotation; 
+				quat *= PlayerRotation;
 
 				CalculateChannelVolumes(quat);
 			}

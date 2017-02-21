@@ -1,3 +1,10 @@
+# Xcode generated #
+*.xcscheme
+*.xcscmblueprint
+*.xcworkspacedata
+*.pbxproj
+*xcschememanagement.plist
+*.xcconfig
 # Unity generated #
 # =============== #
 [Tt]emp/

@@ -378,15 +378,18 @@ void AM1BaseActor::Tick(float DeltaTime)
 			{
 				Collision->SetHiddenInGame(!Debug);
 				Billboard->SetHiddenInGame(!Debug);
-				
+
 				FQuat PlayerRotation;
 				FVector PlayerPosition;
 				if (ForceHMDRotation && UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled())
 				{
 					FRotator rotator;
 					UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(rotator, PlayerPosition);
-					PlayerRotation = rotator.Quaternion() * player->GetControlRotation().Quaternion();
-					PlayerPosition = PlayerPosition + playerPawn->GetActorLocation();
+
+					// invert angles
+					//PlayerRotation = player->GetControlRotation().Quaternion() * FQuat::MakeFromEuler(FVector(-rotator.Quaternion().Euler().X, -rotator.Quaternion().Euler().Y, rotator.Quaternion().Euler().Z));// rotator.Quaternion() * player->GetControlRotation().Quaternion();
+					PlayerRotation = playerPawn->GetActorRotation().Quaternion() * FQuat::MakeFromEuler(FVector(-rotator.Quaternion().Euler().X, -rotator.Quaternion().Euler().Y, rotator.Quaternion().Euler().Z));// rotator.Quaternion() * player->GetControlRotation().Quaternion();
+					PlayerPosition = playerPawn->GetActorLocation() + PlayerPosition;
 					//GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, TEXT(">> " + DeviceRotation.Euler().ToString()));
 				}
 				else
@@ -404,7 +407,7 @@ void AM1BaseActor::Tick(float DeltaTime)
 
 				FVector point = GetActorLocation();
 
-				FVector scale = Collision->GetScaledBoxExtent(); // GetActorScale() / 2 * 
+				FVector scale = Collision->GetScaledBoxExtent(); // GetActorScale() / 2 *
 				scale = FVector(scale.Y, scale.Z, scale.X);
 
 				float vol = Volume;
@@ -519,12 +522,12 @@ void AM1BaseActor::Tick(float DeltaTime)
 				}
 
 				//FindLookAtRotation seems wrong angle
-				// compate with unity 
+				// compate with unity
 
 				// Compute rotation for sound
 				FQuat quat = UKismetMathLibrary::FindLookAtRotation(PlayerPosition, point).Quaternion().Inverse() * GetActorRotation().Quaternion();
 				quat = FQuat::MakeFromEuler(FVector(useRoll ? quat.Euler().X : 0, usePitch ? quat.Euler().Y : 0, useYaw ? quat.Euler().Z : 0));
-				quat *= PlayerRotation; 
+				quat *= PlayerRotation;
 
 				CalculateChannelVolumes(quat);
 			}
@@ -550,7 +553,7 @@ void AM1BaseActor::PostEditChangeProperty(FPropertyChangedEvent & PropertyChange
 
 void AM1BaseActor::CalculateChannelVolumes(FQuat quat)
 {
-	std::vector<float> result = SoundAlgorithm(quat.Euler().Y, -(quat.Euler().Z < 0 ? 360 + quat.Euler().Z : quat.Euler().Z), quat.Euler().X);
+	std::vector<float> result = SoundAlgorithm(quat.Euler().Y, (quat.Euler().Z < 0 ? 360 + quat.Euler().Z : quat.Euler().Z), quat.Euler().X);
 
 
 	// test

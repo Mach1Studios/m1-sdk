@@ -9,9 +9,14 @@ using System.IO;
 
 public class M1SpatialDecode : MonoBehaviour
 {
+    public bool isFromAssets = true;
+    public AudioClip[] audioClip;
     public string audioPath = "file:///";
-    public bool isFromResource = true;
     public string[] audioFilename;
+
+    [Space(10)]
+    public bool autoPlay;
+    private bool isPlaying;
 
     [Space(10)]
 	public bool useFalloff = false;
@@ -54,6 +59,9 @@ public class M1SpatialDecode : MonoBehaviour
         {
             audioFilename[i] = (i + 1) + ".wav";
         }
+    
+        // audioClip
+        audioClip = new AudioClip[MAX_SOUNDS_PER_CHANNEL];
     }
 
     void Awake()
@@ -69,7 +77,7 @@ public class M1SpatialDecode : MonoBehaviour
 
         for (int i = 0; i < audioFilename.Length; i++)
         {
-            StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename[i]), i, isFromResource));
+            StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename[i]), i, isFromAssets));
         }
     }
 
@@ -104,13 +112,13 @@ public class M1SpatialDecode : MonoBehaviour
     }
 
     // Load audio
-    IEnumerator LoadAudio(string url, int n, bool isFromResource)
+    IEnumerator LoadAudio(string url, int n, bool isFromAssets)
     {
         AudioClip clip = null;
 
-        if (isFromResource)
+        if (isFromAssets)
         {
-            clip = Resources.Load< AudioClip>(url);
+            clip = audioClip[n];// Resources.Load< AudioClip>(url);
         }
         else
         {
@@ -213,6 +221,12 @@ public class M1SpatialDecode : MonoBehaviour
     {
         if (IsReady())
         {
+            if (autoPlay && !isPlaying)
+            {
+                isPlaying = true;
+                PlayAudio();
+            }
+
             float volume = 1.0f;
 
             // Find closest point

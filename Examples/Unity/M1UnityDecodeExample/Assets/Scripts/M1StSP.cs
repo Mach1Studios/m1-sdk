@@ -9,24 +9,29 @@ using System.IO;
 
 public class M1StSP : MonoBehaviour
 {
+    public bool isFromAssets = true;
+    public AudioClip[] audioClip;
     public string audioPath = "file:///";
-    public bool isFromResource = true;
     public string[] audioFilename;
 
     private const int MAX_SOUNDS_PER_CHANNEL = 1;
 
     [Space(10)]
-	public bool useFalloff = false;
+    public bool autoPlay;
+    private bool isPlaying;
+
+    [Space(10)]
+    public bool useFalloff = false;
     public AnimationCurve curveFalloff;
 
-    private int loadedCount;
     private AudioSource[] audioSource;
+    private int loadedCount;
 
     [Range(-1, 1)]
     public float Spatialize = 0;
 
     public bool drawHelpers = true;
-     
+
     M1StSP()
     {
         // Falloff
@@ -48,6 +53,9 @@ public class M1StSP : MonoBehaviour
         {
             audioFilename[i] = (i + 1) + ".wav";
         }
+
+        // audioClip
+        audioClip = new AudioClip[MAX_SOUNDS_PER_CHANNEL];
     }
 
     void Awake()
@@ -63,7 +71,7 @@ public class M1StSP : MonoBehaviour
 
         for (int i = 0; i < audioFilename.Length; i++)
         {
-            StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename[i]), i, isFromResource));
+            StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename[i]), i, isFromAssets));
         }
     }
 
@@ -92,13 +100,13 @@ public class M1StSP : MonoBehaviour
     }
 
     // Load audio
-    IEnumerator LoadAudio(string url, int n, bool isFromResource)
+    IEnumerator LoadAudio(string url, int n, bool isFromAssets)
     {
         AudioClip clip = null;
 
-        if (isFromResource)
+        if (isFromAssets)
         {
-            clip = Resources.Load< AudioClip>(url);
+            clip = audioClip[n];// Resources.Load<AudioClip>(url);
         }
         else
         {
@@ -130,7 +138,7 @@ public class M1StSP : MonoBehaviour
             float l, r;
             float mid, slide;
 
-            for (int position  = 0; position < rawWaveData.Length; position  += clip.channels)
+            for (int position = 0; position < rawWaveData.Length; position += clip.channels)
             {
                 l = rawWaveData[position + 0];
                 r = rawWaveData[position + 1];
@@ -177,12 +185,12 @@ public class M1StSP : MonoBehaviour
     {
         if (IsReady())
         {
-          //  audioSource[2].Play();
+            //  audioSource[2].Play();
             //audioSource[1].Play();
 
             for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 3; i++)
             {
-               audioSource[i].Play();
+                audioSource[i].Play();
             }
         }
         else
@@ -197,12 +205,11 @@ public class M1StSP : MonoBehaviour
     }
 
     // Update is called once per frame
-    bool isPlaying;
     void Update()
     {
         if (IsReady())
         {
-            if (!isPlaying)
+            if (autoPlay && !isPlaying)
             {
                 isPlaying = true;
                 PlayAudio();

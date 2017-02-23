@@ -42,8 +42,8 @@ protected:
 	void Init();
 	void SetSoundSet();
 	void CalculateChannelVolumes(FQuat quat);
-	void SetVolumeWalls(float volume);
-	void SetVolumeCenter(float volume);
+	void SetVolumeWalls(float volume, Category = "M1 Plugin");
+	void SetVolumeCenter(float volume, Category = "M1 Plugin");
 
 	virtual void SetSoundsWalls() {};
 	virtual void SetSoundsCenter() {};

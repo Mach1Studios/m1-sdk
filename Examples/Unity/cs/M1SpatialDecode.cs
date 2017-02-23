@@ -9,8 +9,14 @@ using System.IO;
 
 public class M1SpatialDecode : MonoBehaviour
 {
+    public bool isFromAssets = true;
+    public AudioClip[] audioClip;
     public string audioPath = "file:///";
     public string[] audioFilename;
+
+    [Space(10)]
+    public bool autoPlay;
+    private bool isPlaying;
 
     [Space(10)]
 	public bool useFalloff = false;
@@ -53,6 +59,9 @@ public class M1SpatialDecode : MonoBehaviour
         {
             audioFilename[i] = (i + 1) + ".wav";
         }
+    
+        // audioClip
+        audioClip = new AudioClip[MAX_SOUNDS_PER_CHANNEL];
     }
 
     void Awake()
@@ -68,7 +77,7 @@ public class M1SpatialDecode : MonoBehaviour
 
         for (int i = 0; i < audioFilename.Length; i++)
         {
-            StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename[i]), i));
+            StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename[i]), i, isFromAssets));
         }
     }
 
@@ -103,25 +112,36 @@ public class M1SpatialDecode : MonoBehaviour
     }
 
     // Load audio
-    IEnumerator LoadAudio(string url, int n)
+    IEnumerator LoadAudio(string url, int n, bool isFromAssets)
     {
-        WWW www = new WWW(url);
-        yield return www;
+        AudioClip clip = null;
 
-        if (www.error == null)
+        if (isFromAssets)
         {
-            AudioClip clip = www.GetAudioClip(false, false);
+            clip = audioClip[n];// Resources.Load< AudioClip>(url);
+        }
+        else
+        {
+            WWW www = new WWW(url);
+            yield return www;
+            if (www.error == null)
+            {
+                clip = www.GetAudioClip(false, false);
+            }
+            else
+            {
+                Debug.Log("WWW Error: " + www.error);
+            }
+        }
 
+        if (clip != null)
+        {
             audioSource[n * 2] = AddAudio(clip, false, true, 1.0f);
             audioSource[n * 2].panStereo = -1;
 
             audioSource[n * 2 + 1] = AddAudio(clip, false, true, 1.0f);
             audioSource[n * 2 + 1].panStereo = 1;
             loadedCount++;
-        }
-        else
-        {
-            Debug.Log("WWW Error: " + www.error);
         }
 
         yield break;
@@ -201,6 +221,12 @@ public class M1SpatialDecode : MonoBehaviour
     {
         if (IsReady())
         {
+            if (autoPlay && !isPlaying)
+            {
+                isPlaying = true;
+                PlayAudio();
+            }
+
             float volume = 1.0f;
 
             // Find closest point
@@ -246,7 +272,7 @@ public class M1SpatialDecode : MonoBehaviour
                 volume = volume * curveFalloff.Evaluate(Vector3.Distance(Camera.main.transform.position, point));
             }
 
-            float[] volumes = M1DSPAlgorithms.eightChannelsAlgorithm(eulerAngles.x, eulerAngles.y, eulerAngles.z);
+            float[] volumes = M1DSPAlgorithms.eightChannelsIsotropicAlgorithm(eulerAngles.x, eulerAngles.y, eulerAngles.z);
             for (int i = 0; i < volumes.Length; i++)
             {
                 audioSource[i].volume = volume * volumes[i];

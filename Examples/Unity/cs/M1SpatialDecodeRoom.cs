@@ -7,7 +7,7 @@ using UnityEngine;
 using System.Collections;
 using System.IO;
 
-public class M1HorizonDecode : MonoBehaviour
+public class M1SpatialDecodeRoom : MonoBehaviour
 {
     public string audioPath = "file:///";
     public bool isFromResource = true;
@@ -16,12 +16,17 @@ public class M1HorizonDecode : MonoBehaviour
     [Space(10)]
     public bool useFalloff = false;
     public AnimationCurve curveFalloff;
+    public AnimationCurve curveRoomModeFalloff;
 
     private int loadedCount;
     private AudioSource[] audioSource;
 
-    private const int MAX_SOUNDS_PER_CHANNEL = 4;
+    private const int MAX_SOUNDS_PER_CHANNEL = 8;
     private Matrix4x4 mat;
+
+    [Space(10)]
+    public bool roomMode = false;
+    public bool ignoreTopBottom = true;
 
     [Space(10)]
     public bool useClosestPoint = false;
@@ -33,24 +38,27 @@ public class M1HorizonDecode : MonoBehaviour
     [Space(10)]
     public bool drawHelpers = true;
 
-    public AudioClip clip11;
-    public AudioSource audioSource11;
-
-
-    M1HorizonDecode()
+    AnimationCurve generateCurve(float length)
     {
-        // Falloff
         Keyframe[] keyframes = new Keyframe[3];
         for (int i = 0; i < keyframes.Length; i++)
         {
-            keyframes[i] = new Keyframe(i * 10, 1 - 1.0f * i / (keyframes.Length - 1));
+            keyframes[i] = new Keyframe(i * length / 2.0f, 1 - 1.0f * i / (keyframes.Length - 1));
         }
 
-        curveFalloff = new AnimationCurve(keyframes);
+        AnimationCurve curve = new AnimationCurve(keyframes);
         for (int i = 0; i < keyframes.Length; i++)
         {
-            curveFalloff.SmoothTangents(i, 0);
+            curve.SmoothTangents(i, 0);
         }
+        return curve;
+    }
+
+    M1SpatialDecodeRoom()
+    {
+        // Falloff
+        curveFalloff = generateCurve(10);
+        curveRoomModeFalloff = generateCurve(1);
 
         // Init filenames
         audioFilename = new string[MAX_SOUNDS_PER_CHANNEL];
@@ -107,7 +115,6 @@ public class M1HorizonDecode : MonoBehaviour
         }
     }
 
-
     // Load audio
     IEnumerator LoadAudio(string url, int n, bool isFromResource)
     {
@@ -144,7 +151,6 @@ public class M1HorizonDecode : MonoBehaviour
         yield break;
     }
 
-
     public bool IsReady()
     {
         return loadedCount == MAX_SOUNDS_PER_CHANNEL;
@@ -167,7 +173,6 @@ public class M1HorizonDecode : MonoBehaviour
             Debug.LogError("Audio was not loaded");
         }
     }
-
 
     public static float ClosestPointOnBox(Vector3 point, Vector3 center, Vector3 axis0, Vector3 axis1, Vector3 axis2, Vector3 extents, out Vector3 closestPoint)
     {
@@ -214,6 +219,64 @@ public class M1HorizonDecode : MonoBehaviour
         return Mathf.Sqrt(num);
     }
 
+    private static bool Clip(float denom, float numer, ref float t0, ref float t1)
+    {
+        if ((double)denom > 0.0)
+        {
+            if ((double)numer > (double)denom * (double)t1)
+                return false;
+            if ((double)numer > (double)denom * (double)t0)
+                t0 = numer / denom;
+            return true;
+        }
+        if ((double)denom >= 0.0)
+            return (double)numer <= 0.0;
+        if ((double)numer > (double)denom * (double)t0)
+            return false;
+        if ((double)numer > (double)denom * (double)t1)
+            t1 = numer / denom;
+        return true;
+    }
+
+    private static int DoClipping(float t0, float t1, Vector3 origin, Vector3 direction, Vector3 center, Vector3 axis0, Vector3 axis1, Vector3 axis2, Vector3 extents, bool solid, out Vector3 point0, out Vector3 point1)
+    {
+        Vector3 vector = origin - center;
+        Vector3 vector2 = new Vector3(Vector3.Dot(vector, axis0), Vector3.Dot(vector, axis1), Vector3.Dot(vector, axis2));
+        Vector3 vector3 = new Vector3(Vector3.Dot(direction, axis0), Vector3.Dot(direction, axis1), Vector3.Dot(direction, axis2));
+
+        float num = t0;
+        float num2 = t1;
+
+        int quantity = 0;
+
+        bool flag = Clip(vector3.x, -vector2.x - extents.x, ref t0, ref t1) && Clip(-vector3.x, vector2.x - extents.x, ref t0, ref t1) && Clip(vector3.y, -vector2.y - extents.y, ref t0, ref t1) && Clip(-vector3.y, vector2.y - extents.y, ref t0, ref t1) && Clip(vector3.z, -vector2.z - extents.z, ref t0, ref t1) && Clip(-vector3.z, vector2.z - extents.z, ref t0, ref t1);
+        if (flag && (solid || t0 != num || t1 != num2))
+        {
+            if (t1 > t0)
+            {
+                quantity = 2;
+                point0 = origin + t0 * direction;
+                point1 = origin + t1 * direction;
+            }
+            else
+            {
+
+                quantity = 1;
+                point0 = origin + t0 * direction;
+                point1 = Vector3.zero;
+            }
+        }
+        else
+        {
+            quantity = 0;
+            point0 = Vector3.zero;
+            point1 = Vector3.zero;
+        }
+
+        return quantity;
+    }
+
+
     // Update is called once per frame
     void Update()
     {
@@ -223,23 +286,67 @@ public class M1HorizonDecode : MonoBehaviour
 
             // Find closest point
             Vector3 point = gameObject.transform.position;
-            if (useClosestPoint)
-            {
-                Vector3 closestPoint;
-                if (ClosestPointOnBox(Camera.main.transform.position, gameObject.transform.position, gameObject.transform.right, gameObject.transform.up, gameObject.transform.forward, gameObject.transform.localScale / 2, out closestPoint) > 0)
-                {
-                    point = closestPoint;
-                    if (drawHelpers)
-                    {
-                        Debug.DrawLine(gameObject.transform.position, point, Color.red);
-                    }
-                }
-                else
-                {
-                    volume = 0;
-                }
+
+            Vector3 outsideClosestPoint;
+            Vector3 insidePoint0, insidePoint1;
+
+            Vector3 cameraPosition = Camera.main.transform.position;
+            if(ignoreTopBottom)
+            { 
+                cameraPosition.y = gameObject.transform.position.y;
             }
 
+            if (useClosestPoint && ClosestPointOnBox(Camera.main.transform.position, gameObject.transform.position, gameObject.transform.right, gameObject.transform.up, gameObject.transform.forward, gameObject.transform.localScale / 2, out outsideClosestPoint) > 0)
+            {
+                point = outsideClosestPoint;
+
+                if (useFalloff)
+                {
+                    volume = volume * curveFalloff.Evaluate(Vector3.Distance(Camera.main.transform.position, point));
+                }
+
+                if (drawHelpers)
+                {
+                    Debug.DrawLine(gameObject.transform.position, point, Color.red);
+                }
+            }
+            else if (roomMode && DoClipping(0, float.MaxValue, cameraPosition, (cameraPosition - gameObject.transform.position).normalized, gameObject.transform.position, gameObject.transform.right, gameObject.transform.up, gameObject.transform.forward, gameObject.transform.localScale / 2, true, out insidePoint0, out insidePoint1) == 2)
+            {
+                Vector3 p0 = 2 * gameObject.transform.InverseTransformPoint(cameraPosition);
+
+                Vector3 p1 = p0;
+                if (Mathf.Abs(p0.x) > Mathf.Abs(p0.y) && Mathf.Abs(p0.x) > Mathf.Abs(p0.z))
+                {
+                    p1.x = p0.x > 0 ? 1 : -1;
+                }
+                if (Mathf.Abs(p0.y) > Mathf.Abs(p0.x) && Mathf.Abs(p0.y) > Mathf.Abs(p0.z))
+                {
+                    p1.y = p0.y > 0 ? 1 : -1;
+                }
+                if (Mathf.Abs(p0.z) > Mathf.Abs(p0.x) && Mathf.Abs(p0.z) > Mathf.Abs(p0.y))
+                {
+                    p1.z = p0.z > 0 ? 1 : -1;
+                }
+                p1 = gameObject.transform.TransformPoint(p1 / 2);
+
+                float dist = 1 - Mathf.Max(Mathf.Abs(p0.x), Mathf.Max(Mathf.Abs(p0.y), Mathf.Abs(p0.z)));
+
+                if (useFalloff)
+                {
+                    volume = volume * curveRoomModeFalloff.Evaluate(dist);
+                }
+
+                if (drawHelpers)
+                {
+                    Debug.Log("d: " + dist);
+                    Debug.DrawLine(cameraPosition, p1, Color.cyan);
+                    Debug.Log("volume: " + volume);
+                }
+            }
+            else
+            {
+                volume = 0;
+            }
 
             Vector3 dir = Camera.main.transform.position - point;
 
@@ -259,12 +366,7 @@ public class M1HorizonDecode : MonoBehaviour
             eulerAngles.y += 180;
             //Debug.Log("eulerAngles:" + eulerAngles);
 
-            if (useFalloff)
-            {
-                volume = volume * curveFalloff.Evaluate(Vector3.Distance(Camera.main.transform.position, point));
-            }
-
-            float[] volumes = M1DSPAlgorithms.fourChannelAlgorithm(eulerAngles.x, eulerAngles.y, eulerAngles.z);
+            float[] volumes = M1DSPAlgorithms.eightChannelsAlgorithm(eulerAngles.x, eulerAngles.y, eulerAngles.z);
             for (int i = 0; i < volumes.Length; i++)
             {
                 audioSource[i].volume = volume * volumes[i];

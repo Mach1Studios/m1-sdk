@@ -536,6 +536,7 @@ void AM1BaseActor::Tick(float DeltaTime)
 
 }
 
+#if WITH_EDITOR
 void AM1BaseActor::PostEditChangeProperty(FPropertyChangedEvent & PropertyChangedEvent)
 {
 	if (PropertyChangedEvent.Property != NULL)
@@ -549,7 +550,7 @@ void AM1BaseActor::PostEditChangeProperty(FPropertyChangedEvent & PropertyChange
 
 	Super::PostEditChangeProperty(PropertyChangedEvent);
 }
-
+#endif
 
 void AM1BaseActor::CalculateChannelVolumes(FQuat quat)
 {

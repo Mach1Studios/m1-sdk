@@ -61,9 +61,9 @@ public:
 
 	// always tick
 	bool ShouldTickIfViewportsOnly() const override { return true; }
-
+	#if WITH_EDITOR
 	void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
-
+	#endif
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Force HMD rotation instead of Player Controller")
 		bool ForceHMDRotation = true;
 

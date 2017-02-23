@@ -64,54 +64,54 @@ public:
 	#if WITH_EDITOR
 	void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 	#endif
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Force HMD rotation instead of Player Controller")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Force HMD rotation instead of Player Controller")
 		bool ForceHMDRotation = true;
 
-	UFUNCTION(BlueprintCallable, Category = "Audio")
+	UFUNCTION(BlueprintCallable, Category = "M1 Plugin|Audio")
 		void Play();
 
-	UFUNCTION(BlueprintCallable, Category = "Audio")
+	UFUNCTION(BlueprintCallable, Category = "M1 Plugin|Audio")
 		void Stop();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio", DisplayName = "Fade In Duration")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin|Audio", DisplayName = "Fade In Duration")
 		float fadeInDuration = 0;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio", DisplayName = "Fade Out Duration")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin|Audio", DisplayName = "Fade Out Duration")
 		float fadeOutDuration = 0;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Attenuation Curve")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Attenuation Curve")
 		UCurveFloat* attenuationCurve;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Display Debug")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Display Debug")
 		bool Debug = true;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Rotator mode")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use Rotator mode")
 		bool useRotator = false;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Closest Point/Activate Exterior Sounds")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use Closest Point/Activate Exterior Sounds")
 		bool useClosestPoint = true;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Yaw for Positional Rotation")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use Yaw for Positional Rotation")
 		bool useYaw = true;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Pitch for Positional Rotation")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use Pitch for Positional Rotation")
 		bool usePitch = true;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use Roll for Positional Rotation")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use Roll for Positional Rotation")
 		bool useRoll = true;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound", DisplayName = "Volume")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", Category = "Sound", DisplayName = "Volume")
 		float Volume = 1.0f;
 
 	
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Use RoomMode")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use RoomMode")
 		bool useRoomMode = false;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Attenuation RoomMode Curve")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Attenuation RoomMode Curve")
 		UCurveFloat* attenuationRoomModeCurve;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Ignore Top Bottom Walls")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Ignore Top Bottom Walls")
 		bool ignoreTopBottom = true;
 
 

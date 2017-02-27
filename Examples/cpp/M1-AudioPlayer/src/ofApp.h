@@ -10,6 +10,7 @@
 #include "Audio1.h"
 //#include "Audio2.h"
 #include "IsotropicEightChannelTest.h"
+#include "ArduinoDecoderYP.h"
 
 
 #define SETTINGS_TOOLBAR_WIDTH 200
@@ -60,6 +61,7 @@ public:
     float angleX, angleY, angleZ;
 
     ArduinoWatcher *arduinoWatcher;
+    vector<ArduinoDecoderYP*> arduinoDecoders;
     bool initializedController = false;
     
     // Visualizing

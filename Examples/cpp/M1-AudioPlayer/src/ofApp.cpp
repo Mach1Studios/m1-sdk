@@ -11,30 +11,45 @@ void ofApp::setup(){
     
     //hardcode controller input if available
 //    serial.setup("/dev/cu.Mach1-01-DevB", 115200);
+    
     arduinoWatcher = new ArduinoWatcher();
     arduinoWatcher->arduinoFound = [&](std::string address) {
         ofLog() << "arduino found at " << address;
-        ofLog() << "waiting for setup to finish...";
-        
-        arduinoWatcher->stopThread();
-
-        
-//        while (!setupFinished) {
-//            
-//        };
-        
         initializedController = true;
-        serial.setup(address, 115200);
-        while(!serial.isInitialized()) {
+        
+//        arduinoWatcher->stopThread();
+
+        ArduinoDecoderYP *decoder = new ArduinoDecoderYP();
+        
+        decoder->setup(address, 115200);
+        while(!decoder->isInitialized()) {
             
         }
         
-        ofLog() << "serial initialized at " << ofGetElapsedTimef();
+        ofLog() << "serial initialized";
         std::string message = std::string("m1heard");
         for (int i = 0; i < message.size(); i++) {
-            serial.writeByte(message[i]);
+            decoder->writeByte(message[i]);
         }
         initializedController = true;
+        
+        decoder->gotNewValues = [&](float Y, float P, float R) {
+            float pitchAngle = mmap(P, 0, 360, -90.0, 90.0, true);
+            float pitchAngleClampFix = pitchAngle + 90.0;
+//            yAngleRad = ofDegToRad(Y);
+//            pAngleRad = ofDegToRad(pitchAngleClampFix);
+//            rAngleRad = ofDegToRad(R);
+//            ^ this is a proper naming, but we have to refactor it to
+            // to work that way
+            
+            angleX = ofDegToRad(Y);
+            angleY = ofDegToRad(P);
+            angleZ = ofDegToRad(R);
+            
+        };
+        
+        arduinoDecoders.push_back(decoder);
+
     };
     
     tests.push_back(new AudioOne());

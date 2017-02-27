@@ -7,13 +7,22 @@
 class ArduinoWatcher: public ofThread {
 public:
     ArduinoWatcher() {
+        
 #ifndef _WIN32
-        auto result = separateString(ofSystem("ls /dev/cu.Mach1*"));
+        std::vector<std::string> result;
+        
+        result = separateString(ofSystem("ls /dev/cu.Mach1*"));
+        
+        
+        if ((result.size() > 0) && (result.size() < 100))
         for (int i = 0; i < result.size(); i++) {
             ofLog() << i << " : " << result[i];
         }
         startThread();
+         
+         
 #endif
+         
     }
     
     void exit() {
@@ -44,6 +53,10 @@ public:
             // Searching for new arduinos
             
             auto search = separateString(ofSystem("ls /dev/cu.Mach1*"));
+            auto search2 = separateString(ofSystem("ls /dev/cu.usbserial-*"));
+            
+            search.insert(search.end(), search2.begin(), search2.end());
+            
             for (int i = 0; i < search.size(); i++) {
                 if (!searchMap(search[i])) {
                     ofLog() << "found new device: " << search[i];
@@ -125,10 +138,12 @@ public:
     }
     
     std::vector<std::string> separateString(std::string arg) {
-        int i = 0, lastWordIndex = 0;
-        std::vector<std::string> result;
         
-        if (arg.length() < 4) return;
+        
+        int i = 0, lastWordIndex = 0;
+        std::vector<std::string> result = std::vector<std::string>();
+        
+        if (arg.length() < 4) return std::vector<std::string>();
         
         while (i <= arg.size()-1) {
             if ((arg[i] == 10)||(i == arg.size() - 1)) {
@@ -142,6 +157,8 @@ public:
             i++;
         }
         return result;
+         
+        
     }
     
     ofSerial serial;

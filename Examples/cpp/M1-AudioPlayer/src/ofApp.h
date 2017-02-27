@@ -96,7 +96,7 @@ public:
     bool dragginCamera;
     
     ofImage logo;
-    ofxImGui gui;
+    ofxImGui::Gui gui;
     
     ofxWatermark watermark;
     

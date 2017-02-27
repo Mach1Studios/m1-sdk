@@ -10,7 +10,7 @@ void ofApp::setup(){
     watermark.init("m1mark.png", "b2318ada53073a1eac0b20560718d58e");
     
     //hardcode controller input if available
-//    serial.setup("/dev/cu.Mach1-02-DevB", 115200);
+//    serial.setup("/dev/cu.Mach1-01-DevB", 115200);
     arduinoWatcher = new ArduinoWatcher();
     arduinoWatcher->arduinoFound = [&](std::string address) {
         ofLog() << "arduino found at " << address;
@@ -19,7 +19,8 @@ void ofApp::setup(){
         arduinoWatcher->stopThread();
 
         
-//        while (!setupFinished) {           
+//        while (!setupFinished) {
+//            
 //        };
         
         initializedController = true;
@@ -37,7 +38,8 @@ void ofApp::setup(){
     };
     
     tests.push_back(new AudioOne());
-    tests.push_back(new AudioTwo());
+//    tests.push_back(new AudioTwo());
+    tests.push_back(new IsotropicEightChannelTest());
     
     angleX = 0;
     updateSimulationAngles();
@@ -95,12 +97,12 @@ void ofApp::update(){
     while (queueBuffer.size() > 4) {
         
         
-        int Y, R;
+        int Y, P;
         
-        if (getNewDataFromQueue(Y, R)) {
+        if (getNewDataFromQueue(Y, P)) {
             
             lastY = Y;
-            lastR = R;
+            lastP = P;
             
         }
         
@@ -127,10 +129,10 @@ void ofApp::update(){
         i->angleY = angleY;
         i->angleZ = angleZ;
         
-        float rollAngle = mmap(lastR, 0, 360, 180.0, -180.0, true);
-        float rollAngleClamp = ofClamp(rollAngle, -90.0, 90.0);
+        float pitchAngle = mmap(lastP, 0, 360, 180.0, -180.0, true);
+        float pitchAngleClamp = ofClamp(pitchAngle, -90.0, 90.0);
         
-        serialAngleUpdate(lastY, rollAngleClamp);
+        serialAngleUpdate(lastY, pitchAngleClamp);
     }
 }
 
@@ -255,7 +257,7 @@ void ofApp::draw(){
     ImGui::Begin("Mach1 Spatial Audio", &aWindow, window_flags);
     
     ImGui::Text("Select source");
-    const char* source_options[] = {"Sideload #1", "Sideload #2"};
+    const char* source_options[] = {"M1Spatial-Periphonic", "M1Spatial-Isotropic"};
     
     ImGui::PushItemWidth(-1);
     ImGui::ListBox("##", &selectedTest, source_options, 2, 2);
@@ -282,9 +284,9 @@ void ofApp::draw(){
 }
 
 //--------------------------------------------------------------
-void ofApp::serialAngleUpdate(float serialY, float serialR){
+void ofApp::serialAngleUpdate(float serialY, float serialP){
     angleY = mmap(serialY, 0., 360., 0., 360., true);
-    angleZ = serialR;
+    angleX = serialP;
     updateSimulationAngles();
 }
 

@@ -1,4 +1,0 @@
-ofxImGui
-ofxJSON
-ofxOsc
-ofxWatermark

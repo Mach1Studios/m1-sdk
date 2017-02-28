@@ -42,6 +42,8 @@ void ofApp::setup(){
 //            ^ this is a proper naming, but we have to refactor it to
             // to work that way
             
+            ofLog() << "Y: "<< Y << " ; P: " << pitchAngleClampFix << " ; R: " << R;
+            
             angleX = ofDegToRad(Y);
             angleY = ofDegToRad(P);
             angleZ = ofDegToRad(R);
@@ -122,6 +124,14 @@ void ofApp::update(){
         }
         
     }
+    
+    if (initializedController) {
+        
+        for (auto &i:arduinoDecoders)
+            i->update();
+        
+    }
+
     
     // angle handler//
     if (angleZ)
@@ -300,8 +310,8 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::serialAngleUpdate(float serialY, float serialP){
-    angleY = mmap(serialY, 0., 360., 0., 360., true);
-    angleX = serialP;
+//    angleY = mmap(serialY, 0., 360., 0., 360., true);
+//    angleX = serialP;
     updateSimulationAngles();
 }
 

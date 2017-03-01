@@ -8,7 +8,9 @@
 
 #include "BaseAudioTest.h"
 #include "Audio1.h"
-#include "Audio2.h"
+//#include "Audio2.h"
+#include "IsotropicEightChannelTest.h"
+#include "ArduinoDecoderYP.h"
 
 
 #define SETTINGS_TOOLBAR_WIDTH 200
@@ -31,7 +33,7 @@ public:
         delete arduinoWatcher;
     }
     
-    void serialAngleUpdate(float serialY, float serialR);
+    void serialAngleUpdate(float serialY, float serialP);
     void keyPressed(int key);
     void keyReleased(int key);
     void mouseMoved(int x, int y );
@@ -59,6 +61,7 @@ public:
     float angleX, angleY, angleZ;
 
     ArduinoWatcher *arduinoWatcher;
+    vector<ArduinoDecoderYP*> arduinoDecoders;
     bool initializedController = false;
     
     // Visualizing
@@ -95,7 +98,7 @@ public:
     bool dragginCamera;
     
     ofImage logo;
-    ofxImGui gui;
+    ofxImGui::Gui gui;
     
     ofxWatermark watermark;
     
@@ -124,8 +127,8 @@ public:
     vector<unsigned char> queueBuffer;
     vector<unsigned char> queueBackupDebug;
     
-    int lastY = 0, lastR = 0;
-    float rollAngle = 0., rollAngleClamp = 0.;
+    int lastY = 0, lastP = 0;
+    float pitchAngle = 0., pitchAngleClamp = 0.;
     
     bool getNewDataFromQueue(int & Y, int & P) {
         

@@ -7,7 +7,7 @@
 
 #include "Developer/TargetPlatform/Public/Interfaces/IAudioFormat.h"
 
-#include "M1StSPActor.generated.h"
+#include "M1StSPActor.generated.h" 
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class M1SOUNDPLUGIN_API AM1StSPActor : public AActor // M1SOUNDPLUGIN_API - change to your project name
@@ -16,12 +16,10 @@ class M1SOUNDPLUGIN_API AM1StSPActor : public AActor // M1SOUNDPLUGIN_API - chan
 
 	USceneComponent* Root;
 
-	UAudioComponent* audioComponentMidLeft;
-	UAudioComponent* audioComponentMidRight;
+	UAudioComponent* audioComponentMid;
 	UAudioComponent* audioComponent;
-
-	USoundWave* soundWaveMidLeft;
-	USoundWave* soundWaveMidRight;
+	 
+	USoundWave* soundWaveMid;
 
 public:
 	// Sets default values for this actor's properties
@@ -34,34 +32,36 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 
 	USoundWave* MakeSoundWaveFromBuffer(FName PlatformFormat, TArray<uint8>& rawFile, FSoundQualityInfo QualityInfo);
-
+		
 	// always tick
 	bool ShouldTickIfViewportsOnly() const override { return true; }
 
 	UPROPERTY(EditAnywhere, Category = Sound)
 		USoundWave * soundWave;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Attenuation Curve")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Attenuation Curve")
 		UCurveFloat* attenuationCurve;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin|Audio", DisplayName = "Fade In Duration")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio", DisplayName = "Fade In Duration")
 		float fadeInDuration = 0;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin|Audio", DisplayName = "Fade Out Duration")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio", DisplayName = "Fade Out Duration")
 		float fadeOutDuration = 0;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin|Sound", meta = (ClampMin = "-1.0", ClampMax = "1.0", UIMin = "-1.0", UIMax = "1.0"))
+	/*
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Sound, meta = (ClampMin = "-1.0", ClampMax = "1.0", UIMin = "-1.0", UIMax = "1.0"))
 		float Spatialize = 0;
+	*/
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin|Sound", DisplayName = "Volume")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound", DisplayName = "Volume")
 		float Volume = 1.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Display Debug")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, DisplayName = "Display Debug")
 		bool Debug = true;
 
-	UFUNCTION(BlueprintCallable, Category = "M1 Plugin|Audio")
+	UFUNCTION(BlueprintCallable, Category = "Audio")
 		void Play();
 
-	UFUNCTION(BlueprintCallable, Category = "M1 Plugin|Audio")
+	UFUNCTION(BlueprintCallable, Category = "Audio")
 		void Stop();
 };

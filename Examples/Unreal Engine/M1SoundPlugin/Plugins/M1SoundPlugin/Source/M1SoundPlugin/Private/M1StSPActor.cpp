@@ -52,18 +52,14 @@ AM1StSPActor::AM1StSPActor()
 	Root->bAutoActivate = true;
 	Root->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 
-	audioComponentMidLeft = CreateDefaultSubobject< UAudioComponent>(TEXT("audioComponentMidLeft"));
-	audioComponentMidRight = CreateDefaultSubobject< UAudioComponent>(TEXT("audioComponentMidRight"));
+	audioComponentMid = CreateDefaultSubobject< UAudioComponent>(TEXT("audioComponentMid"));
 	audioComponent = CreateDefaultSubobject< UAudioComponent>(TEXT("audioComponent"));
 
-	audioComponentMidLeft->AttachToComponent(Root, FAttachmentTransformRules::KeepRelativeTransform);
-	audioComponentMidRight->AttachToComponent(Root, FAttachmentTransformRules::KeepRelativeTransform);
+	audioComponentMid->AttachToComponent(Root, FAttachmentTransformRules::KeepRelativeTransform);
 	audioComponent->AttachToComponent(Root, FAttachmentTransformRules::KeepRelativeTransform);
 
-	audioComponentMidLeft->SetRelativeLocation(FVector(0, 0, 0));
-	audioComponentMidRight->SetRelativeLocation(FVector(0, 0, 0));
+	audioComponentMid->SetRelativeLocation(FVector(0, 0, 0));
 	audioComponent->SetRelativeLocation(FVector(0, 0, 0));
-
 }
 
 // Called when the game starts or when spawned
@@ -110,17 +106,14 @@ void AM1StSPActor::BeginPlay()
 
 				// post processing audio
 
-				TArray<uint8> rawFileMidLeft;
-				TArray<uint8> rawFileMidRight;
-				rawFileMidLeft.InsertZeroed(0, size);
-				rawFileMidRight.InsertZeroed(0, size);
+				TArray<uint8> rawFileMid;
+				rawFileMid.InsertZeroed(0, size);
 
 				float l, r;
 				float mid, slide;
 
 				int16* rawWaveData = (int16*)rawFile.GetData();
-				int16* bufL = (int16*)rawFileMidLeft.GetData();
-				int16* bufR = (int16*)rawFileMidRight.GetData();
+				int16* buf = (int16*)rawFileMid.GetData();
 
 				for (int32 position = 0, cnt = size / sizeof(int16); position < cnt; position += 2)
 				{
@@ -130,36 +123,31 @@ void AM1StSPActor::BeginPlay()
 					mid = (l + r) / 2;
 					slide = (l - r) / 2;
 
-					bufL[position + 0] = (int16)(32767.0f * -mid);
-					bufR[position + 1] = (int16)(32767.0f * -mid);
+					buf[position + 0] = (int16)(32767.0f * -mid);
+					buf[position + 1] = (int16)(32767.0f * -mid);
 				}
 
-				soundWaveMidLeft = MakeSoundWaveFromBuffer(PlatformFormat, rawFileMidLeft, QualityInfo);
-				soundWaveMidRight = MakeSoundWaveFromBuffer(PlatformFormat, rawFileMidRight, QualityInfo);
-
+				soundWaveMid = MakeSoundWaveFromBuffer(PlatformFormat, rawFileMid, QualityInfo);
 			}
 		}
 
 
   
-		audioComponentMidLeft->SetSound(soundWaveMidLeft);
-		audioComponentMidRight->SetSound(soundWaveMidRight);
+		audioComponentMid->SetSound(soundWaveMid);
 		audioComponent->SetSound(soundWave);
 
-		audioComponentMidLeft->AudioDeviceHandle = GEngine->GetActiveAudioDevice()->DeviceHandle;
-		audioComponentMidRight->AudioDeviceHandle = GEngine->GetActiveAudioDevice()->DeviceHandle;
+		audioComponentMid->AudioDeviceHandle = GEngine->GetActiveAudioDevice()->DeviceHandle;
 		audioComponent->AudioDeviceHandle = GEngine->GetActiveAudioDevice()->DeviceHandle;
 
-		soundWaveMidLeft->bVirtualizeWhenSilent = true;
-		soundWaveMidRight->bVirtualizeWhenSilent = true;
+		soundWaveMid->bVirtualizeWhenSilent = true;
 		soundWave->bVirtualizeWhenSilent = true;
 
+		audioComponentMid->bAllowSpatialization = true;
 
-		soundWaveMidLeft->bLooping = true;
-		soundWaveMidRight->bLooping = true;
+		soundWaveMid->bLooping = true;
 		soundWave->bLooping = true;
 
-		 	Play();
+		Play();
 		//audioComponentMidLeft->Play();// FadeIn(fadeInDuration);
 		//audioComponentMidRight->Play();//FadeIn(fadeInDuration);
 		//audioComponent->Play();//FadeIn(fadeInDuration);
@@ -183,23 +171,26 @@ void AM1StSPActor::Tick(float DeltaTime)
 			APawn* playerPawn = player->GetPawn();
 			if (playerPawn != nullptr)
 			{
+				/*
 				float s = UKismetMathLibrary::MapRangeClamped(Spatialize, -1, 1, 0, 1);
 
 				float panL = cos(s * (0.5 * PI));
 				float panR = cos((1.0 - s) * (0.5 *  PI));
+				*/
 
 				float dist = FVector::Dist(GetActorLocation(), playerPawn->GetActorLocation());
 				float vol = Volume *  (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1);
 
 				// AdjustVolume
-				audioComponentMidLeft->SetVolumeMultiplier(FMath::Max(MIN_SOUND_VOLUME, vol * panL));
-				audioComponentMidRight->SetVolumeMultiplier(FMath::Max(MIN_SOUND_VOLUME, vol * panR));
+				audioComponentMid->SetVolumeMultiplier(FMath::Max(MIN_SOUND_VOLUME, vol));// *panL));
 				audioComponent->SetVolumeMultiplier(FMath::Max(MIN_SOUND_VOLUME, vol));
 
+				/*
 				if (Debug)
 				{
 					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "panL: " + FString::SanitizeFloat(panL) + " , panR: " + FString::SanitizeFloat(panR));
 				}
+				*/
 			}
 		}
 	}
@@ -210,8 +201,7 @@ void AM1StSPActor::Play()
 {
 	if (soundWave != nullptr)
 	{
-		audioComponentMidLeft->FadeIn(fadeInDuration);
-		audioComponentMidRight->FadeIn(fadeInDuration);
+		audioComponentMid->FadeIn(fadeInDuration);
 		audioComponent->FadeIn(fadeInDuration);
 	}
 }
@@ -220,8 +210,7 @@ void AM1StSPActor::Stop()
 {
 	if (soundWave != nullptr)
 	{
-		audioComponentMidLeft->FadeOut(fadeOutDuration, MIN_SOUND_VOLUME);
-		audioComponentMidRight->FadeOut(fadeOutDuration, MIN_SOUND_VOLUME);
+		audioComponentMid->FadeOut(fadeOutDuration, MIN_SOUND_VOLUME);
 		audioComponent->FadeOut(fadeOutDuration, MIN_SOUND_VOLUME);
 	}
 }

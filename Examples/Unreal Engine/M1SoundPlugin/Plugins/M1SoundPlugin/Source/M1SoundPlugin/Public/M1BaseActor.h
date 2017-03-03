@@ -6,7 +6,7 @@
 #include "GameFramework/Actor.h"
 #include <vector>
 
-#include "M1BaseActor.generated.h" 
+#include "M1BaseActor.generated.h"
 
 UCLASS(abstract)
 class M1SOUNDPLUGIN_API AM1BaseActor : public AActor // M1SOUNDPLUGIN_API - change to your project name
@@ -16,12 +16,12 @@ class M1SOUNDPLUGIN_API AM1BaseActor : public AActor // M1SOUNDPLUGIN_API - chan
 protected:
 	// geometric utils
 	static float ClosestPointOnBox(FVector point, FVector center, FVector axis0, FVector axis1, FVector axis2, FVector extents, FVector& closestPoint);
-	
+
 	static bool Clip(float denom, float numer, float& t0, float& t1);
 	static int DoClipping(float t0, float t1, FVector origin, FVector direction, FVector center, FVector axis0, FVector axis1, FVector axis2, FVector extents, bool solid, FVector& point0, FVector& point1);
-	
+
 	USoundAttenuation* NullAttenuation;
-	
+
 	TArray<float> VolumeFactor;
 
 	TArray<USoundWave*> SoundsWalls;
@@ -52,7 +52,7 @@ protected:
 public:
 
 	void InitComponents(int MAX_SOUNDS_PER_CHANNEL);
-		
+
 	// Called when the game starts or when spawned
 	void BeginPlay();
 
@@ -73,10 +73,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "M1 Plugin|Audio")
 		void Stop();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin|Audio", DisplayName = "Fade In Duration")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin|Fade", DisplayName = "Fade In Duration")
 		float fadeInDuration = 0;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin|Audio", DisplayName = "Fade Out Duration")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin|Fade", DisplayName = "Fade Out Duration")
 		float fadeOutDuration = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Attenuation Curve")
@@ -100,10 +100,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use Roll for Positional Rotation")
 		bool useRoll = true;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin|Sound", DisplayName = "Volume")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin|Volume", DisplayName = "Volume")
 		float Volume = 1.0f;
 
-	
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use RoomMode")
 		bool useRoomMode = false;

@@ -4,8 +4,8 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
-#include "M1BaseActor.h" 
-#include "M1SpatialActor.generated.h" 
+#include "M1BaseActor.h"
+#include "M1SpatialActor.generated.h"
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class M1SOUNDPLUGIN_API AM1SpatialActor : public AM1BaseActor
@@ -14,7 +14,7 @@ class M1SOUNDPLUGIN_API AM1SpatialActor : public AM1BaseActor
 
 	void SetSoundsWalls();
 	void SetSoundsCenter();
-	
+
 	virtual std::vector<float> SoundAlgorithm(float Yaw, float Pitch, float Roll)  override;
 
 public:
@@ -22,53 +22,53 @@ public:
 	AM1SpatialActor();
 
 	// Audio positions for the 8channel cube
-	UPROPERTY(EditAnywhere, Category = "Sound INT")
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
 		USoundWave* FrontUpLeftChannelWalls;
 
-	UPROPERTY(EditAnywhere, Category = "Sound INT")
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
 		USoundWave* FrontUpRightChannelWalls;
 
-	UPROPERTY(EditAnywhere, Category = "Sound INT")
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
 		USoundWave* BackUpLeftChannelWalls;
 
-	UPROPERTY(EditAnywhere, Category = "Sound INT")
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
 		USoundWave* BackUpRightChannelWalls;
 
-	UPROPERTY(EditAnywhere, Category = "Sound INT")
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
 		USoundWave* FrontDownLeftChannelWalls;
 
-	UPROPERTY(EditAnywhere, Category = "Sound INT")
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
 		USoundWave* FrontDownRightChannelWalls;
 
-	UPROPERTY(EditAnywhere, Category = "Sound INT")
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
 		USoundWave* BackDownLeftChannelWalls;
 
-	UPROPERTY(EditAnywhere, Category = "Sound INT")
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
 		USoundWave* BackDownRightChannelWalls;
 
 
 	// Audio positions for the 8channel cube
-	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
 		USoundWave* FrontUpLeftChannelCenter;
 
-	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
 		USoundWave* FrontUpRightChannelCenter;
 
-	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
 		USoundWave* BackUpLeftChannelCenter;
 
-	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
 		USoundWave* BackUpRightChannelCenter;
 
-	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
 		USoundWave* FrontDownLeftChannelCenter;
 
-	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
 		USoundWave* FrontDownRightChannelCenter;
 
-	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
 		USoundWave* BackDownLeftChannelCenter;
 
-	UPROPERTY(EditAnywhere, Category = "RoomMode Wall EXT")
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
 		USoundWave* BackDownRightChannelCenter;
 };

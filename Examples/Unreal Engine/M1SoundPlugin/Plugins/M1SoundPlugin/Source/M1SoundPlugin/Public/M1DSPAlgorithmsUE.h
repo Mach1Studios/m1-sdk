@@ -13,7 +13,7 @@
 #include <vector>
 #include <cmath>
 
-#define __FLT_EPSILON__ 1.19209290e-07F
+#define M1_FLT_EPSILON 1.19209290e-07F
 
 //
 // Point utility class
@@ -144,7 +144,7 @@ static float mDegToRad(float degrees) {
 //Utility function for mapping values
 static float mmap(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp) {
 
-	if (fabs(inputMin - inputMax) < __FLT_EPSILON__) {
+	if (fabs(inputMin - inputMax) < M1_FLT_EPSILON) {
 		return outputMin;
 	}
 	else {

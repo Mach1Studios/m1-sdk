@@ -1,35 +1,46 @@
 ﻿//Mach1
 //2016
 //
-//Set each audioSource item calls script
+//Set each audioSourceWalls item calls script
 
 using UnityEngine;
 using System.Collections;
 using System.IO;
 
-public class M1SpatialDecodeRoom : MonoBehaviour
+public class M1Base : MonoBehaviour
 {
+    public bool isFromAssets = true;
+    public AudioClip[] audioClipWalls;
+    public AudioClip[] audioClipRoom;
     public string audioPath = "file:///";
-    public bool isFromResource = true;
-    public string[] audioFilename;
+    public string[] audioFilenameWalls;
+    public string[] audioFilenameRoom;
+
+    [Space(10)]
+    public bool autoPlay;
+    private bool isPlaying;
 
     [Space(10)]
     public bool useFalloff = false;
     public AnimationCurve curveFalloff;
     public AnimationCurve curveRoomModeFalloff;
 
-    private int loadedCount;
-    private AudioSource[] audioSource;
+    private int loadedCountWalls;
+    private AudioSource[] audioSourceWalls;
 
-    private const int MAX_SOUNDS_PER_CHANNEL = 8;
+    private int loadedCountRoom;
+    private AudioSource[] audioSourceRoom;
+
+    private int MAX_SOUNDS_PER_CHANNEL;
     private Matrix4x4 mat;
 
     [Space(10)]
-    public bool roomMode = false;
+    public bool useRoomMode = false;
     public bool ignoreTopBottom = true;
 
     [Space(10)]
-    public bool useClosestPoint = false;
+    public bool useRotator = false;
+    public bool useClosestPoint = true;
 
     public bool useYawForClosestPoint = true;
     public bool usePitchForClosestPoint = true;
@@ -54,18 +65,31 @@ public class M1SpatialDecodeRoom : MonoBehaviour
         return curve;
     }
 
-    M1SpatialDecodeRoom()
+    protected void InitComponents(int MAX_SOUNDS_PER_CHANNEL)
     {
+        this.MAX_SOUNDS_PER_CHANNEL = MAX_SOUNDS_PER_CHANNEL;
+
         // Falloff
         curveFalloff = generateCurve(10);
         curveRoomModeFalloff = generateCurve(1);
 
         // Init filenames
-        audioFilename = new string[MAX_SOUNDS_PER_CHANNEL];
-        for (int i = 0; i < audioFilename.Length; i++)
+        audioFilenameWalls = new string[MAX_SOUNDS_PER_CHANNEL];
+        audioFilenameRoom = new string[MAX_SOUNDS_PER_CHANNEL];
+        for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
         {
-            audioFilename[i] = (i + 1) + ".wav";
+            audioFilenameWalls[i] = (i + 1) + ".wav";
+            audioFilenameRoom[i] = (i + 1) + ".wav";
         }
+
+        // audioClip
+        audioClipWalls = new AudioClip[MAX_SOUNDS_PER_CHANNEL];
+        audioClipRoom = new AudioClip[MAX_SOUNDS_PER_CHANNEL];
+    }
+
+    public virtual float[] SoundAlgorithm(float Yaw, float Pitch, float Roll)
+    {
+        return new float[0];
     }
 
     void Awake()
@@ -75,13 +99,27 @@ public class M1SpatialDecodeRoom : MonoBehaviour
     void Start()
     {
         // Sounds
-        audioSource = new AudioSource[MAX_SOUNDS_PER_CHANNEL * 2];
+        audioSourceWalls = new AudioSource[MAX_SOUNDS_PER_CHANNEL * 2];
 
-        loadedCount = 0;
+        loadedCountWalls = 0;
 
-        for (int i = 0; i < audioFilename.Length; i++)
+        for (int i = 0; i < audioFilenameWalls.Length; i++)
         {
-            StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename[i]), i, isFromResource));
+            StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilenameWalls[i]), false, i, isFromAssets));
+        }
+
+        if (useRoomMode)
+        {
+            // Sounds
+            audioSourceRoom = new AudioSource[MAX_SOUNDS_PER_CHANNEL * 2];
+
+            loadedCountRoom = 0;
+
+            for (int i = 0; i < audioFilenameRoom.Length; i++)
+            {
+                StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilenameRoom[i]), true, i, isFromAssets));
+            }
+
         }
     }
 
@@ -116,13 +154,20 @@ public class M1SpatialDecodeRoom : MonoBehaviour
     }
 
     // Load audio
-    IEnumerator LoadAudio(string url, int n, bool isFromResource)
+    IEnumerator LoadAudio(string url, bool room, int n, bool isFromAssets)
     {
         AudioClip clip = null;
 
-        if (isFromResource)
+        if (isFromAssets)
         {
-            clip = Resources.Load<AudioClip>(url);
+            if (!room)
+            {
+                clip = audioClipWalls[n];// Resources.Load< AudioClip>(url);
+            }
+            else
+            {
+                clip = audioClipRoom[n];
+            }
         }
         else
         {
@@ -140,12 +185,25 @@ public class M1SpatialDecodeRoom : MonoBehaviour
 
         if (clip != null)
         {
-            audioSource[n * 2] = AddAudio(clip, false, true, 1.0f);
-            audioSource[n * 2].panStereo = -1;
+            if (!room)
+            {
+                audioSourceWalls[n * 2] = AddAudio(clip, false, true, 1.0f);
+                audioSourceWalls[n * 2].panStereo = -1;
 
-            audioSource[n * 2 + 1] = AddAudio(clip, false, true, 1.0f);
-            audioSource[n * 2 + 1].panStereo = 1;
-            loadedCount++;
+                audioSourceWalls[n * 2 + 1] = AddAudio(clip, false, true, 1.0f);
+                audioSourceWalls[n * 2 + 1].panStereo = 1;
+                loadedCountWalls++;
+            }
+            else
+            {
+                audioSourceRoom[n * 2] = AddAudio(clip, false, true, 1.0f);
+                audioSourceRoom[n * 2].panStereo = -1;
+
+                audioSourceRoom[n * 2 + 1] = AddAudio(clip, false, true, 1.0f);
+                audioSourceRoom[n * 2 + 1].panStereo = 1;
+                loadedCountRoom++;
+
+            }
         }
 
         yield break;
@@ -153,19 +211,27 @@ public class M1SpatialDecodeRoom : MonoBehaviour
 
     public bool IsReady()
     {
-        return loadedCount == MAX_SOUNDS_PER_CHANNEL;
+        return loadedCountWalls == MAX_SOUNDS_PER_CHANNEL && (useRoomMode ? loadedCountRoom == MAX_SOUNDS_PER_CHANNEL : true);
     }
 
     public void PlayAudio()
     {
         if (IsReady())
         {
-            //audioSource[0].Play();
-            //audioSource[1].Play();
+            //audioSourceWalls[0].Play();
+            //audioSourceWalls[1].Play();
 
             for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
             {
-                audioSource[i].Play();
+                audioSourceWalls[i].Play();
+            }
+
+            if (useRoomMode)
+            {
+                for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
+                {
+                    audioSourceRoom[i].Play();
+                }
             }
         }
         else
@@ -173,6 +239,7 @@ public class M1SpatialDecodeRoom : MonoBehaviour
             Debug.LogError("Audio was not loaded");
         }
     }
+
 
     public static float ClosestPointOnBox(Vector3 point, Vector3 center, Vector3 axis0, Vector3 axis1, Vector3 axis2, Vector3 extents, out Vector3 closestPoint)
     {
@@ -218,6 +285,7 @@ public class M1SpatialDecodeRoom : MonoBehaviour
 
         return Mathf.Sqrt(num);
     }
+
 
     private static bool Clip(float denom, float numer, ref float t0, ref float t1)
     {
@@ -277,32 +345,43 @@ public class M1SpatialDecodeRoom : MonoBehaviour
     }
 
 
+
     // Update is called once per frame
     void Update()
     {
         if (IsReady())
         {
-            float volume = 1.0f;
+            if (autoPlay && !isPlaying)
+            {
+                isPlaying = true;
+                PlayAudio();
+            }
+
+            float volumeWalls = 1.0f;
+            float volumeRoom = 0.0f;
 
             // Find closest point
             Vector3 point = gameObject.transform.position;
 
             Vector3 outsideClosestPoint;
-            Vector3 insidePoint0, insidePoint1;
+            //Vector3 insidePoint0, insidePoint1;
 
             Vector3 cameraPosition = Camera.main.transform.position;
-            if(ignoreTopBottom)
-            { 
+            if (ignoreTopBottom)
+            {
                 cameraPosition.y = gameObject.transform.position.y;
             }
 
-            if (useClosestPoint && ClosestPointOnBox(Camera.main.transform.position, gameObject.transform.position, gameObject.transform.right, gameObject.transform.up, gameObject.transform.forward, gameObject.transform.localScale / 2, out outsideClosestPoint) > 0)
+            bool isOutside = (ClosestPointOnBox(Camera.main.transform.position, gameObject.transform.position, gameObject.transform.right, gameObject.transform.up, gameObject.transform.forward, gameObject.transform.localScale / 2, out outsideClosestPoint) > 0);
+            if (useClosestPoint && isOutside)
             {
                 point = outsideClosestPoint;
 
+                float dist = Vector3.Distance(Camera.main.transform.position, point);
+
                 if (useFalloff)
                 {
-                    volume = volume * curveFalloff.Evaluate(Vector3.Distance(Camera.main.transform.position, point));
+                    volumeWalls = volumeWalls * curveFalloff.Evaluate(dist);
                 }
 
                 if (drawHelpers)
@@ -310,7 +389,7 @@ public class M1SpatialDecodeRoom : MonoBehaviour
                     Debug.DrawLine(gameObject.transform.position, point, Color.red);
                 }
             }
-            else if (roomMode && DoClipping(0, float.MaxValue, cameraPosition, (cameraPosition - gameObject.transform.position).normalized, gameObject.transform.position, gameObject.transform.right, gameObject.transform.up, gameObject.transform.forward, gameObject.transform.localScale / 2, true, out insidePoint0, out insidePoint1) == 2)
+            else if (useRoomMode && !isOutside)//   && DoClipping(0, float.MaxValue, cameraPosition, (cameraPosition - gameObject.transform.position).normalized, gameObject.transform.position, gameObject.transform.right, gameObject.transform.up, gameObject.transform.forward, gameObject.transform.localScale / 2, true, out insidePoint0, out insidePoint1) == 2)
             {
                 Vector3 p0 = 2 * gameObject.transform.InverseTransformPoint(cameraPosition);
 
@@ -333,20 +412,33 @@ public class M1SpatialDecodeRoom : MonoBehaviour
 
                 if (useFalloff)
                 {
-                    volume = volume * curveRoomModeFalloff.Evaluate(dist);
+                    volumeWalls = volumeWalls * curveRoomModeFalloff.Evaluate(dist);
                 }
+
+                volumeRoom = 1 - volumeWalls;
 
                 if (drawHelpers)
                 {
                     Debug.Log("d: " + dist);
                     Debug.DrawLine(cameraPosition, p1, Color.cyan);
-                    Debug.Log("volume: " + volume);
+                    Debug.Log("volumeWalls: " + volumeWalls);
+                }
+            }
+            else if (useRotator)
+            {
+                float dist = Vector3.Distance(Camera.main.transform.position, point);
+
+                if (useFalloff)
+                {
+                    volumeWalls = volumeWalls * curveRoomModeFalloff.Evaluate(dist);
                 }
             }
             else
             {
-                volume = 0;
+                volumeWalls = 0;
+                volumeRoom = 0;
             }
+
 
             Vector3 dir = Camera.main.transform.position - point;
 
@@ -366,10 +458,19 @@ public class M1SpatialDecodeRoom : MonoBehaviour
             eulerAngles.y += 180;
             //Debug.Log("eulerAngles:" + eulerAngles);
 
-            float[] volumes = M1DSPAlgorithms.eightChannelsAlgorithm(eulerAngles.x, eulerAngles.y, eulerAngles.z);
+            float[] volumes = SoundAlgorithm(eulerAngles.x, eulerAngles.y, eulerAngles.z);
             for (int i = 0; i < volumes.Length; i++)
             {
-                audioSource[i].volume = volume * volumes[i];
+                audioSourceWalls[i].loop = true;
+                audioSourceWalls[i].volume = volumeWalls * volumes[i];
+            }
+            if (useRoomMode)
+            {
+                for (int i = 0; i < volumes.Length; i++)
+                {
+                    audioSourceRoom[i].loop = true;
+                    audioSourceRoom[i].volume = volumeRoom * volumes[i];
+                }
             }
 
             if (drawHelpers)

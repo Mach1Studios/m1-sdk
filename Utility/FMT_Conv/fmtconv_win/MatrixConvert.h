@@ -1,12 +1,11 @@
 #pragma once
 
 #include <math.h>
-#include <stddef.h>
 
 class MatrixConvert
 {
 public:
-	static enum FmtType {
+	static enum {
 		FuMa,
 		ACNSN3D,
 		Square,
@@ -18,8 +17,7 @@ public:
 	} Formats;
 
 	MatrixConvert();
-	int getNumChannels(FmtType fmt);
-	int convert(FmtType inFmt, float** inBufs, FmtType outFmt, float** outBufs, int numSamples);
+	int convert(int inFmt, float** inBufs, int outFmt, float** outBufs, int numSamples);
 
 private:
 	const static int NUMFMTS = 8;

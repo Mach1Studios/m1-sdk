@@ -8,16 +8,17 @@ namespace UnrealBuildTool.Rules
 		{
 			PublicIncludePaths.AddRange(
 				new string[] {
+                    "Developer/TargetPlatform/Public"
 					// ... add public include paths required here ...
 				}
 				);
 
 			PrivateIncludePaths.AddRange(
 				new string[] {
-					"Developer/M1SoundPlugin/Private",
+                   "Developer/M1SoundPlugin/Private"
 					// ... add other private include paths required here ...
 				}
-				);
+                );
 
              PublicDependencyModuleNames.AddRange(
 				new string[]

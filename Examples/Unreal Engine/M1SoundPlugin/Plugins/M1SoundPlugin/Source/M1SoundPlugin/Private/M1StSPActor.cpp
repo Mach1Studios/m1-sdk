@@ -8,8 +8,11 @@
 #include "Runtime/Engine/Public/AudioDevice.h"
 
 #include "Runtime/Engine/Classes/Sound/AudioSettings.h"
- 
-#include "Developer/TargetPlatform/Public/TargetPlatform.h"
+
+#include "CoreMinimal.h"
+#include "CoreMisc.h"
+#include "Developer/TargetPlatform/Public/Interfaces/ITargetPlatform.h"
+#include "Developer/TargetPlatform/Public/Interfaces/ITargetPlatformManagerModule.h"
 
 #include "Kismet/HeadMountedDisplayFunctionLibrary.h"
 #include "Kismet/KismetMathLibrary.h" 

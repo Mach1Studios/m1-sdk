@@ -240,6 +240,18 @@ public class M1Base : MonoBehaviour
         }
     }
 
+    public void Seek(float timeInSeconds)
+    {
+        foreach (AudioSource source in audioSourceRoom)
+            source.time = timeInSeconds;
+        foreach (AudioSource source in audioSourceWalls)
+            source.time = timeInSeconds;
+    }
+
+    public bool IsPlaying()
+    {
+        return (audioSourceRoom == null && audioSourceRoom[0].isPlaying) || (audioSourceWalls != null && audioSourceWalls[0].isPlaying);
+    }
 
     public static float ClosestPointOnBox(Vector3 point, Vector3 center, Vector3 axis0, Vector3 axis1, Vector3 axis2, Vector3 extents, out Vector3 closestPoint)
     {

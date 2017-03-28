@@ -357,6 +357,32 @@ public class M1Base : MonoBehaviour
     }
 
 
+    public void GetEuler(Quaternion q1, out float heading, out float attitude, out float bank)
+    {
+        float test = q1.x * q1.y + q1.z * q1.w;
+        if (test > 0.499)
+        { // singularity at north pole
+            heading = 2 * Mathf.Atan2(q1.x, q1.w);
+            attitude = Mathf.PI / 2;
+            bank = 0;
+            return;
+        }
+        if (test < -0.499)
+        { // singularity at south pole
+            heading = -2 * Mathf.Atan2(q1.x, q1.w);
+            attitude = -Mathf.PI / 2;
+            bank = 0;
+            return;
+        }
+        float sqx = q1.x * q1.x;
+        float sqy = q1.y * q1.y;
+        float sqz = q1.z * q1.z;
+        heading = Mathf.Atan2(2.0f * q1.y * q1.w - 2 * q1.x * q1.z, 1.0f - 2.0f * sqy - 2.0f * sqz);
+        attitude = Mathf.Sin(2.0f * test);
+        bank = Mathf.Atan2(2.0f * q1.x * q1.w - 2 * q1.y * q1.z, 1.0f - 2.0f * sqx - 2.0f * sqz);
+    }
+
+
 
     // Update is called once per frame
     void Update()
@@ -465,12 +491,32 @@ public class M1Base : MonoBehaviour
             quat *= Camera.main.transform.rotation;
 
             // Compute volumes
-            Vector3 eulerAngles = quat.eulerAngles;
-            eulerAngles.x = eulerAngles.x > 180 ? 360 - eulerAngles.x : -eulerAngles.x;
-            eulerAngles.y += 180;
-            //Debug.Log("eulerAngles:" + eulerAngles);
+            //Vector3 eulerAngles = quat.eulerAngles;
+            //eulerAngles.x = eulerAngles.x > 180 ? 360 - eulerAngles.x : -eulerAngles.x;
+            //eulerAngles.y += 180;
 
-            float[] volumes = SoundAlgorithm(eulerAngles.x, eulerAngles.y, eulerAngles.z);
+            //eulerAngles = Quaternion.Euler(eulerAngles).eulerAngles;
+
+            // Debug.Log(Camera.main.name + " camera eulerAngles:" + eulerAngles);
+
+
+
+            float yaw = 0;
+            float pitch = 0;
+            float roll = 0;
+
+            GetEuler(quat, out pitch, out roll, out yaw);
+
+            yaw *= Mathf.Rad2Deg;
+            pitch *= Mathf.Rad2Deg;
+            roll *= Mathf.Rad2Deg;
+
+            yaw *= -1;
+            pitch += 180;
+            if (roll < 0) roll = 360 + roll;
+
+            //     float[] volumes = SoundAlgorithm(eulerAngles.x, eulerAngles.y, eulerAngles.z);
+           float[] volumes = SoundAlgorithm(yaw, pitch, roll);
             for (int i = 0; i < volumes.Length; i++)
             {
                 audioSourceWalls[i].loop = true;

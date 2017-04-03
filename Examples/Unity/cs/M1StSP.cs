@@ -27,8 +27,10 @@ public class M1StSP : MonoBehaviour
     private AudioSource[] audioSource;
     private int loadedCount;
 
+    /*
     [Range(-1, 1)]
     public float Spatialize = 0;
+    */
 
     public bool drawHelpers = true;
 
@@ -65,7 +67,7 @@ public class M1StSP : MonoBehaviour
     void Start()
     {
         // Sounds
-        audioSource = new AudioSource[MAX_SOUNDS_PER_CHANNEL * 3];
+        audioSource = new AudioSource[MAX_SOUNDS_PER_CHANNEL * 2];
 
         loadedCount = 0;
 
@@ -125,12 +127,10 @@ public class M1StSP : MonoBehaviour
         if (clip != null)
         {
             // Init sound
-            AudioClip clipMidLeft = new AudioClip();
-            AudioClip clipMidRight = new AudioClip();
+            AudioClip clipMid = new AudioClip();
 
 
-            float[] bufL = new float[clip.samples * clip.channels];
-            float[] bufR = new float[clip.samples * clip.channels];
+            float[] bufMid = new float[clip.samples * clip.channels];
             float[] rawWaveData = new float[clip.samples * clip.channels];
 
             clip.GetData(rawWaveData, 0);
@@ -146,29 +146,21 @@ public class M1StSP : MonoBehaviour
                 mid = (l + r) / 2;
                 slide = (l - r) / 2;
 
-                bufL[position + 0] = mid;
-                bufR[position + 1] = mid;
+                bufMid[position + 0] = mid;
+                bufMid[position + 1] = mid;
             }
 
-            clipMidLeft = AudioClip.Create("clipMidLeft", clip.samples, clip.channels, clip.frequency, false);
-            clipMidRight = AudioClip.Create("clipMidRight", clip.samples, clip.channels, clip.frequency, false);
+            clipMid = AudioClip.Create("clipMid", clip.samples, clip.channels, clip.frequency, false);
+            clipMid.SetData(bufMid, 0);
 
-            clipMidLeft.SetData(bufL, 0);
-            clipMidRight.SetData(bufR, 0);
-
-            audioSource[0] = AddAudio(clipMidLeft, false, true, 1.0f);
-            audioSource[0].panStereo = 0;
+            audioSource[0] = AddAudio(clipMid, false, true, 1.0f);
+            audioSource[0].spatialize = true;
 
             audioSource[1] = AddAudio(clip, false, true, 1.0f);
             audioSource[1].panStereo = 0;
 
-            audioSource[2] = AddAudio(clipMidRight, false, true, 1.0f);
-            audioSource[2].panStereo = 0;
-
-
             audioSource[0].loop = true;
             audioSource[1].loop = true;
-            audioSource[2].loop = true;
 
             loadedCount++;
         }
@@ -185,10 +177,10 @@ public class M1StSP : MonoBehaviour
     {
         if (IsReady())
         {
-            //  audioSource[2].Play();
+            // audioSource[0].Play();
             //audioSource[1].Play();
 
-            for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 3; i++)
+            for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
             {
                 audioSource[i].Play();
             }
@@ -215,11 +207,6 @@ public class M1StSP : MonoBehaviour
                 PlayAudio();
             }
 
-            float s = Map(Spatialize, -1.0f, 1.0f, 0.0f, 1.0f);
-
-            float panL = Mathf.Cos(s * (0.5f * Mathf.PI));
-            float panR = Mathf.Cos((1.0f - s) * (0.5f * Mathf.PI));
-
             float volume = 1.0f;
 
             if (useFalloff)
@@ -227,10 +214,16 @@ public class M1StSP : MonoBehaviour
                 volume = volume * curveFalloff.Evaluate(Vector3.Distance(Camera.main.transform.position, transform.position));
             }
 
+            /*
+            float s = Map(Spatialize, -1.0f, 1.0f, 0.0f, 1.0f);
+
+            float panL = Mathf.Cos(s * (0.5f * Mathf.PI));
+            float panR = Mathf.Cos((1.0f - s) * (0.5f * Mathf.PI));
+
             audioSource[0].volume = volume * panL;
             audioSource[1].volume = volume;
             audioSource[2].volume = volume * panR;
-
+            */
         }
 
     }

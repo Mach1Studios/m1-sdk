@@ -18,6 +18,7 @@ public class M1Base : MonoBehaviour
 
     [Space(10)]
     public bool autoPlay;
+    public bool isLoop;
     private bool isPlaying;
 
     [Space(10)]
@@ -187,19 +188,19 @@ public class M1Base : MonoBehaviour
         {
             if (!room)
             {
-                audioSourceWalls[n * 2] = AddAudio(clip, false, true, 1.0f);
+                audioSourceWalls[n * 2] = AddAudio(clip, isLoop, true, 1.0f);
                 audioSourceWalls[n * 2].panStereo = -1;
 
-                audioSourceWalls[n * 2 + 1] = AddAudio(clip, false, true, 1.0f);
+                audioSourceWalls[n * 2 + 1] = AddAudio(clip, isLoop, true, 1.0f);
                 audioSourceWalls[n * 2 + 1].panStereo = 1;
                 loadedCountWalls++;
             }
             else
             {
-                audioSourceRoom[n * 2] = AddAudio(clip, false, true, 1.0f);
+                audioSourceRoom[n * 2] = AddAudio(clip, isLoop, true, 1.0f);
                 audioSourceRoom[n * 2].panStereo = -1;
 
-                audioSourceRoom[n * 2 + 1] = AddAudio(clip, false, true, 1.0f);
+                audioSourceRoom[n * 2 + 1] = AddAudio(clip, isLoop, true, 1.0f);
                 audioSourceRoom[n * 2 + 1].panStereo = 1;
                 loadedCountRoom++;
 
@@ -240,6 +241,23 @@ public class M1Base : MonoBehaviour
         }
     }
 
+    public void Seek(float timeInSeconds)
+    {
+        if (audioSourceRoom != null)
+            foreach (AudioSource source in audioSourceRoom)
+                if (source != null)
+                    source.time = timeInSeconds;
+
+        if (audioSourceWalls != null)
+            foreach (AudioSource source in audioSourceWalls)
+                if (source != null)
+                    source.time = timeInSeconds;
+    }
+
+    public bool IsPlaying()
+    {
+        return (audioSourceRoom != null && audioSourceRoom[0].isPlaying) || (audioSourceWalls != null && audioSourceWalls[0].isPlaying);
+    }
 
     public static float ClosestPointOnBox(Vector3 point, Vector3 center, Vector3 axis0, Vector3 axis1, Vector3 axis2, Vector3 extents, out Vector3 closestPoint)
     {
@@ -345,6 +363,35 @@ public class M1Base : MonoBehaviour
     }
 
 
+    public Vector3 GetEuler(Quaternion q1)
+    {
+        float test = q1.x * q1.y + q1.z * q1.w;
+        if (test > 0.499) // singularity at north pole
+        {
+            return new Vector3(
+                0,
+                2 * Mathf.Atan2(q1.x, q1.w),
+                Mathf.PI / 2
+            ) * Mathf.Rad2Deg;
+        }
+        if (test < -0.499) // singularity at south pole
+        {
+            return new Vector3(
+                0,
+                -2 * Mathf.Atan2(q1.x, q1.w),
+                -Mathf.PI / 2
+            ) * Mathf.Rad2Deg;
+        }
+        float sqx = q1.x * q1.x;
+        float sqy = q1.y * q1.y;
+        float sqz = q1.z * q1.z;
+
+        return new Vector3(
+            Mathf.Atan2(2.0f * q1.x * q1.w - 2 * q1.y * q1.z, 1.0f - 2.0f * sqx - 2.0f * sqz),
+            Mathf.Atan2(2.0f * q1.y * q1.w - 2 * q1.x * q1.z, 1.0f - 2.0f * sqy - 2.0f * sqz),
+            Mathf.Sin(2.0f * test)
+        ) * Mathf.Rad2Deg;
+    }
 
     // Update is called once per frame
     void Update()
@@ -453,22 +500,28 @@ public class M1Base : MonoBehaviour
             quat *= Camera.main.transform.rotation;
 
             // Compute volumes
-            Vector3 eulerAngles = quat.eulerAngles;
-            eulerAngles.x = eulerAngles.x > 180 ? 360 - eulerAngles.x : -eulerAngles.x;
+            //Vector3 eulerAngles = quat.eulerAngles;
+            //eulerAngles.x = eulerAngles.x > 180 ? 360 - eulerAngles.x : -eulerAngles.x;
+            //eulerAngles.y += 180;
+
+            //eulerAngles = Quaternion.Euler(eulerAngles).eulerAngles;
+
+            // Debug.Log(Camera.main.name + " camera eulerAngles:" + eulerAngles);
+
+            Vector3 eulerAngles = GetEuler(quat);
+            eulerAngles.x *= -1;
             eulerAngles.y += 180;
-            //Debug.Log("eulerAngles:" + eulerAngles);
+            if (eulerAngles.z < 0) eulerAngles.z = 360 + eulerAngles.z;
 
             float[] volumes = SoundAlgorithm(eulerAngles.x, eulerAngles.y, eulerAngles.z);
             for (int i = 0; i < volumes.Length; i++)
             {
-                audioSourceWalls[i].loop = true;
                 audioSourceWalls[i].volume = volumeWalls * volumes[i];
             }
             if (useRoomMode)
             {
                 for (int i = 0; i < volumes.Length; i++)
                 {
-                    audioSourceRoom[i].loop = true;
                     audioSourceRoom[i].volume = volumeRoom * volumes[i];
                 }
             }

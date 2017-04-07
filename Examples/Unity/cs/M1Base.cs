@@ -4,12 +4,15 @@
 //Set each audioSourceWalls item calls script
 
 using UnityEngine;
+using UnityEngine.Audio;
 using System.Collections;
 using System.IO;
 
 public class M1Base : MonoBehaviour
 {
     public bool isFromAssets = true;
+    public AudioMixerGroup audioMixerGroup;
+
     public AudioClip[] audioClipWalls;
     public AudioClip[] audioClipRoom;
     public string audioPath = "file:///";
@@ -134,7 +137,9 @@ public class M1Base : MonoBehaviour
         source.loop = loop;
         source.playOnAwake = playAwake;
         source.volume = vol;
-
+        source.priority = 0;
+        source.spatialize = false;
+        source.outputAudioMixerGroup = audioMixerGroup;
         return source;
     }
 

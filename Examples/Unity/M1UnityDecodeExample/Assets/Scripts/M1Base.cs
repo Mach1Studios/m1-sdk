@@ -18,7 +18,6 @@ public class M1Base : MonoBehaviour
 
     [Space(10)]
     public bool autoPlay;
-    public bool isLoop;
     private bool isPlaying;
 
     [Space(10)]
@@ -134,6 +133,8 @@ public class M1Base : MonoBehaviour
         source.loop = loop;
         source.playOnAwake = playAwake;
         source.volume = vol;
+        source.spatialize = false;
+        source.priority = 0;
 
         return source;
     }
@@ -188,19 +189,19 @@ public class M1Base : MonoBehaviour
         {
             if (!room)
             {
-                audioSourceWalls[n * 2] = AddAudio(clip, isLoop, true, 1.0f);
+                audioSourceWalls[n * 2] = AddAudio(clip, false, true, 1.0f);
                 audioSourceWalls[n * 2].panStereo = -1;
 
-                audioSourceWalls[n * 2 + 1] = AddAudio(clip, isLoop, true, 1.0f);
+                audioSourceWalls[n * 2 + 1] = AddAudio(clip, false, true, 1.0f);
                 audioSourceWalls[n * 2 + 1].panStereo = 1;
                 loadedCountWalls++;
             }
             else
             {
-                audioSourceRoom[n * 2] = AddAudio(clip, isLoop, true, 1.0f);
+                audioSourceRoom[n * 2] = AddAudio(clip, false, true, 1.0f);
                 audioSourceRoom[n * 2].panStereo = -1;
 
-                audioSourceRoom[n * 2 + 1] = AddAudio(clip, isLoop, true, 1.0f);
+                audioSourceRoom[n * 2 + 1] = AddAudio(clip, false, true, 1.0f);
                 audioSourceRoom[n * 2 + 1].panStereo = 1;
                 loadedCountRoom++;
 
@@ -256,6 +257,7 @@ public class M1Base : MonoBehaviour
 
     public bool IsPlaying()
     {
+
         return (audioSourceRoom != null && audioSourceRoom[0].isPlaying) || (audioSourceWalls != null && audioSourceWalls[0].isPlaying);
     }
 
@@ -363,35 +365,32 @@ public class M1Base : MonoBehaviour
     }
 
 
-    public Vector3 GetEuler(Quaternion q1)
+    public void GetEuler(Quaternion q1, out float heading, out float attitude, out float bank)
     {
         float test = q1.x * q1.y + q1.z * q1.w;
-        if (test > 0.499) // singularity at north pole
-        {
-            return new Vector3(
-                0,
-                2 * Mathf.Atan2(q1.x, q1.w),
-                Mathf.PI / 2
-            ) * Mathf.Rad2Deg;
+        if (test > 0.499)
+        { // singularity at north pole
+            heading = 2 * Mathf.Atan2(q1.x, q1.w);
+            attitude = Mathf.PI / 2;
+            bank = 0;
+            return;
         }
-        if (test < -0.499) // singularity at south pole
-        {
-            return new Vector3(
-                0,
-                -2 * Mathf.Atan2(q1.x, q1.w),
-                -Mathf.PI / 2
-            ) * Mathf.Rad2Deg;
+        if (test < -0.499)
+        { // singularity at south pole
+            heading = -2 * Mathf.Atan2(q1.x, q1.w);
+            attitude = -Mathf.PI / 2;
+            bank = 0;
+            return;
         }
         float sqx = q1.x * q1.x;
         float sqy = q1.y * q1.y;
         float sqz = q1.z * q1.z;
-
-        return new Vector3(
-            Mathf.Atan2(2.0f * q1.x * q1.w - 2 * q1.y * q1.z, 1.0f - 2.0f * sqx - 2.0f * sqz),
-            Mathf.Atan2(2.0f * q1.y * q1.w - 2 * q1.x * q1.z, 1.0f - 2.0f * sqy - 2.0f * sqz),
-            Mathf.Sin(2.0f * test)
-        ) * Mathf.Rad2Deg;
+        heading = Mathf.Atan2(2.0f * q1.y * q1.w - 2 * q1.x * q1.z, 1.0f - 2.0f * sqy - 2.0f * sqz);
+        attitude = Mathf.Sin(2.0f * test);
+        bank = Mathf.Atan2(2.0f * q1.x * q1.w - 2 * q1.y * q1.z, 1.0f - 2.0f * sqx - 2.0f * sqz);
     }
+
+
 
     // Update is called once per frame
     void Update()
@@ -508,25 +507,68 @@ public class M1Base : MonoBehaviour
 
             // Debug.Log(Camera.main.name + " camera eulerAngles:" + eulerAngles);
 
-            Vector3 eulerAngles = GetEuler(quat);
-            eulerAngles.x *= -1;
-            eulerAngles.y += 180;
-            if (eulerAngles.z < 0) eulerAngles.z = 360 + eulerAngles.z;
 
-            float[] volumes = SoundAlgorithm(eulerAngles.x, eulerAngles.y, eulerAngles.z);
+
+            float yaw = 0;
+            float pitch = 0;
+            float roll = 0;
+
+            GetEuler(quat, out pitch, out roll, out yaw);
+
+            yaw *= Mathf.Rad2Deg;
+            pitch *= Mathf.Rad2Deg;
+            roll *= Mathf.Rad2Deg;
+
+            yaw *= -1;
+            pitch += 180;
+            if (roll < 0) roll = 360 + roll;
+
+            //     float[] volumes = SoundAlgorithm(eulerAngles.x, eulerAngles.y, eulerAngles.z);
+           float[] volumes = SoundAlgorithm(yaw, pitch, roll);
             for (int i = 0; i < volumes.Length; i++)
             {
-                audioSourceWalls[i].volume = volumeWalls * volumes[i];
+                audioSourceWalls[i].loop = false;
+                audioSourceWalls[i].volume =  volumeWalls * volumes[i];
             }
             if (useRoomMode)
             {
                 for (int i = 0; i < volumes.Length; i++)
                 {
-                    audioSourceRoom[i].volume = volumeRoom * volumes[i];
+                    audioSourceRoom[i].loop = false;
+                    audioSourceRoom[i].volume =  volumeRoom * volumes[i];
                 }
             }
 
-            if (drawHelpers)
+
+
+            /*
+            // check audio sync
+            float min = float.MaxValue;
+            float max = float.MinValue;
+
+            if (audioSourceRoom != null)
+                foreach (AudioSource source in audioSourceRoom)
+                    if (source != null)
+                    {
+                        min = Mathf.Min(min, source.time);
+                        max = Mathf.Max(max, source.time);
+                    }
+
+
+            if (audioSourceWalls != null)
+                foreach (AudioSource source in audioSourceWalls)
+                    if (source != null)
+                    {
+                        min = Mathf.Min(min, source.time);
+                        max = Mathf.Max(max, source.time);
+                    }
+
+ 
+                print(this.gameObject.name + " , diff sync =  " + (max - min));
+*/
+
+
+                if (drawHelpers)
             {
                 // Draw forward vector from camera
                 Vector3 targetForward = Camera.main.transform.rotation * (Vector3.forward * 3);

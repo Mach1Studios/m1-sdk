@@ -1,4 +1,4 @@
-﻿//Mach1
+//Mach1
 //2016
 //
 //Set each audioSourceWalls item calls script
@@ -514,7 +514,7 @@ public class M1Base : MonoBehaviour
             // Debug.Log(Camera.main.name + " camera eulerAngles:" + eulerAngles);
 
             Vector3 eulerAngles = GetEuler(quat);
-            eulerAngles.x *= -1;
+//            eulerAngles.x *= -1;
             eulerAngles.y += 180;
             if (eulerAngles.z < 0) eulerAngles.z = 360 + eulerAngles.z;
 

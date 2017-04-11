@@ -3,7 +3,7 @@
 //
 //  Multichannel audio format family
 //
-//  Mixing algorithms v 0.9.5
+//  Mixing algorithms v 0.9.71b
 //
 
 #pragma once
@@ -276,8 +276,8 @@ static std::vector<float> eightChannelsIsotropicAlgorithm(float Yaw, float Pitch
                                                  mPoint(cos(mDegToRad(simulationAngles[1] - 90)),
                                                         sin(mDegToRad(simulationAngles[1] - 90))).normalize());
     
-    mPoint faceVectorLeft = faceVector21.getRotated(-simulationAngles[2] - 90, faceVector2);
-    mPoint faceVectorRight = faceVector21.getRotated(-simulationAngles[2] + 90, faceVector2);
+    mPoint faceVectorLeft = faceVector21.getRotated(-simulationAngles[2] + 90, faceVector2);
+    mPoint faceVectorRight = faceVector21.getRotated(-simulationAngles[2] - 90, faceVector2);
     
     
     mPoint faceVectorOffsetted = mPoint(cos(mDegToRad(simulationAngles[1])),
@@ -317,15 +317,42 @@ static std::vector<float> eightChannelsIsotropicAlgorithm(float Yaw, float Pitch
     result.resize(16);
     
     for (int i = 0; i < 8; i++) {
-        float vL = clamp(mmap(qL[i] * 2, 250, 400, 1., 0.), 0, 1) / 2;
-        float vR = clamp(mmap(qR[i] * 2, 250, 400, 1., 0.), 0, 1) / 2;
+        float vL = clamp(mmap(qL[i], 0, 223, 1., 0.), 0, 1);
+        float vR = clamp(mmap(qR[i], 0, 223, 1., 0.), 0, 1);
         
         result[i * 2] = vL;
         result[i  * 2 + 1] = vR;
         
     }
     
+    // exp v2 //
     
+    float sumL = 0, sumR = 0;
+    for (int i = 0; i < 8; i++) {
+        sumL += result[i * 2];
+        sumR += result[i * 2 + 1];
+    }
+    
+    float multipliersL[8], multipliersR[8];
+    for (int i = 0; i < 8; i++) {
+        multipliersL[i] = result[i * 2] / sumL;
+        multipliersR[i] = result[i * 2 + 1] / sumR;
+    }
+    
+    float sumDiffL = sumL - 1.;
+    float sumDiffR = sumR - 1.;
+    
+    float correctedVolumesL[8], correctedVolumesR[8];
+    for (int i = 0; i < 8; i++) {
+        correctedVolumesL[i] = result[i * 2] - sumDiffL * multipliersL[i];
+        correctedVolumesR[i] = result[i * 2 + 1] - sumDiffR * multipliersR[i];
+    }
+    
+    for (int i = 0; i < 8; i++) {
+        result[i * 2] = correctedVolumesL[i];
+        result[i * 2 + 1] = correctedVolumesR[i];
+    }
+
     return result;
 }
 

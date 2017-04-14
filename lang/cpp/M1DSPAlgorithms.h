@@ -3,8 +3,14 @@
 //
 //  Multichannel audio format family
 //
-//  Mixing algorithms v 0.9.8a
+//  Mixing algorithms v 0.9.8b
 //
+
+/*
+DISCLAIMER:
+This header file is not an example of use but an encoder that will require periodic
+updates and should not be integrated in sections but remain as an update-able factored file.
+*/
 
 #pragma once
 
@@ -261,7 +267,7 @@ static std::vector<float> fourPairsAlgorithm(float Yaw, float Pitch, float Roll)
 //
 
 static std::vector<float> eightChannelsIsotropicAlgorithm(float Yaw, float Pitch, float Roll) {
-    mPoint simulationAngles = mPoint(Yaw, Pitch, Roll);
+    mPoint simulationAngles = mPoint( -Pitch, Yaw, Roll);
     
     mPoint faceVector1 = mPoint(  cos(mDegToRad(simulationAngles[1])),
                                 sin(mDegToRad(simulationAngles[1]))).normalize();

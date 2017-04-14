@@ -5,8 +5,13 @@
 //
 //  Mixing algorithms in Java
 //
-//  Updated to match: 0.9.8a
+//  Updated to match: 0.9.8b
 
+/*
+DISCLAIMER:
+This header file is not an example of use but an encoder that will require periodic
+updates and should not be integrated in sections but remain as an update-able factored file.
+*/
  
 import java.util.*;
 

@@ -3,7 +3,7 @@
 //
 //  Multichannel audio format family
 //
-//  Mixing algorithms v 0.9.71b
+//  Mixing algorithms v 0.9.8a
 //
 
 #pragma once
@@ -325,7 +325,7 @@ static std::vector<float> eightChannelsIsotropicAlgorithm(float Yaw, float Pitch
         
     }
     
-    // exp v2 //
+    // Volume Balancer v2.0
     
     float sumL = 0, sumR = 0;
     for (int i = 0; i < 8; i++) {

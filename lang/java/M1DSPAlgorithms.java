@@ -3,8 +3,8 @@
 //
 //  Multichannel audio format family
 //
-//  Mixing algorithms in Java
-//
+//  Mixing algorithms in Java: 0.9.8bJ
+//  
 //  Updated to match: 0.9.8b
 
 /*
@@ -15,9 +15,7 @@ updates and should not be integrated in sections but remain as an update-able fa
  
 import java.util.*;
 
-final static float __FLT_EPSILON__ = 1.19209290e-07F;
-
-public class mPoint
+class mPoint
 {
   public float x;
   public float y;
@@ -81,7 +79,7 @@ public class mPoint
   public final mPoint rotate(float angle, mPoint axis)
   {
     mPoint ax = axis.getNormalized();
-    float a = (float)(angle * PI / 180.0);
+    float a = (float)(angle * Math.PI / 180.0);
     float sina = (float)Math.sin(a);
     float cosa = (float)Math.cos(a);
     float cosb = 1.0f - cosa;
@@ -123,7 +121,7 @@ public class mPoint
   public final mPoint getRotated(float angle, mPoint axis)
   {
     mPoint ax = axis.getNormalized();
-    float a = (float)(angle * PI / 180.0);
+    float a = (float)(angle * Math.PI / 180.0);
     float sina = (float)Math.sin(a);
     float cosa = (float)Math.cos(a);
     float cosb = 1.0f - cosa;
@@ -132,10 +130,13 @@ public class mPoint
   }
 }
 
+public class M1DSPAlgorithms {
+
+final static float __FLT_EPSILON__ = 1.19209290e-07F;
 
 private static float mDegToRad(float degrees)
 {
-  return degrees * DEG_TO_RAD;
+  return degrees * (float)(180.0f / Math.PI);
 }
 
 //Utility function for mapping values
@@ -202,16 +203,16 @@ private static float alignAngle(float a, float min, float max)
 
 
 
-private ArrayList<Float> fourChannelAlgorithm(float Yaw, float Pitch, float Roll)
+public static ArrayList<Float> fourChannelAlgorithm(float Yaw, float Pitch, float Roll)
 {
   //Orientation input safety clamps/alignment
   Yaw = alignAngle(Yaw, 0, 360);
   
   float[] coefficients = new float[4];
-  coefficients[0] = 1.0 - Math.min(1.0, Math.min((float)360.0 - Yaw, Yaw) / 90.0);
-  coefficients[1] = 1.0 - Math.min(1.0, Math.abs((float)90.0 - Yaw) / 90.0);
-  coefficients[2] = 1.0 - Math.min(1.0, Math.abs((float)180.0 - Yaw) / 90.0);
-  coefficients[3] = 1.0 - Math.min(1.0, Math.abs((float)270.0 - Yaw) / 90.0);
+  coefficients[0] = 1.0f - Math.min(1.0f, Math.min((float)360.0 - Yaw, Yaw) / 90.0f);
+  coefficients[1] = 1.0f - Math.min(1.0f, Math.abs((float)90.0 - Yaw) / 90.0f);
+  coefficients[2] = 1.0f - Math.min(1.0f, Math.abs((float)180.0 - Yaw) / 90.0f);
+  coefficients[3] = 1.0f - Math.min(1.0f, Math.abs((float)270.0 - Yaw) / 90.0f);
 
 
   ArrayList<Float> result = new ArrayList<Float>();
@@ -229,7 +230,7 @@ private ArrayList<Float> fourChannelAlgorithm(float Yaw, float Pitch, float Roll
 }
 
 
-private ArrayList<Float> eightChannelsAlgorithm(float Yaw, float Pitch, float Roll)
+public static ArrayList<Float> eightChannelsAlgorithm(float Yaw, float Pitch, float Roll)
 {
   //ensure the angles are clamped and aligned on input
   Pitch = alignAngle(Pitch, -180, 180);
@@ -243,17 +244,17 @@ private ArrayList<Float> eightChannelsAlgorithm(float Yaw, float Pitch, float Ro
 
   //setup the yaw math
   float[] coefficients = new float[4]; //<>//
-  coefficients[0] = 1.0 - Math.min(1.0, Math.min((float)360.0 - Yaw, Yaw) / 90.0);
-  coefficients[1] = 1.0 - Math.min(1.0, Math.abs((float)90.0 - Yaw) / 90.0);
-  coefficients[2] = 1.0 - Math.min(1.0, Math.abs((float)180.0 - Yaw) / 90.0);
-  coefficients[3] = 1.0 - Math.min(1.0, Math.abs((float)270.0 - Yaw) / 90.0);
+  coefficients[0] = 1.0f - Math.min(1.0f, Math.min((float)360.0 - Yaw, Yaw) / 90.0f);
+  coefficients[1] = 1.0f - Math.min(1.0f, Math.abs((float)90.0 - Yaw) / 90.0f);
+  coefficients[2] = 1.0f - Math.min(1.0f, Math.abs((float)180.0 - Yaw) / 90.0f);
+  coefficients[3] = 1.0f - Math.min(1.0f, Math.abs((float)270.0 - Yaw) / 90.0f);
 
-  float tiltAngle = mmap(Roll, -90, 90, 0.0, 1.0, true);
+  float tiltAngle = mmap(Roll, -90, 90, 0.0f, 1.0f, true);
   //Equal Power crossfade if needed
   //float tiltHigh = cos(tiltAngle * (0.5 * PI));
   //float tiltLow = cos((1.0 - tiltAngle) * (0.5 * PI));
   float tiltHigh = tiltAngle;
-  float tiltLow = 1. - tiltHigh;
+  float tiltLow = 1.0f - tiltHigh;
 
   //ISSUE//
   //Able to kill stereo by making both pitch and tilt at max or min values together
@@ -282,7 +283,7 @@ private ArrayList<Float> eightChannelsAlgorithm(float Yaw, float Pitch, float Ro
   result.set(7 + 8, coefficients[1] * tiltLow); //   right
 
   //Pitch orientation input
-  float pitchAngle = mmap(Pitch, 90, -90, 0.0, 1.0, true);
+  float pitchAngle = mmap(Pitch, 90, -90, 0.0f, 1.0f, true);
   //Equal Power crossfade if needed
   //float pitchHigherHalf = cos(pitchAngle * (0.5*PI));
   //float pitchLowerHalf = cos((1.0 - pitchAngle) * (0.5*PI));
@@ -299,7 +300,7 @@ private ArrayList<Float> eightChannelsAlgorithm(float Yaw, float Pitch, float Ro
 }
 
 
-private ArrayList<Float> eightChannelsIsotropicAlgorithm(float Yaw, float Pitch, float Roll)
+public static ArrayList<Float> eightChannelsIsotropicAlgorithm(float Yaw, float Pitch, float Roll)
 {
   mPoint simulationAngles =  new mPoint(-Pitch, Yaw, Roll);
 
@@ -356,8 +357,8 @@ private ArrayList<Float> eightChannelsIsotropicAlgorithm(float Yaw, float Pitch,
 
   for (int i = 0; i < 8; i++)
   {
-    float vL = clamp(mmap(qL[i], 0, 223, 1.0, 0.0, false), 0, 1);
-    float vR = clamp(mmap(qR[i], 0, 223, 1.0, 0.0, false), 0, 1);
+    float vL = clamp(mmap(qL[i], 0, 223, 1.0f, 0.0f, false), 0, 1);
+    float vR = clamp(mmap(qR[i], 0, 223, 1.0f, 0.0f, false), 0, 1);
 
 
 
@@ -388,8 +389,8 @@ private ArrayList<Float> eightChannelsIsotropicAlgorithm(float Yaw, float Pitch,
         multipliersR[i] = result.get(i * 2 + 1) / sumR;
   }
   
-  float sumDiffL = sumL - 1.;
-  float sumDiffR = sumR - 1.;
+  float sumDiffL = sumL - 1.0f;
+  float sumDiffR = sumR - 1.0f;
   
   float[] correctedVolumesL = new float[8]; 
   float[] correctedVolumesR = new float[8];

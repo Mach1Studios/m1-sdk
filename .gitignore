@@ -7,9 +7,6 @@
 *.xcconfig
 # Unity generated #
 # =============== #
-*/Library/*
-*/Library/
-*/Library
 [Tt]emp/
 [Oo]bj/
 [Bb]uild

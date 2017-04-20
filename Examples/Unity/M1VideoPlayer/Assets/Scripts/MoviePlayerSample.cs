@@ -61,7 +61,7 @@ Implementation:
 
 public class MoviePlayerSample : MonoBehaviour
 {
-	public string moviePath = "/storage/extSdCard/DearAngelica/DearAngelica_Trailer_16C_LONDON_adamb_mute.mov";
+	public string moviePath = "/storage/emulated/0/Mach1/M1SpatialLoader/video.mp4";
 	private int nativeTextureID;
 	bool	startedVideo = false;
 	

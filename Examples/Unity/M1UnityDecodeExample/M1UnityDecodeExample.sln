@@ -1,7 +1,7 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2008
-
-Project("{5B014C28-0436-BF79-AD7B-AB224D7AB046}") = "M1 Example Player Cube", "Assembly-CSharp.csproj", "{17FFCC34-1578-1915-5EB4-5AD2171AE7FE}"
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "M1UnityDecodeExample.CSharp", "M1UnityDecodeExample.CSharp.csproj", "{B12348B4-AFA9-00E7-B993-DA2545706186}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,15 +9,12 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{17FFCC34-1578-1915-5EB4-5AD2171AE7FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{17FFCC34-1578-1915-5EB4-5AD2171AE7FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{17FFCC34-1578-1915-5EB4-5AD2171AE7FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{17FFCC34-1578-1915-5EB4-5AD2171AE7FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B12348B4-AFA9-00E7-B993-DA2545706186}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B12348B4-AFA9-00E7-B993-DA2545706186}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B12348B4-AFA9-00E7-B993-DA2545706186}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B12348B4-AFA9-00E7-B993-DA2545706186}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Assembly-CSharp.csproj
 	EndGlobalSection
 EndGlobal

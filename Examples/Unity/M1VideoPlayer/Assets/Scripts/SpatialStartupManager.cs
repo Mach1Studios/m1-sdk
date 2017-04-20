@@ -8,7 +8,7 @@ public class SpatialStartupManager : MonoBehaviour
     /// This holds references to the sounds we want to load and then play in unison
     /// </summary>
     public List<M1SpatialDecode> sounds = new List<M1SpatialDecode>();
-    public List<MoviePlayerSample> movies = new List<MoviePlayerSample>();
+    public List<MediaPlayerCtrl> movies = new List<MediaPlayerCtrl>();
 
     bool bLoadComplete;
 
@@ -28,6 +28,11 @@ public class SpatialStartupManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
+      
+
+
         if (!bLoadComplete)
         {
             CheckAudioReady();
@@ -36,15 +41,22 @@ public class SpatialStartupManager : MonoBehaviour
         {
             for (int i = 0; i < movies.Count; i++)
             {
-                movies[i].PlayVideo();
+                movies[i].Play();
             }
             for (int i = 0; i < sounds.Count; i++)
             {
                 sounds[i].PlayAudio();
             }
+
+      
             gameObject.SetActive(false);
         }
+ 
+        
     }
+
+
+
 
     /// <summary>
     /// Query our directional sounds to see if the audio was loaded

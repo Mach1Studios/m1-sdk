@@ -136,6 +136,7 @@
     <Compile Include="Assets\Scripts\MoviePlayerSample.cs" />
     <Compile Include="Assets\Scripts\SpatialStartupManager.cs" />
     <Compile Include="Assets\Scripts\StartupManager.cs" />
+    <Compile Include="Assets\Scripts\TestSyncScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\EasyMovieTexture\Chromakey.shader" />

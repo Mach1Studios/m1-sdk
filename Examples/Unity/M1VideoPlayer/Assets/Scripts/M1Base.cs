@@ -259,6 +259,13 @@ public class M1Base : MonoBehaviour
                     source.time = timeInSeconds;
     }
 
+    public float GetPositon()
+    {
+        if (audioSourceRoom != null && audioSourceRoom[0]) return audioSourceRoom[0].time;
+        else if (audioSourceWalls != null && audioSourceWalls[0]) return audioSourceWalls[0].time;
+        return 0;
+    }
+
     public bool IsPlaying()
     {
         return (audioSourceRoom != null && audioSourceRoom[0].isPlaying) || (audioSourceWalls != null && audioSourceWalls[0].isPlaying);

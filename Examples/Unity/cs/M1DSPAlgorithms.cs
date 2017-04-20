@@ -5,7 +5,13 @@
 //
 //  Mixing algorithms Unity
 //
-//  Updated to match: 0.9.5.1
+//  Updated to match: 0.9.8b
+
+/*
+DISCLAIMER:
+This header file is not an example of use but an encoder that will require periodic
+updates and should not be integrated in sections but remain as an update-able factored file.
+*/
 
 using System;
 
@@ -330,15 +336,15 @@ public class M1DSPAlgorithms
 
     public static float[] eightChannelsIsotropicAlgorithm(float Yaw, float Pitch, float Roll)
     {
-        mPoint simulationAngles = new mPoint(Yaw, Pitch, Roll);
+        mPoint simulationAngles = new mPoint(-Pitch, Yaw, Roll);
 
         mPoint faceVector1 = new mPoint((float)Math.Cos(mDegToRad(simulationAngles[1])), (float)Math.Sin(mDegToRad(simulationAngles[1]))).normalize();
 
         mPoint faceVector2 = faceVector1.getRotated(simulationAngles[0], new mPoint((float)Math.Cos(mDegToRad(simulationAngles[1] - 90)), (float)Math.Sin(mDegToRad(simulationAngles[1] - 90))).normalize());
         mPoint faceVector21 = faceVector1.getRotated(simulationAngles[0] + 90, new mPoint((float)Math.Cos(mDegToRad(simulationAngles[1] - 90)), (float)Math.Sin(mDegToRad(simulationAngles[1] - 90))).normalize());
 
-        mPoint faceVectorLeft = faceVector21.getRotated(-simulationAngles[2] - 90, faceVector2);
-        mPoint faceVectorRight = faceVector21.getRotated(-simulationAngles[2] + 90, faceVector2);
+        mPoint faceVectorLeft = faceVector21.getRotated(-simulationAngles[2] + 90, faceVector2);
+        mPoint faceVectorRight = faceVector21.getRotated(-simulationAngles[2] - 90, faceVector2);
 
 
         mPoint faceVectorOffsetted = new mPoint((float)Math.Cos(mDegToRad(simulationAngles[1])), (float)Math.Sin(mDegToRad(simulationAngles[1]))).normalize().rotate(simulationAngles[0] + 10, new mPoint((float)Math.Cos(mDegToRad(simulationAngles[1] - 90)), (float)Math.Sin(mDegToRad(simulationAngles[1] - 90))).normalize()) - faceVector2;
@@ -375,11 +381,39 @@ public class M1DSPAlgorithms
 
         for (int i = 0; i < 8; i++)
         {
-            float vL = clamp(mmap(qL[i] * 2, 250, 400, 1.0f, 0.0f, false), 0, 1) / 2;
-            float vR = clamp(mmap(qR[i] * 2, 250, 400, 1.0f, 0.0f, false), 0, 1) / 2;
+            float vL = clamp(mmap(qL[i], 0, 223, 1., 0.), 0, 1);
+            float vR = clamp(mmap(qR[i], 0, 223, 1., 0.), 0, 1);
 
-            result[i * 2] = vR;
-            result[i * 2 + 1] = vL;
+            result[i * 2] = vL;
+            result[i  * 2 + 1] = vR;
+        }
+
+        // Volume Balancer v2.0
+    
+        float sumL = 0, sumR = 0;
+        for (int i = 0; i < 8; i++) {
+            sumL += result[i * 2];
+            sumR += result[i * 2 + 1];
+        }
+        
+        float multipliersL[8], multipliersR[8];
+        for (int i = 0; i < 8; i++) {
+            multipliersL[i] = result[i * 2] / sumL;
+            multipliersR[i] = result[i * 2 + 1] / sumR;
+        }
+        
+        float sumDiffL = sumL - 1.;
+        float sumDiffR = sumR - 1.;
+        
+        float correctedVolumesL[8], correctedVolumesR[8];
+        for (int i = 0; i < 8; i++) {
+            correctedVolumesL[i] = result[i * 2] - sumDiffL * multipliersL[i];
+            correctedVolumesR[i] = result[i * 2 + 1] - sumDiffR * multipliersR[i];
+        }
+        
+        for (int i = 0; i < 8; i++) {
+            result[i * 2] = correctedVolumesL[i];
+            result[i * 2 + 1] = correctedVolumesR[i];
         }
 
         return result;

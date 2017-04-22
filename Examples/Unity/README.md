@@ -19,3 +19,6 @@ It is recommended to increase your project's `ProjectSettings` `Max Real Voices`
 #### Further Use:
  - All Mach1 Spatial audio formats are contained in the `M1DSPAlgorithms.cs` as functions that can be called with custom use. Simply return those coefficients as audio source volume multipliers to use the desired format, reference the `M1SpatialDecode.cs` as an example. 
  - Non-Pair formats will usually be accompanied by an additional Stereo layer that can use traditional Unity stereo audio implementation, it just needs to be called with the same event as the spatial audio.
+ 
+ 
+ #### Set projects settings - increase real voices count from 32 to something like 256...

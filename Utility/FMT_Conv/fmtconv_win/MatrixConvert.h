@@ -5,7 +5,7 @@
 class MatrixConvert
 {
 public:
-	static enum {
+	static enum FmtType {
 		FuMa,
 		ACNSN3D,
 		Square,
@@ -14,10 +14,13 @@ public:
 		Cube,
 		CubeS,
 		Cube16
+		ACNSN3DO2A
+		FuMaO2A
 	} Formats;
 
 	MatrixConvert();
-	int convert(int inFmt, float** inBufs, int outFmt, float** outBufs, int numSamples);
+	int getNumChannels(FmtType fmt);
+	int convert(FmtType inFmt, float** inBufs, FmtType outFmt, float** outBufs, int numSamples);
 
 private:
 	const static int NUMFMTS = 8;
@@ -34,15 +37,15 @@ private:
 	// --- FuMa ---
 	float FuMa2ACNSN3D[4][4] =
 	{ { r2, 0, 0, 0 },
-  	  { 0, 0, r3, 0 },
-	  { 0, 0, 0, r3 },
-	  { 0, r3, 0, 0 } };
+  	  { 0, 0, 1, 0 },
+	  { 0, 0, 0, 1 },
+	  { 0, 1, 0, 0 } };
 	// -- ACN/SN3D ---
 	float ACNSN3D2FuMa[4][4] =
 	{ { oor2, 0, 0, 0 },
-	  { 0, 0, 0, oor3 },
-	  { 0, oor3, 0, 0 },
-	  { 0, 0, oor3, 0 } };
+	  { 0, 0, 0, 1 },
+	  { 0, 1, 0, 0 },
+	  { 0, 0, 1, 0 } };
 
 	// --- Square ---
 	float Square2FuMa[4][4] =
@@ -52,9 +55,9 @@ private:
 	  { 0, 0, 0, 0 } };
 	float Square2ACNSN3D[4][4] =
 	{ { 1, 1, 1, 1 },
-	  { r3*oor2, -r3*oor2, -r3*oor2, r3*oor2 },
+	  { oor2, -oor2, -oor2, oor2 },
 	  { 0, 0, 0, 0 },
-	  { r3*oor2, r3*oor2, -r3*oor2, -r3*oor2 } };
+	  { oor2, oor2, -oor2, -oor2 } };
 	float Square2Square8[8][4] =
 	{ { 1, 0, 0, 0 },
 	  { 0, 1, 0, 0 },
@@ -99,9 +102,9 @@ private:
 	  { 0, 0, 0, 0, 0, 0 } };
 	float SquareS2ACNSN3D[4][6] =
 	{ { 1, 1, 1, 1, 1, 1 },
-	  { r3*oor2, -r3*oor2, -r3*oor2, r3*oor2, 0, 0 },
+	  { oor2, -oor2, -oor2, oor2, 0, 0 },
 	  { 0, 0, 0, 0, 0, 0 },
-	  { r3*oor2, r3*oor2, -r3*oor2, -r3*oor2, 0, 0 } };
+	  { oor2, oor2, -oor2, -oor2, 0, 0 } };
 	float SquareS2Square[4][6] =
 	{ { 1, 0, 0, 0, 0.25f, 0.25f },
 	  { 0, 1, 0, 0, 0.25f, 0.25f },
@@ -155,11 +158,31 @@ private:
 	  { 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f },
 	  { 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f },
 	  { oor2, oor2, oor2, oor2, -oor2, -oor2, -oor2, -oor2 } };
+	// float Cube2FuMaO2A[9][8] =
+	// { { oor2, oor2, oor2, oor2, oor2, oor2, oor2, oor2 }, //W
+	//   { 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f }, //X
+	//   { 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f }, //Y
+	//   { oor2, oor2, oor2, oor2, -oor2, -oor2, -oor2, -oor2 }, //Z
+	//   { }, //R
+	//   { }, //S
+	//   { }, //T
+	//   { }, //U
+	//   { } }; //V
 	float Cube2ACNSN3D[4][8] =
-	{ { oor3, oor3, oor3, oor3, oor3, oor3, oor3, oor3 },
-  	  { r3o2, -r3o2, r3o2, -r3o2, r3o2, -r3o2, r3o2, -r3o2 },
-	  { r3or2, r3or2, r3or2, r3or2, -r3or2, -r3or2, -r3or2, -r3or2 },
-	  { r3o2, r3o2, -r3o2, -r3o2, r3o2, r3o2, -r3o2, -r3o2 } };
+	{ { 1, 1, 1, 1, 1, 1, 1, 1 },
+	  { 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f },
+	  { oor2, oor2, oor2, oor2, -oor2, -oor2, -oor2, -oor2 },
+	  { 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f } };
+	// float Cube2ACNSN3DO2A[9][8] =
+	// { { 1, 1, 1, 1, 1, 1, 1, 1 }, //W
+	//   { 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f }, //X
+	//   { oor2, oor2, oor2, oor2, -oor2, -oor2, -oor2, -oor2 }, //Y
+	//   { 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f }, //Z
+	//   { -0.25f, -0.25f, -0.25f, -0.25f, -0.25f, -0.25f, -0.25f, -0.25f }, //R?
+	//   { 0.5f, -0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f }, //S
+	//   { 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f }, //T?
+	//   { 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f, 0.5f }, //U
+	//   { -0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f, -0.5f, -0.5f } }; //V
 	float Cube2Square[4][8] =
 	{ { 0.5f, 0, 0, 0, 0.5f, 0, 0, 0 },
 	  { 0, 0.5f, 0, 0, 0, 0.5f, 0, 0 },
@@ -199,10 +222,10 @@ private:
 	  { 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0, 0 },
 	  { oor2, oor2, oor2, oor2, -oor2, -oor2, -oor2, -oor2, 0, 0 } };
 	float CubeS2ACNSN3D[4][10] =
-	{ { oor3, oor3, oor3, oor3, oor3, oor3, oor3, oor3, 1, 1 },
-	  { r3o2, -r3o2, r3o2, -r3o2, r3o2, -r3o2, r3o2, -r3o2, 0, 0 },
-	  { r3or2, r3or2, r3or2, r3or2, -r3or2, -r3or2, -r3or2, -r3or2, 0, 0 },
-	  { r3o2, r3o2, -r3o2, -r3o2, r3o2, r3o2, -r3o2, -r3o2, 0, 0 } };
+	{ { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+	  { 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0, 0 },
+	  { oor2, oor2, oor2, oor2, -oor2, -oor2, -oor2, -oor2, 0, 0 },
+	  { 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f, 0, 0 } };
 	float CubeS2Square[4][10] =
 	{ { 0.5f, 0, 0, 0, 0.5f, 0, 0, 0, 0.25f, 0.25f },
 	  { 0, 0.5f, 0, 0, 0, 0.5f, 0, 0, 0.25f, 0.25f },

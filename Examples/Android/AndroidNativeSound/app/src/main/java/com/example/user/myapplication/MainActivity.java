@@ -69,7 +69,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         String framesPerBuffer = am.getProperty(AudioManager.PROPERTY_OUTPUT_FRAMES_PER_BUFFER);
         int framesPerBufferInt = Integer.parseInt(framesPerBuffer);
         if (framesPerBufferInt == 0) framesPerBufferInt = 1024; // Use default
-        initAudio(2048);//framesPerBufferInt * 2);
+        initAudio(framesPerBufferInt * 2);
 
         // Get an instance of the SensorManager
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
@@ -147,6 +147,8 @@ public class MainActivity extends Activity implements SensorEventListener {
                 float mAzimut = (float)( Math.toDegrees( mOrientation[0]) + 0 ) % 360; // orientation contains: azimut, pitch and roll
                 float mPitch = (float)( Math.toDegrees( mOrientation[1]) + 0 ) % 360;
                 float mRoll = (float)( Math.toDegrees( mOrientation[2]) + 0 ) % 360;
+
+                setAudioAngles(mAzimut, mPitch, mRoll);
 
                 Log.v(LOG_TAG, "SENSOR: " + mAzimut + " , " + mPitch + " , " + mRoll + " , " );
 
@@ -241,6 +243,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     public native void initAudio(int framesPerBufferInt);
     public native void shutdownAudio();
+
+    public native void setAudioAngles(float Yaw, float Pitch, float Roll);
 
     public native void playAudio(AssetManager assetsManager, String name );
     public native void stopAudio();

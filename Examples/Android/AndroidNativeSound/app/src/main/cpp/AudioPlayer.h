@@ -2,16 +2,17 @@
 
 extern "C"
 {
-	#include <libavutil/imgutils.h>
-	#include <libavutil/samplefmt.h>
-	#include <libavutil/timestamp.h>
-	#include <libavformat/avformat.h>
+#include <libavutil/imgutils.h>
+#include <libavutil/samplefmt.h>
+#include <libavutil/timestamp.h>
+#include <libavformat/avformat.h>
 }
 
 #include <thread>
 #include <unistd.h>
 
-#define AUDIO_PLAYER_BUFFERSIZE (4 * 4096)
+#define AUDIO_PLAYER_BUFFERSIZE (2 * 4096)
+#define AUDIO_PLAYER_CHANNELS 8
 
 class AudioPlayer
 {
@@ -25,7 +26,7 @@ class AudioPlayer
 	int video_stream_idx = -1, audio_stream_idx = -1;
 	AVFrame *frame = NULL;
 	AVPacket pkt;
-	 
+
 	int video_frame_count = 0;
 	int audio_frame_count = 0;
 
@@ -37,8 +38,7 @@ class AudioPlayer
 
 
 public:
-    float bufferL[AUDIO_PLAYER_BUFFERSIZE];
-    float bufferR[AUDIO_PLAYER_BUFFERSIZE];
+	float buffer[AUDIO_PLAYER_CHANNELS][AUDIO_PLAYER_BUFFERSIZE];
 	long bufferWrite = 0;
 	long bufferRead = 0;
 	bool ready = false;
@@ -50,5 +50,4 @@ public:
 	void Play(int fd);
 	void Stop();
 	bool Get(float * buf, int samples);
-    bool Get(short * buf, int samples);
 };

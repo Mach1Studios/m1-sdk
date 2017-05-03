@@ -132,11 +132,10 @@ bool OpenSLWrap_Init(int framesPerBufferInt, AndroidAudioCallback cb) {
 
     for (int i = 0; i < 2; i++) {
         buffer[i] = new short[_BUFFER_SIZE];
+        for (int j = 0; j < _BUFFER_SIZE; j++) {
+            buffer[i][j] = 0; // or only curBuffer
+        }
     }
-    for (int i = 0; i < _BUFFER_SIZE; i++) {
-        buffer[curBuffer][i] = 0;
-    }
-
     //audioCallback(buffer[curBuffer], BUFFER_SIZE_IN_SAMPLES);
 
     result = (*bqPlayerBufferQueue)->Enqueue(bqPlayerBufferQueue, buffer[curBuffer],  _BUFFER_SIZE * sizeof(short) );
@@ -174,13 +173,12 @@ void OpenSLWrap_Shutdown() {
 
 
 
-#include "AudioPlayer.h"
+#include "M1AudioPlayer.h"
 
-AudioPlayer audioPlayer;
+M1AudioPlayer audioPlayer;
 
 static int MyAndroidAudioCallback(short *buffer, int num_samples)
 {
-
     audioPlayer.Get(buffer, num_samples);
 
     /*
@@ -248,6 +246,16 @@ Java_com_example_user_myapplication_MainActivity_stopAudio(
     assert(SL_RESULT_SUCCESS == (*bqPlayerPlay)->SetPlayState(bqPlayerPlay, SL_PLAYSTATE_STOPPED));
 }
 
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_user_myapplication_MainActivity_setAudioAngles(
+        JNIEnv *env,
+        jobject /* this */,
+        jfloat Yaw, jfloat Pitch, jfloat Roll) {
+    audioPlayer.SetAngles(Yaw, Pitch, Roll);
+}
+
+
 
 
 extern "C"
@@ -258,7 +266,6 @@ Java_com_example_user_myapplication_MainActivity_initAudio(
         jint  framesPerBufferInt ) {
     OpenSLWrap_Init(framesPerBufferInt, MyAndroidAudioCallback);
 }
-
 
 extern "C"
 JNIEXPORT void JNICALL

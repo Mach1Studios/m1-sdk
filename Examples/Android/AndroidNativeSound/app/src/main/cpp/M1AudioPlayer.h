@@ -5,18 +5,19 @@
 
 class M1AudioPlayer : public AudioPlayer
 {
-    mPoint anglesCur;
-    mPoint anglesDest;
+    M1DSPInstance::mPoint anglesCur;
+    M1DSPInstance::mPoint anglesDest;
     /*
     float Yaw;
     float Pitch;
     float Roll;
 */
-    mPoint lerp (mPoint p1, mPoint p2, float prc)
+    M1DSPInstance::mPoint lerp (M1DSPInstance::mPoint p1, M1DSPInstance::mPoint p2, float prc)
     {
         return p1 * prc + p2 * (1-prc);
     }
 
+M1DSPInstance m1dspInstance;
 
 public:
     void SetAngles(float Yaw, float Pitch, float Roll)
@@ -28,7 +29,7 @@ public:
     {
         if (ready && running)
         {
-            std::vector<float> volumes = eightChannelsIsotropicAlgorithm(anglesCur.x, anglesCur.y, anglesCur.z);
+            std::vector<float> volumes = m1dspInstance.eightChannelsIsotropicAlgorithm(anglesCur.x, anglesCur.y, anglesCur.z);
 
             float sndL = 0;
             float sndR = 0;

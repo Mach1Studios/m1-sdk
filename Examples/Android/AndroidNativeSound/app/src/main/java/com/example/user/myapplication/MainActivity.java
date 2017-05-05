@@ -180,7 +180,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     protected void Play()
     {
-        playAudio(getAssets(), "out.aac");
+        //Guitar-8ch.aac
+        //out.aac
+        playAudio(getAssets(), "Guitar-8ch.aac");
 /*
         new Thread(new Runnable() {
             @Override

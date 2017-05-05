@@ -34,7 +34,6 @@ static SLVolumeItf bqPlayerVolume;
 int _BUFFER_SIZE ;
 int _BUFFER_SIZE_IN_SAMPLES;
 
-
 // Double buffering.
 static short* buffer[2];
 static int curBuffer = 0;
@@ -217,7 +216,7 @@ Java_com_example_user_myapplication_MainActivity_playAudio(JNIEnv *env, jobject 
 
     const char *szAssetName = env->GetStringUTFChars(assetName, NULL);
     AAssetManager* mgr = AAssetManager_fromJava(env, assetManager);
-    AAsset* asset = AAssetManager_open(mgr, szAssetName, AASSET_MODE_UNKNOWN);
+    AAsset* asset = AAssetManager_open(mgr, szAssetName, AASSET_MODE_BUFFER);
     if (NULL == asset) {
         __android_log_print(ANDROID_LOG_ERROR, MY_LOG_TAG, "_ASSET_NOT_FOUND_");
         return;
@@ -227,7 +226,7 @@ Java_com_example_user_myapplication_MainActivity_playAudio(JNIEnv *env, jobject 
     off_t offset, length;
     int fd = AAsset_openFileDescriptor(asset, &offset, &length);
 
-    audioPlayer.Play(fd);
+    audioPlayer.Play(fd, offset, length);
 
     AAsset_close(asset);
 

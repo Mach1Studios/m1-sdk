@@ -97,9 +97,9 @@ int AudioPlayer::decode_packet(int * got_frame, int cached)
 
             // http://stackoverflow.com/questions/14989397/how-to-convert-sample-rate-from-av-sample-fmt-fltp-to-av-sample-fmt-s16
             //	memcpy(&buffer[bufferWrite % AUDIO_PLAYER_BUFFERSIZE], frame->extended_data[0], unpadded_linesize);
-            for(size_t i = 0; i < samples; i++)
+            for(int j = 0; j < AUDIO_PLAYER_CHANNELS && frame->extended_data[j] != nullptr; j++)
             {
-                for(int j = 0; j < AUDIO_PLAYER_CHANNELS; j++)
+                for(size_t i = 0; i < samples; i++)
                 {
                     buffer[j][(bufferWrite + i) % AUDIO_PLAYER_BUFFERSIZE] = clamp(((float*)frame->extended_data[j])[i], -1, 1); // planar flt
                 }
@@ -178,7 +178,7 @@ int AudioPlayer::get_format_from_sample_fmt(const char ** fmt, AVSampleFormat sa
     return -1;
 }
 
-int AudioPlayer::play(int fd)//char * _src_filename)
+int AudioPlayer::play(int fd, long offset, long length)//char * _src_filename)
 {
     if(running) return 0;
     running = true;
@@ -197,11 +197,15 @@ int AudioPlayer::play(int fd)//char * _src_filename)
     /* register all formats and codecs */
     av_register_all();
 
+    fmt_ctx =  avformat_alloc_context();
+    fmt_ctx->skip_initial_bytes = offset;
+
     /* open input file, and allocate format context */
     if (avformat_open_input(&fmt_ctx, path, NULL, NULL) < 0) {
         fprintf(stderr, "Could not open source file %s\n", path);
         return 0;
     }
+
     /* retrieve stream information */
     if (avformat_find_stream_info(fmt_ctx, NULL) < 0) {
         fprintf(stderr, "Could not find stream information\n");
@@ -241,13 +245,19 @@ int AudioPlayer::play(int fd)//char * _src_filename)
     av_init_packet(&pkt);
     pkt.data = NULL;
     pkt.size = 0;
+
+    int size = 0;
+
     /* read frames from the file */
-    while (running && av_read_frame(fmt_ctx, &pkt) >= 0) {
+    while (running && av_read_frame(fmt_ctx, &pkt) >= 0 && size<=length) {
         AVPacket orig_pkt = pkt;
         do {
             cnt = decode_packet(&got_frame, 0);
             if (cnt < 0)
                 break;
+
+            size += cnt;
+
             pkt.data += cnt;
             pkt.size -= cnt;
         } while (pkt.size > 0);
@@ -278,9 +288,9 @@ int AudioPlayer::play(int fd)//char * _src_filename)
     return cnt < 0;
 }
 
-void AudioPlayer::Play(int fd)
+void AudioPlayer::Play(int fd, long offset, long length)
 {
-    std::thread(&AudioPlayer::play, this, fd).detach();
+    std::thread(&AudioPlayer::play, this, fd, offset, length).detach();
 }
 
 void AudioPlayer::Stop()

@@ -182,10 +182,13 @@ public class MainActivity extends Activity implements SensorEventListener {
     {
         //Guitar-8ch.aac
         //out.aac
+        //Guitar-8ch.m4a
+
         playAudio(getAssets(), "Guitar-8ch.aac");
 /*
         new Thread(new Runnable() {
             @Override
+
             public void run() {
 
                  android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_AUDIO);//.THREAD_PRIORITY_URGENT_AUDIO);

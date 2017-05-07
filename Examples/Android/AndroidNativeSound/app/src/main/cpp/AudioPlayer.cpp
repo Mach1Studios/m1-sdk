@@ -19,6 +19,13 @@ float clamp(float x, float lower, float upper)
     return std::min(upper, std::max(x, lower));
 }
 
+static const char *get_error_text(const int error)
+{
+ static char error_buffer[255];
+av_strerror(error, error_buffer, sizeof(error_buffer));
+return error_buffer;
+ }
+
 int AudioPlayer::decode_packet(int * got_frame, int cached)
 {
     int ret = 0;
@@ -58,6 +65,10 @@ int AudioPlayer::decode_packet(int * got_frame, int cached)
         /* decode audio frame */
         ret =  avcodec_decode_audio4(audio_dec_ctx, frame, got_frame, &pkt);
         if (ret < 0) {
+
+            //char s[1000];
+            //sprintf(s, "Could not decode frame (error '%s')\n", get_error_text(ret));
+
             fprintf(stderr, "Error decoding audio frame\n");
             return ret;
         }
@@ -178,10 +189,9 @@ int AudioPlayer::get_format_from_sample_fmt(const char ** fmt, AVSampleFormat sa
     return -1;
 }
 
-int AudioPlayer::play(int fd, long offset, long length)//char * _src_filename)
+int AudioPlayer::play(int fd, int64_t offset, int64_t length)//char * _src_filename)
 {
     if(running) return 0;
-    running = true;
 
     ready = false;
     bufferWrite = 0;
@@ -211,6 +221,7 @@ int AudioPlayer::play(int fd, long offset, long length)//char * _src_filename)
         fprintf(stderr, "Could not find stream information\n");
         return 0;
     }
+
     if (open_codec_context(&video_stream_idx, fmt_ctx, AVMEDIA_TYPE_VIDEO) >= 0) {
         video_stream = fmt_ctx->streams[video_stream_idx];
         video_dec_ctx = video_stream->codec;
@@ -228,6 +239,9 @@ int AudioPlayer::play(int fd, long offset, long length)//char * _src_filename)
         audio_stream = fmt_ctx->streams[audio_stream_idx];
         audio_dec_ctx = audio_stream->codec;
     }
+
+   // av_opt_set_int(audio_dec_ctx, "refcounted_frames", 1, 0);
+
     /* dump input information to stderr */
     av_dump_format(fmt_ctx, 0, src_filename, 0);
     if (!audio_stream && !video_stream) {
@@ -241,6 +255,9 @@ int AudioPlayer::play(int fd, long offset, long length)//char * _src_filename)
 
         return 0;
     }
+
+    running = true;
+
     /* initialize packet, set data to NULL, let the demuxer fill it */
     av_init_packet(&pkt);
     pkt.data = NULL;
@@ -288,7 +305,7 @@ int AudioPlayer::play(int fd, long offset, long length)//char * _src_filename)
     return cnt < 0;
 }
 
-void AudioPlayer::Play(int fd, long offset, long length)
+void AudioPlayer::Play(int fd, int64_t offset, int64_t length)
 {
     std::thread(&AudioPlayer::play, this, fd, offset, length).detach();
 }

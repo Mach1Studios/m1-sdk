@@ -6,6 +6,9 @@ extern "C"
 #include <libavutil/samplefmt.h>
 #include <libavutil/timestamp.h>
 #include <libavformat/avformat.h>
+
+#include <libavutil/opt.h>
+
 }
 
 #include <thread>
@@ -34,7 +37,7 @@ class AudioPlayer
 	int open_codec_context(int *stream_idx, AVFormatContext *fmt_ctx, enum AVMediaType type);
 	int get_format_from_sample_fmt(const char **fmt, enum AVSampleFormat sample_fmt);
 
-	int play(int fd, long offset, long length);
+	int play(int fd, int64_t offset, int64_t length);
 
 
 public:
@@ -47,7 +50,7 @@ public:
 	AudioPlayer();
 	~AudioPlayer();
 
-	void Play(int fd, long offset = 0, long length = 0);
+	void Play(int fd, int64_t offset = 0, int64_t length = 0);
 	void Stop();
 	bool Get(float * buf, int samples);
 };

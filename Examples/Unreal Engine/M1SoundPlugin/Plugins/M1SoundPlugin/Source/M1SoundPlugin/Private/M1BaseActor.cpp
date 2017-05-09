@@ -360,7 +360,7 @@ void AM1BaseActor::BeginPlay()
 		{
 			Init();
 			SetSoundSet();
-			Play();
+			if(autoplay) Play();
 		}
 	}
 }

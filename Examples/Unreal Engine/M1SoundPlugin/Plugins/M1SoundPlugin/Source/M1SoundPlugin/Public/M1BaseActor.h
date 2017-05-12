@@ -38,6 +38,7 @@ protected:
 
 	int MAX_SOUNDS_PER_CHANNEL;
 	bool isInit;
+	bool needPlayAfterInit;
 
 	void Init();
 	void SetSoundSet();

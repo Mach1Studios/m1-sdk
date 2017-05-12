@@ -326,6 +326,11 @@ void AM1BaseActor::Play()
 			RightChannelsCenter[i]->FadeIn(fadeInDuration);
 		}
 	}
+
+	if (!isInit)
+	{
+		needPlayAfterInit = true;
+	}
 }
 
 void AM1BaseActor::Stop()
@@ -347,6 +352,7 @@ void AM1BaseActor::Stop()
 			RightChannelsCenter[i]->FadeOut(fadeOutDuration, 0);
 		}
 	}
+	needPlayAfterInit = false;
 }
 
 // Called when the game starts or when spawned
@@ -360,7 +366,7 @@ void AM1BaseActor::BeginPlay()
 		{
 			Init();
 			SetSoundSet();
-			if(autoplay) Play();
+			if(autoplay || needPlayAfterInit) Play();
 		}
 	}
 }

@@ -5,7 +5,7 @@
 //
 //  Mixing algorithms in Java
 //
-//  Updated to match: 0.9.91a
+//  Updated to match: 0.9.92a
 
 /*
 DISCLAIMER:
@@ -16,130 +16,132 @@ updates and should not be integrated in sections but remain as an update-able fa
 import java.util.*;
 import java.lang.*;
 
-class mPointNew
-{
-  public float x;
-  public float y;
-  public float z;
-
-  public mPointNew()
-  {
-    x = 0F;
-    y = 0F;
-    z = 0F;
-  }
-
-  public mPointNew(float X, float Y, float Z)
-  {
-    x = X;
-    y = Y;
-    z = Z;
-  }
-
-  public mPointNew(float X, float Y)
-  {
-    x = X;
-    y = Y;
-    z = 0F;
-  }
-
-  public mPointNew add(mPointNew pnt)
-  {
-    return new mPointNew(x + pnt.x, y + pnt.y, z + pnt.z);
-  }
-
-  public mPointNew multiply(float f)
-  {
-    return new mPointNew(x * f, y * f, z * f);
-  }
-
-
-  public mPointNew multiply(mPointNew vec)
-  {
-    return new mPointNew(x * vec.x, y * vec.y, z * vec.z);
-  }
-
-
-  public mPointNew subtract(mPointNew vec)
-  {
-    return new mPointNew(x - vec.x, y - vec.y, z - vec.z);
-  }
-
-  public final float length()
-  {
-    return (float)Math.sqrt(x * x + y * y + z * z);
-  }
-
-
-  public final float getItem (int index)
-  {
-    float[] arr = {x, y, z};
-    return arr[index];
-  }
-  
-  private float mDegToRad(float degrees)
-  {
-    return degrees * (float)(Math.PI/180.0f);
-  }
-
-  public final mPointNew rotate(float angle, mPointNew axis)
-  {
-    mPointNew ax = axis.getNormalized();
-    float a = mDegToRad(angle);
-    float sina = (float)Math.sin(a);
-    float cosa = (float)Math.cos(a);
-    float cosb = 1.0f - cosa;
-
-    float nx = x * (ax.x * ax.x * cosb + cosa) + y * (ax.x * ax.y * cosb - ax.z * sina) + z * (ax.x * ax.z * cosb + ax.y * sina);
-    float ny = x * (ax.y * ax.x * cosb + ax.z * sina) + y * (ax.y * ax.y * cosb + cosa) + z * (ax.y * ax.z * cosb - ax.x * sina);
-    float nz = x * (ax.z * ax.x * cosb - ax.y * sina) + y * (ax.z * ax.y * cosb + ax.x * sina) + z * (ax.z * ax.z * cosb + cosa);
-    x = nx;
-    y = ny;
-    z = nz;
-    return this;
-  }
-
-  public final mPointNew normalize()
-  {
-    float length = (float)Math.sqrt(x * x + y * y + z * z);
-    if (length > 0)
-    {
-      x /= length;
-      y /= length;
-      z /= length;
-    }
-    return this;
-  }
-
-
-  public final mPointNew getNormalized()
-  {
-    float length = (float)Math.sqrt(x * x + y * y + z * z);
-    if (length > 0)
-    {
-      return new mPointNew(x / length, y / length, z / length);
-    } else
-    {
-      return new mPointNew();
-    }
-  }
-
-  public final mPointNew getRotated(float angle, mPointNew axis)
-  {
-    mPointNew ax = axis.getNormalized();
-    float a = mDegToRad(angle);
-    float sina = (float)Math.sin(a);
-    float cosa = (float)Math.cos(a);
-    float cosb = 1.0f - cosa;
-
-    return new mPointNew(x * (ax.x * ax.x * cosb + cosa) + y * (ax.x * ax.y * cosb - ax.z * sina) + z * (ax.x * ax.z * cosb + ax.y * sina), x * (ax.y * ax.x * cosb + ax.z * sina) + y * (ax.y * ax.y * cosb + cosa) + z * (ax.y * ax.z * cosb - ax.x * sina), x * (ax.z * ax.x * cosb - ax.y * sina) + y * (ax.z * ax.y * cosb + ax.x * sina) + z * (ax.z * ax.z * cosb + cosa));
-  }
-}
 
 
 
 
 public class M1DSPAlgorithms {
+  
+    class mPoint
+    {
+      public float x;
+      public float y;
+      public float z;
+    
+      public mPoint()
+      {
+        x = 0F;
+        y = 0F;
+        z = 0F;
+      }
+    
+      public mPoint(float X, float Y, float Z)
+      {
+        x = X;
+        y = Y;
+        z = Z;
+      }
+    
+      public mPoint(float X, float Y)
+      {
+        x = X;
+        y = Y;
+        z = 0F;
+      }
+    
+      public mPoint add(mPoint pnt)
+      {
+        return new mPoint(x + pnt.x, y + pnt.y, z + pnt.z);
+      }
+    
+      public mPoint multiply(float f)
+      {
+        return new mPoint(x * f, y * f, z * f);
+      }
+    
+    
+      public mPoint multiply(mPoint vec)
+      {
+        return new mPoint(x * vec.x, y * vec.y, z * vec.z);
+      }
+    
+    
+      public mPoint subtract(mPoint vec)
+      {
+        return new mPoint(x - vec.x, y - vec.y, z - vec.z);
+      }
+    
+      public final float length()
+      {
+        return (float)Math.sqrt(x * x + y * y + z * z);
+      }
+    
+    
+      public final float getItem (int index)
+      {
+        float[] arr = {x, y, z};
+        return arr[index];
+      }
+      
+      private float mDegToRad(float degrees)
+      {
+        return degrees * (float)(Math.PI/180.0f);
+      }
+    
+      public final mPoint rotate(float angle, mPoint axis)
+      {
+        mPoint ax = axis.getNormalized();
+        float a = mDegToRad(angle);
+        float sina = (float)Math.sin(a);
+        float cosa = (float)Math.cos(a);
+        float cosb = 1.0f - cosa;
+    
+        float nx = x * (ax.x * ax.x * cosb + cosa) + y * (ax.x * ax.y * cosb - ax.z * sina) + z * (ax.x * ax.z * cosb + ax.y * sina);
+        float ny = x * (ax.y * ax.x * cosb + ax.z * sina) + y * (ax.y * ax.y * cosb + cosa) + z * (ax.y * ax.z * cosb - ax.x * sina);
+        float nz = x * (ax.z * ax.x * cosb - ax.y * sina) + y * (ax.z * ax.y * cosb + ax.x * sina) + z * (ax.z * ax.z * cosb + cosa);
+        x = nx;
+        y = ny;
+        z = nz;
+        return this;
+      }
+    
+      public final mPoint normalize()
+      {
+        float length = (float)Math.sqrt(x * x + y * y + z * z);
+        if (length > 0)
+        {
+          x /= length;
+          y /= length;
+          z /= length;
+        }
+        return this;
+      }
+    
+    
+      public final mPoint getNormalized()
+      {
+        float length = (float)Math.sqrt(x * x + y * y + z * z);
+        if (length > 0)
+        {
+          return new mPoint(x / length, y / length, z / length);
+        } else
+        {
+          return new mPoint();
+        }
+      }
+    
+      public final mPoint getRotated(float angle, mPoint axis)
+      {
+        mPoint ax = axis.getNormalized();
+        float a = mDegToRad(angle);
+        float sina = (float)Math.sin(a);
+        float cosa = (float)Math.cos(a);
+        float cosb = 1.0f - cosa;
+    
+        return new mPoint(x * (ax.x * ax.x * cosb + cosa) + y * (ax.x * ax.y * cosb - ax.z * sina) + z * (ax.x * ax.z * cosb + ax.y * sina), x * (ax.y * ax.x * cosb + ax.z * sina) + y * (ax.y * ax.y * cosb + cosa) + z * (ax.y * ax.z * cosb - ax.x * sina), x * (ax.z * ax.x * cosb - ax.y * sina) + y * (ax.z * ax.y * cosb + ax.x * sina) + z * (ax.z * ax.z * cosb + cosa));
+      }
+    }
+
 	
     final static float __FLT_EPSILON__ = 1.19209290e-07F;
     
@@ -293,19 +295,40 @@ public class M1DSPAlgorithms {
     }
     
     
+    //--------------------------------------------------
+
+    //
+    //  Four channel audio format
+    //
+    //  Order of input angles:
+    //  Y = Yaw in angles
+    //  P = Pitch in angles
+    //  R = Roll in angles
+    //
+
     
-    public ArrayList<Float> fourChannelAlgorithm(float Yaw, float Pitch, float Roll)
+    public ArrayList<Float> fourChannelAlgorithm(float Yaw, float Pitch, float Roll, boolean smoothAngles)
     {
       
-      targetYaw = Yaw;
-      targetPitch = Pitch;
-      targetRoll = Roll;
+        if (smoothAngles) {
+            targetYaw = Yaw;
+            targetPitch = Pitch;
+            targetRoll = Roll;
+            
+            updateAngles();
+            
+            Yaw  = currentYaw;
+            Pitch  = currentPitch;
+            Roll = currentRoll;
+        } else {
+            targetYaw = Yaw;
+            targetPitch = Pitch;
+            targetRoll = Roll;
 
-      updateAngles();
-
-      Yaw  = currentYaw;
-      Pitch  = currentPitch;
-      Roll = currentRoll;
+            currentYaw = Yaw;
+            currentPitch = Pitch;
+            currentRoll = Roll;
+        }
 
       
       //Orientation input safety clamps/alignment
@@ -329,23 +352,49 @@ public class M1DSPAlgorithms {
       result.set(5, coefficients[2]); //   right
       result.set(6, coefficients[2]); // 4 left
       result.set(7, coefficients[1]); //   right
+      
+      result.add(1F); // Static stereo L
+      result.add(1F); // Static stereo R
       return result;
     }
     
-    
-    public ArrayList<Float> eightChannelsAlgorithm(float Yaw, float Pitch, float Roll)
+    public ArrayList<Float> fourChannelAlgorithm(float Yaw, float Pitch, float Roll) {
+      return fourChannelAlgorithm(Yaw, Pitch, Roll, false);
+    }
+
+    // ------------------------------------------------------------------
+
+    //
+    //  Eight channel audio format.
+    //
+    //  Order of input angles:
+    //  Y = Yaw in angles
+    //  P = Pitch in angles
+    //  R = Roll in angles
+    //
+
+    public ArrayList<Float> eightChannelsAlgorithm(float Yaw, float Pitch, float Roll, boolean smoothAngles)
     {
       
-      targetYaw = Yaw;
-      targetPitch = Pitch;
-      targetRoll = Roll;
+        if (smoothAngles) {
+            targetYaw = Yaw;
+            targetPitch = Pitch;
+            targetRoll = Roll;
+            
+            updateAngles();
+            
+            Yaw  = currentYaw;
+            Pitch  = currentPitch;
+            Roll = currentRoll;
+        } else {
+            targetYaw = Yaw;
+            targetPitch = Pitch;
+            targetRoll = Roll;
 
-      updateAngles();
-
-      Yaw  = currentYaw;
-      Pitch  = currentPitch;
-      Roll = currentRoll;
-
+            currentYaw = Yaw;
+            currentPitch = Pitch;
+            currentRoll = Roll;
+        }
       
       //ensure the angles are clamped and aligned on input
       Pitch = alignAngle(Pitch, -180, 180);
@@ -411,59 +460,88 @@ public class M1DSPAlgorithms {
         result.set(i + 8, result.get(i + 8) * pitchHigherHalf);
       }
     
+    
+      result.add(1F); // Static stereo L
+      result.add(1F); // Static stereo R
+
       return result;
     }
     
+    public ArrayList<Float> eightChannelsAlgorithm(float Yaw, float Pitch, float Roll) {
+        return eightChannelsAlgorithm(Yaw, Pitch, Roll, false);
+
+    }
+
+    // ------------------------------------------------------------------
+
+    //
+    //  Eight channel audio format (isotropic version).
+    //
+    //  Order of input angles:
+    //  Y = Yaw in angles
+    //  P = Pitch in angles
+    //  R = Roll in angles
+    //
     
-    public ArrayList<Float> eightChannelsIsotropicAlgorithm(float Yaw, float Pitch, float Roll)
+    public ArrayList<Float> eightChannelsIsotropicAlgorithm(float Yaw, float Pitch, float Roll, boolean smoothAngles)
     {
       
-      targetYaw = Yaw;
-      targetPitch = Pitch;
-      targetRoll = Roll;
+        if (smoothAngles) {
+            targetYaw = Yaw;
+            targetPitch = Pitch;
+            targetRoll = Roll;
+            
+            updateAngles();
+            
+            Yaw  = currentYaw;
+            Pitch  = currentPitch;
+            Roll = currentRoll;
+        } else {
+            targetYaw = Yaw;
+            targetPitch = Pitch;
+            targetRoll = Roll;
 
-      updateAngles();
-
-      Yaw  = currentYaw;
-      Pitch  = currentPitch;
-      Roll = currentRoll;
+            currentYaw = Yaw;
+            currentPitch = Pitch;
+            currentRoll = Roll;
+        }
 
       
-      mPointNew simulationAngles =  new mPointNew(-Pitch, Yaw, Roll);
+      mPoint simulationAngles =  new mPoint(-Pitch, Yaw, Roll);
     
-      mPointNew faceVector1 = new mPointNew((float)Math.cos(mDegToRad(simulationAngles.getItem(1))), 
+      mPoint faceVector1 = new mPoint((float)Math.cos(mDegToRad(simulationAngles.getItem(1))), 
                                       (float)Math.sin(mDegToRad(simulationAngles.getItem(1)))).normalize();
     
     
-      mPointNew faceVector2 = faceVector1.getRotated(simulationAngles.getItem(0), 
-                                                  new mPointNew((float)Math.cos(mDegToRad(simulationAngles.getItem(1) - 90)), 
+      mPoint faceVector2 = faceVector1.getRotated(simulationAngles.getItem(0), 
+                                                  new mPoint((float)Math.cos(mDegToRad(simulationAngles.getItem(1) - 90)), 
                                                              (float)Math.sin(mDegToRad(simulationAngles.getItem(1) - 90))).normalize());
     
     
-      mPointNew faceVector21 = faceVector1.getRotated(simulationAngles.getItem(0) + 90, 
-                                                   new mPointNew((float)Math.cos(mDegToRad(simulationAngles.getItem(1) - 90)), 
+      mPoint faceVector21 = faceVector1.getRotated(simulationAngles.getItem(0) + 90, 
+                                                   new mPoint((float)Math.cos(mDegToRad(simulationAngles.getItem(1) - 90)), 
                                                               (float)Math.sin(mDegToRad(simulationAngles.getItem(1) - 90))).normalize());
     
-      mPointNew faceVectorLeft = faceVector21.getRotated(-simulationAngles.getItem(2) + 90, faceVector2);
-      mPointNew faceVectorRight = faceVector21.getRotated(-simulationAngles.getItem(2) - 90, faceVector2);
+      mPoint faceVectorLeft = faceVector21.getRotated(-simulationAngles.getItem(2) + 90, faceVector2);
+      mPoint faceVectorRight = faceVector21.getRotated(-simulationAngles.getItem(2) - 90, faceVector2);
     
-      mPointNew faceVectorOffsetted = new mPointNew((float)Math.cos(mDegToRad(simulationAngles.getItem(1))), 
+      mPoint faceVectorOffsetted = new mPoint((float)Math.cos(mDegToRad(simulationAngles.getItem(1))), 
                                               (float)Math.sin(mDegToRad(simulationAngles.getItem(1)))).normalize().rotate(
                                                             simulationAngles.getItem(0) + 10, 
-                                                            new mPointNew((float)Math.cos(mDegToRad(simulationAngles.getItem(1) - 90)), 
+                                                            new mPoint((float)Math.cos(mDegToRad(simulationAngles.getItem(1) - 90)), 
                                                                        (float)Math.sin(mDegToRad(simulationAngles.getItem(1) - 90))).normalize()).subtract(faceVector2);
     
-      mPointNew tiltSphereRotated = faceVectorOffsetted.rotate(-simulationAngles.getItem(2), faceVector2);
+      mPoint tiltSphereRotated = faceVectorOffsetted.rotate(-simulationAngles.getItem(2), faceVector2);
       
     
-      mPointNew[] points = { new mPointNew(100, -100, -100), 
-                          new mPointNew(100, 100, -100), 
-                          new mPointNew(-100, -100, -100), 
-                          new mPointNew(-100, 100, -100), 
-                          new mPointNew(100, -100, 100), 
-                          new mPointNew(100, 100, 100), 
-                          new mPointNew(-100, -100, 100), 
-                          new mPointNew(-100, 100, 100)};
+      mPoint[] points = { new mPoint(100, -100, -100), 
+                          new mPoint(100, 100, -100), 
+                          new mPoint(-100, -100, -100), 
+                          new mPoint(-100, 100, -100), 
+                          new mPoint(100, -100, 100), 
+                          new mPoint(100, 100, 100), 
+                          new mPoint(-100, -100, 100), 
+                          new mPoint(-100, 100, 100)};
     
       float[] qL = new float[8];
       for (int i = 0; i < 8; i++)
@@ -523,7 +601,15 @@ public class M1DSPAlgorithms {
             result.set(i * 2 + 1, correctedVolumesR[i]);
       }
       
+      result.add(1F); // Static stereo L
+      result.add(1F); // Static stereo R
+
       return result;
     }
+    
+    public ArrayList<Float> eightChannelsIsotropicAlgorithm(float Yaw, float Pitch, float Roll) {
+        return eightChannelsIsotropicAlgorithm(Yaw, Pitch, Roll, false);
+    }
+
 
 }

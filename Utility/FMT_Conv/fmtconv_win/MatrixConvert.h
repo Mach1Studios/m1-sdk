@@ -13,9 +13,16 @@ public:
 		Square8,
 		Cube,
 		CubeS,
-		Cube16
-		ACNSN3DO2A
-		FuMaO2A
+		Cube16,
+		Mono,
+		Stereo,
+		LCR,
+		FiveOh,
+		FiveOneFilm,
+		FiveOneSmpte,
+		FiveOneDts,
+		SixOh,
+		SevenOnePt
 	} Formats;
 
 	MatrixConvert();
@@ -33,6 +40,9 @@ private:
 	const float oor3 = (float)(1.0 / sqrt(3.0));
 	const float r3or2 = (float)(sqrt(3.0) / sqrt(2.0));
 	const float r3o2 = (float)sqrt(3.0) / 2.0f;
+	const float r2o2 = (float)sqrt(2.0) / 2.0f;
+	const float r2o4 = (float)sqrt(2.0) / 4.0f; 
+	const float r2o8 = (float)sqrt(2.0) / 8.0f;
 
 	// --- FuMa ---
 	float FuMa2ACNSN3D[4][4] =
@@ -158,31 +168,11 @@ private:
 	  { 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f },
 	  { 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f },
 	  { oor2, oor2, oor2, oor2, -oor2, -oor2, -oor2, -oor2 } };
-	// float Cube2FuMaO2A[9][8] =
-	// { { oor2, oor2, oor2, oor2, oor2, oor2, oor2, oor2 }, //W
-	//   { 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f }, //X
-	//   { 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f }, //Y
-	//   { oor2, oor2, oor2, oor2, -oor2, -oor2, -oor2, -oor2 }, //Z
-	//   { }, //R
-	//   { }, //S
-	//   { }, //T
-	//   { }, //U
-	//   { } }; //V
 	float Cube2ACNSN3D[4][8] =
 	{ { 1, 1, 1, 1, 1, 1, 1, 1 },
 	  { 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f },
 	  { oor2, oor2, oor2, oor2, -oor2, -oor2, -oor2, -oor2 },
 	  { 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f } };
-	// float Cube2ACNSN3DO2A[9][8] =
-	// { { 1, 1, 1, 1, 1, 1, 1, 1 }, //W
-	//   { 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f }, //X
-	//   { oor2, oor2, oor2, oor2, -oor2, -oor2, -oor2, -oor2 }, //Y
-	//   { 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f }, //Z
-	//   { -0.25f, -0.25f, -0.25f, -0.25f, -0.25f, -0.25f, -0.25f, -0.25f }, //R?
-	//   { 0.5f, -0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f }, //S
-	//   { 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f }, //T?
-	//   { 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f, 0.5f }, //U
-	//   { -0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f, -0.5f, -0.5f } }; //V
 	float Cube2Square[4][8] =
 	{ { 0.5f, 0, 0, 0, 0.5f, 0, 0, 0 },
 	  { 0, 0.5f, 0, 0, 0, 0.5f, 0, 0 },
@@ -267,6 +257,32 @@ private:
 	  { 0, 0, 0, 0, 0, 1, 0, 0, 1, 0 },
 	  { 0, 0, 0, 0, 0, 0, 0, 1, 0, 1 },
 	};
+
+	// --- Surround to M1Spatial ---;
+	float Mono2Cube[1][8] =
+	{ { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } };
+
+	float Stereo2Cube[2][8] =
+	{ { r2o2, 0, r2o2, 0, r2o2, 0, r2o2, 0 },
+	{ 0, r2o2, 0, r2o2, 0, r2o2, 0, r2o2 } };
+
+	float FiveOneFilm2Cube[6][8] =
+	{ { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+	{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
+	{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
+	{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
+	{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
+	{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } };
+
+	float SevenOnePt2Cube[8][8] =
+	{ { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+	{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
+	{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
+	{ r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0 },
+	{ 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4 },
+	{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
+	{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
+	{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } };
 
 	int fmtChannels[NUMFMTS] = { 4, 4, 4, 6, 8, 8, 10, 16 };
 	float* fmtMatrix[NUMFMTS][NUMFMTS] =

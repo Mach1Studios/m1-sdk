@@ -266,7 +266,7 @@ private:
 	{ { r2o2, 0, r2o2, 0, r2o2, 0, r2o2, 0 },
 	{ 0, r2o2, 0, r2o2, 0, r2o2, 0, r2o2 } };
 
-	float LCR2Cube[2][8] =
+	float LCR2Cube[3][8] =
 	{ { r2o2, 0, r2o2, 0, r2o2, 0, r2o2, 0 },
 	{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
 	{ 0, r2o2, 0, r2o2, 0, r2o2, 0, r2o2 } };

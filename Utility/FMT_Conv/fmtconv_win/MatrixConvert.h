@@ -266,12 +266,40 @@ private:
 	{ { r2o2, 0, r2o2, 0, r2o2, 0, r2o2, 0 },
 	{ 0, r2o2, 0, r2o2, 0, r2o2, 0, r2o2 } };
 
+	float LCR2Cube[2][8] =
+	{ { r2o2, 0, r2o2, 0, r2o2, 0, r2o2, 0 },
+	{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
+	{ 0, r2o2, 0, r2o2, 0, r2o2, 0, r2o2 } };
+
+	float FiveOh2Cube[5][8] =
+	{ { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+	{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
+	{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
+	{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
+	{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 } };
+
 	float FiveOneFilm2Cube[6][8] =
 	{ { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 	{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
 	{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
 	{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
 	{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
+	{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } };
+
+	float FiveOneSmpte2Cube[6][8] =
+	{ { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+	{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
+	{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
+	{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
+	{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
+	{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 } };
+
+	float FiveOneDts2Cube[6][8] =
+	{ { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+	{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
+	{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
+	{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
+	{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
 	{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } };
 
 	float SevenOnePt2Cube[8][8] =

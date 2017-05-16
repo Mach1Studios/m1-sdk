@@ -171,16 +171,26 @@ int main(int argc, char* argv[])
 	{
 		inFmtStr = pStr;
 	}
-    if (strcmp(inFmtStr, "Stereo") == 0)
-        inFmt = MatrixConvert::Stereo;
-    else if (strcmp(inFmtStr, "LCR") == 0)
-        inFmt = MatrixConvert::LCR;
-    else if (strcmp(inFmtStr, "FuMa") == 0)
+    if (strcmp(inFmtStr, "FuMa") == 0)
 		inFmt = MatrixConvert::FuMa;
 	else if (strcmp(inFmtStr, "ACNSN3D") == 0)
 		inFmt = MatrixConvert::ACNSN3D;
 	else if (strcmp(inFmtStr, "Square") == 0)
 		inFmt = MatrixConvert::Square;
+    else if (strcmp(inFmtStr, "Square+S") == 0)
+		inFmt = MatrixConvert::SquareS;
+	else if (strcmp(inFmtStr, "Square8") == 0)
+		inFmt = MatrixConvert::Square8;
+	else if (strcmp(inFmtStr, "Cube") == 0)
+		inFmt = MatrixConvert::Cube;
+	else if (strcmp(inFmtStr, "Cube+S") == 0)
+		inFmt = MatrixConvert::CubeS;
+	else if (strcmp(inFmtStr, "Cube16") == 0)
+		inFmt = MatrixConvert::Cube16;
+    else if (strcmp(inFmtStr, "Stereo") == 0)
+        inFmt = MatrixConvert::Stereo;
+    else if (strcmp(inFmtStr, "LCR") == 0)
+        inFmt = MatrixConvert::LCR;
     else if (strcmp(inFmtStr, "FiveOh") == 0)
         inFmt = MatrixConvert::FiveOh;
     else if (strcmp(inFmtStr, "FiveOneFilm") == 0)
@@ -189,18 +199,8 @@ int main(int argc, char* argv[])
         inFmt = MatrixConvert::FiveOneSmpte;
     else if (strcmp(inFmtStr, "FiveOneDts") == 0)
         inFmt = MatrixConvert::FiveOneDts;
-	else if (strcmp(inFmtStr, "Square+S") == 0)
-		inFmt = MatrixConvert::SquareS;
-	else if (strcmp(inFmtStr, "Square8") == 0)
-		inFmt = MatrixConvert::Square8;
     else if (strcmp(inFmtStr, "SevenOnePT") == 0)
         inFmt = MatrixConvert::SevenOnePt;
-	else if (strcmp(inFmtStr, "Cube") == 0)
-		inFmt = MatrixConvert::Cube;
-	else if (strcmp(inFmtStr, "Cube+S") == 0)
-		inFmt = MatrixConvert::CubeS;
-	else if (strcmp(inFmtStr, "Cube16") == 0)
-		inFmt = MatrixConvert::Cube16;
 	else
 	{
 		cout << "Please select a valid input format" << std::endl;

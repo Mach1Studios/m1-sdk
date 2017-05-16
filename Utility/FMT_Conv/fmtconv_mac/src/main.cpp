@@ -101,10 +101,10 @@ int main(int argc, char* argv[])
 	float masterGain = 1.0f; // in level, not dB
 	char* infilename = NULL;
 	char* inFmtStr = NULL;
-	MatrixConvert::FmtType inFmt;
+	int inFmt;
 	char* outfilename = NULL;
 	char* outFmtStr = NULL;
-	MatrixConvert::FmtType outFmt;
+	int outFmt;
 	int outFileChans;
 	int channels;
 	sf_count_t totalSamples;
@@ -243,7 +243,7 @@ int main(int argc, char* argv[])
 	size_t numInFiles = fNames.size();
 	for (int i = 0; i<numInFiles; i++)
 	{
-		infile[i] = new SndfileHandle(fNames[i]);
+		infile[i] = new SndfileHandle(fNames[i].c_str());
 		if (infile[i] && (infile[i]->error() == 0))
 		{
 			// input file stats

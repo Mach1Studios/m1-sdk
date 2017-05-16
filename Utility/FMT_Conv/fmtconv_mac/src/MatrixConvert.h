@@ -45,6 +45,7 @@ private:
     const float r2o2 = (float)sqrt(2.0) / 2.0f;
     const float r2o4 = (float)sqrt(2.0) / 4.0f;
     const float r2o8 = (float)sqrt(2.0) / 8.0f;
+    const float oo8 = (float)1.0f / 8.0f;
 
 	// --- FuMa ---
 	float FuMa2ACNSN3D[4][4] =
@@ -296,14 +297,17 @@ private:
         { 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
         { 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
         { 0, 0, 0, r2o2, 0, 0, 0, r2o2 } };
-    float FiveOneFilm2Cube[6][8] =
-    { { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
-        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
-        { 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
-        { 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
-        { 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
-        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } };
-    float FiveOneSmpte2Cube[6][8] =
+    float FiveOneFilm2Cube[8][6] =
+    { { 1, oo8, 0, 0, 0, oo8 },
+        { 0, oo8, 1, 0, 0, oo8 },
+        { 0, oo8, 0, 1, 0, oo8 },
+        { 0, oo8, 0, 0, 1, oo8 },
+        { 1, oo8, 0, 0, 0, oo8 },
+        { 0, oo8, 1, 0, 0, oo8 },
+        { 0, oo8, 0, 1, 0, oo8 },
+        { 0, oo8, 0, 0, 1, oo8 } };
+    float FiveOneSmpte2Cube[6][8] = //each row is an output, each column is an input
+    //oo8 too weak
     { { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
         { 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
         { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },

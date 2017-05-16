@@ -1,6 +1,7 @@
 #pragma once
 
 #include <math.h>
+#include <stddef.h>
 
 class MatrixConvert
 {
@@ -13,9 +14,17 @@ public:
 		Square8,
 		Cube,
 		CubeS,
-		Cube16
-		ACNSN3DO2A
-		FuMaO2A
+        Cube16,
+        Stereo,
+        LCR,
+        FiveOh,
+        FiveOneFilm,
+        FiveOneSmpte,
+        FiveOneDts,
+        SixOh,
+        SevenOnePt
+//		ACNSN3DO2A,
+//		FuMaO2A
 	} Formats;
 
 	MatrixConvert();
@@ -23,7 +32,7 @@ public:
 	int convert(FmtType inFmt, float** inBufs, FmtType outFmt, float** outBufs, int numSamples);
 
 private:
-	const static int NUMFMTS = 8;
+	const static int NUMFMTS = 16;
 	const static int MAXCHANS = 16;
 
 	const float r2 = (float)sqrt(2.0);
@@ -33,6 +42,9 @@ private:
 	const float oor3 = (float)(1.0 / sqrt(3.0));
 	const float r3or2 = (float)(sqrt(3.0) / sqrt(2.0));
 	const float r3o2 = (float)sqrt(3.0) / 2.0f;
+    const float r2o2 = (float)sqrt(2.0) / 2.0f;
+    const float r2o4 = (float)sqrt(2.0) / 4.0f;
+    const float r2o8 = (float)sqrt(2.0) / 8.0f;
 
 	// --- FuMa ---
 	float FuMa2ACNSN3D[4][4] =
@@ -268,17 +280,91 @@ private:
 	  { 0, 0, 0, 0, 0, 0, 0, 1, 0, 1 },
 	};
 
-	int fmtChannels[NUMFMTS] = { 4, 4, 4, 6, 8, 8, 10, 16 };
+    // --- Surround to M1Spatial ---;
+    float Mono2Cube[1][8] =
+    { { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } };
+    float Stereo2Cube[2][8] =
+    { { r2o2, 0, r2o2, 0, r2o2, 0, r2o2, 0 },
+        { 0, r2o2, 0, r2o2, 0, r2o2, 0, r2o2 } };
+    float LCR2Cube[3][8] =
+    { { r2o2, 0, r2o2, 0, r2o2, 0, r2o2, 0 },
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
+        { 0, r2o2, 0, r2o2, 0, r2o2, 0, r2o2 } };
+    float FiveOh2Cube[5][8] =
+    { { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
+        { 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
+        { 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
+        { 0, 0, 0, r2o2, 0, 0, 0, r2o2 } };
+    float FiveOneFilm2Cube[6][8] =
+    { { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
+        { 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
+        { 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
+        { 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } };
+    float FiveOneSmpte2Cube[6][8] =
+    { { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+        { 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
+        { 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
+        { 0, 0, 0, r2o2, 0, 0, 0, r2o2 } };
+    float FiveOneDts2Cube[6][8] =
+    { { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+        { 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
+        { 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
+        { 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } };
+    float SixOh2Cube[6][8] = //BLANK
+    { { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 } };
+    float SevenOnePt2Cube[8][8] =
+    { { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
+        { 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
+        { r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0 },
+        { 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4 },
+        { 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
+        { 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } };
+    
+	int fmtChannels[NUMFMTS] = { 2, 3, 4, 4, 4, 5, 6, 6, 6, 6, 6, 8, 8, 8, 10, 16, };
 	float* fmtMatrix[NUMFMTS][NUMFMTS] =
-	{ { NULL, &(FuMa2ACNSN3D[0][0]), NULL, NULL, NULL, NULL, NULL, NULL },
-	  { &(ACNSN3D2FuMa[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL },
-	  { &(Square2FuMa[0][0]), &(Square2ACNSN3D[0][0]), NULL, NULL, &(Square2Square8[0][0]), &(Square2Cube[0][0]), NULL, &(Square2Cube16[0][0]) },
-	  { &(SquareS2FuMa[0][0]), &(SquareS2ACNSN3D[0][0]), &(SquareS2Square[0][0]), NULL, &(SquareS2Square8[0][0]), &(SquareS2Cube[0][0]), NULL, &(SquareS2Cube16[0][0]) },
-	  { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
-	  { &(Cube2FuMa[0][0]), &(Cube2ACNSN3D[0][0]), &(Cube2Square[0][0]), NULL, &(Cube2Square8[0][0]), NULL, NULL, &(Cube2Cube16[0][0]) },
-	  { &(CubeS2FuMa[0][0]), &(CubeS2ACNSN3D[0][0]), &(CubeS2Square[0][0]), NULL, &(CubeS2Square8[0][0]), &(CubeS2Cube[0][0]), NULL, &(CubeS2Cube16[0][0]) },
-	  { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }
-	};
+    {   { NULL, NULL, NULL, NULL, NULL, &(Stereo2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+
+        { NULL, NULL, NULL, NULL, NULL, &(LCR2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        
+        { NULL, &(FuMa2ACNSN3D[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        
+        { &(ACNSN3D2FuMa[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        
+        { &(Square2FuMa[0][0]), &(Square2ACNSN3D[0][0]), NULL, NULL, &(Square2Square8[0][0]), &(Square2Cube[0][0]), NULL, &(Square2Cube16[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        
+        { NULL, NULL, NULL, NULL, NULL, &(FiveOh2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { NULL, NULL, NULL, NULL, NULL, &(FiveOneFilm2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { NULL, NULL, NULL, NULL, NULL, &(FiveOneSmpte2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { NULL, NULL, NULL, NULL, NULL, &(FiveOneDts2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { NULL, NULL, NULL, NULL, NULL, &(SixOh2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        
+        { &(SquareS2FuMa[0][0]), &(SquareS2ACNSN3D[0][0]), &(SquareS2Square[0][0]), NULL, &(SquareS2Square8[0][0]), &(SquareS2Cube[0][0]), NULL, &(SquareS2Cube16[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        
+        { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        
+        { NULL, NULL, NULL, NULL, NULL, &(SevenOnePt2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        
+        { &(Cube2FuMa[0][0]), &(Cube2ACNSN3D[0][0]), &(Cube2Square[0][0]), NULL, &(Cube2Square8[0][0]), NULL, NULL, &(Cube2Cube16[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        
+        { &(CubeS2FuMa[0][0]), &(CubeS2ACNSN3D[0][0]), &(CubeS2Square[0][0]), NULL, &(CubeS2Square8[0][0]), &(CubeS2Cube[0][0]), NULL, &(CubeS2Cube16[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        
+        { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }
+
+    };
 
 };
 

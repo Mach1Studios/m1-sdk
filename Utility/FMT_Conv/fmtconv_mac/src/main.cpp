@@ -98,6 +98,7 @@ int main(int argc, char* argv[])
 	bool fileOut = false;
 	const char *emptyString = "";
 	const char *dotString = ".";
+    //TODO: inputGain = 1.0f; // in level, not db
 	float masterGain = 1.0f; // in level, not dB
 	char* infilename = NULL;
 	char* inFmtStr = NULL;

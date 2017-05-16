@@ -108,94 +108,6 @@ public:
             ofSetColor(255);
             ofDrawBitmapString(ofToString(i), spherePoints[i].x, spherePoints[i].y, spherePoints[i].z);
         }
-        
-        
-        /*
-         
-        // Isotropic math test
-        
-        ofPoint simulationAngles = ofPoint(angleX, angleY, angleZ);
-
-        ofPoint faceVector1 = ofPoint(cos(ofDegToRad(simulationAngles[1])),
-                                      sin(ofDegToRad(simulationAngles[1]))).normalize();
-        
-        
-        ofPoint faceVector2 = faceVector1.getRotated(angleX,
-                        ofPoint(cos(ofDegToRad(simulationAngles[1] - 90)),
-                                sin(ofDegToRad(simulationAngles[1] - 90))).normalize());
-        
-
-        ofPoint faceVector21 = faceVector1.getRotated(angleX + 90,
-                                ofPoint(cos(ofDegToRad(simulationAngles[1] - 90)),
-                                        sin(ofDegToRad(simulationAngles[1] - 90))).normalize());
-        
-        ofPoint faceVectorLeft = faceVector21.getRotated(-angleZ - 90, faceVector2);
-        ofPoint faceVectorRight = faceVector21.getRotated(-angleZ + 90, faceVector2);
-        
-        
-        float time = ofGetElapsedTimef() * 5;
-        
-        ofPoint faceVectorOffsetted = ofPoint(cos(ofDegToRad(simulationAngles[1])),
-                                              sin(ofDegToRad(simulationAngles[1]))).normalize().rotate(
-                            angleX + 10,
-                    ofPoint(cos(ofDegToRad(simulationAngles[1] - 90)),
-                            sin(ofDegToRad(simulationAngles[1] - 90))).normalize()) - faceVector2;
-        
-        ofPoint tiltSphereRotated = faceVectorOffsetted.rotate(-angleZ, faceVector2);
-        //        ofPoint facePoint = faceVector2 * 120;
-        
-        
-        ofSetColor(255, 0, 255);
-        ofDrawSphere(faceVector2 * 100, 10);
-        ofSetColor(0, 255, 255);
-        ofDrawSphere(faceVectorLeft * 100 + faceVector2 * 100, 5);
-        ofDrawSphere(faceVectorRight * 100 + faceVector2 * 100, 5);
-        
-        ofSetColor(255, 0, 0);
-
-        
-        ofSetColor(255, 0, 0);
-        ofDrawSphere(0, 0, 5);
-        
-        // Drawing another 8 dots
-        
-        ofVec3f points[8] =
-                {ofPoint(100, -100, -100),
-                 ofPoint(100, 100, -100),
-                    ofPoint(-100, -100, -100),
-                 ofPoint(-100, 100, -100),
-                 
-                 ofPoint(100, -100, 100),
-                 ofPoint(100, 100, 100),
-                    ofPoint(-100, -100, 100),
-                 ofPoint(-100, 100, 100)
-                 
-                 };
-        
-        float qL[8];
-        for (int i = 0; i < 8; i++) {
-            qL[i] = (faceVectorLeft * 100 + faceVector2 * 100 - points[i]).length();
-        }
-        
-        float qR[8];
-        for (int i = 0; i < 8; i++) {
-            qR[i] = (faceVectorRight * 100 + faceVector2 * 100 - points[i]).length();
-        }
-        
-        
-        
-        for (int i = 0; i < 8; i++) {
-            ofSetColor(255);
-            ofDrawSphere(points[i], 3);
-            ofSetColor(255, 0, 0);
-            float v = ofClamp(ofMap(qL[i] + qR[i], 250, 400, 1., 0.), 0, 1);
-            ofDrawBitmapString(ofToString(v), points[i].x, points[i].y, points[i].z);
-            ofDrawBitmapString(ofToString(i), points[i].x, points[i].y, points[i].z);
-        }
-        
-        
-        */
-
     }
     
     void drawOverlay() {
@@ -337,8 +249,10 @@ public:
 
     };
     
+    M1DSPAlgorithms m1dspAlgorithms;
+    
     std::vector<float> audioMixAlgorithm(float X, float Y, float Z) {
-        return eightChannelsIsotropicAlgorithm(X, Y, Z);
+        return m1dspAlgorithms.eightChannelsIsotropicAlgorithm(X, Y, Z);
     }
     
     virtual void mousePressed(int x, int y) {

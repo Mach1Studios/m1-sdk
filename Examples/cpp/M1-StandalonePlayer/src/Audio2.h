@@ -164,9 +164,10 @@ public:
     
     //////////////
     
+    M1DSPAlgorithms m1dspAlgorithms;
+    
     std::vector<float> audioMixAlgorithm(float X, float Y, float Z) {
-        
-        return eightChannelsAlgorithm(X, Y, Z);
+        return m1dspAlgorithms.eightChannelsAlgorithm(X, Y, Z);
     }
     
     int scheduleRestart = 30;

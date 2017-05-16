@@ -77,6 +77,7 @@ void printHelp()
     cout << "    SevenOnePT   - L C R Lss Rss Lsr Rsr LFE" << std::endl;\
 	cout << "    Cube     - Upper L R Ls Rs, Lower L R Ls Rs" << std::endl;
 	cout << "    Cube+S   - Upper L R Ls Rs, Lower L R Ls Rs, StereoL StereoR" << std::endl;
+	cout << "    Cube16   - Upper front, left, rear, right, pairs, then lower same" << std::endl;
 //	cout << "    SixOh   - INCOMPLETE" << std::endl;
 	cout << std::endl;
 

@@ -56,18 +56,26 @@ void printHelp()
 	cout << "  -in-fmt   <fmt>       - input format: see supported formats below" << std::endl;
 	cout << "  -out-file <filename>  - output file. full name for single file or name stem for file sets" << std::endl;
 	cout << "  -out-fmt  <fmt>       - output format: see supported formats below" << std::endl;
-	cout << "  -out-file-chans <#>   - output file channels: 1, 2, N" << std::endl;
+	cout << "  -out-file-chans <#>   - output file channels: 1, 2 or 0 (0 = multichannel)" << std::endl;
 	cout << "  -master-gain <number> - final output gain in dB like -3 or 2.3" << std::endl;
 	cout << std::endl;
 	cout << "  Formats Supported:" << std::endl;
+    cout << "    Stereo   - L & R spatialized" << std::endl;
+    cout << "    LCR      - L & R spatialized with C mono" << std::endl;
 	cout << "    FuMa     - 1st order B-format, Furse-Malham order and weighting" << std::endl;
 	cout << "    ACNSN3D  - 1st order B-format, ACN order and SN3D weighting" << std::endl;
 	cout << "    Square   - L R Ls Rs" << std::endl;
+    cout << "    FiveOh   - L C R Ls Rs" << std::endl;
+    cout << "    FiveOneFilm  - L C R Ls Rs LFE" << std::endl;
+    cout << "    FiveOneSmpte - L R C LFE Ls Rs" << std::endl;
+    cout << "    FiveOneDts   - L R Ls Rs C LFE" << std::endl;
 	cout << "    Square+S - L R Ls Rs StereoL StereoR" << std::endl;
 	cout << "    Square8  - FrontPair, LeftPair, RearPair, RightPair" << std::endl;
+    cout << "    SevenOnePT   - L C R Lss Rss Lsr Rsr LFE" << std::endl;\
 	cout << "    Cube     - Upper L R Ls Rs, Lower L R Ls Rs" << std::endl;
 	cout << "    Cube+S   - Upper L R Ls Rs, Lower L R Ls Rs, StereoL StereoR" << std::endl;
 	cout << "    Cube16   - Upper front, left, rear, right, pairs, then lower same" << std::endl;
+//	cout << "    SixOh   - INCOMPLETE" << std::endl;
 	cout << std::endl;
 
 }
@@ -159,13 +167,13 @@ int main(int argc, char* argv[])
 	{
 		inFmtStr = pStr;
 	}
-	if (strcmp(inFmtStr, "FuMa") == 0)
+    if (strcmp(inFmtStr, "FuMa") == 0)
 		inFmt = MatrixConvert::FuMa;
 	else if (strcmp(inFmtStr, "ACNSN3D") == 0)
 		inFmt = MatrixConvert::ACNSN3D;
 	else if (strcmp(inFmtStr, "Square") == 0)
 		inFmt = MatrixConvert::Square;
-	else if (strcmp(inFmtStr, "Square+S") == 0)
+    else if (strcmp(inFmtStr, "Square+S") == 0)
 		inFmt = MatrixConvert::SquareS;
 	else if (strcmp(inFmtStr, "Square8") == 0)
 		inFmt = MatrixConvert::Square8;
@@ -175,6 +183,20 @@ int main(int argc, char* argv[])
 		inFmt = MatrixConvert::CubeS;
 	else if (strcmp(inFmtStr, "Cube16") == 0)
 		inFmt = MatrixConvert::Cube16;
+    else if (strcmp(inFmtStr, "Stereo") == 0)
+        inFmt = MatrixConvert::Stereo;
+    else if (strcmp(inFmtStr, "LCR") == 0)
+        inFmt = MatrixConvert::LCR;
+    else if (strcmp(inFmtStr, "FiveOh") == 0)
+        inFmt = MatrixConvert::FiveOh;
+    else if (strcmp(inFmtStr, "FiveOneFilm") == 0)
+        inFmt = MatrixConvert::FiveOneFilm;
+    else if (strcmp(inFmtStr, "FiveOneSmpte") == 0)
+        inFmt = MatrixConvert::FiveOneSmpte;
+    else if (strcmp(inFmtStr, "FiveOneDts") == 0)
+        inFmt = MatrixConvert::FiveOneDts;
+    else if (strcmp(inFmtStr, "SevenOnePT") == 0)
+        inFmt = MatrixConvert::SevenOnePt;
 	else
 	{
 		cout << "Please select a valid input format" << std::endl;

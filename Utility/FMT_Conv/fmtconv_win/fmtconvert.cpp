@@ -60,24 +60,25 @@ void printHelp()
 	cout << "  -master-gain <number> - final output gain in dB like -3 or 2.3" << std::endl;
 	cout << std::endl;
 	cout << "  Formats Supported:" << std::endl;
-    cout << "    Stereo   - L & R spatialized" << std::endl;
-    cout << "    LCR      - L & R spatialized with C mono" << std::endl;
-	cout << "    FuMa     - 1st order B-format, Furse-Malham order and weighting" << std::endl;
+	cout << "    Stereo   - L & R spatialized" << std::endl;
+	cout << "    LCR      - L & R spatialized with C mono" << std::endl;
 	cout << "    ACNSN3D  - 1st order B-format, ACN order and SN3D weighting" << std::endl;
+	cout << "    FuMa     - 1st order B-format, Furse-Malham order and weighting" << std::endl;
+	cout << "    ACNSN3DO2A   - 2nd order B-format, Furse-Malham order and weighting" << std::endl;
+	cout << "    FuMaO2A      - 2nd order B-format, ACN order and SN3D weighting" << std::endl;
 	cout << "    Square   - L R Ls Rs" << std::endl;
-    cout << "    FiveOh   - L C R Ls Rs" << std::endl;
-    cout << "    FiveOneFilm  - L C R Ls Rs LFE" << std::endl;
-    cout << "    FiveOneSmpte - L R C LFE Ls Rs" << std::endl;
-    cout << "    FiveOneDts   - L R Ls Rs C LFE" << std::endl;
+	cout << "    FiveOh   - L C R Ls Rs" << std::endl;
+	cout << "    FiveOneFilm  - L C R Ls Rs LFE" << std::endl;
+	cout << "    FiveOneSmpte - L R C LFE Ls Rs" << std::endl;
+	cout << "    FiveOneDts   - L R Ls Rs C LFE" << std::endl;
+	//	cout << "    SixOh   - INCOMPLETE" << std::endl;
 	cout << "    Square+S - L R Ls Rs StereoL StereoR" << std::endl;
 	cout << "    Square8  - FrontPair, LeftPair, RearPair, RightPair" << std::endl;
-    cout << "    SevenOnePT   - L C R Lss Rss Lsr Rsr LFE" << std::endl;\
-	cout << "    Cube     - Upper L R Ls Rs, Lower L R Ls Rs" << std::endl;
+	cout << "    SevenOnePT   - L C R Lss Rss Lsr Rsr LFE" << std::endl; \
+		cout << "    Cube     - Upper L R Ls Rs, Lower L R Ls Rs" << std::endl;
 	cout << "    Cube+S   - Upper L R Ls Rs, Lower L R Ls Rs, StereoL StereoR" << std::endl;
 	cout << "    Cube16   - Upper front, left, rear, right, pairs, then lower same" << std::endl;
-//	cout << "    SixOh   - INCOMPLETE" << std::endl;
 	cout << std::endl;
-
 }
 
 void printFileInfo(SndfileHandle file)
@@ -232,6 +233,10 @@ int main(int argc, char* argv[])
 		outFmt = MatrixConvert::CubeS;
 	else if (strcmp(outFmtStr, "Cube16") == 0)
 		outFmt = MatrixConvert::Cube16;
+	else if (strcmp(outFmtStr, "ACNSN3DO2A") == 0)
+		outFmt = MatrixConvert::ACNSN3DO2A;
+	else if (strcmp(outFmtStr, "FuMaO2A") == 0)
+		outFmt = MatrixConvert::FuMaO2A;
 	else
 	{
 		cout << "Please select a valid output format" << std::endl;

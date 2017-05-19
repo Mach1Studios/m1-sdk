@@ -16,6 +16,6 @@ public class M1SpatialDecode :  M1Base
 
     public override float[] SoundAlgorithm(float Yaw, float Pitch, float Roll)
     {
-        return M1DSPAlgorithms.eightChannelsIsotropicAlgorithm(Yaw, Pitch, Roll);
+        return m1DSPAlgorithms.eightChannelsIsotropicAlgorithm(Yaw, Pitch, Roll);
     } 
 }

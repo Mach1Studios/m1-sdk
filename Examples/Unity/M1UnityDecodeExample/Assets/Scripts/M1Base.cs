@@ -1,4 +1,4 @@
-//Mach1
+﻿//Mach1
 //2016
 //
 //Set each audioSourceWalls item calls script
@@ -52,6 +52,8 @@ public class M1Base : MonoBehaviour
 
     [Space(10)]
     public bool drawHelpers = true;
+
+    protected M1DSPAlgorithms m1DSPAlgorithms = new M1DSPAlgorithms();
 
     AnimationCurve generateCurve(float length)
     {
@@ -526,13 +528,13 @@ public class M1Base : MonoBehaviour
             if (eulerAngles.z < 0) eulerAngles.z = 360 + eulerAngles.z;
 
             float[] volumes = SoundAlgorithm(eulerAngles.x, eulerAngles.y, eulerAngles.z);
-            for (int i = 0; i < volumes.Length; i++)
+            for (int i = 0; i < audioSourceWalls.Length; i++)
             {
                 audioSourceWalls[i].volume = volumeWalls * volumes[i];
             }
             if (useRoomMode)
             {
-                for (int i = 0; i < volumes.Length; i++)
+                for (int i = 0; i < audioSourceRoom.Length; i++)
                 {
                     audioSourceRoom[i].volume = volumeRoom * volumes[i];
                 }

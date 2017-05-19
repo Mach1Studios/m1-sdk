@@ -80,6 +80,9 @@
       <AdditionalLibraryDirectories>C:\Program Files\Mega-Nerd\libsndfile\lib;</AdditionalLibraryDirectories>
       <AdditionalDependencies>libsndfile-1.lib</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /d  "$(ProjectDir)*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -108,6 +111,9 @@
       <AdditionalLibraryDirectories>C:\Program Files\Mega-Nerd\libsndfile\lib;</AdditionalLibraryDirectories>
       <AdditionalDependencies>libsndfile-1.lib</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /d  "$(ProjectDir)*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

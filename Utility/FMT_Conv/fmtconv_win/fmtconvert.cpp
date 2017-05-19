@@ -267,7 +267,7 @@ int main(int argc, char* argv[])
 	size_t numInFiles = fNames.size();
 	for (int i = 0; i<numInFiles; i++)
 	{
-		infile[i] = new SndfileHandle(fNames[i]);
+		infile[i] = new SndfileHandle(fNames[i].c_str());
 		if (infile[i] && (infile[i]->error() == 0))
 		{
 			// input file stats

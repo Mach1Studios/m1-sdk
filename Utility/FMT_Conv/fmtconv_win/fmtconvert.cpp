@@ -363,13 +363,13 @@ int main(int argc, char* argv[])
 		float(*outBuf)[MAXBUFFERS][BUFFERLEN] = (float(*)[MAXBUFFERS][BUFFERLEN])&(outBuffers[outBufNdx][0]);
 		for (int file = 0; file<numOutFiles; file++)
 			for (int j = 0; j < samplesRead; j++)
-				for (int k = 0; k < outFileChans; k++)
-					*ptrFileBuffer++ = masterGain * (*outBuf)[(file*outFileChans)+k][j];
+				for (int k = 0; k < actualOutFileChannels; k++)
+					*ptrFileBuffer++ = masterGain * (*outBuf)[(file*actualOutFileChannels)+k][j];
 
 		// write to outfile
 		for (int j = 0; j < numOutFiles; j++)
 		{
-			outfiles[j].write(fileBuffer + (j*outFileChans*samplesRead), outFileChans*samplesRead);
+			outfiles[j].write(fileBuffer + (j*actualOutFileChannels*samplesRead), actualOutFileChannels*samplesRead);
 		}
 	}
 

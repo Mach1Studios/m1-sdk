@@ -179,6 +179,8 @@ public class M1Base : MonoBehaviour
         }
         else
         {
+            url = url.Replace("$CURDIR", Directory.GetCurrentDirectory());
+
             WWW www = new WWW(url);
             yield return www;
             if (www.error == null)

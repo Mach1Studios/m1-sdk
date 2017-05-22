@@ -350,7 +350,7 @@ private:
         { 0, r2o8, 0, r2o4, 0, 1, 0, r2o8 },
         { 0, r2o8, 0, 0, r2o4, 0, 1, r2o8 } };
     
-	int fmtChannels[NUMFMTS] = { 4, 4, 4, 6, 8, 8, 10, 16, 2, 3, 5, 6, 6, 6, 6, 8 };
+	int fmtChannels[NUMFMTS] = { 4, 4, 4, 6, 8, 8, 10, 16, 2, 3, 5, 6, 6, 6, 6, 8, 9, 9 };
 	float* fmtMatrix[NUMFMTS][NUMFMTS] =
 	{ { NULL, &(FuMa2ACNSN3D[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
 

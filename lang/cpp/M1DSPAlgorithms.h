@@ -3,7 +3,7 @@
 //
 //  Multichannel audio format family
 //
-//  Mixing algorithms v 0.9.92a
+//  Mixing algorithms v 0.9.92b
 //
 
 #pragma once
@@ -423,7 +423,7 @@ public:
             currentRoll = Roll;
         }
         
-        mPoint simulationAngles = mPoint(-Pitch, Yaw, Roll);
+        mPoint simulationAngles = mPoint(Yaw, Pitch, Roll);
         
         mPoint faceVector1 = mPoint(  cos(mDegToRad(simulationAngles[1])),
                                     sin(mDegToRad(simulationAngles[1]))).normalize();

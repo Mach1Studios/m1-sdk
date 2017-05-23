@@ -203,7 +203,7 @@ int main(int argc, char* argv[])
     else if (strcmp(inFmtStr, "SevenOnePT") == 0)
         inFmt = MatrixConvert::SevenOnePt;
     else if (strcmp(inFmtStr, "SevenOnePT_Cinema") == 0)
-    inFmt = MatrixConvert::SevenOnePT_Cinema;
+    inFmt = MatrixConvert::SevenOnePt_Cinema;
 	else
 	{
 		cout << "Please select a valid input format" << std::endl;

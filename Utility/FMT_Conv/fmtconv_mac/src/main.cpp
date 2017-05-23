@@ -72,12 +72,14 @@ void printHelp()
 	cout << "    Square   - L R Ls Rs" << std::endl;
     cout << "    FiveOh   - L C R Ls Rs" << std::endl;
     cout << "    FiveOneFilm  - L C R Ls Rs LFE" << std::endl;
+    cout << "    FiveOneFilm_Cinema  - L C R Ls Rs LFE, Center forward" << std::endl;
     cout << "    FiveOneSmpte - L R C LFE Ls Rs" << std::endl;
     cout << "    FiveOneDts   - L R Ls Rs C LFE" << std::endl;
     //	cout << "    SixOh   - INCOMPLETE" << std::endl;
     cout << "    Square+S - L R Ls Rs StereoL StereoR" << std::endl;
 	cout << "    Square8  - FrontPair, LeftPair, RearPair, RightPair" << std::endl;
-    cout << "    SevenOnePT   - L C R Lss Rss Lsr Rsr LFE" << std::endl;\
+    cout << "    SevenOnePT   - L C R Lss Rss Lsr Rsr LFE" << std::endl;
+    cout << "    SevenOnePT_Cinema   - L C R Lss Rss Lsr Rsr LFE, Center forward" << std::endl;
 	cout << "    Cube     - Upper L R Ls Rs, Lower L R Ls Rs" << std::endl;
 	cout << "    Cube+S   - Upper L R Ls Rs, Lower L R Ls Rs, StereoL StereoR" << std::endl;
 	cout << "    Cube16   - Upper front, left, rear, right, pairs, then lower same" << std::endl;
@@ -197,12 +199,16 @@ int main(int argc, char* argv[])
         inFmt = MatrixConvert::FiveOh;
     else if (strcmp(inFmtStr, "FiveOneFilm") == 0)
         inFmt = MatrixConvert::FiveOneFilm;
+    else if (strcmp(inFmtStr, "FiveOneFilm_Cinema") == 0)
+        inFmt = MatrixConvert::FiveOneFilm_Cinema;
     else if (strcmp(inFmtStr, "FiveOneSmpte") == 0)
         inFmt = MatrixConvert::FiveOneSmpte;
     else if (strcmp(inFmtStr, "FiveOneDts") == 0)
         inFmt = MatrixConvert::FiveOneDts;
-    else if (strcmp(inFmtStr, "SevenOnePT") == 0)
+    else if (strcmp(inFmtStr, "SevenOnePt") == 0)
         inFmt = MatrixConvert::SevenOnePt;
+    else if (strcmp(inFmtStr, "SevenOnePt_Cinema") == 0)
+        inFmt = MatrixConvert::SevenOnePt_Cinema;
 	else
 	{
 		cout << "Please select a valid input format" << std::endl;

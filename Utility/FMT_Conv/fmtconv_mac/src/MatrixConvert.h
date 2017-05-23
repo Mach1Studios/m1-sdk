@@ -19,10 +19,12 @@ public:
         LCR,
         FiveOh,
         FiveOneFilm,
+        FiveOneFilm_Cinema,
         FiveOneSmpte,
         FiveOneDts,
         SixOh,
         SevenOnePt,
+        SevenOnePt_Cinema,
 		ACNSN3DO2A,
         FuMaO2A
 	} Formats;
@@ -32,7 +34,7 @@ public:
     int convert(int inFmt, float** inBufs, int outFmt, float** outBufs, int numSamples);
     
 private:
-	const static int NUMFMTS = 18;
+	const static int NUMFMTS = 20;
 	const static int MAXCHANS = 16;
 
 	const float r2 = (float)sqrt(2.0);
@@ -314,6 +316,15 @@ private:
         { 0, r2o8, 1, 0, 0, r2o8 },
         { 0, r2o8, 0, 1, 0, r2o8 },
         { 0, r2o8, 0, 0, 1, r2o8 } };
+    float FiveOneFilm_Cinema2Cube[8][6] =
+    {   { 1, r2o4, 0, 0, 0, r2o8 },
+        { 0, r2o4, 1, 0, 0, r2o8 },
+        { 0, 0, 0, 1, 0, r2o8 },
+        { 0, 0, 0, 0, 1, r2o8 },
+        { 1, r2o4, 0, 0, 0, r2o8 },
+        { 0, r2o4, 1, 0, 0, r2o8 },
+        { 0, 0, 0, 1, 0, r2o8 },
+        { 0, 0, 0, 0, 1, r2o8 } };
     float FiveOneSmpte2Cube[8][6] =
     {   { 1, 0, r2o8, r2o8, 0, 0 },
         { 0, 1, r2o8, r2o8, 0, 0 },
@@ -350,8 +361,17 @@ private:
         { 0, r2o8, 1, 0, r2o4, 0, 0, r2o8 },
         { 0, r2o8, 0, r2o4, 0, 1, 0, r2o8 },
         { 0, r2o8, 0, 0, r2o4, 0, 1, r2o8 } };
+    float SevenOnePt_Cinema2Cube[8][8] =
+    {   { 1, r2o4, 0, r2o4, 0, 0, 0, r2o8 },
+        { 0, r2o4, 1, 0, r2o4, 0, 0, r2o8 },
+        { 0, 0, 0, r2o4, 0, 1, 0, r2o8 },
+        { 0, 0, 0, 0, r2o4, 0, 1, r2o8 },
+        { 1, r2o4, 0, r2o4, 0, 0, 0, r2o8 },
+        { 0, r2o4, 1, 0, r2o4, 0, 0, r2o8 },
+        { 0, 0, 0, r2o4, 0, 1, 0, r2o8 },
+        { 0, 0, 0, 0, r2o4, 0, 1, r2o8 } };
     
-	int fmtChannels[NUMFMTS] = { 4, 4, 4, 6, 8, 8, 10, 16, 2, 3, 5, 6, 6, 6, 6, 8, 9, 9 };
+	int fmtChannels[NUMFMTS] = { 4, 4, 4, 6, 8, 8, 10, 16, 2, 3, 5, 6, 6, 6, 6, 6, 8, 8, 9, 9 };
 	float* fmtMatrix[NUMFMTS][NUMFMTS] =
     {   { NULL, &(FuMa2ACNSN3D[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         
@@ -373,10 +393,12 @@ private:
         { NULL, NULL, NULL, NULL, NULL, &(LCR2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         { NULL, NULL, NULL, NULL, NULL, &(FiveOh2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         { NULL, NULL, NULL, NULL, NULL, &(FiveOneFilm2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { NULL, NULL, NULL, NULL, NULL, &(FiveOneFilm_Cinema2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         { NULL, NULL, NULL, NULL, NULL, &(FiveOneSmpte2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         { NULL, NULL, NULL, NULL, NULL, &(FiveOneDts2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         { NULL, NULL, NULL, NULL, NULL, &(SixOh2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         { NULL, NULL, NULL, NULL, NULL, &(SevenOnePt2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { NULL, NULL, NULL, NULL, NULL, &(SevenOnePt_Cinema2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }
     };

@@ -22,7 +22,7 @@ class ofApp : public ofBaseApp{
 	ofCamera camera;
 	ofSpherePrimitive sphereVideo;
 	ofMatrix4x4 matrix;
-
+    
 	ofSoundStream soundStream;
 
 public:
@@ -106,7 +106,7 @@ public:
     bool dragginCamera;
     
     ofImage logo;
-    ofxImGui gui;
+    ofxImGui::Gui gui;
     
     ofxWatermark watermark;
     

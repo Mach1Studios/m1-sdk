@@ -3,7 +3,7 @@
 //
 //  Multichannel audio format family
 //
-//  Mixing algorithms v 0.9.92a
+//  Mixing algorithms v 0.9.92b
 //
 
 using System;
@@ -408,7 +408,7 @@ public class M1DSPAlgorithms
         result[8] = 1.0f; // static stereo L
         result[9] = 1.0f; // static stereo R
         return result;
- 
+
     }
 
     // ------------------------------------------------------------------
@@ -506,7 +506,7 @@ public class M1DSPAlgorithms
             currentRoll = Roll;
         }
 
-        mPoint simulationAngles = new mPoint(-Pitch, Yaw, Roll);
+        mPoint simulationAngles = new mPoint(Yaw, Pitch, Roll);
 
         mPoint faceVector1 = new mPoint((float)Math.Cos(mDegToRad(simulationAngles[1])), (float)Math.Sin(mDegToRad(simulationAngles[1]))).normalize();
 
@@ -775,4 +775,3 @@ public class M1DSPAlgorithms
 
 
 }
-

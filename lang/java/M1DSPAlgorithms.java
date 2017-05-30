@@ -5,7 +5,7 @@
 //
 //  Mixing algorithms in Java
 //
-//  Updated to match: 0.9.92a
+//  Updated to match: 0.9.92b
 
 /*
 DISCLAIMER:
@@ -506,8 +506,7 @@ public class M1DSPAlgorithms {
             currentRoll = Roll;
         }
 
-      
-      mPoint simulationAngles =  new mPoint(-Pitch, Yaw, Roll);
+      mPoint simulationAngles =  new mPoint(Yaw, Pitch, Roll);
     
       mPoint faceVector1 = new mPoint((float)Math.cos(mDegToRad(simulationAngles.getItem(1))), 
                                       (float)Math.sin(mDegToRad(simulationAngles.getItem(1)))).normalize();

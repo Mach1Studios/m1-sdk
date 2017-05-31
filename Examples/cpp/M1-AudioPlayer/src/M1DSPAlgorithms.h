@@ -3,7 +3,7 @@
 //
 //  Multichannel audio format family
 //
-//  Mixing algorithms v 0.9.92b
+//  Mixing algorithms v 0.9.93b
 //
 
 #pragma once
@@ -425,28 +425,28 @@ public:
         
         mPoint simulationAngles = mPoint(Yaw, Pitch, Roll);
         
-        mPoint faceVector1 = mPoint(  cos(mDegToRad(simulationAngles[1])),
-                                    sin(mDegToRad(simulationAngles[1]))).normalize();
+        mPoint faceVector1 = mPoint(  cos(mDegToRad(simulationAngles[0])),
+                                    sin(mDegToRad(simulationAngles[0]))).normalize();
         
         
-        mPoint faceVector2 = faceVector1.getRotated(simulationAngles[0],
-                                                    mPoint(cos(mDegToRad(simulationAngles[1] - 90)),
-                                                           sin(mDegToRad(simulationAngles[1] - 90))).normalize());
+        mPoint faceVector2 = faceVector1.getRotated(simulationAngles[1],
+                                                    mPoint(cos(mDegToRad(simulationAngles[0] - 90)),
+                                                           sin(mDegToRad(simulationAngles[0] - 90))).normalize());
         
         
-        mPoint faceVector21 = faceVector1.getRotated(simulationAngles[0] + 90,
-                                                     mPoint(cos(mDegToRad(simulationAngles[1] - 90)),
-                                                            sin(mDegToRad(simulationAngles[1] - 90))).normalize());
+        mPoint faceVector21 = faceVector1.getRotated(simulationAngles[1] + 90,
+                                                     mPoint(cos(mDegToRad(simulationAngles[0] - 90)),
+                                                            sin(mDegToRad(simulationAngles[0] - 90))).normalize());
         
         mPoint faceVectorLeft = faceVector21.getRotated(-simulationAngles[2] + 90, faceVector2);
         mPoint faceVectorRight = faceVector21.getRotated(-simulationAngles[2] - 90, faceVector2);
         
         
-        mPoint faceVectorOffsetted = mPoint(cos(mDegToRad(simulationAngles[1])),
-                                            sin(mDegToRad(simulationAngles[1]))).normalize().rotate(
-                                                                                                    simulationAngles[0] + 10,
-                                                                                                    mPoint(cos(mDegToRad(simulationAngles[1] - 90)),
-                                                                                                           sin(mDegToRad(simulationAngles[1] - 90))).normalize()) - faceVector2;
+        mPoint faceVectorOffsetted = mPoint(cos(mDegToRad(simulationAngles[0])),
+                                            sin(mDegToRad(simulationAngles[0]))).normalize().rotate(
+                                                                                                    simulationAngles[1] + 10,
+                                                                                                    mPoint(cos(mDegToRad(simulationAngles[0] - 90)),
+                                                                                                           sin(mDegToRad(simulationAngles[0] - 90))).normalize()) - faceVector2;
         
         mPoint tiltSphereRotated = faceVectorOffsetted.rotate(-simulationAngles[2], faceVector2);
         

@@ -5,7 +5,7 @@
 //
 //  Mixing algorithms in Java
 //
-//  Updated to match: 0.9.92b
+//  Updated to match: 0.9.93b
 
 /*
 DISCLAIMER:
@@ -508,27 +508,27 @@ public class M1DSPAlgorithms {
 
       mPoint simulationAngles =  new mPoint(Yaw, Pitch, Roll);
     
-      mPoint faceVector1 = new mPoint((float)Math.cos(mDegToRad(simulationAngles.getItem(1))), 
-                                      (float)Math.sin(mDegToRad(simulationAngles.getItem(1)))).normalize();
+      mPoint faceVector1 = new mPoint((float)Math.cos(mDegToRad(simulationAngles.getItem(0))), 
+                                      (float)Math.sin(mDegToRad(simulationAngles.getItem(0)))).normalize();
     
     
-      mPoint faceVector2 = faceVector1.getRotated(simulationAngles.getItem(0), 
-                                                  new mPoint((float)Math.cos(mDegToRad(simulationAngles.getItem(1) - 90)), 
-                                                             (float)Math.sin(mDegToRad(simulationAngles.getItem(1) - 90))).normalize());
+      mPoint faceVector2 = faceVector1.getRotated(simulationAngles.getItem(1), 
+                                                  new mPoint((float)Math.cos(mDegToRad(simulationAngles.getItem(0) - 90)), 
+                                                             (float)Math.sin(mDegToRad(simulationAngles.getItem(0) - 90))).normalize());
     
     
-      mPoint faceVector21 = faceVector1.getRotated(simulationAngles.getItem(0) + 90, 
-                                                   new mPoint((float)Math.cos(mDegToRad(simulationAngles.getItem(1) - 90)), 
-                                                              (float)Math.sin(mDegToRad(simulationAngles.getItem(1) - 90))).normalize());
+      mPoint faceVector21 = faceVector1.getRotated(simulationAngles.getItem(1) + 90, 
+                                                   new mPoint((float)Math.cos(mDegToRad(simulationAngles.getItem(0) - 90)), 
+                                                              (float)Math.sin(mDegToRad(simulationAngles.getItem(0) - 90))).normalize());
     
       mPoint faceVectorLeft = faceVector21.getRotated(-simulationAngles.getItem(2) + 90, faceVector2);
       mPoint faceVectorRight = faceVector21.getRotated(-simulationAngles.getItem(2) - 90, faceVector2);
     
-      mPoint faceVectorOffsetted = new mPoint((float)Math.cos(mDegToRad(simulationAngles.getItem(1))), 
-                                              (float)Math.sin(mDegToRad(simulationAngles.getItem(1)))).normalize().rotate(
-                                                            simulationAngles.getItem(0) + 10, 
-                                                            new mPoint((float)Math.cos(mDegToRad(simulationAngles.getItem(1) - 90)), 
-                                                                       (float)Math.sin(mDegToRad(simulationAngles.getItem(1) - 90))).normalize()).subtract(faceVector2);
+      mPoint faceVectorOffsetted = new mPoint((float)Math.cos(mDegToRad(simulationAngles.getItem(0))), 
+                                              (float)Math.sin(mDegToRad(simulationAngles.getItem(0)))).normalize().rotate(
+                                                            simulationAngles.getItem(1) + 10, 
+                                                            new mPoint((float)Math.cos(mDegToRad(simulationAngles.getItem(0) - 90)), 
+                                                                       (float)Math.sin(mDegToRad(simulationAngles.getItem(0) - 90))).normalize()).subtract(faceVector2);
     
       mPoint tiltSphereRotated = faceVectorOffsetted.rotate(-simulationAngles.getItem(2), faceVector2);
       

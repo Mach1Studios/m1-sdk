@@ -784,7 +784,7 @@ int main(int argc, char **argv)
     setbuf(stderr, 0);
 
     if (parse_options(argc, argv, &params) < 0)
-        return 1;
+        return 0;
 
     if ((reader = open_input(&params)) == 0)
         goto END;

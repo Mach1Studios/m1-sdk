@@ -6,6 +6,12 @@
 //  Mixing algorithms v 0.9.93b
 //
 
+/*
+DISCLAIMER:
+This header file is not an example of use but an decoder that will require periodic
+updates and should not be integrated in sections but remain as an update-able factored file.
+*/
+
 #pragma once
 
 #ifndef M1DSPAlgorithms_h

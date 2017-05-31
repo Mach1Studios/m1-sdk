@@ -37,7 +37,7 @@ public:
 	{
 		// Handling audio
 		vector<float> volumesPrev = volumes;
-		volumes = audioMixAlgorithm(angleX, angleY, angleZ);
+		volumes = audioMixAlgorithm(angleY, -angleX, angleZ);
 
 		if (isPlay)
 		{

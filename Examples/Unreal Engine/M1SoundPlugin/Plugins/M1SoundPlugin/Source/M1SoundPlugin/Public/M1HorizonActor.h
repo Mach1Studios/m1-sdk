@@ -23,29 +23,29 @@ public:
 
 	// Audio positions for the 8channel cube
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* FrontUpLeftChannelWalls;
+		USoundWave* ChannelWall1;
 
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* FrontUpRightChannelWalls;
+		USoundWave* ChannelWall2;
 
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* BackUpLeftChannelWalls;
+		USoundWave* ChannelWall3;
 
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* BackUpRightChannelWalls;
+		USoundWave* ChannelWall4;
 
 
 	// Audio positions for the 8channel cube
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* FrontUpLeftChannelCenter;
+		USoundWave* ChannelCenter1;
 
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* FrontUpRightChannelCenter;
+		USoundWave* ChannelCenter2;
 
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* BackUpLeftChannelCenter;
+		USoundWave* ChannelCenter3;
 
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* BackUpRightChannelCenter;
+		USoundWave* ChannelCenter4;
 
 };

@@ -23,52 +23,52 @@ public:
 
 	// Audio positions for the 8channel cube
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* FrontUpLeftChannelWalls;
+		USoundWave* ChannelWall1;
 
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* FrontUpRightChannelWalls;
+		USoundWave* ChannelWall2;
 
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* BackUpLeftChannelWalls;
+		USoundWave* ChannelWall3;
 
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* BackUpRightChannelWalls;
+		USoundWave* ChannelWall4;
 
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* FrontDownLeftChannelWalls;
+		USoundWave* ChannelWall5;
 
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* FrontDownRightChannelWalls;
+		USoundWave* ChannelWall6;
 
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* BackDownLeftChannelWalls;
+		USoundWave* ChannelWall7;
 
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* BackDownRightChannelWalls;
+		USoundWave* ChannelWall8;
 
 
 	// Audio positions for the 8channel cube
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* FrontUpLeftChannelCenter;
+		USoundWave* ChannelCenter1;
 
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* FrontUpRightChannelCenter;
+		USoundWave* ChannelCenter2;
 
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* BackUpLeftChannelCenter;
+		USoundWave* ChannelCenter3;
 
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* BackUpRightChannelCenter;
+		USoundWave* ChannelCenter4;
 
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* FrontDownLeftChannelCenter;
+		USoundWave* ChannelCenter5;
 
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* FrontDownRightChannelCenter;
+		USoundWave* ChannelCenter6;
 
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* BackDownLeftChannelCenter;
+		USoundWave* ChannelCenter7;
 
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* BackDownRightChannelCenter;
+		USoundWave* ChannelCenter8;
 };

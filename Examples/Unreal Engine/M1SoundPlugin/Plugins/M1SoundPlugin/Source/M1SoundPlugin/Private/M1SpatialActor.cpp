@@ -8,26 +8,26 @@
 
 void AM1SpatialActor::SetSoundsWalls()
 {
-	SoundsWalls.Add(FrontUpLeftChannelWalls);
-	SoundsWalls.Add(FrontUpRightChannelWalls);
-	SoundsWalls.Add(BackUpLeftChannelWalls);
-	SoundsWalls.Add(BackUpRightChannelWalls);
-	SoundsWalls.Add(FrontDownLeftChannelWalls);
-	SoundsWalls.Add(FrontDownRightChannelWalls);
-	SoundsWalls.Add(BackDownLeftChannelWalls);
-	SoundsWalls.Add(BackDownRightChannelWalls);
+	SoundsWalls.Add(ChannelWall1);
+	SoundsWalls.Add(ChannelWall2);
+	SoundsWalls.Add(ChannelWall3);
+	SoundsWalls.Add(ChannelWall4);
+	SoundsWalls.Add(ChannelWall5);
+	SoundsWalls.Add(ChannelWall6);
+	SoundsWalls.Add(ChannelWall7);
+	SoundsWalls.Add(ChannelWall8);
 }
 
 void AM1SpatialActor::SetSoundsCenter()
 {
-	SoundsCenter.Add(FrontUpLeftChannelCenter);
-	SoundsCenter.Add(FrontUpRightChannelCenter);
-	SoundsCenter.Add(BackUpLeftChannelCenter);
-	SoundsCenter.Add(BackUpRightChannelCenter);
-	SoundsCenter.Add(FrontDownLeftChannelCenter);
-	SoundsCenter.Add(FrontDownRightChannelCenter);
-	SoundsCenter.Add(BackDownLeftChannelCenter);
-	SoundsCenter.Add(BackDownRightChannelCenter);
+	SoundsCenter.Add(ChannelCenter1);
+	SoundsCenter.Add(ChannelCenter2);
+	SoundsCenter.Add(ChannelCenter3);
+	SoundsCenter.Add(ChannelCenter4);
+	SoundsCenter.Add(ChannelCenter5);
+	SoundsCenter.Add(ChannelCenter6);
+	SoundsCenter.Add(ChannelCenter7);
+	SoundsCenter.Add(ChannelCenter8);
 
 }
 

@@ -8,18 +8,18 @@
 
 void AM1HorizonActor::SetSoundsWalls()
 {
-	SoundsWalls.Add(FrontUpLeftChannelWalls);
-	SoundsWalls.Add(FrontUpRightChannelWalls);
-	SoundsWalls.Add(BackUpLeftChannelWalls);
-	SoundsWalls.Add(BackUpRightChannelWalls);
+	SoundsWalls.Add(ChannelWall1);
+	SoundsWalls.Add(ChannelWall2);
+	SoundsWalls.Add(ChannelWall3);
+	SoundsWalls.Add(ChannelWall4);
 }
 
 void AM1HorizonActor::SetSoundsCenter()
 {
-	SoundsCenter.Add(FrontUpLeftChannelCenter);
-	SoundsCenter.Add(FrontUpRightChannelCenter);
-	SoundsCenter.Add(BackUpLeftChannelCenter);
-	SoundsCenter.Add(BackUpRightChannelCenter);
+	SoundsCenter.Add(ChannelCenter1);
+	SoundsCenter.Add(ChannelCenter2);
+	SoundsCenter.Add(ChannelCenter3);
+	SoundsCenter.Add(ChannelCenter4);
 }
 
 std::vector<float> AM1HorizonActor::SoundAlgorithm(float Yaw, float Pitch, float Roll) 

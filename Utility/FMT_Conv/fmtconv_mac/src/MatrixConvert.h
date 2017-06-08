@@ -49,6 +49,7 @@ private:
     const float r2o6 = (float)sqrt(2.0) / 6.0f;
     const float r2o8 = (float)sqrt(2.0) / 8.0f;
     const float r2o12 = (float)sqrt(2.0) / 12.0f;
+    const float r2o20 = (float)sqrt(2.0) / 20.0f;
     const float oo8 = (float)1.0f / 8.0f;
 
 	// --- FuMa ---
@@ -328,12 +329,12 @@ private:
     float FiveOneFilm_Cinema2Cube[8][6] =
     {   { 1, r2o4, 0, 0, 0, r2o8 },
         { 0, r2o4, 1, 0, 0, r2o8 },
-        { 0, r2o12, 0, 1, 0, r2o8 },
-        { 0, r2o12, 0, 0, 1, r2o8 },
+        { 0, r2o20, 0, 1, 0, r2o8 },
+        { 0, r2o20, 0, 0, 1, r2o8 },
         { 1, r2o4, 0, 0, 0, r2o8 },
         { 0, r2o4, 1, 0, 0, r2o8 },
-        { 0, r2o12, 0, 1, 0, r2o8 },
-        { 0, r2o12, 0, 0, 1, r2o8 } };
+        { 0, r2o20, 0, 1, 0, r2o8 },
+        { 0, r2o20, 0, 0, 1, r2o8 } };
     float FiveOneSmpte2Cube[8][6] =
     {   { 1, 0, r2o8, r2o8, 0, 0 },
         { 0, 1, r2o8, r2o8, 0, 0 },

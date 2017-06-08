@@ -46,7 +46,9 @@ private:
 	const float r3o2 = (float)sqrt(3.0) / 2.0f;
     const float r2o2 = (float)sqrt(2.0) / 2.0f;
     const float r2o4 = (float)sqrt(2.0) / 4.0f;
+    const float r2o6 = (float)sqrt(2.0) / 6.0f;
     const float r2o8 = (float)sqrt(2.0) / 8.0f;
+    const float r2o12 = (float)sqrt(2.0) / 12.0f;
     const float oo8 = (float)1.0f / 8.0f;
 
 	// --- FuMa ---
@@ -183,11 +185,18 @@ private:
 	   { 0, 0, 0, 0, 0, 0, 0, 0 }, //T
 	   { 0, 0, 0, 0, 0, 0, 0, 0 }, //U
 	   { 0, 0, 0, 0, 0, 0, 0, 0 } }; //V
+    //nFOA
 	float Cube2ACNSN3D[4][8] =
 	{ { 1, 1, 1, 1, 1, 1, 1, 1 },
 	  { 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f },
 	  { oor2, oor2, oor2, oor2, -oor2, -oor2, -oor2, -oor2 },
 	  { 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f } };
+    //oFOA
+//    float Cube2ACNSN3D[4][8] =
+//    { { oor3, oor3, oor3, oor3, oor3, oor3, oor3, oor3 },
+//        { r3o2, -r3o2, r3o2, -r3o2, r3o2, -r3o2, r3o2, -r3o2 },
+//        { r3or2, r3or2, r3or2, r3or2, -r3or2, -r3or2, -r3or2, -r3or2 },
+//        { r3o2, r3o2, -r3o2, -r3o2, r3o2, r3o2, -r3o2, -r3o2 } };
     float Cube2ACNSN3DO2A[9][8] =
     {  { 1, 1, 1, 1, 1, 1, 1, 1 }, //W
 	   { 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f }, //X
@@ -319,12 +328,12 @@ private:
     float FiveOneFilm_Cinema2Cube[8][6] =
     {   { 1, r2o4, 0, 0, 0, r2o8 },
         { 0, r2o4, 1, 0, 0, r2o8 },
-        { 0, 0, 0, 1, 0, r2o8 },
-        { 0, 0, 0, 0, 1, r2o8 },
+        { 0, r2o12, 0, 1, 0, r2o8 },
+        { 0, r2o12, 0, 0, 1, r2o8 },
         { 1, r2o4, 0, 0, 0, r2o8 },
         { 0, r2o4, 1, 0, 0, r2o8 },
-        { 0, 0, 0, 1, 0, r2o8 },
-        { 0, 0, 0, 0, 1, r2o8 } };
+        { 0, r2o12, 0, 1, 0, r2o8 },
+        { 0, r2o12, 0, 0, 1, r2o8 } };
     float FiveOneSmpte2Cube[8][6] =
     {   { 1, 0, r2o8, r2o8, 0, 0 },
         { 0, 1, r2o8, r2o8, 0, 0 },

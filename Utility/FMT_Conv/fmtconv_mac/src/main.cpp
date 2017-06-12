@@ -248,6 +248,18 @@ int main(int argc, char* argv[])
         outFmt = MatrixConvert::ACNSN3DO2A;
     else if (strcmp(outFmtStr, "FuMaO2A") == 0)
         outFmt = MatrixConvert::FuMaO2A;
+    else if (strcmp(outFmtStr, "FiveOneFilm") == 0)
+        outFmt = MatrixConvert::FiveOneFilm;
+    else if (strcmp(outFmtStr, "FiveOneFilm_Cinema") == 0)
+        outFmt = MatrixConvert::FiveOneFilm_Cinema;
+    else if (strcmp(outFmtStr, "FiveOneSmpte") == 0)
+        outFmt = MatrixConvert::FiveOneSmpte;
+    else if (strcmp(outFmtStr, "FiveOneDts") == 0)
+        outFmt = MatrixConvert::FiveOneDts;
+    else if (strcmp(outFmtStr, "SevenOnePt") == 0)
+        outFmt = MatrixConvert::SevenOnePt;
+    else if (strcmp(outFmtStr, "SevenOnePt_Cinema") == 0)
+        outFmt = MatrixConvert::SevenOnePt_Cinema;
 	else
 	{
 		cout << "Please select a valid output format" << std::endl;

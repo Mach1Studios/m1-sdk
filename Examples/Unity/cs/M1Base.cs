@@ -160,6 +160,22 @@ public class M1Base : MonoBehaviour
             Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
         }
     }
+    
+    string GetStreamingAssetsPath()
+    {
+        string path;
+#if UNITY_EDITOR
+        path = "file://" + Application.dataPath + "/StreamingAssets";
+#elif UNITY_ANDROID
+     path = "jar:file://"+ Application.dataPath + "!/assets";
+#elif UNITY_IOS
+     path = "file:" + Application.dataPath + "/Raw";
+#else
+     //Desktop (Mac OS or Windows)
+     path = "file:"+ Application.dataPath + "/StreamingAssets";
+#endif
+        return path;
+    }
 
     // Load audio
     IEnumerator LoadAudio(string url, bool room, int n, bool isFromAssets)
@@ -179,7 +195,8 @@ public class M1Base : MonoBehaviour
         }
         else
         {
-            url = url.Replace("$CURDIR", Directory.GetCurrentDirectory());
+            url = url.Replace("$CURDIR", "file:///" + Directory.GetCurrentDirectory());
+            url = url.Replace("$STREAMINGASSETS", GetStreamingAssetsPath());
 
             WWW www = new WWW(url);
             yield return www;
@@ -189,7 +206,7 @@ public class M1Base : MonoBehaviour
             }
             else
             {
-                Debug.Log("WWW Error: " + www.error);
+                Debug.Log("WWW Error: " + www.error + " (" + url + ")");
             }
         }
 
@@ -247,6 +264,25 @@ public class M1Base : MonoBehaviour
         else
         {
             Debug.LogError("Audio was not loaded");
+        }
+    }
+
+    public void StopAudio()
+    {
+        if (IsReady())
+        {
+            for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
+            {
+                audioSourceWalls[i].Stop();
+            }
+
+            if (useRoomMode)
+            {
+                for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
+                {
+                    audioSourceRoom[i].Stop();
+                }
+            }
         }
     }
 
@@ -429,18 +465,18 @@ public class M1Base : MonoBehaviour
             Vector3 outsideClosestPoint;
             //Vector3 insidePoint0, insidePoint1;
 
-            Vector3 cameraPosition = Camera.main.transform.position;
+            Vector3 cameraPosition = Camera.current.transform.position;
             if (ignoreTopBottom)
             {
                 cameraPosition.y = gameObject.transform.position.y;
             }
 
-            bool isOutside = (ClosestPointOnBox(Camera.main.transform.position, gameObject.transform.position, gameObject.transform.right, gameObject.transform.up, gameObject.transform.forward, gameObject.transform.localScale / 2, out outsideClosestPoint) > 0);
+            bool isOutside = (ClosestPointOnBox(Camera.current.transform.position, gameObject.transform.position, gameObject.transform.right, gameObject.transform.up, gameObject.transform.forward, gameObject.transform.localScale / 2, out outsideClosestPoint) > 0);
             if (useClosestPoint && isOutside)
             {
                 point = outsideClosestPoint;
 
-                float dist = Vector3.Distance(Camera.main.transform.position, point);
+                float dist = Vector3.Distance(Camera.current.transform.position, point);
 
                 if (useFalloff)
                 {
@@ -489,7 +525,7 @@ public class M1Base : MonoBehaviour
             }
             else if (useRotator)
             {
-                float dist = Vector3.Distance(Camera.main.transform.position, point);
+                float dist = Vector3.Distance(Camera.current.transform.position, point);
 
                 if (useFalloff)
                 {
@@ -503,17 +539,17 @@ public class M1Base : MonoBehaviour
             }
 
 
-            Vector3 dir = Camera.main.transform.position - point;
+            Vector3 dir = Camera.current.transform.position - point;
 
             // Compute matrix for draw gizmo
             Quaternion quatGizmo = Quaternion.LookRotation(dir, Vector3.up) * Quaternion.Inverse(gameObject.transform.rotation);
             quatGizmo.eulerAngles = new Vector3(usePitchForClosestPoint ? quatGizmo.eulerAngles.x : 0, useYawForClosestPoint ? quatGizmo.eulerAngles.y : 0, useRollForClosestPoint ? quatGizmo.eulerAngles.z : 0);
-            mat = Matrix4x4.TRS(Camera.main.transform.position, quatGizmo, new Vector3(1, 1, 1));
+            mat = Matrix4x4.TRS(Camera.current.transform.position, quatGizmo, new Vector3(1, 1, 1));
 
             // Compute rotation for sound
             Quaternion quat = Quaternion.Inverse(Quaternion.LookRotation(dir, Vector3.up)) * gameObject.transform.rotation;
             quat.eulerAngles = new Vector3(usePitchForClosestPoint ? quat.eulerAngles.x : 0, useYawForClosestPoint ? quat.eulerAngles.y : 0, useRollForClosestPoint ? quat.eulerAngles.z : 0);
-            quat *= Camera.main.transform.rotation;
+            quat *= Camera.current.transform.rotation;
 
             // Compute volumes
             //Vector3 eulerAngles = quat.eulerAngles;
@@ -522,7 +558,7 @@ public class M1Base : MonoBehaviour
 
             //eulerAngles = Quaternion.Euler(eulerAngles).eulerAngles;
 
-            // Debug.Log(Camera.main.name + " camera eulerAngles:" + eulerAngles);
+            // Debug.Log(Camera.current.name + " camera eulerAngles:" + eulerAngles);
 
             Vector3 eulerAngles = GetEuler(quat);
 //            eulerAngles.x *= -1;
@@ -545,11 +581,11 @@ public class M1Base : MonoBehaviour
             if (drawHelpers)
             {
                 // Draw forward vector from camera
-                Vector3 targetForward = Camera.main.transform.rotation * (Vector3.forward * 3);
-                Debug.DrawLine(Camera.main.transform.position, Camera.main.transform.position + targetForward, Color.blue);
+                Vector3 targetForward = Camera.current.transform.rotation * (Vector3.forward * 3);
+                Debug.DrawLine(Camera.current.transform.position, Camera.current.transform.position + targetForward, Color.blue);
 
                 // Draw direction from camera to object
-                Debug.DrawLine(Camera.main.transform.position, point, Color.green);
+                Debug.DrawLine(Camera.current.transform.position, point, Color.green);
             }
         }
 

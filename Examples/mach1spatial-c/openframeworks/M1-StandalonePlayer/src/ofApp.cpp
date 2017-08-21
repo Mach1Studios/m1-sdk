@@ -43,7 +43,7 @@ void ofApp::setup(){
     
  
 
-    tests.push_back(new AudioOne());
+//    tests.push_back(new AudioOne());
 	tests.push_back(new IsotropicEightChannelTest());
 	tests.push_back(new AbmisonicTest());
 
@@ -350,10 +350,10 @@ void ofApp::draw(){
     ImGui::Begin("Mach1 Spatial Audio", &aWindow, window_flags);
     
     ImGui::Text("Select source");
-    const char* source_options[] = {"M1Spatial-Periphonic", "M1Spatial-Isotropic" , "Ambisonic" };
+    const char* source_options[] = {"M1Spatial" , "Ambisonic" };
     
     ImGui::PushItemWidth(-1);
-	if (ImGui::ListBox("##", &selectedTest, source_options, 3, 3))
+	if (ImGui::ListBox("##", &selectedTest, source_options, 2, 2))
 	{
 		for (int i = 0; i < tests.size(); i++)
 		{

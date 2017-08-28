@@ -187,17 +187,17 @@ private:
 	   { 0, 0, 0, 0, 0, 0, 0, 0 }, //U
 	   { 0, 0, 0, 0, 0, 0, 0, 0 } }; //V
     //nFOA
-	float Cube2ACNSN3D[4][8] =
-	{ { 1, 1, 1, 1, 1, 1, 1, 1 },
-	  { 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f },
-	  { oor2, oor2, oor2, oor2, -oor2, -oor2, -oor2, -oor2 },
-	  { 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f } };
+//	float Cube2ACNSN3D[4][8] =
+//	{ { 1, 1, 1, 1, 1, 1, 1, 1 },
+//	  { 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f },
+//	  { oor2, oor2, oor2, oor2, -oor2, -oor2, -oor2, -oor2 },
+//	  { 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f } };
     //oFOA
-//    float Cube2ACNSN3D[4][8] =
-//    { { oor3, oor3, oor3, oor3, oor3, oor3, oor3, oor3 },
-//        { r3o2, -r3o2, r3o2, -r3o2, r3o2, -r3o2, r3o2, -r3o2 },
-//        { r3or2, r3or2, r3or2, r3or2, -r3or2, -r3or2, -r3or2, -r3or2 },
-//        { r3o2, r3o2, -r3o2, -r3o2, r3o2, r3o2, -r3o2, -r3o2 } };
+    float Cube2ACNSN3D[4][8] =
+    { { oor3, oor3, oor3, oor3, oor3, oor3, oor3, oor3 },
+        { r3o2, -r3o2, r3o2, -r3o2, r3o2, -r3o2, r3o2, -r3o2 },
+        { r3or2, r3or2, r3or2, r3or2, -r3or2, -r3or2, -r3or2, -r3or2 },
+        { r3o2, r3o2, -r3o2, -r3o2, r3o2, r3o2, -r3o2, -r3o2 } };
     float Cube2ACNSN3DO2A[9][8] =
     {  { 1, 1, 1, 1, 1, 1, 1, 1 }, //W
 	   { 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f }, //X

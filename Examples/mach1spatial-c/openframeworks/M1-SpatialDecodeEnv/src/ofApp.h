@@ -7,7 +7,8 @@
 
 #include "BaseAudioTest.h"
 #include "IsotropicEightChannelTest.h"
-#include "EightChannelTest.h"
+#include "IsotropicEightChannelTest2.h"
+//#include "EightChannelTest.h"
 
 #define SETTINGS_TOOLBAR_WIDTH 200
 

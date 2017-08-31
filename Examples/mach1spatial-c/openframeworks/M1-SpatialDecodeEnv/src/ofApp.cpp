@@ -14,7 +14,7 @@ void ofApp::setup(){
 //    tests.push_back(new FourChannelTest());
 //    tests.push_back(new FourPairTest());
     tests.push_back(new IsotropicEightChannelTest());
-    tests.push_back(new EightChannelTest());
+    tests.push_back(new IsotropicEightChannelTest2());
 //    tests.push_back(new SixChannelTest());
     
     angleX = 0;
@@ -36,7 +36,7 @@ void ofApp::setup(){
     pointLight3.setSpecularColor( ofFloatColor(18.f/255.f,150.f/255.f,135.f/255.f) );
     
     // shininess is a value between 0 - 128, 128 being the most shiny //
-    material.setShininess( 120 );
+    material.setShininess( 0 );
     // the light highlight of the material //
     material.setSpecularColor(ofColor(255, 255, 255, 255));
 
@@ -45,7 +45,9 @@ void ofApp::setup(){
 
 
 	//	soundStream.printDeviceList();
-	//soundStream.setDeviceID(1); 	//note some devices are input only and some are output only 
+	//soundStream.setDeviceID(1); 	//note some devices are input only and some are output only
+    
+    //CHANGE SECOND TO LAST ARG FOR BUFFER SIZE TESTING
 	soundStream.setup(this, 2, 0, 44100, 512, 1);
 }
 
@@ -219,7 +221,7 @@ void ofApp::draw(){
     ImGui::SetNextWindowSize(ImVec2(SETTINGS_TOOLBAR_WIDTH, ofGetHeight()));
     ImGui::Begin("M1 SDK Tests", &aWindow, window_flags);
     
-		ImGui::SliderFloat("Angle Speed", &tests[selectedTest]->speed, 0.05, 0.6);
+		ImGui::SliderFloat("Angle Speed", &tests[selectedTest]->speed, 0.05, 0.95);
 
 		if (ImGui::SliderInt("Framerate", &framerate, 10, 120)) {
 			ofSetFrameRate(framerate);

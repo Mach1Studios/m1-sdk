@@ -17,14 +17,14 @@ public:
         
         
         
-		players[0].load("8ChannelAudio/1/1.wav");
-		players[1].load("8ChannelAudio/1/2.wav");
-		players[2].load("8ChannelAudio/1/3.wav");
-		players[3].load("8ChannelAudio/1/4.wav");
-		players[4].load("8ChannelAudio/1/5.wav");
-		players[5].load("8ChannelAudio/1/6.wav");
-		players[6].load("8ChannelAudio/1/7.wav");
-		players[7].load("8ChannelAudio/1/8.wav");
+		players[0].load("8ChannelAudio/2/1.wav");
+		players[1].load("8ChannelAudio/2/2.wav");
+		players[2].load("8ChannelAudio/2/3.wav");
+		players[3].load("8ChannelAudio/2/4.wav");
+		players[4].load("8ChannelAudio/2/5.wav");
+		players[5].load("8ChannelAudio/2/6.wav");
+		players[6].load("8ChannelAudio/2/7.wav");
+		players[7].load("8ChannelAudio/2/8.wav");
     }
     
 	void update() {
@@ -57,103 +57,13 @@ public:
             ofDrawSphere(spherePoints[i].x, spherePoints[i].y - 20, spherePoints[i].z, volumes[i * 2] * 18 + 2);
             ofSetColor(0, 0, 200);
             ofDrawSphere(spherePoints[i].x, spherePoints[i].y + 20, spherePoints[i].z, volumes[i * 2 + 1] * 18 + 2);
-            
         }
-        
         
         ofDisableLighting();
         for (int i = 0; i < 8; i++) {
             ofSetColor(255);
             ofDrawBitmapString(ofToString(i), spherePoints[i].x, spherePoints[i].y, spherePoints[i].z);
         }
-        
-        
-        /*
-         
-        // Isotropic math test
-        
-        ofPoint simulationAngles = ofPoint(angleX, angleY, angleZ);
-
-        ofPoint faceVector1 = ofPoint(cos(ofDegToRad(simulationAngles[1])),
-                                      sin(ofDegToRad(simulationAngles[1]))).normalize();
-        
-        
-        ofPoint faceVector2 = faceVector1.getRotated(angleX,
-                        ofPoint(cos(ofDegToRad(simulationAngles[1] - 90)),
-                                sin(ofDegToRad(simulationAngles[1] - 90))).normalize());
-        
-
-        ofPoint faceVector21 = faceVector1.getRotated(angleX + 90,
-                                ofPoint(cos(ofDegToRad(simulationAngles[1] - 90)),
-                                        sin(ofDegToRad(simulationAngles[1] - 90))).normalize());
-        
-        ofPoint faceVectorLeft = faceVector21.getRotated(-angleZ - 90, faceVector2);
-        ofPoint faceVectorRight = faceVector21.getRotated(-angleZ + 90, faceVector2);
-        
-        
-        float time = ofGetElapsedTimef() * 5;
-        
-        ofPoint faceVectorOffsetted = ofPoint(cos(ofDegToRad(simulationAngles[1])),
-                                              sin(ofDegToRad(simulationAngles[1]))).normalize().rotate(
-                            angleX + 10,
-                    ofPoint(cos(ofDegToRad(simulationAngles[1] - 90)),
-                            sin(ofDegToRad(simulationAngles[1] - 90))).normalize()) - faceVector2;
-        
-        ofPoint tiltSphereRotated = faceVectorOffsetted.rotate(-angleZ, faceVector2);
-        //        ofPoint facePoint = faceVector2 * 120;
-        
-        
-        ofSetColor(255, 0, 255);
-        ofDrawSphere(faceVector2 * 100, 10);
-        ofSetColor(0, 255, 255);
-        ofDrawSphere(faceVectorLeft * 100 + faceVector2 * 100, 5);
-        ofDrawSphere(faceVectorRight * 100 + faceVector2 * 100, 5);
-        
-        ofSetColor(255, 0, 0);
-
-        
-        ofSetColor(255, 0, 0);
-        ofDrawSphere(0, 0, 5);
-        
-        // Drawing another 8 dots
-        
-        ofVec3f points[8] =
-                {ofPoint(100, -100, -100),
-                 ofPoint(100, 100, -100),
-                    ofPoint(-100, -100, -100),
-                 ofPoint(-100, 100, -100),
-                 
-                 ofPoint(100, -100, 100),
-                 ofPoint(100, 100, 100),
-                    ofPoint(-100, -100, 100),
-                 ofPoint(-100, 100, 100)
-                 
-                 };
-        
-        float qL[8];
-        for (int i = 0; i < 8; i++) {
-            qL[i] = (faceVectorLeft * 100 + faceVector2 * 100 - points[i]).length();
-        }
-        
-        float qR[8];
-        for (int i = 0; i < 8; i++) {
-            qR[i] = (faceVectorRight * 100 + faceVector2 * 100 - points[i]).length();
-        }
-        
-        
-        
-        for (int i = 0; i < 8; i++) {
-            ofSetColor(255);
-            ofDrawSphere(points[i], 3);
-            ofSetColor(255, 0, 0);
-            float v = ofClamp(ofMap(qL[i] + qR[i], 250, 400, 1., 0.), 0, 1);
-            ofDrawBitmapString(ofToString(v), points[i].x, points[i].y, points[i].z);
-            ofDrawBitmapString(ofToString(i), points[i].x, points[i].y, points[i].z);
-        }
-        
-        
-        */
-
     }
     
     void drawOverlay() {
@@ -287,81 +197,7 @@ public:
     };
     
     std::vector<float> audioMixAlgorithm(float X, float Y, float Z) {
-/*
-        mPoint simulationAngles = mPoint(X, Y, Z);
-        
-        mPoint faceVector1 = mPoint(  cos(ofDegToRad(simulationAngles[1])),
-                                      sin(ofDegToRad(simulationAngles[1]))).normalize();
-        
-        
-        mPoint faceVector2 = faceVector1.getRotated(simulationAngles[0],
-                                                     mPoint(cos(ofDegToRad(simulationAngles[1] - 90)),
-                                                             sin(ofDegToRad(simulationAngles[1] - 90))).normalize());
-        
-        
-        mPoint faceVector21 = faceVector1.getRotated(simulationAngles[0] + 90,
-                                                      mPoint(cos(ofDegToRad(simulationAngles[1] - 90)),
-                                                              sin(ofDegToRad(simulationAngles[1] - 90))).normalize());
-        
-        mPoint faceVectorLeft = faceVector21.getRotated(-simulationAngles[2] - 90, faceVector2);
-        mPoint faceVectorRight = faceVector21.getRotated(-simulationAngles[2] + 90, faceVector2);
-        
-        
-        float time = ofGetElapsedTimef() * 5;
-        
-        mPoint faceVectorOffsetted = mPoint(cos(ofDegToRad(simulationAngles[1])),
-                                            sin(ofDegToRad(simulationAngles[1]))).normalize().rotate(
-                                                                            simulationAngles[0] + 10,
-                                                                            mPoint(cos(ofDegToRad(simulationAngles[1] - 90)),
-                                                                                   sin(ofDegToRad(simulationAngles[1] - 90))).normalize()) - faceVector2;
-        
-        mPoint tiltSphereRotated = faceVectorOffsetted.rotate(-angleZ, faceVector2);
-        
-        // Drawing another 8 dots
-        
-        mPoint points[8] =
-        {   mPoint(100, -100, -100),
-            mPoint(100, 100, -100),
-            mPoint(-100, -100, -100),
-            mPoint(-100, 100, -100),
-            
-            mPoint(100, -100, 100),
-            mPoint(100, 100, 100),
-            mPoint(-100, -100, 100),
-            mPoint(-100, 100, 100)
-            
-        };
-        
-        float qL[8];
-        for (int i = 0; i < 8; i++) {
-            qL[i] = (faceVectorLeft * 100 + faceVector2 * 100 - points[i]).length();
-        }
-        
-        float qR[8];
-        for (int i = 0; i < 8; i++) {
-            qR[i] = (faceVectorRight * 100 + faceVector2 * 100 - points[i]).length();
-        }
-        
-        std::vector<float> result;
-        result.resize(16);
-        
-        for (int i = 0; i < 8; i++) {
-            float vL = ofClamp(ofMap(qL[i] * 2, 250, 400, 1., 0.), 0, 1) / 2;
-            float vR = ofClamp(ofMap(qR[i] * 2, 250, 400, 1., 0.), 0, 1) / 2;
-            
-            // TODO: why did I need to put / 2 here to match what I had with other
-            // algo? Isn't that other one normalized to max 1?
-            
-            result[i * 2] = vR;
-            result[i  * 2 + 1] = vL;
-            
-        }
-        
-        
-        return result;
- */
-        
-        return m1DSPAlgorithms.eightChannelsIsotropicAlgorithm(X, Y, Z, true);
+        return m1DSPAlgorithms.eightChannelsIsotropicAlgorithm(Y, X, Z, true);
     }
     
     int scheduleRestart = 30;

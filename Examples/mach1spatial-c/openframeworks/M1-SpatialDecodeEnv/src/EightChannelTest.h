@@ -88,54 +88,7 @@ public:
     //////////////
     
     std::vector<float> audioMixAlgorithm(float X, float Y, float Z) {
-        /*
-        float volumes[8];
-        coefficients[0] = 1. - std::min(1., std::min((float)360. - Y, Y) / 90.);
-        coefficients[1] = 1. - std::min(1., std::abs((float)90. - Y) / 90.);
-        coefficients[2] = 1. - std::min(1., std::abs((float)180. - Y) / 90.);
-        coefficients[3] = 1. - std::min(1., std::abs((float)270. - Y) / 90.);
-        
-        float tiltAngle = ofMap(Z, -90, 90, 0., 1.);
-        float tiltHigh = cos(tiltAngle * (0.5*PI));
-        float tiltLow = cos((1.0 - tiltAngle) * (0.5*PI));
-        
-        //ISSUE//
-        //Able to kill stereo by making both pitch and tilt at max or min values together
-        
-        std::vector<float> result;
-        result.resize(16);
-        result[0] = coefficients[0] * tiltHigh; // 1 left
-        result[1] = coefficients[3] * tiltHigh; //   right
-        result[2] = coefficients[1] * tiltLow; // 2 left
-        result[3] = coefficients[0] * tiltLow; //   right
-        result[4] = coefficients[3] * tiltLow; // 3 left
-        result[5] = coefficients[2] * tiltLow; //   right
-        result[6] = coefficients[2] * tiltHigh; // 4 left
-        result[7] = coefficients[1] * tiltHigh; //   right
-        
-        result[0 + 8] = coefficients[0] * tiltLow; // 1 left
-        result[1 + 8] = coefficients[3] * tiltLow ; //   right
-        result[2 + 8] = coefficients[1] * tiltHigh ; // 2 left
-        result[3 + 8] = coefficients[0] * tiltHigh ; //   right
-        result[4 + 8] = coefficients[3] * tiltHigh ; // 3 left
-        result[5 + 8] = coefficients[2] * tiltHigh ; //   right
-        result[6 + 8] = coefficients[2] * tiltLow ; // 4 left
-        result[7 + 8] = coefficients[1] * tiltLow ; //   right
-        
-        float pitchAngle = ofMap(X, 90, -90, 0., 1.);
-        float pitchHigherHalf = cos(pitchAngle * (0.5*PI));
-        float pitchLowerHalf = cos((1.0 - pitchAngle) * (0.5*PI));
-        //float pitchLowerHalf = 1 - pitchHigherHalf;
-        
-        for (int i = 0; i < 8; i++) {
-            result[i] *= pitchLowerHalf;
-            result[i + 8] *= pitchHigherHalf;
-        }
-        
-        return result;
-         */
-        
-        return m1DSPAlgorithms.eightChannelsAlgorithm(X, Y, Z);
+        return m1DSPAlgorithms.eightChannelsAlgorithm(Y, X, Z);
     }
     
     int scheduleRestart = 30;

@@ -17,7 +17,7 @@ float* Mach1DecodeCAPI_horizonAlgo(void* M1obj, float Yaw, float Pitch, float Ro
 	static float data[10];
 	
 	if (M1obj != nullptr) {
-		std::vector<float> v = ((Mach1Decode*)M1obj)->fourChannelAlgorithm(Yaw, Pitch, Roll, smoothAngles);
+		std::vector<float> v = ((Mach1Decode*)M1obj)->horizonAlgo(Yaw, Pitch, Roll, smoothAngles);
 		for (int i = 0; i < 10; i++) data[i] = v[i];
 	}
 	else {
@@ -32,7 +32,7 @@ float* Mach1DecodeCAPI_horizonPairsAlgo(void* M1obj, float Yaw, float Pitch, flo
 	static float data[6];
 
 	if (M1obj != nullptr) {
-		std::vector<float> v = ((Mach1Decode*)M1obj)->fourPairsAlgorithm(Yaw, Pitch, Roll, smoothAngles);
+		std::vector<float> v = ((Mach1Decode*)M1obj)->horizonPairsAlgo(Yaw, Pitch, Roll, smoothAngles);
 		for (int i = 0; i < 6; i++) data[i] = v[i];
 	}
 	else {
@@ -47,7 +47,7 @@ float* Mach1DecodeCAPI_spatialAlgo(void* M1obj, float Yaw, float Pitch, float Ro
 	static float data[18];
 
 	if (M1obj != nullptr) {
-		std::vector<float> v = ((Mach1Decode*)M1obj)->eightChannelsIsotropicAlgorithm(Yaw, Pitch, Roll, smoothAngles);
+		std::vector<float> v = ((Mach1Decode*)M1obj)->spatialAlgo(Yaw, Pitch, Roll, smoothAngles);
 		for (int i = 0; i < 18; i++) data[i] = v[i];
 	}
 	else {
@@ -62,7 +62,7 @@ float* Mach1DecodeCAPI_spatialAltAlgo(void* M1obj, float Yaw, float Pitch, float
 	static float data[18];
 
 	if (M1obj != nullptr) {
-		std::vector<float> v = ((Mach1Decode*)M1obj)->eightChannelsAlgorithm(Yaw, Pitch, Roll, smoothAngles);
+		std::vector<float> v = ((Mach1Decode*)M1obj)->spatialAltAlgo(Yaw, Pitch, Roll, smoothAngles);
 		for (int i = 0; i < 18; i++) data[i] = v[i];
 	}
 	else {
@@ -77,7 +77,7 @@ float* Mach1DecodeCAPI_spatialPairsAlgo(void* M1obj, float Yaw, float Pitch, flo
 	static float data[10];
 
 	if (M1obj != nullptr) {
-		std::vector<float> v = ((Mach1Decode*)M1obj)->eightPairsAlgorithm(Yaw, Pitch, Roll, smoothAngles);
+		std::vector<float> v = ((Mach1Decode*)M1obj)->spatialPairsAlgo(Yaw, Pitch, Roll, smoothAngles);
 		for (int i = 0; i < 10; i++) data[i] = v[i];
 	}
 	else {

@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 2.8.8)
-project(M1DSPAlgorithmsLibrary)
+project(Mach1DecodeLibrary)
 
 include(GenerateExportHeader)
 
-add_library(M1DSPAlgorithmsCAPI SHARED "./M1DSPAlgorithms.cpp" "./M1DSPAlgorithmsCAPI.cpp")
+add_library(Mach1DecodeCAPI SHARED "./Mach1Decode.cpp" "./Mach1DecodeCAPI.cpp")
 
-generate_export_header(M1DSPAlgorithmsCAPI)
-install(TARGETS M1DSPAlgorithmsCAPI DESTINATION lib)
+generate_export_header(Mach1DecodeCAPI)
+install(TARGETS Mach1DecodeCAPI DESTINATION lib)
  

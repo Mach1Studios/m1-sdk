@@ -9,8 +9,8 @@
 
 #pragma once
 
-#ifndef M1DSPAlgorithms_h
-#define M1DSPAlgorithms_h
+#ifndef Mach1Decode_h
+#define Mach1Decode_h
 
 #include <vector>
 #include <cmath>
@@ -28,7 +28,7 @@ using namespace std::chrono;
 
 //////////////
 
-class M1DSPAlgorithms {
+class Mach1Decode {
     
 	milliseconds ms;
 
@@ -88,7 +88,7 @@ public:
 		return mPoint(currentYaw, currentPitch, currentRoll);
 	}
 
-    M1DSPAlgorithms();
+    Mach1Decode();
     
 	long getCurrentTime();
     
@@ -103,7 +103,7 @@ public:
     //  R = Roll in angles
     //
     
-    std::vector<float> fourChannelAlgorithm(float Yaw, float Pitch, float Roll, bool smoothAngles = false);
+    std::vector<float> horizonAlgo(float Yaw, float Pitch, float Roll, bool smoothAngles = false);
     
     // ------------------------------------------------------------------
     
@@ -116,7 +116,7 @@ public:
     //  R = Roll in angles
     //
     
-    std::vector<float> fourPairsAlgorithm(float Yaw, float Pitch, float Roll, bool smoothAngles = false);
+    std::vector<float> horizonPairsAlgo(float Yaw, float Pitch, float Roll, bool smoothAngles = false);
     
     // ------------------------------------------------------------------
     
@@ -129,7 +129,7 @@ public:
     //  R = Roll in angles
     //
     
-    std::vector<float> eightChannelsIsotropicAlgorithm(float Yaw, float Pitch, float Roll, bool smoothAngles = false);
+    std::vector<float> spatialAlgo(float Yaw, float Pitch, float Roll, bool smoothAngles = false);
     
     // ------------------------------------------------------------------
     
@@ -142,7 +142,7 @@ public:
     //  R = Roll in angles
     //
     
-    std::vector<float> eightChannelsAlgorithm(float Yaw, float Pitch, float Roll, bool smoothAngles = false);
+    std::vector<float> spatialAltAlgo(float Yaw, float Pitch, float Roll, bool smoothAngles = false);
     
     // ------------------------------------------------------------------
     
@@ -155,10 +155,10 @@ public:
     //  R = Roll in angles
     //
     
-    std::vector<float> eightPairsAlgorithm(float Yaw, float Pitch, float Roll, bool smoothAngles = false);
+    std::vector<float> spatialPairsAlgo(float Yaw, float Pitch, float Roll, bool smoothAngles = false);
     
     // ------------------------------------------------------------------
     
 };
 
-#endif /* M1DSPAlgorithms_h */
+#endif /* Mach1Decode_h */

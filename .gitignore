@@ -1,6 +1,7 @@
 # Mach1 #
 */[Aa]rchive/
-
+*/_builds/
+*/_logs/
 
 # Xcode generated #
 *.xcscheme

@@ -14,7 +14,7 @@
  */
 
 
-#include "M1DSPAlgorithms.h"
+#include "Mach1Decode.h"
 #include <algorithm>
 
 #ifndef DEG_TO_RAD
@@ -26,55 +26,55 @@
 #endif
 
  
-M1DSPAlgorithms::mPoint::mPoint() {
+Mach1Decode::mPoint::mPoint() {
     x = 0;
     y = 0;
     z = 0;
 }
 
-M1DSPAlgorithms::mPoint::mPoint(float X, float Y, float Z) {
+Mach1Decode::mPoint::mPoint(float X, float Y, float Z) {
     x = X;
     y = Y;
     z = Z;
 }
 
-M1DSPAlgorithms::mPoint::mPoint(float X, float Y) {
+Mach1Decode::mPoint::mPoint(float X, float Y) {
     x = X;
     y = Y;
     z = 0;
 }
 
-inline M1DSPAlgorithms::mPoint M1DSPAlgorithms::mPoint::operator+( const mPoint& pnt ) const {
-    return M1DSPAlgorithms::mPoint( x+pnt.x, y+pnt.y, z+pnt.z );
+inline Mach1Decode::mPoint Mach1Decode::mPoint::operator+( const mPoint& pnt ) const {
+    return Mach1Decode::mPoint( x+pnt.x, y+pnt.y, z+pnt.z );
 }
 
 
-inline M1DSPAlgorithms::mPoint M1DSPAlgorithms::mPoint::operator*( const float f ) const {
-    return M1DSPAlgorithms::mPoint( x*f, y*f, z*f );
+inline Mach1Decode::mPoint Mach1Decode::mPoint::operator*( const float f ) const {
+    return Mach1Decode::mPoint( x*f, y*f, z*f );
 }
 
 
-inline M1DSPAlgorithms::mPoint M1DSPAlgorithms::mPoint::operator*( const mPoint& vec ) const {
-    return M1DSPAlgorithms::mPoint( x*vec.x, y*vec.y, z*vec.z );
+inline Mach1Decode::mPoint Mach1Decode::mPoint::operator*( const mPoint& vec ) const {
+    return Mach1Decode::mPoint( x*vec.x, y*vec.y, z*vec.z );
 }
 
 
-inline M1DSPAlgorithms::mPoint M1DSPAlgorithms::mPoint::operator-( const mPoint& vec ) const {
-    return M1DSPAlgorithms::mPoint( x-vec.x, y-vec.y, z-vec.z );
+inline Mach1Decode::mPoint Mach1Decode::mPoint::operator-( const mPoint& vec ) const {
+    return Mach1Decode::mPoint( x-vec.x, y-vec.y, z-vec.z );
 }
 
-inline float M1DSPAlgorithms::mPoint::length() const {
+inline float Mach1Decode::mPoint::length() const {
     return (float)sqrt( x*x + y*y + z*z );
 }
 
 
-float M1DSPAlgorithms::mPoint::operator[] (int index) {
+float Mach1Decode::mPoint::operator[] (int index) {
     float arr[3] = {x, y, z};
     return arr[index];
 }
 
-inline M1DSPAlgorithms::mPoint& M1DSPAlgorithms::mPoint::rotate( float angle, const mPoint& axis ) {
-    M1DSPAlgorithms::mPoint ax = axis.getNormalized();
+inline Mach1Decode::mPoint& Mach1Decode::mPoint::rotate( float angle, const mPoint& axis ) {
+    Mach1Decode::mPoint ax = axis.getNormalized();
     float a = (float)(angle*DEG_TO_RAD);
     float sina = sin( a );
     float cosa = cos( a );
@@ -93,7 +93,7 @@ inline M1DSPAlgorithms::mPoint& M1DSPAlgorithms::mPoint::rotate( float angle, co
     return *this;
 }
 
-inline M1DSPAlgorithms::mPoint& M1DSPAlgorithms::mPoint::normalize() {
+inline Mach1Decode::mPoint& Mach1Decode::mPoint::normalize() {
     float length = (float)sqrt(x*x + y*y + z*z);
     if( length > 0 ) {
         x /= length;
@@ -104,24 +104,24 @@ inline M1DSPAlgorithms::mPoint& M1DSPAlgorithms::mPoint::normalize() {
 }
 
 
-inline M1DSPAlgorithms::mPoint M1DSPAlgorithms::mPoint::getNormalized() const {
+inline Mach1Decode::mPoint Mach1Decode::mPoint::getNormalized() const {
     float length = (float)sqrt(x*x + y*y + z*z);
     if( length > 0 ) {
-        return M1DSPAlgorithms::mPoint( x/length, y/length, z/length );
+        return Mach1Decode::mPoint( x/length, y/length, z/length );
     } else {
-        return M1DSPAlgorithms::mPoint();
+        return Mach1Decode::mPoint();
     }
 }
 
 
-inline M1DSPAlgorithms::mPoint M1DSPAlgorithms::mPoint::getRotated( float angle, const mPoint& axis ) const {
-    M1DSPAlgorithms::mPoint ax = axis.getNormalized();
+inline Mach1Decode::mPoint Mach1Decode::mPoint::getRotated( float angle, const mPoint& axis ) const {
+    Mach1Decode::mPoint ax = axis.getNormalized();
     float a = (float)(angle*DEG_TO_RAD);
     float sina = sin( a );
     float cosa = cos( a );
     float cosb = 1.0f - cosa;
     
-    return M1DSPAlgorithms::mPoint( x*(ax.x*ax.x*cosb + cosa)
+    return Mach1Decode::mPoint( x*(ax.x*ax.x*cosb + cosa)
                   + y*(ax.x*ax.y*cosb - ax.z*sina)
                   + z*(ax.x*ax.z*cosb + ax.y*sina),
                   x*(ax.y*ax.x*cosb + ax.z*sina)
@@ -135,7 +135,7 @@ inline M1DSPAlgorithms::mPoint M1DSPAlgorithms::mPoint::getRotated( float angle,
 
 //
 
-float M1DSPAlgorithms::mDegToRad(float degrees) {
+float Mach1Decode::mDegToRad(float degrees) {
     return degrees * DEG_TO_RAD;
 }
 
@@ -144,7 +144,7 @@ float M1DSPAlgorithms::mDegToRad(float degrees) {
 // Map utility
 //
 
-float M1DSPAlgorithms::mmap(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp) {
+float Mach1Decode::mmap(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp) {
     
     if (fabs(inputMin - inputMax) < __FLT_EPSILON__){
         return outputMin;
@@ -165,12 +165,12 @@ float M1DSPAlgorithms::mmap(float value, float inputMin, float inputMax, float o
     
 }
 
-float M1DSPAlgorithms::clamp(float a, float min, float max )
+float Mach1Decode::clamp(float a, float min, float max )
 {
     return (a < min) ? min : ((a > max) ? max : a);
 }
 
-float M1DSPAlgorithms::alignAngle(float a, float min, float max)
+float Mach1Decode::alignAngle(float a, float min, float max)
 {
     while (a < min) a += 360;
     while (a > max) a -= 360;
@@ -178,13 +178,13 @@ float M1DSPAlgorithms::alignAngle(float a, float min, float max)
     return a;
 }
 
-float M1DSPAlgorithms::radialDistance(float angle1, float angle2) {
+float Mach1Decode::radialDistance(float angle1, float angle2) {
     if ((std::abs(angle2 - angle1)) > (std::abs(std::abs(angle2 - angle1) - 360))) {
         return std::abs(std::abs(angle2 - angle1) - 360);
     } else return std::abs(angle2 - angle1);
 }
 
-float M1DSPAlgorithms::targetDirectionMultiplier(float angleCurrent, float angleTarget) {
+float Mach1Decode::targetDirectionMultiplier(float angleCurrent, float angleTarget) {
     if (((std::abs(angleCurrent - angleTarget)) >
          (std::abs(angleCurrent - angleTarget + 360)))
         ||
@@ -213,7 +213,7 @@ float M1DSPAlgorithms::targetDirectionMultiplier(float angleCurrent, float angle
 
 // Envelope follower feature is defined here, in updateAngles()
 
-void M1DSPAlgorithms::updateAngles() {
+void Mach1Decode::updateAngles() {
     if (targetYaw < 0) targetYaw += 360;
     if (targetPitch < 0) targetPitch += 360;
     if (targetRoll < 0) targetRoll += 360;
@@ -257,7 +257,7 @@ void M1DSPAlgorithms::updateAngles() {
 };
 
 
-M1DSPAlgorithms::M1DSPAlgorithms() {
+Mach1Decode::Mach1Decode() {
     currentYaw = 0;
     currentPitch = 0;
     currentRoll = 0;
@@ -271,7 +271,7 @@ M1DSPAlgorithms::M1DSPAlgorithms() {
 	ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 }
 
-long M1DSPAlgorithms::getCurrentTime()
+long Mach1Decode::getCurrentTime()
 {
 	return (duration_cast<milliseconds>(system_clock::now().time_since_epoch()) - ms).count();
 }
@@ -288,7 +288,7 @@ long M1DSPAlgorithms::getCurrentTime()
 //  R = Roll in angles
 //
 
-std::vector<float> M1DSPAlgorithms::fourChannelAlgorithm(float Yaw, float Pitch, float Roll, bool smoothAngles) {
+std::vector<float> Mach1Decode::horizonAlgo(float Yaw, float Pitch, float Roll, bool smoothAngles) {
     
     if (smoothAngles) {
         targetYaw = Yaw;
@@ -347,7 +347,7 @@ std::vector<float> M1DSPAlgorithms::fourChannelAlgorithm(float Yaw, float Pitch,
 //  R = Roll in angles
 //
 
-std::vector<float> M1DSPAlgorithms::fourPairsAlgorithm(float Yaw, float Pitch, float Roll, bool smoothAngles) {
+std::vector<float> Mach1Decode::horizonPairsAlgo(float Yaw, float Pitch, float Roll, bool smoothAngles) {
     
     if (smoothAngles) {
         targetYaw = Yaw;
@@ -400,7 +400,7 @@ std::vector<float> M1DSPAlgorithms::fourPairsAlgorithm(float Yaw, float Pitch, f
 //  R = Roll in angles
 //
 
-std::vector<float> M1DSPAlgorithms::eightChannelsIsotropicAlgorithm(float Yaw, float Pitch, float Roll, bool smoothAngles) {
+std::vector<float> Mach1Decode::spatialAlgo(float Yaw, float Pitch, float Roll, bool smoothAngles) {
     
     if (smoothAngles) {
         targetYaw = Yaw;
@@ -532,7 +532,7 @@ std::vector<float> M1DSPAlgorithms::eightChannelsIsotropicAlgorithm(float Yaw, f
 //  R = Roll in angles
 //
 
-std::vector<float> M1DSPAlgorithms::eightChannelsAlgorithm(float Yaw, float Pitch, float Roll, bool smoothAngles ) {
+std::vector<float> Mach1Decode::spatialAltAlgo(float Yaw, float Pitch, float Roll, bool smoothAngles ) {
     
     if (smoothAngles) {
         targetYaw = Yaw;
@@ -632,7 +632,7 @@ std::vector<float> M1DSPAlgorithms::eightChannelsAlgorithm(float Yaw, float Pitc
 //  R = Roll in angles
 //
 
-std::vector<float> M1DSPAlgorithms::eightPairsAlgorithm(float Yaw, float Pitch, float Roll, bool smoothAngles) {
+std::vector<float> Mach1Decode::spatialPairsAlgo(float Yaw, float Pitch, float Roll, bool smoothAngles) {
     
     if (smoothAngles) {
         targetYaw = Yaw;

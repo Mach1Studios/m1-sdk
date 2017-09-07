@@ -22,3 +22,10 @@ polly --clear --install --config Release --toolchain android-ndk-r14-api-19-x86-
 
 polly.bat --clear --install --config Release --toolchain vs-14-2015
 polly.bat --clear --install --config Release --toolchain vs-14-2015-win64
+
+* IOS
+
+1. find the version of the installed iOS SDK:
+xcodebuild -showsdks
+2. then build with this version (for example 10.0):
+polly --clear --install --config Release --toolchain ios-10-0

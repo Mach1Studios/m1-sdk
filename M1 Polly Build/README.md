@@ -13,10 +13,13 @@ polly  --clear --install --config Release --toolchain xcode-gcc
 
 * Android build (NDK r14):
 
-polly --clear --install --config Release --toolchain android-ndk-r14-api-19-armeabi
-polly --clear --install --config Release --toolchain android-ndk-r14-api-19-armeabi-v7a
-polly --clear --install --config Release --toolchain android-ndk-r14-api-19-x86
-polly --clear --install --config Release --toolchain android-ndk-r14-api-19-x86-64
+set env var ANDROID_NDK_r11c to ndk path
+
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-armeabi
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-armeabi-v7a
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-x86
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-x86-64
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips
 
 * Windows (VS2015)
 

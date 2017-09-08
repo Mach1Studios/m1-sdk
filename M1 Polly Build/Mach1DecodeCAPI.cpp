@@ -8,8 +8,10 @@ void* Mach1DecodeCAPI_create()
 
 void Mach1DecodeCAPI_delete(void * M1obj)
 {
-	if (M1obj != nullptr)
-		delete M1obj;
+	if (M1obj != nullptr) {
+		delete (Mach1Decode*)M1obj;
+		M1obj = nullptr;
+	}
 }
 
 float* Mach1DecodeCAPI_horizonAlgo(void* M1obj, float Yaw, float Pitch, float Roll, bool smoothAngles)

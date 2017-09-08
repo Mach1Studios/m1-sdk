@@ -17,14 +17,14 @@ public:
         
         
         
-        players[0].load("8ChannelAudio/3/1.wav");
-        players[1].load("8ChannelAudio/3/2.wav");
-        players[2].load("8ChannelAudio/3/3.wav");
-        players[3].load("8ChannelAudio/3/4.wav");
-        players[4].load("8ChannelAudio/3/5.wav");
-        players[5].load("8ChannelAudio/3/6.wav");
-        players[6].load("8ChannelAudio/3/7.wav");
-        players[7].load("8ChannelAudio/3/8.wav");
+        players[0].load("8ChannelAudio/2/1.wav");
+        players[1].load("8ChannelAudio/2/2.wav");
+        players[2].load("8ChannelAudio/2/3.wav");
+        players[3].load("8ChannelAudio/2/4.wav");
+        players[4].load("8ChannelAudio/2/5.wav");
+        players[5].load("8ChannelAudio/2/6.wav");
+        players[6].load("8ChannelAudio/2/7.wav");
+        players[7].load("8ChannelAudio/2/8.wav");
     }
     
     void update() {

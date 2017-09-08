@@ -88,7 +88,7 @@ public:
     //////////////
     
     std::vector<float> audioMixAlgorithm(float X, float Y, float Z) {
-        return m1DSPAlgorithms.eightChannelsAlgorithm(Y, X, Z);
+        return m1DSPAlgorithms.eightChannelsAlgorithm(X, Y, Z);
     }
     
     int scheduleRestart = 30;

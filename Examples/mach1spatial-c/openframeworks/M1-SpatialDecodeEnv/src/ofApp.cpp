@@ -161,11 +161,11 @@ void ofApp::draw(){
 	
 			// current angles vector (blue)
 			{
-				ofPoint faceVector1_ = ofPoint(cos(ofDegToRad(tests[selectedTest]->m1DSPAlgorithms.getCurrentAngle().y)),
-					sin(ofDegToRad(tests[selectedTest]->m1DSPAlgorithms.getCurrentAngle().y))).normalize();
+				ofPoint faceVector1_ = ofPoint(cos(ofDegToRad(tests[selectedTest]->m1DSPAlgorithms.getCurrentAngle().x)),
+					sin(ofDegToRad(tests[selectedTest]->m1DSPAlgorithms.getCurrentAngle().x))).normalize();
 
-				ofPoint faceVector2_ = faceVector1_.rotate(tests[selectedTest]->m1DSPAlgorithms.getCurrentAngle().x, ofPoint(cos(ofDegToRad(tests[selectedTest]->m1DSPAlgorithms.getCurrentAngle().y - 90)),
-					sin(ofDegToRad(tests[selectedTest]->m1DSPAlgorithms.getCurrentAngle().y - 90))).normalize());
+				ofPoint faceVector2_ = faceVector1_.rotate(tests[selectedTest]->m1DSPAlgorithms.getCurrentAngle().y, ofPoint(cos(ofDegToRad(tests[selectedTest]->m1DSPAlgorithms.getCurrentAngle().x - 90)),
+					sin(ofDegToRad(tests[selectedTest]->m1DSPAlgorithms.getCurrentAngle().x - 90))).normalize());
 			
 				ofSetColor(0, 0, 255); 
 				ofDrawLine(faceVector2_.x * 50, faceVector2_.y * 50, faceVector2_.z * 50,
@@ -227,7 +227,8 @@ void ofApp::draw(){
 			ofSetFrameRate(framerate);
 		}
 		int bufferSize = soundStream.getBufferSize();
-		if (ImGui::SliderInt("BufferSize", &bufferSize, 32, 1024)) {
+//        if (ImGui::SliderInt("BufferSize", &bufferSize, 32, 1024)) {
+        if (ImGui::SliderInt("BufferSize", &bufferSize, 512, 512)) {
 			soundStream.setup(this, soundStream.getNumOutputChannels(), 0, soundStream.getSampleRate(), bufferSize, 1);
 		}
 		ImGui::Checkbox("Per Sample", &tests[selectedTest]->perSample);
@@ -247,8 +248,8 @@ void ofApp::draw(){
         angleChanged |= (ImGui::SliderFloat("Z / Roll", &angleZ, -90, 90, "Z / Roll: %.0f deg"));
 
 		ImGui::LabelText("currentYaw",("currentYaw: " + ofToString(tests[selectedTest]->m1DSPAlgorithms.getCurrentAngle().x, 3)).c_str() );
-		ImGui::LabelText("currentPitch", ("currentPitch: " + ofToString(tests[selectedTest]->m1DSPAlgorithms.getCurrentAngle().y, 3)).c_str() );
-		ImGui::LabelText("currentRoll", ("currentRoll: " + ofToString(tests[selectedTest]->m1DSPAlgorithms.getCurrentAngle().z, 3)).c_str() );
+		ImGui::LabelText("currentPitch",("currentPitch: " + ofToString(tests[selectedTest]->m1DSPAlgorithms.getCurrentAngle().y, 3)).c_str() );
+		ImGui::LabelText("currentRoll",("currentRoll: " + ofToString(tests[selectedTest]->m1DSPAlgorithms.getCurrentAngle().z, 3)).c_str() );
 
         if (angleChanged) {
                 simulationAngles = ofPoint(angleX, angleY, angleZ);

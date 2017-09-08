@@ -13,7 +13,7 @@ public:
 		angleY = 0;
 		angleZ = 0;
 
-		speed = 0.2;
+		speed = 0.9;
 		pos = 0;
 		isPlay = false;
 		perSample = false;

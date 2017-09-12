@@ -20,6 +20,9 @@ polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-arm
 polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-x86
 polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-x86-64
 polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-arm64-v8a
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-arm64-v8a
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips64
 
 * Windows (VS2015)
 

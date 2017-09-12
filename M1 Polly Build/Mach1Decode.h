@@ -3,7 +3,7 @@
 //
 //  Multichannel audio format family
 //
-//  Mixing algorithms v 0.9.94b
+//  Mixing algorithms v 0.9.96a
 //
 //  Header file
 
@@ -22,47 +22,96 @@ using namespace std::chrono;
 #define PI       3.14159265358979323846
 #endif 
 
-//
-// Point utility class
-//
+
 
 //////////////
 
 class Mach1Decode {
     
+public:
+    enum AngularSettingsType {
+        m1Default = 0, m1Unity, m1UE, m1oFEasyCam, m1Android, m1iOS
+    };
+
+private:
+    
 	milliseconds ms;
 
-    //
-    static float mDegToRad(float degrees);
+    // Math utilities
     
+    static inline float mDegToRad(float degrees);
     
-    //
-    // Map utility
-    //
+    static inline float mmap(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp = false);
     
-    static float mmap(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp = false);
+    static inline float clamp(float a, float min, float max );
     
-    static float clamp(float a, float min, float max );
+    static inline float alignAngle(float a, float min = -180, float max = 180);
     
-    static float alignAngle(float a, float min = -180, float max = 180);
+    static inline float lerp(float x1, float x2, float t);
+
     
     float radialDistance(float angle1, float angle2);
     
     float targetDirectionMultiplier(float angleCurrent, float angleTarget);
     
+    // Filter features
     // Envelope follower feature is defined here, in updateAngles()
     
     void updateAngles();
     
 	float currentYaw, currentPitch, currentRoll;
 	float targetYaw, targetPitch, targetRoll;
+    float previousYaw, previousPitch, previousRoll;
 
 	long timeLastUpdate;
+    
+    bool smoothAngles = true;
+ 
+ 	float filterSpeed;
+   
+    // Angular settings functions
+    void fillPlatformAngles(AngularSettingsType type, float* Y, float* P, float* R) {
+        switch(type) {
+            case m1Default:
+                *Y = *Y;
+                *P = *P;
+                *R = *R;
+                break;
+                
+            case m1Unity:
+                *Y = -*Y;                   // Y in Unity
+                *P = -*P - 180;             // X in Unity
+                *R = *R;                    // Z in Unity
+                break;
+                
+            case m1UE:
+                *Y = *Y;                    // Y in UE
+                (*P < 0 ? 360 + *P : *P);   // Z in UE
+                *R = *R;                    // X in UE
+                
+            case m1oFEasyCam:
+                *Y = *Y;
+                *P = *P;
+                *R = *R;
+                
+            case m1Android:
+                *Y = *Y;
+                *P = *P;
+                *R = *R;
+
+            case m1iOS:
+                *Y = *Y;
+                *P = *P;
+                *R = *R;
+                
+            default:
+                break;
+        }
+    }
+    
+    AngularSettingsType angularSetting;
 
 public:
-
-	float speed;
-
     struct mPoint {
         float x, y, z;
         
@@ -87,11 +136,16 @@ public:
 	mPoint getCurrentAngle() {
 		return mPoint(currentYaw, currentPitch, currentRoll);
 	}
-
+    
     Mach1Decode();
     
-	long getCurrentTime();
-    
+    void setAngularSettingsType(AngularSettingsType type);
+
+    void beginBuffer();
+    void endBuffer();
+
+    long getCurrentTime();
+
     //--------------------------------------------------
     
     //
@@ -103,7 +157,7 @@ public:
     //  R = Roll in angles
     //
     
-    std::vector<float> horizonAlgo(float Yaw, float Pitch, float Roll, bool smoothAngles = false);
+    std::vector<float> horizonAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
     
     // ------------------------------------------------------------------
     
@@ -116,7 +170,7 @@ public:
     //  R = Roll in angles
     //
     
-    std::vector<float> horizonPairsAlgo(float Yaw, float Pitch, float Roll, bool smoothAngles = false);
+    std::vector<float> horizonPairsAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
     
     // ------------------------------------------------------------------
     
@@ -129,7 +183,7 @@ public:
     //  R = Roll in angles
     //
     
-    std::vector<float> spatialAlgo(float Yaw, float Pitch, float Roll, bool smoothAngles = false);
+    std::vector<float> spatialAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
     
     // ------------------------------------------------------------------
     
@@ -142,7 +196,7 @@ public:
     //  R = Roll in angles
     //
     
-    std::vector<float> spatialAltAlgo(float Yaw, float Pitch, float Roll, bool smoothAngles = false);
+    std::vector<float> spatialAltAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
     
     // ------------------------------------------------------------------
     
@@ -155,7 +209,7 @@ public:
     //  R = Roll in angles
     //
     
-    std::vector<float> spatialPairsAlgo(float Yaw, float Pitch, float Roll, bool smoothAngles = false);
+    std::vector<float> spatialPairsAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
     
     // ------------------------------------------------------------------
     

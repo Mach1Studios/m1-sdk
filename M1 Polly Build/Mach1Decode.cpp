@@ -67,6 +67,11 @@ inline float Mach1Decode::mPoint::length() const {
     return (float)sqrt( x*x + y*y + z*z );
 }
 
+inline float Mach1Decode::lerp(float x1, float x2, float t)
+{
+    return x1 + (x2 - x1)*t;
+}
+
 
 float Mach1Decode::mPoint::operator[] (int index) {
     float arr[3] = {x, y, z};
@@ -230,7 +235,7 @@ void Mach1Decode::updateAngles() {
     if (currentPitch > 360) currentPitch -= 360;
     if (currentRoll > 360) currentRoll -= 360;
     
-	float speedAngle = speed * (getCurrentTime() - timeLastUpdate);
+	float speedAngle = filterSpeed * (getCurrentTime() - timeLastUpdate);
 	
 	timeLastUpdate = getCurrentTime();
 
@@ -266,9 +271,13 @@ Mach1Decode::Mach1Decode() {
     targetPitch = 0;
     targetRoll = 0;
 
-	speed = 0.2;
+	filterSpeed = 0.9;
+    
+    angularSetting = m1Default;
 
 	ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    
+    smoothAngles = false;
 }
 
 long Mach1Decode::getCurrentTime()
@@ -277,20 +286,52 @@ long Mach1Decode::getCurrentTime()
 }
 
 
+void Mach1Decode::setAngularSettingsType(AngularSettingsType type) {
+    angularSetting = type;
+}
+
+
 //--------------------------------------------------
+
+//  Begin function that has to be called
+//  before per-sample coefficient calculation.
+//
+
+void Mach1Decode::beginBuffer() {
+    previousYaw = currentYaw;
+    previousPitch = currentPitch;
+    previousRoll = currentRoll;
+}
+
+
+//  End function that has to be called
+//  after per-sample coefficient calculation.
+//
+
+void Mach1Decode::endBuffer() {
+
+//  ;)
+    
+}
+
 
 //
 //  Four channel audio format
 //
 //  Order of input angles:
-//  Y = Yaw in angles
-//  P = Pitch in angles
-//  R = Roll in angles
+//  Y = Yaw in degrees
+//  P = Pitch in degrees
+//  R = Roll in degrees
 //
 
-std::vector<float> Mach1Decode::horizonAlgo(float Yaw, float Pitch, float Roll, bool smoothAngles) {
+std::vector<float> Mach1Decode::horizonAlgo(float Yaw, float Pitch, float Roll,
+                                                         int bufferSize, int sampleIndex) {
+    
+    fillPlatformAngles(angularSetting, &Yaw, &Pitch, &Roll);
+    
     
     if (smoothAngles) {
+     
         targetYaw = Yaw;
         targetPitch = Pitch;
         targetRoll = Roll;
@@ -300,6 +341,7 @@ std::vector<float> Mach1Decode::horizonAlgo(float Yaw, float Pitch, float Roll, 
         Yaw  = currentYaw;
         Pitch  = currentPitch;
         Roll = currentRoll;
+    
     } else {
         targetYaw = Yaw;
         targetPitch = Pitch;
@@ -309,6 +351,7 @@ std::vector<float> Mach1Decode::horizonAlgo(float Yaw, float Pitch, float Roll, 
         currentPitch = Pitch;
         currentRoll = Roll;
     }
+    
     
     //Orientation input safety clamps/alignment
     Yaw = alignAngle(Yaw, 0, 360);
@@ -342,23 +385,44 @@ std::vector<float> Mach1Decode::horizonAlgo(float Yaw, float Pitch, float Roll, 
 //  Four pairs audio format.
 //
 //  Order of input angles:
-//  Y = Yaw in angles
-//  P = Pitch in angles
-//  R = Roll in angles
+//  Y = Yaw in degrees
+//  P = Pitch in degrees
+//  R = Roll in degrees
 //
 
-std::vector<float> Mach1Decode::horizonPairsAlgo(float Yaw, float Pitch, float Roll, bool smoothAngles) {
+std::vector<float> Mach1Decode::horizonPairsAlgo(float Yaw, float Pitch, float Roll,
+                                                       int bufferSize, int sampleIndex) {
+    
+    fillPlatformAngles(angularSetting, &Yaw, &Pitch, &Roll);
     
     if (smoothAngles) {
+     
         targetYaw = Yaw;
         targetPitch = Pitch;
         targetRoll = Roll;
         
         updateAngles();
         
-        Yaw  = currentYaw;
-        Pitch  = currentPitch;
-        Roll = currentRoll;
+        if (bufferSize > 0) {
+            
+            // we're in per sample mode
+            
+            Yaw = alignAngle(lerp(previousYaw + 360, currentYaw + 360, (float)sampleIndex / (float)bufferSize) - 360,
+                             0, 360);
+            Pitch  = alignAngle(lerp(previousPitch + 360, currentPitch + 360, (float)sampleIndex / (float)bufferSize) - 360,
+                                -90, 90);
+            Roll = alignAngle(lerp(previousRoll + 360, currentRoll + 360, (float)sampleIndex / (float)bufferSize) - 360,
+                              -180, 180);
+            
+            
+        } else {
+            
+            Yaw  = currentYaw;
+            Pitch  = currentPitch;
+            Roll = currentRoll;
+            
+        }
+        
     } else {
         targetYaw = Yaw;
         targetPitch = Pitch;
@@ -368,6 +432,7 @@ std::vector<float> Mach1Decode::horizonPairsAlgo(float Yaw, float Pitch, float R
         currentPitch = Pitch;
         currentRoll = Roll;
     }
+    
     
     //Orientation input safety clamps/alignment
     Yaw = alignAngle(Yaw, 0, 360);
@@ -395,23 +460,45 @@ std::vector<float> Mach1Decode::horizonPairsAlgo(float Yaw, float Pitch, float R
 //  Eight channel audio format (isotropic version).
 //
 //  Order of input angles:
-//  Y = Yaw in angles
-//  P = Pitch in angles
-//  R = Roll in angles
+//  Y = Yaw in degrees
+//  P = Pitch in degrees
+//  R = Roll in degrees
 //
 
-std::vector<float> Mach1Decode::spatialAlgo(float Yaw, float Pitch, float Roll, bool smoothAngles) {
+std::vector<float> Mach1Decode::spatialAlgo(float Yaw, float Pitch, float Roll,
+                                                                    int bufferSize, int sampleIndex) {
+    
+    fillPlatformAngles(angularSetting, &Yaw, &Pitch, &Roll);
+    
     
     if (smoothAngles) {
+     
         targetYaw = Yaw;
         targetPitch = Pitch;
         targetRoll = Roll;
         
         updateAngles();
         
-        Yaw  = currentYaw;
-        Pitch  = currentPitch;
-        Roll = currentRoll;
+        if (bufferSize > 0) {
+            
+            // we're in per sample mode
+            
+            Yaw = alignAngle(lerp(previousYaw + 360, currentYaw + 360, (float)sampleIndex / (float)bufferSize) - 360,
+                             0, 360);
+            Pitch  = lerp(previousPitch + 90, currentPitch + 90, (float)sampleIndex / (float)bufferSize) - 90
+                                ;
+            Roll = alignAngle(lerp(previousRoll + 360, currentRoll + 360, (float)sampleIndex / (float)bufferSize) - 360,
+                              -180, 180);
+
+            
+        } else {
+        
+            Yaw  = currentYaw;
+            Pitch  = currentPitch;
+            Roll = currentRoll;
+            
+        }
+        
     } else {
         targetYaw = Yaw;
         targetPitch = Pitch;
@@ -527,23 +614,45 @@ std::vector<float> Mach1Decode::spatialAlgo(float Yaw, float Pitch, float Roll, 
 //  Eight channel audio format.
 //
 //  Order of input angles:
-//  Y = Yaw in angles
-//  P = Pitch in angles
-//  R = Roll in angles
+//  Y = Yaw in degrees
+//  P = Pitch in degrees
+//  R = Roll in degrees
 //
 
-std::vector<float> Mach1Decode::spatialAltAlgo(float Yaw, float Pitch, float Roll, bool smoothAngles ) {
+std::vector<float> Mach1Decode::spatialAltAlgo(float Yaw, float Pitch, float Roll,
+                                                           int bufferSize, int sampleIndex) {
+    
+    fillPlatformAngles(angularSetting, &Yaw, &Pitch, &Roll);
+    
     
     if (smoothAngles) {
+        
         targetYaw = Yaw;
         targetPitch = Pitch;
         targetRoll = Roll;
         
         updateAngles();
         
-        Yaw  = currentYaw;
-        Pitch  = currentPitch;
-        Roll = currentRoll;
+        if (bufferSize > 0) {
+            
+            // we're in per sample mode
+            
+            Yaw = alignAngle(lerp(previousYaw + 360, currentYaw + 360, (float)sampleIndex / (float)bufferSize) - 360,
+                             0, 360);
+            Pitch  = alignAngle(lerp(previousPitch + 360, currentPitch + 360, (float)sampleIndex / (float)bufferSize) - 360,
+                                -90, 90);
+            Roll = alignAngle(lerp(previousRoll + 360, currentRoll + 360, (float)sampleIndex / (float)bufferSize) - 360,
+                              -180, 180);
+            
+            
+        } else {
+            
+            Yaw  = currentYaw;
+            Pitch  = currentPitch;
+            Roll = currentRoll;
+            
+        }
+        
     } else {
         targetYaw = Yaw;
         targetPitch = Pitch;
@@ -553,6 +662,7 @@ std::vector<float> Mach1Decode::spatialAltAlgo(float Yaw, float Pitch, float Rol
         currentPitch = Pitch;
         currentRoll = Roll;
     }
+     
     
     //Orientation input safety clamps/alignment
     Pitch = alignAngle(Pitch, -180, 180);
@@ -627,23 +737,48 @@ std::vector<float> Mach1Decode::spatialAltAlgo(float Yaw, float Pitch, float Rol
 //  Eight pairs audio format.
 //
 //  Order of input angles:
-//  Y = Yaw in angles
-//  P = Pitch in angles
-//  R = Roll in angles
+//  Y = Yaw in degrees
+//  P = Pitch in degrees
+//  R = Roll in degrees
 //
 
-std::vector<float> Mach1Decode::spatialPairsAlgo(float Yaw, float Pitch, float Roll, bool smoothAngles) {
+std::vector<float> Mach1Decode::spatialPairsAlgo(float Yaw, float Pitch, float Roll,
+                                                        int bufferSize, int sampleIndex) {
+    
+    fillPlatformAngles(angularSetting, &Yaw, &Pitch, &Roll);
+
     
     if (smoothAngles) {
+     
         targetYaw = Yaw;
         targetPitch = Pitch;
         targetRoll = Roll;
         
         updateAngles();
         
-        Yaw  = currentYaw;
-        Pitch  = currentPitch;
-        Roll = currentRoll;
+        if (bufferSize > 0) {
+            
+            // we're in per sample mode
+            
+            Yaw = alignAngle(lerp(previousYaw + 360, currentYaw + 360, (float)sampleIndex / (float)bufferSize) - 360,
+                             0, 360);
+            Pitch  = alignAngle(lerp(previousPitch + 360, currentPitch + 360, (float)sampleIndex / (float)bufferSize) - 360,
+                                -90, 90);
+            Roll = alignAngle(lerp(previousRoll + 360, currentRoll + 360, (float)sampleIndex / (float)bufferSize) - 360,
+                              -180, 180);
+            
+            Yaw  = currentYaw;
+            Pitch  = currentPitch;
+            Roll = currentRoll;
+            
+        } else {
+            
+            Yaw  = currentYaw;
+            Pitch  = currentPitch;
+            Roll = currentRoll;
+            
+        }
+        
     } else {
         targetYaw = Yaw;
         targetPitch = Pitch;

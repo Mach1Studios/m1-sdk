@@ -177,6 +177,8 @@ float Mach1Decode::clamp(float a, float min, float max )
 
 float Mach1Decode::alignAngle(float a, float min, float max)
 {
+	if(a>5000 || a<-5000) return 0;
+	
     while (a < min) a += 360;
     while (a > max) a -= 360;
     
@@ -235,7 +237,7 @@ void Mach1Decode::updateAngles() {
     if (currentPitch > 360) currentPitch -= 360;
     if (currentRoll > 360) currentRoll -= 360;
     
-	float speedAngle = filterSpeed * (getCurrentTime() - timeLastUpdate);
+	float speedAngle = timeLastUpdate ? filterSpeed * (getCurrentTime() - timeLastUpdate) : 0;
 	
 	timeLastUpdate = getCurrentTime();
 
@@ -272,12 +274,13 @@ Mach1Decode::Mach1Decode() {
     targetRoll = 0;
 
 	filterSpeed = 0.9;
-    
+    timeLastUpdate = 0;
+	
     angularSetting = m1Default;
 
 	ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     
-    smoothAngles = false;
+    smoothAngles = true;
 }
 
 long Mach1Decode::getCurrentTime()
@@ -467,9 +470,8 @@ std::vector<float> Mach1Decode::horizonPairsAlgo(float Yaw, float Pitch, float R
 
 std::vector<float> Mach1Decode::spatialAlgo(float Yaw, float Pitch, float Roll,
                                                                     int bufferSize, int sampleIndex) {
-    
+  
     fillPlatformAngles(angularSetting, &Yaw, &Pitch, &Roll);
-    
     
     if (smoothAngles) {
      

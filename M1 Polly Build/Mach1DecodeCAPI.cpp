@@ -85,7 +85,7 @@ float* Mach1DecodeCAPI_spatialPairsAlgo(void* M1obj, float Yaw, float Pitch, flo
 	else {
 		for (int i = 0; i < 10; i++) data[i] = 0;
 	}
-
+	
 	return data;
 }
 

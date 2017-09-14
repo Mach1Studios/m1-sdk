@@ -65,7 +65,7 @@ private:
 
 	long timeLastUpdate;
     
-    bool smoothAngles = true;
+    bool smoothAngles;
  
  	float filterSpeed;
    
@@ -95,8 +95,8 @@ private:
                 *R = *R;
                 
             case m1Android:
-                *Y = *Y;
-                *P = *P;
+                *Y = -*Y + 90;
+                *P = -*P;
                 *R = *R;
 
             case m1iOS:

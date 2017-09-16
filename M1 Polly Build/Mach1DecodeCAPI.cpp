@@ -108,3 +108,8 @@ long Mach1DecodeCAPI_getCurrentTime(void * M1obj)
 {
 	return ((Mach1Decode*)M1obj)->getCurrentTime();
 }
+
+char* Mach1DecodeCAPI_getLog(void * M1obj)
+{
+	return ((Mach1Decode*)M1obj)->getLog();
+}

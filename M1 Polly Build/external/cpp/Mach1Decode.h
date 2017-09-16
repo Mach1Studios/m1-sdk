@@ -26,4 +26,5 @@ public:
     void endBuffer();
 	
 	long getCurrentTime();
+	char* getLog();
 };

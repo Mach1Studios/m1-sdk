@@ -60,3 +60,8 @@ long Mach1Decode::getCurrentTime()
 {
 	return Mach1DecodeCAPI_getCurrentTime(M1obj);
 }
+
+char* Mach1Decode::getLog()
+{
+	return Mach1DecodeCAPI_getLog(M1obj);
+}

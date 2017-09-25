@@ -35,3 +35,16 @@ polly.bat --clear --install --config Release --toolchain vs-14-2015-win64
 xcodebuild -showsdks
 2. then build with this version (for example 10.0):
 polly --clear --install --config Release --toolchain ios-10-0
+
+If using iOS 11.0:
+Add:
+```set(IOS_SDK_VERSION 11.0)
+set(IOS_DEPLOYMENT_SDK_VERSION 9.0)
+set(POLLY_XCODE_COMPILER "clang")
+polly_init(
+    "iOS ${IOS_SDK_VERSION} Universal (iphoneos + iphonesimulator) / \
+${POLLY_XCODE_COMPILER} / \
+bitcode / \
+c++14 support"
+    "Xcode"
+)

@@ -53,6 +53,9 @@ private:
     const float r2o20 = (float)sqrt(2.0) / 20.0f;
     const float oo8 = (float)1.0f / 8.0f;
 
+    // column down = inputs
+    // rows left = outputs
+    
 	// --- FuMa ---
 	float FuMa2ACNSN3D[4][4] =
 	{ { r2, 0, 0, 0 },
@@ -200,14 +203,14 @@ private:
         { r3or2, r3or2, r3or2, r3or2, -r3or2, -r3or2, -r3or2, -r3or2 },
         { r3o2, r3o2, -r3o2, -r3o2, r3o2, r3o2, -r3o2, -r3o2 } };
     float Cube2TBE[8][8] =
-    {   { 0, 0, 0, 0, 0, 0, 0, 0 },
+    {   { 1, 1, 1, 1, 1, 1, 1, 1 },
+        { 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f }, //invert because based on ISO?
+        { 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f }, // channel order change w,x,y,z
+        { oor2, oor2, oor2, oor2, -oor2, -oor2, -oor2, -oor2 },
         { 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0, 0, 0, 0 }};
+        { -r2o12, r2o12, r2o12, -r2o12, -r2o12, r2o12, r2o12, -r2o12 }, //FRBL
+        { -r2o12, r2o12, -r2o12, r2o12, r2o12, -r2o12, r2o12, -r2o12 }, //URDL
+        { r2o12, r2o12, -r2o12, -r2o12, -r2o12, -r2o12, r2o12, r2o12 }}; //TFDB
     float Cube2ACNSN3DO2A[9][8] =
     {  { 1, 1, 1, 1, 1, 1, 1, 1 }, //W
 	   { 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f }, //X

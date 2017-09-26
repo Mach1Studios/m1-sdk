@@ -26,7 +26,8 @@ public:
         SevenOnePt,
         SevenOnePt_Cinema,
 		ACNSN3DO2A,
-        FuMaO2A
+        FuMaO2A,
+        TBE
 	} Formats;
 
 	MatrixConvert();
@@ -34,7 +35,7 @@ public:
     int convert(int inFmt, float** inBufs, int outFmt, float** outBufs, int numSamples);
     
 private:
-	const static int NUMFMTS = 20;
+	const static int NUMFMTS = 21;
 	const static int MAXCHANS = 16;
 
 	const float r2 = (float)sqrt(2.0);
@@ -194,10 +195,19 @@ private:
 //	  { 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f } };
     //oFOA
     float Cube2ACNSN3D[4][8] =
-    { { oor3, oor3, oor3, oor3, oor3, oor3, oor3, oor3 },
+    {   { oor3, oor3, oor3, oor3, oor3, oor3, oor3, oor3 },
         { r3o2, -r3o2, r3o2, -r3o2, r3o2, -r3o2, r3o2, -r3o2 },
         { r3or2, r3or2, r3or2, r3or2, -r3or2, -r3or2, -r3or2, -r3or2 },
         { r3o2, r3o2, -r3o2, -r3o2, r3o2, r3o2, -r3o2, -r3o2 } };
+    float Cube2TBE[8][8] =
+    {   { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 }};
     float Cube2ACNSN3DO2A[9][8] =
     {  { 1, 1, 1, 1, 1, 1, 1, 1 }, //W
 	   { 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f }, //X
@@ -428,8 +438,17 @@ private:
         { 0, 0, 1, 0, 0, 0, 1, 0 },
         { 0, 0, 0, 1, 0, 0, 0, 1 },
         { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } };
+    float TBE2Cube[8][8] =
+    {   { 0.682217, -0.590557, 0.590557, 0.591337, 0, -0.152414, -0.152615, 0.152615 }, //W
+        { 0.682217, 0.590557, 0.590557, 0.591337, 0, 0.152414, 0.152615, 0.152615 }, //Y switch this?
+        { 0.682217, -0.590557, -0.590557, 0.591337, 0, 0.152414, -0.152615, -0.152615 }, //X switch this?
+        { 0.682217, 0.590557, -0.590557, 0.591337, 0, -0.152414, 0.152615, -0.152615 }, //Z switch this?
+        { 0.682217, -0.590557, 0.590557, -0.591337, 0, -0.152414, 0.152615, -0.152615 }, //U
+        { 0.682217, 0.590557, 0.590557, -0.591337, 0, 0.152414, -0.152615, -0.152615 }, //V
+        { 0.682217, -0.590557, -0.590557, -0.591337, 0, 0.152414, 0.152615, 0.152615 }, //T
+        { 0.682217, 0.590557, -0.590557, -0.591337, 0, -0.152414, -0.152615, 0.152615 } }; //S
     
-	int fmtChannels[NUMFMTS] = { 4, 4, 4, 6, 8, 8, 10, 16, 2, 3, 5, 6, 6, 6, 6, 6, 8, 8, 9, 9 };
+	int fmtChannels[NUMFMTS] = { 4, 4, 4, 6, 8, 8, 10, 16, 2, 3, 5, 6, 6, 6, 6, 6, 8, 8, 9, 9, 8 };
 	float* fmtMatrix[NUMFMTS][NUMFMTS] =
     {   { NULL, &(FuMa2ACNSN3D[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         
@@ -458,7 +477,8 @@ private:
         { NULL, NULL, NULL, NULL, NULL, &(SevenOnePt2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         { NULL, NULL, NULL, NULL, NULL, &(SevenOnePt_Cinema2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
-        { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }
+        { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { NULL, NULL, NULL, NULL, NULL, &(TBE2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }
     };
 
 };

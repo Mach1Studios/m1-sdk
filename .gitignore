@@ -2,6 +2,7 @@
 */[Aa]rchive/
 */_builds/
 */_logs/
+*/_install/
 
 # Xcode generated #
 *.xcscheme

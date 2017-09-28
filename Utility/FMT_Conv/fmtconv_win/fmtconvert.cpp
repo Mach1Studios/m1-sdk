@@ -80,6 +80,7 @@ void printHelp()
 	cout << "    Cube     - Upper L R Ls Rs, Lower L R Ls Rs" << std::endl;
 	cout << "    Cube+S   - Upper L R Ls Rs, Lower L R Ls Rs, StereoL StereoR" << std::endl;
 	cout << "    Cube16   - Upper front, left, rear, right, pairs, then lower same" << std::endl;
+    cout << "    TBE   - W, X, Y, Z, U, V, T, S" << std::endl;
 	cout << std::endl;
 }
 
@@ -203,7 +204,9 @@ int main(int argc, char* argv[])
     else if (strcmp(inFmtStr, "SevenOnePT") == 0)
         inFmt = MatrixConvert::SevenOnePt;
     else if (strcmp(inFmtStr, "SevenOnePT_Cinema") == 0)
-    inFmt = MatrixConvert::SevenOnePt_Cinema;
+	    inFmt = MatrixConvert::SevenOnePt_Cinema;
+    else if (strcmp(inFmtStr, "TBE") == 0)
+        inFmt = MatrixConvert::TBE;
 	else
 	{
 		cout << "Please select a valid input format" << std::endl;
@@ -255,7 +258,8 @@ int main(int argc, char* argv[])
         outFmt = MatrixConvert::SevenOnePt;
     else if (strcmp(outFmtStr, "SevenOnePt_Cinema") == 0)
         outFmt = MatrixConvert::SevenOnePt_Cinema;
-
+    else if (strcmp(outFmtStr, "TBE") == 0)
+        outFmt = MatrixConvert::TBE;
 	else
 	{
 		cout << "Please select a valid output format" << std::endl;

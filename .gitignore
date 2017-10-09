@@ -72,7 +72,6 @@ artifacts/
 *_p.c
 *_i.h
 *.ilk
-*.meta
 *.obj
 *.pch
 *.pdb
@@ -322,6 +321,9 @@ sysinfo.txt
 /*.booproj
 /.idea*/
  
+# include meta files
+!*.*.meta
+
 # ============ #
 # OS generated #
 # ============ #

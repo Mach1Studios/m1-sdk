@@ -53,7 +53,7 @@ public class M1Base : MonoBehaviour
     [Space(10)]
     public bool drawHelpers = true;
 
-    protected Mach1.M1DSPAlgorithms m1DSPAlgorithms = new Mach1.M1DSPAlgorithms();
+    protected Mach1.M1Decode m1Decode = new Mach1.M1Decode();
 
     AnimationCurve generateCurve(float length)
     {

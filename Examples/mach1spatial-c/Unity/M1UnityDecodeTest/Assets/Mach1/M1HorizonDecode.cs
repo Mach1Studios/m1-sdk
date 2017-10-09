@@ -16,6 +16,6 @@ public class M1HorizonDecode :  M1Base
 
     public override float[] SoundAlgorithm(float Yaw, float Pitch, float Roll)
     {
-        return m1DSPAlgorithms.fourChannelAlgorithm(Yaw, Pitch, Roll, false);
+        return m1Decode.horizonAlgo(Yaw, Pitch, Roll);
     } 
 }

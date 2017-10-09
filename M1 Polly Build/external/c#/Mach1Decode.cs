@@ -3,58 +3,72 @@ using System.Runtime.InteropServices;
 
 namespace Mach1
 {
-    class M1DSPAlgorithms : IDisposable
+    public class M1Decode : IDisposable
     {
-        internal const string libname = "M1DSPAlgorithmsCAPI";
+        public enum AngularSettingsType : int
+        {
+            m1Default = 0, m1Unity, m1UE, m1oFEasyCam, m1Android, m1iOS
+        };
+
+        internal const string libname = "Mach1DecodeCAPI";
 
         [DllImport(libname)]
-        internal static extern IntPtr M1DSPAlgorithmsCAPI_create();
+        internal static extern IntPtr Mach1DecodeCAPI_create();
 
         [DllImport(libname)]
-        internal static extern void M1DSPAlgorithmsCAPI_delete(IntPtr M1obj);
+        internal static extern void Mach1DecodeCAPI_delete(IntPtr M1obj);
 
         [DllImport(libname)]
-        internal static extern IntPtr M1DSPAlgorithmsCAPI_fourChannelAlgorithm(IntPtr M1obj, float Yaw, float Pitch, float Roll, bool smoothAngles);
+        internal static extern IntPtr Mach1DecodeCAPI_horizonAlgo(IntPtr M1obj, float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
 
         [DllImport(libname)]
-        internal static extern IntPtr M1DSPAlgorithmsCAPI_fourPairsAlgorithm(IntPtr M1obj, float Yaw, float Pitch, float Roll, bool smoothAngles);
+        internal static extern IntPtr Mach1DecodeCAPI_horizonPairsAlgo(IntPtr M1obj, float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
 
         [DllImport(libname)]
-        internal static extern IntPtr M1DSPAlgorithmsCAPI_eightChannelsIsotropicAlgorithm(IntPtr M1obj, float Yaw, float Pitch, float Roll, bool smoothAngles);
+        internal static extern IntPtr Mach1DecodeCAPI_spatialAlgo(IntPtr M1obj, float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
 
         [DllImport(libname)]
-        internal static extern IntPtr M1DSPAlgorithmsCAPI_eightChannelsAlgorithm(IntPtr M1obj, float Yaw, float Pitch, float Roll, bool smoothAngles);
+        internal static extern IntPtr Mach1DecodeCAPI_spatialAltAlgo(IntPtr M1obj, float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
 
         [DllImport(libname)]
-        internal static extern IntPtr M1DSPAlgorithmsCAPI_eightPairsAlgorithm(IntPtr M1obj, float Yaw, float Pitch, float Roll, bool smoothAngles);
+        internal static extern IntPtr Mach1DecodeCAPI_spatialPairsAlgo(IntPtr M1obj, float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
 
         [DllImport(libname)]
-        internal static extern long M1DSPAlgorithmsCAPI_getCurrentTime(IntPtr M1obj);
+        internal static extern void Mach1DecodeCAPI_setAngularSettingsType(IntPtr M1obj, int type);
+
+        [DllImport(libname)]
+        internal static extern void Mach1DecodeCAPI_beginBuffer(IntPtr M1obj);
+
+        [DllImport(libname)]
+        internal static extern void Mach1DecodeCAPI_endBuffer(IntPtr M1obj);
+
+        [DllImport(libname)]
+        internal static extern long Mach1DecodeCAPI_getCurrentTime(IntPtr M1obj);
 
         internal IntPtr M1obj;
 
-        public M1DSPAlgorithms()
+        public M1Decode()
         {
-            M1obj = M1DSPAlgorithmsCAPI_create();
+            M1obj = Mach1DecodeCAPI_create();
         }
 
         public void Dispose()
         {
-            M1DSPAlgorithmsCAPI_delete(M1obj);
+            Mach1DecodeCAPI_delete(M1obj);
         }
 
-        public float[] fourChannelAlgorithm(float Yaw, float Pitch, float Roll, bool smoothAngles)
+        public float[] horizonAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0)
         {
-            IntPtr ptr = M1DSPAlgorithmsCAPI_fourChannelAlgorithm(M1obj, Yaw, Pitch, Roll, smoothAngles);
+            IntPtr ptr = Mach1DecodeCAPI_horizonAlgo(M1obj, Yaw, Pitch, Roll, bufferSize, sampleIndex);
 
             float[] data = new float[10];
             Marshal.Copy(ptr, data, 0, data.Length);
             return data;
         }
 
-        public float[] fourPairsAlgorithm(float Yaw, float Pitch, float Roll, bool smoothAngles)
+        public float[] horizonPairsAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0)
         {
-            IntPtr ptr = M1DSPAlgorithmsCAPI_fourPairsAlgorithm(M1obj, Yaw, Pitch, Roll, smoothAngles);
+            IntPtr ptr = Mach1DecodeCAPI_horizonPairsAlgo(M1obj, Yaw, Pitch, Roll, bufferSize, sampleIndex);
 
             float[] data = new float[6];
             Marshal.Copy(ptr, data, 0, data.Length);
@@ -62,36 +76,52 @@ namespace Mach1
         }
 
 
-        public float[] eightChannelsIsotropicAlgorithm(float Yaw, float Pitch, float Roll, bool smoothAngles)
+        public float[] spatialAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0)
         {
-            IntPtr ptr = M1DSPAlgorithmsCAPI_eightChannelsIsotropicAlgorithm(M1obj, Yaw, Pitch, Roll, smoothAngles);
+            IntPtr ptr = Mach1DecodeCAPI_spatialAlgo(M1obj, Yaw, Pitch, Roll, bufferSize, sampleIndex);
 
             float[] data = new float[18];
             Marshal.Copy(ptr, data, 0, data.Length);
             return data;
         }
 
-        public float[] eightChannelsAlgorithm(float Yaw, float Pitch, float Roll, bool smoothAngles)
+        public float[] spatialAltAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0)
         {
-            IntPtr ptr = M1DSPAlgorithmsCAPI_eightChannelsAlgorithm(M1obj, Yaw, Pitch, Roll, smoothAngles);
+            IntPtr ptr = Mach1DecodeCAPI_spatialAltAlgo(M1obj, Yaw, Pitch, Roll, bufferSize, sampleIndex);
 
             float[] data = new float[18];
             Marshal.Copy(ptr, data, 0, data.Length);
             return data;
         }
 
-        public float[] eightPairsAlgorithm(float Yaw, float Pitch, float Roll, bool smoothAngles)
+        public float[] spatialPairsAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0)
         {
-            IntPtr ptr = M1DSPAlgorithmsCAPI_eightPairsAlgorithm(M1obj, Yaw, Pitch, Roll, smoothAngles);
+            IntPtr ptr = Mach1DecodeCAPI_spatialPairsAlgo(M1obj, Yaw, Pitch, Roll, bufferSize, sampleIndex);
 
             float[] data = new float[10];
             Marshal.Copy(ptr, data, 0, data.Length);
             return data;
         }
 
+        public void setAngularSettingsType(AngularSettingsType type)
+        {
+            Mach1DecodeCAPI_setAngularSettingsType(M1obj, (int)type);
+        }
+
+        public void beginBuffer()
+        {
+            Mach1DecodeCAPI_beginBuffer(M1obj);
+        }
+
+        public void endBuffer()
+        {
+            Mach1DecodeCAPI_endBuffer(M1obj);
+        }
+
         public long getCurrentTime()
         {
-            return M1DSPAlgorithmsCAPI_getCurrentTime(M1obj);
+            return Mach1DecodeCAPI_getCurrentTime(M1obj);
         }
+
     }
 }

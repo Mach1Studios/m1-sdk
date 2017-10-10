@@ -71,6 +71,11 @@ public class M1Base : MonoBehaviour
         return curve;
     }
 
+    public M1Base()
+    {
+        m1Decode.setAngularSettingsType(Mach1.M1Decode.AngularSettingsType.m1Unity);
+    }
+
     protected void InitComponents(int MAX_SOUNDS_PER_CHANNEL)
     {
         this.MAX_SOUNDS_PER_CHANNEL = MAX_SOUNDS_PER_CHANNEL;
@@ -478,9 +483,8 @@ public class M1Base : MonoBehaviour
             Vector3 outsideClosestPoint;
             //Vector3 insidePoint0, insidePoint1;
 
-			Camera cam = Camera.current; // Camera.main;  
-			
-            //if (Camera.current == null) return;
+			Camera cam = UnityEngine.VR.VRSettings.enabled ? Camera.main : Camera.current;
+            if (cam == null) return;
 
             Vector3 cameraPosition =  cam.transform.position;
             if (ignoreTopBottom)

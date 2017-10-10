@@ -11,6 +11,7 @@
 *.pbxproj
 *xcschememanagement.plist
 *.xcconfig
+
 # Unity generated #
 # =============== #
 [Tt]emp/
@@ -18,6 +19,15 @@
 [Bb]uild
 sysinfo.txt
 *.stackdump
+[Ll]ibrary/
+
+OculusVR Dev
+*OculusPlatform/
+*OVRAvatar/
+*OVR/
+*OVRAudioManager/
+*OSPNative/
+
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
 # ===================================== #
@@ -295,16 +305,6 @@ lang/cs/Proposals
 lang/cs/Resources
 lang/cs/Proposals/M1 Test Application Plan 0.1-1.0.docx
 lang/cs/Proposals/M1 Test Application Plan 1.1-1.x.docx
-
-# =============== #
-# Unity generated #
-# =============== #
-[Tt]emp/
-[Oo]bj/
-[Bb]uild
-/[Ll]ibrary/
-sysinfo.txt
-*.stackdump
  
 # ============================================= #
 # Visual Studio / MonoDevelop / Rider generated #
@@ -320,9 +320,6 @@ sysinfo.txt
 /*.unityproj
 /*.booproj
 /.idea*/
- 
-# include meta files
-!*.*.meta
 
 # ============ #
 # OS generated #

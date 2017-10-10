@@ -144,7 +144,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 170300523}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1230ee4ea5de09046a2fb2f54137beb5, type: 3}
   m_Name: 
@@ -161,14 +161,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8058eb644d1d84a438a253b691fae044, type: 3}
   - {fileID: 8300000, guid: f609862961e8b28429f8286c99d1865c, type: 3}
   audioClipRoom:
-  - {fileID: 8300000, guid: c34d27694f498e445a1d978a44a9c696, type: 3}
-  - {fileID: 8300000, guid: 4953fe201a89a7348b85fa5eb178ea35, type: 3}
-  - {fileID: 8300000, guid: c3416864cf7a7aa4f9c95fc849bf043a, type: 3}
-  - {fileID: 8300000, guid: ef7a6d51c862bcc418a099858c6cf1c3, type: 3}
-  - {fileID: 8300000, guid: d91117b0d4bc2984fb375703edf731c0, type: 3}
-  - {fileID: 8300000, guid: f880f55b3c40db6498a7d7d7f7b97b0e, type: 3}
-  - {fileID: 8300000, guid: 8058eb644d1d84a438a253b691fae044, type: 3}
-  - {fileID: 8300000, guid: f609862961e8b28429f8286c99d1865c, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   audioPath: file:///
   audioFilenameWalls:
   - 1.wav
@@ -190,7 +190,7 @@ MonoBehaviour:
   - 8.wav
   autoPlay: 1
   isLoop: 1
-  useFalloff: 1
+  useFalloff: 0
   curveFalloff:
     serializedVersion: 2
     m_Curve:
@@ -241,8 +241,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   useRoomMode: 0
   ignoreTopBottom: 1
-  useRotator: 0
-  useClosestPoint: 1
+  useRotator: 1
+  useClosestPoint: 0
   useYawForClosestPoint: 1
   usePitchForClosestPoint: 1
   useRollForClosestPoint: 1

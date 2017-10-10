@@ -37,6 +37,8 @@ public:
 
 private:
     
+	typedef std::vector<float> (Mach1Decode::*functionAlgoSample)(float Yaw, float Pitch, float Roll);
+	std::vector<float> processSample(functionAlgoSample funcAlgoSample, float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
 	milliseconds ms;
 
     // Math utilities

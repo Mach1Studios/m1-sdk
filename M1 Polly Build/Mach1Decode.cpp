@@ -280,8 +280,9 @@ void Mach1Decode::fillPlatformAngles(AngularSettingsType type, float* Y, float* 
 		break;
 
 	case m1Unity:
-		*Y = -*Y;                   // Y in Unity
-		*P = -*P - 180;             // X in Unity
+		std::swap(*P, *Y);
+		*Y = *Y;                   // Y in Unity
+		*P = *P;             // X in Unity
 		*R = *R;                    // Z in Unity
 		break;
 

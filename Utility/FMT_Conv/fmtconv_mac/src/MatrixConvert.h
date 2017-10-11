@@ -27,7 +27,9 @@ public:
         SevenOnePt_Cinema,
 		ACNSN3DO2A,
         FuMaO2A,
-        TBE
+        TBE,
+        ACNSN3DO3A,
+        FuMaO3A
 	} Formats;
 
 	MatrixConvert();
@@ -35,7 +37,7 @@ public:
     int convert(int inFmt, float** inBufs, int outFmt, float** outBufs, int numSamples);
     
 private:
-	const static int NUMFMTS = 21;
+	const static int NUMFMTS = 23;
 	const static int MAXCHANS = 16;
 
 	const float r2 = (float)sqrt(2.0);
@@ -197,11 +199,17 @@ private:
 //	  { oor2, oor2, oor2, oor2, -oor2, -oor2, -oor2, -oor2 },
 //	  { 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f } };
     //oFOA
-    float Cube2ACNSN3D[4][8] =
-    {   { oor3, oor3, oor3, oor3, oor3, oor3, oor3, oor3 },
-        { r3o2, -r3o2, r3o2, -r3o2, r3o2, -r3o2, r3o2, -r3o2 },
-        { r3or2, r3or2, r3or2, r3or2, -r3or2, -r3or2, -r3or2, -r3or2 },
-        { r3o2, r3o2, -r3o2, -r3o2, r3o2, r3o2, -r3o2, -r3o2 } };
+//    float Cube2ACNSN3D[4][8] =
+//    {   { oor3, oor3, oor3, oor3, oor3, oor3, oor3, oor3 },
+//        { r3o2, -r3o2, r3o2, -r3o2, r3o2, -r3o2, r3o2, -r3o2 },
+//        { r3or2, r3or2, r3or2, r3or2, -r3or2, -r3or2, -r3or2, -r3or2 },
+//        { r3o2, r3o2, -r3o2, -r3o2, r3o2, r3o2, -r3o2, -r3o2 } };
+    //o3aFOA
+    float Cube2ACNSN3D [4][8] =
+    {   { 1, 1, 1, 1, 1, 1, 1, 1 },
+        { oor3, -oor3, oor3, -oor3, oor3, -oor3, oor3, -oor3 },
+        { oor3, oor3, oor3, oor3, -oor3, -oor3, -oor3, -oor3 },
+        { oor3, oor3, -oor3, -oor3, oor3, oor3, -oor3, -oor3 } };
     float Cube2TBE[8][8] =
     {   { 1, 1, 1, 1, 1, 1, 1, 1 },
         { 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f }, //invert because based on ISO?
@@ -212,15 +220,32 @@ private:
         { -r2o12, r2o12, -r2o12, r2o12, r2o12, -r2o12, r2o12, -r2o12 }, //URDL
         { r2o12, r2o12, -r2o12, -r2o12, -r2o12, -r2o12, r2o12, r2o12 }}; //TFDB
     float Cube2ACNSN3DO2A[9][8] =
-    {  { 1, 1, 1, 1, 1, 1, 1, 1 }, //W
-	   { 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f }, //X
-	   { oor2, oor2, oor2, oor2, -oor2, -oor2, -oor2, -oor2 }, //Y
-	   { 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f }, //Z
-	   { -0.25f, -0.25f, -0.25f, -0.25f, -0.25f, -0.25f, -0.25f, -0.25f }, //R?
-	   { 0.5f, -0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f }, //S
-	   { -0.25f, -0.25f, 0.25f, 0.25f, -0.25f, -0.25f, 0.25f, 0.25f }, //T?
-	   { 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f, 0.5f }, //U
-	   { -0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f, -0.5f, -0.5f } }; //V
+    {  { 1, 1, 1, 1, 1, 1, 1, 1 },
+        { oor3, -oor3, oor3, -oor3, oor3, -oor3, oor3, -oor3 },
+        { oor3, oor3, oor3, oor3, -oor3, -oor3, -oor3, -oor3 },
+        { oor3, oor3, -oor3, -oor3, oor3, oor3, -oor3, -oor3 },
+        { oor3, -oor3, -oor3, oor3, oor3, -oor3, -oor3, oor3 },
+        { oor3, -oor3, oor3, -oor3, -oor3, oor3, -oor3, oor3 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { oor3, oor3, -oor3, -oor3, -oor3, -oor3, oor3, oor3 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 } };
+    float Cube2ACNSN3DO3A[16][8] =
+    {  { 1, 1, 1, 1, 1, 1, 1, 1 },
+        { oor3, -oor3, oor3, -oor3, oor3, -oor3, oor3, -oor3 },
+        { oor3, oor3, oor3, oor3, -oor3, -oor3, -oor3, -oor3 },
+        { oor3, oor3, -oor3, -oor3, oor3, oor3, -oor3, -oor3 },
+        { oor3, -oor3, -oor3, oor3, oor3, -oor3, -oor3, oor3 },
+        { oor3, -oor3, oor3, -oor3, -oor3, oor3, -oor3, oor3 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { oor3, oor3, -oor3, -oor3, -oor3, -oor3, oor3, oor3 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0.30434f, -0.30434f, 0.30434f, -0.30434f, 0.30434f, -0.30434f, 0.30434f, -0.30434f },
+        { 0.745356f, -0.745356f, -0.745356f, 0.745356f, -0.745356f, 0.745356f, 0.745356f, -0.745356f },
+        { 0.235587f, -0.235587f, 0.235587f, -0.235587f, 0.235587f, -0.235587f, 0.235587f, -0.235587f },
+        { -0.38496f, -0.38496f, -0.38496f, -0.38496f, 0.38496f, 0.38496f, 0.38496f, 0.38496f },
+        { 0.235587f, 0.235587f, -0.235587f, -0.235587f, 0.235587f, 0.235587f, -0.235587f, -0.235587f },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { -0.30434f, -0.30434f, 0.30434f, 0.30434f, -0.30434f, -0.30434f, 0.30434f, 0.30434f } };
 	float Cube2Square[4][8] =
 	{ { 0.5f, 0, 0, 0, 0.5f, 0, 0, 0 },
 	  { 0, 0.5f, 0, 0, 0, 0.5f, 0, 0 },
@@ -453,37 +478,39 @@ private:
         { 0.682217, 0.590557, -0.590557, -0.591337, 0, -0.152414, -0.152615, 0.152615 } };
         // lower first column
     
-	int fmtChannels[NUMFMTS] = { 4, 4, 4, 6, 8, 8, 10, 16, 2, 3, 5, 6, 6, 6, 6, 6, 8, 8, 9, 9, 8 };
+	int fmtChannels[NUMFMTS] = { 4, 4, 4, 6, 8, 8, 10, 16, 2, 3, 5, 6, 6, 6, 6, 6, 8, 8, 9, 9, 8, 16, 16 };
 	float* fmtMatrix[NUMFMTS][NUMFMTS] =
-    {   { NULL, &(FuMa2ACNSN3D[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+    {   { NULL, &(FuMa2ACNSN3D[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         
-        { &(ACNSN3D2FuMa[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { &(ACNSN3D2FuMa[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         
-        { &(Square2FuMa[0][0]), &(Square2ACNSN3D[0][0]), NULL, NULL, &(Square2Square8[0][0]), &(Square2Cube[0][0]), NULL, &(Square2Cube16[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { &(Square2FuMa[0][0]), &(Square2ACNSN3D[0][0]), NULL, NULL, &(Square2Square8[0][0]), &(Square2Cube[0][0]), NULL, &(Square2Cube16[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         
-        { &(SquareS2FuMa[0][0]), &(SquareS2ACNSN3D[0][0]), &(SquareS2Square[0][0]), NULL, &(SquareS2Square8[0][0]), &(SquareS2Cube[0][0]), NULL, &(SquareS2Cube16[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { &(SquareS2FuMa[0][0]), &(SquareS2ACNSN3D[0][0]), &(SquareS2Square[0][0]), NULL, &(SquareS2Square8[0][0]), &(SquareS2Cube[0][0]), NULL, &(SquareS2Cube16[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         
-        { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         
-        { &(Cube2FuMa[0][0]), &(Cube2ACNSN3D[0][0]), &(Cube2Square[0][0]), NULL, &(Cube2Square8[0][0]), NULL, NULL, &(Cube2Cube16[0][0]), NULL, &(Cube2FiveOneFilm[0][0]), &(Cube2FiveOneFilm_Cinema[0][0]), &(Cube2FiveOneSmpte[0][0]), &(Cube2FiveOneDts[0][0]), NULL, &(Cube2SevenOnePt[0][0]), &(Cube2SevenOnePt_Cinema[0][0]), &(Cube2ACNSN3DO2A[0][0]), &(Cube2ACNSN3DO2A[0][0]), &(Cube2TBE[0][0]) },
+        { &(Cube2FuMa[0][0]), &(Cube2ACNSN3D[0][0]), &(Cube2Square[0][0]), NULL, &(Cube2Square8[0][0]), NULL, NULL, &(Cube2Cube16[0][0]), NULL, &(Cube2FiveOneFilm[0][0]), &(Cube2FiveOneFilm_Cinema[0][0]), &(Cube2FiveOneSmpte[0][0]), &(Cube2FiveOneDts[0][0]), NULL, &(Cube2SevenOnePt[0][0]), &(Cube2SevenOnePt_Cinema[0][0]), &(Cube2ACNSN3DO2A[0][0]), &(Cube2ACNSN3DO2A[0][0]), &(Cube2TBE[0][0]), &(Cube2ACNSN3DO3A[0][0]), NULL },
         
-        { &(CubeS2FuMa[0][0]), &(CubeS2ACNSN3D[0][0]), &(CubeS2Square[0][0]), NULL, &(CubeS2Square8[0][0]), &(CubeS2Cube[0][0]), NULL, &(CubeS2Cube16[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { &(CubeS2FuMa[0][0]), &(CubeS2ACNSN3D[0][0]), &(CubeS2Square[0][0]), NULL, &(CubeS2Square8[0][0]), &(CubeS2Cube[0][0]), NULL, &(CubeS2Cube16[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         
-        { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         
-        { NULL, NULL, NULL, NULL, NULL, &(Stereo2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
-        { NULL, NULL, NULL, NULL, NULL, &(LCR2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
-        { NULL, NULL, NULL, NULL, NULL, &(FiveOh2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
-        { NULL, NULL, NULL, NULL, NULL, &(FiveOneFilm2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
-        { NULL, NULL, NULL, NULL, NULL, &(FiveOneFilm_Cinema2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
-        { NULL, NULL, NULL, NULL, NULL, &(FiveOneSmpte2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
-        { NULL, NULL, NULL, NULL, NULL, &(FiveOneDts2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
-        { NULL, NULL, NULL, NULL, NULL, &(SixOh2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
-        { NULL, NULL, NULL, NULL, NULL, &(SevenOnePt2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
-        { NULL, NULL, NULL, NULL, NULL, &(SevenOnePt_Cinema2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
-        { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
-        { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
-        { NULL, NULL, NULL, NULL, NULL, &(TBE2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }
+        { NULL, NULL, NULL, NULL, NULL, &(Stereo2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { NULL, NULL, NULL, NULL, NULL, &(LCR2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { NULL, NULL, NULL, NULL, NULL, &(FiveOh2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { NULL, NULL, NULL, NULL, NULL, &(FiveOneFilm2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { NULL, NULL, NULL, NULL, NULL, &(FiveOneFilm_Cinema2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { NULL, NULL, NULL, NULL, NULL, &(FiveOneSmpte2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { NULL, NULL, NULL, NULL, NULL, &(FiveOneDts2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { NULL, NULL, NULL, NULL, NULL, &(SixOh2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { NULL, NULL, NULL, NULL, NULL, &(SevenOnePt2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { NULL, NULL, NULL, NULL, NULL, &(SevenOnePt_Cinema2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { NULL, NULL, NULL, NULL, NULL, &(TBE2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }
     };
 
 };

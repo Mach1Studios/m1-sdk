@@ -67,8 +67,8 @@ void printHelp()
     cout << "    LCR      - L & R spatialized with C mono" << std::endl;
     cout << "    ACNSN3D  - 1st order B-format, ACN order and SN3D weighting" << std::endl;
 	cout << "    FuMa     - 1st order B-format, Furse-Malham order and weighting" << std::endl;
-    cout << "    ACNSN3DO2A   - 2nd order B-format, Furse-Malham order and weighting" << std::endl;
-    cout << "    FuMaO2A      - 2nd order B-format, ACN order and SN3D weighting" << std::endl;
+    cout << "    ACNSN3DO2A   - 2nd order B-format, AmbiX ACN order and SN3D weighting" << std::endl;
+    cout << "    FuMaO2A      - 2nd order B-format, Furse-Malham order and weighting, W, Y, Z, X, V, T, R, S, U" << std::endl;
 	cout << "    Square   - L R Ls Rs" << std::endl;
     cout << "    FiveOh   - L C R Ls Rs" << std::endl;
     cout << "    FiveOneFilm  - L C R Ls Rs LFE" << std::endl;
@@ -84,6 +84,8 @@ void printHelp()
 	cout << "    Cube+S   - Upper L R Ls Rs, Lower L R Ls Rs, StereoL StereoR" << std::endl;
 	cout << "    Cube16   - Upper front, left, rear, right, pairs, then lower same" << std::endl;
     cout << "    TBE   - W, X, Y, Z, U, V, T, S" << std::endl;
+    cout << "    ACNSN3DO3A   - 16 channel AmbiX" << std::endl;
+    cout << "    FuMaO3A   - 3rd order B-format, W, Y, Z, X, V, T, R, S, U, Q, O, M, K, L, N, P" << std::endl;
 	cout << std::endl;
 
 }
@@ -265,6 +267,10 @@ int main(int argc, char* argv[])
         outFmt = MatrixConvert::SevenOnePt_Cinema;
     else if (strcmp(outFmtStr, "TBE") == 0)
         outFmt = MatrixConvert::TBE;
+    else if (strcmp(outFmtStr, "ACNSN3DO3A") == 0)
+        outFmt = MatrixConvert::ACNSN3DO3A;
+    else if (strcmp(outFmtStr, "FuMaO3A") == 0)
+        outFmt = MatrixConvert::FuMaO3A;
 	else
 	{
 		cout << "Please select a valid output format" << std::endl;

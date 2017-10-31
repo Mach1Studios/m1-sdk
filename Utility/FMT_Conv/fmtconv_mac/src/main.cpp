@@ -60,6 +60,7 @@ void printHelp()
 	cout << "  -out-file <filename>  - output file. full name for single file or name stem for file sets" << std::endl;
 	cout << "  -out-fmt  <fmt>       - output format: see supported formats below" << std::endl;
 	cout << "  -out-file-chans <#>   - output file channels: 1, 2 or 0 (0 = multichannel)" << std::endl;
+    cout << "  -normalize            - two pass normalize absolute peak to zero dBFS" << std::endl;
 	cout << "  -master-gain <number> - final output gain in dB like -3 or 2.3" << std::endl;
 	cout << std::endl;
 	cout << "  Formats Supported:" << std::endl;
@@ -115,6 +116,7 @@ int main(int argc, char* argv[])
 	const char *dotString = ".";
     //TODO: inputGain = 1.0f; // in level, not db
 	float masterGain = 1.0f; // in level, not dB
+    bool normalize = false;
 	char* infilename = NULL;
 	char* inFmtStr = NULL;
 	int inFmt;
@@ -155,16 +157,21 @@ int main(int argc, char* argv[])
 		printHelp();
 		return 0;
 	}
+    pStr = getCmdOption(argv, argv + argc, "-normalize");
+    if (pStr != NULL)
+    {
+        normalize = true;
+    }
 	pStr = getCmdOption(argv, argv + argc, "-master-gain");
 	if (pStr != NULL)
 	{
-		masterGain = atof(pStr); // still in dB
+        masterGain = (float)atof(pStr); // still in dB
 		masterGain = db2level(masterGain);
 	}
 
 	// input file name and format
 	pStr = getCmdOption(argv, argv + argc, "-in-file");
-	if (pStr && (strlen(pStr)>0))
+    if (pStr && (strlen(pStr) > 0))
 	{
 		infilename = pStr;
 	}
@@ -174,7 +181,7 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 	pStr = getCmdOption(argv, argv + argc, "-in-fmt");
-	if (pStr && (strlen(pStr)>0))
+    if (pStr && (strlen(pStr) > 0))
 	{
 		inFmtStr = pStr;
 	}
@@ -223,13 +230,13 @@ int main(int argc, char* argv[])
 
 	// output file name and format
 	pStr = getCmdOption(argv, argv + argc, "-out-file");
-	if (pStr && (strlen(pStr)>0))
+    if (pStr && (strlen(pStr) > 0))
 	{
 		fileOut = true;
 		outfilename = pStr;
 	}
 	pStr = getCmdOption(argv, argv + argc, "-out-fmt");
-	if (pStr && (strlen(pStr)>0))
+    if (pStr && (strlen(pStr) > 0))
 	{
 		outFmtStr = pStr;
 	}
@@ -299,19 +306,19 @@ int main(int argc, char* argv[])
 	vector<string> fNames;
 	split(infilename, ' ', fNames);
 	size_t numInFiles = fNames.size();
-	for (int i = 0; i<numInFiles; i++)
+    for (int i = 0; i < numInFiles; i++)
 	{
 		infile[i] = new SndfileHandle(fNames[i].c_str());
 		if (infile[i] && (infile[i]->error() == 0))
 		{
-			// input file stats
+            // print input file stats
 			cout << "Input File:         " << fNames[i] << std::endl;
 			printFileInfo(*infile[i]);
 			sampleRate = (long)infile[i]->samplerate();
 		}
 		else
 		{
-			cerr << "Error: opening in-file: " << infilename;
+            cerr << "Error: opening in-file: " << fNames[i] << std::endl;
 			return -1;
 		}
 	}
@@ -331,7 +338,7 @@ int main(int argc, char* argv[])
 	SndfileHandle outfiles[MAXOUTFILES];
 	int actualOutFileChannels = outFileChans == 0 ? channels : outFileChans;
 	int numOutFiles = channels / actualOutFileChannels;
-	for (int i=0; i<numOutFiles; i++)
+    for (int i = 0; i < numOutFiles; i++)
 	{
 		const int format = infile[0]->format() & 0x1ffff; // convert waveformat-ex to waveformat
 		char outfilestr[1024];
@@ -342,6 +349,8 @@ int main(int argc, char* argv[])
 		outfiles[i] = SndfileHandle(outfilestr, SFM_WRITE, format, actualOutFileChannels, sampleRate);
 		if (outfiles[i] && (outfiles[i].error() == 0))
 		{
+            // set clipping mode
+            outfiles[i].command(SFC_SET_CLIPPING, NULL, SF_TRUE);
 			// output file stats
 			cout << "Output File:        " << outfilestr << std::endl;
 			printFileInfo(outfiles[i]);
@@ -366,47 +375,74 @@ int main(int argc, char* argv[])
 
 	// count total input channels
 	int inChannels = 0;
-	for (int i = 0; i<numInFiles; i++)
+    for (int i = 0; i < numInFiles; i++)
 		inChannels += infile[i]->channels();
 	sf_count_t numBlocks = infile[0]->frames() / BUFFERLEN; // files must be the same length
 	totalSamples = 0;
-	for (int i = 0; i <= numBlocks; i++)
+    float peak = 0.0f;
+    for (int pass = 1; pass <= (normalize ? 2 : 1); pass++)
 	{
-		// read next buffer from each infile
-		sf_count_t samplesRead;
-		sf_count_t firstBuf = 0;
-		for (int file = 0; file < numInFiles; file++)
+        // normalize
+        if (normalize & (pass == 2))
 		{
-			sf_count_t thisChannels = infile[file]->channels();
-			sf_count_t framesRead = infile[file]->read(fileBuffer, thisChannels*BUFFERLEN);
-			samplesRead = framesRead / thisChannels;
-			// demultiplex into process buffers
-			float *ptrFileBuffer = fileBuffer;
-			float(*inBuf)[MAXBUFFERS][BUFFERLEN] = (float(*)[MAXBUFFERS][BUFFERLEN])&(inBuffers[0][0]);
-			for (int j = 0; j<samplesRead; j++)
-				for (int k = 0; k < thisChannels; k++)
-					(*inBuf)[firstBuf + k][j] = *ptrFileBuffer++;
-			firstBuf += thisChannels;
+            cout << "Reducing gain by " << level2db(peak) << std::endl;
+            masterGain /= peak;
+            totalSamples = 0;
+            for (int file = 0; file < numInFiles; file++)
+                infile[file]->seek(0, SEEK_SET);
 		}
-		totalSamples += samplesRead;
-
-		mc.convert(inFmt, inPtrs, outFmt, outPtrs, (int)samplesRead);
-
-		// multiplex to output channels with master gain
-		float *ptrFileBuffer = fileBuffer;
-		float(*outBuf)[MAXBUFFERS][BUFFERLEN] = (float(*)[MAXBUFFERS][BUFFERLEN])&(outBuffers[outBufNdx][0]);
-		for (int file = 0; file<numOutFiles; file++)
-			for (int j = 0; j < samplesRead; j++)
-				for (int k = 0; k < actualOutFileChannels; k++)
-					*ptrFileBuffer++ = masterGain * (*outBuf)[(file*actualOutFileChannels)+k][j];
-
-		// write to outfile
-		for (int j = 0; j < numOutFiles; j++)
+        
+        for (int i = 0; i <= numBlocks; i++)
 		{
-			outfiles[j].write(fileBuffer + (j*actualOutFileChannels*samplesRead), actualOutFileChannels*samplesRead);
+            // read next buffer from each infile
+            sf_count_t samplesRead;
+            sf_count_t firstBuf = 0;
+            for (int file = 0; file < numInFiles; file++)
+            {
+                sf_count_t thisChannels = infile[file]->channels();
+                sf_count_t framesRead = infile[file]->read(fileBuffer, thisChannels*BUFFERLEN);
+                samplesRead = framesRead / thisChannels;
+                // demultiplex into process buffers
+                float *ptrFileBuffer = fileBuffer;
+                float(*inBuf)[MAXBUFFERS][BUFFERLEN] = (float(*)[MAXBUFFERS][BUFFERLEN])&(inBuffers[0][0]);
+                for (int j = 0; j < samplesRead; j++)
+                    for (int k = 0; k < thisChannels; k++)
+                        (*inBuf)[firstBuf + k][j] = *ptrFileBuffer++;
+                firstBuf += thisChannels;
+            }
+            totalSamples += samplesRead;
+            
+            mc.convert(inFmt, inPtrs, outFmt, outPtrs, (int)samplesRead);
+            
+            if (normalize && (pass == 1))
+            {
+                // find max
+                float *outBuf = (float(*))&(outBuffers[outBufNdx][0]);
+                for (int i = 0; i < (numOutFiles*channels*samplesRead); i++)
+                {
+                    float tmp = fabs(*outBuf++);
+                    if (tmp > peak)
+                        peak = tmp;
+                }
+            }
+            else
+            {
+                // multiplex to output channels with master gain
+                float *ptrFileBuffer = fileBuffer;
+                float(*outBuf)[MAXBUFFERS][BUFFERLEN] = (float(*)[MAXBUFFERS][BUFFERLEN])&(outBuffers[outBufNdx][0]);
+                for (int file = 0; file < numOutFiles; file++)
+                    for (int j = 0; j < samplesRead; j++)
+                        for (int k = 0; k < actualOutFileChannels; k++)
+                            *ptrFileBuffer++ = masterGain * (*outBuf)[(file*actualOutFileChannels) + k][j];
+                
+                // write to outfile
+                for (int j = 0; j < numOutFiles; j++)
+                {
+                    outfiles[j].write(fileBuffer + (j*actualOutFileChannels*samplesRead), actualOutFileChannels*samplesRead);
+                }
+            }
 		}
 	}
-
 	// print time played
 	cout << "Length (sec):     " << (float)totalSamples / (float)sampleRate << std::endl;
 

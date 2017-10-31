@@ -4,7 +4,6 @@
 #include "M1SoundPluginPrivatePCH.h" // Change to your project name!
 
 #include "M1HorizonActor.h"
-#include "M1DSPAlgorithmsUE.h"
 
 void AM1HorizonActor::SetSoundsWalls()
 {
@@ -24,11 +23,13 @@ void AM1HorizonActor::SetSoundsCenter()
 
 std::vector<float> AM1HorizonActor::SoundAlgorithm(float Yaw, float Pitch, float Roll) 
 {
-	return fourChannelAlgorithm(Yaw, Pitch, Roll);
+	return m1.horizonAlgo(Yaw, Pitch, Roll);
 }
 
 AM1HorizonActor::AM1HorizonActor()
 {
 	InitComponents(4);
+
+	m1.setAngularSettingsType(Mach1Decode::m1UE);
 }
  

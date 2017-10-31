@@ -3,9 +3,14 @@
 //
 #include "M1SoundPluginPrivatePCH.h" // Change to your project name!
 
-#include "Kismet/HeadMountedDisplayFunctionLibrary.h"
+// 4.18
+#include "HeadMountedDisplay.h"
+#include "HeadMountedDisplayFunctionLibrary.h"
+
+// OLD UE VERSION (4.17)
+//#include "Kismet/HeadMountedDisplayFunctionLibrary.h"
+
 #include "Kismet/KismetMathLibrary.h"
-//#include "HeadMountedDisplay.h"
 
 #include <sstream>
 #include "M1BaseActor.h"

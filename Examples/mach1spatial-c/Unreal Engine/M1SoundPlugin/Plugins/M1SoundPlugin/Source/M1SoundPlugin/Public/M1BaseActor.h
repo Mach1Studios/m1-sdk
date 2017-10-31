@@ -4,6 +4,8 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "Mach1Decode.h"
+
 #include <vector>
 
 #include "M1BaseActor.generated.h"
@@ -49,6 +51,8 @@ protected:
 	virtual void SetSoundsWalls() {};
 	virtual void SetSoundsCenter() {};
 	virtual std::vector<float> SoundAlgorithm(float Yaw, float Pitch, float Roll) { return std::vector<float>(); };
+
+	Mach1Decode m1;
 
 public:
 

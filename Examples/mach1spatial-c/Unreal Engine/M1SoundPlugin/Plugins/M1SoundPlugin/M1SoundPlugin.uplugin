@@ -18,7 +18,8 @@
 		{
 			"Name": "M1SoundPlugin",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"LoadingPhase" : "PreLoadingScreen",
+			"WhitelistPlatforms" : [ "Android", "IOS", "Mac", "Win32", "Win64" ]
 		}
 	]
 }

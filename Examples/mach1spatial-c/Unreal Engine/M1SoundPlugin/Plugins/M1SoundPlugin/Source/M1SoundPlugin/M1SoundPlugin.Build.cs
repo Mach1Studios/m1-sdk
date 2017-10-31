@@ -1,10 +1,30 @@
 // Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
+using System.IO;
 
 namespace UnrealBuildTool.Rules
 {
 	public class M1SoundPlugin : ModuleRules
 	{
-		public M1SoundPlugin(TargetInfo Target)
+        public string GetUProjectPath()
+        {
+            //Change this according to your module's relative location to your project file. If there is any better way to do this I'm interested!
+            //Assuming Source/ThirdParty/YourLib/
+            return Directory.GetParent(ModuleDirectory).Parent.Parent.ToString();
+        }
+
+        private void CopyToBinaries(string Filepath, TargetInfo Target)
+        {
+            string binariesDir = Path.GetFullPath(Path.Combine(ModuleDirectory, "..", "..", "Binaries", Target.Platform.ToString()));
+            string filename = Path.GetFileName(Filepath);
+
+            if (!Directory.Exists(binariesDir))
+                Directory.CreateDirectory(binariesDir);
+
+            if (!File.Exists(Path.Combine(binariesDir, filename)))
+                File.Copy(Filepath, Path.Combine(binariesDir, filename), true);
+        }
+
+        public M1SoundPlugin(TargetInfo Target)
 		{
 			PublicIncludePaths.AddRange(
 				new string[] {
@@ -23,7 +43,8 @@ namespace UnrealBuildTool.Rules
              PublicDependencyModuleNames.AddRange(
 				new string[]
 				{
-                    "Core", "CoreUObject", "Engine", "InputCore"
+                    // in UE 4.18 needed HeadMountedDisplay
+                    "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay"
 					// ... add other public dependencies that you statically link with here ...
 				}
 				);
@@ -41,6 +62,46 @@ namespace UnrealBuildTool.Rules
 					// ... add any modules that your module loads dynamically here ...
 				}
 				);
-		}
-	}
+
+
+
+            // add Mach1 library
+            string Mach1BaseDirectory = Path.GetFullPath(Path.Combine(ModuleDirectory, "..", "..", "ThirdParty", "Mach1"));
+            string Mach1BinDirectory = Path.Combine(Mach1BaseDirectory, "bin", Target.Platform.ToString());
+
+            PublicIncludePaths.Add(Path.Combine(Mach1BaseDirectory, "include"));
+
+            if (Target.Platform == UnrealTargetPlatform.Android)
+            {
+                Mach1BinDirectory = Path.Combine(Mach1BinDirectory, Target.Architecture);
+
+                RuntimeDependencies.Add(new RuntimeDependency(Path.Combine(Mach1BinDirectory, "Mach1DecodeCAPI")));
+            }
+            else if (Target.Platform == UnrealTargetPlatform.IOS)
+            {
+                PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "Mach1DecodeCAPI.a"));
+            }
+            else if (Target.Platform == UnrealTargetPlatform.Mac)
+            {
+                RuntimeDependencies.Add(new RuntimeDependency(Path.Combine(Mach1BinDirectory, "Mach1DecodeCAPI.dylib")));
+
+                CopyToBinaries(Path.Combine(Mach1BinDirectory, "Mach1DecodeCAPI.dylib"), Target);
+            }
+            else if (Target.Platform == UnrealTargetPlatform.Win32)
+            {
+                PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "Mach1DecodeCAPI.lib"));
+                RuntimeDependencies.Add(new RuntimeDependency(Path.Combine(Mach1BinDirectory, "Mach1DecodeCAPI.dll")));
+
+                CopyToBinaries(Path.Combine(Mach1BinDirectory, "Mach1DecodeCAPI.dll"), Target);
+            }
+            else if (Target.Platform == UnrealTargetPlatform.Win64)
+            {
+                PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "Mach1DecodeCAPI.lib"));
+                RuntimeDependencies.Add(new RuntimeDependency(Path.Combine(Mach1BinDirectory, "Mach1DecodeCAPI.dll")));
+
+                CopyToBinaries(Path.Combine(Mach1BinDirectory, "Mach1DecodeCAPI.dll"), Target);
+            }
+
+        }
+    }
 }

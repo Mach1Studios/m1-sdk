@@ -4,7 +4,6 @@
 #include "M1SoundPluginPrivatePCH.h" // Change to your project name!
 
 #include "M1SpatialActor.h"
-#include "M1DSPAlgorithmsUE.h"
 
 void AM1SpatialActor::SetSoundsWalls()
 {
@@ -33,11 +32,13 @@ void AM1SpatialActor::SetSoundsCenter()
 
 std::vector<float> AM1SpatialActor::SoundAlgorithm(float Yaw, float Pitch, float Roll) 
 {
-	return eightChannelsIsotropicAlgorithm(Yaw, Pitch, Roll);
+	return m1.spatialAlgo(Yaw, Pitch, Roll);
 }
 
 AM1SpatialActor::AM1SpatialActor() 
 {
 	InitComponents(8);
+
+	m1.setAngularSettingsType(Mach1Decode::m1UE);
 }
  

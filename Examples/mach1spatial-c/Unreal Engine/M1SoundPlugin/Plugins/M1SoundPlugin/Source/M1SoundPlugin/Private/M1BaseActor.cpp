@@ -281,13 +281,16 @@ void AM1BaseActor::SetSoundSet()
 
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
-			SoundsWalls[i]->bVirtualizeWhenSilent = true;
+			if(SoundsWalls[i]) SoundsWalls[i]->bVirtualizeWhenSilent = true;
 		}
 
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
-			LeftChannelsWalls[i]->SetSound(SoundsWalls[i]);
-			RightChannelsWalls[i]->SetSound(SoundsWalls[i]);
+			if (SoundsWalls[i])
+			{
+				LeftChannelsWalls[i]->SetSound(SoundsWalls[i]);
+				RightChannelsWalls[i]->SetSound(SoundsWalls[i]);
+			}
 		}
 
 		if (useRoomMode)
@@ -298,13 +301,16 @@ void AM1BaseActor::SetSoundSet()
 
 			for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 			{
-				SoundsCenter[i]->bVirtualizeWhenSilent = true;
+				if (SoundsCenter[i]) SoundsCenter[i]->bVirtualizeWhenSilent = true;
 			}
 
 			for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 			{
-				LeftChannelsCenter[i]->SetSound(SoundsCenter[i]);
-				RightChannelsCenter[i]->SetSound(SoundsCenter[i]);
+				if (SoundsCenter[i])
+				{
+					LeftChannelsCenter[i]->SetSound(SoundsCenter[i]);
+					RightChannelsCenter[i]->SetSound(SoundsCenter[i]);
+				}
 			}
 		}
 	}

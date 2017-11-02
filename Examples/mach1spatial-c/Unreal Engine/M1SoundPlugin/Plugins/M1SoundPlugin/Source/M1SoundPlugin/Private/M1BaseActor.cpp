@@ -571,7 +571,7 @@ void AM1BaseActor::PostEditChangeProperty(FPropertyChangedEvent & PropertyChange
 
 void AM1BaseActor::CalculateChannelVolumes(FQuat quat)
 {
-	std::vector<float> result = SoundAlgorithm(quat.Euler().Y, (quat.Euler().Z < 0 ? 360 + quat.Euler().Z : quat.Euler().Z), quat.Euler().X);
+	std::vector<float> result = SoundAlgorithm(quat.Euler().Z, quat.Euler().Y, quat.Euler().X);
 
 
 	// test

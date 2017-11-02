@@ -3,8 +3,8 @@ using System.IO;
 
 namespace UnrealBuildTool.Rules
 {
-	public class M1SoundPlugin : ModuleRules
-	{
+    public class M1SoundPlugin : ModuleRules
+    {
         public string GetUProjectPath()
         {
             //Change this according to your module's relative location to your project file. If there is any better way to do this I'm interested!
@@ -25,43 +25,43 @@ namespace UnrealBuildTool.Rules
         }
 
         public M1SoundPlugin(TargetInfo Target)
-		{
-			PublicIncludePaths.AddRange(
-				new string[] {
+        {
+            PublicIncludePaths.AddRange(
+                new string[] {
                     "Developer/TargetPlatform/Public"
-					// ... add public include paths required here ...
-				}
-				);
+                    // ... add public include paths required here ...
+                }
+                );
 
-			PrivateIncludePaths.AddRange(
-				new string[] {
+            PrivateIncludePaths.AddRange(
+                new string[] {
                    "Developer/M1SoundPlugin/Private"
-					// ... add other private include paths required here ...
-				}
+                    // ... add other private include paths required here ...
+                }
                 );
 
              PublicDependencyModuleNames.AddRange(
-				new string[]
-				{
+                new string[]
+                {
                     // in UE 4.18 needed HeadMountedDisplay
                     "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay"
-					// ... add other public dependencies that you statically link with here ...
-				}
-				);
+                    // ... add other public dependencies that you statically link with here ...
+                }
+                );
 
-			PrivateDependencyModuleNames.AddRange(
-				new string[]
-				{
-					// ... add private dependencies that you statically link with here ...
-				}
-				);
+            PrivateDependencyModuleNames.AddRange(
+                new string[]
+                {
+                    // ... add private dependencies that you statically link with here ...
+                }
+                );
 
-			DynamicallyLoadedModuleNames.AddRange(
-				new string[]
-				{
-					// ... add any modules that your module loads dynamically here ...
-				}
-				);
+            DynamicallyLoadedModuleNames.AddRange(
+                new string[]
+                {
+                    // ... add any modules that your module loads dynamically here ...
+                }
+                );
 
 
 
@@ -79,13 +79,15 @@ namespace UnrealBuildTool.Rules
             }
             else if (Target.Platform == UnrealTargetPlatform.IOS)
             {
-                PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "Mach1DecodeCAPI.a"));
+                PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "libMach1DecodeCAPI.a"));
             }
             else if (Target.Platform == UnrealTargetPlatform.Mac)
             {
-                RuntimeDependencies.Add(new RuntimeDependency(Path.Combine(Mach1BinDirectory, "Mach1DecodeCAPI.dylib")));
+                PublicLibraryPaths.Add(Mach1BinDirectory);
+                PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "libMach1DecodeCAPI.dylib"));
+                RuntimeDependencies.Add(new RuntimeDependency(Path.Combine(Mach1BinDirectory, "libMach1DecodeCAPI.dylib")));
 
-                CopyToBinaries(Path.Combine(Mach1BinDirectory, "Mach1DecodeCAPI.dylib"), Target);
+                CopyToBinaries(Path.Combine(Mach1BinDirectory, "libMach1DecodeCAPI.dylib"), Target);
             }
             else if (Target.Platform == UnrealTargetPlatform.Win32)
             {

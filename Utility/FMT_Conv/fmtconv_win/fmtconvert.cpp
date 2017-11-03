@@ -47,7 +47,8 @@ vector<string> &split(const string &s, char delim, vector<string> &elems) {
 
 void printHelp()
 {
-	cout << "fmtconvert -- command line interface to VVAudio UGens" << std::endl;
+	cout << "m1-fmtconv -- command line mach1 format conversion tool" << std::endl;
+    cout << "made in collaboration with VVAudio: http://www.vvaudio.com/ " << std::endl;
 	cout << std::endl;
 	cout << "usage: fmtconvert -in-file test_b.wav -in-fmt FuMa -out-file test_s8.wav -out-fmt Square8 -out-file-chans 2" << std::endl;
 	cout << std::endl;

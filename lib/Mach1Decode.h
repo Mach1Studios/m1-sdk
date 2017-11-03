@@ -1,9 +1,7 @@
-//
 //  Mach1 SDK
 //
-//  Multichannel audio format family
-//
-//  Mixing algorithms v 0.9.96a
+//  Decoding Algorithms v 0.9.96a
+//  Copyright © 2017 Mach1. All rights reserved.
 //
 //  Header file
 

@@ -7,16 +7,15 @@ using UnityEngine;
 using System.Collections;
 using System.IO;
 
-
 public class M1HorizonDecode :  M1Base
 {
-    M1HorizonDecode()
+    public M1HorizonDecode()
     {
         InitComponents(4); 
     }
 
     public override float[] SoundAlgorithm(float Yaw, float Pitch, float Roll)
     {
-        return m1DSPAlgorithms.fourChannelAlgorithm(Yaw, Pitch, Roll);
+        return m1Decode.horizonAlgo(Yaw, Pitch, Roll);
     } 
 }

@@ -129,7 +129,6 @@ public class M1StSP : MonoBehaviour
             // Init sound
             AudioClip clipMid = new AudioClip();
 
-
             float[] bufMid = new float[clip.samples * clip.channels];
             float[] rawWaveData = new float[clip.samples * clip.channels];
 
@@ -177,9 +176,6 @@ public class M1StSP : MonoBehaviour
     {
         if (IsReady())
         {
-            // audioSource[0].Play();
-            //audioSource[1].Play();
-
             for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
             {
                 audioSource[i].Play();

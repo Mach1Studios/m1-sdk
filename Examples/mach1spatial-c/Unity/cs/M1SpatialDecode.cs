@@ -9,13 +9,13 @@ using System.IO;
 
 public class M1SpatialDecode :  M1Base
 {
-    M1SpatialDecode()
+    public M1SpatialDecode()
     {
         InitComponents(8); 
     }
 
     public override float[] SoundAlgorithm(float Yaw, float Pitch, float Roll)
     {
-        return m1DSPAlgorithms.eightChannelsIsotropicAlgorithm(Yaw, Pitch, Roll);
+        return m1Decode.spatialAlgo(Yaw, Pitch, Roll);
     } 
 }

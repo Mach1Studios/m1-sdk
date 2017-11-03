@@ -51,9 +51,12 @@ public class M1Base : MonoBehaviour
     public bool useRollForClosestPoint = false;
 
     [Space(10)]
-    public bool drawHelpers = true;
+    public bool drawHelpers = false;
+    public bool debug = false;
 
-    protected M1DSPAlgorithms m1DSPAlgorithms = new M1DSPAlgorithms();
+    protected Mach1.M1Decode m1Decode = new Mach1.M1Decode();
+
+    private Camera camera;
 
     AnimationCurve generateCurve(float length)
     {
@@ -69,6 +72,11 @@ public class M1Base : MonoBehaviour
             curve.SmoothTangents(i, 0);
         }
         return curve;
+    }
+
+    public M1Base()
+    {
+        m1Decode.setAngularSettingsType(Mach1.M1Decode.AngularSettingsType.m1Unity);
     }
 
     protected void InitComponents(int MAX_SOUNDS_PER_CHANNEL)
@@ -104,6 +112,11 @@ public class M1Base : MonoBehaviour
 
     void Start()
     {
+        Reload();
+    }
+
+    public void Reload()
+    {
         // Sounds
         audioSourceWalls = new AudioSource[MAX_SOUNDS_PER_CHANNEL * 2];
 
@@ -125,8 +138,9 @@ public class M1Base : MonoBehaviour
             {
                 StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilenameRoom[i]), true, i, isFromAssets));
             }
-
         }
+
+        isPlaying = false;
     }
 
     // Helper function to add audio clip to source, and add this to scene
@@ -160,7 +174,7 @@ public class M1Base : MonoBehaviour
             Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
         }
     }
-    
+
     string GetStreamingAssetsPath()
     {
         string path;
@@ -299,10 +313,17 @@ public class M1Base : MonoBehaviour
                     source.time = timeInSeconds;
     }
 
-    public float GetPositon()
+    public float GetPosition()
     {
         if (audioSourceRoom != null && audioSourceRoom[0]) return audioSourceRoom[0].time;
         else if (audioSourceWalls != null && audioSourceWalls[0]) return audioSourceWalls[0].time;
+        return 0;
+    }
+
+    public float GetDuration()
+    {
+        if (audioSourceRoom != null && audioSourceRoom[0]) return audioSourceRoom[0].clip.length;
+        else if (audioSourceWalls != null && audioSourceWalls[0]) return audioSourceWalls[0].clip.length;
         return 0;
     }
 
@@ -465,18 +486,41 @@ public class M1Base : MonoBehaviour
             Vector3 outsideClosestPoint;
             //Vector3 insidePoint0, insidePoint1;
 
-            Vector3 cameraPosition = Camera.current.transform.position;
+
+            if (Camera.main)
+            {
+                camera = Camera.main;
+            }
+            else
+            {
+                for (int i = 0; i < Camera.allCamerasCount; i++)
+                {
+                    if (Camera.allCameras[i].enabled)
+                    {
+                        camera = Camera.allCameras[i];
+                        break;
+                    }
+                }
+            }
+
+            if (camera == null)
+            {
+                Debug.LogError("Mach1: cannot found camera!");
+                return;
+            }
+
+            Vector3 cameraPosition = camera.transform.position;
             if (ignoreTopBottom)
             {
                 cameraPosition.y = gameObject.transform.position.y;
             }
 
-            bool isOutside = (ClosestPointOnBox(Camera.current.transform.position, gameObject.transform.position, gameObject.transform.right, gameObject.transform.up, gameObject.transform.forward, gameObject.transform.localScale / 2, out outsideClosestPoint) > 0);
+            bool isOutside = (ClosestPointOnBox(camera.transform.position, gameObject.transform.position, gameObject.transform.right, gameObject.transform.up, gameObject.transform.forward, gameObject.transform.localScale / 2, out outsideClosestPoint) > 0);
             if (useClosestPoint && isOutside)
             {
                 point = outsideClosestPoint;
 
-                float dist = Vector3.Distance(Camera.current.transform.position, point);
+                float dist = Vector3.Distance(camera.transform.position, point);
 
                 if (useFalloff)
                 {
@@ -525,7 +569,7 @@ public class M1Base : MonoBehaviour
             }
             else if (useRotator)
             {
-                float dist = Vector3.Distance(Camera.current.transform.position, point);
+                float dist = Vector3.Distance(camera.transform.position, point);
 
                 if (useFalloff)
                 {
@@ -538,18 +582,17 @@ public class M1Base : MonoBehaviour
                 volumeRoom = 0;
             }
 
-
-            Vector3 dir = Camera.current.transform.position - point;
+            Vector3 dir = camera.transform.position - point;
 
             // Compute matrix for draw gizmo
             Quaternion quatGizmo = Quaternion.LookRotation(dir, Vector3.up) * Quaternion.Inverse(gameObject.transform.rotation);
             quatGizmo.eulerAngles = new Vector3(usePitchForClosestPoint ? quatGizmo.eulerAngles.x : 0, useYawForClosestPoint ? quatGizmo.eulerAngles.y : 0, useRollForClosestPoint ? quatGizmo.eulerAngles.z : 0);
-            mat = Matrix4x4.TRS(Camera.current.transform.position, quatGizmo, new Vector3(1, 1, 1));
+            mat = Matrix4x4.TRS(camera.transform.position, quatGizmo, new Vector3(1, 1, 1));
 
             // Compute rotation for sound
             Quaternion quat = Quaternion.Inverse(Quaternion.LookRotation(dir, Vector3.up)) * gameObject.transform.rotation;
             quat.eulerAngles = new Vector3(usePitchForClosestPoint ? quat.eulerAngles.x : 0, useYawForClosestPoint ? quat.eulerAngles.y : 0, useRollForClosestPoint ? quat.eulerAngles.z : 0);
-            quat *= Camera.current.transform.rotation;
+            quat *= camera.transform.rotation;
 
             // Compute volumes
             //Vector3 eulerAngles = quat.eulerAngles;
@@ -561,7 +604,7 @@ public class M1Base : MonoBehaviour
             // Debug.Log(Camera.current.name + " camera eulerAngles:" + eulerAngles);
 
             Vector3 eulerAngles = GetEuler(quat);
-//            eulerAngles.x *= -1;
+            //            eulerAngles.x *= -1;
             eulerAngles.y += 180;
             if (eulerAngles.z < 0) eulerAngles.z = 360 + eulerAngles.z;
 
@@ -578,14 +621,38 @@ public class M1Base : MonoBehaviour
                 }
             }
 
+            if (debug)
+            {
+                if (audioSourceWalls.Length > 0)
+                {
+                    string str = " ";
+                    for (int i = 0; i < audioSourceWalls.Length; i++)
+                    {
+                        str += volumeWalls * volumes[i] + (i < audioSourceWalls.Length - 1 ? " , " : "");
+                    }
+                    Debug.Log("audioSourceWalls: " + str);
+                }
+                if (useRoomMode)
+                {
+                    string str = " ";
+                    for (int i = 0; i < audioSourceRoom.Length; i++)
+                    {
+                        str += volumeRoom * volumes[i] + (i < audioSourceRoom.Length - 1 ? " , " : "");
+                    }
+                    Debug.Log("audioSourceWalls: " + str);
+                }
+
+                Debug.Log("eulerAngles: " + eulerAngles.x + " , " + eulerAngles.y + " , " + eulerAngles.z);
+            }
+
             if (drawHelpers)
             {
                 // Draw forward vector from camera
-                Vector3 targetForward = Camera.current.transform.rotation * (Vector3.forward * 3);
-                Debug.DrawLine(Camera.current.transform.position, Camera.current.transform.position + targetForward, Color.blue);
+                Vector3 targetForward = camera.transform.rotation * (Vector3.forward * 3);
+                Debug.DrawLine(camera.transform.position, camera.transform.position + targetForward, Color.blue);
 
                 // Draw direction from camera to object
-                Debug.DrawLine(Camera.current.transform.position, point, Color.green);
+                Debug.DrawLine(camera.transform.position, point, Color.green);
             }
         }
 

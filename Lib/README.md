@@ -1,36 +1,50 @@
-### Angle Order Conventions List of Concerns:
-1. Order of Yaw, Pitch, Roll (Defined as angle applied first, second and third).
-2. Direction of transform around each pole's positive movement (left or right rotation).
-3. integer Range before tranform completes 2(PI).
+# README #
 
-| Order        | airplane      | telescope | symbol | angular velocity |
-| -------------:| -------------:| ---------:| ------:| ----------------:| 
-| applied first | heading | azimuth   | θ (theta) |         yaw         |
-| applied second      | attitude      | elevation | φ (phi) | pitch |
-| applied last | bank | tilt    | ψ (psi) | roll |
 
-### Euler Angle Orders:
-- (yaw-pitch-roll)
-- Unity: Left handed x-y-z (pitch-roll-yaw)
-- Unreal Engine: Right handed z-y-x 
-- (yaw-roll-pitch)
+### M1 SDK POLLY BUILD ###
 
-There are six possibilities of choosing the rotation axes for Tait–Bryan angles. The six possible sequences are:
+To build M1 Library, install Polly (https://github.com/ruslo/polly).
 
-- x-y’-z″ (intrinsic rotations) or x-y-z (extrinsic rotations)
-- y-z’-x″ (intrinsic rotations) or y-z-x (extrinsic rotations)
-- z-x’-y″ (intrinsic rotations) or z-x-y (extrinsic rotations)
-- x-z’-y″ (intrinsic rotations) or x-z-y (extrinsic rotations)
-- z-y’-x″ (intrinsic rotations) or z-y-x (extrinsic rotations): the intrinsic rotations are known as: yaw, pitch and roll
-- y-x’-z″ (intrinsic rotations) or y-x-z (extrinsic rotations)
+## Recipes ##
 
-#### Documentation on All Euler Angle Orders: 
-The so-called "x-convention," illustrated above, is the most common definition. In this convention, the rotation given by Euler angles (phi,theta,psi), where
+* Mac OS build (xcode):
 
-1. the first rotation is by an angle phi about the z-axis using D,
+polly  --clear --install --config Release --toolchain xcode-gcc
 
-2. the second rotation is by an angle theta in [0,pi] about the former x-axis (now x^') using C, and
+* Android build (NDK r14):
 
-3. the third rotation is by an angle psi about the former z-axis (now z^') using B.
+set env var ANDROID_NDK_r11c to ndk path
 
-Note, however, that several notational conventions for the angles are in common use. Goldstein (1980, pp. 145-148) and Landau and Lifschitz (1976) use (phi,theta,psi), Tuma (1974) says (psi,theta,phi) is used in aeronautical engineering in the analysis of space vehicles (but claims that (phi,theta,psi) is used in the analysis of gyroscopic motion), while Bate et al. (1971) use  (Omega,i,omega). Goldstein remarks that continental authors usually use (psi,theta,phi), and warns that left-handed coordinate systems are also in occasional use (Osgood 1937, Margenau and Murphy 1956-64). Varshalovich (1988, pp. 21-23) uses the notation (alpha,beta,gamma) or (alpha^',beta^',gamma^') to denote the Euler angles, and gives three different angle conventions, none of which corresponds to the x-convention.
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-armeabi
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-armeabi-v7a
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-x86
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-x86-64
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-arm64-v8a
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-arm64-v8a
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips64
+
+* Windows (VS2015)
+
+polly.bat --clear --install --config Release --toolchain vs-14-2015
+polly.bat --clear --install --config Release --toolchain vs-14-2015-win64
+
+* IOS
+
+1. find the version of the installed iOS SDK:
+xcodebuild -showsdks
+2. then build with this version (for example 10.0):
+polly --clear --install --config Release --toolchain ios-10-0
+
+If using iOS 11.0:
+Add:
+```set(IOS_SDK_VERSION 11.0)
+set(IOS_DEPLOYMENT_SDK_VERSION 9.0)
+set(POLLY_XCODE_COMPILER "clang")
+polly_init(
+    "iOS ${IOS_SDK_VERSION} Universal (iphoneos + iphonesimulator) / \
+${POLLY_XCODE_COMPILER} / \
+bitcode / \
+c++14 support"
+    "Xcode"
+)

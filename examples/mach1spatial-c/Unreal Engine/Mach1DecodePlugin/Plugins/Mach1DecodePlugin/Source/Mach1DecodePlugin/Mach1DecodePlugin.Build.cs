@@ -3,7 +3,7 @@ using System.IO;
 
 namespace UnrealBuildTool.Rules
 {
-    public class M1SoundPlugin : ModuleRules
+    public class Mach1DecodePlugin : ModuleRules
     {
         public string GetUProjectPath()
         {
@@ -24,7 +24,7 @@ namespace UnrealBuildTool.Rules
                 File.Copy(Filepath, Path.Combine(binariesDir, filename), true);
         }
 
-        public M1SoundPlugin(TargetInfo Target)
+        public Mach1DecodePlugin(TargetInfo Target)
         {
             PublicIncludePaths.AddRange(
                 new string[] {
@@ -35,7 +35,7 @@ namespace UnrealBuildTool.Rules
 
             PrivateIncludePaths.AddRange(
                 new string[] {
-                   "Developer/M1SoundPlugin/Private"
+                   "Developer/Mach1DecodePlugin/Private"
                     // ... add other private include paths required here ...
                 }
                 );

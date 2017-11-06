@@ -16,7 +16,7 @@
 	"Installed": true,
 	"Modules": [
 		{
-			"Name": "M1SoundPlugin",
+			"Name": "Mach1DecodePlugin",
 			"Type": "Runtime",
 			"LoadingPhase" : "PreLoadingScreen",
 			"WhitelistPlatforms" : [ "Android", "IOS", "Mac", "Win32", "Win64" ]

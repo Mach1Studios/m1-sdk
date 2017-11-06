@@ -1,10 +1,10 @@
 Copy plugins directory to your project.
-Then add "M1 Cube Actor" through browser class panel.
+Then add "Mach1 Decode Plugin" through browser class panel.
 
 1. Create cpp project
 2. Copy Plugin folder to project folder
-3. Check that plugin activated . go to menu "edit" -> "plugins" -> "sound" -> "M1 Sound Plugin"
-4. In class/objects browser find "M1Cube Actor" and add to scene
+3. Check that plugin activated . go to menu "edit" -> "plugins" -> "audio" -> "Mach1 Decode Plugin"
+4. In class/objects browser find "Mach1Spatial Actor" and add to scene
 
 
 For bluprint project, 

@@ -1,7 +1,7 @@
 //
 //  Mach1 SDK
 //
-#include "M1SoundPluginPrivatePCH.h" // Change to your project name!
+#include "Mach1DecodePluginPrivatePCH.h"
 
 #include "M1SpatialActor.h"
 

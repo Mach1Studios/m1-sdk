@@ -10,7 +10,7 @@
  * The public interface to this module.  In most cases, this interface is only public to sibling modules 
  * within this plugin.
  */
-class IM1SoundPlugin : public IModuleInterface
+class IMach1DecodePlugin : public IModuleInterface
 {
 
 public:
@@ -21,9 +21,9 @@ public:
 	 *
 	 * @return Returns singleton instance, loading the module on demand if needed
 	 */
-	static inline IM1SoundPlugin& Get()
+	static inline IMach1DecodePlugin& Get()
 	{
-		return FModuleManager::LoadModuleChecked< IM1SoundPlugin >( "M1SoundPlugin" );
+		return FModuleManager::LoadModuleChecked< IMach1DecodePlugin >( "Mach1DecodePlugin" );
 	}
 
 	/**
@@ -33,7 +33,7 @@ public:
 	 */
 	static inline bool IsAvailable()
 	{
-		return FModuleManager::Get().IsModuleLoaded( "M1SoundPlugin" );
+		return FModuleManager::Get().IsModuleLoaded( "Mach1DecodePlugin" );
 	}
 };
 

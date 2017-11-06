@@ -1,4 +1,8 @@
-﻿using System;
+﻿//  Mach1 SDK
+//  Copyright © 2017 Mach1. All rights reserved.
+//
+
+using System;
 using System.Runtime.InteropServices;
 
 namespace Mach1

@@ -1,7 +1,6 @@
-﻿//Mach1
-//2016
+﻿//  Mach1 SDK
+//  Copyright © 2017 Mach1. All rights reserved.
 //
-//Set each audioSource item calls script
 
 using UnityEngine;
 using System.Collections;

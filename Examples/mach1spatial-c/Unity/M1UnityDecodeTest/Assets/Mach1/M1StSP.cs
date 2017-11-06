@@ -1,7 +1,6 @@
-﻿//Mach1
-//2016
+﻿//  Mach1 SDK
+//  Copyright © 2017 Mach1. All rights reserved.
 //
-//Set each audioSource item calls script
 
 using UnityEngine;
 using System.Collections;
@@ -9,10 +8,12 @@ using System.IO;
 
 public class M1StSP : MonoBehaviour
 {
-    public bool isFromAssets = true;
     public AudioClip[] audioClip;
-    public string audioPath = "file:///";
-    public string[] audioFilename;
+
+    [Space(10)]
+    public string externalAudioPath = "file:///";
+    public bool isFromStreamingAssets = true;
+    public string[] externalAudioFilename;
 
     private const int MAX_SOUNDS_PER_CHANNEL = 1;
 
@@ -22,7 +23,7 @@ public class M1StSP : MonoBehaviour
 
     [Space(10)]
     public bool useFalloff = false;
-    public AnimationCurve curveFalloff;
+    public AnimationCurve falloffCurve;
 
     private AudioSource[] audioSource;
     private int loadedCount;
@@ -43,17 +44,17 @@ public class M1StSP : MonoBehaviour
             keyframes[i] = new Keyframe(i * 10, 1 - 1.0f * i / (keyframes.Length - 1));
         }
 
-        curveFalloff = new AnimationCurve(keyframes);
+        falloffCurve = new AnimationCurve(keyframes);
         for (int i = 0; i < keyframes.Length; i++)
         {
-            curveFalloff.SmoothTangents(i, 0);
+            falloffCurve.SmoothTangents(i, 0);
         }
 
         // Init filenames
-        audioFilename = new string[MAX_SOUNDS_PER_CHANNEL];
-        for (int i = 0; i < audioFilename.Length; i++)
+        externalAudioFilename = new string[MAX_SOUNDS_PER_CHANNEL];
+        for (int i = 0; i < externalAudioFilename.Length; i++)
         {
-            audioFilename[i] = (i + 1) + ".wav";
+            externalAudioFilename[i] = (i + 1) + ".wav";
         }
 
         // audioClip
@@ -71,9 +72,9 @@ public class M1StSP : MonoBehaviour
 
         loadedCount = 0;
 
-        for (int i = 0; i < audioFilename.Length; i++)
+        for (int i = 0; i < externalAudioFilename.Length; i++)
         {
-            StartCoroutine(LoadAudio(Path.Combine(audioPath, audioFilename[i]), i, isFromAssets));
+            StartCoroutine(LoadAudio(Path.Combine(externalAudioPath, externalAudioFilename[i]), i, isFromStreamingAssets));
         }
     }
 
@@ -207,7 +208,7 @@ public class M1StSP : MonoBehaviour
 
             if (useFalloff)
             {
-                volume = volume * curveFalloff.Evaluate(Vector3.Distance(Camera.main.transform.position, transform.position));
+                volume = volume * falloffCurve.Evaluate(Vector3.Distance(Camera.main.transform.position, transform.position));
             }
 
             /*

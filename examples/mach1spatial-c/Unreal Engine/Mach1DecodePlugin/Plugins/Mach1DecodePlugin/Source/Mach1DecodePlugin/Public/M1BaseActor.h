@@ -90,11 +90,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Display Debug")
 		bool Debug = true;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use Rotator mode")
-		bool useRotator = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use Blend Mode")
+		bool useBlendMode = false;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use Closest Point/Activate Exterior Sounds")
-		bool useClosestPoint = true;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Mute When Inside Object")
+		bool muteWhenInsideObject = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Mute When Outside Object")
+		bool muteWhenOutsideObject = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use Closest Point Rotation Mute Inside")
+		bool useClosestPointRotationMuteInside = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use Yaw for Positional Rotation")
 		bool useYaw = true;
@@ -111,8 +117,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin|Volume", DisplayName = "Autoplay")
 		bool autoplay = false;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use RoomMode")
-		bool useRoomMode = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Attenuation RoomMode Curve")
 		UCurveFloat* attenuationRoomModeCurve;

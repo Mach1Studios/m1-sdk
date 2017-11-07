@@ -243,7 +243,7 @@ void AM1BaseActor::Init()
 
 			}
 
-			if (useRoomMode)
+			if (useBlendMode)
 			{
 				for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 				{
@@ -293,7 +293,7 @@ void AM1BaseActor::SetSoundSet()
 			}
 		}
 
-		if (useRoomMode)
+		if (useBlendMode)
 		{
 			SoundsCenter.Empty();
 
@@ -329,7 +329,7 @@ void AM1BaseActor::Play()
 		}
 	}
 
-	if (isInit && useRoomMode)
+	if (isInit && useBlendMode)
 	{
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
@@ -355,7 +355,7 @@ void AM1BaseActor::Stop()
 		}
 	}
 
-	if (isInit && useRoomMode)
+	if (isInit && useBlendMode)
 	{
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
@@ -430,7 +430,7 @@ void AM1BaseActor::Tick(float DeltaTime)
 				float vol = Volume;
 
 				FVector outsideClosestPoint;
-				FVector insidePoint0, insidePoint1;
+				//FVector insidePoint0, insidePoint1;
 
 				FVector cameraPosition = PlayerPosition;
 				if (ignoreTopBottom)
@@ -439,10 +439,10 @@ void AM1BaseActor::Tick(float DeltaTime)
 				}
 
 				bool isOutside = (ClosestPointOnBox(PlayerPosition, GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, outsideClosestPoint) > 0);
+				bool hasSoundOutside = isOutside && !muteWhenOutsideObject;
+				bool hasSoundInside = !isOutside && !muteWhenInsideObject;
 
-
-
-				if (useClosestPoint && isOutside)
+				if (hasSoundOutside && useClosestPointRotationMuteInside) // useClosestPointRotation
 				{
 					point = outsideClosestPoint;
 
@@ -472,7 +472,7 @@ void AM1BaseActor::Tick(float DeltaTime)
 						);
 					}
 				}
-				else if (useRoomMode && !isOutside)// && DoClipping(0, std::numeric_limits<float>::max(), cameraPosition, (cameraPosition - GetActorLocation()).GetSafeNormal(), GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, true, insidePoint0, insidePoint1) == 2)
+				else if (hasSoundInside && useBlendMode)// && DoClipping(0, std::numeric_limits<float>::max(), cameraPosition, (cameraPosition - GetActorLocation()).GetSafeNormal(), GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, true, insidePoint0, insidePoint1) == 2)
 				{
 					FVector p0 = GetActorTransform().InverseTransformPosition(cameraPosition) / 100;
 
@@ -526,7 +526,7 @@ void AM1BaseActor::Tick(float DeltaTime)
 						GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Blue, str.c_str());
 					}
 				}
-				else if (useRotator)
+				else if (hasSoundOutside || hasSoundInside)
 				{
 					float dist = FVector::Dist(point, PlayerPosition);
 					SetVolumeWalls(vol * (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
@@ -631,7 +631,7 @@ void AM1BaseActor::SetVolumeWalls(float volume)
 
 void AM1BaseActor::SetVolumeCenter(float volume)
 {
-	if (isInit && useRoomMode)
+	if (isInit && useBlendMode)
 	{
 		float vol = FMath::Max(MIN_SOUND_VOLUME, this->Volume * volume);
 		float newVolume = 0;

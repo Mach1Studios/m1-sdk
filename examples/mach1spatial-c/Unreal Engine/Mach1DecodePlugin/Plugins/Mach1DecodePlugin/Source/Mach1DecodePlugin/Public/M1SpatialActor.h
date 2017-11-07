@@ -8,7 +8,7 @@
 #include "M1SpatialActor.generated.h"
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class M1SOUNDPLUGIN_API AM1SpatialActor : public AM1BaseActor
+class MACH1DECODEPLUGIN_API AM1SpatialActor : public AM1BaseActor
 {
 	GENERATED_BODY()
 

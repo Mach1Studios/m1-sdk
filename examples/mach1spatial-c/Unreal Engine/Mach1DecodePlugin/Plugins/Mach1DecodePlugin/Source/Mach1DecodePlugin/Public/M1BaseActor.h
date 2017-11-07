@@ -11,7 +11,7 @@
 #include "M1BaseActor.generated.h"
 
 UCLASS(abstract)
-class M1SOUNDPLUGIN_API AM1BaseActor : public AActor // M1SOUNDPLUGIN_API - change to your project name
+class MACH1DECODEPLUGIN_API AM1BaseActor : public AActor // M1SOUNDPLUGIN_API - change to your project name
 {
 	GENERATED_BODY()
 

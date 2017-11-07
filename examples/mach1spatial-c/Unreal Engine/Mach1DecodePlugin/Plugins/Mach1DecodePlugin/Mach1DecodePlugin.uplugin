@@ -1,8 +1,8 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "0.8.1",
-	"FriendlyName": "M1 Spatial Plugin",
+	"VersionName": "0.9.0",
+	"FriendlyName": "Mach1 Spatial Decode Plugin",
 	"Description": "Allows users to creatively input Mach1 formatted spatial sound and spatial sound encoded from the Mach1 Workflow Tools.",
 	"Category": "Audio",
 	"CreatedBy": "Mach1",

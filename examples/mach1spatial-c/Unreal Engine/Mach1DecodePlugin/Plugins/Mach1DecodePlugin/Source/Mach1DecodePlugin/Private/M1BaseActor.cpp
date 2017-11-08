@@ -494,8 +494,8 @@ void AM1BaseActor::Tick(float DeltaTime)
 					float dist = 1 - FMath::Max(FMath::Abs(p0.X), FMath::Max(FMath::Abs(p0.Y), FMath::Abs(p0.Z)));
 
 					//float dist = 1.0f - (cameraPosition - GetActorLocation()).Size() / (insidePoint1 - GetActorLocation()).Size();
-					SetVolumeWalls(vol * (attenuationRoomModeCurve ? attenuationRoomModeCurve->GetFloatValue(dist) : 1));
-					SetVolumeCenter(vol * (1 - (attenuationRoomModeCurve ? attenuationRoomModeCurve->GetFloatValue(dist) : 1)));
+					SetVolumeWalls(vol * (attenuationBlendModeCurve ? attenuationBlendModeCurve->GetFloatValue(dist) : 1));
+					SetVolumeCenter(vol * (1 - (attenuationBlendModeCurve ? attenuationBlendModeCurve->GetFloatValue(dist) : 1)));
 
 					if (Debug)
 					{
@@ -522,14 +522,21 @@ void AM1BaseActor::Tick(float DeltaTime)
 
 					if (Debug)
 					{
-						std::string str = "vol:    " + toDebugString((attenuationRoomModeCurve ? attenuationRoomModeCurve->GetFloatValue(dist) : 1));
+						std::string str = "vol:    " + toDebugString((attenuationBlendModeCurve ? attenuationBlendModeCurve->GetFloatValue(dist) : 1));
 						GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Blue, str.c_str());
 					}
 				}
 				else if (hasSoundOutside || hasSoundInside)
 				{
 					float dist = FVector::Dist(point, PlayerPosition);
-					SetVolumeWalls(vol * (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
+                    if (hasSoundOutside)
+                    {
+						SetVolumeWalls(vol * (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
+                    }
+                    if (useBlendMode)
+                    {
+					SetVolumeWalls(vol * (attenuationBlendModeCurve ? attenuationBlendModeCurve->GetFloatValue(dist) : 1));
+                    }
 				}
 				else
 				{

@@ -87,19 +87,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Attenuation Curve")
 		UCurveFloat* attenuationCurve;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Display Debug")
-		bool Debug = true;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use Blend Mode")
-		bool useBlendMode = false;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Mute When Inside Object")
 		bool muteWhenInsideObject = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Mute When Outside Object")
 		bool muteWhenOutsideObject = false;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use Closest Point Rotation Mute Inside")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use Closest Point Rotation & Mute When Inside")
 		bool useClosestPointRotationMuteInside = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use Yaw for Positional Rotation")
@@ -111,15 +105,21 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use Roll for Positional Rotation")
 		bool useRoll = true;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Display Debug")
+		bool Debug = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use Blend Mode")
+		bool useBlendMode = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Attenuation BlendMode Curve")
+		UCurveFloat* attenuationRoomModeCurve;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Ignore Top Bottom Planes in BlendMode")
+		bool ignoreTopBottom = true;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin|Volume", DisplayName = "Volume")
 		float Volume = 1.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin|Volume", DisplayName = "Autoplay")
 		bool autoplay = false;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Attenuation BlendMode Curve")
-		UCurveFloat* attenuationBlendModeCurve;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Ignore Top Bottom Walls")
-		bool ignoreTopBottom = true;
 };

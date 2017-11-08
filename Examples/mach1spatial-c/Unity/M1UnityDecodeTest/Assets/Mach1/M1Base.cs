@@ -580,7 +580,14 @@ public class M1Base : MonoBehaviour
 
                 if (useFalloff)
                 {
-                    volumeWalls = volumeWalls * blendModeFalloffCurve.Evaluate(dist);
+                    if (hasSoundOutside)
+                    {
+                        volumeWalls = volumeWalls * falloffCurve.Evaluate(dist);
+                    }
+                    if (useBlendMode)
+                    {
+                        volumeWalls = volumeWalls * blendModeFalloffCurve.Evaluate(dist);
+                    }
                 }
             }
             else

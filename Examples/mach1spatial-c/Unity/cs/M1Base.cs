@@ -45,9 +45,11 @@ public class M1Base : MonoBehaviour
     public bool ignoreTopBottom = true;
 
     [Space(10)]
-    public bool useCenterPointRotation = false;
-    public bool useClosestPointRotation = true;
+    public bool muteWhenInsideObject = false;
+    public bool muteWhenOutsideObject = false;
+    public bool useClosestPointRotationMuteInside = false;
 
+    [Space(10)]
     public bool useYawForRotation = true;
     public bool usePitchForRotation = true;
     public bool useRollForRotation = true;
@@ -518,7 +520,10 @@ public class M1Base : MonoBehaviour
             }
 
             bool isOutside = (ClosestPointOnBox(camera.transform.position, gameObject.transform.position, gameObject.transform.right, gameObject.transform.up, gameObject.transform.forward, gameObject.transform.localScale / 2, out outsideClosestPoint) > 0);
-            if (useClosestPointRotation && isOutside)
+            bool hasSoundOutside = isOutside && !muteWhenOutsideObject;
+            bool hasSoundInside = !isOutside && !muteWhenInsideObject;
+
+            if (hasSoundOutside && useClosestPointRotationMuteInside) // useClosestPointRotation
             {
                 point = outsideClosestPoint;
 
@@ -534,7 +539,7 @@ public class M1Base : MonoBehaviour
                     Debug.DrawLine(gameObject.transform.position, point, Color.red);
                 }
             }
-            else if (useBlendMode && !isOutside)//   && DoClipping(0, float.MaxValue, cameraPosition, (cameraPosition - gameObject.transform.position).normalized, gameObject.transform.position, gameObject.transform.right, gameObject.transform.up, gameObject.transform.forward, gameObject.transform.localScale / 2, true, out insidePoint0, out insidePoint1) == 2)
+            else if (hasSoundInside && useBlendMode) // && DoClipping(0, float.MaxValue, cameraPosition, (cameraPosition - gameObject.transform.position).normalized, gameObject.transform.position, gameObject.transform.right, gameObject.transform.up, gameObject.transform.forward, gameObject.transform.localScale / 2, true, out insidePoint0, out insidePoint1) == 2)
             {
                 Vector3 p0 = 2 * gameObject.transform.InverseTransformPoint(cameraPosition);
 
@@ -564,18 +569,25 @@ public class M1Base : MonoBehaviour
 
                 if (drawHelpers)
                 {
-                    Debug.Log("d: " + dist);
+                    //Debug.Log("d: " + dist);
                     Debug.DrawLine(cameraPosition, p1, Color.cyan);
-                    Debug.Log("volumeWalls: " + volumeWalls);
+                    //Debug.Log("volumeWalls: " + volumeWalls);
                 }
             }
-            else if (useCenterPointRotation)
+            else if (hasSoundOutside || hasSoundInside) // useCenterPointRotation
             {
                 float dist = Vector3.Distance(camera.transform.position, point);
 
                 if (useFalloff)
                 {
-                    volumeWalls = volumeWalls * blendModeFalloffCurve.Evaluate(dist);
+                    if (hasSoundOutside)
+                    {
+                        volumeWalls = volumeWalls * falloffCurve.Evaluate(dist);
+                    }
+                    if (useBlendMode)
+                    {
+                        volumeWalls = volumeWalls * blendModeFalloffCurve.Evaluate(dist);
+                    }
                 }
             }
             else

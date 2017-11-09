@@ -36,32 +36,32 @@ public:
 	// always tick
 	bool ShouldTickIfViewportsOnly() const override { return true; }
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound")
+	UPROPERTY(EditAnywhere, Category = "Mach1 StSP File")
 		USoundWave * soundWave;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Attenuation Curve")
-		UCurveFloat* attenuationCurve;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 StSP Settings", DisplayName = "Volume")
+		float Volume = 1.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin|Fade", DisplayName = "Fade In Duration")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 StSP Settings", DisplayName = "Fade In Duration")
 		float fadeInDuration = 0;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin|Fade", DisplayName = "Fade Out Duration")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 StSP Settings", DisplayName = "Fade Out Duration")
 		float fadeOutDuration = 0;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 StSP Settings", DisplayName = "Attenuation Curve")
+		UCurveFloat* attenuationCurve;
+
 	/*
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin|Sound", meta = (ClampMin = "-1.0", ClampMax = "1.0", UIMin = "-1.0", UIMax = "1.0"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 StSP Settings", meta = (ClampMin = "-1.0", ClampMax = "1.0", UIMin = "-1.0", UIMax = "1.0"))
 		float Spatialize = 0;
 	*/
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin|Volume", DisplayName = "Volume")
-		float Volume = 1.0f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Display Debug")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 StSP Settings", DisplayName = "Display Debug")
 		bool Debug = true;
 
-	UFUNCTION(BlueprintCallable, Category = "M1 Plugin|Audio")
+	UFUNCTION(BlueprintCallable, Category = "Mach1 StSP Settings")
 		void Play();
 
-	UFUNCTION(BlueprintCallable, Category = "M1 Plugin|Audio")
+	UFUNCTION(BlueprintCallable, Category = "Mach1 StSP Settings")
 		void Stop();
 };

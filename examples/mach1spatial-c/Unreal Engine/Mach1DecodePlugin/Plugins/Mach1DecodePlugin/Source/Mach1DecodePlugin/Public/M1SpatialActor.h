@@ -22,53 +22,53 @@ public:
 	AM1SpatialActor();
 
 	// Audio positions for the 8channel cube
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound Main")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|Main")
 		USoundWave* ChannelMain1;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound Main")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|Main")
 		USoundWave* ChannelMain2;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound Main")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|Main")
 		USoundWave* ChannelMain3;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound Main")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|Main")
 		USoundWave* ChannelMain4;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound Main")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|Main")
 		USoundWave* ChannelMain5;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound Main")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|Main")
 		USoundWave* ChannelMain6;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound Main")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|Main")
 		USoundWave* ChannelMain7;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound Main")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|Main")
 		USoundWave* ChannelMain8;
 
 
 	// Audio positions for the 8channel cube
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|BlendMode")
 		USoundWave* ChannelBlend1;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|BlendMode")
 		USoundWave* ChannelBlend2;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|BlendMode")
 		USoundWave* ChannelBlend3;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|BlendMode")
 		USoundWave* ChannelBlend4;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|BlendMode")
 		USoundWave* ChannelBlend5;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|BlendMode")
 		USoundWave* ChannelBlend6;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|BlendMode")
 		USoundWave* ChannelBlend7;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|BlendMode")
 		USoundWave* ChannelBlend8;
 };

@@ -69,57 +69,57 @@ public:
 	#if WITH_EDITOR
 	void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 	#endif
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Force HMD rotation instead of Player Controller")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 Class Settings", DisplayName = "Force HMD rotation instead of Player Controller")
 		bool ForceHMDRotation = true;
 
-	UFUNCTION(BlueprintCallable, Category = "M1 Plugin|Audio")
-		void Play();
-
-	UFUNCTION(BlueprintCallable, Category = "M1 Plugin|Audio")
-		void Stop();
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin|Fade", DisplayName = "Fade In Duration")
-		float fadeInDuration = 0;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin|Fade", DisplayName = "Fade Out Duration")
-		float fadeOutDuration = 0;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Attenuation Curve")
-		UCurveFloat* attenuationCurve;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Mute When Inside Object")
-		bool muteWhenInsideObject = false;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Mute When Outside Object")
-		bool muteWhenOutsideObject = false;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use Closest Point Rotation & Mute When Inside")
-		bool useClosestPointRotationMuteInside = false;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use Yaw for Positional Rotation")
-		bool useYaw = true;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use Pitch for Positional Rotation")
-		bool usePitch = true;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use Roll for Positional Rotation")
-		bool useRoll = true;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Display Debug")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 Class Settings", DisplayName = "Display Debug")
 		bool Debug = true;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Use Blend Mode")
-		bool useBlendMode = false;
+	UFUNCTION(BlueprintCallable, Category = "Trigger Options")
+		void Play();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Attenuation BlendMode Curve")
-		UCurveFloat* attenuationBlendModeCurve;
+	UFUNCTION(BlueprintCallable, Category = "Trigger Options")
+		void Stop();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Ignore Top Bottom Planes in BlendMode")
-		bool ignoreTopBottom = true;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Trigger Options", DisplayName = "Autoplay")
+		bool autoplay = false;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin|Volume", DisplayName = "Volume")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Trigger Options", DisplayName = "Volume")
 		float Volume = 1.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin|Volume", DisplayName = "Autoplay")
-		bool autoplay = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Trigger Options", DisplayName = "Fade In Duration")
+		float fadeInDuration = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Trigger Options", DisplayName = "Fade Out Duration")
+		float fadeOutDuration = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attenuation & Rotation Settings", DisplayName = "Attenuation Curve")
+		UCurveFloat* attenuationCurve;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attenuation & Rotation Settings", DisplayName = "Mute When Inside Object")
+		bool muteWhenInsideObject = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attenuation & Rotation Settings", DisplayName = "Mute When Outside Object")
+		bool muteWhenOutsideObject = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attenuation & Rotation Settings", DisplayName = "Use Closest Point Rotation & Mute When Inside")
+		bool useClosestPointRotationMuteInside = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attenuation & Rotation Settings", DisplayName = "Use Yaw for Positional Rotation")
+		bool useYaw = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attenuation & Rotation Settings", DisplayName = "Use Pitch for Positional Rotation")
+		bool usePitch = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attenuation & Rotation Settings", DisplayName = "Use Roll for Positional Rotation")
+		bool useRoll = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Blend Mode (beta)", DisplayName = "Use Blend Mode")
+		bool useBlendMode = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Blend Mode (beta)", DisplayName = "Attenuation BlendMode Curve")
+		UCurveFloat* attenuationBlendModeCurve;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Blend Mode (beta)", DisplayName = "Ignore Top Bottom Planes in BlendMode")
+		bool ignoreTopBottom = true;
 };

@@ -22,30 +22,30 @@ public:
 	AM1HorizonActor();
 
 	// Audio positions for the 8channel cube
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|Main")
 		USoundWave* ChannelMain1;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|Main")
 		USoundWave* ChannelMain2;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|Main")
 		USoundWave* ChannelMain3;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|Main")
 		USoundWave* ChannelMain4;
 
 
 	// Audio positions for the 8channel cube
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|BlendMode")
 		USoundWave* ChannelBlend1;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|BlendMode")
 		USoundWave* ChannelBlend2;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|BlendMode")
 		USoundWave* ChannelBlend3;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+	UPROPERTY(EditAnywhere, Category = "Mach1 Spatial Files|BlendMode")
 		USoundWave* ChannelBlend4;
 
 };

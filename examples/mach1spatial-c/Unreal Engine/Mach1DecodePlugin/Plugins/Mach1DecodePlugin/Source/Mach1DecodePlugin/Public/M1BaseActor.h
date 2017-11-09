@@ -112,7 +112,7 @@ public:
 		bool useBlendMode = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Attenuation BlendMode Curve")
-		UCurveFloat* attenuationRoomModeCurve;
+		UCurveFloat* attenuationBlendModeCurve;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "M1 Plugin", DisplayName = "Ignore Top Bottom Planes in BlendMode")
 		bool ignoreTopBottom = true;

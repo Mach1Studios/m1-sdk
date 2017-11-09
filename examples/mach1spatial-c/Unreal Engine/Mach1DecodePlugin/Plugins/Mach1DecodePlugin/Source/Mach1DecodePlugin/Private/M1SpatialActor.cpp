@@ -5,28 +5,28 @@
 
 #include "M1SpatialActor.h"
 
-void AM1SpatialActor::SetSoundsWalls()
+void AM1SpatialActor::SetSoundsMain()
 {
-	SoundsWalls.Add(ChannelWall1);
-	SoundsWalls.Add(ChannelWall2);
-	SoundsWalls.Add(ChannelWall3);
-	SoundsWalls.Add(ChannelWall4);
-	SoundsWalls.Add(ChannelWall5);
-	SoundsWalls.Add(ChannelWall6);
-	SoundsWalls.Add(ChannelWall7);
-	SoundsWalls.Add(ChannelWall8);
+	SoundsMain.Add(ChannelMain1);
+	SoundsMain.Add(ChannelMain2);
+	SoundsMain.Add(ChannelMain3);
+	SoundsMain.Add(ChannelMain4);
+	SoundsMain.Add(ChannelMain5);
+	SoundsMain.Add(ChannelMain6);
+	SoundsMain.Add(ChannelMain7);
+	SoundsMain.Add(ChannelMain8);
 }
 
-void AM1SpatialActor::SetSoundsCenter()
+void AM1SpatialActor::SetSoundsBlendMode()
 {
-	SoundsCenter.Add(ChannelCenter1);
-	SoundsCenter.Add(ChannelCenter2);
-	SoundsCenter.Add(ChannelCenter3);
-	SoundsCenter.Add(ChannelCenter4);
-	SoundsCenter.Add(ChannelCenter5);
-	SoundsCenter.Add(ChannelCenter6);
-	SoundsCenter.Add(ChannelCenter7);
-	SoundsCenter.Add(ChannelCenter8);
+	SoundsBlendMode.Add(ChannelBlend1);
+	SoundsBlendMode.Add(ChannelBlend2);
+	SoundsBlendMode.Add(ChannelBlend3);
+	SoundsBlendMode.Add(ChannelBlend4);
+	SoundsBlendMode.Add(ChannelBlend5);
+	SoundsBlendMode.Add(ChannelBlend6);
+	SoundsBlendMode.Add(ChannelBlend7);
+	SoundsBlendMode.Add(ChannelBlend8);
 
 }
 

@@ -160,11 +160,11 @@ void AM1BaseActor::InitComponents(int MAX_SOUNDS_PER_CHANNEL)
 	Billboard->SetHiddenInGame(false);
 	Billboard->AttachToComponent(Root, FAttachmentTransformRules::KeepRelativeTransform);
 
-	LeftChannelsWalls.SetNum(MAX_SOUNDS_PER_CHANNEL);
-	RightChannelsWalls.SetNum(MAX_SOUNDS_PER_CHANNEL);
+	LeftChannelsMain.SetNum(MAX_SOUNDS_PER_CHANNEL);
+	RightChannelsMain.SetNum(MAX_SOUNDS_PER_CHANNEL);
 
-	LeftChannelsCenter.SetNum(MAX_SOUNDS_PER_CHANNEL);
-	RightChannelsCenter.SetNum(MAX_SOUNDS_PER_CHANNEL);
+	LeftChannelsBlend.SetNum(MAX_SOUNDS_PER_CHANNEL);
+	RightChannelsBlend.SetNum(MAX_SOUNDS_PER_CHANNEL);
 
 	Volume = 1;
 	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++) VolumeFactor.Add(1);
@@ -225,20 +225,20 @@ void AM1BaseActor::Init()
 
 			for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 			{
-				LeftChannelsWalls[i] = NewObject <UAudioComponent>(cameraComponent, FName(*FString::Printf(TEXT("SoundCubeWalls %d_L_%d"), GetUniqueID(), i)));
-				RightChannelsWalls[i] = NewObject <UAudioComponent>(cameraComponent, FName(*FString::Printf(TEXT("SoundCubeWalls %d_R_%d"), GetUniqueID(), i)));
+				LeftChannelsMain[i] = NewObject <UAudioComponent>(cameraComponent, FName(*FString::Printf(TEXT("SoundCubeWalls %d_L_%d"), GetUniqueID(), i)));
+				RightChannelsMain[i] = NewObject <UAudioComponent>(cameraComponent, FName(*FString::Printf(TEXT("SoundCubeWalls %d_R_%d"), GetUniqueID(), i)));
 
-				LeftChannelsWalls[i]->RegisterComponent(); // only for runtime
-				RightChannelsWalls[i]->RegisterComponent(); // only for runtime
+				LeftChannelsMain[i]->RegisterComponent(); // only for runtime
+				RightChannelsMain[i]->RegisterComponent(); // only for runtime
 
-				LeftChannelsWalls[i]->SetRelativeLocation(FVector(0, -1, 0));
-				RightChannelsWalls[i]->SetRelativeLocation(FVector(0, 1, 0));
+				LeftChannelsMain[i]->SetRelativeLocation(FVector(0, -1, 0));
+				RightChannelsMain[i]->SetRelativeLocation(FVector(0, 1, 0));
 
-				LeftChannelsWalls[i]->AttenuationSettings = NullAttenuation;
-				RightChannelsWalls[i]->AttenuationSettings = NullAttenuation;
+				LeftChannelsMain[i]->AttenuationSettings = NullAttenuation;
+				RightChannelsMain[i]->AttenuationSettings = NullAttenuation;
 
-				LeftChannelsWalls[i]->AttachToComponent(cameraComponent, FAttachmentTransformRules::KeepRelativeTransform); // AttachToComponent(Root, FAttachmentTransformRules::KeepRelativeTransform);//   AttachTo(sceneComponent);
-				RightChannelsWalls[i]->AttachToComponent(cameraComponent, FAttachmentTransformRules::KeepRelativeTransform);
+				LeftChannelsMain[i]->AttachToComponent(cameraComponent, FAttachmentTransformRules::KeepRelativeTransform); // AttachToComponent(Root, FAttachmentTransformRules::KeepRelativeTransform);//   AttachTo(sceneComponent);
+				RightChannelsMain[i]->AttachToComponent(cameraComponent, FAttachmentTransformRules::KeepRelativeTransform);
 
 
 			}
@@ -247,20 +247,20 @@ void AM1BaseActor::Init()
 			{
 				for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 				{
-					LeftChannelsCenter[i] = NewObject <UAudioComponent>(cameraComponent, FName(*FString::Printf(TEXT("SoundCubeCenter %d_L_%d"), GetUniqueID(), i)));
-					RightChannelsCenter[i] = NewObject <UAudioComponent>(cameraComponent, FName(*FString::Printf(TEXT("SoundCubeCenter %d_R_%d"), GetUniqueID(), i)));
+					LeftChannelsBlend[i] = NewObject <UAudioComponent>(cameraComponent, FName(*FString::Printf(TEXT("SoundCubeCenter %d_L_%d"), GetUniqueID(), i)));
+					RightChannelsBlend[i] = NewObject <UAudioComponent>(cameraComponent, FName(*FString::Printf(TEXT("SoundCubeCenter %d_R_%d"), GetUniqueID(), i)));
 
-					LeftChannelsCenter[i]->RegisterComponent(); // only for runtime
-					RightChannelsCenter[i]->RegisterComponent(); // only for runtime
+					LeftChannelsBlend[i]->RegisterComponent(); // only for runtime
+					RightChannelsBlend[i]->RegisterComponent(); // only for runtime
 
-					LeftChannelsCenter[i]->SetRelativeLocation(FVector(0, -1, 0));
-					RightChannelsCenter[i]->SetRelativeLocation(FVector(0, 1, 0));
+					LeftChannelsBlend[i]->SetRelativeLocation(FVector(0, -1, 0));
+					RightChannelsBlend[i]->SetRelativeLocation(FVector(0, 1, 0));
 
-					LeftChannelsCenter[i]->AttenuationSettings = NullAttenuation;
-					RightChannelsCenter[i]->AttenuationSettings = NullAttenuation;
+					LeftChannelsBlend[i]->AttenuationSettings = NullAttenuation;
+					RightChannelsBlend[i]->AttenuationSettings = NullAttenuation;
 
-					LeftChannelsCenter[i]->AttachToComponent(cameraComponent, FAttachmentTransformRules::KeepRelativeTransform); // AttachToComponent(Root, FAttachmentTransformRules::KeepRelativeTransform);//   AttachTo(sceneComponent);
-					RightChannelsCenter[i]->AttachToComponent(cameraComponent, FAttachmentTransformRules::KeepRelativeTransform);
+					LeftChannelsBlend[i]->AttachToComponent(cameraComponent, FAttachmentTransformRules::KeepRelativeTransform); // AttachToComponent(Root, FAttachmentTransformRules::KeepRelativeTransform);//   AttachTo(sceneComponent);
+					RightChannelsBlend[i]->AttachToComponent(cameraComponent, FAttachmentTransformRules::KeepRelativeTransform);
 				}
 			}
 
@@ -275,41 +275,41 @@ void AM1BaseActor::SetSoundSet()
 {
 	if (isInit)
 	{
-		SoundsWalls.Empty();
+		SoundsMain.Empty();
 
-		SetSoundsWalls();
+		SetSoundsMain();
 
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
-			if(SoundsWalls[i]) SoundsWalls[i]->bVirtualizeWhenSilent = true;
+			if(SoundsMain[i]) SoundsMain[i]->bVirtualizeWhenSilent = true;
 		}
 
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
-			if (SoundsWalls[i])
+			if (SoundsMain[i])
 			{
-				LeftChannelsWalls[i]->SetSound(SoundsWalls[i]);
-				RightChannelsWalls[i]->SetSound(SoundsWalls[i]);
+				LeftChannelsMain[i]->SetSound(SoundsMain[i]);
+				RightChannelsMain[i]->SetSound(SoundsMain[i]);
 			}
 		}
 
 		if (useBlendMode)
 		{
-			SoundsCenter.Empty();
+			SoundsBlendMode.Empty();
 
-			SetSoundsCenter();
+			SetSoundsBlendMode();
 
 			for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 			{
-				if (SoundsCenter[i]) SoundsCenter[i]->bVirtualizeWhenSilent = true;
+				if (SoundsBlendMode[i]) SoundsBlendMode[i]->bVirtualizeWhenSilent = true;
 			}
 
 			for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 			{
-				if (SoundsCenter[i])
+				if (SoundsBlendMode[i])
 				{
-					LeftChannelsCenter[i]->SetSound(SoundsCenter[i]);
-					RightChannelsCenter[i]->SetSound(SoundsCenter[i]);
+					LeftChannelsBlend[i]->SetSound(SoundsBlendMode[i]);
+					RightChannelsBlend[i]->SetSound(SoundsBlendMode[i]);
 				}
 			}
 		}
@@ -324,8 +324,8 @@ void AM1BaseActor::Play()
 	{
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
-			LeftChannelsWalls[i]->FadeIn(fadeInDuration);
-			RightChannelsWalls[i]->FadeIn(fadeInDuration);
+			LeftChannelsMain[i]->FadeIn(fadeInDuration);
+			RightChannelsMain[i]->FadeIn(fadeInDuration);
 		}
 	}
 
@@ -333,8 +333,8 @@ void AM1BaseActor::Play()
 	{
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
-			LeftChannelsCenter[i]->FadeIn(fadeInDuration);
-			RightChannelsCenter[i]->FadeIn(fadeInDuration);
+			LeftChannelsBlend[i]->FadeIn(fadeInDuration);
+			RightChannelsBlend[i]->FadeIn(fadeInDuration);
 		}
 	}
 
@@ -350,8 +350,8 @@ void AM1BaseActor::Stop()
 	{
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
-			LeftChannelsWalls[i]->FadeOut(fadeOutDuration, 0);
-			RightChannelsWalls[i]->FadeOut(fadeOutDuration, 0);
+			LeftChannelsMain[i]->FadeOut(fadeOutDuration, 0);
+			RightChannelsMain[i]->FadeOut(fadeOutDuration, 0);
 		}
 	}
 
@@ -359,8 +359,8 @@ void AM1BaseActor::Stop()
 	{
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
-			LeftChannelsCenter[i]->FadeOut(fadeOutDuration, 0);
-			RightChannelsCenter[i]->FadeOut(fadeOutDuration, 0);
+			LeftChannelsBlend[i]->FadeOut(fadeOutDuration, 0);
+			RightChannelsBlend[i]->FadeOut(fadeOutDuration, 0);
 		}
 	}
 	needPlayAfterInit = false;
@@ -447,7 +447,7 @@ void AM1BaseActor::Tick(float DeltaTime)
 					point = outsideClosestPoint;
 
 					float dist = FVector::Dist(point, PlayerPosition);
-					SetVolumeWalls(vol * (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
+					SetVolumeMain(vol * (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
 
 					if (Debug)
 					{
@@ -494,8 +494,8 @@ void AM1BaseActor::Tick(float DeltaTime)
 					float dist = 1 - FMath::Max(FMath::Abs(p0.X), FMath::Max(FMath::Abs(p0.Y), FMath::Abs(p0.Z)));
 
 					//float dist = 1.0f - (cameraPosition - GetActorLocation()).Size() / (insidePoint1 - GetActorLocation()).Size();
-					SetVolumeWalls(vol * (attenuationBlendModeCurve ? attenuationBlendModeCurve->GetFloatValue(dist) : 1));
-					SetVolumeCenter(vol * (1 - (attenuationBlendModeCurve ? attenuationBlendModeCurve->GetFloatValue(dist) : 1)));
+					SetVolumeMain(vol * (attenuationBlendModeCurve ? attenuationBlendModeCurve->GetFloatValue(dist) : 1));
+					SetVolumeBlend(vol * (1 - (attenuationBlendModeCurve ? attenuationBlendModeCurve->GetFloatValue(dist) : 1)));
 
 					if (Debug)
 					{
@@ -531,18 +531,18 @@ void AM1BaseActor::Tick(float DeltaTime)
 					float dist = FVector::Dist(point, PlayerPosition);
                     if (hasSoundOutside)
                     {
-						SetVolumeWalls(vol * (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
+						SetVolumeMain(vol * (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
                     }
                     if (useBlendMode)
                     {
-					SetVolumeWalls(vol * (attenuationBlendModeCurve ? attenuationBlendModeCurve->GetFloatValue(dist) : 1));
+					SetVolumeMain(vol * (attenuationBlendModeCurve ? attenuationBlendModeCurve->GetFloatValue(dist) : 1));
                     }
 				}
 				else
 				{
 					vol = 0;
-					SetVolumeWalls(vol);
-					SetVolumeCenter(vol);
+					SetVolumeMain(vol);
+					SetVolumeBlend(vol);
 				}
 
 				//FindLookAtRotation seems wrong angle
@@ -616,7 +616,7 @@ void AM1BaseActor::CalculateChannelVolumes(FQuat quat)
 	}
 }
 
-void AM1BaseActor::SetVolumeWalls(float volume)
+void AM1BaseActor::SetVolumeMain(float volume)
 {
 	if (isInit)
 	{
@@ -627,16 +627,16 @@ void AM1BaseActor::SetVolumeWalls(float volume)
 		{
 			newVolume = VolumeFactor[i * 2] * vol;
 			newVolume = FMath::Max(MIN_SOUND_VOLUME, newVolume);
-			LeftChannelsWalls[i]->SetVolumeMultiplier(newVolume);
+			LeftChannelsMain[i]->SetVolumeMultiplier(newVolume);
 
 			newVolume = VolumeFactor[i * 2 + 1] * vol;
 			newVolume = FMath::Max(MIN_SOUND_VOLUME, newVolume);
-			RightChannelsWalls[i]->SetVolumeMultiplier(newVolume);
+			RightChannelsMain[i]->SetVolumeMultiplier(newVolume);
 		}
 	}
 }
 
-void AM1BaseActor::SetVolumeCenter(float volume)
+void AM1BaseActor::SetVolumeBlend(float volume)
 {
 	if (isInit && useBlendMode)
 	{
@@ -647,11 +647,11 @@ void AM1BaseActor::SetVolumeCenter(float volume)
 		{
 			newVolume = VolumeFactor[i * 2] * vol;
 			newVolume = FMath::Max(MIN_SOUND_VOLUME, newVolume);
-			LeftChannelsCenter[i]->SetVolumeMultiplier(newVolume);
+			LeftChannelsBlend[i]->SetVolumeMultiplier(newVolume);
 
 			newVolume = VolumeFactor[i * 2 + 1] * vol;
 			newVolume = FMath::Max(MIN_SOUND_VOLUME, newVolume);
-			RightChannelsCenter[i]->SetVolumeMultiplier(newVolume);
+			RightChannelsBlend[i]->SetVolumeMultiplier(newVolume);
 		}
 	}
 }

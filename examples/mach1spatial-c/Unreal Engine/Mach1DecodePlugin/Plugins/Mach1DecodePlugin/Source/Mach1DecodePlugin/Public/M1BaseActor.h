@@ -26,13 +26,13 @@ protected:
 
 	TArray<float> VolumeFactor;
 
-	TArray<USoundWave*> SoundsWalls;
-	TArray<UAudioComponent*> LeftChannelsWalls;
-	TArray<UAudioComponent*> RightChannelsWalls;
+	TArray<USoundWave*> SoundsMain;
+	TArray<UAudioComponent*> LeftChannelsMain;
+	TArray<UAudioComponent*> RightChannelsMain;
 
-	TArray<USoundWave*> SoundsCenter;
-	TArray<UAudioComponent*> LeftChannelsCenter;
-	TArray<UAudioComponent*> RightChannelsCenter;
+	TArray<USoundWave*> SoundsBlendMode;
+	TArray<UAudioComponent*> LeftChannelsBlend;
+	TArray<UAudioComponent*> RightChannelsBlend;
 
 	USceneComponent* Root;
 	UBoxComponent* Collision;
@@ -45,11 +45,11 @@ protected:
 	void Init();
 	void SetSoundSet();
 	void CalculateChannelVolumes(FQuat quat);
-	void SetVolumeWalls(float volume);
-	void SetVolumeCenter(float volume);
+	void SetVolumeMain(float volume);
+	void SetVolumeBlend(float volume);
 
-	virtual void SetSoundsWalls() {};
-	virtual void SetSoundsCenter() {};
+	virtual void SetSoundsMain() {};
+	virtual void SetSoundsBlendMode() {};
 	virtual std::vector<float> SoundAlgorithm(float Yaw, float Pitch, float Roll) { return std::vector<float>(); };
 
 	Mach1Decode m1;

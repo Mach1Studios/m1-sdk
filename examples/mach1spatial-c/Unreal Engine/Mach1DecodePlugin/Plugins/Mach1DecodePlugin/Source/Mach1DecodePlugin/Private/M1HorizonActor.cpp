@@ -5,20 +5,20 @@
 
 #include "M1HorizonActor.h"
 
-void AM1HorizonActor::SetSoundsWalls()
+void AM1HorizonActor::SetSoundsMain()
 {
-	SoundsWalls.Add(ChannelWall1);
-	SoundsWalls.Add(ChannelWall2);
-	SoundsWalls.Add(ChannelWall3);
-	SoundsWalls.Add(ChannelWall4);
+	SoundsMain.Add(ChannelMain1);
+	SoundsMain.Add(ChannelMain2);
+	SoundsMain.Add(ChannelMain3);
+	SoundsMain.Add(ChannelMain4);
 }
 
-void AM1HorizonActor::SetSoundsCenter()
+void AM1HorizonActor::SetSoundsBlendMode()
 {
-	SoundsCenter.Add(ChannelCenter1);
-	SoundsCenter.Add(ChannelCenter2);
-	SoundsCenter.Add(ChannelCenter3);
-	SoundsCenter.Add(ChannelCenter4);
+	SoundsBlendMode.Add(ChannelBlend1);
+	SoundsBlendMode.Add(ChannelBlend2);
+	SoundsBlendMode.Add(ChannelBlend3);
+	SoundsBlendMode.Add(ChannelBlend4);
 }
 
 std::vector<float> AM1HorizonActor::SoundAlgorithm(float Yaw, float Pitch, float Roll) 

@@ -12,8 +12,8 @@ class MACH1DECODEPLUGIN_API AM1SpatialActor : public AM1BaseActor
 {
 	GENERATED_BODY()
 
-	void SetSoundsWalls();
-	void SetSoundsCenter();
+	void SetSoundsMain();
+	void SetSoundsBlendMode();
 
 	virtual std::vector<float> SoundAlgorithm(float Yaw, float Pitch, float Roll)  override;
 
@@ -22,53 +22,53 @@ public:
 	AM1SpatialActor();
 
 	// Audio positions for the 8channel cube
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* ChannelWall1;
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound Main")
+		USoundWave* ChannelMain1;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* ChannelWall2;
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound Main")
+		USoundWave* ChannelMain2;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* ChannelWall3;
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound Main")
+		USoundWave* ChannelMain3;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* ChannelWall4;
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound Main")
+		USoundWave* ChannelMain4;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* ChannelWall5;
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound Main")
+		USoundWave* ChannelMain5;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* ChannelWall6;
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound Main")
+		USoundWave* ChannelMain6;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* ChannelWall7;
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound Main")
+		USoundWave* ChannelMain7;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* ChannelWall8;
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound Main")
+		USoundWave* ChannelMain8;
 
 
 	// Audio positions for the 8channel cube
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* ChannelCenter1;
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+		USoundWave* ChannelBlend1;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* ChannelCenter2;
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+		USoundWave* ChannelBlend2;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* ChannelCenter3;
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+		USoundWave* ChannelBlend3;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* ChannelCenter4;
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+		USoundWave* ChannelBlend4;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* ChannelCenter5;
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+		USoundWave* ChannelBlend5;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* ChannelCenter6;
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+		USoundWave* ChannelBlend6;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* ChannelCenter7;
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+		USoundWave* ChannelBlend7;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* ChannelCenter8;
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+		USoundWave* ChannelBlend8;
 };

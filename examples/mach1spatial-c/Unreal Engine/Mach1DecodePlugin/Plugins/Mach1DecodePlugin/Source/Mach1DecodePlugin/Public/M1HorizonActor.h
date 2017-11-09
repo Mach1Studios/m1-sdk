@@ -12,8 +12,8 @@ class MACH1DECODEPLUGIN_API AM1HorizonActor : public AM1BaseActor
 {
 	GENERATED_BODY()
 
-	void SetSoundsWalls();
-	void SetSoundsCenter();
+	void SetSoundsMain();
+	void SetSoundsBlendMode();
 
 	virtual std::vector<float> SoundAlgorithm(float Yaw, float Pitch, float Roll)  override;
 
@@ -23,29 +23,29 @@ public:
 
 	// Audio positions for the 8channel cube
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* ChannelWall1;
+		USoundWave* ChannelMain1;
 
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* ChannelWall2;
+		USoundWave* ChannelMain2;
 
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* ChannelWall3;
+		USoundWave* ChannelMain3;
 
 	UPROPERTY(EditAnywhere, Category = "M1 Plugin|Sound INT")
-		USoundWave* ChannelWall4;
+		USoundWave* ChannelMain4;
 
 
 	// Audio positions for the 8channel cube
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* ChannelCenter1;
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+		USoundWave* ChannelBlend1;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* ChannelCenter2;
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+		USoundWave* ChannelBlend2;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* ChannelCenter3;
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+		USoundWave* ChannelBlend3;
 
-	UPROPERTY(EditAnywhere, Category = "M1 Plugin|RoomMode Wall EXT")
-		USoundWave* ChannelCenter4;
+	UPROPERTY(EditAnywhere, Category = "M1 Plugin|BlendMode EXT")
+		USoundWave* ChannelBlend4;
 
 };

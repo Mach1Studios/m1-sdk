@@ -75,7 +75,7 @@ namespace UnrealBuildTool.Rules
             {
                 Mach1BinDirectory = Path.Combine(Mach1BinDirectory, Target.Architecture);
 
-                RuntimeDependencies.Add(new RuntimeDependency(Path.Combine(Mach1BinDirectory, "Mach1DecodeCAPI")));
+                RuntimeDependencies.Add(new RuntimeDependency(Path.Combine(Mach1BinDirectory, "libMach1DecodeCAPI")));
             }
             else if (Target.Platform == UnrealTargetPlatform.IOS)
             {

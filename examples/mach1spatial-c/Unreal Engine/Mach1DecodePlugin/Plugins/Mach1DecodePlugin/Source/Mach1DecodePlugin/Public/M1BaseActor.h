@@ -1,6 +1,7 @@
-//
 //  Mach1 SDK
+//  Copyright © 2017 Mach1. All rights reserved.
 //
+
 #pragma once
 
 #include "GameFramework/Actor.h"
@@ -11,7 +12,7 @@
 #include "M1BaseActor.generated.h"
 
 UCLASS(abstract)
-class MACH1DECODEPLUGIN_API AM1BaseActor : public AActor // M1SOUNDPLUGIN_API - change to your project name
+class MACH1DECODEPLUGIN_API AM1BaseActor : public AActor
 {
 	GENERATED_BODY()
 

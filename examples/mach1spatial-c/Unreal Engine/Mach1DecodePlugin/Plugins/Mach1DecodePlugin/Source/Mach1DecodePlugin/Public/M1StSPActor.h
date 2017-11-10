@@ -1,6 +1,7 @@
-//
 //  Mach1 SDK
+//  Copyright © 2017 Mach1. All rights reserved.
 //
+
 #pragma once
 
 #include "GameFramework/Actor.h"
@@ -10,7 +11,7 @@
 #include "M1StSPActor.generated.h"
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class MACH1DECODEPLUGIN_API AM1StSPActor : public AActor // M1SOUNDPLUGIN_API - change to your project name
+class MACH1DECODEPLUGIN_API AM1StSPActor : public AActor
 {
 	GENERATED_BODY()
 

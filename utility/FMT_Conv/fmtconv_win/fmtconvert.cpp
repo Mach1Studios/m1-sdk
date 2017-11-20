@@ -81,8 +81,12 @@ void printHelp()
     cout << "    SevenOnePT_Cinema (Pro Tools default) - L C R Lss Rss Lsr Rsr LFE, forward focus" << std::endl;
     cout << "    SevenOneSDDS (Sony SDDS) - L Lc C Rc R Ls Rs LFE" << std::endl;
     cout << "    SevenZeroSDDS (Sony SDDS) - L Lc C Rc R Ls Rs" << std::endl;
+    cout << "    FiveOneTwo (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr FLts FRts BLts BRts" << std::endl;
+    cout << "    FiveOneFour (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr FLts FRts BLts BRts" << std::endl;
     cout << "    SevenOneTwo (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr LFE Lts Rts" << std::endl;
     cout << "    SevenZeroTwo (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr Lts Rts" << std::endl;
+    cout << "    SevenOneFour (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr LFE FLts FRts BLts BRts" << std::endl;
+    cout << "    SevenZeroFour (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr FLts FRts BLts BRts" << std::endl;
 //    cout << "    SevenOneTwo (SMPTE) - L R C LFE Lss Rss Lsr Rsr Lts Rts" << std::endl;
 //    cout << "    SevenZeroTwo (SMPTE) - L R C Lss Rss Lsr Rsr Lts Rts" << std::endl;
     cout << "    NineOne - " << std::endl;
@@ -234,6 +238,14 @@ int main(int argc, char* argv[])
         inFmt = MatrixConvert::NineZero;
     else if (strcmp(inFmtStr, "Stereo_Cinema") == 0)
         inFmt = MatrixConvert::Stereo_Cinema;
+    else if (strcmp(inFmtStr, "FiveOneTwo") == 0)
+        inFmt = MatrixConvert::FiveOneTwo;
+    else if (strcmp(inFmtStr, "FiveOneFour") == 0)
+        inFmt = MatrixConvert::FiveOneFour;
+    else if (strcmp(inFmtStr, "SevenOneFour") == 0)
+        inFmt = MatrixConvert::SevenOneFour;
+    else if (strcmp(inFmtStr, "SevenZeroFour") == 0)
+        inFmt = MatrixConvert::SevenZeroFour;
 	else
 	{
 		cout << "Please select a valid input format" << std::endl;
@@ -305,6 +317,14 @@ int main(int argc, char* argv[])
         outFmt = MatrixConvert::NineZero;
     else if (strcmp(outFmtStr, "Stereo_Cinema") == 0)
         outFmt = MatrixConvert::Stereo_Cinema;
+    else if (strcmp(outFmtStr, "FiveOneTwo") == 0)
+        outFmt = MatrixConvert::FiveOneTwo;
+    else if (strcmp(outFmtStr, "FiveOneFour") == 0)
+        outFmt = MatrixConvert::FiveOneFour;
+    else if (strcmp(outFmtStr, "SevenOneFour") == 0)
+        outFmt = MatrixConvert::SevenOneFour;
+    else if (strcmp(outFmtStr, "SevenZeroFour") == 0)
+        outFmt = MatrixConvert::SevenZeroFour;
 	else
 	{
 		cout << "Please select a valid output format" << std::endl;

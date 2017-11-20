@@ -48,8 +48,8 @@ public:
 	} Formats;
 
 	MatrixConvert();
-    int getNumChannels(int fmt);
-    int convert(int inFmt, float** inBufs, int outFmt, float** outBufs, int numSamples);
+    int getNumChannels(FmtType fmt);
+    int convert(FmtType inFmt, float** inBufs, FmtType outFmt, float** outBufs, int numSamples);
     
 private:
 	const static int NUMFMTS = 34;

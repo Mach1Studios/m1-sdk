@@ -6,12 +6,12 @@ MatrixConvert::MatrixConvert()
 {
 }
 
-int MatrixConvert::getNumChannels(int fmt)
+int MatrixConvert::getNumChannels(FmtType fmt)
 {
 	return fmtChannels[fmt];
 }
 
-int MatrixConvert::convert(int inFmt, float** inBufs, int outFmt, float** outBufs, int numSamples)
+int MatrixConvert::convert(FmtType inFmt, float** inBufs, FmtType outFmt, float** outBufs, int numSamples)
 {
 	int inChans = fmtChannels[inFmt];
 	int outChans = fmtChannels[outFmt];

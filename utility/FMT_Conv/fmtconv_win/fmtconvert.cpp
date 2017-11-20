@@ -47,10 +47,10 @@ vector<string> &split(const string &s, char delim, vector<string> &elems) {
 
 void printHelp()
 {
-	cout << "m1-fmtconv -- command line mach1 format conversion tool" << std::endl;
+    cout << "m1-fmtconv -- command line mach1 format conversion tool" << std::endl;
     cout << "made in collaboration with VVAudio: http://www.vvaudio.com/ " << std::endl;
 	cout << std::endl;
-	cout << "usage: fmtconvert -in-file test_b.wav -in-fmt FuMa -out-file test_s8.wav -out-fmt Square8 -out-file-chans 2" << std::endl;
+	cout << "usage: fmtconvert -in-file test_b.wav -in-fmt FuMa -out-file test_s8.wav -out-fmt Cube -out-file-chans 1" << std::endl;
 	cout << std::endl;
 	cout << "  -help - list command line options" << std::endl;
 	cout << "  -in-file  <filename>  - input file: put quotes around sets of files" << std::endl;
@@ -58,30 +58,42 @@ void printHelp()
 	cout << "  -out-file <filename>  - output file. full name for single file or name stem for file sets" << std::endl;
 	cout << "  -out-fmt  <fmt>       - output format: see supported formats below" << std::endl;
 	cout << "  -out-file-chans <#>   - output file channels: 1, 2 or 0 (0 = multichannel)" << std::endl;
+    cout << "  -normalize            - two pass normalize absolute peak to zero dBFS" << std::endl;
 	cout << "  -master-gain <number> - final output gain in dB like -3 or 2.3" << std::endl;
 	cout << std::endl;
 	cout << "  Formats Supported:" << std::endl;
-	cout << "    Stereo   - L & R spatialized" << std::endl;
-	cout << "    LCR      - L & R spatialized with C mono" << std::endl;
-	cout << "    ACNSN3D  - 1st order B-format, ACN order and SN3D weighting" << std::endl;
-	cout << "    FuMa     - 1st order B-format, Furse-Malham order and weighting" << std::endl;
-	cout << "    ACNSN3DO2A   - 2nd order B-format, Furse-Malham order and weighting" << std::endl;
-	cout << "    FuMaO2A      - 2nd order B-format, ACN order and SN3D weighting" << std::endl;
-	cout << "    Square   - L R Ls Rs" << std::endl;
-	cout << "    FiveOh   - L C R Ls Rs" << std::endl;
-	cout << "    FiveOneFilm  - L C R Ls Rs LFE" << std::endl;
-	cout << "    FiveOneFilm_Cinema  - L C R Ls Rs LFE, Center forward" << std::endl;
-	cout << "    FiveOneSmpte - L R C LFE Ls Rs" << std::endl;
-	cout << "    FiveOneDts   - L R Ls Rs C LFE" << std::endl;
-	//	cout << "    SixOh   - INCOMPLETE" << std::endl;
-	cout << "    Square+S - L R Ls Rs StereoL StereoR" << std::endl;
-	cout << "    Square8  - FrontPair, LeftPair, RearPair, RightPair" << std::endl;
-	cout << "    SevenOnePT   - L C R Lss Rss Lsr Rsr LFE" << std::endl;
-	cout << "    SevenOnePT_Cinema   - L C R Lss Rss Lsr Rsr LFE, Center forward" << std::endl; 
-	cout << "    Cube     - Upper L R Ls Rs, Lower L R Ls Rs" << std::endl;
-	cout << "    Cube+S   - Upper L R Ls Rs, Lower L R Ls Rs, StereoL StereoR" << std::endl;
-	cout << "    Cube16   - Upper front, left, rear, right, pairs, then lower same" << std::endl;
+    cout << "    Stereo   - L & R spatialized" << std::endl;
+    cout << "    Stereo_Cinema  - L & R spatialized, forward focus" << std::endl;
+    cout << "    LCR      - L & R spatialized with C mono" << std::endl;
+	cout << "    Square (Mach1 Horizon / Quad) - L R Ls Rs" << std::endl;
+    cout << "    Square+S (Mach1 Horizon / Quad) - L R Ls Rs StereoL StereoR" << std::endl;
+    cout << "    Square8 (Mach1 Horizon / Quad-Binaural) - FrontPair, LeftPair, RearPair, RightPair" << std::endl;
+    cout << "    Cube (Mach1 Spatial) - Upper L R Ls Rs, Lower L R Ls Rs" << std::endl;
+    cout << "    Cube+S (Mach1 Spatial) - Upper L R Ls Rs, Lower L R Ls Rs, StereoL StereoR" << std::endl;
+    cout << "    Cube16 (Mach1 Spatial Pairs) - Upper front, left, rear, right, pairs, then lower same" << std::endl;
+    cout << "    FiveOh   - L C R Ls Rs" << std::endl;
+    cout << "    FiveOneFilm (Pro Tools default / C|24)  - L C R Ls Rs LFE" << std::endl;
+    cout << "    FiveOneFilm_Cinema (Pro Tools default / C|24)  - L C R Ls Rs LFE, forward focus" << std::endl;
+    cout << "    FiveOneSmpte (SMPTE/ITU for Dolby Digital (AC3) - L R C LFE Ls Rs" << std::endl;
+    cout << "    FiveOneDts (DTS) - L R Ls Rs C LFE" << std::endl;
+    //	cout << "    SixOh   - INCOMPLETE" << std::endl;
+    cout << "    SevenOnePT (Pro Tools default) - L C R Lss Rss Lsr Rsr LFE" << std::endl;
+    cout << "    SevenOnePT_Cinema (Pro Tools default) - L C R Lss Rss Lsr Rsr LFE, forward focus" << std::endl;
+    cout << "    SevenOneSDDS (Sony SDDS) - L Lc C Rc R Ls Rs LFE" << std::endl;
+    cout << "    SevenZeroSDDS (Sony SDDS) - L Lc C Rc R Ls Rs" << std::endl;
+    cout << "    SevenOneTwo (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr LFE Lts Rts" << std::endl;
+    cout << "    SevenZeroTwo (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr Lts Rts" << std::endl;
+//    cout << "    SevenOneTwo (SMPTE) - L R C LFE Lss Rss Lsr Rsr Lts Rts" << std::endl;
+//    cout << "    SevenZeroTwo (SMPTE) - L R C Lss Rss Lsr Rsr Lts Rts" << std::endl;
+    cout << "    NineOne - " << std::endl;
+    cout << "    NineZero - " << std::endl;
+    cout << "    ACNSN3D  - 1st order B-format, ACN order and SN3D weighting" << std::endl;
+    cout << "    FuMa     - 1st order B-format, Furse-Malham order and weighting" << std::endl;
+    cout << "    ACNSN3DO2A   - 2nd order B-format, AmbiX ACN order and SN3D weighting" << std::endl;
+    cout << "    FuMaO2A      - 2nd order B-format, Furse-Malham order and weighting, W, Y, Z, X, V, T, R, S, U" << std::endl;
     cout << "    TBE   - W, X, Y, Z, U, V, T, S" << std::endl;
+    cout << "    ACNSN3DO3A   - 16 channel AmbiX" << std::endl;
+    cout << "    FuMaO3A   - 3rd order B-format, W, Y, Z, X, V, T, R, S, U, Q, O, M, K, L, N, P" << std::endl;
 	cout << std::endl;
 }
 
@@ -208,6 +220,20 @@ int main(int argc, char* argv[])
 	    inFmt = MatrixConvert::SevenOnePt_Cinema;
     else if (strcmp(inFmtStr, "TBE") == 0)
         inFmt = MatrixConvert::TBE;
+    else if (strcmp(inFmtStr, "SevenOneSDDS") == 0)
+        inFmt = MatrixConvert::SevenOneSDDS;
+    else if (strcmp(inFmtStr, "SevenZeroSDDS") == 0)
+        inFmt = MatrixConvert::SevenZeroSDDS;
+    else if (strcmp(inFmtStr, "SevenOneTwo") == 0)
+        inFmt = MatrixConvert::SevenOneTwo;
+    else if (strcmp(inFmtStr, "SevenZeroTwo") == 0)
+        inFmt = MatrixConvert::SevenZeroTwo;
+    else if (strcmp(inFmtStr, "NineOne") == 0)
+        inFmt = MatrixConvert::NineOne;
+    else if (strcmp(inFmtStr, "NineZero") == 0)
+        inFmt = MatrixConvert::NineZero;
+    else if (strcmp(inFmtStr, "Stereo_Cinema") == 0)
+        inFmt = MatrixConvert::Stereo_Cinema;
 	else
 	{
 		cout << "Please select a valid input format" << std::endl;
@@ -261,6 +287,24 @@ int main(int argc, char* argv[])
         outFmt = MatrixConvert::SevenOnePt_Cinema;
     else if (strcmp(outFmtStr, "TBE") == 0)
         outFmt = MatrixConvert::TBE;
+    else if (strcmp(outFmtStr, "ACNSN3DO3A") == 0)
+        outFmt = MatrixConvert::ACNSN3DO3A;
+    else if (strcmp(outFmtStr, "FuMaO3A") == 0)
+        outFmt = MatrixConvert::FuMaO3A;
+    else if (strcmp(outFmtStr, "SevenOneSDDS") == 0)
+        outFmt = MatrixConvert::SevenOneSDDS;
+    else if (strcmp(outFmtStr, "SevenZeroSDDS") == 0)
+        outFmt = MatrixConvert::SevenZeroSDDS;
+    else if (strcmp(outFmtStr, "SevenOneTwo") == 0)
+        outFmt = MatrixConvert::SevenOneTwo;
+    else if (strcmp(outFmtStr, "SevenZeroTwo") == 0)
+        outFmt = MatrixConvert::SevenZeroTwo;
+    else if (strcmp(outFmtStr, "NineOne") == 0)
+        outFmt = MatrixConvert::NineOne;
+    else if (strcmp(outFmtStr, "NineZero") == 0)
+        outFmt = MatrixConvert::NineZero;
+    else if (strcmp(outFmtStr, "Stereo_Cinema") == 0)
+        outFmt = MatrixConvert::Stereo_Cinema;
 	else
 	{
 		cout << "Please select a valid output format" << std::endl;

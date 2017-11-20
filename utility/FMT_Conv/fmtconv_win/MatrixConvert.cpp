@@ -1,6 +1,3 @@
-//  Mach1 SDK
-//  Copyright © 2017 Mach1. All rights reserved.
-//
 
 #include <math.h>
 #include "MatrixConvert.h"

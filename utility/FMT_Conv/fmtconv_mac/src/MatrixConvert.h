@@ -46,6 +46,10 @@ public:
         SevenOneFour,
         SevenZeroFour
 	} Formats;
+    //TODO: 10.2, 12.2, 11.1, 22.2
+    //10.2/12.2: https://en.wikipedia.org/wiki/10.2_surround_sound
+    //22.2: https://en.wikipedia.org/wiki/22.2_surround_sound
+    //FL, FR, FC, LFE1, BL, BR, FLc, FRc, BC, LFE2, SiL (side left), SiR, TpFL, TpFR, TpFC, TpC, TpBL, TpBR, TpSiL, TpSiR, TpBC, BtFC, BtFL, BtFR
 
 	MatrixConvert();
     int getNumChannels(int fmt);
@@ -901,7 +905,7 @@ private:
         { 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0 },//BLts
         { 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0 } };//BRts
     
-	int fmtChannels[NUMFMTS] = { 4, 4, 4, 6, 8, 8, 10, 16, 2, 3, 5, 6, 6, 6, 6, 6, 8, 8, 9, 9, 8, 16, 16, 8, 7, 10, 9, 10, 9, 2, 8, 12, 10, 11 };
+	int fmtChannels[NUMFMTS] = { 4, 4, 4, 6, 8, 8, 10, 16, 2, 3, 5, 6, 6, 6, 6, 6, 8, 8, 9, 9, 8, 16, 16, 8, 7, 10, 9, 10, 9, 2, 8, 10, 12, 11 };
 	float* fmtMatrix[NUMFMTS][NUMFMTS] =
     {   { NULL, &(FuMa2ACNSN3D[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         { &(ACNSN3D2FuMa[0][0]), NULL, &(ACNSN3D2Square[0][0]), NULL, NULL, &(ACNSN3D2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },

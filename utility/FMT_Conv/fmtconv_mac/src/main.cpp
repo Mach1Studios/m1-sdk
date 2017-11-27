@@ -88,7 +88,9 @@ void printHelp()
     cout << "    SevenOneSDDS (Sony SDDS) - L Lc C Rc R Ls Rs LFE" << std::endl;
     cout << "    SevenZeroSDDS (Sony SDDS) - L Lc C Rc R Ls Rs" << std::endl;
     cout << "    FiveOneTwo (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr FLts FRts BLts BRts" << std::endl;
+    cout << "    FiveZeroTwo (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr FLts FRts BLts BRts" << std::endl;
     cout << "    FiveOneFour (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr FLts FRts BLts BRts" << std::endl;
+    cout << "    FiveZeroFour (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr FLts FRts BLts BRts" << std::endl;
     cout << "    SevenOneTwo (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr LFE Lts Rts" << std::endl;
     cout << "    SevenZeroTwo (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr Lts Rts" << std::endl;
     cout << "    SevenOneFour (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr LFE FLts FRts BLts BRts" << std::endl;
@@ -254,8 +256,12 @@ int main(int argc, char* argv[])
         inFmt = MatrixConvert::Stereo_Cinema;
     else if (strcmp(inFmtStr, "FiveOneTwo") == 0)
         inFmt = MatrixConvert::FiveOneTwo;
+    else if (strcmp(inFmtStr, "FiveZeroTwo") == 0)
+        inFmt = MatrixConvert::FiveZeroTwo;
     else if (strcmp(inFmtStr, "FiveOneFour") == 0)
         inFmt = MatrixConvert::FiveOneFour;
+    else if (strcmp(inFmtStr, "FiveZeroFour") == 0)
+        inFmt = MatrixConvert::FiveZeroFour;
     else if (strcmp(inFmtStr, "SevenOneFour") == 0)
         inFmt = MatrixConvert::SevenOneFour;
     else if (strcmp(inFmtStr, "SevenZeroFour") == 0)
@@ -333,8 +339,12 @@ int main(int argc, char* argv[])
         outFmt = MatrixConvert::Stereo_Cinema;
     else if (strcmp(outFmtStr, "FiveOneTwo") == 0)
         outFmt = MatrixConvert::FiveOneTwo;
+    else if (strcmp(outFmtStr, "FiveZeroTwo") == 0)
+        outFmt = MatrixConvert::FiveZeroTwo;
     else if (strcmp(outFmtStr, "FiveOneFour") == 0)
         outFmt = MatrixConvert::FiveOneFour;
+    else if (strcmp(outFmtStr, "FiveZeroFour") == 0)
+        outFmt = MatrixConvert::FiveZeroFour;
     else if (strcmp(outFmtStr, "SevenOneFour") == 0)
         outFmt = MatrixConvert::SevenOneFour;
     else if (strcmp(outFmtStr, "SevenZeroFour") == 0)

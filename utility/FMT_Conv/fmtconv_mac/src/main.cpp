@@ -85,6 +85,7 @@ void printHelp()
     //	cout << "    SixOh   - INCOMPLETE" << std::endl;
     cout << "    SevenOnePT (Pro Tools default) - L C R Lss Rss Lsr Rsr LFE" << std::endl;
     cout << "    SevenOnePT_Cinema (Pro Tools default) - L C R Lss Rss Lsr Rsr LFE, forward focus" << std::endl;
+    cout << "    SevenZero_Cinema (Pro Tools default) - L C R Lss Rss Lsr Rsr, forward focus" << std::endl;
     cout << "    SevenOneSDDS (Sony SDDS) - L Lc C Rc R Ls Rs LFE" << std::endl;
     cout << "    SevenZeroSDDS (Sony SDDS) - L Lc C Rc R Ls Rs" << std::endl;
     cout << "    FiveOneTwo (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr FLts FRts BLts BRts" << std::endl;
@@ -266,6 +267,8 @@ int main(int argc, char* argv[])
         inFmt = MatrixConvert::SevenOneFour;
     else if (strcmp(inFmtStr, "SevenZeroFour") == 0)
         inFmt = MatrixConvert::SevenZeroFour;
+    else if (strcmp(inFmtStr, "SevenZero_Cinema") == 0)
+        inFmt = MatrixConvert::SevenZero_Cinema;
 	else
 	{
 		cout << "Please select a valid input format" << std::endl;
@@ -349,6 +352,8 @@ int main(int argc, char* argv[])
         outFmt = MatrixConvert::SevenOneFour;
     else if (strcmp(outFmtStr, "SevenZeroFour") == 0)
         outFmt = MatrixConvert::SevenZeroFour;
+    else if (strcmp(outFmtStr, "SevenZero_Cinema") == 0)
+        outFmt = MatrixConvert::SevenZero_Cinema;
 	else
     {
 		cout << "Please select a valid output format" << std::endl;

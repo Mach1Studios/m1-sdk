@@ -291,6 +291,7 @@ void Mach1Decode::fillPlatformAngles(AngularSettingsType type, float* Y, float* 
 		break;
 
 	case m1oFEasyCam:
+        std::swap(*P, *Y);
 		*Y = *Y;
 		*P = *P;
 		*R = *R;

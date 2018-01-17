@@ -13,30 +13,27 @@ bool ofxAudioDecoder::load(ofSoundBuffer & buffer, string filename, size_t frame
 	auto sampleRate = audioDecoder.sampleRate();
 	
 	buffer.setSampleRate(sampleRate);
-	buffer.allocate(numSamples / numChannels + 4096, numChannels);
+	buffer.allocate(numSamples / numChannels, numChannels);
 	
-	//if user asked for 0 samples
+	//if user asked for 0 sampl
 	if(framesToRead == 0) {
 		//we interpet that as wanting to read whole file
 		framesToRead = numSamples / numChannels;
 	}
 	int samplesToRead = framesToRead * numChannels;
-	int readBufferSize = 512 * numChannels;
+	int readBufferSize = sampleRate / numChannels;
 	
 	int curSample = 0;
-	vector<float>& rawSamples = buffer.getBuffer();
-    
-    long int s = rawSamples.size();
+    long int s = buffer.size();
     
 	while(curSample < samplesToRead) {
 		int remainingSamples = MIN(readBufferSize, samplesToRead - curSample);
-		int samplesRead = audioDecoder.read(remainingSamples, &rawSamples[curSample]);
+		int samplesRead = audioDecoder.read(remainingSamples, &buffer[curSample]);
 		curSample += samplesRead;
 		if(samplesRead < readBufferSize) {
 			break;
 		}
 	}
-	
 	
 	ofLogVerbose() << "Read " << curSample << " of " << numSamples;
 	return true;

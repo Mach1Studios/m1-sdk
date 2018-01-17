@@ -222,7 +222,7 @@ int AudioDecoderCoreAudio::read(int size, const SAMPLE *destination) {
 	unsigned int samplesWritten = 0;
 	unsigned int i = 0;
 	UInt32 numFrames = 0;
-	unsigned int totalFramesToRead = size;
+	unsigned int totalFramesToRead = size / m_clientFormat.NumberChannels();
 	unsigned int numFramesRead = 0;
 	unsigned int numFramesToRead = totalFramesToRead;
 

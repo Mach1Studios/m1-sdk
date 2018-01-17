@@ -199,7 +199,7 @@ int AudioDecoderCoreAudio::open() {
 
 int AudioDecoderCoreAudio::seek(int sampleIdx) {
 	OSStatus err = noErr;
-	SInt64 segmentStart = sampleIdx / 2;
+	SInt64 segmentStart = sampleIdx / static_cast<float>(m_iSampleRate * m_iChannels);
 
 	err = ExtAudioFileSeek(m_audioFile, (SInt64)segmentStart + m_headerFrames);
 	//_ThrowExceptionIfErr(@"ExtAudioFileSeek", err);
@@ -222,7 +222,7 @@ int AudioDecoderCoreAudio::read(int size, const SAMPLE *destination) {
 	unsigned int samplesWritten = 0;
 	unsigned int i = 0;
 	UInt32 numFrames = 0;
-	unsigned int totalFramesToRead = size / m_clientFormat.NumberChannels();
+	unsigned int totalFramesToRead = size / m_iChannels;
 	unsigned int numFramesRead = 0;
 	unsigned int numFramesToRead = totalFramesToRead;
 
@@ -234,7 +234,7 @@ int AudioDecoderCoreAudio::read(int size, const SAMPLE *destination) {
 										//See CoreAudioTypes.h for definitins of these variables:
 		fillBufList.mBuffers[0].mNumberChannels = m_clientFormat.NumberChannels();
 		fillBufList.mBuffers[0].mDataByteSize = numFramesToRead * m_clientFormat.NumberChannels() * sizeof(SAMPLE);
-		fillBufList.mBuffers[0].mData = (void*)(&destBuffer[numFramesRead * m_clientFormat.NumberChannels()]);
+		fillBufList.mBuffers[0].mData = (void*)(&destBuffer[numFramesRead * m_clientFormat.NumberChannels() * sizeof(SAMPLE)]);
 
 		// client format is always linear PCM - so here we determine how many frames of lpcm
 		// we can read/write given our buffer size

@@ -473,6 +473,7 @@ std::vector<float> Mach1Decode::horizonAlgo(float Yaw, float Pitch, float Roll,
 		targetPitch = Pitch;
 		targetRoll = Roll;
 
+        updateAngles();
 
 		Yaw = currentYaw;
 		Pitch = currentPitch;

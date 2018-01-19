@@ -107,6 +107,7 @@ void printHelp()
     cout << "    TBE   - W, X, Y, Z, U, V, T, S" << std::endl;
     cout << "    ACNSN3DO3A   - 16 channel AmbiX" << std::endl;
     cout << "    FuMaO3A   - 3rd order B-format, W, Y, Z, X, V, T, R, S, U, Q, O, M, K, L, N, P" << std::endl;
+    cout << "    CubeFace - Fc, Lc, Rc, Bc, Tc, Bc" << std::endl;
 	cout << std::endl;
 
 }
@@ -269,6 +270,8 @@ int main(int argc, char* argv[])
         inFmt = MatrixConvert::SevenZeroFour;
     else if (strcmp(inFmtStr, "SevenZero_Cinema") == 0)
         inFmt = MatrixConvert::SevenZero_Cinema;
+    else if (strcmp(inFmtStr, "CubeFace") == 0)
+        inFmt = MatrixConvert::CubeFace;
 	else
 	{
 		cout << "Please select a valid input format" << std::endl;
@@ -354,6 +357,8 @@ int main(int argc, char* argv[])
         outFmt = MatrixConvert::SevenZeroFour;
     else if (strcmp(outFmtStr, "SevenZero_Cinema") == 0)
         outFmt = MatrixConvert::SevenZero_Cinema;
+    else if (strcmp(outFmtStr, "CubeFace") == 0)
+        outFmt = MatrixConvert::CubeFace;
 	else
     {
 		cout << "Please select a valid output format" << std::endl;

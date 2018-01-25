@@ -14,6 +14,7 @@ class AbmisonicTest : public BaseAudioTest {
 
 public:
 	AbmisonicTest() {
+        //load 4 channel ACNSN3D audio file
 		audio.load("2/sound.wav");
 		pos = 0;
 	}

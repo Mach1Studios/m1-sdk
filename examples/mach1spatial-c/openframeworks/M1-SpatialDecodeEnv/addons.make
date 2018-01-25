@@ -1,3 +1,0 @@
-ofxAudioDecoder
-ofxImGui
-ofxJSON

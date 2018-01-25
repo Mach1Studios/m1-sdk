@@ -2,7 +2,7 @@
 #ifndef BaseAudioTest_h
 #define BaseAudioTest_h
 
-#include "M1DSPAlgorithms.h"
+#include "Mach1Decode.h"
 
 class BaseAudioTest {
 public:

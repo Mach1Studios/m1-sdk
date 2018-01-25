@@ -2,14 +2,12 @@
 
 #include "ofMain.h"
 #include "ofxImGui.h"
-#include "ofxWatermark.h"
-
-#include "ArduinoWatcher.h"
 
 #include "BaseAudioTest.h"
 #include "Audio1.h"
-//#include "Audio2.h"
-#include "IsotropicEightChannelTest.h"
+#include "Audio2.h"
+
+#include "ArduinoWatcher.h"
 #include "ArduinoDecoderYP.h"
 
 
@@ -99,9 +97,7 @@ public:
     
     ofImage logo;
     ofxImGui::Gui gui;
-    
-    ofxWatermark watermark;
-    
+        
     //Map Utility
     static float mmap(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp) {
         

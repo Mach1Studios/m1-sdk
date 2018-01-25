@@ -2,7 +2,7 @@
 #ifndef BaseAudioTest_h
 #define BaseAudioTest_h
 
-#include "M1DSPAlgorithms.h"
+#include "Mach1Decode.h"
 
 class BaseAudioTest {
 public:
@@ -21,7 +21,8 @@ public:
     virtual void mousePressed(int x, int y) {};
     
     float angleX, angleY, angleZ;
-
+    
+    Mach1Decode mach1Decode;   
 };
 
 #endif /* BaseAudioTest_h */

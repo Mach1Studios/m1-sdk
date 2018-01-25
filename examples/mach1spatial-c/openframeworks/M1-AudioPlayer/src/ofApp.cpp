@@ -7,10 +7,8 @@ void ofApp::setup(){
     
     logo.load("logo.png");
     
-    watermark.init("m1mark.png", "b2318ada53073a1eac0b20560718d58e");
-    
     //hardcode controller input if available
-//    serial.setup("/dev/cu.Mach1-01-DevB", 115200);
+    //serial.setup("/dev/cu.Mach1-01-DevB", 115200);
     
     arduinoWatcher = new ArduinoWatcher();
     arduinoWatcher->arduinoFound = [&](std::string address) {
@@ -55,8 +53,7 @@ void ofApp::setup(){
     };
     
     tests.push_back(new AudioOne());
-//    tests.push_back(new AudioTwo());
-    tests.push_back(new IsotropicEightChannelTest());
+    tests.push_back(new AudioTwo());
     
     angleX = 0;
     updateSimulationAngles();
@@ -113,25 +110,19 @@ void ofApp::update(){
     vector<unsigned char> queueBackupDebug = queueBuffer;
     while (queueBuffer.size() > 4) {
         
-        
         int Y, P;
         
         if (getNewDataFromQueue(Y, P)) {
-            
             lastY = Y;
             lastP = P;
-            
         }
-        
     }
     
     if (initializedController) {
         
         for (auto &i:arduinoDecoders)
             i->update();
-        
     }
-
     
     // angle handler//
     if (angleZ)
@@ -168,7 +159,6 @@ void ofApp::draw(){
     
     ofBackground(0);
     
-    watermark.draw(); // watermark also inherits ofImage
     //ofDrawBitmapStringHighlight("Y : " + ofToString(lastY), 20, 40);
     //ofDrawBitmapStringHighlight("P : " + ofToString(pitchAngle), 20, 60);
     
@@ -282,7 +272,7 @@ void ofApp::draw(){
     ImGui::Begin("Mach1 Spatial Audio", &aWindow, window_flags);
     
     ImGui::Text("Select source");
-    const char* source_options[] = {"M1Spatial-Periphonic", "M1Spatial-Isotropic"};
+    const char* source_options[] = {"M1Spatial-SpatialAlgo", "M1Spatial-SpatialAlgo2"};
     
     ImGui::PushItemWidth(-1);
     ImGui::ListBox("##", &selectedTest, source_options, 2, 2);

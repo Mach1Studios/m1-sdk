@@ -9,8 +9,6 @@ void ofApp::setup(){
  
     logo.load("logo.png");
  
-    watermark.init("m1mark.png", "b2318ada53073a1eac0b20560718d58e");
-
 	videoPlayer.load("video.mp4");
 
     //hardcode controller input if available
@@ -43,8 +41,7 @@ void ofApp::setup(){
     
  
 
-//    tests.push_back(new AudioOne());
-	tests.push_back(new IsotropicEightChannelTest());
+    tests.push_back(new AudioOne());
 	tests.push_back(new AbmisonicTest());
 
 	//    tests.push_back(new AudioTwo());
@@ -202,7 +199,6 @@ void ofApp::draw(){
 	if (ofGetKeyPressed('s'))
 	{
 		ofEnableDepthTest();
-		watermark.draw(); // watermark also inherits ofImage
  	    //ofDrawBitmapStringHighlight("Y : " + ofToString(lastY), 20, 40);
 		//ofDrawBitmapStringHighlight("P : " + ofToString(pitchAngle), 20, 60);
 		

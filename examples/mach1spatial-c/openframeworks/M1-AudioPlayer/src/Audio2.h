@@ -134,10 +134,11 @@ public:
     ofSoundPlayer playersRight[8];
     
     //////////////
+    Mach1Decode mach1Decode;
     
     std::vector<float> audioMixAlgorithm(float X, float Y, float Z) {
-        
-        return eightChannelsAlgorithm(X, Y, Z);
+        //Change Mach1Decode algorithm here
+        return mach1Decode.spatialAlgo(X, Y, Z);
     }
     
     int scheduleRestart = 30;

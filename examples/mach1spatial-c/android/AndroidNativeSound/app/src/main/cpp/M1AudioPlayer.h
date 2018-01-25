@@ -5,19 +5,19 @@
 
 class M1AudioPlayer : public AudioPlayer
 {
-    M1DSPInstance::mPoint anglesCur;
-    M1DSPInstance::mPoint anglesDest;
+    M1DSPAlgorithms::mPoint anglesCur;
+    M1DSPAlgorithms::mPoint anglesDest;
     /*
     float Yaw;
     float Pitch;
     float Roll;
 */
-    M1DSPInstance::mPoint lerp (M1DSPInstance::mPoint p1, M1DSPInstance::mPoint p2, float prc)
+    M1DSPAlgorithms::mPoint lerp (M1DSPAlgorithms::mPoint p1, M1DSPAlgorithms::mPoint p2, float prc)
     {
         return p1 * prc + p2 * (1-prc);
     }
 
-M1DSPInstance m1dspInstance;
+    M1DSPAlgorithms m1dspInstance;
 
 public:
     void SetAngles(float Yaw, float Pitch, float Roll)

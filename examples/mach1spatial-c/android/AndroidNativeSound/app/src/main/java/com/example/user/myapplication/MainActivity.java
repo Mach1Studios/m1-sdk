@@ -86,6 +86,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         ((Button) findViewById(R.id.buttonPlay)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Play();
+                //Log.d("mytag","play");
             }
         });
 
@@ -150,7 +151,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
                 setAudioAngles(mAzimut, mPitch, mRoll);
 
-                Log.v(LOG_TAG, "SENSOR: " + mAzimut + " , " + mPitch + " , " + mRoll + " , " );
+                //Log.v(LOG_TAG, "SENSOR: " + mAzimut + " , " + mPitch + " , " + mRoll + " , " );
 
             }
         }
@@ -183,7 +184,6 @@ public class MainActivity extends Activity implements SensorEventListener {
         //Guitar-8ch.aac
         //out.aac
         //Guitar-8ch.m4a
-
         playAudio(getAssets(), "Guitar-8ch.aac");
 /*
         new Thread(new Runnable() {

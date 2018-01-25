@@ -1,8 +1,28 @@
 apply plugin: 'com.android.application'
 
+buildscript {
+    ext.kotlin_version = '1.2.10'
+    repositories {
+        google() // Gradle 4.0+
+        maven { url "https://maven.google.com" }
+        mavenCentral() // Gradle < 4.0
+        jcenter()
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:3.0.1"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.example.user.myapplication"
         minSdkVersion 21
@@ -12,7 +32,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
-                cppFlags "-std=c++11 -I${project.buildDir}/../src/main/cpp/include -D__STDC_CONSTANT_MACROS"
+                cppFlags "-std=c++14 -I${project.buildDir}/../src/main/cpp/include -D__STDC_CONSTANT_MACROS"
             }
         }
         ndk {
@@ -42,4 +62,15 @@ dependencies {
     })
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+}
+
+repositories {
+    google()
+    mavenCentral()
+}
+buildscript {
+    repositories {
+        google()
+    }
 }

@@ -39,118 +39,6 @@ class M1DSPAlgorithms {
     float currentYaw, currentPitch, currentRoll;
     float targetYaw, targetPitch, targetRoll;
 
-
-    struct mPoint {
-        float x, y, z;
-        
-        mPoint() {
-            x = 0;
-            y = 0;
-            z = 0;
-        }
-        
-        mPoint(float X, float Y, float Z) {
-            x = X;
-            y = Y;
-            z = Z;
-        }
-        
-        mPoint(float X, float Y) {
-            x = X;
-            y = Y;
-            z = 0;
-        }
-        
-        inline mPoint operator+( const mPoint& pnt ) const {
-            return mPoint( x+pnt.x, y+pnt.y, z+pnt.z );
-        }
-        
-        
-        inline mPoint operator*( const float f ) const {
-            return mPoint( x*f, y*f, z*f );
-        }
-        
-        
-        inline mPoint operator*( const mPoint& vec ) const {
-            return mPoint( x*vec.x, y*vec.y, z*vec.z );
-        }
-        
-        
-        inline mPoint operator-( const mPoint& vec ) const {
-            return mPoint( x-vec.x, y-vec.y, z-vec.z );
-        }
-        
-        inline float length() const {
-            return (float)sqrt( x*x + y*y + z*z );
-        }
-        
-        
-        float operator[] (int index) {
-            float arr[3] = {x, y, z};
-            return arr[index];
-        }
-        
-        inline mPoint& rotate( float angle, const mPoint& axis ) {
-            mPoint ax = axis.getNormalized();
-            float a = (float)(angle*DEG_TO_RAD);
-            float sina = sin( a );
-            float cosa = cos( a );
-            float cosb = 1.0f - cosa;
-            
-            float nx = x*(ax.x*ax.x*cosb + cosa)
-            + y*(ax.x*ax.y*cosb - ax.z*sina)
-            + z*(ax.x*ax.z*cosb + ax.y*sina);
-            float ny = x*(ax.y*ax.x*cosb + ax.z*sina)
-            + y*(ax.y*ax.y*cosb + cosa)
-            + z*(ax.y*ax.z*cosb - ax.x*sina);
-            float nz = x*(ax.z*ax.x*cosb - ax.y*sina)
-            + y*(ax.z*ax.y*cosb + ax.x*sina)
-            + z*(ax.z*ax.z*cosb + cosa);
-            x = nx; y = ny; z = nz;
-            return *this;
-        }
-        
-        inline mPoint& normalize() {
-            float length = (float)sqrt(x*x + y*y + z*z);
-            if( length > 0 ) {
-                x /= length;
-                y /= length;
-                z /= length;
-            }
-            return *this;
-        }
-        
-        
-        inline mPoint getNormalized() const {
-            float length = (float)sqrt(x*x + y*y + z*z);
-            if( length > 0 ) {
-                return mPoint( x/length, y/length, z/length );
-            } else {
-                return mPoint();
-            }
-        }
-        
-        
-        inline mPoint getRotated( float angle, const mPoint& axis ) const {
-            mPoint ax = axis.getNormalized();
-            float a = (float)(angle*DEG_TO_RAD);
-            float sina = sin( a );
-            float cosa = cos( a );
-            float cosb = 1.0f - cosa;
-            
-            return mPoint( x*(ax.x*ax.x*cosb + cosa)
-                          + y*(ax.x*ax.y*cosb - ax.z*sina)
-                          + z*(ax.x*ax.z*cosb + ax.y*sina),
-                          x*(ax.y*ax.x*cosb + ax.z*sina)
-                          + y*(ax.y*ax.y*cosb + cosa)
-                          + z*(ax.y*ax.z*cosb - ax.x*sina),
-                          x*(ax.z*ax.x*cosb - ax.y*sina)
-                          + y*(ax.z*ax.y*cosb + ax.x*sina)
-                          + z*(ax.z*ax.z*cosb + cosa) );
-        }
-        
-    };
-
     //
 
     static float mDegToRad(float degrees) {
@@ -272,7 +160,118 @@ class M1DSPAlgorithms {
 
     
 public:
-    
+
+    struct mPoint {
+        float x, y, z;
+
+        mPoint() {
+            x = 0;
+            y = 0;
+            z = 0;
+        }
+
+        mPoint(float X, float Y, float Z) {
+            x = X;
+            y = Y;
+            z = Z;
+        }
+
+        mPoint(float X, float Y) {
+            x = X;
+            y = Y;
+            z = 0;
+        }
+
+        inline mPoint operator+( const mPoint& pnt ) const {
+            return mPoint( x+pnt.x, y+pnt.y, z+pnt.z );
+        }
+
+
+        inline mPoint operator*( const float f ) const {
+            return mPoint( x*f, y*f, z*f );
+        }
+
+
+        inline mPoint operator*( const mPoint& vec ) const {
+            return mPoint( x*vec.x, y*vec.y, z*vec.z );
+        }
+
+
+        inline mPoint operator-( const mPoint& vec ) const {
+            return mPoint( x-vec.x, y-vec.y, z-vec.z );
+        }
+
+        inline float length() const {
+            return (float)sqrt( x*x + y*y + z*z );
+        }
+
+
+        float operator[] (int index) {
+            float arr[3] = {x, y, z};
+            return arr[index];
+        }
+
+        inline mPoint& rotate( float angle, const mPoint& axis ) {
+            mPoint ax = axis.getNormalized();
+            float a = (float)(angle*DEG_TO_RAD);
+            float sina = sin( a );
+            float cosa = cos( a );
+            float cosb = 1.0f - cosa;
+
+            float nx = x*(ax.x*ax.x*cosb + cosa)
+                       + y*(ax.x*ax.y*cosb - ax.z*sina)
+                       + z*(ax.x*ax.z*cosb + ax.y*sina);
+            float ny = x*(ax.y*ax.x*cosb + ax.z*sina)
+                       + y*(ax.y*ax.y*cosb + cosa)
+                       + z*(ax.y*ax.z*cosb - ax.x*sina);
+            float nz = x*(ax.z*ax.x*cosb - ax.y*sina)
+                       + y*(ax.z*ax.y*cosb + ax.x*sina)
+                       + z*(ax.z*ax.z*cosb + cosa);
+            x = nx; y = ny; z = nz;
+            return *this;
+        }
+
+        inline mPoint& normalize() {
+            float length = (float)sqrt(x*x + y*y + z*z);
+            if( length > 0 ) {
+                x /= length;
+                y /= length;
+                z /= length;
+            }
+            return *this;
+        }
+
+
+        inline mPoint getNormalized() const {
+            float length = (float)sqrt(x*x + y*y + z*z);
+            if( length > 0 ) {
+                return mPoint( x/length, y/length, z/length );
+            } else {
+                return mPoint();
+            }
+        }
+
+
+        inline mPoint getRotated( float angle, const mPoint& axis ) const {
+            mPoint ax = axis.getNormalized();
+            float a = (float)(angle*DEG_TO_RAD);
+            float sina = sin( a );
+            float cosa = cos( a );
+            float cosb = 1.0f - cosa;
+
+            return mPoint( x*(ax.x*ax.x*cosb + cosa)
+                           + y*(ax.x*ax.y*cosb - ax.z*sina)
+                           + z*(ax.x*ax.z*cosb + ax.y*sina),
+                           x*(ax.y*ax.x*cosb + ax.z*sina)
+                           + y*(ax.y*ax.y*cosb + cosa)
+                           + z*(ax.y*ax.z*cosb - ax.x*sina),
+                           x*(ax.z*ax.x*cosb - ax.y*sina)
+                           + y*(ax.z*ax.y*cosb + ax.x*sina)
+                           + z*(ax.z*ax.z*cosb + cosa) );
+        }
+
+    };
+
     M1DSPAlgorithms() {
         currentYaw = 0;
         currentPitch = 0;

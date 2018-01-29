@@ -42,7 +42,7 @@ public static class Mach1Decode {
   public float[] horizonPairsAlgo(float Yaw, float Pitch, float Roll, boolean smoothAngles)
   {
     Pointer p = M1API.Mach1DecodeCAPI_horizonPairsAlgo(M1obj, Yaw, Pitch, Roll, smoothAngles);
-    return p.getFloatArray(0, 6);
+    return p.getFloatArray(0, 16);
   }
 
 
@@ -61,7 +61,7 @@ public static class Mach1Decode {
   public float[] spatialPairsAlgo(float Yaw, float Pitch, float Roll, boolean smoothAngles)
   {
     Pointer p = M1API.Mach1DecodeCAPI_spatialPairsAlgo(M1obj, Yaw, Pitch, Roll, smoothAngles);
-    return p.getFloatArray(0, 10);
+    return p.getFloatArray(0, 32);
   }
 
   public long getCurrentTime()

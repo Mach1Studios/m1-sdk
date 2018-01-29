@@ -88,8 +88,6 @@ private:
         result.push_back(volumes[2]);
         result.push_back(volumes[3]);
         
-        result.push_back(1.f); // static stereo L
-        result.push_back(1.f); // static stereo R
         return result;
     }
     

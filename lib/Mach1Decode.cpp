@@ -668,9 +668,6 @@ std::vector<float> Mach1Decode::spatialPairsAlgo(float Yaw, float Pitch, float R
 	result.push_back(volumes[6] * pitchLowerHalf);
 	result.push_back(volumes[7] * pitchLowerHalf);
 
-	result.push_back(1.0); // static stereo L
-	result.push_back(1.0); // static stereo R
-
 	return result;
 }
 

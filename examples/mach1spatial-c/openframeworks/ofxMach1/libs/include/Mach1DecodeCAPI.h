@@ -1,6 +1,4 @@
 //  Mach1 SDK
-//
-//  Decoding Algorithms v 0.9.96a
 //  Copyright © 2017 Mach1. All rights reserved.
 //
 //  Header file

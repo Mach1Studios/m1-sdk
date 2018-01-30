@@ -1,23 +1,23 @@
 #pragma once
 
 #include "AudioPlayer.h"
-#include "M1DSPAlgorithms.h"
+#include "Mach1DecodeCAPI.h"
 
 class M1AudioPlayer : public AudioPlayer
 {
-    M1DSPAlgorithms::mPoint anglesCur;
-    M1DSPAlgorithms::mPoint anglesDest;
+    Mach1Decode::mPoint anglesCur;
+    Mach1Decode::mPoint anglesDest;
     /*
     float Yaw;
     float Pitch;
     float Roll;
 */
-    M1DSPAlgorithms::mPoint lerp (M1DSPAlgorithms::mPoint p1, M1DSPAlgorithms::mPoint p2, float prc)
+    Mach1Decode::mPoint lerp (Mach1Decode::mPoint p1, Mach1Decode::mPoint p2, float prc)
     {
         return p1 * prc + p2 * (1-prc);
     }
 
-    M1DSPAlgorithms m1dspInstance;
+    Mach1Decode mach1Decode;
 
 public:
     void SetAngles(float Yaw, float Pitch, float Roll)
@@ -29,7 +29,7 @@ public:
     {
         if (ready && running)
         {
-            std::vector<float> volumes = m1dspInstance.eightChannelsIsotropicAlgorithm(anglesCur.x, anglesCur.y, anglesCur.z);
+            std::vector<float> volumes = mach1Decode.spatialAlgo(anglesCur.x, anglesCur.y, anglesCur.z);
 
             float sndL = 0;
             float sndR = 0;

@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.example.user.myapplication"
         minSdkVersion 21
@@ -12,7 +12,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
-                cppFlags "-std=c++11 -I${project.buildDir}/../src/main/cpp/include -D__STDC_CONSTANT_MACROS"
+                cppFlags "-std=c++14 -I${project.buildDir}/../src/main/cpp/include -D__STDC_CONSTANT_MACROS"
             }
         }
         ndk {

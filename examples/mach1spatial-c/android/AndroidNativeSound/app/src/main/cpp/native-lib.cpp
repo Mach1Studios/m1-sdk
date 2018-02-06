@@ -88,7 +88,7 @@ bool OpenSLWrap_Init(int framesPerBufferInt, AndroidAudioCallback cb) {
     SLDataFormat_PCM format_pcm = {
             SL_DATAFORMAT_PCM,
             2,
-            SL_SAMPLINGRATE_44_1,
+            SL_SAMPLINGRATE_48,
             SL_PCMSAMPLEFORMAT_FIXED_16,
             SL_PCMSAMPLEFORMAT_FIXED_16,
             SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT,
@@ -163,8 +163,8 @@ void OpenSLWrap_Shutdown() {
         engineObject = NULL;
         engineEngine = NULL;
     }
-    if (buffer != NULL) {
-        for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++) {
+            if (buffer[i] != NULL) {
             delete[] buffer[i];
         }
     }
@@ -223,8 +223,8 @@ Java_com_example_user_myapplication_MainActivity_playAudio(JNIEnv *env, jobject 
     }
 
     env->ReleaseStringUTFChars(assetName, szAssetName);
-    off_t offset, length;
-    int fd = AAsset_openFileDescriptor(asset, &offset, &length);
+    int64_t offset, length;
+    int fd = AAsset_openFileDescriptor64(asset, &offset, &length);
 
     audioPlayer.Play(fd, offset, length);
 

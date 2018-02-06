@@ -1,41 +1,36 @@
 #pragma once
 
 #include "AudioPlayer.h"
-#include "M1DSPAlgorithms.h"
+#include "Mach1Decode.h"
 
 class M1AudioPlayer : public AudioPlayer
 {
-    M1DSPInstance::mPoint anglesCur;
-    M1DSPInstance::mPoint anglesDest;
-    /*
     float Yaw;
     float Pitch;
     float Roll;
-*/
-    M1DSPInstance::mPoint lerp (M1DSPInstance::mPoint p1, M1DSPInstance::mPoint p2, float prc)
-    {
-        return p1 * prc + p2 * (1-prc);
-    }
 
-M1DSPInstance m1dspInstance;
+	Mach1Decode mach1Decode;
 
 public:
     void SetAngles(float Yaw, float Pitch, float Roll)
     {
-        anglesDest = { Yaw, Pitch, Roll };
+        this->Yaw = Yaw;
+        this->Pitch = Pitch;
+        this->Roll = Roll;
     }
 
     bool Get(short * buf, int samples)
     {
         if (ready && running)
         {
-            std::vector<float> volumes = m1dspInstance.eightChannelsIsotropicAlgorithm(anglesCur.x, anglesCur.y, anglesCur.z);
-
             float sndL = 0;
             float sndR = 0;
 
+            mach1Decode.beginBuffer();
             for (size_t i = 0; i < samples; i++)
             {
+                std::vector<float> volumes = mach1Decode.spatialAlgo(Yaw, Pitch, Roll, samples, i);
+
                 sndL = 0;
                 sndR = 0;
 
@@ -57,8 +52,9 @@ public:
                     buf[i*2+0] = (short)( buffer[0][(bufferRead + i) % AUDIO_PLAYER_BUFFERSIZE] * SHRT_MAX );
                     buf[i*2+1] = (short)( buffer[0][(bufferRead + i) % AUDIO_PLAYER_BUFFERSIZE] * SHRT_MAX );
 */
-                anglesCur = lerp(anglesCur, anglesDest, 0.5f / samples);
             }
+            mach1Decode.endBuffer();
+
             bufferRead += samples;
 
             return true;

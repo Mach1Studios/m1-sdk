@@ -88,7 +88,7 @@ public:
         ofDrawBitmapStringHighlight("Please turn Mach1 IMU on before launching this application", 10, 20);
         ofDrawBitmapStringHighlight("Sideload into app by right clicking app", 10, 40);
         ofDrawBitmapStringHighlight("and Showing Package Contents", 10, 60);
-        ofDrawBitmapStringHighlight("Directory: Mach1-CubeDemo/Contents/Resources/1/*.wav", 10, 100);
+        ofDrawBitmapStringHighlight("Directory: M1-AudioPlayer/Contents/Resources/1/*.wav", 10, 100);
         ofDrawBitmapStringHighlight("Instructions:", ofGetWidth() - 500, 20);
         ofDrawBitmapStringHighlight("-Press 'spacebar' to play", ofGetWidth() - 500, 40);
         ofDrawBitmapStringHighlight("-Use the Yaw,Pitch,Roll sliders to", ofGetWidth() - 500, 60);

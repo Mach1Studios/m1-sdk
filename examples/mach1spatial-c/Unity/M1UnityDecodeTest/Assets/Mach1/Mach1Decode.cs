@@ -1,4 +1,4 @@
-﻿//  Mach1 SDK
+//  Mach1 SDK
 //  Copyright © 2017 Mach1. All rights reserved.
 //
 
@@ -74,7 +74,7 @@ namespace Mach1
         {
             IntPtr ptr = Mach1DecodeCAPI_horizonPairsAlgo(M1obj, Yaw, Pitch, Roll, bufferSize, sampleIndex);
 
-            float[] data = new float[6];
+            float[] data = new float[16];
             Marshal.Copy(ptr, data, 0, data.Length);
             return data;
         }
@@ -102,7 +102,7 @@ namespace Mach1
         {
             IntPtr ptr = Mach1DecodeCAPI_spatialPairsAlgo(M1obj, Yaw, Pitch, Roll, bufferSize, sampleIndex);
 
-            float[] data = new float[10];
+            float[] data = new float[32];
             Marshal.Copy(ptr, data, 0, data.Length);
             return data;
         }

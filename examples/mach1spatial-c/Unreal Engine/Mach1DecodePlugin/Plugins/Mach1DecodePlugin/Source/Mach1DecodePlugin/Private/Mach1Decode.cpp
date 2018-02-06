@@ -1,5 +1,5 @@
 //  Mach1 SDK
-//  Copyright © 2017 Mach1. All rights reserved.
+//  Copyright ï¿½ 2017 Mach1. All rights reserved.
 //
 
 #include "Mach1DecodePluginPrivatePCH.h" // Change to your project name!
@@ -26,7 +26,7 @@ std::vector<float> Mach1Decode::horizonAlgo(float Yaw, float Pitch, float Roll, 
 std::vector<float> Mach1Decode::horizonPairsAlgo(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
 {
 	float* data = Mach1DecodeCAPI_horizonPairsAlgo(M1obj, Yaw, Pitch, Roll, bufferSize, sampleIndex);
-	return std::vector<float>(data, data + 6);
+	return std::vector<float>(data, data + 16);
 }
 
 std::vector<float> Mach1Decode::spatialAlgo(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
@@ -44,7 +44,7 @@ std::vector<float> Mach1Decode::spatialAltAlgo(float Yaw, float Pitch, float Rol
 std::vector<float> Mach1Decode::spatialPairsAlgo(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
 {
 	float* data = Mach1DecodeCAPI_spatialPairsAlgo(M1obj, Yaw, Pitch, Roll, bufferSize, sampleIndex);
-	return std::vector<float>(data, data + 10);
+	return std::vector<float>(data, data + 32);
 }
 
 void Mach1Decode::setAngularSettingsType(AngularSettingsType type)

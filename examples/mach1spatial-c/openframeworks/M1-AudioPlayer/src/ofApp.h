@@ -6,6 +6,7 @@
 #include "BaseAudioTest.h"
 #include "Audio1.h"
 #include "Audio2.h"
+#include "Audio3.h"
 
 #include "ArduinoWatcher.h"
 #include "ArduinoDecoderYP.h"

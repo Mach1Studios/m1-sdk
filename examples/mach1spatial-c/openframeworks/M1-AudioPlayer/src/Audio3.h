@@ -1,0 +1,180 @@
+#include "BaseAudioTest.h"
+
+
+class AudioThree: public BaseAudioTest {
+public:
+    AudioThree() {
+        spherePoints[0] = ofPoint(200, -200, 0);
+        spherePoints[1] = ofPoint(200, 200, 0);
+        spherePoints[2] = ofPoint(-200, -200, 0);
+        spherePoints[3] = ofPoint(-200, 200, 0);
+        
+        spherePoints[4] = ofPoint(200, -200, 200);
+        spherePoints[5] = ofPoint(200, 200, 200);
+        spherePoints[6] = ofPoint(-200, -200, 200);
+        spherePoints[7] = ofPoint(-200, 200, 200);
+        
+        //
+        
+        volumes.resize(8);
+        
+        for (int i = 0; i < 8; i++){
+            playersLeft[0].load("3/1.wav"); playersLeft[0].setLoop(true);
+            playersLeft[1].load("3/2.wav"); playersLeft[1].setLoop(true);
+            playersLeft[2].load("3/3.wav"); playersLeft[2].setLoop(true);
+            playersLeft[3].load("3/4.wav"); playersLeft[3].setLoop(true);
+            playersLeft[4].load("3/5.wav"); playersLeft[4].setLoop(true);
+            playersLeft[5].load("3/6.wav"); playersLeft[5].setLoop(true);
+            playersLeft[6].load("3/7.wav"); playersLeft[6].setLoop(true);
+            playersLeft[7].load("3/8.wav"); playersLeft[7].setLoop(true);
+            playersLeft[i].setPan(-1);
+            playersRight[0].load("3/1.wav"); playersRight[0].setLoop(true);
+            playersRight[1].load("3/2.wav"); playersRight[1].setLoop(true);
+            playersRight[2].load("3/3.wav"); playersRight[2].setLoop(true);
+            playersRight[3].load("3/4.wav"); playersRight[3].setLoop(true);
+            playersRight[4].load("3/5.wav"); playersRight[4].setLoop(true);
+            playersRight[5].load("3/6.wav"); playersRight[5].setLoop(true);
+            playersRight[6].load("3/7.wav"); playersRight[6].setLoop(true);
+            playersRight[7].load("3/8.wav"); playersRight[7].setLoop(true);
+            playersRight[i].setPan(1);
+        }
+    }
+    
+    void update() {
+        // Handling audio
+        
+        //angleY = yaw, angleX = pitch
+        volumes = audioMixAlgorithm(angleY, angleX, angleZ);
+        
+        for (int i = 0; i < 8; i++) {
+            playersLeft[i].setVolume(volumes[i * 2] * overallVolume);
+            playersRight[i].setVolume(volumes[i * 2 + 1] * overallVolume);
+        }
+    }
+    
+    
+    void draw() {
+        
+        // Restart offset fix
+        if (scheduleRestart > 0) scheduleRestart--;
+        if (scheduleRestart == 0) {
+            restart();
+            scheduleRestart--;
+        }
+        
+        ofSetLineWidth(4);
+        ofSetCircleResolution(48);
+        for (int i = 0; i < 8; i++) {
+            //            ofSetColor(200, 0, 0); // 1
+            //            ofDrawSphere(spherePoints[i].x, spherePoints[i].y - 20, spherePoints[i].z, volumes[i * 2] * 18 + 2);
+            //            ofSetColor(0, 0, 200);
+            //            ofDrawSphere(spherePoints[i].x, spherePoints[i].y + 20, spherePoints[i].z, volumes[i * 2 + 1] * 18 + 2);
+            
+        }
+        
+        
+        ofDisableLighting();
+        for (int i = 0; i < 8; i++) {
+            ofSetColor(255);
+            //            ofDrawBitmapString(ofToString(i), spherePoints[i].x, spherePoints[i].y, spherePoints[i].z);
+        }
+        
+        ofSetColor(0, 100, 0);
+        ofNoFill();
+        ofDrawCircle(0, 0, 100, 150);
+        ofFill();
+    }
+    
+    void drawOverlay() {
+        ofDrawBitmapStringHighlight("Please turn Mach1 IMU on before launching this application", 10, 20);
+        ofDrawBitmapStringHighlight("Sideload into app by right clicking app", 10, 40);
+        ofDrawBitmapStringHighlight("and Showing Package Contents", 10, 60);
+        ofDrawBitmapStringHighlight("Directory: M1-AudioPlayer/Contents/Resources/3/*.wav", 10, 100);
+        ofDrawBitmapStringHighlight("Instructions:", ofGetWidth() - 500, 20);
+        ofDrawBitmapStringHighlight("-Press 'spacebar' to play", ofGetWidth() - 500, 40);
+        ofDrawBitmapStringHighlight("-Use the Yaw,Pitch,Roll sliders to", ofGetWidth() - 500, 60);
+        ofDrawBitmapStringHighlight("simulate different head orientations", ofGetWidth() - 500, 80);
+        
+        // Player controls
+        ofSetColor(255);
+        ofLine(30, ofGetHeight() - 30, ofGetWidth() - 170 - 60, ofGetHeight() - 30);
+        ofFill();
+        ofCircle(ofLerp(30, ofGetWidth() - 170 - 60, playersLeft[0].getPosition()), ofGetWidth() - 170 - 60 , 20);
+        
+        ofCircle(30 + playersLeft[0].getPosition() * (ofGetWidth() - 200 - 60), ofGetHeight() - 30, 10);
+    
+        ofSetColor(255);
+        for (int i = 0; i < volumes.size(); i++) {
+            ofDrawBitmapStringHighlight(" > " + ofToString(volumes[i], 3, 3), ofGetWidth() - 500, 120 + i * 40);
+        }
+    }
+    
+    void setOverallVolume(float volume) {
+        overallVolume = volume;
+        
+        //    ofSetColor(255, 0, 0);
+        //    ofDrawBitmapString("Red means left", 20, ofGetHeight() - 250);
+        //    ofSetColor(0, 0, 255);
+        //    ofDrawBitmapString("Blue means right", 20, ofGetHeight() - 230);
+        
+    }
+    
+    virtual void mousePressed(int x, int y) {
+        // Player controls
+        if ((x > 30 && (x < (ofGetWidth() - 200 - 60)) ) && (y > (ofGetHeight() - 70))) {
+            for (int i = 0; i < 8; i++) {
+                playersLeft[i].setPosition((((float)x - 30) / (ofGetWidth() - 200 - 60)));
+                playersRight[i].setPosition((((float)x - 30) / (ofGetWidth() - 200 - 60)));
+            }
+        }
+    };
+    
+    //
+    
+    ofPoint spherePoints[8];
+    std::vector<float> volumes;
+    float overallVolume = 0;
+    float coefficients[8];
+    ofSoundPlayer playersLeft[8];
+    ofSoundPlayer playersRight[8];
+    
+    //////////////
+    Mach1Decode mach1Decode;
+    
+    std::vector<float> audioMixAlgorithm(float X, float Y, float Z) {
+        //Change Mach1Decode algorithm here
+        return mach1Decode.horizonPairsAlgo(X, Y, Z);
+    }
+    
+    int scheduleRestart = 30;
+    
+    void restart() {
+        for (int i = 0; i < 8; i++) {
+            playersLeft[i].setPosition(0);
+            playersRight[i].setPosition(0);
+        }
+    }
+    
+    void keyPressed(int key) {
+        if (key == ' ') {
+            playersLeft[0].play();
+            playersRight[0].play();
+            playersLeft[1].play();
+            playersRight[1].play();
+            playersLeft[2].play();
+            playersRight[2].play();
+            playersLeft[3].play();
+            playersRight[3].play();
+            playersLeft[4].play();
+            playersRight[4].play();
+            playersLeft[5].play();
+            playersRight[5].play();
+            playersLeft[6].play();
+            playersRight[6].play();
+            playersLeft[7].play();
+            playersRight[7].play();
+            restart();
+        }
+    }
+    
+};

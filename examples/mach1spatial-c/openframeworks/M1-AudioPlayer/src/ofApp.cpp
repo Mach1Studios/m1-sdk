@@ -54,6 +54,7 @@ void ofApp::setup(){
     
     tests.push_back(new AudioOne());
     tests.push_back(new AudioTwo());
+    tests.push_back(new AudioThree());
     
     angleX = 0;
     updateSimulationAngles();
@@ -272,10 +273,10 @@ void ofApp::draw(){
     ImGui::Begin("Mach1 Spatial Audio", &aWindow, window_flags);
     
     ImGui::Text("Select source");
-    const char* source_options[] = {"M1Spatial-SpatialAlgo", "M1Spatial-SpatialAlgo2"};
+    const char* source_options[] = {"M1Spatial-SpatialAlgo", "M1Spatial-SpatialAlgo2", "M1HorizonPairs"};
     
     ImGui::PushItemWidth(-1);
-    ImGui::ListBox("##", &selectedTest, source_options, 2, 2);
+    ImGui::ListBox("##", &selectedTest, source_options, 3, 3);
     
     ImGui::Text("Angles:");
     bool angleChanged = false;

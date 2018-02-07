@@ -36,14 +36,14 @@ float* Mach1DecodeCAPI_horizonAlgo(void* M1obj, float Yaw, float Pitch, float Ro
 
 float* Mach1DecodeCAPI_horizonPairsAlgo(void* M1obj, float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
 {
-	static float data[16];
+	static float data[8];
 
 	if (M1obj != nullptr) {
 		std::vector<float> v = ((Mach1Decode*)M1obj)->horizonPairsAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
-		for (int i = 0; i < 16; i++) data[i] = v[i];
+		for (int i = 0; i < 8; i++) data[i] = v[i];
 	}
 	else {
-		for (int i = 0; i < 16; i++) data[i] = 0;
+		for (int i = 0; i < 8; i++) data[i] = 0;
 	}
 
 	return data;
@@ -81,14 +81,14 @@ float* Mach1DecodeCAPI_spatialAltAlgo(void* M1obj, float Yaw, float Pitch, float
 
 float* Mach1DecodeCAPI_spatialPairsAlgo(void* M1obj, float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
 {
-	static float data[32];
+	static float data[16];
 
 	if (M1obj != nullptr) {
 		std::vector<float> v = ((Mach1Decode*)M1obj)->spatialPairsAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
-		for (int i = 0; i < 32; i++) data[i] = v[i];
+		for (int i = 0; i < 16; i++) data[i] = v[i];
 	}
 	else {
-		for (int i = 0; i < 32; i++) data[i] = 0;
+		for (int i = 0; i < 16; i++) data[i] = 0;
 	}
 	
 	return data;

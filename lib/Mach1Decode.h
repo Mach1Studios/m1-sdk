@@ -76,18 +76,26 @@ private:
         //Orientation input safety clamps/alignment
         Yaw = alignAngle(Yaw, 0, 360);
         
-        float volumes[4];
+        float volumes[8];
         volumes[0] = 1.f - std::min(1.f, std::min((float)360.f - Yaw, Yaw) / 90.f);
-        volumes[1] = 1.f - std::min(1.f, std::abs((float)90.f - Yaw) / 90.f);
-        volumes[2] = 1.f - std::min(1.f, std::abs((float)180.f - Yaw) / 90.f);
-        volumes[3] = 1.f - std::min(1.f, std::abs((float)270.f - Yaw) / 90.f);
+        volumes[1] = 1.f - std::min(1.f, std::min((float)360.f - Yaw, Yaw) / 90.f);
+        volumes[2] = 1.f - std::min(1.f, std::abs((float)90.f - Yaw) / 90.f);
+        volumes[3] = 1.f - std::min(1.f, std::abs((float)90.f - Yaw) / 90.f);
+        volumes[4] = 1.f - std::min(1.f, std::abs((float)180.f - Yaw) / 90.f);
+        volumes[5] = 1.f - std::min(1.f, std::abs((float)180.f - Yaw) / 90.f);
+        volumes[6] = 1.f - std::min(1.f, std::abs((float)270.f - Yaw) / 90.f);
+        volumes[7] = 1.f - std::min(1.f, std::abs((float)270.f - Yaw) / 90.f);
         
         std::vector<float> result;
         result.push_back(volumes[0]);
         result.push_back(volumes[1]);
         result.push_back(volumes[2]);
         result.push_back(volumes[3]);
-        
+        result.push_back(volumes[4]);
+        result.push_back(volumes[5]);
+        result.push_back(volumes[6]);
+        result.push_back(volumes[7]);
+
         return result;
     }
     

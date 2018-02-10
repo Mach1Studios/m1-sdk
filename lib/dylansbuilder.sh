@@ -31,6 +31,7 @@ echo "### BUILD macOS ###"
 echo "### CODESIGN iOS & macOS ###"
 codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/ios-11-2-dep-9-0-device-bitcode-cxx11/lib/libMach1DecodeCAPI.a"
 codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/lib/libMach1DecodeCAPI.dylib"
+codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/lib/libMach1DecodeCAPI.a"
 
 echo "### Move and replace bins ###"}
 echo "### Replacing Xcode/macOS ###"

@@ -1,5 +1,4 @@
 #import "Mach1Decode.h"
-#import "Mach1DecodeCAPI.h"
 
 @implementation Mach1Decode
 

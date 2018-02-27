@@ -3,13 +3,24 @@
 //
 //  Header file
 
-#ifndef Mach1Decode_h
-#define Mach1Decode_h
+#pragma once
+
+#ifdef Mach1Decode_h
 
 #ifdef _WINDOWS
 #define M1_API __declspec(dllexport)
 #else
 #define M1_API
+#endif 
+
+#else
+
+#ifdef _WINDOWS
+#define M1_API __declspec(dllimport)
+#else
+#define M1_API
+#endif 
+
 #endif 
 
 #ifdef __cplusplus
@@ -34,6 +45,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

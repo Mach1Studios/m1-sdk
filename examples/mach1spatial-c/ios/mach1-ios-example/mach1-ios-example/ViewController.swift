@@ -12,6 +12,7 @@ import AVFoundation
 
 var motionManager = CMMotionManager()
 var audioPlayer = AVAudioPlayer()
+var m1obj = Mach1Decode()
 
 class ViewController: UIViewController {
     
@@ -61,6 +62,10 @@ class ViewController: UIViewController {
                         self?.yaw.text = String(deviceYaw)
                         self?.pitch.text = String(devicePitch)
                         self?.roll.text = String(deviceRoll)
+                        
+                        
+                        let array: [Float]  = m1obj.spatialAlgo(Yaw: Float(deviceYaw), Pitch: Float(devicePitch), Roll: Float(deviceRoll))
+                        print(array)
                     }
                 }
             })

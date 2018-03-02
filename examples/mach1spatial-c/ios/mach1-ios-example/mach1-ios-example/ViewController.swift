@@ -26,28 +26,32 @@ class ViewController: UIViewController {
     @IBOutlet weak var pitch: UILabel!
     @IBOutlet weak var roll: UILabel!
     @IBAction func playButton(_ sender: Any) {
-        m1LPlayer0.play()
-        m1RPlayer0.play()
-        m1LPlayer1.play()
-        m1RPlayer1.play()
-        m1LPlayer2.play()
-        m1RPlayer2.play()
-        m1LPlayer3.play()
-        m1RPlayer3.play()
-        m1LPlayer4.play()
-        m1RPlayer4.play()
-        m1LPlayer5.play()
-        m1RPlayer5.play()
-        m1LPlayer6.play()
-        m1RPlayer6.play()
-        m1LPlayer7.play()
-        m1RPlayer7.play()
+        if (!m1LPlayer0.isPlaying){
+            let shortStartDelay:TimeInterval = 0.1
+            m1LPlayer0.play(atTime: m1LPlayer0.deviceCurrentTime + shortStartDelay)
+            m1RPlayer0.play(atTime: m1RPlayer0.deviceCurrentTime + shortStartDelay)
+            m1LPlayer1.play(atTime: m1LPlayer1.deviceCurrentTime + shortStartDelay)
+            m1RPlayer1.play(atTime: m1RPlayer1.deviceCurrentTime + shortStartDelay)
+            m1LPlayer2.play(atTime: m1LPlayer2.deviceCurrentTime + shortStartDelay)
+            m1RPlayer2.play(atTime: m1RPlayer2.deviceCurrentTime + shortStartDelay)
+            m1LPlayer3.play(atTime: m1LPlayer3.deviceCurrentTime + shortStartDelay)
+            m1RPlayer3.play(atTime: m1RPlayer3.deviceCurrentTime + shortStartDelay)
+            m1LPlayer4.play(atTime: m1LPlayer4.deviceCurrentTime + shortStartDelay)
+            m1RPlayer4.play(atTime: m1RPlayer4.deviceCurrentTime + shortStartDelay)
+            m1LPlayer5.play(atTime: m1LPlayer5.deviceCurrentTime + shortStartDelay)
+            m1RPlayer5.play(atTime: m1RPlayer5.deviceCurrentTime + shortStartDelay)
+            m1LPlayer6.play(atTime: m1LPlayer6.deviceCurrentTime + shortStartDelay)
+            m1RPlayer6.play(atTime: m1RPlayer6.deviceCurrentTime + shortStartDelay)
+            m1LPlayer7.play(atTime: m1LPlayer7.deviceCurrentTime + shortStartDelay)
+            m1RPlayer7.play(atTime: m1RPlayer7.deviceCurrentTime + shortStartDelay)
         
-        stereoPlayer.play()
-        print("isPlaying")
+            stereoPlayer.play()
+            print("isPlaying")
+        }else{
+            }
     }
     @IBAction func stopButton(_ sender: Any) {
-        if m1LPlayer0.isPlaying{
+        if (m1LPlayer0.isPlaying){
             m1LPlayer0.pause()
             m1RPlayer0.pause()
             m1LPlayer1.pause()
@@ -67,24 +71,6 @@ class ViewController: UIViewController {
             
             stereoPlayer.pause()
         } else {
-            m1LPlayer0.play(atTime: 0)
-            m1RPlayer0.play(atTime: 0)
-            m1LPlayer1.play(atTime: 0)
-            m1RPlayer1.play(atTime: 0)
-            m1LPlayer2.play(atTime: 0)
-            m1RPlayer2.play(atTime: 0)
-            m1LPlayer3.play(atTime: 0)
-            m1RPlayer3.play(atTime: 0)
-            m1LPlayer4.play(atTime: 0)
-            m1RPlayer4.play(atTime: 0)
-            m1LPlayer5.play(atTime: 0)
-            m1RPlayer5.play(atTime: 0)
-            m1LPlayer6.play(atTime: 0)
-            m1RPlayer6.play(atTime: 0)
-            m1LPlayer7.play(atTime: 0)
-            m1RPlayer7.play(atTime: 0)
-            
-            stereoPlayer.play(atTime: 0)
         }
     }
     @IBAction func staticStereoActive(_ sender: Any) {
@@ -103,7 +89,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-//            audioPlayer = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "sample", ofType: "aif")!))
+        //TODO: load multichannel audio instead
+//            audioPlayer = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "Guitar-8ch", ofType: "wav")!))
         do {
             m1LPlayer0 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "000", ofType: "aif")!))
             m1RPlayer0 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "000", ofType: "aif")!))
@@ -178,7 +165,7 @@ class ViewController: UIViewController {
         
         //Static Stereo
         do{
-            stereoPlayer = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "stereo", ofType: "aif")!))
+            stereoPlayer = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "stereo", ofType: "wav")!))
         } catch {
             print(error)
         }

@@ -6,7 +6,8 @@ enum AngularSettingsType : Int {
     case m1UE = 2
     case m1oFEasyCam = 3
     case m1Android = 4
-    case m1iOS = 5
+    case m1iOSPortrait = 5
+    case m1iOSLandscape = 6
 }
 
 class Mach1Decode {

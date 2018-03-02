@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
-  m1Default = 0, m1Unity, m1UE, m1oFEasyCam, m1Android, m1iOS
+  m1Default = 0, m1Unity, m1UE, m1oFEasyCam, m1Android, m1iOSPortrait, m1iOSLandscape
 } AngularSettingsType;
 
 @interface Mach1Decode : NSObject

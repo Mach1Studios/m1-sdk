@@ -127,9 +127,6 @@ public class M1StSP : MonoBehaviour
 
         if (clip != null)
         {
-            // Init sound
-            AudioClip clipMid = new AudioClip();
-
             float[] bufMid = new float[clip.samples * clip.channels];
             float[] rawWaveData = new float[clip.samples * clip.channels];
 
@@ -150,7 +147,8 @@ public class M1StSP : MonoBehaviour
                 bufMid[position + 1] = mid;
             }
 
-            clipMid = AudioClip.Create("clipMid", clip.samples, clip.channels, clip.frequency, false);
+            // Init sound
+            AudioClip clipMid = AudioClip.Create("clipMid", clip.samples, clip.channels, clip.frequency, false);
             clipMid.SetData(bufMid, 0);
 
             audioSource[0] = AddAudio(clipMid, false, true, 1.0f);

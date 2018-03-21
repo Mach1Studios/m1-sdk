@@ -14,7 +14,6 @@ var motionManager = CMMotionManager()
 var stereoPlayer = AVAudioPlayer()
 var m1LPlayer0 = AVAudioPlayer(), m1LPlayer1 = AVAudioPlayer(), m1LPlayer2 = AVAudioPlayer(), m1LPlayer3 = AVAudioPlayer(), m1LPlayer4 = AVAudioPlayer(), m1LPlayer5 = AVAudioPlayer(), m1LPlayer6 = AVAudioPlayer(), m1LPlayer7 = AVAudioPlayer()
 var m1RPlayer0 = AVAudioPlayer(), m1RPlayer1 = AVAudioPlayer(), m1RPlayer2 = AVAudioPlayer(), m1RPlayer3 = AVAudioPlayer(), m1RPlayer4 = AVAudioPlayer(), m1RPlayer5 = AVAudioPlayer(), m1RPlayer6 = AVAudioPlayer(), m1RPlayer7 = AVAudioPlayer()
-
 var m1obj = Mach1Decode()
 var stereoActive = false
 var isYawActive = true
@@ -28,28 +27,28 @@ class ViewController: UIViewController {
     @IBOutlet weak var roll: UILabel!
     @IBAction func playButton(_ sender: Any) {
         if (!m1LPlayer0.isPlaying){
-            let shortStartDelay:TimeInterval = 1.0
-            m1LPlayer0.play(atTime: m1RPlayer7.deviceCurrentTime + shortStartDelay)
-            m1RPlayer0.play(atTime: m1RPlayer7.deviceCurrentTime + shortStartDelay)
-            m1LPlayer1.play(atTime: m1RPlayer7.deviceCurrentTime + shortStartDelay)
-            m1RPlayer1.play(atTime: m1RPlayer7.deviceCurrentTime + shortStartDelay)
-            m1LPlayer2.play(atTime: m1RPlayer7.deviceCurrentTime + shortStartDelay)
-            m1RPlayer2.play(atTime: m1RPlayer7.deviceCurrentTime + shortStartDelay)
-            m1LPlayer3.play(atTime: m1RPlayer7.deviceCurrentTime + shortStartDelay)
-            m1RPlayer3.play(atTime: m1RPlayer7.deviceCurrentTime + shortStartDelay)
-            m1LPlayer4.play(atTime: m1RPlayer7.deviceCurrentTime + shortStartDelay)
-            m1RPlayer4.play(atTime: m1RPlayer7.deviceCurrentTime + shortStartDelay)
-            m1LPlayer5.play(atTime: m1RPlayer7.deviceCurrentTime + shortStartDelay)
-            m1RPlayer5.play(atTime: m1RPlayer7.deviceCurrentTime + shortStartDelay)
-            m1LPlayer6.play(atTime: m1RPlayer7.deviceCurrentTime + shortStartDelay)
-            m1RPlayer6.play(atTime: m1RPlayer7.deviceCurrentTime + shortStartDelay)
-            m1LPlayer7.play(atTime: m1RPlayer7.deviceCurrentTime + shortStartDelay)
+            let shortStartDelay:TimeInterval = 0.1
+            m1LPlayer0.play(atTime: m1LPlayer0.deviceCurrentTime + shortStartDelay)
+            m1RPlayer0.play(atTime: m1RPlayer0.deviceCurrentTime + shortStartDelay)
+            m1LPlayer1.play(atTime: m1LPlayer1.deviceCurrentTime + shortStartDelay)
+            m1RPlayer1.play(atTime: m1RPlayer1.deviceCurrentTime + shortStartDelay)
+            m1LPlayer2.play(atTime: m1LPlayer2.deviceCurrentTime + shortStartDelay)
+            m1RPlayer2.play(atTime: m1RPlayer2.deviceCurrentTime + shortStartDelay)
+            m1LPlayer3.play(atTime: m1LPlayer3.deviceCurrentTime + shortStartDelay)
+            m1RPlayer3.play(atTime: m1RPlayer3.deviceCurrentTime + shortStartDelay)
+            m1LPlayer4.play(atTime: m1LPlayer4.deviceCurrentTime + shortStartDelay)
+            m1RPlayer4.play(atTime: m1RPlayer4.deviceCurrentTime + shortStartDelay)
+            m1LPlayer5.play(atTime: m1LPlayer5.deviceCurrentTime + shortStartDelay)
+            m1RPlayer5.play(atTime: m1RPlayer5.deviceCurrentTime + shortStartDelay)
+            m1LPlayer6.play(atTime: m1LPlayer6.deviceCurrentTime + shortStartDelay)
+            m1RPlayer6.play(atTime: m1RPlayer6.deviceCurrentTime + shortStartDelay)
+            m1LPlayer7.play(atTime: m1LPlayer7.deviceCurrentTime + shortStartDelay)
             m1RPlayer7.play(atTime: m1RPlayer7.deviceCurrentTime + shortStartDelay)
-        
+            
             stereoPlayer.play()
             print("isPlaying")
         }else{
-            }
+        }
     }
     @IBAction func stopButton(_ sender: Any) {
         if (m1LPlayer0.isPlaying){
@@ -86,34 +85,29 @@ class ViewController: UIViewController {
     @IBAction func rollActive(_ sender: Any) {
         isRollActive = !isRollActive
     }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        //Set device angularSettings in m1obj
-        m1obj.setAngularSettingsType(type: AngularSettingsType.m1oFEasyCam)
-
         //TODO: load multichannel audio instead
-//            audioPlayer = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "Guitar-8ch", ofType: "wav")!))
+        //            audioPlayer = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "Guitar-8ch", ofType: "wav")!))
         do {
-                m1LPlayer0 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "000", ofType: "aif")!))
-                m1RPlayer0 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "000", ofType: "aif")!))
-                m1LPlayer1 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "001", ofType: "aif")!))
-                m1RPlayer1 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "001", ofType: "aif")!))
-                m1LPlayer2 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "002", ofType: "aif")!))
-                m1RPlayer2 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "002", ofType: "aif")!))
-                m1LPlayer3 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "003", ofType: "aif")!))
-                m1RPlayer3 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "003", ofType: "aif")!))
-                m1LPlayer4 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "004", ofType: "aif")!))
-                m1RPlayer4 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "004", ofType: "aif")!))
-                m1LPlayer5 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "005", ofType: "aif")!))
-                m1RPlayer5 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "005", ofType: "aif")!))
-                m1LPlayer6 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "006", ofType: "aif")!))
-                m1RPlayer6 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "006", ofType: "aif")!))
-                m1LPlayer7 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "007", ofType: "aif")!))
-                m1RPlayer7 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "007", ofType: "aif")!))
-            }
+            m1LPlayer0 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "000", ofType: "aif")!))
+            m1RPlayer0 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "000", ofType: "aif")!))
+            m1LPlayer1 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "001", ofType: "aif")!))
+            m1RPlayer1 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "001", ofType: "aif")!))
+            m1LPlayer2 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "002", ofType: "aif")!))
+            m1RPlayer2 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "002", ofType: "aif")!))
+            m1LPlayer3 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "003", ofType: "aif")!))
+            m1RPlayer3 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "003", ofType: "aif")!))
+            m1LPlayer4 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "004", ofType: "aif")!))
+            m1RPlayer4 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "004", ofType: "aif")!))
+            m1LPlayer5 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "005", ofType: "aif")!))
+            m1RPlayer5 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "005", ofType: "aif")!))
+            m1LPlayer6 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "006", ofType: "aif")!))
+            m1RPlayer6 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "006", ofType: "aif")!))
+            m1LPlayer7 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "007", ofType: "aif")!))
+            m1RPlayer7 = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "007", ofType: "aif")!))
         } catch {
             print (error)
         }
@@ -177,11 +171,11 @@ class ViewController: UIViewController {
         }
         stereoPlayer.prepareToPlay()
         print(stereoPlayer)
-    
+        
         //TODO: split audio channels for independent coeffs from our lib
         //let channelCount = audioPlayer.numberOfChannels
         //print("Channel Count: ", channelCount)
-    
+        
         //Allow audio to play when app closes
         let audioSession = AVAudioSession.sharedInstance()
         do {
@@ -189,7 +183,7 @@ class ViewController: UIViewController {
         } catch {
             print(error)
         }
-            
+        
         // Ensure to keep a strong reference to the motion manager otherwise you won't get updates
         if motionManager.isDeviceMotionAvailable == true {
             motionManager.deviceMotionUpdateInterval = 0.01;
@@ -198,13 +192,13 @@ class ViewController: UIViewController {
                 // Get the attitudes of the device
                 if let attitude = motion?.attitude {
                     //Device orientation management
-                        let deviceYaw = attitude.yaw * 180/M_PI
-                        let devicePitch = attitude.pitch * 180/M_PI
-//                        let devicePitch = 0.0
-//                        let deviceRoll = attitude.roll * 180/M_PI
-                        let deviceRoll = 0.0
-//                    print("Yaw: ", deviceYaw)
-//                    print("Pitch: ", devicePitch)
+                    let deviceYaw = attitude.yaw * 180/M_PI
+                    let devicePitch = attitude.pitch * 180/M_PI
+                    //                        let devicePitch = 0.0
+                    let deviceRoll = attitude.roll * 180/M_PI
+                    //                        let deviceRoll = 0.0
+                    //                    print("Yaw: ", deviceYaw)
+                    //                    print("Pitch: ", devicePitch)
                     DispatchQueue.main.async() {
                         self?.yaw.text = String(deviceYaw)
                         self?.pitch.text = String(devicePitch)
@@ -216,9 +210,10 @@ class ViewController: UIViewController {
                     } else if (!stereoActive) {
                         stereoPlayer.setVolume(0.0, fadeDuration: 0.1)
                     }
+                    
                     //Send device orientation to m1obj with the preferred algo
                     let decodeArray: [Float]  = m1obj.spatialAlgo(Yaw: Float(deviceYaw), Pitch: Float(devicePitch), Roll: Float(deviceRoll))
-//                    print(decodeArray)
+                    //                    print(decodeArray)
                     
                     //Use each coeff to decode multichannel Mach1 Spatial mix
                     m1LPlayer0.volume = decodeArray[0]
@@ -261,7 +256,7 @@ class ViewController: UIViewController {
         } else {
             print("Device motion unavailable");
         }
-
+        
     }
-
+    
 }

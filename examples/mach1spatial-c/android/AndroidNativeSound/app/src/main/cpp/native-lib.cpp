@@ -175,13 +175,14 @@ void OpenSLWrap_Shutdown() {
 #include "M1AudioPlayer.h"
 
 M1AudioPlayer audioPlayer;
+bool isInitialized;
 
 static int MyAndroidAudioCallback(short *buffer, int num_samples)
 {
     audioPlayer.Get(buffer, num_samples);
 
     /*
-  static long totalWritten = 0;
+    static long totalWritten = 0;
     static double phase = (2.0 * M_PI) *  (440.0/44100.0);
     static float freq = 1;
 
@@ -198,8 +199,8 @@ static int MyAndroidAudioCallback(short *buffer, int num_samples)
     }
 
     freq += 0.1;
+    */
 
-*/
     return 0;
 }
 
@@ -254,16 +255,16 @@ Java_com_example_user_myapplication_MainActivity_setAudioAngles(
     audioPlayer.SetAngles(Yaw, Pitch, Roll);
 }
 
-
-
-
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_example_user_myapplication_MainActivity_initAudio(
         JNIEnv *env,
         jobject /* this */,
         jint  framesPerBufferInt ) {
-    OpenSLWrap_Init(framesPerBufferInt, MyAndroidAudioCallback);
+    if(!isInitialized) {
+        OpenSLWrap_Init(framesPerBufferInt, MyAndroidAudioCallback);
+        isInitialized = true;
+    }
 }
 
 extern "C"

@@ -49,6 +49,7 @@ add_library( # Sets the name of the library.
              src/main/cpp/Mach1Decode.cpp
              src/main/cpp/AudioPlayer.cpp
              src/main/cpp/native-lib.cpp
+             src/main/cpp/M1AudioPlayer.cpp
              ${SOURCES}
             )
 

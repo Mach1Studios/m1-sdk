@@ -12,6 +12,9 @@ class M1AudioPlayer : public AudioPlayer
     Mach1Decode mach1Decode;
 
 public:
+
+    M1AudioPlayer();
+
     void SetAngles(float Yaw, float Pitch, float Roll);
     bool Get(short * buf, int samples);
 

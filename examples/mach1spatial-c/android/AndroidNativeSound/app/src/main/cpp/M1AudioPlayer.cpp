@@ -1,5 +1,10 @@
 #include "M1AudioPlayer.h"
 
+M1AudioPlayer::M1AudioPlayer()
+{
+    mach1Decode.setAngularSettingsType(Mach1Decode::AngularSettingsType::m1Android);
+}
+
 void M1AudioPlayer::SetAngles(float Yaw, float Pitch, float Roll)
 {
     this->Yaw = Yaw;

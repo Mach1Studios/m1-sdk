@@ -21,10 +21,10 @@ float clamp(float x, float lower, float upper)
 
 static const char *get_error_text(const int error)
 {
- static char error_buffer[255];
-av_strerror(error, error_buffer, sizeof(error_buffer));
-return error_buffer;
- }
+    static char error_buffer[255];
+    av_strerror(error, error_buffer, sizeof(error_buffer));
+    return error_buffer;
+}
 
 int AudioPlayer::decode_packet(int * got_frame, int cached)
 {
@@ -199,7 +199,7 @@ static int read_packet(void *opaque, uint8_t *buf, int buf_size)
 {
     struct buffer_data *bd = (struct buffer_data *)opaque;
     buf_size = FFMIN(buf_size, bd->size);
-    printf("ptr:%p size:%zu\n", bd->ptr, bd->size);
+    //printf("ptr:%p size:%zu\n", bd->ptr, bd->size);
     /* copy internal buffer data to buf */
     memcpy(buf, bd->ptr, buf_size);
     bd->ptr  += buf_size;
@@ -208,7 +208,7 @@ static int read_packet(void *opaque, uint8_t *buf, int buf_size)
 }
 
 
-int AudioPlayer::play(uint8_t *buffer ,  size_t buffer_size)//char * _src_filename)
+int AudioPlayer::play(uint8_t *buffer, size_t buffer_size)//char * _src_filename)
 {
     if(running) return 0;
 
@@ -221,13 +221,13 @@ int AudioPlayer::play(uint8_t *buffer ,  size_t buffer_size)//char * _src_filena
     //src_filename = _src_filename;
 
     char path[256];
-  //  sprintf(path, "pipe://%d", fd);
+    //  sprintf(path, "pipe://%d", fd);
 
     /* register all formats and codecs */
     av_register_all();
 
-   // fmt_ctx =  avformat_alloc_context();
- //   fmt_ctx->skip_initial_bytes = offset;
+    // fmt_ctx =  avformat_alloc_context();
+    //   fmt_ctx->skip_initial_bytes = offset;
 /*
     FILE *f = fopen(path, "r");
     if(f) {
@@ -240,7 +240,7 @@ int AudioPlayer::play(uint8_t *buffer ,  size_t buffer_size)//char * _src_filena
     }
 */
     uint8_t  *avio_ctx_buffer = NULL;
-    size_t avio_ctx_buffer_size = 4096;
+    size_t avio_ctx_buffer_size = AUDIO_PLAYER_BUFFERSIZE;
     AVIOContext *avio_ctx = NULL;
 
     struct buffer_data bd = { 0 };
@@ -253,21 +253,19 @@ int AudioPlayer::play(uint8_t *buffer ,  size_t buffer_size)//char * _src_filena
         return 0;
     }
 
-
     avio_ctx_buffer = (uint8_t*)av_malloc(avio_ctx_buffer_size);
     if (!avio_ctx_buffer) {
         fprintf(stderr, "error\n");
         return 0;
-   }
-    avio_ctx = avio_alloc_context(avio_ctx_buffer, avio_ctx_buffer_size,
-                                  0, &bd, &read_packet, NULL, NULL);
+    }
+    avio_ctx = avio_alloc_context(avio_ctx_buffer, avio_ctx_buffer_size, 0, &bd, &read_packet, NULL, NULL);
     if (!avio_ctx) {
         fprintf(stderr, "error\n");
         return 0;
 
     }
     fmt_ctx->pb = avio_ctx;
-     if (avformat_open_input(&fmt_ctx, NULL, NULL, NULL) < 0) {
+    if (avformat_open_input(&fmt_ctx, NULL, NULL, NULL) < 0) {
         fprintf(stderr, "Could not open input\n");
         return 0;
     }
@@ -297,7 +295,7 @@ int AudioPlayer::play(uint8_t *buffer ,  size_t buffer_size)//char * _src_filena
         audio_dec_ctx = audio_stream->codec;
     }
 
-   // av_opt_set_int(audio_dec_ctx, "refcounted_frames", 1, 0);
+    // av_opt_set_int(audio_dec_ctx, "refcounted_frames", 1, 0);
 
     /* dump input information to stderr */
     av_dump_format(fmt_ctx, 0, src_filename, 0);

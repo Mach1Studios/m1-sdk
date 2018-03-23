@@ -39,8 +39,8 @@ public class MainActivity extends Activity implements SensorEventListener {
         AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
         String framesPerBuffer = am.getProperty(AudioManager.PROPERTY_OUTPUT_FRAMES_PER_BUFFER);
         int framesPerBufferInt = Integer.parseInt(framesPerBuffer);
-        if (framesPerBufferInt == 0) framesPerBufferInt = 1024; // Use default
-        initAudio(framesPerBufferInt * 2);
+        if (framesPerBufferInt == 0) framesPerBufferInt = 512; // Use default
+        initAudio(framesPerBufferInt);
 
         // Get an instance of the SensorManager
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);

@@ -69,6 +69,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 
 
         textView = (TextView) findViewById(R.id.textView);
+
+        Play();
     }
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {  }

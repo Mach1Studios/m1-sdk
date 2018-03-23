@@ -189,7 +189,26 @@ int AudioPlayer::get_format_from_sample_fmt(const char ** fmt, AVSampleFormat sa
     return -1;
 }
 
-int AudioPlayer::play(int fd, int64_t offset, int64_t length)//char * _src_filename)
+
+struct buffer_data {
+    uint8_t *ptr;
+    size_t size; ///< size left in the buffer
+};
+
+static int read_packet(void *opaque, uint8_t *buf, int buf_size)
+{
+    struct buffer_data *bd = (struct buffer_data *)opaque;
+    buf_size = FFMIN(buf_size, bd->size);
+    printf("ptr:%p size:%zu\n", bd->ptr, bd->size);
+    /* copy internal buffer data to buf */
+    memcpy(buf, bd->ptr, buf_size);
+    bd->ptr  += buf_size;
+    bd->size -= buf_size;
+    return buf_size;
+}
+
+
+int AudioPlayer::play(uint8_t *buffer ,  size_t buffer_size)//char * _src_filename)
 {
     if(running) return 0;
 
@@ -202,19 +221,57 @@ int AudioPlayer::play(int fd, int64_t offset, int64_t length)//char * _src_filen
     //src_filename = _src_filename;
 
     char path[256];
-    sprintf(path, "pipe:%d", fd);
+  //  sprintf(path, "pipe://%d", fd);
 
     /* register all formats and codecs */
     av_register_all();
 
-    fmt_ctx =  avformat_alloc_context();
-    fmt_ctx->skip_initial_bytes = offset;
+   // fmt_ctx =  avformat_alloc_context();
+ //   fmt_ctx->skip_initial_bytes = offset;
+/*
+    FILE *f = fopen(path, "r");
+    if(f) {
+        fprintf(stderr, "ok");
 
-    /* open input file, and allocate format context */
-    if (avformat_open_input(&fmt_ctx, path, NULL, NULL) < 0) {
+    }
+    else {
         fprintf(stderr, "Could not open source file %s\n", path);
+
+    }
+*/
+    uint8_t  *avio_ctx_buffer = NULL;
+    size_t avio_ctx_buffer_size = 4096;
+    AVIOContext *avio_ctx = NULL;
+
+    struct buffer_data bd = { 0 };
+    /* fill opaque structure used by the AVIOContext read callback */
+    bd.ptr  = buffer;
+    bd.size = buffer_size;
+
+    if (!(fmt_ctx = avformat_alloc_context())) {
+        fprintf(stderr, "error\n");
         return 0;
     }
+
+
+    avio_ctx_buffer = (uint8_t*)av_malloc(avio_ctx_buffer_size);
+    if (!avio_ctx_buffer) {
+        fprintf(stderr, "error\n");
+        return 0;
+   }
+    avio_ctx = avio_alloc_context(avio_ctx_buffer, avio_ctx_buffer_size,
+                                  0, &bd, &read_packet, NULL, NULL);
+    if (!avio_ctx) {
+        fprintf(stderr, "error\n");
+        return 0;
+
+    }
+    fmt_ctx->pb = avio_ctx;
+     if (avformat_open_input(&fmt_ctx, NULL, NULL, NULL) < 0) {
+        fprintf(stderr, "Could not open input\n");
+        return 0;
+    }
+
 
     /* retrieve stream information */
     if (avformat_find_stream_info(fmt_ctx, NULL) < 0) {
@@ -266,7 +323,7 @@ int AudioPlayer::play(int fd, int64_t offset, int64_t length)//char * _src_filen
     int size = 0;
 
     /* read frames from the file */
-    while (running && av_read_frame(fmt_ctx, &pkt) >= 0 && size<=length) {
+    while (running && av_read_frame(fmt_ctx, &pkt) >= 0 && size<=buffer_size) {
         AVPacket orig_pkt = pkt;
         do {
             cnt = decode_packet(&got_frame, 0);
@@ -305,9 +362,9 @@ int AudioPlayer::play(int fd, int64_t offset, int64_t length)//char * _src_filen
     return cnt < 0;
 }
 
-void AudioPlayer::Play(int fd, int64_t offset, int64_t length)
+void AudioPlayer::Play(uint8_t *buffer ,  size_t buffer_size)
 {
-    std::thread(&AudioPlayer::play, this, fd, offset, length).detach();
+    std::thread(&AudioPlayer::play, this, buffer,buffer_size).detach();
 }
 
 void AudioPlayer::Stop()

@@ -227,9 +227,15 @@ Java_com_example_user_myapplication_MainActivity_playAudio(JNIEnv *env, jobject 
     int64_t offset, length;
     int fd = AAsset_openFileDescriptor64(asset, &offset, &length);
 
-    audioPlayer.Play(fd, offset, length);
+    uint8_t* asset_buffer = (uint8_t* )AAsset_getBuffer(asset);
+    length = 	AAsset_getLength (asset);
+    if (asset_buffer == nullptr) {
+        printf("Error readingfrom asset manager.");
+    }
 
-    AAsset_close(asset);
+    audioPlayer.Play(asset_buffer, length);
+
+//    AAsset_close(asset);
 
     assert(SL_RESULT_SUCCESS == (*bqPlayerPlay)->SetPlayState(bqPlayerPlay, SL_PLAYSTATE_PLAYING));
 }

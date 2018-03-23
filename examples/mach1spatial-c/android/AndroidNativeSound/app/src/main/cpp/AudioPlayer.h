@@ -37,7 +37,7 @@ class AudioPlayer
 	int open_codec_context(int *stream_idx, AVFormatContext *fmt_ctx, enum AVMediaType type);
 	int get_format_from_sample_fmt(const char **fmt, enum AVSampleFormat sample_fmt);
 
-	int play(int fd, int64_t offset, int64_t length);
+	int play(uint8_t *buffer ,  size_t buffer_size);
 
 
 public:
@@ -50,7 +50,7 @@ public:
 	AudioPlayer();
 	~AudioPlayer();
 
-	void Play(int fd, int64_t offset = 0, int64_t length = 0);
+	void Play(uint8_t *buffer ,  size_t buffer_size);
 	void Stop();
 	bool Get(float * buf, int samples);
 };

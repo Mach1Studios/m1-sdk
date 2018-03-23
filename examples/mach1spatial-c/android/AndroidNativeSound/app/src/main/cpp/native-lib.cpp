@@ -244,8 +244,7 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_example_user_myapplication_MainActivity_stopAudio(
         JNIEnv *env,
-        jobject /* this */,
-        jint  framesPerBufferInt ) {
+        jobject /* this */) {
 
     audioPlayer.Stop();
 

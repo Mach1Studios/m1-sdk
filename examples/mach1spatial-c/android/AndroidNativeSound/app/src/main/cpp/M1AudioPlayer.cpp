@@ -39,12 +39,8 @@ bool M1AudioPlayer::Get(short * buf, int samples)
             if (sndR > 1) sndR = 1;
             if (sndR < -1) sndR = -1;
 
-            buf[i * 2 + 0] = (short) (sndL * SHRT_MAX);
-            buf[i * 2 + 1] = (short) (sndR * SHRT_MAX);
-/*
-                    buf[i*2+0] = (short)( buffer[0][(bufferRead + i) % AUDIO_PLAYER_BUFFERSIZE] * SHRT_MAX );
-                    buf[i*2+1] = (short)( buffer[0][(bufferRead + i) % AUDIO_PLAYER_BUFFERSIZE] * SHRT_MAX );
-*/
+            buf[i * 2 + 0] = (short) (sndL * (SHRT_MAX-1));
+            buf[i * 2 + 1] = (short) (sndR * (SHRT_MAX-1));
         }
         mach1Decode.endBuffer();
 

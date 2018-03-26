@@ -378,6 +378,11 @@ bool AudioPlayer::Get(float * buf, int samples)
         {
             buf[i*2+0] = buffer[0][(bufferRead + i) % AUDIO_PLAYER_BUFFERSIZE];
             buf[i*2+1] = buffer[1][(bufferRead + i) % AUDIO_PLAYER_BUFFERSIZE];
+
+            if ((buffer[0][(bufferRead + i) % AUDIO_PLAYER_BUFFERSIZE] == 0) || (buffer[0][(bufferRead + i) % AUDIO_PLAYER_BUFFERSIZE] == 1)
+                    || (buffer[0][(bufferRead + i) % AUDIO_PLAYER_BUFFERSIZE] == -1)) {
+                fprintf(stderr, "Buffer peaking? \n");
+            }
         }
         bufferRead += samples;
         return true;

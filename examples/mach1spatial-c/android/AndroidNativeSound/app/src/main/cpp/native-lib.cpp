@@ -181,6 +181,10 @@ static int MyAndroidAudioCallback(short *buffer, int num_samples)
 {
     audioPlayer.Get(buffer, num_samples);
 
+    if (!audioPlayer.ready) {
+        fprintf(stderr, "audio player not ready! \n");
+    }
+
     /*
     static long totalWritten = 0;
     static double phase = (2.0 * M_PI) *  (440.0/44100.0);

@@ -181,6 +181,23 @@ static int MyAndroidAudioCallback(short *buffer, int num_samples)
 {
     audioPlayer.Get(buffer, num_samples);
 
+    fprintf(stderr, "buffer: %d", buffer[0]);
+
+    short val = -1000;
+    int sameValCount = 0;
+    for (int i = 0; i < num_samples; i++) {
+        if (buffer[i] == val) {
+            sameValCount++;
+        } else {
+            val = buffer[i];
+            sameValCount = 0;
+        }
+
+        if (sameValCount >= 5) {
+            fprintf(stderr, "dropout! \n");
+        }
+    }
+
     if (!audioPlayer.ready) {
         fprintf(stderr, "audio player not ready! \n");
     }

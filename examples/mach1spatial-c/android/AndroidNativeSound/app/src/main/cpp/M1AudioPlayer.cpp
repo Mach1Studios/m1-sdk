@@ -24,6 +24,11 @@ bool M1AudioPlayer::Get(short * buf, int samples)
         {
             std::vector<float> volumes = mach1Decode.spatialAlgo(Yaw, Pitch, Roll, samples, i);
 
+            volumes.resize(16);
+            for (int i = 0; i < 16; i++) {
+                volumes[i] = 0.1;
+            }
+
             sndL = 0;
             sndR = 0;
 

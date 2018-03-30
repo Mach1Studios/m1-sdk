@@ -418,8 +418,9 @@ void Mach1Decode::processSample(functionAlgoSampleHP funcAlgoSampleHP, float Yaw
             float volumes_lerp[18];
             for (int i = 0; i < 18; i++) {
                 volumes_lerp[i] = volumes1[i] * (1 - phase) + volumes2[i] * phase;
+                result[i] = volumes_lerp[i];
             }
-            return volumes_lerp;
+            
         }
         else {
             // Filtering per-buffer

@@ -20,7 +20,7 @@ std::vector<float> Mach1Decode::horizonAlgo(float Yaw, float Pitch, float Roll, 
 	return std::vector<float>(data, data + 10);
 }
 
-void horizonAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex)
+void Mach1Decode::horizonAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex)
 {
     Mach1DecodeCAPI_horizonAlgoHP(M1obj, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
 }
@@ -32,7 +32,7 @@ std::vector<float> Mach1Decode::horizonPairsAlgo(float Yaw, float Pitch, float R
 	return std::vector<float>(data, data + 8);
 }
 
-void horizonPairsAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex)
+void Mach1Decode::horizonPairsAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex)
 {
     Mach1DecodeCAPI_horizonPairsAlgoHP(M1obj, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
 }
@@ -44,7 +44,7 @@ std::vector<float> Mach1Decode::spatialAlgo(float Yaw, float Pitch, float Roll, 
 	return std::vector<float>(data, data + 18);
 }
 
-void spatialAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex)
+void Mach1Decode::spatialAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex)
 {
     Mach1DecodeCAPI_spatialAlgoHP(M1obj, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
 }
@@ -56,7 +56,7 @@ std::vector<float> Mach1Decode::spatialAltAlgo(float Yaw, float Pitch, float Rol
 	return std::vector<float>(data, data + 18);
 }
 
-void spatialAltAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex)
+void Mach1Decode::spatialAltAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex)
 {
     Mach1DecodeCAPI_spatialAltAlgoHP(M1obj, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
 }
@@ -68,7 +68,7 @@ std::vector<float> Mach1Decode::spatialPairsAlgo(float Yaw, float Pitch, float R
 	return std::vector<float>(data, data + 16);
 }
 
-void spatialPairsAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0)
+void Mach1Decode::spatialPairsAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex)
 {
     Mach1DecodeCAPI_spatialPairsAlgoHP(M1obj, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
 }

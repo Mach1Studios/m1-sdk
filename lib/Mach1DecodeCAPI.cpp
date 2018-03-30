@@ -34,7 +34,7 @@ float* Mach1DecodeCAPI_horizonAlgo(void* M1obj, float Yaw, float Pitch, float Ro
 	return data;
 }
 
-void Mach1DecodeCAPI_horizonAlgo(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
+void Mach1DecodeCAPI_horizonAlgoHP(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
     if (M1obj != nullptr) {
         ((Mach1Decode*)M1obj)->horizonAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
     }
@@ -56,7 +56,7 @@ float* Mach1DecodeCAPI_horizonPairsAlgo(void* M1obj, float Yaw, float Pitch, flo
 	return data;
 }
 
-void Mach1DecodeCAPI_horizonPairsAlgo(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
+void Mach1DecodeCAPI_horizonPairsAlgoHP(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
     if (M1obj != nullptr) {
         ((Mach1Decode*)M1obj)->horizonPairsAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
     }
@@ -78,7 +78,7 @@ float* Mach1DecodeCAPI_spatialAlgo(void* M1obj, float Yaw, float Pitch, float Ro
 	return data;
 }
 
-void Mach1DecodeCAPI_spatialAlgo(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
+void Mach1DecodeCAPI_spatialAlgoHP(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
     if (M1obj != nullptr) {
         ((Mach1Decode*)M1obj)->spatialAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
     }
@@ -100,7 +100,7 @@ float* Mach1DecodeCAPI_spatialAltAlgo(void* M1obj, float Yaw, float Pitch, float
 	return data;
 }
 
-void Mach1DecodeCAPI_spatialAltAlgo(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
+void Mach1DecodeCAPI_spatialAltAlgoHP(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
     if (M1obj != nullptr) {
         ((Mach1Decode*)M1obj)->spatialAltAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
     }
@@ -121,7 +121,7 @@ float* Mach1DecodeCAPI_spatialPairsAlgo(void* M1obj, float Yaw, float Pitch, flo
 	return data;
 }
 
-void Mach1DecodeCAPI_spatialPairsAlgo(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
+void Mach1DecodeCAPI_spatialPairsAlgoHP(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
     if (M1obj != nullptr) {
         ((Mach1Decode*)M1obj)->spatialPairsAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
     }

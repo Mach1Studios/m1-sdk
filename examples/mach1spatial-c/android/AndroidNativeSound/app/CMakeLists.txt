@@ -46,7 +46,6 @@ add_library( # Sets the name of the library.
 
              # Provides a relative path to your source file(s).
 
-             src/main/cpp/Mach1Decode.cpp
              src/main/cpp/AudioPlayer.cpp
              src/main/cpp/native-lib.cpp
              src/main/cpp/M1AudioPlayer.cpp

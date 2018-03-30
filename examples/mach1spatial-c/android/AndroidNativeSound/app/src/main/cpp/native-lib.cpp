@@ -181,46 +181,6 @@ static int MyAndroidAudioCallback(short *buffer, int num_samples)
 {
     audioPlayer.Get(buffer, num_samples);
 
-    fprintf(stderr, "buffer: %d", buffer[0]);
-
-    short val = -1000;
-    int sameValCount = 0;
-    for (int i = 0; i < num_samples; i++) {
-        if (buffer[i] == val) {
-            sameValCount++;
-        } else {
-            val = buffer[i];
-            sameValCount = 0;
-        }
-
-        if (sameValCount >= 5) {
-            fprintf(stderr, "dropout! \n");
-        }
-    }
-
-    if (!audioPlayer.ready) {
-        fprintf(stderr, "audio player not ready! \n");
-    }
-
-    /*
-    static long totalWritten = 0;
-    static double phase = (2.0 * M_PI) *  (440.0/44100.0);
-    static float freq = 1;
-
-    phase = (2.0 * M_PI) * (freq/44100.0); //(440.0/44100.0);
-
-    for (int i = 0; i < num_samples; i++) {
-
-        int value = (int)(sin(phase * totalWritten) * SHRT_MAX);
-
-        buffer[i * 2] = value < SHRT_MIN ? SHRT_MIN : value > SHRT_MAX ? SHRT_MAX : value;
-        buffer[i * 2 + 1] = 0;
-
-        totalWritten++;
-    }
-
-    freq += 0.1;
-    */
 
     return 0;
 }

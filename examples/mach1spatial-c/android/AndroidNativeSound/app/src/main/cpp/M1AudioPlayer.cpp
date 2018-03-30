@@ -2,7 +2,8 @@
 
 M1AudioPlayer::M1AudioPlayer()
 {
-    mach1Decode.setAngularSettingsType(Mach1Decode::AngularSettingsType::m1Android);
+    mach1Decode = new Mach1Decode();
+    mach1Decode->setAngularSettingsType(Mach1Decode::AngularSettingsType::m1Android);
 }
 
 void M1AudioPlayer::SetAngles(float Yaw, float Pitch, float Roll)
@@ -19,15 +20,12 @@ bool M1AudioPlayer::Get(short * buf, int samples)
         float sndL = 0;
         float sndR = 0;
 
-        mach1Decode.beginBuffer();
+        mach1Decode->beginBuffer();
         for (size_t i = 0; i < samples; i++)
         {
-            std::vector<float> volumes = mach1Decode.spatialAlgo(Yaw, Pitch, Roll, samples, i);
+            float volumes[18];
+            mach1Decode->spatialAlgo(Yaw, Pitch, Roll, volumes, samples, i);
 
-            volumes.resize(16);
-            for (int i = 0; i < 16; i++) {
-                volumes[i] = 0.1;
-            }
 
             sndL = 0;
             sndR = 0;
@@ -47,7 +45,7 @@ bool M1AudioPlayer::Get(short * buf, int samples)
             buf[i * 2 + 0] = (short) (sndL * (SHRT_MAX-1));
             buf[i * 2 + 1] = (short) (sndR * (SHRT_MAX-1));
         }
-        mach1Decode.endBuffer();
+        mach1Decode->endBuffer();
 
         bufferRead += samples;
 

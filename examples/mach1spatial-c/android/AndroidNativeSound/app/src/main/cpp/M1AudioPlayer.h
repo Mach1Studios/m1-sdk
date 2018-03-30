@@ -9,7 +9,7 @@ class M1AudioPlayer : public AudioPlayer
     float Pitch;
     float Roll;
 
-    Mach1Decode mach1Decode;
+    Mach1Decode *mach1Decode;
 
 public:
 

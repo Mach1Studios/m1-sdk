@@ -5,8 +5,8 @@
 
 #pragma once
 
-#ifndef Mach1Decode_h
-#define Mach1Decode_h
+#ifndef Mach1DecodeCore_h
+#define Mach1DecodeCore_h
 
 #include <vector>
 #include <cmath>
@@ -24,7 +24,7 @@ using namespace std::chrono;
 
 //////////////
 
-class Mach1Decode {
+class Mach1DecodeCore {
     
 public:
     enum AngularSettingsType {
@@ -33,8 +33,8 @@ public:
 
 private:
     
-	typedef std::vector<float> (Mach1Decode::*functionAlgoSample)(float Yaw, float Pitch, float Roll);
-    typedef void (Mach1Decode::*functionAlgoSampleHP)(float Yaw, float Pitch, float Roll, float *result);
+	typedef std::vector<float> (Mach1DecodeCore::*functionAlgoSample)(float Yaw, float Pitch, float Roll);
+    typedef void (Mach1DecodeCore::*functionAlgoSampleHP)(float Yaw, float Pitch, float Roll, float *result);
 	std::vector<float> processSample(functionAlgoSample funcAlgoSample, float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
     void processSample(functionAlgoSampleHP funcAlgoSampleHP, float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
 	milliseconds ms;
@@ -488,7 +488,7 @@ public:
 		return mPoint(currentYaw, currentPitch, currentRoll);
 	}
     
-    Mach1Decode();
+    Mach1DecodeCore();
     
     void setAngularSettingsType(AngularSettingsType type);
 
@@ -576,4 +576,4 @@ public:
     
 };
 
-#endif /* Mach1Decode_h */
+#endif /* Mach1DecodeCore_h */

@@ -7,7 +7,6 @@
 
 class Mach1Decode
 {
-	void* M1obj;
 
 public:
     enum AngularSettingsType {
@@ -16,6 +15,9 @@ public:
 
 	Mach1Decode();
 	~Mach1Decode();
+
+	void* M1obj;
+
 
 	std::vector<float> horizonAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
     void horizonAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);

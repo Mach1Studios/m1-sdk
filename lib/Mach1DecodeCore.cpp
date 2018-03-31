@@ -10,7 +10,7 @@ updates and should not be integrated in sections but remain as an update-able fa
 */
 
 
-#include "Mach1Decode.h"
+#include "Mach1DecodeCore.h"
 
 #ifndef DEG_TO_RAD
 #define DEG_TO_RAD (PI/180.0)
@@ -21,60 +21,60 @@ updates and should not be integrated in sections but remain as an update-able fa
 #endif
 
 
-Mach1Decode::mPoint::mPoint() {
+Mach1DecodeCore::mPoint::mPoint() {
 	x = 0;
 	y = 0;
 	z = 0;
 }
 
-Mach1Decode::mPoint::mPoint(float X, float Y, float Z) {
+Mach1DecodeCore::mPoint::mPoint(float X, float Y, float Z) {
 	x = X;
 	y = Y;
 	z = Z;
 }
 
-Mach1Decode::mPoint::mPoint(float X, float Y) {
+Mach1DecodeCore::mPoint::mPoint(float X, float Y) {
 	x = X;
 	y = Y;
 	z = 0;
 }
 
-inline Mach1Decode::mPoint Mach1Decode::mPoint::operator+(const mPoint& pnt) const {
-	return Mach1Decode::mPoint(x + pnt.x, y + pnt.y, z + pnt.z);
+inline Mach1DecodeCore::mPoint Mach1DecodeCore::mPoint::operator+(const mPoint& pnt) const {
+	return Mach1DecodeCore::mPoint(x + pnt.x, y + pnt.y, z + pnt.z);
 }
 
 
-inline Mach1Decode::mPoint Mach1Decode::mPoint::operator*(const float f) const {
-	return Mach1Decode::mPoint(x*f, y*f, z*f);
+inline Mach1DecodeCore::mPoint Mach1DecodeCore::mPoint::operator*(const float f) const {
+	return Mach1DecodeCore::mPoint(x*f, y*f, z*f);
 }
 
 
-inline Mach1Decode::mPoint Mach1Decode::mPoint::operator*(const mPoint& vec) const {
-	return Mach1Decode::mPoint(x*vec.x, y*vec.y, z*vec.z);
+inline Mach1DecodeCore::mPoint Mach1DecodeCore::mPoint::operator*(const mPoint& vec) const {
+	return Mach1DecodeCore::mPoint(x*vec.x, y*vec.y, z*vec.z);
 }
 
 
-inline Mach1Decode::mPoint Mach1Decode::mPoint::operator-(const mPoint& vec) const {
-	return Mach1Decode::mPoint(x - vec.x, y - vec.y, z - vec.z);
+inline Mach1DecodeCore::mPoint Mach1DecodeCore::mPoint::operator-(const mPoint& vec) const {
+	return Mach1DecodeCore::mPoint(x - vec.x, y - vec.y, z - vec.z);
 }
 
-inline float Mach1Decode::mPoint::length() const {
+inline float Mach1DecodeCore::mPoint::length() const {
 	return (float)sqrt(x*x + y*y + z*z);
 }
  
-inline float Mach1Decode::lerp(float x1, float x2, float t)
+inline float Mach1DecodeCore::lerp(float x1, float x2, float t)
 {
 	return x1 + (x2 - x1)*t;
 }
 
 
-float Mach1Decode::mPoint::operator[] (int index) {
+float Mach1DecodeCore::mPoint::operator[] (int index) {
 	float arr[3] = { x, y, z };
 	return arr[index];
 }
 
-inline Mach1Decode::mPoint& Mach1Decode::mPoint::rotate(float angle, const mPoint& axis) {
-	Mach1Decode::mPoint ax = axis.getNormalized();
+inline Mach1DecodeCore::mPoint& Mach1DecodeCore::mPoint::rotate(float angle, const mPoint& axis) {
+	Mach1DecodeCore::mPoint ax = axis.getNormalized();
 	float a = (float)(angle*DEG_TO_RAD);
 	float sina = sin(a);
 	float cosa = cos(a);
@@ -93,7 +93,7 @@ inline Mach1Decode::mPoint& Mach1Decode::mPoint::rotate(float angle, const mPoin
 	return *this;
 }
 
-inline Mach1Decode::mPoint& Mach1Decode::mPoint::normalize() {
+inline Mach1DecodeCore::mPoint& Mach1DecodeCore::mPoint::normalize() {
 	float length = (float)sqrt(x*x + y*y + z*z);
 	if (length > 0) {
 		x /= length;
@@ -104,25 +104,25 @@ inline Mach1Decode::mPoint& Mach1Decode::mPoint::normalize() {
 }
 
 
-inline Mach1Decode::mPoint Mach1Decode::mPoint::getNormalized() const {
+inline Mach1DecodeCore::mPoint Mach1DecodeCore::mPoint::getNormalized() const {
 	float length = (float)sqrt(x*x + y*y + z*z);
 	if (length > 0) {
-		return Mach1Decode::mPoint(x / length, y / length, z / length);
+		return Mach1DecodeCore::mPoint(x / length, y / length, z / length);
 	}
 	else {
-		return Mach1Decode::mPoint();
+		return Mach1DecodeCore::mPoint();
 	}
 }
 
 
-inline Mach1Decode::mPoint Mach1Decode::mPoint::getRotated(float angle, const mPoint& axis) const {
-	Mach1Decode::mPoint ax = axis.getNormalized();
+inline Mach1DecodeCore::mPoint Mach1DecodeCore::mPoint::getRotated(float angle, const mPoint& axis) const {
+	Mach1DecodeCore::mPoint ax = axis.getNormalized();
 	float a = (float)(angle*DEG_TO_RAD);
 	float sina = sin(a);
 	float cosa = cos(a);
 	float cosb = 1.0f - cosa;
 
-	return Mach1Decode::mPoint(x*(ax.x*ax.x*cosb + cosa)
+	return Mach1DecodeCore::mPoint(x*(ax.x*ax.x*cosb + cosa)
 		+ y*(ax.x*ax.y*cosb - ax.z*sina)
 		+ z*(ax.x*ax.z*cosb + ax.y*sina),
 		x*(ax.y*ax.x*cosb + ax.z*sina)
@@ -136,7 +136,7 @@ inline Mach1Decode::mPoint Mach1Decode::mPoint::getRotated(float angle, const mP
 
 //
 
-float Mach1Decode::mDegToRad(float degrees) {
+float Mach1DecodeCore::mDegToRad(float degrees) {
 	return (float)(degrees * DEG_TO_RAD);
 }
 
@@ -145,7 +145,7 @@ float Mach1Decode::mDegToRad(float degrees) {
 // Map utility
 //
 
-float Mach1Decode::mmap(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp) {
+float Mach1DecodeCore::mmap(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp) {
 
 	if (fabs(inputMin - inputMax) < __FLT_EPSILON__) {
 		return outputMin;
@@ -168,12 +168,12 @@ float Mach1Decode::mmap(float value, float inputMin, float inputMax, float outpu
 
 }
 
-float Mach1Decode::clamp(float a, float min, float max)
+float Mach1DecodeCore::clamp(float a, float min, float max)
 {
 	return (a < min) ? min : ((a > max) ? max : a);
 }
 
-float Mach1Decode::alignAngle(float a, float min, float max)
+float Mach1DecodeCore::alignAngle(float a, float min, float max)
 {
 	if (a > 5000 || a < -5000) return 0;
 
@@ -183,14 +183,14 @@ float Mach1Decode::alignAngle(float a, float min, float max)
 	return a;
 }
 
-float Mach1Decode::radialDistance(float angle1, float angle2) {
+float Mach1DecodeCore::radialDistance(float angle1, float angle2) {
 	if ((std::abs(angle2 - angle1)) > (std::abs(std::abs(angle2 - angle1) - 360))) {
 		return std::abs(std::abs(angle2 - angle1) - 360);
 	}
 	else return std::abs(angle2 - angle1);
 }
 
-float Mach1Decode::targetDirectionMultiplier(float angleCurrent, float angleTarget) {
+float Mach1DecodeCore::targetDirectionMultiplier(float angleCurrent, float angleTarget) {
 	if (((std::abs(angleCurrent - angleTarget)) >
 		(std::abs(angleCurrent - angleTarget + 360)))
 		||
@@ -220,7 +220,7 @@ float Mach1Decode::targetDirectionMultiplier(float angleCurrent, float angleTarg
 
 // Envelope follower feature is defined here, in updateAngles()
 
-void Mach1Decode::updateAngles() {
+void Mach1DecodeCore::updateAngles() {
 	if (targetYaw < 0) targetYaw += 360;
 	if (targetPitch < 0) targetPitch += 360;
 	if (targetRoll < 0) targetRoll += 360;
@@ -267,7 +267,7 @@ void Mach1Decode::updateAngles() {
 };
 
 // Angular settings functions
-void Mach1Decode::fillPlatformAngles(AngularSettingsType type, float* Y, float* P, float* R) {
+void Mach1DecodeCore::fillPlatformAngles(AngularSettingsType type, float* Y, float* P, float* R) {
 	switch (type) {
 	case m1Default:
 		*Y = *Y;
@@ -312,14 +312,14 @@ void Mach1Decode::fillPlatformAngles(AngularSettingsType type, float* Y, float* 
 	}
 }
 
-void Mach1Decode::addToLog(std::string str, int maxCount)
+void Mach1DecodeCore::addToLog(std::string str, int maxCount)
 {
 	if (strLog.size() > maxCount) strLog.erase(strLog.begin() + maxCount, strLog.begin() + strLog.size() - 1);
 
 	strLog.push_back(str);
 }
 
-char* Mach1Decode::getLog()
+char* Mach1DecodeCore::getLog()
 {
 	std::vector<std::string> _strLog = strLog;
 	strLog.clear();
@@ -327,11 +327,13 @@ char* Mach1Decode::getLog()
 	static char log[100000] = "";
 
 	log[0] = '\0';
+    /*
 	for (int i = 0; i<_strLog.size(); i++) strcat(log, _strLog[i].c_str());
+     */
 	return log;
 }
 
-Mach1Decode::Mach1Decode() {
+Mach1DecodeCore::Mach1DecodeCore() {
 	currentYaw = 0;
 	currentPitch = 0;
 	currentRoll = 0;
@@ -356,12 +358,12 @@ Mach1Decode::Mach1Decode() {
 	strLog.resize(0);
 }
 
-long Mach1Decode::getCurrentTime()
+long Mach1DecodeCore::getCurrentTime()
 {
 	return (long)(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) - ms).count();
 }
 
-void Mach1Decode::setAngularSettingsType(AngularSettingsType type) {
+void Mach1DecodeCore::setAngularSettingsType(AngularSettingsType type) {
 	angularSetting = type;
 }
 
@@ -371,7 +373,7 @@ void Mach1Decode::setAngularSettingsType(AngularSettingsType type) {
 //  before per-sample coefficient calculation.
 //
 
-void Mach1Decode::beginBuffer() {
+void Mach1DecodeCore::beginBuffer() {
 	previousYaw = currentYaw;
 	previousPitch = currentPitch;
 	previousRoll = currentRoll;
@@ -384,13 +386,13 @@ void Mach1Decode::beginBuffer() {
 //  after per-sample coefficient calculation.
 //
 
-void Mach1Decode::endBuffer() {
+void Mach1DecodeCore::endBuffer() {
 
 	//  ;)
 
 }
 
-void Mach1Decode::processSample(functionAlgoSampleHP funcAlgoSampleHP, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
+void Mach1DecodeCore::processSample(functionAlgoSampleHP funcAlgoSampleHP, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
     fillPlatformAngles(angularSetting, &Yaw, &Pitch, &Roll);
     
     /*char buff[1024];
@@ -411,8 +413,8 @@ void Mach1Decode::processSample(functionAlgoSampleHP funcAlgoSampleHP, float Yaw
             
             float volumes1[18];
             float volumes2[18];
-            (this->*funcAlgoSampleHP)(previousYaw, previousPitch, previousRoll, result);
-            (this->*funcAlgoSampleHP)(currentYaw, currentPitch, currentRoll, result);
+            (this->*funcAlgoSampleHP)(previousYaw, previousPitch, previousRoll, volumes1);
+            (this->*funcAlgoSampleHP)(currentYaw, currentPitch, currentRoll, volumes2);
             float phase = (float)sampleIndex / (float)bufferSize;
             
             float volumes_lerp[18];
@@ -452,7 +454,7 @@ void Mach1Decode::processSample(functionAlgoSampleHP funcAlgoSampleHP, float Yaw
     
 }
 
-std::vector<float> Mach1Decode::processSample(functionAlgoSample funcAlgoSample, float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {
+std::vector<float> Mach1DecodeCore::processSample(functionAlgoSample funcAlgoSample, float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {
 	fillPlatformAngles(angularSetting, &Yaw, &Pitch, &Roll);
 	
 	/*char buff[1024];
@@ -523,7 +525,7 @@ std::vector<float> Mach1Decode::processSample(functionAlgoSample funcAlgoSample,
 //  R = Roll in degrees
 //
 
-std::vector<float> Mach1Decode::horizonAlgo(float Yaw, float Pitch, float Roll,
+std::vector<float> Mach1DecodeCore::horizonAlgo(float Yaw, float Pitch, float Roll,
 	int bufferSize, int sampleIndex) {
 
 	fillPlatformAngles(angularSetting, &Yaw, &Pitch, &Roll);
@@ -583,7 +585,7 @@ std::vector<float> Mach1Decode::horizonAlgo(float Yaw, float Pitch, float Roll,
 	return result;
 }
 
-void Mach1Decode::horizonAlgo(float Yaw, float Pitch, float Roll, float *result,
+void Mach1DecodeCore::horizonAlgo(float Yaw, float Pitch, float Roll, float *result,
                                             int bufferSize, int sampleIndex) {
     
     fillPlatformAngles(angularSetting, &Yaw, &Pitch, &Roll);
@@ -651,16 +653,16 @@ void Mach1Decode::horizonAlgo(float Yaw, float Pitch, float Roll, float *result,
 //  R = Roll in degrees
 //
 
-std::vector<float> Mach1Decode::horizonPairsAlgo(float Yaw, float Pitch, float Roll,
+std::vector<float> Mach1DecodeCore::horizonPairsAlgo(float Yaw, float Pitch, float Roll,
 	int bufferSize, int sampleIndex) {
 
-	return processSample(&Mach1Decode::horizonPairsAlgoSample, Yaw, Pitch, Roll, bufferSize, sampleIndex);
+	return processSample(&Mach1DecodeCore::horizonPairsAlgoSample, Yaw, Pitch, Roll, bufferSize, sampleIndex);
 }
 
-void Mach1Decode::horizonPairsAlgo(float Yaw, float Pitch, float Roll, float *result,
+void Mach1DecodeCore::horizonPairsAlgo(float Yaw, float Pitch, float Roll, float *result,
                                                  int bufferSize, int sampleIndex) {
     
-    return processSample(&Mach1Decode::horizonPairsAlgoSample, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+    return processSample(&Mach1DecodeCore::horizonPairsAlgoSample, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
 }
 
 // ------------------------------------------------------------------
@@ -674,14 +676,14 @@ void Mach1Decode::horizonPairsAlgo(float Yaw, float Pitch, float Roll, float *re
 //  R = Roll in degrees
 //
 
-std::vector<float> Mach1Decode::spatialAlgo(float Yaw, float Pitch, float Roll,
+std::vector<float> Mach1DecodeCore::spatialAlgo(float Yaw, float Pitch, float Roll,
 	int bufferSize, int sampleIndex) {
 
-	return processSample(&Mach1Decode::spatialAlgoSample, Yaw, Pitch, Roll, bufferSize, sampleIndex);
+	return processSample(&Mach1DecodeCore::spatialAlgoSample, Yaw, Pitch, Roll, bufferSize, sampleIndex);
 }
 
-void Mach1Decode::spatialAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
-    processSample(&Mach1Decode::spatialAlgoSample, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+void Mach1DecodeCore::spatialAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
+    processSample(&Mach1DecodeCore::spatialAlgoSample, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
 }
 
 // ------------------------------------------------------------------
@@ -695,16 +697,16 @@ void Mach1Decode::spatialAlgo(float Yaw, float Pitch, float Roll, float *result,
 //  R = Roll in degrees
 //
 
-std::vector<float> Mach1Decode::spatialAltAlgo(float Yaw, float Pitch, float Roll,
+std::vector<float> Mach1DecodeCore::spatialAltAlgo(float Yaw, float Pitch, float Roll,
 	int bufferSize, int sampleIndex) {
 
-	return processSample(&Mach1Decode::spatialAltAlgoSample, Yaw, Pitch, Roll, bufferSize, sampleIndex);
+	return processSample(&Mach1DecodeCore::spatialAltAlgoSample, Yaw, Pitch, Roll, bufferSize, sampleIndex);
 }
 
-void Mach1Decode::spatialAltAlgo(float Yaw, float Pitch, float Roll, float *result,
+void Mach1DecodeCore::spatialAltAlgo(float Yaw, float Pitch, float Roll, float *result,
                                                int bufferSize, int sampleIndex) {
     
-    return processSample(&Mach1Decode::spatialAltAlgoSample, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+    return processSample(&Mach1DecodeCore::spatialAltAlgoSample, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
 }
 
 // ------------------------------------------------------------------
@@ -718,7 +720,7 @@ void Mach1Decode::spatialAltAlgo(float Yaw, float Pitch, float Roll, float *resu
 //  R = Roll in degrees
 //
 
-std::vector<float> Mach1Decode::spatialPairsAlgo(float Yaw, float Pitch, float Roll,
+std::vector<float> Mach1DecodeCore::spatialPairsAlgo(float Yaw, float Pitch, float Roll,
 	int bufferSize, int sampleIndex) {
 
 	fillPlatformAngles(angularSetting, &Yaw, &Pitch, &Roll);
@@ -806,7 +808,7 @@ std::vector<float> Mach1Decode::spatialPairsAlgo(float Yaw, float Pitch, float R
 	return result;
 }
 
-void Mach1Decode::spatialPairsAlgo(float Yaw, float Pitch, float Roll, float *result,
+void Mach1DecodeCore::spatialPairsAlgo(float Yaw, float Pitch, float Roll, float *result,
                                                  int bufferSize, int sampleIndex) {
     
     fillPlatformAngles(angularSetting, &Yaw, &Pitch, &Roll);

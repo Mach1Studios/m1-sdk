@@ -103,7 +103,7 @@ int AudioPlayer::decode_packet(int * got_frame, int cached)
             int samples = unpadded_linesize / sizeof(float);
             while (running && ready && bufferWrite + samples >= bufferRead)
             {
-                usleep(2);
+                usleep(20);
             }
 
             // http://stackoverflow.com/questions/14989397/how-to-convert-sample-rate-from-av-sample-fmt-fltp-to-av-sample-fmt-s16

@@ -45,14 +45,11 @@ public class MainActivity extends Activity implements SensorEventListener {
         // Get an instance of the SensorManager
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
 
-        // mRotationVectorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR );//TYPE_GAME_ROTATION_VECTOR);//TYPE_ROTATION_VECTOR);
-        //   mGravity = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
-        // mSensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_FASTEST);
-        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
-        mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_FASTEST);
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
+        mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_GAME);
 
         ((Button) findViewById(R.id.buttonPlay)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -78,35 +75,52 @@ public class MainActivity extends Activity implements SensorEventListener {
     float[] mGravity;
     float[] mGeomagnetic;
 
+    static final float ALPHA = 0.25f;
+    protected float[] Lerp( float[] input, float[] output ) {
+        if ( output == null ) return input;
+
+        for ( int i=0; i<input.length; i++ ) {
+            output[i] = output[i] * ALPHA + input[i] * (1.0f-ALPHA) ;
+        }
+        return output;
+    }
+
+
     public void onSensorChanged(SensorEvent event) {
 
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
-            mGravity = event.values;
-        if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
-            mGeomagnetic = event.values;
-        if (mGravity != null && mGeomagnetic != null) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            mGravity = Lerp( event.values.clone(), mGravity);
+        }
+
+        if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+            mGeomagnetic = Lerp( event.values.clone(), mGeomagnetic);
+        }
+
+        if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD ) {
+            //
             float R[] = new float[9];
             float I[] = new float[9];
-            boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic);
-            if (success) {
-                float mOrientation[] = new float[3];
-                SensorManager.getOrientation(R, mOrientation);
 
-                float mAzimut = (float)( Math.toDegrees( mOrientation[0]) + 0 ) % 360; // orientation contains: azimut, pitch and roll
-                float mPitch = (float)( Math.toDegrees( mOrientation[2]) + 0 ) % 360;
-                float mRoll = (float)( Math.toDegrees( mOrientation[1]) + 0 ) % 360;
+            //SensorManager.getInclination(I);
+            boolean success = SensorManager.getRotationMatrix(R, null, mGravity, mGeomagnetic);
 
-                setAudioAngles(mAzimut, mPitch, mRoll);
+            float mOrientation[] = new float[3];
+            SensorManager.getOrientation(R, mOrientation);
 
-                textView.setText(
+            // orientation contains: azimut, pitch and roll
+            float mAzimut = (float)( Math.toDegrees( mOrientation[0]) + 0 );// % 360;
+            float mPitch = (float)( Math.toDegrees( mOrientation[2]) + 0 );// % 360;
+            float mRoll = (float)( Math.toDegrees( mOrientation[1]) + 0 );// % 360;
+
+            setAudioAngles(mAzimut, mPitch, mRoll);
+
+            textView.setText(
                         "angles: \r\n" +
                                 "Yaw: " + Integer.toString((int)mAzimut) + "\r\n" +
                                 "Pitch: " + Integer.toString((int)mPitch) + "\r\n" +
                                 "Roll: " + Integer.toString((int)mRoll));
 
-                //Log.v(LOG_TAG, "SENSOR: " + mAzimut + " , " + mPitch + " , " + mRoll + " , " );
-
-            }
+            //Log.v(LOG_TAG, "SENSOR: " + mAzimut + " , " + mPitch + " , " + mRoll + " , " );
         }
     }
 

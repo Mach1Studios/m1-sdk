@@ -17,6 +17,11 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+import android.content.res.Configuration;
+import android.view.Surface;
+import android.content.pm.ActivityInfo;
+import android.util.DisplayMetrics;
+
 public class MainActivity extends Activity implements SensorEventListener {
 
     // Used to load the 'native-lib' library on application startup.
@@ -30,6 +35,62 @@ public class MainActivity extends Activity implements SensorEventListener {
     private Sensor mMagnetometer;
 
     private TextView textView;
+    /*
+    private int getScreenOrientation() {
+        int rotation = getWindowManager().getDefaultDisplay().getRotation();
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+        int orientation;
+        // if the device's natural orientation is portrait:
+        if ((rotation == Surface.ROTATION_0
+                || rotation == Surface.ROTATION_180) && height > width ||
+                (rotation == Surface.ROTATION_90
+                        || rotation == Surface.ROTATION_270) && width > height) {
+            switch(rotation) {
+                case Surface.ROTATION_0:
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+                    break;
+                case Surface.ROTATION_90:
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+                    break;
+                case Surface.ROTATION_180:
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
+                    break;
+                case Surface.ROTATION_270:
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
+                    break;
+                default:
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+                    break;
+            }
+        }
+        // if the device's natural orientation is landscape or if the device
+        // is square:
+        else {
+            switch(rotation) {
+                case Surface.ROTATION_0:
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+                    break;
+                case Surface.ROTATION_90:
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+                    break;
+                case Surface.ROTATION_180:
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
+                    break;
+                case Surface.ROTATION_270:
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
+                    break;
+                default:
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+                    break;
+            }
+        }
+
+        return orientation;
+    }
+    */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,10 +176,10 @@ public class MainActivity extends Activity implements SensorEventListener {
             setAudioAngles(mAzimut, mPitch, mRoll);
 
             textView.setText(
-                        "angles: \r\n" +
-                                "Yaw: " + Integer.toString((int)mAzimut) + "\r\n" +
-                                "Pitch: " + Integer.toString((int)mPitch) + "\r\n" +
-                                "Roll: " + Integer.toString((int)mRoll));
+                    "angles: \r\n" +
+                            "Yaw: " + Integer.toString((int)mAzimut) + "\r\n" +
+                            "Pitch: " + Integer.toString((int)mPitch) + "\r\n" +
+                            "Roll: " + Integer.toString((int)mRoll));
 
             //Log.v(LOG_TAG, "SENSOR: " + mAzimut + " , " + mPitch + " , " + mRoll + " , " );
         }
@@ -135,7 +196,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         //Guitar-8ch.aac
         //out.aac
         //Guitar-8ch.m4a
-        playAudio(getAssets(), "Guitar-8ch.aac");
+        playAudio(getAssets(), "Counting-8ch.aac");
     }
 
     protected void Stop()

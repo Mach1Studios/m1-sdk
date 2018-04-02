@@ -196,7 +196,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         //Guitar-8ch.aac
         //out.aac
         //Guitar-8ch.m4a
-        playAudio(getAssets(), "Counting-8ch.aac");
+        playAudio(getAssets(), "Guitar-8ch.aac");
     }
 
     protected void Stop()

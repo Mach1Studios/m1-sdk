@@ -8,4 +8,6 @@ multichannel audio files or not.
 
 - Import `AudioKit.framework` into the Solution Browser of your project in Xcode.
 
+- Add the parent directory of `libMach1DecodeCAPI.a` to your Library Search Paths to import Mach1Decode lib.
+Example: `"$(SRCROOT)/../../../../binaries/ios/lib/"` 
 

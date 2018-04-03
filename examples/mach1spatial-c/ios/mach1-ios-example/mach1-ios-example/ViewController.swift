@@ -13,8 +13,6 @@ import AudioKit
 
 var motionManager = CMMotionManager()
 var stereoPlayer = AVAudioPlayer()
-var m1LPlayer0 = AVAudioPlayer(), m1LPlayer1 = AVAudioPlayer(), m1LPlayer2 = AVAudioPlayer(), m1LPlayer3 = AVAudioPlayer(), m1LPlayer4 = AVAudioPlayer(), m1LPlayer5 = AVAudioPlayer(), m1LPlayer6 = AVAudioPlayer(), m1LPlayer7 = AVAudioPlayer()
-var m1RPlayer0 = AVAudioPlayer(), m1RPlayer1 = AVAudioPlayer(), m1RPlayer2 = AVAudioPlayer(), m1RPlayer3 = AVAudioPlayer(), m1RPlayer4 = AVAudioPlayer(), m1RPlayer5 = AVAudioPlayer(), m1RPlayer6 = AVAudioPlayer(), m1RPlayer7 = AVAudioPlayer()
 var m1obj = Mach1Decode()
 var stereoActive = false
 var isYawActive = true

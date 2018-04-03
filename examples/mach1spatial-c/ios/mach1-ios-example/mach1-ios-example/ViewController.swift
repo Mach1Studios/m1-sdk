@@ -31,17 +31,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var pitch: UILabel!
     @IBOutlet weak var roll: UILabel!
     @IBAction func playButton(_ sender: Any) {
-        //        if (!m1LPlayer0.isPlaying){
         let shortStartDelay:TimeInterval = 0.1
-        
         
         var startTime = AVAudioTime.now() + 0.25
         for audioPlayer in players {
             audioPlayer.play(at: startTime)
         }
-        
-        
-        
+
         //stereoPlayer.play()
         print("isPlaying")
         //        }else{
@@ -72,11 +68,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        //TODO: load multichannel audio instead
-        //            audioPlayer = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "Guitar-8ch", ofType: "wav")!))
-        
         mixer = AKMixer()
-        
         mixer.volume = 1.0
         AudioKit.output = mixer
         
@@ -88,15 +80,17 @@ class ViewController: UIViewController {
         
         do {
             for i in 0...7 {
+                //load in the individual streams of audio from a Mach1 Spatial encoded audio file
+                //this example assumes you have decoded the multichannel (8channel) audio file into individual streams
                 players.append(try AKPlayer(url: URL.init(fileURLWithPath: Bundle.main.path(forResource: "00" + String(i), ofType: "aif")!))!)
                 players.append(try AKPlayer(url: URL.init(fileURLWithPath: Bundle.main.path(forResource: "00" + String(i), ofType: "aif")!))!)
                 
                 players[i * 2].isLooping = true
                 players[i * 2 + 1].isLooping = true
                 
+                //the Mach1Decode function 8*2 channels to correctly recreate the stereo image
                 players[i * 2].pan = -1.0;
                 players[i * 2 + 1].pan = 1.0;
-                
                 
                 players[i * 2].outputNode.connect(to: mixer.inputNode)
                 players[i * 2 + 1].outputNode.connect(to: mixer.inputNode)
@@ -169,7 +163,7 @@ class ViewController: UIViewController {
                     }
                     
                     //print coeffs
-                    
+                
                 }
             })
             print("Device motion started")

@@ -6,7 +6,7 @@
 #include "Mach1DecodeCAPI.h"
 #include "Mach1DecodeCore.h"
 
-void* Mach1DecodeCAPI_create()
+void* Mach1DecodeCAPI_create(void)
 {
 	return new Mach1DecodeCore();
 }

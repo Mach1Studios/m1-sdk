@@ -301,10 +301,16 @@ void Mach1DecodeCore::fillPlatformAngles(AngularSettingsType type, float* Y, flo
 		*R = *R;
 		break;
 
-	case m1iOS:
+	case m1iOSPortrait:
 		*Y = *Y;
-		*P = *P;
+		*P = *P -90;
 		*R = *R;
+		break;
+
+	case m1iOSLandscape:
+		*Y = *Y; //+90?
+		*P = -*P;
+		*R = -*R;
 		break;
 
 	default:

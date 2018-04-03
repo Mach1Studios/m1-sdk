@@ -43,7 +43,7 @@ yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.dylib" "../examples/mach1spa
 yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.dylib" "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/ThirdParty/Mach1/bin/Mac/libMach1DecodeCAPI.dylib"
 
 echo "### Replacing iOS ###"
-yes | cp -rf _install/ios-11
+yes | cp -rf _install/ios ../binaries/
 yes | cp -rf "_install/ios/lib/libMach1DecodeCAPI.a" "../examples/mach1spatial-c/Unity/cs/Plugins/iOS/libMach1DecodeCAPI.a"
 yes | cp -rf "_install/ios/lib/libMach1DecodeCAPI.a" "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/iOS/libMach1DecodeCAPI.a"
 yes | cp -rf "_install/ios/lib/libMach1DecodeCAPI.a" "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/ThirdParty/Mach1/bin/IOS/libMach1DecodeCAPI.a"

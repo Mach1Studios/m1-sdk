@@ -28,7 +28,7 @@ class Mach1DecodeCore {
     
 public:
     enum AngularSettingsType {
-        m1Default = 0, m1Unity, m1UE, m1oFEasyCam, m1Android, m1iOS
+        m1Default = 0, m1Unity, m1UE, m1oFEasyCam, m1Android, m1iOSPortrait, m1iOSLandscape
     };
 
 private:

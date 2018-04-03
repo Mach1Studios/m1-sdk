@@ -10,7 +10,7 @@ namespace Mach1
     {
         public enum AngularSettingsType : int
         {
-            m1Default = 0, m1Unity, m1UE, m1oFEasyCam, m1Android, m1iOS
+            m1Default = 0, m1Unity, m1UE, m1oFEasyCam, m1Android, m1iOSPortrait, m1iOSLandscape
         };
 
         internal const string libname = "Mach1DecodeCAPI";

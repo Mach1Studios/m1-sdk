@@ -2,7 +2,6 @@
 //  Copyright © 2017 Mach1. All rights reserved.
 //
 //  Header file
-<<<<<<< HEAD
 
 #pragma once
 

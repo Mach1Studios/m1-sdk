@@ -14,7 +14,7 @@ extern "C"
 #include <thread>
 #include <unistd.h>
 
-#define AUDIO_PLAYER_BUFFERSIZE (2 * 1024)
+#define AUDIO_PLAYER_BUFFERSIZE (4 * 1024)
 #define AUDIO_PLAYER_CHANNELS 8
 
 class AudioPlayer

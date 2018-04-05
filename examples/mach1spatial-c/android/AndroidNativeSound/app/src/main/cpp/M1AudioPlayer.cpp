@@ -16,26 +16,26 @@ bool M1AudioPlayer::Get(short * buf, int samples)
 {
     if (ready && running)
     {
+        size_t idx = 0;
+
         float sndL = 0;
         float sndR = 0;
         float volumes[18];
 
-        float Yaw_ = Yaw;
-        float Pitch_ = Pitch;
-        float Roll_ = Roll;
-
         mach1Decode.beginBuffer();
         for (size_t i = 0; i < samples; i++)
         {
-            mach1Decode.spatialAlgo(Yaw_, Pitch_, Roll_, volumes, samples, i);
+            mach1Decode.spatialAlgo(Yaw, Pitch, Roll, volumes, samples, i);
 
             sndL = 0;
             sndR = 0;
 
+            idx = (bufferRead + i) % AUDIO_PLAYER_BUFFERSIZE;
+
             for (int j = 0; j < 8; j++)
             {
-                sndL += volumes[j * 2 + 0] * buffer[j][(bufferRead + i) % AUDIO_PLAYER_BUFFERSIZE];
-                sndR += volumes[j * 2 + 1] * buffer[j][(bufferRead + i) % AUDIO_PLAYER_BUFFERSIZE];
+                sndL += volumes[j * 2 + 0] * buffer[j][idx];
+                sndR += volumes[j * 2 + 1] * buffer[j][idx];
             }
 
             if (sndL > 1) sndL = 1;

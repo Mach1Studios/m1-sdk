@@ -296,13 +296,14 @@ void Mach1DecodeCore::fillPlatformAngles(AngularSettingsType type, float* Y, flo
 		break;
 
 	case m1Android:
-		*Y = -*Y - 90;
+		*Y = -*Y;
 		*P = -*P;
 		*R = *R;
 		break;
 
 	case m1iOSPortrait:
 		*Y = *Y;
+		*P = *P -90;
 		*P = *P -90;
 		*R = *R;
 		break;

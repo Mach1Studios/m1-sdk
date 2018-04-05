@@ -169,19 +169,19 @@ public class MainActivity extends Activity implements SensorEventListener {
             SensorManager.getOrientation(R, mOrientation);
 
             // orientation contains: azimut, pitch and roll
-            float mAzimut = (float)( Math.toDegrees( mOrientation[0]) + 0 );// % 360;
-            float mPitch = (float)( Math.toDegrees( mOrientation[2]) + 0 );// % 360;
+            float mYaw = (float)( Math.toDegrees( mOrientation[0]) );// % 360;
+            float mPitch = (float)( Math.toDegrees( mOrientation[2]) + 90 );// % 360;
             float mRoll = (float)( Math.toDegrees( mOrientation[1]) + 0 );// % 360;
 
-            setAudioAngles(mAzimut, mPitch, mRoll);
+            setAudioAngles(mYaw, mPitch, mRoll);
 
             textView.setText(
                     "angles: \r\n" +
-                            "Yaw: " + Integer.toString((int)mAzimut) + "\r\n" +
+                            "Yaw: " + Integer.toString((int)mYaw) + "\r\n" +
                             "Pitch: " + Integer.toString((int)mPitch) + "\r\n" +
                             "Roll: " + Integer.toString((int)mRoll));
 
-            //Log.v(LOG_TAG, "SENSOR: " + mAzimut + " , " + mPitch + " , " + mRoll + " , " );
+            //Log.v(LOG_TAG, "SENSOR: " + mYaw + " , " + mPitch + " , " + mRoll + " , " );
         }
     }
 

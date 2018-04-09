@@ -127,44 +127,65 @@ class ViewController: UIViewController {
             motionManager.deviceMotionUpdateInterval = 0.01;
             let queue = OperationQueue()
             motionManager.startDeviceMotionUpdates(to: queue, withHandler: { [weak self] (motion, error) -> Void in
-                // Get the attitudes of the device
-                if let attitude = motion?.attitude {
-                    //Device orientation management
-                    let deviceYaw = attitude.yaw * 180/M_PI
-                    let devicePitch = attitude.pitch * 180/M_PI
-                    //                    let devicePitch = 0.0
-                    let deviceRoll = attitude.roll * 180/M_PI
-                    //                    let deviceRoll = 0.0
-                    //                    print("Yaw: ", deviceYaw)
-                    //                    print("Pitch: ", devicePitch)
-                    DispatchQueue.main.async() {
-                        self?.yaw.text = String(deviceYaw)
-                        self?.pitch.text = String(devicePitch)
-                        self?.roll.text = String(deviceRoll)
-                    }
-                    //Mute stereo if off
-                    if (stereoActive) {
-                        stereoPlayer.setVolume(1.0, fadeDuration: 0.1)
-                    } else if (!stereoActive) {
-                        stereoPlayer.setVolume(0.0, fadeDuration: 0.1)
-                    }
-                    
-                    //Send device orientation to m1obj with the preferred algo
-                    let decodeArray: [Float]  = m1obj.spatialAlgo(Yaw: Float(deviceYaw), Pitch: Float(devicePitch), Roll: Float(deviceRoll))
-                    //                    print(decodeArray)
-                    
-                    //Use each coeff to decode multichannel Mach1 Spatial mix
-                    for i in 0...7 {
-                        players[i * 2].volume = Double(decodeArray[i * 2])
-                        players[i * 2 + 1].volume = Double(decodeArray[i * 2 + 1])
-                        
-                        print(String(players[i * 2].currentTime) + " ; " + String(i * 2))
-                        print(String(players[i * 2 + 1].currentTime) + " ; " + String(i * 2 + 1))
-                    }
-                    
-                    //print coeffs
                 
+                // Get the attitudes of the device
+                let attitude = motion?.attitude
+                //Device orientation management
+                var deviceYaw = attitude!.yaw * 180/M_PI
+                var devicePitch = attitude!.pitch * 180/M_PI
+                //                    let devicePitch = 0.0
+                var deviceRoll = attitude!.roll * 180/M_PI
+                //                    let deviceRoll = 0.0
+                //                    print("Yaw: ", deviceYaw)
+                //                    print("Pitch: ", devicePitch)
+
+                // Please notice that you're expected to correct the correct the angles you get from
+                // the device's sensors to provide M1 Library with accurate angles in accordance to documentation.
+                // (documentation URL here)
+                switch UIDevice.current.orientation{
+                    case .portrait:
+                        deviceYaw += 90
+                        devicePitch -= 90
+                    case .portraitUpsideDown:
+                        deviceYaw -= 90
+                        devicePitch += 90
+                    case .landscapeLeft:
+                        deviceRoll += 90
+                    case .landscapeRight:
+                        deviceYaw += 180
+                        deviceRoll -= 90
+//                    default:
+                    
+                    default: break
+                    //
                 }
+                
+                DispatchQueue.main.async() {
+                    self?.yaw.text = String(deviceYaw)
+                    self?.pitch.text = String(devicePitch)
+                    self?.roll.text = String(deviceRoll)
+                }
+                //Mute stereo if off
+                if (stereoActive) {
+                    stereoPlayer.setVolume(1.0, fadeDuration: 0.1)
+                } else if (!stereoActive) {
+                    stereoPlayer.setVolume(0.0, fadeDuration: 0.1)
+                }
+                
+                //Send device orientation to m1obj with the preferred algo
+                let decodeArray: [Float]  = m1obj.spatialAlgo(Yaw: Float(deviceYaw), Pitch: Float(devicePitch), Roll: Float(deviceRoll))
+                //                    print(decodeArray)
+                
+                //Use each coeff to decode multichannel Mach1 Spatial mix
+                for i in 0...7 {
+                    players[i * 2].volume = Double(decodeArray[i * 2])
+                    players[i * 2 + 1].volume = Double(decodeArray[i * 2 + 1])
+                    
+                    print(String(players[i * 2].currentTime) + " ; " + String(i * 2))
+                    print(String(players[i * 2 + 1].currentTime) + " ; " + String(i * 2 + 1))
+                }
+                
+                
             })
             print("Device motion started")
         } else {

@@ -296,6 +296,7 @@ void Mach1DecodeCore::fillPlatformAngles(AngularSettingsType type, float* Y, flo
 		break;
 
 	case m1Android:
+        std::swap(*P, *Y);
 		*Y = -*Y;
 		*P = -*P;
 		*R = *R;

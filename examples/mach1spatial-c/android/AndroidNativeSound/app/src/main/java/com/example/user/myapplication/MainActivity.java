@@ -31,8 +31,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     private static final String LOG_TAG = "MyTag";
     private SensorManager mSensorManager;
-    private Sensor mAccelerometer;
-    private Sensor mMagnetometer;
+    private Sensor mRotationSensor;
 
     private TextView textView;
     /*
@@ -106,11 +105,9 @@ public class MainActivity extends Activity implements SensorEventListener {
         // Get an instance of the SensorManager
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
 
-        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        mRotationSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
 
-        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
-        mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_GAME);
+        mSensorManager.registerListener(this, mRotationSensor, SensorManager.SENSOR_DELAY_GAME);
 
         ((Button) findViewById(R.id.buttonPlay)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -133,40 +130,15 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {  }
 
-    float[] mGravity;
-    float[] mGeomagnetic;
-
-    static final float ALPHA = 0.25f;
-    protected float[] Lerp( float[] input, float[] output ) {
-        if ( output == null ) return input;
-
-        for ( int i=0; i<input.length; i++ ) {
-            output[i] = output[i] * ALPHA + input[i] * (1.0f-ALPHA) ;
-        }
-        return output;
-    }
-
 
     public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR ) {
+            // get the rotation matrix
+            float[] temp_matrix = new float[9];
+            SensorManager.getRotationMatrixFromVector(temp_matrix, event.values);
 
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            mGravity = Lerp( event.values.clone(), mGravity);
-        }
-
-        if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-            mGeomagnetic = Lerp( event.values.clone(), mGeomagnetic);
-        }
-
-        if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD ) {
-            //
-            float R[] = new float[9];
-            float I[] = new float[9];
-
-            //SensorManager.getInclination(I);
-            boolean success = SensorManager.getRotationMatrix(R, null, mGravity, mGeomagnetic);
-
-            float mOrientation[] = new float[3];
-            SensorManager.getOrientation(R, mOrientation);
+            float[] mOrientation = new float[3];
+            SensorManager.getOrientation(temp_matrix, mOrientation);
 
             // orientation contains: azimut, pitch and roll
             float mYaw = (float)( Math.toDegrees( mOrientation[0]) );// % 360;
@@ -180,7 +152,6 @@ public class MainActivity extends Activity implements SensorEventListener {
                             "Yaw: " + Integer.toString((int)mYaw) + "\r\n" +
                             "Pitch: " + Integer.toString((int)mPitch) + "\r\n" +
                             "Roll: " + Integer.toString((int)mRoll));
-
             //Log.v(LOG_TAG, "SENSOR: " + mYaw + " , " + mPitch + " , " + mRoll + " , " );
         }
     }
@@ -193,9 +164,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     protected void Play()
     {
-        //Guitar-8ch.aac
-        //out.aac
-        //Guitar-8ch.m4a
         playAudio(getAssets(), "Guitar-8ch.aac");
     }
 

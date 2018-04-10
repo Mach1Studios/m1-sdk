@@ -23,11 +23,12 @@
 
 #endif 
 
+#define Voidpointer void* 
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-    M1_API void* Mach1DecodeCAPI_create(void);
+	M1_API void* Mach1DecodeCAPI_create();
 	M1_API void Mach1DecodeCAPI_delete(void* M1obj);
 
 	M1_API float* Mach1DecodeCAPI_horizonAlgo(void* M1obj, float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex);
@@ -42,7 +43,6 @@ extern "C" {
  
 	M1_API long Mach1DecodeCAPI_getCurrentTime(void* M1obj);
 	M1_API char* Mach1DecodeCAPI_getLog(void * M1obj);
-
 #ifdef __cplusplus
 }
 #endif

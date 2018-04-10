@@ -1,6 +1,5 @@
-//  Mach1 SDK
+﻿//  Mach1 SDK
 //  Copyright © 2017 Mach1. All rights reserved.
-//
 
 using System;
 using System.Runtime.InteropServices;
@@ -11,10 +10,10 @@ namespace Mach1
     {
         public enum AngularSettingsType : int
         {
-            m1Default = 0, m1Unity, m1UE, m1oFEasyCam, m1Android, m1iOS
+            m1Default = 0, m1Unity, m1UE, m1oFEasyCam, m1Android, m1iOSPortrait, m1iOSLandscape
         };
 
-        internal const string libname = "Mach1DecodeCAPI";
+        internal const string libname = "libMach1DecodeCAPI";
 
         [DllImport(libname)]
         internal static extern IntPtr Mach1DecodeCAPI_create();
@@ -74,7 +73,7 @@ namespace Mach1
         {
             IntPtr ptr = Mach1DecodeCAPI_horizonPairsAlgo(M1obj, Yaw, Pitch, Roll, bufferSize, sampleIndex);
 
-            float[] data = new float[16];
+            float[] data = new float[8];
             Marshal.Copy(ptr, data, 0, data.Length);
             return data;
         }
@@ -102,7 +101,7 @@ namespace Mach1
         {
             IntPtr ptr = Mach1DecodeCAPI_spatialPairsAlgo(M1obj, Yaw, Pitch, Roll, bufferSize, sampleIndex);
 
-            float[] data = new float[32];
+            float[] data = new float[16];
             Marshal.Copy(ptr, data, 0, data.Length);
             return data;
         }

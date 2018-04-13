@@ -140,7 +140,7 @@ public class M1Base : MonoBehaviour
 
             for (int i = 0; i < externalAudioFilenameBlend.Length; i++)
             {
-                StartCoroutine(LoadAudio(Path.Combine(externalAudioPath, externalAudioFilenameBlend[i]), true, i, isFromStreamingAssets));
+				StartCoroutine(LoadAudio(Path.Combine(externalAudioPath, externalAudioFilenameBlend[i]), true, i, isFromStreamingAssets));
             }
         }
 
@@ -187,10 +187,10 @@ public class M1Base : MonoBehaviour
 #elif UNITY_ANDROID
      path = "jar:file://"+ Application.dataPath + "!/assets";
 #elif UNITY_IOS
-     path = "file:" + Application.dataPath + "/Raw";
+     path = "file://" + Application.dataPath + "/Raw";
 #else
      //Desktop (Mac OS or Windows)
-     path = "file:"+ Application.dataPath + "/StreamingAssets";
+     path = "file://"+ Application.dataPath + "/StreamingAssets";
 #endif
         return path;
     }
@@ -216,6 +216,8 @@ public class M1Base : MonoBehaviour
             url = url.Replace("$CURDIR", "file:///" + Directory.GetCurrentDirectory());
             url = url.Replace("$STREAMINGASSETS", GetStreamingAssetsPath());
 
+			//Debug.Log ("load audio : " + url);
+
             WWW www = new WWW(url);
             yield return www;
             if (www.error == null)
@@ -228,9 +230,9 @@ public class M1Base : MonoBehaviour
             }
         }
 
-        if (clip != null)
+		if (clip != null)
         {
-            if (!room)
+		    if (!room && audioSourceMain != null && audioSourceMain.Length > n * 2 + 1)
             {
                 audioSourceMain[n * 2] = AddAudio(clip, isLoop, true, 1.0f);
                 audioSourceMain[n * 2].panStereo = -1;
@@ -239,7 +241,7 @@ public class M1Base : MonoBehaviour
                 audioSourceMain[n * 2 + 1].panStereo = 1;
                 loadedCountMain++;
             }
-            else
+		    else if(audioSourceBlend != null && audioSourceBlend.Length > n * 2 + 1)
             {
                 audioSourceBlend[n * 2] = AddAudio(clip, isLoop, true, 1.0f);
                 audioSourceBlend[n * 2].panStereo = -1;
@@ -289,12 +291,13 @@ public class M1Base : MonoBehaviour
     {
         if (IsReady())
         {
-            for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
-            {
-                audioSourceMain[i].Stop();
-            }
+			if (audioSourceMain != null) {
+				for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++) {
+					audioSourceMain [i].Stop ();
+				}
+			}
 
-            if (useBlendMode)
+			if (useBlendMode && audioSourceBlend != null)
             {
                 for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
                 {
@@ -319,21 +322,21 @@ public class M1Base : MonoBehaviour
 
     public float GetPosition()
     {
-        if (audioSourceBlend != null && audioSourceBlend[0]) return audioSourceBlend[0].time;
-        else if (audioSourceMain != null && audioSourceMain[0]) return audioSourceMain[0].time;
+		if (audioSourceBlend != null && audioSourceBlend.Length > 0) return audioSourceBlend[0].time;
+		else if (audioSourceMain != null && audioSourceMain.Length > 0) return audioSourceMain[0].time;
         return 0;
     }
 
     public float GetDuration()
     {
-        if (audioSourceBlend != null && audioSourceBlend[0]) return audioSourceBlend[0].clip.length;
-        else if (audioSourceMain != null && audioSourceMain[0]) return audioSourceMain[0].clip.length;
+		if (audioSourceBlend != null && audioSourceBlend.Length > 0) return audioSourceBlend[0].clip.length;
+		else if (audioSourceMain != null && audioSourceMain.Length > 0) return audioSourceMain[0].clip.length;
         return 0;
     }
 
     public bool IsPlaying()
     {
-        return (audioSourceBlend != null && audioSourceBlend[0].isPlaying) || (audioSourceMain != null && audioSourceMain[0].isPlaying);
+		return (audioSourceBlend != null && audioSourceBlend.Length > 0 && audioSourceBlend[0].isPlaying) || (audioSourceMain != null && audioSourceMain[0].isPlaying);
     }
 
     public static float ClosestPointOnBox(Vector3 point, Vector3 center, Vector3 axis0, Vector3 axis1, Vector3 axis2, Vector3 extents, out Vector3 closestPoint)

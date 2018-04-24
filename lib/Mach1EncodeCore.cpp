@@ -10,6 +10,7 @@ updates and should not be integrated in sections but remain as an update-able fa
 */
 
 #include "Mach1EncodeCore.h"
+#include <math.h>
 
 M1EncodeCorePointResults::M1EncodeCorePointResults() {
 

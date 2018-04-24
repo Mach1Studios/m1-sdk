@@ -22,6 +22,10 @@ echo "### BUILD NDK16b ###"
 /Volumes/git/polly/bin/polly --clear --install --config Release --toolchain android-ndk-r16b-api-21-x86-clang-libcxx
 /Volumes/git/polly/bin/polly --clear --install --config Release --toolchain android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
 
+echo "### BUILD RPI ###"
+/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain raspberrypi2-cxx11
+/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain raspberrypi3-cxx11
+
 echo "### BUILD iOS ###"
 /Volumes/git/polly/bin/polly --clear --install --config Release --toolchain ios
 

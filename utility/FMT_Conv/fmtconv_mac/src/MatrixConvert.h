@@ -79,25 +79,25 @@ private:
     const float r2o20 = (float)sqrt(2.0) / 20.0f;
     const float oo8 = (float)1.0f / 8.0f;
 
-    //Convention:
-    //inputFormat2outputFormat[outputChannelNum][inputChannelNum]
-    // column down = inputs
-    // rows left = outputs
+//Convention:
+//inputFormat2outputFormat[outputChannelNum][inputChannelNum]
+// column down = inputs
+// rows left = outputs
     
-	// --- FuMa ---
+// --- FuMa ---
 	float FuMa2ACNSN3D[4][4] =
 	{ { r2, 0, 0, 0 },
   	  { 0, 0, 1, 0 },
 	  { 0, 0, 0, 1 },
 	  { 0, 1, 0, 0 } };
-	// -- ACN/SN3D ---
+// -- ACN/SN3D ---
 	float ACNSN3D2FuMa[4][4] =
 	{ { oor2, 0, 0, 0 },
 	  { 0, 0, 0, 1 },
 	  { 0, 1, 0, 0 },
 	  { 0, 0, 1, 0 } };
 
-	// --- From M1Horizon (Square) ---
+// --- From M1Horizon (Square) ---
 	float Square2FuMa[4][4] =
 	{ { oor2, oor2, oor2, oor2 },
 	  { oor2, -oor2, oor2, -oor2 },
@@ -227,7 +227,7 @@ private:
         { 0, 0, 0, 0 },
         { 0, 0, 0, 0 } };
     
-    // --- To M1Horizon (Square) ---
+// --- To M1Horizon (Square) ---
     float FiveOh2Square[4][5] =
         //L, C, R, Ls, Rs
     {   { r2o2, r2o4, 0, 0, 0 },
@@ -261,7 +261,7 @@ private:
         { 0, 0, 0, 0, 0, 0 },
         { 0, 0, 0, 0, 0, 0 } };
     
-	// --- M1Horizon (Square) + Stereo (S) ---
+// --- M1Horizon (Square) + Stereo (S) ---
 	float SquareS2FuMa[4][6] =
 	{ { oor2, oor2, oor2, oor2, oor2, oor2 },
 	  { oor2, -oor2, oor2, -oor2, 0, 0 },
@@ -312,14 +312,13 @@ private:
 	  { 0, 0, 0.5f, 0, 0, 1 },
 	  { 0, 0.5f, 0, 0, 1, 0 },
 	  { 0, 0, 0, 0.5f, 0, 1 } };
-
 	//float Square82FuMa[4][8] =
 	//{ { oo2r2, oo2r2, oo2r2, oo2r2, oo2r2, oo2r2, oo2r2, oo2r2 },
 	//  { oo2r2, oo2r2, oo2r2, -oo2r2,- oo2r2, oo2r2, -oo2r2, -oo2r2 },
 	//  { oo2r2, -oo2r2, -oo2r2, oo2r2, -oo2r2, -oo2r2, oo2r2, -oo2r2 },
 	//  { 0, 0, 0, 0 } };
 
-	// --- M1Spatial (Cube) ---
+// --- M1Spatial (Cube) ---
 	float Cube2FuMa [4][8] = 
 	{ { oor2, oor2, oor2, oor2, oor2, oor2, oor2, oor2 },
 	  { 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f },
@@ -337,14 +336,14 @@ private:
 	   { 0, 0, 0, 0, 0, 0, 0, 0 } }; //V
     float Cube2TBE[8][8] =
     //W         -L->+R     +F->-B    +U->-D
-    {   { 0.682217f, 0.682217f, 0.682217f, 0.682217f, 0, 0.682217f, 0.682217f, 0.682217f },
-        { -0.590557f, 0.590557f, -0.590557f, 0.590557f, -0.590557f, 0.590557f, -0.590557f, 0.590557f },
-        { 0.590557f, 0.590557f, -0.590557f, -0.591337f, 0.590557f, 0.590557f, -0.590557f, -0.590557f },
-        { 0.591337f, 0.591337f, 0.591337f, 0.591337f, -0.591337f, -0.591337f, -0.591337f, -0.591337f },
+    {   { 1.465809f, 1.465809f, 1.465809f, 1.465809f, 1.465809f, 1.465809f, 1.465809f, 1.465809f },
+        { -1.693316f, 1.693316f, -1.693316f, 1.693316f, -1.693316f, 1.693316f, -1.693316f, 1.693316f },
+        { 1.693316f, 1.693316f, -1.693316f, -1.693316f, 1.693316f, 1.693316f, -1.693316f, -1.693316f },
+        { 1.691083f, 1.691083f, 1.691083f, 1.691083f, -1.691083f, -1.691083f, -1.691083f, -1.691083f },
         { 0, 0, 0, 0, 0, 0, 0, 0 },
-        { -0.152414f, 0.152414f, 0.152414f, -0.152414f, -0.152414f, 0.152414f, 0.152414f, -0.152414f },
-        { -0.152615f, 0.152615f, -0.152615f, 0.152615f, 0.152615f, -0.152615f, 0.152615f, -0.152615f },
-        { 0.152615f, 0.152615f, -0.152615f, -0.152615f, -0.152615f, -0.152615f, 0.152615f, 0.152615f } };
+        { -6.561077f, 6.561077f, 6.561077f, -6.561077f, -6.561077f, 6.561077f, 6.561077f, -6.561077f },
+        { -6.552435f, 6.552435f, -6.552435f, 6.552435f, 6.552435f, -6.552435f, 6.552435f, -6.552435f },
+        { 6.552435f, 6.552435f, -6.552435f, -6.552435f, -6.552435f, -6.552435f, 6.552435f, 6.552435f } };
     //oFOA
 //    float Cube2ACNSN3D[4][8] =
 //    {   { oor3, oor3, oor3, oor3, oor3, oor3, oor3, oor3 }, //oor3 = 0.5773f
@@ -432,6 +431,15 @@ private:
         { 0.682217f, 0.590557f, 0.590557f, -0.591337f, 0, 0.152414f, -0.152615f, -0.152615f },
         { 0.682217f, -0.590557f, -0.590557f, -0.591337f, 0, 0.152414f, 0.152615f, 0.152615f },
         { 0.682217f, 0.590557f, -0.590557f, -0.591337f, 0, -0.152414f, -0.152615f, 0.152615f } };
+    //inverse
+//    {   { 1.465809f, -1.693316f, 1.693316f, 1.691083f, 0, -6.561077f, -6.552435f, 6.552435f },
+//        { 1.465809f, 1.693316f, 1.693316f, 1.691083f, 0, 6.561077f, 6.552435f, 6.552435f },
+//        { 1.465809f, -1.693316f, -1.693316f, 1.691083f, 0, 6.561077f, -6.552435f, -6.552435f },
+//        { 1.465809f, 1.693316f, -1.693316f, 1.691083f, 0, -6.561077f, 6.552435f, -6.552435f },
+//        { 1.465809f, -1.693316f, 1.693316f, -1.691083f, 0, -6.561077f, 6.552435f, -6.552435f },
+//        { 1.465809f, 1.693316f, 1.693316f, -1.691083f, 0, 6.561077f, -6.552435f, -6.552435f },
+//        { 1.465809f, -1.693316f, -1.693316f, -1.691083f, 0, 6.561077f, 6.552435f, 6.552435f },
+//        { 1.465809f, 1.693316f, -1.693316f, -1.691083f, 0, -6.561077f, -6.552435f, 6.552435f } };
 	float Cube2Square[4][8] =
 	{ { 0.5f, 0, 0, 0, 0.5f, 0, 0, 0 },
 	  { 0, 0.5f, 0, 0, 0, 0.5f, 0, 0 },
@@ -446,6 +454,14 @@ private:
 	  { 0, 0, 0.5f, 0, 0, 0, 0.5f, 0 }, //180R
 	  { 0, 0, 0.5f, 0, 0, 0, 0.5f, 0 }, //270L
 	  { 0.5f, 0, 0, 0, 0.5f, 0, 0, 0 } }; //270R
+    float Cube2CubeFace[6][8] =
+    //Fc, Lc, Bc, Rc, Tc, Bc
+    {   { r2o3, r2o3, 0, 0, r2o3, r2o3, 0, 0 },
+        { r2o3, 0, r2o3, 0, r2o3, 0, r2o3, 0 },
+        { 0, 0, r2o3, r2o3, 0, 0, r2o3, r2o3 },
+        { 0, r2o3, 0, r2o3, 0, r2o3, 0, r2o3 },
+        { r2o3, r2o3, r2o3, r2o3, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, r2o3, r2o3, r2o3, r2o3 } };
     float Cube2Cube16[16][8] = //TODO: fix this
 	{ { 1, 0, 0, 0, 0, 0, 0, 0 },
 	  { 0, 1, 0, 0, 0, 0, 0, 0 },
@@ -464,7 +480,7 @@ private:
 	  { 0, 0, 0, 0, 0, 1, 0, 0 },
 	  { 0, 0, 0, 0, 0, 0, 0, 1 } };
 
-	// --- M1Spatial + Stereo (S) ---
+// --- M1Spatial + Stereo (S) ---
 	float CubeS2FuMa[4][10] =
 	{ { oor2, oor2, oor2, oor2, oor2, oor2, oor2, oor2, 1, 1 },
 	  { 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f, 0, 0 },
@@ -517,7 +533,7 @@ private:
 	  { 0, 0, 0, 0, 0, 0, 0, 1, 0, 1 },
 	};
 
-    // --- Surround to M1Spatial ---;
+// --- Surround to M1Spatial ---;
     float Mono2Cube[8][1] =
     {   { r2o8 },
         { r2o8 },
@@ -772,20 +788,36 @@ private:
         { r2o4, 0, 0, r2o4, 0, r2o4 },
         { 0, r2o4, r2o4, 0, 0, r2o4 },
         { 0, 0, r2o4, r2o4, 0, r2o4 } };
-    // --- M1Spatial to Surround ---;
+    
+// --- M1Spatial && M1Spatial+Stereo to Surround ---;
+    //TODO: fix front to rear ratio
     float Cube2Stereo[2][8] =
     {   { r2o8, 0, r2o8, 0, r2o8, 0, r2o8, 0 },
         { 0, r2o8, 0, r2o8, 0, r2o8, 0, r2o8 } };
-    //TODO: fix front to rear ratio
+    float CubeS2Stereo[2][10] =
+    {   { r2o8, 0, r2o8, 0, r2o8, 0, r2o8, 0, 1, 0 },
+        { 0, r2o8, 0, r2o8, 0, r2o8, 0, r2o8, 0, 1 } };
+
     float Cube2Stereo_Cinema[2][8] =
     {   { r2o8, 0, r2o8, 0, r2o8, 0, r2o8, 0 },
         { 0, r2o8, 0, r2o8, 0, r2o8, 0, r2o8 } };
+    float CubeS2Stereo_Cinema[2][10] =
+    {   { r2o8, 0, r2o8, 0, r2o8, 0, r2o8, 0, 1, 0 },
+        { 0, r2o8, 0, r2o8, 0, r2o8, 0, r2o8, 0, 1 } };
+    
     float Cube2FiveOh[5][8] =
     {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
         { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
         { 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
         { 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
         { 0, 0, 0, r2o2, 0, 0, 0, r2o2 } };
+    float CubeS2FiveOh[5][10] =
+    {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, 0, 0 },
+        { 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
+        { 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+        { 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 } };
+    
     float Cube2FiveOneFilm[6][8] =
     {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
         { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
@@ -793,6 +825,14 @@ private:
         { 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
         { 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
         { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } };
+    float CubeS2FiveOneFilm[6][10] =
+    {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, 0, 0 },
+        { 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
+        { 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+        { 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 } };
+    
     float Cube2FiveOneFilm_Cinema[6][8] =
     {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
         { r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },
@@ -800,6 +840,14 @@ private:
         { 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
         { 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
         { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } };
+    float CubeS2FiveOneFilm_Cinema[6][10] =
+    {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
+        { r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },
+        { 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
+        { 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+        { 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 } };
+    
     float Cube2FiveOneSmpte[6][8] =
     {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
         { 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
@@ -807,6 +855,14 @@ private:
         { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
         { 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
         { 0, 0, 0, r2o2, 0, 0, 0, r2o2 } };
+    float CubeS2FiveOneSmpte[6][10] =
+    {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
+        { 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
+        { r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 },
+        { 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+        { 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 } };
+    
     float Cube2FiveOneDts[6][8] =
     {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
         { 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
@@ -814,6 +870,14 @@ private:
         { 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
         { r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },
         { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } };
+    float CubeS2FiveOneDts[6][10] =
+    {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
+        { 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
+        { 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+        { 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
+        { r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 } };
+    
     float Cube2SevenOnePt[8][8] =
     {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
         { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
@@ -823,6 +887,16 @@ private:
         { 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
         { 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
         { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } };
+    float CubeS2SevenOnePt[8][10] =
+    {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, 0, 0 },
+        { 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
+        { r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0, 0, 0 },
+        { 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0, 0 },
+        { 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+        { 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 } };
+    
     float Cube2SevenOnePt_Cinema[8][8] =
     {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
         { r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },
@@ -832,6 +906,16 @@ private:
         { 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
         { 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
         { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } };
+    float CubeS2SevenOnePt_Cinema[8][10] =
+    {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
+        { r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
+        { 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
+        { r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0, 0, 0 },
+        { 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0, 0 },
+        { 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+        { 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 } };
+    
     float Cube2SevenZero_Cinema[7][8] =
     {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
         { r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },
@@ -840,6 +924,15 @@ private:
         { 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4 },
         { 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
         { 0, 0, 0, r2o2, 0, 0, 0, r2o2 } };
+    float CubeS2SevenZero_Cinema[7][10] =
+    {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
+        { r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
+        { 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
+        { r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0, 0, 0 },
+        { 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0, 0 },
+        { 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+        { 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 } };
+    
     float Cube2SevenOneSDDS[8][8] =
         //1  2  3  4  5  6  7  8
     {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 }, //L
@@ -850,6 +943,17 @@ private:
         { 0, 0, r2o2, 0, 0, 0, r2o2, 0 }, //Ls
         { 0, 0, 0, r2o2, 0, 0, 0, r2o2 }, //Rs
         { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } }; //LFE
+    float CubeS2SevenOneSDDS[8][10] =
+    //1  2  3  4  5  6  7  8
+    {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0 }, //L
+        { 0.375f, 0.125f, 0, 0, 0.375f, 0.125f, 0, 0, r2o2, 0 }, //Lc
+        { r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 }, //C
+        { 0.125f, 0.375f, 0, 0, 0.125f, 0.375f, 0, 0, 0, r2o2 }, //Rc
+        { 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2 }, //R
+        { 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 }, //Ls
+        { 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 }, //Rs
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 } }; //LFE
+    
     float Cube2SevenZeroSDDS[7][8] =
         //1  2  3  4  5  6  7  8
     {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 }, //L
@@ -859,6 +963,16 @@ private:
         { 0, r2o2, 0, 0, 0, r2o2, 0, 0 }, //R
         { 0, 0, r2o2, 0, 0, 0, r2o2, 0 }, //Ls
         { 0, 0, 0, r2o2, 0, 0, 0, r2o2 } }; //Rs
+    float CubeS2SevenZeroSDDS[7][10] =
+    //1  2  3  4  5  6  7  8  9  10
+    {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0 }, //L
+        { 0.375f, 0.125f, 0, 0, 0.375f, 0.125f, 0, 0, r2o2, 0 }, //Lc
+        { r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 }, //C
+        { 0.125f, 0.375f, 0, 0, 0.125f, 0.375f, 0, 0, 0, r2o2 }, //Rc
+        { 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2 }, //R
+        { 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 }, //Ls
+        { 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 } }; //Rs
+    
     float Cube2SevenOneTwo[10][8] =
         //1  2  3  4  5  6  7  8
     {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//L
@@ -871,6 +985,19 @@ private:
         { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },//LFE
         { r2o2, 0, r2o2, 0, 0, 0, 0, 0 },//Lts
         { 0, r2o2, 0, r2o2, 0, 0, 0, 0 } };//Rts
+    float CubeS2SevenOneTwo[10][10] =
+    //1  2  3  4  5  6  7  8  9  10
+    {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },//L
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, 0, 0 },//C
+        { 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },//R
+        { r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0, 0, 0 },//Lss
+        { 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0, 0 },//Rss
+        { 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//Lsr
+        { 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },//Rsr
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 },//LFE
+        { r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0, 0 },//Lts
+        { 0, r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0 } };//Rts
+    
     float Cube2SevenZeroTwo[9][8] =
         //1  2  3  4  5  6  7  8
     {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//L
@@ -882,6 +1009,18 @@ private:
         { 0, 0, 0, r2o2, 0, 0, 0, r2o2 },//Rsr
         { r2o2, 0, r2o2, 0, 0, 0, 0, 0 },//Lts
         { 0, r2o2, 0, r2o2, 0, 0, 0, 0 } };//Rts
+    float CubeS2SevenZeroTwo[9][10] =
+    //1  2  3  4  5  6  7  8  9  10
+    {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },//L
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, 0, 0 },//C
+        { 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },//R
+        { r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0, 0, 0 },//Lss
+        { 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0, 0 },//Rss
+        { 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//Lsr
+        { 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },//Rsr
+        { r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0, 0 },//Lts
+        { 0, r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0 } };//Rts
+    
     float Cube2NineOne[10][8] =
         //1  2  3  4  5  6  7  8
     {   { 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -894,6 +1033,19 @@ private:
         { 0, 0, 0, 0, 0, 0, 0, 0 },
         { 0, 0, 0, 0, 0, 0, 0, 0 },
         { 0, 0, 0, 0, 0, 0, 0, 0 } };
+    float CubeS2NineOne[10][10] =
+    //1  2  3  4  5  6  7  8  9  10
+    {   { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
+    
     float Cube2NineZero[9][8] =
         //1  2  3  4  5  6  7  8
     {   { 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -905,6 +1057,18 @@ private:
         { 0, 0, 0, 0, 0, 0, 0, 0 },
         { 0, 0, 0, 0, 0, 0, 0, 0 },
         { 0, 0, 0, 0, 0, 0, 0, 0 } };
+    float CubeS2NineZero[9][10] =
+    //1  2  3  4  5  6  7  8  9  10
+    {   { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
+    
     float Cube2FiveOneTwo[8][8] =
         //1  2  3  4  5  6  7  8
     {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
@@ -915,6 +1079,17 @@ private:
         { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
         { r2o2, 0, r2o2, 0, 0, 0, 0, 0 },//Lts
         { 0, r2o2, 0, r2o2, 0, 0, 0, 0 } };//Rts
+    float CubeS2FiveOneTwo[8][10] =
+    //1  2  3  4  5  6  7  8
+    {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
+        { r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
+        { 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
+        { 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+        { 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 },
+        { r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0, 0 },//Lts
+        { 0, r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0 } };//Rts
+    
     float Cube2FiveZeroTwo[7][8] =
     //1  2  3  4  5  6  7  8
     {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
@@ -924,6 +1099,16 @@ private:
         { 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
         { r2o2, 0, r2o2, 0, 0, 0, 0, 0 },//Lts
         { 0, r2o2, 0, r2o2, 0, 0, 0, 0 } };//Rts
+    float CubeS2FiveZeroTwo[7][10] =
+    //1  2  3  4  5  6  7  8
+    {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
+        { r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
+        { 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
+        { 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+        { 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
+        { r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0, 0 },//Lts
+        { 0, r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0 } };//Rts
+    
     float Cube2FiveOneFour[10][8] =
         //1  2  3  4  5  6  7  8
     {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
@@ -936,6 +1121,19 @@ private:
         { 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0 },//FRts
         { 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0 },//BLts
         { 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0 } };//BRts
+    float CubeS2FiveOneFour[10][10] =
+    //1  2  3  4  5  6  7  8
+    {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
+        { r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
+        { 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
+        { 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+        { 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 },
+        { 0.7280f, 0.1250f, 0.1250f, 0.0210f, 0, 0, 0, 0, 0, 0 },//FLts
+        { 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0, 0, 0 },//FRts
+        { 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0, 0, 0 },//BLts
+        { 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0, 0, 0 } };//BRts
+    
     float Cube2FiveZeroFour[9][8] =
     //1  2  3  4  5  6  7  8
     {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
@@ -947,6 +1145,18 @@ private:
         { 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0 },//FRts
         { 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0 },//BLts
         { 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0 } };//BRts
+    float CubeS2FiveZeroFour[9][10] =
+    //1  2  3  4  5  6  7  8
+    {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
+        { r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
+        { 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
+        { 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+        { 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
+        { 0.7280f, 0.1250f, 0.1250f, 0.0210f, 0, 0, 0, 0, 0, 0 },//FLts
+        { 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0, 0, 0 },//FRts
+        { 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0, 0, 0 },//BLts
+        { 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0, 0, 0 } };//BRts
+    
     float Cube2SevenOneFour[12][8] =
         //1  2  3  4  5  6  7  8
     {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//L
@@ -961,6 +1171,21 @@ private:
         { 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0 },//FRts
         { 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0 },//BLts
         { 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0 } };//BRts
+    float CubeS2SevenOneFour[12][10] =
+    //1  2  3  4  5  6  7  8
+    {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },//L
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, 0, 0 },//C
+        { 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },//R
+        { r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0, 0, 0 },//Lss
+        { 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0, 0 },//Rss
+        { 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//Lsr
+        { 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },//Rsr
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 },//LFE
+        { 0.7280f, 0.1250f, 0.1250f, 0.0210f, 0, 0, 0, 0, 0, 0 },//FLts
+        { 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0, 0, 0 },//FRts
+        { 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0, 0, 0 },//BLts
+        { 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0, 0, 0 } };//BRts
+    
     float Cube2SevenZeroFour[11][8] =
         //1  2  3  4  5  6  7  8
     {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//L
@@ -974,14 +1199,19 @@ private:
         { 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0 },//FRts
         { 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0 },//BLts
         { 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0 } };//BRts
-    float Cube2CubeFace[6][8] =
-        //Fc, Lc, Bc, Rc, Tc, Bc
-    {   { r2o3, r2o3, 0, 0, r2o3, r2o3, 0, 0 },
-        { r2o3, 0, r2o3, 0, r2o3, 0, r2o3, 0 },
-        { 0, 0, r2o3, r2o3, 0, 0, r2o3, r2o3 },
-        { 0, r2o3, 0, r2o3, 0, r2o3, 0, r2o3 },
-        { r2o3, r2o3, r2o3, r2o3, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, r2o3, r2o3, r2o3, r2o3 } };
+    float CubeS2SevenZeroFour[11][10] =
+    //1  2  3  4  5  6  7  8
+    {   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },//L
+        { r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, 0, 0 },//C
+        { 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },//R
+        { r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0, 0, 0 },//Lss
+        { 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0, 0 },//Rss
+        { 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//Lsr
+        { 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },//Rsr
+        { 0.7280f, 0.1250f, 0.1250f, 0.0210f, 0, 0, 0, 0, 0, 0 },//FLts
+        { 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0, 0, 0 },//FRts
+        { 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0, 0, 0 },//BLts
+        { 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0, 0, 0 } };//BRts
     
 	int fmtChannels[NUMFMTS] = { 4, 4, 4, 6, 8, 8, 10, 16, 2, 3, 5, 6, 6, 6, 6, 6, 8, 8, 9, 9, 8, 16, 16, 8, 7, 10, 9, 10, 9, 2, 8, 7, 10, 9, 12, 11, 7, 6 };
 	float* fmtMatrix[NUMFMTS][NUMFMTS] =
@@ -990,9 +1220,8 @@ private:
         { &(Square2FuMa[0][0]), &(Square2ACNSN3D[0][0]), NULL, NULL, &(Square2Square8[0][0]), &(Square2Cube[0][0]), NULL, &(Square2Cube16[0][0]), NULL, NULL, &(Square2FiveOh[0][0]), &(Square2FiveOneFilm[0][0]), &(Square2FiveOneFilm_Cinema[0][0]), &(Square2FiveOneSmpte[0][0]), &(Square2FiveOneDts[0][0]), &(Square2SixOh[0][0]), NULL, NULL, &(Square2ACNSN3DO2A[0][0]), NULL, NULL, &(Square2ACNSN3DO3A[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         { &(SquareS2FuMa[0][0]), &(SquareS2ACNSN3D[0][0]), &(SquareS2Square[0][0]), NULL, &(SquareS2Square8[0][0]), &(SquareS2Cube[0][0]), NULL, &(SquareS2Cube16[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
-        { &(Cube2FuMa[0][0]), &(Cube2ACNSN3D[0][0]), &(Cube2Square[0][0]), NULL, &(Cube2Square8[0][0]), NULL, NULL, &(Cube2Cube16[0][0]), &(Cube2Stereo[0][0]), NULL, NULL, &(Cube2FiveOneFilm[0][0]), &(Cube2FiveOneFilm_Cinema[0][0]), &(Cube2FiveOneSmpte[0][0]), &(Cube2FiveOneDts[0][0]), NULL, &(Cube2SevenOnePt[0][0]), &(Cube2SevenOnePt_Cinema[0][0]), &(Cube2ACNSN3DO2A[0][0]), &(Cube2ACNSN3DO2A[0][0]), &(Cube2TBE[0][0]), &(Cube2ACNSN3DO3A[0][0]), NULL, &(Cube2SevenOneSDDS[0][0]), &(Cube2SevenZeroSDDS[0][0]), &(Cube2SevenOneTwo[0][0]), &(Cube2SevenZeroTwo[0][0]), &(Cube2NineOne[0][0]), &(Cube2NineZero[0][0]), &(Cube2Stereo_Cinema[0][0]), &(Cube2FiveOneTwo[0][0]), &(Cube2FiveZeroTwo[0][0]), &(Cube2FiveOneFour[0][0]), &(Cube2FiveZeroFour[0][0]), &(Cube2SevenOneFour[0][0]), &(Cube2SevenZeroFour[0][0]), &(Cube2SevenZero_Cinema[0][0]), &(Cube2CubeFace[0][0]) },
-        { &(CubeS2FuMa[0][0]), &(CubeS2ACNSN3D[0][0]), &(CubeS2Square[0][0]), NULL, &(CubeS2Square8[0][0]), &(CubeS2Cube[0][0]), NULL, &(CubeS2Cube16[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
-        { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+        { &(Cube2FuMa[0][0]), &(Cube2ACNSN3D[0][0]), &(Cube2Square[0][0]), NULL, &(Cube2Square8[0][0]), NULL, NULL, &(Cube2Cube16[0][0]), &(Cube2Stereo[0][0]), NULL, &(Cube2FiveOh[0][0]), &(Cube2FiveOneFilm[0][0]), &(Cube2FiveOneFilm_Cinema[0][0]), &(Cube2FiveOneSmpte[0][0]), &(Cube2FiveOneDts[0][0]), NULL, &(Cube2SevenOnePt[0][0]), &(Cube2SevenOnePt_Cinema[0][0]), &(Cube2ACNSN3DO2A[0][0]), &(Cube2ACNSN3DO2A[0][0]), &(Cube2TBE[0][0]), &(Cube2ACNSN3DO3A[0][0]), NULL, &(Cube2SevenOneSDDS[0][0]), &(Cube2SevenZeroSDDS[0][0]), &(Cube2SevenOneTwo[0][0]), &(Cube2SevenZeroTwo[0][0]), &(Cube2NineOne[0][0]), &(Cube2NineZero[0][0]), &(Cube2Stereo_Cinema[0][0]), &(Cube2FiveOneTwo[0][0]), &(Cube2FiveZeroTwo[0][0]), &(Cube2FiveOneFour[0][0]), &(Cube2FiveZeroFour[0][0]), &(Cube2SevenOneFour[0][0]), &(Cube2SevenZeroFour[0][0]), &(Cube2SevenZero_Cinema[0][0]), &(Cube2CubeFace[0][0]) },
+        { &(CubeS2FuMa[0][0]), &(CubeS2ACNSN3D[0][0]), &(CubeS2Square[0][0]), NULL, &(CubeS2Square8[0][0]), &(CubeS2Cube[0][0]), NULL, &(CubeS2Cube16[0][0]), &(CubeS2Stereo[0][0]), NULL, &(CubeS2FiveOh[0][0]), &(CubeS2FiveOneFilm[0][0]), &(CubeS2FiveOneFilm_Cinema[0][0]), &(CubeS2FiveOneSmpte[0][0]), &(CubeS2FiveOneDts[0][0]), NULL, &(CubeS2SevenOnePt[0][0]), &(CubeS2SevenOnePt_Cinema[0][0]), NULL, NULL, NULL, NULL, NULL, &(CubeS2SevenOneSDDS[0][0]), &(CubeS2SevenZeroSDDS[0][0]), &(CubeS2SevenOneTwo[0][0]), &(CubeS2SevenZeroTwo[0][0]), &(CubeS2NineOne[0][0]), &(CubeS2NineZero[0][0]), &(CubeS2Stereo_Cinema[0][0]), &(CubeS2FiveOneTwo[0][0]), &(CubeS2FiveZeroTwo[0][0]), &(CubeS2FiveOneFour[0][0]), &(CubeS2FiveZeroFour[0][0]), &(CubeS2SevenOneFour[0][0]), &(CubeS2SevenZeroFour[0][0]), &(CubeS2SevenZero_Cinema[0][0]), NULL },
         { NULL, NULL, NULL, NULL, NULL, &(Stereo2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         { NULL, NULL, NULL, NULL, NULL, &(LCR2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
         { NULL, NULL, &(FiveOh2Square[0][0]), NULL, NULL, &(FiveOh2Cube[0][0]), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },

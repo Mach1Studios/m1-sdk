@@ -55,6 +55,7 @@ private:
 	float rotation, diverge, pitch;
 	float sRotate, sSpread;
 	bool autoOrbit;
+	bool isotropicEncode;
 
 	int outputChannelCount;
 
@@ -75,6 +76,7 @@ public:
 	void setStereoRotate(float sRotate);
 	void setStereoSpread(float sSpread);
 	void setAutoOrbit(bool autoOrbit);
+	void setIsotropicEncode(bool isotropicEncode);
 };
 
 #endif /* Mach1EncodeCore_h */

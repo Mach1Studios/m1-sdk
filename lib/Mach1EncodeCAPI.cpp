@@ -128,3 +128,7 @@ void Mach1EncodeCAPI_setStereoSpread(void* M1obj, float sSpread) {
 void Mach1EncodeCAPI_setAutoOrbit(void* M1obj, bool autoOrbit) {
 	((M1EncodeCore*)M1obj)->setAutoOrbit(autoOrbit);
 }
+
+void Mach1EncodeCAPI_setIsotropicEncode(void* M1obj, bool isotropicEncode) {
+	((M1EncodeCore*)M1obj)->setIsotropicEncode(isotropicEncode);
+}

@@ -40,7 +40,7 @@ codesign --deep --force --verify --verbose --sign "Developer ID Application: Dra
 echo "### Move and replace bins ###"
 echo "### Replacing Xcode/macOS ###"
 yes | cp -rf _install/xcode ../binaries/
-yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.dylib" "/Volumes/git/_BUILDENV_/of_v0.9.8_osx_release/addons/ofxMach1/libs/lib/osx/libMach1DecodeCAPI.dylib"
+yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.dylib" "/Volumes/git/openFrameworks/addons/ofxMach1/libs/lib/osx/libMach1DecodeCAPI.dylib"
 yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.dylib" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/lib/osx/libMach1DecodeCAPI.dylib"
 yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.dylib" "../examples/mach1spatial-c/Unity/cs/Plugins/macOS/libMach1DecodeCAPI.bundle"
 yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.dylib" "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1DecodeCAPI.bundle"

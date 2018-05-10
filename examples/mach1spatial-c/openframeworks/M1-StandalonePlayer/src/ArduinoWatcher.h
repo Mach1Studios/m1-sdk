@@ -7,17 +7,27 @@
 class ArduinoWatcher: public ofThread {
 public:
     ArduinoWatcher() {
+        
 #ifndef _WIN32
-        auto result = separateString(ofSystem("ls /dev/cu.Mach1*"));
-        for (int i = 0; i < result.size(); i++) {
-            ofLog() << i << " : " << result[i];
-        }
-        startThread();
+        std::vector<std::string> result;
+        
+        result = separateString(ofSystem("ls /dev/cu.Mach1*"));
+        
+        
+        if ((result.size() > 0) && (result.size() < 100))
+            for (int i = 0; i < result.size(); i++) {
+                ofLog() << i << " : " << result[i];
+            }
 #endif
+        
     }
     
     void exit() {
         stopThread();
+    }
+    
+    void start() {
+        startThread();
     }
     
     std::function<void(std::string address)> arduinoFound = [](std::string address) { ofLog() << "FOUND at " << address; };
@@ -44,16 +54,20 @@ public:
             // Searching for new arduinos
             
             auto search = separateString(ofSystem("ls /dev/cu.Mach1*"));
+            auto search2 = separateString(ofSystem("ls /dev/cu.usbserial-*"));
+            auto search3 = separateString(ofSystem("ls /dev/cu.wchusbserial*"));
+            auto search4 = separateString(ofSystem("ls /dev/cu.H-C-2010-06-01-DevB"));
+            
+            search.insert(search.end(), search2.begin(), search2.end());
+            search.insert(search.end(), search3.begin(), search3.end());
+            search.insert(search.end(), search4.begin(), search4.end());
+            
+            ofLog() << "total devices to check:" << search.size();
             for (int i = 0; i < search.size(); i++) {
                 if (!searchMap(search[i])) {
                     ofLog() << "found new device: " << search[i];
                     
-                    // Temporarily:
-                    // bypass testing and just go to using this device
                     arduinoFound(search[i]);
-                    return;
-                    
-                    //
                     
                     serialMap[search[i]] = true;
                     testSubjects.push_back(search[i]);
@@ -61,17 +75,17 @@ public:
             }
             
             ofLog() << "yet to test: " << testSubjects.size();
-            if (testSubjects.size() == 0) {
-                stopThread();
-                return;
-            }
+            //            if (testSubjects.size() == 0) {
+            //                stopThread();
+            //                return;
+            //            }
             // Evaluating older ones
             
             while (testSubjects.size() > 0) {
                 ofSerial serial;
                 
                 if (!isThreadRunning()) return;
-
+                
                 
                 if (serial.setup(testSubjects[testSubjects.size() - 1], 115200)) {
                     float testStarted = ofGetElapsedTimef();
@@ -106,9 +120,9 @@ public:
                     int slCount = stringCount(result, testStr);
                     ofLog() << "Code Count: " << slCount << " ; time:" << ofGetElapsedTimef();
                     
-                    serial.flush();
-                    serial.close();
-                    while (serial.isInitialized()) {};
+                    //serial.flush();
+                    //serial.close();
+                    //while (serial.isInitialized()) {};
                     if (slCount > 4) arduinoFound(testSubjects[testSubjects.size() - 1]);
                     
                 } else {
@@ -125,8 +139,10 @@ public:
     }
     
     std::vector<std::string> separateString(std::string arg) {
+        
+        
         int i = 0, lastWordIndex = 0;
-        std::vector<std::string> result;
+        std::vector<std::string> result = std::vector<std::string>();
         
         if (arg.length() < 4) return std::vector<std::string>();
         
@@ -142,6 +158,8 @@ public:
             i++;
         }
         return result;
+        
+        
     }
     
     ofSerial serial;
@@ -151,3 +169,4 @@ public:
 };
 
 #endif /* ArduinoWatcher_h */
+

@@ -4,6 +4,7 @@
 #include "ofxImGui.h"
 
 #include "ArduinoWatcher.h"
+#include "ArduinoDecoderYP.h"
 
 #include "BaseAudioTest.h"
 #include "Audio1.h"
@@ -67,6 +68,7 @@ public:
     float angleX, angleY, angleZ;
 
     ArduinoWatcher *arduinoWatcher;
+    vector<ArduinoDecoderYP*> arduinoDecoders;
     bool initializedController = false;
     
     // Visualizing

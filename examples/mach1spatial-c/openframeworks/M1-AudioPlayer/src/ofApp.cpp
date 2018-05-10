@@ -8,9 +8,10 @@ void ofApp::setup(){
     logo.load("logo.png");
     
     //hardcode controller input if available
-    //serial.setup("/dev/cu.Mach1-01-DevB", 115200);
+//    serial.setup("/dev/cu.Mach1-04-DevB", 115200);
     
     arduinoWatcher = new ArduinoWatcher();
+    arduinoWatcher->start();
     arduinoWatcher->arduinoFound = [&](std::string address) {
         ofLog() << "arduino found at " << address;
         initializedController = true;
@@ -33,7 +34,7 @@ void ofApp::setup(){
         
         decoder->gotNewValues = [&](float Y, float P, float R) {
             float pitchAngle = mmap(P, 0, 360, -90.0, 90.0, true);
-            float pitchAngleClampFix = pitchAngle + 90.0;
+            float pitchAngleClampFix = pitchAngle;
 //            yAngleRad = ofDegToRad(Y);
 //            pAngleRad = ofDegToRad(pitchAngleClampFix);
 //            rAngleRad = ofDegToRad(R);
@@ -42,9 +43,9 @@ void ofApp::setup(){
             
             ofLog() << "Y: "<< Y << " ; P: " << pitchAngleClampFix << " ; R: " << R;
             
-            angleX = ofDegToRad(Y);
-            angleY = ofDegToRad(P);
-            angleZ = ofDegToRad(R);
+            angleX = -pitchAngleClampFix;
+            angleY = Y;
+            angleZ = R;
             
         };
         
@@ -126,8 +127,8 @@ void ofApp::update(){
     }
     
     // angle handler//
-    if (angleZ)
-        
+//    if (angleZ)
+    
         pointLight->setPosition((ofGetWidth()*.5)+ cos(ofGetElapsedTimef()*.15)*(ofGetWidth()*.3), ofGetHeight()/2, 500);
     pointLight2->setPosition((ofGetWidth()*.5)+ cos(ofGetElapsedTimef()*.015)*(ofGetWidth()*.3),
                             ofGetHeight()*.5 + sin(ofGetElapsedTimef()*.07)*(ofGetHeight()), -300);

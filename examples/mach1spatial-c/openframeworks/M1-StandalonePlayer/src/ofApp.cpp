@@ -12,34 +12,50 @@ void ofApp::setup(){
 	videoPlayer.load("video.mp4");
 
     //hardcode controller input if available
-//    serial.setup("/dev/cu.Mach1-01-DevB", 115200);
+    //    serial.setup("/dev/cu.Mach1-04-DevB", 115200);
+    
     arduinoWatcher = new ArduinoWatcher();
+    arduinoWatcher->start();
     arduinoWatcher->arduinoFound = [&](std::string address) {
         ofLog() << "arduino found at " << address;
-        ofLog() << "waiting for setup to finish...";
-        
-        arduinoWatcher->stopThread();
-
-        
-//        while (!setupFinished) {
-//            
-//        };
-        
         initializedController = true;
-        serial.setup(address, 115200);
-        while(!serial.isInitialized()) {
+        
+        //        arduinoWatcher->stopThread();
+        
+        ArduinoDecoderYP *decoder = new ArduinoDecoderYP();
+        
+        decoder->setup(address, 115200);
+        while(!decoder->isInitialized()) {
             
         }
         
-        ofLog() << "serial initialized at " << ofGetElapsedTimef();
+        ofLog() << "serial initialized";
         std::string message = std::string("m1heard");
         for (int i = 0; i < message.size(); i++) {
-            serial.writeByte(message[i]);
+            decoder->writeByte(message[i]);
         }
         initializedController = true;
+        
+        decoder->gotNewValues = [&](float Y, float P, float R) {
+            float pitchAngle = mmap(P, 0, 360, -90.0, 90.0, true);
+            float pitchAngleClampFix = pitchAngle;
+            //            yAngleRad = ofDegToRad(Y);
+            //            pAngleRad = ofDegToRad(pitchAngleClampFix);
+            //            rAngleRad = ofDegToRad(R);
+            //            ^ this is a proper naming, but we have to refactor it to
+            // to work that way
+            
+            ofLog() << "Y: "<< Y << " ; P: " << pitchAngleClampFix << " ; R: " << R;
+            ofLog() << "Y NO LOG?";
+            angleX = -pitchAngleClampFix;
+            angleY = Y;
+            angleZ = R;
+            
+        };
+        
+        arduinoDecoders.push_back(decoder);
+        
     };
-    
- 
 
     tests.push_back(new AudioOne());
 	tests.push_back(new AbmisonicTest());
@@ -117,35 +133,41 @@ void ofApp::updateSimulationAngles() {
 void ofApp::update(){
     
 
-    if (initializedController)
-    if (serial.isInitialized())
-    if (serial.available()) {
-        if (queueBuffer.size() > 0) {
-            queueBuffer.clear();
-        }
-        vector<unsigned char> inputs;
-        while (serial.available() > 0) {
-            unsigned char i = serial.readByte();
-            inputs.push_back(i);
-        }
-        for (int i = 0; i < inputs.size(); i++) {
-            queueBuffer.insert(queueBuffer.begin() + i, (int)inputs[i]);
-        }
-    }
+//    if (initializedController)
+//    if (serial.isInitialized())
+//    if (serial.available()) {
+//        if (queueBuffer.size() > 0) {
+//            queueBuffer.clear();
+//        }
+//        vector<unsigned char> inputs;
+//        while (serial.available() > 0) {
+//            unsigned char i = serial.readByte();
+//            inputs.push_back(i);
+//        }
+//        for (int i = 0; i < inputs.size(); i++) {
+//            queueBuffer.insert(queueBuffer.begin() + i, (int)inputs[i]);
+//        }
+//    }
+//
+//    vector<unsigned char> queueBackupDebug = queueBuffer;
+//    while (queueBuffer.size() > 4) {
+//
+//
+//        int Y, P;
+//
+//        if (getNewDataFromQueue(Y, P)) {
+//
+//            lastY = Y;
+//            lastP = P;
+//
+//        }
+//
+//    }
     
-    vector<unsigned char> queueBackupDebug = queueBuffer;
-    while (queueBuffer.size() > 4) {
+    if (initializedController) {
         
-        
-        int Y, P;
-        
-        if (getNewDataFromQueue(Y, P)) {
-            
-            lastY = Y;
-            lastP = P;
-            
-        }
-        
+        for (auto &i:arduinoDecoders)
+            i->update();
     }
     
     // angle handler//
@@ -169,7 +191,7 @@ void ofApp::update(){
 		i->angleY = angleY;
 		i->angleZ = angleZ;
 	}
-	//ofLog() << " X: " << angleX << " Y: " << angleY << " Z: " << angleZ << endl;
+    ofLog() << " X: " << angleX << " Y: " << angleY << " Z: " << angleZ << endl;
 
 	float pitchAngle = mmap(lastP, 0, 360, 180.0, -180.0, true);
     float pitchAngleClamp = ofClamp(pitchAngle, -90.0, 90.0);

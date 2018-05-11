@@ -1,9 +1,9 @@
 #include "BaseAudioTest.h"
 
 
-class AudioThree: public BaseAudioTest {
+class SpatialTwo: public BaseAudioTest {
 public:
-    AudioThree() {
+    SpatialTwo() {
         spherePoints[0] = ofPoint(200, -200, 0);
         spherePoints[1] = ofPoint(200, 200, 0);
         spherePoints[2] = ofPoint(-200, -200, 0);
@@ -16,29 +16,35 @@ public:
         
         //
         
-        volumes.resize(4);
+        volumes.resize(8);
         
-        for (int i = 0; i < 4; i++){
-            playersLeft[0].load("3/1.wav"); playersLeft[0].setLoop(true);
-            playersLeft[1].load("3/3.wav"); playersLeft[1].setLoop(true);
-            playersLeft[2].load("3/5.wav"); playersLeft[2].setLoop(true);
-            playersLeft[3].load("3/7.wav"); playersLeft[3].setLoop(true);
+        for (int i = 0; i < 8; i++){
+            playersLeft[0].load("2/1.wav"); playersLeft[0].setLoop(true);
+            playersLeft[1].load("2/2.wav"); playersLeft[1].setLoop(true);
+            playersLeft[2].load("2/3.wav"); playersLeft[2].setLoop(true);
+            playersLeft[3].load("2/4.wav"); playersLeft[3].setLoop(true);
+            playersLeft[4].load("2/5.wav"); playersLeft[4].setLoop(true);
+            playersLeft[5].load("2/6.wav"); playersLeft[5].setLoop(true);
+            playersLeft[6].load("2/7.wav"); playersLeft[6].setLoop(true);
+            playersLeft[7].load("2/8.wav"); playersLeft[7].setLoop(true);
             playersLeft[i].setPan(-1);
-            playersRight[0].load("3/2.wav"); playersRight[0].setLoop(true);
-            playersRight[1].load("3/4.wav"); playersRight[1].setLoop(true);
-            playersRight[2].load("3/6.wav"); playersRight[2].setLoop(true);
-            playersRight[3].load("3/8.wav"); playersRight[3].setLoop(true);
+            playersRight[0].load("2/1.wav"); playersRight[0].setLoop(true);
+            playersRight[1].load("2/2.wav"); playersRight[1].setLoop(true);
+            playersRight[2].load("2/3.wav"); playersRight[2].setLoop(true);
+            playersRight[3].load("2/4.wav"); playersRight[3].setLoop(true);
+            playersRight[4].load("2/5.wav"); playersRight[4].setLoop(true);
+            playersRight[5].load("2/6.wav"); playersRight[5].setLoop(true);
+            playersRight[6].load("2/7.wav"); playersRight[6].setLoop(true);
+            playersRight[7].load("2/8.wav"); playersRight[7].setLoop(true);
             playersRight[i].setPan(1);
         }
     }
     
     void update() {
         // Handling audio
+        volumes = audioMixAlgorithm(angleX, angleY, angleZ);
         
-        //angleY = yaw, angleX = pitch
-        volumes = audioMixAlgorithm(angleY, angleX, angleZ);
-        
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 8; i++) {
             playersLeft[i].setVolume(volumes[i * 2] * overallVolume);
             playersRight[i].setVolume(volumes[i * 2 + 1] * overallVolume);
         }
@@ -81,7 +87,7 @@ public:
         ofDrawBitmapStringHighlight("Please turn Mach1 IMU on before launching this application", 10, 20);
         ofDrawBitmapStringHighlight("Sideload into app by right clicking app", 10, 40);
         ofDrawBitmapStringHighlight("and Showing Package Contents", 10, 60);
-        ofDrawBitmapStringHighlight("Directory: M1-AudioPlayer/Contents/Resources/3/*.wav", 10, 100);
+        ofDrawBitmapStringHighlight("Directory: M1-AudioPlayer/Contents/Resources/2/*.wav", 10, 100);
         ofDrawBitmapStringHighlight("Instructions:", ofGetWidth() - 500, 20);
         ofDrawBitmapStringHighlight("-Press 'spacebar' to play", ofGetWidth() - 500, 40);
         ofDrawBitmapStringHighlight("-Use the Yaw,Pitch,Roll sliders to", ofGetWidth() - 500, 60);
@@ -94,11 +100,6 @@ public:
         ofCircle(ofLerp(30, ofGetWidth() - 170 - 60, playersLeft[0].getPosition()), ofGetWidth() - 170 - 60 , 20);
         
         ofCircle(30 + playersLeft[0].getPosition() * (ofGetWidth() - 200 - 60), ofGetHeight() - 30, 10);
-    
-        ofSetColor(255);
-        for (int i = 0; i < volumes.size(); i++) {
-//            ofDrawBitmapStringHighlight(" > " + ofToString(volumes[i], 3, 3), ofGetWidth() - 500, 120 + i * 40);
-        }
     }
     
     void setOverallVolume(float volume) {
@@ -127,21 +128,21 @@ public:
     std::vector<float> volumes;
     float overallVolume = 0;
     float coefficients[8];
-    ofSoundPlayer playersLeft[4];
-    ofSoundPlayer playersRight[4];
+    ofSoundPlayer playersLeft[8];
+    ofSoundPlayer playersRight[8];
     
     //////////////
     Mach1Decode mach1Decode;
     
     std::vector<float> audioMixAlgorithm(float X, float Y, float Z) {
         //Change Mach1Decode algorithm here
-        return mach1Decode.horizonPairsAlgo(X, Y, Z);
+        return mach1Decode.spatialAlgo(X, Y, Z);
     }
     
     int scheduleRestart = 30;
     
     void restart() {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 8; i++) {
             playersLeft[i].setPosition(0);
             playersRight[i].setPosition(0);
         }
@@ -157,6 +158,14 @@ public:
             playersRight[2].play();
             playersLeft[3].play();
             playersRight[3].play();
+            playersLeft[4].play();
+            playersRight[4].play();
+            playersLeft[5].play();
+            playersRight[5].play();
+            playersLeft[6].play();
+            playersRight[6].play();
+            playersLeft[7].play();
+            playersRight[7].play();
             restart();
         }
     }

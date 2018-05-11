@@ -4,9 +4,14 @@
 #include "ofxImGui.h"
 
 #include "BaseAudioTest.h"
-#include "Audio1.h"
-#include "Audio2.h"
-#include "Audio3.h"
+//Mach1Spatial
+#include "Spatial1.h"
+#include "Spatial2.h"
+#include "Spatial3.h"
+//Mach1HorizonPairs
+//#include "HorizonPairs1.h"
+//#include "HorizonPairs2.h"
+//#include "HorizonPairs3.h"
 
 #include "ArduinoWatcher.h"
 #include "ArduinoDecoderYP.h"

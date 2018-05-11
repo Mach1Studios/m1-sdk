@@ -53,9 +53,14 @@ void ofApp::setup(){
 
     };
     
-    tests.push_back(new AudioOne());
-    tests.push_back(new AudioTwo());
-    tests.push_back(new AudioThree());
+//use this for Mach1Spatial
+    tests.push_back(new SpatialOne());
+    tests.push_back(new SpatialTwo());
+    tests.push_back(new SpatialThree());
+//use this for Mach1HorizonPairs
+    //tests.push_back(new HorizonPairsOne());
+    //tests.push_back(new HorizonPairsTwo());
+    //tests.push_back(new HorizonPairsThree());
     
     angleX = 0;
     updateSimulationAngles();
@@ -194,16 +199,12 @@ void ofApp::draw(){
     
     ofPoint faceVector1 = ofPoint(cos(ofDegToRad(simulationAngles[1])),
                                   sin(ofDegToRad(simulationAngles[1]))).normalize();
-    
-    
     ofPoint faceVector2 = faceVector1.rotate(angleX, ofPoint(cos(ofDegToRad(simulationAngles[1] - 90)),
                                                              sin(ofDegToRad(simulationAngles[1] - 90))).normalize());
-    
-    
     ofPoint faceVectorOffsetted = ofPoint(cos(ofDegToRad(simulationAngles[1])),
                                           sin(ofDegToRad(simulationAngles[1]))).normalize().rotate(angleX + 10, ofPoint(cos(ofDegToRad(simulationAngles[1] - 90)),
                                                                                                                         sin(ofDegToRad(simulationAngles[1] - 90))).normalize()) - faceVector2;
-    
+
     ofPoint tiltSphereRotated = faceVectorOffsetted.rotate(-angleZ, faceVector2);
     //        ofPoint facePoint = faceVector2 * 120;
     
@@ -274,7 +275,10 @@ void ofApp::draw(){
     ImGui::Begin("Mach1 Spatial Audio", &aWindow, window_flags);
     
     ImGui::Text("Select source");
-    const char* source_options[] = {"M1Spatial-SpatialAlgo", "M1Spatial-SpatialAlgo2", "M1HorizonPairs"};
+//Mach1Spatial
+    const char* source_options[] = {"M1Spatial-SpatialAlgo", "M1Spatial-SpatialAlgo2", "M1Spatial-SpatialAlgo3"};
+//Mach1HorizonPairs
+//    const char* source_options[] = {"M1Spatial-HorizonPairsAlgo", "M1Spatial-HorizonPairsAlgo2", "M1Spatial-HorizonPairsAlgo3"};
     
     ImGui::PushItemWidth(-1);
     ImGui::ListBox("##", &selectedTest, source_options, 3, 3);

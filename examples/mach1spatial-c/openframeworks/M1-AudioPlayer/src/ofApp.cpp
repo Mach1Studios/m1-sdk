@@ -274,7 +274,7 @@ void ofApp::draw(){
     
     ImGui::Text("Select source");
 //Mach1Spatial
-    const char* source_options[] = {"M1Spatial-SpatialAlgo", "M1Spatial-SpatialAlgo2"};
+    const char* source_options[] = {"M1Spatial-SpatialAlgo1", "M1Spatial-SpatialAlgo2"};
 //Mach1HorizonPairs
 //    const char* source_options[] = {"M1Spatial-HorizonPairsAlgo", "M1Spatial-HorizonPairsAlgo2"};
     

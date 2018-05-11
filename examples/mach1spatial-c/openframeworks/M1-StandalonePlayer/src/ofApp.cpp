@@ -46,11 +46,13 @@ void ofApp::setup(){
             // to work that way
             
             ofLog() << "Y: "<< Y << " ; P: " << pitchAngleClampFix << " ; R: " << R;
-            ofLog() << "Y NO LOG?";
-            angleX = -pitchAngleClampFix;
-            angleY = Y;
-            angleZ = R;
-            
+//            angleX = -pitchAngleClampFix;
+//            angleY = Y;
+//            angleZ = R;
+
+            imuX = -pitchAngleClampFix;
+            imuY = Y;
+            imuZ = R;
         };
         
         arduinoDecoders.push_back(decoder);
@@ -313,9 +315,9 @@ void ofApp::draw(){
 		matrix.rotate(eulerToQuat(ofVec3f(spectatorCam.y, spectatorCam.x, 0)));
 
 		ofVec3f rot = matrix.getRotate().getEuler();
-	 	angleX = rot.x;
-		angleY = rot.y;
-		angleZ = rot.z;
+	 	angleX = rot.x + imuX;
+		angleY = rot.y + imuY;
+		angleZ = rot.z + imuZ;
  
 		camera.setTransformMatrix(matrix);
 		camera.begin();

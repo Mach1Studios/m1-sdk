@@ -70,10 +70,11 @@ public:
     ArduinoWatcher *arduinoWatcher;
     vector<ArduinoDecoderYP*> arduinoDecoders;
     bool initializedController = false;
+    float imuX, imuY, imuZ;
     
     // Visualizing
     
-    ofPoint spectatorCam = ofPoint(0.25, 0.5); // spectator cam angle
+    ofPoint spectatorCam = ofPoint(0, 0); // spectator cam angle
     
     ofLight *pointLight;
     ofLight *pointLight2;

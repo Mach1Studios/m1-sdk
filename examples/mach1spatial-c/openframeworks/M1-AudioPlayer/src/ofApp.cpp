@@ -56,11 +56,9 @@ void ofApp::setup(){
 //use this for Mach1Spatial
     tests.push_back(new SpatialOne());
     tests.push_back(new SpatialTwo());
-    tests.push_back(new SpatialThree());
 //use this for Mach1HorizonPairs
     //tests.push_back(new HorizonPairsOne());
     //tests.push_back(new HorizonPairsTwo());
-    //tests.push_back(new HorizonPairsThree());
     
     angleX = 0;
     updateSimulationAngles();
@@ -276,12 +274,12 @@ void ofApp::draw(){
     
     ImGui::Text("Select source");
 //Mach1Spatial
-    const char* source_options[] = {"M1Spatial-SpatialAlgo", "M1Spatial-SpatialAlgo2", "M1Spatial-SpatialAlgo3"};
+    const char* source_options[] = {"M1Spatial-SpatialAlgo", "M1Spatial-SpatialAlgo2"};
 //Mach1HorizonPairs
-//    const char* source_options[] = {"M1Spatial-HorizonPairsAlgo", "M1Spatial-HorizonPairsAlgo2", "M1Spatial-HorizonPairsAlgo3"};
+//    const char* source_options[] = {"M1Spatial-HorizonPairsAlgo", "M1Spatial-HorizonPairsAlgo2"};
     
     ImGui::PushItemWidth(-1);
-    ImGui::ListBox("##", &selectedTest, source_options, 3, 3);
+    ImGui::ListBox("##", &selectedTest, source_options, 2, 2);
     
     ImGui::Text("Angles:");
     bool angleChanged = false;

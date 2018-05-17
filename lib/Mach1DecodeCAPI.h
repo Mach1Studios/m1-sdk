@@ -26,8 +26,6 @@
 extern "C" {
 	M1_API void* Mach1DecodeCAPI_create();
 	M1_API void Mach1DecodeCAPI_delete(void* M1obj);
-
-
     
 	M1_API float* Mach1DecodeCAPI_horizonAlgo(void* M1obj, float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
     M1_API void Mach1DecodeCAPI_horizonAlgoHP(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
@@ -45,6 +43,7 @@ extern "C" {
     M1_API void Mach1DecodeCAPI_spatialPairsAlgoHP(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
 
 	M1_API void Mach1DecodeCAPI_setAngularSettingsType(void* M1obj, int type);
+	M1_API void Mach1DecodeCAPI_setFilterSpeed(void* M1obj, float filterSpeed);
 	M1_API void Mach1DecodeCAPI_beginBuffer(void* M1obj);
 	M1_API void Mach1DecodeCAPI_endBuffer(void* M1obj);
  

@@ -64,6 +64,10 @@ yes | cp -rf "_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1Deco
 yes | cp -rf "_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1DecodeCAPI.so" "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/x86/libMach1DecodeCAPI.so"
 yes | cp -rf "_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1DecodeCAPI.so" "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/ThirdParty/Mach1/bin/Android/x86/libMach1DecodeCAPI.so"
 
+echo "### Copying all successful bins to /Binaries ###"
+yes | cp -rf "_install/" "../binaries/"
+yes | cp -rf "external/" "../binaries/external/"
+
 echo "### NUMBERS OF SUCCESSFUL BUILDS:"
 cd _logs/polly/
 grep -rl "Installing:" "/Volumes/git/m1-sdk/lib/_logs/polly" | wc -l

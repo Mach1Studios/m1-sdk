@@ -20,7 +20,7 @@ bool M1AudioPlayer::Get(short * buf, int samples)
 
         float sndL = 0;
         float sndR = 0;
-        float volumes[18];
+        float volumes[18]; //16 coefficients of spatial, 2 coefficients of headlocked stereo
 
         mach1Decode.beginBuffer();
         for (size_t i = 0; i < samples; i++)

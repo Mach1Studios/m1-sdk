@@ -492,6 +492,8 @@ public:
     
     void setAngularSettingsType(AngularSettingsType type);
 
+    void setFilterSpeed(float filterSpeed);
+
     void beginBuffer();
     void endBuffer();
 

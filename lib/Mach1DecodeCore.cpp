@@ -375,6 +375,10 @@ void Mach1DecodeCore::setAngularSettingsType(AngularSettingsType type) {
 	angularSetting = type;
 }
 
+void Mach1DecodeCore::setFilterSpeed(float newFilterSpeed) {
+	filterSpeed = newFilterSpeed;
+}
+
 //--------------------------------------------------
 
 //  Begin function that has to be called

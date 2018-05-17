@@ -133,6 +133,11 @@ void Mach1DecodeCAPI_setAngularSettingsType(void* M1obj, int type)
 	((Mach1DecodeCore*)M1obj)->setAngularSettingsType(static_cast<Mach1DecodeCore::AngularSettingsType>(type));
 }
 
+void Mach1DecodeCAPI_setFilterSpeed(void* M1obj, float filterSpeed)
+{
+	((Mach1DecodeCore*)M1obj)->setFilterSpeed(filterSpeed);
+}
+
 void Mach1DecodeCAPI_beginBuffer(void* M1obj)
 {
 	((Mach1DecodeCore*)M1obj)->beginBuffer();

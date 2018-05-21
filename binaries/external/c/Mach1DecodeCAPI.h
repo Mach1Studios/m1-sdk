@@ -38,11 +38,13 @@ extern "C" {
 	M1_API float* Mach1DecodeCAPI_spatialPairsAlgo(void* M1obj, float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex);
 
 	M1_API void Mach1DecodeCAPI_setAngularSettingsType(void* M1obj, int type);
+	M1_API void Mach1DecodeCAPI_setFilterSpeed(void* M1obj, float filterSpeed);
 	M1_API void Mach1DecodeCAPI_beginBuffer(void* M1obj);
 	M1_API void Mach1DecodeCAPI_endBuffer(void* M1obj);
  
 	M1_API long Mach1DecodeCAPI_getCurrentTime(void* M1obj);
 	M1_API char* Mach1DecodeCAPI_getLog(void * M1obj);
+	Mach1Point3D Mach1DecodeCAPI_getCurrentAngle(void* M1obj);
 #ifdef __cplusplus
 }
 #endif

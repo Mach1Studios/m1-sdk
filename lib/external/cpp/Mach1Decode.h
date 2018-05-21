@@ -39,10 +39,12 @@ public:
 
 
     void setAngularSettingsType(AngularSettingsType type);
- 
+    void setFilterSpeed(float filterSpeed);
+
 	void beginBuffer();
     void endBuffer();
 	
 	long getCurrentTime();
 	char* getLog();
+    Mach1Point3D getCurrentAngle();
 };

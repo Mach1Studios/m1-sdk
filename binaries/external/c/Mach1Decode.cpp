@@ -49,6 +49,11 @@ void Mach1Decode::setAngularSettingsType(AngularSettingsType type)
 	Mach1DecodeCAPI_setAngularSettingsType(M1obj, (int)type);
 }
 
+void Mach1Decode::setFilterSpeed(float filterSpeed) 
+{
+	Mach1DecodeCAPI_setFilterSpeed(M1obj, (float)filterSpeed);
+}
+
 void Mach1Decode::beginBuffer()
 {
 	Mach1DecodeCAPI_beginBuffer(M1obj);
@@ -67,4 +72,9 @@ long Mach1Decode::getCurrentTime()
 char* Mach1Decode::getLog()
 {
 	return Mach1DecodeCAPI_getLog(M1obj);
+}
+
+Mach1Point3D Mach1Decode::getCurrentAngle()
+{
+	return Mach1DecodeCAPI_getCurrentAngle(M1obj);
 }

@@ -21,6 +21,10 @@ void* M1obj;
     Mach1DecodeCAPI_setAngularSettingsType(M1obj, (int)type);
 }
 
+-(void) setFilterSpeed:(float)filterSpeed {
+    Mach1DecodeCAPI_setFilterSpeed(M1obj, (float)filterSpeed);
+}
+
 -(void) beginBuffer {
     Mach1DecodeCAPI_beginBuffer(M1obj);
 }

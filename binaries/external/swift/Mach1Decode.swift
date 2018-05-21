@@ -24,6 +24,10 @@ class Mach1Decode {
     func setAngularSettingsType(type: AngularSettingsType) {
         Mach1DecodeCAPI_setAngularSettingsType(M1obj, CInt(type.rawValue))
     }
+
+    func setFilterSpeed(filterSpeed: Float) {
+        Mach1DecodeCAPI_setFilterSpeed(M1obj, filterSpeed)
+    }
     
     func beginBuffer() {
         Mach1DecodeCAPI_beginBuffer(M1obj)

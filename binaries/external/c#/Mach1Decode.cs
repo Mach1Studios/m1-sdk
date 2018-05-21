@@ -111,6 +111,11 @@ namespace Mach1
             Mach1DecodeCAPI_setAngularSettingsType(M1obj, (int)type);
         }
 
+        public void setFilterSpeed(float filterSpeed)
+        {
+            Mach1DecodeCAPI_setFilterSpeed(M1obj, (float)filterSpeed);
+        }
+
         public void beginBuffer()
         {
             Mach1DecodeCAPI_beginBuffer(M1obj);
@@ -124,6 +129,11 @@ namespace Mach1
         public long getCurrentTime()
         {
             return Mach1DecodeCAPI_getCurrentTime(M1obj);
+        }
+
+        public Mach1Point3D Mach1DecodeCAPI_getCurrentAngle()
+        {
+            return Mach1DecodeCAPI_getCurrentAngle(M1obj);
         }
 
     }

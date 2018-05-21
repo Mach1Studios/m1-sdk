@@ -68,6 +68,9 @@ echo "### Copying all successful bins to /Binaries ###"
 yes | cp -rf "_install/" "../binaries/"
 yes | cp -rf "external/" "../binaries/external/"
 
+echo "### Copying ofxMach1 to dev local"
+yes | cp -rf "../examples/mach1spatial-c/openframeworks/ofxMach1" "../../openFrameworks/addons/"
+
 echo "### NUMBERS OF SUCCESSFUL BUILDS:"
 cd _logs/polly/
 grep -rl "Installing:" "/Volumes/git/m1-sdk/lib/_logs/polly" | wc -l

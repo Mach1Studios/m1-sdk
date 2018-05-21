@@ -4,6 +4,7 @@
 #pragma once
 
 #include <vector>
+#include "Mach1DecodeCAPI.h"
 
 class Mach1Decode
 {
@@ -31,5 +32,6 @@ public:
 	
 	long getCurrentTime();
 	char* getLog();
+
     Mach1Point3D getCurrentAngle();
 };

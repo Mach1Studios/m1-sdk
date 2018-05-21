@@ -23,9 +23,11 @@
 
 #endif 
 
-#include "Mach1DecodeCore.h"
+struct Mach1Point3D {
+	float x, y, z;
+};
 
-extern "C" {
+extern "C" { 
 	M1_API void* Mach1DecodeCAPI_create();
 	M1_API void Mach1DecodeCAPI_delete(void* M1obj);
     

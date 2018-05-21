@@ -14,6 +14,8 @@
 #include <string>
 #include <algorithm>
 
+#include "Mach1Point3DCore.h"
+ 
 using namespace std::chrono;
 
 #ifndef PI
@@ -23,30 +25,7 @@ using namespace std::chrono;
 
 
 //////////////
-
-struct Mach1Point3D {
-	float x, y, z;
-
-	Mach1Point3D();
-
-	Mach1Point3D(float X, float Y, float Z);
-
-	Mach1Point3D(float X, float Y);
-
-	Mach1Point3D operator+(const Mach1Point3D& pnt) const;
-	Mach1Point3D operator*(const float f) const;
-	Mach1Point3D operator*(const Mach1Point3D& vec) const;
-	Mach1Point3D operator-(const Mach1Point3D& vec) const;
-	float length() const;
-	float operator[] (int index);
-
-	Mach1Point3D& rotate(float angle, const Mach1Point3D& axis);
-	Mach1Point3D& normalize();
-	Mach1Point3D getNormalized() const;
-	Mach1Point3D getRotated(float angle, const Mach1Point3D& axis) const;
-};
-
-
+ 
 class Mach1DecodeCore {
 public:
     enum AngularSettingsType {
@@ -280,45 +259,45 @@ private:
     
     void spatialAlgoSample(float Yaw, float Pitch, float Roll, float *result) {
         
-        Mach1Point3D simulationAngles = Mach1Point3D(Yaw, Pitch, Roll);
+        Mach1Point3DCore simulationAngles = Mach1Point3DCore(Yaw, Pitch, Roll);
         
-        Mach1Point3D faceVector1 = Mach1Point3D(cos(mDegToRad(simulationAngles[0])),
+        Mach1Point3DCore faceVector1 = Mach1Point3DCore(cos(mDegToRad(simulationAngles[0])),
                                     sin(mDegToRad(simulationAngles[0]))).normalize();
         
         
-        Mach1Point3D faceVector2 = faceVector1.getRotated(simulationAngles[1],
-                                                    Mach1Point3D(cos(mDegToRad(simulationAngles[0] - 90)),
+        Mach1Point3DCore faceVector2 = faceVector1.getRotated(simulationAngles[1],
+                                                    Mach1Point3DCore(cos(mDegToRad(simulationAngles[0] - 90)),
                                                            sin(mDegToRad(simulationAngles[0] - 90))).normalize());
         
         
-        Mach1Point3D faceVector21 = faceVector1.getRotated(simulationAngles[1] + 90,
-                                                     Mach1Point3D(cos(mDegToRad(simulationAngles[0] - 90)),
+        Mach1Point3DCore faceVector21 = faceVector1.getRotated(simulationAngles[1] + 90,
+                                                     Mach1Point3DCore(cos(mDegToRad(simulationAngles[0] - 90)),
                                                             sin(mDegToRad(simulationAngles[0] - 90))).normalize());
         
-        Mach1Point3D faceVectorLeft = faceVector21.getRotated(-simulationAngles[2] + 90, faceVector2);
-        Mach1Point3D faceVectorRight = faceVector21.getRotated(-simulationAngles[2] - 90, faceVector2);
+        Mach1Point3DCore faceVectorLeft = faceVector21.getRotated(-simulationAngles[2] + 90, faceVector2);
+        Mach1Point3DCore faceVectorRight = faceVector21.getRotated(-simulationAngles[2] - 90, faceVector2);
         
         
-        Mach1Point3D faceVectorOffsetted = Mach1Point3D(cos(mDegToRad(simulationAngles[0])),
+        Mach1Point3DCore faceVectorOffsetted = Mach1Point3DCore(cos(mDegToRad(simulationAngles[0])),
                                             sin(mDegToRad(simulationAngles[0]))).normalize().rotate(
                                                                                                     simulationAngles[1] + 10,
-                                                                                                    Mach1Point3D(cos(mDegToRad(simulationAngles[0] - 90)),
+                                                                                                    Mach1Point3DCore(cos(mDegToRad(simulationAngles[0] - 90)),
                                                                                                            sin(mDegToRad(simulationAngles[0] - 90))).normalize()) - faceVector2;
         
-        Mach1Point3D tiltSphereRotated = faceVectorOffsetted.rotate(-simulationAngles[2], faceVector2);
+        Mach1Point3DCore tiltSphereRotated = faceVectorOffsetted.rotate(-simulationAngles[2], faceVector2);
         
         // Drawing another 8 dots
         
-        Mach1Point3D points[8] =
-        { Mach1Point3D(100, -100, -100),
-            Mach1Point3D(100, 100, -100),
-            Mach1Point3D(-100, -100, -100),
-            Mach1Point3D(-100, 100, -100),
+        Mach1Point3DCore points[8] =
+        { Mach1Point3DCore(100, -100, -100),
+            Mach1Point3DCore(100, 100, -100),
+            Mach1Point3DCore(-100, -100, -100),
+            Mach1Point3DCore(-100, 100, -100),
             
-            Mach1Point3D(100, -100, 100),
-            Mach1Point3D(100, 100, 100),
-            Mach1Point3D(-100, -100, 100),
-            Mach1Point3D(-100, 100, 100)
+            Mach1Point3DCore(100, -100, 100),
+            Mach1Point3DCore(100, 100, 100),
+            Mach1Point3DCore(-100, -100, 100),
+            Mach1Point3DCore(-100, 100, 100)
             
         };
         
@@ -378,45 +357,45 @@ private:
     
     std::vector<float> spatialAlgoSample(float Yaw, float Pitch, float Roll) {
         
-        Mach1Point3D simulationAngles = Mach1Point3D(Yaw, Pitch, Roll);
+        Mach1Point3DCore simulationAngles = Mach1Point3DCore(Yaw, Pitch, Roll);
         
-        Mach1Point3D faceVector1 = Mach1Point3D(cos(mDegToRad(simulationAngles[0])),
+        Mach1Point3DCore faceVector1 = Mach1Point3DCore(cos(mDegToRad(simulationAngles[0])),
                                     sin(mDegToRad(simulationAngles[0]))).normalize();
         
         
-        Mach1Point3D faceVector2 = faceVector1.getRotated(simulationAngles[1],
-                                                    Mach1Point3D(cos(mDegToRad(simulationAngles[0] - 90)),
+        Mach1Point3DCore faceVector2 = faceVector1.getRotated(simulationAngles[1],
+                                                    Mach1Point3DCore(cos(mDegToRad(simulationAngles[0] - 90)),
                                                            sin(mDegToRad(simulationAngles[0] - 90))).normalize());
         
         
-        Mach1Point3D faceVector21 = faceVector1.getRotated(simulationAngles[1] + 90,
-                                                     Mach1Point3D(cos(mDegToRad(simulationAngles[0] - 90)),
+        Mach1Point3DCore faceVector21 = faceVector1.getRotated(simulationAngles[1] + 90,
+                                                     Mach1Point3DCore(cos(mDegToRad(simulationAngles[0] - 90)),
                                                             sin(mDegToRad(simulationAngles[0] - 90))).normalize());
         
-        Mach1Point3D faceVectorLeft = faceVector21.getRotated(-simulationAngles[2] + 90, faceVector2);
-        Mach1Point3D faceVectorRight = faceVector21.getRotated(-simulationAngles[2] - 90, faceVector2);
+        Mach1Point3DCore faceVectorLeft = faceVector21.getRotated(-simulationAngles[2] + 90, faceVector2);
+        Mach1Point3DCore faceVectorRight = faceVector21.getRotated(-simulationAngles[2] - 90, faceVector2);
         
         
-        Mach1Point3D faceVectorOffsetted = Mach1Point3D(cos(mDegToRad(simulationAngles[0])),
+        Mach1Point3DCore faceVectorOffsetted = Mach1Point3DCore(cos(mDegToRad(simulationAngles[0])),
                                             sin(mDegToRad(simulationAngles[0]))).normalize().rotate(
                                                                                                     simulationAngles[1] + 10,
-                                                                                                    Mach1Point3D(cos(mDegToRad(simulationAngles[0] - 90)),
+                                                                                                    Mach1Point3DCore(cos(mDegToRad(simulationAngles[0] - 90)),
                                                                                                            sin(mDegToRad(simulationAngles[0] - 90))).normalize()) - faceVector2;
         
-        Mach1Point3D tiltSphereRotated = faceVectorOffsetted.rotate(-simulationAngles[2], faceVector2);
+        Mach1Point3DCore tiltSphereRotated = faceVectorOffsetted.rotate(-simulationAngles[2], faceVector2);
         
         // Drawing another 8 dots
         
-        Mach1Point3D points[8] =
-        { Mach1Point3D(100, -100, -100),
-            Mach1Point3D(100, 100, -100),
-            Mach1Point3D(-100, -100, -100),
-            Mach1Point3D(-100, 100, -100),
+        Mach1Point3DCore points[8] =
+        { Mach1Point3DCore(100, -100, -100),
+            Mach1Point3DCore(100, 100, -100),
+            Mach1Point3DCore(-100, -100, -100),
+            Mach1Point3DCore(-100, 100, -100),
             
-            Mach1Point3D(100, -100, 100),
-            Mach1Point3D(100, 100, 100),
-            Mach1Point3D(-100, -100, 100),
-            Mach1Point3D(-100, 100, 100)
+            Mach1Point3DCore(100, -100, 100),
+            Mach1Point3DCore(100, 100, 100),
+            Mach1Point3DCore(-100, -100, 100),
+            Mach1Point3DCore(-100, 100, 100)
             
         };
         
@@ -498,19 +477,19 @@ public:
     
     
  
-	void setCameraPosition(Mach1Point3D* pos) {
+	void setCameraPosition(Mach1Point3DCore* pos) {
 	}
 
-	void setCameraRotation(Mach1Point3D* euler) {
+	void setCameraRotation(Mach1Point3DCore* euler) {
 	}
 
-	void setSpatialAlgoPosition(Mach1Point3D* pos) {
+	void setSpatialAlgoPosition(Mach1Point3DCore* pos) {
 	}
 
-	void setSpatialAlgoRotation(Mach1Point3D* euler) {
+	void setSpatialAlgoRotation(Mach1Point3DCore* euler) {
 	}
 
-	void setSpatialAlgoScale(Mach1Point3D* scale) {
+	void setSpatialAlgoScale(Mach1Point3DCore* scale) {
 	}
 
 
@@ -521,8 +500,8 @@ public:
 	std::vector<float> getPostionResults() {
 	}
 
-	Mach1Point3D getCurrentAngle() {
-		return Mach1Point3D(currentYaw, currentPitch, currentRoll);
+	Mach1Point3DCore getCurrentAngle() {
+		return Mach1Point3DCore(currentYaw, currentPitch, currentRoll);
 	}
 
 

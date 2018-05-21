@@ -475,31 +475,7 @@ public:
    // for test
     float filterSpeed;
     
-    
- 
-	void setCameraPosition(Mach1Point3DCore* pos) {
-	}
-
-	void setCameraRotation(Mach1Point3DCore* euler) {
-	}
-
-	void setSpatialAlgoPosition(Mach1Point3DCore* pos) {
-	}
-
-	void setSpatialAlgoRotation(Mach1Point3DCore* euler) {
-	}
-
-	void setSpatialAlgoScale(Mach1Point3DCore* scale) {
-	}
-
-
-	void setAttenuationCurve(float* curve) {
-	}
-
-
-	std::vector<float> getPostionResults() {
-	}
-
+   
 	Mach1Point3DCore getCurrentAngle() {
 		return Mach1Point3DCore(currentYaw, currentPitch, currentRoll);
 	}

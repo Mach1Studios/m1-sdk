@@ -23,6 +23,8 @@
 
 #endif 
 
+#include "Mach1DecodeCore.h"
+
 extern "C" {
 	M1_API void* Mach1DecodeCAPI_create();
 	M1_API void Mach1DecodeCAPI_delete(void* M1obj);
@@ -49,4 +51,6 @@ extern "C" {
  
 	M1_API long Mach1DecodeCAPI_getCurrentTime(void* M1obj);
 	M1_API char* Mach1DecodeCAPI_getLog(void * M1obj);
+
+	M1_API Mach1Point3D Mach1DecodeCAPI_getCurrentAngle(void* M1obj);
 }

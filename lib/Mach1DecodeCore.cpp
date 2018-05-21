@@ -21,60 +21,60 @@ updates and should not be integrated in sections but remain as an update-able fa
 #endif
 
 
-Mach1DecodeCore::mPoint::mPoint() {
+Mach1Point3D::Mach1Point3D() {
 	x = 0;
 	y = 0;
 	z = 0;
 }
 
-Mach1DecodeCore::mPoint::mPoint(float X, float Y, float Z) {
+Mach1Point3D::Mach1Point3D(float X, float Y, float Z) {
 	x = X;
 	y = Y;
 	z = Z;
 }
 
-Mach1DecodeCore::mPoint::mPoint(float X, float Y) {
+Mach1Point3D::Mach1Point3D(float X, float Y) {
 	x = X;
 	y = Y;
 	z = 0;
 }
 
-inline Mach1DecodeCore::mPoint Mach1DecodeCore::mPoint::operator+(const mPoint& pnt) const {
-	return Mach1DecodeCore::mPoint(x + pnt.x, y + pnt.y, z + pnt.z);
+Mach1Point3D Mach1Point3D::operator+(const Mach1Point3D& pnt) const {
+	return Mach1Point3D(x + pnt.x, y + pnt.y, z + pnt.z);
 }
 
 
-inline Mach1DecodeCore::mPoint Mach1DecodeCore::mPoint::operator*(const float f) const {
-	return Mach1DecodeCore::mPoint(x*f, y*f, z*f);
+Mach1Point3D Mach1Point3D::operator*(const float f) const {
+	return Mach1Point3D(x*f, y*f, z*f);
 }
 
 
-inline Mach1DecodeCore::mPoint Mach1DecodeCore::mPoint::operator*(const mPoint& vec) const {
-	return Mach1DecodeCore::mPoint(x*vec.x, y*vec.y, z*vec.z);
+Mach1Point3D Mach1Point3D::operator*(const Mach1Point3D& vec) const {
+	return Mach1Point3D(x*vec.x, y*vec.y, z*vec.z);
 }
 
 
-inline Mach1DecodeCore::mPoint Mach1DecodeCore::mPoint::operator-(const mPoint& vec) const {
-	return Mach1DecodeCore::mPoint(x - vec.x, y - vec.y, z - vec.z);
+Mach1Point3D Mach1Point3D::operator-(const Mach1Point3D& vec) const {
+	return Mach1Point3D(x - vec.x, y - vec.y, z - vec.z);
 }
 
-inline float Mach1DecodeCore::mPoint::length() const {
+float Mach1Point3D::length() const {
 	return (float)sqrt(x*x + y*y + z*z);
 }
  
-inline float Mach1DecodeCore::lerp(float x1, float x2, float t)
+float Mach1DecodeCore::lerp(float x1, float x2, float t)
 {
 	return x1 + (x2 - x1)*t;
 }
 
 
-float Mach1DecodeCore::mPoint::operator[] (int index) {
+float Mach1Point3D::operator[] (int index) {
 	float arr[3] = { x, y, z };
 	return arr[index];
 }
 
-inline Mach1DecodeCore::mPoint& Mach1DecodeCore::mPoint::rotate(float angle, const mPoint& axis) {
-	Mach1DecodeCore::mPoint ax = axis.getNormalized();
+Mach1Point3D& Mach1Point3D::rotate(float angle, const Mach1Point3D& axis) {
+	Mach1Point3D ax = axis.getNormalized();
 	float a = (float)(angle*DEG_TO_RAD);
 	float sina = sin(a);
 	float cosa = cos(a);
@@ -93,7 +93,7 @@ inline Mach1DecodeCore::mPoint& Mach1DecodeCore::mPoint::rotate(float angle, con
 	return *this;
 }
 
-inline Mach1DecodeCore::mPoint& Mach1DecodeCore::mPoint::normalize() {
+Mach1Point3D& Mach1Point3D::normalize() {
 	float length = (float)sqrt(x*x + y*y + z*z);
 	if (length > 0) {
 		x /= length;
@@ -104,25 +104,25 @@ inline Mach1DecodeCore::mPoint& Mach1DecodeCore::mPoint::normalize() {
 }
 
 
-inline Mach1DecodeCore::mPoint Mach1DecodeCore::mPoint::getNormalized() const {
+Mach1Point3D Mach1Point3D::getNormalized() const {
 	float length = (float)sqrt(x*x + y*y + z*z);
 	if (length > 0) {
-		return Mach1DecodeCore::mPoint(x / length, y / length, z / length);
+		return Mach1Point3D(x / length, y / length, z / length);
 	}
 	else {
-		return Mach1DecodeCore::mPoint();
+		return Mach1Point3D();
 	}
 }
 
 
-inline Mach1DecodeCore::mPoint Mach1DecodeCore::mPoint::getRotated(float angle, const mPoint& axis) const {
-	Mach1DecodeCore::mPoint ax = axis.getNormalized();
+Mach1Point3D Mach1Point3D::getRotated(float angle, const Mach1Point3D& axis) const {
+	Mach1Point3D ax = axis.getNormalized();
 	float a = (float)(angle*DEG_TO_RAD);
 	float sina = sin(a);
 	float cosa = cos(a);
 	float cosb = 1.0f - cosa;
 
-	return Mach1DecodeCore::mPoint(x*(ax.x*ax.x*cosb + cosa)
+	return Mach1Point3D(x*(ax.x*ax.x*cosb + cosa)
 		+ y*(ax.x*ax.y*cosb - ax.z*sina)
 		+ z*(ax.x*ax.z*cosb + ax.y*sina),
 		x*(ax.y*ax.x*cosb + ax.z*sina)

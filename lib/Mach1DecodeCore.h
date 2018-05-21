@@ -24,32 +24,58 @@ using namespace std::chrono;
 
 //////////////
 
+struct Mach1Point3D {
+	float x, y, z;
+
+	Mach1Point3D();
+
+	Mach1Point3D(float X, float Y, float Z);
+
+	Mach1Point3D(float X, float Y);
+
+	Mach1Point3D operator+(const Mach1Point3D& pnt) const;
+	Mach1Point3D operator*(const float f) const;
+	Mach1Point3D operator*(const Mach1Point3D& vec) const;
+	Mach1Point3D operator-(const Mach1Point3D& vec) const;
+	float length() const;
+	float operator[] (int index);
+
+	Mach1Point3D& rotate(float angle, const Mach1Point3D& axis);
+	Mach1Point3D& normalize();
+	Mach1Point3D getNormalized() const;
+	Mach1Point3D getRotated(float angle, const Mach1Point3D& axis) const;
+};
+
+
 class Mach1DecodeCore {
-    
 public:
     enum AngularSettingsType {
         m1Default = 0, m1Unity, m1UE, m1oFEasyCam, m1Android, m1iOSPortrait, m1iOSLandscape
     };
 
 private:
-    
+
+	 
+	
 	typedef std::vector<float> (Mach1DecodeCore::*functionAlgoSample)(float Yaw, float Pitch, float Roll);
     typedef void (Mach1DecodeCore::*functionAlgoSampleHP)(float Yaw, float Pitch, float Roll, float *result);
+	
 	std::vector<float> processSample(functionAlgoSample funcAlgoSample, float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
     void processSample(functionAlgoSampleHP funcAlgoSampleHP, float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
+	
 	milliseconds ms;
 
     // Math utilities
     
-    static inline float mDegToRad(float degrees);
+    static float mDegToRad(float degrees);
     
-    static inline float mmap(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp = false);
+    static float mmap(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp = false);
     
-    static inline float clamp(float a, float min, float max );
+    static float clamp(float a, float min, float max );
     
-    static inline float alignAngle(float a, float min = -180, float max = 180);
+    static float alignAngle(float a, float min = -180, float max = 180);
     
-    static inline float lerp(float x1, float x2, float t);
+    static float lerp(float x1, float x2, float t);
 
     
     float radialDistance(float angle1, float angle2);
@@ -254,45 +280,45 @@ private:
     
     void spatialAlgoSample(float Yaw, float Pitch, float Roll, float *result) {
         
-        mPoint simulationAngles = mPoint(Yaw, Pitch, Roll);
+        Mach1Point3D simulationAngles = Mach1Point3D(Yaw, Pitch, Roll);
         
-        mPoint faceVector1 = mPoint(cos(mDegToRad(simulationAngles[0])),
+        Mach1Point3D faceVector1 = Mach1Point3D(cos(mDegToRad(simulationAngles[0])),
                                     sin(mDegToRad(simulationAngles[0]))).normalize();
         
         
-        mPoint faceVector2 = faceVector1.getRotated(simulationAngles[1],
-                                                    mPoint(cos(mDegToRad(simulationAngles[0] - 90)),
+        Mach1Point3D faceVector2 = faceVector1.getRotated(simulationAngles[1],
+                                                    Mach1Point3D(cos(mDegToRad(simulationAngles[0] - 90)),
                                                            sin(mDegToRad(simulationAngles[0] - 90))).normalize());
         
         
-        mPoint faceVector21 = faceVector1.getRotated(simulationAngles[1] + 90,
-                                                     mPoint(cos(mDegToRad(simulationAngles[0] - 90)),
+        Mach1Point3D faceVector21 = faceVector1.getRotated(simulationAngles[1] + 90,
+                                                     Mach1Point3D(cos(mDegToRad(simulationAngles[0] - 90)),
                                                             sin(mDegToRad(simulationAngles[0] - 90))).normalize());
         
-        mPoint faceVectorLeft = faceVector21.getRotated(-simulationAngles[2] + 90, faceVector2);
-        mPoint faceVectorRight = faceVector21.getRotated(-simulationAngles[2] - 90, faceVector2);
+        Mach1Point3D faceVectorLeft = faceVector21.getRotated(-simulationAngles[2] + 90, faceVector2);
+        Mach1Point3D faceVectorRight = faceVector21.getRotated(-simulationAngles[2] - 90, faceVector2);
         
         
-        mPoint faceVectorOffsetted = mPoint(cos(mDegToRad(simulationAngles[0])),
+        Mach1Point3D faceVectorOffsetted = Mach1Point3D(cos(mDegToRad(simulationAngles[0])),
                                             sin(mDegToRad(simulationAngles[0]))).normalize().rotate(
                                                                                                     simulationAngles[1] + 10,
-                                                                                                    mPoint(cos(mDegToRad(simulationAngles[0] - 90)),
+                                                                                                    Mach1Point3D(cos(mDegToRad(simulationAngles[0] - 90)),
                                                                                                            sin(mDegToRad(simulationAngles[0] - 90))).normalize()) - faceVector2;
         
-        mPoint tiltSphereRotated = faceVectorOffsetted.rotate(-simulationAngles[2], faceVector2);
+        Mach1Point3D tiltSphereRotated = faceVectorOffsetted.rotate(-simulationAngles[2], faceVector2);
         
         // Drawing another 8 dots
         
-        mPoint points[8] =
-        { mPoint(100, -100, -100),
-            mPoint(100, 100, -100),
-            mPoint(-100, -100, -100),
-            mPoint(-100, 100, -100),
+        Mach1Point3D points[8] =
+        { Mach1Point3D(100, -100, -100),
+            Mach1Point3D(100, 100, -100),
+            Mach1Point3D(-100, -100, -100),
+            Mach1Point3D(-100, 100, -100),
             
-            mPoint(100, -100, 100),
-            mPoint(100, 100, 100),
-            mPoint(-100, -100, 100),
-            mPoint(-100, 100, 100)
+            Mach1Point3D(100, -100, 100),
+            Mach1Point3D(100, 100, 100),
+            Mach1Point3D(-100, -100, 100),
+            Mach1Point3D(-100, 100, 100)
             
         };
         
@@ -352,45 +378,45 @@ private:
     
     std::vector<float> spatialAlgoSample(float Yaw, float Pitch, float Roll) {
         
-        mPoint simulationAngles = mPoint(Yaw, Pitch, Roll);
+        Mach1Point3D simulationAngles = Mach1Point3D(Yaw, Pitch, Roll);
         
-        mPoint faceVector1 = mPoint(cos(mDegToRad(simulationAngles[0])),
+        Mach1Point3D faceVector1 = Mach1Point3D(cos(mDegToRad(simulationAngles[0])),
                                     sin(mDegToRad(simulationAngles[0]))).normalize();
         
         
-        mPoint faceVector2 = faceVector1.getRotated(simulationAngles[1],
-                                                    mPoint(cos(mDegToRad(simulationAngles[0] - 90)),
+        Mach1Point3D faceVector2 = faceVector1.getRotated(simulationAngles[1],
+                                                    Mach1Point3D(cos(mDegToRad(simulationAngles[0] - 90)),
                                                            sin(mDegToRad(simulationAngles[0] - 90))).normalize());
         
         
-        mPoint faceVector21 = faceVector1.getRotated(simulationAngles[1] + 90,
-                                                     mPoint(cos(mDegToRad(simulationAngles[0] - 90)),
+        Mach1Point3D faceVector21 = faceVector1.getRotated(simulationAngles[1] + 90,
+                                                     Mach1Point3D(cos(mDegToRad(simulationAngles[0] - 90)),
                                                             sin(mDegToRad(simulationAngles[0] - 90))).normalize());
         
-        mPoint faceVectorLeft = faceVector21.getRotated(-simulationAngles[2] + 90, faceVector2);
-        mPoint faceVectorRight = faceVector21.getRotated(-simulationAngles[2] - 90, faceVector2);
+        Mach1Point3D faceVectorLeft = faceVector21.getRotated(-simulationAngles[2] + 90, faceVector2);
+        Mach1Point3D faceVectorRight = faceVector21.getRotated(-simulationAngles[2] - 90, faceVector2);
         
         
-        mPoint faceVectorOffsetted = mPoint(cos(mDegToRad(simulationAngles[0])),
+        Mach1Point3D faceVectorOffsetted = Mach1Point3D(cos(mDegToRad(simulationAngles[0])),
                                             sin(mDegToRad(simulationAngles[0]))).normalize().rotate(
                                                                                                     simulationAngles[1] + 10,
-                                                                                                    mPoint(cos(mDegToRad(simulationAngles[0] - 90)),
+                                                                                                    Mach1Point3D(cos(mDegToRad(simulationAngles[0] - 90)),
                                                                                                            sin(mDegToRad(simulationAngles[0] - 90))).normalize()) - faceVector2;
         
-        mPoint tiltSphereRotated = faceVectorOffsetted.rotate(-simulationAngles[2], faceVector2);
+        Mach1Point3D tiltSphereRotated = faceVectorOffsetted.rotate(-simulationAngles[2], faceVector2);
         
         // Drawing another 8 dots
         
-        mPoint points[8] =
-        { mPoint(100, -100, -100),
-            mPoint(100, 100, -100),
-            mPoint(-100, -100, -100),
-            mPoint(-100, 100, -100),
+        Mach1Point3D points[8] =
+        { Mach1Point3D(100, -100, -100),
+            Mach1Point3D(100, 100, -100),
+            Mach1Point3D(-100, -100, -100),
+            Mach1Point3D(-100, 100, -100),
             
-            mPoint(100, -100, 100),
-            mPoint(100, 100, 100),
-            mPoint(-100, -100, 100),
-            mPoint(-100, 100, 100)
+            Mach1Point3D(100, -100, 100),
+            Mach1Point3D(100, 100, 100),
+            Mach1Point3D(-100, -100, 100),
+            Mach1Point3D(-100, 100, 100)
             
         };
         
@@ -456,6 +482,13 @@ private:
 	std::vector<std::string> strLog;
 	void addToLog(std::string str, int maxCount = 100);
 
+
+	 
+
+
+
+
+
 public:
     
  	char* getLog();
@@ -463,31 +496,36 @@ public:
    // for test
     float filterSpeed;
     
-    struct mPoint {
-        float x, y, z;
-        
-        mPoint();
-        
-        mPoint(float X, float Y, float Z);
-        
-        mPoint(float X, float Y);
-        
-        inline mPoint operator+( const mPoint& pnt ) const;
-        inline mPoint operator*( const float f ) const;
-        inline mPoint operator*( const mPoint& vec ) const;
-        inline mPoint operator-( const mPoint& vec ) const;
-        inline float length() const;
-        float operator[] (int index);
-        inline mPoint& rotate( float angle, const mPoint& axis );
-        inline mPoint& normalize();
-        inline mPoint getNormalized() const;
-        inline mPoint getRotated( float angle, const mPoint& axis ) const;
-    };
     
-	mPoint getCurrentAngle() {
-		return mPoint(currentYaw, currentPitch, currentRoll);
+ 
+	void setCameraPosition(Mach1Point3D* pos) {
 	}
-    
+
+	void setCameraRotation(Mach1Point3D* euler) {
+	}
+
+	void setSpatialAlgoPosition(Mach1Point3D* pos) {
+	}
+
+	void setSpatialAlgoRotation(Mach1Point3D* euler) {
+	}
+
+	void setSpatialAlgoScale(Mach1Point3D* scale) {
+	}
+
+
+	void setAttenuationCurve(float* curve) {
+	}
+
+
+	std::vector<float> getPostionResults() {
+	}
+
+	Mach1Point3D getCurrentAngle() {
+		return Mach1Point3D(currentYaw, currentPitch, currentRoll);
+	}
+
+
     Mach1DecodeCore();
     
     void setAngularSettingsType(AngularSettingsType type);

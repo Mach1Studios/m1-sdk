@@ -4,7 +4,6 @@
 //
 
 #include "Mach1DecodeCAPI.h"
-#include "Mach1DecodeCore.h"
 
 void* Mach1DecodeCAPI_create(void)
 {
@@ -156,4 +155,9 @@ long Mach1DecodeCAPI_getCurrentTime(void * M1obj)
 char* Mach1DecodeCAPI_getLog(void * M1obj)
 {
 	return ((Mach1DecodeCore*)M1obj)->getLog();
+}
+
+Mach1Point3D Mach1DecodeCAPI_getCurrentAngle(void* M1obj)
+{
+	return ((Mach1DecodeCore*)M1obj)->getCurrentAngle();
 }

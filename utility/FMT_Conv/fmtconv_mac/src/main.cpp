@@ -53,8 +53,8 @@ vector<string> &split(const string &s, char delim, vector<string> &elems) {
 
 void printHelp()
 {
-    cout << "m1-fmtconv -- command line mach1 format conversion tool" << std::endl;
-    cout << "made in collaboration with VVAudio: http://www.vvaudio.com/ " << std::endl;
+    cout << "m1-transcode -- command line mach1 format conversion tool" << std::endl;
+    cout << "ambisonics contributed by VVAudio: http://www.vvaudio.com/ " << std::endl;
 	cout << std::endl;
 	cout << "usage: fmtconvert -in-file test_b.wav -in-fmt FuMa -out-file test_s8.wav -out-fmt Cube -out-file-chans 1" << std::endl;
 	cout << std::endl;
@@ -71,12 +71,13 @@ void printHelp()
     cout << "    Stereo   - L & R spatialized" << std::endl;
     cout << "    Stereo_Cinema  - L & R spatialized, forward focus" << std::endl;
     cout << "    LCR      - L & R spatialized with C mono" << std::endl;
-	cout << "    Square (Mach1 Horizon / Quad) - L R Ls Rs" << std::endl;
-    cout << "    Square+S (Mach1 Horizon / Quad) - L R Ls Rs StereoL StereoR" << std::endl;
-    cout << "    Square8 (Mach1 Horizon / Quad-Binaural) - FrontPair, LeftPair, RearPair, RightPair" << std::endl;
-    cout << "    Cube (Mach1 Spatial) - Upper L R Ls Rs, Lower L R Ls Rs" << std::endl;
-    cout << "    Cube+S (Mach1 Spatial) - Upper L R Ls Rs, Lower L R Ls Rs, StereoL StereoR" << std::endl;
-    cout << "    Cube16 (Mach1 Spatial Pairs) - Upper front, left, rear, right, pairs, then lower same" << std::endl;
+	cout << "    M1Horizon (Mach1 Horizon / Quad) - L R Ls Rs" << std::endl;
+    cout << "    M1Horizon+S (Mach1 Horizon / Quad) - L R Ls Rs StereoL StereoR" << std::endl;
+    cout << "    M1HorizonPairs (Mach1 Horizon / Quad-Binaural) - FrontPair, LeftPair, RearPair, RightPair" << std::endl;
+    cout << "    M1Spatial (Mach1 Spatial) - Upper L R Ls Rs, Lower L R Ls Rs" << std::endl;
+    cout << "    M1Spatial+S (Mach1 Spatial) - Upper L R Ls Rs, Lower L R Ls Rs, StereoL StereoR" << std::endl;
+    cout << "    M1SpatialPairs (Mach1 Spatial Pairs) - Upper front, left, rear, right, pairs, then lower same" << std::endl;
+    cout << "    M1SpatialFaces - Fc, Lc, Rc, Bc, Tc, Bc" << std::endl;
     cout << "    FiveOh   - L C R Ls Rs" << std::endl;
     cout << "    FiveOneFilm (Pro Tools default / C|24)  - L C R Ls Rs LFE" << std::endl;
     cout << "    FiveOneFilm_Cinema (Pro Tools default / C|24)  - L C R Ls Rs LFE, forward focus" << std::endl;
@@ -107,7 +108,6 @@ void printHelp()
     cout << "    TBE   - W, X, Y, Z, U, V, T, S" << std::endl;
     cout << "    ACNSN3DO3A   - 16 channel AmbiX" << std::endl;
     cout << "    FuMaO3A   - 3rd order B-format, W, Y, Z, X, V, T, R, S, U, Q, O, M, K, L, N, P" << std::endl;
-    cout << "    CubeFace - Fc, Lc, Rc, Bc, Tc, Bc" << std::endl;
 	cout << std::endl;
 
 }
@@ -210,18 +210,18 @@ int main(int argc, char* argv[])
 		inFmt = MatrixConvert::FuMa;
 	else if (strcmp(inFmtStr, "ACNSN3D") == 0)
 		inFmt = MatrixConvert::ACNSN3D;
-	else if (strcmp(inFmtStr, "Square") == 0)
-		inFmt = MatrixConvert::Square;
-    else if (strcmp(inFmtStr, "Square+S") == 0)
-		inFmt = MatrixConvert::SquareS;
-	else if (strcmp(inFmtStr, "Square8") == 0)
-		inFmt = MatrixConvert::Square8;
-	else if (strcmp(inFmtStr, "Cube") == 0)
-		inFmt = MatrixConvert::Cube;
-	else if (strcmp(inFmtStr, "Cube+S") == 0)
-		inFmt = MatrixConvert::CubeS;
-	else if (strcmp(inFmtStr, "Cube16") == 0)
-		inFmt = MatrixConvert::Cube16;
+	else if (strcmp(inFmtStr, "M1Horizon") == 0)
+		inFmt = MatrixConvert::M1Horizon;
+    else if (strcmp(inFmtStr, "M1Horizon+S") == 0)
+		inFmt = MatrixConvert::M1HorizonS;
+	else if (strcmp(inFmtStr, "M1HorizonPairs") == 0)
+		inFmt = MatrixConvert::M1HorizonPairs;
+	else if (strcmp(inFmtStr, "M1Spatial") == 0)
+		inFmt = MatrixConvert::M1Spatial;
+	else if (strcmp(inFmtStr, "M1Spatial+S") == 0)
+		inFmt = MatrixConvert::M1SpatialS;
+	else if (strcmp(inFmtStr, "M1SpatialPairs") == 0)
+		inFmt = MatrixConvert::M1SpatialPairs;
     else if (strcmp(inFmtStr, "Stereo") == 0)
         inFmt = MatrixConvert::Stereo;
     else if (strcmp(inFmtStr, "LCR") == 0)
@@ -270,8 +270,8 @@ int main(int argc, char* argv[])
         inFmt = MatrixConvert::SevenZeroFour;
     else if (strcmp(inFmtStr, "SevenZero_Cinema") == 0)
         inFmt = MatrixConvert::SevenZero_Cinema;
-    else if (strcmp(inFmtStr, "CubeFace") == 0)
-        inFmt = MatrixConvert::CubeFace;
+    else if (strcmp(inFmtStr, "M1SpatialFaces") == 0)
+        inFmt = MatrixConvert::M1SpatialFaces;
 	else
 	{
 		cout << "Please select a valid input format" << std::endl;
@@ -295,18 +295,18 @@ int main(int argc, char* argv[])
 		outFmt = MatrixConvert::FuMa;
 	else if (strcmp(outFmtStr, "ACNSN3D") == 0)
 		outFmt = MatrixConvert::ACNSN3D;
-	else if (strcmp(outFmtStr, "Square") == 0)
-		outFmt = MatrixConvert::Square;
-	else if (strcmp(outFmtStr, "Square+S") == 0)
-		outFmt = MatrixConvert::SquareS;
-	else if (strcmp(outFmtStr, "Square8") == 0)
-		outFmt = MatrixConvert::Square8;
-	else if (strcmp(outFmtStr, "Cube") == 0)
-		outFmt = MatrixConvert::Cube;
-	else if (strcmp(outFmtStr, "Cube+S") == 0)
-		outFmt = MatrixConvert::CubeS;
-	else if (strcmp(outFmtStr, "Cube16") == 0)
-		outFmt = MatrixConvert::Cube16;
+	else if (strcmp(outFmtStr, "M1Horizon") == 0)
+		outFmt = MatrixConvert::M1Horizon;
+	else if (strcmp(outFmtStr, "M1Horizon+S") == 0)
+		outFmt = MatrixConvert::M1HorizonS;
+	else if (strcmp(outFmtStr, "M1HorizonPairs") == 0)
+		outFmt = MatrixConvert::M1HorizonPairs;
+	else if (strcmp(outFmtStr, "M1Spatial") == 0)
+		outFmt = MatrixConvert::M1Spatial;
+	else if (strcmp(outFmtStr, "M1Spatial+S") == 0)
+		outFmt = MatrixConvert::M1SpatialS;
+	else if (strcmp(outFmtStr, "M1SpatialPairs") == 0)
+		outFmt = MatrixConvert::M1SpatialPairs;
     else if (strcmp(outFmtStr, "ACNSN3DO2A") == 0)
         outFmt = MatrixConvert::ACNSN3DO2A;
     else if (strcmp(outFmtStr, "FuMaO2A") == 0)
@@ -357,8 +357,8 @@ int main(int argc, char* argv[])
         outFmt = MatrixConvert::SevenZeroFour;
     else if (strcmp(outFmtStr, "SevenZero_Cinema") == 0)
         outFmt = MatrixConvert::SevenZero_Cinema;
-    else if (strcmp(outFmtStr, "CubeFace") == 0)
-        outFmt = MatrixConvert::CubeFace;
+    else if (strcmp(outFmtStr, "M1SpatialFaces") == 0)
+        outFmt = MatrixConvert::M1SpatialFaces;
 	else
     {
 		cout << "Please select a valid output format" << std::endl;

@@ -25,8 +25,6 @@ var mixer: AKMixer = AKMixer()
 
 class ViewController: UIViewController {
     
-    
-    
     @IBOutlet weak var yaw: UILabel!
     @IBOutlet weak var pitch: UILabel!
     @IBOutlet weak var roll: UILabel!
@@ -71,6 +69,7 @@ class ViewController: UIViewController {
         mixer = AKMixer()
         mixer.volume = 1.0
         AudioKit.output = mixer
+        m1obj.setAngularSettingsType(type: AngularSettingsType.m1iOSPortrait)
         
         do {
             try AudioKit.start()

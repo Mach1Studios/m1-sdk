@@ -5,6 +5,8 @@
 echo "### Change Dir"
 cd "/Volumes/git/m1-sdk/lib"
 
+rm -rf _logs
+
 echo "### BUILD ANDROID ###"
 echo "### BUILD NDK11 ###"
 /Volumes/git/polly/bin/polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-armeabi

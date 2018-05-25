@@ -4,6 +4,7 @@
 #pragma once
 
 #include <vector>
+#include "Mach1DecodeCAPI.h"
 
 class Mach1Decode
 {

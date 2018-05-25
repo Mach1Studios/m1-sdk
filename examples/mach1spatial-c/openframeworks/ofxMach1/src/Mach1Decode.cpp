@@ -2,7 +2,7 @@
 //  Copyright © 2017 Mach1. All rights reserved.
 
 #include "Mach1Decode.h"
-#include "Mach1DecodeCAPI.h"
+
 
 Mach1Decode::Mach1Decode()
 {
@@ -20,11 +20,23 @@ std::vector<float> Mach1Decode::horizonAlgo(float Yaw, float Pitch, float Roll, 
 	return std::vector<float>(data, data + 10);
 }
 
+void Mach1Decode::horizonAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex)
+{
+    Mach1DecodeCAPI_horizonAlgoHP(M1obj, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+}
+
+
 std::vector<float> Mach1Decode::horizonPairsAlgo(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
 {
 	float* data = Mach1DecodeCAPI_horizonPairsAlgo(M1obj, Yaw, Pitch, Roll, bufferSize, sampleIndex);
-	return std::vector<float>(data, data + 16);
+	return std::vector<float>(data, data + 8);
 }
+
+void Mach1Decode::horizonPairsAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex)
+{
+    Mach1DecodeCAPI_horizonPairsAlgoHP(M1obj, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+}
+
 
 std::vector<float> Mach1Decode::spatialAlgo(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
 {
@@ -32,17 +44,35 @@ std::vector<float> Mach1Decode::spatialAlgo(float Yaw, float Pitch, float Roll, 
 	return std::vector<float>(data, data + 18);
 }
 
+void Mach1Decode::spatialAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex)
+{
+    Mach1DecodeCAPI_spatialAlgoHP(M1obj, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+}
+
+
 std::vector<float> Mach1Decode::spatialAltAlgo(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
 {
 	float* data = Mach1DecodeCAPI_spatialAltAlgo(M1obj, Yaw, Pitch, Roll, bufferSize, sampleIndex);
 	return std::vector<float>(data, data + 18);
 }
 
+void Mach1Decode::spatialAltAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex)
+{
+    Mach1DecodeCAPI_spatialAltAlgoHP(M1obj, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+}
+
+
 std::vector<float> Mach1Decode::spatialPairsAlgo(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
 {
 	float* data = Mach1DecodeCAPI_spatialPairsAlgo(M1obj, Yaw, Pitch, Roll, bufferSize, sampleIndex);
-	return std::vector<float>(data, data + 32);
+	return std::vector<float>(data, data + 16);
 }
+
+void Mach1Decode::spatialPairsAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex)
+{
+    Mach1DecodeCAPI_spatialPairsAlgoHP(M1obj, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+}
+
 
 void Mach1Decode::setAngularSettingsType(AngularSettingsType type)
 {

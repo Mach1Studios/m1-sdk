@@ -250,6 +250,8 @@ Mach1DecodeCore::Mach1DecodeCore() {
 	timeLastUpdate = 0;
 
 	angularSetting = m1Default;
+    
+    algorithmType = m1Spatial;
 
 	ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
@@ -270,6 +272,72 @@ void Mach1DecodeCore::setAngularSettingsType(AngularSettingsType type) {
 void Mach1DecodeCore::setFilterSpeed(float newFilterSpeed) {
 	filterSpeed = newFilterSpeed;
 }
+
+//--------------------------------------------------
+
+void Mach1DecodeCore::setAlgorithmType(Mach1DecodeCore::AlgorithmType newAlgorithmType) {
+    newAlgorithmType = newAlgorithmType;
+}
+
+std::vector<float> Mach1DecodeCore::decode(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {
+    switch (algorithmType) {
+            // m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs, m1SpatialPairs
+        case m1Spatial:
+            return spatialAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+            break;
+
+        case m1AltSpatial:
+            return spatialAltAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+            break;
+
+        case m1Horizon:
+            return horizonAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+            break;
+
+        case m1HorizonPairs:
+            return horizonPairsAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+            break;
+
+        case m1SpatialPairs:
+            return spatialPairsAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+            break;
+
+        default:
+            break;
+    }
+}
+
+// Decode using the current algorithm type in a more efficient way
+
+void Mach1DecodeCore::decode(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
+    switch (algorithmType) {
+            // m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs, m1SpatialPairs
+        case m1Spatial:
+            return spatialAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+            break;
+            
+        case m1AltSpatial:
+            return spatialAltAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+            break;
+            
+        case m1Horizon:
+            return horizonAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+            break;
+            
+        case m1HorizonPairs:
+            return horizonPairsAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+            break;
+            
+        case m1SpatialPairs:
+            return spatialPairsAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+            break;
+            
+        default:
+            break;
+    }
+}
+
+// The following functions are deprecated as of now
 
 //--------------------------------------------------
 

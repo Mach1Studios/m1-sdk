@@ -31,6 +31,10 @@ public:
     enum AngularSettingsType {
         m1Default = 0, m1Unity, m1UE, m1oFEasyCam, m1Android, m1iOSPortrait, m1iOSLandscape
     };
+    
+    enum AlgorithmType {
+        m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs, m1SpatialPairs
+    };
 
 private:
 
@@ -78,6 +82,10 @@ private:
     void fillPlatformAngles(AngularSettingsType type, float* Y, float* P, float* R);
     
     AngularSettingsType angularSetting;
+    
+    // Selected algo type
+    
+    AlgorithmType algorithmType;
     
     void horizonPairsAlgoSample(float Yaw, float Pitch, float Roll, float *result) {
         //Orientation input safety clamps/alignment
@@ -491,16 +499,36 @@ public:
     void endBuffer();
 
     long getCurrentTime();
+    
+    
+    // Set the algorithm type to use when decoding
+    
+    void setAlgorithmType(AlgorithmType newAlgorithmType);
+    
+    // Decode using the current algorithm type
+    
+    //  Order of input angles:
+    //  Y = Yaw in degrees
+    //  P = Pitch in degrees
+    //  R = Roll in degrees
 
+    std::vector<float> decode(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
+
+    // Decode using the current algorithm type in a more efficient way
+
+    void decode(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
+
+    // The following functions are deprecated as of now
+    
     //--------------------------------------------------
     
     //
     //  Four channel audio format
     //
     //  Order of input angles:
-    //  Y = Yaw in angles
-    //  P = Pitch in angles
-    //  R = Roll in angles
+    //  Y = Yaw in degrees
+    //  P = Pitch in degrees
+    //  R = Roll in degrees
     //
     
     std::vector<float> horizonAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
@@ -513,9 +541,9 @@ public:
     //  Four pairs audio format.
     //
     //  Order of input angles:
-    //  Y = Yaw in angles
-    //  P = Pitch in angles
-    //  R = Roll in angles
+    //  Y = Yaw in degrees
+    //  P = Pitch in degrees
+    //  R = Roll in degrees
     //
     
     std::vector<float> horizonPairsAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
@@ -528,9 +556,9 @@ public:
     //  Eight channel audio format (isotropic version).
     //
     //  Order of input angles:
-    //  Y = Yaw in angles
-    //  P = Pitch in angles
-    //  R = Roll in angles
+    //  Y = Yaw in degrees
+    //  P = Pitch in degrees
+    //  R = Roll in degrees
     //
     
     std::vector<float> spatialAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
@@ -543,9 +571,9 @@ public:
     //  Eight channel audio format.
     //
     //  Order of input angles:
-    //  Y = Yaw in angles
-    //  P = Pitch in angles
-    //  R = Roll in angles
+    //  Y = Yaw in degrees
+    //  P = Pitch in degrees
+    //  R = Roll in degrees
     //
     
     std::vector<float> spatialAltAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
@@ -558,9 +586,9 @@ public:
     //  Eight pairs audio format.
     //
     //  Order of input angles:
-    //  Y = Yaw in angles
-    //  P = Pitch in angles
-    //  R = Roll in angles
+    //  Y = Yaw in degrees
+    //  P = Pitch in degrees
+    //  R = Roll in degrees
     //
     
     std::vector<float> spatialPairsAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);

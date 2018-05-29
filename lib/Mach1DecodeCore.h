@@ -150,23 +150,23 @@ private:
         //ISSUE//
         //Able to kill stereo by making both pitch and tilt at max or min values together without proper clamps
         
-        result[0] = coefficients[0] * tiltHigh * 2.0; // 1 left
-        result[1] = coefficients[3] * tiltHigh * 2.0; //   right
-        result[2] = coefficients[1] * tiltLow * 2.0; // 2 left
-        result[3] = coefficients[0] * tiltLow * 2.0; //   right
-        result[4] = coefficients[3] * tiltLow * 2.0; // 3 left
-        result[5] = coefficients[2] * tiltLow * 2.0; //   right
-        result[6] = coefficients[2] * tiltHigh * 2.0; // 4 left
-        result[7] = coefficients[1] * tiltHigh * 2.0; //   right
+        result[0] = coefficients[0] * tiltHigh * 2.0f; // 1 left
+        result[1] = coefficients[3] * tiltHigh * 2.0f; //   right
+        result[2] = coefficients[1] * tiltLow * 2.0f; // 2 left
+        result[3] = coefficients[0] * tiltLow * 2.0f; //   right
+        result[4] = coefficients[3] * tiltLow * 2.0f; // 3 left
+        result[5] = coefficients[2] * tiltLow * 2.0f; //   right
+        result[6] = coefficients[2] * tiltHigh * 2.0f; // 4 left
+        result[7] = coefficients[1] * tiltHigh * 2.0f; //   right
         
-        result[0 + 8] = coefficients[0] * tiltLow * 2.0; // 1 left
-        result[1 + 8] = coefficients[3] * tiltLow * 2.0; //   right
-        result[2 + 8] = coefficients[1] * tiltHigh * 2.0; // 2 left
-        result[3 + 8] = coefficients[0] * tiltHigh * 2.0; //   right
-        result[4 + 8] = coefficients[3] * tiltHigh * 2.0; // 3 left
-        result[5 + 8] = coefficients[2] * tiltHigh * 2.0; //   right
-        result[6 + 8] = coefficients[2] * tiltLow * 2.0; // 4 left
-        result[7 + 8] = coefficients[1] * tiltLow * 2.0; //   right
+        result[0 + 8] = coefficients[0] * tiltLow * 2.0f; // 1 left
+        result[1 + 8] = coefficients[3] * tiltLow * 2.0f; //   right
+        result[2 + 8] = coefficients[1] * tiltHigh * 2.0f; // 2 left
+        result[3 + 8] = coefficients[0] * tiltHigh * 2.0f; //   right
+        result[4 + 8] = coefficients[3] * tiltHigh * 2.0f; // 3 left
+        result[5 + 8] = coefficients[2] * tiltHigh * 2.0f; //   right
+        result[6 + 8] = coefficients[2] * tiltLow * 2.0f; // 4 left
+        result[7 + 8] = coefficients[1] * tiltLow * 2.0f; //   right
         
         float pitchAngle = mmap(Pitch, 90.f, -90.f, 0., 1.f, true);
         //Use Equal Power if engine requires
@@ -217,23 +217,23 @@ private:
         
         std::vector<float> result;
         result.resize(16);
-        result[0] = coefficients[0] * tiltHigh * 2.0; // 1 left
-        result[1] = coefficients[3] * tiltHigh * 2.0; //   right
-        result[2] = coefficients[1] * tiltLow * 2.0; // 2 left
-        result[3] = coefficients[0] * tiltLow * 2.0; //   right
-        result[4] = coefficients[3] * tiltLow * 2.0; // 3 left
-        result[5] = coefficients[2] * tiltLow * 2.0; //   right
-        result[6] = coefficients[2] * tiltHigh * 2.0; // 4 left
-        result[7] = coefficients[1] * tiltHigh * 2.0; //   right
+        result[0] = coefficients[0] * tiltHigh * 2.0f; // 1 left
+        result[1] = coefficients[3] * tiltHigh * 2.0f; //   right
+        result[2] = coefficients[1] * tiltLow * 2.0f; // 2 left
+        result[3] = coefficients[0] * tiltLow * 2.0f; //   right
+        result[4] = coefficients[3] * tiltLow * 2.0f; // 3 left
+        result[5] = coefficients[2] * tiltLow * 2.0f; //   right
+        result[6] = coefficients[2] * tiltHigh * 2.0f; // 4 left
+        result[7] = coefficients[1] * tiltHigh * 2.0f; //   right
         
-        result[0 + 8] = coefficients[0] * tiltLow * 2.0; // 1 left
-        result[1 + 8] = coefficients[3] * tiltLow * 2.0; //   right
-        result[2 + 8] = coefficients[1] * tiltHigh * 2.0; // 2 left
-        result[3 + 8] = coefficients[0] * tiltHigh * 2.0; //   right
-        result[4 + 8] = coefficients[3] * tiltHigh * 2.0; // 3 left
-        result[5 + 8] = coefficients[2] * tiltHigh * 2.0; //   right
-        result[6 + 8] = coefficients[2] * tiltLow * 2.0; // 4 left
-        result[7 + 8] = coefficients[1] * tiltLow * 2.0; //   right
+        result[0 + 8] = coefficients[0] * tiltLow * 2.0f; // 1 left
+        result[1 + 8] = coefficients[3] * tiltLow * 2.0f; //   right
+        result[2 + 8] = coefficients[1] * tiltHigh * 2.0f; // 2 left
+        result[3 + 8] = coefficients[0] * tiltHigh * 2.0f; //   right
+        result[4 + 8] = coefficients[3] * tiltHigh * 2.0f; // 3 left
+        result[5 + 8] = coefficients[2] * tiltHigh * 2.0f; //   right
+        result[6 + 8] = coefficients[2] * tiltLow * 2.0f; // 4 left
+        result[7 + 8] = coefficients[1] * tiltLow * 2.0f; //   right
         
         float pitchAngle = mmap(Pitch, 90.f, -90.f, 0., 1.f, true);
         //Use Equal Power if engine requires

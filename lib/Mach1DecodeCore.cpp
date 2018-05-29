@@ -305,7 +305,10 @@ std::vector<float> Mach1DecodeCore::decode(float Yaw, float Pitch, float Roll, i
         default:
             break;
     }
+
+	return std::vector<float>();
 }
+
 
 // Decode using the current algorithm type in a more efficient way
 

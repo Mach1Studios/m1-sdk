@@ -3,8 +3,8 @@
 //
 //
 
-#include "Mach1DecodeCAPI.h"
 #include "Mach1DecodeCore.h"
+#include "Mach1DecodeCAPI.h"
 
 void* Mach1DecodeCAPI_create(void)
 {
@@ -140,7 +140,7 @@ float* Mach1DecodeCAPI_spatialPairsAlgo(void* M1obj, float Yaw, float Pitch, flo
 	}
 	
 	return data;
-}
+} 
 
 void Mach1DecodeCAPI_spatialPairsAlgoHP(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
     if (M1obj != nullptr) {

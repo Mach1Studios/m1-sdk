@@ -21,11 +21,15 @@ public:
 		players[5].load("1/6.wav");
 		players[6].load("1/7.wav");
 		players[7].load("1/8.wav");
+        
+        //Mach1 Decode Setup
+        //Setup the correct angle convention for orientation Euler input angles
+        mach1Decode.setAngularSettingsType(m1oFEasyCam);
+        //Setup the expected spatial audio mix format for decoding
+        mach1Decode.setAlgorithmType(m1Spatial);
     }
     
 	void update() {
-
-        mach1Decode.setFilterSpeed(speed);
         
 		// Handling audio
 		if (!perSample) {
@@ -68,7 +72,6 @@ public:
 
     void setOverallVolume(float volume) {
         overallVolume = volume;
-
     }
     
     //
@@ -191,9 +194,12 @@ public:
         }
 
     };
-    
+        
     std::vector<float> audioMixAlgorithm(float X, float Y, float Z) {
-        return mach1Decode.spatialAlgo(X, Y, Z);
+        mach1Decode.setFilterSpeed(speed);
+        mach1Decode.beginBuffer();
+        return mach1Decode.decode(X, Y, Z);
+        mach1Decode.endBuffer();
     }
     
     int scheduleRestart = 30;
@@ -208,7 +214,7 @@ public:
 		if (isPlay)
 		{
 			float sample;
-
+            
 			for (int i = 0; i < bufferSize; i++)
 			{
 				if (perSample) {

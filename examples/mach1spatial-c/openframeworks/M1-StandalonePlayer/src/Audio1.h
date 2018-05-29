@@ -28,6 +28,15 @@ public:
         sounds[7].load("1/8.wav"); 
         
 		pos = 0;
+        
+        //Mach1 Decode Setup
+        //Setup the correct angle convention for orientation Euler input angles
+        mach1Decode.setAngularSettingsType(m1oFEasyCam);
+        //Setup the expected spatial audio mix format for decoding
+        mach1Decode.setAlgorithmType(m1Spatial);
+        //Setup for the safety filter speed:
+        //1.0 = no filter | 0.1 = slow filter
+        mach1Decode.setFilterSpeed(0.95f);
     }
     
     void update() {
@@ -129,8 +138,6 @@ public:
         ofDrawBitmapStringHighlight("-Press 'spacebar' to play", ofGetWidth() - 500, 40);
         ofDrawBitmapStringHighlight("-Use the Yaw,Pitch,Roll sliders to", ofGetWidth() - 500, 60);
         ofDrawBitmapStringHighlight("simulate different head orientations", ofGetWidth() - 500, 80);
-        
-      
     }
 
     void setOverallVolume(float volume) {
@@ -165,8 +172,9 @@ public:
     
     Mach1Decode mach1Decode;
     std::vector<float> audioMixAlgorithm(float X, float Y, float Z) {
-        //Change Mach1Decode algorithm here
-        return mach1Decode.spatialAlgo(X, Y, Z);
+        mach1Decode.beginBuffer();
+        return mach1Decode.decode(X, Y, Z);
+        mach1Decode.endBuffer();
     }
     
     int scheduleRestart = 30;

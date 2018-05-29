@@ -38,6 +38,15 @@ public:
             playersRight[7].load("2/8.wav"); playersRight[7].setLoop(true);
             playersRight[i].setPan(1);
         }
+        
+        //Mach1 Decode Setup
+        //Setup the correct angle convention for orientation Euler input angles
+        mach1Decode.setAngularSettingsType(m1oFEasyCam);
+        //Setup the expected spatial audio mix format for decoding
+        mach1Decode.setAlgorithmType(m1Spatial);
+        //Setup for the safety filter speed:
+        //1.0 = no filter | 0.1 = slow filter
+        mach1Decode.setFilterSpeed(0.95f);
     }
     
     void update() {
@@ -135,8 +144,9 @@ public:
     Mach1Decode mach1Decode;
     
     std::vector<float> audioMixAlgorithm(float X, float Y, float Z) {
-        //Change Mach1Decode algorithm here
-        return mach1Decode.spatialAlgo(X, Y, Z);
+        mach1Decode.beginBuffer();
+        return mach1Decode.decode(X, Y, Z);
+        mach1Decode.endBuffer();
     }
     
     int scheduleRestart = 30;

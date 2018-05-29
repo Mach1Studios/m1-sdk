@@ -5,9 +5,9 @@
 
 #pragma once
 
-#ifdef Mach1Decode_h
+#ifdef Mach1DecodeCore_h
 
-#ifdef _WINDOWS
+#if defined(_WINDOWS) || defined(WIN32)
 #define M1_API __declspec(dllexport)
 #else
 #define M1_API
@@ -15,7 +15,7 @@
 
 #else
 
-#ifdef _WINDOWS
+#if defined(_WINDOWS) || defined(WIN32)
 #define M1_API __declspec(dllimport)
 #else
 #define M1_API
@@ -27,30 +27,27 @@ struct Mach1Point3D {
 	float x, y, z;
 };
 
+enum Mach1AngularSettingsType {
+	m1Default = 0, m1Unity, m1UE, m1oFEasyCam, m1Android, m1iOSPortrait, m1iOSLandscape
+};
+
+enum Mach1AlgorithmType {
+	m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs, m1SpatialPairs
+};
+
 extern "C" { 
 	M1_API void* Mach1DecodeCAPI_create();
 	M1_API void Mach1DecodeCAPI_delete(void* M1obj);
-    
-	M1_API float* Mach1DecodeCAPI_horizonAlgo(void* M1obj, float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-    M1_API void Mach1DecodeCAPI_horizonAlgoHP(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
-    
-	M1_API float* Mach1DecodeCAPI_horizonPairsAlgo(void* M1obj, float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-    M1_API void Mach1DecodeCAPI_horizonPairsAlgoHP(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
+  
+	M1_API void Mach1DecodeCAPI_setAlgorithmType(void* M1obj, Mach1AlgorithmType newAlgorithmType);
+	M1_API void Mach1DecodeCAPI_setAngularSettingsType(void* M1obj, Mach1AngularSettingsType type);
 
-	M1_API float* Mach1DecodeCAPI_spatialAlgo(void* M1obj, float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-    M1_API void Mach1DecodeCAPI_spatialAlgoHP(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
-    
-	M1_API float* Mach1DecodeCAPI_spatialAltAlgo(void* M1obj, float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-    M1_API void Mach1DecodeCAPI_spatialAltAlgoHP(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
-    
-	M1_API float* Mach1DecodeCAPI_spatialPairsAlgo(void* M1obj, float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-    M1_API void Mach1DecodeCAPI_spatialPairsAlgoHP(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
+	M1_API void Mach1DecodeCAPI_decode(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
 
-	M1_API void Mach1DecodeCAPI_setAngularSettingsType(void* M1obj, int type);
 	M1_API void Mach1DecodeCAPI_setFilterSpeed(void* M1obj, float filterSpeed);
 	M1_API void Mach1DecodeCAPI_beginBuffer(void* M1obj);
 	M1_API void Mach1DecodeCAPI_endBuffer(void* M1obj);
- 
+  
 	M1_API long Mach1DecodeCAPI_getCurrentTime(void* M1obj);
 	M1_API char* Mach1DecodeCAPI_getLog(void * M1obj);
 

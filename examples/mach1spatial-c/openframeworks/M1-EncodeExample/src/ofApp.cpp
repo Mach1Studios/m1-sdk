@@ -21,6 +21,10 @@ void ofApp::setup() {
         playerR.play();
         playerR.setPan(1);
     }
+    
+    m1Decode.setAngularSettingsType(m1oFEasyCam);
+    m1Decode.setAlgorithmType(m1Spatial);
+    m1Decode.setFilterSpeed(0.95f);
 }
 
 //--------------------------------------------------------------
@@ -119,7 +123,7 @@ void ofApp::draw() {
 
         float result[18];
         m1Decode.beginBuffer();
-        m1Decode.spatialAlgo(decoderRotationY, decoderRotationP, decoderRotationR, 1, 0);
+        m1Decode.decode(decoderRotationY, decoderRotationP, decoderRotationR, 1, 0);
         m1Decode.endBuffer();
     
         float volumeL = 0, volumeR = 0;

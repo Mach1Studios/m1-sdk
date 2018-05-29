@@ -159,7 +159,7 @@ void Mach1DecodeCore::updateAngles() {
 };
 
 // Angular settings functions
-void Mach1DecodeCore::fillPlatformAngles(AngularSettingsType type, float* Y, float* P, float* R) {
+void Mach1DecodeCore::fillPlatformAngles(Mach1AngularSettingsType type, float* Y, float* P, float* R) {
 	switch (type) {
 	case m1Default:
 		*Y = *Y;
@@ -265,7 +265,7 @@ long Mach1DecodeCore::getCurrentTime()
 	return (long)(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) - ms).count();
 }
 
-void Mach1DecodeCore::setAngularSettingsType(AngularSettingsType type) {
+void Mach1DecodeCore::setAngularSettingsType(Mach1AngularSettingsType type) {
 	angularSetting = type;
 }
 
@@ -275,7 +275,7 @@ void Mach1DecodeCore::setFilterSpeed(float newFilterSpeed) {
 
 //--------------------------------------------------
 
-void Mach1DecodeCore::setAlgorithmType(Mach1DecodeCore::AlgorithmType newAlgorithmType) {
+void Mach1DecodeCore::setAlgorithmType(Mach1AlgorithmType newAlgorithmType) {
     newAlgorithmType = newAlgorithmType;
 }
 
@@ -365,65 +365,66 @@ void Mach1DecodeCore::endBuffer() {
 }
 
 void Mach1DecodeCore::processSample(functionAlgoSampleHP funcAlgoSampleHP, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
-    fillPlatformAngles(angularSetting, &Yaw, &Pitch, &Roll);
-    
-    /*char buff[1024];
-     snprintf(buff, sizeof(buff), "%.5f - current (%.4f %.4f %.4f), target (%.4f %.4f %.4f), previous (%.4f %.4f %.4f) \r\n", timeLastUpdate ? timeLastUpdate / 1000.0 : 0, currentYaw, currentPitch, currentRoll, targetYaw, targetPitch, targetRoll, previousYaw, previousPitch, previousRoll);
-     addToLog(buff);*/
-    
-    if (smoothAngles) {
-        
-        targetYaw = Yaw;
-        targetPitch = Pitch;
-        targetRoll = Roll;
-        
-        
-        if (bufferSize > 0) {
-            
-            // we're in per sample mode
-            // returning values from right here!
-            
-            float volumes1[18];
-            float volumes2[18];
-            (this->*funcAlgoSampleHP)(previousYaw, previousPitch, previousRoll, volumes1);
-            (this->*funcAlgoSampleHP)(currentYaw, currentPitch, currentRoll, volumes2);
-            float phase = (float)sampleIndex / (float)bufferSize;
-            
-            float volumes_lerp[18];
-            for (int i = 0; i < 18; i++) {
-                volumes_lerp[i] = volumes1[i] * (1 - phase) + volumes2[i] * phase;
-                result[i] = volumes_lerp[i];
-            }
-            
-        }
-        else {
-            // Filtering per-buffer
-            /*
-             Yaw = currentYaw;
-             Pitch = currentPitch;
-             Roll = currentRoll;
-             
-             previousYaw = currentYaw;
-             previousPitch = currentPitch;
-             previousRoll = currentRoll;
-             */
-        }
-        
-    }
-    else {
-        targetYaw = Yaw;
-        targetPitch = Pitch;
-        targetRoll = Roll;
-        
-        currentYaw = Yaw;
-        currentPitch = Pitch;
-        currentRoll = Roll;
-        
-        previousYaw = currentYaw;
-        previousPitch = currentPitch;
-        previousRoll = currentRoll;
-    }
-    
+	fillPlatformAngles(angularSetting, &Yaw, &Pitch, &Roll);
+
+	/*char buff[1024];
+	 snprintf(buff, sizeof(buff), "%.5f - current (%.4f %.4f %.4f), target (%.4f %.4f %.4f), previous (%.4f %.4f %.4f) \r\n", timeLastUpdate ? timeLastUpdate / 1000.0 : 0, currentYaw, currentPitch, currentRoll, targetYaw, targetPitch, targetRoll, previousYaw, previousPitch, previousRoll);
+	 addToLog(buff);*/
+
+	if (smoothAngles) {
+
+		targetYaw = Yaw;
+		targetPitch = Pitch;
+		targetRoll = Roll;
+
+		if (bufferSize > 0) {
+
+			// we're in per sample mode
+			// returning values from right here!
+
+			float volumes1[18];
+			float volumes2[18];
+			(this->*funcAlgoSampleHP)(previousYaw, previousPitch, previousRoll, volumes1);
+			(this->*funcAlgoSampleHP)(currentYaw, currentPitch, currentRoll, volumes2);
+			float phase = (float)sampleIndex / (float)bufferSize;
+
+			float volumes_lerp[18];
+			for (int i = 0; i < 18; i++) {
+				volumes_lerp[i] = volumes1[i] * (1 - phase) + volumes2[i] * phase;
+				result[i] = volumes_lerp[i];
+			}
+
+		}
+		else {
+			// Filtering per-buffer
+			/*
+			 Yaw = currentYaw;
+			 Pitch = currentPitch;
+			 Roll = currentRoll;
+
+			 previousYaw = currentYaw;
+			 previousPitch = currentPitch;
+			 previousRoll = currentRoll;
+			 */
+		}
+
+	}
+	else {
+		// for test purpose only!
+		targetYaw = Yaw;
+		targetPitch = Pitch;
+		targetRoll = Roll;
+
+		currentYaw = Yaw;
+		currentPitch = Pitch;
+		currentRoll = Roll;
+
+		previousYaw = currentYaw;
+		previousPitch = currentPitch;
+		previousRoll = currentRoll;
+	}
+
+	(this->*funcAlgoSampleHP)(Yaw, Pitch, Roll, result);
 }
 
 std::vector<float> Mach1DecodeCore::processSample(functionAlgoSample funcAlgoSample, float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {

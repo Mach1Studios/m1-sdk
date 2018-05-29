@@ -52,7 +52,7 @@ Mach1Point3DCore Mach1Point3DCore::operator-(const Mach1Point3DCore& vec) const 
 float Mach1Point3DCore::length() const {
 	return (float)sqrt(x*x + y*y + z*z);
 }
- 
+
 
 float Mach1Point3DCore::operator[] (int index) {
 	float arr[3] = { x, y, z };
@@ -118,4 +118,14 @@ Mach1Point3DCore Mach1Point3DCore::getRotated(float angle, const Mach1Point3DCor
 		+ y*(ax.z*ax.y*cosb + ax.x*sina)
 		+ z*(ax.z*ax.z*cosb + cosa));
 }
- 
+
+float Mach1Point3DCore::dot(const Mach1Point3DCore & vec1, const Mach1Point3DCore & vec2)
+{
+	return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
+}
+
+float Mach1Point3DCore::distance(const Mach1Point3DCore & vec1, const Mach1Point3DCore & vec2)
+{
+	return sqrt(powf(vec1.x - vec2.x, 2) + powf(vec1.y - vec2.y, 2) + powf(vec1.z - vec2.z, 2));
+}
+

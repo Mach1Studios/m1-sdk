@@ -19,6 +19,27 @@ void Mach1DecodeCAPI_delete(void * M1obj)
 	}
 }
 
+void Mach1DecodeCAPI_setAlgorithmType(void * M1obj, Mach1AlgorithmType newAlgorithmType)
+{
+	if (M1obj != nullptr) {
+		((Mach1DecodeCore*)M1obj)->setAlgorithmType(newAlgorithmType);
+	}
+}
+
+void Mach1DecodeCAPI_setAngularSettingsType(void * M1obj, Mach1AngularSettingsType type)
+{
+	if (M1obj != nullptr) {
+		((Mach1DecodeCore*)M1obj)->setAngularSettingsType(type);
+	}
+}
+
+void Mach1DecodeCAPI_decode(void * M1obj, float Yaw, float Pitch, float Roll, float * result, int bufferSize, int sampleIndex)
+{
+	if (M1obj != nullptr) {
+		((Mach1DecodeCore*)M1obj)->decode(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+	}
+}
+
 float* Mach1DecodeCAPI_horizonAlgo(void* M1obj, float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
 {
 	static float data[10];
@@ -126,13 +147,7 @@ void Mach1DecodeCAPI_spatialPairsAlgoHP(void* M1obj, float Yaw, float Pitch, flo
         ((Mach1DecodeCore*)M1obj)->spatialPairsAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
     }
 }
-
-
-void Mach1DecodeCAPI_setAngularSettingsType(void* M1obj, int type)
-{
-	((Mach1DecodeCore*)M1obj)->setAngularSettingsType(static_cast<Mach1DecodeCore::AngularSettingsType>(type));
-}
-
+ 
 void Mach1DecodeCAPI_setFilterSpeed(void* M1obj, float filterSpeed)
 {
 	((Mach1DecodeCore*)M1obj)->setFilterSpeed(filterSpeed);

@@ -15,7 +15,8 @@
 #include <algorithm>
 
 #include "Mach1Point3DCore.h"
- 
+#include "Mach1DecodeCAPI.h"
+
 using namespace std::chrono;
 
 #ifndef PI
@@ -27,19 +28,9 @@ using namespace std::chrono;
 //////////////
  
 class Mach1DecodeCore {
-public:
-    enum AngularSettingsType {
-        m1Default = 0, m1Unity, m1UE, m1oFEasyCam, m1Android, m1iOSPortrait, m1iOSLandscape
-    };
-    
-    enum AlgorithmType {
-        m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs, m1SpatialPairs
-    };
 
 private:
 
-	 
-	
 	typedef std::vector<float> (Mach1DecodeCore::*functionAlgoSample)(float Yaw, float Pitch, float Roll);
     typedef void (Mach1DecodeCore::*functionAlgoSampleHP)(float Yaw, float Pitch, float Roll, float *result);
 	
@@ -79,13 +70,13 @@ private:
     bool smoothAngles;
  
     // Angular settings functions
-    void fillPlatformAngles(AngularSettingsType type, float* Y, float* P, float* R);
+    void fillPlatformAngles(Mach1AngularSettingsType type, float* Y, float* P, float* R);
     
-    AngularSettingsType angularSetting;
+    Mach1AngularSettingsType angularSetting;
     
     // Selected algo type
     
-    AlgorithmType algorithmType;
+    Mach1AlgorithmType algorithmType;
     
     void horizonPairsAlgoSample(float Yaw, float Pitch, float Roll, float *result) {
         //Orientation input safety clamps/alignment
@@ -469,13 +460,6 @@ private:
 	std::vector<std::string> strLog;
 	void addToLog(std::string str, int maxCount = 100);
 
-
-	 
-
-
-
-
-
 public:
     
  	char* getLog();
@@ -491,7 +475,7 @@ public:
 
     Mach1DecodeCore();
     
-    void setAngularSettingsType(AngularSettingsType type);
+    void setAngularSettingsType(Mach1AngularSettingsType type);
 
     void setFilterSpeed(float filterSpeed);
 
@@ -503,7 +487,7 @@ public:
     
     // Set the algorithm type to use when decoding
     
-    void setAlgorithmType(AlgorithmType newAlgorithmType);
+    void setAlgorithmType(Mach1AlgorithmType newAlgorithmType);
     
     // Decode using the current algorithm type
     

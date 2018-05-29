@@ -39,4 +39,8 @@ struct Mach1Point3DCore {
 	Mach1Point3DCore& normalize();
 	Mach1Point3DCore getNormalized() const;
 	Mach1Point3DCore getRotated(float angle, const Mach1Point3DCore& axis) const;
+
+	static float dot(const Mach1Point3DCore & vec1, const Mach1Point3DCore & vec2);
+	static float distance(const Mach1Point3DCore & vec1, const Mach1Point3DCore & vec2);
+
 };

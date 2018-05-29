@@ -7,7 +7,7 @@
 
 #ifdef Mach1DecodeCore_h
 
-#ifdef _WINDOWS
+#if defined(_WINDOWS) || defined(WIN32)
 #define M1_API __declspec(dllexport)
 #else
 #define M1_API
@@ -15,7 +15,7 @@
 
 #else
 
-#ifdef _WINDOWS
+#if defined(_WINDOWS) || defined(WIN32)
 #define M1_API __declspec(dllimport)
 #else
 #define M1_API

@@ -39,7 +39,7 @@ std::vector<float> Mach1Decode::decode(float Yaw, float Pitch, float Roll, int b
 
 void Mach1Decode::setFilterSpeed(float filterSpeed) 
 {
-	Mach1DecodeCAPI_setFilterSpeed(M1obj, (float)filterSpeed);
+	Mach1DecodeCAPI_setFilterSpeed(M1obj, filterSpeed);
 }
 
 void Mach1Decode::beginBuffer()

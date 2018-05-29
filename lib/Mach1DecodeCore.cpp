@@ -129,7 +129,7 @@ void Mach1DecodeCore::updateAngles() {
 	if (currentPitch > 360) currentPitch -= 360;
 	if (currentRoll > 360) currentRoll -= 360;
 
-	float speedAngle = timeLastUpdate ? filterSpeed * 128 * (getCurrentTime() - timeLastUpdate) : 0;
+	float speedAngle = timeLastUpdate ? filterSpeed * 1.0f * (getCurrentTime() - timeLastUpdate) : 0;
 
 	timeLastUpdate = getCurrentTime();
 
@@ -308,7 +308,6 @@ std::vector<float> Mach1DecodeCore::decode(float Yaw, float Pitch, float Roll, i
 
 	return std::vector<float>();
 }
-
 
 // Decode using the current algorithm type in a more efficient way
 

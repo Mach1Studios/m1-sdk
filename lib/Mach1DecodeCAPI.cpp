@@ -19,17 +19,17 @@ void Mach1DecodeCAPI_delete(void * M1obj)
 	}
 }
 
-void Mach1DecodeCAPI_setAlgorithmType(void * M1obj, Mach1AlgorithmType newAlgorithmType)
+void Mach1DecodeCAPI_setAlgorithmType(void * M1obj, Mach1DecodeAlgoType newAlgorithmType)
 {
 	if (M1obj != nullptr) {
 		((Mach1DecodeCore*)M1obj)->setAlgorithmType(newAlgorithmType);
 	}
 }
 
-void Mach1DecodeCAPI_setAngularSettingsType(void * M1obj, Mach1AngularSettingsType type)
+void Mach1DecodeCAPI_setPlatformType(void * M1obj, Mach1PlatformType type)
 {
 	if (M1obj != nullptr) {
-		((Mach1DecodeCore*)M1obj)->setAngularSettingsType(type);
+		((Mach1DecodeCore*)M1obj)->setPlatformType(type);
 	}
 }
 

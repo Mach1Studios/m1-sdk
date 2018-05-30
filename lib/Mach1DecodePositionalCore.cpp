@@ -11,4 +11,307 @@ updates and should not be integrated in sections but remain as an update-able fa
 
 
 #include "Mach1DecodePositionalCore.h"
-   
+
+float Mach1DecodePositionalCore::ClosestPointOnBox(glm::vec3 point, glm::vec3 center, glm::vec3 axis0, glm::vec3 axis1, glm::vec3 axis2, glm::vec3 extents, glm::vec3 & closestPoint)
+{
+	glm::vec3 vector = point - center;
+	float num = 0.0f;
+
+	float num0 = glm::dot(vector, axis0);
+	if (num0 < -extents.x)
+	{
+		num += powf(num0 + extents.x, 2);
+		num0 = -extents.x;
+	}
+	else if (num0 > extents.x)
+	{
+		num += powf(num0 - extents.x, 2);
+		num0 = extents.x;
+	}
+
+	float num1 = glm::dot(vector, axis1);
+	if (num1 < -extents.y)
+	{
+		num += powf(num1 + extents.y, 2);
+		num1 = -extents.y;
+	}
+	else if (num1 > extents.y)
+	{
+		num += powf(num1 - extents.y, 2);
+		num1 = extents.y;
+	}
+
+	float num2 = glm::dot(vector, axis2);
+	if (num2 < -extents.z)
+	{
+		num += powf(num2 + extents.z, 2);
+		num2 = -extents.z;
+	}
+	else if (num2 > extents.z)
+	{
+		num += powf(num2 - extents.z, 2);
+		num2 = extents.z;
+	}
+	closestPoint = center + num0 * axis0 + num1 * axis1 + num2 * axis2;
+
+	return sqrt(num);
+}
+
+bool Mach1DecodePositionalCore::Clip(float denom, float numer, float & t0, float & t1)
+{
+	if ((double)denom > 0.0)
+	{
+		if ((double)numer > (double)denom * (double)t1)
+			return false;
+		if ((double)numer > (double)denom * (double)t0)
+			t0 = numer / denom;
+		return true;
+	}
+	if ((double)denom >= 0.0)
+		return (double)numer <= 0.0;
+	if ((double)numer > (double)denom * (double)t0)
+		return false;
+	if ((double)numer > (double)denom * (double)t1)
+		t1 = numer / denom;
+	return true;
+}
+
+int Mach1DecodePositionalCore::DoClipping(float t0, float t1, glm::vec3 origin, glm::vec3 direction, glm::vec3 center, glm::vec3 axis0, glm::vec3 axis1, glm::vec3 axis2, glm::vec3 extents, bool solid, glm::vec3 & point0, glm::vec3 & point1)
+{
+	glm::vec3 vector = origin - center;
+	glm::vec3 vector2 = glm::vec3(glm::dot(vector, axis0), glm::dot(vector, axis1), glm::dot(vector, axis2));
+	glm::vec3 vector3 = glm::vec3(glm::dot(direction, axis0), glm::dot(direction, axis1), glm::dot(direction, axis2));
+
+	float num = t0;
+	float num2 = t1;
+
+	int quantity = 0;
+
+	bool flag = Clip(vector3.x, -vector2.x - extents.x, t0, t1) && Clip(-vector3.x, vector2.x - extents.x, t0, t1) && Clip(vector3.y, -vector2.y - extents.y, t0, t1) && Clip(-vector3.y, vector2.y - extents.y, t0, t1) && Clip(vector3.z, -vector2.z - extents.z, t0, t1) && Clip(-vector3.z, vector2.z - extents.z, t0, t1);
+	if (flag && (solid || t0 != num || t1 != num2))
+	{
+		if (t1 > t0)
+		{
+			quantity = 2;
+			point0 = origin + t0 * direction;
+			point1 = origin + t1 * direction;
+		}
+		else
+		{
+
+			quantity = 1;
+			point0 = origin + t0 * direction;
+			point1 = glm::vec3();
+		}
+	}
+	else
+	{
+		quantity = 0;
+		point0 = glm::vec3();
+		point1 = glm::vec3();
+	}
+
+	return quantity;
+}
+
+glm::vec3 Mach1DecodePositionalCore::GetEuler(glm::quat q1)
+{
+	float test = q1.x * q1.y + q1.z * q1.w;
+	if (test > 0.499) // singularity at north pole
+	{
+		return glm::vec3(
+			0,
+			2 * atan2(q1.x, q1.w),
+			PI / 2
+		) * RAD_TO_DEG_F;
+	}
+	if (test < -0.499) // singularity at south pole
+	{
+		return glm::vec3(
+			0,
+			-2 * atan2(q1.x, q1.w),
+			-PI / 2
+		) * RAD_TO_DEG_F;
+	}
+	float sqx = q1.x * q1.x;
+	float sqy = q1.y * q1.y;
+	float sqz = q1.z * q1.z;
+
+	return glm::vec3(
+		atan2(2.0f * q1.x * q1.w - 2 * q1.y * q1.z, 1.0f - 2.0f * sqx - 2.0f * sqz),
+		atan2(2.0f * q1.y * q1.w - 2 * q1.x * q1.z, 1.0f - 2.0f * sqy - 2.0f * sqz),
+		sin(2.0f * test)
+	) * RAD_TO_DEG_F;
+}
+
+void Mach1DecodePositionalCore::setCameraPosition(Mach1Point3DCore * pos) {
+	cameraPosition = glm::vec3(pos->x, pos->y, pos->z);
+}
+
+void Mach1DecodePositionalCore::setCameraRotation(Mach1Point3DCore * euler) {
+	cameraRotation = glm::quat(glm::vec3(euler->x, euler->y, euler->z));
+}
+
+void Mach1DecodePositionalCore::setSpatialAlgoPosition(Mach1Point3DCore * pos) {
+	soundPosition = glm::vec3(pos->x, pos->y, pos->z);
+}
+
+void Mach1DecodePositionalCore::setSpatialAlgoRotation(Mach1Point3DCore * euler) {
+	soundRotation = glm::quat(glm::vec3(euler->x, euler->y, euler->z));
+}
+
+void Mach1DecodePositionalCore::setSpatialAlgoScale(Mach1Point3DCore * scale) {
+	soundScale = glm::vec3(scale->x, scale->y, scale->z);
+}
+
+void Mach1DecodePositionalCore::setAttenuationCurve(float * curve) {
+	// dummy
+}
+
+std::vector<float> Mach1DecodePositionalCore::getPostionResults() {
+
+	float volumeWalls = 1.0f;
+	float volumeRoom = 0.0f;
+
+	// Find closest point
+	glm::vec3 point = soundPosition;
+
+	glm::vec3 outsideClosestPoint;
+	//glm::vec3 insidePoint0, insidePoint1;
+
+
+	if (ignoreTopBottom)
+	{
+		cameraPosition.y = soundPosition.y;
+	}
+
+	glm::vec3 soundRightVector = soundRotation * glm::vec3(1, 0, 0); // right
+	glm::vec3 soundUpVector = soundRotation * glm::vec3(0, 1, 0); // up
+	glm::vec3 soundForwardVector = soundRotation * glm::vec3(0, 0, 1); // forward
+
+
+	bool isOutside = (ClosestPointOnBox(cameraPosition, soundPosition, soundRightVector, soundUpVector, soundForwardVector, soundScale / 2.0f, outsideClosestPoint) > 0);
+	bool hasSoundOutside = isOutside && !muteWhenOutsideObject;
+	bool hasSoundInside = !isOutside && !muteWhenInsideObject;
+
+	if (hasSoundOutside && useClosestPointRotationMuteInside) // useClosestPointRotation
+	{
+		point = outsideClosestPoint;
+
+		float dist = glm::distance(cameraPosition, point);
+
+		if (useFalloff)
+		{
+			volumeWalls = volumeWalls * falloffCurve.Evaluate(dist);
+		}
+
+	}
+	else if (hasSoundInside && useBlendMode) // && DoClipping(0, float.MaxValue, cameraPosition, (cameraPosition - soundPosition).normalized, soundPosition, gameObject.transform.right, gameObject.transform.up, gameObject.transform.forward, gameObject.transform.localScale / 2, true, out insidePoint0, out insidePoint1) == 2)
+	{
+		glm::mat4 identity(1.0f); // construct identity matrix
+		glm::mat4 translate = glm::translate(identity, soundPosition);
+		glm::mat4 rotateX = glm::rotate(identity, glm::radians(glm::eulerAngles(soundRotation).x), glm::vec3(1, 0, 0));
+		glm::mat4 rotateY = glm::rotate(identity, glm::radians(glm::eulerAngles(soundRotation).y), glm::vec3(0, 1, 0));
+		glm::mat4 rotateZ = glm::rotate(identity, glm::radians(glm::eulerAngles(soundRotation).z), glm::vec3(0, 0, 1));
+		glm::mat4 scale = glm::scale(identity, soundScale);
+
+		glm::mat4 mat = glm::inverse(translate * rotateX * rotateY * rotateZ * scale);
+
+		glm::vec3 p0 = 2.0f * (mat * glm::vec4(cameraPosition, 1.0f)); // InverseTransformPoint
+
+		float dist = 1 - std::max(abs(p0.x), std::max(abs(p0.y), abs(p0.z)));
+
+		if (useFalloff)
+		{
+			volumeWalls = volumeWalls * blendModeFalloffCurve.Evaluate(dist);
+		}
+
+		volumeRoom = 1 - volumeWalls;
+	}
+	else if (hasSoundOutside || hasSoundInside) // useCenterPointRotation
+	{
+		float dist = glm::distance(cameraPosition, point);
+
+		if (useFalloff)
+		{
+			if (hasSoundOutside)
+			{
+				volumeWalls = volumeWalls * falloffCurve.Evaluate(dist);
+			}
+			if (useBlendMode)
+			{
+				volumeWalls = volumeWalls * blendModeFalloffCurve.Evaluate(dist);
+			}
+		}
+	}
+	else
+	{
+		volumeWalls = 0;
+		volumeRoom = 0;
+	}
+
+
+	// Compute rotation for sound
+	glm::quat quat = glm::inverse(glm::conjugate(glm::toQuat(glm::lookAt(cameraPosition, point, glm::vec3(0, 1, 0))))) * soundRotation;
+	glm::vec3 quatEulerAngles = glm::eulerAngles(quat);
+	quat = glm::quat(glm::vec3(usePitchForRotation ? quatEulerAngles.x : 0, useYawForRotation ? quatEulerAngles.y : 0, useRollForRotation ? quatEulerAngles.z : 0));
+	quat *= cameraRotation;
+
+	// Compute volumes
+	//glm::vec3 eulerAngles = quatEulerAngles;
+	//eulerAngles.x = eulerAngles.x > 180 ? 360 - eulerAngles.x : -eulerAngles.x;
+	//eulerAngles.y += 180;
+
+	//eulerAngles = glm::quat.Euler(eulerAngles).eulerAngles;
+
+	// cout << (Camera.current.name + " camera eulerAngles:" + eulerAngles);
+
+	glm::vec3 eulerAngles = GetEuler(quat);
+	//            eulerAngles.x *= -1;
+	eulerAngles.y += 180;
+	if (eulerAngles.z < 0) eulerAngles.z = 360 + eulerAngles.z;
+
+	// SoundAlgorithm
+	std::vector<float> volumes = spatialAlgo(eulerAngles.x, eulerAngles.y, eulerAngles.z);
+	std::vector<float> volumesOutWalls(volumes.size());
+	std::vector<float> volumesOutBlend(volumes.size());
+
+	for (int i = 0; i < volumes.size(); i++)
+	{
+		volumesOutWalls[i] = volumeWalls * volumes[i];
+	}
+	if (useBlendMode)
+	{
+		for (int i = 0; i < volumes.size(); i++)
+		{
+			volumesOutBlend[i] = volumeRoom * volumes[i];
+		}
+	}
+
+	if (debug)
+	{
+		{
+			std::string str = " ";
+			for (int i = 0; i < volumes.size(); i++)
+			{
+				str += (volumeWalls * volumes[i]);
+				str += (i < volumes.size() - 1 ? " , " : "");
+			}
+			std::cout << ("audioSourceWalls: " + str);
+		}
+		if (useBlendMode)
+		{
+			std::string str = " ";
+			for (int i = 0; i < volumes.size(); i++)
+			{
+				str += (volumeRoom * volumes[i]);
+				str += (i < volumes.size() - 1 ? " , " : "");
+			}
+			std::cout << "audioSourceWalls: " << str;
+		}
+
+		std::cout << "eulerAngles: " << eulerAngles.x << " , " << eulerAngles.y << " , " << eulerAngles.z;
+	}
+
+	return std::vector<float>();
+}

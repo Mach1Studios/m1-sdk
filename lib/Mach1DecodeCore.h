@@ -70,13 +70,14 @@ private:
     bool smoothAngles;
  
     // Angular settings functions
-    void fillPlatformAngles(Mach1AngularSettingsType type, float* Y, float* P, float* R);
-    
-    Mach1AngularSettingsType angularSetting;
+	void convertAnglesToMach1(float* Y, float* P, float* R);
+	void convertAnglesToPlatform(float* Y, float* P, float* R);
+
+    Mach1PlatformType coordinateSystem;
     
     // Selected algo type
     
-    Mach1AlgorithmType algorithmType;
+    Mach1DecodeAlgoType algorithmType;
     
     void horizonPairsAlgoSample(float Yaw, float Pitch, float Roll, float *result) {
         //Orientation input safety clamps/alignment
@@ -464,18 +465,17 @@ public:
     
  	char* getLog();
 
-   // for test
     float filterSpeed;
-    
    
 	Mach1Point3DCore getCurrentAngle() {
-		return Mach1Point3DCore(currentYaw, currentPitch, currentRoll);
+		Mach1Point3DCore angle(currentYaw, currentPitch, currentRoll);
+		convertAnglesToPlatform(&angle.x, &angle.y, &angle.z);
+		return angle;
 	}
-
 
     Mach1DecodeCore();
     
-    void setAngularSettingsType(Mach1AngularSettingsType type);
+    void setPlatformType(Mach1PlatformType type);
 
     void setFilterSpeed(float filterSpeed);
 
@@ -487,7 +487,7 @@ public:
     
     // Set the algorithm type to use when decoding
     
-    void setAlgorithmType(Mach1AlgorithmType newAlgorithmType);
+    void setAlgorithmType(Mach1DecodeAlgoType newAlgorithmType);
     
     // Decode using the current algorithm type
     

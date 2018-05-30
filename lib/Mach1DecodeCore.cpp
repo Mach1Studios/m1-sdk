@@ -159,49 +159,48 @@ void Mach1DecodeCore::updateAngles() {
 };
 
 // Angular settings functions
-void Mach1DecodeCore::fillPlatformAngles(Mach1AngularSettingsType type, float* Y, float* P, float* R) {
-	switch (type) {
-	case m1Default:
+void Mach1DecodeCore::convertAnglesToMach1(float* Y, float* P, float* R) {
+	switch (coordinateSystem) {
+	case Mach1PlatformDefault:
 		*Y = *Y;
 		*P = *P;
 		*R = *R;
 		break;
 
-	case m1Unity:
+	case Mach1PlatformUnity:
 		std::swap(*P, *Y);
 		*Y = *Y;                   // Y in Unity
 		*P = *P;             // X in Unity
 		*R = *R;                    // Z in Unity
 		break;
 
-	case m1UE:
+	case Mach1PlatformUE:
 		*Y = *Y;                    // Y in UE
 		*P = (*P < 0 ? 360 + *P : *P);   // Z in UE
 		*R = *R;                    // X in UE
 		break;
 
-	case m1oFEasyCam:
+	case Mach1PlatformOfEasyCam:
         std::swap(*P, *Y);
 		*Y = *Y;
 		*P = -*P;
 		*R = -*R;
 		break;
 
-	case m1Android:
+	case Mach1PlatformAndroid:
         std::swap(*P, *Y);
 		*Y = -*Y;
 		*P = -*P;
 		*R = *R;
 		break;
 
-	case m1iOSPortrait:
+	case Mach1PlatformiOSPortrait:
 		*Y = *Y;
-		*P = *P -90;
-		*P = *P -90;
+		*P = *P - 180;
 		*R = *R;
 		break;
 
-	case m1iOSLandscape:
+	case Mach1PlatformiOSLandscape:
 		*Y = *Y; //+90?
 		*P = -*P;
 		*R = -*R;
@@ -211,6 +210,59 @@ void Mach1DecodeCore::fillPlatformAngles(Mach1AngularSettingsType type, float* Y
 		break;
 	}
 }
+
+ void Mach1DecodeCore::convertAnglesToPlatform(float * Y, float * P, float * R)
+{
+	 switch (coordinateSystem) {
+	 case Mach1PlatformDefault:
+		 *Y = *Y;
+		 *P = *P;
+		 *R = *R;
+		 break;
+
+	 case Mach1PlatformUnity:
+		 *Y = *Y;                   // Y in Unity
+		 *P = *P;             // X in Unity
+		 *R = *R;                    // Z in Unity
+		 std::swap(*P, *Y);
+		 break;
+
+	 case Mach1PlatformUE:
+		 *Y = *Y;                    // Y in UE
+		 *P = (*P > 360 ? *P - 360 : *P);   // Z in UE
+		 *R = *R;                    // X in UE
+		 break;
+
+	 case Mach1PlatformOfEasyCam:
+		 *Y = *Y;
+		 *P = -*P;
+		 *R = -*R;
+		 std::swap(*P, *Y);
+		 break;
+
+	 case Mach1PlatformAndroid:
+		 *Y = -*Y;
+		 *P = -*P;
+		 *R = *R;
+		 std::swap(*P, *Y);
+		 break;
+
+	 case Mach1PlatformiOSPortrait:
+		 *Y = *Y;
+		 *P = *P + 180;
+		 *R = *R;
+		 break;
+
+	 case Mach1PlatformiOSLandscape:
+		 *Y = *Y;  
+		 *P = -*P;
+		 *R = -*R;
+		 break;
+
+	 default:
+		 break;
+	 }
+ }
 
 void Mach1DecodeCore::addToLog(std::string str, int maxCount)
 {
@@ -249,9 +301,8 @@ Mach1DecodeCore::Mach1DecodeCore() {
 	filterSpeed = 0.9f;
 	timeLastUpdate = 0;
 
-	angularSetting = m1Default;
-    
-    algorithmType = m1Spatial;
+	coordinateSystem = Mach1PlatformDefault;
+    algorithmType = Mach1DecodeAlgoSpatial;
 
 	ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
@@ -265,8 +316,8 @@ long Mach1DecodeCore::getCurrentTime()
 	return (long)(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) - ms).count();
 }
 
-void Mach1DecodeCore::setAngularSettingsType(Mach1AngularSettingsType type) {
-	angularSetting = type;
+void Mach1DecodeCore::setPlatformType(Mach1PlatformType type) {
+	coordinateSystem = type;
 }
 
 void Mach1DecodeCore::setFilterSpeed(float newFilterSpeed) {
@@ -275,30 +326,30 @@ void Mach1DecodeCore::setFilterSpeed(float newFilterSpeed) {
 
 //--------------------------------------------------
 
-void Mach1DecodeCore::setAlgorithmType(Mach1AlgorithmType newAlgorithmType) {
+void Mach1DecodeCore::setAlgorithmType(Mach1DecodeAlgoType newAlgorithmType) {
     newAlgorithmType = newAlgorithmType;
 }
 
 std::vector<float> Mach1DecodeCore::decode(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {
     switch (algorithmType) {
             // m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs, m1SpatialPairs
-        case m1Spatial:
+        case Mach1DecodeAlgoSpatial:
             return spatialAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
             break;
 
-        case m1AltSpatial:
+        case Mach1DecodeAlgoAltSpatial:
             return spatialAltAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
             break;
 
-        case m1Horizon:
+        case Mach1DecodeAlgoHorizon:
             return horizonAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
             break;
 
-        case m1HorizonPairs:
+        case Mach1DecodeAlgoHorizonPairs:
             return horizonPairsAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
             break;
 
-        case m1SpatialPairs:
+        case Mach1DecodeAlgoSpatialPairs:
             return spatialPairsAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
             break;
 
@@ -314,23 +365,23 @@ std::vector<float> Mach1DecodeCore::decode(float Yaw, float Pitch, float Roll, i
 void Mach1DecodeCore::decode(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
     switch (algorithmType) {
             // m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs, m1SpatialPairs
-        case m1Spatial:
+        case Mach1DecodeAlgoSpatial:
             return spatialAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
             break;
             
-        case m1AltSpatial:
+        case Mach1DecodeAlgoAltSpatial:
             return spatialAltAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
             break;
             
-        case m1Horizon:
+        case Mach1DecodeAlgoHorizon:
             return horizonAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
             break;
             
-        case m1HorizonPairs:
+        case Mach1DecodeAlgoHorizonPairs:
             return horizonPairsAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
             break;
             
-        case m1SpatialPairs:
+        case Mach1DecodeAlgoSpatialPairs:
             return spatialPairsAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
             break;
             
@@ -367,7 +418,7 @@ void Mach1DecodeCore::endBuffer() {
 }
 
 void Mach1DecodeCore::processSample(functionAlgoSampleHP funcAlgoSampleHP, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
-	fillPlatformAngles(angularSetting, &Yaw, &Pitch, &Roll);
+	convertAnglesToMach1(&Yaw, &Pitch, &Roll);
 
 	/*char buff[1024];
 	 snprintf(buff, sizeof(buff), "%.5f - current (%.4f %.4f %.4f), target (%.4f %.4f %.4f), previous (%.4f %.4f %.4f) \r\n", timeLastUpdate ? timeLastUpdate / 1000.0 : 0, currentYaw, currentPitch, currentRoll, targetYaw, targetPitch, targetRoll, previousYaw, previousPitch, previousRoll);
@@ -430,7 +481,7 @@ void Mach1DecodeCore::processSample(functionAlgoSampleHP funcAlgoSampleHP, float
 }
 
 std::vector<float> Mach1DecodeCore::processSample(functionAlgoSample funcAlgoSample, float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {
-	fillPlatformAngles(angularSetting, &Yaw, &Pitch, &Roll);
+	convertAnglesToMach1(&Yaw, &Pitch, &Roll);
 	
 	/*char buff[1024];
 	snprintf(buff, sizeof(buff), "%.5f - current (%.4f %.4f %.4f), target (%.4f %.4f %.4f), previous (%.4f %.4f %.4f) \r\n", timeLastUpdate ? timeLastUpdate / 1000.0 : 0, currentYaw, currentPitch, currentRoll, targetYaw, targetPitch, targetRoll, previousYaw, previousPitch, previousRoll);
@@ -502,8 +553,8 @@ std::vector<float> Mach1DecodeCore::processSample(functionAlgoSample funcAlgoSam
 
 std::vector<float> Mach1DecodeCore::horizonAlgo(float Yaw, float Pitch, float Roll,
 	int bufferSize, int sampleIndex) {
-
-	fillPlatformAngles(angularSetting, &Yaw, &Pitch, &Roll);
+	
+	convertAnglesToMach1(&Yaw, &Pitch, &Roll);
 
 
 	if (smoothAngles) {
@@ -563,7 +614,7 @@ std::vector<float> Mach1DecodeCore::horizonAlgo(float Yaw, float Pitch, float Ro
 void Mach1DecodeCore::horizonAlgo(float Yaw, float Pitch, float Roll, float *result,
                                             int bufferSize, int sampleIndex) {
     
-    fillPlatformAngles(angularSetting, &Yaw, &Pitch, &Roll);
+    convertAnglesToMach1(&Yaw, &Pitch, &Roll);
     
     
     if (smoothAngles) {
@@ -698,7 +749,7 @@ void Mach1DecodeCore::spatialAltAlgo(float Yaw, float Pitch, float Roll, float *
 std::vector<float> Mach1DecodeCore::spatialPairsAlgo(float Yaw, float Pitch, float Roll,
 	int bufferSize, int sampleIndex) {
 
-	fillPlatformAngles(angularSetting, &Yaw, &Pitch, &Roll);
+	convertAnglesToMach1(&Yaw, &Pitch, &Roll);
 
 
 	if (smoothAngles) {
@@ -786,7 +837,7 @@ std::vector<float> Mach1DecodeCore::spatialPairsAlgo(float Yaw, float Pitch, flo
 void Mach1DecodeCore::spatialPairsAlgo(float Yaw, float Pitch, float Roll, float *result,
                                                  int bufferSize, int sampleIndex) {
     
-    fillPlatformAngles(angularSetting, &Yaw, &Pitch, &Roll);
+    convertAnglesToMach1(&Yaw, &Pitch, &Roll);
     
     
     if (smoothAngles) {

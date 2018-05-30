@@ -15,8 +15,8 @@ public:
 	Mach1Decode();
 	~Mach1Decode();
 
-	void setAngularSettingsType(Mach1AngularSettingsType type);
-	void setAlgorithmType(Mach1AlgorithmType newAlgorithmType);
+	void setPlatformType(Mach1PlatformType type);
+	void setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType);
 
 	void decode(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
 	std::vector<float> decode(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);

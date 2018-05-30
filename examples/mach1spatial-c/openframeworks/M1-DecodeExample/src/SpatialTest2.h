@@ -24,9 +24,9 @@ public:
         
         //Mach1 Decode Setup
         //Setup the correct angle convention for orientation Euler input angles
-        mach1Decode.setAngularSettingsType(m1oFEasyCam);
+        mach1Decode.setPlatformType(m1oFEasyCam);
         //Setup the expected spatial audio mix format for decoding
-        mach1Decode.setAlgorithmType(m1Spatial);
+        mach1Decode.setDecodeAlgoType(m1Spatial);
     }
     
     void update() {

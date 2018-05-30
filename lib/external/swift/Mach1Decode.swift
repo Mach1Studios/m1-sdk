@@ -1,6 +1,6 @@
 import Foundation
 
-enum AngularSettingsType : Int {
+enum Mach1PlatformType : Int {
     case m1Default = 0
     case m1Unity = 1
     case m1UE = 2
@@ -10,7 +10,7 @@ enum AngularSettingsType : Int {
     case m1iOSLandscape = 6
 }
 
-enum Mach1AlgorithmType : Int {
+enum Mach1DecodeAlgoType : Int {
     case m1Spatial = 0
     case m1AltSpatial = 1
     case m1Horizon = 2
@@ -29,12 +29,12 @@ class Mach1Decode {
         Mach1DecodeCAPI_delete(M1obj)
     }
     
-    func setAngularSettingsType(type: AngularSettingsType) {
-        Mach1DecodeCAPI_setAngularSettingsType(M1obj, CInt(type.rawValue))
+    func setPlatformType(type: Mach1PlatformType) {
+        Mach1DecodeCAPI_setPlatformType(M1obj, CInt(type.rawValue))
     }
     
-    func setAlgorithmType(newAlgorithmType: Mach1AlgorithmType) {
-        Mach1DecodeCAPI_setAlgorithmType(M1obj, CInt(newAlgorithmType.rawValue))
+    func setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoType) {
+        Mach1DecodeCAPI_setDecodeAlgoType(M1obj, CInt(newAlgorithmType.rawValue))
     }
 
     func setFilterSpeed(filterSpeed: Float) {
@@ -60,11 +60,8 @@ class Mach1Decode {
     }
     
     func decode(Yaw: Float, Pitch: Float, Roll: Float, bufferSize: Int = 0, sampleIndex: Int = 0) -> [Float] {
-        var array: [Float] = []
-        let data = Mach1DecodeCAPI_decode(M1obj, Yaw, Pitch, Roll, &array, CInt(bufferSize), CInt(sampleIndex))
-        for i in 0..<18 {
-            array.append(Float(data[i]))
-        }
+        var array: [Float] = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+        Mach1DecodeCAPI_decode(M1obj, Yaw, Pitch, Roll, &array, CInt(bufferSize), CInt(sampleIndex))
         return array
     }
    

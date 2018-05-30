@@ -13,14 +13,14 @@ Mach1Decode::~Mach1Decode()
 	Mach1DecodeCAPI_delete(M1obj);
 } 
 
-void Mach1Decode::setAngularSettingsType(Mach1AngularSettingsType type)
+void Mach1Decode::setPlatformType(Mach1PlatformType type)
 {
-	Mach1DecodeCAPI_setAngularSettingsType(M1obj, type);
+	Mach1DecodeCAPI_setPlatformType(M1obj, type);
 }
 
-void Mach1Decode::setAlgorithmType(Mach1AlgorithmType newAlgorithmType)
+void Mach1Decode::setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType)
 {
-	Mach1DecodeCAPI_setAlgorithmType(M1obj, newAlgorithmType);
+	Mach1DecodeCAPI_setDecodeAlgoType(M1obj, newAlgorithmType);
 }
 
 void Mach1Decode::decode(float Yaw, float Pitch, float Roll, float * result, int bufferSize, int sampleIndex)

@@ -95,6 +95,15 @@ class ViewController: UIViewController {
                 players[i * 2 + 1].outputNode.connect(to: mixer.inputNode)
             }
             
+            //Mach1 Decode Setup
+            //Setup the correct angle convention for orientation Euler input angles
+            m1obj.setAngularSettingsType(type: AngularSettingsType.m1iOSLandscape)
+            //Setup the expected spatial audio mix format for decoding
+            m1obj.setAlgorithmType(newAlgorithmType: Mach1AlgorithmType.m1Spatial)
+            //Setup for the safety filter speed:
+            //1.0 = no filter | 0.1 = slow filter
+            m1obj.setFilterSpeed(filterSpeed: 1.0)
+            
         } catch {
             print (error)
         }
@@ -172,7 +181,9 @@ class ViewController: UIViewController {
                 }
                 
                 //Send device orientation to m1obj with the preferred algo
-                let decodeArray: [Float]  = m1obj.spatialAlgo(Yaw: Float(deviceYaw), Pitch: Float(devicePitch), Roll: Float(deviceRoll))
+                m1obj.beginBuffer()
+                let decodeArray: [Float]  = m1obj.decode(Yaw: Float(deviceYaw), Pitch: Float(devicePitch), Roll: Float(deviceRoll))
+                m1obj.endBuffer()
                 //                    print(decodeArray)
                 
                 //Use each coeff to decode multichannel Mach1 Spatial mix

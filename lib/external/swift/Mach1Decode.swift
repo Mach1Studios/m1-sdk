@@ -10,6 +10,14 @@ enum AngularSettingsType : Int {
     case m1iOSLandscape = 6
 }
 
+enum Mach1AlgorithmType : Int {
+    case m1Spatial = 0
+    case m1AltSpatial = 1
+    case m1Horizon = 2
+    case m1HorizonPairs = 3
+    case m1SpatialPairs = 4
+}
+
 class Mach1Decode {
     var M1obj : UnsafeMutableRawPointer
     
@@ -23,6 +31,10 @@ class Mach1Decode {
     
     func setAngularSettingsType(type: AngularSettingsType) {
         Mach1DecodeCAPI_setAngularSettingsType(M1obj, CInt(type.rawValue))
+    }
+    
+    func setAlgorithmType(newAlgorithmType: Mach1AlgorithmType) {
+        Mach1DecodeCAPI_setAlgorithmType(M1obj, CInt(newAlgorithmType.rawValue))
     }
 
     func setFilterSpeed(filterSpeed: Float) {
@@ -47,51 +59,14 @@ class Mach1Decode {
         return str
     }
     
-    func horizonAlgo(Yaw: Float, Pitch: Float, Roll: Float, bufferSize: Int = 0, sampleIndex: Int = 0) -> [Float] {
-        let data = Mach1DecodeCAPI_horizonAlgo(M1obj, Yaw, Pitch, Roll, CInt(bufferSize), CInt(sampleIndex))
+    func decode(Yaw: Float, Pitch: Float, Roll: Float, bufferSize: Int = 0, sampleIndex: Int = 0) -> [Float] {
         var array: [Float] = []
-        for i in 0..<10 {
-            array.append(Float(data![i]))
-        }
-        return array
-    }
-    
-    func horizonPairsAlgo(Yaw: Float, Pitch: Float, Roll: Float, bufferSize: Int = 0, sampleIndex: Int = 0) -> [Float] {
-        let data = Mach1DecodeCAPI_horizonPairsAlgo(M1obj, Yaw, Pitch, Roll, CInt(bufferSize), CInt(sampleIndex))
-        var array: [Float] = []
-        for i in 0..<8 {
-            array.append(Float(data![i]))
-        }
-        return array
-    }
-    
-    func spatialAlgo(Yaw: Float, Pitch: Float, Roll: Float, bufferSize: Int = 0, sampleIndex: Int = 0) -> [Float] {
-        let data = Mach1DecodeCAPI_spatialAlgo(M1obj, Yaw, Pitch, Roll, CInt(bufferSize), CInt(sampleIndex))
-        var array: [Float] = []
+        let data = Mach1DecodeCAPI_decode(M1obj, Yaw, Pitch, Roll, &array, CInt(bufferSize), CInt(sampleIndex))
         for i in 0..<18 {
-            array.append(Float(data![i]))
+            array.append(Float(data[i]))
         }
         return array
     }
-    
-    func spatialAltAlgo(Yaw: Float, Pitch: Float, Roll: Float, bufferSize: Int = 0, sampleIndex: Int = 0) -> [Float] {
-        let data = Mach1DecodeCAPI_spatialAltAlgo(M1obj, Yaw, Pitch, Roll, CInt(bufferSize), CInt(sampleIndex))
-        var array: [Float] = []
-        for i in 0..<18 {
-            array.append(Float(data![i]))
-        }
-        return array
-    }
-    
-    func spatialPairsAlgo(Yaw: Float, Pitch: Float, Roll: Float, bufferSize: Int = 0, sampleIndex: Int = 0) -> [Float] {
-        let data = Mach1DecodeCAPI_spatialPairsAlgo(M1obj, Yaw, Pitch, Roll, CInt(bufferSize), CInt(sampleIndex))
-        var array: [Float] = []
-        for i in 0..<16 {
-            array.append(Float(data![i]))
-        }
-        return array
-    }
-    
    
 }
 

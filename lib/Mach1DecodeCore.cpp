@@ -211,7 +211,7 @@ void Mach1DecodeCore::convertAnglesToMach1(float* Y, float* P, float* R) {
 	}
 }
 
- void Mach1DecodeCore::convertAnglesToPlatform(float * Y, float * P, float * R)
+void Mach1DecodeCore::convertAnglesToPlatform(float * Y, float * P, float * R)
 {
 	 switch (coordinateSystem) {
 	 case Mach1PlatformDefault:

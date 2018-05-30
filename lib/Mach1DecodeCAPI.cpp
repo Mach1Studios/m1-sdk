@@ -19,7 +19,7 @@ void Mach1DecodeCAPI_delete(void * M1obj)
 	}
 }
 
-void Mach1DecodeCAPI_setAlgorithmType(void * M1obj, Mach1DecodeAlgoType newAlgorithmType)
+void Mach1DecodeCAPI_setDecodeAlgoType(void * M1obj, Mach1DecodeAlgoType newAlgorithmType)
 {
 	if (M1obj != nullptr) {
 		((Mach1DecodeCore*)M1obj)->setAlgorithmType(newAlgorithmType);

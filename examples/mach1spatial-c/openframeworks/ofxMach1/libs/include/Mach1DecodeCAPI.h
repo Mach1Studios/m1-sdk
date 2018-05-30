@@ -41,7 +41,7 @@ extern "C" {
   
 	M1_API void Mach1DecodeCAPI_setPlatformType(void* M1obj, Mach1PlatformType type);
     M1_API void Mach1DecodeCAPI_setDecodeAlgoType(void* M1obj, Mach1DecodeAlgoType newAlgorithmType);
-    M1_API void Mach1DecodeCAPI_setDecodeAlgoType(void* M1obj, Mach1DecodeAlgoType newAlgorithmType);
+	M1_API void Mach1DecodeCAPI_setFilterSpeed(void* M1obj, float filterSpeed);
     
 	M1_API void Mach1DecodeCAPI_decode(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
 

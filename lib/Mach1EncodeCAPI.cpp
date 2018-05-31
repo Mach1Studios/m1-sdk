@@ -6,6 +6,8 @@
 #include "Mach1EncodeCAPI.h"
 #include "Mach1EncodeCore.h"
 
+using namespace std;
+
 void* M1EncodePointResultsCAPI_create() {
 	return new M1EncodeCorePointResults();
 }

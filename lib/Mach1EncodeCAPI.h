@@ -6,6 +6,7 @@
 #pragma once
 
 #include "Mach1EncodeCore.h"
+#include <cstring>
 
 #ifdef Mach1Encode_h
 

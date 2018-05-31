@@ -1,21 +1,21 @@
 import Foundation
 
 enum Mach1PlatformType : Int {
-    case m1Default = 0
-    case m1Unity = 1
-    case m1UE = 2
-    case m1oFEasyCam = 3
-    case m1Android = 4
-    case m1iOSPortrait = 5
-    case m1iOSLandscape = 6
+    case Mach1PlatformDefault = 0
+    case Mach1PlatformUnity = 1
+    case Mach1PlatformUE = 2
+    case Mach1PlatformOfEasyCam = 3
+    case Mach1PlatformAndroid = 4
+    case Mach1PlatformiOSPortrait = 5
+    case Mach1PlatformiOSLandscape = 6
 }
 
 enum Mach1DecodeAlgoType : Int {
-    case m1Spatial = 0
-    case m1AltSpatial = 1
-    case m1Horizon = 2
-    case m1HorizonPairs = 3
-    case m1SpatialPairs = 4
+    case Mach1DecodeAlgoSpatial = 0
+    case Mach1DecodeAlgoAltSpatial = 1
+    case Mach1DecodeAlgoHorizon = 2
+    case Mach1DecodeAlgoHorizonPairs = 3
+    case Mach1DecodeAlgoSpatialPairs = 4
 }
 
 class Mach1Decode {

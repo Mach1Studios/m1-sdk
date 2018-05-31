@@ -2,7 +2,7 @@
 
 #build all binaries and codesign them for use
 
-echo "### Change Dir"
+echo "### Change Dir ###"
 cd "/Volumes/git/m1-sdk/lib"
 
 rm -rf _logs
@@ -70,7 +70,12 @@ echo "### Copying all successful bins to /Binaries ###"
 yes | cp -rf "_install/" "../binaries/"
 yes | cp -rf "external/" "../binaries/external/"
 
-echo "### Copying ofxMach1 to dev local"
+echo "### Copying for ofxMach1 ###"
+yes | cp -rf "external/cpp/Mach1Decode.h" "../examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Decode.h"
+yes | cp -rf "external/cpp/Mach1Decode.cpp" "../examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Decode.cpp"
+yes | cp -rf "external/cpp/Mach1DecodeCAPI.h" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/include/Mach1DecodeCAPI.h"
+
+echo "### Copying ofxMach1 to dev local ###"
 yes | cp -rf "../examples/mach1spatial-c/openframeworks/ofxMach1" "../../openFrameworks/addons/"
 
 echo "### NUMBERS OF SUCCESSFUL BUILDS:"

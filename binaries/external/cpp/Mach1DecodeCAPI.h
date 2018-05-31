@@ -23,28 +23,28 @@
 
 #endif 
 
-struct Mach1Point3D {
+typedef struct Mach1Point3D {
 	float x, y, z;
 };
 
 enum Mach1PlatformType {
-	m1Default = 0, m1Unity, m1UE, m1oFEasyCam, m1Android, m1iOSPortrait, m1iOSLandscape
+	Mach1PlatformDefault = 0, Mach1PlatformUnity, Mach1PlatformUE, Mach1PlatformOfEasyCam, Mach1PlatformAndroid, Mach1PlatformiOSPortrait, Mach1PlatformiOSLandscape
 };
 
 enum Mach1DecodeAlgoType {
-	m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs, m1SpatialPairs
+	Mach1DecodeAlgoSpatial = 0, Mach1DecodeAlgoAltSpatial, Mach1DecodeAlgoHorizon, Mach1DecodeAlgoHorizonPairs, Mach1DecodeAlgoSpatialPairs
 };
 
 extern "C" { 
 	M1_API void* Mach1DecodeCAPI_create();
 	M1_API void Mach1DecodeCAPI_delete(void* M1obj);
   
-	M1_API void Mach1DecodeCAPI_setPlatformType(void* M1obj, Mach1PlatformType type);
-    M1_API void Mach1DecodeCAPI_setDecodeAlgoType(void* M1obj, Mach1DecodeAlgoType newAlgorithmType);
-	M1_API void Mach1DecodeCAPI_setFilterSpeed(void* M1obj, float filterSpeed);
-    
+	M1_API void Mach1DecodeCAPI_setDecodeAlgoType(void* M1obj, Mach1DecodeAlgoType algorithmType);
+	M1_API void Mach1DecodeCAPI_setPlatformType(void* M1obj, Mach1PlatformType platformType);
+
 	M1_API void Mach1DecodeCAPI_decode(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
 
+	M1_API void Mach1DecodeCAPI_setFilterSpeed(void* M1obj, float filterSpeed);
 	M1_API void Mach1DecodeCAPI_beginBuffer(void* M1obj);
 	M1_API void Mach1DecodeCAPI_endBuffer(void* M1obj);
   

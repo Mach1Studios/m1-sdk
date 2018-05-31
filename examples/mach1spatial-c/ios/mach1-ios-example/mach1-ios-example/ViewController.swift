@@ -69,7 +69,6 @@ class ViewController: UIViewController {
         mixer = AKMixer()
         mixer.volume = 1.0
         AudioKit.output = mixer
-        m1obj.setAngularSettingsType(type: AngularSettingsType.m1iOSPortrait)
         
         do {
             try AudioKit.start()
@@ -97,9 +96,9 @@ class ViewController: UIViewController {
             
             //Mach1 Decode Setup
             //Setup the correct angle convention for orientation Euler input angles
-            m1obj.setPlatformType(type: Mach1PlatformType.m1iOSLandscape)
+            m1obj.setPlatformType(type: Mach1PlatformType.Mach1PlatformiOSPortrait)
             //Setup the expected spatial audio mix format for decoding
-            m1obj.setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoType.m1Spatial)
+            m1obj.setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial)
             //Setup for the safety filter speed:
             //1.0 = no filter | 0.1 = slow filter
             m1obj.setFilterSpeed(filterSpeed: 1.0)

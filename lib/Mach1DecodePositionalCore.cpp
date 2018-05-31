@@ -152,15 +152,15 @@ void Mach1DecodePositionalCore::setCameraRotation(Mach1Point3DCore * euler) {
 	cameraRotation = glm::quat(glm::vec3(euler->x, euler->y, euler->z));
 }
 
-void Mach1DecodePositionalCore::setSpatialAlgoPosition(Mach1Point3DCore * pos) {
+void Mach1DecodePositionalCore::setDecoderAlgoPosition(Mach1Point3DCore * pos) {
 	soundPosition = glm::vec3(pos->x, pos->y, pos->z);
 }
 
-void Mach1DecodePositionalCore::setSpatialAlgoRotation(Mach1Point3DCore * euler) {
+void Mach1DecodePositionalCore::setDecoderAlgoRotation(Mach1Point3DCore * euler) {
 	soundRotation = glm::quat(glm::vec3(euler->x, euler->y, euler->z));
 }
 
-void Mach1DecodePositionalCore::setSpatialAlgoScale(Mach1Point3DCore * scale) {
+void Mach1DecodePositionalCore::setDecoderAlgoScale(Mach1Point3DCore * scale) {
 	soundScale = glm::vec3(scale->x, scale->y, scale->z);
 }
 

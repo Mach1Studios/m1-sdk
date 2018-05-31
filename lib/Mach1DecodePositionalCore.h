@@ -74,9 +74,9 @@ public:
 
 	void setCameraPosition(Mach1Point3DCore* pos);
 	void setCameraRotation(Mach1Point3DCore* euler);
-	void setSpatialAlgoPosition(Mach1Point3DCore* pos);
-	void setSpatialAlgoRotation(Mach1Point3DCore* euler);
-	void setSpatialAlgoScale(Mach1Point3DCore* scale);
+	void setDecoderAlgoPosition(Mach1Point3DCore* pos);
+	void setDecoderAlgoRotation(Mach1Point3DCore* euler);
+	void setDecoderAlgoScale(Mach1Point3DCore* scale);
 	void setAttenuationCurve(float* curve);
 
 	std::vector<float> getPostionResults();

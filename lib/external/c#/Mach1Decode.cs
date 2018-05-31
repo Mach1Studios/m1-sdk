@@ -26,7 +26,11 @@ namespace Mach1
 
     public class Mach1Decode : IDisposable
     {
-        internal const string libname = "Mach1DecodeCAPI";
+		#if UNITY_IOS
+		internal const string libname = "__Internal";
+		#else
+		internal const string libname = "Mach1DecodeCAPI";
+		#endif
 
         [DllImport(libname)]
         internal static extern IntPtr Mach1DecodeCAPI_create();

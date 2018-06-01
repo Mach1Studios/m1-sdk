@@ -469,7 +469,7 @@ public:
    
 	Mach1Point3DCore getCurrentAngle() {
 		Mach1Point3DCore angle(currentYaw, currentPitch, currentRoll);
-		convertAnglesToPlatform(&angle.x, &angle.y, &angle.z);
+		//convertAnglesToPlatform(&angle.x, &angle.y, &angle.z);
 		return angle;
 	}
 

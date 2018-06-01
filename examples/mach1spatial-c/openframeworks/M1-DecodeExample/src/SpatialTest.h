@@ -68,6 +68,9 @@ public:
     
     void drawOverlay() {
         ofDrawBitmapStringHighlight("Eight channel test", 20, ofGetHeight() - 70);
+        for (int i = 0; i < volumes.size(); i++) {
+            ofDrawBitmapString(ofToString(volumes[i]), 20, ofGetHeight() - 500 + i * 20);
+        }
     }
 
     void setOverallVolume(float volume) {

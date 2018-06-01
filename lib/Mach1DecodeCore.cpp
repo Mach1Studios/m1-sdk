@@ -446,7 +446,8 @@ void Mach1DecodeCore::processSample(functionAlgoSampleHP funcAlgoSampleHP, float
 				volumes_lerp[i] = volumes1[i] * (1 - phase) + volumes2[i] * phase;
 				result[i] = volumes_lerp[i];
 			}
-
+            
+            return;
 		}
 		else {
 			// Filtering per-buffer
@@ -476,8 +477,8 @@ void Mach1DecodeCore::processSample(functionAlgoSampleHP funcAlgoSampleHP, float
 		previousPitch = currentPitch;
 		previousRoll = currentRoll;
 	}
-
-	(this->*funcAlgoSampleHP)(Yaw, Pitch, Roll, result);
+    
+    (this->*funcAlgoSampleHP)(Yaw, Pitch, Roll, result);
 }
 
 std::vector<float> Mach1DecodeCore::processSample(functionAlgoSample funcAlgoSample, float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {

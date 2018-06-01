@@ -22,7 +22,7 @@ void Mach1DecodeCAPI_delete(void * M1obj)
 void Mach1DecodeCAPI_setDecodeAlgoType(void * M1obj, Mach1DecodeAlgoType newAlgorithmType)
 {
 	if (M1obj != nullptr) {
-		((Mach1DecodeCore*)M1obj)->setAlgorithmType(newAlgorithmType);
+		((Mach1DecodeCore*)M1obj)->setDecodeAlgoType(newAlgorithmType);
 	}
 }
 
@@ -38,114 +38,6 @@ void Mach1DecodeCAPI_decode(void * M1obj, float Yaw, float Pitch, float Roll, fl
 	if (M1obj != nullptr) {
 		((Mach1DecodeCore*)M1obj)->decode(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
 	}
-}
-
-float* Mach1DecodeCAPI_horizonAlgo(void* M1obj, float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
-{
-	static float data[10];
-	
-	if (M1obj != nullptr) {
-		std::vector<float> v = ((Mach1DecodeCore*)M1obj)->horizonAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
-		for (int i = 0; i < 10; i++) data[i] = v[i];
-	}
-	else {
-		for (int i = 0; i < 10; i++) data[i] = 0;
-	}
-
-	return data;
-}
-
-void Mach1DecodeCAPI_horizonAlgoHP(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
-    if (M1obj != nullptr) {
-        ((Mach1DecodeCore*)M1obj)->horizonAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-    }
-}
-
-
-float* Mach1DecodeCAPI_horizonPairsAlgo(void* M1obj, float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
-{
-	static float data[8];
-
-	if (M1obj != nullptr) {
-		std::vector<float> v = ((Mach1DecodeCore*)M1obj)->horizonPairsAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
-		for (int i = 0; i < 8; i++) data[i] = v[i];
-	}
-	else {
-		for (int i = 0; i < 8; i++) data[i] = 0;
-	}
-
-	return data;
-}
-
-void Mach1DecodeCAPI_horizonPairsAlgoHP(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
-    if (M1obj != nullptr) {
-        ((Mach1DecodeCore*)M1obj)->horizonPairsAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-    }
-}
-
-
-float* Mach1DecodeCAPI_spatialAlgo(void* M1obj, float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
-{
-	static float data[18];
-
-	if (M1obj != nullptr) {
-		std::vector<float> v = ((Mach1DecodeCore*)M1obj)->spatialAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
-		for (int i = 0; i < 18; i++) data[i] = v[i];
-	}
-	else {
-		for (int i = 0; i < 18; i++) data[i] = 0;
-	}
-
-	return data;
-}
-
-void Mach1DecodeCAPI_spatialAlgoHP(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
-    if (M1obj != nullptr) {
-        ((Mach1DecodeCore*)M1obj)->spatialAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-    }
-}
-
-
-float* Mach1DecodeCAPI_spatialAltAlgo(void* M1obj, float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
-{
-	static float data[18];
-
-	if (M1obj != nullptr) {
-		std::vector<float> v = ((Mach1DecodeCore*)M1obj)->spatialAltAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
-		for (int i = 0; i < 18; i++) data[i] = v[i];
-	}
-	else {
-		for (int i = 0; i < 18; i++) data[i] = 0;
-	}
-
-	return data;
-}
-
-void Mach1DecodeCAPI_spatialAltAlgoHP(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
-    if (M1obj != nullptr) {
-        ((Mach1DecodeCore*)M1obj)->spatialAltAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-    }
-}
-
-float* Mach1DecodeCAPI_spatialPairsAlgo(void* M1obj, float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
-{
-	static float data[16];
-
-	if (M1obj != nullptr) {
-		std::vector<float> v = ((Mach1DecodeCore*)M1obj)->spatialPairsAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
-		for (int i = 0; i < 16; i++) data[i] = v[i];
-	}
-	else {
-		for (int i = 0; i < 16; i++) data[i] = 0;
-	}
-	
-	return data;
-} 
-
-void Mach1DecodeCAPI_spatialPairsAlgoHP(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
-    if (M1obj != nullptr) {
-        ((Mach1DecodeCore*)M1obj)->spatialPairsAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-    }
 }
  
 void Mach1DecodeCAPI_setFilterSpeed(void* M1obj, float filterSpeed)

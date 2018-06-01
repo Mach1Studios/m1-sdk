@@ -160,7 +160,7 @@ void Mach1DecodeCore::updateAngles() {
 
 // Angular settings functions
 void Mach1DecodeCore::convertAnglesToMach1(float* Y, float* P, float* R) {
-	switch (coordinateSystem) {
+	switch (platformType) {
 	case Mach1PlatformDefault:
 		*Y = *Y;
 		*P = *P;
@@ -213,7 +213,7 @@ void Mach1DecodeCore::convertAnglesToMach1(float* Y, float* P, float* R) {
 
 void Mach1DecodeCore::convertAnglesToPlatform(float * Y, float * P, float * R)
 {
-	 switch (coordinateSystem) {
+	 switch (platformType) {
 	 case Mach1PlatformDefault:
 		 *Y = *Y;
 		 *P = *P;
@@ -301,7 +301,7 @@ Mach1DecodeCore::Mach1DecodeCore() {
 	filterSpeed = 0.9f;
 	timeLastUpdate = 0;
 
-	coordinateSystem = Mach1PlatformDefault;
+	platformType = Mach1PlatformDefault;
     algorithmType = Mach1DecodeAlgoSpatial;
 
 	ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
@@ -317,7 +317,7 @@ long Mach1DecodeCore::getCurrentTime()
 }
 
 void Mach1DecodeCore::setPlatformType(Mach1PlatformType type) {
-	coordinateSystem = type;
+	platformType = type;
 }
 
 void Mach1DecodeCore::setFilterSpeed(float newFilterSpeed) {
@@ -326,8 +326,8 @@ void Mach1DecodeCore::setFilterSpeed(float newFilterSpeed) {
 
 //--------------------------------------------------
 
-void Mach1DecodeCore::setAlgorithmType(Mach1DecodeAlgoType newAlgorithmType) {
-    newAlgorithmType = newAlgorithmType;
+void Mach1DecodeCore::setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType) {
+	algorithmType = newAlgorithmType;
 }
 
 std::vector<float> Mach1DecodeCore::decode(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {

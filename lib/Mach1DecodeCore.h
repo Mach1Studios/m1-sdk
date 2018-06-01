@@ -73,7 +73,7 @@ private:
 	void convertAnglesToMach1(float* Y, float* P, float* R);
 	void convertAnglesToPlatform(float* Y, float* P, float* R);
 
-    Mach1PlatformType coordinateSystem;
+    Mach1PlatformType platformType;
     
     // Selected algo type
     
@@ -487,7 +487,7 @@ public:
     
     // Set the algorithm type to use when decoding
     
-    void setAlgorithmType(Mach1DecodeAlgoType newAlgorithmType);
+    void setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType);
     
     // Decode using the current algorithm type
     

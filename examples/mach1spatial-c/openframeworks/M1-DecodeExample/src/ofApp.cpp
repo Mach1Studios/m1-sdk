@@ -157,11 +157,11 @@ void ofApp::draw(){
 	
 			// current angles vector (blue)
             {
-                ofPoint faceVector1_ = ofPoint(cos(ofDegToRad(tests[selectedTest]->mach1Decode.getCurrentAngle().x)),
-                    sin(ofDegToRad(tests[selectedTest]->mach1Decode.getCurrentAngle().x))).normalize();
+                ofPoint faceVector1_ = ofPoint(cos(ofDegToRad(tests[selectedTest]->mach1Decode.getCurrentAngle().y)),
+                    sin(ofDegToRad(tests[selectedTest]->mach1Decode.getCurrentAngle().y))).normalize();
 
-                ofPoint faceVector2_ = faceVector1_.rotate(tests[selectedTest]->mach1Decode.getCurrentAngle().y, ofPoint(cos(ofDegToRad(tests[selectedTest]->mach1Decode.getCurrentAngle().x - 90)),
-                    sin(ofDegToRad(tests[selectedTest]->mach1Decode.getCurrentAngle().x - 90))).normalize());
+                ofPoint faceVector2_ = faceVector1_.rotate(tests[selectedTest]->mach1Decode.getCurrentAngle().x, ofPoint(cos(ofDegToRad(tests[selectedTest]->mach1Decode.getCurrentAngle().y - 90)),
+                    sin(ofDegToRad(tests[selectedTest]->mach1Decode.getCurrentAngle().y - 90))).normalize());
 
                 ofSetColor(0, 0, 255);
                 ofDrawLine(faceVector2_.x * 50, faceVector2_.y * 50, faceVector2_.z * 50,
@@ -243,8 +243,8 @@ void ofApp::draw(){
         angleChanged |= (!ImGui::SliderFloat("X / Pitch", &angleX, -90, 90, "X / Pitch: %.0f deg"));
         angleChanged |= (ImGui::SliderFloat("Z / Roll", &angleZ, -90, 90, "Z / Roll: %.0f deg"));
 
-        ImGui::LabelText("currentYaw",("currentYaw: " + ofToString(tests[selectedTest]->mach1Decode.getCurrentAngle().x, 3)).c_str() );
-        ImGui::LabelText("currentPitch",("currentPitch: " + ofToString(tests[selectedTest]->mach1Decode.getCurrentAngle().y, 3)).c_str() );
+        ImGui::LabelText("currentYaw",("currentYaw: " + ofToString(tests[selectedTest]->mach1Decode.getCurrentAngle().y, 3)).c_str() );
+        ImGui::LabelText("currentPitch",("currentPitch: " + ofToString(tests[selectedTest]->mach1Decode.getCurrentAngle().x, 3)).c_str() );
         ImGui::LabelText("currentRoll",("currentRoll: " + ofToString(tests[selectedTest]->mach1Decode.getCurrentAngle().z, 3)).c_str() );
 
         if (angleChanged) {

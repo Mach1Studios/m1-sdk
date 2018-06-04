@@ -58,7 +58,7 @@ public class M1Base : MonoBehaviour
     public bool drawHelpers = false;
     public bool debug = false;
 
-    protected Mach1.M1Decode m1Decode = new Mach1.M1Decode();
+    protected Mach1.Mach1Decode m1Decode = new Mach1.Mach1Decode();
 
     private Camera camera;
 
@@ -80,7 +80,7 @@ public class M1Base : MonoBehaviour
 
     public M1Base()
     {
-        m1Decode.setAngularSettingsType(Mach1.M1Decode.AngularSettingsType.m1Unity);
+        m1Decode.setPlatformType(Mach1.Mach1PlatformType.Mach1PlatformUnity);
     }
 
     protected void InitComponents(int MAX_SOUNDS_PER_CHANNEL)
@@ -107,7 +107,9 @@ public class M1Base : MonoBehaviour
 
     public virtual float[] SoundAlgorithm(float Yaw, float Pitch, float Roll)
     {
-        return new float[0];
+        float[] data = new float[18];
+        m1Decode.decode(Yaw, Pitch, Roll, ref data);
+        return data;
     }
 
     void Awake()

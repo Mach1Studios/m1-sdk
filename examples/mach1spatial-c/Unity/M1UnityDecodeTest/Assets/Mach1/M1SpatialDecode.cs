@@ -10,11 +10,8 @@ public class M1SpatialDecode :  M1Base
 {
     public M1SpatialDecode()
     {
-        InitComponents(8); 
-    }
+        InitComponents(8);
 
-    public override float[] SoundAlgorithm(float Yaw, float Pitch, float Roll)
-    {
-		return m1Decode.spatialAlgo(Yaw, Pitch, Roll);
-    } 
+        m1Decode.setDecodeAlgoType(Mach1.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial);
+    }
 }

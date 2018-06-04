@@ -10,11 +10,8 @@ public class M1HorizonDecode :  M1Base
 {
     public M1HorizonDecode()
     {
-        InitComponents(4); 
-    }
+        InitComponents(4);
 
-    public override float[] SoundAlgorithm(float Yaw, float Pitch, float Roll)
-    {
-        return m1Decode.horizonAlgo(Yaw, Pitch, Roll);
-    } 
+        m1Decode.setDecodeAlgoType(Mach1.Mach1DecodeAlgoType.Mach1DecodeAlgoHorizon);
+    }
 }

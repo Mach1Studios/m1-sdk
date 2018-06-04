@@ -6,12 +6,14 @@ using UnityEngine.UI;
 
 public class SpatialTestScript : MonoBehaviour {
 
-    private Mach1.M1Decode m1;
+    private Mach1.Mach1Decode m1Decode;
 
     // Use this for initialization
     void Start() {
-        m1 = new Mach1.M1Decode();
-        m1.setAngularSettingsType(Mach1.M1Decode.AngularSettingsType.m1Unity);
+        m1Decode = new Mach1.Mach1Decode();
+
+        m1Decode.setPlatformType(Mach1.Mach1PlatformType.Mach1PlatformUnity);
+        m1Decode.setDecodeAlgoType(Mach1.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial);
     }
 
     float a = 0;
@@ -19,7 +21,9 @@ public class SpatialTestScript : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         //m1.beginBuffer(); // ???
-        float[] data = m1.spatialAlgo(a, a, 0);
+        float[] data = new float[18];
+        m1Decode.decode(a, a, 0, ref data);
+
         a++;
         if (a > 360) a = 0;
 

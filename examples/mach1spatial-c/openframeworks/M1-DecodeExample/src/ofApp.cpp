@@ -160,7 +160,7 @@ void ofApp::draw(){
                 ofPoint faceVector1_ = ofPoint(cos(ofDegToRad(tests[selectedTest]->mach1Decode.getCurrentAngle().x)),
                     sin(ofDegToRad(tests[selectedTest]->mach1Decode.getCurrentAngle().x))).normalize();
 
-                ofPoint faceVector2_ = faceVector1_.rotate(tests[selectedTest]->mach1Decode.getCurrentAngle().y, ofPoint(cos(ofDegToRad(tests[selectedTest]->mach1Decode.getCurrentAngle().x - 90)),
+                ofPoint faceVector2_ = faceVector1_.rotate(tests[selectedTest]->mach1Decode.getCurrentAngle().y * -1.0f, ofPoint(cos(ofDegToRad(tests[selectedTest]->mach1Decode.getCurrentAngle().x - 90)),
                     sin(ofDegToRad(tests[selectedTest]->mach1Decode.getCurrentAngle().x - 90))).normalize());
 
                 ofSetColor(0, 0, 255);

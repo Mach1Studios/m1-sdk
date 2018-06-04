@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.49641275, b: 0.57481736, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -292,10 +292,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 170300524}
-  - component: {fileID: 170300526}
   - component: {fileID: 170300525}
   m_Layer: 0
-  m_Name: SpatialCube
+  m_Name: Mach1SpatialDecodeObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -443,17 +442,6 @@ MonoBehaviour:
   useRollForRotation: 1
   drawHelpers: 1
   debug: 1
---- !u!114 &170300526
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 170300523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a05bf31a74ecbd34a9aa05e2bd99461b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1098955247
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,7 +454,7 @@ GameObject:
   - component: {fileID: 1098955250}
   - component: {fileID: 1098955249}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: ReferenceCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

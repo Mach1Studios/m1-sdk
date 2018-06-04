@@ -33,9 +33,9 @@ public:
         
         //Mach1 Decode Setup
         //Setup the correct angle convention for orientation Euler input angles
-        mach1Decode.setAngularSettingsType(m1oFEasyCam);
+        mach1Decode.setPlatformType(Mach1PlatformOfEasyCam);
         //Setup the expected spatial audio mix format for decoding
-        mach1Decode.setAlgorithmType(m1HorizonPairs);
+        mach1Decode.setDecodeAlgoType(Mach1DecodeAlgoHorizonPairs);
         //Setup for the safety filter speed:
         //1.0 = no filter | 0.1 = slow filter
         mach1Decode.setFilterSpeed(0.95f);
@@ -43,7 +43,7 @@ public:
     
     void update() {
         // Handling audio
-        volumes = audioMixAlgorithm(angleY, angleX, angleZ);
+        volumes = audioMixAlgorithm(angleX, angleY, angleZ);
 
         for (int i = 0; i < 4; i++) {
             playersLeft[i].setVolume(volumes[i * 2] * overallVolume);

@@ -2,7 +2,7 @@
 
 M1AudioPlayer::M1AudioPlayer()
 {
-    mach1Decode.setAngularSettingsType(Mach1Decode::AngularSettingsType::m1Android);
+    mach1Decode.setPlatformType(Mach1PlatformType::Mach1PlatformAndroid);
 }
 
 void M1AudioPlayer::SetAngles(float Yaw, float Pitch, float Roll)
@@ -20,12 +20,13 @@ bool M1AudioPlayer::Get(short * buf, int samples)
 
         float sndL = 0;
         float sndR = 0;
-        float volumes[18]; //16 coefficients of spatial, 2 coefficients of headlocked stereo
+        float volumes[18];
 
+        mach1Decode.setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial);
         mach1Decode.beginBuffer();
         for (size_t i = 0; i < samples; i++)
         {
-            mach1Decode.spatialAlgo(Yaw, Pitch, Roll, volumes, samples, i);
+            mach1Decode.decode(Yaw, Pitch, Roll, volumes, samples, i);
 
             sndL = 0;
             sndR = 0;

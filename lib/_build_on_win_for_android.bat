@@ -1,10 +1,10 @@
-python ../../../polly-master/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-arm64-v8a
-python ../../../polly-master/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-armeabi
-python ../../../polly-master/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-armeabi-v7a
-python ../../../polly-master/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips
-python ../../../polly-master/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips64
-python ../../../polly-master/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-x86
-python ../../../polly-master/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-x86-64
+python ../../polly-master/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-arm64-v8a
+python ../../polly-master/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-armeabi
+python ../../polly-master/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-armeabi-v7a
+python ../../polly-master/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips
+python ../../polly-master/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips64
+python ../../polly-master/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-x86
+python ../../polly-master/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-x86-64
 
 del /f /s /q _android 1>nul
 rmdir /s /q _android

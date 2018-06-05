@@ -31,15 +31,10 @@ void AM1SpatialActor::SetSoundsBlendMode()
 
 }
 
-std::vector<float> AM1SpatialActor::SoundAlgorithm(float Yaw, float Pitch, float Roll) 
-{
-	return m1.spatialAlgo(Yaw, Pitch, Roll);
-}
-
 AM1SpatialActor::AM1SpatialActor() 
 {
 	InitComponents(8);
 
-	m1.setAngularSettingsType(Mach1Decode::m1UE);
+	mach1Decode.setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial);
 }
  

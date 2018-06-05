@@ -12,7 +12,7 @@ namespace UnrealBuildTool.Rules
             return Directory.GetParent(ModuleDirectory).Parent.Parent.ToString();
         }
 
-        private void CopyToBinaries(string Filepath, TargetInfo Target)
+        private void CopyToBinaries(string Filepath, ReadOnlyTargetRules Target)
         {
             string binariesDir = Path.GetFullPath(Path.Combine(ModuleDirectory, "..", "..", "Binaries", Target.Platform.ToString()));
             string filename = Path.GetFileName(Filepath);
@@ -24,7 +24,7 @@ namespace UnrealBuildTool.Rules
                 File.Copy(Filepath, Path.Combine(binariesDir, filename), true);
         }
 
-        public Mach1DecodePlugin(TargetInfo Target)
+        public Mach1DecodePlugin(ReadOnlyTargetRules Target) : base(Target)
         {
             PublicIncludePaths.AddRange(
                 new string[] {

@@ -51,9 +51,13 @@ protected:
 
 	virtual void SetSoundsMain() {};
 	virtual void SetSoundsBlendMode() {};
-	virtual std::vector<float> SoundAlgorithm(float Yaw, float Pitch, float Roll) { return std::vector<float>(); };
+	virtual void SoundAlgorithm(float Yaw, float Pitch, float Roll, float* volumes) 
+	{ 
+		mach1Decode.decode(Yaw, Pitch, Roll, volumes); 
+		mach1Decode.beginBuffer();
+	};
 
-	Mach1Decode m1;
+	Mach1Decode mach1Decode;
 
 public:
 

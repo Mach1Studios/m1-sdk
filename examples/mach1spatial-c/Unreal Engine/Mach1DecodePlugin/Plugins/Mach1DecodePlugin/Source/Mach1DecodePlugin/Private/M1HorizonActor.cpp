@@ -22,15 +22,10 @@ void AM1HorizonActor::SetSoundsBlendMode()
 	SoundsBlendMode.Add(ChannelBlend4);
 }
 
-std::vector<float> AM1HorizonActor::SoundAlgorithm(float Yaw, float Pitch, float Roll) 
-{
-	return m1.horizonAlgo(Yaw, Pitch, Roll);
-}
-
 AM1HorizonActor::AM1HorizonActor()
 {
 	InitComponents(4);
 
-	m1.setAngularSettingsType(Mach1Decode::m1UE);
+	mach1Decode.setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoHorizon);
 }
  

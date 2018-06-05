@@ -16,8 +16,6 @@ class MACH1DECODEPLUGIN_API AM1HorizonActor : public AM1BaseActor
 	void SetSoundsMain();
 	void SetSoundsBlendMode();
 
-	virtual std::vector<float> SoundAlgorithm(float Yaw, float Pitch, float Roll)  override;
-
 public:
 	// Sets default values for this actor's properties
 	AM1HorizonActor();

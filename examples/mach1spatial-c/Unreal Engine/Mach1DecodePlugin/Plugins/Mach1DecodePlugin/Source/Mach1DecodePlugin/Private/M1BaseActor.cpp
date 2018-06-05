@@ -169,6 +169,10 @@ void AM1BaseActor::InitComponents(int MAX_SOUNDS_PER_CHANNEL)
 
 	Volume = 1;
 	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++) VolumeFactor.Add(1);
+
+	mach1Decode.setPlatformType(Mach1PlatformType::Mach1PlatformUE);
+
+
 }
 
 void AM1BaseActor::Init()
@@ -579,7 +583,9 @@ void AM1BaseActor::PostEditChangeProperty(FPropertyChangedEvent & PropertyChange
 
 void AM1BaseActor::CalculateChannelVolumes(FQuat quat)
 {
-	std::vector<float> result = SoundAlgorithm(quat.Euler().Z, quat.Euler().Y, quat.Euler().X);
+	static float volumes[18];
+
+	SoundAlgorithm(quat.Euler().Z, quat.Euler().Y, quat.Euler().X, volumes);
 
 
 	// test
@@ -596,14 +602,14 @@ void AM1BaseActor::CalculateChannelVolumes(FQuat quat)
 		info = "left:  ";
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
-			info += toDebugString(result[i * 2]) + ", ";
+			info += toDebugString(volumes[i * 2]) + ", ";
 		}
 		GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, info.c_str());
 
 		info = "right: ";
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
-			info += toDebugString(result[i * 2 + 1]) + ", ";
+			info += toDebugString(volumes[i * 2 + 1]) + ", ";
 		}
 		GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, info.c_str());
 	}
@@ -613,7 +619,7 @@ void AM1BaseActor::CalculateChannelVolumes(FQuat quat)
 
 	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
 	{
-		VolumeFactor[i] = result[i];
+		VolumeFactor[i] = volumes[i];
 	}
 }
 

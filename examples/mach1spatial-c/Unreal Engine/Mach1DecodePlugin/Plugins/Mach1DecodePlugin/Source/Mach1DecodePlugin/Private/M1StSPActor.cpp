@@ -2,6 +2,8 @@
 //  Copyright © 2017 Mach1. All rights reserved.
 //
 
+#include "M1StSPActor.h"
+
 #include "Mach1DecodePluginPrivatePCH.h" // Change to your project name!
 
 #include "Runtime/Engine/Public/AudioDecompress.h"
@@ -17,7 +19,6 @@
 
 #include "Kismet/HeadMountedDisplayFunctionLibrary.h"
 #include "Kismet/KismetMathLibrary.h" 
-#include "M1StSPActor.h"
 
 #define MIN_SOUND_VOLUME (KINDA_SMALL_NUMBER*2)
 

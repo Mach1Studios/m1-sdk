@@ -2,9 +2,9 @@
 //  Copyright © 2017 Mach1. All rights reserved.
 //
 
-#include "Mach1DecodePluginPrivatePCH.h"
-
 #include "M1SpatialActor.h"
+
+#include "Mach1DecodePluginPrivatePCH.h"
 
 void AM1SpatialActor::SetSoundsMain()
 {

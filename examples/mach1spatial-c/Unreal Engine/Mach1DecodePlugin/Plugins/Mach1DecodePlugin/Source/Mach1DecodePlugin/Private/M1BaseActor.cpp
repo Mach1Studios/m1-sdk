@@ -2,6 +2,8 @@
 //  Copyright © 2017 Mach1. All rights reserved.
 //
 
+#include "M1BaseActor.h"
+
 #include "Mach1DecodePluginPrivatePCH.h"
 
 // 4.18
@@ -14,7 +16,6 @@
 #include "Kismet/KismetMathLibrary.h"
 
 #include <sstream>
-#include "M1BaseActor.h"
 
 #define MIN_SOUND_VOLUME (KINDA_SMALL_NUMBER*2)
 
@@ -662,3 +663,18 @@ void AM1BaseActor::SetVolumeBlend(float volume)
 		}
 	}
 }
+
+ void AM1BaseActor::SetSoundsMain() 
+ {
+ }
+
+ void AM1BaseActor::SetSoundsBlendMode() 
+ {
+ }
+
+ void AM1BaseActor::SoundAlgorithm(float Yaw, float Pitch, float Roll, float * volumes)
+ {
+	 mach1Decode.decode(Yaw, Pitch, Roll, volumes);
+	 mach1Decode.beginBuffer();
+ }
+

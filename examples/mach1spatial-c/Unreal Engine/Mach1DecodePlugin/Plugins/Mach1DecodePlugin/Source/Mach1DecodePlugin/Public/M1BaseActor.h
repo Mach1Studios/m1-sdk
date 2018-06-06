@@ -5,6 +5,11 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "Components/BoxComponent.h"
+#include "Components/AudioComponent.h"
+#include "Components/BillboardComponent.h"
+#include "Components/SceneCaptureComponent.h"
+
 #include "Mach1Decode.h"
 
 #include <vector>
@@ -49,13 +54,9 @@ protected:
 	void SetVolumeMain(float volume);
 	void SetVolumeBlend(float volume);
 
-	virtual void SetSoundsMain() {};
-	virtual void SetSoundsBlendMode() {};
-	virtual void SoundAlgorithm(float Yaw, float Pitch, float Roll, float* volumes) 
-	{ 
-		mach1Decode.decode(Yaw, Pitch, Roll, volumes); 
-		mach1Decode.beginBuffer();
-	};
+	virtual void SetSoundsMain();
+	virtual void SetSoundsBlendMode();
+	virtual void SoundAlgorithm(float Yaw, float Pitch, float Roll, float* volumes);
 
 	Mach1Decode mach1Decode;
 

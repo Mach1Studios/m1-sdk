@@ -2,9 +2,10 @@
 //  Copyright © 2017 Mach1. All rights reserved.
 //
 
+#include "M1HorizonActor.h"
+
 #include "Mach1DecodePluginPrivatePCH.h"
 
-#include "M1HorizonActor.h"
 
 void AM1HorizonActor::SetSoundsMain()
 {

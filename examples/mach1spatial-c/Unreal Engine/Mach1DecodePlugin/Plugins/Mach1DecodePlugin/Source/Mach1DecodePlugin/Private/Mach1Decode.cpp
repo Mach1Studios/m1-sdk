@@ -1,9 +1,9 @@
 //  Mach1 SDK
 //  Copyright © 2017 Mach1. All rights reserved.
 
-#include "Mach1DecodePluginPrivatePCH.h" // Change to your project name!
-
 #include "Mach1Decode.h"
+
+#include "Mach1DecodePluginPrivatePCH.h" // Change to your project name!
 
 Mach1Decode::Mach1Decode()
 {

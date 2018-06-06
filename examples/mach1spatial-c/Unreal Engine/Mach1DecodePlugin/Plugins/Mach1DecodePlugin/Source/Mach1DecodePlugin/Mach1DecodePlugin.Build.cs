@@ -26,6 +26,8 @@ namespace UnrealBuildTool.Rules
 
         public Mach1DecodePlugin(ReadOnlyTargetRules Target) : base(Target)
         {
+            PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
+
             PublicIncludePaths.AddRange(
                 new string[] {
                     "Developer/TargetPlatform/Public"
@@ -62,8 +64,6 @@ namespace UnrealBuildTool.Rules
                     // ... add any modules that your module loads dynamically here ...
                 }
                 );
-
-
 
             // add Mach1 library
             string Mach1BaseDirectory = Path.GetFullPath(Path.Combine(ModuleDirectory, "..", "..", "ThirdParty", "Mach1"));

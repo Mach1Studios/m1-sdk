@@ -1,0 +1,7 @@
+{
+	"BuildId": "a5100c5d-017f-4e80-9002-b8e856b7b8bd",
+	"Modules": 
+	{
+		"Mach1DecodePlugin": "UE4Editor-Mach1DecodePlugin.dylib"
+	}
+}

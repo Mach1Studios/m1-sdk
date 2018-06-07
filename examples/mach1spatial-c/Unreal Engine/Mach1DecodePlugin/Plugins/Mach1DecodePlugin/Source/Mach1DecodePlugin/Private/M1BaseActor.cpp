@@ -455,8 +455,15 @@ void AM1BaseActor::Tick(float DeltaTime)
 					float dist = FVector::Dist(point, PlayerPosition);
 					SetVolumeMain(vol * (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
 
+					
+					
 					if (Debug)
 					{
+						std::string info; 
+						info = "dist:  " + toDebugString(dist);
+						GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Purple, info.c_str());
+
+						
 						DrawDebugLine(
 							GetWorld(),
 							GetActorLocation(),
@@ -535,13 +542,23 @@ void AM1BaseActor::Tick(float DeltaTime)
 				else if (hasSoundOutside || hasSoundInside)
 				{
 					float dist = FVector::Dist(point, PlayerPosition);
-                    if (hasSoundOutside)
+                
+					if (Debug)
+					{
+						std::string info;
+						info = "dist:  " + toDebugString(dist);
+						GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Purple, info.c_str());
+						info = "curve:  " + toDebugString((attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
+						GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Purple, info.c_str());
+					}
+					
+					if (hasSoundOutside)
                     {
 						SetVolumeMain(vol * (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
                     }
                     if (useBlendMode)
                     {
-					SetVolumeMain(vol * (attenuationBlendModeCurve ? attenuationBlendModeCurve->GetFloatValue(dist) : 1));
+						SetVolumeMain(vol * (attenuationBlendModeCurve ? attenuationBlendModeCurve->GetFloatValue(dist) : 1));
                     }
 				}
 				else
@@ -550,6 +567,7 @@ void AM1BaseActor::Tick(float DeltaTime)
 					SetVolumeMain(vol);
 					SetVolumeBlend(vol);
 				}
+
 
 				//FindLookAtRotation seems wrong angle
 				// compate with unity

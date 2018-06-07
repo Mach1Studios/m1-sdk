@@ -73,9 +73,13 @@ namespace UnrealBuildTool.Rules
 
             if (Target.Platform == UnrealTargetPlatform.Android)
             {
-                Mach1BinDirectory = Path.Combine(Mach1BinDirectory, Target.Architecture);
-
-                RuntimeDependencies.Add(new RuntimeDependency(Path.Combine(Mach1BinDirectory, "libMach1DecodeCAPI")));
+                //Mach1BinDirectory = Path.Combine(Mach1BinDirectory, Target.Architecture);
+				var archs =  new string[] { "armeabi-v7a", "x86" };
+				foreach(var arch in archs)
+				{
+					PublicLibraryPaths.Add(Path.Combine(Mach1BinDirectory, arch));
+					PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, arch, "libMach1DecodeCAPI.a"));
+				}
             }
             else if (Target.Platform == UnrealTargetPlatform.IOS)
             {

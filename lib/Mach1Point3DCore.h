@@ -19,7 +19,8 @@
 #define PI       3.14159265358979323846
 #endif 
 
-struct Mach1Point3DCore {
+class Mach1Point3DCore {
+public:
 	float x, y, z;
 
 	Mach1Point3DCore();
@@ -42,5 +43,4 @@ struct Mach1Point3DCore {
 
 	static float dot(const Mach1Point3DCore & vec1, const Mach1Point3DCore & vec2);
 	static float distance(const Mach1Point3DCore & vec1, const Mach1Point3DCore & vec2);
-
 };

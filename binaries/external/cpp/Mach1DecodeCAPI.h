@@ -23,7 +23,7 @@
 
 #endif 
 
-typedef struct Mach1Point3D {
+struct Mach1Point3D {
 	float x, y, z;
 };
 

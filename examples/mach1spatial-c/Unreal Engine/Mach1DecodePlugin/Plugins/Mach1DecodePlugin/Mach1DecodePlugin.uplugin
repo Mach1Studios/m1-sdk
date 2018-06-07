@@ -20,7 +20,7 @@
 			"Name": "Mach1DecodePlugin",
 			"Type": "Runtime",
 			"LoadingPhase" : "PreLoadingScreen",
-			"WhitelistPlatforms" : [ "Android", "Linux", "Mac", "Win64", "HTML5" ]
+			"WhitelistPlatforms" : [ "Android", "Linux", "IOS", "Mac", "Win64", "HTML5" ]
 		}
 	]
 }

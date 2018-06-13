@@ -5,7 +5,9 @@
 
 #pragma once
 
-#include "Mach1DecodeCore.h"
+#include "external/cpp/Mach1Decode.h"
+#include "Mach1Point3DCore.h"
+
 #include <iostream>
 #include <string>
 
@@ -15,7 +17,7 @@
 #include <glm/mat4x4.hpp> 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/quaternion.hpp>
- 
+
 #ifndef RAD_TO_DEG_F
 #define RAD_TO_DEG_F (180.0f/PI_F)
 #endif
@@ -24,18 +26,20 @@
 #define PI_F       3.14159265358979323846f
 #endif 
 
-class Mach1DecodePositionalCore : public Mach1DecodeCore {
+#ifndef PI
+#define PI       3.14159265358979323846
+#endif 
+
+class Mach1DecodePositionalCore {
 
 private:
+
+	Mach1Decode mach1Decode;
 
 	class AnimationCurve
 	{
 	public:
-		float Evaluate(float p)
-		{
-			// dummy
-			return 1.0;
-		}
+		float Evaluate(float p);
 	};
 
 	bool useFalloff = false;
@@ -70,8 +74,24 @@ private:
 	static int DoClipping(float t0, float t1, glm::vec3 origin, glm::vec3 direction, glm::vec3 center, glm::vec3 axis0, glm::vec3 axis1, glm::vec3 axis2, glm::vec3 extents, bool solid, glm::vec3& point0, glm::vec3& point1);
 	static glm::vec3 GetEuler(glm::quat q1);
 
-public:
+	Mach1PlatformType platformType;
+	Mach1DecodeAlgoType algorithmType;
 
+	glm::vec3 GetRightVector();
+	glm::vec3 GetUpVector();
+	glm::vec3 GetForwardVector();
+	
+	float volumeWalls;
+	float volumeRoom;
+	float distWalls;
+	float distRoom;
+	glm::vec3 eulerAngles;
+
+public:
+	
+	void setDecodeAlgoType(Mach1DecodeAlgoType type);
+	void setPlatformType(Mach1PlatformType type);
+	
 	void setCameraPosition(Mach1Point3DCore* pos);
 	void setCameraRotation(Mach1Point3DCore* euler);
 	void setDecoderAlgoPosition(Mach1Point3DCore* pos);
@@ -79,5 +99,14 @@ public:
 	void setDecoderAlgoScale(Mach1Point3DCore* scale);
 	void setAttenuationCurve(float* curve);
 
-	std::vector<float> getPostionResults();
+	void evaluatePostionResults();
+
+	void getVolumes(float * result);
+
+	float getVolumeWalls();
+	float getVolumeRoom();
+	Mach1Point3DCore getVolumeRotation();
+	
+	// getAttenuationPositionWalls
+	// getAttenuationPositionRoom
 };

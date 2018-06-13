@@ -144,6 +144,57 @@ glm::vec3 Mach1DecodePositionalCore::GetEuler(glm::quat q1)
 	) * RAD_TO_DEG_F;
 }
 
+glm::vec3 Mach1DecodePositionalCore::GetRightVector()
+{
+	switch (platformType)
+	{
+	case Mach1PlatformUnity:
+		return glm::vec3(1, 0, 0);
+	case Mach1PlatformUE:
+		return glm::vec3(0, 1, 0);
+	default:
+		return glm::vec3(1, 0, 0);
+	}
+}
+
+glm::vec3 Mach1DecodePositionalCore::GetUpVector()
+{
+	switch (platformType)
+	{
+	case Mach1PlatformUnity:
+		return glm::vec3(0, 1, 0);
+	case Mach1PlatformUE:
+		return glm::vec3(0, 0, 1);
+	default:
+		return glm::vec3(0, 1, 0);
+	}
+}
+
+glm::vec3 Mach1DecodePositionalCore::GetForwardVector()
+{
+	switch (platformType)
+	{
+	case Mach1PlatformUnity:
+		return glm::vec3(0, 0, 1);
+	case Mach1PlatformUE:
+		return glm::vec3(1, 0, 0);
+	default:
+		return glm::vec3(0, 0, 1);
+	}
+}
+
+void Mach1DecodePositionalCore::setDecodeAlgoType(Mach1DecodeAlgoType type)
+{
+	algorithmType = type;
+	mach1Decode.setDecodeAlgoType(type);
+}
+
+void Mach1DecodePositionalCore::setPlatformType(Mach1PlatformType type)
+{
+	platformType = type;
+	mach1Decode.setPlatformType(type);
+}
+
 void Mach1DecodePositionalCore::setCameraPosition(Mach1Point3DCore * pos) {
 	cameraPosition = glm::vec3(pos->x, pos->y, pos->z);
 }
@@ -168,10 +219,13 @@ void Mach1DecodePositionalCore::setAttenuationCurve(float * curve) {
 	// dummy
 }
 
-std::vector<float> Mach1DecodePositionalCore::getPostionResults() {
+void Mach1DecodePositionalCore::evaluatePostionResults() {
 
-	float volumeWalls = 1.0f;
-	float volumeRoom = 0.0f;
+	volumeWalls = 1.0f;
+	volumeRoom = 0.0f;
+
+	distWalls = 0;
+	distRoom = 0;
 
 	// Find closest point
 	glm::vec3 point = soundPosition;
@@ -185,9 +239,9 @@ std::vector<float> Mach1DecodePositionalCore::getPostionResults() {
 		cameraPosition.y = soundPosition.y;
 	}
 
-	glm::vec3 soundRightVector = soundRotation * glm::vec3(1, 0, 0); // right
-	glm::vec3 soundUpVector = soundRotation * glm::vec3(0, 1, 0); // up
-	glm::vec3 soundForwardVector = soundRotation * glm::vec3(0, 0, 1); // forward
+	glm::vec3 soundRightVector = soundRotation * GetRightVector(); // right
+	glm::vec3 soundUpVector = soundRotation * GetUpVector(); // up
+	glm::vec3 soundForwardVector = soundRotation * GetForwardVector(); // forward
 
 
 	bool isOutside = (ClosestPointOnBox(cameraPosition, soundPosition, soundRightVector, soundUpVector, soundForwardVector, soundScale / 2.0f, outsideClosestPoint) > 0);
@@ -266,13 +320,14 @@ std::vector<float> Mach1DecodePositionalCore::getPostionResults() {
 
 	// cout << (Camera.current.name + " camera eulerAngles:" + eulerAngles);
 
-	glm::vec3 eulerAngles = GetEuler(quat);
+	eulerAngles = GetEuler(quat);
 	//            eulerAngles.x *= -1;
 	eulerAngles.y += 180;
 	if (eulerAngles.z < 0) eulerAngles.z = 360 + eulerAngles.z;
 
 	// SoundAlgorithm
-	std::vector<float> volumes = spatialAlgo(eulerAngles.x, eulerAngles.y, eulerAngles.z);
+	/*
+	std::vector<float> volumes = decode(eulerAngles.x, eulerAngles.y, eulerAngles.z);
 	std::vector<float> volumesOutWalls(volumes.size());
 	std::vector<float> volumesOutBlend(volumes.size());
 
@@ -287,31 +342,31 @@ std::vector<float> Mach1DecodePositionalCore::getPostionResults() {
 			volumesOutBlend[i] = volumeRoom * volumes[i];
 		}
 	}
+	*/
+}
 
-	if (debug)
-	{
-		{
-			std::string str = " ";
-			for (int i = 0; i < volumes.size(); i++)
-			{
-				str += (volumeWalls * volumes[i]);
-				str += (i < volumes.size() - 1 ? " , " : "");
-			}
-			std::cout << ("audioSourceWalls: " + str);
-		}
-		if (useBlendMode)
-		{
-			std::string str = " ";
-			for (int i = 0; i < volumes.size(); i++)
-			{
-				str += (volumeRoom * volumes[i]);
-				str += (i < volumes.size() - 1 ? " , " : "");
-			}
-			std::cout << "audioSourceWalls: " << str;
-		}
+void Mach1DecodePositionalCore::getVolumes(float * result)
+{
+	mach1Decode.decode(eulerAngles.x, eulerAngles.y, eulerAngles.z, result);
+}
 
-		std::cout << "eulerAngles: " << eulerAngles.x << " , " << eulerAngles.y << " , " << eulerAngles.z;
-	}
+float Mach1DecodePositionalCore::getVolumeWalls()
+{
+	return volumeWalls;
+}
 
-	return std::vector<float>();
+float Mach1DecodePositionalCore::getVolumeRoom()
+{
+	return volumeRoom;
+}
+
+Mach1Point3DCore Mach1DecodePositionalCore::getVolumeRotation()
+{
+	return Mach1Point3DCore{ eulerAngles.x , eulerAngles.y, eulerAngles.z };
+}
+
+float Mach1DecodePositionalCore::AnimationCurve::Evaluate(float p)
+{
+	// dummy
+	return 1.0;
 }

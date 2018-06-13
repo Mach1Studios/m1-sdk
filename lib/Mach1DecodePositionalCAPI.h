@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include "external/cpp/Mach1DecodeCAPI.h"
+
 #ifdef Mach1DecodeCore_h
 
 #if defined(_WINDOWS) || defined(WIN32)
@@ -22,7 +24,22 @@
 #endif 
 
 #endif 
- 
+
 
 extern "C" { 
+	M1_API void* Mach1DecodePositionalCAPI_create();
+	M1_API void Mach1DecodePositionalCAPI_delete(void* M1obj);
+
+	M1_API void Mach1DecodePositionalCAPI_setPlatformType(void* M1obj, Mach1PlatformType platformType);
+
+	M1_API void Mach1DecodePositionalCAPI_setCameraPosition(void* M1obj, Mach1Point3D point);
+	M1_API void Mach1DecodePositionalCAPI_setCameraRotation(void* M1obj, Mach1Point3D point);
+	M1_API void Mach1DecodePositionalCAPI_setDecoderAlgoPosition(void* M1obj, Mach1Point3D point);
+	M1_API void Mach1DecodePositionalCAPI_setDecoderAlgoRotation(void* M1obj, Mach1Point3D point);
+	M1_API void Mach1DecodePositionalCAPI_setDecoderAlgoScale(void* M1obj, Mach1Point3D point);
+
+	M1_API void Mach1DecodePositionalCAPI_evaluatePostionResults(void* M1obj);
+	M1_API float Mach1DecodePositionalCAPI_getVolumeWalls(void* M1obj);
+	M1_API float Mach1DecodePositionalCAPI_getVolumeRoom(void* M1obj);
+	M1_API Mach1Point3D Mach1DecodePositionalCAPI_getVolumeRotation(void* M1obj);
 }

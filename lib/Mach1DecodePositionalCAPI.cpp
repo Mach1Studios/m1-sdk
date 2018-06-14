@@ -26,6 +26,51 @@ void Mach1DecodePositionalCAPI_setPlatformType(void * M1obj, Mach1PlatformType t
 	}
 }
 
+void Mach1DecodePositionalCAPI_setUseBlendMode(void * M1obj, bool useBlendMode)
+{
+	((Mach1DecodePositionalCore*)M1obj)->setUseBlendMode(useBlendMode);
+}
+
+void Mach1DecodePositionalCAPI_setIgnoreTopBottom(void * M1obj, bool ignoreTopBottom)
+{
+	((Mach1DecodePositionalCore*)M1obj)->setIgnoreTopBottom(ignoreTopBottom);
+}
+
+void Mach1DecodePositionalCAPI_setMuteWhenOutsideObject(void * M1obj, bool muteWhenOutsideObject)
+{
+	((Mach1DecodePositionalCore*)M1obj)->setMuteWhenOutsideObject(muteWhenOutsideObject);
+}
+
+void Mach1DecodePositionalCAPI_setMuteWhenInsideObject(void * M1obj, bool muteWhenInsideObject)
+{
+	((Mach1DecodePositionalCore*)M1obj)->setMuteWhenInsideObject(muteWhenInsideObject);
+}
+
+void Mach1DecodePositionalCAPI_setUseFalloff(void * M1obj, bool useFalloff)
+{
+	((Mach1DecodePositionalCore*)M1obj)->setUseFalloff(useFalloff);
+}
+
+void Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(void * M1obj, bool useClosestPointRotationMuteInside)
+{
+	((Mach1DecodePositionalCore*)M1obj)->setUseClosestPointRotationMuteInside(useClosestPointRotationMuteInside);
+}
+
+void Mach1DecodePositionalCAPI_setUseYawForRotation(void * M1obj, bool useYawForRotation)
+{
+	((Mach1DecodePositionalCore*)M1obj)->setUseYawForRotation(useYawForRotation);
+}
+
+void Mach1DecodePositionalCAPI_setUsePitchForRotation(void * M1obj, bool usePitchForRotation)
+{
+	((Mach1DecodePositionalCore*)M1obj)->setUsePitchForRotation(usePitchForRotation);
+}
+
+void Mach1DecodePositionalCAPI_setUseRollForRotation(void * M1obj, bool useRollForRotation)
+{
+	((Mach1DecodePositionalCore*)M1obj)->setUseRollForRotation(useRollForRotation);
+}
+
 void Mach1DecodePositionalCAPI_setCameraPosition(void * M1obj, Mach1Point3D point)
 {
 	((Mach1DecodePositionalCore*)M1obj)->setCameraPosition(&Mach1Point3DCore { point.x, point.y, point.z } );

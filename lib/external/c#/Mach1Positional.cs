@@ -23,6 +23,40 @@ namespace Mach1
         [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setPlatformType(IntPtr M1obj, Mach1PlatformType type);
 
+        // settings
+
+        [DllImport(libname)]
+        internal static extern void Mach1DecodePositionalCAPI_setUseBlendMode(IntPtr M1obj, bool useBlendMode);
+
+        [DllImport(libname)]
+        internal static extern void Mach1DecodePositionalCAPI_setIgnoreTopBottom(IntPtr M1obj, bool ignoreTopBottom);
+
+        [DllImport(libname)]
+        internal static extern void Mach1DecodePositionalCAPI_setMuteWhenOutsideObject(IntPtr M1obj, bool muteWhenOutsideObject);
+
+        [DllImport(libname)]
+        internal static extern void Mach1DecodePositionalCAPI_setMuteWhenInsideObject(IntPtr M1obj, bool muteWhenInsideObject);
+
+        [DllImport(libname)]
+        internal static extern void Mach1DecodePositionalCAPI_setUseFalloff(IntPtr M1obj, bool useFalloff);
+
+        [DllImport(libname)]
+        internal static extern void Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(IntPtr M1obj, bool useClosestPointRotationMuteInside);
+
+        [DllImport(libname)]
+        internal static extern void Mach1DecodePositionalCAPI_setUseYawForRotation(IntPtr M1obj, bool useYawForRotation);
+
+        [DllImport(libname)]
+        internal static extern void Mach1DecodePositionalCAPI_setUsePitchForRotation(IntPtr M1obj, bool usePitchForRotation);
+
+        [DllImport(libname)]
+        internal static extern void Mach1DecodePositionalCAPI_setUseRollForRotation(IntPtr M1obj, bool useRollForRotation);
+
+        // parameters for algo
+
+        [DllImport(libname)]
+        internal static extern void Mach1DecodePositionalCAPI_setPlatformType(IntPtr M1obj, bool type);
+
         [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setCameraPosition(IntPtr M1obj, Mach1Point3D point);
 
@@ -67,6 +101,54 @@ namespace Mach1
             Mach1DecodePositionalCAPI_setPlatformType(M1obj, type);
         }
 
+        // settings
+
+        public void setUseBlendMode(bool useBlendMode)
+        {
+            Mach1DecodePositionalCAPI_setUseBlendMode(M1obj, useBlendMode);
+        }
+
+        public void setIgnoreTopBottom(bool ignoreTopBottom)
+        {
+            Mach1DecodePositionalCAPI_setIgnoreTopBottom(M1obj, ignoreTopBottom);
+        }
+
+        public void setMuteWhenOutsideObject(bool muteWhenOutsideObject)
+        {
+            Mach1DecodePositionalCAPI_setMuteWhenOutsideObject(M1obj, muteWhenOutsideObject);
+        }
+
+        public void setMuteWhenInsideObject(bool muteWhenInsideObject)
+        {
+            Mach1DecodePositionalCAPI_setMuteWhenInsideObject(M1obj, muteWhenInsideObject);
+        }
+
+        public void setUseFalloff(bool useFalloff)
+        {
+            Mach1DecodePositionalCAPI_setUseFalloff(M1obj, useFalloff);
+        }
+
+        public void setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside)
+        {
+            Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(M1obj, useClosestPointRotationMuteInside);
+        }
+
+        public void setUseYawForRotation(bool useYawForRotation)
+        {
+            Mach1DecodePositionalCAPI_setUseYawForRotation(M1obj, useYawForRotation);
+        }
+
+        public void setUsePitchForRotation(bool usePitchForRotation)
+        {
+            Mach1DecodePositionalCAPI_setUsePitchForRotation(M1obj, usePitchForRotation);
+        }
+
+        public void setUseRollForRotation(bool useRollForRotation)
+        {
+            Mach1DecodePositionalCAPI_setUseRollForRotation(M1obj, useRollForRotation);
+        }
+ 
+        // parameters for algo
         public void setCameraPosition(Mach1Point3D point)
         {
             Mach1DecodePositionalCAPI_setCameraPosition(M1obj, point);
@@ -92,17 +174,17 @@ namespace Mach1
             Mach1DecodePositionalCAPI_setDecoderAlgoScale(M1obj, point);
         }
 
-        public void evaluatePostionResults(Mach1Point3D point)
+        public void evaluatePostionResults()
         {
             Mach1DecodePositionalCAPI_evaluatePostionResults(M1obj);
         }
 
-        public float getVolumeWalls(Mach1Point3D point)
+        public float getVolumeWalls()
         {
             return Mach1DecodePositionalCAPI_getVolumeWalls(M1obj);
         }
 
-        public float getVolumeRoom(Mach1Point3D point)
+        public float getVolumeRoom()
         {
             return Mach1DecodePositionalCAPI_getVolumeRoom(M1obj);
         }

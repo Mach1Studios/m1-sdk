@@ -49,7 +49,6 @@ private:
 	bool useBlendMode = false;
 	bool ignoreTopBottom = true;
 
-
 	bool muteWhenInsideObject = false;
 	bool muteWhenOutsideObject = false;
 	bool useClosestPointRotationMuteInside = false;
@@ -58,9 +57,6 @@ private:
 	bool useYawForRotation = true;
 	bool usePitchForRotation = true;
 	bool useRollForRotation = true;
-
-
-	bool debug = true;
 
 	glm::vec3 cameraPosition;
 	glm::quat cameraRotation;
@@ -80,18 +76,34 @@ private:
 	glm::vec3 GetRightVector();
 	glm::vec3 GetUpVector();
 	glm::vec3 GetForwardVector();
-	
+
 	float volumeWalls;
 	float volumeRoom;
-	float distWalls;
-	float distRoom;
+	float dist;
 	glm::vec3 eulerAngles;
 
 public:
-	
+
+	Mach1DecodePositionalCore();
+
 	void setDecodeAlgoType(Mach1DecodeAlgoType type);
 	void setPlatformType(Mach1PlatformType type);
-	
+
+	// settings
+	void setUseBlendMode(bool useBlendMode);
+	void setIgnoreTopBottom(bool ignoreTopBottom);
+
+	void setMuteWhenOutsideObject(bool muteWhenOutsideObject);
+	void setMuteWhenInsideObject(bool muteWhenInsideObject);
+
+	void setUseFalloff(bool useFalloff);
+	void setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside);
+
+	void setUseYawForRotation(bool useYawForRotation);
+	void setUsePitchForRotation(bool usePitchForRotation);
+	void setUseRollForRotation(bool useRollForRotation);
+
+	// parameters for algo
 	void setCameraPosition(Mach1Point3DCore* pos);
 	void setCameraRotation(Mach1Point3DCore* euler);
 	void setDecoderAlgoPosition(Mach1Point3DCore* pos);
@@ -106,7 +118,7 @@ public:
 	float getVolumeWalls();
 	float getVolumeRoom();
 	Mach1Point3DCore getVolumeRotation();
-	
+
 	// getAttenuationPositionWalls
 	// getAttenuationPositionRoom
 };

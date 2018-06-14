@@ -183,6 +183,11 @@ glm::vec3 Mach1DecodePositionalCore::GetForwardVector()
 	}
 }
 
+Mach1DecodePositionalCore::Mach1DecodePositionalCore()
+{
+	setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial);
+}
+
 void Mach1DecodePositionalCore::setDecodeAlgoType(Mach1DecodeAlgoType type)
 {
 	algorithmType = type;
@@ -193,6 +198,51 @@ void Mach1DecodePositionalCore::setPlatformType(Mach1PlatformType type)
 {
 	platformType = type;
 	mach1Decode.setPlatformType(type);
+}
+
+void Mach1DecodePositionalCore::setUseBlendMode(bool useBlendMode)
+{
+	this->useBlendMode = useBlendMode;
+}
+
+void Mach1DecodePositionalCore::setIgnoreTopBottom(bool ignoreTopBottom)
+{
+	this->ignoreTopBottom = ignoreTopBottom;
+}
+
+void Mach1DecodePositionalCore::setMuteWhenOutsideObject(bool muteWhenOutsideObject)
+{
+	this->muteWhenOutsideObject = muteWhenOutsideObject;
+}
+
+void Mach1DecodePositionalCore::setMuteWhenInsideObject(bool muteWhenInsideObject)
+{
+	this->muteWhenOutsideObject = muteWhenOutsideObject;
+}
+
+void Mach1DecodePositionalCore::setUseFalloff(bool useFalloff)
+{
+	this->useFalloff = useFalloff;
+}
+
+void Mach1DecodePositionalCore::setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside)
+{
+	this->useClosestPointRotationMuteInside = useClosestPointRotationMuteInside;
+}
+
+void Mach1DecodePositionalCore::setUseYawForRotation(bool useYawForRotation)
+{
+	this->useYawForRotation = useYawForRotation;
+}
+
+void Mach1DecodePositionalCore::setUsePitchForRotation(bool usePitchForRotation)
+{
+	this->usePitchForRotation = usePitchForRotation;
+}
+
+void Mach1DecodePositionalCore::setUseRollForRotation(bool useRollForRotation)
+{
+	this->useRollForRotation = useRollForRotation;
 }
 
 void Mach1DecodePositionalCore::setCameraPosition(Mach1Point3DCore * pos) {
@@ -224,8 +274,7 @@ void Mach1DecodePositionalCore::evaluatePostionResults() {
 	volumeWalls = 1.0f;
 	volumeRoom = 0.0f;
 
-	distWalls = 0;
-	distRoom = 0;
+	dist = 0;
 
 	// Find closest point
 	glm::vec3 point = soundPosition;
@@ -252,7 +301,7 @@ void Mach1DecodePositionalCore::evaluatePostionResults() {
 	{
 		point = outsideClosestPoint;
 
-		float dist = glm::distance(cameraPosition, point);
+		dist = glm::distance(cameraPosition, point);
 
 		if (useFalloff)
 		{
@@ -273,7 +322,7 @@ void Mach1DecodePositionalCore::evaluatePostionResults() {
 
 		glm::vec3 p0 = 2.0f * (mat * glm::vec4(cameraPosition, 1.0f)); // InverseTransformPoint
 
-		float dist = 1 - std::max(abs(p0.x), std::max(abs(p0.y), abs(p0.z)));
+		dist = 1 - std::max(abs(p0.x), std::max(abs(p0.y), abs(p0.z)));
 
 		if (useFalloff)
 		{
@@ -284,7 +333,7 @@ void Mach1DecodePositionalCore::evaluatePostionResults() {
 	}
 	else if (hasSoundOutside || hasSoundInside) // useCenterPointRotation
 	{
-		float dist = glm::distance(cameraPosition, point);
+		dist = glm::distance(cameraPosition, point);
 
 		if (useFalloff)
 		{
@@ -352,7 +401,7 @@ void Mach1DecodePositionalCore::getVolumes(float * result)
 
 float Mach1DecodePositionalCore::getVolumeWalls()
 {
-	return volumeWalls;
+	return dist;// volumeWalls;
 }
 
 float Mach1DecodePositionalCore::getVolumeRoom()

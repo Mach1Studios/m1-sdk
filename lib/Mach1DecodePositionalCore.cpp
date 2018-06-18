@@ -185,6 +185,9 @@ glm::vec3 Mach1DecodePositionalCore::GetForwardVector()
 
 Mach1DecodePositionalCore::Mach1DecodePositionalCore()
 {
+	falloffCurve = 1;
+	falloffCurveBlendMode = 1;
+
 	setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial);
 }
 
@@ -203,6 +206,16 @@ void Mach1DecodePositionalCore::setPlatformType(Mach1PlatformType type)
 void Mach1DecodePositionalCore::setUseBlendMode(bool useBlendMode)
 {
 	this->useBlendMode = useBlendMode;
+}
+
+void Mach1DecodePositionalCore::setFalloffCurve(float falloffCurve)
+{
+	this->falloffCurve = falloffCurve;
+}
+
+void Mach1DecodePositionalCore::setFalloffCurveBlendMode(float falloffCurveBlendMode)
+{
+	this->falloffCurveBlendMode = falloffCurveBlendMode;
 }
 
 void Mach1DecodePositionalCore::setIgnoreTopBottom(bool ignoreTopBottom)
@@ -305,7 +318,7 @@ void Mach1DecodePositionalCore::evaluatePostionResults() {
 
 		if (useFalloff)
 		{
-			volumeWalls = volumeWalls * falloffCurve.Evaluate(dist);
+			volumeWalls = volumeWalls * falloffCurve;
 		}
 
 	}
@@ -329,7 +342,7 @@ void Mach1DecodePositionalCore::evaluatePostionResults() {
 
 		if (useFalloff)
 		{
-			volumeWalls = volumeWalls * blendModeFalloffCurve.Evaluate(dist);
+			volumeWalls = volumeWalls * falloffCurveBlendMode;
 		}
 
 		volumeRoom = 1 - volumeWalls;
@@ -342,11 +355,11 @@ void Mach1DecodePositionalCore::evaluatePostionResults() {
 		{
 			if (hasSoundOutside)
 			{
-				volumeWalls = volumeWalls * falloffCurve.Evaluate(dist);
+				volumeWalls = volumeWalls * falloffCurve;
 			}
 			if (useBlendMode)
 			{
-				volumeWalls = volumeWalls * blendModeFalloffCurve.Evaluate(dist);
+				volumeWalls = volumeWalls * falloffCurveBlendMode;
 			}
 		}
 	}
@@ -394,21 +407,24 @@ void Mach1DecodePositionalCore::evaluatePostionResults() {
 	}
 	}
 	*/
+
+	volumes = mach1Decode.decode(eulerAngles.x, eulerAngles.y, eulerAngles.z);
+}
+ 
+void Mach1DecodePositionalCore::getVolumesWalls(float *result)
+{
+	for (int i = 0; i < volumes.size(); i++)
+	{
+		result[i] = volumeWalls * volumes[i];
+	}
 }
 
-void Mach1DecodePositionalCore::getVolumes(float * result)
+void Mach1DecodePositionalCore::getVolumesRoom(float *result)
 {
-	mach1Decode.decode(eulerAngles.x, eulerAngles.y, eulerAngles.z, result);
-}
-
-float Mach1DecodePositionalCore::getVolumeWalls()
-{
-	return dist;// volumeWalls;
-}
-
-float Mach1DecodePositionalCore::getVolumeRoom()
-{
-	return volumeRoom;
+	for (int i = 0; i < volumes.size(); i++)
+	{
+		result[i] = volumeRoom * volumes[i];
+	}
 }
 
 Mach1Point3DCore Mach1DecodePositionalCore::getVolumeRotation()
@@ -416,8 +432,19 @@ Mach1Point3DCore Mach1DecodePositionalCore::getVolumeRotation()
 	return Mach1Point3DCore{ eulerAngles.x , eulerAngles.y, eulerAngles.z };
 }
 
-float Mach1DecodePositionalCore::AnimationCurve::Evaluate(float p)
+float Mach1DecodePositionalCore::getDist()
 {
-	// dummy
-	return 1.0;
+	return dist;
 }
+
+Mach1Point3DCore Mach1DecodePositionalCore::getCurrentAngle() 
+{
+	Mach1Point3D pnt = mach1Decode.getCurrentAngle();
+	return Mach1Point3DCore{ pnt.x , pnt.y, pnt.z };
+}
+
+void Mach1DecodePositionalCore::setFilterSpeed(float filterSpeed)
+{
+	mach1Decode.setFilterSpeed(filterSpeed);
+}
+ 

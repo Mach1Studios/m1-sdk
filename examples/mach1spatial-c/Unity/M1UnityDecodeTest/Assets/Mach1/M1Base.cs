@@ -59,8 +59,14 @@ public class M1Base : MonoBehaviour
     public bool debug = false;
 
     protected Mach1.Mach1Decode m1Decode = new Mach1.Mach1Decode();
+    protected Mach1.Mach1DecodePositional m1Positional = new Mach1.Mach1DecodePositional();
 
     private Camera camera;
+
+    static Mach1.Mach1Point3D ConvertToMach1Point3D(Vector3 vec)
+    {
+        return new Mach1.Mach1Point3D(vec.x, vec.y, vec.z);
+    }
 
     AnimationCurve generateCurve(float length)
     {
@@ -81,6 +87,7 @@ public class M1Base : MonoBehaviour
     public M1Base()
     {
         m1Decode.setPlatformType(Mach1.Mach1PlatformType.Mach1PlatformUnity);
+        m1Positional.setPlatformType(Mach1.Mach1PlatformType.Mach1PlatformUnity);
     }
 
     protected void InitComponents(int MAX_SOUNDS_PER_CHANNEL)
@@ -486,9 +493,6 @@ public class M1Base : MonoBehaviour
                 PlayAudio();
             }
 
-            float volumeWalls = 1.0f;
-            float volumeRoom = 0.0f;
-
             // Find closest point
             Vector3 point = gameObject.transform.position;
 
@@ -517,6 +521,11 @@ public class M1Base : MonoBehaviour
                 Debug.LogError("Mach1: cannot found camera!");
                 return;
             }
+            
+            /*
+            float volumeWalls = 1.0f;
+            float volumeRoom = 0.0f;
+
 
             Vector3 cameraPosition = camera.transform.position;
             if (ignoreTopBottom)
@@ -528,11 +537,13 @@ public class M1Base : MonoBehaviour
             bool hasSoundOutside = isOutside && !muteWhenOutsideObject;
             bool hasSoundInside = !isOutside && !muteWhenInsideObject;
 
+            float dist = 0;
+
             if (hasSoundOutside && useClosestPointRotationMuteInside) // useClosestPointRotation
             {
                 point = outsideClosestPoint;
 
-                float dist = Vector3.Distance(camera.transform.position, point);
+                dist = Vector3.Distance(camera.transform.position, point);
 
                 if (useFalloff)
                 {
@@ -563,7 +574,7 @@ public class M1Base : MonoBehaviour
                 }
                 p1 = gameObject.transform.TransformPoint(p1 / 2);
 
-                float dist = 1 - Mathf.Max(Mathf.Abs(p0.x), Mathf.Max(Mathf.Abs(p0.y), Mathf.Abs(p0.z)));
+                dist = 1 - Mathf.Max(Mathf.Abs(p0.x), Mathf.Max(Mathf.Abs(p0.y), Mathf.Abs(p0.z)));
 
                 if (useFalloff)
                 {
@@ -581,7 +592,7 @@ public class M1Base : MonoBehaviour
             }
             else if (hasSoundOutside || hasSoundInside) // useCenterPointRotation
             {
-                float dist = Vector3.Distance(camera.transform.position, point);
+                dist = Vector3.Distance(camera.transform.position, point);
 
                 if (useFalloff)
                 {
@@ -663,6 +674,54 @@ public class M1Base : MonoBehaviour
 
                 Debug.Log("eulerAngles: " + eulerAngles.x + " , " + eulerAngles.y + " , " + eulerAngles.z);
             }
+            */
+            // In order to use values set in Unity's object inspector, we have to put them into an
+            // M1 Positional library instance. Here's an example:
+
+            m1Positional.setUseBlendMode(useBlendMode);
+            m1Positional.setIgnoreTopBottom(ignoreTopBottom);
+            m1Positional.setMuteWhenOutsideObject(muteWhenOutsideObject);
+            m1Positional.setMuteWhenInsideObject(muteWhenInsideObject);
+            m1Positional.setUseFalloff(useFalloff);
+            m1Positional.setUseClosestPointRotationMuteInside(useClosestPointRotationMuteInside);
+            m1Positional.setUseYawForRotation(useYawForRotation);
+            m1Positional.setUsePitchForRotation(usePitchForRotation);
+            m1Positional.setUseRollForRotation(useRollForRotation);
+
+
+            m1Positional.setCameraPosition(ConvertToMach1Point3D(camera.transform.position));
+            m1Positional.setCameraRotation(ConvertToMach1Point3D(camera.transform.rotation.eulerAngles));
+            m1Positional.setDecoderAlgoPosition(ConvertToMach1Point3D(gameObject.transform.position));
+            m1Positional.setDecoderAlgoRotation(ConvertToMach1Point3D(gameObject.transform.rotation.eulerAngles));
+            m1Positional.setDecoderAlgoScale(ConvertToMach1Point3D(gameObject.transform.lossyScale));
+            m1Positional.evaluatePostionResults();
+
+            if (useFalloff)
+            {
+                m1Positional.setFalloffCurve(falloffCurve.Evaluate(m1Positional.getDist()));
+                m1Positional.setFalloffCurveBlendMode(blendModeFalloffCurve.Evaluate(m1Positional.getDist()));
+            }
+          
+            float[] volumesWalls = new float[18];
+            m1Positional.getVolumesWalls(ref volumesWalls);
+            for (int i = 0; i < audioSourceMain.Length; i++)
+            {
+                audioSourceMain[i].volume = volumesWalls[i];
+            }
+
+            if (useBlendMode)
+            {
+                float[] volumesRoom = new float[18];
+                m1Positional.getVolumesRoom(ref volumesRoom);
+                for (int i = 0; i < audioSourceBlend.Length; i++)
+                {
+                    audioSourceBlend[i].volume = volumesRoom[i];
+                }
+            }
+
+
+            //  Debug.Log("volumeWalls: " + volumeWalls  + " , " + "volumeRoom" + volumeRoom);
+            // Debug.Log("d: " + dist + ", d2: " + m1Positional.getDist());
 
             if (drawHelpers)
             {

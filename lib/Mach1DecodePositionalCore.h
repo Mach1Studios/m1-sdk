@@ -36,15 +36,9 @@ private:
 
 	Mach1Decode mach1Decode;
 
-	class AnimationCurve
-	{
-	public:
-		float Evaluate(float p);
-	};
-
 	bool useFalloff = false;
-	AnimationCurve falloffCurve;
-	AnimationCurve blendModeFalloffCurve;
+	float falloffCurve;
+	float falloffCurveBlendMode;
 
 	bool useBlendMode = false;
 	bool ignoreTopBottom = true;
@@ -82,6 +76,8 @@ private:
 	float dist;
 	glm::vec3 eulerAngles;
 
+	std::vector<float> volumes;
+
 public:
 
 	Mach1DecodePositionalCore();
@@ -91,12 +87,17 @@ public:
 
 	// settings
 	void setUseBlendMode(bool useBlendMode);
+
+	void setUseFalloff(bool useFalloff);
+	void setFalloffCurve(float falloffCurve);
+	void setFalloffCurveBlendMode(float falloffCurveBlendMode);
+
 	void setIgnoreTopBottom(bool ignoreTopBottom);
 
 	void setMuteWhenOutsideObject(bool muteWhenOutsideObject);
 	void setMuteWhenInsideObject(bool muteWhenInsideObject);
 
-	void setUseFalloff(bool useFalloff);
+
 	void setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside);
 
 	void setUseYawForRotation(bool useYawForRotation);
@@ -113,11 +114,15 @@ public:
 
 	void evaluatePostionResults();
 
-	void getVolumes(float * result);
+	void getVolumesWalls(float *result);
+	void getVolumesRoom(float *result);
 
-	float getVolumeWalls();
-	float getVolumeRoom();
+	float getDist();
+
+	Mach1Point3DCore getCurrentAngle();
 	Mach1Point3DCore getVolumeRotation();
+
+	void setFilterSpeed(float filterSpeed);
 
 	// getAttenuationPositionWalls
 	// getAttenuationPositionRoom

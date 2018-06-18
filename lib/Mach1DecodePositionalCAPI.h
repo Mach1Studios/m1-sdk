@@ -40,6 +40,9 @@ extern "C" {
 	M1_API void Mach1DecodePositionalCAPI_setMuteWhenInsideObject(void* M1obj, bool muteWhenInsideObject);
 
 	M1_API void Mach1DecodePositionalCAPI_setUseFalloff(void* M1obj, bool useFalloff);
+	M1_API void Mach1DecodePositionalCAPI_setFalloffCurve(void* M1obj, float falloffCurve);
+	M1_API void Mach1DecodePositionalCAPI_setFalloffCurveBlendMode(void* M1obj, float falloffCurveBlendMode);
+
 	M1_API void Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(void* M1obj, bool useClosestPointRotationMuteInside);
 
 	M1_API void Mach1DecodePositionalCAPI_setUseYawForRotation(void* M1obj, bool useYawForRotation);
@@ -54,7 +57,10 @@ extern "C" {
 	M1_API void Mach1DecodePositionalCAPI_setDecoderAlgoScale(void* M1obj, Mach1Point3D point);
 
 	M1_API void Mach1DecodePositionalCAPI_evaluatePostionResults(void* M1obj);
-	M1_API float Mach1DecodePositionalCAPI_getVolumeWalls(void* M1obj);
-	M1_API float Mach1DecodePositionalCAPI_getVolumeRoom(void* M1obj);
+	M1_API void Mach1DecodePositionalCAPI_getVolumesWalls(void * M1obj, float* result);
+	M1_API void Mach1DecodePositionalCAPI_getVolumesRoom(void * M1obj, float* result);
+	M1_API float Mach1DecodePositionalCAPI_getDist(void* M1obj);
+	M1_API Mach1Point3D Mach1DecodePositionalCAPI_getCurrentAngle(void* M1obj);
 	M1_API Mach1Point3D Mach1DecodePositionalCAPI_getVolumeRotation(void* M1obj);
+	M1_API void Mach1DecodePositionalCAPI_setFilterSpeed(void* M1obj, float filterSpeed);
 }

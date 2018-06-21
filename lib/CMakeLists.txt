@@ -3,11 +3,11 @@ project(Mach1Library)
 
 if(IOS)
 	add_library(Mach1DecodeCAPI "./Mach1DecodeCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1Point3DCore.cpp")
-	add_library(Mach1DecodePositionalCAPI  "./Mach1DecodePositionalCAPI.cpp" "./external/cpp/Mach1Decode.cpp" "./Mach1DecodePositionalCore.cpp" "./Mach1Point3DCore.cpp")
+	add_library(Mach1DecodePositionalCAPI  "./Mach1DecodePositionalCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1DecodePositionalCore.cpp" "./Mach1Point3DCore.cpp")
 	add_library(Mach1EncodeCAPI "./Mach1EncodeCAPI.cpp" "./Mach1EncodeCore.cpp")
 else()
 	add_library(Mach1DecodeCAPI SHARED "./Mach1DecodeCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1Point3DCore.cpp")
-	add_library(Mach1DecodePositionalCAPI SHARED "./Mach1DecodePositionalCAPI.cpp" "./external/cpp/Mach1Decode.cpp" "./Mach1DecodePositionalCore.cpp" "./Mach1Point3DCore.cpp")
+	add_library(Mach1DecodePositionalCAPI SHARED "./Mach1DecodePositionalCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1DecodePositionalCore.cpp" "./Mach1Point3DCore.cpp")
 	add_library(Mach1EncodeCAPI SHARED "./Mach1EncodeCAPI.cpp" "./Mach1EncodeCore.cpp")
 endif()
 

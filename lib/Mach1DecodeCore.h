@@ -475,7 +475,7 @@ public:
 
     Mach1DecodeCore();
     
-    void setPlatformType(Mach1PlatformType type);
+	void setPlatformType(Mach1PlatformType type);
 
     void setFilterSpeed(float filterSpeed);
 

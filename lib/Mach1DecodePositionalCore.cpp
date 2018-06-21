@@ -9,7 +9,6 @@ This header file is not an example of use but an decoder that will require perio
 updates and should not be integrated in sections but remain as an update-able factored file.
 */
 
-
 #include "Mach1DecodePositionalCore.h"
 
 float Mach1DecodePositionalCore::ClosestPointOnBox(glm::vec3 point, glm::vec3 center, glm::vec3 axis0, glm::vec3 axis1, glm::vec3 axis2, glm::vec3 extents, glm::vec3 & closestPoint)
@@ -439,8 +438,7 @@ float Mach1DecodePositionalCore::getDist()
 
 Mach1Point3DCore Mach1DecodePositionalCore::getCurrentAngle() 
 {
-	Mach1Point3D pnt = mach1Decode.getCurrentAngle();
-	return Mach1Point3DCore{ pnt.x , pnt.y, pnt.z };
+	return mach1Decode.getCurrentAngle();
 }
 
 void Mach1DecodePositionalCore::setFilterSpeed(float filterSpeed)

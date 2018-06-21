@@ -23,6 +23,9 @@ namespace Mach1
         [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setPlatformType(IntPtr M1obj, Mach1PlatformType type);
 
+        [DllImport(libname)]
+        internal static extern void Mach1DecodePositionalCAPI_setDecodeAlgoType(IntPtr M1obj, Mach1DecodeAlgoType type);
+
         // settings
 
         [DllImport(libname)]
@@ -100,6 +103,11 @@ namespace Mach1
         {
             Mach1DecodePositionalCAPI_setPlatformType(M1obj, type);
         }
+		
+        public void setDecodeAlgoType(Mach1DecodeAlgoType type)
+		{
+			Mach1DecodePositionalCAPI_setDecodeAlgoType(M1obj, type);
+		}
 
         // settings
 

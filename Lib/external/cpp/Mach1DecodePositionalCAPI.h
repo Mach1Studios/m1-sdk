@@ -25,7 +25,6 @@
 
 #endif 
 
-
 extern "C" {
 	M1_API void* Mach1DecodePositionalCAPI_create();
 	M1_API void Mach1DecodePositionalCAPI_delete(void* M1obj);

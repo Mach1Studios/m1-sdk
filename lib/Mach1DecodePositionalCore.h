@@ -5,8 +5,7 @@
 
 #pragma once
 
-#include "external/cpp/Mach1Decode.h"
-#include "Mach1Point3DCore.h"
+#include "Mach1DecodeCore.h"
 
 #include <iostream>
 #include <string>
@@ -34,7 +33,7 @@ class Mach1DecodePositionalCore {
 
 private:
 
-	Mach1Decode mach1Decode;
+	Mach1DecodeCore mach1Decode;
 
 	bool useFalloff = false;
 	float falloffCurve;

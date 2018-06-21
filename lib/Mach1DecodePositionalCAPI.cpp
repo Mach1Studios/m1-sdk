@@ -26,6 +26,13 @@ void Mach1DecodePositionalCAPI_setPlatformType(void * M1obj, Mach1PlatformType t
 	}
 }
 
+void Mach1DecodePositionalCAPI_setDecodeAlgoType(void * M1obj, Mach1DecodeAlgoType newAlgorithmType)
+{
+	if (M1obj != nullptr) {
+		((Mach1DecodePositionalCore*)M1obj)->setDecodeAlgoType(newAlgorithmType);
+	}
+}
+
 void Mach1DecodePositionalCAPI_setUseBlendMode(void * M1obj, bool useBlendMode)
 {
 	((Mach1DecodePositionalCore*)M1obj)->setUseBlendMode(useBlendMode);

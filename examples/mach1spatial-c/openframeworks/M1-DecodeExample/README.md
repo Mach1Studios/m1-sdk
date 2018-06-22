@@ -1,14 +1,13 @@
-### Mach1 C++ Demonstrations
+### Mach1 C++ Decoding Example
+#### Description: With debug tools for simulating decoding with variable update rates to orientation.
 ### 
-### 
-### Current Demos:
- - M1-Decode Example: Decoding example with variable device conditions and update rates 
- - M1-Encode Example: Encoding example with visual GUI
- - M1-AudioPlayer: Additional Decoding example
+### Current Audio Formats:
+ - Mach1 Spatial / 8channel
+ - Mach1 HorizonPairs / 8Channel
 
 #### Build Instructions
  - Download: http://openframeworks.cc/versions/v0.9.8/
- - Download dependencies (varies per demo): 
+ - Download dependencies: 
 	- ofxAudioDecoder
 	- ofxImGui
 	- ofxJSON

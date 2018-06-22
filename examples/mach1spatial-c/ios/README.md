@@ -3,8 +3,8 @@ This example uses AudioKit to playback multiple channels of a streamed audio fil
 Ideally you will want to decide on your preffered way to stream audio to the Mach1Decode lib depending on whether you application supports
 multichannel audio files or not. 
 
-- Please download the latest universal precompiled AudioKit from the following page:
-`http://audiokit.io/downloads/`
+- Please download AudioKit
+`http://github.com/audiokit/AudioKit/releases/download/v4.1/AudioKit-iOS-4.1.zip`
 
 - Import `AudioKit.framework` into the Solution Browser of your project in Xcode.
 

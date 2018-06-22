@@ -68,7 +68,7 @@ yes | cp -rf "_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1Deco
 
 echo "### Copying all successful bins to /Binaries ###"
 yes | cp -rf "_install/" "../binaries/"
-yes | cp -rf "external/" "../binaries/external/"
+yes | cp -rf "external/" "../include/"
 
 echo "### Copying for ofxMach1 ###"
 yes | cp -rf "external/cpp/Mach1Decode.h" "../examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Decode.h"

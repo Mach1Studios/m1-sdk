@@ -297,7 +297,15 @@ void Mach1DecodePositionalCore::evaluatePostionResults() {
 
 	if (ignoreTopBottom)
 	{
-		cameraPosition.y = soundPosition.y;
+		if (platformType == Mach1PlatformUE)
+		{
+			cameraPosition.z = soundPosition.z;
+		}
+		else // if (platformType == Mach1PlatformUnity)
+		{
+			cameraPosition.y = soundPosition.y;
+		}
+
 	}
 
 	glm::vec3 soundRightVector = soundRotation * GetRightVector(); // right

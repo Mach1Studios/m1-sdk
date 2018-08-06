@@ -295,7 +295,7 @@ void Mach1DecodePositionalCore::evaluatePostionResults() {
 	//glm::vec3 insidePoint0, insidePoint1;
 
 
-	if (ignoreTopBottom)
+	if (ignoreTopBottom && useBlendMode)
 	{
 		if (platformType == Mach1PlatformUE)
 		{
@@ -311,7 +311,6 @@ void Mach1DecodePositionalCore::evaluatePostionResults() {
 	glm::vec3 soundRightVector = soundRotation * GetRightVector(); // right
 	glm::vec3 soundUpVector = soundRotation * GetUpVector(); // up
 	glm::vec3 soundForwardVector = soundRotation * GetForwardVector(); // forward
-
 
 	bool isOutside = (ClosestPointOnBox(cameraPosition, soundPosition, soundRightVector, soundUpVector, soundForwardVector, soundScale / 2.0f, outsideClosestPoint) > 0);
 	bool hasSoundOutside = isOutside && !muteWhenOutsideObject;
@@ -377,6 +376,20 @@ void Mach1DecodePositionalCore::evaluatePostionResults() {
 	}
 
 	// Compute rotation for sound
+	/*
+	TESTING IT NOW
+	glm::quat quat1 = glm::toQuat(glm::lookAt(cameraPosition, point, GetUpVector()));
+	glm::quat quat2 = glm::conjugate(glm::toQuat(glm::lookAt(cameraPosition, point, GetUpVector())));
+	glm::quat quat3 = glm::inverse(glm::conjugate(glm::toQuat(glm::lookAt(cameraPosition, point, GetUpVector()))));
+	glm::quat quat4 = glm::quatLookAt(glm::normalize(cameraPosition - point), GetUpVector());
+	glm::quat quat5 = glm::quatLookAt(glm::normalize(point - cameraPosition), GetUpVector());
+	glm::vec3 quatEulerAngles1 = glm::eulerAngles(quat1);
+	glm::vec3 quatEulerAngles2 = glm::eulerAngles(quat2);
+	glm::vec3 quatEulerAngles3 = glm::eulerAngles(quat3);
+	glm::vec3 quatEulerAngles4 = glm::eulerAngles(quat4);
+	glm::vec3 quatEulerAngles5 = glm::eulerAngles(quat5);
+	*/
+
 	glm::quat quat = glm::inverse(glm::conjugate(glm::toQuat(glm::lookAt(cameraPosition, point, GetUpVector())))) * soundRotation;
 	glm::vec3 quatEulerAngles = glm::eulerAngles(quat);
 	quat = glm::quat(glm::vec3(usePitchForRotation ? quatEulerAngles.x : 0, useYawForRotation ? quatEulerAngles.y : 0, useRollForRotation ? quatEulerAngles.z : 0));
@@ -391,10 +404,14 @@ void Mach1DecodePositionalCore::evaluatePostionResults() {
 
 	// cout << (Camera.current.name + " camera eulerAngles:" + eulerAngles);
 
+	// TODO: fix this
 	eulerAngles = GetEuler(quat);
-	//            eulerAngles.x *= -1;
-	eulerAngles.y += 180;
-	if (eulerAngles.z < 0) eulerAngles.z = 360 + eulerAngles.z;
+	if (platformType == Mach1PlatformUnity)
+	{
+		//            eulerAngles.x *= -1;
+		eulerAngles.y += 180;
+		if (eulerAngles.z < 0) eulerAngles.z = 360 + eulerAngles.z;
+	}
 
 	// SoundAlgorithm
 	/* 
@@ -416,6 +433,7 @@ void Mach1DecodePositionalCore::evaluatePostionResults() {
 	*/
 
 	volumes = mach1Decode.decode(eulerAngles.x, eulerAngles.y, eulerAngles.z);
+	mach1Decode.beginBuffer();
 }
  
 void Mach1DecodePositionalCore::getVolumesWalls(float *result)

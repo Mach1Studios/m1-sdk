@@ -19,8 +19,8 @@ namespace UnrealBuildTool.Rules
             if (!Directory.Exists(binariesDir))
                 Directory.CreateDirectory(binariesDir);
 
-            //if (!File.Exists(Path.Combine(binariesDir, filename)))
-            File.Copy(Filepath, Path.Combine(binariesDir, filename), true);
+            if (!File.Exists(Path.Combine(binariesDir, filename)))
+				File.Copy(Filepath, Path.Combine(binariesDir, filename), true);
         }
 
         public Mach1Plugin(ReadOnlyTargetRules Target) : base(Target)

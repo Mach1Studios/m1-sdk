@@ -445,12 +445,12 @@ void AM1BaseActor::Tick(float DeltaTime)
 				//FVector insidePoint0, insidePoint1;
 
 				FVector cameraPosition = PlayerPosition;
-				if (ignoreTopBottom)
+				if (ignoreTopBottom && useBlendMode)
 				{
 					cameraPosition.Z = GetActorLocation().Z;
 				}
 
-				bool isOutside = (ClosestPointOnBox(PlayerPosition, GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, outsideClosestPoint) > 0);
+				bool isOutside = (ClosestPointOnBox(cameraPosition, GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, outsideClosestPoint) > 0);
 				bool hasSoundOutside = isOutside && !muteWhenOutsideObject;
 				bool hasSoundInside = !isOutside && !muteWhenInsideObject;
 
@@ -458,7 +458,7 @@ void AM1BaseActor::Tick(float DeltaTime)
 				{
 					point = outsideClosestPoint;
 
-					float dist = FVector::Dist(point, PlayerPosition);
+					float dist = FVector::Dist(point, cameraPosition);
 					SetVolumeMain(vol * (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
 
 					
@@ -466,7 +466,7 @@ void AM1BaseActor::Tick(float DeltaTime)
 					if (Debug)
 					{
 						std::string info; 
-						info = "dist:  " + toDebugString(dist);
+						info = "dist_:  " + toDebugString(dist) + " , ignoreTopBottom: " + toDebugString(ignoreTopBottom);
 						GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Purple, info.c_str());
 
 						
@@ -547,12 +547,12 @@ void AM1BaseActor::Tick(float DeltaTime)
 				}
 				else if (hasSoundOutside || hasSoundInside)
 				{
-					float dist = FVector::Dist(point, PlayerPosition);
+					float dist = FVector::Dist(point, cameraPosition);
                 
 					if (Debug)
 					{
 						std::string info;
-						info = "dist:  " + toDebugString(dist);
+						info = "dist_:  " + toDebugString(dist) + " , ignoreTopBottom: " + toDebugString(ignoreTopBottom);
 						GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Purple, info.c_str());
 						info = "curve:  " + toDebugString((attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
 						GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Purple, info.c_str());
@@ -629,7 +629,21 @@ void AM1BaseActor::Tick(float DeltaTime)
 				// compate with unity
 
 				// Compute rotation for sound
-				FQuat quat = UKismetMathLibrary::FindLookAtRotation(PlayerPosition, point).Quaternion().Inverse() * GetActorRotation().Quaternion();
+				/*
+				TESTING IT NOW
+				FQuat quat1 = UKismetMathLibrary::FindLookAtRotation(cameraPosition, point).Quaternion();
+				FQuat quat2 = UKismetMathLibrary::FindLookAtRotation(cameraPosition, point).Quaternion().Inverse();
+				FQuat quat3 = UKismetMathLibrary::FindLookAtRotation(cameraPosition, point).Quaternion().Inverse();
+				FQuat quat4 = GetActorRotation().Quaternion();
+				FQuat quat5 = quat3 * GetActorRotation().Quaternion();
+				FVector vec1 = quat5.Euler();
+
+				FVector  UpVector = (FMath::Abs(cameraPosition.Z - point.Z) < (1.f - KINDA_SMALL_NUMBER)) ? FVector(0, 0, 1.f) : FVector(1.f, 0, 0);
+				double d = UpVector.Z;
+				d++;
+				*/
+
+				FQuat quat = UKismetMathLibrary::FindLookAtRotation(cameraPosition, point).Quaternion().Inverse() * GetActorRotation().Quaternion();
 				quat = FQuat::MakeFromEuler(FVector(useRollForRotation ? quat.Euler().X : 0, usePitchForRotation ? quat.Euler().Y : 0, useYawForRotation ? quat.Euler().Z : 0));
 				quat *= PlayerRotation;
 
@@ -661,7 +675,7 @@ void AM1BaseActor::CalculateChannelVolumes(FQuat quat)
 	static float volumes[18];
 
 	SoundAlgorithm(quat.Euler().Z, quat.Euler().Y, quat.Euler().X, volumes);
-
+	
 
 	// test
 //	FVector vec = UKismetMathLibrary::FindLookAtRotation(FVector(0,0,0), FVector(100,100,100)).Quaternion().Euler();
@@ -670,18 +684,42 @@ void AM1BaseActor::CalculateChannelVolumes(FQuat quat)
 	//#if UE_BUILD_DEBUG
 	if (Debug)
 	{
-		std::string str = "angles:    " + toDebugString(quat.Euler().Y) + " , " + toDebugString(quat.Euler().Z < 0 ? 360 + quat.Euler().Z : quat.Euler().Z) + " , " + toDebugString(quat.Euler().X);
+		std::string str = "angles m1   :    " + toDebugString(mach1Decode.getCurrentAngle().x) + " , " + toDebugString(mach1Decode.getCurrentAngle().y) + " , " + toDebugString(mach1Decode.getCurrentAngle().z);
 		GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, str.c_str());
 
 		std::string info;
-		info = "left:  ";
+		info = "left    :  ";
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
 			info += toDebugString(volumes[i * 2]) + ", ";
 		}
 		GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, info.c_str());
 
-		info = "right: ";
+		info = "right    : ";
+		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
+		{
+			info += toDebugString(volumes[i * 2 + 1]) + ", ";
+		}
+		GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, info.c_str());
+	}
+	 
+
+	m1Positional.getVolumesRoom(volumes);
+	if (Debug)
+	{
+		
+		std::string str = "angles lib test:    " + toDebugString(m1Positional.getCurrentAngle().x) + " , " + toDebugString(m1Positional.getCurrentAngle().y) + " , " + toDebugString(m1Positional.getCurrentAngle().z);
+		GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, str.c_str());
+
+		std::string info;
+		info = "left lib:  ";
+		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
+		{
+			info += toDebugString(volumes[i * 2]) + ", ";
+		}
+		GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, info.c_str());
+
+		info = "right lib: ";
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
 			info += toDebugString(volumes[i * 2 + 1]) + ", ";

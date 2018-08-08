@@ -172,9 +172,14 @@ public class M1Base : MonoBehaviour
         return source;
     }
 
+    Quaternion quatInternal;
+    Transform t;
+
     // Draw gizmo in editor (you may display this also in game windows if set "Gizmo" button)
     void OnDrawGizmos()
     {
+        if (t == null) t = new GameObject().transform;
+
         if (drawHelpers)
         {
             Gizmos.color = Color.gray;
@@ -182,6 +187,11 @@ public class M1Base : MonoBehaviour
 
             Gizmos.matrix = gameObject.transform.localToWorldMatrix;
             Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
+
+             t.position = camera.transform.position;
+            t.rotation = quatInternal;
+            Gizmos.matrix = t.localToWorldMatrix;
+            Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(2, 1, 0.5f));
 
             Gizmos.matrix = mat;
             Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
@@ -452,6 +462,12 @@ public class M1Base : MonoBehaviour
     }
 
 
+    public string ToStringFormat(Vector3 v)
+    {
+        string fmt = "0.0000";
+        return "( " + v.x.ToString(fmt) + ", " + v.y.ToString(fmt) + ", " + v.z.ToString(fmt) + " )";
+    }
+
     public Vector3 GetEuler(Quaternion q1)
     {
         float test = q1.x * q1.y + q1.z * q1.w;
@@ -521,8 +537,13 @@ public class M1Base : MonoBehaviour
                 Debug.LogError("Mach1: cannot found camera!");
                 return;
             }
-            
-            /*
+
+            //            /*
+            //---------------------------------------------------------------------------------
+            //---------------------------------------------------------------------------------
+            //---------------------------------------------------------------------------------
+            //---------------------------------------------------------------------------------
+
             float volumeWalls = 1.0f;
             float volumeRoom = 0.0f;
 
@@ -612,7 +633,26 @@ public class M1Base : MonoBehaviour
                 volumeRoom = 0;
             }
 
-            Vector3 dir = camera.transform.position - point;
+     //   Vector3 dir = camera.transform.position - point;
+            Vector3 dir = (point - camera.transform.position).normalized;  // !!!!
+
+
+            //Quaternion.FromToRotation(new Vector3(165, 590, 100), new Vector3(-160, -10, 100));
+            /*
+            Debug.Log(">   1 " + ToStringFormat(Quaternion.LookRotation((new Vector3(165, 590, 100) - new Vector3(-160, -10, 100)).normalized, new Vector3(0, 0, 1)).eulerAngles * Mathf.Deg2Rad));
+            Debug.Log(">   2 " + ToStringFormat(Quaternion.LookRotation((-new Vector3(165, 590, 100) + new Vector3(-160, -10, 100)).normalized, new Vector3(0, 0, 1)).eulerAngles * Mathf.Deg2Rad));
+            Debug.Log(">   3 " + ToStringFormat(GetEuler(Quaternion.LookRotation((new Vector3(165, 590, 100) - new Vector3(-160, -10, 100)).normalized, new Vector3(0, 0, 1))) * Mathf.Deg2Rad));
+            */
+
+
+            //Debug.Log(">> ok " + ToStringFormat(GetEuler(Quaternion.LookRotation((new Vector3(-160, -10, 100) - new Vector3(165, 590, 100)).normalized, new Vector3(0, 0, 1))) * Mathf.Deg2Rad));
+            
+
+            //Debug.Log(">> ok2 " + ToStringFormat( (Quaternion.LookRotation((new Vector3(-160, -10, 100) - new Vector3(165, 590, 100)).normalized, new Vector3(0, 0, 1)).eulerAngles) * Mathf.Deg2Rad));
+            // point - camera
+            //...
+
+           // Quaternion.LookRotation((point - camera.transform.position).normalized, Vector3.up) *  //
 
             // Compute matrix for draw gizmo
             Quaternion quatGizmo = Quaternion.LookRotation(dir, Vector3.up) * Quaternion.Inverse(gameObject.transform.rotation);
@@ -622,7 +662,14 @@ public class M1Base : MonoBehaviour
             // Compute rotation for sound
             Quaternion quat = Quaternion.Inverse(Quaternion.LookRotation(dir, Vector3.up)) * gameObject.transform.rotation;
             quat.eulerAngles = new Vector3(usePitchForRotation ? quat.eulerAngles.x : 0, useYawForRotation ? quat.eulerAngles.y : 0, useRollForRotation ? quat.eulerAngles.z : 0);
+
+            // test only
+            quatInternal = quat;
+
+
             quat *= camera.transform.rotation;
+
+             //gameObject.transform.rotation = quat;
 
             // Compute volumes
             //Vector3 eulerAngles = quat.eulerAngles;
@@ -635,8 +682,8 @@ public class M1Base : MonoBehaviour
 
             Vector3 eulerAngles = GetEuler(quat);
             //            eulerAngles.x *= -1;
-            eulerAngles.y += 180;
-            if (eulerAngles.z < 0) eulerAngles.z = 360 + eulerAngles.z;
+          //  eulerAngles.y += 180;
+          //  if (eulerAngles.z < 0) eulerAngles.z = 360 + eulerAngles.z;
 
             float[] volumes = SoundAlgorithm(eulerAngles.x, eulerAngles.y, eulerAngles.z);
             for (int i = 0; i < audioSourceMain.Length; i++)
@@ -674,10 +721,20 @@ public class M1Base : MonoBehaviour
 
                 Debug.Log("eulerAngles: " + eulerAngles.x + " , " + eulerAngles.y + " , " + eulerAngles.z);
             }
-            */
+
+            //Debug.Log("eulerAngles _ : " + eulerAngles.x + " , " + eulerAngles.y + " , " + eulerAngles.z);
+
+            //*/
+            //---------------------------------------------------------------------------------
+            //---------------------------------------------------------------------------------
+            //---------------------------------------------------------------------------------
+
+
+             
+
             // In order to use values set in Unity's object inspector, we have to put them into an
             // M1 Positional library instance. Here's an example:
-
+            /*
             m1Positional.setUseBlendMode(useBlendMode);
             m1Positional.setIgnoreTopBottom(ignoreTopBottom);
             m1Positional.setMuteWhenOutsideObject(muteWhenOutsideObject);
@@ -718,7 +775,7 @@ public class M1Base : MonoBehaviour
                     audioSourceBlend[i].volume = volumesRoom[i];
                 }
             }
-
+            */
 
             //  Debug.Log("volumeWalls: " + volumeWalls  + " , " + "volumeRoom" + volumeRoom);
             // Debug.Log("d: " + dist + ", d2: " + m1Positional.getDist());

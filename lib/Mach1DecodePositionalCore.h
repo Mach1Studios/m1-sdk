@@ -21,6 +21,10 @@
 #define RAD_TO_DEG_F (180.0f/PI_F)
 #endif
 
+#ifndef DEG_TO_RAD_F
+#define DEG_TO_RAD_F (PI_F/180.0f)
+#endif
+
 #ifndef PI_F
 #define PI_F       3.14159265358979323846f
 #endif 

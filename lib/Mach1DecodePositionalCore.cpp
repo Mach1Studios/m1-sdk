@@ -262,7 +262,12 @@ void Mach1DecodePositionalCore::setCameraPosition(Mach1Point3DCore * pos) {
 }
 
 void Mach1DecodePositionalCore::setCameraRotation(Mach1Point3DCore * euler) {
-	cameraRotation = glm::quat(glm::vec3(euler->x * PI / 180, euler->y * PI / 180, euler->z * PI / 180));
+/*
+	Mach1Point3DCore angle(euler->x, euler->y, euler->z);
+	mach1Decode.convertAnglesToMach1(&angle.x, &angle.y, &angle.z);
+	cameraRotation = glm::quat(glm::vec3(angle.x * DEG_TO_RAD_F, angle.y * DEG_TO_RAD_F, angle.z * DEG_TO_RAD_F));
+*/
+	cameraRotation = glm::quat(glm::vec3(euler->x * DEG_TO_RAD_F, euler->y * DEG_TO_RAD_F, euler->z * DEG_TO_RAD_F));
 }
 
 void Mach1DecodePositionalCore::setDecoderAlgoPosition(Mach1Point3DCore * pos) {
@@ -270,7 +275,12 @@ void Mach1DecodePositionalCore::setDecoderAlgoPosition(Mach1Point3DCore * pos) {
 }
 
 void Mach1DecodePositionalCore::setDecoderAlgoRotation(Mach1Point3DCore * euler) {
-	soundRotation = glm::quat(glm::vec3(euler->x * PI / 180, euler->y * PI / 180, euler->z * PI / 180));
+/*
+	Mach1Point3DCore angle(euler->x, euler->y, euler->z);
+	mach1Decode.convertAnglesToMach1(&angle.x, &angle.y, &angle.z);
+	soundRotation = glm::quat(glm::vec3(angle.x * DEG_TO_RAD_F, angle.y * DEG_TO_RAD_F, angle.z * DEG_TO_RAD_F));
+*/
+	soundRotation = glm::quat(glm::vec3(euler->x * DEG_TO_RAD_F, euler->y * DEG_TO_RAD_F, euler->z * DEG_TO_RAD_F));
 }
 
 void Mach1DecodePositionalCore::setDecoderAlgoScale(Mach1Point3DCore * scale) {
@@ -307,6 +317,8 @@ void Mach1DecodePositionalCore::evaluatePostionResults() {
 		}
 
 	}
+
+	//dsf
 
 	glm::vec3 soundRightVector = soundRotation * GetRightVector(); // right
 	glm::vec3 soundUpVector = soundRotation * GetUpVector(); // up
@@ -376,62 +388,63 @@ void Mach1DecodePositionalCore::evaluatePostionResults() {
 	}
 
 	// Compute rotation for sound
-	/*
-	TESTING IT NOW
+
 	glm::quat quat1 = glm::toQuat(glm::lookAt(cameraPosition, point, GetUpVector()));
 	glm::quat quat2 = glm::conjugate(glm::toQuat(glm::lookAt(cameraPosition, point, GetUpVector())));
 	glm::quat quat3 = glm::inverse(glm::conjugate(glm::toQuat(glm::lookAt(cameraPosition, point, GetUpVector()))));
 	glm::quat quat4 = glm::quatLookAt(glm::normalize(cameraPosition - point), GetUpVector());
 	glm::quat quat5 = glm::quatLookAt(glm::normalize(point - cameraPosition), GetUpVector());
+	glm::quat quat6 = glm::conjugate(quat4); // cool
+	glm::quat quat7 = glm::conjugate(quat5);
 	glm::vec3 quatEulerAngles1 = glm::eulerAngles(quat1);
 	glm::vec3 quatEulerAngles2 = glm::eulerAngles(quat2);
 	glm::vec3 quatEulerAngles3 = glm::eulerAngles(quat3);
 	glm::vec3 quatEulerAngles4 = glm::eulerAngles(quat4);
 	glm::vec3 quatEulerAngles5 = glm::eulerAngles(quat5);
-	*/
+	glm::vec3 quatEulerAngles6 = glm::eulerAngles(quat6);
+	glm::vec3 quatEulerAngles7 = glm::eulerAngles(quat7);
 
-	glm::quat quat = glm::inverse(glm::conjugate(glm::toQuat(glm::lookAt(cameraPosition, point, GetUpVector())))) * soundRotation;
+	glm::vec3 quatEulerAngles1_ = GetEuler(quat1);
+	glm::vec3 quatEulerAngles2_ = GetEuler(quat2);
+	glm::vec3 quatEulerAngles3_ = GetEuler(quat3);
+	glm::vec3 quatEulerAngles4_ = GetEuler(quat4);
+	glm::vec3 quatEulerAngles5_ = GetEuler(quat5);
+	glm::vec3 quatEulerAngles6_ = GetEuler(quat6);
+	glm::vec3 quatEulerAngles7_ = GetEuler(quat7);
+
+	///!!!!!! fixed >>  
+	glm::quat quat = glm::inverse(glm::conjugate(glm::quatLookAt(glm::normalize(cameraPosition - point), GetUpVector()))) * soundRotation;
+	
+	//glm::quat quat = glm::inverse(glm::conjugate(glm::toQuat(glm::lookAt(cameraPosition, point, GetUpVector())))) * soundRotation;
+	
 	glm::vec3 quatEulerAngles = glm::eulerAngles(quat);
-	quat = glm::quat(glm::vec3(usePitchForRotation ? quatEulerAngles.x : 0, useYawForRotation ? quatEulerAngles.y : 0, useRollForRotation ? quatEulerAngles.z : 0));
+	
+	bool useXForRotation = true;
+	bool useYForRotation = true;
+	bool useZForRotation = true;
+
+	if (platformType == Mach1PlatformUE)
+	{
+		useXForRotation = useRollForRotation;
+		useYForRotation = usePitchForRotation;
+		useZForRotation = useYawForRotation;
+	}
+	else if (platformType == Mach1PlatformUnity)
+	{
+		useXForRotation = usePitchForRotation;
+		useYForRotation = useYawForRotation;
+		useZForRotation = useRollForRotation;
+	}
+
+	quat = glm::quat(glm::vec3(useXForRotation ? quatEulerAngles.x : 0, useYForRotation ? quatEulerAngles.y : 0, useZForRotation ? quatEulerAngles.z : 0));
 	quat *= cameraRotation;
-
-	// Compute volumes
-	//glm::vec3 eulerAngles = quatEulerAngles;
-	//eulerAngles.x = eulerAngles.x > 180 ? 360 - eulerAngles.x : -eulerAngles.x;
-	//eulerAngles.y += 180;
-
-	//eulerAngles = glm::quat.Euler(eulerAngles).eulerAngles;
-
-	// cout << (Camera.current.name + " camera eulerAngles:" + eulerAngles);
-
-	// TODO: fix this
+	
 	eulerAngles = GetEuler(quat);
-	if (platformType == Mach1PlatformUnity)
-	{
-		//            eulerAngles.x *= -1;
-		eulerAngles.y += 180;
-		if (eulerAngles.z < 0) eulerAngles.z = 360 + eulerAngles.z;
-	}
 
+//	mach1Decode.convertAnglesToPlatform(&eulerAngles.x, &eulerAngles.y, &eulerAngles.z);
+	 
+ 
 	// SoundAlgorithm
-	/* 
-	std::vector<float> volumes = decode(eulerAngles.x, eulerAngles.y, eulerAngles.z);
-	std::vector<float> volumesOutWalls(volumes.size());
-	std::vector<float> volumesOutBlend(volumes.size());
-
-	for (int i = 0; i < volumes.size(); i++)
-	{
-	volumesOutWalls[i] = volumeWalls * volumes[i];
-	}
-	if (useBlendMode)
-	{
-	for (int i = 0; i < volumes.size(); i++)
-	{
-	volumesOutBlend[i] = volumeRoom * volumes[i];
-	}
-	}
-	*/
-
 	volumes = mach1Decode.decode(eulerAngles.x, eulerAngles.y, eulerAngles.z);
 	mach1Decode.beginBuffer();
 }
@@ -464,7 +477,9 @@ float Mach1DecodePositionalCore::getDist()
 
 Mach1Point3DCore Mach1DecodePositionalCore::getCurrentAngle() 
 {
-	return mach1Decode.getCurrentAngle();
+	Mach1Point3DCore angle = mach1Decode.getCurrentAngle();
+	mach1Decode.convertAnglesToPlatform(&angle.x, &angle.y, &angle.z);
+	return angle;
 }
 
 void Mach1DecodePositionalCore::setFilterSpeed(float filterSpeed)

@@ -69,10 +69,6 @@ private:
    
     bool smoothAngles;
  
-    // Angular settings functions
-	void convertAnglesToMach1(float* Y, float* P, float* R);
-	void convertAnglesToPlatform(float* Y, float* P, float* R);
-
     Mach1PlatformType platformType;
     
     // Selected algo type
@@ -466,10 +462,13 @@ public:
  	char* getLog();
 
     float filterSpeed;
-   
+
+	// Angular settings functions
+	void convertAnglesToMach1(float* Y, float* P, float* R);
+	void convertAnglesToPlatform(float* Y, float* P, float* R);
+
 	Mach1Point3DCore getCurrentAngle() {
 		Mach1Point3DCore angle(currentYaw, currentPitch, currentRoll);
-		//convertAnglesToPlatform(&angle.x, &angle.y, &angle.z);
 		return angle;
 	}
 

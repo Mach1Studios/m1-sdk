@@ -63,6 +63,9 @@ protected:
 	Mach1DecodePositional m1Positional;
 
 	Mach1Point3D ConvertToMach1Point3D(FVector vec);
+	Mach1Point4D ConvertToMach1Point4D(FQuat quat);
+
+	FVector GetEuler(FQuat q1);
 
 public:
 

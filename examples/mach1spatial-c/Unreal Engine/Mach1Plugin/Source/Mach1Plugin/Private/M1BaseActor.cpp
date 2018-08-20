@@ -145,6 +145,11 @@ Mach1Point3D AM1BaseActor::ConvertToMach1Point3D(FVector vec)
 	return Mach1Point3D{ vec.X, vec.Y, vec.Z };
 }
 
+Mach1Point4D AM1BaseActor::ConvertToMach1Point4D(FQuat quat)
+{
+	return Mach1Point4D{ quat.X, quat.Y, quat.Z, quat.W };
+}
+
 // Sets default values
 void AM1BaseActor::InitComponents(int MAX_SOUNDS_PER_CHANNEL)
 {
@@ -175,7 +180,7 @@ void AM1BaseActor::InitComponents(int MAX_SOUNDS_PER_CHANNEL)
 
 	Volume = 1;
 	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++) VolumeFactor.Add(1);
-
+	 
 	mach1Decode.setPlatformType(Mach1PlatformType::Mach1PlatformUE);
 	m1Positional.setPlatformType(Mach1PlatformType::Mach1PlatformUE);
 }
@@ -380,7 +385,7 @@ void AM1BaseActor::Stop()
 void AM1BaseActor::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 	if (GEngine)
 	{
 		if (APlayerController* player = GetWorld()->GetFirstPlayerController())
@@ -390,6 +395,38 @@ void AM1BaseActor::BeginPlay()
 			if(autoplay || needPlayAfterInit) Play();
 		}
 	}
+}
+
+FVector AM1BaseActor::GetEuler(FQuat q1)
+{
+	float test = q1.X * q1.Y + q1.Z * q1.W;
+	if (test > 0.499) // singularity at north pole
+	{
+		return FMath::RadiansToDegrees(FVector(
+			0,
+			2 * atan2(q1.X, q1.W),
+			PI / 2
+		));
+	}
+	if (test < -0.499) // singularity at south pole
+	{
+		return FMath::RadiansToDegrees(FVector(
+			0,
+			-2 * atan2(q1.X, q1.W),
+			-PI / 2
+		));
+	}
+	float sqx = q1.X * q1.X;
+	float sqy = q1.Y * q1.Y;
+	float sqz = q1.Z * q1.Z;
+
+	return FMath::RadiansToDegrees(FVector(
+		atan2(2.0f * q1.X * q1.W - 2 * q1.Y * q1.Z, 1.0f - 2.0f * sqx - 2.0f * sqz),
+		atan2(2.0f * q1.Y * q1.W - 2 * q1.X * q1.Z, 1.0f - 2.0f * sqy - 2.0f * sqz),
+		sin(2.0f * test)
+	));
+
+
 }
 
 // Called every frame
@@ -425,7 +462,7 @@ void AM1BaseActor::Tick(float DeltaTime)
 					PlayerPosition = playerPawn->GetActorLocation();
 				}
 
-				
+			 	
 				// maybe use cameraComponent->bAbsoluteRotation & bAbsolutePosition for position?
 
 				/*
@@ -437,7 +474,7 @@ void AM1BaseActor::Tick(float DeltaTime)
 				FVector point = GetActorLocation();
 
 				FVector scale = Collision->GetScaledBoxExtent(); // GetActorScale() / 2 *
-				scale = FVector(scale.Y, scale.Z, scale.X);
+				//scale = FVector(scale.Y, scale.Z, scale.X);
 
 				float vol = Volume;
 
@@ -450,17 +487,19 @@ void AM1BaseActor::Tick(float DeltaTime)
 					cameraPosition.Z = GetActorLocation().Z;
 				}
 
-				bool isOutside = (ClosestPointOnBox(cameraPosition, GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, outsideClosestPoint) > 0);
+				FQuat actorRotation = GetActorRotation().Quaternion();
+
+				//bool isOutside = (ClosestPointOnBox(cameraPosition, GetActorLocation(), GetActorRightVector(), GetActorUpVector(), GetActorForwardVector(), scale, outsideClosestPoint) > 0);
+				bool isOutside = (ClosestPointOnBox(cameraPosition, GetActorLocation(), actorRotation * FVector(1,0,0), actorRotation * FVector(0, 1, 0), actorRotation * FVector(0, 0, 1), scale / 2.0f, outsideClosestPoint) > 0);
 				bool hasSoundOutside = isOutside && !muteWhenOutsideObject;
 				bool hasSoundInside = !isOutside && !muteWhenInsideObject;
-
+				 
 				if (hasSoundOutside && useClosestPointRotationMuteInside) // useClosestPointRotation
 				{
 					point = outsideClosestPoint;
 
 					float dist = FVector::Dist(point, cameraPosition);
 					SetVolumeMain(vol * (attenuationCurve ? attenuationCurve->GetFloatValue(dist) : 1));
-
 					
 					
 					if (Debug)
@@ -575,7 +614,6 @@ void AM1BaseActor::Tick(float DeltaTime)
 				}
 
 				// mach1DecodePositional.setCameraPosition(Mach1Point3D { 1, 1, 1 });
-
 				m1Positional.setUseBlendMode(useBlendMode);
 				m1Positional.setIgnoreTopBottom(ignoreTopBottom);
 				m1Positional.setMuteWhenOutsideObject(muteWhenOutsideObject);
@@ -585,11 +623,11 @@ void AM1BaseActor::Tick(float DeltaTime)
 				m1Positional.setUseYawForRotation(useYawForRotation);
 				m1Positional.setUsePitchForRotation(usePitchForRotation);
 				m1Positional.setUseRollForRotation(useRollForRotation);
-
+				 
 				m1Positional.setCameraPosition(ConvertToMach1Point3D(PlayerPosition));
-				m1Positional.setCameraRotation(ConvertToMach1Point3D(PlayerRotation.Euler()));
+				m1Positional.setCameraRotationQuat(ConvertToMach1Point4D(PlayerRotation));
 				m1Positional.setDecoderAlgoPosition(ConvertToMach1Point3D(GetActorLocation()));
-				m1Positional.setDecoderAlgoRotation(ConvertToMach1Point3D(GetActorRotation().Quaternion().Euler()));
+				m1Positional.setDecoderAlgoRotationQuat(ConvertToMach1Point4D(GetActorRotation().Quaternion()));
 				m1Positional.setDecoderAlgoScale(ConvertToMach1Point3D(scale));// GetActorScale()));
 				m1Positional.evaluatePostionResults();
 
@@ -603,6 +641,7 @@ void AM1BaseActor::Tick(float DeltaTime)
 				info = "dist NEW FOR TEST ONLY:  " + toDebugString(m1Positional.getDist());
 				GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Purple, info.c_str());
 
+ 
 				/*
 				float[] volumesWalls = new float[18];
 				m1Positional.getVolumesWalls(ref volumesWalls);
@@ -629,25 +668,80 @@ void AM1BaseActor::Tick(float DeltaTime)
 				// compate with unity
 
 				// Compute rotation for sound
-				/*
-				TESTING IT NOW
-				FQuat quat1 = UKismetMathLibrary::FindLookAtRotation(cameraPosition, point).Quaternion();
-				FQuat quat2 = UKismetMathLibrary::FindLookAtRotation(cameraPosition, point).Quaternion().Inverse();
-				FQuat quat3 = UKismetMathLibrary::FindLookAtRotation(cameraPosition, point).Quaternion().Inverse();
-				FQuat quat4 = GetActorRotation().Quaternion();
-				FQuat quat5 = quat3 * GetActorRotation().Quaternion();
-				FVector vec1 = quat5.Euler();
+			 
+				// TESTING IT NOW
+				
 
-				FVector  UpVector = (FMath::Abs(cameraPosition.Z - point.Z) < (1.f - KINDA_SMALL_NUMBER)) ? FVector(0, 0, 1.f) : FVector(1.f, 0, 0);
-				double d = UpVector.Z;
-				d++;
-				*/
+				// try to use up if possible
+ 
 
-				FQuat quat = UKismetMathLibrary::FindLookAtRotation(cameraPosition, point).Quaternion().Inverse() * GetActorRotation().Quaternion();
+				FQuat quatLookAt = FLookAtMatrix(cameraPosition, point, FVector::UpVector).ToQuat();
+				FVector vec2 = quatLookAt.Euler();
+				FVector vec3 = GetEuler(quatLookAt);
+
+				FQuat quatLookAt2 = FLookAtMatrix(point, cameraPosition, FVector::UpVector).ToQuat();
+				FVector vec4 = quatLookAt2.Euler();
+				FVector vec5 = GetEuler(quatLookAt2);
+
+
+				info = "euler2:  ";
+				info += toDebugString(vec3) + ", ";
+				GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, info.c_str());
+
+				info = "euler3 :  ";
+				info += toDebugString(vec5) + ", ";
+				GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, info.c_str());
+
+
+				FQuat quat = FLookAtMatrix(cameraPosition, point, FVector::UpVector).Inverse().ToQuat() * actorRotation;
 				quat = FQuat::MakeFromEuler(FVector(useRollForRotation ? quat.Euler().X : 0, usePitchForRotation ? quat.Euler().Y : 0, useYawForRotation ? quat.Euler().Z : 0));
 				quat *= PlayerRotation;
-
+				 
 				CalculateChannelVolumes(quat);
+  
+				DrawDebugLine(
+					GetWorld(),
+					GetActorLocation(),
+					quat * (FVector::ForwardVector * 100),
+					FColor(255, 255, 0),
+					false,
+					-1,
+					0,
+					20
+				);
+				DrawDebugLine(
+					GetWorld(),
+					GetActorLocation(),
+					quat * (FVector::RightVector * 50),
+					FColor(255, 255, 0),
+					false,
+					-1,
+					0,
+					20
+				);
+				 
+				quat = FQuat::MakeFromEuler(FVector(m1Positional.getCurrentAngle().x, m1Positional.getCurrentAngle().y, m1Positional.getCurrentAngle().z));
+				 
+				DrawDebugLine(
+					GetWorld(),
+					GetActorLocation(),
+					quat * (FVector::ForwardVector * 100),
+					FColor(255, 0, 0),
+					false,
+					-1,
+					0,
+					10
+				);
+				DrawDebugLine(
+					GetWorld(),
+					GetActorLocation(),
+					quat * (FVector::RightVector * 50),
+					FColor(255, 0, 0),
+					false,
+					-1,
+					0,
+					10
+				);
 			}
 		}
 	}
@@ -674,9 +768,23 @@ void AM1BaseActor::CalculateChannelVolumes(FQuat quat)
 {
 	static float volumes[18];
 
-	SoundAlgorithm(quat.Euler().Z, quat.Euler().Y, quat.Euler().X, volumes);
-	
 
+
+	// test
+	FVector angles = GetEuler(quat);
+
+	std::string info = "euler    :  ";
+	for (int i = 0; i < 3; i++)
+	{
+		info += toDebugString(angles[i]) + " , ";
+	}
+	GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, info.c_str());
+
+
+
+	//SoundAlgorithm(angles.Z, angles.Y, angles.X, volumes);
+	SoundAlgorithm(angles.X, angles.Y, angles.Z, volumes);
+	
 	// test
 //	FVector vec = UKismetMathLibrary::FindLookAtRotation(FVector(0,0,0), FVector(100,100,100)).Quaternion().Euler();
 //	GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, vec.ToString());
@@ -684,7 +792,8 @@ void AM1BaseActor::CalculateChannelVolumes(FQuat quat)
 	//#if UE_BUILD_DEBUG
 	if (Debug)
 	{
-		std::string str = "angles m1   :    " + toDebugString(mach1Decode.getCurrentAngle().x) + " , " + toDebugString(mach1Decode.getCurrentAngle().y) + " , " + toDebugString(mach1Decode.getCurrentAngle().z);
+		std::string str = "angles m1   :    " + toDebugString(angles.X) + " , " + toDebugString(angles.Y) + " , " + toDebugString(angles.Z);
+		//std::string str = "angles m1   :    " + toDebugString(mach1Decode.getCurrentAngle().x) + " , " + toDebugString(mach1Decode.getCurrentAngle().y) + " , " + toDebugString(mach1Decode.getCurrentAngle().z);
 		GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, str.c_str());
 
 		std::string info;

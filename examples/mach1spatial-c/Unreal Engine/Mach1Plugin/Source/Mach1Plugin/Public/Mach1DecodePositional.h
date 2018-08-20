@@ -50,8 +50,10 @@ public:
 	// parameters for algo
 	void setCameraPosition(Mach1Point3D point);
 	void setCameraRotation(Mach1Point3D point);
+	void setCameraRotationQuat(Mach1Point4D quat);
 	void setDecoderAlgoPosition(Mach1Point3D point);
 	void setDecoderAlgoRotation(Mach1Point3D point);
+	void setDecoderAlgoRotationQuat(Mach1Point4D quat);
 	void setDecoderAlgoScale(Mach1Point3D point);
 
 	void evaluatePostionResults();

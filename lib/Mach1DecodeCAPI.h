@@ -27,6 +27,10 @@ struct Mach1Point3D {
 	float x, y, z;
 };
 
+struct Mach1Point4D {
+	float x, y, z, w;
+};
+
 enum Mach1PlatformType {
 	Mach1PlatformDefault = 0, Mach1PlatformUnity, Mach1PlatformUE, Mach1PlatformOfEasyCam, Mach1PlatformAndroid, Mach1PlatformiOSPortrait, Mach1PlatformiOSLandscape
 };

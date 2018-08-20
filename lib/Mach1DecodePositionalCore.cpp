@@ -270,6 +270,11 @@ void Mach1DecodePositionalCore::setCameraRotation(Mach1Point3DCore * euler) {
 	cameraRotation = glm::quat(glm::vec3(euler->x * DEG_TO_RAD_F, euler->y * DEG_TO_RAD_F, euler->z * DEG_TO_RAD_F));
 }
 
+void Mach1DecodePositionalCore::setCameraRotationQuat(Mach1Point4DCore * quat)
+{
+	cameraRotation = glm::quat(quat->w, quat->x, quat->y, quat->z);
+}
+
 void Mach1DecodePositionalCore::setDecoderAlgoPosition(Mach1Point3DCore * pos) {
 	soundPosition = glm::vec3(pos->x, pos->y, pos->z);
 }
@@ -281,6 +286,11 @@ void Mach1DecodePositionalCore::setDecoderAlgoRotation(Mach1Point3DCore * euler)
 	soundRotation = glm::quat(glm::vec3(angle.x * DEG_TO_RAD_F, angle.y * DEG_TO_RAD_F, angle.z * DEG_TO_RAD_F));
 */
 	soundRotation = glm::quat(glm::vec3(euler->x * DEG_TO_RAD_F, euler->y * DEG_TO_RAD_F, euler->z * DEG_TO_RAD_F));
+}
+
+void Mach1DecodePositionalCore::setDecoderAlgoRotationQuat(Mach1Point4DCore * quat)
+{
+	soundRotation = glm::quat(quat->w, quat->x, quat->y, quat->z);
 }
 
 void Mach1DecodePositionalCore::setDecoderAlgoScale(Mach1Point3DCore * scale) {
@@ -320,9 +330,9 @@ void Mach1DecodePositionalCore::evaluatePostionResults() {
 
 	//dsf
 
-	glm::vec3 soundRightVector = soundRotation * GetRightVector(); // right
-	glm::vec3 soundUpVector = soundRotation * GetUpVector(); // up
-	glm::vec3 soundForwardVector = soundRotation * GetForwardVector(); // forward
+	glm::vec3 soundRightVector = soundRotation * glm::vec3(1, 0, 0);// GetRightVector(); // right
+	glm::vec3 soundUpVector = soundRotation * glm::vec3(0, 1, 0); // up
+	glm::vec3 soundForwardVector = soundRotation * glm::vec3(0, 0, 1); // forward
 
 	bool isOutside = (ClosestPointOnBox(cameraPosition, soundPosition, soundRightVector, soundUpVector, soundForwardVector, soundScale / 2.0f, outsideClosestPoint) > 0);
 	bool hasSoundOutside = isOutside && !muteWhenOutsideObject;
@@ -388,10 +398,12 @@ void Mach1DecodePositionalCore::evaluatePostionResults() {
 	}
 
 	// Compute rotation for sound
-
+	/*
+	TEST ONLY
 	glm::quat quat1 = glm::toQuat(glm::lookAt(cameraPosition, point, GetUpVector()));
 	glm::quat quat2 = glm::conjugate(glm::toQuat(glm::lookAt(cameraPosition, point, GetUpVector())));
-	glm::quat quat3 = glm::inverse(glm::conjugate(glm::toQuat(glm::lookAt(cameraPosition, point, GetUpVector()))));
+	glm::quat quat3 = glm::inverse(glm::conjugate(glm::toQuat(glm::lookAt(cameraPosition, 
+	point, GetUpVector()))));
 	glm::quat quat4 = glm::quatLookAt(glm::normalize(cameraPosition - point), GetUpVector());
 	glm::quat quat5 = glm::quatLookAt(glm::normalize(point - cameraPosition), GetUpVector());
 	glm::quat quat6 = glm::conjugate(quat4); // cool
@@ -412,13 +424,14 @@ void Mach1DecodePositionalCore::evaluatePostionResults() {
 	glm::vec3 quatEulerAngles6_ = GetEuler(quat6);
 	glm::vec3 quatEulerAngles7_ = GetEuler(quat7);
 
-	///!!!!!! fixed >>  
-	glm::quat quat = glm::inverse(glm::conjugate(glm::quatLookAt(glm::normalize(cameraPosition - point), GetUpVector()))) * soundRotation;
-	
+
 	//glm::quat quat = glm::inverse(glm::conjugate(glm::toQuat(glm::lookAt(cameraPosition, point, GetUpVector())))) * soundRotation;
-	
+	*/
+
+	glm::quat quat = glm::inverse(glm::conjugate(glm::quatLookAt(glm::normalize(cameraPosition - point), GetUpVector()))) * soundRotation;
+
 	glm::vec3 quatEulerAngles = glm::eulerAngles(quat);
-	
+	 
 	bool useXForRotation = true;
 	bool useYForRotation = true;
 	bool useZForRotation = true;

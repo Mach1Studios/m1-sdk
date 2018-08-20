@@ -15,6 +15,7 @@
 #include <algorithm>
 
 #include "Mach1Point3DCore.h"
+#include "Mach1Point4DCore.h"
 #include "Mach1DecodeCAPI.h"
 
 using namespace std::chrono;

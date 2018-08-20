@@ -175,6 +175,7 @@ void Mach1DecodeCore::convertAnglesToMach1(float* Y, float* P, float* R) {
 		break;
 
 	case Mach1PlatformUE:
+		std::swap(*R, *Y);
 		*Y = *Y;                    // Y in UE
 		*P = (*P < 0 ? 360 + *P : *P);   // Z in UE
 		*R = *R;                    // X in UE
@@ -231,6 +232,7 @@ void Mach1DecodeCore::convertAnglesToPlatform(float * Y, float * P, float * R)
 		 *Y = *Y;                    // Y in UE
 		 *P = (*P > 360 ? *P - 360 : *P);   // Z in UE
 		 *R = *R;                    // X in UE
+		 std::swap(*R, *Y);
 		 break;
 
 	 case Mach1PlatformOfEasyCam:

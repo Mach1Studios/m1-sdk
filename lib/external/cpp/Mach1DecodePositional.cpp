@@ -112,6 +112,11 @@ void Mach1DecodePositional::setCameraRotation(Mach1Point3D point)
 	Mach1DecodePositionalCAPI_setCameraRotation(M1obj, point);
 }
 
+void Mach1DecodePositional::setCameraRotationQuat(Mach1Point4D quat)
+{
+	Mach1DecodePositionalCAPI_setCameraRotationQuat(M1obj, quat);
+}
+
 void Mach1DecodePositional::setDecoderAlgoPosition(Mach1Point3D point)
 {
 	Mach1DecodePositionalCAPI_setDecoderAlgoPosition(M1obj, point);
@@ -120,6 +125,11 @@ void Mach1DecodePositional::setDecoderAlgoPosition(Mach1Point3D point)
 void Mach1DecodePositional::setDecoderAlgoRotation(Mach1Point3D point)
 {
 	Mach1DecodePositionalCAPI_setDecoderAlgoRotation(M1obj, point);
+}
+
+void Mach1DecodePositional::setDecoderAlgoRotationQuat(Mach1Point4D quat)
+{
+	Mach1DecodePositionalCAPI_setDecoderAlgoRotationQuat(M1obj, quat);
 }
 
 void Mach1DecodePositional::setDecoderAlgoScale(Mach1Point3D point)

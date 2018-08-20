@@ -110,8 +110,10 @@ public:
 	// parameters for algo
 	void setCameraPosition(Mach1Point3DCore* pos);
 	void setCameraRotation(Mach1Point3DCore* euler);
+	void setCameraRotationQuat(Mach1Point4DCore* quat);
 	void setDecoderAlgoPosition(Mach1Point3DCore* pos);
 	void setDecoderAlgoRotation(Mach1Point3DCore* euler);
+	void setDecoderAlgoRotationQuat(Mach1Point4DCore* quat);
 	void setDecoderAlgoScale(Mach1Point3DCore* scale);
 	void setAttenuationCurve(float* curve);
 

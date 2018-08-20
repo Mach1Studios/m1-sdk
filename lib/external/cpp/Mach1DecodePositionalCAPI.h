@@ -1,5 +1,5 @@
 //  Mach1 SDK
-//  Copyright © 2017 Mach1. All rights reserved.
+//  Copyright © 2018 Mach1. All rights reserved.
 //
 //  Header file
 
@@ -24,6 +24,7 @@
 #endif 
 
 #endif 
+
 
 extern "C" {
 	M1_API void* Mach1DecodePositionalCAPI_create();
@@ -52,8 +53,10 @@ extern "C" {
 	// parameters for algo
 	M1_API void Mach1DecodePositionalCAPI_setCameraPosition(void* M1obj, Mach1Point3D point);
 	M1_API void Mach1DecodePositionalCAPI_setCameraRotation(void* M1obj, Mach1Point3D point);
+	M1_API void Mach1DecodePositionalCAPI_setCameraRotationQuat(void* M1obj, Mach1Point4D point);
 	M1_API void Mach1DecodePositionalCAPI_setDecoderAlgoPosition(void* M1obj, Mach1Point3D point);
 	M1_API void Mach1DecodePositionalCAPI_setDecoderAlgoRotation(void* M1obj, Mach1Point3D point);
+	M1_API void Mach1DecodePositionalCAPI_setDecoderAlgoRotationQuat(void* M1obj, Mach1Point4D point);
 	M1_API void Mach1DecodePositionalCAPI_setDecoderAlgoScale(void* M1obj, Mach1Point3D point);
 
 	M1_API void Mach1DecodePositionalCAPI_evaluatePostionResults(void* M1obj);

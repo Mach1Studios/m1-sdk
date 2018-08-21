@@ -21,9 +21,8 @@ void ofApp::setup() {
         playerR.play();
         playerR.setPan(1);
     }
-    
-    m1Decode.setAngularSettingsType(m1oFEasyCam);
-    m1Decode.setAlgorithmType(m1Spatial);
+    m1Decode.setPlatformType(Mach1PlatformOfEasyCam);
+    m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial);
     m1Decode.setFilterSpeed(0.95f);
 }
 

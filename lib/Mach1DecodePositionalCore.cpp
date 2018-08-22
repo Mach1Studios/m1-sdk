@@ -328,8 +328,6 @@ void Mach1DecodePositionalCore::evaluatePostionResults() {
 
 	}
 
-	//dsf
-
 	glm::vec3 soundRightVector = soundRotation * glm::vec3(1, 0, 0);// GetRightVector(); // right
 	glm::vec3 soundUpVector = soundRotation * glm::vec3(0, 1, 0); // up
 	glm::vec3 soundForwardVector = soundRotation * glm::vec3(0, 0, 1); // forward

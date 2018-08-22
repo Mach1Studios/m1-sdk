@@ -6,7 +6,7 @@
 
 #include "GameFramework/Actor.h"
 #include "Components/BoxComponent.h"
-#include "Components/AudioComponent.h"
+#include "Components/AudioComponent.h" 
 #include "Components/BillboardComponent.h"
 #include "Components/SceneCaptureComponent.h"
 
@@ -17,17 +17,28 @@
 
 #include "M1BaseActor.generated.h"
 
+//#define LEGACY_POSITIONAL
+
 UCLASS(abstract)
 class MACH1PLUGIN_API AM1BaseActor : public AActor
 {
 	GENERATED_BODY()
 
 protected:
+
+#ifdef LEGACY_POSITIONAL
+
 	// geometric utils
 	static float ClosestPointOnBox(FVector point, FVector center, FVector axis0, FVector axis1, FVector axis2, FVector extents, FVector& closestPoint);
 
 	static bool Clip(float denom, float numer, float& t0, float& t1);
 	static int DoClipping(float t0, float t1, FVector origin, FVector direction, FVector center, FVector axis0, FVector axis1, FVector axis2, FVector extents, bool solid, FVector& point0, FVector& point1);
+
+	static FVector GetEuler(FQuat q1);
+
+	void CalculateChannelVolumes(FQuat quat);
+
+#endif
 
 	USoundAttenuation* NullAttenuation;
 
@@ -46,12 +57,11 @@ protected:
 	UBillboardComponent* Billboard;
 
 	int MAX_SOUNDS_PER_CHANNEL;
-	bool isInit;
-	bool needPlayAfterInit;
+	bool isInited;
+	bool needToPlayAfterInit; 
 
 	void Init();
 	void SetSoundSet();
-	void CalculateChannelVolumes(FQuat quat);
 	void SetVolumeMain(float volume);
 	void SetVolumeBlend(float volume);
 
@@ -65,17 +75,16 @@ protected:
 	Mach1Point3D ConvertToMach1Point3D(FVector vec);
 	Mach1Point4D ConvertToMach1Point4D(FQuat quat);
 
-	FVector GetEuler(FQuat q1);
 
 public:
 
 	void InitComponents(int MAX_SOUNDS_PER_CHANNEL);
 
 	// Called when the game starts or when spawned
-	void BeginPlay();
+	void BeginPlay(); // overriden
 
 	// Called every frame
-	void Tick(float DeltaSeconds);
+	void Tick(float DeltaSeconds); // overriden
 
 	// always tick
 	bool ShouldTickIfViewportsOnly() const override { return true; }

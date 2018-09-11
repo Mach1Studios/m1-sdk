@@ -394,16 +394,8 @@ void Mach1DecodePositionalCore::evaluatePostionResults() {
 
 	// Compute rotation for sound
 	glm::quat quat;
-	if (platformType == Mach1PlatformUE)
-	{
-		quat = glm::quatLookAtLH(glm::normalize(dir), GetUpVector());
-		quat = glm::conjugate(quat);
-	}
-	else // if (platformType == Mach1PlatformUnity)
-	{
-		quat = glm::quatLookAtRH(glm::normalize(dir), GetUpVector());
-	}
-	quat = glm::inverse(quat);
+	quat = glm::quatLookAtLH(glm::normalize(dir), GetUpVector());
+	quat = glm::inverse(quat); //only for Unity
 	quat = quat * soundRotation;
 
 	glm::vec3 quatEulerAngles = glm::eulerAngles(quat);

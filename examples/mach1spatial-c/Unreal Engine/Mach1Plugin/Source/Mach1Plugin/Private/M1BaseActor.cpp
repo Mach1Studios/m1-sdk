@@ -593,8 +593,12 @@ void AM1BaseActor::Tick(float DeltaTime)
 					SetVolumeBlend(vol);
 				}
 
+				FQuat quat = FLookAtMatrix(point, cameraPosition, FVector::UpVector).ToQuat();
+				quat = quat.Inverse();
+				quat = quat * actorRotation;
 
-				FQuat quat = FLookAtMatrix(cameraPosition, point, FVector::UpVector).Inverse().ToQuat() * actorRotation;
+
+				//FQuat quat = FLookAtMatrix(point, cameraPosition, FVector::UpVector).Inverse().ToQuat() * actorRotation;
 				quat = FQuat::MakeFromEuler(FVector(useRollForRotation ? quat.Euler().X : 0, usePitchForRotation ? quat.Euler().Y : 0, useYawForRotation ? quat.Euler().Z : 0));
 				quat *= PlayerRotation;
 

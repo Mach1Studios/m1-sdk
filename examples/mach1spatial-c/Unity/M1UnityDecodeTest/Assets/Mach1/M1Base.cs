@@ -651,7 +651,7 @@ public class M1Base : MonoBehaviour
                 volumeRoom = 0;
             }
 
-            Vector3 dir = (point - camera.transform.position).normalized;
+            Vector3 dir = (camera.transform.position - point).normalized;
 
             // Compute matrix for draw gizmo
             Quaternion quatGizmo = Quaternion.LookRotation(dir, Vector3.up) * Quaternion.Inverse(gameObject.transform.rotation);

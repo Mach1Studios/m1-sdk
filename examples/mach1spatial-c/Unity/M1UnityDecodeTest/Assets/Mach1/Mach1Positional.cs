@@ -23,6 +23,9 @@ namespace Mach1
         [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setPlatformType(IntPtr M1obj, Mach1PlatformType type);
 
+        [DllImport(libname)]
+        internal static extern void Mach1DecodePositionalCAPI_setDecodeAlgoType(IntPtr M1obj, Mach1DecodeAlgoType type);
+
         // settings
 
         [DllImport(libname)]
@@ -37,7 +40,6 @@ namespace Mach1
         [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setMuteWhenInsideObject(IntPtr M1obj, bool muteWhenInsideObject);
 
-
         [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setUseFalloff(IntPtr M1obj, bool useFalloff);
 
@@ -46,7 +48,6 @@ namespace Mach1
 
         [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setFalloffCurveBlendMode(IntPtr M1obj, float falloffCurveBlendMode);
-
 
         [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(IntPtr M1obj, bool useClosestPointRotationMuteInside);
@@ -72,10 +73,16 @@ namespace Mach1
         internal static extern void Mach1DecodePositionalCAPI_setCameraRotation(IntPtr M1obj, Mach1Point3D point);
 
         [DllImport(libname)]
+        internal static extern void Mach1DecodePositionalCAPI_setCameraRotationQuat(IntPtr M1obj, Mach1Point4D quat);
+
+        [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setDecoderAlgoPosition(IntPtr M1obj, Mach1Point3D point);
 
         [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setDecoderAlgoRotation(IntPtr M1obj, Mach1Point3D point);
+
+        [DllImport(libname)]
+        internal static extern void Mach1DecodePositionalCAPI_setDecoderAlgoRotationQuat(IntPtr M1obj, Mach1Point4D quat);
 
         [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setDecoderAlgoScale(IntPtr M1obj, Mach1Point3D point);
@@ -83,25 +90,17 @@ namespace Mach1
         [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_evaluatePostionResults(IntPtr M1obj);
 
+        [DllImport(libname)]
+        internal static extern void Mach1DecodePositionalCAPI_getVolumesWalls(IntPtr M1obj, IntPtr data);
 
         [DllImport(libname)]
-        internal static extern float Mach1DecodePositionalCAPI_getVolumesWalls(IntPtr M1obj, IntPtr data);
-
-        [DllImport(libname)]
-        internal static extern float Mach1DecodePositionalCAPI_getVolumesRoom(IntPtr M1obj, IntPtr data);
+        internal static extern void Mach1DecodePositionalCAPI_getVolumesRoom(IntPtr M1obj, IntPtr data);
 
         [DllImport(libname)]
         internal static extern float Mach1DecodePositionalCAPI_getDist(IntPtr M1obj);
 
         [DllImport(libname)]
-        internal static extern Mach1Point3D Mach1DecodePositionalCAPI_getCurrentAngle(IntPtr M1obj);
-
-        [DllImport(libname)]
         internal static extern Mach1Point3D Mach1DecodePositionalCAPI_getVolumeRotation(IntPtr M1obj);
-
-        [DllImport(libname)]
-        internal static extern void Mach1DecodePositionalCAPI_setFilterSpeed(IntPtr M1obj, float speed);
-
 
         internal IntPtr M1obj;
 
@@ -119,6 +118,11 @@ namespace Mach1
         {
             Mach1DecodePositionalCAPI_setPlatformType(M1obj, type);
         }
+		
+        public void setDecodeAlgoType(Mach1DecodeAlgoType type)
+		{
+			Mach1DecodePositionalCAPI_setDecodeAlgoType(M1obj, type);
+		}
 
         // settings
 
@@ -142,7 +146,6 @@ namespace Mach1
             Mach1DecodePositionalCAPI_setMuteWhenInsideObject(M1obj, muteWhenInsideObject);
         }
 
-
         public void setUseFalloff(bool useFalloff)
         {
             Mach1DecodePositionalCAPI_setUseFalloff(M1obj, useFalloff);
@@ -157,7 +160,6 @@ namespace Mach1
         {
             Mach1DecodePositionalCAPI_setFalloffCurveBlendMode(M1obj, falloffCurveBlendMode);
         }
-
 
         public void setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside)
         {
@@ -190,6 +192,11 @@ namespace Mach1
             Mach1DecodePositionalCAPI_setCameraRotation(M1obj, point);
         }
 
+        public void setCameraRotationQuat(Mach1Point4D quat)
+        {
+            Mach1DecodePositionalCAPI_setCameraRotationQuat(M1obj, quat);
+        }
+
         public void setDecoderAlgoPosition(Mach1Point3D point)
         {
             Mach1DecodePositionalCAPI_setDecoderAlgoPosition(M1obj, point);
@@ -198,6 +205,11 @@ namespace Mach1
         public void setDecoderAlgoRotation(Mach1Point3D point)
         {
             Mach1DecodePositionalCAPI_setDecoderAlgoRotation(M1obj, point);
+        }
+
+        public void setDecoderAlgoRotationQuat(Mach1Point4D quat)
+        {
+            Mach1DecodePositionalCAPI_setDecoderAlgoRotationQuat(M1obj, quat);
         }
 
         public void setDecoderAlgoScale(Mach1Point3D point)
@@ -237,20 +249,9 @@ namespace Mach1
             return Mach1DecodePositionalCAPI_getDist(M1obj);
         }
 
-         public Mach1Point3D getCurrentAngle()
-        {
-            return Mach1DecodePositionalCAPI_getCurrentAngle(M1obj);
-        }
-
-
         public Mach1Point3D getVolumeRotation()
         {
             return Mach1DecodePositionalCAPI_getVolumeRotation(M1obj);
-        }
-
-        public void setFilterSpeed(float speed)
-        {
-            Mach1DecodePositionalCAPI_setFilterSpeed(M1obj, speed);
         }
 
     }

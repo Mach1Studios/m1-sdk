@@ -44,6 +44,12 @@ namespace Mach1
         internal static extern void Mach1DecodePositionalCAPI_setUseFalloff(IntPtr M1obj, bool useFalloff);
 
         [DllImport(libname)]
+        internal static extern void Mach1DecodePositionalCAPI_setFalloffCurve(IntPtr M1obj, float falloffCurve);
+
+        [DllImport(libname)]
+        internal static extern void Mach1DecodePositionalCAPI_setFalloffCurveBlendMode(IntPtr M1obj, float falloffCurveBlendMode);
+
+        [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(IntPtr M1obj, bool useClosestPointRotationMuteInside);
 
         [DllImport(libname)]
@@ -67,10 +73,16 @@ namespace Mach1
         internal static extern void Mach1DecodePositionalCAPI_setCameraRotation(IntPtr M1obj, Mach1Point3D point);
 
         [DllImport(libname)]
+        internal static extern void Mach1DecodePositionalCAPI_setCameraRotationQuat(IntPtr M1obj, Mach1Point4D quat);
+
+        [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setDecoderAlgoPosition(IntPtr M1obj, Mach1Point3D point);
 
         [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setDecoderAlgoRotation(IntPtr M1obj, Mach1Point3D point);
+
+        [DllImport(libname)]
+        internal static extern void Mach1DecodePositionalCAPI_setDecoderAlgoRotationQuat(IntPtr M1obj, Mach1Point4D quat);
 
         [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setDecoderAlgoScale(IntPtr M1obj, Mach1Point3D point);
@@ -79,10 +91,13 @@ namespace Mach1
         internal static extern void Mach1DecodePositionalCAPI_evaluatePostionResults(IntPtr M1obj);
 
         [DllImport(libname)]
-        internal static extern float Mach1DecodePositionalCAPI_getVolumeWalls(IntPtr M1obj);
+        internal static extern void Mach1DecodePositionalCAPI_getVolumesWalls(IntPtr M1obj, IntPtr data);
 
         [DllImport(libname)]
-        internal static extern float Mach1DecodePositionalCAPI_getVolumeRoom(IntPtr M1obj);
+        internal static extern void Mach1DecodePositionalCAPI_getVolumesRoom(IntPtr M1obj, IntPtr data);
+
+        [DllImport(libname)]
+        internal static extern float Mach1DecodePositionalCAPI_getDist(IntPtr M1obj);
 
         [DllImport(libname)]
         internal static extern Mach1Point3D Mach1DecodePositionalCAPI_getVolumeRotation(IntPtr M1obj);
@@ -136,6 +151,16 @@ namespace Mach1
             Mach1DecodePositionalCAPI_setUseFalloff(M1obj, useFalloff);
         }
 
+        public void setFalloffCurve(float falloffCurve)
+        {
+            Mach1DecodePositionalCAPI_setFalloffCurve(M1obj, falloffCurve);
+        }
+
+        public void setFalloffCurveBlendMode(float falloffCurveBlendMode)
+        {
+            Mach1DecodePositionalCAPI_setFalloffCurveBlendMode(M1obj, falloffCurveBlendMode);
+        }
+
         public void setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside)
         {
             Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(M1obj, useClosestPointRotationMuteInside);
@@ -167,6 +192,11 @@ namespace Mach1
             Mach1DecodePositionalCAPI_setCameraRotation(M1obj, point);
         }
 
+        public void setCameraRotationQuat(Mach1Point4D quat)
+        {
+            Mach1DecodePositionalCAPI_setCameraRotationQuat(M1obj, quat);
+        }
+
         public void setDecoderAlgoPosition(Mach1Point3D point)
         {
             Mach1DecodePositionalCAPI_setDecoderAlgoPosition(M1obj, point);
@@ -175,6 +205,11 @@ namespace Mach1
         public void setDecoderAlgoRotation(Mach1Point3D point)
         {
             Mach1DecodePositionalCAPI_setDecoderAlgoRotation(M1obj, point);
+        }
+
+        public void setDecoderAlgoRotationQuat(Mach1Point4D quat)
+        {
+            Mach1DecodePositionalCAPI_setDecoderAlgoRotationQuat(M1obj, quat);
         }
 
         public void setDecoderAlgoScale(Mach1Point3D point)
@@ -187,14 +222,31 @@ namespace Mach1
             Mach1DecodePositionalCAPI_evaluatePostionResults(M1obj);
         }
 
-        public float getVolumeWalls()
+        public void getVolumesWalls(ref float[] data)
         {
-            return Mach1DecodePositionalCAPI_getVolumeWalls(M1obj);
+            //if(data.Length < 18) data = new float[18];
+            GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
+            IntPtr pointer = pinnedArray.AddrOfPinnedObject();
+
+            Mach1DecodePositionalCAPI_getVolumesWalls(M1obj, pointer);
+
+            pinnedArray.Free();
         }
 
-        public float getVolumeRoom()
+        public void getVolumesRoom(ref float[] data)
         {
-            return Mach1DecodePositionalCAPI_getVolumeRoom(M1obj);
+            //if(data.Length < 18) data = new float[18];
+            GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
+            IntPtr pointer = pinnedArray.AddrOfPinnedObject();
+
+            Mach1DecodePositionalCAPI_getVolumesRoom(M1obj, pointer);
+
+            pinnedArray.Free();
+        }
+
+        public float getDist()
+        {
+            return Mach1DecodePositionalCAPI_getDist(M1obj);
         }
 
         public Mach1Point3D getVolumeRotation()

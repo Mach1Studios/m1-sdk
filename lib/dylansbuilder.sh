@@ -77,6 +77,7 @@ yes | cp -rf "external/cpp/Mach1DecodeCAPI.h" "../examples/mach1spatial-c/openfr
 
 echo "### Copying ofxMach1 to dev local ###"
 yes | cp -rf "../examples/mach1spatial-c/openframeworks/ofxMach1" "../../openFrameworks/addons/"
+yes | cp -rf "../examples/mach1spatial-c/openframeworks/ofxMach1" "../../openFrameworks-git/addons/"
 
 echo "### NUMBERS OF SUCCESSFUL BUILDS:"
 cd _logs/polly/

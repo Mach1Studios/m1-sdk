@@ -2,6 +2,7 @@
 //  Copyright © 2017 Mach1. All rights reserved.
 //
 
+//#define LEGACY_POSITIONAL
 
 using UnityEngine;
 using UnityEngine.Audio;
@@ -58,9 +59,33 @@ public class M1Base : MonoBehaviour
     public bool drawHelpers = false;
     public bool debug = false;
 
-    protected Mach1.M1Decode m1Decode = new Mach1.M1Decode();
+#if LEGACY_POSITIONAL
+    protected Mach1.Mach1Decode m1Decode = new Mach1.Mach1Decode();
+#endif
+    protected Mach1.Mach1DecodePositional m1Positional = new Mach1.Mach1DecodePositional();
 
     private Camera camera;
+
+
+    static Mach1.Mach1Point3D ConvertToMach1Point3D(Vector3 vec)
+    {
+        return new Mach1.Mach1Point3D(vec.x, vec.y, vec.z);
+    }
+
+    static Mach1.Mach1Point4D ConvertToMach1Point4D(Vector4 vec)
+    {
+        return new Mach1.Mach1Point4D(vec.x, vec.y, vec.z, vec.w);
+    }
+
+    static Mach1.Mach1Point4D ConvertToMach1Point4D(Quaternion quat)
+    {
+        return new Mach1.Mach1Point4D(quat.x, quat.y, quat.z, quat.w);
+    }
+
+    static Vector3 ConvertFromMach1Point3D(Mach1.Mach1Point3D pnt)
+    {
+        return new Vector3(pnt.x, pnt.y, pnt.z);
+    }
 
     AnimationCurve generateCurve(float length)
     {
@@ -80,7 +105,10 @@ public class M1Base : MonoBehaviour
 
     public M1Base()
     {
-        m1Decode.setAngularSettingsType(Mach1.M1Decode.AngularSettingsType.m1Unity);
+#if LEGACY_POSITIONAL
+        m1Decode.setPlatformType(Mach1.Mach1PlatformType.Mach1PlatformUnity);
+#endif
+        m1Positional.setPlatformType(Mach1.Mach1PlatformType.Mach1PlatformUnity);
     }
 
     protected void InitComponents(int MAX_SOUNDS_PER_CHANNEL)
@@ -105,10 +133,14 @@ public class M1Base : MonoBehaviour
         audioClipBlend = new AudioClip[MAX_SOUNDS_PER_CHANNEL];
     }
 
+#if LEGACY_POSITIONAL
     public virtual float[] SoundAlgorithm(float Yaw, float Pitch, float Roll)
     {
-        return new float[0];
+        float[] data = new float[18];
+        m1Decode.decode(Yaw, Pitch, Roll, ref data);
+        return data;
     }
+#endif
 
     void Awake()
     {
@@ -140,7 +172,7 @@ public class M1Base : MonoBehaviour
 
             for (int i = 0; i < externalAudioFilenameBlend.Length; i++)
             {
-				StartCoroutine(LoadAudio(Path.Combine(externalAudioPath, externalAudioFilenameBlend[i]), true, i, isFromStreamingAssets));
+                StartCoroutine(LoadAudio(Path.Combine(externalAudioPath, externalAudioFilenameBlend[i]), true, i, isFromStreamingAssets));
             }
         }
 
@@ -174,6 +206,7 @@ public class M1Base : MonoBehaviour
             Gizmos.matrix = gameObject.transform.localToWorldMatrix;
             Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
 
+            Gizmos.color = Color.gray;
             Gizmos.matrix = mat;
             Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
         }
@@ -216,7 +249,7 @@ public class M1Base : MonoBehaviour
             url = url.Replace("$CURDIR", "file:///" + Directory.GetCurrentDirectory());
             url = url.Replace("$STREAMINGASSETS", GetStreamingAssetsPath());
 
-			//Debug.Log ("load audio : " + url);
+            //Debug.Log ("load audio : " + url);
 
             WWW www = new WWW(url);
             yield return www;
@@ -230,9 +263,9 @@ public class M1Base : MonoBehaviour
             }
         }
 
-		if (clip != null)
+        if (clip != null)
         {
-		    if (!room && audioSourceMain != null && audioSourceMain.Length > n * 2 + 1)
+            if (!room && audioSourceMain != null && audioSourceMain.Length > n * 2 + 1)
             {
                 audioSourceMain[n * 2] = AddAudio(clip, isLoop, true, 1.0f);
                 audioSourceMain[n * 2].panStereo = -1;
@@ -241,7 +274,7 @@ public class M1Base : MonoBehaviour
                 audioSourceMain[n * 2 + 1].panStereo = 1;
                 loadedCountMain++;
             }
-		    else if(audioSourceBlend != null && audioSourceBlend.Length > n * 2 + 1)
+            else if (audioSourceBlend != null && audioSourceBlend.Length > n * 2 + 1)
             {
                 audioSourceBlend[n * 2] = AddAudio(clip, isLoop, true, 1.0f);
                 audioSourceBlend[n * 2].panStereo = -1;
@@ -291,13 +324,15 @@ public class M1Base : MonoBehaviour
     {
         if (IsReady())
         {
-			if (audioSourceMain != null) {
-				for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++) {
-					audioSourceMain [i].Stop ();
-				}
-			}
+            if (audioSourceMain != null)
+            {
+                for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
+                {
+                    audioSourceMain[i].Stop();
+                }
+            }
 
-			if (useBlendMode && audioSourceBlend != null)
+            if (useBlendMode && audioSourceBlend != null)
             {
                 for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
                 {
@@ -322,21 +357,21 @@ public class M1Base : MonoBehaviour
 
     public float GetPosition()
     {
-		if (audioSourceBlend != null && audioSourceBlend.Length > 0) return audioSourceBlend[0].time;
-		else if (audioSourceMain != null && audioSourceMain.Length > 0) return audioSourceMain[0].time;
+        if (audioSourceBlend != null && audioSourceBlend.Length > 0) return audioSourceBlend[0].time;
+        else if (audioSourceMain != null && audioSourceMain.Length > 0) return audioSourceMain[0].time;
         return 0;
     }
 
     public float GetDuration()
     {
-		if (audioSourceBlend != null && audioSourceBlend.Length > 0) return audioSourceBlend[0].clip.length;
-		else if (audioSourceMain != null && audioSourceMain.Length > 0) return audioSourceMain[0].clip.length;
+        if (audioSourceBlend != null && audioSourceBlend.Length > 0) return audioSourceBlend[0].clip.length;
+        else if (audioSourceMain != null && audioSourceMain.Length > 0) return audioSourceMain[0].clip.length;
         return 0;
     }
 
     public bool IsPlaying()
     {
-		return (audioSourceBlend != null && audioSourceBlend.Length > 0 && audioSourceBlend[0].isPlaying) || (audioSourceMain != null && audioSourceMain[0].isPlaying);
+        return (audioSourceBlend != null && audioSourceBlend.Length > 0 && audioSourceBlend[0].isPlaying) || (audioSourceMain != null && audioSourceMain[0].isPlaying);
     }
 
     public static float ClosestPointOnBox(Vector3 point, Vector3 center, Vector3 axis0, Vector3 axis1, Vector3 axis2, Vector3 extents, out Vector3 closestPoint)
@@ -443,6 +478,18 @@ public class M1Base : MonoBehaviour
     }
 
 
+    public string ToStringFormat(Vector3 v)
+    {
+        string fmt = "0.0000";
+        return "( " + v.x.ToString(fmt) + ", " + v.y.ToString(fmt) + ", " + v.z.ToString(fmt) + " )";
+    }
+
+    public string ToStringFormat(Quaternion q)
+    {
+        string fmt = "0.0000";
+        return "( " + q.x.ToString(fmt) + ", " + q.y.ToString(fmt) + ", " + q.z.ToString(fmt) + ", " + q.w.ToString(fmt) + " )";
+    }
+
     public Vector3 GetEuler(Quaternion q1)
     {
         float test = q1.x * q1.y + q1.z * q1.w;
@@ -484,9 +531,6 @@ public class M1Base : MonoBehaviour
                 PlayAudio();
             }
 
-            float volumeWalls = 1.0f;
-            float volumeRoom = 0.0f;
-
             // Find closest point
             Vector3 point = gameObject.transform.position;
 
@@ -516,6 +560,12 @@ public class M1Base : MonoBehaviour
                 return;
             }
 
+#if LEGACY_POSITIONAL
+
+            float volumeWalls = 1.0f;
+            float volumeRoom = 0.0f;
+
+
             Vector3 cameraPosition = camera.transform.position;
             if (ignoreTopBottom)
             {
@@ -526,11 +576,13 @@ public class M1Base : MonoBehaviour
             bool hasSoundOutside = isOutside && !muteWhenOutsideObject;
             bool hasSoundInside = !isOutside && !muteWhenInsideObject;
 
+            float dist = 0;
+
             if (hasSoundOutside && useClosestPointRotationMuteInside) // useClosestPointRotation
             {
                 point = outsideClosestPoint;
 
-                float dist = Vector3.Distance(camera.transform.position, point);
+                dist = Vector3.Distance(camera.transform.position, point);
 
                 if (useFalloff)
                 {
@@ -561,7 +613,7 @@ public class M1Base : MonoBehaviour
                 }
                 p1 = gameObject.transform.TransformPoint(p1 / 2);
 
-                float dist = 1 - Mathf.Max(Mathf.Abs(p0.x), Mathf.Max(Mathf.Abs(p0.y), Mathf.Abs(p0.z)));
+                dist = 1 - Mathf.Max(Mathf.Abs(p0.x), Mathf.Max(Mathf.Abs(p0.y), Mathf.Abs(p0.z)));
 
                 if (useFalloff)
                 {
@@ -579,7 +631,7 @@ public class M1Base : MonoBehaviour
             }
             else if (hasSoundOutside || hasSoundInside) // useCenterPointRotation
             {
-                float dist = Vector3.Distance(camera.transform.position, point);
+                dist = Vector3.Distance(camera.transform.position, point);
 
                 if (useFalloff)
                 {
@@ -599,7 +651,7 @@ public class M1Base : MonoBehaviour
                 volumeRoom = 0;
             }
 
-            Vector3 dir = camera.transform.position - point;
+            Vector3 dir = (camera.transform.position - point).normalized;
 
             // Compute matrix for draw gizmo
             Quaternion quatGizmo = Quaternion.LookRotation(dir, Vector3.up) * Quaternion.Inverse(gameObject.transform.rotation);
@@ -611,20 +663,11 @@ public class M1Base : MonoBehaviour
             quat.eulerAngles = new Vector3(usePitchForRotation ? quat.eulerAngles.x : 0, useYawForRotation ? quat.eulerAngles.y : 0, useRollForRotation ? quat.eulerAngles.z : 0);
             quat *= camera.transform.rotation;
 
-            // Compute volumes
-            //Vector3 eulerAngles = quat.eulerAngles;
-            //eulerAngles.x = eulerAngles.x > 180 ? 360 - eulerAngles.x : -eulerAngles.x;
-            //eulerAngles.y += 180;
-
-            //eulerAngles = Quaternion.Euler(eulerAngles).eulerAngles;
-
-            // Debug.Log(Camera.current.name + " camera eulerAngles:" + eulerAngles);
-
             Vector3 eulerAngles = GetEuler(quat);
-            //            eulerAngles.x *= -1;
-            eulerAngles.y += 180;
-            if (eulerAngles.z < 0) eulerAngles.z = 360 + eulerAngles.z;
 
+            //quatInternal = Quaternion.Euler(eulerAngles);
+
+            // Compute volumes
             float[] volumes = SoundAlgorithm(eulerAngles.x, eulerAngles.y, eulerAngles.z);
             for (int i = 0; i < audioSourceMain.Length; i++)
             {
@@ -638,6 +681,7 @@ public class M1Base : MonoBehaviour
                 }
             }
 
+            /*
             if (debug)
             {
                 if (audioSourceMain.Length > 0)
@@ -661,6 +705,99 @@ public class M1Base : MonoBehaviour
 
                 Debug.Log("eulerAngles: " + eulerAngles.x + " , " + eulerAngles.y + " , " + eulerAngles.z);
             }
+            */
+
+            if (debug)
+            {
+                Debug.Log("eulerAngles1 : " + eulerAngles.x + " , " + eulerAngles.y + " , " + eulerAngles.z);
+
+                Debug.Log("dist1: " + dist); 
+
+                string str = "volumesWalls1: ";
+                for (int i = 0; i < audioSourceMain.Length; i++)
+                {
+                    str += string.Format("{0:0.000}, ", audioSourceMain[i].volume);
+                }
+                if (useBlendMode) 
+                {
+                    str += " , " + "volumesRoom: ";
+                    for (int i = 0; i < audioSourceBlend.Length; i++)
+                    {
+                        str += string.Format("{0:0.000}, ", audioSourceBlend[i].volume);
+                    }
+                }
+                Debug.Log(str);
+            }
+#endif
+
+            // In order to use values set in Unity's object inspector, we have to put them into an
+            // M1 Positional library instance. Here's an example:
+            // /*
+            m1Positional.setUseBlendMode(useBlendMode);
+            m1Positional.setIgnoreTopBottom(ignoreTopBottom);
+            m1Positional.setMuteWhenOutsideObject(muteWhenOutsideObject);
+            m1Positional.setMuteWhenInsideObject(muteWhenInsideObject);
+            m1Positional.setUseFalloff(useFalloff);
+            m1Positional.setUseClosestPointRotationMuteInside(useClosestPointRotationMuteInside);
+            m1Positional.setUseYawForRotation(useYawForRotation);
+            m1Positional.setUsePitchForRotation(usePitchForRotation);
+            m1Positional.setUseRollForRotation(useRollForRotation);
+
+            m1Positional.setCameraPosition(ConvertToMach1Point3D(camera.transform.position));
+            m1Positional.setCameraRotationQuat(ConvertToMach1Point4D(camera.transform.rotation));
+            m1Positional.setDecoderAlgoPosition(ConvertToMach1Point3D(gameObject.transform.position));
+            m1Positional.setDecoderAlgoRotationQuat(ConvertToMach1Point4D(gameObject.transform.rotation));
+            m1Positional.setDecoderAlgoScale(ConvertToMach1Point3D(gameObject.transform.lossyScale));
+            m1Positional.evaluatePostionResults();
+
+            if (useFalloff)
+            {
+                m1Positional.setFalloffCurve(falloffCurve.Evaluate(m1Positional.getDist()));
+                m1Positional.setFalloffCurveBlendMode(blendModeFalloffCurve.Evaluate(m1Positional.getDist()));
+            }
+
+            float[] volumesWalls = new float[18];
+            m1Positional.getVolumesWalls(ref volumesWalls);
+            for (int i = 0; i < audioSourceMain.Length; i++)
+            {
+                audioSourceMain[i].volume = volumesWalls[i];
+            }
+
+            if (useBlendMode)
+            {
+                float[] volumesRoom = new float[18];
+                m1Positional.getVolumesRoom(ref volumesRoom);
+                for (int i = 0; i < audioSourceBlend.Length; i++)
+                {
+                    audioSourceBlend[i].volume = volumesRoom[i];
+                }
+            }
+
+            if (debug)
+            {
+                Debug.Log("eulerAngles2 : " + m1Positional.getVolumeRotation().x + " , " + m1Positional.getVolumeRotation().y + " , " + m1Positional.getVolumeRotation().z);
+                Debug.Log("dist2: " + m1Positional.getDist());
+
+                string str = "volumesMain2: ";
+                for (int i = 0; i < audioSourceMain.Length; i++)
+                {
+                    str += string.Format("{0:0.000}, ", audioSourceMain[i].volume);
+                }
+                if (useBlendMode)
+                {
+                    str += " , " + "volumesBlend2: ";
+                    for (int i = 0; i < audioSourceBlend.Length; i++)
+                    {
+                        str += string.Format("{0:0.000}, ", audioSourceBlend[i].volume);
+                    }
+                }
+                Debug.Log(str);
+            }
+ 
+
+            // Mach1.Mach1Point3D angles = m1Positional.getVolumeRotation();
+            //Debug.Log("volumeWalls: " + volumesWalls + " , " + "volumeRoom" + volumesRoom);
+            // Debug.Log("d: " + dist + ", d2: " + m1Positional.getDist());
 
             if (drawHelpers)
             {

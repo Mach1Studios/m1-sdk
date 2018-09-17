@@ -718,12 +718,14 @@ public class M1Base : MonoBehaviour
                 {
                     str += string.Format("{0:0.000}, ", audioSourceMain[i].volume);
                 }
-                str += " , " + "volumesRoom: ";
-                for (int i = 0; i < audioSourceBlend.Length; i++)
+                if (useBlendMode) 
                 {
-                    str += string.Format("{0:0.000}, ", audioSourceBlend[i].volume);
+                    str += " , " + "volumesRoom: ";
+                    for (int i = 0; i < audioSourceBlend.Length; i++)
+                    {
+                        str += string.Format("{0:0.000}, ", audioSourceBlend[i].volume);
+                    }
                 }
-
                 Debug.Log(str);
             }
 #endif
@@ -781,20 +783,20 @@ public class M1Base : MonoBehaviour
                 {
                     str += string.Format("{0:0.000}, ", audioSourceMain[i].volume);
                 }
-                str += " , " + "volumesBlend2: ";
-                for (int i = 0; i < audioSourceBlend.Length; i++)
+                if (useBlendMode)
                 {
-                    str += string.Format("{0:0.000}, ", audioSourceBlend[i].volume);
+                    str += " , " + "volumesBlend2: ";
+                    for (int i = 0; i < audioSourceBlend.Length; i++)
+                    {
+                        str += string.Format("{0:0.000}, ", audioSourceBlend[i].volume);
+                    }
                 }
-
                 Debug.Log(str);
             }
  
 
             // Mach1.Mach1Point3D angles = m1Positional.getVolumeRotation();
-
             //Debug.Log("volumeWalls: " + volumesWalls + " , " + "volumeRoom" + volumesRoom);
-
             // Debug.Log("d: " + dist + ", d2: " + m1Positional.getDist());
 
             if (drawHelpers)

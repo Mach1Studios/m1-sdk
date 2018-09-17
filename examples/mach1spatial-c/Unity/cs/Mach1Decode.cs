@@ -6,31 +6,17 @@ using System.Runtime.InteropServices;
 
 namespace Mach1
 {
-    [StructLayout(LayoutKind.Sequential)]
-    public struct Mach1Point3D
-    {
-        public float x;
-        public float y;
-        public float z;
-    }
-
-    public enum Mach1PlatformType : int
-    {
-        Mach1PlatformDefault = 0, Mach1PlatformUnity, Mach1PlatformUE, Mach1PlatformOfEasyCam, Mach1PlatformAndroid, Mach1PlatformiOSPortrait, Mach1PlatformiOSLandscape
-    };
-
-    public enum Mach1DecodeAlgoType : int
-    {
-        Mach1DecodeAlgoSpatial = 0, Mach1DecodeAlgoAltSpatial, Mach1DecodeAlgoHorizon, Mach1DecodeAlgoHorizonPairs, Mach1DecodeAlgoSpatialPairs
-    };
-
     public class Mach1Decode : IDisposable
     {
-		#if UNITY_IOS
-		internal const string libname = "__Internal";
-		#else
-		internal const string libname = "libMach1DecodeCAPI";
-		#endif
+        #if UNITY_IOS
+        internal const string libname = "__Internal";
+        #elif UNITY_STANDALONE_WIN
+        internal const string libname = "Mach1DecodeCAPI";
+        #elif UNITY_EDITOR_WIN
+        internal const string libname = "Mach1DecodeCAPI";
+        #else
+        internal const string libname = "libMach1DecodeCAPI";
+        #endif
 
         [DllImport(libname)]
         internal static extern IntPtr Mach1DecodeCAPI_create();
@@ -64,6 +50,7 @@ namespace Mach1
 
         [DllImport(libname)]
         internal static extern Mach1Point3D Mach1DecodeCAPI_getCurrentAngle(IntPtr M1obj);
+
         internal IntPtr M1obj;
 
         public Mach1Decode()

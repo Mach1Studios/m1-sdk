@@ -90,37 +90,44 @@ void Mach1DecodePositionalCAPI_setUseRollForRotation(void * M1obj, bool useRollF
 
 void Mach1DecodePositionalCAPI_setCameraPosition(void * M1obj, Mach1Point3D point)
 {
-	((Mach1DecodePositionalCore*)M1obj)->setCameraPosition(&Mach1Point3DCore { point.x, point.y, point.z } );
+	Mach1Point3DCore pnt{ point.x, point.y, point.z };
+	((Mach1DecodePositionalCore*)M1obj)->setCameraPosition(&pnt);
 }
 
 void Mach1DecodePositionalCAPI_setCameraRotation(void * M1obj, Mach1Point3D point)
 {
-	((Mach1DecodePositionalCore*)M1obj)->setCameraRotation(&Mach1Point3DCore{ point.x, point.y, point.z });
+	Mach1Point3DCore pnt{ point.x, point.y, point.z };
+	((Mach1DecodePositionalCore*)M1obj)->setCameraRotation(&pnt);
 }
 
 void Mach1DecodePositionalCAPI_setCameraRotationQuat(void * M1obj, Mach1Point4D point)
 {
-	((Mach1DecodePositionalCore*)M1obj)->setCameraRotationQuat(&Mach1Point4DCore{ point.x, point.y, point.z, point.w });
+	Mach1Point4DCore pnt{ point.x, point.y, point.z, point.w };
+	((Mach1DecodePositionalCore*)M1obj)->setCameraRotationQuat(&pnt);
 }
 
 void Mach1DecodePositionalCAPI_setDecoderAlgoPosition(void * M1obj, Mach1Point3D point)
 {
-	((Mach1DecodePositionalCore*)M1obj)->setDecoderAlgoPosition(&Mach1Point3DCore{ point.x, point.y, point.z });
+	Mach1Point3DCore pnt{ point.x, point.y, point.z };
+	((Mach1DecodePositionalCore*)M1obj)->setDecoderAlgoPosition(&pnt);
 }
 
 void Mach1DecodePositionalCAPI_setDecoderAlgoRotation(void * M1obj, Mach1Point3D point)
 {
-	((Mach1DecodePositionalCore*)M1obj)->setDecoderAlgoRotation(&Mach1Point3DCore{ point.x, point.y, point.z });
+	Mach1Point3DCore pnt{ point.x, point.y, point.z };
+	((Mach1DecodePositionalCore*)M1obj)->setDecoderAlgoRotation(&pnt);
 }
 
 void Mach1DecodePositionalCAPI_setDecoderAlgoRotationQuat(void * M1obj, Mach1Point4D point)
 {
-	((Mach1DecodePositionalCore*)M1obj)->setDecoderAlgoRotationQuat(&Mach1Point4DCore{ point.x, point.y, point.z, point.w });
+	Mach1Point4DCore pnt{ point.x, point.y, point.z, point.w };
+	((Mach1DecodePositionalCore*)M1obj)->setDecoderAlgoRotationQuat(&pnt);
 }
 
 void Mach1DecodePositionalCAPI_setDecoderAlgoScale(void * M1obj, Mach1Point3D point)
 {
-	((Mach1DecodePositionalCore*)M1obj)->setDecoderAlgoScale(&Mach1Point3DCore{ point.x, point.y, point.z });
+	Mach1Point3DCore pnt{ point.x, point.y, point.z };
+	((Mach1DecodePositionalCore*)M1obj)->setDecoderAlgoScale(&pnt);
 }
 
 void Mach1DecodePositionalCAPI_evaluatePostionResults(void * M1obj)

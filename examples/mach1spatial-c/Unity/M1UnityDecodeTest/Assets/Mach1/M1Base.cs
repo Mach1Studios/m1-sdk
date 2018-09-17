@@ -707,9 +707,10 @@ public class M1Base : MonoBehaviour
             }
             */
 
-            Debug.Log("eulerAngles1 : " + eulerAngles.x + " , " + eulerAngles.y + " , " + eulerAngles.z);
-
+            if (debug)
             {
+                Debug.Log("eulerAngles1 : " + eulerAngles.x + " , " + eulerAngles.y + " , " + eulerAngles.z);
+
                 Debug.Log("dist1: " + dist); 
 
                 string str = "volumesWalls1: ";
@@ -770,6 +771,7 @@ public class M1Base : MonoBehaviour
                 }
             }
 
+            if (debug)
             {
                 Debug.Log("eulerAngles2 : " + m1Positional.getVolumeRotation().x + " , " + m1Positional.getVolumeRotation().y + " , " + m1Positional.getVolumeRotation().z);
                 Debug.Log("dist2: " + m1Positional.getDist());
@@ -787,7 +789,7 @@ public class M1Base : MonoBehaviour
 
                 Debug.Log(str);
             }
-
+ 
 
             // Mach1.Mach1Point3D angles = m1Positional.getVolumeRotation();
 

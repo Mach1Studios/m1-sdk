@@ -390,12 +390,20 @@ void Mach1DecodePositionalCore::evaluatePostionResults() {
 		volumeRoom = 0;
 	}
 
-	glm::vec3 dir = cameraPosition - point;
+	glm::vec3 dir = point - cameraPosition;
 
 	// Compute rotation for sound
+	// http://www.aclockworkberry.com/world-coordinate-systems-in-3ds-max-unity-and-unreal-engine/
 	glm::quat quat;
-	quat = glm::quatLookAtLH(glm::normalize(dir), GetUpVector());
-	quat = glm::inverse(quat); //only for Unity
+	if (platformType == Mach1PlatformUE)
+	{
+		quat = glm::quatLookAtRH(glm::normalize(dir), GetUpVector());
+	}
+	else if (platformType == Mach1PlatformUnity)
+	{
+		quat = glm::quatLookAtLH(glm::normalize(dir), GetUpVector());
+	}
+	quat = glm::inverse(quat); 
 	quat = quat * soundRotation;
 
 	glm::vec3 quatEulerAngles = glm::eulerAngles(quat);

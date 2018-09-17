@@ -776,12 +776,12 @@ public class M1Base : MonoBehaviour
                 Debug.Log("eulerAngles2 : " + m1Positional.getVolumeRotation().x + " , " + m1Positional.getVolumeRotation().y + " , " + m1Positional.getVolumeRotation().z);
                 Debug.Log("dist2: " + m1Positional.getDist());
 
-                string str = "volumesWalls2: ";
+                string str = "volumesMain2: ";
                 for (int i = 0; i < audioSourceMain.Length; i++)
                 {
                     str += string.Format("{0:0.000}, ", audioSourceMain[i].volume);
                 }
-                str += " , " + "volumesRoom: ";
+                str += " , " + "volumesBlend2: ";
                 for (int i = 0; i < audioSourceBlend.Length; i++)
                 {
                     str += string.Format("{0:0.000}, ", audioSourceBlend[i].volume);

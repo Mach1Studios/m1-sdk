@@ -14,7 +14,8 @@ namespace UnrealBuildTool.Rules
 
         private void CopyToBinaries(string Filepath, ReadOnlyTargetRules Target)
         {
-            string binariesDir = Path.GetFullPath(Path.Combine(ModuleDirectory, "..", "..", "Binaries", Target.Platform.ToString()));
+            //string binariesDir = Path.GetFullPath(Path.Combine(ModuleDirectory, "..", "..", "Binaries", Target.Platform.ToString()));
+            string binariesDir = Path.Combine(GetUProjectPath(), "Binaries", Target.Platform.ToString());
             string filename = Path.GetFileName(Filepath);
 
             if (!Directory.Exists(binariesDir))
@@ -93,14 +94,7 @@ namespace UnrealBuildTool.Rules
 
                 CopyToBinaries(Path.Combine(Mach1BinDirectory, "libMach1DecodeCAPI.dylib"), Target);
             }
-            else if (Target.Platform == UnrealTargetPlatform.Win32)
-            {
-                PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "Mach1DecodeCAPI.lib"));
-                RuntimeDependencies.Add(new RuntimeDependency(Path.Combine(Mach1BinDirectory, "Mach1DecodeCAPI.dll")));
-
-                CopyToBinaries(Path.Combine(Mach1BinDirectory, "Mach1DecodeCAPI.dll"), Target);
-            }
-            else if (Target.Platform == UnrealTargetPlatform.Win64)
+            else if (Target.Platform == UnrealTargetPlatform.Win32 || Target.Platform == UnrealTargetPlatform.Win64)
             {
                 PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "Mach1DecodeCAPI.lib"));
                 RuntimeDependencies.Add(new RuntimeDependency(Path.Combine(Mach1BinDirectory, "Mach1DecodeCAPI.dll")));

@@ -1,0 +1,189 @@
+"use strict";
+
+/**
+ * (m)Point
+ * one uppercase letter is mPoint
+ * @param x_ coordinate
+ * @param y_ coordinate
+ * @param z_ coordinate
+ */
+
+function Point(x_ = 0, y_ = 0, z_ = 0)
+{
+	this.x = x_;
+	this.y = y_;
+	this.z = z_;
+}
+
+/**
+ * depth copy
+ * @param A copy this = A; if A is undefined return copy of this
+ * @return {Point}
+ */
+Point.prototype.copy = function(A) {
+	if (arguments.length == 1)
+	{
+		this.x = A.x; this.y = A.y; this.z = A.z;
+
+		return this;
+	}
+	else
+	{
+		return new Point(this.x, this.y, this.z);
+	}
+};
+
+/**  const
+ * sqrt(A * A)
+ * @return {number}
+ */
+Point.prototype.length = function () {
+	return Math.sqrt(Point.dot(this, this));
+};
+
+/**  const
+ * A[i]
+ * @param i = [0..2]
+ * @return {number} i coordinate
+ */
+Point.prototype.at = function(i) {
+	switch (i) {
+		case 0:
+			i = 'x';
+			break;
+		case 1:
+			i = 'y';
+			break;
+		case 2:
+			i = 'z';
+			break;
+		default:
+			// Wrong arg
+			i = 'x';
+	}
+
+	return this[i];
+};
+
+/**
+ * A / length
+ * @return {Point}        old
+ */
+Point.prototype.normalize = function() {
+	let length = this.length();
+
+	if(length > 0)
+	{
+		this.x /= length;
+		this.y /= length;
+		this.z /= length;
+	}
+
+	return this;
+};
+
+Point.prototype.getNormalize = function() {
+	let length = this.length();
+	if (length > 0)
+	{
+		return new Point(this.x / length, this.y / length, this.z / length);
+	}
+	else
+	{
+		return new Point();
+	}
+};
+
+/**    const
+ * rotate this on angle_ grad regarding axis Axis_
+ * @param angle_ in grad
+ * @param Axis_ Point <=> axis of rotate
+ * @return {Point}        new
+ */
+Point.prototype.getRotated = function(angle_, Axis_) {
+	let Axis = Axis_.getNormalize();
+	let angle = angle_ * Point.DEG_TO_RAD;
+
+	let sinA = Math.sin( angle );
+	let cosA = Math.cos( angle );
+	let cosB = 1 - cosA;
+
+	let nx = this.x * (Axis.x * Axis.x * cosB + cosA)
+		+ this.y * (Axis.x * Axis.y*cosB - Axis.z * sinA)
+		+ this.z * (Axis.x * Axis.z * cosB + Axis.y * sinA);
+	let ny = this.x * (Axis.y * Axis.x * cosB + Axis.z * sinA)
+		+ this.y * (Axis.y * Axis.y * cosB + cosA)
+		+ this.z * (Axis.y * Axis.z * cosB - Axis.x * sinA);
+	let nz = this.x * (Axis.z * Axis.x * cosB - Axis.y * sinA)
+		+ this.y * (Axis.z * Axis.y * cosB + Axis.x * sinA)
+		+ this.z * (Axis.z * Axis.z * cosB + cosA);
+
+	return new Point(nx, ny, nz);
+};
+
+/**
+ * rotate this on angle_ deg regarding axis Axis_
+ * @param angle_ in deg
+ * @param Axis_ Point <=> axis of rotate
+ * @return {Point}        old
+ */
+Point.prototype.rotate = function(angle_, Axis_) {
+	return this.copy(this.getRotated(angle_,  Axis_));
+};
+
+Point.DEG_TO_RAD = Math.PI / 180;
+
+/**
+ * transform deg to rad
+ * @param angle in deg
+ * @return {number} in rad
+ */
+Point.degToRad = function (angle) {
+	return angle * Point.DEG_TO_RAD;
+};
+
+/**
+ * (a.x + b.x, ...)
+ * A + B = B + A
+ * @param A first Point   const
+ * @param B second Point  const
+ * @return {Point}          new
+ */
+Point.plus = function(A, B) {
+	return new Point(A.x + B.x, A.y + B.y, A.z + B.z);
+};
+
+/**
+ * (a.x * f, ...)
+ * @param A Point         const
+ * @param f scalar
+ * @return {Point}        new
+ */
+Point.scalarMult = function(A, f) {
+	return new Point(A.x * f, A.y * f, A.z * f);
+};
+
+/**
+ * (a.x * b.x + ...)
+ * A * B = B * A
+ * @param A Point         const
+ * @param B Point         const
+ * @return {number}
+ */
+Point.dot = function(A, B) {
+	return (A.x * B.x + A.y * B.y + A.z * B.z);
+};
+
+/**
+ * (a.x - b.x, ...)
+ * @param A Point         const
+ * @param B Point         const
+ * @return {Point}        new
+ */
+Point.minus = function(A, B) {
+	return Point.plus(A, Point.scalarMult(B, -1));
+};
+
+
+
+module.exports = Point;

@@ -23,6 +23,9 @@
 
 #endif 
 
+#ifndef Mach1DecodeCAPI_h
+#define Mach1DecodeCAPI_h
+
 struct Mach1Point3D {
 	float x, y, z;
 };
@@ -38,6 +41,7 @@ enum Mach1PlatformType {
 enum Mach1DecodeAlgoType {
 	Mach1DecodeAlgoSpatial = 0, Mach1DecodeAlgoAltSpatial, Mach1DecodeAlgoHorizon, Mach1DecodeAlgoHorizonPairs, Mach1DecodeAlgoSpatialPairs
 };
+
 
 extern "C" { 
 	M1_API void* Mach1DecodeCAPI_create();
@@ -57,3 +61,5 @@ extern "C" {
 
 	M1_API Mach1Point3D Mach1DecodeCAPI_getCurrentAngle(void* M1obj);
 }
+
+#endif 

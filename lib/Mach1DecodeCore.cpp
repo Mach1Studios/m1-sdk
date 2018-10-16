@@ -503,8 +503,8 @@ std::vector<float> Mach1DecodeCore::processSample(functionAlgoSample funcAlgoSam
             // returning values from right here!
             
 			
-            auto volumes1 = (this->*funcAlgoSample)(previousYaw, previousPitch, previousRoll);
-            auto volumes2 = (this->*funcAlgoSample)(currentYaw, currentPitch, currentRoll);
+			std::vector<float> volumes1 = (this->*funcAlgoSample)(previousYaw, previousPitch, previousRoll);
+			std::vector<float> volumes2 = (this->*funcAlgoSample)(currentYaw, currentPitch, currentRoll);
             float phase = (float)sampleIndex / (float)bufferSize;
             std::vector<float> volumes_lerp;
             volumes_lerp.resize(volumes1.size());

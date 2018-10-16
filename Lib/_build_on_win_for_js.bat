@@ -1,0 +1,2 @@
+emcc -O2 --closure 1 --bind -s "EXPORT_NAME='Mach1Decode'" --pre-js Mach1DecodeEmscripten.js -o external/js/Mach1Decode.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodeEmscripten.cpp
+REM emcc --bind -s "EXPORT_NAME='Mach1Decode'" --pre-js Mach1DecodeEmscripten.js --post-js Mach1DecodeEmscriptenPost.js -o external/js/Mach1Decode.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodeEmscripten.cpp

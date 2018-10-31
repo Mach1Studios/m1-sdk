@@ -248,7 +248,7 @@ void ofApp::draw(){
         ImGui::LabelText("currentRoll",("currentRoll: " + ofToString(tests[selectedTest]->mach1Decode.getCurrentAngle().z, 3)).c_str() );
 
         if (angleChanged) {
-                simulationAngles = ofPoint(angleX, angleY, angleZ);
+                simulationAngles = ofPoint(angleY, angleX, angleZ);
         }
     
     

@@ -33,7 +33,7 @@ public:
         
         // Handling audio
         if (!perSample) {
-            std::vector<float> tmpVolumes = audioMixAlgorithm(angleX, angleY, angleZ);
+            std::vector<float> tmpVolumes = audioMixAlgorithm(angleY, angleX, angleZ);
             
             // thread safe copy
             volumes.resize(tmpVolumes.size());
@@ -107,7 +107,7 @@ public:
             for (int i = 0; i < bufferSize; i++)
             {
                 if (perSample) {
-                    std::vector<float> tmpVolumes = audioMixAlgorithm(angleX, angleY, angleZ);
+                    std::vector<float> tmpVolumes = audioMixAlgorithm(angleY, angleX, angleZ);
                     
                     // thread safe copy
                     volumes.resize(tmpVolumes.size());

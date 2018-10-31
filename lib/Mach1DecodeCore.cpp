@@ -182,7 +182,6 @@ void Mach1DecodeCore::convertAnglesToMach1(float* Y, float* P, float* R) {
 		break;
 
 	case Mach1PlatformOfEasyCam:
-        std::swap(*P, *Y);
 		*Y = *Y;
 		*P = -*P;
 		*R = -*R;
@@ -239,7 +238,6 @@ void Mach1DecodeCore::convertAnglesToPlatform(float * Y, float * P, float * R)
 		 *Y = *Y;
 		 *P = -*P;
 		 *R = -*R;
-		 std::swap(*P, *Y);
 		 break;
 
 	 case Mach1PlatformAndroid:

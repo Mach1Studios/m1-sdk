@@ -43,7 +43,7 @@ public:
     
     void update() {
         // Handling audio
-        volumes = audioMixAlgorithm(angleX, angleY, angleZ);
+        volumes = audioMixAlgorithm(angleY, angleX, angleZ);
 
         for (int i = 0; i < 4; i++) {
             playersLeft[i].setVolume(volumes[i * 2] * overallVolume);

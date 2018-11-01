@@ -4,11 +4,19 @@
 #include "ofxImGui.h"
 #include "M1Encode.h"
 #include "Mach1Decode.h"
+#include "ofxAudioDecoder.h"
 
 #define RENDERING_SCALE 200
 
 class ofApp : public ofBaseApp{
+	ofSoundStream soundStream;
+	ofxAudioDecoder player;
+	unsigned long int pos;
 
+	M1Encode::GeneratePointResult points;
+	std::vector<float> decoded;
+	std::mutex mtx;
+	std::vector<float> volumes;
 	public:
 		void setup();
 		void update();
@@ -26,31 +34,34 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
-    ofxImGui::Gui gui;
 
-    ofSoundPlayer playerL, playerR;
+	void audioOut(float * output, int bufferSize, int nChannels);
 
-    // Encoder
-    
-    M1Encode m1Encode;
-    Mach1Decode m1Decode;
-    
-    int inputKind = 0; // 0 = MONO, 1 = STEREO, 2 = QUAD, 3 = AFORMAT, 4 = BFORMAT
-    int outputKind = 1; // 0 = 4ch, 1 = 8ch
-    float rotation = 0, diverge = 0.5, pitch = 0;
-    
-    float sRotation, sSpread = 0.5;
-    bool autoOrbit = true;
-    
-    // Decoder
-    
-    float decoderRotationY = 0, decoderRotationP = 0, decoderRotationR = 0;
-    
-    // UI
-    
-    
-    bool enableMouse = true;
-    bool enableIsotropicEncode = true;
-    
-    ofEasyCam camera;
+
+
+	ofxImGui::Gui gui;
+
+	// Encoder
+
+	M1Encode m1Encode;
+	Mach1Decode m1Decode;
+
+	int inputKind = 0; // 0 = MONO, 1 = STEREO, 2 = QUAD, 3 = AFORMAT, 4 = BFORMAT
+	int outputKind = 1; // 0 = 4ch, 1 = 8ch
+	float rotation = 0, diverge = 0.5, pitch = 0;
+
+	float sRotation, sSpread = 0.5;
+	bool autoOrbit = true;
+
+	// Decoder
+
+	float decoderRotationY = 0, decoderRotationP = 0, decoderRotationR = 0;
+
+	// UI
+
+
+	bool enableMouse = true;
+	bool enableIsotropicEncode = true;
+
+	ofEasyCam camera;
 };

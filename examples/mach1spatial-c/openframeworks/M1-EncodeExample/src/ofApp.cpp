@@ -16,18 +16,25 @@ void ofApp::setup() {
         playerL.play();
         playerL.setPan(-1);
 
-        playerR.load((std::string)b);
-        playerR.setLoop(true);
-        playerR.play();
-        playerR.setPan(1);
-    }
-    m1Decode.setPlatformType(Mach1PlatformOfEasyCam);
-    m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial);
-    m1Decode.setFilterSpeed(0.95f);
+		player.load((std::string)b);
+		pos = 0;
+	}
+
+	m1Decode.setPlatformType(Mach1PlatformOfEasyCam);
+	m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial);
+	m1Decode.setFilterSpeed(0.95f);
+
+	decoded.resize(18);
+	volumes.resize(2);
+
+	//CHANGE SECOND TO LAST ARG FOR BUFFER SIZE TESTING
+	soundStream.setup(this, 2, 0, 44100, 512, 1);
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
+	// update the sound playing system:
+	ofSoundUpdate();
 
 }
 
@@ -118,21 +125,15 @@ void ofApp::draw() {
             m1Encode.outputMode = M1Encode::OUTPUT_8CH;
         }
 
-        auto points = m1Encode.generatePointResults();
+		mtx.lock();
+		points = m1Encode.generatePointResults();
 
-        float result[18];
-        m1Decode.beginBuffer();
-        m1Decode.decode(decoderRotationY, decoderRotationP, decoderRotationR, 1, 0);
-        m1Decode.endBuffer();
-    
-        float volumeL = 0, volumeR = 0;
-        for (int i = 0; i < 8; i++) {
-            volumeL += (result[i]) * points.gains[0][i];
-            volumeR += (result[8 + i]) * points.gains[0][i];
-        }
+		m1Decode.beginBuffer();
+		decoded = m1Decode.decode(decoderRotationY, decoderRotationP, decoderRotationR, 0, 0);
+		m1Decode.endBuffer();
 
-        playerL.setVolume(volumeL * 0);
-        playerR.setVolume(volumeR * 0);
+		std::vector<float> volumes = this->volumes;
+		mtx.unlock();
 
         ofPushMatrix();
             ofScale(RENDERING_SCALE, RENDERING_SCALE, RENDERING_SCALE);
@@ -210,14 +211,15 @@ void ofApp::draw() {
         ImGui::Separator();
         ImGui::Checkbox("Enable mouse", &enableMouse);
 
+		if (ImGui::IsMouseHoveringAnyWindow() || !enableMouse) {
+			camera.disableMouseInput();
+		}
+		else {
+			camera.enableMouseInput();
+		}
+	}
+	gui.end();
 
-        if (!enableMouse) {
-            camera.disableMouseInput();
-        } else {
-            camera.enableMouseInput();
-        }
-    gui.end();
-    
 }
 
 //--------------------------------------------------------------
@@ -270,20 +272,62 @@ void ofApp::gotMessage(ofMessage msg) {
 
 }
 
+void ofApp::audioOut(float * output, int bufferSize, int nChannels)
+{
+	mtx.lock();
+	std::vector<std::vector<float>> gains = points.gains;
+	std::vector<float> decoded = this->decoded;
+	mtx.unlock();
+
+	std::vector<float> volumes(2);
+
+
+
+	float sample;
+	for (int i = 0; i < bufferSize; i++)
+	{
+		sample = 0;
+		for (int j = 0; j < 8; j++) {
+			if (pos < player.getRawSamples().size()) sample += player.getRawSamples()[pos] * (decoded[2 * j + 0]) * gains[0][j];
+		}
+		output[i*nChannels] = sample / 8;
+		volumes[0] += fabs(output[i*nChannels]);
+		pos++;
+
+
+		sample = 0;
+		for (int j = 0; j < 8; j++) {
+			if (pos < player.getRawSamples().size()) sample += player.getRawSamples()[pos] * (decoded[2 * j + 1]) * gains[gains.size() > 1 ? 1 : 0][j];
+		}
+		output[i*nChannels + 1] = sample / 8;
+		volumes[1] += fabs(output[i*nChannels + 1]);
+		pos++;
+
+		// loop audio
+		if (pos >= player.getRawSamples().size()) pos = 0;
+	}
+
+	// show volumes
+	volumes[0] /= 1;// bufferSize;
+	volumes[1] /= 1;// bufferSize;
+
+	mtx.lock();
+	for (int j = 0; j < volumes.size(); j++) {
+		this->volumes[j] = ofLerp(this->volumes[j], volumes[j], 0.1);
+	}
+	mtx.unlock();
+}
+
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo) {
-    ofLog() << dragInfo.files[0];
-    
-    ofFile file;
-    if (file.open("lastfile.cfg", ofFile::Mode::WriteOnly, false)) {
-        file.writeFromBuffer(ofBuffer(dragInfo.files[0]));
-        
-        playerL.load(dragInfo.files[0]);
-        playerL.setLoop(true);
-        playerL.play();
+	ofLog() << dragInfo.files[0];
 
-        playerR.load(dragInfo.files[0]);
-        playerR.setLoop(true);
-        playerR.play();
-    }
+	ofFile file;
+	if (file.open("lastfile.cfg", ofFile::Mode::WriteOnly, false)) {
+
+		file.writeFromBuffer(ofBuffer(dragInfo.files[0].c_str(), dragInfo.files[0].length()));
+
+		player.load(dragInfo.files[0]);
+		pos = 0;
+	}
 }

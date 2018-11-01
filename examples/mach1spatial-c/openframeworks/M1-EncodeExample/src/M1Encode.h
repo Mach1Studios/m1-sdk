@@ -43,6 +43,9 @@ public:
         }
     };
     
+    inline float clamp(float x, float a, float b) {
+        return x < a ? a : (x>b ? b : x);
+    }
     float map(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp) {
         
         if (fabs(inputMin - inputMax) < FLT_EPSILON){
@@ -141,6 +144,14 @@ public:
 
                         }
                         
+                        // Fixing it if we got outside the bounds
+                        for (int i = 0; i < resultingPoints.pointsCount; i++) {
+                            resultingPoints.ppoints[i][0] = clamp(resultingPoints.ppoints[i][0], -1, 1);
+                            resultingPoints.ppoints[i][1] = clamp(resultingPoints.ppoints[i][1], -1, 1);
+                            resultingPoints.ppoints[i][2] = clamp(resultingPoints.ppoints[i][2], -1, 1);
+                        }
+
+                        
                         break;
                     case OUTPUT_8CH:
                         resultingPoints.pointsCount = 2;
@@ -191,6 +202,13 @@ public:
 
                         }
                         
+                        // Fixing it if we got outside the bounds
+                        for (int i = 0; i < resultingPoints.pointsCount; i++) {
+                            resultingPoints.ppoints[i][0] = clamp(resultingPoints.ppoints[i][0], -1, 1);
+                            resultingPoints.ppoints[i][1] = clamp(resultingPoints.ppoints[i][1], -1, 1);
+                            resultingPoints.ppoints[i][2] = clamp(resultingPoints.ppoints[i][2], -1, 1);
+                        }
+
                         
                         break;
                     default:
@@ -490,7 +508,7 @@ public:
     float rotation, diverge, pitch;
     float sRotate, sSpread;
     bool autoOrbit = false;
-    bool isotropicEncode = true;
+    bool isotropicEncode = false;
     
     int outputChannelCount;
 };

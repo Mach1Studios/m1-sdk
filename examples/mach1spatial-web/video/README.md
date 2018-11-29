@@ -1,3 +1,3 @@
-Place video file in this directory
+Place video file in this [video] directory
 
 video.webm

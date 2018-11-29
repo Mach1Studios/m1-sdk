@@ -1,18 +1,20 @@
-Place audio files in this directory
+Place audio files in this [audio] directory
 
-4PAIR Format:
+### Mach1DecodeAlgoTypes:
+
+Mach1DecodeAlgoHorizonPairs:
 000.mp3
 090.mp3
 180.mp3
 270.mp3
 
-SQUARE Format:
+Mach1DecodeAlgoHorizon:
 1.mp3
 2.mp3
 3.mp3
 4.mp3
 
-CUBE Format: 
+Mach1DecodeAlgoSpatial: 
 T1.mp3
 T2.mp3
 T3.mp3

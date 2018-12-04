@@ -23,10 +23,12 @@ void Mach1Decode::setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType)
 	Mach1DecodeCAPI_setDecodeAlgoType(M1obj, newAlgorithmType);
 }
 
+#ifndef  __EMSCRIPTEN__ 
 void Mach1Decode::decode(float Yaw, float Pitch, float Roll, float * result, int bufferSize, int sampleIndex)
 {
 	Mach1DecodeCAPI_decode(M1obj, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
 }
+#endif
 
 std::vector<float> Mach1Decode::decode(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
 {
@@ -57,12 +59,20 @@ long Mach1Decode::getCurrentTime()
 	return Mach1DecodeCAPI_getCurrentTime(M1obj);
 }
 
+#ifndef  __EMSCRIPTEN__ 
 char* Mach1Decode::getLog()
 {
 	return Mach1DecodeCAPI_getLog(M1obj);
 }
+#else
+std::string Mach1Decode::getLog()
+{
+	return std::string(Mach1DecodeCAPI_getLog(M1obj));
+}
+#endif
 
 Mach1Point3D Mach1Decode::getCurrentAngle()
 {
 	return Mach1DecodeCAPI_getCurrentAngle(M1obj);
 }
+

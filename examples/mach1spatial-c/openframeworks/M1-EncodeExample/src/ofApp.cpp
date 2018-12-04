@@ -87,7 +87,7 @@ void ofApp::draw() {
         ofDrawLine(faceVector2.x * 50, faceVector2.z * 50, faceVector2.y * 50,
                    faceVector2.x * 120, faceVector2.z * 120, faceVector2.y * 120);
     
-        // Panner DSP point results
+        // Encode DSP point results
     
 		m1Encode.setRotation(rotation);
 		m1Encode.setDiverge(diverge);
@@ -120,6 +120,7 @@ void ofApp::draw() {
 			m1Encode.setOutputMode(Mach1EncodeOutputModeType::Mach1EncodeOutputMode8Ch);
 		}
 
+        // Resets the Decoding input when changing Encoding output between Mach1Spatial and Mach1Horizon
         if (outputKind == 0) { // Output: Mach1Horizon / Quad
             m1Decode.setDecodeAlgoType(Mach1DecodeAlgoHorizon);
         }
@@ -212,11 +213,11 @@ void ofApp::draw() {
         ImGui::LabelText("Encoder settings", "");
         const char* inputOptions[] = {"MONO", "STEREO", "QUAD", "AFORMAT", "BFORMAT"};
         ImGui::Combo("Input type", &inputKind, inputOptions, 5, 5);
-        const char* outputOptions[] = {"4CH", "8CH"};
+        const char* outputOptions[] = {"Mach1Horizon/4CH", "Mach1Spatial/8CH"};
         ImGui::Combo("Output type", &outputKind, outputOptions, 2, 2);
     
         ImGui::SliderFloat("Rotation", &rotation, 0, 1);
-        ImGui::SliderFloat("Diverge", &diverge, -1, 1);
+        ImGui::SliderFloat("Diverge", &diverge, -0.707, 0.707);
         ImGui::SliderFloat("Pitch", &pitch, -1, 1);
         ImGui::Checkbox("Isotropic encode", &enableIsotropicEncode);
 

@@ -33,10 +33,7 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
-
 	void audioOut(float * output, int bufferSize, int nChannels);
-
-
 
 	ofxImGui::Gui gui;
 
@@ -58,7 +55,6 @@ class ofApp : public ofBaseApp{
 	float decoderRotationY = 0, decoderRotationP = 0, decoderRotationR = 0;
 
 	// UI
-
 
 	bool enableMouse = true;
 	bool enableIsotropicEncode = true;

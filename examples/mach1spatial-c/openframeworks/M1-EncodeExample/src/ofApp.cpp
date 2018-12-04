@@ -11,10 +11,9 @@ void ofApp::setup() {
         ofLog() << "file found!";
         auto b = file.readToBuffer();
         ofLog() << (std::string)b;
-        playerL.load((std::string)b);
-        playerL.setLoop(true);
-        playerL.play();
-        playerL.setPan(-1);
+//        player.setLoop(true);
+//        player.play();
+//        player.setPan(-1);
 
 		player.load((std::string)b);
 		pos = 0;
@@ -217,7 +216,7 @@ void ofApp::draw() {
 		else {
 			camera.enableMouseInput();
 		}
-	}
+    
 	gui.end();
 
 }

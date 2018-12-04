@@ -6,10 +6,10 @@
  - Mach1 HorizonPairs / 8Channel
 
 #### Build Instructions
- - Download: http://openframeworks.cc/versions/v0.9.3/of_v0.9.3_osx_release.zip
+ - Download: http://openframeworks.cc/versions/v0.10.1/
  - Download dependencies: 
-	- ofxAudioDecoder
-	- ofxImGui
+	- ofxAudioDecoder: https://github.com/kylemcdonald/ofxAudioDecoder
+	- ofxImGui: https://github.com/jvcleave/ofxImGui
 	- ofxJSON
 	- ofxOsc
 	- ofxVideoPlayer
@@ -20,7 +20,7 @@
     cp -r ./bin/data/ "$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources/"
     cp -r ./bin/data/*.png "$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources"
     
-    rsync -aved  ../../../addons/ofxMach1/libs/lib/osx/libMach1DecodeCAPI.dylib "$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/";
+    rsync -aved  "$OF_PATH/addons/ofxMach1/libs/lib/osx/libMach1DecodeCAPI.dylib" "$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/";
 	install_name_tool -change libMach1DecodeCAPI.dylib @executable_path/../Frameworks/libMach1DecodeCAPI.dylib "$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME";
     ```
 - After a successful build, copy your 8x mono channels to Resources/[1][2][3]/ for audio playback testing

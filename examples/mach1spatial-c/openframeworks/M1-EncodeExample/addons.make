@@ -1,2 +1,3 @@
+ofxAudioDecoder
 ofxImGui
 ofxMach1

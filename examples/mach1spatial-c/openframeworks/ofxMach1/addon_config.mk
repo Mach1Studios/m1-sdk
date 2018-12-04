@@ -7,4 +7,5 @@ meta:
 
 common:
 osx:
-
+vs:
+	ADDON_LIBS += libs/lib/win64/Mach1DecodeCAPI.lib

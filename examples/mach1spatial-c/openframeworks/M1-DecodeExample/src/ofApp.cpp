@@ -13,8 +13,10 @@ void ofApp::setup(){
     tests.push_back(new SpatialTest());
     tests.push_back(new SpatialTest2());
     
-    angleYaw = 0;
-    updateSimulationAngles();
+	anglePitch = 0;
+	angleYaw = 0;
+	angleRoll = 0;
+	updateSimulationAngles();
     
     
     // Visualising setup
@@ -39,7 +41,8 @@ void ofApp::setup(){
 	// gui
 	gui.setup();
 
-
+	spectatorCam = ofVec3f(-0.25, 0.5, 0.0);
+	 
 	//	soundStream.printDeviceList();
 	//soundStream.setDeviceID(1); 	//note some devices are input only and some are output only
     
@@ -122,19 +125,19 @@ void ofApp::draw(){
 		
         ofSetColor(0, 255, 0, 75);
     
-        ofPoint faceVector1 = ofPoint(cos(ofDegToRad(simulationAngles[1])),
-                                      sin(ofDegToRad(simulationAngles[1]))).normalize();
+        ofPoint faceVector1 = ofPoint(cos(ofDegToRad(simulationAngles[0])),
+                                      sin(ofDegToRad(simulationAngles[0]))).normalize();
     
     
-        ofPoint faceVector2 = faceVector1.rotate(angleYaw, ofPoint(cos(ofDegToRad(simulationAngles[1] - 90)),
-                                                             sin(ofDegToRad(simulationAngles[1] - 90))).normalize());
+        ofPoint faceVector2 = faceVector1.rotate(anglePitch, ofPoint(cos(ofDegToRad(simulationAngles[0] - 90)),
+                                                             sin(ofDegToRad(simulationAngles[0] - 90))).normalize());
     
     
-        ofPoint faceVectorOffsetted = ofPoint(cos(ofDegToRad(simulationAngles[1])),
-                                              sin(ofDegToRad(simulationAngles[1]))).normalize().rotate(
-                                                  angleYaw + 10,
-                                                  ofPoint(cos(ofDegToRad(simulationAngles[1] - 90)),
-                                                          sin(ofDegToRad(simulationAngles[1] - 90))).normalize()) - faceVector2;
+        ofPoint faceVectorOffsetted = ofPoint(cos(ofDegToRad(simulationAngles[0])),
+                                              sin(ofDegToRad(simulationAngles[0]))).normalize().rotate(
+                                                  anglePitch + 10,
+                                                  ofPoint(cos(ofDegToRad(simulationAngles[0] - 90)),
+                                                          sin(ofDegToRad(simulationAngles[0] - 90))).normalize()) - faceVector2;
     
         ofPoint tiltSphereRotated = faceVectorOffsetted.rotate(-angleRoll, faceVector2);
 //        ofPoint facePoint = faceVector2 * 120;
@@ -199,7 +202,7 @@ void ofApp::draw(){
     // UI
     
     ofSetColor(255);
-    logo.draw(0, 0, 75, 80);
+    if(logo.isAllocated()) logo.draw(0, 0, 75, 80);
     
     ImGuiWindowFlags window_flags = 0;
     window_flags |= ImGuiWindowFlags_NoTitleBar;
@@ -239,8 +242,8 @@ void ofApp::draw(){
 
         ImGui::Text("Angles:");
         bool angleChanged = false;
-        angleChanged |= (!ImGui::SliderFloat("Y / Yaw", &anglePitch, 0, 360, "Y / Yaw: %.0f deg"));
-        angleChanged |= (ImGui::SliderFloat("X / Pitch", &angleYaw, -90, 90, "X / Pitch: %.0f deg"));
+        angleChanged |= (!ImGui::SliderFloat("Y / Yaw", &angleYaw, 0, 360, "Y / Yaw: %.0f deg"));
+        angleChanged |= (ImGui::SliderFloat("X / Pitch", &anglePitch, -90, 90, "X / Pitch: %.0f deg"));
         angleChanged |= (ImGui::SliderFloat("Z / Roll", &angleRoll, -90, 90, "Z / Roll: %.0f deg"));
 
         ImGui::LabelText("currentYaw",("currentYaw: " + ofToString(tests[selectedTest]->mach1Decode.getCurrentAngle().x, 3)).c_str() );
@@ -286,13 +289,15 @@ void ofApp::mouseDragged(int x, int y, int button){
     if (x > (ofGetWidth() - SETTINGS_TOOLBAR_WIDTH)) return;
     
     if (dragginCamera) {
-        spectatorCam.x = -ofWrap(spectatorCamStart.x + delta.x, 0., 1.);
+        spectatorCam.x = ofWrap(spectatorCamStart.x + delta.x, 0., 1.);
         spectatorCam.y = ofClamp(spectatorCamStart.y + delta.y, 0., 1.);
     } else {
-        anglePitch = ofClamp(delta.x * 500 + anglesDragStart.y, 0, 360);
-        angleYaw = ofClamp(delta.y * 500 + anglesDragStart.x, 0, 180);
+        angleYaw = ofClamp(delta.x * 500 + anglesDragStart.x, 0, 360);
+        anglePitch = ofClamp(delta.y * 500 + anglesDragStart.y, 0, 180);
         updateSimulationAngles();
     }
+
+	ofLog() << delta << endl;
 }
 
 //--------------------------------------------------------------

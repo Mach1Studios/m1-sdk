@@ -33,7 +33,7 @@ public:
         
         // Handling audio
         if (!perSample) {
-            std::vector<float> tmpVolumes = audioMixAlgorithm(angleY, angleX, angleZ);
+            std::vector<float> tmpVolumes = audioMixAlgorithm(anglePitch, angleYaw, angleRoll);
             
             // thread safe copy
             volumes.resize(tmpVolumes.size());
@@ -84,10 +84,10 @@ public:
     
     //////////////
     
-    std::vector<float> audioMixAlgorithm(float X, float Y, float Z) {
+    std::vector<float> audioMixAlgorithm(float Yaw, float Pitch, float Roll) {
         mach1Decode.setFilterSpeed(speed);
         mach1Decode.beginBuffer();
-        return mach1Decode.decode(X, Y, Z);
+        return mach1Decode.decode(Yaw, Pitch, Roll);
         mach1Decode.endBuffer();
     }
     
@@ -107,7 +107,7 @@ public:
             for (int i = 0; i < bufferSize; i++)
             {
                 if (perSample) {
-                    std::vector<float> tmpVolumes = audioMixAlgorithm(angleY, angleX, angleZ);
+                    std::vector<float> tmpVolumes = audioMixAlgorithm(anglePitch, angleYaw, angleRoll);
                     
                     // thread safe copy
                     volumes.resize(tmpVolumes.size());

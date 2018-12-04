@@ -8,9 +8,9 @@
 class BaseAudioTest {
 public:
     BaseAudioTest() {
-		angleX = 0;
-		angleY = 0;
-		angleZ = 0;
+		angleYaw = 0;
+		anglePitch = 0;
+		angleRoll = 0;
 
 		speed = 0.9;
 		pos = 0;
@@ -32,7 +32,7 @@ public:
 
     Mach1Decode mach1Decode;
 
-	float angleX, angleY, angleZ;
+	float angleYaw, anglePitch, angleRoll;
 
 	int pos;
 	bool isPlay;

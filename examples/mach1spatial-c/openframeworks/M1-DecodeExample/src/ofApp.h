@@ -42,7 +42,7 @@ class ofApp : public ofBaseApp{
 	ofPoint simulationAngles = ofPoint(0);
 	void updateSimulationAngles();
     
-    float angleX, angleY, angleZ;
+    float angleYaw, anglePitch, angleRoll;
     
     // Visualizing
     

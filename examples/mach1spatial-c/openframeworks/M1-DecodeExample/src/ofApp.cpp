@@ -13,7 +13,7 @@ void ofApp::setup(){
     tests.push_back(new SpatialTest());
     tests.push_back(new SpatialTest2());
     
-    angleX = 0;
+    angleYaw = 0;
     updateSimulationAngles();
     
     
@@ -57,7 +57,7 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
 
 //--------------------------------------------------------------
 void ofApp::updateSimulationAngles() {
-    simulationAngles = ofPoint(angleX, angleY, angleZ);
+    simulationAngles = ofPoint(angleYaw, anglePitch, angleRoll);
 }
 
 //--------------------------------------------------------------
@@ -76,9 +76,9 @@ void ofApp::update(){
         i->setOverallVolume( (i == tests[selectedTest]) );
         i->update();
         
-        i->angleX = angleX;
-        i->angleY = angleY;
-        i->angleZ = angleZ;
+        i->angleYaw = angleYaw;
+        i->anglePitch = anglePitch;
+        i->angleRoll = angleRoll;
     }
 }
 
@@ -126,17 +126,17 @@ void ofApp::draw(){
                                       sin(ofDegToRad(simulationAngles[1]))).normalize();
     
     
-        ofPoint faceVector2 = faceVector1.rotate(angleX, ofPoint(cos(ofDegToRad(simulationAngles[1] - 90)),
+        ofPoint faceVector2 = faceVector1.rotate(angleYaw, ofPoint(cos(ofDegToRad(simulationAngles[1] - 90)),
                                                              sin(ofDegToRad(simulationAngles[1] - 90))).normalize());
     
     
         ofPoint faceVectorOffsetted = ofPoint(cos(ofDegToRad(simulationAngles[1])),
                                               sin(ofDegToRad(simulationAngles[1]))).normalize().rotate(
-                                                  angleX + 10,
+                                                  angleYaw + 10,
                                                   ofPoint(cos(ofDegToRad(simulationAngles[1] - 90)),
                                                           sin(ofDegToRad(simulationAngles[1] - 90))).normalize()) - faceVector2;
     
-        ofPoint tiltSphereRotated = faceVectorOffsetted.rotate(-angleZ, faceVector2);
+        ofPoint tiltSphereRotated = faceVectorOffsetted.rotate(-angleRoll, faceVector2);
 //        ofPoint facePoint = faceVector2 * 120;
     
         ofPushMatrix();
@@ -239,16 +239,16 @@ void ofApp::draw(){
 
         ImGui::Text("Angles:");
         bool angleChanged = false;
-        angleChanged |= (ImGui::SliderFloat("Y / Yaw", &angleY, 0, 360, "Y / Yaw: %.0f deg"));
-        angleChanged |= (!ImGui::SliderFloat("X / Pitch", &angleX, -90, 90, "X / Pitch: %.0f deg"));
-        angleChanged |= (ImGui::SliderFloat("Z / Roll", &angleZ, -90, 90, "Z / Roll: %.0f deg"));
+        angleChanged |= (!ImGui::SliderFloat("Y / Yaw", &anglePitch, 0, 360, "Y / Yaw: %.0f deg"));
+        angleChanged |= (ImGui::SliderFloat("X / Pitch", &angleYaw, -90, 90, "X / Pitch: %.0f deg"));
+        angleChanged |= (ImGui::SliderFloat("Z / Roll", &angleRoll, -90, 90, "Z / Roll: %.0f deg"));
 
         ImGui::LabelText("currentYaw",("currentYaw: " + ofToString(tests[selectedTest]->mach1Decode.getCurrentAngle().x, 3)).c_str() );
         ImGui::LabelText("currentPitch",("currentPitch: " + ofToString(tests[selectedTest]->mach1Decode.getCurrentAngle().y, 3)).c_str() );
         ImGui::LabelText("currentRoll",("currentRoll: " + ofToString(tests[selectedTest]->mach1Decode.getCurrentAngle().z, 3)).c_str() );
 
         if (angleChanged) {
-                simulationAngles = ofPoint(angleY, angleX, angleZ);
+                simulationAngles = ofPoint(angleYaw, anglePitch, angleRoll);
         }
     
     
@@ -289,8 +289,8 @@ void ofApp::mouseDragged(int x, int y, int button){
         spectatorCam.x = -ofWrap(spectatorCamStart.x + delta.x, 0., 1.);
         spectatorCam.y = ofClamp(spectatorCamStart.y + delta.y, 0., 1.);
     } else {
-        angleY = ofClamp(delta.x * 500 + anglesDragStart.y, 0, 360);
-        angleX = ofClamp(delta.y * 500 + anglesDragStart.x, 0, 180);
+        anglePitch = ofClamp(delta.x * 500 + anglesDragStart.y, 0, 360);
+        angleYaw = ofClamp(delta.y * 500 + anglesDragStart.x, 0, 180);
         updateSimulationAngles();
     }
 }
@@ -307,7 +307,7 @@ void ofApp::mousePressed(int x, int y, int button){
         if (x < (ofGetWidth() - SETTINGS_TOOLBAR_WIDTH)) {
             dragginCamera = false;
             dragStart = ofPoint(x, y);
-            anglesDragStart = ofVec3f(angleX, angleY, angleZ);
+            anglesDragStart = ofVec3f(angleYaw, anglePitch, angleRoll);
         }
     }
     

@@ -11,11 +11,9 @@ void ofApp::setup() {
         ofLog() << "file found!";
         auto b = file.readToBuffer();
         ofLog() << (std::string)b;
-//        player.setLoop(true);
-//        player.play();
-//        player.setPan(-1);
-
+ 
 		player.load((std::string)b);
+
 		pos = 0;
 	}
 
@@ -91,41 +89,40 @@ void ofApp::draw() {
     
         // Panner DSP point results
     
-        m1Encode.rotation = rotation;
-        m1Encode.diverge = diverge;
-        m1Encode.pitch = pitch;
-    
-        m1Encode.autoOrbit = autoOrbit;
-        m1Encode.sRotate = sRotation;
-        m1Encode.sSpread = sSpread;
-    
-        m1Encode.isotropicEncode = enableIsotropicEncode;
+		m1Encode.setRotation(rotation);
+		m1Encode.setDiverge(diverge);
+		m1Encode.setPitch(pitch);
+		m1Encode.setStereoRotate(sRotation);
+		m1Encode.setStereoSpread(sSpread);
+		m1Encode.setAutoOrbit(autoOrbit);
+		m1Encode.setIsotropicEncode(enableIsotropicEncode);
 
-        if (inputKind == 0) { // Input: MONO
-            m1Encode.inputMode = M1Encode::INPUT_MONO;
-        }
-        if (inputKind == 1) { // Input: STERO
-            m1Encode.inputMode = M1Encode::INPUT_STEREO;
-        }
-        if (inputKind == 2) { // Input: Quad
-            m1Encode.inputMode = M1Encode::INPUT_QUAD;
-        }
-        if (inputKind == 3) { // Input: AFORMAT
-            m1Encode.inputMode = M1Encode::INPUT_AFORMAT;
-        }
-        if (inputKind == 4) { // Input: BFORMAT
-            m1Encode.inputMode = M1Encode::INPUT_BFORMAT;
-        }
+		if (inputKind == 0) { // Input: MONO
+			m1Encode.setInputMode(Mach1EncodeInputModeType::Mach1EncodeInputModeMono);
+		}
+		if (inputKind == 1) { // Input: STERO
+			m1Encode.setInputMode(Mach1EncodeInputModeType::Mach1EncodeInputModeStereo);
+		}
+		if (inputKind == 2) { // Input: Quad
+			m1Encode.setInputMode(Mach1EncodeInputModeType::Mach1EncodeInputModeQuad);
+		}
+		if (inputKind == 3) { // Input: AFORMAT
+			m1Encode.setInputMode(Mach1EncodeInputModeType::Mach1EncodeInputModeAFormat);
+		}
+		if (inputKind == 4) { // Input: BFORMAT
+			m1Encode.setInputMode(Mach1EncodeInputModeType::Mach1EncodeInputModeBFormat);
+		}
 
-        if (outputKind == 0) { // Output: Quad
-            m1Encode.outputMode = M1Encode::OUTPUT_4CH;
-        }
-        if (outputKind == 1) { // Output: 7.1
-            m1Encode.outputMode = M1Encode::OUTPUT_8CH;
-        }
+		if (outputKind == 0) { // Output: Quad
+			m1Encode.setOutputMode(Mach1EncodeOutputModeType::Mach1EncodeOutputMode4Ch);
+		}
+		if (outputKind == 1) { // Output: 7.1
+			m1Encode.setOutputMode(Mach1EncodeOutputModeType::Mach1EncodeOutputMode8Ch);
+		}
+
 
 		mtx.lock();
-		points = m1Encode.generatePointResults();
+		m1Encode.generatePointResults();
 
 		m1Decode.beginBuffer();
 		decoded = m1Decode.decode(decoderRotationY, decoderRotationP, decoderRotationR, 0, 0);
@@ -134,19 +131,22 @@ void ofApp::draw() {
 		std::vector<float> volumes = this->volumes;
 		mtx.unlock();
 
+		std::vector<Mach1Point3D> points = m1Encode.getPoints();
+		std::vector<string> pointsNames = m1Encode.getPointsNames();
+
         ofPushMatrix();
             ofScale(RENDERING_SCALE, RENDERING_SCALE, RENDERING_SCALE);
-            for (int i = 0; i < points.pointsCount; i++) {
+            for (int i = 0; i < m1Encode.getPointsCount(); i++) {
                 ofSetColor(255, 0 ,0);
-                ofDrawSphere(points.ppoints[i][0] * 2 - 1, points.ppoints[i][1] * 2 - 1, points.ppoints[i][2] * 2 - 1, 10. / RENDERING_SCALE);
+                ofDrawSphere(points[i].x * 2 - 1, points[i].y * 2 - 1, points[i].z * 2 - 1, 10. / RENDERING_SCALE);
                 ofSetColor(255);
-                ofDrawBitmapString(points.pointsNames[i], points.ppoints[i][0] * 2 - 1, points.ppoints[i][1] * 2 - 1, points.ppoints[i][2] * 2 - 1);
+                ofDrawBitmapString(pointsNames[i], points[i].x * 2 - 1, points[i].y * 2 - 1, points[i].z * 2 - 1);
                 
                 ofSetColor(200);
                 ofDrawLine(0, 0, 0,
-                           points.ppoints[i][0] * 2 - 1, 0, points.ppoints[i][2] * 2 - 1);
-                ofDrawLine(points.ppoints[i][0] * 2 - 1, 0, points.ppoints[i][2] * 2 - 1,
-                           points.ppoints[i][0] * 2 - 1, points.ppoints[i][1] * 2 - 1, points.ppoints[i][2] * 2 - 1);
+                           points[i].x * 2 - 1, 0, points[i].z * 2 - 1);
+                ofDrawLine(points[i].x * 2 - 1, 0, points[i].z * 2 - 1,
+                           points[i].x * 2 - 1, points[i].y * 2 - 1, points[i].z * 2 - 1);
             }
     
             ofDrawArrow(ofPoint(0), ofPoint(1, 0, 0));
@@ -154,19 +154,21 @@ void ofApp::draw() {
         ofPopMatrix();
     camera.end();
     
-    for (int i = 0; i < points.gains.size(); i++) {
-        float widgetWidth = 25 * points.gains[0].size();
+	std::vector<std::vector<float>> gains = m1Encode.getGains();
+	
+	for (int i = 0; i < gains.size(); i++) {
+        float widgetWidth = 25 * gains[0].size();
         float widgetHeight = 50;
         
-        float widgetPartWidth = widgetWidth / (float)points.gains[0].size();
+        float widgetPartWidth = widgetWidth / (float)gains[0].size();
         ofPushMatrix();
             ofSetColor(255);
-            ofDrawBitmapString(points.pointsNames[i], ofGetWidth() - widgetWidth - 30, 100 + widgetHeight * i + 25);
+            ofDrawBitmapString(pointsNames[i], ofGetWidth() - widgetWidth - 30, 100 + widgetHeight * i + 25);
         
             ofTranslate(ofGetWidth() - widgetWidth, 100 + widgetHeight * i);
-            for (int j = 0; j < points.gains[0].size(); j++) {
+            for (int j = 0; j < gains[0].size(); j++) {
                 
-                float thisPointGain = ofClamp(points.gains[i][j] , 0, 1);
+                float thisPointGain = ofClamp(gains[i][j] , 0, 1);
                 
                 ofSetColor(220, 150);
                 
@@ -183,7 +185,24 @@ void ofApp::draw() {
         ofPopMatrix();
     }
     
+
+	if (player.getRawSamples().size() == 0) {
+		ofDrawBitmapStringHighlight("Drop the audio file here!", ofGetWidth() / 2, ofGetHeight() / 2);
+	}
+	else {
+		ofSetLineWidth(2);
+		int border = 20;
+		ofDrawLine(10, ofGetHeight()- border, ofGetWidth()- border, ofGetHeight()- border);
+
+		float position = (1.0 * pos / player.getRawSamples().size()) * (ofGetWidth() - 2 * border);
+
+		ofDrawCircle(10 + position, ofGetHeight() - border, 10);
+		ofSetLineWidth(1);
+	}
+
+
     gui.begin();
+	{
         ImGui::LabelText("Encoder settings", "");
         const char* inputOptions[] = {"MONO", "STEREO", "QUAD", "AFORMAT", "BFORMAT"};
         ImGui::Combo("Input type", &inputKind, inputOptions, 5, 5);
@@ -216,7 +235,7 @@ void ofApp::draw() {
 		else {
 			camera.enableMouseInput();
 		}
-    
+	}
 	gui.end();
 
 }
@@ -274,13 +293,11 @@ void ofApp::gotMessage(ofMessage msg) {
 void ofApp::audioOut(float * output, int bufferSize, int nChannels)
 {
 	mtx.lock();
-	std::vector<std::vector<float>> gains = points.gains;
+	std::vector<std::vector<float>> gains = m1Encode.getGains();
 	std::vector<float> decoded = this->decoded;
 	mtx.unlock();
 
 	std::vector<float> volumes(2);
-
-
 
 	float sample;
 	for (int i = 0; i < bufferSize; i++)
@@ -291,8 +308,8 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels)
 		}
 		output[i*nChannels] = sample / 8;
 		volumes[0] += fabs(output[i*nChannels]);
-		pos++;
-
+		
+		if(player.getNumChannels()>1) pos++;
 
 		sample = 0;
 		for (int j = 0; j < 8; j++) {

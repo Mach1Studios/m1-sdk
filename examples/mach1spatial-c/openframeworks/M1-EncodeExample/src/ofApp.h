@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxImGui.h"
-#include "M1Encode.h"
+#include "Mach1Encode.h"
 #include "Mach1Decode.h"
 #include "ofxAudioDecoder.h"
 
@@ -13,7 +13,6 @@ class ofApp : public ofBaseApp{
 	ofxAudioDecoder player;
 	unsigned long int pos;
 
-	M1Encode::GeneratePointResult points;
 	std::vector<float> decoded;
 	std::mutex mtx;
 	std::vector<float> volumes;
@@ -43,8 +42,7 @@ class ofApp : public ofBaseApp{
 
 	// Encoder
 
-	M1Encode m1Encode;
-	Mach1Decode m1Decode;
+	Mach1Encode m1Encode;
 
 	int inputKind = 0; // 0 = MONO, 1 = STEREO, 2 = QUAD, 3 = AFORMAT, 4 = BFORMAT
 	int outputKind = 1; // 0 = 4ch, 1 = 8ch
@@ -54,6 +52,8 @@ class ofApp : public ofBaseApp{
 	bool autoOrbit = true;
 
 	// Decoder
+
+	Mach1Decode m1Decode;
 
 	float decoderRotationY = 0, decoderRotationP = 0, decoderRotationR = 0;
 

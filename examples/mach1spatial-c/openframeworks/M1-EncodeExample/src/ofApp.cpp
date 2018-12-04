@@ -113,10 +113,10 @@ void ofApp::draw() {
 			m1Encode.setInputMode(Mach1EncodeInputModeType::Mach1EncodeInputModeBFormat);
 		}
 
-		if (outputKind == 0) { // Output: Quad
+		if (outputKind == 0) { // Output: Mach1Horizon / Quad
 			m1Encode.setOutputMode(Mach1EncodeOutputModeType::Mach1EncodeOutputMode4Ch);
 		}
-		if (outputKind == 1) { // Output: 7.1
+		if (outputKind == 1) { // Output: Mach1Spatial / Cuboid
 			m1Encode.setOutputMode(Mach1EncodeOutputModeType::Mach1EncodeOutputMode8Ch);
 		}
 

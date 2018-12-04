@@ -18,7 +18,7 @@ void ofApp::setup() {
 	}
 
 	m1Decode.setPlatformType(Mach1PlatformOfEasyCam);
-	m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial);
+    m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial);
 	m1Decode.setFilterSpeed(0.95f);
 
 	decoded.resize(18);
@@ -120,6 +120,12 @@ void ofApp::draw() {
 			m1Encode.setOutputMode(Mach1EncodeOutputModeType::Mach1EncodeOutputMode8Ch);
 		}
 
+        if (outputKind == 0) { // Output: Mach1Horizon / Quad
+            m1Decode.setDecodeAlgoType(Mach1DecodeAlgoHorizon);
+        }
+        if (outputKind == 1) { // Output: Mach1Spatial / Cuboid
+            m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial);
+        }
 
 		mtx.lock();
 		m1Encode.generatePointResults();

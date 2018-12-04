@@ -43,6 +43,11 @@ std::vector<float> M1EncodeCorePointResults::getGainsForInputChannelNamed(std::s
 	return result;
 }
 
+int M1EncodeCorePointResults::getPointsCount()
+{
+	return pointsCount;
+}
+
 void M1EncodeCore::processGains4Channels(float x, float y, float(&result)[4]) {
 	result[2] = (1.0f - x) * (1.0f - y);
 	result[0] = x * (1.0f - y);
@@ -82,9 +87,7 @@ M1EncodeCore::~M1EncodeCore() {
 
 }
 
-M1EncodeCorePointResults M1EncodeCore::generatePointResults() {
-
-    M1EncodeCorePointResults resultingPoints;
+void M1EncodeCore::generatePointResults() {
 
     float normalisedOutputDiverge = diverge * (1 / cos(PI * 0.25));
     
@@ -466,7 +469,6 @@ M1EncodeCorePointResults M1EncodeCore::generatePointResults() {
 		}
 	}
 
-	return resultingPoints;
 }
 
 void M1EncodeCore::setInputMode(InputMode inputMode) {

@@ -41,6 +41,7 @@ public:
 	std::vector<std::vector<float>> getGains();
 	std::vector<std::string> getPointsNames();
 	std::vector<float> getGainsForInputChannelNamed(std::string pointName);
+	int getPointsCount();
 };
 
 class M1EncodeCore {
@@ -62,11 +63,13 @@ private:
 	void processGains4Channels(float x, float y, float(&result)[4]);
 	void processGains8Channels(float x, float y, float z, float(&result)[8]);
 
+
 public:
 	M1EncodeCore();
 	~M1EncodeCore();
 
-	M1EncodeCorePointResults generatePointResults();
+	void generatePointResults();
+	M1EncodeCorePointResults resultingPoints;
 
 	void setInputMode(InputMode inputMode);
 	void setOutputMode(OutputMode outputMode);

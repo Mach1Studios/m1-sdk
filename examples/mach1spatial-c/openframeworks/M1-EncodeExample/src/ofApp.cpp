@@ -20,7 +20,7 @@ void ofApp::setup() {
 	m1Decode.setPlatformType(Mach1PlatformOfEasyCam);
     m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial);
 	m1Decode.setFilterSpeed(0.95f);
-
+    
 	decoded.resize(18);
 	volumes.resize(2);
 
@@ -34,6 +34,8 @@ void ofApp::update() {
 	ofSoundUpdate();
 
 }
+
+float MACH1_AUDIO_GAIN = 8.0f;
 
 //--------------------------------------------------------------
 void ofApp::draw() {
@@ -123,9 +125,11 @@ void ofApp::draw() {
         // Resets the Decoding input when changing Encoding output between Mach1Spatial and Mach1Horizon
         if (outputKind == 0) { // Output: Mach1Horizon / Quad
             m1Decode.setDecodeAlgoType(Mach1DecodeAlgoHorizon);
+            float MACH1_AUDIO_GAIN = 4.0f;
         }
         if (outputKind == 1) { // Output: Mach1Spatial / Cuboid
             m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial);
+            float MACH1_AUDIO_GAIN = 8.0f;
         }
 
 		mtx.lock();
@@ -311,18 +315,28 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels)
 	{
 		sample = 0;
 		for (int j = 0; j < 8; j++) {
-			if (pos < player.getRawSamples().size()) sample += player.getRawSamples()[pos] * (decoded[2 * j + 0]) * gains[0][j];
-		}
-		output[i*nChannels] = sample / 8;
+            if (outputKind == 0) { // Output: Mach1Horizon / Quad
+                if (pos < player.getRawSamples().size()) sample += player.getRawSamples()[pos] * (decoded[2 * j + 0]) * gains[0][j];
+            }
+            if (outputKind == 1) { // Output: Mach1Spatial / Cuboid
+                if (pos < player.getRawSamples().size()) sample += player.getRawSamples()[pos] * (decoded[2 * j + 0]) * gains[0][j] * MACH1_AUDIO_GAIN;
+            }
+        }
+		output[i*nChannels] = sample;
 		volumes[0] += fabs(output[i*nChannels]);
 		
 		if(player.getNumChannels()>1) pos++;
 
 		sample = 0;
 		for (int j = 0; j < 8; j++) {
-			if (pos < player.getRawSamples().size()) sample += player.getRawSamples()[pos] * (decoded[2 * j + 1]) * gains[gains.size() > 1 ? 1 : 0][j];
+            if (outputKind == 0) { // Output: Mach1Horizon / Quad
+                if (pos < player.getRawSamples().size()) sample += player.getRawSamples()[pos] * (decoded[2 * j + 1]) * gains[gains.size() > 1 ? 1 : 0][j];
+            }
+            if (outputKind == 1) { // Output: Mach1Spatial / Cuboid
+                if (pos < player.getRawSamples().size()) sample += player.getRawSamples()[pos] * (decoded[2 * j + 1]) * gains[gains.size() > 1 ? 1 : 0][j] * MACH1_AUDIO_GAIN;
+            }
 		}
-		output[i*nChannels + 1] = sample / 8;
+		output[i*nChannels + 1] = sample;
 		volumes[1] += fabs(output[i*nChannels + 1]);
 		pos++;
 

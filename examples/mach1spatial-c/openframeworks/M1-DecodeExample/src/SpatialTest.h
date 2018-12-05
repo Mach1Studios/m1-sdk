@@ -73,6 +73,11 @@ public:
         }
     }
 
+	float getPlayheadPosition() {
+		return  (1.0 * pos / players[0].getRawSamples().size());
+	}
+
+
     void setOverallVolume(float volume) {
         overallVolume = volume;
     }
@@ -99,6 +104,7 @@ public:
 	void restart() {
 		pos = 0;
 	}
+
 
 	void audioOut(float * output, int bufferSize, int nChannels)
 	{

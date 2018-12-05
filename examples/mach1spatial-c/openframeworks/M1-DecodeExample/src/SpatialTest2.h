@@ -70,7 +70,11 @@ public:
         ofDrawBitmapStringHighlight("Eight channel test", 20, ofGetHeight() - 70);
     }
     
-    void setOverallVolume(float volume) {
+	float getPlayheadPosition() {
+		return  (1.0 * pos / players[0].getRawSamples().size());
+	}
+	
+	void setOverallVolume(float volume) {
         overallVolume = volume;
     }
     

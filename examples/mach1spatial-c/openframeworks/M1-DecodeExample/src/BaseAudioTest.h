@@ -21,8 +21,9 @@ public:
     virtual void draw() = 0;
     virtual void update() {};
     
-    virtual void drawOverlay() = 0;
-    
+	virtual void drawOverlay() = 0;
+	virtual float getPlayheadPosition() = 0;
+
     virtual void setOverallVolume(float volume) = 0;
     
     virtual void keyPressed(int key) {};

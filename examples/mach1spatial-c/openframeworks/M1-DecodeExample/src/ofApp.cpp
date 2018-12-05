@@ -204,6 +204,21 @@ void ofApp::draw(){
     ofSetColor(255);
     if(logo.isAllocated()) logo.draw(0, 0, 75, 80);
     
+
+
+	// playhead
+	{
+		ofSetLineWidth(2);
+		int border = 20;
+		ofDrawLine(10, ofGetHeight() - border, ofGetWidth() - border, ofGetHeight() - border);
+
+		float position = tests[selectedTest]->getPlayheadPosition() * (ofGetWidth() - 2 * border);
+
+		ofDrawCircle(10 + position, ofGetHeight() - border, 10);
+		ofSetLineWidth(1);
+	}
+	
+
     ImGuiWindowFlags window_flags = 0;
     window_flags |= ImGuiWindowFlags_NoTitleBar;
     window_flags |= ImGuiWindowFlags_NoResize;

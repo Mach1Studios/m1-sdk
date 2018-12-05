@@ -42,7 +42,7 @@ void ofApp::setup(){
 	gui.setup();
 
 	spectatorCam = ofVec3f(-0.25, 0.5, 0.0);
-	 
+	  
 	//	soundStream.printDeviceList();
 	//soundStream.setDeviceID(1); 	//note some devices are input only and some are output only
     
@@ -280,6 +280,9 @@ void ofApp::draw(){
     tests[selectedTest]->drawOverlay();
 
 	ofDrawBitmapString(ofToString(ofGetFrameRate()), 10, 20);
+
+	if(!tests[selectedTest]->isPlay) ofDrawBitmapString("Press space to play", ofGetWidth()/2, ofGetHeight()/2);
+
 }
 
 //--------------------------------------------------------------

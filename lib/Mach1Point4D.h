@@ -3,8 +3,11 @@
 //
 //  Header file
 
-#pragma once
+#ifndef Mach1Point4D_h
+#define Mach1Point4D_h
 
 struct Mach1Point4D {
 	float x, y, z, w;
 };
+
+#endif

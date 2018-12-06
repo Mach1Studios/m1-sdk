@@ -1,0 +1,49 @@
+#include <emscripten/bind.h>
+
+#include "Mach1EncodeCAPI.h"
+#include "external/cpp/Mach1Encode.cpp"
+
+using namespace emscripten;
+
+EMSCRIPTEN_BINDINGS(Mach1Encode) {
+    enum_<Mach1EncodeInputModeType>("Mach1EncodeInputModeType")
+        .value("Mach1EncodeInputModeMono", Mach1EncodeInputModeMono)
+        .value("Mach1EncodeInputModeStereo", Mach1EncodeInputModeStereo)
+        .value("Mach1EncodeInputModeQuad", Mach1EncodeInputModeQuad)
+        .value("Mach1EncodeInputModeAFormat", Mach1EncodeInputModeAFormat)
+        .value("Mach1EncodeInputModeBFormat", Mach1EncodeInputModeBFormat)
+        ;
+    enum_<Mach1EncodeOutputModeType>("Mach1EncodeOutputModeType")
+        .value("Mach1EncodeOutputMode4Ch", Mach1EncodeOutputMode4Ch)
+        .value("Mach1EncodeOutputMode8Ch", Mach1EncodeOutputMode8Ch)
+        ;
+
+	register_vector<float>("VectorFloat");
+
+    value_object<Mach1Point3D>("Mach1Point3D")
+		.field("x", &Mach1Point3D::x)
+		.field("y", &Mach1Point3D::y)
+		.field("z", &Mach1Point3D::z)
+        ;
+
+    class_<Mach1Encode>("Mach1EncodeInternal")
+        .constructor<>()
+        .function("getPoints", &Mach1Encode::getPoints)
+        .function("getGains", &Mach1Encode::getGains)
+		.function("getPointsNames", &Mach1Encode::getPointsNames)
+		.function("getGainsForInputChannelNamed", &Mach1Encode::getGainsForInputChannelNamed)
+
+		.function("generatePointResults", &Mach1Encode::generatePointResults)
+		.function("getPointsCount", &Mach1Encode::getPointsCount)
+
+		.function("setInputMode", &Mach1Encode::setInputMode)
+		.function("setOutputMode", &Mach1Encode::setOutputMode)
+		.function("setRotation", &Mach1Encode::setRotation)
+		.function("setDiverge", &Mach1Encode::setDiverge)
+        .function("setPitch", &Mach1Encode::setPitch)
+        .function("setStereoRotate", &Mach1Encode::setStereoRotate)
+        .function("setStereoSpread", &Mach1Encode::setStereoSpread)
+        .function("setAutoOrbit", &Mach1Encode::setAutoOrbit)
+        .function("setIsotropicEncode", &Mach1Encode::setIsotropicEncode)
+        ;
+}

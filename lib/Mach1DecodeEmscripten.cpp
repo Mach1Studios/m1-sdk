@@ -31,7 +31,7 @@ EMSCRIPTEN_BINDINGS(Mach1Decode) {
 		.field("z", &Mach1Point3D::z)
         ;
 
-    class_<Mach1Decode>("Mach1Decode")
+    class_<Mach1Decode>("Mach1DecodeInternal")
         .constructor<>()
         .function("setPlatformType", &Mach1Decode::setPlatformType)
         .function("setDecodeAlgoType", &Mach1Decode::setDecodeAlgoType)

@@ -35,6 +35,9 @@ void Mach1DecodeCAPI_setPlatformType(void * M1obj, Mach1PlatformType type)
 
 void Mach1DecodeCAPI_decode(void * M1obj, float Yaw, float Pitch, float Roll, float * result, int bufferSize, int sampleIndex)
 {
+	// clear
+	for (int i = 0; i < 18; i++) result[i] = 0;
+
 	if (M1obj != nullptr) {
 		((Mach1DecodeCore*)M1obj)->decode(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
 	}

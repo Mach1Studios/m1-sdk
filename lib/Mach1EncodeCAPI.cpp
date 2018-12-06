@@ -23,9 +23,17 @@ void* Mach1EncodeCAPI_getPoints(void* M1obj) {
 	std::vector<M1EncodeCorePoint> vec = ((M1EncodeCore*)M1obj)->resultingPoints.getPoints();
 
 	static M1EncodeCorePoint* arr = nullptr;
+
+	// first init
 	if (arr == nullptr) {
 		arr = new M1EncodeCorePoint[7];
 	}
+
+	// clear
+	for (int i = 0; i < 7; i++) {
+		arr[i] = M1EncodeCorePoint();
+	}
+
 	for (int i = 0; i < vec.size(); i++) memcpy(&arr[i], &vec[i], sizeof(M1EncodeCorePoint));
 
 	return arr;
@@ -35,17 +43,22 @@ void* Mach1EncodeCAPI_getGains(void* M1obj) {
 	std::vector<std::vector<float>> vec = ((M1EncodeCore*)M1obj)->resultingPoints.getGains();
 
 	static float** arr = nullptr;
+
+	// first init
 	if (arr == nullptr) {
 		arr = new float*[7];
-		for (int i = 0; i < 7; i++)
-		{
+		for (int i = 0; i < 7; i++) {
 			arr[i] = new float[8];
-			for (int j = 0; j < 8; j++)
-			{
-				arr[i][j] = 0;
-			}
 		}
 	}
+
+	// clear
+	for (int i = 0; i < 7; i++) {
+		for (int j = 0; j < 8; j++) {
+			arr[i][j] = 0;
+		}
+	}
+
 	for (int i = 0; i < vec.size(); i++) memcpy(arr[i], vec[i].data(), vec[i].size() * sizeof(float));
 
 	return arr;
@@ -55,14 +68,21 @@ void* Mach1EncodeCAPI_getPointsNames(void* M1obj) {
 	std::vector<std::string> vec = ((M1EncodeCore*)M1obj)->resultingPoints.getPointsNames();
 
 	static char** arr = nullptr;
+
+	// first init
 	if (arr == nullptr) {
 		arr = new char*[7];
-		for (int i = 0; i < 7; i++)
-		{
+		for (int i = 0; i < 7; i++) {
 			arr[i] = new char[255];
 			arr[i][0] = '\0';
 		}
 	}
+
+	// clear
+	for (int i = 0; i < 7; i++) {
+		arr[i][0] = '\0';
+	}
+
 	for (int i = 0; i < vec.size(); i++) memcpy(arr[i], vec[i].c_str(), (vec[i].length() + 1) * sizeof(char));
 
 	return arr;
@@ -72,9 +92,17 @@ void* Mach1EncodeCAPI_getGainsForInputChannelNamed(void* M1obj, char * pointName
 	std::vector<float> vec = ((M1EncodeCore*)M1obj)->resultingPoints.getGainsForInputChannelNamed(pointName);
 
 	static float* arr = nullptr;
+
+	// first init
 	if (arr == nullptr) {
 		arr = new float[7];
 	}
+
+	// clear
+	for (int i = 0; i < 7; i++) {
+		arr[i] = 0;
+	}
+
 	for (int i = 0; i < vec.size(); i++) memcpy(&arr[i], &vec[i], sizeof(float));
 
 	return arr;

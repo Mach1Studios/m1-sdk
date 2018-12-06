@@ -12,7 +12,12 @@ void ofApp::setup() {
         auto b = file.readToBuffer();
         ofLog() << (std::string)b;
  
+		int sampleRate = 44100;
 		player.load((std::string)b);
+
+		// resampling
+		((ofSoundBuffer&)player.getBuffer()).resample(1.0 * player.getBuffer().getSampleRate() / sampleRate);
+		((ofSoundBuffer&)player.getBuffer()).setSampleRate(sampleRate);
 
 		pos = 0;
 	}
@@ -34,8 +39,6 @@ void ofApp::update() {
 	ofSoundUpdate();
 
 }
-
-float MACH1_AUDIO_GAIN = 8.0f;
 
 //--------------------------------------------------------------
 void ofApp::draw() {
@@ -125,11 +128,9 @@ void ofApp::draw() {
         // Resets the Decoding input when changing Encoding output between Mach1Spatial and Mach1Horizon
         if (outputKind == 0) { // Output: Mach1Horizon / Quad
             m1Decode.setDecodeAlgoType(Mach1DecodeAlgoHorizon);
-            float MACH1_AUDIO_GAIN = 4.0f;
         }
         if (outputKind == 1) { // Output: Mach1Spatial / Cuboid
             m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial);
-            float MACH1_AUDIO_GAIN = 8.0f;
         }
 
 		mtx.lock();
@@ -310,32 +311,55 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels)
 
 	std::vector<float> volumes(2);
 
+	int channelCount = 8;
+	if (outputKind == 0) { // Output: Mach1Horizon / Quad
+		channelCount = 4;
+	}
+	if (outputKind == 1) { // Output: Mach1Spatial / Cuboid
+		channelCount = 8;
+	}
+
 	float sample;
 	for (int i = 0; i < bufferSize; i++)
 	{
+		// left channel
 		sample = 0;
 		for (int j = 0; j < 8; j++) {
-            if (outputKind == 0) { // Output: Mach1Horizon / Quad
-                if (pos < player.getRawSamples().size()) sample += player.getRawSamples()[pos] * (decoded[2 * j + 0]) * gains[0][j];
-            }
-            if (outputKind == 1) { // Output: Mach1Spatial / Cuboid
-                if (pos < player.getRawSamples().size()) sample += player.getRawSamples()[pos] * (decoded[2 * j + 0]) * gains[0][j] * MACH1_AUDIO_GAIN;
-            }
+			if (pos < player.getRawSamples().size()) sample += player.getRawSamples()[pos] * (decoded[2 * j + 0]) * gains[0][j];
         }
 		output[i*nChannels] = sample;
 		volumes[0] += fabs(output[i*nChannels]);
+
+		/*
+		// debug coefficients
+		float sumDecodedLeft = 0;
+		//	cout << "----" << endl;
+		for (int j = 0; j < channelCount; j++) {
+			sumDecodedLeft += (decoded[2 * j + 0]) * gains[0][j];
+			//	cout << (decoded[2 * j + 0]) << " * " << gains[0][j]  << " = "  << (decoded[2 * j + 0]) * gains[0][j] << endl;
+		}
+		//	cout << "----" << endl;
 		
+		float sumDecodedRight = 0;
+		for (int j = 0; j < channelCount; j++) {
+			sumDecodedRight += (decoded[2 * j + 1])* gains[0][j];
+		}
+		float sumGains = 0;
+		for (int j = 0; j < channelCount; j++) {
+			sumGains += (gains[0][j]);
+		}
+		cout <<  sumDecodedLeft << " , " << sumDecodedRight << " , " << sumGains << endl;
+		//*/
+
+
 		if(player.getNumChannels()>1) pos++;
 
+		// right channel
 		sample = 0;
 		for (int j = 0; j < 8; j++) {
-            if (outputKind == 0) { // Output: Mach1Horizon / Quad
-                if (pos < player.getRawSamples().size()) sample += player.getRawSamples()[pos] * (decoded[2 * j + 1]) * gains[gains.size() > 1 ? 1 : 0][j];
-            }
-            if (outputKind == 1) { // Output: Mach1Spatial / Cuboid
-                if (pos < player.getRawSamples().size()) sample += player.getRawSamples()[pos] * (decoded[2 * j + 1]) * gains[gains.size() > 1 ? 1 : 0][j] * MACH1_AUDIO_GAIN;
-            }
+			if (pos < player.getRawSamples().size()) sample += player.getRawSamples()[pos] * (decoded[2 * j + 1]) * gains[gains.size() > 1 ? 1 : 0][j];
 		}
+
 		output[i*nChannels + 1] = sample;
 		volumes[1] += fabs(output[i*nChannels + 1]);
 		pos++;
@@ -365,6 +389,14 @@ void ofApp::dragEvent(ofDragInfo dragInfo) {
 		file.writeFromBuffer(ofBuffer(dragInfo.files[0].c_str(), dragInfo.files[0].length()));
 
 		player.load(dragInfo.files[0]);
+		
+		int sampleRate = 44100;
+
+		// resampling
+		((ofSoundBuffer&)player.getBuffer()).resample(1.0 * player.getBuffer().getSampleRate() / sampleRate);
+		((ofSoundBuffer&)player.getBuffer()).setSampleRate(sampleRate);
+
 		pos = 0;
+
 	}
 }

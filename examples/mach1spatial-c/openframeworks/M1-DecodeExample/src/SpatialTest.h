@@ -21,7 +21,13 @@ public:
 		players[5].load("1/6.wav");
 		players[6].load("1/7.wav");
 		players[7].load("1/8.wav");
-        
+    
+		int sampleRate = 44100;
+		for (int i = 0; i < 8; i++) {
+			((ofSoundBuffer&)players[i].getBuffer()).resample(1.0 * players[i].getBuffer().getSampleRate() / sampleRate);
+			((ofSoundBuffer&)players[i].getBuffer()).setSampleRate(sampleRate);
+		}
+
         //Mach1 Decode Setup
         //Setup the correct angle convention for orientation Euler input angles
         mach1Decode.setPlatformType(Mach1PlatformOfEasyCam);

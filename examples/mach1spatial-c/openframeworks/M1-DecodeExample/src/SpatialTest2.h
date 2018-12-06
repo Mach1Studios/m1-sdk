@@ -22,7 +22,13 @@ public:
         players[6].load("2/7.wav");
         players[7].load("2/8.wav");
         
-        //Mach1 Decode Setup
+		int sampleRate = 44100;
+		for (int i = 0; i < 8; i++) {
+			((ofSoundBuffer&)players[i].getBuffer()).resample(1.0 * players[i].getBuffer().getSampleRate() / sampleRate);
+			((ofSoundBuffer&)players[i].getBuffer()).setSampleRate(sampleRate);
+		}
+		
+		//Mach1 Decode Setup
         //Setup the correct angle convention for orientation Euler input angles
         mach1Decode.setPlatformType(Mach1PlatformOfEasyCam);
         //Setup the expected spatial audio mix format for decoding

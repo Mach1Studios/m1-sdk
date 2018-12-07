@@ -8,23 +8,30 @@
 #include "Mach1Point3D.h"
 #include "Mach1Point4D.h"
 
-#ifdef Mach1Encode_h
+#ifdef Mach1EncodeCore_h
 
-#ifdef _WINDOWS
+#if defined(_WINDOWS) || defined(WIN32)
+#ifndef M1_API 
 #define M1_API __declspec(dllexport)
 #else
 #define M1_API
 #endif 
+#endif 
 
 #else
 
-#ifdef _WINDOWS
+#if (defined(_WINDOWS) || defined(WIN32)) && !defined(M1_API)
+#ifndef M1_API 
 #define M1_API __declspec(dllimport)
 #else
 #define M1_API
 #endif 
+#endif 
 
 #endif 
+
+#ifndef Mach1EncodeCAPI_h
+#define Mach1EncodeCAPI_h
 
 enum Mach1EncodeInputModeType {
 	Mach1EncodeInputModeMono = 0, Mach1EncodeInputModeStereo = 1, Mach1EncodeInputModeQuad = 2, Mach1EncodeInputModeAFormat = 3, Mach1EncodeInputModeBFormat = 4
@@ -56,3 +63,5 @@ extern "C" {
 	M1_API void Mach1EncodeCAPI_setAutoOrbit(void* M1obj, bool autoOrbit);
 	M1_API void Mach1EncodeCAPI_setIsotropicEncode(void* M1obj, bool isotropicEncode);
 }
+
+#endif 

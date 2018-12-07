@@ -9,26 +9,23 @@
 #include "Mach1Point4D.h"
 
 #ifdef Mach1DecodeCore_h
-
-#if defined(_WINDOWS) || defined(WIN32)
-#ifndef M1_API 
-#define M1_API __declspec(dllexport)
+    #ifndef M1_API
+        #if defined(_WINDOWS) || defined(WIN32)
+                #define M1_API __declspec(dllexport)
+        #else
+                #define M1_API
+        #endif
+    #endif
 #else
-#define M1_API
-#endif 
-#endif 
+    #ifndef M1_API
+        #if defined(_WINDOWS) || defined(WIN32)
+            #define M1_API __declspec(dllimport)
+        #else
+            #define M1_API
+        #endif
+    #endif
+#endif
 
-#else
-
-#if (defined(_WINDOWS) || defined(WIN32)) && !defined(M1_API)
-#ifndef M1_API 
-#define M1_API __declspec(dllimport)
-#else
-#define M1_API
-#endif 
-#endif 
-
-#endif 
 
 #ifndef Mach1DecodeCAPI_h
 #define Mach1DecodeCAPI_h

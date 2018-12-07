@@ -14,7 +14,7 @@ public:
 
 		speed = 0.9;
 		pos = 0;
-		isPlay = false;
+		isPlaying = false;
 		perSample = false;
     }
     
@@ -36,7 +36,7 @@ public:
 	float angleYaw, anglePitch, angleRoll;
 
 	int pos;
-	bool isPlay;
+	bool isPlaying;
 	bool perSample;
 	float speed;
 };

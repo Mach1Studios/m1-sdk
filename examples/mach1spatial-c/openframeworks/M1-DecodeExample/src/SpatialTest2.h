@@ -36,10 +36,14 @@ public:
     }
     
     void update() {
-        
+
+		mach1Decode.setFilterSpeed(speed);
+
         // Handling audio
         if (!perSample) {
-            std::vector<float> tmpVolumes = audioMixAlgorithm(angleYaw, anglePitch, angleRoll);
+			mach1Decode.beginBuffer();
+			std::vector<float> tmpVolumes = mach1Decode.decode(angleYaw, anglePitch, angleRoll, 0, 0);
+			mach1Decode.endBuffer();
             
             // thread safe copy
             volumes.resize(tmpVolumes.size());
@@ -93,14 +97,6 @@ public:
     ofxAudioDecoder players[8];
     
     //////////////
-    
-    std::vector<float> audioMixAlgorithm(float Yaw, float Pitch, float Roll) {
-        mach1Decode.setFilterSpeed(speed);
-        mach1Decode.beginBuffer();
-        return mach1Decode.decode(Yaw, Pitch, Roll);
-        mach1Decode.endBuffer();
-    }
-    
     int scheduleRestart = 30;
     
     void restart() {
@@ -110,14 +106,18 @@ public:
     void audioOut(float * output, int bufferSize, int nChannels)
     {
         // Handling audio
-        if (isPlay)
+        if (isPlaying)
         {
             float sample;
+
+			if (perSample) {
+				mach1Decode.beginBuffer();
+			}
 
             for (int i = 0; i < bufferSize; i++)
             {
                 if (perSample) {
-                    std::vector<float> tmpVolumes = audioMixAlgorithm(angleYaw, anglePitch, angleRoll);
+					std::vector<float> tmpVolumes = mach1Decode.decode(angleYaw, anglePitch, angleRoll, bufferSize, i);
                     
                     // thread safe copy
                     volumes.resize(tmpVolumes.size());
@@ -145,12 +145,16 @@ public:
                 }
                 if (isFinish) pos = 0;
             }
+
+			if (perSample) {
+				mach1Decode.endBuffer();
+			}
         }
     }
     
     void keyPressed(int key) {
         if (key == ' ') {
-            isPlay = !isPlay;
+            isPlaying = !isPlaying;
             restart();
         }
     }

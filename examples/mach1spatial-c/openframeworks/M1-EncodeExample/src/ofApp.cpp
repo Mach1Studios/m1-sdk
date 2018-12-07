@@ -6,21 +6,7 @@ void ofApp::setup() {
     
     camera.setPosition(0, RENDERING_SCALE * 2, -RENDERING_SCALE * 2);
     
-    ofFile file;
-    if (file.open("lastfile.cfg", ofFile::Mode::ReadOnly, false)) {
-        ofLog() << "file found!";
-        auto b = file.readToBuffer();
-        ofLog() << (std::string)b;
- 
-		int sampleRate = 44100;
-		player.load((std::string)b);
-
-		// resampling
-		((ofSoundBuffer&)player.getBuffer()).resample(1.0 * player.getBuffer().getSampleRate() / sampleRate);
-		((ofSoundBuffer&)player.getBuffer()).setSampleRate(sampleRate);
-
-		pos = 0;
-	}
+	loadAudio();
 
 	m1Decode.setPlatformType(Mach1PlatformOfEasyCam);
     m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial);
@@ -252,6 +238,29 @@ void ofApp::draw() {
 
 }
 
+void ofApp::loadAudio() {
+	ofFile file;
+	if (file.open("lastfile.cfg", ofFile::Mode::ReadOnly, false)) {
+		ofLog() << "file found!";
+		string text = file.readToBuffer().getText();
+		ofLog() << text;
+
+		int sampleRate = 44100;
+
+		if (text.size() > 0 && ofFile(text).exists()) {
+
+			pos = 0;
+			player.load(text);
+
+			// resampling
+			((ofSoundBuffer&)player.getBuffer()).resample(1.0 * player.getBuffer().getSampleRate() / sampleRate);
+			((ofSoundBuffer&)player.getBuffer()).setSampleRate(sampleRate);
+		}
+	}
+	file.close();
+
+}
+
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
 
@@ -304,6 +313,8 @@ void ofApp::gotMessage(ofMessage msg) {
 
 void ofApp::audioOut(float * output, int bufferSize, int nChannels)
 {
+	if (player.getNumFrames() == 0) return;
+
 	mtx.lock();
 	std::vector<std::vector<float>> gains = m1Encode.getGains();
 	std::vector<float> decoded = this->decoded;
@@ -385,18 +396,9 @@ void ofApp::dragEvent(ofDragInfo dragInfo) {
 
 	ofFile file;
 	if (file.open("lastfile.cfg", ofFile::Mode::WriteOnly, false)) {
-
 		file.writeFromBuffer(ofBuffer(dragInfo.files[0].c_str(), dragInfo.files[0].length()));
-
-		player.load(dragInfo.files[0]);
-		
-		int sampleRate = 44100;
-
-		// resampling
-		((ofSoundBuffer&)player.getBuffer()).resample(1.0 * player.getBuffer().getSampleRate() / sampleRate);
-		((ofSoundBuffer&)player.getBuffer()).setSampleRate(sampleRate);
-
-		pos = 0;
-
 	}
+	file.close();
+
+	loadAudio();
 }

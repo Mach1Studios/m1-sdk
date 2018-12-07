@@ -52,7 +52,7 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
-	if (tests[selectedTest]->isPlay)
+	if (tests[selectedTest]->isPlaying)
 	{
 		tests[selectedTest]->audioOut(output, bufferSize, nChannels);
 	}
@@ -281,7 +281,7 @@ void ofApp::draw(){
 
 	ofDrawBitmapString(ofToString(ofGetFrameRate()), 10, 20);
 
-	if(!tests[selectedTest]->isPlay) ofDrawBitmapString("Press space to play", ofGetWidth()/2, ofGetHeight()/2);
+	if(!tests[selectedTest]->isPlaying) ofDrawBitmapString("Press space to play", ofGetWidth()/2, ofGetHeight()/2);
 
 }
 

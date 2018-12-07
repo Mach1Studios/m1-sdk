@@ -451,7 +451,6 @@ void Mach1DecodeCore::processSample(functionAlgoSampleHP funcAlgoSampleHP, float
 		}
 		else {
 			// Filtering per-buffer
-			/*
 			 Yaw = currentYaw;
 			 Pitch = currentPitch;
 			 Roll = currentRoll;
@@ -459,7 +458,6 @@ void Mach1DecodeCore::processSample(functionAlgoSampleHP funcAlgoSampleHP, float
 			 previousYaw = currentYaw;
 			 previousPitch = currentPitch;
 			 previousRoll = currentRoll;
-			 */
 		}
 
 	}
@@ -513,17 +511,14 @@ std::vector<float> Mach1DecodeCore::processSample(functionAlgoSample funcAlgoSam
 		}
 		else {
             // Filtering per-buffer
-            /*
-			Yaw = currentYaw;
+ 			Yaw = currentYaw;
 			Pitch = currentPitch;
 			Roll = currentRoll;
 
             previousYaw = currentYaw;
             previousPitch = currentPitch;
             previousRoll = currentRoll;
-			*/
         }
-
 	}
 	else {
 		targetYaw = Yaw;

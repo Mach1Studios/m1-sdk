@@ -7,6 +7,7 @@
 
 #include "Mach1Point3D.h"
 #include "Mach1Point4D.h"
+#include <cstring>
 
 #ifdef Mach1EncodeCore_h
     #ifndef M1_API

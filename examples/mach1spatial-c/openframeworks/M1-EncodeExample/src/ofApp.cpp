@@ -241,7 +241,7 @@ void ofApp::draw() {
 void ofApp::loadAudio() {
 	ofFile file;
 	if (file.open("lastfile.cfg", ofFile::Mode::ReadOnly, false)) {
-		ofLog() << "file found!";
+		ofLog() << "cfg file found!";
 		string text = file.readToBuffer().getText();
 		ofLog() << text;
 

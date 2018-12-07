@@ -7,11 +7,17 @@ cd "/Volumes/git/m1-sdk/lib"
 echo "### Move and replace bins ###"
 echo "### Replacing Xcode/macOS ###"
 yes | cp -rf _install/xcode ../binaries/
-yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.dylib" "/Volumes/git/openFrameworks/addons/ofxMach1/libs/lib/osx/libMach1DecodeCAPI.dylib"
 yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.dylib" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/lib/osx/libMach1DecodeCAPI.dylib"
+yes | cp -rf "_install/xcode/lib/libMach1EncodeCAPI.dylib" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/lib/osx/libMach1EncodeCAPI.dylib"
+
 yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.dylib" "../examples/mach1spatial-c/Unity/cs/Plugins/macOS/libMach1DecodeCAPI.bundle"
+yes | cp -rf "_install/xcode/lib/libMach1EncodeCAPI.dylib" "../examples/mach1spatial-c/Unity/cs/Plugins/macOS/libMach1EncodeCAPI.bundle"
+
 yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.dylib" "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1DecodeCAPI.bundle"
+yes | cp -rf "_install/xcode/lib/libMach1EncodeCAPI.dylib" "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1EncodeCAPI.bundle"
+
 yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.dylib" "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/ThirdParty/Mach1/bin/Mac/libMach1DecodeCAPI.dylib"
+yes | cp -rf "_install/xcode/lib/libMach1DecodePositionalCAPI.dylib" "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/ThirdParty/Mach1/bin/Mac/libMach1DecodePositionalCAPI.dylib"
 
 echo "### Replacing iOS ###"
 yes | cp -rf _install/ios ../binaries/
@@ -38,11 +44,20 @@ yes | cp -rf "external/" "../include/"
 echo "### Copying for ofxMach1 ###"
 yes | cp -rf "external/cpp/Mach1Decode.h" "../examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Decode.h"
 yes | cp -rf "external/cpp/Mach1Decode.cpp" "../examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Decode.cpp"
+yes | cp -rf "external/cpp/Mach1Encode.h" "../examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Encode.h"
+yes | cp -rf "external/cpp/Mach1Encode.cpp" "../examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Encode.cpp"
+
 yes | cp -rf "external/cpp/Mach1DecodeCAPI.h" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/include/Mach1DecodeCAPI.h"
+yes | cp -rf "external/cpp/Mach1EncodeCAPI.h" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/include/Mach1EncodeCAPI.h"
+yes | cp -rf "external/cpp/Mach1Point3D.h" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/include/Mach1Point3D.h"
+yes | cp -rf "external/cpp/Mach1Point4D.h" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/include/Mach1Point4D.h"
 
 echo "### Copying ofxMach1 to dev local ###"
 yes | cp -rf "../examples/mach1spatial-c/openframeworks/ofxMach1" "../../openFrameworks/addons/"
 yes | cp -rf "../examples/mach1spatial-c/openframeworks/ofxMach1" "../../openFrameworks-git/addons/"
+yes | cp -rf "../examples/mach1spatial-c/openframeworks/ofxMach1" "../../of_v0.9.8_osx_release/addons/"
+yes | cp -rf "../examples/mach1spatial-c/openframeworks/ofxMach1" "../../of_v0.10.0_osx_release/addons/"
+yes | cp -rf "../examples/mach1spatial-c/openframeworks/ofxMach1" "../../of_v0.10.1_osx_release/addons/"
 
 echo "### NUMBERS OF SUCCESSFUL BUILDS:"
 cd _logs/polly/

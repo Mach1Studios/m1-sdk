@@ -7,24 +7,26 @@
 
 #include "Mach1DecodeCAPI.h"
 
-#ifdef Mach1DecodeCore_h
-
-#if defined(_WINDOWS) || defined(WIN32)
-#define M1_API __declspec(dllexport)
+#ifdef Mach1PositionalCore_h
+    #ifndef M1_API
+        #if defined(_WINDOWS) || defined(WIN32)
+        #define M1_API __declspec(dllexport)
+        #else
+        #define M1_API
+        #endif
+    #endif
 #else
-#define M1_API
-#endif 
+    #ifndef M1_API
+        #if defined(_WINDOWS) || defined(WIN32)
+            #define M1_API __declspec(dllimport)
+        #else
+            #define M1_API
+        #endif
+    #endif
+#endif
 
-#else
-
-#if defined(_WINDOWS) || defined(WIN32)
-#define M1_API __declspec(dllimport)
-#else
-#define M1_API
-#endif 
-
-#endif 
-
+#ifndef Mach1PositionalCAPI_h
+#define Mach1PositionalCAPI_h
 
 extern "C" {
 	M1_API void* Mach1DecodePositionalCAPI_create();
@@ -67,3 +69,5 @@ extern "C" {
 	M1_API Mach1Point3D Mach1DecodePositionalCAPI_getVolumeRotation(void* M1obj);
 	M1_API void Mach1DecodePositionalCAPI_setFilterSpeed(void* M1obj, float filterSpeed);
 }
+
+#endif

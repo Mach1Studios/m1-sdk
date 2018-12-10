@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mach1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="css/video-js.min.css" rel="stylesheet">
+    <link href="css/videojs-panorama.min.css" rel="stylesheet">
+
+    <script src="js/video.min.js"></script>
+    <script src="js/three.min.js"></script>
+    <script src="js/videojs-panorama.v5.min.js"></script>
+
+    <script src="js/Mach1Decode.js"></script>
+    <script src="js/Mach1SoundPlayer.js"></script>
+    <script src="js/Mach1VideoPlayer.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+			var audioFiles8 = ['audio/m1spatial/T1.mp3', 'audio/m1spatial/T2.mp3', 'audio/m1spatial/T3.mp3', 'audio/m1spatial/T4.mp3',
+				'audio/m1spatial/B5.mp3', 'audio/m1spatial/B6.mp3', 'audio/m1spatial/B7.mp3', 'audio/m1spatial/B8.mp3'
+			];
+			var elemId = 'videojs-panorama-player';
+			var statusElId = 'status';
+			var mach1VideoPlayer = new Mach1VideoPlayer(audioFiles8, elemId, statusElId);
+	});
+	</script>
+    <style>
+        #videojs-panorama-player{
+        position: absolute;
+        width: 800px;
+        height: 600px;
+        top: 0;
+        left: 0;
+      }
+    </style>
+</head>
+
+<body>
+    <section class="main-content">
+        <video id="videojs-panorama-player" class="video-js vjs-default-skin" crossorigin="anonymous" controls>
+            <source src="video/video.webm" type='video/webm'>
+        </video>
+    </section>
+    <div id="status"></div>
+</body>
+
+</html>

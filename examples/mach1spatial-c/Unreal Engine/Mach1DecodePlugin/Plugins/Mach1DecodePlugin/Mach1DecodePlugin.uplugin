@@ -1,0 +1,26 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0.0",
+	"FriendlyName": "Mach1 Spatial Decode Plugin",
+	"Description": "Decoding for VVBP Mach1 Spatial encoded mixes / layers",
+	"Category": "Audio",
+	"CreatedBy": "Mach1",
+	"CreatedByURL": "http://mach1studios.com",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "dylan@mach1studios.com",
+	"EnabledByDefault": true,
+	"CanContainContent": false,
+	"IsBetaVersion": false,
+	"Installed": true,
+	"RequiresBuildPlatform" : false,
+	"Modules": [
+		{
+			"Name": "Mach1DecodePlugin",
+			"Type": "Runtime",
+			"LoadingPhase" : "PreLoadingScreen",
+			"WhitelistPlatforms" : [ "Android", "Linux", "IOS", "Mac", "Win64", "HTML5" ]
+		}
+	]
+}

@@ -1,20 +1,25 @@
-Place audio files in this [audio] directory
+1.
+Place audio file in m1mono directory
 
-### Mach1DecodeAlgoTypes:
+1.mp3
 
-Mach1DecodeAlgoHorizonPairs:
+2. 
+
+Place audio files in m1spatial directory
+
+4PAIR Format:
 000.mp3
 090.mp3
 180.mp3
 270.mp3
 
-Mach1DecodeAlgoHorizon:
+SQUARE Format:
 1.mp3
 2.mp3
 3.mp3
 4.mp3
 
-Mach1DecodeAlgoSpatial: 
+CUBE Format: 
 T1.mp3
 T2.mp3
 T3.mp3

@@ -8,8 +8,9 @@ module.exports = {
         filename: 'Mach1SoundPlayer.js',
         library: 'Mach1SoundPlayer',
     },
+	mode: 'production',
     optimization: {
-        minimize: true, //false
+        minimize: true, //true | false
     },
     node: {
         fs: 'empty'

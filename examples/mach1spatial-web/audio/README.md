@@ -1,25 +1,29 @@
 1.
-Place audio file in m1mono directory
+Place M1Encode audio file(s) in this [audio] directory per input channel type
 
-1.mp3
+Example:
+audio/mono/1.mp3
 
 2. 
 
-Place audio files in m1spatial directory
+Place M1Decode audio files in correct output type directory
 
-4PAIR Format:
+Example:
+audio/m1spatial/...mp3
+
+Mach1DecodeAlgoHorizonPairs:
 000.mp3
 090.mp3
 180.mp3
 270.mp3
 
-SQUARE Format:
+Mach1DecodeAlgoHorizon:
 1.mp3
 2.mp3
 3.mp3
 4.mp3
 
-CUBE Format: 
+Mach1DecodeAlgoSpatial: 
 T1.mp3
 T2.mp3
 T3.mp3

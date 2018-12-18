@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const FRAMES_PER_SECOND = 60;
 
-    var audioFiles = ['audio/m1mono/1.mp3'];
+    var audioFiles = ['audio/mono/1.mp3'];
     var mach1SoundPlayer = new Mach1SoundPlayer(audioFiles);
 
     const gui = new dat.GUI();
@@ -336,7 +336,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             var angle = m1Decode.getCurrentAngle();
             arrowHelper.rotation.x = THREE.Math.degToRad(angle.z);
-            arrowHelper.rotation.y = THREE.Math.degToRad(angle.x); // yaw
+            arrowHelper.rotation.y = THREE.Math.degToRad(angle.x) * -1; // yaw
             arrowHelper.rotation.z = THREE.Math.degToRad(angle.y) - Math.PI / 2; // pitch
 
 

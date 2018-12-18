@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
         rotation: 0,
         diverge: 0.5,
         pitch: 0,
-        enableIsotropicEncode: false,
+        enableIsotropicEncode: true,
 
         sRotation: 0,
         sSpread: 0.5,
@@ -110,7 +110,13 @@ document.addEventListener("DOMContentLoaded", function() {
     var arrowHelper = new THREE.ArrowHelper(dir.normalize(), origin, length, hex);
     scene.add(arrowHelper);
 
+    var geo = new THREE.Geometry()
+    geo.vertices.push( new THREE.Vector3(0, 0, 0) )
+    geo.vertices.push( new THREE.Vector3(0, 0.5, 0) )
+	var arrowLineHelper = new THREE.Line(geo, new THREE.LineBasicMaterial({ color: hex }));
+    scene.add(arrowLineHelper);
 
+	
     function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
@@ -246,7 +252,7 @@ document.addEventListener("DOMContentLoaded", function() {
     folder.add(params, 'rotation', 0, 1, 0.01).name('Rotation').onChange(update);
     folder.add(params, 'diverge', -0.707, 0.707, 0.01).name('Diverge').onChange(update);
     folder.add(params, 'pitch', -1, 1, 0.01).name('Pitch').onChange(update);
-    //folder.add(params, 'enableIsotropicEncode').name('Isotropic encode').onChange(update);
+    folder.add(params, 'enableIsotropicEncode').name('Isotropic encode').onChange(update);
 
     elementSRotation = folder.add(params, 'sRotation', -180, 180, 1).name('S Rotation').onChange(update).__li;
     elementSSpread = folder.add(params, 'sSpread', 0, 1, 0.01).name('S Spread').onChange(update).__li;
@@ -335,11 +341,25 @@ document.addEventListener("DOMContentLoaded", function() {
             mach1SoundPlayer.updateVolumes(vol);
 
             var angle = m1Decode.getCurrentAngle();
-            arrowHelper.rotation.x = THREE.Math.degToRad(angle.z);
+ 
+			arrowHelper.rotation.set(0,0,0);
             arrowHelper.rotation.y = THREE.Math.degToRad(angle.x) * -1; // yaw
-            arrowHelper.rotation.z = THREE.Math.degToRad(angle.y) - Math.PI / 2; // pitch
-
-
+	        arrowHelper.rotation.z = THREE.Math.degToRad(angle.y) - Math.PI / 2; // pitch
+	
+			// rotate
+			var vec = new THREE.Euler();
+			vec.x = 0;
+			vec.y = THREE.Math.degToRad(angle.x) * -1; // yaw
+			vec.z = THREE.Math.degToRad(angle.y); // pitch
+			var rotationMatrixOrig = new THREE.Matrix4();
+			rotationMatrixOrig.makeRotationFromEuler(vec);
+				
+			var rotationMatrixRoll = new THREE.Matrix4();
+			rotationMatrixRoll.makeRotationAxis( new THREE.Vector3(1, 0, 0), THREE.Math.degToRad(angle.z) );
+			rotationMatrixOrig.multiply(rotationMatrixRoll); // post multiply
+			
+			arrowLineHelper.matrix = rotationMatrixOrig;
+			arrowLineHelper.rotation.setFromRotationMatrix( arrowLineHelper.matrix );
         }
 	}
 	

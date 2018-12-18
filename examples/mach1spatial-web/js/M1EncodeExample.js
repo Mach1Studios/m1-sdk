@@ -293,18 +293,15 @@ document.addEventListener("DOMContentLoaded", function() {
             m1Encode.generatePointResults();
             var gains = m1Encode.getGains();
 
+			/*
             var rotation = new THREE.Euler().setFromQuaternion(camera.quaternion);
             rotation.x = Math.fround(THREE.Math.radToDeg(rotation.x));
             rotation.y = Math.fround(THREE.Math.radToDeg(rotation.y));
             rotation.z = Math.fround(THREE.Math.radToDeg(rotation.z));
-
-            // test
-            rotation.x = params.decoderRotationY;
-            rotation.y = params.decoderRotationP;
-            rotation.z = params.decoderRotationR;
-
+			*/
+			
             m1Decode.beginBuffer();
-            var decoded = m1Decode.decode(rotation.x, rotation.y, rotation.z);
+            var decoded = m1Decode.decode(params.decoderRotationY, params.decoderRotationP, params.decoderRotationR);// rotation.x, rotation.y, rotation.z);
             m1Decode.endBuffer();
 
             var points = m1Encode.getPoints();
@@ -316,6 +313,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 vol[0] += (decoded[2 * j + 0]) * gains[0][j];
                 vol[1] += (decoded[2 * j + 1]) * gains[gains.length > 1 ? 1 : 0][j];
             }
+			
+			console.log(vol);
 
             for (var i = 0; i < m1Encode.getPointsCount(); i++) {
                 spheres[i].position.set(points[i].x * 2 - 1, points[i].y * 2 - 1, points[i].z * 2 - 1);
@@ -344,18 +343,18 @@ document.addEventListener("DOMContentLoaded", function() {
  
 			arrowHelper.rotation.set(0,0,0);
             arrowHelper.rotation.y = THREE.Math.degToRad(angle.x) * -1; // yaw
-	        arrowHelper.rotation.z = THREE.Math.degToRad(angle.y) - Math.PI / 2; // pitch
+	        arrowHelper.rotation.z = THREE.Math.degToRad(angle.y) * -1 - Math.PI / 2; // pitch
 	
 			// rotate
 			var vec = new THREE.Euler();
 			vec.x = 0;
 			vec.y = THREE.Math.degToRad(angle.x) * -1; // yaw
-			vec.z = THREE.Math.degToRad(angle.y); // pitch
+			vec.z = THREE.Math.degToRad(angle.y) * -1; // pitch
 			var rotationMatrixOrig = new THREE.Matrix4();
 			rotationMatrixOrig.makeRotationFromEuler(vec);
 				
 			var rotationMatrixRoll = new THREE.Matrix4();
-			rotationMatrixRoll.makeRotationAxis( new THREE.Vector3(1, 0, 0), THREE.Math.degToRad(angle.z) );
+			rotationMatrixRoll.makeRotationAxis( new THREE.Vector3(1, 0, 0), THREE.Math.degToRad(angle.z) * -1 );
 			rotationMatrixOrig.multiply(rotationMatrixRoll); // post multiply
 			
 			arrowLineHelper.matrix = rotationMatrixOrig;

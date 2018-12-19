@@ -3,12 +3,12 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleIdentifier</key>
-	<string></string>
+	<string>com.mach1.m1transcode</string>
 	<key>CFBundleVersion</key>
 	<string>1.1.2</string>
 	<key>CFBundleName</key>
-	<string>m1-fmtconv</string>
+	<string>m1-transcode</string>
 	<key>CFBundleDisplayName</key>
-	<string>m1-fmtconv</string>
+	<string>m1-transcode</string>
 </dict>
 </plist>

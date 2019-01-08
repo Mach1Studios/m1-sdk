@@ -9,12 +9,8 @@ lib/
 utility/
 
 # Xcode generated #
-*.xcscheme
 *.xcscmblueprint
-*.xcworkspacedata
-*.pbxproj
-*xcschememanagement.plist
-*.xcconfig
+*.xcuserdatad
 
 # Unity generated #
 # =============== #

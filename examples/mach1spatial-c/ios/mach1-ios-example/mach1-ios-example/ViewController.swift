@@ -9,7 +9,6 @@
 import UIKit
 import CoreMotion
 import AVFoundation
-import AudioKit
 
 var motionManager = CMMotionManager()
 var stereoPlayer = AVAudioPlayer()
@@ -18,10 +17,11 @@ var stereoActive = false
 var isYawActive = true
 var isPitchActive = false
 var isRollActive = false
+var isPlaying = false
 
-var players: [AKPlayer] = []
-
-var mixer: AKMixer = AKMixer()
+private var audioEngine: AVAudioEngine = AVAudioEngine()
+private var mixer: AVAudioMixerNode = AVAudioMixerNode()
+var players: [AVAudioPlayer] = []
 
 class ViewController: UIViewController {
     
@@ -29,26 +29,31 @@ class ViewController: UIViewController {
     @IBOutlet weak var pitch: UILabel!
     @IBOutlet weak var roll: UILabel!
     @IBAction func playButton(_ sender: Any) {
-        let shortStartDelay:TimeInterval = 0.1
-        
-        var startTime = AVAudioTime.now() + 0.25
-        for audioPlayer in players {
-            audioPlayer.play(at: startTime)
+        if !isPlaying {
+            var startDelayTime = 1.0
+            var now = players[0].deviceCurrentTime
+            var startTime = now + startDelayTime
+            print (startTime)
+            for audioPlayer in players {
+                audioPlayer.play(atTime: startTime)
+            }
+            //stereoPlayer.play()
+            print("isPlaying")
+            isPlaying = true
         }
-
-        //stereoPlayer.play()
-        print("isPlaying")
-        //        }else{
-        //        }
     }
     @IBAction func stopButton(_ sender: Any) {
-        for i in 0...7 {
-            do {
-                players[i * 2].stop()
-                players[i * 2 + 1].stop()
-            }
+        for audioPlayer in players {
+            audioPlayer.stop()
         }
-        stereoPlayer.pause()
+        isPlaying = false
+        //stereoPlayer.stop()
+        // prep files for next play
+        for i in 0...7 {
+            players[i * 2].prepareToPlay()
+            players[i * 2 + 1].prepareToPlay()
+        }
+        //stereoPlayer.prepareToPlay()
     }
     @IBAction func staticStereoActive(_ sender: Any) {
         stereoActive = !stereoActive
@@ -64,34 +69,24 @@ class ViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        mixer = AKMixer()
-        mixer.volume = 1.0
-        AudioKit.output = mixer
-        
-        do {
-            try AudioKit.start()
-        } catch {
-            print (error)
-        }
         
         do {
             for i in 0...7 {
                 //load in the individual streams of audio from a Mach1 Spatial encoded audio file
                 //this example assumes you have decoded the multichannel (8channel) audio file into individual streams
-                players.append(try AKPlayer(url: URL.init(fileURLWithPath: Bundle.main.path(forResource: "00" + String(i), ofType: "aif")!))!)
-                players.append(try AKPlayer(url: URL.init(fileURLWithPath: Bundle.main.path(forResource: "00" + String(i), ofType: "aif")!))!)
+                players.append(try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "00" + String(i), ofType: "aif")!)))
+                players.append(try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "00" + String(i), ofType: "aif")!)))
                 
-                players[i * 2].isLooping = true
-                players[i * 2 + 1].isLooping = true
+                players[i * 2].numberOfLoops = 10
+                players[i * 2 + 1].numberOfLoops = 10
                 
                 //the Mach1Decode function 8*2 channels to correctly recreate the stereo image
                 players[i * 2].pan = -1.0;
                 players[i * 2 + 1].pan = 1.0;
                 
-                players[i * 2].outputNode.connect(to: mixer.inputNode)
-                players[i * 2 + 1].outputNode.connect(to: mixer.inputNode)
+                players[i * 2].prepareToPlay()
+                players[i * 2 + 1].prepareToPlay()
+                
             }
             
             //Mach1 Decode Setup
@@ -187,8 +182,8 @@ class ViewController: UIViewController {
                 
                 //Use each coeff to decode multichannel Mach1 Spatial mix
                 for i in 0...7 {
-                    players[i * 2].volume = Double(decodeArray[i * 2])
-                    players[i * 2 + 1].volume = Double(decodeArray[i * 2 + 1])
+                    players[i * 2].setVolume(Float(decodeArray[i * 2]), fadeDuration: 0)
+                    players[i * 2 + 1].setVolume(Float(decodeArray[i * 2 + 1]), fadeDuration: 0)
                     
                     print(String(players[i * 2].currentTime) + " ; " + String(i * 2))
                     print(String(players[i * 2 + 1].currentTime) + " ; " + String(i * 2 + 1))

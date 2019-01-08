@@ -5,7 +5,6 @@
 */_install/
 
 # Mach1 Release #
-lib/
 utility/
 
 # Xcode generated #

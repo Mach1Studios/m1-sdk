@@ -229,6 +229,9 @@
             <a href="#mach1encode-api" class="toc-h1 toc-link" data-title="Mach1Encode API">Mach1Encode API</a>
               <ul class="toc-list-h2">
                   <li>
+                    <a href="#installation" class="toc-h2 toc-link" data-title="Mach1Encode API">Installation</a>
+                  </li>
+                  <li>
                     <a href="#generate-point-results" class="toc-h2 toc-link" data-title="Mach1Encode API">Generate Point Results</a>
                   </li>
                   <li>
@@ -293,6 +296,20 @@
               </ul>
           </li>
           <li>
+            <a href="#mach1decodepositional-api" class="toc-h1 toc-link" data-title="Mach1DecodePositional API">Mach1DecodePositional API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#unity-amp-unreal-engine" class="toc-h2 toc-link" data-title="Mach1DecodePositional API">Unity &amp; Unreal Engine</a>
+                  </li>
+                  <li>
+                    <a href="#summary-use" class="toc-h2 toc-link" data-title="Mach1DecodePositional API">Summary Use</a>
+                  </li>
+                  <li>
+                    <a href="#installation" class="toc-h2 toc-link" data-title="Mach1DecodePositional API">Installation</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#mach1transcode-api" class="toc-h1 toc-link" data-title="Mach1Transcode API">Mach1Transcode API</a>
               <ul class="toc-list-h2">
                   <li>
@@ -300,17 +317,6 @@
                   </li>
                   <li>
                     <a href="#formats-supported" class="toc-h2 toc-link" data-title="Mach1Transcode API">Formats Supported</a>
-                  </li>
-              </ul>
-          </li>
-          <li>
-            <a href="#positional-functions" class="toc-h1 toc-link" data-title="Positional Functions">Positional Functions</a>
-              <ul class="toc-list-h2">
-                  <li>
-                    <a href="#unity-amp-unreal-engine" class="toc-h2 toc-link" data-title="Positional Functions">Unity &amp; Unreal Engine</a>
-                  </li>
-                  <li>
-                    <a href="#api-coming-version-1-1" class="toc-h2 toc-link" data-title="Positional Functions">API [coming version:1.1]</a>
                   </li>
               </ul>
           </li>
@@ -334,7 +340,6 @@
       </div>
         <ul class="toc-footer">
             <li><a href='http://www.qdepartment.com/__Mach1/research/'>Research Papers</a></li>
-            <li><a href='http://www.mach1studios.com/signup'>Sign up for beta workflow tools</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -352,6 +357,8 @@
 Encode and process input streams/audio into a Mach1Spatial VVBP format.</li>
 <li><strong><em>Mach1Decode lib:</em></strong>
 Decode and process a Mach1Spatial VVBP format with device orientation / headtracking to output directional spatial audio.</li>
+<li><strong><em>Mach1DecodePositional lib:</em></strong>
+Add additional optional decoding layer to decode spatial mixes with 6DOF for positional and orientational decoding. </li>
 <li><strong><em>Mach1Transcode lib:</em></strong>
 Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatial VVBP format.</li>
 </ul>
@@ -363,6 +370,16 @@ Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatia
 <p>Mach1Encode allows you to transform input audio streams into the Mach1Spatial VVBP 8 channel format. Included are functions needed for mono, stereo or quad/FOA audio streams. The input streams are referred to as <code>Points</code> in our SDK.</p>
 
 <p>The typical encoding process starts with creating an object of a class Mach1EncodeCore, and setting it up as described below. After that, you&#39;re meant to generate Points by calling generatePointResults() on the object of this class. You&#39;ll get as many points as there are input channels and as many gains in each point as there are output channels. You then copy each input channel to each output channel with the according gain.</p>
+<h2 id='installation'>Installation</h2>
+<p>Import and link the appropriate target device&#39;s / IDE&#39;s library file. </p>
+
+<blockquote>
+<p>shell:</p>
+</blockquote>
+<pre class="highlight plaintext"><code>rsync -aved  "$OF_PATH/addons/ofxMach1/libs/lib/osx/libMach1EncodeCAPI.dylib" "$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/";
+install_name_tool -change libMach1EncodeCAPI.dylib @executable_path/../Frameworks/libMach1EncodeCAPI.dylib "$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME";
+</code></pre>
+<aside class="notice">openFrameworks: when importing ofxMach1 add the following to your post-build script</aside>
 <h2 id='generate-point-results'>Generate Point Results</h2>
 <p>Returns the resulting <code>points</code> coefficients based on selected and calculated input/output configuration.</p>
 <pre class="highlight cpp tab-cpp"><code><span class="n">M1EncodeCorePointResults</span> <span class="n">points</span> <span class="o">=</span> <span class="n">m1Encode</span><span class="p">.</span><span class="n">generatePointResults</span><span class="p">();</span>
@@ -493,7 +510,7 @@ Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatia
 <blockquote>
 <p>shell:</p>
 </blockquote>
-<pre class="highlight plaintext"><code>rsync -aved  ../../../addons/ofxMach1/libs/lib/osx/libMach1DecodeCAPI.dylib  "$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/";
+<pre class="highlight plaintext"><code>rsync -aved  "$OF_PATH/addons/ofxMach1/libs/lib/osx/libMach1DecodeCAPI.dylib" "$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/";
 install_name_tool -change libMach1DecodeCAPI.dylib @executable_path/../Frameworks/libMach1DecodeCAPI.dylib "$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME";
 </code></pre>
 <aside class="notice">openFrameworks: when importing ofxMach1 add the following to your post-build script</aside>
@@ -682,6 +699,38 @@ Use this to get the current angle being processed by Mach1Decode, good for orien
 ## Get Log
 
 Use this to get a list of input angles and the associated output coefficients from the used Mach1Decode function. -->
+<h1 id='mach1decodepositional-api'>Mach1DecodePositional API</h1>
+<p>Mach1DecodePositional allows the 3DOF orientation decoding to decode in a dev environment that supports 6DOF with positional movement. It does this by referencing the user&#39;s device to a location and adding an additional layer of rotations and attenuations to the spatial decoding. </p>
+<h2 id='unity-amp-unreal-engine'>Unity &amp; Unreal Engine</h2>
+<p>Please view the examples in <code>examples/Unity|UnrealEngine</code> to see deployment of Mach1Spatial mixes with positional rotation and attenuation applied. These fucntions can be viewed from the M1Base class used in both examples and are called by creating a new object in the game engine and attaching Mach1SpatialActor or Mach1SpatialDecode.cs to view the setup for a Mach1 Spatial mix layer. </p>
+
+<blockquote>
+<p>These implementation require the multichannel mixes to be split into multiple-mono mixes. You can use <code>m1-transcode</code> or the M1-Transcoder GUI application to achieve this easily. </p>
+</blockquote>
+<h2 id='summary-use'>Summary Use</h2>
+<ul>
+<li><code>setCameraPosition(Mach1Point3DCore* pos)</code> </li>
+<li><code>setCameraRotation(Mach1Point3DCore* euler)</code></li>
+<li><code>setMach1ObjPosition(Mach1Point3DCore* pos)</code></li>
+<li><code>setMach1ObjRotation(Mach1Point3DCore* euler)</code></li>
+<li><code>setMach1ObjScale(Mach1Point3DCore* scale)</code></li>
+<li><code>setAttenuationCurve(float* curve)</code></li>
+<li><code>getPositionResultsPoint()</code></li>
+<li><code>getPositionResultsObjCenter()</code></li>
+<li><code>getPositionResultsObjWalls(enum planeSelect, bool pointType)</code></li>
+<li><code>updatePostionResults()</code></li>
+</ul>
+<h2 id='installation'>Installation</h2>
+<p>Import and link the appropriate target device&#39;s / IDE&#39;s library file. 
+<aside class="notice">Requires libMach1DecodeCAPI for reference to spatial object and orientation decoding</aside></p>
+
+<blockquote>
+<p>shell:</p>
+</blockquote>
+<pre class="highlight plaintext"><code>rsync -aved  "$OF_PATH/addons/ofxMach1/libs/lib/osx/libMach1DecodePositionalCAPI.dylib" "$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/";
+install_name_tool -change libMach1DecodeCAPI.dylib @executable_path/../Frameworks/libMach1DecodePositionalCAPI.dylib "$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME";
+</code></pre>
+<aside class="notice">openFrameworks: when importing ofxMach1 add the following to your post-build script</aside>
 <h1 id='mach1transcode-api'>Mach1Transcode API</h1>
 <p>Mach1Transcode includes functions for use cases that utilizing Mach1Spatial&#39;s agnostic abilities and allows 1:1 VBAP style conversions from any surround or spatial audio format and to any other surround or spatial audio format. This is very helpful for apps that have certain input requirements but different output requirements based on whether the app is launched for VR/AR/MR or just mobile use without completely redesigning the application&#39;s structure for audio. This is also a recommended method of carrying one master spatial audio container and at endpoints converting it as needed without adverse signal altering effects seen in other spatial audio formats. </p>
 <h2 id='usage'>Usage</h2>
@@ -748,27 +797,6 @@ Use this to get a list of input angles and the associated output coefficients fr
 <li>TBE - Facebook360 Hybrid 2nd order</li>
 <li>ACNSN3DO3A - 3rd order B-format, AmbiX ACN order and SN3D weighting</li>
 <li>FuMaO3A - 3rd order B-format, Furse-Malham order and weighting</li>
-</ul>
-<h1 id='positional-functions'>Positional Functions</h1>
-<aside class="notice">Positional functions are being refactored from Unity & Unreal Engine M1Base class to the Mach1Decode API upon release 1.1</aside>
-<h2 id='unity-amp-unreal-engine'>Unity &amp; Unreal Engine</h2>
-<p>Please view the examples in <code>examples/Unity|UnrealEngine</code> to see deployment of Mach1Spatial mixes with positional rotation and attenuation applied. These fucntions can be viewed from the M1Base class used in both examples and are called by creating a new object in the game engine and attaching Mach1SpatialActor or Mach1SpatialDecode.cs to view the setup for a Mach1 Spatial mix layer. </p>
-
-<blockquote>
-<p>These implementation require the multichannel mixes to be split into multiple-mono mixes. You can use <code>m1-transcode</code> or the M1-Transcoder GUI application to achieve this easily. </p>
-</blockquote>
-<h2 id='api-coming-version-1-1'>API [coming version:1.1]</h2>
-<ul>
-<li><code>setCameraPosition(Mach1Point3DCore* pos)</code> </li>
-<li><code>setCameraRotation(Mach1Point3DCore* euler)</code></li>
-<li><code>setMach1ObjPosition(Mach1Point3DCore* pos)</code></li>
-<li><code>setMach1ObjRotation(Mach1Point3DCore* euler)</code></li>
-<li><code>setMach1ObjScale(Mach1Point3DCore* scale)</code></li>
-<li><code>setAttenuationCurve(float* curve)</code></li>
-<li><code>getPositionResultsPoint()</code></li>
-<li><code>getPositionResultsObjCenter()</code></li>
-<li><code>getPositionResultsObjWalls(enum planeSelect, bool pointType)</code></li>
-<li><code>updatePostionResults()</code></li>
 </ul>
 <h1 id='common-issues'>Common Issues</h1>
 <p>The following is a list of common heard issues during implementation and include audio tools to help find these issues as well as basic descriptions of their behavior and how they can be avoided.</p>

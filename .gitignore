@@ -6,6 +6,7 @@
 
 # Xcode generated #
 *.xcscmblueprint
+*.xcuserdatad
 DerivedData
 
 # Unity generated #

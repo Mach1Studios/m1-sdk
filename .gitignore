@@ -5,12 +5,8 @@
 */_install/
 
 # Xcode generated #
-*.xcscheme
 *.xcscmblueprint
-*.xcworkspacedata
-*.pbxproj
-*xcschememanagement.plist
-*.xcconfig
+DerivedData
 
 # Unity generated #
 # =============== #

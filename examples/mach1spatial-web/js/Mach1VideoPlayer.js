@@ -25,7 +25,12 @@ function Mach1VideoPlayer(audioFiles8, elemId, statusElId) {
 
         let status = document.getElementById(statusElId);
 
-        let sound = new Mach1SoundPlayer(audioFiles8, thus);
+        let sound = new Mach1SoundPlayer(audioFiles8);
+		
+        let m1Decode = new(Mach1DecodeModule()).Mach1Decode();
+		m1Decode.setPlatformType(m1Decode.Mach1PlatformType.Mach1PlatformOfEasyCam);
+		m1Decode.setDecodeAlgoType(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial);
+		m1Decode.setFilterSpeed(0.95);
 
         // DEBUG
         document.sound = sound;
@@ -79,8 +84,12 @@ function Mach1VideoPlayer(audioFiles8, elemId, statusElId) {
 
                 if (theta < 0)
                     theta = 360 + theta;
+				
+				m1Decode.beginBuffer();
+				let decoded = m1Decode.decode(-theta, -alpha, 0);
+				m1Decode.endBuffer();
 
-                sound.updateVolumes(-theta, -alpha);
+                sound.updateVolumes(decoded);
             }
         }
 

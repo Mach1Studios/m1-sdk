@@ -1,6 +1,15 @@
-Place audio files in this [audio] directory
+1.
+Place M1Encode audio file(s) in this [audio] directory per input channel type
 
-### Mach1DecodeAlgoTypes:
+Example:
+audio/mono/1.mp3
+
+2. 
+
+Place M1Decode audio files in correct output type directory
+
+Example:
+audio/m1spatial/...mp3
 
 Mach1DecodeAlgoHorizonPairs:
 000.mp3

@@ -1,16 +1,28 @@
-# README #
+<a href="http://mach1.xyz"><img src="http://mach1.xyz/images/logo_big_b_l.png"></a>
 
 
 ### M1 SDK ###
 
-* Quick summary
+* Summary
 * Included
+* Documentation: <a href="http://mach1.xyz">mach1.xyz</a>
 * Contact
 
 
 ### Summary ###
 
-Examples and scripts of the logic used to load *n* number of channels that equally sum together for a consistent 100% summed output volume. Load mono/stereo or multichannel audio streams, then our algorithms virtualize a simplified Vector Based Panning format with source points in degrees around the listener (both pitch and yaw). Use the orientation data to properly change gain between *n* channels and correctly assemble the full stereo image of that orientation without additional processing/DSP/filtering/delay. Mach1's VVBP (Virtual Vector Based Panning) formats are the only fully transparent spatial audio format, because of this the effectiveness of directionality is completely determined by the content creator/audio engineer. 
+*VVBP or Virtual Vector Based Panning is a controlled virtual version of traditional VBAP (Vector Based Amplitude Panning) or SPS (Spatial PCM Sampling). These formats are designed for simplicity and ease of use & implementation both for the content creators and the developers. The spatial audio mixes are based on only amplitude based coefficients changes for both encoding and decoding, and unlike many other spatial audio approaches, there are no additional signal altering processes (such as room modeling, delays or filters) to create coherent and accurate spatial sound fields and play them back from a first person headtracked perspective. Due to the simplicity of the format and cuboid vector space it relies on, it is also ideal for converting and carrying surround and spatial audio mixes without altering the mix to do so, making it an ideal server side audio middleman container. Bringing controlled post-produced spatial audio into new mediums easily.*
+
+#### The Mach1 Spatial SDK includes three components and libraries: ####
+
+* Mach1Encode lib: Encode and process input streams/audio into a Mach1Spatial VVBP format.
+* Mach1Decode lib: Decode and process a Mach1Spatial VVBP format with device orientation / headtracking to output directional spatial audio.
+* Mach1DecodePositional lib: Add additional optional decoding layer to decode spatial mixes with 6DOF for positional and orientational decoding.
+* Mach1Transcode lib: Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatial VVBP format.
+
+*Mach1Encode and Mach1Decode are supported on OSX 10.7+, Windows 10+, iOS 9.0+ and Android API 19+. Unity 4.0+ and Unreal Engine 4.10+ examples are available and said engines are supported too on the aforementioned platforms.*
+
+*Mach1Transcode is supported on OSX and Windows, game engine support coming soon.*
 
 
 ### Included ###

@@ -13,7 +13,7 @@ else()
 	# bundle for Unity macOS
 	add_library(Mach1DecodePositionalCAPIBundle SHARED "./Mach1DecodePositionalCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1DecodePositionalCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")
 	set_target_properties(Mach1DecodePositionalCAPIBundle PROPERTIES BUNDLE TRUE)
-	set_target_properties(Mach1DecodePositionalCAPIBundle PROPERTIES OUTPUT_NAME "Mach1DecodePositionalCAPI")
+	set_target_properties(Mach1DecodePositionalCAPIBundle PROPERTIES OUTPUT_NAME "Mach1DecodePositionalCAPIBundle")
 	set_target_properties(Mach1DecodePositionalCAPIBundle PROPERTIES SUFFIX ".bundle")
 endif()
 

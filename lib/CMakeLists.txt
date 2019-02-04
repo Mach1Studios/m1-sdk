@@ -28,3 +28,13 @@ install(TARGETS Mach1DecodePositionalCAPI DESTINATION lib)
 if(NOT IOS)
 	install(TARGETS Mach1DecodePositionalCAPIBundle DESTINATION lib)
 endif()
+
+
+
+add_library(Mach1DecodeCAPI_Static "./Mach1DecodeCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")
+add_library(Mach1DecodePositionalCAPI_Static "./Mach1DecodePositionalCAPI.cpp" "./Mach1DecodeCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1DecodePositionalCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")
+add_library(Mach1EncodeCAPI_Static "./Mach1EncodeCAPI.cpp" "./Mach1EncodeCore.cpp")
+ 
+install(TARGETS Mach1DecodeCAPI_Static DESTINATION libStatic)
+install(TARGETS Mach1EncodeCAPI_Static DESTINATION libStatic)
+install(TARGETS Mach1DecodePositionalCAPI_Static DESTINATION libStatic)

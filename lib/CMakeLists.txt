@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 2.8.8)
 project(Mach1Library)
+set(Mach1Library_VERSION_MAJOR 1)
+set(Mach1Library_VERSION_MINOR 0)
+set(Mach1Library_VERSION_PATCH 0)
+set(Mach1Library_VERSION_TWEAK 2)
 
 if(IOS)
 	add_library(Mach1DecodeCAPI "./Mach1DecodeCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")
@@ -29,12 +33,12 @@ if(NOT IOS)
 	install(TARGETS Mach1DecodePositionalCAPIBundle DESTINATION lib)
 endif()
 
-
-
 add_library(Mach1DecodeCAPI_Static "./Mach1DecodeCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")
 add_library(Mach1DecodePositionalCAPI_Static "./Mach1DecodePositionalCAPI.cpp" "./Mach1DecodeCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1DecodePositionalCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")
 add_library(Mach1EncodeCAPI_Static "./Mach1EncodeCAPI.cpp" "./Mach1EncodeCore.cpp")
- 
+
+target_include_directories(Mach1DecodePositionalCAPI_Static PRIVATE "./include")
+
 install(TARGETS Mach1DecodeCAPI_Static DESTINATION libStatic)
 install(TARGETS Mach1EncodeCAPI_Static DESTINATION libStatic)
 install(TARGETS Mach1DecodePositionalCAPI_Static DESTINATION libStatic)

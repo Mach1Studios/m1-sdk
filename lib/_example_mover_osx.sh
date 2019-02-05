@@ -9,12 +9,15 @@ echo "### Replacing Xcode/macOS ###"
 yes | cp -rf _install/xcode ../binaries/
 yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.dylib" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/lib/osx/libMach1DecodeCAPI.dylib"
 yes | cp -rf "_install/xcode/lib/libMach1EncodeCAPI.dylib" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/lib/osx/libMach1EncodeCAPI.dylib"
+yes | cp -rf "_install/xcode/lib/libMach1DecodePositionalCAPI.dylib" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/lib/osx/libMach1DecodePositionalCAPI.dylib"
 
-yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.dylib" "../examples/mach1spatial-c/Unity/cs/Plugins/macOS/libMach1DecodeCAPI.bundle"
-yes | cp -rf "_install/xcode/lib/libMach1EncodeCAPI.dylib" "../examples/mach1spatial-c/Unity/cs/Plugins/macOS/libMach1EncodeCAPI.bundle"
+yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.bundle" "../examples/mach1spatial-c/Unity/cs/Plugins/macOS/libMach1DecodeCAPI.bundle"
+yes | cp -rf "_install/xcode/lib/libMach1EncodeCAPI.bundle" "../examples/mach1spatial-c/Unity/cs/Plugins/macOS/libMach1EncodeCAPI.bundle"
+yes | cp -rf "_install/xcode/lib/libMach1DecodePositionalCAPI.bundle" "../examples/mach1spatial-c/Unity/cs/Plugins/macOS/libMach1DecodePositionalCAPI.bundle"
 
-yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.dylib" "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1DecodeCAPI.bundle"
-yes | cp -rf "_install/xcode/lib/libMach1EncodeCAPI.dylib" "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1EncodeCAPI.bundle"
+yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.bundle" "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1DecodeCAPI.bundle"
+yes | cp -rf "_install/xcode/lib/libMach1EncodeCAPI.bundle" "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1EncodeCAPI.bundle"
+yes | cp -rf "_install/xcode/lib/libMach1DecodePositionalCAPI.bundle" "../examples/mach1spatial-c/Unity/cs/Plugins/macOS/libMach1DecodePositionalCAPI.bundle"
 
 yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.dylib" "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/ThirdParty/Mach1/bin/Mac/libMach1DecodeCAPI.dylib"
 yes | cp -rf "_install/xcode/lib/libMach1DecodePositionalCAPI.dylib" "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/ThirdParty/Mach1/bin/Mac/libMach1DecodePositionalCAPI.dylib"

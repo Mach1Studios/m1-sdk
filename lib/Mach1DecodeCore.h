@@ -310,8 +310,8 @@ private:
         
         
         for (int i = 0; i < 8; i++) {
-            float vL = clamp(mmap(qL[i], 0, 223, 1.f, 0.), 0, 1);
-            float vR = clamp(mmap(qR[i], 0, 223, 1.f, 0.), 0, 1);
+            float vL = clamp(mmap(qL[i], 0, 200, 1.f, 0.), 0, 1);
+            float vR = clamp(mmap(qR[i], 0, 200, 1.f, 0.), 0, 1);
             
             result[i * 2] = vL;
             result[i * 2 + 1] = vR;
@@ -410,8 +410,8 @@ private:
         result.resize(16);
         
         for (int i = 0; i < 8; i++) {
-            float vL = clamp(mmap(qL[i], 0, 223, 1.f, 0.), 0, 1);
-            float vR = clamp(mmap(qR[i], 0, 223, 1.f, 0.), 0, 1);
+            float vL = clamp(mmap(qL[i], 0, 200, 1.f, 0.), 0, 1);
+            float vR = clamp(mmap(qR[i], 0, 200, 1.f, 0.), 0, 1);
             
             result[i * 2] = vL;
             result[i * 2 + 1] = vR;

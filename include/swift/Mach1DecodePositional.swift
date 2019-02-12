@@ -91,26 +91,27 @@ class Mach1DecodePositionalCAPI {
     }
     
     func getVolumesWalls(result: inout [Float]) {
-        let pointer: UnsafeMutablePointer< Float > = UnsafeMutablePointer(&result)
+        let pointer: UnsafeMutablePointer< Float > = UnsafeMutablePointer(&result);
         Mach1DecodePositionalCAPI_getVolumesWalls(M1obj, pointer);
     }
     func getVolumesRoom(result: inout [Float]) {
-        let pointer: UnsafeMutablePointer< Float > = UnsafeMutablePointer(&result)
-       Mach1DecodePositionalCAPI_getVolumesRoom(M1obj, pointer);
+        let pointer: UnsafeMutablePointer< Float > = UnsafeMutablePointer(&result);
+        Mach1DecodePositionalCAPI_getVolumesRoom(M1obj, pointer);
     }
-    func getDist() {
-        Mach1DecodePositionalCAPI_getDist(M1obj);
+    func getDist() -> Float {
+        return Mach1DecodePositionalCAPI_getDist(M1obj);
     }
-    func getCurrentAngle() {
-        Mach1DecodePositionalCAPI_getCurrentAngle(M1obj);
+    func getCurrentAngle() -> struct Mach1Point3D {
+    return Mach1DecodePositionalCAPI_getCurrentAngle(M1obj);
     }
-    func getVolumeRotation() {
-        Mach1DecodePositionalCAPI_getVolumeRotation(M1obj);
+    func getVolumeRotation() -> struct Mach1Point3D {
+    return Mach1DecodePositionalCAPI_getVolumeRotation(M1obj);
     }
     func setFilterSpeed(filterSpeed: Float) {
-        Mach1DecodeCAPI_setFilterSpeed(M1obj, filterSpeed)
+        Mach1DecodePositionalCAPI_setFilterSpeed(M1obj, filterSpeed)
     }
 }
+
 
 
 

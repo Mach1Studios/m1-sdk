@@ -29,10 +29,6 @@ class ViewController : UIViewController, UITextFieldDelegate {
     @IBOutlet weak var labelCameraPitch: UILabel!
     @IBOutlet weak var labelCameraRoll: UILabel!
     
-    @IBOutlet weak var textfieldObjectX: UITextField!
-    @IBOutlet weak var textfieldObjectY: UITextField!
-    @IBOutlet weak var textfieldObjectZ: UITextField!
-
     @IBOutlet weak var sliderCameraX: UISlider!
     @IBOutlet weak var sliderCameraY: UISlider!
     @IBOutlet weak var sliderCameraZ: UISlider!
@@ -92,11 +88,6 @@ class ViewController : UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        self.textfieldObjectX.delegate = self
-        self.textfieldObjectY.delegate = self
-        self.textfieldObjectZ.delegate = self
 
         do {
             for i in 0...7 {
@@ -219,12 +210,6 @@ class ViewController : UIViewController, UITextFieldDelegate {
                         y: (self?.sliderCameraY.value)!,
                         z: (self?.sliderCameraZ.value)!
                     )
-                    self?.objectPosition = Mach1Point3D(
-                        x: Float((self?.textfieldObjectX.text)!) ?? 0,
-                        y: Float((self?.textfieldObjectY.text)!) ?? 0,
-                        z: Float((self?.textfieldObjectZ.text)!) ?? 0
-                    )
-                    
                 }
                 
                 //Mute stereo if off
@@ -249,7 +234,7 @@ class ViewController : UIViewController, UITextFieldDelegate {
                 m1obj.evaluatePositionResults()
                 
                 var decodeArray: [Float] = Array(repeating: 0.0, count: 18)
-                m1obj.getVolumesRoom(result: &decodeArray)
+                m1obj.getVolumesWalls(result: &decodeArray)
                 
                 print(decodeArray)
                 

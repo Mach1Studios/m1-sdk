@@ -26,7 +26,6 @@
 		A4F80A29203B3B86008D976A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4F80A27203B3B86008D976A /* Main.storyboard */; };
 		A4F80A2B203B3B86008D976A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4F80A2A203B3B86008D976A /* Assets.xcassets */; };
 		A4F80A2E203B3B86008D976A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4F80A2C203B3B86008D976A /* LaunchScreen.storyboard */; };
-		CE4C8E1E22147AD1001B2E13 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE4C8E1D22147AD1001B2E13 /* Info.plist */; };
 		CEC356D522136C7200FA592F /* libMach1DecodePositionalCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC356D422136C7200FA592F /* libMach1DecodePositionalCAPI.a */; };
 		CEC356D722136C7500FA592F /* libMach1EncodeCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC356D622136C7500FA592F /* libMach1EncodeCAPI.a */; };
 /* End PBXBuildFile section */
@@ -218,7 +217,6 @@
 				A4AF3D0B20491A3F00253825 /* stereo.wav in Resources */,
 				A4AF3D062048C3DE00253825 /* 003.aif in Resources */,
 				A4AF3D042048C3DE00253825 /* 004.aif in Resources */,
-				CE4C8E1E22147AD1001B2E13 /* Info.plist in Resources */,
 				A4AF3D002048C3DE00253825 /* 005.aif in Resources */,
 				A4AF3D012048C3DE00253825 /* 006.aif in Resources */,
 				A4AF3D052048C3DE00253825 /* 007.aif in Resources */,
@@ -400,7 +398,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = KUBMV92ACA;
+				DEVELOPMENT_TEAM = 6ZETDT84RB;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -411,7 +409,7 @@
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../binaries/ios-12-1/lib/\"";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.ios-example";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.ios-positional-example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -434,7 +432,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = KUBMV92ACA;
+				DEVELOPMENT_TEAM = 6ZETDT84RB;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -445,7 +443,7 @@
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../binaries/ios-12-1/lib/\"";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.ios-example";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.ios-positional-example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -37,7 +37,7 @@ class Mach1Decode {
     }
     
     func getLog() -> String {
-        let str =  String(cString: UnsafePointer(Mach1DecodeCAPI_getLog(M1obj)))
+        let str = String(cString: UnsafePointer(Mach1DecodeCAPI_getLog(M1obj)))
         return str
     }
     

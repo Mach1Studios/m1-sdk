@@ -1,23 +1,5 @@
 import Foundation
 
-enum Mach1PlatformType : Int {
-    case Mach1PlatformDefault = 0
-    case Mach1PlatformUnity = 1
-    case Mach1PlatformUE = 2
-    case Mach1PlatformOfEasyCam = 3
-    case Mach1PlatformAndroid = 4
-    case Mach1PlatformiOSPortrait = 5
-    case Mach1PlatformiOSLandscape = 6
-}
-
-enum Mach1DecodeAlgoType : Int {
-    case Mach1DecodeAlgoSpatial = 0
-    case Mach1DecodeAlgoAltSpatial = 1
-    case Mach1DecodeAlgoHorizon = 2
-    case Mach1DecodeAlgoHorizonPairs = 3
-    case Mach1DecodeAlgoSpatialPairs = 4
-}
-
 class Mach1Decode {
     var M1obj : UnsafeMutableRawPointer
     
@@ -30,11 +12,11 @@ class Mach1Decode {
     }
     
     func setPlatformType(type: Mach1PlatformType) {
-        Mach1DecodeCAPI_setPlatformType(M1obj, CInt(type.rawValue))
+        Mach1DecodeCAPI_setPlatformType(M1obj, type)
     }
     
     func setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoType) {
-        Mach1DecodeCAPI_setDecodeAlgoType(M1obj, CInt(newAlgorithmType.rawValue))
+        Mach1DecodeCAPI_setDecodeAlgoType(M1obj, newAlgorithmType)
     }
 
     func setFilterSpeed(filterSpeed: Float) {
@@ -60,7 +42,7 @@ class Mach1Decode {
     }
     
     func decode(Yaw: Float, Pitch: Float, Roll: Float, bufferSize: Int = 0, sampleIndex: Int = 0) -> [Float] {
-        var array: [Float] = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+        var array: [Float] = Array(repeating: 0.0, count: 18)
         Mach1DecodeCAPI_decode(M1obj, Yaw, Pitch, Roll, &array, CInt(bufferSize), CInt(sampleIndex))
         return array
     }

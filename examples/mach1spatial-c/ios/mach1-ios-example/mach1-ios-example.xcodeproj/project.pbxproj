@@ -20,12 +20,12 @@
 		A4AF3D062048C3DE00253825 /* 003.aif in Resources */ = {isa = PBXBuildFile; fileRef = A4AF3CFE2048C3DD00253825 /* 003.aif */; };
 		A4AF3D092048C42500253825 /* 000.aif in Resources */ = {isa = PBXBuildFile; fileRef = A4AF3D082048C42500253825 /* 000.aif */; };
 		A4AF3D0B20491A3F00253825 /* stereo.wav in Resources */ = {isa = PBXBuildFile; fileRef = A4AF3D0A20491A3F00253825 /* stereo.wav */; };
+		A4D27727221370130079FEFC /* Mach1DecodePositional.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4D27726221370130079FEFC /* Mach1DecodePositional.swift */; };
 		A4F80A24203B3B86008D976A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F80A23203B3B86008D976A /* AppDelegate.swift */; };
 		A4F80A26203B3B86008D976A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F80A25203B3B86008D976A /* ViewController.swift */; };
 		A4F80A29203B3B86008D976A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4F80A27203B3B86008D976A /* Main.storyboard */; };
 		A4F80A2B203B3B86008D976A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4F80A2A203B3B86008D976A /* Assets.xcassets */; };
 		A4F80A2E203B3B86008D976A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4F80A2C203B3B86008D976A /* LaunchScreen.storyboard */; };
-		CEC356D12213519F00FA592F /* Mach1DecodePositionalCAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC356D02213519F00FA592F /* Mach1DecodePositionalCAPI.swift */; };
 		CEC356D522136C7200FA592F /* libMach1DecodePositionalCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC356D422136C7200FA592F /* libMach1DecodePositionalCAPI.a */; };
 		CEC356D722136C7500FA592F /* libMach1EncodeCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC356D622136C7500FA592F /* libMach1EncodeCAPI.a */; };
 /* End PBXBuildFile section */
@@ -57,6 +57,7 @@
 		A4AF3CFE2048C3DD00253825 /* 003.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = 003.aif; sourceTree = "<group>"; };
 		A4AF3D082048C42500253825 /* 000.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = 000.aif; sourceTree = "<group>"; };
 		A4AF3D0A20491A3F00253825 /* stereo.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = stereo.wav; sourceTree = "<group>"; };
+		A4D27726221370130079FEFC /* Mach1DecodePositional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mach1DecodePositional.swift; path = ../../../../../include/swift/Mach1DecodePositional.swift; sourceTree = "<group>"; };
 		A4F80A20203B3B86008D976A /* mach1-ios-example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mach1-ios-example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4F80A23203B3B86008D976A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A4F80A25203B3B86008D976A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -64,7 +65,6 @@
 		A4F80A2A203B3B86008D976A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A4F80A2D203B3B86008D976A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A4F80A2F203B3B86008D976A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CEC356D02213519F00FA592F /* Mach1DecodePositionalCAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mach1DecodePositionalCAPI.swift; path = ../../../../../include/swift/Mach1DecodePositionalCAPI.swift; sourceTree = "<group>"; };
 		CEC356D422136C7200FA592F /* libMach1DecodePositionalCAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMach1DecodePositionalCAPI.a; path = "../../../../binaries/ios-12-1/lib/libMach1DecodePositionalCAPI.a"; sourceTree = "<group>"; };
 		CEC356D622136C7500FA592F /* libMach1EncodeCAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMach1EncodeCAPI.a; path = "../../../../binaries/ios-12-1/lib/libMach1EncodeCAPI.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -107,7 +107,7 @@
 				A4F80A23203B3B86008D976A /* AppDelegate.swift */,
 				A4F80A25203B3B86008D976A /* ViewController.swift */,
 				A497AFA620DC63D00098D480 /* Mach1Decode.swift */,
-				CEC356D02213519F00FA592F /* Mach1DecodePositionalCAPI.swift */,
+				A4D27726221370130079FEFC /* Mach1DecodePositional.swift */,
 				A4F80A27203B3B86008D976A /* Main.storyboard */,
 				A4F80A2A203B3B86008D976A /* Assets.xcassets */,
 				A4F80A2C203B3B86008D976A /* LaunchScreen.storyboard */,
@@ -236,8 +236,8 @@
 			files = (
 				A4F80A26203B3B86008D976A /* ViewController.swift in Sources */,
 				A4F80A24203B3B86008D976A /* AppDelegate.swift in Sources */,
+				A4D27727221370130079FEFC /* Mach1DecodePositional.swift in Sources */,
 				A497AFA720DC63D10098D480 /* Mach1Decode.swift in Sources */,
-				CEC356D12213519F00FA592F /* Mach1DecodePositionalCAPI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,7 +398,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = KUBMV92ACA;
+				DEVELOPMENT_TEAM = 6ZETDT84RB;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -432,7 +432,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = KUBMV92ACA;
+				DEVELOPMENT_TEAM = 6ZETDT84RB;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";

@@ -23,11 +23,25 @@ private var audioEngine: AVAudioEngine = AVAudioEngine()
 private var mixer: AVAudioMixerNode = AVAudioMixerNode()
 var players: [AVAudioPlayer] = []
 
-class ViewController: UIViewController {
+class ViewController : UIViewController, UITextFieldDelegate {
     
-    @IBOutlet weak var yaw: UILabel!
-    @IBOutlet weak var pitch: UILabel!
-    @IBOutlet weak var roll: UILabel!
+    @IBOutlet weak var labelCameraYaw: UILabel!
+    @IBOutlet weak var labelCameraPitch: UILabel!
+    @IBOutlet weak var labelCameraRoll: UILabel!
+    
+    @IBOutlet weak var textfieldObjectX: UITextField!
+    @IBOutlet weak var textfieldObjectY: UITextField!
+    @IBOutlet weak var textfieldObjectZ: UITextField!
+
+    @IBOutlet weak var sliderCameraX: UISlider!
+    @IBOutlet weak var sliderCameraY: UISlider!
+    @IBOutlet weak var sliderCameraZ: UISlider!
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+    
     @IBAction func playButton(_ sender: Any) {
         if !isPlaying {
             var startDelayTime = 1.0
@@ -42,6 +56,7 @@ class ViewController: UIViewController {
             isPlaying = true
         }
     }
+    
     @IBAction func stopButton(_ sender: Any) {
         for audioPlayer in players {
             audioPlayer.stop()
@@ -55,21 +70,34 @@ class ViewController: UIViewController {
         }
         //stereoPlayer.prepareToPlay()
     }
+    
     @IBAction func staticStereoActive(_ sender: Any) {
         stereoActive = !stereoActive
     }
+    
     @IBAction func yawActive(_ sender: Any) {
         isYawActive = !isYawActive
     }
+    
     @IBAction func pitchActive(_ sender: Any) {
         isPitchActive = !isPitchActive
     }
+    
     @IBAction func rollActive(_ sender: Any) {
         isRollActive = !isRollActive
     }
+    
+    var cameraPosition: Mach1Point3D = Mach1Point3D(x: 0, y: 0, z: 0)
+    var objectPosition: Mach1Point3D = Mach1Point3D(x: 0, y: 0, z: 0)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        self.textfieldObjectX.delegate = self
+        self.textfieldObjectY.delegate = self
+        self.textfieldObjectZ.delegate = self
+
         do {
             for i in 0...7 {
                 //load in the individual streams of audio from a Mach1 Spatial encoded audio file
@@ -177,17 +205,28 @@ class ViewController: UIViewController {
                     case .landscapeRight:
                         cameraYaw += 180
                         cameraRoll -= 90
-//                    default:
-                    
                     default: break
-                    //
                 }
                 
+                // get & set values from UI
                 DispatchQueue.main.async() {
-                    self?.yaw.text = String(cameraYaw)
-                    self?.pitch.text = String(cameraPitch)
-                    self?.roll.text = String(cameraRoll)
+                    self?.labelCameraYaw.text = String(cameraYaw)
+                    self?.labelCameraPitch.text = String(cameraPitch)
+                    self?.labelCameraRoll.text = String(cameraRoll)
+                    
+                    self?.cameraPosition = Mach1Point3D(
+                        x: (self?.sliderCameraX.value)!,
+                        y: (self?.sliderCameraY.value)!,
+                        z: (self?.sliderCameraZ.value)!
+                    )
+                    self?.objectPosition = Mach1Point3D(
+                        x: Float((self?.textfieldObjectX.text)!) ?? 0,
+                        y: Float((self?.textfieldObjectY.text)!) ?? 0,
+                        z: Float((self?.textfieldObjectZ.text)!) ?? 0
+                    )
+                    
                 }
+                
                 //Mute stereo if off
                 if (stereoActive) {
                     stereoPlayer.setVolume(1.0, fadeDuration: 0.1)
@@ -195,12 +234,16 @@ class ViewController: UIViewController {
                     stereoPlayer.setVolume(0.0, fadeDuration: 0.1)
                 }
                 
+                /*
+                cameraYaw = 0
+                cameraPitch = 0
+                cameraRoll = 0
+                */
+
                 //Send device orientation to m1obj with the preferred algo
-                
-                
-                m1obj.setCameraPosition(point: Mach1Point3D(x: 0, y: 0, z: 0))
+                m1obj.setCameraPosition(point: (self?.cameraPosition)!)
                 m1obj.setCameraRotation(point: Mach1Point3D(x: cameraYaw, y: cameraPitch, z: cameraRoll))
-                m1obj.setDecoderAlgoPosition(point: Mach1Point3D(x: 0, y: 0, z: 0))
+                m1obj.setDecoderAlgoPosition(point: (self?.objectPosition)!)
                 m1obj.setDecoderAlgoRotation(point: Mach1Point3D(x: 0, y: 0, z: 0))
                 m1obj.setDecoderAlgoScale(point: Mach1Point3D(x: 1, y: 1, z: 1))
                 m1obj.evaluatePositionResults()
@@ -208,15 +251,15 @@ class ViewController: UIViewController {
                 var decodeArray: [Float] = Array(repeating: 0.0, count: 18)
                 m1obj.getVolumesRoom(result: &decodeArray)
                 
-                //                    print(decodeArray)
+                print(decodeArray)
                 
                 //Use each coeff to decode multichannel Mach1 Spatial mix
                 for i in 0...7 {
                     players[i * 2].setVolume(Float(decodeArray[i * 2]), fadeDuration: 0)
                     players[i * 2 + 1].setVolume(Float(decodeArray[i * 2 + 1]), fadeDuration: 0)
                     
-                    print(String(players[i * 2].currentTime) + " ; " + String(i * 2))
-                    print(String(players[i * 2 + 1].currentTime) + " ; " + String(i * 2 + 1))
+                    // print(String(players[i * 2].currentTime) + " ; " + String(i * 2))
+                    // print(String(players[i * 2 + 1].currentTime) + " ; " + String(i * 2 + 1))
                 }
                 
                 

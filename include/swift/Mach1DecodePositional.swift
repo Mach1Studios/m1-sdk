@@ -1,6 +1,6 @@
 import Foundation
 
-class Mach1DecodePositionalCAPI {
+class Mach1DecodePositional {
     var M1obj : UnsafeMutableRawPointer
     
     init() {

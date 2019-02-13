@@ -98,6 +98,37 @@ class ViewController: UIViewController {
             //1.0 = no filter | 0.1 = slow filter
             m1obj.setFilterSpeed(filterSpeed: 1.0)
             
+            //Mach1 Decode Positional Setup
+            //Advanced Setting: used for blending 2 m1obj for crafting room ambiences
+            m1obj.setUseBlendMode(useBlendMode: false);
+            //Advanced Setting: ignore movements on height plane
+            m1obj.setIgnoreTopBottom(ignoreTopBottom: false);
+            //Setting: mute audio when setCameraPosition position is outside of m1obj volume
+            //based on setDecoderAlgoPosition & setDecoderAlgoScale
+            m1obj.setMuteWhenOutsideObject(muteWhenOutsideObject: false);
+            //Setting: mute audio when setCameraPosition position is inside of m1obj volume
+            //based on setDecoderAlgoPosition & setDecoderAlgoScale
+            m1obj.setMuteWhenInsideObject(muteWhenInsideObject: false);
+            //Setting: turn on/off distance attenuation of m1obj
+            m1obj.setUseFalloff(useFalloff: true);
+            //Advanced Setting: when on, positional rotation is calculated from the closest point
+            //of the m1obj's volume and not rotation from the center of m1obj.
+            //use this if you want the positional rotation tracking to be from a plane instead of from a point
+            m1obj.setUseClosestPointRotationMuteInside(bool: false);
+            //Setting: on/off yaw rotations from position
+            m1obj.setUseYawForRotation(bool: true);
+            //Setting: on/off pitch rotations from position
+            m1obj.setUsePitchForRotation(bool: false);
+            //Setting: on/off roll rotations from position
+            m1obj.setUseRollForRotation(bool: false);
+            
+//            m1obj.setCameraPosition(ConvertToMach1Point3D(camera.transform.position));
+//            m1obj.setCameraRotationQuat(ConvertToMach1Point4D(camera.transform.rotation));
+//            m1obj.setDecoderAlgoPosition(ConvertToMach1Point3D(gameObject.transform.position));
+//            m1obj.setDecoderAlgoRotationQuat(ConvertToMach1Point4D(gameObject.transform.rotation));
+//            m1obj.setDecoderAlgoScale(ConvertToMach1Point3D(gameObject.transform.lossyScale));
+//            m1obj.evaluatePostionResults();
+            
         } catch {
             print (error)
         }

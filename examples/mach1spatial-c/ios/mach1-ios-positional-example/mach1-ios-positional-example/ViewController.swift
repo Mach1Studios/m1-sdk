@@ -81,8 +81,8 @@ class ViewController: UIViewController {
                 players[i * 2 + 1].numberOfLoops = 10
                 
                 //the Mach1Decode function 8*2 channels to correctly recreate the stereo image
-                players[i * 2].pan = -1.0;
-                players[i * 2 + 1].pan = 1.0;
+                players[i * 2].pan = -1.0
+                players[i * 2 + 1].pan = 1.0
                 
                 players[i * 2].prepareToPlay()
                 players[i * 2 + 1].prepareToPlay()
@@ -100,35 +100,27 @@ class ViewController: UIViewController {
             
             //Mach1 Decode Positional Setup
             //Advanced Setting: used for blending 2 m1obj for crafting room ambiences
-            m1obj.setUseBlendMode(useBlendMode: false);
+            m1obj.setUseBlendMode(useBlendMode: false)
             //Advanced Setting: ignore movements on height plane
-            m1obj.setIgnoreTopBottom(ignoreTopBottom: false);
+            m1obj.setIgnoreTopBottom(ignoreTopBottom: false)
             //Setting: mute audio when setCameraPosition position is outside of m1obj volume
             //based on setDecoderAlgoPosition & setDecoderAlgoScale
-            m1obj.setMuteWhenOutsideObject(muteWhenOutsideObject: false);
+            m1obj.setMuteWhenOutsideObject(muteWhenOutsideObject: false)
             //Setting: mute audio when setCameraPosition position is inside of m1obj volume
             //based on setDecoderAlgoPosition & setDecoderAlgoScale
-            m1obj.setMuteWhenInsideObject(muteWhenInsideObject: false);
+            m1obj.setMuteWhenInsideObject(muteWhenInsideObject: false)
             //Setting: turn on/off distance attenuation of m1obj
-            m1obj.setUseFalloff(useFalloff: true);
+            m1obj.setUseFalloff(useFalloff: true)
             //Advanced Setting: when on, positional rotation is calculated from the closest point
             //of the m1obj's volume and not rotation from the center of m1obj.
             //use this if you want the positional rotation tracking to be from a plane instead of from a point
-            m1obj.setUseClosestPointRotationMuteInside(bool: false);
+            m1obj.setUseClosestPointRotationMuteInside(bool: false)
             //Setting: on/off yaw rotations from position
-            m1obj.setUseYawForRotation(bool: true);
+            m1obj.setUseYawForRotation(bool: true)
             //Setting: on/off pitch rotations from position
-            m1obj.setUsePitchForRotation(bool: false);
+            m1obj.setUsePitchForRotation(bool: false)
             //Setting: on/off roll rotations from position
-            m1obj.setUseRollForRotation(bool: false);
-            
-//            m1obj.setCameraPosition(ConvertToMach1Point3D(camera.transform.position));
-//            m1obj.setCameraRotationQuat(ConvertToMach1Point4D(camera.transform.rotation));
-//            m1obj.setDecoderAlgoPosition(ConvertToMach1Point3D(gameObject.transform.position));
-//            m1obj.setDecoderAlgoRotationQuat(ConvertToMach1Point4D(gameObject.transform.rotation));
-//            m1obj.setDecoderAlgoScale(ConvertToMach1Point3D(gameObject.transform.lossyScale));
-//            m1obj.evaluatePostionResults();
-            
+            m1obj.setUseRollForRotation(bool: false)
         } catch {
             print (error)
         }
@@ -164,11 +156,9 @@ class ViewController: UIViewController {
                 // Get the attitudes of the device
                 let attitude = motion?.attitude
                 //Device orientation management
-                var deviceYaw = attitude!.yaw * 180/M_PI
-                var devicePitch = attitude!.pitch * 180/M_PI
-                //                    let devicePitch = 0.0
-                var deviceRoll = attitude!.roll * 180/M_PI
-                //                    let deviceRoll = 0.0
+                var cameraYaw : Float = Float(attitude!.yaw) * 180 / Float.pi
+                var cameraPitch : Float = Float(attitude!.pitch) * 180 / Float.pi
+                var cameraRoll : Float = Float(attitude!.roll) * 180 / Float.pi
                 //                    print("Yaw: ", deviceYaw)
                 //                    print("Pitch: ", devicePitch)
 
@@ -177,16 +167,16 @@ class ViewController: UIViewController {
                 // (documentation URL here)
                 switch UIDevice.current.orientation{
                     case .portrait:
-                        deviceYaw += 90
-                        devicePitch -= 90
+                        cameraYaw += 90
+                        cameraPitch -= 90
                     case .portraitUpsideDown:
-                        deviceYaw -= 90
-                        devicePitch += 90
+                        cameraYaw -= 90
+                        cameraPitch += 90
                     case .landscapeLeft:
-                        deviceRoll += 90
+                        cameraRoll += 90
                     case .landscapeRight:
-                        deviceYaw += 180
-                        deviceRoll -= 90
+                        cameraYaw += 180
+                        cameraRoll -= 90
 //                    default:
                     
                     default: break
@@ -194,9 +184,9 @@ class ViewController: UIViewController {
                 }
                 
                 DispatchQueue.main.async() {
-                    self?.yaw.text = String(deviceYaw)
-                    self?.pitch.text = String(devicePitch)
-                    self?.roll.text = String(deviceRoll)
+                    self?.yaw.text = String(cameraYaw)
+                    self?.pitch.text = String(cameraPitch)
+                    self?.roll.text = String(cameraRoll)
                 }
                 //Mute stereo if off
                 if (stereoActive) {
@@ -206,9 +196,18 @@ class ViewController: UIViewController {
                 }
                 
                 //Send device orientation to m1obj with the preferred algo
-                m1obj.beginBuffer()
-                let decodeArray: [Float]  = m1obj.decode(Yaw: Float(deviceYaw), Pitch: Float(devicePitch), Roll: Float(deviceRoll))
-                m1obj.endBuffer()
+                
+                
+                m1obj.setCameraPosition(point: Mach1Point3D(x: 0, y: 0, z: 0))
+                m1obj.setCameraRotation(point: Mach1Point3D(x: cameraYaw, y: cameraPitch, z: cameraRoll))
+                m1obj.setDecoderAlgoPosition(point: Mach1Point3D(x: 0, y: 0, z: 0))
+                m1obj.setDecoderAlgoRotation(point: Mach1Point3D(x: 0, y: 0, z: 0))
+                m1obj.setDecoderAlgoScale(point: Mach1Point3D(x: 1, y: 1, z: 1))
+                m1obj.evaluatePositionResults()
+                
+                var decodeArray: [Float] = Array(repeating: 0.0, count: 18)
+                m1obj.getVolumesRoom(result: &decodeArray)
+                
                 //                    print(decodeArray)
                 
                 //Use each coeff to decode multichannel Mach1 Spatial mix

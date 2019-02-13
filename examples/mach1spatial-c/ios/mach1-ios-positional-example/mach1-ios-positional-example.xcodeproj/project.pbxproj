@@ -20,6 +20,7 @@
 		A4AF3D062048C3DE00253825 /* 003.aif in Resources */ = {isa = PBXBuildFile; fileRef = A4AF3CFE2048C3DD00253825 /* 003.aif */; };
 		A4AF3D092048C42500253825 /* 000.aif in Resources */ = {isa = PBXBuildFile; fileRef = A4AF3D082048C42500253825 /* 000.aif */; };
 		A4AF3D0B20491A3F00253825 /* stereo.wav in Resources */ = {isa = PBXBuildFile; fileRef = A4AF3D0A20491A3F00253825 /* stereo.wav */; };
+		A4D27727221370130079FEFC /* Mach1DecodePositional.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4D27726221370130079FEFC /* Mach1DecodePositional.swift */; };
 		A4F80A24203B3B86008D976A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F80A23203B3B86008D976A /* AppDelegate.swift */; };
 		A4F80A26203B3B86008D976A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F80A25203B3B86008D976A /* ViewController.swift */; };
 		A4F80A29203B3B86008D976A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4F80A27203B3B86008D976A /* Main.storyboard */; };
@@ -56,7 +57,8 @@
 		A4AF3CFE2048C3DD00253825 /* 003.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = 003.aif; sourceTree = "<group>"; };
 		A4AF3D082048C42500253825 /* 000.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = 000.aif; sourceTree = "<group>"; };
 		A4AF3D0A20491A3F00253825 /* stereo.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = stereo.wav; sourceTree = "<group>"; };
-		A4F80A20203B3B86008D976A /* mach1-ios-example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mach1-ios-example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A4D27726221370130079FEFC /* Mach1DecodePositional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mach1DecodePositional.swift; path = ../../../../../include/swift/Mach1DecodePositional.swift; sourceTree = "<group>"; };
+		A4F80A20203B3B86008D976A /* mach1-ios-positional-example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mach1-ios-positional-example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4F80A23203B3B86008D976A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A4F80A25203B3B86008D976A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A4F80A28203B3B86008D976A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -85,7 +87,7 @@
 		A4F80A17203B3B85008D976A = {
 			isa = PBXGroup;
 			children = (
-				A4F80A22203B3B86008D976A /* mach1-ios-example */,
+				A4F80A22203B3B86008D976A /* mach1-ios-positional-example */,
 				A4F80A21203B3B86008D976A /* Products */,
 				A4F80A53203B3C91008D976A /* Frameworks */,
 			);
@@ -94,24 +96,25 @@
 		A4F80A21203B3B86008D976A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A4F80A20203B3B86008D976A /* mach1-ios-example.app */,
+				A4F80A20203B3B86008D976A /* mach1-ios-positional-example.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A4F80A22203B3B86008D976A /* mach1-ios-example */ = {
+		A4F80A22203B3B86008D976A /* mach1-ios-positional-example */ = {
 			isa = PBXGroup;
 			children = (
 				A4F80A23203B3B86008D976A /* AppDelegate.swift */,
 				A4F80A25203B3B86008D976A /* ViewController.swift */,
 				A497AFA620DC63D00098D480 /* Mach1Decode.swift */,
+				A4D27726221370130079FEFC /* Mach1DecodePositional.swift */,
 				A4F80A27203B3B86008D976A /* Main.storyboard */,
 				A4F80A2A203B3B86008D976A /* Assets.xcassets */,
 				A4F80A2C203B3B86008D976A /* LaunchScreen.storyboard */,
 				A4F80A2F203B3B86008D976A /* Info.plist */,
 				A4F80ADE2040F430008D976A /* Audio */,
 			);
-			path = "mach1-ios-example";
+			path = "mach1-ios-positional-example";
 			sourceTree = "<group>";
 		};
 		A4F80A53203B3C91008D976A /* Frameworks */ = {
@@ -145,9 +148,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A4F80A1F203B3B85008D976A /* mach1-ios-example */ = {
+		A4F80A1F203B3B85008D976A /* mach1-ios-positional-example */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A4F80A48203B3B86008D976A /* Build configuration list for PBXNativeTarget "mach1-ios-example" */;
+			buildConfigurationList = A4F80A48203B3B86008D976A /* Build configuration list for PBXNativeTarget "mach1-ios-positional-example" */;
 			buildPhases = (
 				A4F80A1C203B3B85008D976A /* Sources */,
 				A4F80A1D203B3B85008D976A /* Frameworks */,
@@ -158,9 +161,9 @@
 			);
 			dependencies = (
 			);
-			name = "mach1-ios-example";
+			name = "mach1-ios-positional-example";
 			productName = "mach1-ios-example";
-			productReference = A4F80A20203B3B86008D976A /* mach1-ios-example.app */;
+			productReference = A4F80A20203B3B86008D976A /* mach1-ios-positional-example.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -185,7 +188,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A4F80A1B203B3B85008D976A /* Build configuration list for PBXProject "mach1-ios-example" */;
+			buildConfigurationList = A4F80A1B203B3B85008D976A /* Build configuration list for PBXProject "mach1-ios-positional-example" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -198,7 +201,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A4F80A1F203B3B85008D976A /* mach1-ios-example */,
+				A4F80A1F203B3B85008D976A /* mach1-ios-positional-example */,
 			);
 		};
 /* End PBXProject section */
@@ -233,6 +236,7 @@
 			files = (
 				A4F80A26203B3B86008D976A /* ViewController.swift in Sources */,
 				A4F80A24203B3B86008D976A /* AppDelegate.swift in Sources */,
+				A4D27727221370130079FEFC /* Mach1DecodePositional.swift in Sources */,
 				A497AFA720DC63D10098D480 /* Mach1Decode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -454,7 +458,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A4F80A1B203B3B85008D976A /* Build configuration list for PBXProject "mach1-ios-example" */ = {
+		A4F80A1B203B3B85008D976A /* Build configuration list for PBXProject "mach1-ios-positional-example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A4F80A46203B3B86008D976A /* Debug */,
@@ -463,7 +467,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A4F80A48203B3B86008D976A /* Build configuration list for PBXNativeTarget "mach1-ios-example" */ = {
+		A4F80A48203B3B86008D976A /* Build configuration list for PBXNativeTarget "mach1-ios-positional-example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A4F80A49203B3B86008D976A /* Debug */,

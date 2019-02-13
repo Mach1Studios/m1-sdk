@@ -23,6 +23,14 @@ private var audioEngine: AVAudioEngine = AVAudioEngine()
 private var mixer: AVAudioMixerNode = AVAudioMixerNode()
 var players: [AVAudioPlayer] = []
 
+func mapFloat(value : Float, inMin : Float, inMax : Float, outMin : Float, outMax : Float) -> Float {
+    return (value - inMin) / (inMax - inMin) * (outMax - outMin) + outMin
+}
+
+func clampFloat(value : Float, min : Float, max : Float) -> Float {
+    return min > value ? min : max < value ? max : value
+}
+
 class ViewController : UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var labelCameraYaw: UILabel!
@@ -231,11 +239,18 @@ class ViewController : UIViewController, UITextFieldDelegate {
                 m1obj.setDecoderAlgoPosition(point: (self?.objectPosition)!)
                 m1obj.setDecoderAlgoRotation(point: Mach1Point3D(x: 0, y: 0, z: 0))
                 m1obj.setDecoderAlgoScale(point: Mach1Point3D(x: 1, y: 1, z: 1))
-                m1obj.evaluatePositionResults()
                 
+                m1obj.evaluatePositionResults()
+
+                // compute falloff linear curve - project dist [0:1] to [1:0] interval
+                var falloff : Float = m1obj.getDist()
+                falloff = mapFloat(value: falloff, inMin: 0, inMax: 1, outMin: 1, outMax: 0)
+                falloff = clampFloat(value: falloff, min: 0, max: 1)
+                m1obj.setFalloffCurve(falloffCurve: falloff)
+                //print(falloff)
+
                 var decodeArray: [Float] = Array(repeating: 0.0, count: 18)
                 m1obj.getVolumesWalls(result: &decodeArray)
-                
                 print(decodeArray)
                 
                 //Use each coeff to decode multichannel Mach1 Spatial mix

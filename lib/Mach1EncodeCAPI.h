@@ -7,7 +7,6 @@
 
 #include "Mach1Point3D.h"
 #include "Mach1Point4D.h"
-#include <cstring>
 
 #ifdef Mach1EncodeCore_h
     #ifndef M1_API
@@ -38,8 +37,10 @@ enum Mach1EncodeOutputModeType {
 	Mach1EncodeOutputMode4Ch = 0, Mach1EncodeOutputMode8Ch = 1
 };
 
+#ifdef __cplusplus
 extern "C" {
-	M1_API void* Mach1EncodeCAPI_create();
+#endif
+    M1_API void* Mach1EncodeCAPI_create();
 	M1_API void Mach1EncodeCAPI_delete(void* M1obj);
 
 	M1_API void* Mach1EncodeCAPI_getPoints(void* M1obj);
@@ -50,8 +51,8 @@ extern "C" {
 	M1_API void Mach1EncodeCAPI_generatePointResults(void* M1obj);
 	M1_API int Mach1EncodeCAPI_getPointsCount(void* M1obj);
 
-	M1_API void Mach1EncodeCAPI_setInputMode(void* M1obj, Mach1EncodeInputModeType inputMode);
-	M1_API void Mach1EncodeCAPI_setOutputMode(void* M1obj, Mach1EncodeOutputModeType outputMode);
+	M1_API void Mach1EncodeCAPI_setInputMode(void* M1obj, enum Mach1EncodeInputModeType inputMode);
+	M1_API void Mach1EncodeCAPI_setOutputMode(void* M1obj, enum Mach1EncodeOutputModeType outputMode);
 	M1_API void Mach1EncodeCAPI_setRotation(void* M1obj, float rotation);
 	M1_API void Mach1EncodeCAPI_setDiverge(void* M1obj, float diverge);
 	M1_API void Mach1EncodeCAPI_setPitch(void* M1obj, float pitch);
@@ -59,6 +60,8 @@ extern "C" {
 	M1_API void Mach1EncodeCAPI_setStereoSpread(void* M1obj, float sSpread);
 	M1_API void Mach1EncodeCAPI_setAutoOrbit(void* M1obj, bool autoOrbit);
 	M1_API void Mach1EncodeCAPI_setIsotropicEncode(void* M1obj, bool isotropicEncode);
+#ifdef __cplusplus
 }
+#endif
 
 #endif 

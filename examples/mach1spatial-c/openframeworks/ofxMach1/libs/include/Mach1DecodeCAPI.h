@@ -7,7 +7,6 @@
 
 #include "Mach1Point3D.h"
 #include "Mach1Point4D.h"
-#include <stdbool.h>
 
 #ifdef Mach1DecodeCore_h
     #ifndef M1_API
@@ -40,16 +39,14 @@ enum Mach1DecodeAlgoType {
 };
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+extern "C" { 
 	M1_API void* Mach1DecodeCAPI_create();
 	M1_API void Mach1DecodeCAPI_delete(void* M1obj);
   
-	M1_API void Mach1DecodeCAPI_setDecodeAlgoType(void* M1obj, enum Mach1DecodeAlgoType algorithmType);
-	M1_API void Mach1DecodeCAPI_setPlatformType(void* M1obj, enum Mach1PlatformType platformType);
+	M1_API void Mach1DecodeCAPI_setDecodeAlgoType(void* M1obj, Mach1DecodeAlgoType algorithmType);
+	M1_API void Mach1DecodeCAPI_setPlatformType(void* M1obj, Mach1PlatformType platformType);
 
-	M1_API void Mach1DecodeCAPI_decode(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
+	M1_API void Mach1DecodeCAPI_decode(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
 
 	M1_API void Mach1DecodeCAPI_setFilterSpeed(void* M1obj, float filterSpeed);
 	M1_API void Mach1DecodeCAPI_beginBuffer(void* M1obj);
@@ -58,9 +55,7 @@ extern "C" {
 	M1_API long Mach1DecodeCAPI_getCurrentTime(void* M1obj);
 	M1_API char* Mach1DecodeCAPI_getLog(void * M1obj);
 
-	M1_API struct Mach1Point3D Mach1DecodeCAPI_getCurrentAngle(void* M1obj);
-#ifdef __cplusplus
+	M1_API Mach1Point3D Mach1DecodeCAPI_getCurrentAngle(void* M1obj);
 }
-#endif
 
 #endif 

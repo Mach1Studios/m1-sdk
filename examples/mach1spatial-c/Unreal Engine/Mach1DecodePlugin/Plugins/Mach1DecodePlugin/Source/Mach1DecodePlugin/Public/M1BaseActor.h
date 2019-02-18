@@ -6,15 +6,18 @@
 
 #include "GameFramework/Actor.h"
 #include "Components/BoxComponent.h"
-#include "Components/AudioComponent.h"
+#include "Components/AudioComponent.h" 
 #include "Components/BillboardComponent.h"
 #include "Components/SceneCaptureComponent.h"
 
 #include "Mach1Decode.h"
+#include "Mach1DecodePositional.h"
 
 #include <vector>
 
 #include "M1BaseActor.generated.h"
+
+//#define LEGACY_POSITIONAL
 
 UCLASS(abstract)
 class MACH1DECODEPLUGIN_API AM1BaseActor : public AActor
@@ -22,11 +25,20 @@ class MACH1DECODEPLUGIN_API AM1BaseActor : public AActor
 	GENERATED_BODY()
 
 protected:
+
+#ifdef LEGACY_POSITIONAL
+
 	// geometric utils
 	static float ClosestPointOnBox(FVector point, FVector center, FVector axis0, FVector axis1, FVector axis2, FVector extents, FVector& closestPoint);
 
 	static bool Clip(float denom, float numer, float& t0, float& t1);
 	static int DoClipping(float t0, float t1, FVector origin, FVector direction, FVector center, FVector axis0, FVector axis1, FVector axis2, FVector extents, bool solid, FVector& point0, FVector& point1);
+
+	static FVector GetEuler(FQuat q1);
+
+	void CalculateChannelVolumes(FQuat quat);
+
+#endif
 
 	USoundAttenuation* NullAttenuation;
 
@@ -45,12 +57,11 @@ protected:
 	UBillboardComponent* Billboard;
 
 	int MAX_SOUNDS_PER_CHANNEL;
-	bool isInit;
-	bool needPlayAfterInit;
+	bool isInited;
+	bool needToPlayAfterInit; 
 
 	void Init();
 	void SetSoundSet();
-	void CalculateChannelVolumes(FQuat quat);
 	void SetVolumeMain(float volume);
 	void SetVolumeBlend(float volume);
 
@@ -59,16 +70,21 @@ protected:
 	virtual void SoundAlgorithm(float Yaw, float Pitch, float Roll, float* volumes);
 
 	Mach1Decode mach1Decode;
+	Mach1DecodePositional m1Positional;
+
+	Mach1Point3D ConvertToMach1Point3D(FVector vec);
+	Mach1Point4D ConvertToMach1Point4D(FQuat quat);
+
 
 public:
 
 	void InitComponents(int MAX_SOUNDS_PER_CHANNEL);
 
 	// Called when the game starts or when spawned
-	void BeginPlay();
+	void BeginPlay(); // overriden
 
 	// Called every frame
-	void Tick(float DeltaSeconds);
+	void Tick(float DeltaSeconds); // overriden
 
 	// always tick
 	bool ShouldTickIfViewportsOnly() const override { return true; }
@@ -99,6 +115,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Trigger Options", DisplayName = "Fade Out Duration")
 		float fadeOutDuration = 0;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attenuation & Rotation Settings", DisplayName = "Use Falloff")
+		bool useFalloff = false;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attenuation & Rotation Settings", DisplayName = "Attenuation Curve")
 		UCurveFloat* attenuationCurve;
 
@@ -112,13 +131,13 @@ public:
 		bool useClosestPointRotationMuteInside = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attenuation & Rotation Settings", DisplayName = "Use Yaw for Positional Rotation")
-		bool useYaw = true;
+		bool useYawForRotation = true;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attenuation & Rotation Settings", DisplayName = "Use Pitch for Positional Rotation")
-		bool usePitch = true;
+		bool usePitchForRotation = true;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attenuation & Rotation Settings", DisplayName = "Use Roll for Positional Rotation")
-		bool useRoll = true;
+		bool useRollForRotation = true;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Blend Mode (beta)", DisplayName = "Use Blend Mode")
 		bool useBlendMode = false;

@@ -1,5 +1,5 @@
 //  Mach1 SDK
-//  Copyright © 2017 Mach1. All rights reserved.
+//  Copyright © 2018 Mach1. All rights reserved.
 //
 //  Header file
 
@@ -25,6 +25,10 @@
 
 struct Mach1Point3D {
 	float x, y, z;
+};
+
+struct Mach1Point4D {
+	float x, y, z, w;
 };
 
 enum Mach1PlatformType {

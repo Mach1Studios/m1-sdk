@@ -56,7 +56,7 @@ public:
 	void setDecoderAlgoRotationQuat(Mach1Point4D quat);
 	void setDecoderAlgoScale(Mach1Point3D point);
 
-	void evaluatePostionResults();
+	void evaluatePositionResults();
 	void getVolumesWalls(float* result);
 	void getVolumesRoom(float* result);
 	float getDist();

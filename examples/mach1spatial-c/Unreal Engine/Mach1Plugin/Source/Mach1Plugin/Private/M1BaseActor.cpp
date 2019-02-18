@@ -664,7 +664,7 @@ void AM1BaseActor::Tick(float DeltaTime)
 				m1Positional.setDecoderAlgoPosition(ConvertToMach1Point3D(GetActorLocation()));
 				m1Positional.setDecoderAlgoRotationQuat(ConvertToMach1Point4D(GetActorRotation().Quaternion()));
 				m1Positional.setDecoderAlgoScale(ConvertToMach1Point3D(scale));
-				m1Positional.evaluatePostionResults();
+				m1Positional.evaluatePositionResults();
 
 				if (useFalloff)
 				{

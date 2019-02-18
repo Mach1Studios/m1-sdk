@@ -88,7 +88,7 @@ namespace Mach1
         internal static extern void Mach1DecodePositionalCAPI_setDecoderAlgoScale(IntPtr M1obj, Mach1Point3D point);
 
         [DllImport(libname)]
-        internal static extern void Mach1DecodePositionalCAPI_evaluatePostionResults(IntPtr M1obj);
+        internal static extern void Mach1DecodePositionalCAPI_evaluatePositionResults(IntPtr M1obj);
 
         [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_getVolumesWalls(IntPtr M1obj, IntPtr data);
@@ -217,9 +217,9 @@ namespace Mach1
             Mach1DecodePositionalCAPI_setDecoderAlgoScale(M1obj, point);
         }
 
-        public void evaluatePostionResults()
+        public void evaluatePositionResults()
         {
-            Mach1DecodePositionalCAPI_evaluatePostionResults(M1obj);
+            Mach1DecodePositionalCAPI_evaluatePositionResults(M1obj);
         }
 
         public void getVolumesWalls(ref float[] data)

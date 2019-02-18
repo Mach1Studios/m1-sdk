@@ -61,7 +61,7 @@ extern "C" {
 	M1_API void Mach1DecodePositionalCAPI_setDecoderAlgoRotationQuat(void* M1obj, Mach1Point4D point);
 	M1_API void Mach1DecodePositionalCAPI_setDecoderAlgoScale(void* M1obj, Mach1Point3D point);
 
-	M1_API void Mach1DecodePositionalCAPI_evaluatePostionResults(void* M1obj);
+	M1_API void Mach1DecodePositionalCAPI_evaluatePositionResults(void* M1obj);
 	M1_API void Mach1DecodePositionalCAPI_getVolumesWalls(void * M1obj, float* result);
 	M1_API void Mach1DecodePositionalCAPI_getVolumesRoom(void * M1obj, float* result);
 	M1_API float Mach1DecodePositionalCAPI_getDist(void* M1obj);

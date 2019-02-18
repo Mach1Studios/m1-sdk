@@ -137,9 +137,9 @@ void Mach1DecodePositional::setDecoderAlgoScale(Mach1Point3D point)
 	Mach1DecodePositionalCAPI_setDecoderAlgoScale(M1obj, point);
 }
 
-void Mach1DecodePositional::evaluatePostionResults()
+void Mach1DecodePositional::evaluatePositionResults()
 {
-	Mach1DecodePositionalCAPI_evaluatePostionResults(M1obj);
+	Mach1DecodePositionalCAPI_evaluatePositionResults(M1obj);
 }
 
 void Mach1DecodePositional::getVolumesWalls(float * result)

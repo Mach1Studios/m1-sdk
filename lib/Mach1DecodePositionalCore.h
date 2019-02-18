@@ -117,7 +117,7 @@ public:
 	void setDecoderAlgoScale(Mach1Point3DCore* scale);
 	void setAttenuationCurve(float* curve);
 
-	void evaluatePostionResults();
+	void evaluatePositionResults();
 
 	void getVolumesWalls(float *result);
 	void getVolumesRoom(float *result);

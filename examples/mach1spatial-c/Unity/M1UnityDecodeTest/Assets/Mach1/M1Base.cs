@@ -748,7 +748,7 @@ public class M1Base : MonoBehaviour
             m1Positional.setDecoderAlgoPosition(ConvertToMach1Point3D(gameObject.transform.position));
             m1Positional.setDecoderAlgoRotationQuat(ConvertToMach1Point4D(gameObject.transform.rotation));
             m1Positional.setDecoderAlgoScale(ConvertToMach1Point3D(gameObject.transform.lossyScale));
-            m1Positional.evaluatePostionResults();
+            m1Positional.evaluatePositionResults();
 
             if (useFalloff)
             {

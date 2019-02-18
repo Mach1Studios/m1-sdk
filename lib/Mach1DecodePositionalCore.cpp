@@ -301,7 +301,7 @@ void Mach1DecodePositionalCore::setAttenuationCurve(float * curve) {
 	// dummy
 }
 
-void Mach1DecodePositionalCore::evaluatePostionResults() {
+void Mach1DecodePositionalCore::evaluatePositionResults() {
 
 	volumeWalls = 1.0f;
 	volumeRoom = 0.0f;

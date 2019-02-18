@@ -84,7 +84,7 @@ class Mach1DecodePositional {
     }
     
     func evaluatePositionResults() {
-        Mach1DecodePositionalCAPI_evaluatePostionResults(M1obj)
+        Mach1DecodePositionalCAPI_evaluatePositionResults(M1obj)
     }
     
     func getVolumesWalls(result: inout [Float]) {

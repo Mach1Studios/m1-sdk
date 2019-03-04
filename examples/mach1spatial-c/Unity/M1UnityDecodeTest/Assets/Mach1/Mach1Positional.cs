@@ -10,9 +10,7 @@ namespace Mach1
     {
         #if UNITY_IOS
         internal const string libname = "__Internal";
-        #elif UNITY_STANDALONE_WIN
-        internal const string libname = "Mach1DecodePositionalCAPI";
-        #elif UNITY_EDITOR_WIN
+        #elif UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
         internal const string libname = "Mach1DecodePositionalCAPI";
         #else
         internal const string libname = "libMach1DecodePositionalCAPI";

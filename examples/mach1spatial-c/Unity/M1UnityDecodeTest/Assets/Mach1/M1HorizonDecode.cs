@@ -16,7 +16,8 @@ public class M1HorizonDecode :  M1Base
 
 #if LEGACY_POSITIONAL
         m1Decode.setDecodeAlgoType(Mach1.Mach1DecodeAlgoType.Mach1DecodeAlgoHorizon);
-#endif
+#else
         m1Positional.setDecodeAlgoType(Mach1.Mach1DecodeAlgoType.Mach1DecodeAlgoHorizon);
+#endif
     }
 }

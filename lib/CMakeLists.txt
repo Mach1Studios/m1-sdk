@@ -10,6 +10,9 @@ set(Mach1DecodePositionalCAPIsrc "./Mach1DecodePositionalCAPI.cpp" "./Mach1Decod
 set(Mach1EncodeCAPIsrc "./Mach1EncodeCAPI.cpp" "./Mach1EncodeCore.cpp")
 set(Mach1DecodePositionalCAPIinclude "./include")
 
+
+
+# STATIC
 add_library(Mach1DecodeCAPIstatic STATIC ${Mach1DecodeCAPIsrc})
 add_library(Mach1DecodePositionalCAPIstatic STATIC ${Mach1DecodePositionalCAPIsrc})
 add_library(Mach1EncodeCAPIstatic STATIC ${Mach1EncodeCAPIsrc})
@@ -24,9 +27,28 @@ install(TARGETS Mach1DecodeCAPIstatic DESTINATION lib)
 install(TARGETS Mach1DecodePositionalCAPIstatic DESTINATION lib)
 install(TARGETS Mach1EncodeCAPIstatic DESTINATION lib)
 
+
+
+# SHARED
+add_library(Mach1DecodeCAPIshared SHARED ${Mach1DecodeCAPIsrc})
+add_library(Mach1DecodePositionalCAPIshared SHARED ${Mach1DecodePositionalCAPIsrc})
+add_library(Mach1EncodeCAPIshared SHARED ${Mach1EncodeCAPIsrc})
+
+set_target_properties(Mach1DecodeCAPIshared PROPERTIES OUTPUT_NAME "Mach1DecodeCAPI")
+set_target_properties(Mach1DecodePositionalCAPIshared PROPERTIES OUTPUT_NAME "Mach1DecodePositionalCAPI")
+set_target_properties(Mach1EncodeCAPIshared PROPERTIES OUTPUT_NAME "Mach1EncodeCAPI")
+
+target_include_directories(Mach1DecodePositionalCAPIshared PRIVATE ${Mach1DecodePositionalCAPIinclude})
+
+install(TARGETS Mach1DecodeCAPIshared DESTINATION libShared)
+install(TARGETS Mach1DecodePositionalCAPIshared DESTINATION libShared)
+install(TARGETS Mach1EncodeCAPIshared DESTINATION libShared)
+
+
+
 if(APPLE)
 	if(NOT IOS OR TVOS OR WATCHOS)
-		# bundles for Unity macOS
+		# bundles for Unity 
 		add_library(Mach1DecodeCAPIbundle SHARED ${Mach1DecodeCAPIsrc})
 		add_library(Mach1DecodePositionalCAPIbundle SHARED ${Mach1DecodePositionalCAPIsrc})
 		add_library(Mach1EncodeCAPIbundle SHARED ${Mach1EncodeCAPIsrc})
@@ -45,8 +67,9 @@ if(APPLE)
 
 		target_include_directories(Mach1DecodePositionalCAPIbundle PRIVATE ${Mach1DecodePositionalCAPIinclude})
 
-		install(TARGETS Mach1DecodeCAPIbundle DESTINATION lib)
-		install(TARGETS Mach1DecodePositionalCAPIbundle DESTINATION lib)
-		install(TARGETS Mach1EncodeCAPIbundle DESTINATION lib)
+		install(TARGETS Mach1DecodeCAPIbundle DESTINATION libBundle)
+		install(TARGETS Mach1DecodePositionalCAPIbundle DESTINATION libBundle)
+		install(TARGETS Mach1EncodeCAPIbundle DESTINATION libBundle)
 	endif()
 endif()
+

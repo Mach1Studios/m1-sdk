@@ -151,6 +151,9 @@ glm::vec3 Mach1DecodePositionalCore::GetRightVector()
 		return glm::vec3(1, 0, 0);
 	case Mach1PlatformUE:
 		return glm::vec3(0, 1, 0);
+	case Mach1PlatformiOSPortrait:
+	case Mach1PlatformiOSLandscape:
+		return glm::vec3(1, 0, 0);
 	default:
 		return glm::vec3(1, 0, 0);
 	}
@@ -164,6 +167,9 @@ glm::vec3 Mach1DecodePositionalCore::GetUpVector()
 		return glm::vec3(0, 1, 0);
 	case Mach1PlatformUE:
 		return glm::vec3(0, 0, 1);
+	case Mach1PlatformiOSPortrait:
+	case Mach1PlatformiOSLandscape:
+		return glm::vec3(0, 1, 0);
 	default:
 		return glm::vec3(0, 1, 0);
 	}
@@ -177,6 +183,9 @@ glm::vec3 Mach1DecodePositionalCore::GetForwardVector()
 		return glm::vec3(0, 0, 1);
 	case Mach1PlatformUE:
 		return glm::vec3(1, 0, 0);
+	case Mach1PlatformiOSPortrait:
+	case Mach1PlatformiOSLandscape:
+		return glm::vec3(0, 0, -1);
 	default:
 		return glm::vec3(0, 0, 1);
 	}
@@ -321,7 +330,7 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
 		{
 			cameraPosition.z = soundPosition.z;
 		}
-		else // if (platformType == Mach1PlatformUnity)
+		else // Mach1PlatformUnity || Mach1PlatformiOSPortrait || Mach1PlatformiOSLandscape 
 		{
 			cameraPosition.y = soundPosition.y;
 		}
@@ -395,7 +404,7 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
 	// Compute rotation for sound
 	// http://www.aclockworkberry.com/world-coordinate-systems-in-3ds-max-unity-and-unreal-engine/
 	glm::quat quat;
-	if (platformType == Mach1PlatformUE)
+	if (platformType == Mach1PlatformUE || platformType == Mach1PlatformiOSPortrait || platformType == Mach1PlatformiOSLandscape)
 	{
 		quat = glm::quatLookAtRH(glm::normalize(dir), GetUpVector());
 	}
@@ -403,7 +412,8 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
 	{
 		quat = glm::quatLookAtLH(glm::normalize(dir), GetUpVector());
 	}
-	quat = glm::inverse(quat); 
+	
+	quat = glm::inverse(quat);
 	quat = quat * soundRotation;
 
 	glm::vec3 quatEulerAngles = glm::eulerAngles(quat);

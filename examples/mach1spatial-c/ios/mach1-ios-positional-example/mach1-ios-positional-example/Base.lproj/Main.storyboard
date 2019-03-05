@@ -155,7 +155,7 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qTF-pL-0JP">
                                 <rect key="frame" x="222" y="96" width="95" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="3d view"/>
+                                <state key="normal" title="3D View"/>
                                 <connections>
                                     <action selector="open3dViewButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kdv-QJ-XLI"/>
                                 </connections>

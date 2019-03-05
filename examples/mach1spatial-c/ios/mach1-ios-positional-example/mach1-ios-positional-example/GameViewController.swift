@@ -60,15 +60,15 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         let size : Int = 30
         
         var points = [
-            SCNVector3(-size, size, -size)/2,
-            SCNVector3(-size, size, size)/2,
-            SCNVector3(size, size, -size)/2,
-            SCNVector3(size, size, size)/2,
+            SCNVector3(-size, size, -size)/2,  //0
+            SCNVector3(size, size, -size)/2,   //1
+            SCNVector3(-size, size, size)/2,   //2
+            SCNVector3(size, size, size)/2,    //3
             
-            SCNVector3(-size, -size, -size)/2,
-            SCNVector3(-size, -size, size)/2,
-            SCNVector3(size, -size, -size)/2,
-            SCNVector3(size, -size, size)/2,
+            SCNVector3(-size, -size, -size)/2, //4
+            SCNVector3(size, -size, -size)/2,  //5
+            SCNVector3(-size, -size, size)/2,  //6
+            SCNVector3(size, -size, size)/2,   //7
             ]
         
         for i in 0...points.count-1 {

@@ -19,9 +19,14 @@ var isPitchActive = false
 var isRollActive = false
 var isPlaying = false
 
+
 private var audioEngine: AVAudioEngine = AVAudioEngine()
 private var mixer: AVAudioMixerNode = AVAudioMixerNode()
 var players: [AVAudioPlayer] = []
+
+var cameraPosition: Mach1Point3D = Mach1Point3D(x: 0, y: 0, z: 0)
+var objectPosition: Mach1Point3D = Mach1Point3D(x: 0, y: 0, z: 0)
+
 
 func mapFloat(value : Float, inMin : Float, inMax : Float, outMin : Float, outMax : Float) -> Float {
     return (value - inMin) / (inMax - inMin) * (outMax - outMin) + outMin
@@ -30,6 +35,10 @@ func mapFloat(value : Float, inMin : Float, inMax : Float, outMin : Float, outMa
 func clampFloat(value : Float, min : Float, max : Float) -> Float {
     return min > value ? min : max < value ? max : value
 }
+
+var cameraYaw : Float = 0
+var cameraPitch : Float = 0
+var cameraRoll : Float = 0
 
 class ViewController : UIViewController, UITextFieldDelegate {
     
@@ -44,6 +53,9 @@ class ViewController : UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return false
+    }
+    @IBAction func open3dViewButton(_ sender: Any) {
+        performSegue(withIdentifier: "present3dView", sender: self)
     }
     
     @IBAction func playButton(_ sender: Any) {
@@ -91,12 +103,12 @@ class ViewController : UIViewController, UITextFieldDelegate {
         isRollActive = !isRollActive
     }
     
-    var cameraPosition: Mach1Point3D = Mach1Point3D(x: 0, y: 0, z: 0)
-    var objectPosition: Mach1Point3D = Mach1Point3D(x: 0, y: 0, z: 0)
+    weak var threedview: GameViewController?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         do {
             for i in 0...7 {
                 //load in the individual streams of audio from a Mach1 Spatial encoded audio file
@@ -183,9 +195,9 @@ class ViewController : UIViewController, UITextFieldDelegate {
                 // Get the attitudes of the device
                 let attitude = motion?.attitude
                 //Device orientation management
-                var cameraYaw : Float = Float(attitude!.yaw) * 180 / Float.pi
-                var cameraPitch : Float = Float(attitude!.pitch) * 180 / Float.pi
-                var cameraRoll : Float = Float(attitude!.roll) * 180 / Float.pi
+                cameraYaw = Float(attitude!.yaw) * 180 / Float.pi
+                cameraPitch = Float(attitude!.pitch) * 180 / Float.pi
+                cameraRoll = Float(attitude!.roll) * 180 / Float.pi
                 //                    print("Yaw: ", deviceYaw)
                 //                    print("Pitch: ", devicePitch)
 
@@ -213,7 +225,7 @@ class ViewController : UIViewController, UITextFieldDelegate {
                     self?.labelCameraPitch.text = String(cameraPitch)
                     self?.labelCameraRoll.text = String(cameraRoll)
                     
-                    self?.cameraPosition = Mach1Point3D(
+                    cameraPosition = Mach1Point3D(
                         x: (self?.sliderCameraX.value)!,
                         y: (self?.sliderCameraY.value)!,
                         z: (self?.sliderCameraZ.value)!
@@ -234,9 +246,9 @@ class ViewController : UIViewController, UITextFieldDelegate {
                 */
 
                 //Send device orientation to m1obj with the preferred algo
-                m1obj.setCameraPosition(point: (self?.cameraPosition)!)
+                m1obj.setCameraPosition(point: (cameraPosition))
                 m1obj.setCameraRotation(point: Mach1Point3D(x: cameraYaw, y: cameraPitch, z: cameraRoll))
-                m1obj.setDecoderAlgoPosition(point: (self?.objectPosition)!)
+                m1obj.setDecoderAlgoPosition(point: (objectPosition))
                 m1obj.setDecoderAlgoRotation(point: Mach1Point3D(x: 0, y: 0, z: 0))
                 m1obj.setDecoderAlgoScale(point: Mach1Point3D(x: 1, y: 1, z: 1))
                 

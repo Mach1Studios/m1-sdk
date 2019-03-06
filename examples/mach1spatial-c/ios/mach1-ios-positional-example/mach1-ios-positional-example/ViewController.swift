@@ -233,8 +233,8 @@ class ViewController : UIViewController, UITextFieldDelegate {
                 let quat = motion?.gaze(atOrientation: UIApplication.shared.statusBarOrientation)
                 var angles = getEuler(q1: quat!)
                 
-                cameraYaw = angles.y
-                cameraPitch = angles.x
+                cameraYaw = -angles.y + 180
+                cameraPitch = angles.x + 90
                 cameraRoll = angles.z
  
                 // Please notice that you're expected to correct the correct the angles you get from

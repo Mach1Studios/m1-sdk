@@ -24,7 +24,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     {
         let angleSet = m1obj.getCurrentAngle()
         
-         coneNode.eulerAngles =  SCNVector3(x: deg2rad(cameraPitch), y: deg2rad(cameraYaw), z: deg2rad(cameraRoll))
+         coneNode.eulerAngles =  SCNVector3(x: deg2rad(cameraPitch - 90), y: deg2rad(-cameraYaw + 180), z: deg2rad(cameraRoll))
          coneNode.position =  SCNVector3(x: cameraPosition.x, y: cameraPosition.y, z: 0.01 + cameraPosition.z)
         
         var decodeArray: [Float] = Array(repeating: 0.0, count: 18)

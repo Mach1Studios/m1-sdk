@@ -15,7 +15,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     var coneNode: SCNNode! = nil
     var sphere1Nodes : [SCNNode ] = []
     var sphere2Nodes : [SCNNode ] = []
-    
+    var size : Int = 30
+
     func deg2rad(_ number: Float) -> Float {
         return number * .pi / 180
     }
@@ -25,7 +26,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         let angleSet = m1obj.getCurrentAngle()
         
          coneNode.eulerAngles =  SCNVector3(x: deg2rad(cameraPitch - 90), y: deg2rad(-cameraYaw + 180), z: deg2rad(cameraRoll))
-         coneNode.position =  SCNVector3(x: cameraPosition.x, y: cameraPosition.y, z: 0.01 + cameraPosition.z)
+         coneNode.position =  SCNVector3(x: cameraPosition.x * Float(size)/2, y: cameraPosition.y * Float(size)/2, z: cameraPosition.z * Float(size)/2)
         
         var decodeArray: [Float] = Array(repeating: 0.0, count: 18)
         m1obj.getVolumesWalls(result: &decodeArray)
@@ -57,19 +58,18 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         cameraNode.position = SCNVector3(x: 0, y: 0, z: 100)
         scene.rootNode.addChildNode(cameraNode)
         
-        let size : Int = 30
+        var points:[SCNVector3] = []
         
-        var points = [
-            SCNVector3(-size, size, -size)/2,  //0
-            SCNVector3(size, size, -size)/2,   //1
-            SCNVector3(-size, size, size)/2,   //2
-            SCNVector3(size, size, size)/2,    //3
+        points.append(SCNVector3(-size, size, -size)/2);
+        points.append(SCNVector3(size, size, -size)/2);
+        points.append(SCNVector3(-size, size, size)/2);
+        points.append(SCNVector3(size, size, size)/2);
             
-            SCNVector3(-size, -size, -size)/2, //4
-            SCNVector3(size, -size, -size)/2,  //5
-            SCNVector3(-size, -size, size)/2,  //6
-            SCNVector3(size, -size, size)/2,   //7
-            ]
+        points.append(SCNVector3(-size, -size, -size)/2);
+        points.append(SCNVector3(size, -size, -size)/2);
+        points.append(SCNVector3(-size, -size, size)/2);
+        points.append(SCNVector3(size, -size, size)/2);
+        
         
         for i in 0...points.count-1 {
             let sphere1Geometry = SCNSphere(radius: 1.5)

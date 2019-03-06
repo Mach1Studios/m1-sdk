@@ -31,6 +31,7 @@
 		A4F80A29203B3B86008D976A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4F80A27203B3B86008D976A /* Main.storyboard */; };
 		A4F80A2B203B3B86008D976A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4F80A2A203B3B86008D976A /* Assets.xcassets */; };
 		A4F80A2E203B3B86008D976A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4F80A2C203B3B86008D976A /* LaunchScreen.storyboard */; };
+		CE28E43222307EB500DFE2DC /* CMDeviceMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE28E43122307EB500DFE2DC /* CMDeviceMotion.swift */; };
 		CEC356D522136C7200FA592F /* libMach1DecodePositionalCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC356D422136C7200FA592F /* libMach1DecodePositionalCAPI.a */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +74,8 @@
 		A4F80A28203B3B86008D976A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A4F80A2A203B3B86008D976A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A4F80A2D203B3B86008D976A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CE28E43122307EB500DFE2DC /* CMDeviceMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CMDeviceMotion.swift; sourceTree = "<group>"; };
+		CE28E43322307EDA00DFE2DC /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		CE4C8E1D22147AD1001B2E13 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CEC356D422136C7200FA592F /* libMach1DecodePositionalCAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMach1DecodePositionalCAPI.a; path = "../../../../binaries/ios-12-1/lib/libMach1DecodePositionalCAPI.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -115,6 +118,7 @@
 				A4F80A23203B3B86008D976A /* AppDelegate.swift */,
 				A4F80A25203B3B86008D976A /* ViewController.swift */,
 				A497AFA620DC63D00098D480 /* Mach1Decode.swift */,
+				CE28E43122307EB500DFE2DC /* CMDeviceMotion.swift */,
 				A4D27726221370130079FEFC /* Mach1DecodePositional.swift */,
 				158A2A95222F1A040081BA88 /* GameViewController.swift */,
 				158A2A97222F1A0C0081BA88 /* LineDrawing.swift */,
@@ -132,6 +136,7 @@
 		A4F80A53203B3C91008D976A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE28E43322307EDA00DFE2DC /* GLKit.framework */,
 				158A2A93222F03B00081BA88 /* SceneKit.framework */,
 				CEC356D422136C7200FA592F /* libMach1DecodePositionalCAPI.a */,
 				A46BE17A21E55DF90050CFEB /* libMach1DecodeCAPI.a */,
@@ -247,6 +252,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				158A2A96222F1A040081BA88 /* GameViewController.swift in Sources */,
+				CE28E43222307EB500DFE2DC /* CMDeviceMotion.swift in Sources */,
 				A4F80A26203B3B86008D976A /* ViewController.swift in Sources */,
 				158A2A9B222F1A0D0081BA88 /* SCNNodeExtensions.swift in Sources */,
 				A4F80A24203B3B86008D976A /* AppDelegate.swift in Sources */,

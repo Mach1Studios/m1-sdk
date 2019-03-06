@@ -9,6 +9,7 @@
 import UIKit
 import CoreMotion
 import AVFoundation
+import SceneKit
 
 var motionManager = CMMotionManager()
 var stereoPlayer = AVAudioPlayer()
@@ -34,6 +35,42 @@ func mapFloat(value : Float, inMin : Float, inMax : Float, outMin : Float, outMa
 
 func clampFloat(value : Float, min : Float, max : Float) -> Float {
     return min > value ? min : max < value ? max : value
+}
+
+func getEuler(q1 : SCNVector4) -> float3
+{
+    var res = float3(0,0,0)
+    
+    let test = q1.x * q1.y + q1.z * q1.w
+    if (test > 0.499) // singularity at north pole
+    {
+        print("xxxx1")
+        
+        return float3(
+        0,
+        Float(2 * atan2(q1.x, q1.w)),
+        .pi / 2
+        ) * 180 / .pi
+    }
+    if (test < -0.499) // singularity at south pole
+    {
+        print("xxxx2")
+        return float3(
+        0,
+        Float(-2 * atan2(q1.x, q1.w)),
+        -.pi / 2
+        ) * 180 / .pi
+    }
+    
+    let sqx = q1.x * q1.x
+    let sqy = q1.y * q1.y
+    let sqz = q1.z * q1.z
+    
+    res.x = Float(atan2(2 * q1.x * q1.w - 2 * q1.y * q1.z, 1 - 2 * sqx - 2 * sqz))
+    res.y = Float(atan2(2 * q1.y * q1.w - 2 * q1.x * q1.z, 1 - 2 * sqy - 2 * sqz))
+    res.z = Float(sin(2.0 * test))
+
+    return res * 180 / .pi
 }
 
 var cameraYaw : Float = 0
@@ -190,34 +227,37 @@ class ViewController : UIViewController, UITextFieldDelegate {
         if motionManager.isDeviceMotionAvailable == true {
             motionManager.deviceMotionUpdateInterval = 0.01;
             let queue = OperationQueue()
-            motionManager.startDeviceMotionUpdates(to: queue, withHandler: { [weak self] (motion, error) -> Void in
+            motionManager.startDeviceMotionUpdates(using: .xArbitraryCorrectedZVertical,  to: queue, withHandler: { [weak self] (motion, error) -> Void in
                 
                 // Get the attitudes of the device
-                let attitude = motion?.attitude
-                //Device orientation management
-                cameraYaw = Float(attitude!.yaw) * 180 / Float.pi
-                cameraPitch = Float(attitude!.pitch) * 180 / Float.pi
-                cameraRoll = Float(attitude!.roll) * 180 / Float.pi
-                //                    print("Yaw: ", deviceYaw)
-                //                    print("Pitch: ", devicePitch)
-
+                let quat = motion?.gaze(atOrientation: UIApplication.shared.statusBarOrientation)
+                var angles = getEuler(q1: quat!)
+                
+                cameraYaw = angles.x
+                cameraPitch = angles.y
+                cameraRoll = angles.z
+ 
                 // Please notice that you're expected to correct the correct the angles you get from
                 // the device's sensors to provide M1 Library with accurate angles in accordance to documentation.
                 // (documentation URL here)
+                /*
                 switch UIDevice.current.orientation{
-                    case .portrait:
-                        cameraYaw += 90
-                        cameraPitch -= 90
-                    case .portraitUpsideDown:
-                        cameraYaw -= 90
-                        cameraPitch += 90
-                    case .landscapeLeft:
-                        cameraRoll += 90
-                    case .landscapeRight:
-                        cameraYaw += 180
-                        cameraRoll -= 90
-                    default: break
+                case .portrait:
+                    cameraYaw += 90
+                    cameraPitch -= 90
+                case .portraitUpsideDown:
+                    cameraYaw -= 90
+                    cameraPitch += 90
+                case .landscapeLeft:
+                    cameraRoll += 90
+                case .landscapeRight:
+                    cameraYaw += 180
+                    cameraRoll -= 90
+                default: break
                 }
+                */
+                
+                print(cameraRoll , cameraYaw, cameraPitch)
                 
                 // get & set values from UI
                 DispatchQueue.main.async() {
@@ -263,7 +303,7 @@ class ViewController : UIViewController, UITextFieldDelegate {
 
                 var decodeArray: [Float] = Array(repeating: 0.0, count: 18)
                 m1obj.getVolumesWalls(result: &decodeArray)
-                print(decodeArray)
+                //print(decodeArray)
                 
                 //Use each coeff to decode multichannel Mach1 Spatial mix
                 for i in 0...7 {
@@ -281,6 +321,10 @@ class ViewController : UIViewController, UITextFieldDelegate {
             print("Device motion unavailable");
         }
         
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
     }
     
 }

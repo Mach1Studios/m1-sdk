@@ -233,28 +233,31 @@ class ViewController : UIViewController, UITextFieldDelegate {
                 let quat = motion?.gaze(atOrientation: UIApplication.shared.statusBarOrientation)
                 var angles = getEuler(q1: quat!)
                 
-                cameraYaw = -angles.y + 180
-                cameraPitch = angles.x + 90
+                cameraYaw = -angles.y
+                cameraPitch = angles.x
                 cameraRoll = angles.z
  
-                // Please notice that you're expected to correct the correct the angles you get from
+                // Please notice that you're expected to correct the angles you get from
                 // the device's sensors to provide M1 Library with accurate angles in accordance to documentation.
-                // (documentation URL here)
-                /*
-                switch UIDevice.current.orientation{
-                case .portrait:
-                    cameraYaw += 90
-                    cameraPitch -= 90
-                case .portraitUpsideDown:
-                    cameraYaw -= 90
-                    cameraPitch += 90
-                case .landscapeLeft:
-                    cameraRoll += 90
-                case .landscapeRight:
-                    cameraYaw += 180
-                    cameraRoll -= 90
-                default: break
-                }
+                // dev.mach1.xyz/#mach1-internal-angle-standards
+                //
+                /* Mach1 Internal Angle Standard
+                 
+                 Positional 3D Coords
+                 X+ = strafe right
+                 X- = strafe left
+                 Y+ = up
+                 Y- = down
+                 Z+ = forward
+                 Z- = backward
+                 
+                 Orientation Euler
+                 Yaw[0]+ = rotate right [Range: 0->360 | -180->180]
+                 Yaw[0]- = rotate left [Range: 0->360 | -180->180]
+                 Pitch[1]+ = rotate up [Range: -90->90]
+                 Pitch[1]- = rotate down [Range: -90->90]
+                 Roll[2]+ = tilt right [Range: -90->90]
+                 Roll[2]- = tilt left [Range: -90->90]
                 */
                 
                 print(cameraRoll , cameraYaw, cameraPitch)

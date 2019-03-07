@@ -41,6 +41,7 @@ public class M1Base : MonoBehaviour
 
     private int MAX_SOUNDS_PER_CHANNEL;
     private Matrix4x4 mat;
+    private Matrix4x4 matInternal;
 
     [Space(10)]
     public bool useBlendMode = false;
@@ -219,11 +220,17 @@ public class M1Base : MonoBehaviour
             Gizmos.matrix = gameObject.transform.localToWorldMatrix;
             Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
 
+            /*
             Gizmos.color = Color.magenta;
             Gizmos.matrix = mat;
             Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
+            */
 
-            float radius = 0.05f;
+            Gizmos.color = Color.yellow;
+            Gizmos.matrix = matInternal;
+            Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
+
+            float radius = 0.1f;
 
             Vector3[] edges = new Vector3[8] {
                 new Vector3(-0.5f, -0.5f, 0.5f),
@@ -705,7 +712,7 @@ public class M1Base : MonoBehaviour
 
             Vector3 eulerAngles = GetEuler(quat);
 
-            //quatInternal = Quaternion.Euler(eulerAngles);
+            matInternal = Matrix4x4.TRS(transform.position, quat, new Vector3(1, 1, 1)); 
 
             // debug for decode only
             //eulerAngles = GetEuler(camera.transform.rotation);
@@ -795,6 +802,7 @@ public class M1Base : MonoBehaviour
             m1Positional.setDecoderAlgoScale(ConvertToMach1Point3D(gameObject.transform.lossyScale));
             m1Positional.evaluatePositionResults();
 
+
             if (useFalloff)
             {
                 m1Positional.setFalloffCurve(falloffCurve.Evaluate(m1Positional.getDist()));
@@ -818,6 +826,11 @@ public class M1Base : MonoBehaviour
 
             if (debug)
             {
+
+                // Compute rotation for sound
+                Mach1.Mach1Point3D angles = m1Positional.getVolumeRotation();
+                matInternal = Matrix4x4.TRS(transform.position, Quaternion.Euler(angles.x, angles.y, angles.z), new Vector3(1, 1, 1));
+
                 Debug.Log("eulerAngles2 : " + m1Positional.getVolumeRotation().x + " , " + m1Positional.getVolumeRotation().y + " , " + m1Positional.getVolumeRotation().z);
                 Debug.Log("dist2: " + m1Positional.getDist());
 

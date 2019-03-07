@@ -328,22 +328,22 @@ MonoBehaviour:
   m1SpatialAudioMixerGroup: {fileID: 0}
   isFromAssets: 1
   audioClipMain:
-  - {fileID: 8300000, guid: a3faf0f260049e546b023bb317bf9a24, type: 3}
-  - {fileID: 8300000, guid: 94082349425b92e46873e7deedfcc40e, type: 3}
-  - {fileID: 8300000, guid: 74cf708e64260154ebd8d7d934bfbf2b, type: 3}
-  - {fileID: 8300000, guid: 017375dd027406d47ae1c592e3fa6783, type: 3}
-  - {fileID: 8300000, guid: ece7087cdebc7a747a5af2d18aa1f5b1, type: 3}
-  - {fileID: 8300000, guid: 5faa0bc9cd9c45d4bbe3a11d5ca8fc39, type: 3}
-  - {fileID: 8300000, guid: 41ed0b395570a424cb9a0a5a0fd3a203, type: 3}
-  - {fileID: 8300000, guid: 625b5d491e3a7544b8ee52f0ee47b5ad, type: 3}
+  - {fileID: 8300000, guid: 85df8c5fa90230041a7020061b6ec951, type: 3}
+  - {fileID: 8300000, guid: 403db79729d4a204d96ef6cc77e7de11, type: 3}
+  - {fileID: 8300000, guid: e024f7f0d2eac4c4f86a71d7096d1a8e, type: 3}
+  - {fileID: 8300000, guid: 5dea971672cec7541995d01702d8ebeb, type: 3}
+  - {fileID: 8300000, guid: 0a6aeb2b312db9147bca60f1b6729f62, type: 3}
+  - {fileID: 8300000, guid: 64d9758e42c7f32458077201ec73aa7e, type: 3}
+  - {fileID: 8300000, guid: 675017ae206bfbd4fa4fc90d1a648c59, type: 3}
+  - {fileID: 8300000, guid: c30d01c427e2d1c46888c01266119a6f, type: 3}
   audioClipBlend:
-  - {fileID: 8300000, guid: a3faf0f260049e546b023bb317bf9a24, type: 3}
-  - {fileID: 8300000, guid: 94082349425b92e46873e7deedfcc40e, type: 3}
-  - {fileID: 8300000, guid: 74cf708e64260154ebd8d7d934bfbf2b, type: 3}
-  - {fileID: 8300000, guid: 017375dd027406d47ae1c592e3fa6783, type: 3}
-  - {fileID: 8300000, guid: ece7087cdebc7a747a5af2d18aa1f5b1, type: 3}
-  - {fileID: 8300000, guid: 5faa0bc9cd9c45d4bbe3a11d5ca8fc39, type: 3}
-  - {fileID: 8300000, guid: 41ed0b395570a424cb9a0a5a0fd3a203, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   externalAudioPath: file:///
   externalAudioFilenameMain:

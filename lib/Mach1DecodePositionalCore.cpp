@@ -148,12 +148,10 @@ glm::vec3 Mach1DecodePositionalCore::GetRightVector()
 	switch (platformType)
 	{
 	case Mach1PlatformUnity:
+	case Mach1PlatformiOS:
 		return glm::vec3(1, 0, 0);
 	case Mach1PlatformUE:
 		return glm::vec3(0, 1, 0);
-	case Mach1PlatformiOSPortrait:
-	case Mach1PlatformiOSLandscape:
-		return glm::vec3(1, 0, 0);
 	default:
 		return glm::vec3(1, 0, 0);
 	}
@@ -164,12 +162,10 @@ glm::vec3 Mach1DecodePositionalCore::GetUpVector()
 	switch (platformType)
 	{
 	case Mach1PlatformUnity:
+	case Mach1PlatformiOS:
 		return glm::vec3(0, 1, 0);
 	case Mach1PlatformUE:
 		return glm::vec3(0, 0, 1);
-	case Mach1PlatformiOSPortrait:
-	case Mach1PlatformiOSLandscape:
-		return glm::vec3(0, 1, 0);
 	default:
 		return glm::vec3(0, 1, 0);
 	}
@@ -180,12 +176,10 @@ glm::vec3 Mach1DecodePositionalCore::GetForwardVector()
 	switch (platformType)
 	{
 	case Mach1PlatformUnity:
+	case Mach1PlatformiOS:
 		return glm::vec3(0, 0, 1);
 	case Mach1PlatformUE:
 		return glm::vec3(1, 0, 0);
-	case Mach1PlatformiOSPortrait:
-	case Mach1PlatformiOSLandscape:
-		return glm::vec3(0, 0, -1);
 	default:
 		return glm::vec3(0, 0, 1);
 	}
@@ -330,7 +324,7 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
 		{
 			cameraPosition.z = soundPosition.z;
 		}
-		else // Mach1PlatformUnity || Mach1PlatformiOSPortrait || Mach1PlatformiOSLandscape 
+		else // Mach1PlatformUnity || Mach1PlatformiOS 
 		{
 			cameraPosition.y = soundPosition.y;
 		}
@@ -404,11 +398,11 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
 	// Compute rotation for sound
 	// http://www.aclockworkberry.com/world-coordinate-systems-in-3ds-max-unity-and-unreal-engine/
 	glm::quat quat;
-	if (platformType == Mach1PlatformUE || platformType == Mach1PlatformiOSPortrait || platformType == Mach1PlatformiOSLandscape)
+	if (platformType == Mach1PlatformUE)
 	{
 		quat = glm::quatLookAtRH(glm::normalize(dir), GetUpVector());
 	}
-	else if (platformType == Mach1PlatformUnity)
+	else // Mach1PlatformUnity Mach1PlatformiOS
 	{
 		quat = glm::quatLookAtLH(glm::normalize(dir), GetUpVector());
 	}
@@ -428,7 +422,7 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
 		useYForRotation = usePitchForRotation;
 		useZForRotation = useYawForRotation;
 	}
-	else if (platformType == Mach1PlatformUnity)
+	else // Mach1PlatformUnity Mach1PlatformiOS
 	{
 		useXForRotation = usePitchForRotation;
 		useYForRotation = useYawForRotation;

@@ -233,14 +233,14 @@ public class M1Base : MonoBehaviour
             float radius = 0.1f;
 
             Vector3[] edges = new Vector3[8] {
-                new Vector3(-0.5f, -0.5f, 0.5f),
-                new Vector3(0.5f, -0.5f, 0.5f),
-                new Vector3(-0.5f, -0.5f, -0.5f), 
-                new Vector3(0.5f, -0.5f, -0.5f), 
                 new Vector3(-0.5f, 0.5f, 0.5f),
                 new Vector3(0.5f, 0.5f, 0.5f),
                 new Vector3(-0.5f, 0.5f, -0.5f), 
                 new Vector3(0.5f, 0.5f, -0.5f), 
+                new Vector3(-0.5f, -0.5f, 0.5f),
+                new Vector3(0.5f, -0.5f, 0.5f),
+                new Vector3(-0.5f, -0.5f, -0.5f), 
+                new Vector3(0.5f, -0.5f, -0.5f), 
             };
 
             for (int i = 0; i < 8; i++) 

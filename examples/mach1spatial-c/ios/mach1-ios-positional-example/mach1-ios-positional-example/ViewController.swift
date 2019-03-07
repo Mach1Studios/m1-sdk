@@ -167,7 +167,7 @@ class ViewController : UIViewController, UITextFieldDelegate {
             
             //Mach1 Decode Setup
             //Setup the correct angle convention for orientation Euler input angles
-            m1obj.setPlatformType(type: Mach1PlatformiOSPortrait)
+            m1obj.setPlatformType(type: Mach1PlatformDefault)
             //Setup the expected spatial audio mix format for decoding
             m1obj.setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoSpatial)
             //Setup for the safety filter speed:
@@ -234,9 +234,9 @@ class ViewController : UIViewController, UITextFieldDelegate {
                 var angles = getEuler(q1: quat!)
                 
                 cameraYaw = -angles.y
-                cameraPitch = angles.x
+                cameraPitch = -angles.x
                 cameraRoll = angles.z
- 
+                
                 // Please notice that you're expected to correct the angles you get from
                 // the device's sensors to provide M1 Library with accurate angles in accordance to documentation.
                 // dev.mach1.xyz/#mach1-internal-angle-standards
@@ -260,7 +260,7 @@ class ViewController : UIViewController, UITextFieldDelegate {
                  Roll[2]- = tilt left [Range: -90->90]
                 */
                 
-                print(cameraRoll , cameraYaw, cameraPitch)
+                print(cameraRoll, cameraYaw, cameraPitch)
                 
                 // get & set values from UI
                 DispatchQueue.main.async() {
@@ -282,12 +282,6 @@ class ViewController : UIViewController, UITextFieldDelegate {
                     stereoPlayer.setVolume(0.0, fadeDuration: 0.1)
                 }
                 
-                /*
-                cameraYaw = 0
-                cameraPitch = 0
-                cameraRoll = 0
-                */
-
                 //Send device orientation to m1obj with the preferred algo
                 m1obj.setCameraPosition(point: (cameraPosition))
                 m1obj.setCameraRotation(point: Mach1Point3D(x: cameraYaw, y: cameraPitch, z: cameraRoll))
@@ -306,7 +300,7 @@ class ViewController : UIViewController, UITextFieldDelegate {
 
                 var decodeArray: [Float] = Array(repeating: 0.0, count: 18)
                 m1obj.getVolumesWalls(result: &decodeArray)
-                //print(decodeArray)
+                print(decodeArray)
                 
                 //Use each coeff to decode multichannel Mach1 Spatial mix
                 for i in 0...7 {

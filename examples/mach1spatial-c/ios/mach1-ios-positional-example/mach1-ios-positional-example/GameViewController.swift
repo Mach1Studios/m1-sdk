@@ -25,8 +25,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     {
         let angleSet = m1obj.getCurrentAngle()
         
-         coneNode.eulerAngles =  SCNVector3(x: deg2rad(cameraPitch - 90), y: deg2rad(-cameraYaw + 180), z: deg2rad(cameraRoll))
-         coneNode.position =  SCNVector3(x: cameraPosition.x * Float(size)/2, y: cameraPosition.y * Float(size)/2, z: cameraPosition.z * Float(size)/2)
+         coneNode.eulerAngles =  SCNVector3(x: deg2rad(-cameraPitch), y: deg2rad(-cameraYaw), z: deg2rad(cameraRoll))
+         coneNode.position =  SCNVector3(x: cameraPosition.x * Float(size)/2, y: cameraPosition.y * Float(size)/2, z: -cameraPosition.z * Float(size)/2)
         
         var decodeArray: [Float] = Array(repeating: 0.0, count: 18)
         m1obj.getVolumesWalls(result: &decodeArray)
@@ -60,15 +60,15 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         
         var points:[SCNVector3] = []
         
-        points.append(SCNVector3(-size, size, -size)/2);
-        points.append(SCNVector3(size, size, -size)/2);
-        points.append(SCNVector3(-size, size, size)/2);
-        points.append(SCNVector3(size, size, size)/2);
-            
         points.append(SCNVector3(-size, -size, -size)/2);
         points.append(SCNVector3(size, -size, -size)/2);
         points.append(SCNVector3(-size, -size, size)/2);
         points.append(SCNVector3(size, -size, size)/2);
+            
+        points.append(SCNVector3(-size, size, -size)/2);
+        points.append(SCNVector3(size, size, -size)/2);
+        points.append(SCNVector3(-size, size, size)/2);
+        points.append(SCNVector3(size, size, size)/2);
         
         
         for i in 0...points.count-1 {

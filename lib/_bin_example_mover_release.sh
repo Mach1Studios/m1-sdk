@@ -10,7 +10,6 @@ yes | cp -rf "external/" "../../m1-sdk-release/include/"
 
 echo "### Move and replace bins ###"
 echo "### Replacing Xcode/macOS ###"
-yes | cp -rf _install/xcode ../binaries/
 yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/osx/libMach1DecodeCAPI.a"
 yes | cp -rf "_install/xcode/lib/libMach1EncodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/osx/libMach1EncodeCAPI.a"
 yes | cp -rf "_install/xcode/lib/libMach1DecodePositionalCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/osx/libMach1DecodePositionalCAPI.a"
@@ -23,7 +22,6 @@ yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/exa
 yes | cp -rf "_install/xcode/lib/libMach1DecodePositionalCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/ThirdParty/Mach1/bin/Mac/libMach1DecodePositionalCAPI.a"
 
 echo "### Replacing iOS ###"
-yes | cp -rf _install/ios ../binaries/
 yes | cp -rf "_install/ios/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/iOS/libMach1DecodeCAPI.a"
 yes | cp -rf "_install/ios/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/ThirdParty/Mach1/bin/IOS/libMach1DecodeCAPI.a"
 echo "### Moving iOS ###"

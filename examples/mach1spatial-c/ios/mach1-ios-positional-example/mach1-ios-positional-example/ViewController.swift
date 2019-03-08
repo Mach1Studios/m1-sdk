@@ -9,6 +9,7 @@
 import UIKit
 import CoreMotion
 import AVFoundation
+import SceneKit
 
 var motionManager = CMMotionManager()
 var stereoPlayer = AVAudioPlayer()
@@ -19,9 +20,14 @@ var isPitchActive = false
 var isRollActive = false
 var isPlaying = false
 
+
 private var audioEngine: AVAudioEngine = AVAudioEngine()
 private var mixer: AVAudioMixerNode = AVAudioMixerNode()
 var players: [AVAudioPlayer] = []
+
+var cameraPosition: Mach1Point3D = Mach1Point3D(x: 0, y: 0, z: 0)
+var objectPosition: Mach1Point3D = Mach1Point3D(x: 0, y: 0, z: 0)
+
 
 func mapFloat(value : Float, inMin : Float, inMax : Float, outMin : Float, outMax : Float) -> Float {
     return (value - inMin) / (inMax - inMin) * (outMax - outMin) + outMin
@@ -30,6 +36,46 @@ func mapFloat(value : Float, inMin : Float, inMax : Float, outMin : Float, outMa
 func clampFloat(value : Float, min : Float, max : Float) -> Float {
     return min > value ? min : max < value ? max : value
 }
+
+func getEuler(q1 : SCNVector4) -> float3
+{
+    var res = float3(0,0,0)
+    
+    let test = q1.x * q1.y + q1.z * q1.w
+    if (test > 0.499) // singularity at north pole
+    {
+        print("xxxx1")
+        
+        return float3(
+        0,
+        Float(2 * atan2(q1.x, q1.w)),
+        .pi / 2
+        ) * 180 / .pi
+    }
+    if (test < -0.499) // singularity at south pole
+    {
+        print("xxxx2")
+        return float3(
+        0,
+        Float(-2 * atan2(q1.x, q1.w)),
+        -.pi / 2
+        ) * 180 / .pi
+    }
+    
+    let sqx = q1.x * q1.x
+    let sqy = q1.y * q1.y
+    let sqz = q1.z * q1.z
+    
+    res.x = Float(atan2(2 * q1.x * q1.w - 2 * q1.y * q1.z, 1 - 2 * sqx - 2 * sqz))
+    res.y = Float(atan2(2 * q1.y * q1.w - 2 * q1.x * q1.z, 1 - 2 * sqy - 2 * sqz))
+    res.z = Float(sin(2.0 * test))
+
+    return res * 180 / .pi
+}
+
+var cameraYaw : Float = 0
+var cameraPitch : Float = 0
+var cameraRoll : Float = 0
 
 class ViewController : UIViewController, UITextFieldDelegate {
     
@@ -44,6 +90,9 @@ class ViewController : UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return false
+    }
+    @IBAction func open3dViewButton(_ sender: Any) {
+        performSegue(withIdentifier: "present3dView", sender: self)
     }
     
     @IBAction func playButton(_ sender: Any) {
@@ -91,12 +140,12 @@ class ViewController : UIViewController, UITextFieldDelegate {
         isRollActive = !isRollActive
     }
     
-    var cameraPosition: Mach1Point3D = Mach1Point3D(x: 0, y: 0, z: 0)
-    var objectPosition: Mach1Point3D = Mach1Point3D(x: 0, y: 0, z: 0)
+    weak var threedview: GameViewController?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         do {
             for i in 0...7 {
                 //load in the individual streams of audio from a Mach1 Spatial encoded audio file
@@ -118,7 +167,7 @@ class ViewController : UIViewController, UITextFieldDelegate {
             
             //Mach1 Decode Setup
             //Setup the correct angle convention for orientation Euler input angles
-            m1obj.setPlatformType(type: Mach1PlatformiOSLandscape)
+            m1obj.setPlatformType(type: Mach1PlatformiOS)
             //Setup the expected spatial audio mix format for decoding
             m1obj.setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoSpatial)
             //Setup for the safety filter speed:
@@ -135,9 +184,9 @@ class ViewController : UIViewController, UITextFieldDelegate {
             m1obj.setMuteWhenOutsideObject(muteWhenOutsideObject: false)
             //Setting: mute audio when setCameraPosition position is inside of m1obj volume
             //based on setDecoderAlgoPosition & setDecoderAlgoScale
-            m1obj.setMuteWhenInsideObject(muteWhenInsideObject: false)
+            m1obj.setMuteWhenInsideObject(muteWhenInsideObject: true)
             //Setting: turn on/off distance attenuation of m1obj
-            m1obj.setUseFalloff(useFalloff: true)
+            m1obj.setUseFalloff(useFalloff: false)
             //Advanced Setting: when on, positional rotation is calculated from the closest point
             //of the m1obj's volume and not rotation from the center of m1obj.
             //use this if you want the positional rotation tracking to be from a plane instead of from a point
@@ -145,9 +194,9 @@ class ViewController : UIViewController, UITextFieldDelegate {
             //Setting: on/off yaw rotations from position
             m1obj.setUseYawForRotation(bool: true)
             //Setting: on/off pitch rotations from position
-            m1obj.setUsePitchForRotation(bool: false)
+            m1obj.setUsePitchForRotation(bool: true)
             //Setting: on/off roll rotations from position
-            m1obj.setUseRollForRotation(bool: false)
+            m1obj.setUseRollForRotation(bool: true)
         } catch {
             print (error)
         }
@@ -178,42 +227,55 @@ class ViewController : UIViewController, UITextFieldDelegate {
         if motionManager.isDeviceMotionAvailable == true {
             motionManager.deviceMotionUpdateInterval = 0.01;
             let queue = OperationQueue()
-            motionManager.startDeviceMotionUpdates(to: queue, withHandler: { [weak self] (motion, error) -> Void in
+            motionManager.startDeviceMotionUpdates(using: .xArbitraryCorrectedZVertical,  to: queue, withHandler: { [weak self] (motion, error) -> Void in
                 
                 // Get the attitudes of the device
-                let attitude = motion?.attitude
-                //Device orientation management
-                var cameraYaw : Float = Float(attitude!.yaw) * 180 / Float.pi
-                var cameraPitch : Float = Float(attitude!.pitch) * 180 / Float.pi
-                var cameraRoll : Float = Float(attitude!.roll) * 180 / Float.pi
-                //                    print("Yaw: ", deviceYaw)
-                //                    print("Pitch: ", devicePitch)
-
-                // Please notice that you're expected to correct the correct the angles you get from
+                let quat = motion?.gaze(atOrientation: UIApplication.shared.statusBarOrientation)
+                var angles = getEuler(q1: quat!)
+                
+                //iOS x=pitch & y=yaw however by using PlatformType this is internally corrected
+                cameraYaw = angles.x
+                cameraPitch = angles.y
+                cameraRoll = angles.z
+                //if PlatformType = Mach1PlatformDefault, pass in as
+                /*
+                 cameraYaw = -angles.y
+                 cameraPitch = -angles.x
+                 cameraRoll = angles.z
+                */
+                
+                // Please notice that you're expected to correct the angles you get from
                 // the device's sensors to provide M1 Library with accurate angles in accordance to documentation.
-                // (documentation URL here)
-                switch UIDevice.current.orientation{
-                    case .portrait:
-                        cameraYaw += 90
-                        cameraPitch -= 90
-                    case .portraitUpsideDown:
-                        cameraYaw -= 90
-                        cameraPitch += 90
-                    case .landscapeLeft:
-                        cameraRoll += 90
-                    case .landscapeRight:
-                        cameraYaw += 180
-                        cameraRoll -= 90
-                    default: break
-                }
+                // dev.mach1.xyz/#mach1-internal-angle-standards
+                //
+                /* Mach1 Internal Angle Standard
+                 
+                 Positional 3D Coords
+                 X+ = strafe right
+                 X- = strafe left
+                 Y+ = up
+                 Y- = down
+                 Z+ = forward
+                 Z- = backward
+                 
+                 Orientation Euler
+                 Yaw[0]+ = rotate right [Range: 0->360 | -180->180]
+                 Yaw[0]- = rotate left [Range: 0->360 | -180->180]
+                 Pitch[1]+ = rotate up [Range: -90->90]
+                 Pitch[1]- = rotate down [Range: -90->90]
+                 Roll[2]+ = tilt right [Range: -90->90]
+                 Roll[2]- = tilt left [Range: -90->90]
+                */
+                
+                print(cameraRoll, cameraYaw, cameraPitch)
                 
                 // get & set values from UI
                 DispatchQueue.main.async() {
-                    self?.labelCameraYaw.text = String(cameraYaw)
-                    self?.labelCameraPitch.text = String(cameraPitch)
+                    self?.labelCameraYaw.text = String(cameraPitch)
+                    self?.labelCameraPitch.text = String(cameraYaw)
                     self?.labelCameraRoll.text = String(cameraRoll)
                     
-                    self?.cameraPosition = Mach1Point3D(
+                    cameraPosition = Mach1Point3D(
                         x: (self?.sliderCameraX.value)!,
                         y: (self?.sliderCameraY.value)!,
                         z: (self?.sliderCameraZ.value)!
@@ -227,18 +289,12 @@ class ViewController : UIViewController, UITextFieldDelegate {
                     stereoPlayer.setVolume(0.0, fadeDuration: 0.1)
                 }
                 
-                /*
-                cameraYaw = 0
-                cameraPitch = 0
-                cameraRoll = 0
-                */
-
                 //Send device orientation to m1obj with the preferred algo
-                m1obj.setCameraPosition(point: (self?.cameraPosition)!)
+                m1obj.setCameraPosition(point: (cameraPosition))
                 m1obj.setCameraRotation(point: Mach1Point3D(x: cameraYaw, y: cameraPitch, z: cameraRoll))
-                m1obj.setDecoderAlgoPosition(point: (self?.objectPosition)!)
+                m1obj.setDecoderAlgoPosition(point: (objectPosition))
                 m1obj.setDecoderAlgoRotation(point: Mach1Point3D(x: 0, y: 0, z: 0))
-                m1obj.setDecoderAlgoScale(point: Mach1Point3D(x: 1, y: 1, z: 1))
+                m1obj.setDecoderAlgoScale(point: Mach1Point3D(x: 0.1, y: 0.1, z: 0.1))
                 
                 m1obj.evaluatePositionResults()
 
@@ -269,6 +325,10 @@ class ViewController : UIViewController, UITextFieldDelegate {
             print("Device motion unavailable");
         }
         
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
     }
     
 }

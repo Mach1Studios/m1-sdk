@@ -43,7 +43,7 @@ void ofApp::setup(){
 
 	spectatorCam = ofVec3f(-0.25, 0.5, 0.0);
 	  
-	//	soundStream.printDeviceList();
+	//soundStream.printDeviceList();
 	//soundStream.setDeviceID(1); 	//note some devices are input only and some are output only
     
     //CHANGE SECOND TO LAST ARG FOR BUFFER SIZE TESTING
@@ -88,9 +88,7 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     
-    
     float time2 = ofGetElapsedTimef();
-    
     
     ofEnableDepthTest();
     
@@ -102,15 +100,12 @@ void ofApp::draw(){
     float fogColor[3] = {0.3, 0.3, 0.3};
     glFogfv(GL_FOG_COLOR, fogColor);
     
-//    glEnable(GL_FOG);
-    
     ofPushMatrix();
         ofTranslate(ofGetWidth() / 2, ofGetHeight() / 2);
         ofRotate(90 * spectatorCam.y, 1, 0, 0);
         ofRotate(360 * spectatorCam.x, 0, 0, 1);
     
         // Drawing grid
-        
         ofSetColor(100);
         ofSetLineWidth(1);
         int lCount = 80;
@@ -119,10 +114,7 @@ void ofApp::draw(){
             ofLine( -100 * lCount, i * 100, 100 * lCount, i * 100);
         }
     
-    
-    
         // Drawing axis
-		
         ofSetColor(0, 255, 0, 75);
     
         ofPoint faceVector1 = ofPoint(cos(ofDegToRad(simulationAngles[0])),
@@ -140,7 +132,6 @@ void ofApp::draw(){
                                                           sin(ofDegToRad(simulationAngles[0] - 90))).normalize()) - faceVector2;
     
         ofPoint tiltSphereRotated = faceVectorOffsetted.rotate(-angleRoll, faceVector2);
-//        ofPoint facePoint = faceVector2 * 120;
     
         ofPushMatrix();
         ofTranslate(0, 0, 100);
@@ -152,8 +143,6 @@ void ofApp::draw(){
                    (faceVector2.y + tiltSphereRotated.y) * 150,
                    (faceVector2.z + tiltSphereRotated.z) * 150, 2, true);
     
-//        ofPoint tiltVector = faceVector2.perpendicular()
-		 
 			ofSetColor(255, 0, 0);
 			ofDrawLine(faceVector2.x * 50, faceVector2.y * 50, faceVector2.z * 50,
 				faceVector2.x * 120, faceVector2.y * 120, faceVector2.z * 120);
@@ -172,27 +161,21 @@ void ofApp::draw(){
             }
 
         // Drawing spectator and arrow
-    
         ofEnableLighting();
         pointLight.enable();
         pointLight2.enable();
         pointLight3.enable();
 
         material.begin();
-
             ofSetColor(255);
             drawSphere(0, 0, 0, 32, true);
-    
         material.end();
     
         ofPopMatrix();
     
         tests[selectedTest]->draw();
-        
     
     ofPopMatrix();
-    
-//    glDisable(GL_FOG);
     
     ofDisableDepthTest();
     ofDisableLighting();
@@ -200,30 +183,23 @@ void ofApp::draw(){
     /////////////////////////////////////////////
     
     // UI
-    
     ofSetColor(255);
     if(logo.isAllocated()) logo.draw(0, 0, 75, 80);
-    
-
 
 	// playhead
 	{
 		ofSetLineWidth(2);
 		int border = 20;
 		ofDrawLine(10, ofGetHeight() - border, ofGetWidth() - border, ofGetHeight() - border);
-
 		float position = tests[selectedTest]->getPlayheadPosition() * (ofGetWidth() - 2 * border);
-
 		ofDrawCircle(10 + position, ofGetHeight() - border, 10);
 		ofSetLineWidth(1);
 	}
-	
 
     ImGuiWindowFlags window_flags = 0;
     window_flags |= ImGuiWindowFlags_NoTitleBar;
     window_flags |= ImGuiWindowFlags_NoResize;
     window_flags |= ImGuiWindowFlags_NoMove;
-    
     
     bool *x;
     
@@ -269,11 +245,9 @@ void ofApp::draw(){
                 simulationAngles = ofPoint(angleYaw, anglePitch, angleRoll);
         }
     
-    
     ImGui::End();
     
     gui.end();
-    
     
     //
     
@@ -333,11 +307,7 @@ void ofApp::mousePressed(int x, int y, int button){
             anglesDragStart = ofVec3f(angleYaw, anglePitch, angleRoll);
         }
     }
-    
-    //
-    
     tests[selectedTest]->mousePressed(x, y);
-    
 }
 
 //--------------------------------------------------------------

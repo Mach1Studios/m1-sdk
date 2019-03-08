@@ -3,15 +3,15 @@
 class SpatialTest2: public BaseAudioTest {
 public:
     SpatialTest2() {
-        spherePoints[0] = ofPoint(200, -200, 0);
-        spherePoints[1] = ofPoint(200, 200, 0);
-        spherePoints[2] = ofPoint(-200, -200, 0);
-        spherePoints[3] = ofPoint(-200, 200, 0);
+        spherePoints[0] = ofPoint(200, -200, 200);
+        spherePoints[1] = ofPoint(200, 200, 200);
+        spherePoints[2] = ofPoint(-200, -200, 200);
+        spherePoints[3] = ofPoint(-200, 200, 200);
         
-        spherePoints[4] = ofPoint(200, -200, 200);
-        spherePoints[5] = ofPoint(200, 200, 200);
-        spherePoints[6] = ofPoint(-200, -200, 200);
-        spherePoints[7] = ofPoint(-200, 200, 200);
+        spherePoints[4] = ofPoint(200, -200, 0);
+        spherePoints[5] = ofPoint(200, 200, 0);
+        spherePoints[6] = ofPoint(-200, -200, 0);
+        spherePoints[7] = ofPoint(-200, 200, 0);
 
         players[0].load("2/1.wav");
         players[1].load("2/2.wav");
@@ -36,7 +36,6 @@ public:
     }
     
     void update() {
-
 		mach1Decode.setFilterSpeed(speed);
 
         // Handling audio

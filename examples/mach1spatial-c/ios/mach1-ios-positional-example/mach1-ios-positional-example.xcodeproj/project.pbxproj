@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		158A2A94222F03B00081BA88 /* SceneKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158A2A93222F03B00081BA88 /* SceneKit.framework */; };
+		158A2A96222F1A040081BA88 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158A2A95222F1A040081BA88 /* GameViewController.swift */; };
+		158A2A9A222F1A0D0081BA88 /* LineDrawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158A2A97222F1A0C0081BA88 /* LineDrawing.swift */; };
+		158A2A9B222F1A0D0081BA88 /* SCNNodeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158A2A98222F1A0C0081BA88 /* SCNNodeExtensions.swift */; };
+		158A2A9C222F1A0D0081BA88 /* SCNVector3Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158A2A99222F1A0D0081BA88 /* SCNVector3Extensions.swift */; };
 		A46BE17B21E55DF90050CFEB /* libMach1DecodeCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A46BE17A21E55DF90050CFEB /* libMach1DecodeCAPI.a */; };
 		A46BE17D21E55EBC0050CFEB /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A46BE17C21E55EBB0050CFEB /* libc++.tbd */; };
 		A497AFA720DC63D10098D480 /* Mach1Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497AFA620DC63D00098D480 /* Mach1Decode.swift */; };
@@ -26,6 +31,7 @@
 		A4F80A29203B3B86008D976A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4F80A27203B3B86008D976A /* Main.storyboard */; };
 		A4F80A2B203B3B86008D976A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4F80A2A203B3B86008D976A /* Assets.xcassets */; };
 		A4F80A2E203B3B86008D976A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4F80A2C203B3B86008D976A /* LaunchScreen.storyboard */; };
+		CE28E43222307EB500DFE2DC /* CMDeviceMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE28E43122307EB500DFE2DC /* CMDeviceMotion.swift */; };
 		CEC356D522136C7200FA592F /* libMach1DecodePositionalCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC356D422136C7200FA592F /* libMach1DecodePositionalCAPI.a */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +49,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		158A2A93222F03B00081BA88 /* SceneKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SceneKit.framework; path = System/Library/Frameworks/SceneKit.framework; sourceTree = SDKROOT; };
+		158A2A95222F1A040081BA88 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		158A2A97222F1A0C0081BA88 /* LineDrawing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineDrawing.swift; sourceTree = "<group>"; };
+		158A2A98222F1A0C0081BA88 /* SCNNodeExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCNNodeExtensions.swift; sourceTree = "<group>"; };
+		158A2A99222F1A0D0081BA88 /* SCNVector3Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCNVector3Extensions.swift; sourceTree = "<group>"; };
 		A46BE17A21E55DF90050CFEB /* libMach1DecodeCAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMach1DecodeCAPI.a; path = "../../../../binaries/ios-12-1/lib/libMach1DecodeCAPI.a"; sourceTree = "<group>"; };
 		A46BE17C21E55EBB0050CFEB /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/libc++.tbd"; sourceTree = DEVELOPER_DIR; };
 		A497AFA620DC63D00098D480 /* Mach1Decode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mach1Decode.swift; path = ../../../../../include/swift/Mach1Decode.swift; sourceTree = "<group>"; };
@@ -63,6 +74,8 @@
 		A4F80A28203B3B86008D976A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A4F80A2A203B3B86008D976A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A4F80A2D203B3B86008D976A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CE28E43122307EB500DFE2DC /* CMDeviceMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CMDeviceMotion.swift; sourceTree = "<group>"; };
+		CE28E43322307EDA00DFE2DC /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		CE4C8E1D22147AD1001B2E13 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CEC356D422136C7200FA592F /* libMach1DecodePositionalCAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMach1DecodePositionalCAPI.a; path = "../../../../binaries/ios-12-1/lib/libMach1DecodePositionalCAPI.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -72,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				158A2A94222F03B00081BA88 /* SceneKit.framework in Frameworks */,
 				A46BE17B21E55DF90050CFEB /* libMach1DecodeCAPI.a in Frameworks */,
 				CEC356D522136C7200FA592F /* libMach1DecodePositionalCAPI.a in Frameworks */,
 				A46BE17D21E55EBC0050CFEB /* libc++.tbd in Frameworks */,
@@ -104,7 +118,12 @@
 				A4F80A23203B3B86008D976A /* AppDelegate.swift */,
 				A4F80A25203B3B86008D976A /* ViewController.swift */,
 				A497AFA620DC63D00098D480 /* Mach1Decode.swift */,
+				CE28E43122307EB500DFE2DC /* CMDeviceMotion.swift */,
 				A4D27726221370130079FEFC /* Mach1DecodePositional.swift */,
+				158A2A95222F1A040081BA88 /* GameViewController.swift */,
+				158A2A97222F1A0C0081BA88 /* LineDrawing.swift */,
+				158A2A98222F1A0C0081BA88 /* SCNNodeExtensions.swift */,
+				158A2A99222F1A0D0081BA88 /* SCNVector3Extensions.swift */,
 				A4F80A27203B3B86008D976A /* Main.storyboard */,
 				A4F80A2A203B3B86008D976A /* Assets.xcassets */,
 				A4F80A2C203B3B86008D976A /* LaunchScreen.storyboard */,
@@ -117,6 +136,8 @@
 		A4F80A53203B3C91008D976A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE28E43322307EDA00DFE2DC /* GLKit.framework */,
+				158A2A93222F03B00081BA88 /* SceneKit.framework */,
 				CEC356D422136C7200FA592F /* libMach1DecodePositionalCAPI.a */,
 				A46BE17A21E55DF90050CFEB /* libMach1DecodeCAPI.a */,
 				A46BE17C21E55EBB0050CFEB /* libc++.tbd */,
@@ -230,10 +251,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				158A2A96222F1A040081BA88 /* GameViewController.swift in Sources */,
+				CE28E43222307EB500DFE2DC /* CMDeviceMotion.swift in Sources */,
 				A4F80A26203B3B86008D976A /* ViewController.swift in Sources */,
+				158A2A9B222F1A0D0081BA88 /* SCNNodeExtensions.swift in Sources */,
 				A4F80A24203B3B86008D976A /* AppDelegate.swift in Sources */,
 				A4D27727221370130079FEFC /* Mach1DecodePositional.swift in Sources */,
+				158A2A9A222F1A0D0081BA88 /* LineDrawing.swift in Sources */,
 				A497AFA720DC63D10098D480 /* Mach1Decode.swift in Sources */,
+				158A2A9C222F1A0D0081BA88 /* SCNVector3Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,7 +428,7 @@
 				INFOPLIST_FILE = "mach1-ios-positional-example/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../binaries/ios-12-1/lib/\"";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../binaries/ios/lib/\"";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.ios-positional-example";
@@ -436,7 +462,7 @@
 				INFOPLIST_FILE = "mach1-ios-positional-example/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../binaries/ios-12-1/lib/\"";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../binaries/ios/lib/\"";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.ios-positional-example";

@@ -10,9 +10,7 @@ namespace Mach1
     {
         #if UNITY_IOS
         internal const string libname = "__Internal";
-        #elif UNITY_STANDALONE_WIN
-        internal const string libname = "Mach1DecodeCAPI";
-        #elif UNITY_EDITOR_WIN
+        #elif UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
         internal const string libname = "Mach1DecodeCAPI";
         #else
         internal const string libname = "libMach1DecodeCAPI";
@@ -75,7 +73,8 @@ namespace Mach1
 
         public void decode(float Yaw, float Pitch, float Roll, ref float[] data,  int bufferSize = 0, int sampleIndex = 0)
         {
-            //if(data.Length < 18) data = new float[18];
+            // if(data.Length < 18) data = new float[18];
+
             GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
             IntPtr pointer = pinnedArray.AddrOfPinnedObject();
 

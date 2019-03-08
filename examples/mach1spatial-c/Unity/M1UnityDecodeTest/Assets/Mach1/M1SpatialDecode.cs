@@ -16,7 +16,8 @@ public class M1SpatialDecode :  M1Base
 
 #if LEGACY_POSITIONAL
         m1Decode.setDecodeAlgoType(Mach1.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial);
-#endif
+#else
         m1Positional.setDecodeAlgoType(Mach1.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial);
+#endif
     }
 }

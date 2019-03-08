@@ -13,12 +13,13 @@ public class M1Base : MonoBehaviour
 {
     public AudioMixerGroup m1SpatialAudioMixerGroup;
 
+    [Space(10)]
+    public bool isFromAssets = true;
     public AudioClip[] audioClipMain;
     public AudioClip[] audioClipBlend;
 
     [Space(10)]
     public string externalAudioPath = "file:///";
-    public bool isFromStreamingAssets = true;
     public string[] externalAudioFilenameMain;
     public string[] externalAudioFilenameBlend;
 
@@ -40,6 +41,7 @@ public class M1Base : MonoBehaviour
 
     private int MAX_SOUNDS_PER_CHANNEL;
     private Matrix4x4 mat;
+    private Matrix4x4 matInternal;
 
     [Space(10)]
     public bool useBlendMode = false;
@@ -59,10 +61,14 @@ public class M1Base : MonoBehaviour
     public bool drawHelpers = false;
     public bool debug = false;
 
+    private float[] volumesWalls;
+    private float[] volumesRoom;
+
 #if LEGACY_POSITIONAL
     protected Mach1.Mach1Decode m1Decode = new Mach1.Mach1Decode();
-#endif
+#else
     protected Mach1.Mach1DecodePositional m1Positional = new Mach1.Mach1DecodePositional();
+#endif
 
     private Camera camera;
 
@@ -105,10 +111,14 @@ public class M1Base : MonoBehaviour
 
     public M1Base()
     {
+        volumesWalls = new float[18];
+        volumesRoom = new float[18];
+
 #if LEGACY_POSITIONAL
         m1Decode.setPlatformType(Mach1.Mach1PlatformType.Mach1PlatformUnity);
-#endif
+#else
         m1Positional.setPlatformType(Mach1.Mach1PlatformType.Mach1PlatformUnity);
+#endif
     }
 
     protected void InitComponents(int MAX_SOUNDS_PER_CHANNEL)
@@ -137,7 +147,11 @@ public class M1Base : MonoBehaviour
     public virtual float[] SoundAlgorithm(float Yaw, float Pitch, float Roll)
     {
         float[] data = new float[18];
+
+        m1Decode.beginBuffer();
         m1Decode.decode(Yaw, Pitch, Roll, ref data);
+        m1Decode.endBuffer();
+
         return data;
     }
 #endif
@@ -160,7 +174,7 @@ public class M1Base : MonoBehaviour
 
         for (int i = 0; i < externalAudioFilenameMain.Length; i++)
         {
-            StartCoroutine(LoadAudio(Path.Combine(externalAudioPath, externalAudioFilenameMain[i]), false, i, isFromStreamingAssets));
+            StartCoroutine(LoadAudio(Path.Combine(externalAudioPath, externalAudioFilenameMain[i]), false, i, isFromAssets));
         }
 
         if (useBlendMode)
@@ -172,7 +186,7 @@ public class M1Base : MonoBehaviour
 
             for (int i = 0; i < externalAudioFilenameBlend.Length; i++)
             {
-                StartCoroutine(LoadAudio(Path.Combine(externalAudioPath, externalAudioFilenameBlend[i]), true, i, isFromStreamingAssets));
+                StartCoroutine(LoadAudio(Path.Combine(externalAudioPath, externalAudioFilenameBlend[i]), true, i, isFromAssets));
             }
         }
 
@@ -200,15 +214,48 @@ public class M1Base : MonoBehaviour
     {
         if (drawHelpers)
         {
-            Gizmos.color = Color.gray;
-            Gizmos.DrawIcon(transform.position, "sound_icon.png", true);
+            //Gizmos.DrawIcon(transform.position, "sound_icon.png", true);
 
+            Gizmos.color = Color.gray;
             Gizmos.matrix = gameObject.transform.localToWorldMatrix;
             Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
 
-            Gizmos.color = Color.gray;
+            /*
+            Gizmos.color = Color.magenta;
             Gizmos.matrix = mat;
             Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
+            */
+
+            Gizmos.color = Color.yellow;
+            Gizmos.matrix = matInternal;
+            Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
+
+            float radius = 0.1f;
+
+            Vector3[] edges = new Vector3[8] {
+                new Vector3(-0.5f, 0.5f, 0.5f),
+                new Vector3(0.5f, 0.5f, 0.5f),
+                new Vector3(-0.5f, 0.5f, -0.5f), 
+                new Vector3(0.5f, 0.5f, -0.5f), 
+                new Vector3(-0.5f, -0.5f, 0.5f),
+                new Vector3(0.5f, -0.5f, 0.5f),
+                new Vector3(-0.5f, -0.5f, -0.5f), 
+                new Vector3(0.5f, -0.5f, -0.5f), 
+            };
+
+            for (int i = 0; i < 8; i++) 
+            {
+                Gizmos.color = Color.red;
+                Gizmos.matrix = gameObject.transform.localToWorldMatrix * (Matrix4x4.Translate(new Vector3(-radius, 0,0)) * Matrix4x4.Translate(edges[i]));
+                Gizmos.DrawSphere(new Vector3(0, 0, 0), radius * volumesWalls[2 * i]);
+
+                Gizmos.color = Color.blue;
+                Gizmos.matrix = gameObject.transform.localToWorldMatrix * (Matrix4x4.Translate(new Vector3(radius, 0, 0)) * Matrix4x4.Translate(edges[i]));
+                Gizmos.DrawSphere(new Vector3(0, 0, 0), radius * volumesWalls[2 * i + 1]);
+
+                Gizmos.DrawIcon((gameObject.transform.localToWorldMatrix * Matrix4x4.Translate(edges[i])).MultiplyPoint(new Vector4(0, -2 * radius, 0)), "sound_icon_" + i + ".png", true);
+            }
+
         }
     }
 
@@ -665,19 +712,24 @@ public class M1Base : MonoBehaviour
 
             Vector3 eulerAngles = GetEuler(quat);
 
-            //quatInternal = Quaternion.Euler(eulerAngles);
+            matInternal = Matrix4x4.TRS(transform.position, quat, new Vector3(1, 1, 1)); 
+
+            // debug for decode only
+            //eulerAngles = GetEuler(camera.transform.rotation);
 
             // Compute volumes
             float[] volumes = SoundAlgorithm(eulerAngles.x, eulerAngles.y, eulerAngles.z);
             for (int i = 0; i < audioSourceMain.Length; i++)
             {
-                audioSourceMain[i].volume = volumeWalls * volumes[i];
+                volumesWalls[i] = volumeWalls * volumes[i];
+                audioSourceMain[i].volume = volumesWalls[i];
             }
             if (useBlendMode)
             {
                 for (int i = 0; i < audioSourceBlend.Length; i++)
                 {
-                    audioSourceBlend[i].volume = volumeRoom * volumes[i];
+                    volumesRoom[i] = volumeRoom * volumes[i];
+                    audioSourceBlend[i].volume = volumesRoom[i];
                 }
             }
 
@@ -728,7 +780,7 @@ public class M1Base : MonoBehaviour
                 }
                 Debug.Log(str);
             }
-#endif
+#else
 
             // In order to use values set in Unity's object inspector, we have to put them into an
             // M1 Positional library instance. Here's an example:
@@ -750,13 +802,13 @@ public class M1Base : MonoBehaviour
             m1Positional.setDecoderAlgoScale(ConvertToMach1Point3D(gameObject.transform.lossyScale));
             m1Positional.evaluatePositionResults();
 
+
             if (useFalloff)
             {
                 m1Positional.setFalloffCurve(falloffCurve.Evaluate(m1Positional.getDist()));
                 m1Positional.setFalloffCurveBlendMode(blendModeFalloffCurve.Evaluate(m1Positional.getDist()));
             }
 
-            float[] volumesWalls = new float[18];
             m1Positional.getVolumesWalls(ref volumesWalls);
             for (int i = 0; i < audioSourceMain.Length; i++)
             {
@@ -765,7 +817,6 @@ public class M1Base : MonoBehaviour
 
             if (useBlendMode)
             {
-                float[] volumesRoom = new float[18];
                 m1Positional.getVolumesRoom(ref volumesRoom);
                 for (int i = 0; i < audioSourceBlend.Length; i++)
                 {
@@ -775,6 +826,11 @@ public class M1Base : MonoBehaviour
 
             if (debug)
             {
+
+                // Compute rotation for sound
+                Mach1.Mach1Point3D angles = m1Positional.getVolumeRotation();
+                matInternal = Matrix4x4.TRS(transform.position, Quaternion.Euler(angles.x, angles.y, angles.z), new Vector3(1, 1, 1));
+
                 Debug.Log("eulerAngles2 : " + m1Positional.getVolumeRotation().x + " , " + m1Positional.getVolumeRotation().y + " , " + m1Positional.getVolumeRotation().z);
                 Debug.Log("dist2: " + m1Positional.getDist());
 
@@ -793,7 +849,8 @@ public class M1Base : MonoBehaviour
                 }
                 Debug.Log(str);
             }
- 
+#endif
+
 
             // Mach1.Mach1Point3D angles = m1Positional.getVolumeRotation();
             //Debug.Log("volumeWalls: " + volumesWalls + " , " + "volumeRoom" + volumesRoom);

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.49641275, b: 0.57481736, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -171,7 +171,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -197,12 +197,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 87106102}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.145, y: 0.04, z: -1.641}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.15, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &87106108
 MonoBehaviour:
@@ -309,7 +309,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1098955248}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -325,15 +326,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m1SpatialAudioMixerGroup: {fileID: 0}
+  isFromAssets: 1
   audioClipMain:
-  - {fileID: 8300000, guid: c34d27694f498e445a1d978a44a9c696, type: 3}
-  - {fileID: 8300000, guid: 4953fe201a89a7348b85fa5eb178ea35, type: 3}
-  - {fileID: 8300000, guid: c3416864cf7a7aa4f9c95fc849bf043a, type: 3}
-  - {fileID: 8300000, guid: ef7a6d51c862bcc418a099858c6cf1c3, type: 3}
-  - {fileID: 8300000, guid: d91117b0d4bc2984fb375703edf731c0, type: 3}
-  - {fileID: 8300000, guid: f880f55b3c40db6498a7d7d7f7b97b0e, type: 3}
-  - {fileID: 8300000, guid: 8058eb644d1d84a438a253b691fae044, type: 3}
-  - {fileID: 8300000, guid: f609862961e8b28429f8286c99d1865c, type: 3}
+  - {fileID: 8300000, guid: 85df8c5fa90230041a7020061b6ec951, type: 3}
+  - {fileID: 8300000, guid: 403db79729d4a204d96ef6cc77e7de11, type: 3}
+  - {fileID: 8300000, guid: e024f7f0d2eac4c4f86a71d7096d1a8e, type: 3}
+  - {fileID: 8300000, guid: 5dea971672cec7541995d01702d8ebeb, type: 3}
+  - {fileID: 8300000, guid: 0a6aeb2b312db9147bca60f1b6729f62, type: 3}
+  - {fileID: 8300000, guid: 64d9758e42c7f32458077201ec73aa7e, type: 3}
+  - {fileID: 8300000, guid: 675017ae206bfbd4fa4fc90d1a648c59, type: 3}
+  - {fileID: 8300000, guid: c30d01c427e2d1c46888c01266119a6f, type: 3}
   audioClipBlend:
   - {fileID: 0}
   - {fileID: 0}
@@ -344,28 +346,27 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   externalAudioPath: file:///
-  isFromStreamingAssets: 1
   externalAudioFilenameMain:
-  - 1.wav
-  - 2.wav
-  - 3.wav
-  - 4.wav
-  - 5.wav
-  - 6.wav
-  - 7.wav
-  - 8.wav
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   externalAudioFilenameBlend:
-  - 1.wav
-  - 2.wav
-  - 3.wav
-  - 4.wav
-  - 5.wav
-  - 6.wav
-  - 7.wav
-  - 8.wav
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   autoPlay: 1
   isLoop: 1
-  useFalloff: 0
+  useFalloff: 1
   falloffCurve:
     serializedVersion: 2
     m_Curve:
@@ -468,10 +469,10 @@ Transform:
   m_GameObject: {fileID: 1098955247}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.17668742, y: 0.17668742, z: 0.17668742}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_Father: {fileID: 170300524}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1098955249
 MeshRenderer:
@@ -557,11 +558,11 @@ RectTransform:
   m_Father: {fileID: 1218516898}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -11, y: -102.3}
-  m_SizeDelta: {x: 490.2, y: 76.6}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 100, y: -100}
+  m_SizeDelta: {x: 800, y: 800}
+  m_Pivot: {x: 0, y: 1}
 --- !u!114 &1184663349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -583,18 +584,18 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 64
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 73
-    m_Alignment: 4
+    m_MaxSize: 300
+    m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: Test
 --- !u!222 &1184663350
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -688,7 +689,7 @@ RectTransform:
   m_Children:
   - {fileID: 1184663348}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 12.085001, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -843,7 +844,7 @@ Transform:
   m_LocalScale: {x: 10, y: 0.1, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1971138627
 GameObject:
@@ -905,5 +906,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

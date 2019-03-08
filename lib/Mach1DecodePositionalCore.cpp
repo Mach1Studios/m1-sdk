@@ -148,8 +148,9 @@ glm::vec3 Mach1DecodePositionalCore::GetRightVector()
 	switch (platformType)
 	{
 	case Mach1PlatformUnity:
-	case Mach1PlatformiOS:
 		return glm::vec3(1, 0, 0);
+	case Mach1PlatformiOS:
+		return glm::vec3(-1, 0, 0);
 	case Mach1PlatformUE:
 		return glm::vec3(0, 1, 0);
 	default:
@@ -162,6 +163,7 @@ glm::vec3 Mach1DecodePositionalCore::GetUpVector()
 	switch (platformType)
 	{
 	case Mach1PlatformUnity:
+		return glm::vec3(0, 1, 0);
 	case Mach1PlatformiOS:
 		return glm::vec3(0, 1, 0);
 	case Mach1PlatformUE:
@@ -176,6 +178,7 @@ glm::vec3 Mach1DecodePositionalCore::GetForwardVector()
 	switch (platformType)
 	{
 	case Mach1PlatformUnity:
+		return glm::vec3(0, 0, 1);
 	case Mach1PlatformiOS:
 		return glm::vec3(0, 0, 1);
 	case Mach1PlatformUE:

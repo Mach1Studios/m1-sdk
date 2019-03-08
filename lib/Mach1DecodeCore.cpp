@@ -168,6 +168,10 @@ void Mach1DecodeCore::convertAnglesToMach1(float* Y, float* P, float* R) {
 		break;
 
 	case Mach1PlatformiOS:
+        *Y = -*Y;
+        *P = -*P;
+        *R = *R;
+
 	case Mach1PlatformUnity:
 		std::swap(*P, *Y);
 		*Y = *Y;                   // Y in Unity
@@ -193,7 +197,7 @@ void Mach1DecodeCore::convertAnglesToMach1(float* Y, float* P, float* R) {
 		*Y = -*Y;
 		*P = -*P;
 		*R = *R;
-		break;
+		break;		
 
 	default:
 		break;
@@ -210,6 +214,11 @@ void Mach1DecodeCore::convertAnglesToPlatform(float * Y, float * P, float * R)
 		 break;
 
 	 case Mach1PlatformiOS:
+        std::swap(*P, *Y);
+        *Y = -*Y;
+        *P = -*P;
+        *R = *R;
+
 	 case Mach1PlatformUnity:
 		 *Y = *Y;                   // Y in Unity
 		 *P = *P;             // X in Unity

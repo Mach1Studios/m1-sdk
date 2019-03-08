@@ -17,7 +17,7 @@ public class Mach1Decode {
   private Pointer M1obj;
 
   public static enum  Mach1PlatformType {
-    Mach1PlatformDefault, Mach1PlatformUnity, Mach1PlatformUE, Mach1PlatformOfEasyCam, Mach1PlatformAndroid, Mach1PlatformiOSPortrait, Mach1PlatformiOSLandscape
+    Mach1PlatformDefault, Mach1PlatformUnity, Mach1PlatformUE, Mach1PlatformOfEasyCam, Mach1PlatformAndroid, Mach1PlatformiOS
   };
 
   public static enum Mach1DecodeAlgoType {

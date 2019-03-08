@@ -118,7 +118,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Kem-5r-DXC">
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="-0.5" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Kem-5r-DXC">
                                 <rect key="frame" x="24" y="302" width="297" height="30"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </slider>

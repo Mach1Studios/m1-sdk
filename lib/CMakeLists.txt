@@ -2,15 +2,13 @@ cmake_minimum_required(VERSION 2.8.8)
 project(Mach1SpatialLibraries)
 set(Mach1SpatialLibraries_VERSION_MAJOR 1)
 set(Mach1SpatialLibraries_VERSION_MINOR 0)
-set(Mach1SpatialLibraries_VERSION_PATCH 1)
+set(Mach1SpatialLibraries_VERSION_PATCH 2)
 set(Mach1SpatialLibraries_VERSION_TWEAK 0)
 
 set(Mach1DecodeCAPIsrc "./Mach1DecodeCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")
 set(Mach1DecodePositionalCAPIsrc "./Mach1DecodePositionalCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1DecodePositionalCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")
 set(Mach1EncodeCAPIsrc "./Mach1EncodeCAPI.cpp" "./Mach1EncodeCore.cpp")
 set(Mach1DecodePositionalCAPIinclude "./include")
-
-
 
 # STATIC
 add_library(Mach1DecodeCAPIstatic STATIC ${Mach1DecodeCAPIsrc})
@@ -27,24 +25,22 @@ install(TARGETS Mach1DecodeCAPIstatic DESTINATION lib)
 install(TARGETS Mach1DecodePositionalCAPIstatic DESTINATION lib)
 install(TARGETS Mach1EncodeCAPIstatic DESTINATION lib)
 
+if(WIN34)
+	# SHARED
+	add_library(Mach1DecodeCAPIshared SHARED ${Mach1DecodeCAPIsrc})
+	add_library(Mach1DecodePositionalCAPIshared SHARED ${Mach1DecodePositionalCAPIsrc})
+	add_library(Mach1EncodeCAPIshared SHARED ${Mach1EncodeCAPIsrc})
 
+	set_target_properties(Mach1DecodeCAPIshared PROPERTIES OUTPUT_NAME "Mach1DecodeCAPI")
+	set_target_properties(Mach1DecodePositionalCAPIshared PROPERTIES OUTPUT_NAME "Mach1DecodePositionalCAPI")
+	set_target_properties(Mach1EncodeCAPIshared PROPERTIES OUTPUT_NAME "Mach1EncodeCAPI")
 
-# SHARED
-add_library(Mach1DecodeCAPIshared SHARED ${Mach1DecodeCAPIsrc})
-add_library(Mach1DecodePositionalCAPIshared SHARED ${Mach1DecodePositionalCAPIsrc})
-add_library(Mach1EncodeCAPIshared SHARED ${Mach1EncodeCAPIsrc})
+	target_include_directories(Mach1DecodePositionalCAPIshared PRIVATE ${Mach1DecodePositionalCAPIinclude})
 
-set_target_properties(Mach1DecodeCAPIshared PROPERTIES OUTPUT_NAME "Mach1DecodeCAPI")
-set_target_properties(Mach1DecodePositionalCAPIshared PROPERTIES OUTPUT_NAME "Mach1DecodePositionalCAPI")
-set_target_properties(Mach1EncodeCAPIshared PROPERTIES OUTPUT_NAME "Mach1EncodeCAPI")
-
-target_include_directories(Mach1DecodePositionalCAPIshared PRIVATE ${Mach1DecodePositionalCAPIinclude})
-
-install(TARGETS Mach1DecodeCAPIshared DESTINATION libShared)
-install(TARGETS Mach1DecodePositionalCAPIshared DESTINATION libShared)
-install(TARGETS Mach1EncodeCAPIshared DESTINATION libShared)
-
-
+	install(TARGETS Mach1DecodeCAPIshared DESTINATION libShared)
+	install(TARGETS Mach1DecodePositionalCAPIshared DESTINATION libShared)
+	install(TARGETS Mach1EncodeCAPIshared DESTINATION libShared)
+endif()
 
 if(APPLE)
 	if(NOT IOS OR TVOS OR WATCHOS)
@@ -72,4 +68,3 @@ if(APPLE)
 		install(TARGETS Mach1EncodeCAPIbundle DESTINATION libBundle)
 	endif()
 endif()
-

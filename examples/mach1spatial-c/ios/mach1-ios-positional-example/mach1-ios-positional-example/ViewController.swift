@@ -167,7 +167,7 @@ class ViewController : UIViewController, UITextFieldDelegate {
             
             //Mach1 Decode Setup
             //Setup the correct angle convention for orientation Euler input angles
-            m1obj.setPlatformType(type: Mach1PlatformDefault)
+            m1obj.setPlatformType(type: Mach1PlatformiOS)
             //Setup the expected spatial audio mix format for decoding
             m1obj.setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoSpatial)
             //Setup for the safety filter speed:
@@ -233,9 +233,16 @@ class ViewController : UIViewController, UITextFieldDelegate {
                 let quat = motion?.gaze(atOrientation: UIApplication.shared.statusBarOrientation)
                 var angles = getEuler(q1: quat!)
                 
-                cameraYaw = -angles.y
-                cameraPitch = -angles.x
+                //iOS x=pitch & y=yaw however by using PlatformType this is internally corrected
+                cameraYaw = angles.x
+                cameraPitch = angles.y
                 cameraRoll = angles.z
+                //if PlatformType = Mach1PlatformDefault, pass in as
+                /*
+                 cameraYaw = -angles.y
+                 cameraPitch = -angles.x
+                 cameraRoll = angles.z
+                */
                 
                 // Please notice that you're expected to correct the angles you get from
                 // the device's sensors to provide M1 Library with accurate angles in accordance to documentation.
@@ -264,8 +271,8 @@ class ViewController : UIViewController, UITextFieldDelegate {
                 
                 // get & set values from UI
                 DispatchQueue.main.async() {
-                    self?.labelCameraYaw.text = String(cameraYaw)
-                    self?.labelCameraPitch.text = String(cameraPitch)
+                    self?.labelCameraYaw.text = String(cameraPitch)
+                    self?.labelCameraPitch.text = String(cameraYaw)
                     self?.labelCameraRoll.text = String(cameraRoll)
                     
                     cameraPosition = Mach1Point3D(

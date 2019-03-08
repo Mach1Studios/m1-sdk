@@ -150,7 +150,7 @@ glm::vec3 Mach1DecodePositionalCore::GetRightVector()
 	case Mach1PlatformUnity:
 		return glm::vec3(1, 0, 0);
 	case Mach1PlatformiOS:
-		return glm::vec3(-1, 0, 0);
+		return glm::vec3(1, 0, 0);
 	case Mach1PlatformUE:
 		return glm::vec3(0, 1, 0);
 	default:

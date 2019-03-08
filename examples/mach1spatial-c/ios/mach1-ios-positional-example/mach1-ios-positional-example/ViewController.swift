@@ -184,9 +184,9 @@ class ViewController : UIViewController, UITextFieldDelegate {
             m1obj.setMuteWhenOutsideObject(muteWhenOutsideObject: false)
             //Setting: mute audio when setCameraPosition position is inside of m1obj volume
             //based on setDecoderAlgoPosition & setDecoderAlgoScale
-            m1obj.setMuteWhenInsideObject(muteWhenInsideObject: false)
+            m1obj.setMuteWhenInsideObject(muteWhenInsideObject: true)
             //Setting: turn on/off distance attenuation of m1obj
-            m1obj.setUseFalloff(useFalloff: true)
+            m1obj.setUseFalloff(useFalloff: false)
             //Advanced Setting: when on, positional rotation is calculated from the closest point
             //of the m1obj's volume and not rotation from the center of m1obj.
             //use this if you want the positional rotation tracking to be from a plane instead of from a point
@@ -194,9 +194,9 @@ class ViewController : UIViewController, UITextFieldDelegate {
             //Setting: on/off yaw rotations from position
             m1obj.setUseYawForRotation(bool: true)
             //Setting: on/off pitch rotations from position
-            m1obj.setUsePitchForRotation(bool: false)
+            m1obj.setUsePitchForRotation(bool: true)
             //Setting: on/off roll rotations from position
-            m1obj.setUseRollForRotation(bool: false)
+            m1obj.setUseRollForRotation(bool: true)
         } catch {
             print (error)
         }
@@ -287,7 +287,7 @@ class ViewController : UIViewController, UITextFieldDelegate {
                 m1obj.setCameraRotation(point: Mach1Point3D(x: cameraYaw, y: cameraPitch, z: cameraRoll))
                 m1obj.setDecoderAlgoPosition(point: (objectPosition))
                 m1obj.setDecoderAlgoRotation(point: Mach1Point3D(x: 0, y: 0, z: 0))
-                m1obj.setDecoderAlgoScale(point: Mach1Point3D(x: 1, y: 1, z: 1))
+                m1obj.setDecoderAlgoScale(point: Mach1Point3D(x: 0.1, y: 0.1, z: 0.1))
                 
                 m1obj.evaluatePositionResults()
 

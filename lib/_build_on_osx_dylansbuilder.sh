@@ -29,8 +29,8 @@ echo "### BUILD RPI ###"
 /Volumes/git/polly/bin/polly --clear --install --config Release --toolchain raspberrypi3-cxx11
 
 echo "### BUILD iOS ###"
-/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain ios
-#/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain ios-11-4-dep-9-0-device-bitcode-cxx11
+/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain ios --ios-multiarch --ios-combined
+/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain ios-11-4-dep-9-3 --ios-multiarch --ios-combined
 
 echo "### BUILD macOS ###"
 /Volumes/git/polly/bin/polly --clear --install --config Release --toolchain xcode
@@ -38,7 +38,6 @@ echo "### BUILD macOS ###"
 #echo "### BUILD cross-compile Linux ###"
 #/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain linux-gcc-x64
 #/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain gcc-static-std
-
 
 echo "### CODESIGN iOS & macOS ###"
 codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/ios/lib/libMach1DecodeCAPI.a"

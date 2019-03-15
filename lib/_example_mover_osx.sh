@@ -5,6 +5,7 @@ echo "### Change Dir ###"
 cd "/Volumes/git/m1-sdk/lib"
 
 echo "### Copying all successful bins to /Binaries ###"
+yes | mv -f "_install/ios-11-4-dep-9-3" "_install/ios-11-4"
 yes | cp -rf "_install/" "../binaries/"
 yes | cp -rf "external/" "../include/"
 

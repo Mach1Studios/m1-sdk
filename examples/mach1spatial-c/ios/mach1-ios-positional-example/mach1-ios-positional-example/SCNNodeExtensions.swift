@@ -79,7 +79,33 @@ extension SCNNode {
         return coneNode
     }
     
-    static func createGrid(gridSize: Float = 10.0, elements: Int = 2) -> SCNNode {
+    static func createAxis(axisLength: CGFloat = 15.0) -> SCNNode {
+        let coneNode = SCNNode()
+        coneNode.position = SCNVector3Make(0, 0, 0)
+        
+        var axis = [
+            SCNVector3(axisLength, 0, 0),
+            SCNVector3(0, axisLength, 0),
+            SCNVector3(0, 0, -axisLength)
+        ]
+        
+        var colors = [
+            UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1),
+            UIColor(red: 0.0, green: 1.0, blue: 0.0, alpha: 1),
+            UIColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 1)
+        ]
+        
+        for i in 0...2 {
+            let line = SCNNode.createLineNode(from: coneNode.position, to: axis[i], radius: 0.4)
+            line.geometry?.firstMaterial?.diffuse.contents  = colors[i]
+            coneNode.addChildNode(line)
+        }
+        
+        return coneNode
+    }
+
+    
+    static func createGrid(gridSize: Float = 10.0, elements: Int = 2, color: UIColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1)) -> SCNNode {
         let gridNode = SCNNode()
         gridNode.position = SCNVector3Make(0, 0, 0)
         let scale = gridSize * 1.0 / Float(elements)
@@ -87,11 +113,13 @@ extension SCNNode {
         for x in -cnt...cnt {
             for z in -cnt...cnt {
                 if x != cnt {
-                    let line = SCNNode.createLineNode(from: SCNVector3(Float(x) * scale, 0, Float(z) * scale), to: SCNVector3((Float(x) + 1) * scale, 0, Float(z) * scale), radius: 0.2)
+                    let line = SCNNode.createLineNode(from: SCNVector3(Float(x) * scale, 0, Float(z) * scale), to: SCNVector3((Float(x) + 1) * scale, 0, Float(z) * scale), radius: 0.1)
+                    line.geometry?.firstMaterial?.diffuse.contents  = color
                     gridNode.addChildNode(line)
                 }
                 if z != cnt {
-                    let line = SCNNode.createLineNode(from: SCNVector3(Float(x) * scale, 0, Float(z) * scale), to: SCNVector3(Float(x) * scale, 0, (Float(z) + 1) * scale), radius: 0.2)
+                    let line = SCNNode.createLineNode(from: SCNVector3(Float(x) * scale, 0, Float(z) * scale), to: SCNVector3(Float(x) * scale, 0, (Float(z) + 1) * scale), radius: 0.1)
+                    line.geometry?.firstMaterial?.diffuse.contents  = color
                     gridNode.addChildNode(line)
                 }
             }

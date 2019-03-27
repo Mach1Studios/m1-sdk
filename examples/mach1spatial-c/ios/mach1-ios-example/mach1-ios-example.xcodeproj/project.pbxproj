@@ -25,6 +25,8 @@
 		A4F80A29203B3B86008D976A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4F80A27203B3B86008D976A /* Main.storyboard */; };
 		A4F80A2B203B3B86008D976A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4F80A2A203B3B86008D976A /* Assets.xcassets */; };
 		A4F80A2E203B3B86008D976A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4F80A2C203B3B86008D976A /* LaunchScreen.storyboard */; };
+		CEC356D522136C7200FA592F /* libMach1DecodePositionalCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC356D422136C7200FA592F /* libMach1DecodePositionalCAPI.a */; };
+		CEC356D722136C7500FA592F /* libMach1EncodeCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC356D622136C7500FA592F /* libMach1EncodeCAPI.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -61,6 +63,8 @@
 		A4F80A2A203B3B86008D976A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A4F80A2D203B3B86008D976A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A4F80A2F203B3B86008D976A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CEC356D422136C7200FA592F /* libMach1DecodePositionalCAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMach1DecodePositionalCAPI.a; path = "../../../../binaries/ios-12-1/lib/libMach1DecodePositionalCAPI.a"; sourceTree = "<group>"; };
+		CEC356D622136C7500FA592F /* libMach1EncodeCAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMach1EncodeCAPI.a; path = "../../../../binaries/ios-12-1/lib/libMach1EncodeCAPI.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +73,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A46BE17B21E55DF90050CFEB /* libMach1DecodeCAPI.a in Frameworks */,
+				CEC356D522136C7200FA592F /* libMach1DecodePositionalCAPI.a in Frameworks */,
+				CEC356D722136C7500FA592F /* libMach1EncodeCAPI.a in Frameworks */,
 				A46BE17D21E55EBC0050CFEB /* libc++.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -111,6 +117,8 @@
 		A4F80A53203B3C91008D976A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CEC356D622136C7500FA592F /* libMach1EncodeCAPI.a */,
+				CEC356D422136C7200FA592F /* libMach1DecodePositionalCAPI.a */,
 				A46BE17C21E55EBB0050CFEB /* libc++.tbd */,
 				A46BE17A21E55DF90050CFEB /* libMach1DecodeCAPI.a */,
 			);
@@ -384,6 +392,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6ZETDT84RB;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
@@ -391,13 +400,15 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../../include/swift/\"";
 				INFOPLIST_FILE = "mach1-ios-example/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../binaries/ios-12-1/lib/\"";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.ios-example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/../../../../include/swift/Mach1Decode-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -415,6 +426,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6ZETDT84RB;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
@@ -422,13 +434,15 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../../include/swift/\"";
 				INFOPLIST_FILE = "mach1-ios-example/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../binaries/ios-12-1/lib/\"";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.ios-example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/../../../../include/swift/Mach1Decode-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 				SWIFT_VERSION = 4.0;

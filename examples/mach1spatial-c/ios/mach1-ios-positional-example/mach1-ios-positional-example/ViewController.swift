@@ -44,8 +44,6 @@ func getEuler(q1 : SCNVector4) -> float3
     let test = q1.x * q1.y + q1.z * q1.w
     if (test > 0.499) // singularity at north pole
     {
-        print("xxxx1")
-        
         return float3(
         0,
         Float(2 * atan2(q1.x, q1.w)),
@@ -54,7 +52,6 @@ func getEuler(q1 : SCNVector4) -> float3
     }
     if (test < -0.499) // singularity at south pole
     {
-        print("xxxx2")
         return float3(
         0,
         Float(-2 * atan2(q1.x, q1.w)),
@@ -73,8 +70,8 @@ func getEuler(q1 : SCNVector4) -> float3
     return res * 180 / .pi
 }
 
-var cameraYaw : Float = 0
 var cameraPitch : Float = 0
+var cameraYaw : Float = 0
 var cameraRoll : Float = 0
 
 class ViewController : UIViewController, UITextFieldDelegate {
@@ -191,12 +188,6 @@ class ViewController : UIViewController, UITextFieldDelegate {
             //of the m1obj's volume and not rotation from the center of m1obj.
             //use this if you want the positional rotation tracking to be from a plane instead of from a point
             m1obj.setUseClosestPointRotationMuteInside(bool: false)
-            //Setting: on/off yaw rotations from position
-            m1obj.setUseYawForRotation(bool: true)
-            //Setting: on/off pitch rotations from position
-            m1obj.setUsePitchForRotation(bool: true)
-            //Setting: on/off roll rotations from position
-            m1obj.setUseRollForRotation(bool: true)
         } catch {
             print (error)
         }
@@ -234,8 +225,8 @@ class ViewController : UIViewController, UITextFieldDelegate {
                 var angles = getEuler(q1: quat!)
                 
                 //iOS x=pitch & y=yaw however by using PlatformType this is internally corrected
-                cameraYaw = angles.x
-                cameraPitch = angles.y
+                cameraPitch = angles.x
+                cameraYaw = angles.y
                 cameraRoll = angles.z
                 //if PlatformType = Mach1PlatformDefault, pass in as
                 /*
@@ -267,12 +258,12 @@ class ViewController : UIViewController, UITextFieldDelegate {
                  Roll[2]- = tilt left [Range: -90->90]
                 */
                 
-                print(cameraRoll, cameraYaw, cameraPitch)
+                print(cameraRoll, cameraPitch, cameraYaw)
                 
                 // get & set values from UI
                 DispatchQueue.main.async() {
-                    self?.labelCameraYaw.text = String(cameraPitch)
-                    self?.labelCameraPitch.text = String(cameraYaw)
+                    self?.labelCameraYaw.text = String(cameraYaw)
+                    self?.labelCameraPitch.text = String(cameraPitch)
                     self?.labelCameraRoll.text = String(cameraRoll)
                     
                     cameraPosition = Mach1Point3D(
@@ -291,17 +282,24 @@ class ViewController : UIViewController, UITextFieldDelegate {
                 
                 //Send device orientation to m1obj with the preferred algo
                 m1obj.setCameraPosition(point: (cameraPosition))
-                m1obj.setCameraRotation(point: Mach1Point3D(x: cameraYaw, y: cameraPitch, z: cameraRoll))
+                m1obj.setCameraRotation(point: Mach1Point3D(x: cameraPitch, y: cameraYaw, z: cameraRoll))
                 m1obj.setDecoderAlgoPosition(point: (objectPosition))
                 m1obj.setDecoderAlgoRotation(point: Mach1Point3D(x: 0, y: 0, z: 0))
                 m1obj.setDecoderAlgoScale(point: Mach1Point3D(x: 0.1, y: 0.1, z: 0.1))
-                
+                //Setting: on/off yaw rotations from position
+                m1obj.setUseYawForRotation(bool: isYawActive)
+                //Setting: on/off pitch rotations from position
+                m1obj.setUsePitchForRotation(bool: isPitchActive)
+                //Setting: on/off roll rotations frok om position
+                m1obj.setUseRollForRotation(bool: isRollActive)
+
                 m1obj.evaluatePositionResults()
 
                 // compute falloff linear curve - project dist [0:1] to [1:0] interval
                 var falloff : Float = m1obj.getDist()
                 falloff = mapFloat(value: falloff, inMin: 0, inMax: 1, outMin: 1, outMax: 0)
                 falloff = clampFloat(value: falloff, min: 0, max: 1)
+                //m1obj.setUseFalloff(useFalloff: false)
                 m1obj.setFalloffCurve(falloffCurve: falloff)
                 //print(falloff)
 

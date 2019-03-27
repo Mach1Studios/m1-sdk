@@ -398,47 +398,63 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
 
 	glm::vec3 dir = point - cameraPosition;
 
-	// Compute rotation for sound
+	if (glm::length(dir) > 0)
+	{
+		// Compute rotation for sound
 	// http://www.aclockworkberry.com/world-coordinate-systems-in-3ds-max-unity-and-unreal-engine/
-	glm::quat quat;
-	if (platformType == Mach1PlatformUE)
-	{
-		quat = glm::quatLookAtRH(glm::normalize(dir), GetUpVector());
+		glm::quat quat;
+		if (platformType == Mach1PlatformUE)
+		{
+			quat = glm::quatLookAtRH(glm::normalize(dir), GetUpVector());
+		}
+		else // Mach1PlatformUnity Mach1PlatformiOS
+		{
+			quat = glm::quatLookAtLH(glm::normalize(dir), GetUpVector());
+		}
+
+		quat = glm::inverse(quat);
+		quat = quat * soundRotation;
+
+		glm::vec3 quatEulerAngles = glm::eulerAngles(quat);
+
+		bool useXForRotation = true;
+		bool useYForRotation = true;
+		bool useZForRotation = true;
+
+		if (platformType == Mach1PlatformUE)
+		{
+			useXForRotation = useRollForRotation;
+			useYForRotation = usePitchForRotation;
+			useZForRotation = useYawForRotation;
+		}
+		else // Mach1PlatformUnity Mach1PlatformiOS
+		{
+			useXForRotation = usePitchForRotation;
+			useYForRotation = useYawForRotation;
+			useZForRotation = useRollForRotation;
+		}
+
+		quat = glm::quat(glm::vec3(useXForRotation ? quatEulerAngles.x : 0, useYForRotation ? quatEulerAngles.y : 0, useZForRotation ? quatEulerAngles.z : 0));
+		quat *= cameraRotation;
+
+		eulerAngles = GetEuler(quat);
+
+		// SoundAlgorithm
+		volumes = mach1Decode.decode(eulerAngles.x, eulerAngles.y, eulerAngles.z);
 	}
-	else // Mach1PlatformUnity Mach1PlatformiOS
+	else 
 	{
-		quat = glm::quatLookAtLH(glm::normalize(dir), GetUpVector());
-	}
-	
-	quat = glm::inverse(quat);
-	quat = quat * soundRotation;
-
-	glm::vec3 quatEulerAngles = glm::eulerAngles(quat);
-
-	bool useXForRotation = true;
-	bool useYForRotation = true;
-	bool useZForRotation = true;
-
-	if (platformType == Mach1PlatformUE)
-	{
-		useXForRotation = useRollForRotation;
-		useYForRotation = usePitchForRotation;
-		useZForRotation = useYawForRotation;
-	}
-	else // Mach1PlatformUnity Mach1PlatformiOS
-	{
-		useXForRotation = usePitchForRotation;
-		useYForRotation = useYawForRotation;
-		useZForRotation = useRollForRotation;
+		// Fixed zero distance
+		eulerAngles = glm::vec3(0, 0, 0);
+		
+		for (int i = 0; i < volumes.size(); i++)
+		{
+			volumes[i] = 0;
+		}
+		volumeWalls = 0;
+		volumeRoom = 0;
 	}
 
-	quat = glm::quat(glm::vec3(useXForRotation ? quatEulerAngles.x : 0, useYForRotation ? quatEulerAngles.y : 0, useZForRotation ? quatEulerAngles.z : 0));
-	quat *= cameraRotation;
-
-	eulerAngles = GetEuler(quat);
-
-	// SoundAlgorithm
-	volumes = mach1Decode.decode(eulerAngles.x, eulerAngles.y, eulerAngles.z);
 	mach1Decode.beginBuffer();
 }
 

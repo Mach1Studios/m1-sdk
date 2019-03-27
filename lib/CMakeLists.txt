@@ -31,7 +31,7 @@ install(TARGETS Mach1DecodeCAPIstatic DESTINATION lib)
 install(TARGETS Mach1DecodePositionalCAPIstatic DESTINATION lib)
 install(TARGETS Mach1EncodeCAPIstatic DESTINATION lib)
 
-if(WIN34)
+if(WIN32)
 	# SHARED
 	add_library(Mach1DecodeCAPIshared SHARED ${Mach1DecodeCAPIsrc})
 	add_library(Mach1DecodePositionalCAPIshared SHARED ${Mach1DecodePositionalCAPIsrc})

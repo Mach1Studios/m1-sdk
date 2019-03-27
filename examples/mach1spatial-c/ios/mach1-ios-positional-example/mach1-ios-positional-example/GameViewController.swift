@@ -12,11 +12,16 @@ import SceneKit
 
 class GameViewController: UIViewController, SCNSceneRendererDelegate {
     
-    var coneNode: SCNNode! = nil
-    var sphere1Nodes : [SCNNode ] = []
-    var sphere2Nodes : [SCNNode ] = []
+    var scene:SCNScene! = nil
+    var axisNode: SCNNode! = nil
+    var cameraConeNode: SCNNode! = nil
+    var volumeBoxNode: SCNNode! = nil
+    var volumeHelperBoxNode: SCNNode! = nil
+    var lineCameraVolumeNode: SCNNode! = nil
+    var sphereLeftNodes : [SCNNode ] = []
+    var sphereRightNodes : [SCNNode ] = []
     var size : Int = 30
-
+    
     func deg2rad(_ number: Float) -> Float {
         return number * .pi / 180
     }
@@ -25,21 +30,33 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     {
         let angleSet = m1obj.getCurrentAngle()
         
-         coneNode.eulerAngles =  SCNVector3(x: deg2rad(-cameraPitch), y: deg2rad(-cameraYaw), z: deg2rad(cameraRoll))
-         coneNode.position =  SCNVector3(x: cameraPosition.x * Float(size)/2, y: cameraPosition.y * Float(size)/2, z: -cameraPosition.z * Float(size)/2)
+        var angleVolume:Mach1Point3D = m1obj.getVolumeRotation();
+        
+        volumeHelperBoxNode.eulerAngles = SCNVector3(x: deg2rad(angleVolume.x), y: deg2rad(angleVolume.y), z: deg2rad(angleVolume.z))
+
+        cameraConeNode.eulerAngles =  SCNVector3(x: deg2rad(cameraPitch), y: deg2rad(cameraYaw), z: deg2rad(cameraRoll))
+        cameraConeNode.position =  SCNVector3(x: cameraPosition.x * Float(size)/2, y: cameraPosition.y * Float(size)/2, z: -cameraPosition.z * Float(size)/2)
+
+        // recreate line
+        lineCameraVolumeNode.removeFromParentNode()
+        lineCameraVolumeNode = SCNNode.createLineNode(from: cameraConeNode.position, to: volumeHelperBoxNode.position)
+        lineCameraVolumeNode.geometry?.firstMaterial?.diffuse.contents = UIColor(red: 1.0, green: 1.0, blue: 0.0, alpha: 1)
+        scene.rootNode.addChildNode(lineCameraVolumeNode)
         
         var decodeArray: [Float] = Array(repeating: 0.0, count: 18)
         m1obj.getVolumesWalls(result: &decodeArray)
         for i in 0...7 {
-            let volumeL = Float(decodeArray[i * 2])
-            let volumeR = Float(decodeArray[i * 2 + 1])
-            sphere1Nodes[i].scale = SCNVector3(x: volumeL,
-                                               y: volumeL,
-                                               z: volumeL)
-            sphere2Nodes[i].scale = SCNVector3(x: volumeR,
-                                               y: volumeR,
-                                               z: volumeR)
+            let volumeLeft = Float(decodeArray[i * 2])
+            let volumeRight = Float(decodeArray[i * 2 + 1])
+            sphereLeftNodes[i].scale = SCNVector3(x: volumeLeft,
+                                               y: volumeLeft,
+                                               z: volumeLeft)
+            sphereRightNodes[i].scale = SCNVector3(x: volumeRight,
+                                               y: volumeRight,
+                                               z: volumeRight)
         }
+        
+        
     }
     
     @IBAction func goBack(_ sender: Any) {
@@ -49,7 +66,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let scene = SCNScene()
+        scene = SCNScene()
         
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
@@ -70,21 +87,20 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         points.append(SCNVector3(-size, size, size)/2);
         points.append(SCNVector3(size, size, size)/2);
         
-        
         for i in 0...points.count-1 {
             let sphere1Geometry = SCNSphere(radius: 1.5)
             sphere1Geometry.firstMaterial?.diffuse.contents = UIColor.blue
             let sphere1Node = SCNNode(geometry: sphere1Geometry)
             sphere1Node.position = points[i] + SCNVector3(-1, 0, 0)
             scene.rootNode.addChildNode(sphere1Node)
-            sphere1Nodes.append(sphere1Node)
+            sphereLeftNodes.append(sphere1Node)
             
             let sphere2Geometry = SCNSphere(radius: 1.5)
             sphere2Geometry.firstMaterial?.diffuse.contents = UIColor.red
             let sphere2Node = SCNNode(geometry: sphere2Geometry)
             sphere2Node.position = points[i] + SCNVector3(1, 0, 0)
             scene.rootNode.addChildNode(sphere2Node)
-            sphere2Nodes.append(sphere2Node)
+            sphereRightNodes.append(sphere2Node)
             
             let text = SCNText(string: String(i), extrusionDepth:0)
             text.font = UIFont (name: "Arial", size: 3)
@@ -95,16 +111,26 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
             scene.rootNode.addChildNode(textNode)
         }
         
-        let gridNode = SCNNode.createGrid(gridSize: Float(size), elements: 4)
+        let gridNode = SCNNode.createGrid(gridSize: Float(size) * 5, elements: 4 * 5, color: UIColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 1))
         gridNode.position = SCNVector3(x: 0, y: -Float(size) / 2, z: 0)
         scene.rootNode.addChildNode(gridNode)
         
-        let cubeNode = SCNNode.createCube(cubeSize: CGFloat(size))
-        scene.rootNode.addChildNode(cubeNode)
+        volumeBoxNode = SCNNode.createCube(cubeSize: CGFloat(size))
+        scene.rootNode.addChildNode(volumeBoxNode)
         
-        coneNode = SCNNode.createCone(coneSize: 10, coneLength: 12)
-        scene.rootNode.addChildNode(coneNode)
+        cameraConeNode = SCNNode.createCone(coneSize: 10, coneLength: 12)
+        scene.rootNode.addChildNode(cameraConeNode)
+    
+        volumeHelperBoxNode = SCNNode.createCube(cubeSize: CGFloat(size))
+        scene.rootNode.addChildNode(volumeHelperBoxNode)
         
+        lineCameraVolumeNode = SCNNode.createLineNode(from: SCNVector3(0, 0, 0), to: SCNVector3(0, 0, 0))
+        scene.rootNode.addChildNode(lineCameraVolumeNode)
+        
+        axisNode = SCNNode.createAxis(axisLength: CGFloat(size) * 0.2)
+        axisNode.position = SCNVector3(0, -CGFloat(size) / 2, 0)
+        scene.rootNode.addChildNode(axisNode)
+
         let scnView = self.view as! SCNView
         scnView.scene = scene
         scnView.allowsCameraControl = true
@@ -127,8 +153,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         if hitResults.count > 0 {
             let result = hitResults[0]
             
-            if  result.node == coneNode {
-                coneNode.geometry?.firstMaterial!.diffuse.contents = UIColor.green.cgColor
+            if  result.node == cameraConeNode {
+                cameraConeNode.geometry?.firstMaterial!.diffuse.contents = UIColor.green.cgColor
             }
         }
     }

@@ -829,7 +829,7 @@ public class M1Base : MonoBehaviour
 
                 // Compute rotation for sound
                 Mach1.Mach1Point3D angles = m1Positional.getVolumeRotation();
-                matInternal = Matrix4x4.TRS(transform.position, Quaternion.Euler(angles.x, angles.y, angles.z), new Vector3(1, 1, 1));
+                matInternal = Matrix4x4.TRS(camera.transform.position, Quaternion.Euler(angles.x, angles.y, angles.z), new Vector3(1, 1, 1));
 
                 Debug.Log("eulerAngles2 : " + m1Positional.getVolumeRotation().x + " , " + m1Positional.getVolumeRotation().y + " , " + m1Positional.getVolumeRotation().z);
                 Debug.Log("dist2: " + m1Positional.getDist());

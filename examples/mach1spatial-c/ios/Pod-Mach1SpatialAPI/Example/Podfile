@@ -1,0 +1,4 @@
+use_frameworks!
+target 'Example' do
+  pod 'Mach1SpatialAPI', :path => '../'
+end

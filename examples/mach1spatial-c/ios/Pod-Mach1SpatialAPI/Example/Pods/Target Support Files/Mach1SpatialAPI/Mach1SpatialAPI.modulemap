@@ -1,0 +1,6 @@
+framework module Mach1SpatialAPI {
+  umbrella header "Mach1SpatialAPI-umbrella.h"
+
+  export *
+  module * { export * }
+}

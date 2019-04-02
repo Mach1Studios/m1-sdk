@@ -1,6 +1,0 @@
-framework module Pods_Mach1SpatialAPI_Tests {
-  umbrella header "Pods-Mach1SpatialAPI_Tests-umbrella.h"
-
-  export *
-  module * { export * }
-}

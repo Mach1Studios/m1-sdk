@@ -28,6 +28,7 @@ var players: [AVAudioPlayer] = []
 var cameraPosition: Mach1Point3D = Mach1Point3D(x: 0, y: 0, z: 0)
 var objectPosition: Mach1Point3D = Mach1Point3D(x: 0, y: 0, z: 0)
 
+var cameraPositionOffset: Mach1Point3D = Mach1Point3D(x: 0, y: 0, z: 0)
 
 func mapFloat(value : Float, inMin : Float, inMax : Float, outMin : Float, outMax : Float) -> Float {
     return (value - inMin) / (inMax - inMin) * (outMax - outMin) + outMin
@@ -267,9 +268,9 @@ class ViewController : UIViewController, UITextFieldDelegate {
                     self?.labelCameraRoll.text = String(cameraRoll)
                     
                     cameraPosition = Mach1Point3D(
-                        x: (self?.sliderCameraX.value)!,
-                        y: (self?.sliderCameraY.value)!,
-                        z: (self?.sliderCameraZ.value)!
+                        x: (self?.sliderCameraX.value)! + cameraPositionOffset.x,
+                        y: (self?.sliderCameraY.value)! + cameraPositionOffset.y,
+                        z: (self?.sliderCameraZ.value)! + cameraPositionOffset.z
                     )
                 }
                 

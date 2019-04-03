@@ -21,7 +21,6 @@
 		A4F80A29203B3B86008D976A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4F80A27203B3B86008D976A /* Main.storyboard */; };
 		A4F80A2B203B3B86008D976A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4F80A2A203B3B86008D976A /* Assets.xcassets */; };
 		A4F80A2E203B3B86008D976A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4F80A2C203B3B86008D976A /* LaunchScreen.storyboard */; };
-		CE4C8E1E22147AD1001B2E13 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE4C8E1D22147AD1001B2E13 /* Info.plist */; };
 		CE9BF24C22551E3E0097D871 /* CMDeviceMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9BF24522551E3E0097D871 /* CMDeviceMotion.swift */; };
 		CE9BF24D22551E3E0097D871 /* LineDrawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9BF24622551E3E0097D871 /* LineDrawing.swift */; };
 		CE9BF24E22551E3E0097D871 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9BF24722551E3E0097D871 /* GameViewController.swift */; };
@@ -216,7 +215,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A4F80A1B203B3B85008D976A /* Build configuration list for PBXProject "mach1-ios-positional-example copy" */;
+			buildConfigurationList = A4F80A1B203B3B85008D976A /* Build configuration list for PBXProject "mach1-ios-positional-example" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -245,7 +244,6 @@
 				A4AF3D0B20491A3F00253825 /* stereo.wav in Resources */,
 				A4AF3D062048C3DE00253825 /* 003.aif in Resources */,
 				A4AF3D042048C3DE00253825 /* 004.aif in Resources */,
-				CE4C8E1E22147AD1001B2E13 /* Info.plist in Resources */,
 				A4AF3D002048C3DE00253825 /* 005.aif in Resources */,
 				A4AF3D012048C3DE00253825 /* 006.aif in Resources */,
 				A4AF3D052048C3DE00253825 /* 007.aif in Resources */,
@@ -349,7 +347,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../../include/swift/\"";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../binaries/ios/lib/\"";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -409,7 +407,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../../include/swift/\"";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../binaries/ios/lib/\"";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "$(inherited)";
@@ -432,7 +430,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = KUBMV92ACA;
+				DEVELOPMENT_TEAM = ;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -443,7 +441,7 @@
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../binaries/ios/lib/\"";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.ios-example";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.ios-positional-example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -466,7 +464,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = KUBMV92ACA;
+				DEVELOPMENT_TEAM = ;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -477,7 +475,7 @@
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../binaries/ios/lib/\"";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.ios-example";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.ios-positional-example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -492,7 +490,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A4F80A1B203B3B85008D976A /* Build configuration list for PBXProject "mach1-ios-positional-example copy" */ = {
+		A4F80A1B203B3B85008D976A /* Build configuration list for PBXProject "mach1-ios-positional-example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A4F80A46203B3B86008D976A /* Debug */,

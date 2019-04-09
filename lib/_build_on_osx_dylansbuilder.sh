@@ -30,7 +30,6 @@ echo "### BUILD RPI ###"
 
 echo "### BUILD iOS ###"
 /Volumes/git/polly/bin/polly --clear --install --config Release --toolchain ios --ios-multiarch --ios-combined
-/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain ios-11-4-dep-9-3 --ios-multiarch --ios-combined
 
 echo "### BUILD macOS ###"
 /Volumes/git/polly/bin/polly --clear --install --config Release --toolchain xcode

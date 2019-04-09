@@ -14,15 +14,13 @@ yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/exa
 yes | cp -rf "_install/xcode/lib/libMach1EncodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/osx/libMach1EncodeCAPI.a"
 yes | cp -rf "_install/xcode/lib/libMach1DecodePositionalCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/osx/libMach1DecodePositionalCAPI.a"
 
-yes | cp -rf "_install/xcode/libBundle/libMach1DecodeCAPI.bundle" "../../m1-sdk-release/examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1DecodeCAPI.bundle"
-yes | cp -rf "_install/xcode/libBundle/libMach1EncodeCAPI.bundle" "../../m1-sdk-release/examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1EncodeCAPI.bundle"
-yes | cp -rf "_install/xcode/libBundle/libMach1DecodePositionalCAPI.bundle" "../../m1-sdk-release/examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1DecodePositionalCAPI.bundle"
-
 yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/ThirdParty/Mach1/bin/Mac/libMach1DecodeCAPI.a"
 yes | cp -rf "_install/xcode/lib/libMach1DecodePositionalCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/ThirdParty/Mach1/bin/Mac/libMach1DecodePositionalCAPI.a"
 
 echo "### Replacing iOS ###"
 yes | cp -rf "_install/ios/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/ThirdParty/Mach1/bin/IOS/libMach1DecodeCAPI.a"
+yes | cp -rf "_install/ios/lib/libMach1DecodePositionalCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/ThirdParty/Mach1/bin/IOS/libMach1DecodePositionalCAPI.a"
+
 echo "### Moving iOS ###"
 yes | cp -rf "_install/ios/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/ios/libMach1DecodeCAPI.a"
 yes | cp -rf "_install/ios/lib/libMach1EncodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/ios/libMach1EncodeCAPI.a"
@@ -30,15 +28,16 @@ yes | cp -rf "_install/ios/lib/libMach1DecodePositionalCAPI.a" "../../m1-sdk-rel
 
 echo "### Replacing Android x86 & armaebi-v7a ###"
 yes | cp -rf "_install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/android/AndroidNativeSound/app/src/main/jniLibs/armeabi-v7a/libMach1DecodeCAPI.a"
-yes | cp -rf "_install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/armeabi-v7a/libMach1DecodeCAPI.a"
 yes | cp -rf "_install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/ThirdParty/Mach1/bin/Android/armeabi-v7a/libMach1DecodeCAPI.a"
+yes | cp -rf "_install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx/lib/libMach1EncodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/ThirdParty/Mach1/bin/Android/armeabi-v7a/libMach1EncodeCAPI.a"
+yes | cp -rf "_install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx/lib/libMach1DecodePositionalCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/ThirdParty/Mach1/bin/Android/armeabi-v7a/libMach1DecodePositionalCAPI.a"
 yes | cp -rf "_install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/armeabi-v7a/libMach1DecodeCAPI.a"
 yes | cp -rf "_install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx/lib/libMach1EncodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/armeabi-v7a/libMach1EncodeCAPI.a"
 yes | cp -rf "_install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx/lib/libMach1DecodePositionalCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/armeabi-v7a/libMach1DecodePositionalCAPI.a"
-
 yes | cp -rf "_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/android/AndroidNativeSound/app/src/main/jniLibs/x86/libMach1DecodeCAPI.a"
-yes | cp -rf "_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/x86/libMach1DecodeCAPI.a"
 yes | cp -rf "_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/ThirdParty/Mach1/bin/Android/x86/libMach1DecodeCAPI.a"
+yes | cp -rf "_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1EncodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/ThirdParty/Mach1/bin/Android/x86/libMach1EncodeCAPI.a"
+yes | cp -rf "_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1DecodePositionalCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/ThirdParty/Mach1/bin/Android/x86/libMach1DecodePositionalCAPI.a"
 yes | cp -rf "_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/x86/libMach1DecodeCAPI.a"
 yes | cp -rf "_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1EncodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/x86/libMach1EncodeCAPI.a"
 yes | cp -rf "_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1DecodePositionalCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/x86/libMach1DecodePositionalCAPI.a"

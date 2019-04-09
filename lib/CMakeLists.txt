@@ -31,8 +31,8 @@ install(TARGETS Mach1DecodeCAPIstatic DESTINATION lib)
 install(TARGETS Mach1DecodePositionalCAPIstatic DESTINATION lib)
 install(TARGETS Mach1EncodeCAPIstatic DESTINATION lib)
 
-if(WIN32)
-	# SHARED
+# UNITY
+if(NOT IOS OR TVOS OR WATCHOS)
 	add_library(Mach1DecodeCAPIshared SHARED ${Mach1DecodeCAPIsrc})
 	add_library(Mach1DecodePositionalCAPIshared SHARED ${Mach1DecodePositionalCAPIsrc})
 	add_library(Mach1EncodeCAPIshared SHARED ${Mach1EncodeCAPIsrc})
@@ -43,9 +43,9 @@ if(WIN32)
 
 	target_include_directories(Mach1DecodePositionalCAPIshared PRIVATE ${Mach1DecodePositionalCAPIinclude})
 
-	install(TARGETS Mach1DecodeCAPIshared DESTINATION libShared)
-	install(TARGETS Mach1DecodePositionalCAPIshared DESTINATION libShared)
-	install(TARGETS Mach1EncodeCAPIshared DESTINATION libShared)
+	install(TARGETS Mach1DecodeCAPIshared DESTINATION libUnity)
+	install(TARGETS Mach1DecodePositionalCAPIshared DESTINATION libUnity)
+	install(TARGETS Mach1EncodeCAPIshared DESTINATION libUnity)
 endif()
 
 if(APPLE)

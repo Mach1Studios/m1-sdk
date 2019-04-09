@@ -229,6 +229,7 @@ class ViewController : UIViewController, UITextFieldDelegate {
                 cameraPitch = angles.x
                 cameraYaw = angles.y
                 cameraRoll = angles.z
+
                 //if PlatformType = Mach1PlatformDefault, pass in as
                 /*
                  cameraYaw = -angles.y
@@ -298,8 +299,8 @@ class ViewController : UIViewController, UITextFieldDelegate {
 
                 // compute falloff linear curve - project dist [0:1] to [1:0] interval
                 var falloff : Float = m1obj.getDist()
-                falloff = mapFloat(value: falloff, inMin: 0, inMax: 1, outMin: 1, outMax: 0)
-                falloff = clampFloat(value: falloff, min: 0, max: 1)
+                falloff = mapFloat(value: falloff, inMin: 0, inMax: 3, outMin: 1, outMax: 0)
+                falloff = clampFloat(value: falloff, min: 0, max: 3)
                 //m1obj.setUseFalloff(useFalloff: false)
                 m1obj.setFalloffCurve(falloffCurve: falloff)
                 //print(falloff)

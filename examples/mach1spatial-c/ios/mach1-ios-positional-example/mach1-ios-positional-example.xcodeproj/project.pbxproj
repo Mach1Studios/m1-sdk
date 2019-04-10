@@ -15,6 +15,8 @@
 		A46BE17D21E55EBC0050CFEB /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A46BE17C21E55EBB0050CFEB /* libc++.tbd */; };
 		A484EAC6225D1BD700070891 /* libMach1DecodeCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A484EAC4225D1BD700070891 /* libMach1DecodeCAPI.a */; };
 		A484EAC7225D1BD700070891 /* libMach1DecodePositionalCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A484EAC5225D1BD700070891 /* libMach1DecodePositionalCAPI.a */; };
+		A494DCD1225E6F74008A0434 /* GLKQuaternionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A494DCCF225E6F74008A0434 /* GLKQuaternionExtension.swift */; };
+		A494DCD2225E6F74008A0434 /* SCNQuaternionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A494DCD0225E6F74008A0434 /* SCNQuaternionExtension.swift */; };
 		A497AFA720DC63D10098D480 /* Mach1Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497AFA620DC63D00098D480 /* Mach1Decode.swift */; };
 		A4AF3CCC20466FB300253825 /* Guitar-8ch.wav in Resources */ = {isa = PBXBuildFile; fileRef = A4AF3CCB20466FB200253825 /* Guitar-8ch.wav */; };
 		A4AF3D002048C3DE00253825 /* 005.aif in Resources */ = {isa = PBXBuildFile; fileRef = A4AF3CF82048C3D500253825 /* 005.aif */; };
@@ -57,6 +59,8 @@
 		A46BE17C21E55EBB0050CFEB /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/libc++.tbd"; sourceTree = DEVELOPER_DIR; };
 		A484EAC4225D1BD700070891 /* libMach1DecodeCAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMach1DecodeCAPI.a; path = ../../../../binaries/ios/lib/libMach1DecodeCAPI.a; sourceTree = "<group>"; };
 		A484EAC5225D1BD700070891 /* libMach1DecodePositionalCAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMach1DecodePositionalCAPI.a; path = ../../../../binaries/ios/lib/libMach1DecodePositionalCAPI.a; sourceTree = "<group>"; };
+		A494DCCF225E6F74008A0434 /* GLKQuaternionExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GLKQuaternionExtension.swift; sourceTree = "<group>"; };
+		A494DCD0225E6F74008A0434 /* SCNQuaternionExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCNQuaternionExtension.swift; sourceTree = "<group>"; };
 		A497AFA620DC63D00098D480 /* Mach1Decode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mach1Decode.swift; path = ../../../../../include/swift/Mach1Decode.swift; sourceTree = "<group>"; };
 		A4AF3CCB20466FB200253825 /* Guitar-8ch.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Guitar-8ch.wav"; sourceTree = "<group>"; };
 		A4AF3CF82048C3D500253825 /* 005.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = 005.aif; sourceTree = "<group>"; };
@@ -118,12 +122,14 @@
 				A4F80A23203B3B86008D976A /* AppDelegate.swift */,
 				A4F80A25203B3B86008D976A /* ViewController.swift */,
 				A497AFA620DC63D00098D480 /* Mach1Decode.swift */,
-				CE28E43122307EB500DFE2DC /* CMDeviceMotion.swift */,
 				A4D27726221370130079FEFC /* Mach1DecodePositional.swift */,
-				158A2A95222F1A040081BA88 /* GameViewController.swift */,
 				158A2A97222F1A0C0081BA88 /* LineDrawing.swift */,
+				CE28E43122307EB500DFE2DC /* CMDeviceMotion.swift */,
+				158A2A95222F1A040081BA88 /* GameViewController.swift */,
 				158A2A98222F1A0C0081BA88 /* SCNNodeExtensions.swift */,
 				158A2A99222F1A0D0081BA88 /* SCNVector3Extensions.swift */,
+				A494DCD0225E6F74008A0434 /* SCNQuaternionExtension.swift */,
+				A494DCCF225E6F74008A0434 /* GLKQuaternionExtension.swift */,
 				A4F80A27203B3B86008D976A /* Main.storyboard */,
 				A4F80A2A203B3B86008D976A /* Assets.xcassets */,
 				A4F80A2C203B3B86008D976A /* LaunchScreen.storyboard */,
@@ -140,8 +146,6 @@
 				A484EAC5225D1BD700070891 /* libMach1DecodePositionalCAPI.a */,
 				CE28E43322307EDA00DFE2DC /* GLKit.framework */,
 				158A2A93222F03B00081BA88 /* SceneKit.framework */,
-				CEC356D422136C7200FA592F /* libMach1DecodePositionalCAPI.a */,
-				A46BE17A21E55DF90050CFEB /* libMach1DecodeCAPI.a */,
 				A46BE17C21E55EBB0050CFEB /* libc++.tbd */,
 			);
 			name = Frameworks;
@@ -259,7 +263,9 @@
 				158A2A9B222F1A0D0081BA88 /* SCNNodeExtensions.swift in Sources */,
 				A4F80A24203B3B86008D976A /* AppDelegate.swift in Sources */,
 				A4D27727221370130079FEFC /* Mach1DecodePositional.swift in Sources */,
+				A494DCD1225E6F74008A0434 /* GLKQuaternionExtension.swift in Sources */,
 				158A2A9A222F1A0D0081BA88 /* LineDrawing.swift in Sources */,
+				A494DCD2225E6F74008A0434 /* SCNQuaternionExtension.swift in Sources */,
 				A497AFA720DC63D10098D480 /* Mach1Decode.swift in Sources */,
 				158A2A9C222F1A0D0081BA88 /* SCNVector3Extensions.swift in Sources */,
 			);

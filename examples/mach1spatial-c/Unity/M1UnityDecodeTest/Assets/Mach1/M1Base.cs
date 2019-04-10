@@ -172,9 +172,9 @@ public class M1Base : MonoBehaviour
 
         loadedCountMain = 0;
 
-        for (int i = 0; i < externalAudioFilenameMain.Length; i++)
+        for (int i = 0; i < Mathf.Max(externalAudioFilenameMain.Length, audioClipMain.Length); i++)
         {
-            StartCoroutine(LoadAudio(Path.Combine(externalAudioPath, externalAudioFilenameMain[i]), false, i, isFromAssets));
+            StartCoroutine(LoadAudio(Path.Combine(externalAudioPath, i < externalAudioFilenameMain.Length ? externalAudioFilenameMain[i] : ""), false, i, isFromAssets));
         }
 
         if (useBlendMode)
@@ -184,9 +184,9 @@ public class M1Base : MonoBehaviour
 
             loadedCountBlend = 0;
 
-            for (int i = 0; i < externalAudioFilenameBlend.Length; i++)
+            for (int i = 0; i < Mathf.Max(externalAudioFilenameBlend.Length, audioClipBlend.Length); i++)
             {
-                StartCoroutine(LoadAudio(Path.Combine(externalAudioPath, externalAudioFilenameBlend[i]), true, i, isFromAssets));
+                StartCoroutine(LoadAudio(Path.Combine(externalAudioPath, i < externalAudioFilenameBlend.Length ? externalAudioFilenameBlend[i] : ""), true, i, isFromAssets));
             }
         }
 

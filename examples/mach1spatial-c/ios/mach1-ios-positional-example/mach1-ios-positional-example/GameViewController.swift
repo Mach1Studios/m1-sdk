@@ -9,6 +9,10 @@
 import UIKit
 import QuartzCore
 import SceneKit
+import GLKit
+
+
+
 
 class GameViewController: UIViewController, SCNSceneRendererDelegate {
     
@@ -41,6 +45,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         cameraConeNode.position =  SCNVector3(x: cameraPosition.x * Float(size)/2, y: cameraPosition.y * Float(size)/2, z: -cameraPosition.z * Float(size)/2)
 
         volumeHelperBoxNode.eulerAngles = SCNVector3(x: deg2rad(angleVolume.x), y: deg2rad(angleVolume.y), z: deg2rad(angleVolume.z))
+        volumeHelperBoxNode.orientation = GLKQuaternionMultiply(volumeHelperBoxNode.orientation.toGLK(), GLKQuaternionInvert(cameraConeNode.orientation.toGLK())).toSCN()
         volumeHelperBoxNode.position = cameraConeNode.position
 
         // recreate line

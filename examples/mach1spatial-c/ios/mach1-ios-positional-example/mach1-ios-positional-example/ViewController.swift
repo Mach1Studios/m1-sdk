@@ -16,8 +16,8 @@ var stereoPlayer = AVAudioPlayer()
 var m1obj = Mach1DecodePositional()
 var stereoActive = false
 var isYawActive = true
-var isPitchActive = false
-var isRollActive = false
+var isPitchActive = true
+var isRollActive = true
 var isPlaying = false
 
 

@@ -226,6 +226,17 @@
             <a href="#overview" class="toc-h1 toc-link" data-title="Overview">Overview</a>
           </li>
           <li>
+            <a href="#mach1-internal-angle-standard" class="toc-h1 toc-link" data-title="Mach1 Internal Angle Standard">Mach1 Internal Angle Standard</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#positional-3d-coords" class="toc-h2 toc-link" data-title="Mach1 Internal Angle Standard">Positional 3D Coords</a>
+                  </li>
+                  <li>
+                    <a href="#orientation-euler" class="toc-h2 toc-link" data-title="Mach1 Internal Angle Standard">Orientation Euler</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#mach1encode-api" class="toc-h1 toc-link" data-title="Mach1Encode API">Mach1Encode API</a>
               <ul class="toc-list-h2">
                   <li>
@@ -307,6 +318,18 @@
                   <li>
                     <a href="#installation" class="toc-h2 toc-link" data-title="Mach1DecodePositional API">Installation</a>
                   </li>
+                  <li>
+                    <a href="#setup-per-spatial-soundfield-position" class="toc-h2 toc-link" data-title="Mach1DecodePositional API">Setup per Spatial Soundfield Position</a>
+                  </li>
+                  <li>
+                    <a href="#setup-for-advanced-settings" class="toc-h2 toc-link" data-title="Mach1DecodePositional API">Setup for Advanced Settings</a>
+                  </li>
+                  <li>
+                    <a href="#update-per-spatial-soundfield-position" class="toc-h2 toc-link" data-title="Mach1DecodePositional API">Update per Spatial Soundfield Position</a>
+                  </li>
+                  <li>
+                    <a href="#applying-resulting-coefficients" class="toc-h2 toc-link" data-title="Mach1DecodePositional API">Applying Resulting Coefficients</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -314,6 +337,9 @@
               <ul class="toc-list-h2">
                   <li>
                     <a href="#usage" class="toc-h2 toc-link" data-title="Mach1Transcode API">Usage</a>
+                  </li>
+                  <li>
+                    <a href="#suggested-metadata-spec-optional" class="toc-h2 toc-link" data-title="Mach1Transcode API">Suggested Metadata Spec [optional]</a>
                   </li>
                   <li>
                     <a href="#formats-supported" class="toc-h2 toc-link" data-title="Mach1Transcode API">Formats Supported</a>
@@ -365,21 +391,31 @@ Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatia
 
 <p>Mach1Encode and Mach1Decode are supported on OSX 10.7+, Windows 10+, iOS 9.0+ and Android API 19+. Unity 4.0+ and Unreal Engine 4.10+ examples are available and said engines are supported too on the aforementioned platforms. </p>
 
-<p>Mach1Transcode is supported on OSX and Windows, game engine support coming soon.</p>
+<p>Mach1Transcode is supported on macOS, linux and Windows, game engine support coming soon.</p>
+<h1 id='mach1-internal-angle-standard'>Mach1 Internal Angle Standard</h1><h3 id='positional-3d-coords'>Positional 3D Coords</h3>
+<ul>
+<li> X+ = strafe right</li>
+<li> X- = strafe left</li>
+<li> Y+ = up</li>
+<li> Y- = down</li>
+<li> Z+ = forward</li>
+<li> Z- = backward</li>
+</ul>
+<h3 id='orientation-euler'>Orientation Euler</h3>
+<ul>
+<li> Yaw[0]+ = rotate right [Range: 0-&gt;360 | -180-&gt;180]</li>
+<li> Yaw[0]- = rotate left [Range: 0-&gt;360 | -180-&gt;180]</li>
+<li> Pitch[1]+ = rotate up [Range: -90-&gt;90]</li>
+<li> Pitch[1]- = rotate down [Range: -90-&gt;90]</li>
+<li> Roll[2]+ = tilt right [Range: -90-&gt;90]</li>
+<li> Roll[2]- = tilt left [Range: -90-&gt;90]</li>
+</ul>
 <h1 id='mach1encode-api'>Mach1Encode API</h1>
 <p>Mach1Encode allows you to transform input audio streams into the Mach1Spatial VVBP 8 channel format. Included are functions needed for mono, stereo or quad/FOA audio streams. The input streams are referred to as <code>Points</code> in our SDK.</p>
 
 <p>The typical encoding process starts with creating an object of a class Mach1EncodeCore, and setting it up as described below. After that, you&#39;re meant to generate Points by calling generatePointResults() on the object of this class. You&#39;ll get as many points as there are input channels and as many gains in each point as there are output channels. You then copy each input channel to each output channel with the according gain.</p>
 <h2 id='installation'>Installation</h2>
 <p>Import and link the appropriate target device&#39;s / IDE&#39;s library file. </p>
-
-<blockquote>
-<p>shell:</p>
-</blockquote>
-<pre class="highlight plaintext"><code>rsync -aved  "$OF_PATH/addons/ofxMach1/libs/lib/osx/libMach1EncodeCAPI.dylib" "$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/";
-install_name_tool -change libMach1EncodeCAPI.dylib @executable_path/../Frameworks/libMach1EncodeCAPI.dylib "$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME";
-</code></pre>
-<aside class="notice">openFrameworks: when importing ofxMach1 add the following to your post-build script</aside>
 <h2 id='generate-point-results'>Generate Point Results</h2>
 <p>Returns the resulting <code>points</code> coefficients based on selected and calculated input/output configuration.</p>
 <pre class="highlight cpp tab-cpp"><code><span class="n">M1EncodeCorePointResults</span> <span class="n">points</span> <span class="o">=</span> <span class="n">m1Encode</span><span class="p">.</span><span class="n">generatePointResults</span><span class="p">();</span>
@@ -424,56 +460,56 @@ install_name_tool -change libMach1EncodeCAPI.dylib @executable_path/../Framework
 <span class="k">if</span> <span class="p">(</span><span class="n">outputKind</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Output: 7.1
 </span>    <span class="n">m1Encode</span><span class="p">.</span><span class="n">outputMode</span> <span class="o">=</span> <span class="n">M1Encode</span><span class="o">::</span><span class="n">OUTPUT_8CH</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre><h2 id='set-rotation'>Set Rotation</h2>
+</code></pre><h2 id='set-rotation'>Set Rotation</h2><pre class="highlight cpp tab-cpp"><code><span class="n">m1Encode</span><span class="p">.</span><span class="n">rotation</span> <span class="o">=</span> <span class="n">rotation</span><span class="p">;</span>
+</code></pre>
 <p>Rotates the point(s) around the center origin of the vector space.</p>
 
 <blockquote>
 <p>UI value range: 0.0 -&gt; 1.0 (0-360)</p>
 </blockquote>
-<pre class="highlight cpp tab-cpp"><code><span class="n">m1Encode</span><span class="p">.</span><span class="n">rotation</span> <span class="o">=</span> <span class="n">rotation</span><span class="p">;</span>
-</code></pre><h2 id='set-diverge'>Set Diverge</h2>
+<h2 id='set-diverge'>Set Diverge</h2><pre class="highlight cpp tab-cpp"><code><span class="n">m1Encode</span><span class="p">.</span><span class="n">diverge</span> <span class="o">=</span> <span class="n">diverge</span><span class="p">;</span>
+</code></pre>
 <p>Moves the point(s) to/from center origin of the vector space.</p>
 
 <blockquote>
 <p>UI value range: -1.0 -&gt; 1.0</p>
 </blockquote>
-<pre class="highlight cpp tab-cpp"><code><span class="n">m1Encode</span><span class="p">.</span><span class="n">diverge</span> <span class="o">=</span> <span class="n">diverge</span><span class="p">;</span>
-</code></pre><h2 id='set-pitch-height'>Set Pitch/Height</h2>
+<h2 id='set-pitch-height'>Set Pitch/Height</h2><pre class="highlight cpp tab-cpp"><code><span class="n">m1Encode</span><span class="p">.</span><span class="n">pitch</span> <span class="o">=</span> <span class="n">pitch</span><span class="p">;</span>
+</code></pre>
 <p>Moves the point(s) up/down the vector space.</p>
 
 <blockquote>
 <p>UI value range: -1.0 -&gt; 1.0</p>
 </blockquote>
-<pre class="highlight cpp tab-cpp"><code><span class="n">m1Encode</span><span class="p">.</span><span class="n">pitch</span> <span class="o">=</span> <span class="n">pitch</span><span class="p">;</span>
-</code></pre><h2 id='set-stereo-rotation'>Set Stereo Rotation</h2>
+<h2 id='set-stereo-rotation'>Set Stereo Rotation</h2><pre class="highlight cpp tab-cpp"><code><span class="n">m1Encode</span><span class="p">.</span><span class="n">sRotate</span> <span class="o">=</span> <span class="n">sRotation</span><span class="p">;</span>
+</code></pre>
 <p>Rotates the two stereo points around the axis of the center point between them.</p>
 
 <blockquote>
 <p>UI value range: -180.0 -&gt; 180.0</p>
 </blockquote>
-<pre class="highlight cpp tab-cpp"><code><span class="n">m1Encode</span><span class="p">.</span><span class="n">sRotate</span> <span class="o">=</span> <span class="n">sRotation</span><span class="p">;</span>
-</code></pre><h2 id='set-stereo-spread'>Set Stereo Spread</h2>
+<h2 id='set-stereo-spread'>Set Stereo Spread</h2><pre class="highlight cpp tab-cpp"><code><span class="n">m1Encode</span><span class="p">.</span><span class="n">sSpread</span> <span class="o">=</span> <span class="n">sSpread</span><span class="p">;</span>
+</code></pre>
 <p>Increases or decreases the space between the two stereo points. </p>
 
 <blockquote>
 <p>UI value range: 0.0 -&gt; 1.0</p>
 </blockquote>
-<pre class="highlight cpp tab-cpp"><code><span class="n">m1Encode</span><span class="p">.</span><span class="n">sSpread</span> <span class="o">=</span> <span class="n">sSpread</span><span class="p">;</span>
-</code></pre><h2 id='set-auto-orbit'>Set Auto Orbit</h2>
+<h2 id='set-auto-orbit'>Set Auto Orbit</h2><pre class="highlight cpp tab-cpp"><code><span class="n">m1Encode</span><span class="p">.</span><span class="n">autoOrbit</span> <span class="o">=</span> <span class="n">autoOrbit</span><span class="p">;</span>
+</code></pre>
 <p>When active both stereo points rotate in relation to the center point between them so that they always triangulate toward center of the cuboid.</p>
 
 <blockquote>
 <p>default value: true</p>
 </blockquote>
-<pre class="highlight cpp tab-cpp"><code><span class="n">m1Encode</span><span class="p">.</span><span class="n">autoOrbit</span> <span class="o">=</span> <span class="n">autoOrbit</span><span class="p">;</span>
-</code></pre><h2 id='set-isotropic-periphonic'>Set Isotropic / Periphonic</h2>
+<h2 id='set-isotropic-periphonic'>Set Isotropic / Periphonic</h2><pre class="highlight cpp tab-cpp"><code><span class="n">m1Encode</span><span class="p">.</span><span class="n">isotropicEncode</span> <span class="o">=</span> <span class="n">enableIsotropicEncode</span><span class="p">;</span>
+</code></pre>
 <p>When active encoding behavior acts evenly with distribution across all azimuth/rotation angles and all altitude/pitch angles.</p>
 
 <blockquote>
 <p>default value: true</p>
 </blockquote>
-<pre class="highlight cpp tab-cpp"><code><span class="n">m1Encode</span><span class="p">.</span><span class="n">isotropicEncode</span> <span class="o">=</span> <span class="n">enableIsotropicEncode</span><span class="p">;</span>
-</code></pre><h1 id='mach1decode-api'>Mach1Decode API</h1>
+<h1 id='mach1decode-api'>Mach1Decode API</h1>
 <p>Mach1Decode supplies the functions needed to playback the Mach1Spatial VVBP 8channels to a stereo stream based on the device&#39;s orientation, this can be used for mobile device windowing or first person based media such as AR/VR/MR without any additional processing effects required.</p>
 <h2 id='summary-use'>Summary Use</h2>
 <p>The Mach1Decode API is designed to be used the following way:</p>
@@ -506,14 +542,6 @@ install_name_tool -change libMach1EncodeCAPI.dylib @executable_path/../Framework
 </ul>
 <h2 id='installation'>Installation</h2>
 <p>Import and link the appropriate target device&#39;s / IDE&#39;s library file. </p>
-
-<blockquote>
-<p>shell:</p>
-</blockquote>
-<pre class="highlight plaintext"><code>rsync -aved  "$OF_PATH/addons/ofxMach1/libs/lib/osx/libMach1DecodeCAPI.dylib" "$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/";
-install_name_tool -change libMach1DecodeCAPI.dylib @executable_path/../Frameworks/libMach1DecodeCAPI.dylib "$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME";
-</code></pre>
-<aside class="notice">openFrameworks: when importing ofxMach1 add the following to your post-build script</aside>
 <h2 id='set-platform-type'>Set Platform Type</h2>
 <blockquote>
 <p>Set the Angular Type for the target device via the enum
@@ -534,45 +562,13 @@ Use the <code>setPlatformType</code> function to set the device&#39;s angle orde
 <!-- ```android
 mach1Decode.setPlatformType(Mach1Decode::Mach1PlatformType::Mach1PlatformAndroid);
 ``` -->
-<pre class="highlight swift tab-swift"><code><span class="n">mach1Decode</span><span class="o">.</span><span class="nf">setPlatformType</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="kt">Mach1PlatformType</span><span class="o">.</span><span class="kt">Mach1PlatformiOSPortrait</span><span class="p">)</span>
+<pre class="highlight swift tab-swift"><code><span class="n">mach1Decode</span><span class="o">.</span><span class="nf">setPlatformType</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="kt">Mach1PlatformType</span><span class="o">.</span><span class="kt">Mach1PlatformiOS</span><span class="p">)</span>
 </code></pre><h3 id='angle-order-conventions'>Angle Order Conventions</h3>
 <ol>
 <li>Order of Yaw, Pitch, Roll (Defined as angle applied first, second and third).</li>
 <li>Direction of transform around each pole&#39;s positive movement (left or right rotation).</li>
 <li>integer Range before tranform completes 2(PI).</li>
 </ol>
-
-<table><thead>
-<tr>
-<th style="text-align: right">Order</th>
-<th style="text-align: right">airplane</th>
-<th style="text-align: right">telescope</th>
-<th style="text-align: right">symbol</th>
-<th style="text-align: right">angular velocity</th>
-</tr>
-</thead><tbody>
-<tr>
-<td style="text-align: right">applied first</td>
-<td style="text-align: right">heading</td>
-<td style="text-align: right">azimuth</td>
-<td style="text-align: right">θ (theta)</td>
-<td style="text-align: right">yaw</td>
-</tr>
-<tr>
-<td style="text-align: right">applied second</td>
-<td style="text-align: right">attitude</td>
-<td style="text-align: right">elevation</td>
-<td style="text-align: right">φ (phi)</td>
-<td style="text-align: right">pitch</td>
-</tr>
-<tr>
-<td style="text-align: right">applied last</td>
-<td style="text-align: right">bank</td>
-<td style="text-align: right">tilt</td>
-<td style="text-align: right">ψ (psi)</td>
-<td style="text-align: right">roll</td>
-</tr>
-</tbody></table>
 <h3 id='euler-angle-orders'>Euler Angle Orders:</h3>
 <ul>
 <li>(yaw-pitch-roll)</li>
@@ -704,33 +700,150 @@ Use this to get a list of input angles and the associated output coefficients fr
 <h2 id='unity-amp-unreal-engine'>Unity &amp; Unreal Engine</h2>
 <p>Please view the examples in <code>examples/Unity|UnrealEngine</code> to see deployment of Mach1Spatial mixes with positional rotation and attenuation applied. These fucntions can be viewed from the M1Base class used in both examples and are called by creating a new object in the game engine and attaching Mach1SpatialActor or Mach1SpatialDecode.cs to view the setup for a Mach1 Spatial mix layer. </p>
 
-<blockquote>
-<p>These implementation require the multichannel mixes to be split into multiple-mono mixes. You can use <code>m1-transcode</code> or the M1-Transcoder GUI application to achieve this easily. </p>
-</blockquote>
+<aside class="notice">These implementations require the multichannel mixes to be split into multiple-mono mixes. You can use `m1-transcode` or the M1-Transcoder GUI application to achieve this easily.</aside>
 <h2 id='summary-use'>Summary Use</h2>
+<p>The Mach1DecodePositional API is designed to be added if 6DOF or positional placement of Mach1Decode objects are needed. Once added and used for updating the object&#39;s and referencable device/camera it will calculate the positional and rotational angles and distances and result them via the same useable coefficients that are used for Mach1Decode, as per the following way:</p>
+<pre class="highlight cpp tab-cpp"><code><span class="kt">void</span> <span class="n">setup</span><span class="p">(){</span>
+    <span class="n">mach1DecodePositional</span><span class="p">.</span><span class="n">setDecodeAlgoType</span><span class="p">(</span><span class="n">Mach1DecodeAlgoSpatial</span><span class="p">);</span>
+    <span class="n">mach1DecodePositional</span><span class="p">.</span><span class="n">setPlatformType</span><span class="p">(</span><span class="n">Mach1PlatformDefault</span><span class="p">);</span>
+    <span class="n">mach1DecodePositional</span><span class="p">.</span><span class="n">setUseFalloff</span><span class="p">(</span><span class="kt">bool</span> <span class="n">useFalloff</span><span class="p">);</span>
+    <span class="n">mach1DecodePositional</span><span class="p">.</span><span class="n">setFalloffCurve</span><span class="p">(</span><span class="kt">float</span> <span class="n">falloffCurve</span><span class="p">);</span>
+    <span class="n">mach1DecodePositional</span><span class="p">.</span><span class="n">setUseClosestPointRotationMuteInside</span><span class="p">(</span><span class="kt">bool</span> <span class="n">useClosestPointRotationMuteInside</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">loop</span><span class="p">(){</span>
+    <span class="n">mach1DecodePositional</span><span class="p">.</span><span class="n">setCameraPosition</span><span class="p">(</span><span class="n">Mach1Point3D</span> <span class="n">devicePos</span><span class="p">);</span>
+    <span class="n">mach1DecodePositional</span><span class="p">.</span><span class="n">setCameraRotation</span><span class="p">(</span><span class="n">Mach1Point3D</span> <span class="n">deviceRot</span><span class="p">);</span>
+    <span class="n">mach1DecodePositional</span><span class="p">.</span><span class="n">setDecoderAlgoPosition</span><span class="p">(</span><span class="n">Mach1Point3D</span> <span class="n">objPos</span><span class="p">);</span>
+    <span class="n">mach1DecodePositional</span><span class="p">.</span><span class="n">setDecoderAlgoRotation</span><span class="p">(</span><span class="n">Mach1Point3D</span> <span class="n">objRot</span><span class="p">);</span>
+    <span class="n">mach1DecodePositional</span><span class="p">.</span><span class="n">setDecoderAlgoScale</span><span class="p">(</span><span class="n">Mach1Point3D</span> <span class="n">objScale</span><span class="p">);</span>
+
+    <span class="n">mach1DecodePositional</span><span class="p">.</span><span class="n">getDist</span><span class="p">();</span>
+    <span class="n">mach1DecodePositional</span><span class="p">.</span><span class="n">getVolumesWalls</span><span class="p">(</span><span class="kt">float</span><span class="o">*</span> <span class="n">result</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<p>Setup Step (setup/start):</p>
+
 <ul>
-<li><code>setCameraPosition(Mach1Point3DCore* pos)</code> </li>
-<li><code>setCameraRotation(Mach1Point3DCore* euler)</code></li>
-<li><code>setMach1ObjPosition(Mach1Point3DCore* pos)</code></li>
-<li><code>setMach1ObjRotation(Mach1Point3DCore* euler)</code></li>
-<li><code>setMach1ObjScale(Mach1Point3DCore* scale)</code></li>
-<li><code>setAttenuationCurve(float* curve)</code></li>
-<li><code>getPositionResultsPoint()</code></li>
-<li><code>getPositionResultsObjCenter()</code></li>
-<li><code>getPositionResultsObjWalls(enum planeSelect, bool pointType)</code></li>
-<li><code>updatePostionResults()</code></li>
+<li><code>setDecodeAlgoType</code></li>
+<li><code>setPlatformType</code></li>
+<li><code>setUseFalloff</code> set distance attenuation for soundfield</li>
+<li><code>setFalloffCurve</code> design custom distance attenuation curves</li>
+<li><code>setUseClosestPointRotationMuteInside</code> reference rotations use a plane instead of a point, or closest plane of a shape if needed</li>
+</ul>
+
+<p>Audio Loop:</p>
+
+<ul>
+<li>update device/camera position &amp; rotation (can use Euler or Quat)</li>
+<li>update m1obj decode position &amp; rotation (can use Euler or Quat)</li>
+<li><code>getDist</code> used for attenuation/falloff results</li>
+<li><code>getVolumesWalls</code> resulting coeffs for players</li>
 </ul>
 <h2 id='installation'>Installation</h2>
-<p>Import and link the appropriate target device&#39;s / IDE&#39;s library file. 
-<aside class="notice">Requires libMach1DecodeCAPI for reference to spatial object and orientation decoding</aside></p>
+<p>Import and link the appropriate target device&#39;s / IDE&#39;s library file. </p>
 
-<blockquote>
-<p>shell:</p>
-</blockquote>
-<pre class="highlight plaintext"><code>rsync -aved  "$OF_PATH/addons/ofxMach1/libs/lib/osx/libMach1DecodePositionalCAPI.dylib" "$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/";
-install_name_tool -change libMach1DecodeCAPI.dylib @executable_path/../Frameworks/libMach1DecodePositionalCAPI.dylib "$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME";
+<p>For Unity: 
+ - Import the Custom Asset Package</p>
+
+<p>For Unreal Engine: 
+ - Add the Mach1Spatial Plugin to your project</p>
+
+<aside class="notice">Requires libMach1DecodeCAPI for reference to spatial object and orientation decoding</aside>
+<h2 id='setup-per-spatial-soundfield-position'>Setup per Spatial Soundfield Position</h2>
+<p>The following are functions to aid in how positional distance effects the overall gain of an mach1decode object to any design. The resulting distance calculations can also be used for any external effect if created.</p>
+<h3 id='falloff-attenuation'>Falloff/Attenuation</h3><pre class="highlight cpp tab-cpp"><code><span class="kt">void</span> <span class="n">setUseFalloff</span><span class="p">(</span><span class="kt">bool</span> <span class="n">useFalloff</span><span class="p">);</span>
 </code></pre>
-<aside class="notice">openFrameworks: when importing ofxMach1 add the following to your post-build script</aside>
+<p>Boolean turning on/off distance attenuation calculations on that mach1decode object</p>
+<h3 id='reference-positional-point-plane-shape'>Reference positional point/plane/shape</h3><pre class="highlight cpp tab-cpp"><code><span class="kt">void</span> <span class="n">setUseClosestPointRotationMuteInside</span><span class="p">(</span><span class="kt">bool</span> <span class="n">useClosestPointRotationMuteInside</span><span class="p">);</span>
+</code></pre>
+<p>This very long named function can set whether the rotational pivots of a mach1decode soundfield are by referencing the device/camera to a positional point or the closest point of a plane (and further the closest plane of a shape). This allows each mach1decode object to be placed with more design options to prevent soundfield scenes from rotating when not needed.</p>
+<h3 id='set-filter-speed'>Set Filter Speed</h3><pre class="highlight cpp tab-cpp"><code><span class="kt">float</span> <span class="n">filterSpeed</span> <span class="o">=</span> <span class="mf">1.0</span><span class="n">f</span><span class="p">;</span>
+
+<span class="n">mach1Decode</span><span class="p">.</span><span class="n">setFilterSpeed</span><span class="p">(</span><span class="n">filterSpeed</span><span class="p">);</span>
+</code></pre>
+<p>Filter speed determines the amount of angle smoothing applied to the orientation angles used for the Mach1DecodeCore class. 1.0 would mean that there is no filtering applied, 0.1 would add a long ramp effect of intermediary angles between each angle sample. It should be noted that you will not have any negative effects with &gt;0.9 but could get some orientation latency when &lt;0.85. The reason you might want angle smoothing is that it might help remove a zipper effect seen on some poorer performing platforms or devices.</p>
+<h2 id='setup-for-advanced-settings'>Setup for Advanced Settings</h2><h3 id='mute-controls'>Mute Controls</h3><pre class="highlight cpp tab-cpp"><code><span class="kt">void</span> <span class="n">setMuteWhenOutsideObject</span><span class="p">(</span><span class="kt">bool</span> <span class="n">muteWhenOutsideObject</span><span class="p">);</span>
+</code></pre>
+<p>Similar to the <code>setUseClosestPointRotationMuteInside</code> these functions give further control over placing a soundfield positionally and determining when it should/shouldn&#39;t output results.</p>
+<pre class="highlight cpp tab-cpp"><code><span class="kt">void</span> <span class="n">setMuteWhenInsideObject</span><span class="p">(</span><span class="kt">bool</span> <span class="n">muteWhenInsideObject</span><span class="p">);</span>
+</code></pre>
+<p>Mute mach1decode object (all coefficifient results becomes 0) when outside the positional reference shape/point</p>
+
+<p>Mute mach1decode object (all coefficifient results becomes 0) when inside the positional reference shape/point</p>
+<h3 id='manipulate-input-angles-for-positional-rotations'>Manipulate input angles for positional rotations</h3><pre class="highlight cpp tab-cpp"><code><span class="kt">void</span> <span class="n">setUseYawForRotation</span><span class="p">(</span><span class="kt">bool</span> <span class="n">useYawForRotation</span><span class="p">);</span>
+</code></pre>
+<p>Ignore Yaw angle rotation results from pivoting positionally</p>
+<pre class="highlight cpp tab-cpp"><code><span class="kt">void</span> <span class="n">setUsePitchForRotation</span><span class="p">(</span><span class="kt">bool</span> <span class="n">usePitchForRotation</span><span class="p">);</span>
+</code></pre>
+<p>Ignore Pitch angle rotation results from pivoting positionally</p>
+<pre class="highlight cpp tab-cpp"><code><span class="kt">void</span> <span class="n">setUseRollForRotation</span><span class="p">(</span><span class="kt">bool</span> <span class="n">useRollForRotation</span><span class="p">);</span>
+</code></pre>
+<p>Ignore Roll angle rotation results from pivoting positionally</p>
+
+<!-- ### Experimental: BlendMode
+This is a feature for combining two mach1decode spatial mixes to become blended for inside reference shape only, attenuation between both decode mixes are relative to each other and based on a center to exterior planes (walls) relationship.
+```cpp
+void setUseBlendMode(bool useBlendMode);
+```
+Enable this experimental mode
+
+```cpp
+void setIgnoreTopBottom(bool ignoreTopBottom);
+```
+Ignore height for blendmode during calculations
+
+```cpp
+void setFalloffCurveBlendMode(float falloffCurveBlendMode);
+```
+Set the custom curve for the relationship between the center to the exterior planes.  -->
+<h2 id='update-per-spatial-soundfield-position'>Update per Spatial Soundfield Position</h2>
+<p>Updatable variables for each mach1decode object. These are also able to be set once if needed.</p>
+<pre class="highlight cpp tab-cpp"><code><span class="kt">void</span> <span class="n">setCameraPosition</span><span class="p">(</span><span class="n">Mach1Point3DCore</span><span class="o">*</span> <span class="n">pos</span><span class="p">);</span>
+</code></pre>
+<p>Updates the device/camera&#39;s position in desired x,y,z space</p>
+<pre class="highlight cpp tab-cpp"><code><span class="kt">void</span> <span class="n">setCameraRotation</span><span class="p">(</span><span class="n">Mach1Point3DCore</span><span class="o">*</span> <span class="n">euler</span><span class="p">);</span>
+</code></pre>
+<p>Updates the device/camera&#39;s orientation with Euler angles (yaw, pitch, roll)</p>
+<pre class="highlight cpp tab-cpp"><code><span class="kt">void</span> <span class="n">setCameraRotationQuat</span><span class="p">(</span><span class="n">Mach1Point4DCore</span><span class="o">*</span> <span class="n">quat</span><span class="p">);</span>
+</code></pre>
+<p>Updates the device/camera&#39;s orientation with Quaternion</p>
+<pre class="highlight cpp tab-cpp"><code><span class="kt">void</span> <span class="n">setDecoderAlgoPosition</span><span class="p">(</span><span class="n">Mach1Point3DCore</span><span class="o">*</span> <span class="n">pos</span><span class="p">);</span>
+</code></pre>
+<p>Updates the decode object&#39;s position in desired x,y,z space</p>
+<pre class="highlight cpp tab-cpp"><code><span class="kt">void</span> <span class="n">setDecoderAlgoRotation</span><span class="p">(</span><span class="n">Mach1Point3DCore</span><span class="o">*</span> <span class="n">euler</span><span class="p">);</span>
+</code></pre>
+<p>Updates the decode object&#39;s orientation with Euler angles (yaw, pitch, roll)</p>
+<pre class="highlight cpp tab-cpp"><code><span class="kt">void</span> <span class="n">setDecoderAlgoRotationQuat</span><span class="p">(</span><span class="n">Mach1Point4DCore</span><span class="o">*</span> <span class="n">quat</span><span class="p">);</span>
+</code></pre>
+<p>Updates the decode object&#39;s orientation with Quaternion</p>
+<pre class="highlight cpp tab-cpp"><code><span class="kt">void</span> <span class="n">setDecoderAlgoScale</span><span class="p">(</span><span class="n">Mach1Point3DCore</span><span class="o">*</span> <span class="n">scale</span><span class="p">);</span>
+</code></pre>
+<p>Updates the decode object&#39;s scale in desired x,y,z space</p>
+<h2 id='applying-resulting-coefficients'>Applying Resulting Coefficients</h2><pre class="highlight cpp tab-cpp"><code><span class="kt">void</span> <span class="n">evaluatePositionResults</span><span class="p">();</span>
+</code></pre>
+<p>Calculate!</p>
+<pre class="highlight cpp tab-cpp"><code><span class="kt">void</span> <span class="n">getVolumesWalls</span><span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="n">result</span><span class="p">);</span>
+</code></pre>
+<p>Get coefficient results for applying to mach1decode object for rotational and positional, replaces the results from: <code>mach1Decode.decode</code></p>
+<h3 id='return-relative-comparisons'>Return Relative Comparisons</h3><pre class="highlight cpp tab-cpp"><code><span class="kt">float</span> <span class="n">getDist</span><span class="p">();</span>
+</code></pre>
+<p>Get normalized distance between mach1decode object and device/camera
+<code>cpp
+Mach1Point3DCore getCurrentAngle();
+</code>
+<code>cpp
+Mach1Point3DCore getVolumeRotation();
+</code></p>
+
+<!-- ### Experimental: BlendMode
+```cpp
+void getVolumesRoom(float *result);
+```
+Get coeff results for the center of "Blend Mode". Very experimental! -->
+<h3 id='update-falloff-attenuation'>Update Falloff/Attenuation</h3><pre class="highlight cpp tab-cpp"><code><span class="kt">void</span> <span class="n">setFalloffCurve</span><span class="p">(</span><span class="kt">float</span> <span class="n">falloffCurve</span><span class="p">);</span>
+</code></pre>
+<p>Set a resulting float of that curve to the current buffer</p>
 <h1 id='mach1transcode-api'>Mach1Transcode API</h1>
 <p>Mach1Transcode includes functions for use cases that utilizing Mach1Spatial&#39;s agnostic abilities and allows 1:1 VBAP style conversions from any surround or spatial audio format and to any other surround or spatial audio format. This is very helpful for apps that have certain input requirements but different output requirements based on whether the app is launched for VR/AR/MR or just mobile use without completely redesigning the application&#39;s structure for audio. This is also a recommended method of carrying one master spatial audio container and at endpoints converting it as needed without adverse signal altering effects seen in other spatial audio formats. </p>
 <h2 id='usage'>Usage</h2>
@@ -750,6 +863,32 @@ install_name_tool -change libMach1DecodeCAPI.dylib @executable_path/../Framework
 <p>Example in command line for converting Mach1Spatial to Mach1HorizonPairs (quad-binaural compliant)</p>
 </blockquote>
 <pre class="highlight plaintext"><code>m1-transcode fmtconv -in-file /path/to/file.wav -in-fmt M1Spatial -out-fmt Mach1HorizonPairs -out-file /path/to/output.wav -out-file-chans 2
+</code></pre><h2 id='suggested-metadata-spec-optional'>Suggested Metadata Spec [optional]</h2>
+<blockquote>
+<p>Mach1 Spatial = <code>mach1spatial-8</code></p>
+
+<p>Mach1 Spatial+ = <code>mach1spatial-12</code></p>
+
+<p>Mach1 Spatial++ = <code>mach1spatial-16</code></p>
+
+<p>Mach1 StSP = <code>mach1stsp-2</code></p>
+
+<p>Mach1 Horizon = <code>mach1horizon-4</code></p>
+
+<p>Mach1 Horizon Pairs = <code>mach1horizon-8</code></p>
+</blockquote>
+
+<p>Metadata is not required for decoding any Mach1 VVBP format, and often it is not recommended to rely on auto-detection methods but instead rely on UI/UX for user input upon uploading a Mach1 multichannel audio file for safest handling. This is due to their being several possible 8 channel formats and unless there are proper methods to filter and detect and handle each one, user input will be a safer option. There are many oppurtunities for transcoding or splitting a multichannel audio file all of which could undo metadata or apply false-positive metadata due to the many audio engines not built to handle multichannel solutions safely. </p>
+
+<p>If autodetection is still required, use the following suggested specifications which will be applied to mixes that run out of M1-Transcoder and soon m1-transcode directly:</p>
+
+<aside class="notice">Implemented via ICMT/comment of common codec tags</aside>
+
+<blockquote>
+<p>Example:</p>
+</blockquote>
+<pre class="highlight plaintext"><code>  Metadata:
+    comment         : mach1spatial-8
 </code></pre><h2 id='formats-supported'>Formats Supported</h2><h3 id='mach1-formats'>Mach1 Formats</h3>
 <ul>
 <li>M1Horizon (Mach1 Horizon / Quad) - L R Ls Rs</li>

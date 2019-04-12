@@ -60,27 +60,54 @@ public class Mach1DecodePositional {
         
     }
     
-    // parameters for algo
     public func setCameraPosition(point: Mach1Point3D) {
         Mach1DecodePositionalCAPI_setCameraPosition(M1obj, point)
+        /// Sets the device/camera's position in desired x,y,z space
+        ///
+        /// - Parameters:
+        ///     - Mach1Point3D Position: x,y,z
     }
     public func setCameraRotation(point: Mach1Point3D) {
         Mach1DecodePositionalCAPI_setCameraRotation(M1obj, point)
+        /// Sets the device/camera's orientation with Euler angles
+        ///
+        /// - Parameters:
+        ///     - Mach1Point3D Rotation: yaw,pitch,roll
     }
     public func setCameraRotationQuat(point: Mach1Point4D) {
         Mach1DecodePositionalCAPI_setCameraRotationQuat(M1obj, point)
+        /// Sets the device/camera's orientation with Quaternion
+        ///
+        /// - Parameters:
+        ///     - Mach1Point4D Rotation: Quaternion
     }
     public func setDecoderAlgoPosition(point: Mach1Point3D) {
         Mach1DecodePositionalCAPI_setDecoderAlgoPosition(M1obj, point)
+        /// Sets the decode object's position in desired x,y,z space
+        ///
+        /// - Parameters:
+        ///     - Mach1Point3D Rotation: x,y,z
     }
     public func setDecoderAlgoRotation(point: Mach1Point3D) {
         Mach1DecodePositionalCAPI_setDecoderAlgoRotation(M1obj, point)
+        /// Sets the decode object's orientation with Euler angles
+        ///
+        /// - Parameters:
+        ///     - Mach1Point3D Rotation: yaw,pitch,roll
     }
     public func setDecoderAlgoRotationQuat(point: Mach1Point4D) {
         Mach1DecodePositionalCAPI_setDecoderAlgoRotationQuat(M1obj, point)
+        /// Sets the decode object's orientation with Quaternion
+        ///
+        /// - Parameters:
+        ///     - Mach1Point4D Rotation: Quaternion
     }
     public func setDecoderAlgoScale(point: Mach1Point3D) {
         Mach1DecodePositionalCAPI_setDecoderAlgoScale(M1obj, point)
+        /// Sets the decode object's scale in desired x,y,z space
+        ///
+        /// - Parameters:
+        ///     - Mach1Point3D Scale: x,y,z multiplier
     }
     
     public func evaluatePositionResults() {
@@ -112,8 +139,3 @@ public class Mach1DecodePositional {
     }
     
 }
-
-
-
-
-

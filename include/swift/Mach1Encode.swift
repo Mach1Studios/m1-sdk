@@ -1,7 +1,8 @@
 import Foundation
 
 public class Mach1Encode {
-    
+    var M1obj : UnsafeMutableRawPointer
+
     public init() {
         M1obj = Mach1EncodeCAPI_create()
     }
@@ -22,8 +23,8 @@ public class Mach1Encode {
         Mach1EncodeCAPI_getPointsNames(M1obj)
     }
 
-    public func getGainsForInputChannelNamed(pointName: Character) {
-        Mach1EncodeCAPI_getGainsForInputChannelNamed(M1obj, pointName)
+    public func getGainsForInputChannelNamed(pointName: String) {
+        Mach1EncodeCAPI_getGainsForInputChannelNamed(M1obj,  UnsafeMutablePointer<Int8>(mutating: (pointName as NSString).utf8String))
     }
 
     public func generatePointResults() {
@@ -32,7 +33,7 @@ public class Mach1Encode {
 
     public func getPointsCount() -> Int {
         let count = Mach1EncodeCAPI_getPointsCount(M1obj)
-        return count
+        return Int(count)
     }
 
     public func setInputMode(inputMode: Mach1EncodeInputModeType) {
@@ -112,3 +113,5 @@ public class Mach1Encode {
         ///
         /// Remark: Default is true
     }
+
+}

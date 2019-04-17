@@ -162,10 +162,10 @@ public class M1Base : MonoBehaviour
 
     void Start()
     {
-        Reload();
+        LoadAudioData();
     }
 
-    public void Reload()
+    public void LoadAudioData()
     {
         // Sounds
         audioSourceMain = new AudioSource[MAX_SOUNDS_PER_CHANNEL * 2];
@@ -191,6 +191,20 @@ public class M1Base : MonoBehaviour
         }
 
         isPlaying = false;
+    }
+
+    public void UnloadAudioData()
+    {
+        for (int i = 0; i < audioClipMain.Length; i++)
+        {
+            audioClipMain[i].UnloadAudioData();
+            loadedCountMain = 0;
+        }
+        for (int i = 0; i < audioClipBlend.Length; i++)
+        {
+            audioClipBlend[i].UnloadAudioData();
+            loadedCountBlend = 0;
+        }
     }
 
     // Helper function to add audio clip to source, and add this to scene

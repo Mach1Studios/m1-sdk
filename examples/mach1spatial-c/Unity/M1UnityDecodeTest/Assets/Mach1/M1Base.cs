@@ -195,8 +195,22 @@ public class M1Base : MonoBehaviour
 
     public void UnloadAudioData()
     {
-        if (!isFromAssets)
+        if (isFromAssets)
         {
+            for (int i = 0; i < audioClipMain.Length; i++)
+            {
+                audioClipMain[i].UnloadAudioData();
+            }
+            loadedCountMain = 0;
+
+            for (int i = 0; i < audioClipBlend.Length; i++)
+            {
+                audioClipBlend[i].UnloadAudioData();
+            }
+            loadedCountBlend = 0;
+        }
+        else
+        { 
             for (int i = 0; i < audioClipMain.Length; i++)
             {
                 AudioClip.Destroy(audioClipMain[i]);
@@ -308,6 +322,8 @@ public class M1Base : MonoBehaviour
             {
                 clip = audioClipBlend[n];
             }
+
+            clip.LoadAudioData();
         }
         else
         {

@@ -24,9 +24,10 @@ public class M1Base : MonoBehaviour
     public string[] externalAudioFilenameBlend;
 
     [Space(10)]
-    public bool autoPlay;
-    public bool isLoop;
-    private bool isPlaying;
+    public bool autoPlay = false;
+    public bool isLoop = false;
+    private bool isPlaying = false;
+    public bool loadAudioOnStart = true;
 
     [Space(10)]
     public bool useFalloff = false;
@@ -71,7 +72,7 @@ public class M1Base : MonoBehaviour
 #endif
 
     private Camera camera;
-
+    private bool needToPlay;
 
     static Mach1.Mach1Point3D ConvertToMach1Point3D(Vector3 vec)
     {
@@ -162,7 +163,10 @@ public class M1Base : MonoBehaviour
 
     void Start()
     {
-        LoadAudioData();
+        if (loadAudioOnStart)
+        {
+            LoadAudioData();
+        }
     }
 
     public void LoadAudioData()
@@ -210,7 +214,7 @@ public class M1Base : MonoBehaviour
             loadedCountBlend = 0;
         }
         else
-        { 
+        {
             for (int i = 0; i < audioClipMain.Length; i++)
             {
                 AudioClip.Destroy(audioClipMain[i]);
@@ -223,6 +227,8 @@ public class M1Base : MonoBehaviour
             }
             loadedCountBlend = 0;
         }
+
+        isPlaying = false;
     }
 
     // Helper function to add audio clip to source, and add this to scene
@@ -271,14 +277,14 @@ public class M1Base : MonoBehaviour
                 new Vector3(0.5f, 0.5f, -0.5f),
                 new Vector3(-0.5f, -0.5f, 0.5f),
                 new Vector3(0.5f, -0.5f, 0.5f),
-                new Vector3(-0.5f, -0.5f, -0.5f), 
-                new Vector3(0.5f, -0.5f, -0.5f),  
+                new Vector3(-0.5f, -0.5f, -0.5f),
+                new Vector3(0.5f, -0.5f, -0.5f),
             };
 
-            for (int i = 0; i < 8; i++) 
+            for (int i = 0; i < 8; i++)
             {
                 Gizmos.color = Color.red;
-                Gizmos.matrix = gameObject.transform.localToWorldMatrix * (Matrix4x4.Translate(new Vector3(-radius, 0,0)) * Matrix4x4.Translate(edges[i]));
+                Gizmos.matrix = gameObject.transform.localToWorldMatrix * (Matrix4x4.Translate(new Vector3(-radius, 0, 0)) * Matrix4x4.Translate(edges[i]));
                 Gizmos.DrawSphere(new Vector3(0, 0, 0), radius * volumesWalls[2 * i]);
 
                 Gizmos.color = Color.blue;
@@ -377,28 +383,7 @@ public class M1Base : MonoBehaviour
 
     public void PlayAudio()
     {
-        if (IsReady())
-        {
-            //audioSourceWalls[0].Play();
-            //audioSourceWalls[1].Play();
-
-            for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
-            {
-                audioSourceMain[i].Play();
-            }
-
-            if (useBlendMode)
-            {
-                for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
-                {
-                    audioSourceBlend[i].Play();
-                }
-            }
-        }
-        else
-        {
-            Debug.LogError("Audio was not loaded");
-        }
+        needToPlay = true;
     }
 
     public void StopAudio()
@@ -606,10 +591,23 @@ public class M1Base : MonoBehaviour
     {
         if (IsReady())
         {
-            if (autoPlay && !isPlaying)
+            if ((autoPlay || needToPlay) && !isPlaying)
             {
+                for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
+                {
+                    audioSourceMain[i].Play();
+                }
+
+                if (useBlendMode)
+                {
+                    for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
+                    {
+                        audioSourceBlend[i].Play();
+                    }
+                }
+
+                needToPlay = false;
                 isPlaying = true;
-                PlayAudio();
             }
 
             // Find closest point

@@ -34,10 +34,7 @@ public class M1Base : MonoBehaviour
     public AnimationCurve falloffCurve;
     public AnimationCurve blendModeFalloffCurve;
 
-    private int loadedCountMain;
     private AudioSource[] audioSourceMain;
-
-    private int loadedCountBlend;
     private AudioSource[] audioSourceBlend;
 
     private int MAX_SOUNDS_PER_CHANNEL;
@@ -174,8 +171,6 @@ public class M1Base : MonoBehaviour
         // Sounds
         audioSourceMain = new AudioSource[MAX_SOUNDS_PER_CHANNEL * 2];
 
-        loadedCountMain = 0;
-
         for (int i = 0; i < Mathf.Max(externalAudioFilenameMain.Length, audioClipMain.Length); i++)
         {
             StartCoroutine(LoadAudio(Path.Combine(externalAudioPath, i < externalAudioFilenameMain.Length ? externalAudioFilenameMain[i] : ""), false, i, isFromAssets));
@@ -185,8 +180,6 @@ public class M1Base : MonoBehaviour
         {
             // Sounds
             audioSourceBlend = new AudioSource[MAX_SOUNDS_PER_CHANNEL * 2];
-
-            loadedCountBlend = 0;
 
             for (int i = 0; i < Mathf.Max(externalAudioFilenameBlend.Length, audioClipBlend.Length); i++)
             {
@@ -205,13 +198,11 @@ public class M1Base : MonoBehaviour
             {
                 audioClipMain[i].UnloadAudioData();
             }
-            loadedCountMain = 0;
 
             for (int i = 0; i < audioClipBlend.Length; i++)
             {
                 audioClipBlend[i].UnloadAudioData();
             }
-            loadedCountBlend = 0;
         }
         else
         {
@@ -219,13 +210,10 @@ public class M1Base : MonoBehaviour
             {
                 AudioClip.Destroy(audioClipMain[i]);
             }
-            loadedCountMain = 0;
-
             for (int i = 0; i < audioClipBlend.Length; i++)
             {
                 AudioClip.Destroy(audioClipBlend[i]);
             }
-            loadedCountBlend = 0;
         }
 
         isPlaying = false;
@@ -317,6 +305,7 @@ public class M1Base : MonoBehaviour
     IEnumerator LoadAudio(string url, bool room, int n, bool isFromAssets)
     {
         AudioClip clip = null;
+        
 
         if (isFromAssets)
         {
@@ -362,7 +351,6 @@ public class M1Base : MonoBehaviour
 
                 audioSourceMain[n * 2 + 1] = AddAudio(clip, isLoop, true, 1.0f);
                 audioSourceMain[n * 2 + 1].panStereo = 1;
-                loadedCountMain++;
             }
             else if (audioSourceBlend != null && audioSourceBlend.Length > n * 2 + 1)
             {
@@ -371,8 +359,6 @@ public class M1Base : MonoBehaviour
 
                 audioSourceBlend[n * 2 + 1] = AddAudio(clip, isLoop, true, 1.0f);
                 audioSourceBlend[n * 2 + 1].panStereo = 1;
-                loadedCountBlend++;
-
             }
         }
 
@@ -381,7 +367,30 @@ public class M1Base : MonoBehaviour
 
     public bool IsReady()
     {
-        return loadedCountMain == MAX_SOUNDS_PER_CHANNEL && (useBlendMode ? loadedCountBlend == MAX_SOUNDS_PER_CHANNEL : true);
+        bool isLoadedMain = true;
+        for (int i = 0; i < audioSourceMain.Length; i++)
+        {
+            if (!audioSourceMain[i] || !audioSourceMain[i].clip || audioSourceMain[i].clip.loadState != AudioDataLoadState.Loaded)
+            {
+                isLoadedMain = false;
+                break;
+            }
+        }
+
+        bool isLoadedBlend = true;
+        if (useBlendMode)
+        {
+            for (int i = 0; i < audioSourceBlend.Length; i++)
+            {
+                if (!audioSourceBlend[i] || !audioSourceBlend[i].clip || audioSourceBlend[i].clip.loadState != AudioDataLoadState.Loaded)
+                {
+                    isLoadedBlend = false;
+                    break;
+                }
+            }
+        }
+
+        return isLoadedMain && (useBlendMode ? isLoadedBlend : true);
     }
 
     public void PlayAudio()

@@ -368,26 +368,35 @@ public class M1Base : MonoBehaviour
     public bool IsReady()
     {
         bool isLoadedMain = true;
-        for (int i = 0; i < audioSourceMain.Length; i++)
+        if(audioSourceMain != null)
         {
-            if (!audioSourceMain[i] || !audioSourceMain[i].clip || audioSourceMain[i].clip.loadState != AudioDataLoadState.Loaded)
+            for (int i = 0; i < audioSourceMain.Length; i++)
             {
-                isLoadedMain = false;
-                break;
+                if (!audioSourceMain[i] || !audioSourceMain[i].clip || audioSourceMain[i].clip.loadState != AudioDataLoadState.Loaded)
+                {
+                    isLoadedMain = false;
+                    break;
+                }
             }
         }
+        else isLoadedMain = false;
+
 
         bool isLoadedBlend = true;
         if (useBlendMode)
         {
-            for (int i = 0; i < audioSourceBlend.Length; i++)
+            if (audioSourceBlend != null)
             {
-                if (!audioSourceBlend[i] || !audioSourceBlend[i].clip || audioSourceBlend[i].clip.loadState != AudioDataLoadState.Loaded)
+                for (int i = 0; i < audioSourceBlend.Length; i++)
                 {
-                    isLoadedBlend = false;
-                    break;
+                    if (!audioSourceBlend[i] || !audioSourceBlend[i].clip || audioSourceBlend[i].clip.loadState != AudioDataLoadState.Loaded)
+                    {
+                        isLoadedBlend = false;
+                        break;
+                    }
                 }
             }
+            else isLoadedBlend = false;
         }
 
         return isLoadedMain && (useBlendMode ? isLoadedBlend : true);

@@ -91,13 +91,19 @@ public class M1DecodeTrigger : MonoBehaviour
         int timeSamples = m1objs[0].GetAudioSourceMain()[0].timeSamples;
         foreach (var m1obj in m1objs)
         {
-            foreach (var audioSource in m1obj.GetAudioSourceMain())
+            if(m1obj.GetAudioSourceMain() != null)
             {
-                audioSource.timeSamples = timeSamples;
+                foreach (var audioSource in m1obj.GetAudioSourceMain())
+                {
+                    audioSource.timeSamples = timeSamples;
+                }
             }
-            foreach (var audioSource in m1obj.GetAudioSourceBlend())
+            if (m1obj.GetAudioSourceBlend() != null)
             {
-                audioSource.timeSamples = timeSamples;
+                foreach (var audioSource in m1obj.GetAudioSourceBlend())
+                {
+                    audioSource.timeSamples = timeSamples;
+                }
             }
         }
     }

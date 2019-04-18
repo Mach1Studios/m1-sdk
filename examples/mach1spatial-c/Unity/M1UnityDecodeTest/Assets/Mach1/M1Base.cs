@@ -329,7 +329,10 @@ public class M1Base : MonoBehaviour
                 clip = audioClipBlend[n];
             }
 
-            clip.LoadAudioData();
+            if(clip != null)
+            { 
+                clip.LoadAudioData();
+            }
         }
         else
         {

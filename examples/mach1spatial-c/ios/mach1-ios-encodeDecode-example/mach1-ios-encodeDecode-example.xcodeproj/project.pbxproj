@@ -17,7 +17,6 @@
 		1567AC192269336B004A1765 /* libMach1DecodeCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1567AC162269336B004A1765 /* libMach1DecodeCAPI.a */; };
 		1567AC1A2269336B004A1765 /* libMach1EncodeCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1567AC172269336B004A1765 /* libMach1EncodeCAPI.a */; };
 		1567AC1B2269336B004A1765 /* libMach1DecodePositionalCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1567AC182269336B004A1765 /* libMach1DecodePositionalCAPI.a */; };
-		CE71A07122675FCF0089B454 /* EncoderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE71A07022675FCF0089B454 /* EncoderView.swift */; };
 		CE71A073226762E10089B454 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = CE71A072226762E10089B454 /* background.png */; };
 		CE9C34CD22690AD400F470D7 /* Nature_Mono11.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34B422690AD300F470D7 /* Nature_Mono11.wav */; };
 		CE9C34CE22690AD400F470D7 /* Nature_Mono12.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34B522690AD300F470D7 /* Nature_Mono12.wav */; };
@@ -43,6 +42,7 @@
 		CE9C34E222690AD400F470D7 /* SciFi_Stereo4.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34CA22690AD400F470D7 /* SciFi_Stereo4.wav */; };
 		CE9C34E322690AD400F470D7 /* SciFi_Stereo5.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34CB22690AD400F470D7 /* SciFi_Stereo5.wav */; };
 		CE9C34E422690AD400F470D7 /* SciFi_Stereo8.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34CC22690AD400F470D7 /* SciFi_Stereo8.wav */; };
+		CE9C34E6226944B300F470D7 /* Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9C34E5226944B300F470D7 /* Encoder.swift */; };
 		CEB4AE2A2266469B00D014AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB4AE292266469B00D014AF /* AppDelegate.swift */; };
 		CEB4AE2C2266469B00D014AF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB4AE2B2266469B00D014AF /* ViewController.swift */; };
 		CEB4AE2F2266469B00D014AF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEB4AE2D2266469B00D014AF /* Main.storyboard */; };
@@ -69,7 +69,6 @@
 		1567AC162269336B004A1765 /* libMach1DecodeCAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMach1DecodeCAPI.a; path = ../../../../../binaries/ios/lib/libMach1DecodeCAPI.a; sourceTree = "<group>"; };
 		1567AC172269336B004A1765 /* libMach1EncodeCAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMach1EncodeCAPI.a; path = ../../../../../binaries/ios/lib/libMach1EncodeCAPI.a; sourceTree = "<group>"; };
 		1567AC182269336B004A1765 /* libMach1DecodePositionalCAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMach1DecodePositionalCAPI.a; path = ../../../../../binaries/ios/lib/libMach1DecodePositionalCAPI.a; sourceTree = "<group>"; };
-		CE71A07022675FCF0089B454 /* EncoderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncoderView.swift; sourceTree = "<group>"; };
 		CE71A072226762E10089B454 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		CE9C34B422690AD300F470D7 /* Nature_Mono11.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Mono11.wav; sourceTree = "<group>"; };
 		CE9C34B522690AD300F470D7 /* Nature_Mono12.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Mono12.wav; sourceTree = "<group>"; };
@@ -95,6 +94,7 @@
 		CE9C34CA22690AD400F470D7 /* SciFi_Stereo4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Stereo4.wav; sourceTree = "<group>"; };
 		CE9C34CB22690AD400F470D7 /* SciFi_Stereo5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Stereo5.wav; sourceTree = "<group>"; };
 		CE9C34CC22690AD400F470D7 /* SciFi_Stereo8.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Stereo8.wav; sourceTree = "<group>"; };
+		CE9C34E5226944B300F470D7 /* Encoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Encoder.swift; sourceTree = "<group>"; };
 		CEB4AE262266469B00D014AF /* mach1-ios-encodeDecode-example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mach1-ios-encodeDecode-example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEB4AE292266469B00D014AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CEB4AE2B2266469B00D014AF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -200,7 +200,8 @@
 				1567AC0022692181004A1765 /* Mach1Point4D.h */,
 				CEB4AE292266469B00D014AF /* AppDelegate.swift */,
 				CEB4AE2B2266469B00D014AF /* ViewController.swift */,
-				CE71A07022675FCF0089B454 /* EncoderView.swift */,
+				CE9C34E5226944B300F470D7 /* Encoder.swift */,
+				CEB4AE3B226647FB00D014AF /* SoundMapView.swift */,
 				CEB4AE2D2266469B00D014AF /* Main.storyboard */,
 				1567AC09226921FE004A1765 /* SCNQuaternionExtension.swift */,
 				1567AC08226921FE004A1765 /* SCNVector3Extensions.swift */,
@@ -209,7 +210,6 @@
 				CEB4AE302266469B00D014AF /* Assets.xcassets */,
 				CEB4AE322266469B00D014AF /* LaunchScreen.storyboard */,
 				CEB4AE352266469B00D014AF /* Info.plist */,
-				CEB4AE3B226647FB00D014AF /* SoundMapView.swift */,
 				CE71A072226762E10089B454 /* background.png */,
 			);
 			path = "mach1-ios-encodeDecode-example";
@@ -327,11 +327,11 @@
 				1567AC0522692181004A1765 /* Mach1Encode.swift in Sources */,
 				1567AC0A226921FE004A1765 /* SCNVector3Extensions.swift in Sources */,
 				CEB4AE2C2266469B00D014AF /* ViewController.swift in Sources */,
-				CE71A07122675FCF0089B454 /* EncoderView.swift in Sources */,
 				CEB4AE2A2266469B00D014AF /* AppDelegate.swift in Sources */,
 				1567AC0722692181004A1765 /* Mach1Decode.swift in Sources */,
 				1567AC0D22692206004A1765 /* GLKQuaternionExtension.swift in Sources */,
 				CEB4AE3C226647FB00D014AF /* SoundMapView.swift in Sources */,
+				CE9C34E6226944B300F470D7 /* Encoder.swift in Sources */,
 				1567AC0B226921FE004A1765 /* SCNQuaternionExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

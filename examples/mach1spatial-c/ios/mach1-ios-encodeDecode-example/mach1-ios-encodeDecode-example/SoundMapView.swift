@@ -11,15 +11,16 @@ import UIKit
 
 class SoundMapView: UIView {
     
-    var degrees : Double =  0.0
+    var rotationAngle : Float =  0.0
     
     var viewCameraCone : UIView = UIView()
     var imageView = UIImageView()
     var layerCameraCone = CAShapeLayer()
-    var viewsEncoders: [EncoderView] = [EncoderView]()
+    var viewsEncoders: [Encoder] = [Encoder]()
     var viewCircle : UIView = UIView()
-
+    
     var selectedEncoder : Int = -1
+    var closureSelectEncoder: ((Encoder) -> ()?)? = nil
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
@@ -65,12 +66,10 @@ class SoundMapView: UIView {
         imageView.removeFromSuperview()
         viewCameraCone.removeFromSuperview()
         viewCircle.removeFromSuperview()
-
+        
         imageView = UIImageView()
         viewCameraCone = UIView()
         viewCircle = UIView()
-
-        
         
         // test border color
         self.layer.masksToBounds = true
@@ -145,11 +144,11 @@ class SoundMapView: UIView {
                 if(viewsEncoders[i].frame.contains(touchPoint) && selectedEncoder == -1) {
                     selectedEncoder = i
                     viewsEncoders[selectedEncoder].selected = true
-                    viewsEncoders[selectedEncoder].setNeedsDisplay()
+                    
+                    closureSelectEncoder!(viewsEncoders[selectedEncoder])
                 }
                 else {
                     viewsEncoders[i].selected = false
-                    viewsEncoders[i].setNeedsDisplay()
                 }
             }
         }
@@ -175,7 +174,6 @@ class SoundMapView: UIView {
         if(viewsEncoders.count>0) {
             for i in 0...viewsEncoders.count-1 {
                 viewsEncoders[i].selected = false
-                viewsEncoders[i].setNeedsDisplay()
             }
         }
         
@@ -184,7 +182,7 @@ class SoundMapView: UIView {
             
         }
         else  if(sender.numberOfTapsRequired == 2) {
-            let encoderView : EncoderView = EncoderView()
+            let encoderView : Encoder = Encoder()
             encoderView.frame.size.width = 50
             encoderView.frame.size.height = 50
             encoderView.center = CGPoint(x: touchPoint.x, y: touchPoint.y)
@@ -192,6 +190,8 @@ class SoundMapView: UIView {
             self.addSubview(encoderView)
             
             viewsEncoders.append(encoderView)
+            
+            closureSelectEncoder!(encoderView)
         }
         
         touchPoint.x /= self.frame.size.width
@@ -228,24 +228,16 @@ class SoundMapView: UIView {
         }
     }
     
-    
     override func draw(_ rect: CGRect) {
-        degrees = -deviceYaw * .pi/180
-        //degrees -= 13.0 * .pi/180
+        rotationAngle = -deviceYaw * Float.pi/180
         
-        viewCameraCone.layer.sublayerTransform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.rotated(by: CGFloat(degrees)))
+        viewCameraCone.layer.sublayerTransform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.rotated(by: CGFloat(rotationAngle)))
         
-        //viewsEncoders[selectedEncoder].volume = 1
-        //viewsEncoders[selectedEncoder].setNeedsDisplay()
-        
+        if(viewsEncoders.count>0) {
+            for i in 0...viewsEncoders.count-1 {
+                viewsEncoders[i].setNeedsDisplay()
+            }
+        }
     }
     
 }
-
-
-
-
-
-
-
-

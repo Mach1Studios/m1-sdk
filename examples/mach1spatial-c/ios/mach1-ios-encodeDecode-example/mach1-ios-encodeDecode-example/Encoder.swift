@@ -10,23 +10,62 @@ import Foundation
 import UIKit
 import AVFoundation
 
-class EncoderView: UIView {
+class Encoder: UIView {
     
-    var volume : Double = 0.0
-    var pitch : Double = 0.0
+    var volume : Float = 0.0
+    var pitch : Float = 0.0
+    var soundIndex : Int = 0
     var selected : Bool = false
-
-    //var players: [AVAudioPlayer] = []
+    
+    var players: [AVAudioPlayer] = []
+    var m1Encode : Mach1Encode?
 
     let circleInternalLayer = CAShapeLayer()
     let circleExternalLayer = CAShapeLayer()
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
+        
+        setupPlayers()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        setupPlayers()
+    }
+    
+    func setupPlayers() {
+        if(players.count != 0) {
+            players[0].stop()
+            players[1].stop()
+
+        }
+
+        players = [AVAudioPlayer(), AVAudioPlayer()]
+        try! players[0] = AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: soundFiles[soundIndex][0], ofType: "wav")!))
+        try! players[1] = AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: soundFiles[soundIndex][1], ofType: "wav")!))
+    
+        players[0].pan = -1.0
+        players[1].pan = 1.0
+        
+        players[0].prepareToPlay()
+        players[1].prepareToPlay()
+        
+        players[0].numberOfLoops = -1
+        players[1].numberOfLoops = -1
+        
+        players[0].play()
+        players[1].play()
+        
+        updateVolumes()
+    }
+
+    func updateVolumes() {
+        players[0].volume = 1.0
+        players[1].volume = 1.0
+        
+        // m1Encode set position
     }
     
     override func layoutSubviews() {
@@ -61,14 +100,14 @@ class EncoderView: UIView {
         let viewCircleExternal : UIView = UIView()
         viewCircleExternal.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
         viewCircleExternal.layer.addSublayer(circleExternalLayer)
-   
  
         self.addSubview(viewCircleInternal)
         self.addSubview(viewCircleExternal)
     }
     
     override func draw(_ rect: CGRect) {
-        let scale : CGFloat = CGFloat(2 + 1 * volume)
+        let amp = 1.0
+        let scale : CGFloat = CGFloat(2 + 1 * amp)
         
         let color : CGColor = selected ? UIColor(red: 1, green: 0.8, blue: 0.4, alpha: 1).cgColor : UIColor(red: 0.4, green: 0.39, blue: 0.39, alpha: 1).cgColor;
         
@@ -76,7 +115,6 @@ class EncoderView: UIView {
         circleExternalLayer.strokeColor = color
         circleExternalLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.scaledBy(x: scale, y: scale))
     }
-    
 }
 
 

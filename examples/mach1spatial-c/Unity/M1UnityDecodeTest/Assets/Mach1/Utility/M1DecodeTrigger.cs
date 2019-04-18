@@ -11,10 +11,12 @@ public class M1DecodeTrigger : MonoBehaviour
     bool bLoadComplete;
     bool bNeedToPlay;
     bool bAudioPlayed;
+    bool bNeedSync;
+
 
     void Start()
     {
-       // OnTrigger += NeedToPlay;
+        // OnTrigger += NeedToPlay;
         bAudioPlayed = false;
 
         /*
@@ -61,7 +63,42 @@ public class M1DecodeTrigger : MonoBehaviour
             //gameObject.SetActive(false);
             bNeedToPlay = false;
             bAudioPlayed = true;
+            bNeedSync = true;
             Debug.Log("play " + gameObject.name);
+        }
+        else if (bNeedSync)
+        {
+            bool isPlaying = true;
+            for (int i = 0; i < m1objs.Length; i++)
+            {
+                if (!m1objs[i].IsPlaying())
+                {
+                    isPlaying = false;
+                    break;
+                }
+            }
+            if (isPlaying)
+            {
+                MakeSync();
+                Debug.Log("sync");
+                bNeedSync = false;
+            }
+        }
+    }
+
+    void MakeSync()
+    {
+        int timeSamples = m1objs[0].GetAudioSourceMain()[0].timeSamples;
+        foreach (var m1obj in m1objs)
+        {
+            foreach (var audioSource in m1obj.GetAudioSourceMain())
+            {
+                audioSource.timeSamples = timeSamples;
+            }
+            foreach (var audioSource in m1obj.GetAudioSourceBlend())
+            {
+                audioSource.timeSamples = timeSamples;
+            }
         }
     }
 
@@ -91,7 +128,7 @@ public class M1DecodeTrigger : MonoBehaviour
     {
         if (bAudioPlayed)
         {
-            for (int i =0; i < m1objs.Length; i++)
+            for (int i = 0; i < m1objs.Length; i++)
             {
                 m1objs[i].StopAudio();
             }

@@ -433,6 +433,16 @@ public class M1Base : MonoBehaviour
                     source.time = timeInSeconds;
     }
 
+    public AudioSource[] GetAudioSourceMain()
+    {
+        return audioSourceMain;
+    }
+
+    public AudioSource[] GetAudioSourceBlend()
+    {
+        return audioSourceBlend;
+    }
+
     public float GetPosition()
     {
         if (audioSourceBlend != null && audioSourceBlend.Length > 0) return audioSourceBlend[0].time;
@@ -597,6 +607,7 @@ public class M1Base : MonoBehaviour
             Mathf.Sin(2.0f * test)
         ) * Mathf.Rad2Deg;
     }
+
 
     // Update is called once per frame
     void Update()

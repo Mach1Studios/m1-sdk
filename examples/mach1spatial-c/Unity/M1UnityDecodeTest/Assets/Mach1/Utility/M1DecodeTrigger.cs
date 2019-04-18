@@ -10,10 +10,12 @@ public class M1DecodeTrigger : MonoBehaviour
     public static Action OnTrigger;
     bool bLoadComplete;
     bool bNeedToPlay;
+    bool bAudioPlayed;
 
     void Start()
     {
-        OnTrigger += NeedToPlay;
+       // OnTrigger += NeedToPlay;
+        bAudioPlayed = false;
 
         /*
         // Try to find all Mach1Spatial objects");
@@ -38,7 +40,7 @@ public class M1DecodeTrigger : MonoBehaviour
         }
     }
 
-    void NeedToPlay()
+    public void NeedToPlay()
     {
         bNeedToPlay = true;
     }
@@ -58,6 +60,45 @@ public class M1DecodeTrigger : MonoBehaviour
 
             //gameObject.SetActive(false);
             bNeedToPlay = false;
+            bAudioPlayed = true;
+            Debug.Log("play " + gameObject.name);
+        }
+    }
+
+    public void loadAll()
+    {
+        if (!bAudioPlayed)
+        {
+            for (int i = 0; i < m1objs.Length; i++)
+            {
+                m1objs[i].LoadAudioData();
+            }
+
+            Debug.Log("load " + gameObject.name);
+        }
+    }
+
+    public void unloadAll()
+    {
+        Debug.Log("Unload " + gameObject.name);
+        for (int i = 0; i < m1objs.Length; i++)
+        {
+            m1objs[i].UnloadAudioData();
+        }
+    }
+
+    public void StopAll()
+    {
+        if (bAudioPlayed)
+        {
+            for (int i =0; i < m1objs.Length; i++)
+            {
+                m1objs[i].StopAudio();
+            }
+        }
+        else if (!bAudioPlayed)
+        {
+            Debug.LogWarning("Audio Not Played Yet");
         }
     }
 
@@ -79,6 +120,7 @@ public class M1DecodeTrigger : MonoBehaviour
                 OnLoadComplete();
             }
             bLoadComplete = true;
+            Debug.Log("Loaded " + gameObject.name);
         }
     }
 }

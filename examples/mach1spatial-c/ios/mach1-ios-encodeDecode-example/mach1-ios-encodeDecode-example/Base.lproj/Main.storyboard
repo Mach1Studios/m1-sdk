@@ -21,25 +21,25 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Encode/Decode demo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aNt-pK-u2r">
-                                <rect key="frame" x="63" y="30" width="249.5" height="29"/>
+                                <rect key="frame" x="-3" y="30" width="249.5" height="29"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                 <color key="textColor" red="0.20000000000000001" green="0.22352941176470587" blue="0.29803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HRE-KA-rjC">
-                                <rect key="frame" x="0.0" y="69" width="375" height="43"/>
+                                <rect key="frame" x="0.0" y="69" width="243" height="43"/>
                                 <string key="text">Double tap to add point
 Drag to change position</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <color key="textColor" red="0.59215686274509804" green="0.59215686274509804" blue="0.59215686274509804" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gwy-b5-JIW" customClass="SoundMapView" customModule="mach1_ios_encodeDecode_example" customModuleProvider="target">
-                                <rect key="frame" x="37" y="122" width="300" height="300"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gwy-b5-JIW" customClass="SoundMap" customModule="mach1_ios_encodeDecode_example" customModuleProvider="target">
+                                <rect key="frame" x="37" y="122" width="169" height="194.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ZBA-3Q-b3P">
-                                <rect key="frame" x="37" y="427" width="300" height="29"/>
+                                <rect key="frame" x="37" y="326.5" width="169" height="29"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <segments>
                                     <segment>
@@ -55,36 +55,51 @@ Drag to change position</string>
                                     <segment title="👅"/>
                                 </segments>
                                 <color key="tintColor" red="1" green="0.80000000000000004" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="SegmentedControlValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="ZlK-rd-xjz"/>
+                                </connections>
                             </segmentedControl>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Volume" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kTF-Ic-7oC">
-                                <rect key="frame" x="37" y="465" width="61" height="22"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <color key="textColor" red="0.396078431372549" green="0.39215686274509803" blue="0.39215686274509803" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="R75-PC-MUV">
-                                <rect key="frame" x="35.5" y="497" width="304" height="31"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="40e-gs-K1L">
+                                <rect key="frame" x="37" y="364.5" width="60.5" height="21.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Volume" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kTF-Ic-7oC">
+                                        <rect key="frame" x="0.0" y="0.0" width="60.5" height="21.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="textColor" red="0.396078431372549" green="0.39215686274509803" blue="0.39215686274509803" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="R75-PC-MUV">
+                                <rect key="frame" x="35" y="396" width="173" height="31"/>
                                 <color key="tintColor" red="1" green="0.80000000000000004" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="VolumeSliderChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="E0m-EK-rLQ"/>
+                                </connections>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pitch" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eL1-Y4-EaL">
-                                <rect key="frame" x="37" y="537" width="41" height="22"/>
+                                <rect key="frame" x="37" y="436" width="41" height="21.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <color key="textColor" red="0.39607843139999999" green="0.3921568627" blue="0.3921568627" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Msw-49-UN8">
-                                <rect key="frame" x="36" y="569" width="304" height="31"/>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Msw-49-UN8">
+                                <rect key="frame" x="35" y="467.5" width="173" height="31"/>
                                 <color key="tintColor" red="1" green="0.80000000000000004" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="PitchSliderChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="dK6-HV-mEI"/>
+                                </connections>
                             </slider>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="aNt-pK-u2r" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="0YO-9q-1Kk"/>
                             <constraint firstItem="aNt-pK-u2r" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="143-W9-n8g"/>
+                            <constraint firstItem="R75-PC-MUV" firstAttribute="top" secondItem="40e-gs-K1L" secondAttribute="bottom" constant="10" id="2HX-2H-IaK"/>
                             <constraint firstItem="Gwy-b5-JIW" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="2So-Dr-5aL"/>
                             <constraint firstItem="Gwy-b5-JIW" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="37" id="FNs-GA-yPw"/>
                             <constraint firstItem="Msw-49-UN8" firstAttribute="top" secondItem="eL1-Y4-EaL" secondAttribute="bottom" constant="10" id="G2r-cU-uam"/>
-                            <constraint firstItem="ZBA-3Q-b3P" firstAttribute="top" secondItem="Gwy-b5-JIW" secondAttribute="bottom" constant="5" id="K1i-xk-XHg"/>
+                            <constraint firstItem="ZBA-3Q-b3P" firstAttribute="top" secondItem="Gwy-b5-JIW" secondAttribute="bottom" constant="10" id="K1i-xk-XHg"/>
                             <constraint firstItem="HRE-KA-rjC" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="Lfm-u1-Lyk"/>
                             <constraint firstItem="ZBA-3Q-b3P" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="NWk-vo-Zgz"/>
                             <constraint firstItem="HRE-KA-rjC" firstAttribute="top" secondItem="aNt-pK-u2r" secondAttribute="bottom" constant="10" id="ObB-Wd-FcI"/>
@@ -92,21 +107,23 @@ Drag to change position</string>
                             <constraint firstItem="Gwy-b5-JIW" firstAttribute="top" secondItem="HRE-KA-rjC" secondAttribute="bottom" constant="10" id="TMD-0i-3QD"/>
                             <constraint firstItem="HRE-KA-rjC" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Tci-pd-kTu"/>
                             <constraint firstItem="R75-PC-MUV" firstAttribute="width" secondItem="Gwy-b5-JIW" secondAttribute="width" id="Ubc-uY-jBg"/>
-                            <constraint firstItem="R75-PC-MUV" firstAttribute="top" secondItem="kTF-Ic-7oC" secondAttribute="bottom" constant="10" id="W9h-dI-DH8"/>
                             <constraint firstItem="eL1-Y4-EaL" firstAttribute="leading" secondItem="Gwy-b5-JIW" secondAttribute="leading" id="Zsk-4b-bvj"/>
                             <constraint firstItem="R75-PC-MUV" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="bZU-bv-iw1"/>
-                            <constraint firstItem="kTF-Ic-7oC" firstAttribute="leading" secondItem="Gwy-b5-JIW" secondAttribute="leading" id="cX5-CK-SvA"/>
                             <constraint firstItem="Gwy-b5-JIW" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.8" id="igE-8t-T5m"/>
+                            <constraint firstItem="40e-gs-K1L" firstAttribute="top" secondItem="ZBA-3Q-b3P" secondAttribute="bottom" constant="10" id="kLS-AU-xX4"/>
                             <constraint firstItem="Gwy-b5-JIW" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.8" id="kg3-uT-pch"/>
+                            <constraint firstItem="40e-gs-K1L" firstAttribute="leading" secondItem="ZBA-3Q-b3P" secondAttribute="leading" id="t4w-eG-Mhp"/>
                             <constraint firstItem="Msw-49-UN8" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="uK0-3J-tu8"/>
                             <constraint firstItem="eL1-Y4-EaL" firstAttribute="top" secondItem="R75-PC-MUV" secondAttribute="bottom" constant="10" id="wxB-MV-cj2"/>
-                            <constraint firstItem="kTF-Ic-7oC" firstAttribute="top" secondItem="ZBA-3Q-b3P" secondAttribute="bottom" constant="10" id="xzP-LP-fdh"/>
                             <constraint firstItem="Msw-49-UN8" firstAttribute="width" secondItem="Gwy-b5-JIW" secondAttribute="width" id="zWg-mY-EXc"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="soundTypeSegmentedControl" destination="ZBA-3Q-b3P" id="kVa-7S-8Ao"/>
+                        <outlet property="pitchSliderControl" destination="Msw-49-UN8" id="Tfl-Xa-9eX"/>
+                        <outlet property="soundMap" destination="Gwy-b5-JIW" id="KfH-Qj-Fj4"/>
+                        <outlet property="soundTypeSegmentedControl" destination="ZBA-3Q-b3P" id="2rE-Pe-cA5"/>
+                        <outlet property="volumeSliderControl" destination="R75-PC-MUV" id="KWM-Bx-paG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

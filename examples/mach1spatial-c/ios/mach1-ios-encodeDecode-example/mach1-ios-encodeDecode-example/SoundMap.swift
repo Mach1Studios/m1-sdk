@@ -20,7 +20,7 @@ class SoundMap: UIView {
     var viewCircle : UIView = UIView()
     
     var selectedEncoder : Int = -1
-    var closureSelectEncoder: ((Encoder?) -> ()?)? = nil
+    var closureSelectEncoder: ((Encoder?) -> ())? = nil
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!

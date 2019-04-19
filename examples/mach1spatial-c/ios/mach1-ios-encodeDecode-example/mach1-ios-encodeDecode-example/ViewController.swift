@@ -70,9 +70,10 @@ class ViewController: UIViewController {
         let decodeArray: [Float]  = m1Decode.decode(Yaw: Float(deviceYaw), Pitch: Float(devicePitch), Roll: Float(deviceRoll))
         m1Decode.endBuffer()
         
+        // print(deviceYaw)
         // print(decodeArray)
         
-        soundMap?.update(decodeArray: decodeArray, rotationAngle: -deviceYaw * Float.pi/180)
+        soundMap?.update(decodeArray: decodeArray, rotationAngleForDisplay: -deviceYaw * Float.pi/180)
     }
     
     override func viewDidLoad() {

@@ -233,8 +233,8 @@ class SoundMap: UIView {
         }
     }
     
-    func update(decodeArray: [Float], rotationAngle : Float) {
-        self.rotationAngle = rotationAngle
+    func update(decodeArray: [Float], rotationAngleForDisplay : Float) {
+        self.rotationAngle = rotationAngleForDisplay
         
         if(viewsEncoders.count>0) {
             for i in 0...viewsEncoders.count-1 {

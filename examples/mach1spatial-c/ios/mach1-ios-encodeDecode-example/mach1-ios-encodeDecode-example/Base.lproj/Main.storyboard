@@ -106,7 +106,7 @@ Drag to change position</string>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="_segmentedControl" destination="ZBA-3Q-b3P" id="2rE-Pe-cA5"/>
+                        <outlet property="soundTypeSegmentedControl" destination="ZBA-3Q-b3P" id="kVa-7S-8Ao"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

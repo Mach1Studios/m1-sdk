@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class SoundMapView: UIView {
+class SoundMap: UIView {
     
     var rotationAngle : Float =  0.0
     
@@ -20,19 +20,21 @@ class SoundMapView: UIView {
     var viewCircle : UIView = UIView()
     
     var selectedEncoder : Int = -1
-    var closureSelectEncoder: ((Encoder) -> ()?)? = nil
+    var closureSelectEncoder: ((Encoder?) -> ()?)? = nil
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
-        setupView()
+
+        setup()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupView()
+
+        setup()
     }
     
-    func setupView() {
+    func setup() {
         // gestures
         let tapOneGesture = UITapGestureRecognizer()
         tapOneGesture.addTarget(self, action: #selector(self.tapGestureAction(_:)))
@@ -54,9 +56,6 @@ class SoundMapView: UIView {
         panGesture.addTarget(self, action: #selector(self.panGestureAction(_:)))
         self.addGestureRecognizer(panGesture)
         self.isUserInteractionEnabled = true
-        
-        // timer for draw update
-        Timer.scheduledTimer(withTimeInterval: 1.0 / 60.0, repeats: true, block: { (timer) in self.setNeedsDisplay() })
         
         recreateView()
     }
@@ -144,13 +143,18 @@ class SoundMapView: UIView {
                 if(viewsEncoders[i].frame.contains(touchPoint) && selectedEncoder == -1) {
                     selectedEncoder = i
                     viewsEncoders[selectedEncoder].selected = true
-                    
-                    closureSelectEncoder!(viewsEncoders[selectedEncoder])
                 }
                 else {
                     viewsEncoders[i].selected = false
                 }
             }
+        }
+        
+        if(selectedEncoder == -1) {
+            closureSelectEncoder!(nil)
+        }
+        else {
+            closureSelectEncoder!(viewsEncoders[selectedEncoder])
         }
     }
     
@@ -163,6 +167,7 @@ class SoundMapView: UIView {
             if(selectedEncoder != -1) {
                 viewsEncoders[selectedEncoder].removeFromSuperview()
                 viewsEncoders.remove(at: selectedEncoder)
+                closureSelectEncoder!(nil)
                 selectedEncoder = -1
             }
         }
@@ -228,16 +233,20 @@ class SoundMapView: UIView {
         }
     }
     
-    override func draw(_ rect: CGRect) {
-        rotationAngle = -deviceYaw * Float.pi/180
-        
-        viewCameraCone.layer.sublayerTransform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.rotated(by: CGFloat(rotationAngle)))
+    func update(decodeArray: [Float], rotationAngle : Float) {
+        self.rotationAngle = rotationAngle
         
         if(viewsEncoders.count>0) {
             for i in 0...viewsEncoders.count-1 {
-                viewsEncoders[i].setNeedsDisplay()
+                viewsEncoders[i].update(decodeArray: decodeArray)
             }
         }
+        
+        self.setNeedsDisplay()
+    }
+    
+    override func draw(_ rect: CGRect) {
+        viewCameraCone.layer.sublayerTransform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.rotated(by: CGFloat(rotationAngle)))
     }
     
 }

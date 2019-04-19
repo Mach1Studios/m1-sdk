@@ -14,9 +14,6 @@ import UIKit
 import CoreMotion
 
 var motionManager = CMMotionManager()
-var deviceYaw : Float = 0.0
-var devicePitch : Float = 0.0
-var deviceRoll : Float = 0.0
 
 var soundFiles: [[String]]  = [
     ["Nature_Stereo1","Nature_Stereo1"],
@@ -32,43 +29,70 @@ class ViewController: UIViewController {
     @IBOutlet var soundTypeSegmentedControl: UISegmentedControl?
     @IBOutlet var volumeSliderControl: UISlider?
     @IBOutlet var pitchSliderControl: UISlider?
-    @IBOutlet var soundMapViewControl: SoundMapView?
+    @IBOutlet var soundMap: SoundMap?
     
     @IBAction func VolumeSliderChanged(_ sender: UISlider) {
-        if(soundMapViewControl?.selectedEncoder != -1) {
+        if(encoderCurrent != nil) {
             encoderCurrent?.volume = sender.value
         }
     }
     
     @IBAction func PitchSliderChanged(_ sender: UISlider) {
-        if(soundMapViewControl?.selectedEncoder != -1) {
+        if(encoderCurrent != nil) {
             encoderCurrent?.pitch = sender.value
         }
     }
     
     @IBAction func SegmentedControlValueChanged(_ sender: Any) {
-        if(soundMapViewControl?.selectedEncoder != -1) {
+        if(encoderCurrent != nil) {
             encoderCurrent?.soundIndex = (soundTypeSegmentedControl?.selectedSegmentIndex)!
             encoderCurrent?.setupPlayers()
         }
     }
-    
-
-    var m1Decode : Mach1Decode?
+  
+    var m1Decode : Mach1Decode!
     var encoderCurrent: Encoder?
-    
-    func closureSelectEncoder (encoder: Encoder ) -> () {
-        volumeSliderControl?.value = encoder.volume
-        pitchSliderControl?.value = encoder.pitch
-        soundTypeSegmentedControl?.selectedSegmentIndex = encoder.soundIndex
+    var deviceYaw : Float = 0.0
+    var devicePitch : Float = 0.0
+    var deviceRoll : Float = 0.0
+
+    func closureSelectEncoder (encoder: Encoder? ) -> () {
+        if(encoder != nil) {
+            volumeSliderControl?.value = (encoder?.volume)!
+            pitchSliderControl?.value = (encoder?.pitch)!
+            soundTypeSegmentedControl?.selectedSegmentIndex = (encoder?.soundIndex)!
+        }
         self.encoderCurrent = encoder
+    }
+    
+    @objc func update() {
+        m1Decode.beginBuffer()
+        let decodeArray: [Float]  = m1Decode.decode(Yaw: Float(deviceYaw), Pitch: Float(devicePitch), Roll: Float(deviceRoll))
+        m1Decode.endBuffer()
+        
+        // print(decodeArray)
+        
+        soundMap?.update(decodeArray: decodeArray, rotationAngle: -deviceYaw * Float.pi/180)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        soundMapViewControl?.closureSelectEncoder = closureSelectEncoder
+        m1Decode = Mach1Decode()
+        //Mach1 Decode Setup
+        //Setup the correct angle convention for orientation Euler input angles
+        m1Decode.setPlatformType(type: Mach1PlatformiOS)
+        //Setup the expected spatial audio mix format for decoding
+        m1Decode.setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoSpatial)
+        //Setup for the safety filter speed:
+        //1.0 = no filter | 0.1 = slow filter
+        m1Decode.setFilterSpeed(filterSpeed: 1.0)
+       
+        // timer for draw update
+        Timer.scheduledTimer(timeInterval: 1.0 / 60.0, target: self, selector: (#selector(ViewController.update)), userInfo: nil, repeats: true)
+        
+        soundMap?.closureSelectEncoder = closureSelectEncoder
         soundTypeSegmentedControl?.setTitleTextAttributes([kCTForegroundColorAttributeName:UIColor.white], for:.selected)
         
         if motionManager.isDeviceMotionAvailable == true {
@@ -87,26 +111,9 @@ class ViewController: UIViewController {
                 // the device's sensors to provide M1 Library with accurate angles in accordance to documentation.
                 // (documentation URL here)
                 
-                
-                deviceYaw = _deviceYaw
-                devicePitch = _devicePitch
-                deviceRoll = _deviceRoll
-                
-                //Send device orientation to m1obj with the preferred algo
-                /*
-                 m1obj.beginBuffer()
-                 let decodeArray: [Float]  = m1obj.decode(Yaw: Float(deviceYaw), Pitch: Float(devicePitch), Roll: Float(deviceRoll))
-                 m1obj.endBuffer()
-                 
-                 //Use each coeff to decode multichannel Mach1 Spatial mix
-                 for i in 0...7 {
-                 players[i * 2].setVolume(Float(decodeArray[i * 2]), fadeDuration: 0)
-                 players[i * 2 + 1].setVolume(Float(decodeArray[i * 2 + 1]), fadeDuration: 0)
-                 
-                 print(String(players[i * 2].currentTime) + " ; " + String(i * 2))
-                 print(String(players[i * 2 + 1].currentTime) + " ; " + String(i * 2 + 1))
-                 }
-                 */
+                self?.deviceYaw = _deviceYaw
+                self?.devicePitch = _devicePitch
+                self?.deviceRoll = _deviceRoll
             })
             print("Device motion started")
         } else {
@@ -119,11 +126,6 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    func UpdateEncodeDecode() {
-        
-    }
-    
     
 }
 

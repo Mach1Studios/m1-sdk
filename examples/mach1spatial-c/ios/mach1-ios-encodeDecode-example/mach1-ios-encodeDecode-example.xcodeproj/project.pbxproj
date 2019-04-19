@@ -48,8 +48,8 @@
 		CEB4AE2F2266469B00D014AF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEB4AE2D2266469B00D014AF /* Main.storyboard */; };
 		CEB4AE312266469B00D014AF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEB4AE302266469B00D014AF /* Assets.xcassets */; };
 		CEB4AE342266469B00D014AF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEB4AE322266469B00D014AF /* LaunchScreen.storyboard */; };
-		CEB4AE3C226647FB00D014AF /* SoundMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB4AE3B226647FB00D014AF /* SoundMapView.swift */; };
 		CEB4AE4F22666E0100D014AF /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CEB4AE4E22666E0100D014AF /* libc++.tbd */; };
+		CEFB41C7226A6B440099FC00 /* SoundMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFB41C6226A6B440099FC00 /* SoundMap.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -102,8 +102,8 @@
 		CEB4AE302266469B00D014AF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CEB4AE332266469B00D014AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CEB4AE352266469B00D014AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CEB4AE3B226647FB00D014AF /* SoundMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundMapView.swift; sourceTree = "<group>"; };
 		CEB4AE4E22666E0100D014AF /* libc++.tbd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/libc++.tbd"; sourceTree = DEVELOPER_DIR; };
+		CEFB41C6226A6B440099FC00 /* SoundMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundMap.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,7 +201,7 @@
 				CEB4AE292266469B00D014AF /* AppDelegate.swift */,
 				CEB4AE2B2266469B00D014AF /* ViewController.swift */,
 				CE9C34E5226944B300F470D7 /* Encoder.swift */,
-				CEB4AE3B226647FB00D014AF /* SoundMapView.swift */,
+				CEFB41C6226A6B440099FC00 /* SoundMap.swift */,
 				CEB4AE2D2266469B00D014AF /* Main.storyboard */,
 				1567AC09226921FE004A1765 /* SCNQuaternionExtension.swift */,
 				1567AC08226921FE004A1765 /* SCNVector3Extensions.swift */,
@@ -323,6 +323,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1567AC0622692181004A1765 /* Mach1DecodePositional.swift in Sources */,
+				CEFB41C7226A6B440099FC00 /* SoundMap.swift in Sources */,
 				1567AC0F2269220C004A1765 /* CMDeviceMotion.swift in Sources */,
 				1567AC0522692181004A1765 /* Mach1Encode.swift in Sources */,
 				1567AC0A226921FE004A1765 /* SCNVector3Extensions.swift in Sources */,
@@ -330,7 +331,6 @@
 				CEB4AE2A2266469B00D014AF /* AppDelegate.swift in Sources */,
 				1567AC0722692181004A1765 /* Mach1Decode.swift in Sources */,
 				1567AC0D22692206004A1765 /* GLKQuaternionExtension.swift in Sources */,
-				CEB4AE3C226647FB00D014AF /* SoundMapView.swift in Sources */,
 				CE9C34E6226944B300F470D7 /* Encoder.swift in Sources */,
 				1567AC0B226921FE004A1765 /* SCNQuaternionExtension.swift in Sources */,
 			);

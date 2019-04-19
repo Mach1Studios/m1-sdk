@@ -18,7 +18,7 @@ class Encoder: UIView {
     var selected : Bool = false
     
     var players: [AVAudioPlayer] = []
-    var m1Encode : Mach1Encode?
+    var m1Encode : Mach1Encode!
 
     let circleInternalLayer = CAShapeLayer()
     let circleExternalLayer = CAShapeLayer()
@@ -26,13 +26,19 @@ class Encoder: UIView {
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
         
+        setup()
         setupPlayers()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        setup()
         setupPlayers()
+    }
+    
+    func setup() {
+        m1Encode = Mach1Encode()
     }
     
     func setupPlayers() {
@@ -49,23 +55,47 @@ class Encoder: UIView {
         players[0].pan = -1.0
         players[1].pan = 1.0
         
+        players[0].volume = 0.0
+        players[1].volume = 0.0
+
         players[0].prepareToPlay()
         players[1].prepareToPlay()
         
         players[0].numberOfLoops = -1
         players[1].numberOfLoops = -1
         
+        players[0].isMeteringEnabled = true
+        players[1].isMeteringEnabled = true
+
         players[0].play()
         players[1].play()
-        
-        updateVolumes()
     }
 
-    func updateVolumes() {
-        players[0].volume = 1.0
-        players[1].volume = 1.0
+    func update(decodeArray: [Float]) {
         
-        // m1Encode set position
+        var volumes : [Float] = [ 0, 0 ]
+        
+        m1Encode.setRotation(rotation: 0.15)//Float(self.center.x))
+        m1Encode.setDiverge(diverge: 0.707)
+        m1Encode.setPitch(pitch: 0.1)
+        m1Encode.setAutoOrbit(setAutoOrbit: true)
+        m1Encode.setIsotropicEncode(setIsotropicEncode: true)
+        m1Encode.setInputMode(inputMode: Mach1EncodeInputModeStereo)
+        
+        m1Encode.generatePointResults()
+
+        let gains = m1Encode.getGains()
+        
+        //Use each coeff to decode multichannel Mach1 Spatial mix
+        for i in 0...7 {
+            volumes[0] += decodeArray[i * 2] * gains[0][i]
+            volumes[1] += decodeArray[i * 2 + 1] * gains[0][i]
+        }
+        
+        players[0].volume = volumes[0]
+        players[1].volume = volumes[1]
+        
+        self.setNeedsDisplay()
     }
     
     override func layoutSubviews() {
@@ -105,10 +135,20 @@ class Encoder: UIView {
         self.addSubview(viewCircleExternal)
     }
     
+    func dBToAmplitude(dB : Float) -> Float
+    {
+        return pow(10.0, dB / 20.0)
+    }
+    
     override func draw(_ rect: CGRect) {
-        let amp = 1.0
+        let amp = 10000 * dBToAmplitude(dB: players[0].averagePower(forChannel: 0) + players[1].averagePower(forChannel: 1))/2
         let scale : CGFloat = CGFloat(2 + 1 * amp)
         
+        print("vol: ", amp)
+
+        players[0].updateMeters()
+        players[1].updateMeters()
+
         let color : CGColor = selected ? UIColor(red: 1, green: 0.8, blue: 0.4, alpha: 1).cgColor : UIColor(red: 0.4, green: 0.39, blue: 0.39, alpha: 1).cgColor;
         
         circleInternalLayer.fillColor = color

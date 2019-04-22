@@ -20,6 +20,10 @@ class Encoder: UIView {
     var players: [AVAudioPlayer] = []
     var m1Encode : Mach1Encode!
     
+    var xInternal : Float = 0.0
+    var yInternal : Float = 0.0
+    
+
     let circleInternalLayer = CAShapeLayer()
     let circleExternalLayer = CAShapeLayer()
     
@@ -75,11 +79,8 @@ class Encoder: UIView {
         
         var volumes : [Float] = [ 0, 0 ]
         
-        let x : Float = 2.0 * (Float(self.center.x  / (self.superview?.frame.width)!) - 0.5)
-        let y : Float = 2.0 * (Float(self.center.y / (self.superview?.frame.height)!) - 0.5)
-        
-        let rotation : Float = fmodf(atan2(-x,y) / (2 * Float.pi) + 0.5, 1.0) // 0 - 1
-        let diverge : Float = min( sqrt(powf(x,2) + powf(y,2)), 1.0) * 0.707 // 0 - 0.707
+        let rotation : Float = fmodf(atan2(-xInternal,yInternal) / (2 * Float.pi) + 0.5, 1.0) // 0 - 1
+        let diverge : Float = min( sqrt(powf(xInternal,2) + powf(yInternal,2)), 1.0) *  0.707 // 0 - 0.707
         
         m1Encode.setRotation(rotation: rotation)
         m1Encode.setDiverge(diverge: diverge)

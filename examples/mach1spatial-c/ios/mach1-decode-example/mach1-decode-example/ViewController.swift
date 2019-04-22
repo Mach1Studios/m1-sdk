@@ -91,7 +91,7 @@ class ViewController: UIViewController {
             
             //Mach1 Decode Setup
             //Setup the correct angle convention for orientation Euler input angles
-            m1obj.setPlatformType(type: Mach1PlatformiOSLandscape)
+            m1obj.setPlatformType(type: Mach1PlatformiOS)
             //Setup the expected spatial audio mix format for decoding
             m1obj.setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoSpatial)
             //Setup for the safety filter speed:

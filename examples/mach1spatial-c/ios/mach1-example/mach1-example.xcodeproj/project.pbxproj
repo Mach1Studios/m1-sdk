@@ -95,7 +95,7 @@
 		CE9C34CB22690AD400F470D7 /* SciFi_Stereo5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Stereo5.wav; sourceTree = "<group>"; };
 		CE9C34CC22690AD400F470D7 /* SciFi_Stereo8.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Stereo8.wav; sourceTree = "<group>"; };
 		CE9C34E5226944B300F470D7 /* Encoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Encoder.swift; sourceTree = "<group>"; };
-		CEB4AE262266469B00D014AF /* mach1-ios-encodeDecode-example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mach1-ios-encodeDecode-example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEB4AE262266469B00D014AF /* mach1-example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mach1-example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEB4AE292266469B00D014AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CEB4AE2B2266469B00D014AF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		CEB4AE2E2266469B00D014AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -172,7 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				CE9C34B222690AB100F470D7 /* Audio */,
-				CEB4AE282266469B00D014AF /* mach1-ios-encodeDecode-example */,
+				CEB4AE282266469B00D014AF /* mach1-example */,
 				CEB4AE272266469B00D014AF /* Products */,
 				CEB4AE4A22666DE900D014AF /* Frameworks */,
 			);
@@ -181,12 +181,12 @@
 		CEB4AE272266469B00D014AF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CEB4AE262266469B00D014AF /* mach1-ios-encodeDecode-example.app */,
+				CEB4AE262266469B00D014AF /* mach1-example.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		CEB4AE282266469B00D014AF /* mach1-ios-encodeDecode-example */ = {
+		CEB4AE282266469B00D014AF /* mach1-example */ = {
 			isa = PBXGroup;
 			children = (
 				1567AC0222692181004A1765 /* Mach1Decode-Bridging-Header.h */,
@@ -212,7 +212,7 @@
 				CEB4AE352266469B00D014AF /* Info.plist */,
 				CE71A072226762E10089B454 /* background.png */,
 			);
-			path = "mach1-ios-encodeDecode-example";
+			path = "mach1-example";
 			sourceTree = "<group>";
 		};
 		CEB4AE4A22666DE900D014AF /* Frameworks */ = {
@@ -229,9 +229,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CEB4AE252266469B00D014AF /* mach1-ios-encodeDecode-example */ = {
+		CEB4AE252266469B00D014AF /* mach1-example */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CEB4AE382266469B00D014AF /* Build configuration list for PBXNativeTarget "mach1-ios-encodeDecode-example" */;
+			buildConfigurationList = CEB4AE382266469B00D014AF /* Build configuration list for PBXNativeTarget "mach1-example" */;
 			buildPhases = (
 				CEB4AE222266469B00D014AF /* Sources */,
 				CEB4AE232266469B00D014AF /* Frameworks */,
@@ -241,9 +241,9 @@
 			);
 			dependencies = (
 			);
-			name = "mach1-ios-encodeDecode-example";
+			name = "mach1-example";
 			productName = "mach1-ios-encodeDecode-example";
-			productReference = CEB4AE262266469B00D014AF /* mach1-ios-encodeDecode-example.app */;
+			productReference = CEB4AE262266469B00D014AF /* mach1-example.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -261,7 +261,7 @@
 					};
 				};
 			};
-			buildConfigurationList = CEB4AE212266469B00D014AF /* Build configuration list for PBXProject "mach1-ios-encodeDecode-example" */;
+			buildConfigurationList = CEB4AE212266469B00D014AF /* Build configuration list for PBXProject "mach1-example" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -274,7 +274,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CEB4AE252266469B00D014AF /* mach1-ios-encodeDecode-example */,
+				CEB4AE252266469B00D014AF /* mach1-example */,
 			);
 		};
 /* End PBXProject section */
@@ -477,8 +477,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = KUBMV92ACA;
-				INFOPLIST_FILE = "mach1-ios-encodeDecode-example/Info.plist";
+				DEVELOPMENT_TEAM = 6ZETDT84RB;
+				INFOPLIST_FILE = "$(SRCROOT)/mach1-example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -487,7 +487,7 @@
 					../../../../binaries/ios/lib,
 					../../../../binaries/xcode/lib,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1-ios-encodeDecode-example";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mach1.example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "../../../../lib/external/swift/Mach1Decode-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
@@ -500,8 +500,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = KUBMV92ACA;
-				INFOPLIST_FILE = "mach1-ios-encodeDecode-example/Info.plist";
+				DEVELOPMENT_TEAM = 6ZETDT84RB;
+				INFOPLIST_FILE = "$(SRCROOT)/mach1-example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -510,7 +510,7 @@
 					../../../../binaries/ios/lib,
 					../../../../binaries/xcode/lib,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1-ios-encodeDecode-example";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mach1.example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "../../../../lib/external/swift/Mach1Decode-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
@@ -521,7 +521,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CEB4AE212266469B00D014AF /* Build configuration list for PBXProject "mach1-ios-encodeDecode-example" */ = {
+		CEB4AE212266469B00D014AF /* Build configuration list for PBXProject "mach1-example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CEB4AE362266469B00D014AF /* Debug */,
@@ -530,7 +530,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CEB4AE382266469B00D014AF /* Build configuration list for PBXNativeTarget "mach1-ios-encodeDecode-example" */ = {
+		CEB4AE382266469B00D014AF /* Build configuration list for PBXNativeTarget "mach1-example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CEB4AE392266469B00D014AF /* Debug */,

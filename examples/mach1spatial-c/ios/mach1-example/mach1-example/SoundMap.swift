@@ -8,6 +8,22 @@
 
 import Foundation
 import UIKit
+import SceneKit
+import QuartzCore
+
+extension CGFloat {
+    func map(from_start: CGFloat, from_end: CGFloat, to_start: CGFloat, to_end: CGFloat) -> CGFloat {
+        let result = ((self - from_start) / (from_end - from_start)) * (to_end - to_start) + to_start
+        return result
+    }
+}
+
+extension Float {
+    func map(from_start: Float, from_end: Float, to_start: Float, to_end: Float) -> Float {
+        let result = ((self - from_start) / (from_end - from_start)) * (to_end - to_start) + to_start
+        return result
+    }
+}
 
 class SoundMap: UIView {
     
@@ -160,7 +176,7 @@ class SoundMap: UIView {
     
     
     @objc func longTapGestureAction(_ sender: UILongPressGestureRecognizer) {
-        var touchPoint : CGPoint = sender.location(ofTouch: 0, in : self)
+        let touchPoint : CGPoint = sender.location(ofTouch: 0, in : self)
         
         if(sender.state ==  UIGestureRecognizerState.began) {
             selectEncoder(touchPoint: touchPoint)
@@ -224,7 +240,19 @@ class SoundMap: UIView {
             var touchPoint : CGPoint = sender.location(ofTouch: 0, in : self)
             
             if(selectedEncoder != -1) {
-                viewsEncoders[selectedEncoder].center = CGPoint(x: touchPoint.x, y: touchPoint.y)
+  
+                var vec : SCNVector3 = SCNVector3(2.0 * (Float(touchPoint.x  / (self.frame.width)) - 0.5), 2.0 * (Float(touchPoint.y / (self.frame.height)) - 0.5), 0.0)
+
+                // limit encoder position
+                let maxDist : Float = 0.95
+                let dist : Float = vec.length()
+                if(dist > maxDist) {
+                    vec = vec.normalize() * maxDist
+                }
+                
+                viewsEncoders[selectedEncoder].xInternal = vec.x * 1.0 / maxDist
+                viewsEncoders[selectedEncoder].yInternal = vec.y * 1.0 / maxDist
+                viewsEncoders[selectedEncoder].center = CGPoint(x: CGFloat(self.frame.width * 0.5) * CGFloat(1.0 + vec.x), y: CGFloat(self.frame.height * 0.5) * CGFloat(1.0 + vec.y))
             }
             
             touchPoint.x /= self.frame.size.width

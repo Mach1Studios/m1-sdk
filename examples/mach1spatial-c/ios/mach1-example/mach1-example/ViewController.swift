@@ -52,9 +52,9 @@ class ViewController: UIViewController {
   
     var m1Decode : Mach1Decode!
     var encoderCurrent: Encoder?
-    var deviceYaw : Float = 0.0
-    var devicePitch : Float = 0.0
-    var deviceRoll : Float = 0.0
+    var cameraPitch : Float = 0.0
+    var cameraYaw : Float = 0.0
+    var cameraRoll : Float = 0.0
 
     func closureSelectEncoder (encoder: Encoder? ) -> () {
         if(encoder != nil) {
@@ -67,13 +67,13 @@ class ViewController: UIViewController {
     
     @objc func update() {
         m1Decode.beginBuffer()
-        let decodeArray: [Float]  = m1Decode.decode(Yaw: Float(deviceYaw), Pitch: Float(devicePitch), Roll: Float(deviceRoll))
+        let decodeArray: [Float]  = m1Decode.decode(Yaw: Float(cameraYaw), Pitch: Float(cameraPitch), Roll: Float(cameraRoll))
         m1Decode.endBuffer()
         
         // print(deviceYaw)
         // print(decodeArray)
         
-        soundMap?.update(decodeArray: decodeArray, rotationAngleForDisplay: -deviceYaw * Float.pi/180)
+        soundMap?.update(decodeArray: decodeArray, rotationAngleForDisplay: -cameraPitch * Float.pi/180)
     }
     
     override func viewDidLoad() {
@@ -112,9 +112,9 @@ class ViewController: UIViewController {
                 // the device's sensors to provide M1 Library with accurate angles in accordance to documentation.
                 // (documentation URL here)
                 
-                self?.deviceYaw = _deviceYaw
-                self?.devicePitch = _devicePitch
-                self?.deviceRoll = _deviceRoll
+                self?.cameraPitch = _deviceYaw
+                self?.cameraYaw = _devicePitch
+                self?.cameraRoll = _deviceRoll
             })
             print("Device motion started")
         } else {

@@ -87,7 +87,7 @@ class Encoder: UIView {
         m1Encode.setPitch(pitch: pitch)
         m1Encode.setAutoOrbit(setAutoOrbit: true)
         m1Encode.setIsotropicEncode(setIsotropicEncode: true)
-        m1Encode.setInputMode(inputMode: Mach1EncodeInputModeStereo)
+        m1Encode.setInputMode(inputMode: Mach1EncodeInputModeMono)
         
         m1Encode.generatePointResults()
         
@@ -96,7 +96,7 @@ class Encoder: UIView {
         //Use each coeff to decode multichannel Mach1 Spatial mix
         for i in 0...7 {
             volumes[0] += decodeArray[i * 2] * gains[0][i]
-            volumes[1] += decodeArray[i * 2 + 1] * gains[1][i]
+            volumes[1] += decodeArray[i * 2 + 1] * gains[gains.count > 1 ? 1 : 0][i]
         }
         
         players[0].volume = volumes[0] * volume

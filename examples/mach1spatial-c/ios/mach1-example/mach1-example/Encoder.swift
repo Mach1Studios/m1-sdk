@@ -49,7 +49,6 @@ class Encoder: UIView {
         if(players.count != 0) {
             players[0].stop()
             players[1].stop()
-            
         }
         
         players = [AVAudioPlayer(), AVAudioPlayer()]
@@ -71,8 +70,13 @@ class Encoder: UIView {
         players[0].isMeteringEnabled = true
         players[1].isMeteringEnabled = true
         
-        players[0].play()
-        players[1].play()
+        let startDelayTime = 1.0
+        let now = players[0].deviceCurrentTime
+        let startTime = now + startDelayTime
+        players[0].play(atTime: startTime)
+        players[1].play(atTime: startTime)
+        print (startTime)
+
     }
     
     func update(decodeArray: [Float]) {

@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1567AC0522692181004A1765 /* Mach1Encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1567ABFF22692181004A1765 /* Mach1Encode.swift */; };
-		1567AC0622692181004A1765 /* Mach1DecodePositional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1567AC0322692181004A1765 /* Mach1DecodePositional.swift */; };
-		1567AC0722692181004A1765 /* Mach1Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1567AC0422692181004A1765 /* Mach1Decode.swift */; };
 		1567AC0A226921FE004A1765 /* SCNVector3Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1567AC08226921FE004A1765 /* SCNVector3Extensions.swift */; };
 		1567AC0B226921FE004A1765 /* SCNQuaternionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1567AC09226921FE004A1765 /* SCNQuaternionExtension.swift */; };
 		1567AC0D22692206004A1765 /* GLKQuaternionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1567AC0C22692206004A1765 /* GLKQuaternionExtension.swift */; };
@@ -17,6 +14,9 @@
 		1567AC192269336B004A1765 /* libMach1DecodeCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1567AC162269336B004A1765 /* libMach1DecodeCAPI.a */; };
 		1567AC1A2269336B004A1765 /* libMach1EncodeCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1567AC172269336B004A1765 /* libMach1EncodeCAPI.a */; };
 		1567AC1B2269336B004A1765 /* libMach1DecodePositionalCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1567AC182269336B004A1765 /* libMach1DecodePositionalCAPI.a */; };
+		A489B946226E4F62002C029E /* Mach1Encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A489B943226E4F62002C029E /* Mach1Encode.swift */; };
+		A489B947226E4F62002C029E /* Mach1Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A489B944226E4F62002C029E /* Mach1Decode.swift */; };
+		A489B948226E4F62002C029E /* Mach1DecodePositional.swift in Sources */ = {isa = PBXBuildFile; fileRef = A489B945226E4F62002C029E /* Mach1DecodePositional.swift */; };
 		CE71A073226762E10089B454 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = CE71A072226762E10089B454 /* background.png */; };
 		CE9C34CD22690AD400F470D7 /* Nature_Mono11.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34B422690AD300F470D7 /* Nature_Mono11.wav */; };
 		CE9C34CE22690AD400F470D7 /* Nature_Mono12.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34B522690AD300F470D7 /* Nature_Mono12.wav */; };
@@ -39,15 +39,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1567ABFC22692180004A1765 /* Mach1Point3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1Point3D.h; path = ../../../../../include/swift/Mach1Point3D.h; sourceTree = "<group>"; };
-		1567ABFD22692180004A1765 /* Mach1DecodePositionalCAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1DecodePositionalCAPI.h; path = ../../../../../include/swift/Mach1DecodePositionalCAPI.h; sourceTree = "<group>"; };
-		1567ABFE22692181004A1765 /* Mach1EncodeCAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1EncodeCAPI.h; path = ../../../../../include/swift/Mach1EncodeCAPI.h; sourceTree = "<group>"; };
-		1567ABFF22692181004A1765 /* Mach1Encode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mach1Encode.swift; path = ../../../../../include/swift/Mach1Encode.swift; sourceTree = "<group>"; };
-		1567AC0022692181004A1765 /* Mach1Point4D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1Point4D.h; path = ../../../../../include/swift/Mach1Point4D.h; sourceTree = "<group>"; };
-		1567AC0122692181004A1765 /* Mach1DecodeCAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1DecodeCAPI.h; path = ../../../../../include/swift/Mach1DecodeCAPI.h; sourceTree = "<group>"; };
-		1567AC0222692181004A1765 /* Mach1Decode-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Mach1Decode-Bridging-Header.h"; path = "../../../../../include/swift/Mach1Decode-Bridging-Header.h"; sourceTree = "<group>"; };
-		1567AC0322692181004A1765 /* Mach1DecodePositional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mach1DecodePositional.swift; path = ../../../../../include/swift/Mach1DecodePositional.swift; sourceTree = "<group>"; };
-		1567AC0422692181004A1765 /* Mach1Decode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mach1Decode.swift; path = ../../../../../include/swift/Mach1Decode.swift; sourceTree = "<group>"; };
 		1567AC08226921FE004A1765 /* SCNVector3Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCNVector3Extensions.swift; sourceTree = "<group>"; };
 		1567AC09226921FE004A1765 /* SCNQuaternionExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCNQuaternionExtension.swift; sourceTree = "<group>"; };
 		1567AC0C22692206004A1765 /* GLKQuaternionExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GLKQuaternionExtension.swift; sourceTree = "<group>"; };
@@ -55,6 +46,9 @@
 		1567AC162269336B004A1765 /* libMach1DecodeCAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMach1DecodeCAPI.a; path = ../../../../../binaries/ios/lib/libMach1DecodeCAPI.a; sourceTree = "<group>"; };
 		1567AC172269336B004A1765 /* libMach1EncodeCAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMach1EncodeCAPI.a; path = ../../../../../binaries/ios/lib/libMach1EncodeCAPI.a; sourceTree = "<group>"; };
 		1567AC182269336B004A1765 /* libMach1DecodePositionalCAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMach1DecodePositionalCAPI.a; path = ../../../../../binaries/ios/lib/libMach1DecodePositionalCAPI.a; sourceTree = "<group>"; };
+		A489B943226E4F62002C029E /* Mach1Encode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mach1Encode.swift; path = ../../../../../include/swift/Mach1Encode.swift; sourceTree = "<group>"; };
+		A489B944226E4F62002C029E /* Mach1Decode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mach1Decode.swift; path = ../../../../../include/swift/Mach1Decode.swift; sourceTree = "<group>"; };
+		A489B945226E4F62002C029E /* Mach1DecodePositional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mach1DecodePositional.swift; path = ../../../../../include/swift/Mach1DecodePositional.swift; sourceTree = "<group>"; };
 		CE71A072226762E10089B454 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		CE9C34B422690AD300F470D7 /* Nature_Mono11.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Mono11.wav; sourceTree = "<group>"; };
 		CE9C34B522690AD300F470D7 /* Nature_Mono12.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Mono12.wav; sourceTree = "<group>"; };
@@ -147,19 +141,13 @@
 		CEB4AE282266469B00D014AF /* mach1-example */ = {
 			isa = PBXGroup;
 			children = (
-				1567AC0222692181004A1765 /* Mach1Decode-Bridging-Header.h */,
-				1567AC0422692181004A1765 /* Mach1Decode.swift */,
-				1567AC0122692181004A1765 /* Mach1DecodeCAPI.h */,
-				1567AC0322692181004A1765 /* Mach1DecodePositional.swift */,
-				1567ABFF22692181004A1765 /* Mach1Encode.swift */,
-				1567ABFD22692180004A1765 /* Mach1DecodePositionalCAPI.h */,
-				1567ABFE22692181004A1765 /* Mach1EncodeCAPI.h */,
-				1567ABFC22692180004A1765 /* Mach1Point3D.h */,
-				1567AC0022692181004A1765 /* Mach1Point4D.h */,
 				CEB4AE292266469B00D014AF /* AppDelegate.swift */,
 				CEB4AE2B2266469B00D014AF /* ViewController.swift */,
 				CE9C34E5226944B300F470D7 /* Encoder.swift */,
 				CEFB41C6226A6B440099FC00 /* SoundMap.swift */,
+				A489B944226E4F62002C029E /* Mach1Decode.swift */,
+				A489B945226E4F62002C029E /* Mach1DecodePositional.swift */,
+				A489B943226E4F62002C029E /* Mach1Encode.swift */,
 				CEB4AE2D2266469B00D014AF /* Main.storyboard */,
 				1567AC09226921FE004A1765 /* SCNQuaternionExtension.swift */,
 				1567AC08226921FE004A1765 /* SCNVector3Extensions.swift */,
@@ -266,16 +254,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1567AC0622692181004A1765 /* Mach1DecodePositional.swift in Sources */,
 				CEFB41C7226A6B440099FC00 /* SoundMap.swift in Sources */,
 				1567AC0F2269220C004A1765 /* CMDeviceMotion.swift in Sources */,
-				1567AC0522692181004A1765 /* Mach1Encode.swift in Sources */,
 				1567AC0A226921FE004A1765 /* SCNVector3Extensions.swift in Sources */,
+				A489B948226E4F62002C029E /* Mach1DecodePositional.swift in Sources */,
+				A489B946226E4F62002C029E /* Mach1Encode.swift in Sources */,
 				CEB4AE2C2266469B00D014AF /* ViewController.swift in Sources */,
 				CEB4AE2A2266469B00D014AF /* AppDelegate.swift in Sources */,
-				1567AC0722692181004A1765 /* Mach1Decode.swift in Sources */,
 				1567AC0D22692206004A1765 /* GLKQuaternionExtension.swift in Sources */,
 				CE9C34E6226944B300F470D7 /* Encoder.swift in Sources */,
+				A489B947226E4F62002C029E /* Mach1Decode.swift in Sources */,
 				1567AC0B226921FE004A1765 /* SCNQuaternionExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -353,7 +341,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = ../../../../include/swift/;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LIBRARY_SEARCH_PATHS = ../../../../binaries/ios/lib;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -407,7 +397,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = ../../../../include/swift/;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LIBRARY_SEARCH_PATHS = ../../../../binaries/ios/lib;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -422,6 +414,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6ZETDT84RB;
+				HEADER_SEARCH_PATHS = ../../../../include/swift/;
 				INFOPLIST_FILE = "$(SRCROOT)/mach1-example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -445,6 +438,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6ZETDT84RB;
+				HEADER_SEARCH_PATHS = ../../../../include/swift/;
 				INFOPLIST_FILE = "$(SRCROOT)/mach1-example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -16,12 +16,12 @@ import CoreMotion
 var motionManager = CMMotionManager()
 
 var soundFiles: [[String]]  = [
-    ["Nature_Stereo1","Nature_Stereo1"],
-    ["Nature_Stereo2","Nature_Stereo2"],
-    ["Nature_Stereo3","Nature_Stereo3"],
-    ["SciFi_Stereo3","SciFi_Stereo3"],
-    ["SciFi_Stereo12","SciFi_Stereo12"],
-    ["SciFi_Stereo12","SciFi_Stereo12"],
+    ["Nature_Mono11","Nature_Mono11"],
+    ["Nature_Mono12","Nature_Mono12"],
+    ["Nature_Mono4","Nature_Mono4"],
+    ["SciFi_Mono10","SciFi_Mono10"],
+    ["SciFi_Mono2","SciFi_Mono2"],
+    ["SciFi_Mono6","SciFi_Mono6"],
 ]
 
 class ViewController: UIViewController {

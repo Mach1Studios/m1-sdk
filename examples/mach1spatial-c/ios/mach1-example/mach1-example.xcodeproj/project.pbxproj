@@ -23,25 +23,11 @@
 		CE9C34CF22690AD400F470D7 /* Nature_Mono4.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34B622690AD300F470D7 /* Nature_Mono4.wav */; };
 		CE9C34D022690AD400F470D7 /* Nature_Mono5.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34B722690AD300F470D7 /* Nature_Mono5.wav */; };
 		CE9C34D122690AD400F470D7 /* Nature_Mono9.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34B822690AD300F470D7 /* Nature_Mono9.wav */; };
-		CE9C34D222690AD400F470D7 /* Nature_Stereo1.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34B922690AD300F470D7 /* Nature_Stereo1.wav */; };
-		CE9C34D322690AD400F470D7 /* Nature_Stereo10.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34BA22690AD300F470D7 /* Nature_Stereo10.wav */; };
-		CE9C34D422690AD400F470D7 /* Nature_Stereo2.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34BB22690AD300F470D7 /* Nature_Stereo2.wav */; };
-		CE9C34D522690AD400F470D7 /* Nature_Stereo3.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34BC22690AD300F470D7 /* Nature_Stereo3.wav */; };
-		CE9C34D622690AD400F470D7 /* Nature_Stereo6.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34BD22690AD300F470D7 /* Nature_Stereo6.wav */; };
-		CE9C34D722690AD400F470D7 /* Nature_Stereo7.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34BE22690AD300F470D7 /* Nature_Stereo7.wav */; };
-		CE9C34D822690AD400F470D7 /* Nature_Stereo8.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34BF22690AD300F470D7 /* Nature_Stereo8.wav */; };
 		CE9C34D922690AD400F470D7 /* SciFi_Mono10.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34C122690AD400F470D7 /* SciFi_Mono10.wav */; };
 		CE9C34DA22690AD400F470D7 /* SciFi_Mono2.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34C222690AD400F470D7 /* SciFi_Mono2.wav */; };
 		CE9C34DB22690AD400F470D7 /* SciFi_Mono6.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34C322690AD400F470D7 /* SciFi_Mono6.wav */; };
 		CE9C34DC22690AD400F470D7 /* SciFi_Mono7.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34C422690AD400F470D7 /* SciFi_Mono7.wav */; };
 		CE9C34DD22690AD400F470D7 /* SciFi_Mono9.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34C522690AD400F470D7 /* SciFi_Mono9.wav */; };
-		CE9C34DE22690AD400F470D7 /* SciFi_Stereo1.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34C622690AD400F470D7 /* SciFi_Stereo1.wav */; };
-		CE9C34DF22690AD400F470D7 /* SciFi_Stereo11.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34C722690AD400F470D7 /* SciFi_Stereo11.wav */; };
-		CE9C34E022690AD400F470D7 /* SciFi_Stereo12.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34C822690AD400F470D7 /* SciFi_Stereo12.wav */; };
-		CE9C34E122690AD400F470D7 /* SciFi_Stereo3.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34C922690AD400F470D7 /* SciFi_Stereo3.wav */; };
-		CE9C34E222690AD400F470D7 /* SciFi_Stereo4.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34CA22690AD400F470D7 /* SciFi_Stereo4.wav */; };
-		CE9C34E322690AD400F470D7 /* SciFi_Stereo5.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34CB22690AD400F470D7 /* SciFi_Stereo5.wav */; };
-		CE9C34E422690AD400F470D7 /* SciFi_Stereo8.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34CC22690AD400F470D7 /* SciFi_Stereo8.wav */; };
 		CE9C34E6226944B300F470D7 /* Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9C34E5226944B300F470D7 /* Encoder.swift */; };
 		CEB4AE2A2266469B00D014AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB4AE292266469B00D014AF /* AppDelegate.swift */; };
 		CEB4AE2C2266469B00D014AF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB4AE2B2266469B00D014AF /* ViewController.swift */; };
@@ -75,25 +61,11 @@
 		CE9C34B622690AD300F470D7 /* Nature_Mono4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Mono4.wav; sourceTree = "<group>"; };
 		CE9C34B722690AD300F470D7 /* Nature_Mono5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Mono5.wav; sourceTree = "<group>"; };
 		CE9C34B822690AD300F470D7 /* Nature_Mono9.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Mono9.wav; sourceTree = "<group>"; };
-		CE9C34B922690AD300F470D7 /* Nature_Stereo1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Stereo1.wav; sourceTree = "<group>"; };
-		CE9C34BA22690AD300F470D7 /* Nature_Stereo10.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Stereo10.wav; sourceTree = "<group>"; };
-		CE9C34BB22690AD300F470D7 /* Nature_Stereo2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Stereo2.wav; sourceTree = "<group>"; };
-		CE9C34BC22690AD300F470D7 /* Nature_Stereo3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Stereo3.wav; sourceTree = "<group>"; };
-		CE9C34BD22690AD300F470D7 /* Nature_Stereo6.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Stereo6.wav; sourceTree = "<group>"; };
-		CE9C34BE22690AD300F470D7 /* Nature_Stereo7.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Stereo7.wav; sourceTree = "<group>"; };
-		CE9C34BF22690AD300F470D7 /* Nature_Stereo8.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Stereo8.wav; sourceTree = "<group>"; };
 		CE9C34C122690AD400F470D7 /* SciFi_Mono10.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Mono10.wav; sourceTree = "<group>"; };
 		CE9C34C222690AD400F470D7 /* SciFi_Mono2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Mono2.wav; sourceTree = "<group>"; };
 		CE9C34C322690AD400F470D7 /* SciFi_Mono6.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Mono6.wav; sourceTree = "<group>"; };
 		CE9C34C422690AD400F470D7 /* SciFi_Mono7.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Mono7.wav; sourceTree = "<group>"; };
 		CE9C34C522690AD400F470D7 /* SciFi_Mono9.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Mono9.wav; sourceTree = "<group>"; };
-		CE9C34C622690AD400F470D7 /* SciFi_Stereo1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Stereo1.wav; sourceTree = "<group>"; };
-		CE9C34C722690AD400F470D7 /* SciFi_Stereo11.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Stereo11.wav; sourceTree = "<group>"; };
-		CE9C34C822690AD400F470D7 /* SciFi_Stereo12.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Stereo12.wav; sourceTree = "<group>"; };
-		CE9C34C922690AD400F470D7 /* SciFi_Stereo3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Stereo3.wav; sourceTree = "<group>"; };
-		CE9C34CA22690AD400F470D7 /* SciFi_Stereo4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Stereo4.wav; sourceTree = "<group>"; };
-		CE9C34CB22690AD400F470D7 /* SciFi_Stereo5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Stereo5.wav; sourceTree = "<group>"; };
-		CE9C34CC22690AD400F470D7 /* SciFi_Stereo8.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Stereo8.wav; sourceTree = "<group>"; };
 		CE9C34E5226944B300F470D7 /* Encoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Encoder.swift; sourceTree = "<group>"; };
 		CEB4AE262266469B00D014AF /* mach1-example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mach1-example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEB4AE292266469B00D014AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -138,13 +110,6 @@
 				CE9C34B622690AD300F470D7 /* Nature_Mono4.wav */,
 				CE9C34B722690AD300F470D7 /* Nature_Mono5.wav */,
 				CE9C34B822690AD300F470D7 /* Nature_Mono9.wav */,
-				CE9C34B922690AD300F470D7 /* Nature_Stereo1.wav */,
-				CE9C34BA22690AD300F470D7 /* Nature_Stereo10.wav */,
-				CE9C34BB22690AD300F470D7 /* Nature_Stereo2.wav */,
-				CE9C34BC22690AD300F470D7 /* Nature_Stereo3.wav */,
-				CE9C34BD22690AD300F470D7 /* Nature_Stereo6.wav */,
-				CE9C34BE22690AD300F470D7 /* Nature_Stereo7.wav */,
-				CE9C34BF22690AD300F470D7 /* Nature_Stereo8.wav */,
 			);
 			path = Nature;
 			sourceTree = "<group>";
@@ -157,13 +122,6 @@
 				CE9C34C322690AD400F470D7 /* SciFi_Mono6.wav */,
 				CE9C34C422690AD400F470D7 /* SciFi_Mono7.wav */,
 				CE9C34C522690AD400F470D7 /* SciFi_Mono9.wav */,
-				CE9C34C622690AD400F470D7 /* SciFi_Stereo1.wav */,
-				CE9C34C722690AD400F470D7 /* SciFi_Stereo11.wav */,
-				CE9C34C822690AD400F470D7 /* SciFi_Stereo12.wav */,
-				CE9C34C922690AD400F470D7 /* SciFi_Stereo3.wav */,
-				CE9C34CA22690AD400F470D7 /* SciFi_Stereo4.wav */,
-				CE9C34CB22690AD400F470D7 /* SciFi_Stereo5.wav */,
-				CE9C34CC22690AD400F470D7 /* SciFi_Stereo8.wav */,
 			);
 			path = SciFi;
 			sourceTree = "<group>";
@@ -284,33 +242,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE9C34E422690AD400F470D7 /* SciFi_Stereo8.wav in Resources */,
-				CE9C34D422690AD400F470D7 /* Nature_Stereo2.wav in Resources */,
-				CE9C34D722690AD400F470D7 /* Nature_Stereo7.wav in Resources */,
 				CE9C34D022690AD400F470D7 /* Nature_Mono5.wav in Resources */,
 				CE9C34DB22690AD400F470D7 /* SciFi_Mono6.wav in Resources */,
 				CE9C34DC22690AD400F470D7 /* SciFi_Mono7.wav in Resources */,
-				CE9C34D222690AD400F470D7 /* Nature_Stereo1.wav in Resources */,
-				CE9C34D522690AD400F470D7 /* Nature_Stereo3.wav in Resources */,
 				CEB4AE342266469B00D014AF /* LaunchScreen.storyboard in Resources */,
-				CE9C34E022690AD400F470D7 /* SciFi_Stereo12.wav in Resources */,
-				CE9C34D822690AD400F470D7 /* Nature_Stereo8.wav in Resources */,
 				CE9C34DD22690AD400F470D7 /* SciFi_Mono9.wav in Resources */,
 				CEB4AE312266469B00D014AF /* Assets.xcassets in Resources */,
 				CEB4AE2F2266469B00D014AF /* Main.storyboard in Resources */,
-				CE9C34DF22690AD400F470D7 /* SciFi_Stereo11.wav in Resources */,
 				CE9C34D922690AD400F470D7 /* SciFi_Mono10.wav in Resources */,
-				CE9C34DE22690AD400F470D7 /* SciFi_Stereo1.wav in Resources */,
-				CE9C34E222690AD400F470D7 /* SciFi_Stereo4.wav in Resources */,
-				CE9C34D322690AD400F470D7 /* Nature_Stereo10.wav in Resources */,
 				CE71A073226762E10089B454 /* background.png in Resources */,
 				CE9C34CD22690AD400F470D7 /* Nature_Mono11.wav in Resources */,
-				CE9C34E322690AD400F470D7 /* SciFi_Stereo5.wav in Resources */,
 				CE9C34CF22690AD400F470D7 /* Nature_Mono4.wav in Resources */,
 				CE9C34D122690AD400F470D7 /* Nature_Mono9.wav in Resources */,
 				CE9C34DA22690AD400F470D7 /* SciFi_Mono2.wav in Resources */,
-				CE9C34E122690AD400F470D7 /* SciFi_Stereo3.wav in Resources */,
-				CE9C34D622690AD400F470D7 /* Nature_Stereo6.wav in Resources */,
 				CE9C34CE22690AD400F470D7 /* Nature_Mono12.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

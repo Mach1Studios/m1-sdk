@@ -14,9 +14,22 @@ public class Mach1Encode {
     public func getPoints() {
         Mach1EncodeCAPI_getPoints(M1obj)
     }
+    
+    func convert(length: Int, data: UnsafePointer<Float>) -> [Float] {
+        
+        let buffer = UnsafeBufferPointer(start: data, count: length);
+        return Array(buffer)
+    }
 
-    public func getGains() {
-        Mach1EncodeCAPI_getGains(M1obj)
+    public func getGains() -> [[Float]] {
+        var array = Array(repeating: Array(repeating: Float(0), count: 8), count: Int(Mach1EncodeCAPI_getPointsCount(M1obj)))
+        let gainsPtr = unsafeBitCast( Mach1EncodeCAPI_getGains(M1obj), to: UnsafeMutablePointer<UnsafeMutablePointer<Float>?>?.self)
+        for i in 0..<Int(Mach1EncodeCAPI_getPointsCount(M1obj)){
+            for j in 0..<8 {
+                array[i][j] = ((gainsPtr! + i).pointee! + j).pointee
+            }
+        }
+        return array
     }
 
     public func getPointsNames() {
@@ -97,7 +110,7 @@ public class Mach1Encode {
         ///     - value range: 0.0 -> 1.0
     }
 
-    public func setAutoOrbit(bool setAutoOrbit: Bool) {
+    public func setAutoOrbit(setAutoOrbit: Bool) {
         Mach1EncodeCAPI_setAutoOrbit(M1obj, setAutoOrbit)
         /// Sets encoding behavior acts evenly with distribution 
         /// across all azimuth/rotation angles and all altitude/pitch angles
@@ -105,7 +118,7 @@ public class Mach1Encode {
         /// Remark: Default is true
     }
 
-    public func setIsotropicEncode(bool setIsotropicEncode: Bool) {
+    public func setIsotropicEncode(setIsotropicEncode: Bool) {
         Mach1EncodeCAPI_setIsotropicEncode(M1obj, setIsotropicEncode) 
         /// Sets both stereo points rotate in relation to the 
         /// center point between them so that they always triangulate

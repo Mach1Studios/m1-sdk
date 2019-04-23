@@ -14,20 +14,16 @@
 		1567AC192269336B004A1765 /* libMach1DecodeCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1567AC162269336B004A1765 /* libMach1DecodeCAPI.a */; };
 		1567AC1A2269336B004A1765 /* libMach1EncodeCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1567AC172269336B004A1765 /* libMach1EncodeCAPI.a */; };
 		1567AC1B2269336B004A1765 /* libMach1DecodePositionalCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1567AC182269336B004A1765 /* libMach1DecodePositionalCAPI.a */; };
+		A4860B2F226F771A00F5B7A5 /* SciFi_Mono03.wav in Resources */ = {isa = PBXBuildFile; fileRef = A4860B2C226F771A00F5B7A5 /* SciFi_Mono03.wav */; };
+		A4860B30226F771A00F5B7A5 /* SciFi_Mono02.wav in Resources */ = {isa = PBXBuildFile; fileRef = A4860B2D226F771A00F5B7A5 /* SciFi_Mono02.wav */; };
+		A4860B31226F771A00F5B7A5 /* SciFi_Mono01.wav in Resources */ = {isa = PBXBuildFile; fileRef = A4860B2E226F771A00F5B7A5 /* SciFi_Mono01.wav */; };
+		A4860B35226F772400F5B7A5 /* Nature_Mono01.wav in Resources */ = {isa = PBXBuildFile; fileRef = A4860B32226F772400F5B7A5 /* Nature_Mono01.wav */; };
+		A4860B36226F772400F5B7A5 /* Nature_Mono02.wav in Resources */ = {isa = PBXBuildFile; fileRef = A4860B33226F772400F5B7A5 /* Nature_Mono02.wav */; };
+		A4860B37226F772400F5B7A5 /* Nature_Mono03.wav in Resources */ = {isa = PBXBuildFile; fileRef = A4860B34226F772400F5B7A5 /* Nature_Mono03.wav */; };
 		A489B946226E4F62002C029E /* Mach1Encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A489B943226E4F62002C029E /* Mach1Encode.swift */; };
 		A489B947226E4F62002C029E /* Mach1Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A489B944226E4F62002C029E /* Mach1Decode.swift */; };
 		A489B948226E4F62002C029E /* Mach1DecodePositional.swift in Sources */ = {isa = PBXBuildFile; fileRef = A489B945226E4F62002C029E /* Mach1DecodePositional.swift */; };
 		CE71A073226762E10089B454 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = CE71A072226762E10089B454 /* background.png */; };
-		CE9C34CD22690AD400F470D7 /* Nature_Mono11.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34B422690AD300F470D7 /* Nature_Mono11.wav */; };
-		CE9C34CE22690AD400F470D7 /* Nature_Mono12.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34B522690AD300F470D7 /* Nature_Mono12.wav */; };
-		CE9C34CF22690AD400F470D7 /* Nature_Mono4.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34B622690AD300F470D7 /* Nature_Mono4.wav */; };
-		CE9C34D022690AD400F470D7 /* Nature_Mono5.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34B722690AD300F470D7 /* Nature_Mono5.wav */; };
-		CE9C34D122690AD400F470D7 /* Nature_Mono9.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34B822690AD300F470D7 /* Nature_Mono9.wav */; };
-		CE9C34D922690AD400F470D7 /* SciFi_Mono10.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34C122690AD400F470D7 /* SciFi_Mono10.wav */; };
-		CE9C34DA22690AD400F470D7 /* SciFi_Mono2.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34C222690AD400F470D7 /* SciFi_Mono2.wav */; };
-		CE9C34DB22690AD400F470D7 /* SciFi_Mono6.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34C322690AD400F470D7 /* SciFi_Mono6.wav */; };
-		CE9C34DC22690AD400F470D7 /* SciFi_Mono7.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34C422690AD400F470D7 /* SciFi_Mono7.wav */; };
-		CE9C34DD22690AD400F470D7 /* SciFi_Mono9.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE9C34C522690AD400F470D7 /* SciFi_Mono9.wav */; };
 		CE9C34E6226944B300F470D7 /* Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9C34E5226944B300F470D7 /* Encoder.swift */; };
 		CEB4AE2A2266469B00D014AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB4AE292266469B00D014AF /* AppDelegate.swift */; };
 		CEB4AE2C2266469B00D014AF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB4AE2B2266469B00D014AF /* ViewController.swift */; };
@@ -46,20 +42,16 @@
 		1567AC162269336B004A1765 /* libMach1DecodeCAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMach1DecodeCAPI.a; path = ../../../../../binaries/ios/lib/libMach1DecodeCAPI.a; sourceTree = "<group>"; };
 		1567AC172269336B004A1765 /* libMach1EncodeCAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMach1EncodeCAPI.a; path = ../../../../../binaries/ios/lib/libMach1EncodeCAPI.a; sourceTree = "<group>"; };
 		1567AC182269336B004A1765 /* libMach1DecodePositionalCAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMach1DecodePositionalCAPI.a; path = ../../../../../binaries/ios/lib/libMach1DecodePositionalCAPI.a; sourceTree = "<group>"; };
+		A4860B2C226F771A00F5B7A5 /* SciFi_Mono03.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Mono03.wav; sourceTree = "<group>"; };
+		A4860B2D226F771A00F5B7A5 /* SciFi_Mono02.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Mono02.wav; sourceTree = "<group>"; };
+		A4860B2E226F771A00F5B7A5 /* SciFi_Mono01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Mono01.wav; sourceTree = "<group>"; };
+		A4860B32226F772400F5B7A5 /* Nature_Mono01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Mono01.wav; sourceTree = "<group>"; };
+		A4860B33226F772400F5B7A5 /* Nature_Mono02.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Mono02.wav; sourceTree = "<group>"; };
+		A4860B34226F772400F5B7A5 /* Nature_Mono03.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Mono03.wav; sourceTree = "<group>"; };
 		A489B943226E4F62002C029E /* Mach1Encode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mach1Encode.swift; path = ../../../../../include/swift/Mach1Encode.swift; sourceTree = "<group>"; };
 		A489B944226E4F62002C029E /* Mach1Decode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mach1Decode.swift; path = ../../../../../include/swift/Mach1Decode.swift; sourceTree = "<group>"; };
 		A489B945226E4F62002C029E /* Mach1DecodePositional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mach1DecodePositional.swift; path = ../../../../../include/swift/Mach1DecodePositional.swift; sourceTree = "<group>"; };
 		CE71A072226762E10089B454 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
-		CE9C34B422690AD300F470D7 /* Nature_Mono11.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Mono11.wav; sourceTree = "<group>"; };
-		CE9C34B522690AD300F470D7 /* Nature_Mono12.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Mono12.wav; sourceTree = "<group>"; };
-		CE9C34B622690AD300F470D7 /* Nature_Mono4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Mono4.wav; sourceTree = "<group>"; };
-		CE9C34B722690AD300F470D7 /* Nature_Mono5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Mono5.wav; sourceTree = "<group>"; };
-		CE9C34B822690AD300F470D7 /* Nature_Mono9.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Nature_Mono9.wav; sourceTree = "<group>"; };
-		CE9C34C122690AD400F470D7 /* SciFi_Mono10.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Mono10.wav; sourceTree = "<group>"; };
-		CE9C34C222690AD400F470D7 /* SciFi_Mono2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Mono2.wav; sourceTree = "<group>"; };
-		CE9C34C322690AD400F470D7 /* SciFi_Mono6.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Mono6.wav; sourceTree = "<group>"; };
-		CE9C34C422690AD400F470D7 /* SciFi_Mono7.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Mono7.wav; sourceTree = "<group>"; };
-		CE9C34C522690AD400F470D7 /* SciFi_Mono9.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SciFi_Mono9.wav; sourceTree = "<group>"; };
 		CE9C34E5226944B300F470D7 /* Encoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Encoder.swift; sourceTree = "<group>"; };
 		CEB4AE262266469B00D014AF /* mach1-example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mach1-example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEB4AE292266469B00D014AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -99,11 +91,9 @@
 		CE9C34B322690AD300F470D7 /* Nature */ = {
 			isa = PBXGroup;
 			children = (
-				CE9C34B422690AD300F470D7 /* Nature_Mono11.wav */,
-				CE9C34B522690AD300F470D7 /* Nature_Mono12.wav */,
-				CE9C34B622690AD300F470D7 /* Nature_Mono4.wav */,
-				CE9C34B722690AD300F470D7 /* Nature_Mono5.wav */,
-				CE9C34B822690AD300F470D7 /* Nature_Mono9.wav */,
+				A4860B32226F772400F5B7A5 /* Nature_Mono01.wav */,
+				A4860B33226F772400F5B7A5 /* Nature_Mono02.wav */,
+				A4860B34226F772400F5B7A5 /* Nature_Mono03.wav */,
 			);
 			path = Nature;
 			sourceTree = "<group>";
@@ -111,11 +101,9 @@
 		CE9C34C022690AD400F470D7 /* SciFi */ = {
 			isa = PBXGroup;
 			children = (
-				CE9C34C122690AD400F470D7 /* SciFi_Mono10.wav */,
-				CE9C34C222690AD400F470D7 /* SciFi_Mono2.wav */,
-				CE9C34C322690AD400F470D7 /* SciFi_Mono6.wav */,
-				CE9C34C422690AD400F470D7 /* SciFi_Mono7.wav */,
-				CE9C34C522690AD400F470D7 /* SciFi_Mono9.wav */,
+				A4860B2E226F771A00F5B7A5 /* SciFi_Mono01.wav */,
+				A4860B2D226F771A00F5B7A5 /* SciFi_Mono02.wav */,
+				A4860B2C226F771A00F5B7A5 /* SciFi_Mono03.wav */,
 			);
 			path = SciFi;
 			sourceTree = "<group>";
@@ -230,20 +218,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE9C34D022690AD400F470D7 /* Nature_Mono5.wav in Resources */,
-				CE9C34DB22690AD400F470D7 /* SciFi_Mono6.wav in Resources */,
-				CE9C34DC22690AD400F470D7 /* SciFi_Mono7.wav in Resources */,
+				A4860B30226F771A00F5B7A5 /* SciFi_Mono02.wav in Resources */,
+				A4860B31226F771A00F5B7A5 /* SciFi_Mono01.wav in Resources */,
+				A4860B2F226F771A00F5B7A5 /* SciFi_Mono03.wav in Resources */,
 				CEB4AE342266469B00D014AF /* LaunchScreen.storyboard in Resources */,
-				CE9C34DD22690AD400F470D7 /* SciFi_Mono9.wav in Resources */,
 				CEB4AE312266469B00D014AF /* Assets.xcassets in Resources */,
+				A4860B37226F772400F5B7A5 /* Nature_Mono03.wav in Resources */,
+				A4860B35226F772400F5B7A5 /* Nature_Mono01.wav in Resources */,
 				CEB4AE2F2266469B00D014AF /* Main.storyboard in Resources */,
-				CE9C34D922690AD400F470D7 /* SciFi_Mono10.wav in Resources */,
 				CE71A073226762E10089B454 /* background.png in Resources */,
-				CE9C34CD22690AD400F470D7 /* Nature_Mono11.wav in Resources */,
-				CE9C34CF22690AD400F470D7 /* Nature_Mono4.wav in Resources */,
-				CE9C34D122690AD400F470D7 /* Nature_Mono9.wav in Resources */,
-				CE9C34DA22690AD400F470D7 /* SciFi_Mono2.wav in Resources */,
-				CE9C34CE22690AD400F470D7 /* Nature_Mono12.wav in Resources */,
+				A4860B36226F772400F5B7A5 /* Nature_Mono02.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

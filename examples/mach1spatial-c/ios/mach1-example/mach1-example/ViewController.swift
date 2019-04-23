@@ -17,12 +17,12 @@ import SceneKit
 var motionManager = CMMotionManager()
 
 var soundFiles: [[String]]  = [
-    ["Nature_Mono11","Nature_Mono11"],
-    ["Nature_Mono12","Nature_Mono12"],
-    ["Nature_Mono4","Nature_Mono4"],
-    ["SciFi_Mono10","SciFi_Mono10"],
-    ["SciFi_Mono2","SciFi_Mono2"],
-    ["SciFi_Mono6","SciFi_Mono6"],
+    ["Nature_Mono01","Nature_Mono01"],
+    ["Nature_Mono02","Nature_Mono02"],
+    ["Nature_Mono03","Nature_Mono03"],
+    ["SciFi_Mono01","SciFi_Mono01"],
+    ["SciFi_Mono02","SciFi_Mono02"],
+    ["SciFi_Mono03","SciFi_Mono03"],
 ]
 
 class ViewController: UIViewController {

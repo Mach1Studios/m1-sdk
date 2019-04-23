@@ -81,11 +81,11 @@ Drag to change position</string>
                                 <color key="textColor" red="0.39607843139999999" green="0.3921568627" blue="0.3921568627" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Msw-49-UN8">
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Msw-49-UN8" userLabel="Height Slider Control">
                                 <rect key="frame" x="35" y="467.5" width="173" height="31"/>
                                 <color key="tintColor" red="1" green="0.80000000000000004" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
-                                    <action selector="PitchSliderChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="dK6-HV-mEI"/>
+                                    <action selector="HeightSliderChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="amP-eG-fGO"/>
                                 </connections>
                             </slider>
                         </subviews>
@@ -118,7 +118,7 @@ Drag to change position</string>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="pitchSliderControl" destination="Msw-49-UN8" id="Tfl-Xa-9eX"/>
+                        <outlet property="heightSliderControl" destination="Msw-49-UN8" id="cjx-hX-0OD"/>
                         <outlet property="soundMap" destination="Gwy-b5-JIW" id="KfH-Qj-Fj4"/>
                         <outlet property="soundTypeSegmentedControl" destination="ZBA-3Q-b3P" id="2rE-Pe-cA5"/>
                         <outlet property="volumeSliderControl" destination="R75-PC-MUV" id="KWM-Bx-paG"/>

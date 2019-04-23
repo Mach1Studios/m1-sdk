@@ -13,7 +13,7 @@ import AVFoundation
 class Encoder: UIView {
     
     var volume : Float = 1.0
-    var pitch : Float = 0.0
+    var height : Float = 0.0
     var soundIndex : Int = 0
     var selected : Bool = false
     
@@ -49,7 +49,6 @@ class Encoder: UIView {
         if(players.count != 0) {
             players[0].stop()
             players[1].stop()
-            
         }
         
         players = [AVAudioPlayer(), AVAudioPlayer()]
@@ -71,8 +70,13 @@ class Encoder: UIView {
         players[0].isMeteringEnabled = true
         players[1].isMeteringEnabled = true
         
-        players[0].play()
-        players[1].play()
+        let startDelayTime = 1.0
+        let now = players[0].deviceCurrentTime
+        let startTime = now + startDelayTime
+        players[0].play(atTime: startTime)
+        players[1].play(atTime: startTime)
+        print (startTime)
+
     }
     
     func update(decodeArray: [Float]) {
@@ -84,10 +88,10 @@ class Encoder: UIView {
         
         m1Encode.setRotation(rotation: rotation)
         m1Encode.setDiverge(diverge: diverge)
-        m1Encode.setPitch(pitch: pitch)
+        m1Encode.setPitch(pitch: height)
         m1Encode.setAutoOrbit(setAutoOrbit: true)
         m1Encode.setIsotropicEncode(setIsotropicEncode: true)
-        m1Encode.setInputMode(inputMode: Mach1EncodeInputModeStereo)
+        m1Encode.setInputMode(inputMode: Mach1EncodeInputModeMono)
         
         m1Encode.generatePointResults()
         
@@ -96,7 +100,7 @@ class Encoder: UIView {
         //Use each coeff to decode multichannel Mach1 Spatial mix
         for i in 0...7 {
             volumes[0] += decodeArray[i * 2] * gains[0][i]
-            volumes[1] += decodeArray[i * 2 + 1] * gains[1][i]
+            volumes[1] += decodeArray[i * 2 + 1] * gains[gains.count > 1 ? 1 : 0][i]
         }
         
         players[0].volume = volumes[0] * volume

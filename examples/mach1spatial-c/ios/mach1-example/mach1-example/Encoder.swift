@@ -13,7 +13,7 @@ import AVFoundation
 class Encoder: UIView {
     
     var volume : Float = 1.0
-    var pitch : Float = 0.0
+    var height : Float = 0.0
     var soundIndex : Int = 0
     var selected : Bool = false
     
@@ -88,7 +88,7 @@ class Encoder: UIView {
         
         m1Encode.setRotation(rotation: rotation)
         m1Encode.setDiverge(diverge: diverge)
-        m1Encode.setPitch(pitch: pitch)
+        m1Encode.setPitch(pitch: height)
         m1Encode.setAutoOrbit(setAutoOrbit: true)
         m1Encode.setIsotropicEncode(setIsotropicEncode: true)
         m1Encode.setInputMode(inputMode: Mach1EncodeInputModeMono)

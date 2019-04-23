@@ -29,18 +29,22 @@ class ViewController: UIViewController {
     
     @IBOutlet var soundTypeSegmentedControl: UISegmentedControl?
     @IBOutlet var volumeSliderControl: UISlider?
-    @IBOutlet var pitchSliderControl: UISlider?
+    @IBOutlet var heightSliderControl: UISlider?
     @IBOutlet var soundMap: SoundMap?
     
     @IBAction func VolumeSliderChanged(_ sender: UISlider) {
         if(encoderCurrent != nil) {
             encoderCurrent?.volume = sender.value
+            // This slider is for changing the selected
+            // m1encode_obj's input gain / volume
         }
     }
     
-    @IBAction func PitchSliderChanged(_ sender: UISlider) {
+    @IBAction func HeightSliderChanged(_ sender: UISlider) {
         if(encoderCurrent != nil) {
-            encoderCurrent?.pitch = sender.value
+            encoderCurrent?.height = sender.value
+            // This slider is for setting the m1encode_obj's
+            // height
         }
     }
     
@@ -60,7 +64,7 @@ class ViewController: UIViewController {
     func closureSelectEncoder (encoder: Encoder? ) -> () {
         if(encoder != nil) {
             volumeSliderControl?.value = (encoder?.volume)!
-            pitchSliderControl?.value = (encoder?.pitch)!
+            heightSliderControl?.value = (encoder?.height)!
             soundTypeSegmentedControl?.selectedSegmentIndex = (encoder?.soundIndex)!
         }
         self.encoderCurrent = encoder
@@ -70,9 +74,6 @@ class ViewController: UIViewController {
         m1Decode.beginBuffer()
         let decodeArray: [Float]  = m1Decode.decode(Yaw: Float(cameraYaw), Pitch: Float(cameraPitch), Roll: Float(cameraRoll))
         m1Decode.endBuffer()
-        
-        // print(deviceYaw)
-        // print(decodeArray)
         
         soundMap?.update(decodeArray: decodeArray, rotationAngleForDisplay: -cameraYaw * Float.pi/180)
     }

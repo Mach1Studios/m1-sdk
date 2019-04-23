@@ -426,7 +426,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mach1.example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "../../../../lib/external/swift/Mach1Decode-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "../../../../include/swift/Mach1Decode-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -450,7 +450,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mach1.example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "../../../../lib/external/swift/Mach1Decode-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "../../../../include/swift/Mach1Decode-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

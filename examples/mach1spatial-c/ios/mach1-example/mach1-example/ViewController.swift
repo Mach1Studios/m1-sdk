@@ -17,12 +17,12 @@ import SceneKit
 var motionManager = CMMotionManager()
 
 var soundFiles: [[String]]  = [
-    ["Nature_Mono11","Nature_Mono11"],
-    ["Nature_Mono12","Nature_Mono12"],
-    ["Nature_Mono4","Nature_Mono4"],
-    ["SciFi_Mono10","SciFi_Mono10"],
-    ["SciFi_Mono2","SciFi_Mono2"],
-    ["SciFi_Mono6","SciFi_Mono6"],
+    ["Nature_Mono01","Nature_Mono01"],
+    ["Nature_Mono02","Nature_Mono02"],
+    ["Nature_Mono03","Nature_Mono03"],
+    ["SciFi_Mono01","SciFi_Mono01"],
+    ["SciFi_Mono02","SciFi_Mono02"],
+    ["SciFi_Mono03","SciFi_Mono03"],
 ]
 
 class ViewController: UIViewController {
@@ -57,8 +57,8 @@ class ViewController: UIViewController {
   
     var m1Decode : Mach1Decode!
     var encoderCurrent: Encoder?
-    var cameraPitch : Float = 0.0
     var cameraYaw : Float = 0.0
+    var cameraPitch : Float = 0.0
     var cameraRoll : Float = 0.0
 
     func closureSelectEncoder (encoder: Encoder? ) -> () {
@@ -68,6 +68,22 @@ class ViewController: UIViewController {
             soundTypeSegmentedControl?.selectedSegmentIndex = (encoder?.soundIndex)!
         }
         self.encoderCurrent = encoder
+        
+        DispatchQueue.global(qos: .userInitiated).sync {
+            
+            // Disabling sliders if nothing is selected,
+            // enabling them once we selected something.
+            
+            if (self.encoderCurrent == nil) {
+                volumeSliderControl!.isEnabled = false
+                heightSliderControl!.isEnabled = false
+                soundTypeSegmentedControl!.isEnabled = false
+            } else {
+                volumeSliderControl!.isEnabled = true
+                heightSliderControl!.isEnabled = true
+                soundTypeSegmentedControl!.isEnabled = true
+            }
+        }
     }
     
     @objc func update() {
@@ -75,7 +91,7 @@ class ViewController: UIViewController {
         let decodeArray: [Float]  = m1Decode.decode(Yaw: Float(cameraYaw), Pitch: Float(cameraPitch), Roll: Float(cameraRoll))
         m1Decode.endBuffer()
         
-        soundMap?.update(decodeArray: decodeArray, rotationAngleForDisplay: -cameraYaw * Float.pi/180)
+        soundMap?.update(decodeArray: decodeArray, rotationAngleForDisplay: -cameraPitch * Float.pi/180)
     }
     
     func getEuler(q1 : SCNVector4) -> float3
@@ -140,17 +156,18 @@ class ViewController: UIViewController {
                 let quat = motion?.gaze(atOrientation: UIApplication.shared.statusBarOrientation)
                 var angles = self!.getEuler(q1: quat!)
                 
-                self?.cameraPitch = angles.x
-                self?.cameraYaw = angles.y
+                self?.cameraYaw = angles.x
+                self?.cameraPitch = angles.y
                 self?.cameraRoll = angles.z
-                
-                //print(self!.cameraYaw, self!.cameraPitch,  self!.cameraRoll)
             })
             print("Device motion started")
         } else {
             print("Device motion unavailable");
         }
         
+        heightSliderControl!.isEnabled = false
+        volumeSliderControl!.isEnabled = false
+        soundTypeSegmentedControl?.isEnabled = false
     }
     
     override func didReceiveMemoryWarning() {

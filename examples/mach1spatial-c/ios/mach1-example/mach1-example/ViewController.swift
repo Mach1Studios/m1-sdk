@@ -87,16 +87,9 @@ class ViewController: UIViewController {
     }
     
     @objc func update() {
-//        m1Decode.beginBuffer()
-//        let decodeArray: [Float]  = m1Decode.decode(Yaw: Float(cameraYaw), Pitch: Float(cameraPitch), Roll: Float(cameraRoll))
-//        m1Decode.endBuffer()
-//
-//        soundMap?.update(decodeArray: decodeArray, rotationAngleForDisplay: -cameraRoll * Float.pi/180)
-        
         m1Decode.beginBuffer()
         let decodeArray: [Float]  = m1Decode.decode(Yaw: Float(cameraYaw), Pitch: Float(cameraPitch), Roll: Float(cameraRoll))
         m1Decode.endBuffer()
-//        print("Decode: ",decodeArray, "Angles: ", -cameraYaw, ", ", cameraPitch, ", ", cameraRoll)
         
         soundMap?.update(decodeArray: decodeArray, rotationAngleForDisplay: -cameraPitch * Float.pi/180)
     }
@@ -166,10 +159,6 @@ class ViewController: UIViewController {
                 self?.cameraYaw = angles.x
                 self?.cameraPitch = angles.y
                 self?.cameraRoll = angles.z
-                
-//                print("yaw = ", self!.cameraYaw, " pitch = ", self!.cameraPitch, " roll = ", self!.cameraRoll)
-                
-                //print(self!.cameraYaw, self!.cameraPitch,  self!.cameraRoll)
             })
             print("Device motion started")
         } else {

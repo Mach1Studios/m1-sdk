@@ -21,7 +21,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Encode/Decode demo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aNt-pK-u2r">
-                                <rect key="frame" x="63.5" y="30" width="249.5" height="29"/>
+                                <rect key="frame" x="63" y="30" width="249.5" height="29"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                 <color key="textColor" red="0.20000000000000001" green="0.22352941176470587" blue="0.29803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -38,6 +38,10 @@ Drag to change position</string>
                                 <rect key="frame" x="37" y="122" width="300" height="300"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ezo-82-caK" userLabel="Pitch Meter" customClass="PitchMeter" customModule="mach1_example" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="122" width="40" height="300"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="test" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Asq-4Y-BBI">
                                 <rect key="frame" x="187" y="333" width="22" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -45,7 +49,7 @@ Drag to change position</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ZBA-3Q-b3P">
-                                <rect key="frame" x="38" y="432" width="300" height="29"/>
+                                <rect key="frame" x="37.5" y="432" width="300" height="29"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <segments>
                                     <segment>
@@ -66,7 +70,7 @@ Drag to change position</string>
                                 </connections>
                             </segmentedControl>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="40e-gs-K1L">
-                                <rect key="frame" x="38" y="470" width="300" height="103"/>
+                                <rect key="frame" x="37.5" y="470" width="300" height="103"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Volume" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kTF-Ic-7oC">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="21.5"/>
@@ -101,6 +105,7 @@ Drag to change position</string>
                         <constraints>
                             <constraint firstItem="aNt-pK-u2r" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="0YO-9q-1Kk"/>
                             <constraint firstItem="Asq-4Y-BBI" firstAttribute="leading" secondItem="Gwy-b5-JIW" secondAttribute="leading" id="9Hi-Gc-kY0"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Ezo-82-caK" secondAttribute="trailing" constant="10" id="DKd-PB-CNU"/>
                             <constraint firstItem="Gwy-b5-JIW" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="37" id="FNs-GA-yPw"/>
                             <constraint firstItem="ZBA-3Q-b3P" firstAttribute="top" secondItem="Gwy-b5-JIW" secondAttribute="bottom" constant="10" id="K1i-xk-XHg"/>
                             <constraint firstItem="HRE-KA-rjC" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="Lfm-u1-Lyk"/>
@@ -110,11 +115,14 @@ Drag to change position</string>
                             <constraint firstItem="Gwy-b5-JIW" firstAttribute="top" secondItem="HRE-KA-rjC" secondAttribute="bottom" constant="10" id="TMD-0i-3QD"/>
                             <constraint firstItem="ZBA-3Q-b3P" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="VQv-Cn-HdW"/>
                             <constraint firstItem="HRE-KA-rjC" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="dD6-Bo-rjB"/>
+                            <constraint firstItem="Ezo-82-caK" firstAttribute="height" secondItem="Gwy-b5-JIW" secondAttribute="height" id="fwg-PJ-Xpm"/>
                             <constraint firstItem="Gwy-b5-JIW" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.8" id="igE-8t-T5m"/>
                             <constraint firstItem="40e-gs-K1L" firstAttribute="top" secondItem="ZBA-3Q-b3P" secondAttribute="bottom" constant="10" id="kLS-AU-xX4"/>
                             <constraint firstItem="Gwy-b5-JIW" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.8" id="kg3-uT-pch"/>
+                            <constraint firstItem="Ezo-82-caK" firstAttribute="top" secondItem="Gwy-b5-JIW" secondAttribute="top" id="qTy-4u-M2e"/>
                             <constraint firstItem="Asq-4Y-BBI" firstAttribute="bottom" secondItem="Gwy-b5-JIW" secondAttribute="bottom" id="qzt-vi-H4b"/>
                             <constraint firstItem="40e-gs-K1L" firstAttribute="leading" secondItem="ZBA-3Q-b3P" secondAttribute="leading" id="t4w-eG-Mhp"/>
+                            <constraint firstItem="Ezo-82-caK" firstAttribute="leading" secondItem="Gwy-b5-JIW" secondAttribute="trailing" id="x2S-5u-FQw"/>
                             <constraint firstItem="40e-gs-K1L" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="x3B-T9-ZNH"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -122,6 +130,7 @@ Drag to change position</string>
                     <connections>
                         <outlet property="heightSliderControl" destination="Msw-49-UN8" id="cjx-hX-0OD"/>
                         <outlet property="labelInfo" destination="Asq-4Y-BBI" id="xrW-7O-zE6"/>
+                        <outlet property="pitchMeter" destination="Ezo-82-caK" id="A11-1H-htT"/>
                         <outlet property="soundMap" destination="Gwy-b5-JIW" id="KfH-Qj-Fj4"/>
                         <outlet property="soundTypeSegmentedControl" destination="ZBA-3Q-b3P" id="2rE-Pe-cA5"/>
                         <outlet property="volumeSliderControl" destination="R75-PC-MUV" id="KWM-Bx-paG"/>

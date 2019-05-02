@@ -34,6 +34,7 @@ class SoundMap: UIView {
     var layerCameraCone = CAShapeLayer()
     var viewsEncoders: [Encoder] = [Encoder]()
     var viewCircle : UIView = UIView()
+    var viewPitch: UIView = UIView()
     
     var selectedEncoder : Int = -1
     var closureSelectEncoder: ((Encoder?) -> ())? = nil
@@ -81,10 +82,12 @@ class SoundMap: UIView {
         imageView.removeFromSuperview()
         viewCameraCone.removeFromSuperview()
         viewCircle.removeFromSuperview()
+        viewPitch.removeFromSuperview()
         
         imageView = UIImageView()
         viewCameraCone = UIView()
         viewCircle = UIView()
+        viewPitch = UIView()
         
         // test border color
         self.layer.masksToBounds = true
@@ -142,8 +145,23 @@ class SoundMap: UIView {
         layerCameraCone.fillColor = UIColor.clear.cgColor
         
         viewCameraCone.layer.addSublayer(layerCameraCone)
-        
         self.addSubview(viewCameraCone)
+        
+        
+        // pitch
+        viewPitch.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
+        viewPitch.backgroundColor  = UIColor( red: 0.4, green: 0.4, blue:0.0, alpha: 1.0 )
+        viewPitch.frame = CGRect(x: -60, y: -60, width: 60 * 2, height: 60 * 2)
+        //self.addSubview(viewPitch)
+        
+        let labelInfo = UILabel()
+        labelInfo.frame = CGRect(x: 0, y: 0, width: 108, height: 4)
+        labelInfo.backgroundColor = .white
+        labelInfo.layer.backgroundColor = UIColor(red: 0.67, green: 0.67, blue: 0.67, alpha: 1).cgColor
+        labelInfo.layer.cornerRadius = 4
+        labelInfo.center = CGPoint(x: viewPitch.frame.size.width / 2, y: viewPitch.frame.size.height / 2)
+        viewPitch.addSubview(labelInfo)
+        
     }
     
     override func layoutSubviews() {
@@ -275,6 +293,8 @@ class SoundMap: UIView {
     
     override func draw(_ rect: CGRect) {
         viewCameraCone.layer.sublayerTransform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.rotated(by: CGFloat(rotationAngle)))
+        
+        print(rotationAngle)
     }
     
 }

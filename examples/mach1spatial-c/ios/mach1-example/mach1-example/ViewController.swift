@@ -31,7 +31,8 @@ class ViewController: UIViewController {
     @IBOutlet var volumeSliderControl: UISlider?
     @IBOutlet var heightSliderControl: UISlider?
     @IBOutlet var soundMap: SoundMap?
-    
+    @IBOutlet var labelInfo: UILabel?
+
     @IBAction func VolumeSliderChanged(_ sender: UISlider) {
         if(encoderCurrent != nil) {
             encoderCurrent?.volume = sender.value
@@ -159,6 +160,13 @@ class ViewController: UIViewController {
                 self?.cameraYaw = angles.x
                 self?.cameraPitch = angles.y
                 self?.cameraRoll = angles.z
+                
+                DispatchQueue.main.async {
+                    self?.labelInfo?.text = "Yaw: " + String(format: "%.3f", angles.x) + "°" + "\r\n" +
+                        "Pitch: " + String(format: "%.3f", angles.y) + "°" + "\r\n" +
+                        "Roll: " + String(format: "%.3f", angles.z) + "°"
+                }
+
             })
             print("Device motion started")
         } else {

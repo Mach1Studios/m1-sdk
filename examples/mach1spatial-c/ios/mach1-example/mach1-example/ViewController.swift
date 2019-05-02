@@ -31,6 +31,7 @@ class ViewController: UIViewController {
     @IBOutlet var volumeSliderControl: UISlider?
     @IBOutlet var heightSliderControl: UISlider?
     @IBOutlet var soundMap: SoundMap?
+    @IBOutlet var pitchMeter: PitchMeter?
     @IBOutlet var labelInfo: UILabel?
 
     @IBAction func VolumeSliderChanged(_ sender: UISlider) {
@@ -162,6 +163,7 @@ class ViewController: UIViewController {
                 self?.cameraRoll = angles.z
                 
                 DispatchQueue.main.async {
+                    self?.pitchMeter?.update(meter: -angles.x / 90)
                     self?.labelInfo?.text = "Yaw: " + String(format: "%.3f", angles.x) + "°" + "\r\n" +
                         "Pitch: " + String(format: "%.3f", angles.y) + "°" + "\r\n" +
                         "Roll: " + String(format: "%.3f", angles.z) + "°"

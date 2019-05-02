@@ -23,6 +23,7 @@
 		A489B946226E4F62002C029E /* Mach1Encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A489B943226E4F62002C029E /* Mach1Encode.swift */; };
 		A489B947226E4F62002C029E /* Mach1Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A489B944226E4F62002C029E /* Mach1Decode.swift */; };
 		A489B948226E4F62002C029E /* Mach1DecodePositional.swift in Sources */ = {isa = PBXBuildFile; fileRef = A489B945226E4F62002C029E /* Mach1DecodePositional.swift */; };
+		CE5C9543227B7C3200F5595D /* PitchMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5C9542227B7C3200F5595D /* PitchMeter.swift */; };
 		CE71A073226762E10089B454 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = CE71A072226762E10089B454 /* background.png */; };
 		CE9C34E6226944B300F470D7 /* Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9C34E5226944B300F470D7 /* Encoder.swift */; };
 		CEB4AE2A2266469B00D014AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB4AE292266469B00D014AF /* AppDelegate.swift */; };
@@ -51,6 +52,7 @@
 		A489B943226E4F62002C029E /* Mach1Encode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mach1Encode.swift; path = ../../../../../include/swift/Mach1Encode.swift; sourceTree = "<group>"; };
 		A489B944226E4F62002C029E /* Mach1Decode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mach1Decode.swift; path = ../../../../../include/swift/Mach1Decode.swift; sourceTree = "<group>"; };
 		A489B945226E4F62002C029E /* Mach1DecodePositional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mach1DecodePositional.swift; path = ../../../../../include/swift/Mach1DecodePositional.swift; sourceTree = "<group>"; };
+		CE5C9542227B7C3200F5595D /* PitchMeter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchMeter.swift; sourceTree = "<group>"; };
 		CE71A072226762E10089B454 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		CE9C34E5226944B300F470D7 /* Encoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Encoder.swift; sourceTree = "<group>"; };
 		CEB4AE262266469B00D014AF /* mach1-example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mach1-example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -133,6 +135,7 @@
 				CEB4AE2B2266469B00D014AF /* ViewController.swift */,
 				CE9C34E5226944B300F470D7 /* Encoder.swift */,
 				CEFB41C6226A6B440099FC00 /* SoundMap.swift */,
+				CE5C9542227B7C3200F5595D /* PitchMeter.swift */,
 				A489B944226E4F62002C029E /* Mach1Decode.swift */,
 				A489B945226E4F62002C029E /* Mach1DecodePositional.swift */,
 				A489B943226E4F62002C029E /* Mach1Encode.swift */,
@@ -246,6 +249,7 @@
 				CEB4AE2C2266469B00D014AF /* ViewController.swift in Sources */,
 				CEB4AE2A2266469B00D014AF /* AppDelegate.swift in Sources */,
 				1567AC0D22692206004A1765 /* GLKQuaternionExtension.swift in Sources */,
+				CE5C9543227B7C3200F5595D /* PitchMeter.swift in Sources */,
 				CE9C34E6226944B300F470D7 /* Encoder.swift in Sources */,
 				A489B947226E4F62002C029E /* Mach1Decode.swift in Sources */,
 				1567AC0B226921FE004A1765 /* SCNQuaternionExtension.swift in Sources */,
@@ -397,7 +401,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6ZETDT84RB;
+				DEVELOPMENT_TEAM = KUBMV92ACA;
 				HEADER_SEARCH_PATHS = ../../../../include/swift/;
 				INFOPLIST_FILE = "$(SRCROOT)/mach1-example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -421,7 +425,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6ZETDT84RB;
+				DEVELOPMENT_TEAM = KUBMV92ACA;
 				HEADER_SEARCH_PATHS = ../../../../include/swift/;
 				INFOPLIST_FILE = "$(SRCROOT)/mach1-example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -9,30 +9,30 @@ rm -rf _logs
 
 echo "### BUILD ANDROID ###"
 echo "### BUILD NDK11 ###"
-/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-armeabi
-/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-armeabi-v7a
-/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-x86
-/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-x86-64
-/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips
-/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-arm64-v8a
-/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-arm64-v8a
-/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips64
+/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-armeabi
+/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-armeabi-v7a
+/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-x86
+/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-x86-64
+/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips
+/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-arm64-v8a
+/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-arm64-v8a
+/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips64
 
 echo "### BUILD NDK16b ###"
-/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain android-ndk-r16b-api-21-armeabi-clang-libcxx  
-/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx
-/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain android-ndk-r16b-api-21-x86-clang-libcxx
-/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
+/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r16b-api-21-armeabi-clang-libcxx  
+/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx
+/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r16b-api-21-x86-clang-libcxx
+/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
 
 echo "### BUILD RPI ###"
-/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain raspberrypi2-cxx11
-/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain raspberrypi3-cxx11
+/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain raspberrypi2-cxx11
+/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain raspberrypi3-cxx11
 
 echo "### BUILD iOS ###"
-/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain ios --ios-multiarch --ios-combined
+/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain ios --ios-multiarch --ios-combined
 
 echo "### BUILD macOS ###"
-/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain xcode
+/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain xcode
 
 #echo "### BUILD cross-compile Linux ###"
 #/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain linux-gcc-x64

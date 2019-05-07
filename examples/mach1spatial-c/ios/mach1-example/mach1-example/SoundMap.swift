@@ -30,7 +30,8 @@ class SoundMap: UIView {
     var rotationAngle : Float =  0.0
     
     var viewCameraCone : UIView = UIView()
-    var imageView = UIImageView()
+    var imageViewCameraPoint = UIImageView()
+    var imageViewBackground = UIImageView()
     var layerCameraCone = CAShapeLayer()
     var viewsEncoders: [Encoder] = [Encoder]()
     var viewCircle : UIView = UIView()
@@ -78,26 +79,32 @@ class SoundMap: UIView {
     
     
     func recreateView() {
-        imageView.removeFromSuperview()
+        
+        
+        imageViewBackground.removeFromSuperview()
+        imageViewCameraPoint.removeFromSuperview()
         viewCameraCone.removeFromSuperview()
         viewCircle.removeFromSuperview()
         
-        imageView = UIImageView()
+        imageViewBackground = UIImageView()
+        imageViewCameraPoint = UIImageView()
         viewCameraCone = UIView()
         viewCircle = UIView()
         
         // test border color
         self.layer.masksToBounds = true
+        self.backgroundColor = UIColor( red: 0.0, green: 1.0, blue:0.0, alpha: 0.0 )
         //self.layer.borderColor = UIColor( red: 1.0, green: 0.0, blue:0.0, alpha: 1.0 ).cgColor
         //self.layer.borderWidth = 1.0
         
         // background
-        imageView.frame = self.frame
-        imageView.image = UIImage(named: "background.png")
-        imageView.contentMode = .scaleAspectFit
-        imageView.clipsToBounds = true
-        imageView.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
-        self.addSubview(imageView)
+        imageViewBackground.frame = self.frame
+        imageViewBackground.image = UIImage(named: "background.png")
+        imageViewBackground.backgroundColor = UIColor( red: 0.0, green: 0.0, blue:0.0, alpha: 0.0 )
+        imageViewBackground.contentMode = .scaleAspectFit
+        imageViewBackground.clipsToBounds = true
+        imageViewBackground.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
+        self.addSubview(imageViewBackground)
         
         // background circle
         /*
@@ -137,7 +144,7 @@ class SoundMap: UIView {
         shapeCameraCone.addLine(to: CGPoint(x: 39, y: 5))
         shapeCameraCone.close()
         
-        var offset : CGAffineTransform = CGAffineTransform.identity.translatedBy(x: -39/2, y: -49).translatedBy(x: viewCameraCone.frame.size.width / 2, y: viewCameraCone.frame.size.height / 2)
+        var offset : CGAffineTransform = CGAffineTransform.identity.translatedBy(x: -42/2, y: -49).translatedBy(x: viewCameraCone.frame.size.width / 2, y: viewCameraCone.frame.size.height / 2)
         layerCameraCone.path = shapeCameraCone.cgPath.copy(using: &offset)  //shapeCameraCone.cgPath
         layerCameraCone.lineWidth = 3
         layerCameraCone.strokeColor = UIColor(red: 0.59, green: 0.59, blue: 0.59, alpha: 1).cgColor
@@ -145,6 +152,16 @@ class SoundMap: UIView {
         
         viewCameraCone.layer.addSublayer(layerCameraCone)
         self.addSubview(viewCameraCone)
+        
+        
+        imageViewCameraPoint.frame = CGRect(x: -10, y: -10, width: 10 * 2, height: 10 * 2)
+        imageViewCameraPoint.image = UIImage(named: "cameraPoint.png")
+        imageViewCameraPoint.backgroundColor = UIColor( red: 0.0, green: 0.0, blue:0.0, alpha: 0.0 )
+        imageViewCameraPoint.contentMode = .scaleAspectFit
+        imageViewCameraPoint.clipsToBounds = true
+        imageViewCameraPoint.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
+        self.addSubview(imageViewCameraPoint)
+
     }
     
     override func layoutSubviews() {

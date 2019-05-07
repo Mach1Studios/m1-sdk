@@ -10,13 +10,13 @@ public class Mach1Encode {
     deinit {
         Mach1EncodeCAPI_delete(M1obj)
     }
-    
+
     public func getPoints() {
         Mach1EncodeCAPI_getPoints(M1obj)
     }
-    
+
     func convert(length: Int, data: UnsafePointer<Float>) -> [Float] {
-        
+
         let buffer = UnsafeBufferPointer(start: data, count: length);
         return Array(buffer)
     }
@@ -60,7 +60,7 @@ public class Mach1Encode {
         ///     - INPUT_AFORMAT
         ///     - INPUT_BFORMAT
     }
-    
+
     public func setOutputMode(outputMode: Mach1EncodeOutputModeType) {
         Mach1EncodeCAPI_setOutputMode(M1obj, outputMode)
         /// Sets the output spatial format, Mach1Spatial or Mach1Horizon
@@ -112,15 +112,15 @@ public class Mach1Encode {
 
     public func setAutoOrbit(setAutoOrbit: Bool) {
         Mach1EncodeCAPI_setAutoOrbit(M1obj, setAutoOrbit)
-        /// Sets encoding behavior acts evenly with distribution 
+        /// Sets encoding behavior acts evenly with distribution
         /// across all azimuth/rotation angles and all altitude/pitch angles
         ///
         /// Remark: Default is true
     }
 
     public func setIsotropicEncode(setIsotropicEncode: Bool) {
-        Mach1EncodeCAPI_setIsotropicEncode(M1obj, setIsotropicEncode) 
-        /// Sets both stereo points rotate in relation to the 
+        Mach1EncodeCAPI_setIsotropicEncode(M1obj, setIsotropicEncode)
+        /// Sets both stereo points rotate in relation to the
         /// center point between them so that they always triangulate
         /// toward center of the cuboid
         ///

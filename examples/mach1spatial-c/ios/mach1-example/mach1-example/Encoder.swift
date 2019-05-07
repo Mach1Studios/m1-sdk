@@ -116,34 +116,35 @@ class Encoder: UIView {
         self.layer.masksToBounds = true
         self.backgroundColor = UIColor.clear // UIColor( red: 1.0, green: 0.0, blue:0.0, alpha: 1.0 )
         
-        let circleInternalPath = UIBezierPath()
-        circleInternalPath.move(to: CGPoint(x: 6, y: 12))
-        circleInternalPath.addCurve(to: CGPoint(x: 12, y: 6), controlPoint1: CGPoint(x: 9.31, y: 12), controlPoint2: CGPoint(x: 12, y: 9.31))
-        circleInternalPath.addCurve(to: CGPoint(x: 6, y: 0), controlPoint1: CGPoint(x: 12, y: 2.69), controlPoint2: CGPoint(x: 9.31, y: 0))
-        circleInternalPath.addCurve(to: CGPoint(x: 0, y: 6), controlPoint1: CGPoint(x: 2.69, y: 0), controlPoint2: CGPoint(x: 0, y: 2.69))
-        circleInternalPath.addCurve(to: CGPoint(x: 6, y: 12), controlPoint1: CGPoint(x: 0, y: 9.31), controlPoint2: CGPoint(x: 2.69, y: 12))
-        circleInternalPath.close()
+        // circle internal
+        let circlePath = UIBezierPath()
+        circlePath.move(to: CGPoint(x: 6, y: 12))
+        circlePath.addCurve(to: CGPoint(x: 12, y: 6), controlPoint1: CGPoint(x: 9.31, y: 12), controlPoint2: CGPoint(x: 12, y: 9.31))
+        circlePath.addCurve(to: CGPoint(x: 6, y: 0), controlPoint1: CGPoint(x: 12, y: 2.69), controlPoint2: CGPoint(x: 9.31, y: 0))
+        circlePath.addCurve(to: CGPoint(x: 0, y: 6), controlPoint1: CGPoint(x: 2.69, y: 0), controlPoint2: CGPoint(x: 0, y: 2.69))
+        circlePath.addCurve(to: CGPoint(x: 6, y: 12), controlPoint1: CGPoint(x: 0, y: 9.31), controlPoint2: CGPoint(x: 2.69, y: 12))
+        circlePath.close()
         
-        var internalOffset : CGAffineTransform = CGAffineTransform.identity.translatedBy(x: -6, y: -6)
-        circleInternalLayer.path = circleInternalPath.cgPath.copy(using: &internalOffset) // circleInternalPath.cgPath
-        circleInternalLayer.fillColor = UIColor( red: 0.4, green: 0.4, blue:0.0, alpha: 1.0 ).cgColor
-        
-        let viewCircleInternal : UIView = UIView()
-        viewCircleInternal.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
-        viewCircleInternal.layer.addSublayer(circleInternalLayer)
-        
+        // circle external
         var externalOffset : CGAffineTransform = CGAffineTransform.identity.translatedBy(x: -6, y: -6)
-        circleExternalLayer.path = circleInternalPath.cgPath.copy(using: &externalOffset) // circleInternalPath.cgPath
-        circleExternalLayer.fillColor = UIColor.clear.cgColor
-        circleExternalLayer.strokeColor = UIColor(red: 0.4, green: 0.39, blue: 0.39, alpha: 1).cgColor
-        circleExternalLayer.lineWidth = 1.0
+        circleExternalLayer.path = circlePath.cgPath.copy(using: &externalOffset) // circleInternalPath.cgPath
+        circleExternalLayer.lineWidth = 0.5
         
         let viewCircleExternal : UIView = UIView()
         viewCircleExternal.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
         viewCircleExternal.layer.addSublayer(circleExternalLayer)
         
-        self.addSubview(viewCircleInternal)
+        // circle internal
+        var internalOffset : CGAffineTransform = CGAffineTransform.identity.translatedBy(x: -6, y: -6)
+        circleInternalLayer.path = circlePath.cgPath.copy(using: &internalOffset) // circleInternalPath.cgPath
+        
+        let viewCircleInternal : UIView = UIView()
+        viewCircleInternal.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
+        viewCircleInternal.layer.addSublayer(circleInternalLayer)
+      
+        
         self.addSubview(viewCircleExternal)
+        self.addSubview(viewCircleInternal)
     }
     
     func dBToAmplitude(dB : Float) -> Float
@@ -158,10 +159,12 @@ class Encoder: UIView {
         players[0].updateMeters()
         players[1].updateMeters()
         
-        let color : CGColor = selected ? UIColor(red: 1, green: 0.8, blue: 0.4, alpha: 1).cgColor : UIColor(red: 0.4, green: 0.39, blue: 0.39, alpha: 1).cgColor;
-        
-        circleInternalLayer.fillColor = color
-        circleExternalLayer.strokeColor = color
+        let selectedColor : CGColor = UIColor(red: 1, green: 0.8, blue: 0.4, alpha: 1).cgColor
+
+        circleInternalLayer.fillColor = selected ? selectedColor : UIColor(red: 90.0/255, green: 90.0/255, blue: 90.0/255, alpha: 1).cgColor
+
+        circleExternalLayer.fillColor = UIColor( red: 114.0/255, green: 114.0/255, blue:114.0/255, alpha: selected ? 0.0 : 1.0 ).cgColor
+        circleExternalLayer.strokeColor = selected ? selectedColor : UIColor(red: 151.0/255, green: 151.0/255, blue: 151.0/255, alpha: 1).cgColor
         circleExternalLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.scaledBy(x: scale, y: scale))
     }
 }

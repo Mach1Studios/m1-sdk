@@ -62,7 +62,6 @@ namespace Mach1
         public void setDecodeAlgoType(Mach1DecodeAlgoType type)
         {
             Mach1DecodeCAPI_setDecodeAlgoType(M1obj, type);
-
             // Set the decoding algorithm
             //
             // - Parameters:

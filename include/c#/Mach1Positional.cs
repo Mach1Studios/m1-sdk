@@ -129,8 +129,8 @@ namespace Mach1
         }
 
         public void setDecodeAlgoType(Mach1DecodeAlgoType type)
-		    {
-			      Mach1DecodePositionalCAPI_setDecodeAlgoType(M1obj, type);
+		{
+			Mach1DecodePositionalCAPI_setDecodeAlgoType(M1obj, type);
             // Set the decoding algorithm
             //
             // - Parameters:
@@ -139,7 +139,7 @@ namespace Mach1
             //     - Mach1DecodeAlgoHorizon = 2 (compass / yaw | 4 channels)
             //     - Mach1DecodeAlgoHorizonPairs = 3 (compass / yaw | 4x stereo mastered pairs)
             //     - Mach1DecodeAlgoSpatialPairs = 4 (experimental periphonic pairs | 8x stereo mastered pairs)
-		    }
+		}
 
         // settings
 
@@ -183,7 +183,6 @@ namespace Mach1
         public void setFalloffCurve(float falloffCurve)
         {
             Mach1DecodePositionalCAPI_setFalloffCurve(M1obj, falloffCurve);
-
         }
 
         public void setFalloffCurveBlendMode(float falloffCurveBlendMode)

@@ -4,6 +4,18 @@
 echo "### Change Dir ###"
 cd "/Volumes/git/m1-sdk/lib"
 
+echo "Built ios-12-1-dep-9-3?"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) 
+			yes | cp -rf "_install/ios-12-1-dep-9-3/lib/libMach1DecodeCAPI.a" "_install/ios/lib/libMach1DecodeCAPI.a"
+			yes | cp -rf "_install/ios-12-1-dep-9-3/lib/libMach1EncodeCAPI.a" "_install/ios/lib/libMach1EncodeCAPI.a"
+			yes | cp -rf "_install/ios-12-1-dep-9-3/lib/libMach1DecodePositionalCAPI.a" "_install/ios/lib/libMach1DecodePositionalCAPI.a"
+			rm -rf "_install/ios-12-1-dep-9-3"; break;;
+        No ) exit;;
+    esac
+done
+
 echo "### Copying shared libs for Unity ###"
 yes | cp -rf "_install/xcode/libBundle/libMach1DecodeCAPI.bundle" "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1DecodeCAPI.bundle"
 yes | cp -rf "_install/xcode/libBundle/libMach1EncodeCAPI.bundle" "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1EncodeCAPI.bundle"

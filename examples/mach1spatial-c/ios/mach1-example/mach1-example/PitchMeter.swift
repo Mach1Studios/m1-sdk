@@ -120,9 +120,8 @@ class PitchMeter: UIView {
     }
     
     override func draw(_ rect: CGRect) {
-        //        labelProgress.transform = (CGAffineTransform.identity.translatedBy(x: 0, y: CGFloat(meter * 50.0 / 2)).scaledBy(x: 1.0, y: CGFloat(meter * 50.0)))
         shapeLayerCircle.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.translatedBy(x: 0, y: CGFloat(meter * Float(self.frame.height) / 2)))
-        labelValue.text = String(Int(180 * meter)) + "º"
+        labelValue.text = String(Int(90 * meter)) + "º"
     }
     
 }

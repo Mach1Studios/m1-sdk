@@ -111,7 +111,7 @@ class YawMeter: UIView {
         labelText.font = labelValue.font.withSize(10)
         labelText.frame = self.frame //  CGRect(x: 0, y: 0, width: self.frame.width/2, height: self.frame.height)
         labelText.textColor = UIColor(red: 0.8, green: 0.8, blue: 0.79, alpha: 1)
-        labelText.center = CGPoint(x: 0, y: self.frame.height/2 - 5)
+        labelText.center = CGPoint(x: 0, y: self.frame.height/2 - 4)
         labelText.textAlignment = .center
         labelText.text = "Yaw"
         viewYaw.addSubview(labelText)
@@ -152,7 +152,7 @@ class YawMeter: UIView {
         shapeLayerLine.path = linePath.cgPath
         
         // circle
-        let circlePath = UIBezierPath(arcCenter: CGPoint(x: 0,y: 0), radius: CGFloat(self.frame.width/4 + 10), startAngle: CGFloat(-Float.pi/2), endAngle:CGFloat(-Float.pi/2 + angle), clockwise: true)
+        let circlePath = UIBezierPath(arcCenter: CGPoint(x: 0,y: 0), radius: CGFloat(self.frame.width/4 + 10), startAngle: CGFloat(-Float.pi/2), endAngle:CGFloat(-Float.pi/2 + angle), clockwise: (angle > 0))
         
         shapeLayerCircle.path = circlePath.cgPath
         

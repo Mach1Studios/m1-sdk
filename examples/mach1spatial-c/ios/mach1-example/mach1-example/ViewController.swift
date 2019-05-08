@@ -31,6 +31,8 @@ class ViewController: UIViewController {
     @IBOutlet var volumeSliderControl: UISlider?
     @IBOutlet var heightSliderControl: UISlider?
     @IBOutlet var soundMap: SoundMap?
+    @IBOutlet var yawMeter: YawMeter?
+    @IBOutlet var rollMeter: RollMeter?
     @IBOutlet var pitchMeter: PitchMeter?
     @IBOutlet var labelInfo: UILabel?
 
@@ -163,6 +165,8 @@ class ViewController: UIViewController {
                 self?.cameraRoll = angles.z
                 
                 DispatchQueue.main.async {
+                    self?.yawMeter?.update(meter: -angles.y / 90)
+                    self?.rollMeter?.update(meter: -angles.z / 90)
                     self?.pitchMeter?.update(meter: -angles.x / 90)
                     self?.labelInfo?.text = "Yaw: " + String(format: "%.3f", angles.x) + "°" + "\r\n" +
                         "Pitch: " + String(format: "%.3f", angles.y) + "°" + "\r\n" +

@@ -11,11 +11,11 @@ import UIKit
 import SceneKit
 import QuartzCore
 
-class PitchMeter: UIView {
+class RollMeter: UIView {
     
     var meter : Float =  0.0
     
-    var viewPitch: UIView = UIView()
+    var viewRoll: UIView = UIView()
     var labelProgress : UIView = UIView()
     var shapeLayerCircle : CAShapeLayer = CAShapeLayer()
     var labelValue: UILabel = UILabel()
@@ -39,9 +39,9 @@ class PitchMeter: UIView {
     
     
     func recreateView() {
-        viewPitch.removeFromSuperview()
+        viewRoll.removeFromSuperview()
         
-        viewPitch = UIView()
+        viewRoll = UIView()
         
         // test border color
         self.layer.masksToBounds = true
@@ -50,10 +50,10 @@ class PitchMeter: UIView {
         //self.layer.borderWidth = 1.0
         
         // pitch
-        viewPitch.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
-        viewPitch.backgroundColor  = UIColor( red: 0.4, green: 0.4, blue:0.0, alpha: 1.0 )
+        viewRoll.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
+        viewRoll.backgroundColor  = UIColor( red: 0.4, green: 0.4, blue:0.0, alpha: 1.0 )
         
-        self.addSubview(viewPitch)
+        self.addSubview(viewRoll)
         
         /*
          viewProgress = UIView()
@@ -67,17 +67,13 @@ class PitchMeter: UIView {
          labelZero.center = CGPoint(x: viewPitch.frame.size.width / 2, y: viewPitch.frame.size.height / 2)
          labelZero.backgroundColor = UIColor(red: 0.77, green: 0.77, blue: 0.77, alpha: 1)
          viewPitch.addSubview(labelZero)
-         */
-        
-        
+        */
         
         let labelInfo = UILabel()
-        labelInfo.frame = CGRect(x: 0, y: 0, width: 1, height: self.frame.height)
+        labelInfo.frame = CGRect(x: 0, y: 0, width: self.frame.height, height: 1)
         labelInfo.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.79, alpha: 1)
-        labelInfo.center = CGPoint(x: viewPitch.frame.size.width / 2, y: viewPitch.frame.size.height / 2)
-        viewPitch.addSubview(labelInfo)
-        
-        //        labelInfo.text
+        labelInfo.center = CGPoint(x: viewRoll.frame.size.width / 2, y: viewRoll.frame.size.height / 2)
+        viewRoll.addSubview(labelInfo)
         
         // circle
         let circlePath = UIBezierPath(arcCenter: CGPoint(x: 0,y: 0), radius: CGFloat(5), startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
@@ -86,25 +82,25 @@ class PitchMeter: UIView {
         shapeLayerCircle.path = circlePath.cgPath
         shapeLayerCircle.fillColor = UIColor(red: 1, green: 0.78, blue: 0.13, alpha: 1).cgColor
         shapeLayerCircle.strokeColor = UIColor.clear.cgColor
-        viewPitch.layer.addSublayer(shapeLayerCircle)
+        viewRoll.layer.addSublayer(shapeLayerCircle)
         
         labelText = UILabel()
         labelText.font = labelValue.font.withSize(10)
         labelText.frame = self.frame //  CGRect(x: 0, y: 0, width: self.frame.width/2, height: self.frame.height)
         labelText.textColor = UIColor(red: 0.8, green: 0.8, blue: 0.79, alpha: 1)
-        labelText.center = CGPoint(x: -self.frame.width/4 ,y: 0)
+        labelText.center = CGPoint(x: 0, y: self.frame.width/4)
         labelText.textAlignment = .center
-        labelText.text = "Pitch"
-        viewPitch.addSubview(labelText)
+        labelText.text = "Roll"
+        viewRoll.addSubview(labelText)
 
         labelValue  = UILabel()
         labelValue.font = labelValue.font.withSize(10)
         labelValue.frame = self.frame //  CGRect(x: self.frame.width/2, y: 0, width: self.frame.width/2, height: self.frame.height)
         labelValue.textColor = UIColor(red: 0.8, green: 0.8, blue: 0.79, alpha: 1)
-        labelValue.center = CGPoint(x: self.frame.width/4, y: 0)
+        labelValue.center = CGPoint(x: 0 ,y: -self.frame.width/4)
         labelValue.textAlignment = .center
         labelValue.text = "0º"
-        viewPitch.addSubview(labelValue)
+        viewRoll.addSubview(labelValue)
     }
     
     override func layoutSubviews() {
@@ -121,8 +117,8 @@ class PitchMeter: UIView {
     
     override func draw(_ rect: CGRect) {
         //        labelProgress.transform = (CGAffineTransform.identity.translatedBy(x: 0, y: CGFloat(meter * 50.0 / 2)).scaledBy(x: 1.0, y: CGFloat(meter * 50.0)))
-        shapeLayerCircle.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.translatedBy(x: 0, y: CGFloat(meter * Float(self.frame.height) / 2)))
-        labelValue.text = String(Int(180 * meter)) + "º"
+        shapeLayerCircle.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.translatedBy(x: CGFloat(meter * Float(self.frame.height) / 2), y: 0))
+        labelValue.text = String(Int(90 * meter)) + "º"
     }
     
 }

@@ -23,6 +23,9 @@
 		A489B946226E4F62002C029E /* Mach1Encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A489B943226E4F62002C029E /* Mach1Encode.swift */; };
 		A489B947226E4F62002C029E /* Mach1Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A489B944226E4F62002C029E /* Mach1Decode.swift */; };
 		A489B948226E4F62002C029E /* Mach1DecodePositional.swift in Sources */ = {isa = PBXBuildFile; fileRef = A489B945226E4F62002C029E /* Mach1DecodePositional.swift */; };
+		CE4C48792283656200243D8D /* YawMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4C48782283656200243D8D /* YawMeter.swift */; };
+		CE4C487B2283684700243D8D /* RollMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4C487A2283684700243D8D /* RollMeter.swift */; };
+		CE4C487D22836BAD00243D8D /* yawMeter.png in Resources */ = {isa = PBXBuildFile; fileRef = CE4C487C22836BAD00243D8D /* yawMeter.png */; };
 		CE5C9543227B7C3200F5595D /* PitchMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5C9542227B7C3200F5595D /* PitchMeter.swift */; };
 		CE71A073226762E10089B454 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = CE71A072226762E10089B454 /* background.png */; };
 		CE90B1B12281E0F000D187C0 /* cameraPoint.png in Resources */ = {isa = PBXBuildFile; fileRef = CE90B1B02281E0F000D187C0 /* cameraPoint.png */; };
@@ -53,6 +56,9 @@
 		A489B943226E4F62002C029E /* Mach1Encode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mach1Encode.swift; path = ../../../../../include/swift/Mach1Encode.swift; sourceTree = "<group>"; };
 		A489B944226E4F62002C029E /* Mach1Decode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mach1Decode.swift; path = ../../../../../include/swift/Mach1Decode.swift; sourceTree = "<group>"; };
 		A489B945226E4F62002C029E /* Mach1DecodePositional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mach1DecodePositional.swift; path = ../../../../../include/swift/Mach1DecodePositional.swift; sourceTree = "<group>"; };
+		CE4C48782283656200243D8D /* YawMeter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YawMeter.swift; sourceTree = "<group>"; };
+		CE4C487A2283684700243D8D /* RollMeter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RollMeter.swift; sourceTree = "<group>"; };
+		CE4C487C22836BAD00243D8D /* yawMeter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yawMeter.png; sourceTree = "<group>"; };
 		CE5C9542227B7C3200F5595D /* PitchMeter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchMeter.swift; sourceTree = "<group>"; };
 		CE71A072226762E10089B454 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		CE90B1B02281E0F000D187C0 /* cameraPoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cameraPoint.png; sourceTree = "<group>"; };
@@ -138,6 +144,8 @@
 				CE9C34E5226944B300F470D7 /* Encoder.swift */,
 				CEFB41C6226A6B440099FC00 /* SoundMap.swift */,
 				CE5C9542227B7C3200F5595D /* PitchMeter.swift */,
+				CE4C487A2283684700243D8D /* RollMeter.swift */,
+				CE4C48782283656200243D8D /* YawMeter.swift */,
 				A489B944226E4F62002C029E /* Mach1Decode.swift */,
 				A489B945226E4F62002C029E /* Mach1DecodePositional.swift */,
 				A489B943226E4F62002C029E /* Mach1Encode.swift */,
@@ -151,6 +159,7 @@
 				CEB4AE352266469B00D014AF /* Info.plist */,
 				CE71A072226762E10089B454 /* background.png */,
 				CE90B1B02281E0F000D187C0 /* cameraPoint.png */,
+				CE4C487C22836BAD00243D8D /* yawMeter.png */,
 			);
 			path = "mach1-example";
 			sourceTree = "<group>";
@@ -231,6 +240,7 @@
 				CEB4AE342266469B00D014AF /* LaunchScreen.storyboard in Resources */,
 				CEB4AE312266469B00D014AF /* Assets.xcassets in Resources */,
 				A4860B37226F772400F5B7A5 /* Nature_Mono03.wav in Resources */,
+				CE4C487D22836BAD00243D8D /* yawMeter.png in Resources */,
 				A4860B35226F772400F5B7A5 /* Nature_Mono01.wav in Resources */,
 				CEB4AE2F2266469B00D014AF /* Main.storyboard in Resources */,
 				CE71A073226762E10089B454 /* background.png in Resources */,
@@ -246,6 +256,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEFB41C7226A6B440099FC00 /* SoundMap.swift in Sources */,
+				CE4C48792283656200243D8D /* YawMeter.swift in Sources */,
 				1567AC0F2269220C004A1765 /* CMDeviceMotion.swift in Sources */,
 				1567AC0A226921FE004A1765 /* SCNVector3Extensions.swift in Sources */,
 				A489B948226E4F62002C029E /* Mach1DecodePositional.swift in Sources */,
@@ -256,6 +267,7 @@
 				CE5C9543227B7C3200F5595D /* PitchMeter.swift in Sources */,
 				CE9C34E6226944B300F470D7 /* Encoder.swift in Sources */,
 				A489B947226E4F62002C029E /* Mach1Decode.swift in Sources */,
+				CE4C487B2283684700243D8D /* RollMeter.swift in Sources */,
 				1567AC0B226921FE004A1765 /* SCNQuaternionExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

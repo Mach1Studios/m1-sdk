@@ -43,31 +43,15 @@ class RollMeter: UIView {
         
         viewRoll = UIView()
         
-        // test border color
+        // border color
         self.layer.masksToBounds = true
         self.backgroundColor = UIColor( red: 0.0, green: 1.0, blue:0.0, alpha: 0.0 )
-        //self.layer.borderColor = UIColor( red: 1.0, green: 0.0, blue:0.0, alpha: 1.0 ).cgColor
-        //self.layer.borderWidth = 1.0
         
         // pitch
         viewRoll.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
         viewRoll.backgroundColor  = UIColor( red: 0.4, green: 0.4, blue:0.0, alpha: 1.0 )
         
         self.addSubview(viewRoll)
-        
-        /*
-         viewProgress = UIView()
-         viewProgress.frame = CGRect(x: 0, y: 0, width: 4, height: 1)
-         viewProgress.center = CGPoint(x: viewPitch.frame.size.width / 2, y: viewPitch.frame.size.height / 2)
-         viewProgress.backgroundColor = UIColor(red: 1, green: 0.8, blue: 0.4, alpha: 1)
-         viewPitch.addSubview(viewProgress)
-         
-         let labelZero = UILabel()
-         labelZero.frame = CGRect(x: 0, y: 0, width: 8, height: 1)
-         labelZero.center = CGPoint(x: viewPitch.frame.size.width / 2, y: viewPitch.frame.size.height / 2)
-         labelZero.backgroundColor = UIColor(red: 0.77, green: 0.77, blue: 0.77, alpha: 1)
-         viewPitch.addSubview(labelZero)
-        */
         
         let labelInfo = UILabel()
         labelInfo.frame = CGRect(x: 0, y: 0, width: self.frame.height, height: 1)

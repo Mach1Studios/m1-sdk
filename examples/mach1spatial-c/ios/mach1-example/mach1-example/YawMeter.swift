@@ -44,31 +44,15 @@ class YawMeter: UIView {
         
         viewYaw = UIView()
         
-        // test border color
+        // border color
         self.layer.masksToBounds = true
         self.backgroundColor = UIColor( red: 0.0, green: 1.0, blue:0.0, alpha: 0.0 )
-        //self.layer.borderColor = UIColor( red: 1.0, green: 0.0, blue:0.0, alpha: 1.0 ).cgColor
-        //self.layer.borderWidth = 1.0
         
         // pitch
         viewYaw.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
         viewYaw.backgroundColor  = UIColor( red: 0.4, green: 0.4, blue:0.0, alpha: 1.0 )
         
         self.addSubview(viewYaw)
-        
-        /*
-         viewProgress = UIView()
-         viewProgress.frame = CGRect(x: 0, y: 0, width: 4, height: 1)
-         viewProgress.center = CGPoint(x: viewPitch.frame.size.width / 2, y: viewPitch.frame.size.height / 2)
-         viewProgress.backgroundColor = UIColor(red: 1, green: 0.8, blue: 0.4, alpha: 1)
-         viewPitch.addSubview(viewProgress)
-         
-         let labelZero = UILabel()
-         labelZero.frame = CGRect(x: 0, y: 0, width: 8, height: 1)
-         labelZero.center = CGPoint(x: viewPitch.frame.size.width / 2, y: viewPitch.frame.size.height / 2)
-         labelZero.backgroundColor = UIColor(red: 0.77, green: 0.77, blue: 0.77, alpha: 1)
-         viewPitch.addSubview(labelZero)
-        */
         
         // background
         let imageViewBackground = UIImageView()
@@ -111,7 +95,7 @@ class YawMeter: UIView {
         labelText.font = labelValue.font.withSize(10)
         labelText.frame = self.frame //  CGRect(x: 0, y: 0, width: self.frame.width/2, height: self.frame.height)
         labelText.textColor = UIColor(red: 0.8, green: 0.8, blue: 0.79, alpha: 1)
-        labelText.center = CGPoint(x: 0, y: self.frame.height/2 - 4)
+        labelText.center = CGPoint(x: 0, y: self.frame.height/4 + 4)
         labelText.textAlignment = .center
         labelText.text = "Yaw"
         viewYaw.addSubview(labelText)

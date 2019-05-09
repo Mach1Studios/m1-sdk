@@ -165,7 +165,7 @@ class ViewController: UIViewController {
                 self?.cameraRoll = angles.z
                 
                 DispatchQueue.main.async {
-                    self?.yawMeter?.update(meter: -angles.y / 90)
+                    self?.yawMeter?.update(meter: -angles.y / 180)
                     self?.rollMeter?.update(meter: -angles.z / 90)
                     self?.pitchMeter?.update(meter: -angles.x / 90)
                     self?.labelInfo?.text = "Yaw: " + String(format: "%.3f", angles.x) + "°" + "\r\n" +

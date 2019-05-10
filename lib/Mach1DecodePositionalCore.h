@@ -91,8 +91,14 @@ public:
 	// settings
 	void setUseBlendMode(bool useBlendMode);
 
+	void setUseAttenuation(bool useAttenuation);
+	[[deprecated]]
 	void setUseFalloff(bool useFalloff);
+	void setAttenuationCurve(float attenuationCurve);
+	[[deprecated]]
 	void setFalloffCurve(float falloffCurve);
+	[[deprecated]]
+	void setAttenuationCurveBlendMode(float attenuationCurveBlendMode);
 	void setFalloffCurveBlendMode(float falloffCurveBlendMode);
 
 	void setIgnoreTopBottom(bool ignoreTopBottom);
@@ -100,7 +106,8 @@ public:
 	void setMuteWhenOutsideObject(bool muteWhenOutsideObject);
 	void setMuteWhenInsideObject(bool muteWhenInsideObject);
 
-
+	void setUsePlaneCalculation(bool usePlaneCalculation);
+	[[deprecated]]
 	void setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside);
 
 	void setUseYawForRotation(bool useYawForRotation);
@@ -108,27 +115,38 @@ public:
 	void setUseRollForRotation(bool useRollForRotation);
 
 	// parameters for algo
+	void setListenerPosition(Mach1Point3DCore* pos);
+	[[deprecated]]
 	void setCameraPosition(Mach1Point3DCore* pos);
+
+	void setListenerRotation(Mach1Point3DCore* euler);
+	[[deprecated]]
 	void setCameraRotation(Mach1Point3DCore* euler);
+
+	void setListenerRotationQuat(Mach1Point4DCore* quat);
+	[[deprecated]]
 	void setCameraRotationQuat(Mach1Point4DCore* quat);
+
 	void setDecoderAlgoPosition(Mach1Point3DCore* pos);
 	void setDecoderAlgoRotation(Mach1Point3DCore* euler);
 	void setDecoderAlgoRotationQuat(Mach1Point4DCore* quat);
 	void setDecoderAlgoScale(Mach1Point3DCore* scale);
-	void setAttenuationCurve(float* curve);
 
 	void evaluatePositionResults();
 
+	void getCoefficients(float *result);
+	[[deprecated]]
 	void getVolumesWalls(float *result);
+	void getCoefficientsInterior(float *result);
+	[[deprecated]]
 	void getVolumesRoom(float *result);
 
 	float getDist();
 
 	Mach1Point3DCore getCurrentAngle();
+	Mach1Point3DCore getCoefficientsRotation();
+	[[deprecated]]
 	Mach1Point3DCore getVolumeRotation();
 
 	void setFilterSpeed(float filterSpeed);
-
-	// getAttenuationPositionWalls
-	// getAttenuationPositionRoom
 };

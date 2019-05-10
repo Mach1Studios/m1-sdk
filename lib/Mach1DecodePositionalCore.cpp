@@ -213,11 +213,21 @@ void Mach1DecodePositionalCore::setUseBlendMode(bool useBlendMode)
 	this->useBlendMode = useBlendMode;
 }
 
+void Mach1DecodePositionalCore::setAttenuationCurve(float attenuationCurve)
+{
+	this->falloffCurve = attenuationCurve;
+}
+[[deprecated]]
 void Mach1DecodePositionalCore::setFalloffCurve(float falloffCurve)
 {
 	this->falloffCurve = falloffCurve;
 }
 
+void Mach1DecodePositionalCore::setAttenuationCurveBlendMode(float attenuationCurveBlendMode)
+{
+	this->falloffCurveBlendMode = attenuationCurveBlendMode;
+}
+[[deprecated]]
 void Mach1DecodePositionalCore::setFalloffCurveBlendMode(float falloffCurveBlendMode)
 {
 	this->falloffCurveBlendMode = falloffCurveBlendMode;
@@ -238,11 +248,21 @@ void Mach1DecodePositionalCore::setMuteWhenInsideObject(bool muteWhenInsideObjec
 	this->muteWhenOutsideObject = muteWhenOutsideObject;
 }
 
+void Mach1DecodePositionalCore::setUseAttenuation(bool useAttenuation)
+{
+	this->useFalloff = useAttenuation;
+}
+[[deprecated]]
 void Mach1DecodePositionalCore::setUseFalloff(bool useFalloff)
 {
 	this->useFalloff = useFalloff;
 }
 
+void Mach1DecodePositionalCore::setUsePlaneCalculation(bool usePlaneCalculation)
+{
+	this->useClosestPointRotationMuteInside = usePlaneCalculation;
+}
+[[deprecated]]
 void Mach1DecodePositionalCore::setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside)
 {
 	this->useClosestPointRotationMuteInside = useClosestPointRotationMuteInside;
@@ -263,10 +283,23 @@ void Mach1DecodePositionalCore::setUseRollForRotation(bool useRollForRotation)
 	this->useRollForRotation = useRollForRotation;
 }
 
+void Mach1DecodePositionalCore::setListenerPosition(Mach1Point3DCore * pos) {
+	cameraPosition = glm::vec3(pos->x, pos->y, pos->z);
+}
+[[deprecated]]
 void Mach1DecodePositionalCore::setCameraPosition(Mach1Point3DCore * pos) {
 	cameraPosition = glm::vec3(pos->x, pos->y, pos->z);
 }
 
+void Mach1DecodePositionalCore::setListenerRotation(Mach1Point3DCore * euler) {
+	/*
+		Mach1Point3DCore angle(euler->x, euler->y, euler->z);
+		mach1Decode.convertAnglesToMach1(&angle.x, &angle.y, &angle.z);
+		cameraRotation = glm::quat(glm::vec3(angle.x * DEG_TO_RAD_F, angle.y * DEG_TO_RAD_F, angle.z * DEG_TO_RAD_F));
+	*/
+	cameraRotation = glm::quat(glm::vec3(euler->x * DEG_TO_RAD_F, euler->y * DEG_TO_RAD_F, euler->z * DEG_TO_RAD_F));
+}
+[[deprecated]]
 void Mach1DecodePositionalCore::setCameraRotation(Mach1Point3DCore * euler) {
 	/*
 		Mach1Point3DCore angle(euler->x, euler->y, euler->z);
@@ -276,6 +309,11 @@ void Mach1DecodePositionalCore::setCameraRotation(Mach1Point3DCore * euler) {
 	cameraRotation = glm::quat(glm::vec3(euler->x * DEG_TO_RAD_F, euler->y * DEG_TO_RAD_F, euler->z * DEG_TO_RAD_F));
 }
 
+void Mach1DecodePositionalCore::setListenerRotationQuat(Mach1Point4DCore * quat)
+{
+	cameraRotation = glm::quat(quat->w, quat->x, quat->y, quat->z);
+}
+[[deprecated]]
 void Mach1DecodePositionalCore::setCameraRotationQuat(Mach1Point4DCore * quat)
 {
 	cameraRotation = glm::quat(quat->w, quat->x, quat->y, quat->z);
@@ -301,10 +339,6 @@ void Mach1DecodePositionalCore::setDecoderAlgoRotationQuat(Mach1Point4DCore * qu
 
 void Mach1DecodePositionalCore::setDecoderAlgoScale(Mach1Point3DCore * scale) {
 	soundScale = glm::vec3(scale->x, scale->y, scale->z);
-}
-
-void Mach1DecodePositionalCore::setAttenuationCurve(float * curve) {
-	// dummy
 }
 
 void Mach1DecodePositionalCore::evaluatePositionResults() {
@@ -458,6 +492,14 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
 	mach1Decode.beginBuffer();
 }
 
+void Mach1DecodePositionalCore::getCoefficients(float *result)
+{
+	for (int i = 0; i < volumes.size(); i++)
+	{
+		result[i] = volumeWalls * volumes[i];
+	}
+}
+[[deprecated]]
 void Mach1DecodePositionalCore::getVolumesWalls(float *result)
 {
 	for (int i = 0; i < volumes.size(); i++)
@@ -466,6 +508,14 @@ void Mach1DecodePositionalCore::getVolumesWalls(float *result)
 	}
 }
 
+void Mach1DecodePositionalCore::getCoefficientsInterior(float *result)
+{
+	for (int i = 0; i < volumes.size(); i++)
+	{
+		result[i] = volumeRoom * volumes[i];
+	}
+}
+[[deprecated]]
 void Mach1DecodePositionalCore::getVolumesRoom(float *result)
 {
 	for (int i = 0; i < volumes.size(); i++)
@@ -474,6 +524,11 @@ void Mach1DecodePositionalCore::getVolumesRoom(float *result)
 	}
 }
 
+Mach1Point3DCore Mach1DecodePositionalCore::getCoefficientsRotation()
+{
+	return Mach1Point3DCore{ eulerAngles.x , eulerAngles.y, eulerAngles.z };
+}
+[[deprecated]]
 Mach1Point3DCore Mach1DecodePositionalCore::getVolumeRotation()
 {
 	return Mach1Point3DCore{ eulerAngles.x , eulerAngles.y, eulerAngles.z };

@@ -26,8 +26,6 @@ namespace Mach1
         [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setDecodeAlgoType(IntPtr M1obj, Mach1DecodeAlgoType type);
 
-        // settings
-
         [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setUseBlendMode(IntPtr M1obj, bool useBlendMode);
 
@@ -41,16 +39,16 @@ namespace Mach1
         internal static extern void Mach1DecodePositionalCAPI_setMuteWhenInsideObject(IntPtr M1obj, bool muteWhenInsideObject);
 
         [DllImport(libname)]
-        internal static extern void Mach1DecodePositionalCAPI_setUseFalloff(IntPtr M1obj, bool useFalloff);
+        internal static extern void Mach1DecodePositionalCAPI_setUseAttenuation(IntPtr M1obj, bool useAttenuation);
 
         [DllImport(libname)]
-        internal static extern void Mach1DecodePositionalCAPI_setFalloffCurve(IntPtr M1obj, float falloffCurve);
+        internal static extern void Mach1DecodePositionalCAPI_setAttenuationCurve(IntPtr M1obj, float attenuationCurve);
 
         [DllImport(libname)]
-        internal static extern void Mach1DecodePositionalCAPI_setFalloffCurveBlendMode(IntPtr M1obj, float falloffCurveBlendMode);
+        internal static extern void Mach1DecodePositionalCAPI_setAttenuationCurveBlendMode(IntPtr M1obj, float attenuationCurveBlendMode);
 
         [DllImport(libname)]
-        internal static extern void Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(IntPtr M1obj, bool useClosestPointRotationMuteInside);
+        internal static extern void Mach1DecodePositionalCAPI_setUsePlaneCalculation(IntPtr M1obj, bool usePlaneCalculation);
 
         [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setUseYawForRotation(IntPtr M1obj, bool useYawForRotation);
@@ -61,19 +59,17 @@ namespace Mach1
         [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setUseRollForRotation(IntPtr M1obj, bool useRollForRotation);
 
-        // parameters for algo
-
         [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setPlatformType(IntPtr M1obj, bool type);
 
         [DllImport(libname)]
-        internal static extern void Mach1DecodePositionalCAPI_setCameraPosition(IntPtr M1obj, Mach1Point3D point);
+        internal static extern void Mach1DecodePositionalCAPI_setListenerPosition(IntPtr M1obj, Mach1Point3D point);
 
         [DllImport(libname)]
-        internal static extern void Mach1DecodePositionalCAPI_setCameraRotation(IntPtr M1obj, Mach1Point3D point);
+        internal static extern void Mach1DecodePositionalCAPI_setListenerRotation(IntPtr M1obj, Mach1Point3D point);
 
         [DllImport(libname)]
-        internal static extern void Mach1DecodePositionalCAPI_setCameraRotationQuat(IntPtr M1obj, Mach1Point4D quat);
+        internal static extern void Mach1DecodePositionalCAPI_setListenerRotationQuat(IntPtr M1obj, Mach1Point4D quat);
 
         [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setDecoderAlgoPosition(IntPtr M1obj, Mach1Point3D point);
@@ -91,16 +87,49 @@ namespace Mach1
         internal static extern void Mach1DecodePositionalCAPI_evaluatePositionResults(IntPtr M1obj);
 
         [DllImport(libname)]
-        internal static extern void Mach1DecodePositionalCAPI_getVolumesWalls(IntPtr M1obj, IntPtr data);
+        internal static extern void Mach1DecodePositionalCAPI_getCoefficients(IntPtr M1obj, IntPtr data);
 
         [DllImport(libname)]
-        internal static extern void Mach1DecodePositionalCAPI_getVolumesRoom(IntPtr M1obj, IntPtr data);
+        internal static extern void Mach1DecodePositionalCAPI_getCoefficientsInterior(IntPtr M1obj, IntPtr data);
 
         [DllImport(libname)]
         internal static extern float Mach1DecodePositionalCAPI_getDist(IntPtr M1obj);
 
         [DllImport(libname)]
+        internal static extern Mach1Point3D Mach1DecodePositionalCAPI_getCoefficientsRotation(IntPtr M1obj);
+
+/* DEPRECATED START */
+        [DllImport(libname)]
+        [Obsolete("setUseFalloff is deprecated, please use setUseAttenuation instead.")]
+        internal static extern void Mach1DecodePositionalCAPI_setUseFalloff(IntPtr M1obj, bool useFalloff);
+        [DllImport(libname)]
+        [Obsolete("setFalloffCurve is deprecated, please use setAttenuationCurve instead.")]
+        internal static extern void Mach1DecodePositionalCAPI_setFalloffCurve(IntPtr M1obj, float falloffCurve);
+        [DllImport(libname)]
+        [Obsolete("setFalloffCurveBlendMode is deprecated, please use setAttenuationCurveBlendMode instead.")]
+        internal static extern void Mach1DecodePositionalCAPI_setFalloffCurveBlendMode(IntPtr M1obj, float falloffCurveBlendMode);
+        [DllImport(libname)]
+        [Obsolete("setUseClosestPointRotationMuteInside is deprecated, please use setUsePlaneCalculation instead.")]
+        internal static extern void Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(IntPtr M1obj, bool useClosestPointRotationMuteInside);
+        [DllImport(libname)]
+        [Obsolete("setCameraPosition is deprecated, please use setListenerPosition instead.")]
+        internal static extern void Mach1DecodePositionalCAPI_setCameraPosition(IntPtr M1obj, Mach1Point3D point);
+        [DllImport(libname)]
+        [Obsolete("setCameraRotation is deprecated, please use setListenerRotation instead.")]
+        internal static extern void Mach1DecodePositionalCAPI_setCameraRotation(IntPtr M1obj, Mach1Point3D point);
+        [DllImport(libname)]
+        [Obsolete("setCameraRotationQuat is deprecated, please use setListenerRotationQuat instead.")]
+        internal static extern void Mach1DecodePositionalCAPI_setCameraRotationQuat(IntPtr M1obj, Mach1Point4D quat);
+        [DllImport(libname)]
+        [Obsolete("getVolumesWalls is deprecated, please use getCoefficients instead.")]
+        internal static extern void Mach1DecodePositionalCAPI_getVolumesWalls(IntPtr M1obj, IntPtr data);
+        [DllImport(libname)]
+        [Obsolete("getVolumesRoom is deprecated, please use getCoefficientsInterior instead.")]
+        internal static extern void Mach1DecodePositionalCAPI_getVolumesRoom(IntPtr M1obj, IntPtr data);
+        [DllImport(libname)]
+        [Obsolete("getVolumeRotation is deprecated, please use getCoefficientsRotation instead.")]
         internal static extern Mach1Point3D Mach1DecodePositionalCAPI_getVolumeRotation(IntPtr M1obj);
+/* DEPRECATED END */
 
         internal IntPtr M1obj;
 
@@ -172,29 +201,29 @@ namespace Mach1
             // when inside the positional reference shape/point
         }
 
-        public void setUseFalloff(bool useFalloff)
+        public void setUseAttenuation(bool useAttenuation)
         {
-            Mach1DecodePositionalCAPI_setUseFalloff(M1obj, useFalloff);
+            Mach1DecodePositionalCAPI_setUseAttenuation(M1obj, useAttenuation);
             // Set distance attenuation calculations on that mach1decode object on/off
             //
             // Remark: When off, distance remains 1.0
         }
 
-        public void setFalloffCurve(float falloffCurve)
+        public void setAttenuationCurve(float attenuationCurve)
         {
-            Mach1DecodePositionalCAPI_setFalloffCurve(M1obj, falloffCurve);
+            Mach1DecodePositionalCAPI_setAttenuationCurve(M1obj, attenuationCurve);
         }
 
-        public void setFalloffCurveBlendMode(float falloffCurveBlendMode)
+        public void setAttenuationCurveBlendMode(float attenuationCurveBlendMode)
         {
-            Mach1DecodePositionalCAPI_setFalloffCurveBlendMode(M1obj, falloffCurveBlendMode);
+            Mach1DecodePositionalCAPI_setAttenuationCurveBlendMode(M1obj, attenuationCurveBlendMode);
             // Warning: Experimental feature
             // Remark: Part of BlendMode
         }
 
-        public void setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside)
+        public void setUsePlaneCalculation(bool usePlaneCalculation)
         {
-            Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(M1obj, useClosestPointRotationMuteInside);
+            Mach1DecodePositionalCAPI_setUsePlaneCalculation(M1obj, usePlaneCalculation);
         }
 
         public void setUseYawForRotation(bool useYawForRotation)
@@ -222,27 +251,27 @@ namespace Mach1
         }
 
         // parameters for algo
-        public void setCameraPosition(Mach1Point3D point)
+        public void setListenerPosition(Mach1Point3D point)
         {
-            Mach1DecodePositionalCAPI_setCameraPosition(M1obj, point);
+            Mach1DecodePositionalCAPI_setListenerPosition(M1obj, point);
             // Sets the device/camera's position in desired x,y,z space
             //
             // - Parameters:
             //     - Mach1Point3D Position: x,y,z
         }
 
-        public void setCameraRotation(Mach1Point3D point)
+        public void setListenerRotation(Mach1Point3D point)
         {
-            Mach1DecodePositionalCAPI_setCameraRotation(M1obj, point);
+            Mach1DecodePositionalCAPI_setListenerRotation(M1obj, point);
             // Sets the device/camera's orientation with Euler angles
             //
             // - Parameters:
             //     - Mach1Point3D Rotation: yaw,pitch,roll
         }
 
-        public void setCameraRotationQuat(Mach1Point4D quat)
+        public void setListenerRotationQuat(Mach1Point4D quat)
         {
-            Mach1DecodePositionalCAPI_setCameraRotationQuat(M1obj, quat);
+            Mach1DecodePositionalCAPI_setListenerRotationQuat(M1obj, quat);
             // Sets the device/camera's orientation with Quaternion
             //
             // - Parameters:
@@ -290,6 +319,98 @@ namespace Mach1
             Mach1DecodePositionalCAPI_evaluatePositionResults(M1obj);
         }
 
+        public void getCoefficients(ref float[] data)
+        {
+            //if(data.Length < 18) data = new float[18];
+            GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
+            IntPtr pointer = pinnedArray.AddrOfPinnedObject();
+
+            Mach1DecodePositionalCAPI_getCoefficients(M1obj, pointer);
+
+            pinnedArray.Free();
+
+            // Return the current coefficients to be applied to the audiopla yer's volume
+        }
+
+        public void getCoefficientsInterior(ref float[] data)
+        {
+            //if(data.Length < 18) data = new float[18];
+            GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
+            IntPtr pointer = pinnedArray.AddrOfPinnedObject();
+
+            Mach1DecodePositionalCAPI_getCoefficientsInterior(M1obj, pointer);
+
+            pinnedArray.Free();
+
+            // Warning: Experimental feature
+            // Remark: Part of BlendMode
+        }
+
+        public float getDist()
+        {
+            return Mach1DecodePositionalCAPI_getDist(M1obj);
+            // Return a distance calculation of the position of the device/camera
+            // to the position of the m1obj
+        }
+
+        public Mach1Point3D getCoefficientsRotation()
+        {
+            return Mach1DecodePositionalCAPI_getCoefficientsRotation(M1obj);
+        }
+
+/* DEPRECATED START */
+        public void setUseFalloff(bool useFalloff)
+        {
+            Mach1DecodePositionalCAPI_setUseFalloff(M1obj, useFalloff);
+            // Set distance attenuation calculations on that mach1decode object on/off
+            //
+            // Remark: When off, distance remains 1.0
+        }
+
+        public void setFalloffCurve(float falloffCurve)
+        {
+            Mach1DecodePositionalCAPI_setFalloffCurve(M1obj, falloffCurve);
+        }
+
+        public void setFalloffCurveBlendMode(float falloffCurveBlendMode)
+        {
+            Mach1DecodePositionalCAPI_setFalloffCurveBlendMode(M1obj, falloffCurveBlendMode);
+            // Warning: Experimental feature
+            // Remark: Part of BlendMode
+        }
+
+        public void setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside)
+        {
+            Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(M1obj, useClosestPointRotationMuteInside);
+        }
+
+        public void setCameraPosition(Mach1Point3D point)
+        {
+            Mach1DecodePositionalCAPI_setCameraPosition(M1obj, point);
+            // Sets the device/camera's position in desired x,y,z space
+            //
+            // - Parameters:
+            //     - Mach1Point3D Position: x,y,z
+        }
+
+        public void setCameraRotation(Mach1Point3D point)
+        {
+            Mach1DecodePositionalCAPI_setCameraRotation(M1obj, point);
+            // Sets the device/camera's orientation with Euler angles
+            //
+            // - Parameters:
+            //     - Mach1Point3D Rotation: yaw,pitch,roll
+        }
+
+        public void setCameraRotationQuat(Mach1Point4D quat)
+        {
+            Mach1DecodePositionalCAPI_setCameraRotationQuat(M1obj, quat);
+            // Sets the device/camera's orientation with Quaternion
+            //
+            // - Parameters:
+            //     - Mach1Point4D Rotation: Quaternion
+        }
+
         public void getVolumesWalls(ref float[] data)
         {
             //if(data.Length < 18) data = new float[18];
@@ -317,17 +438,11 @@ namespace Mach1
             // Remark: Part of BlendMode
         }
 
-        public float getDist()
-        {
-            return Mach1DecodePositionalCAPI_getDist(M1obj);
-            // Return a distance calculation of the position of the device/camera
-            // to the position of the m1obj
-        }
-
         public Mach1Point3D getVolumeRotation()
         {
             return Mach1DecodePositionalCAPI_getVolumeRotation(M1obj);
         }
+/* DEPRECATED END */
 
     }
 }

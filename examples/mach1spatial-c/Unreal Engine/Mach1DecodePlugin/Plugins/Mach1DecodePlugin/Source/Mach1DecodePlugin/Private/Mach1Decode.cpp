@@ -1,70 +1,90 @@
 //  Mach1 SDK
 //  Copyright © 2017 Mach1. All rights reserved.
+//
+//  Header file
 
-#include "Mach1Decode.h"
+#pragma once
 
-#include "Mach1DecodePluginPrivatePCH.h" // Change to your project name!
+#ifndef Mach1DecodePositional_h
+#define Mach1DecodePositional_h
 
-Mach1Decode::Mach1Decode()
+#include <vector>
+#include <cmath>
+#include <chrono>
+#include <string>
+#include <algorithm>
+
+#include "Mach1DecodePositionalCAPI.h"
+
+//////////////
+
+class Mach1DecodePositional
 {
-	M1obj = Mach1DecodeCAPI_create();
-}
+	void* M1obj;
 
-Mach1Decode::~Mach1Decode()
-{
-	Mach1DecodeCAPI_delete(M1obj);
-} 
+public:
+	
+	Mach1DecodePositional();
+	~Mach1DecodePositional();
 
-void Mach1Decode::setPlatformType(Mach1PlatformType type)
-{
-	Mach1DecodeCAPI_setPlatformType(M1obj, type);
-}
+	void setPlatformType(Mach1PlatformType platformType);
+	void setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType);
 
-void Mach1Decode::setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType)
-{
-	Mach1DecodeCAPI_setDecodeAlgoType(M1obj, newAlgorithmType);
-}
+	// settings
+	void setUseBlendMode(bool useBlendMode);
+	void setIgnoreTopBottom(bool ignoreTopBottom);
 
-void Mach1Decode::decode(float Yaw, float Pitch, float Roll, float * result, int bufferSize, int sampleIndex)
-{
-	Mach1DecodeCAPI_decode(M1obj, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-}
+	void setMuteWhenOutsideObject(bool muteWhenOutsideObject);
+	void setMuteWhenInsideObject(bool muteWhenInsideObject);
 
-std::vector<float> Mach1Decode::decode(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
-{
-	static std::vector<float> vec(18);
+	void setUseAttenuation(bool useAttenuation);
+	void setAttenuationCurve(float attenuationCurve);
+	void setAttenuationCurveBlendMode(float attenuationCurveBlendMode);
 
-	Mach1DecodeCAPI_decode(M1obj, Yaw, Pitch, Roll, vec.data(), bufferSize, sampleIndex);
+	void setUsePlaneCalculation(bool usePlaneCalculation);
 
-	return vec;
-}
+	void setUseYawForRotation(bool useYawForRotation);
+	void setUsePitchForRotation(bool usePitchForRotation);
+	void setUseRollForRotation(bool useRollForRotation);
 
-void Mach1Decode::setFilterSpeed(float filterSpeed) 
-{
-	Mach1DecodeCAPI_setFilterSpeed(M1obj, filterSpeed);
-}
+	void setListenerPosition(Mach1Point3D point);
+	void setListenerRotation(Mach1Point3D point);
+	void setListenerRotationQuat(Mach1Point4D quat);
+	void setDecoderAlgoPosition(Mach1Point3D point);
+	void setDecoderAlgoRotation(Mach1Point3D point);
+	void setDecoderAlgoRotationQuat(Mach1Point4D quat);
+	void setDecoderAlgoScale(Mach1Point3D point);
 
-void Mach1Decode::beginBuffer()
-{
-	Mach1DecodeCAPI_beginBuffer(M1obj);
-}
+	void evaluatePositionResults();
+	void getCoefficients(float* result);
+	void getCoefficientsInterior(float* result);
+	float getDist();
+	Mach1Point3D getCurrentAngle();
+	Mach1Point3D getCoefficientsRotation();
+	void setFilterSpeed(float filterSpeed);
 
-void Mach1Decode::endBuffer()
-{
-	Mach1DecodeCAPI_endBuffer(M1obj);
-}
-
-long Mach1Decode::getCurrentTime()
-{
-	return Mach1DecodeCAPI_getCurrentTime(M1obj);
-}
-
-char* Mach1Decode::getLog()
-{
-	return Mach1DecodeCAPI_getLog(M1obj);
-}
-
-Mach1Point3D Mach1Decode::getCurrentAngle()
-{
-	return Mach1DecodeCAPI_getCurrentAngle(M1obj);
-}
+/* DEPRECATED START */
+	[[deprecated("setUseFalloff is deprecated, please use setUseAttenuation instead")]]
+	void setUseFalloff(bool useFalloff);
+	[[deprecated("setFalloffCurve is deprecated, please use setAttenuationCurve instead")]]
+	void setFalloffCurve(float falloffCurve);
+	[[deprecated("setFalloffCurveBlendMode is deprecated, please use setAttenuationCurveBlendMode instead")]]
+	void setFalloffCurveBlendMode(float falloffCurveBlendMode);
+	[[deprecated("setUseClosestPointRotationMuteInside is deprecated, please use setUsePlaneCalculation instead")]]
+	void setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside);
+	[[deprecated("setCameraPosition is deprecated, please use setListenerPosition instead")]]
+	void setCameraPosition(Mach1Point3D point);
+	[[deprecated("setCameraRotation is deprecated, please use setListenerRotation instead")]]
+	void setCameraRotation(Mach1Point3D point);
+	[[deprecated("setCameraRotationQuat is deprecated, please use setListenerRotationQuat instead")]]
+	void setCameraRotationQuat(Mach1Point4D quat);
+	[[deprecated("getVolumesWalls is deprecated, please use getCoefficients instead")]]
+	void getVolumesWalls(float* result);
+	[[deprecated("getVolumesRoom is deprecated, please use getCoefficientsInterior instead")]]
+	void getVolumesRoom(float* result);
+	[[deprecated("getVolumesRotation is depracted, pPlease use getCoefficientsRotation instead")]]
+	Mach1Point3D getVolumesRotation();
+/* DEPRECATED END */
+};
+  
+#endif /* Mach1DecodePositional_h */

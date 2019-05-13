@@ -21,8 +21,6 @@ updates and should not be integrated in sections but remain as an update-able fa
 #endif
 
 
-
-
 Mach1DecodePositional::Mach1DecodePositional()
 {
 	M1obj = Mach1DecodePositionalCAPI_create();
@@ -252,3 +250,68 @@ void Mach1DecodePositional::setFilterSpeed(float filterSpeed)
   //     - value range: 0.0001 -> 1.0 (where 0.1 would be a slow filter
   //     and 1.0 is no filter)
 }
+
+/* DEPRECATED START */
+void Mach1DecodePositional::setUseFalloff(bool useFalloff)
+{
+  Mach1DecodePositionalCAPI_setUseFalloff(M1obj, useFalloff);
+  // Set distance attenuation calculations on that mach1decode object on/off
+  //
+  // Remark: When off, distance remains 1.0
+}
+void Mach1DecodePositional::setFalloffCurve(float falloffCurve)
+{
+  Mach1DecodePositionalCAPI_setFalloffCurve(M1obj, falloffCurve);
+}
+void Mach1DecodePositional::setFalloffCurveBlendMode(float falloffCurveBlendMode)
+{
+  Mach1DecodePositionalCAPI_setFalloffCurveBlendMode(M1obj, falloffCurveBlendMode);
+  // Warning: Experimental feature
+  // Remark: Part of BlendMode
+}
+void Mach1DecodePositional::setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside)
+{
+  Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInsiden(M1obj, useClosestPointRotationMuteInside);
+}
+void Mach1DecodePositional::setCameraPosition(Mach1Point3D point)
+{
+  Mach1DecodePositionalCAPI_setCameraPosition(M1obj, point);
+  // Sets the device/camera's position in desired x,y,z space
+  //
+  // - Parameters:
+  //     - Mach1Point3D Position: x,y,z
+}
+void Mach1DecodePositional::setCameraRotation(Mach1Point3D point)
+{
+  Mach1DecodePositionalCAPI_setCameraRotation(M1obj, point);
+  // Sets the device/camera's orientation with Euler angles
+  //
+  // - Parameters:
+  //     - Mach1Point3D Rotation: yaw,pitch,roll
+}
+void Mach1DecodePositional::setCameraRotationQuat(Mach1Point4D quat)
+{
+  Mach1DecodePositionalCAPI_setCameraRotationQuat(M1obj, quat);
+  // Sets the device/camera's orientation with Quaternion
+  //
+  // - Parameters:
+  //     - Mach1Point4D Rotation: Quaternion
+}
+void Mach1DecodePositional::getVolumesWalls(float * result)
+{
+  Mach1DecodePositionalCAPI_getVolumesWalls(M1obj, result);
+  // Return the current coefficients to be applied to the audiopla yer's volume
+}
+void Mach1DecodePositional::getVolumesRoom(float * result)
+{
+  Mach1DecodePositionalCAPI_getVolumesRoom(M1obj, result);
+  // Warning: Experimental feature
+  // Remark: Part of BlendMode
+}
+Mach1Point3D Mach1DecodePositional::getVolumeRotation()
+{
+  return Mach1DecodePositionalCAPI_getVolumeRotation(M1obj);
+  // Return the current pivot rotation due to the m1obj comparison to the
+  // device/camera
+}
+/* DEPRECATED END */

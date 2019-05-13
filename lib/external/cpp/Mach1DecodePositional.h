@@ -47,7 +47,6 @@ public:
 	void setUsePitchForRotation(bool usePitchForRotation);
 	void setUseRollForRotation(bool useRollForRotation);
 
-	// parameters for algo
 	void setListenerPosition(Mach1Point3D point);
 	void setListenerRotation(Mach1Point3D point);
 	void setListenerRotationQuat(Mach1Point4D quat);
@@ -63,6 +62,29 @@ public:
 	Mach1Point3D getCurrentAngle();
 	Mach1Point3D getCoefficientsRotation();
 	void setFilterSpeed(float filterSpeed);
+
+/* DEPRECATED START */
+	[[deprecated("setUseFalloff is deprecated, please use setUseAttenuation instead")]]
+	void setUseFalloff(bool useFalloff);
+	[[deprecated("setFalloffCurve is deprecated, please use setAttenuationCurve instead")]]
+	void setFalloffCurve(float falloffCurve);
+	[[deprecated("setFalloffCurveBlendMode is deprecated, please use setAttenuationCurveBlendMode instead")]]
+	void setFalloffCurveBlendMode(float falloffCurveBlendMode);
+	[[deprecated("setUseClosestPointRotationMuteInside is deprecated, please use setUsePlaneCalculation instead")]]
+	void setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside);
+	[[deprecated("setCameraPosition is deprecated, please use setListenerPosition instead")]]
+	void setCameraPosition(Mach1Point3D point);
+	[[deprecated("setCameraRotation is deprecated, please use setListenerRotation instead")]]
+	void setCameraRotation(Mach1Point3D point);
+	[[deprecated("setCameraRotationQuat is deprecated, please use setListenerRotationQuat instead")]]
+	void setCameraRotationQuat(Mach1Point4D quat);
+	[[deprecated("getVolumesWalls is deprecated, please use getCoefficients instead")]]
+	void getVolumesWalls(float* result);
+	[[deprecated("getVolumesRoom is deprecated, please use getCoefficientsInterior instead")]]
+	void getVolumesRoom(float* result);
+	[[deprecated("getVolumesRotation is depracted, pPlease use getCoefficientsRotation instead")]]
+	Mach1Point3D getVolumesRotation();
+/* DEPRECATED END */
 };
   
 #endif /* Mach1DecodePositional_h */

@@ -37,7 +37,6 @@ extern "C" {
 	M1_API void Mach1DecodePositionalCAPI_setPlatformType(void* M1obj, enum Mach1PlatformType platformType);
 	M1_API void Mach1DecodePositionalCAPI_setDecodeAlgoType(void* M1obj, enum Mach1DecodeAlgoType newAlgorithmType);
 
-	// settings
 	M1_API void Mach1DecodePositionalCAPI_setMuteWhenOutsideObject(void* M1obj, bool muteWhenOutsideObject);
 	M1_API void Mach1DecodePositionalCAPI_setMuteWhenInsideObject(void* M1obj, bool muteWhenInsideObject);
 
@@ -51,7 +50,6 @@ extern "C" {
 	M1_API void Mach1DecodePositionalCAPI_setUsePitchForRotation(void* M1obj, bool usePitchForRotation);
 	M1_API void Mach1DecodePositionalCAPI_setUseRollForRotation(void* M1obj, bool useRollForRotation);
 
-	// parameters for algo
 	M1_API void Mach1DecodePositionalCAPI_setListenerPosition(void* M1obj, struct Mach1Point3D point);
 	M1_API void Mach1DecodePositionalCAPI_setListenerRotation(void* M1obj, struct Mach1Point3D point);
 	M1_API void Mach1DecodePositionalCAPI_setListenerRotationQuat(void* M1obj, struct Mach1Point4D point);
@@ -67,38 +65,32 @@ extern "C" {
 	M1_API struct Mach1Point3D Mach1DecodePositionalCAPI_getCoefficientsRotation(void* M1obj);
 	M1_API void Mach1DecodePositionalCAPI_setFilterSpeed(void* M1obj, float filterSpeed);
 
-	/*
-	DEPRECATED
-	*/
-	[[deprecated]]
+/* DEPRECATED START*/
+	[[deprecated("setUseFalloff is deprecated, please use setUseAttenuation instead")]]
 	M1_API void Mach1DecodePositionalCAPI_setUseFalloff(void* M1obj, bool useFalloff);
-	[[deprecated]]
+	[[deprecated("setFalloffCurve is deprecated, please use setAttenuationCurve instead")]]
 	M1_API void Mach1DecodePositionalCAPI_setFalloffCurve(void* M1obj, float falloffCurve);
-
-	[[deprecated]]
+	[[deprecated("setFalloffCurveBlendMode is deprecated, please use setAttenuationCurveBlendMode instead")]]
 	M1_API void Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(void* M1obj, bool useClosestPointRotationMuteInside);
-
-	[[deprecated]]
+	[[deprecated("setCameraPosition is deprecated, please use setListenerPosition instead")]]
 	M1_API void Mach1DecodePositionalCAPI_setCameraPosition(void* M1obj, struct Mach1Point3D point);
-	[[deprecated]]
+	[[deprecated("setCameraRotation is deprecated, please use setListenerRotation instead")]]
 	M1_API void Mach1DecodePositionalCAPI_setCameraRotation(void* M1obj, struct Mach1Point3D point);
-	[[deprecated]]
+	[[deprecated("setCameraRotationQuat is deprecated, please use setListenerRotationQuat instead")]]
 	M1_API void Mach1DecodePositionalCAPI_setCameraRotationQuat(void* M1obj, struct Mach1Point4D point);
-
-	[[deprecated]]
+	[[deprecated("getVolumesWalls is deprecated, please use getCoefficients instead")]]
 	M1_API void Mach1DecodePositionalCAPI_getVolumesWalls(void * M1obj, float* result);
-	[[deprecated]]
+	[[deprecated("getVolumesRotation is depracted, pPlease use getCoefficientsRotation instead")]]
 	M1_API struct Mach1Point3D Mach1DecodePositionalCAPI_getVolumeRotation(void* M1obj);
+/* DEPRECATED END*/
 
-	/*
-	Experimental Functions/Features
-	*/
+	/* Experimental Functions/Features */
 	M1_API void Mach1DecodePositionalCAPI_setUseBlendMode(void* M1obj, bool useBlendMode);
 	M1_API void Mach1DecodePositionalCAPI_setIgnoreTopBottom(void* M1obj, bool ignoreTopBottom);
-	[[deprecated]]
+	[[deprecated("setFalloffCurveBlendMode is deprecated, please use setAttenuationCurveBlendMode instead")]]
 	M1_API void Mach1DecodePositionalCAPI_setFalloffCurveBlendMode(void* M1obj, float falloffCurveBlendMode);
 	M1_API void Mach1DecodePositionalCAPI_setAttenuationCurveBlendMode(void* M1obj, float attenuationCurveBlendMode);
-	[[deprecated]]
+	[[deprecated("getVolumesRoom is deprecated, please use getCoefficientsInterior instead")]]
 	M1_API void Mach1DecodePositionalCAPI_getVolumesRoom(void * M1obj, float* result);
 	M1_API void Mach1DecodePositionalCAPI_getCoefficientsInterior(void * M1obj, float* result);
 

@@ -12,7 +12,7 @@ select yn in "Yes" "No"; do
 			yes | cp -rf "_install/ios-12-1-dep-9-3/lib/libMach1EncodeCAPI.a" "_install/ios/lib/libMach1EncodeCAPI.a"
 			yes | cp -rf "_install/ios-12-1-dep-9-3/lib/libMach1DecodePositionalCAPI.a" "_install/ios/lib/libMach1DecodePositionalCAPI.a"
 			rm -rf "_install/ios-12-1-dep-9-3"; break;;
-        No ) exit;;
+        No ) break;;
     esac
 done
 

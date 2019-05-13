@@ -64,7 +64,7 @@ yes | cp -rf "external/cpp/Mach1DecodePositional.h" "../../m1-sdk-release/exampl
 yes | cp -rf "external/cpp/Mach1DecodePositional.cpp" "../../m1-sdk-release/examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/Source/Mach1DecodePlugin/Private/Mach1DecodePositional.cpp"
 
 echo " ### Copying for Unity ###"
-yes | cp -rf external/c#/* "../../m1-sdk-release/examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/"
+yes | cp -rf external/c\#/* "../../m1-sdk-release/examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/"
 
 echo "### DELETE all libUnity dirs"
 cd ../../m1-sdk-release/binaries

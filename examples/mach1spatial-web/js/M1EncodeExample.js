@@ -1,11 +1,20 @@
 document.addEventListener("DOMContentLoaded", function() {
-    let m1Encode = new(Mach1EncodeModule()).Mach1Encode();
 
-    let m1Decode = new(Mach1DecodeModule()).Mach1Decode();
-    m1Decode.setPlatformType(m1Decode.Mach1PlatformType.Mach1PlatformOfEasyCam);
-    m1Decode.setDecodeAlgoType(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial);
-    m1Decode.setFilterSpeed(0.95);
+	let m1Decode = null;
+    let m1DecodeModule = Mach1DecodeModule();
+	m1DecodeModule.onInited = function() {
+		m1Decode = new(m1DecodeModule).Mach1Decode();
+		m1Decode.setPlatformType(m1Decode.Mach1PlatformType.Mach1PlatformOfEasyCam);
+		m1Decode.setDecodeAlgoType(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial);
+		m1Decode.setFilterSpeed(0.95);
+	};
 
+    let m1Encode = null;
+    let m1EncodeModule = Mach1EncodeModule();
+	m1EncodeModule.onInited = function() {
+		m1Encode = new(m1EncodeModule).Mach1Encode();
+	};
+	
     const FRAMES_PER_SECOND = 60;
 
     var audioFiles = ['audio/mono/1.mp3'];
@@ -266,7 +275,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // update 
     function update() {
-
         m1Encode.setRotation(params.rotation);
         m1Encode.setDiverge(params.diverge);
         m1Encode.setPitch(params.pitch);
@@ -277,12 +285,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
     }
 
-    update();
-    toggleInputOutputKind();
-
-	
 	function __playTimeout() {
-        if (mach1SoundPlayer.isReady()) {
+        if (m1Decode && m1Encode && mach1SoundPlayer.isReady() ) {
+			update();
+			toggleInputOutputKind();
+			
             mach1SoundPlayer.play(true);
         } 
 	}

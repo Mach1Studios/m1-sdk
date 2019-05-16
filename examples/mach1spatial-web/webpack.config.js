@@ -10,7 +10,7 @@ module.exports = {
     },
 	mode: 'production',
     optimization: {
-        minimize: true, //true | false
+        minimize: true, // true | false
     },
     node: {
         fs: 'empty'

@@ -132,6 +132,7 @@ grep -rl "Error" "/Volumes/git/m1-sdk/lib/_logs/polly" | wc -l
 grep -rl "failed" "/Volumes/git/m1-sdk/lib/_logs/polly" | wc -l
 grep -rl "FAILED" "/Volumes/git/m1-sdk/lib/_logs/polly" | wc -l
 
+cd ../../
 echo "Execute _bin_example_mover_release.sh?"
 select yn in "Yes" "No"; do
     case $yn in

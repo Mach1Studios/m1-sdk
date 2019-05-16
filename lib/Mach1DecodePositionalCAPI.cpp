@@ -201,5 +201,9 @@ void Mach1DecodePositionalCAPI_setFalloffCurveBlendMode(void * M1obj, float fall
 }
 void Mach1DecodePositionalCAPI_getVolumesRoom(void * M1obj, float* result)
 {
-	((Mach1DecodePositionalCore*)M1obj)->getVolumesWalls(result);
+	((Mach1DecodePositionalCore*)M1obj)->getVolumesRoom(result);
+}
+void Mach1DecodePositionalCAPI_getCoefficientsInterior(void * M1obj, float* result)
+{
+	((Mach1DecodePositionalCore*)M1obj)->getCoefficientsInterior(result);
 }

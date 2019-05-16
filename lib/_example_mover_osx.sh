@@ -107,7 +107,7 @@ yes | cp -rf "external/cpp/Mach1Decode.cpp" "../examples/mach1spatial-c/Unreal E
 yes | cp -rf "external/cpp/Mach1DecodePositional.h" "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/Source/Mach1DecodePlugin/Private/Mach1Decode.cpp"
 yes | cp -rf "external/cpp/Mach1DecodePositional.cpp" "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/Source/Mach1DecodePlugin/Private/Mach1DecodePositional.cpp"
 
-echo " ### Copying for Unity ###"
+echo "### Copying for Unity ###"
 yes | cp -rf external/c#/* "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/"
 
 echo "### Copying ofxMach1 to dev local ###"
@@ -131,3 +131,12 @@ grep -rl "error" "/Volumes/git/m1-sdk/lib/_logs/polly" | wc -l
 grep -rl "Error" "/Volumes/git/m1-sdk/lib/_logs/polly" | wc -l
 grep -rl "failed" "/Volumes/git/m1-sdk/lib/_logs/polly" | wc -l
 grep -rl "FAILED" "/Volumes/git/m1-sdk/lib/_logs/polly" | wc -l
+
+echo "Execute _bin_example_mover_release.sh?"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) 
+			sh ./_bin_example_mover_release.sh; break;;
+        No ) break;;
+    esac
+done

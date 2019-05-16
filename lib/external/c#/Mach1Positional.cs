@@ -9,11 +9,11 @@ namespace Mach1
     public class Mach1DecodePositional : IDisposable
     {
 #if UNITY_IOS && !UNITY_EDITOR
-        internal const string libname = “__Internal”;
+        internal const string libname = "__Internal";
 #elif UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
-        internal const string libname = Mach1DecodePositionalCAPI;
+        internal const string libname = "Mach1DecodePositionalCAPI";
 #else
-        internal const string libname = “libMach1DecodePositionalCAPI”;
+        internal const string libname = "libMach1DecodePositionalCAPI";
 #endif
 
         [DllImport(libname)]

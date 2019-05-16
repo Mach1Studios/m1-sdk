@@ -41,7 +41,7 @@ extern "C" {
 	M1_API void Mach1DecodePositionalCAPI_setMuteWhenInsideObject(void* M1obj, bool muteWhenInsideObject);
 
 	M1_API void Mach1DecodePositionalCAPI_setUseAttenuation(void* M1obj, bool useAttenuation);
-	M1_API void Mach1DecodePositionalCAPI_setAttenuationCurve(void* M1obj, float AttenuationCurve);
+	M1_API void Mach1DecodePositionalCAPI_setAttenuationCurve(void* M1obj, float attenuationCurve);
 
 	//Default uses `usePointCalculation`
 	M1_API void Mach1DecodePositionalCAPI_setUsePlaneCalculation(void* M1obj, bool usePlaneCalculation);
@@ -70,7 +70,7 @@ extern "C" {
 	M1_API void Mach1DecodePositionalCAPI_setUseFalloff(void* M1obj, bool useFalloff);
 	[[deprecated("setFalloffCurve is deprecated, please use setAttenuationCurve instead")]]
 	M1_API void Mach1DecodePositionalCAPI_setFalloffCurve(void* M1obj, float falloffCurve);
-	[[deprecated("setFalloffCurveBlendMode is deprecated, please use setAttenuationCurveBlendMode instead")]]
+	[[deprecated("setUseClosestPointRotationMuteInside is deprecated, please use setUsePlaneCalculation instead")]]
 	M1_API void Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(void* M1obj, bool useClosestPointRotationMuteInside);
 	[[deprecated("setCameraPosition is deprecated, please use setListenerPosition instead")]]
 	M1_API void Mach1DecodePositionalCAPI_setCameraPosition(void* M1obj, struct Mach1Point3D point);

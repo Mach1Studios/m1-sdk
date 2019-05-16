@@ -117,11 +117,25 @@ int Mach1EncodeCAPI_getPointsCount(void * M1obj)
 	return ((M1EncodeCore*)M1obj)->resultingPoints.getPointsCount();
 }
 
-void Mach1EncodeCAPI_setInputMode(void* M1obj, Mach1EncodeInputModeType inputMode) {
+void* Mach1EncodeCAPI_getResultingVolumesDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float * decodeResult, float * result)
+{
+	static float* arr = nullptr;
+
+	// first init
+	if (arr == nullptr) {
+		arr = new float[14];
+	}
+
+	((M1EncodeCore*)M1obj)->getResultingVolumesDecoded(decodeType, decodeResult, arr);
+
+	return arr;
+}
+
+void Mach1EncodeCAPI_setInputMode(void* M1obj, enum Mach1EncodeInputModeType inputMode) {
 	((M1EncodeCore*)M1obj)->setInputMode(static_cast<M1EncodeCore::InputMode>(inputMode));
 }
 
-void Mach1EncodeCAPI_setOutputMode(void* M1obj, Mach1EncodeOutputModeType outputMode) {
+void Mach1EncodeCAPI_setOutputMode(void* M1obj, enum Mach1EncodeOutputModeType outputMode) {
 	((M1EncodeCore*)M1obj)->setOutputMode(static_cast<M1EncodeCore::OutputMode>(outputMode));
 }
 

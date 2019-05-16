@@ -11,6 +11,8 @@ updates and should not be integrated in sections but remain as an update-able fa
 
 #include "Mach1EncodeCore.h"
 #include <math.h>
+#include <algorithm>
+#include <iostream>
 
 M1EncodeCorePointResults::M1EncodeCorePointResults() {
 
@@ -469,6 +471,50 @@ void M1EncodeCore::generatePointResults() {
 		}
 	}
 
+}
+
+void M1EncodeCore::getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, float* decodeResult, float* result)
+{
+	// clear
+	for (int i = 0; i < 14; i++) result[i] = 0;
+
+	int decodeResultSize = 0;
+	switch (decodeType)
+	{
+	case Mach1DecodeAlgoSpatial:
+		decodeResultSize = 16;
+		break;
+	case Mach1DecodeAlgoAltSpatial:
+		decodeResultSize = 16;
+		break;
+	case Mach1DecodeAlgoHorizon:
+		decodeResultSize = 8;
+		break;
+	case Mach1DecodeAlgoHorizonPairs:
+		decodeResultSize = 8;
+		break;
+	case Mach1DecodeAlgoSpatialPairs:
+		decodeResultSize = 8;
+		break;
+	default:
+		break;
+	}
+
+	//resultingPoints.gains.resize(resultingPoints.pointsCount); // 1, 2, 4, 7 < InputMode (sound files)
+	//resultingPoints.gains[i].resize(outputChannelCount); // 4, 8 < output (for every file)
+
+	// decode - 8, 16
+	
+	if (outputChannelCount * 2 != decodeResultSize) {
+		std::cout << "This encode type is not suitable for decode type!" << std::endl;
+	}
+
+	for (int j = 0; j < resultingPoints.pointsCount; j++) {
+		for (int i = 0; i < outputChannelCount; i++) {
+			result[j * 2 + 0] += decodeResult[i * 2 + 0] * resultingPoints.gains[j][i]; // left
+			result[j * 2 + 1] += decodeResult[i * 2 + 1] * resultingPoints.gains[j][i]; // right
+		}
+	}
 }
 
 void M1EncodeCore::setInputMode(InputMode inputMode) {

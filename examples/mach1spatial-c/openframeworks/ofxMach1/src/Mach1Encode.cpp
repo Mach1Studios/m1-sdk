@@ -75,6 +75,19 @@ int Mach1Encode::getPointsCount()
 	return Mach1EncodeCAPI_getPointsCount(M1obj);
 }
 
+std::vector<float> Mach1Encode::getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, std::vector<float>& decodeResult)
+{
+	std::vector<float> vec(14);
+
+	float* arr = (float*)Mach1EncodeCAPI_getResultingVolumesDecoded(M1obj, decodeType, decodeResult.data());
+
+	for (int i = 0; i < vec.size(); i++) {
+		vec[i] = arr[i];
+	}
+
+	return vec;
+}
+
 void Mach1Encode::setInputMode(Mach1EncodeInputModeType inputMode)
 {
 	Mach1EncodeCAPI_setInputMode(M1obj, inputMode);

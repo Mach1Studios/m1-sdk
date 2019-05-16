@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include "Mach1EncodeCAPI.h"
+#include "Mach1DecodeCAPI.h"
 
 class Mach1Encode {
 private:
@@ -24,6 +25,8 @@ public:
 
 	void generatePointResults();
 	int getPointsCount();
+
+	std::vector<float> getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, std::vector<float>& decodeResult);
 
 	void setInputMode(Mach1EncodeInputModeType inputMode);
 	void setOutputMode(Mach1EncodeOutputModeType outputMode);

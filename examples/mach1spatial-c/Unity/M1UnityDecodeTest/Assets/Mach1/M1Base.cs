@@ -895,17 +895,17 @@ public class M1Base : MonoBehaviour
                 Mach1.Mach1Point3D angles = m1Positional.getVolumeRotation();
                 matInternal = Matrix4x4.TRS(camera.transform.position, Quaternion.Euler(angles.x, angles.y, angles.z), new Vector3(1, 1, 1)) * Matrix4x4.Rotate(Quaternion.Inverse(camera.transform.rotation));
 
-                Debug.Log("eulerAngles2 : " + m1Positional.getVolumeRotation().x + " , " + m1Positional.getVolumeRotation().y + " , " + m1Positional.getVolumeRotation().z);
-                Debug.Log("dist2: " + m1Positional.getDist());
+                Debug.Log("M1Obj Euler Rotation Angles: " + m1Positional.getVolumeRotation().x + " , " + m1Positional.getVolumeRotation().y + " , " + m1Positional.getVolumeRotation().z);
+                Debug.Log("M1Obj Distance: " + m1Positional.getDist());
 
-                string str = "volumesMain2: ";
+                string str = "Returned Coefficients: ";
                 for (int i = 0; i < audioSourceMain.Length; i++)
                 {
                     str += string.Format("{0:0.000}, ", audioSourceMain[i].volume);
                 }
                 if (useBlendMode)
                 {
-                    str += " , " + "volumesBlend2: ";
+                    str += " , " + "Returned Coefficients Internal (BlendMode): ";
                     for (int i = 0; i < audioSourceBlend.Length; i++)
                     {
                         str += string.Format("{0:0.000}, ", audioSourceBlend[i].volume);

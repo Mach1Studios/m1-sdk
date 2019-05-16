@@ -8,6 +8,8 @@
 #ifndef Mach1EncodeCore_h
 #define Mach1EncodeCore_h
 
+#include "Mach1DecodeCAPI.h"
+
 #include <vector>
 #include <string>
 
@@ -70,6 +72,8 @@ public:
 
 	void generatePointResults();
 	M1EncodeCorePointResults resultingPoints;
+
+	void getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, float *decodeResult, float *result);
 
 	void setInputMode(InputMode inputMode);
 	void setOutputMode(OutputMode outputMode);

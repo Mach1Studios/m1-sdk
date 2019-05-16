@@ -12,8 +12,7 @@ EMSCRIPTEN_BINDINGS(Mach1Decode) {
         .value("Mach1PlatformUE", Mach1PlatformUE)
         .value("Mach1PlatformOfEasyCam", Mach1PlatformOfEasyCam)
         .value("Mach1PlatformAndroid", Mach1PlatformAndroid)
-        .value("Mach1PlatformiOSPortrait", Mach1PlatformiOSPortrait)
-        .value("Mach1PlatformiOSLandscape", Mach1PlatformiOSLandscape)
+        .value("Mach1PlatformiOS", Mach1PlatformiOS)
         ;
     enum_<Mach1DecodeAlgoType>("Mach1DecodeAlgoType")
         .value("Mach1DecodeAlgoSpatial", Mach1DecodeAlgoSpatial)

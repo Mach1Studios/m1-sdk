@@ -39,6 +39,8 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
 		.function("generatePointResults", &Mach1Encode::generatePointResults)
 		.function("getPointsCount", &Mach1Encode::getPointsCount)
 
+		.function("getResultingVolumesDecoded", &Mach1Encode::getResultingVolumesDecoded)
+
 		.function("setInputMode", &Mach1Encode::setInputMode)
 		.function("setOutputMode", &Mach1Encode::setOutputMode)
 		.function("setRotation", &Mach1Encode::setRotation)

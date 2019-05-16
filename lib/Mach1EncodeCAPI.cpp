@@ -117,7 +117,7 @@ int Mach1EncodeCAPI_getPointsCount(void * M1obj)
 	return ((M1EncodeCore*)M1obj)->resultingPoints.getPointsCount();
 }
 
-void* Mach1EncodeCAPI_getResultingVolumesDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float * decodeResult, float * result)
+void* Mach1EncodeCAPI_getResultingVolumesDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float * decodeResult)
 {
 	static float* arr = nullptr;
 
@@ -126,6 +126,11 @@ void* Mach1EncodeCAPI_getResultingVolumesDecoded(void * M1obj, enum Mach1DecodeA
 		arr = new float[14];
 	}
 
+	// clear
+	for (int i = 0; i < 14; i++) {
+		arr[i] = 0;
+	}
+	
 	((M1EncodeCore*)M1obj)->getResultingVolumesDecoded(decodeType, decodeResult, arr);
 
 	return arr;

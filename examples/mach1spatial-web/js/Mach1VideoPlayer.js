@@ -27,10 +27,14 @@ function Mach1VideoPlayer(audioFiles8, elemId, statusElId) {
 
         let sound = new Mach1SoundPlayer(audioFiles8);
 		
-        let m1Decode = new(Mach1DecodeModule()).Mach1Decode();
-		m1Decode.setPlatformType(m1Decode.Mach1PlatformType.Mach1PlatformOfEasyCam);
-		m1Decode.setDecodeAlgoType(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial);
-		m1Decode.setFilterSpeed(0.95);
+		let m1Decode = null;
+        let m1DecodeModule = Mach1DecodeModule();
+		m1DecodeModule.onInited = function() {
+			m1Decode = new(m1DecodeModule).Mach1Decode();
+			m1Decode.setPlatformType(m1Decode.Mach1PlatformType.Mach1PlatformOfEasyCam);
+			m1Decode.setDecodeAlgoType(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial);
+			m1Decode.setFilterSpeed(0.95);
+		}
 
         // DEBUG
         document.sound = sound;
@@ -75,7 +79,7 @@ function Mach1VideoPlayer(audioFiles8, elemId, statusElId) {
         });
 
         function updateVolumes() {
-            if (thus.getChild('Canvas')) {
+            if (m1Decode && thus.getChild('Canvas')) {
                 let vector = new THREE.Vector3();
 
                 thus.getChild('Canvas').camera.getWorldDirection(vector);
@@ -85,11 +89,12 @@ function Mach1VideoPlayer(audioFiles8, elemId, statusElId) {
                 if (theta < 0)
                     theta = 360 + theta;
 				
+				
 				m1Decode.beginBuffer();
 				let decoded = m1Decode.decode(-theta, -alpha, 0);
 				m1Decode.endBuffer();
 
-                sound.updateVolumes(decoded);
+				sound.updateVolumes(decoded);
             }
         }
 

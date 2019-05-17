@@ -53,6 +53,11 @@ void Mach1DecodePositionalCAPI_setAttenuationCurve(void * M1obj, float attenuati
 	((Mach1DecodePositionalCore*)M1obj)->setAttenuationCurve(attenuationCurve);
 }
 
+void Mach1DecodePositionalCAPI_setAttenuationCurveBlendMode(void * M1obj, float attenuationCurveBlendMode)
+{
+	((Mach1DecodePositionalCore*)M1obj)->setAttenuationCurveBlendMode(attenuationCurveBlendMode);
+}
+
 void Mach1DecodePositionalCAPI_setUsePlaneCalculation(void * M1obj, bool usePlaneCalculation)
 {
 	((Mach1DecodePositionalCore*)M1obj)->setUsePlaneCalculation(usePlaneCalculation);

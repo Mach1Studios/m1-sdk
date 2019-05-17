@@ -41,7 +41,7 @@ extern "C" {
 	M1_API void Mach1DecodePositionalCAPI_setMuteWhenInsideObject(void* M1obj, bool muteWhenInsideObject);
 
 	M1_API void Mach1DecodePositionalCAPI_setUseAttenuation(void* M1obj, bool useAttenuation);
-	M1_API void Mach1DecodePositionalCAPI_setAttenuationCurve(void* M1obj, float AttenuationCurve);
+	M1_API void Mach1DecodePositionalCAPI_setAttenuationCurve(void* M1obj, float attenuationCurve);
 
 	//Default uses `usePointCalculation`
 	M1_API void Mach1DecodePositionalCAPI_setUsePlaneCalculation(void* M1obj, bool usePlaneCalculation);

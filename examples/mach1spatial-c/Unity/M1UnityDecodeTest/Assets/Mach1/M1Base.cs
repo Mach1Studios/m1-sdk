@@ -1,8 +1,6 @@
-﻿//  Mach1 SDK
+//  Mach1 SDK
 //  Copyright © 2017 Mach1. All rights reserved.
 //
-
-//#define LEGACY_POSITIONAL
 
 using UnityEngine;
 using UnityEngine.Audio;
@@ -65,11 +63,7 @@ public class M1Base : MonoBehaviour
     private AudioListener audiolistener;
     private bool needToPlay;
 
-#if LEGACY_POSITIONAL
-    protected Mach1.Mach1Decode m1Decode = new Mach1.Mach1Decode();
-#else
     protected Mach1.Mach1DecodePositional m1Positional = new Mach1.Mach1DecodePositional();
-#endif
 
     static Mach1.Mach1Point3D ConvertToMach1Point3D(Vector3 vec)
     {
@@ -112,11 +106,7 @@ public class M1Base : MonoBehaviour
         volumesWalls = new float[18];
         volumesRoom = new float[18];
 
-#if LEGACY_POSITIONAL
-        m1Decode.setPlatformType(Mach1.Mach1PlatformType.Mach1PlatformUnity);
-#else
         m1Positional.setPlatformType(Mach1.Mach1PlatformType.Mach1PlatformUnity);
-#endif
     }
 
     protected void InitComponents(int MAX_SOUNDS_PER_CHANNEL)
@@ -140,19 +130,6 @@ public class M1Base : MonoBehaviour
         audioClipMain = new AudioClip[MAX_SOUNDS_PER_CHANNEL];
         audioClipBlend = new AudioClip[MAX_SOUNDS_PER_CHANNEL];
     }
-
-#if LEGACY_POSITIONAL
-    public virtual float[] SoundAlgorithm(float Yaw, float Pitch, float Roll)
-    {
-        float[] data = new float[18];
-
-        m1Decode.beginBuffer();
-        m1Decode.decode(Yaw, Pitch, Roll, ref data);
-        m1Decode.endBuffer();
-
-        return data;
-    }
-#endif
 
     void Awake()
     {
@@ -314,7 +291,7 @@ public class M1Base : MonoBehaviour
         
 
         if (isFromAssets)
-        {
+        {   
             if (!room)
             {
                 clip = audioClipMain[n];// Resources.Load< AudioClip>(url);
@@ -564,7 +541,6 @@ public class M1Base : MonoBehaviour
             }
             else
             {
-
                 quantity = 1;
                 point0 = origin + t0 * direction;
                 point1 = Vector3.zero;
@@ -661,181 +637,6 @@ public class M1Base : MonoBehaviour
                 return;
             }
 
-#if LEGACY_POSITIONAL
-
-            float volumeWalls = 1.0f;
-            float volumeRoom = 0.0f;
-
-
-            Vector3 listenerPosition = audiolistener.transform.position;
-            if (ignoreTopBottom)
-            {
-                listenerPosition.y = gameObject.transform.position.y;
-            }
-
-            bool isOutside = (ClosestPointOnBox(audiolistener.transform.position, gameObject.transform.position, gameObject.transform.right, gameObject.transform.up, gameObject.transform.forward, gameObject.transform.localScale / 2, out outsideClosestPoint) > 0);
-            bool hasSoundOutside = isOutside && !muteWhenOutsideObject;
-            bool hasSoundInside = !isOutside && !muteWhenInsideObject;
-
-            float dist = 0;
-
-            if (hasSoundOutside && useClosestPointRotationMuteInside) // useClosestPointRotation
-            {
-                point = outsideClosestPoint;
-
-                dist = Vector3.Distance(audiolistener.transform.position, point);
-
-                if (useFalloff)
-                {
-                    volumeWalls = volumeWalls * falloffCurve.Evaluate(dist);
-                }
-
-                if (drawHelpers)
-                {
-                    Debug.DrawLine(gameObject.transform.position, point, Color.red);
-                }
-            }
-            else if (hasSoundInside && useBlendMode) // && DoClipping(0, float.MaxValue, listenerPosition, (listenerPosition - gameObject.transform.position).normalized, gameObject.transform.position, gameObject.transform.right, gameObject.transform.up, gameObject.transform.forward, gameObject.transform.localScale / 2, true, out insidePoint0, out insidePoint1) == 2)
-            {
-                Vector3 p0 = 2 * gameObject.transform.InverseTransformPoint(listenerPosition);
-
-                Vector3 p1 = p0;
-                if (Mathf.Abs(p0.x) > Mathf.Abs(p0.y) && Mathf.Abs(p0.x) > Mathf.Abs(p0.z))
-                {
-                    p1.x = p0.x > 0 ? 1 : -1;
-                }
-                if (Mathf.Abs(p0.y) > Mathf.Abs(p0.x) && Mathf.Abs(p0.y) > Mathf.Abs(p0.z))
-                {
-                    p1.y = p0.y > 0 ? 1 : -1;
-                }
-                if (Mathf.Abs(p0.z) > Mathf.Abs(p0.x) && Mathf.Abs(p0.z) > Mathf.Abs(p0.y))
-                {
-                    p1.z = p0.z > 0 ? 1 : -1;
-                }
-                p1 = gameObject.transform.TransformPoint(p1 / 2);
-
-                dist = 1 - Mathf.Max(Mathf.Abs(p0.x), Mathf.Max(Mathf.Abs(p0.y), Mathf.Abs(p0.z)));
-
-                if (useFalloff)
-                {
-                    volumeWalls = volumeWalls * blendModeFalloffCurve.Evaluate(dist);
-                }
-
-                volumeRoom = 1 - volumeWalls;
-
-                if (drawHelpers)
-                {
-                    //Debug.Log("d: " + dist);
-                    Debug.DrawLine(listenerPosition, p1, Color.cyan);
-                    //Debug.Log("volumeWalls: " + volumeWalls);
-                }
-            }
-            else if (hasSoundOutside || hasSoundInside) // useCenterPointRotation
-            {
-                dist = Vector3.Distance(audiolistener.transform.position, point);
-
-                if (useFalloff)
-                {
-                    if (hasSoundOutside)
-                    {
-                        volumeWalls = volumeWalls * falloffCurve.Evaluate(dist);
-                    }
-                    if (useBlendMode)
-                    {
-                        volumeWalls = volumeWalls * blendModeFalloffCurve.Evaluate(dist);
-                    }
-                }
-            }
-            else
-            {
-                volumeWalls = 0;
-                volumeRoom = 0;
-            }
-
-            Vector3 dir = (audiolistener.transform.position - point).normalized;
-
-            // Compute matrix for draw gizmo
-            Quaternion quatGizmo = Quaternion.LookRotation(dir, Vector3.up) * Quaternion.Inverse(gameObject.transform.rotation);
-            quatGizmo.eulerAngles = new Vector3(usePitchForRotation ? quatGizmo.eulerAngles.x : 0, useYawForRotation ? quatGizmo.eulerAngles.y : 0, useRollForRotation ? quatGizmo.eulerAngles.z : 0);
-            mat = Matrix4x4.TRS(audiolistener.transform.position, quatGizmo, new Vector3(1, 1, 1));
-
-            // Compute rotation for sound
-            Quaternion quat = Quaternion.Inverse(Quaternion.LookRotation(dir, Vector3.up)) * gameObject.transform.rotation;
-            quat.eulerAngles = new Vector3(usePitchForRotation ? quat.eulerAngles.x : 0, useYawForRotation ? quat.eulerAngles.y : 0, useRollForRotation ? quat.eulerAngles.z : 0);
-            quat *= audiolistener.transform.rotation;
-
-            Vector3 eulerAngles = GetEuler(quat);
-
-            matInternal = Matrix4x4.TRS(transform.position, quat, new Vector3(1, 1, 1)); 
-
-            // debug for decode only
-            //eulerAngles = GetEuler(audiolistener.transform.rotation);
-
-            // Compute volumes
-            float[] volumes = SoundAlgorithm(eulerAngles.x, eulerAngles.y, eulerAngles.z);
-            for (int i = 0; i < audioSourceMain.Length; i++)
-            {
-                volumesWalls[i] = volumeWalls * volumes[i];
-                audioSourceMain[i].volume = volumesWalls[i];
-            }
-            if (useBlendMode)
-            {
-                for (int i = 0; i < audioSourceBlend.Length; i++)
-                {
-                    volumesRoom[i] = volumeRoom * volumes[i];
-                    audioSourceBlend[i].volume = volumesRoom[i];
-                }
-            }
-
-            /*
-            if (debug)
-            {
-                if (audioSourceMain.Length > 0)
-                {
-                    string str = " ";
-                    for (int i = 0; i < audioSourceMain.Length; i++)
-                    {
-                        str += volumeWalls * volumes[i] + (i < audioSourceMain.Length - 1 ? " , " : "");
-                    }
-                    Debug.Log("audioSourceWalls: " + str);
-                }
-                if (useBlendMode)
-                {
-                    string str = " ";
-                    for (int i = 0; i < audioSourceBlend.Length; i++)
-                    {
-                        str += volumeRoom * volumes[i] + (i < audioSourceBlend.Length - 1 ? " , " : "");
-                    }
-                    Debug.Log("audioSourceWalls: " + str);
-                }
-
-                Debug.Log("eulerAngles: " + eulerAngles.x + " , " + eulerAngles.y + " , " + eulerAngles.z);
-            }
-            */
-
-            if (debug)
-            {
-                Debug.Log("eulerAngles1 : " + eulerAngles.x + " , " + eulerAngles.y + " , " + eulerAngles.z);
-
-                Debug.Log("dist1: " + dist); 
-
-                string str = "volumesWalls1: ";
-                for (int i = 0; i < audioSourceMain.Length; i++)
-                {
-                    str += string.Format("{0:0.000}, ", audioSourceMain[i].volume);
-                }
-                if (useBlendMode) 
-                {
-                    str += " , " + "volumesRoom: ";
-                    for (int i = 0; i < audioSourceBlend.Length; i++)
-                    {
-                        str += string.Format("{0:0.000}, ", audioSourceBlend[i].volume);
-                    }
-                }
-                Debug.Log(str);
-            }
-#else
-
             // In order to use values set in Unity's object inspector, we have to put them into an
             // M1 Positional library instance. Here's an example:
             // /*
@@ -878,7 +679,6 @@ public class M1Base : MonoBehaviour
 
             if (debug)
             {
-
                 // Compute rotation for sound
                 Mach1.Mach1Point3D angles = m1Positional.getVolumeRotation();
                 matInternal = Matrix4x4.TRS(audiolistener.transform.position, Quaternion.Euler(angles.x, angles.y, angles.z), new Vector3(1, 1, 1)) * Matrix4x4.Rotate(Quaternion.Inverse(audiolistener.transform.rotation));
@@ -901,8 +701,7 @@ public class M1Base : MonoBehaviour
                 }
                 Debug.Log(str);
             }
-#endif
-                    
+
             // Mach1.Mach1Point3D angles = m1Positional.getVolumeRotation();
             //Debug.Log("volumeWalls: " + volumesWalls + " , " + "volumeRoom" + volumesRoom);
             // Debug.Log("d: " + dist + ", d2: " + m1Positional.getDist());
@@ -917,7 +716,5 @@ public class M1Base : MonoBehaviour
                 Debug.DrawLine(audiolistener.transform.position, point, Color.green);
             }
         }
-
     }
-
 }

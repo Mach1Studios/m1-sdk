@@ -1,6 +1,7 @@
 #include <emscripten/bind.h>
 
 #include "Mach1EncodeCAPI.h"
+#include "Mach1DecodeCAPI.h"
 #include "external/cpp/Mach1Encode.cpp"
 
 using namespace emscripten;
@@ -13,9 +14,18 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
         .value("Mach1EncodeInputModeAFormat", Mach1EncodeInputModeAFormat)
         .value("Mach1EncodeInputModeBFormat", Mach1EncodeInputModeBFormat)
         ;
+		
     enum_<Mach1EncodeOutputModeType>("Mach1EncodeOutputModeType")
         .value("Mach1EncodeOutputMode4Ch", Mach1EncodeOutputMode4Ch)
         .value("Mach1EncodeOutputMode8Ch", Mach1EncodeOutputMode8Ch)
+        ;
+
+	enum_<Mach1DecodeAlgoType>("Mach1DecodeAlgoType")
+        .value("Mach1DecodeAlgoSpatial", Mach1DecodeAlgoSpatial)
+        .value("Mach1DecodeAlgoAltSpatial", Mach1DecodeAlgoAltSpatial)
+        .value("Mach1DecodeAlgoHorizon", Mach1DecodeAlgoHorizon)
+        .value("Mach1DecodeAlgoHorizonPairs", Mach1DecodeAlgoHorizonPairs)
+        .value("Mach1DecodeAlgoSpatialPairs", Mach1DecodeAlgoSpatialPairs)
         ;
 
 	register_vector<float>("VectorFloat");

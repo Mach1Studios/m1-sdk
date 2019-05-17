@@ -298,7 +298,6 @@ document.addEventListener("DOMContentLoaded", function() {
         if (mach1SoundPlayer.isPlaying()) {
 
             m1Encode.generatePointResults();
-            var gains = m1Encode.getGains();
 
 			/*
             var rotation = new THREE.Euler().setFromQuaternion(camera.quaternion);
@@ -311,10 +310,12 @@ document.addEventListener("DOMContentLoaded", function() {
             var decoded = m1Decode.decode(params.decoderRotationY, params.decoderRotationP, params.decoderRotationR);// rotation.x, rotation.y, rotation.z);
             m1Decode.endBuffer();
 
-            var points = m1Encode.getPoints();
-            var pointsNames = m1Encode.getPointsNames();
+			/* 
+			// legacy style
+			
+			var vol = [0, 0];
+            var gains = m1Encode.getGains();
 
-            var vol = [0, 0];
             // left & right channels
             for (let j = 0; j < 8; j++) {
                 vol[0] += (decoded[2 * j + 0]) * gains[0][j];
@@ -322,6 +323,19 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 			
 			console.log(vol);
+			*/
+			
+			var vol = [];
+			if (params.outputKind == 0) { // Output: Mach1Horizon / Quad
+				vol = m1Encode.getResultingVolumesDecoded(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoHorizon, decoded);
+			}
+			if (params.outputKind == 1) { // Output: Mach1Spatial / Cuboid
+				vol = m1Encode.getResultingVolumesDecoded(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial, decoded);
+			}
+			console.log(vol);
+
+            var points = m1Encode.getPoints();
+            var pointsNames = m1Encode.getPointsNames();
 
             for (var i = 0; i < m1Encode.getPointsCount(); i++) {
                 spheres[i].position.set(points[i].x * 2 - 1, points[i].y * 2 - 1, points[i].z * 2 - 1);

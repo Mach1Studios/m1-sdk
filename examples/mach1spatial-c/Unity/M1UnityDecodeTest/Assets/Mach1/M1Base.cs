@@ -62,14 +62,14 @@ public class M1Base : MonoBehaviour
     private float[] volumesWalls;
     private float[] volumesRoom;
 
+    private AudioListener audiolistener;
+    private bool needToPlay;
+
 #if LEGACY_POSITIONAL
     protected Mach1.Mach1Decode m1Decode = new Mach1.Mach1Decode();
 #else
     protected Mach1.Mach1DecodePositional m1Positional = new Mach1.Mach1DecodePositional();
 #endif
-
-    private Camera camera;
-    private bool needToPlay;
 
     static Mach1.Mach1Point3D ConvertToMach1Point3D(Vector3 vec)
     {
@@ -164,6 +164,7 @@ public class M1Base : MonoBehaviour
         {
             LoadAudioData();
         }
+        attachAudioListener();
     }
 
     public void LoadAudioData()
@@ -217,6 +218,11 @@ public class M1Base : MonoBehaviour
         }
 
         isPlaying = false;
+    }
+
+    public void attachAudioListener() 
+    {
+        audiolistener = GameObject.FindObjectOfType<AudioListener>();
     }
 
     // Helper function to add audio clip to source, and add this to scene
@@ -648,26 +654,10 @@ public class M1Base : MonoBehaviour
             Vector3 outsideClosestPoint;
             //Vector3 insidePoint0, insidePoint1;
 
-
-            if (Camera.main)
+            if (audiolistener == null)
             {
-                camera = Camera.main;
-            }
-            else
-            {
-                for (int i = 0; i < Camera.allCamerasCount; i++)
-                {
-                    if (Camera.allCameras[i].enabled)
-                    {
-                        camera = Camera.allCameras[i];
-                        break;
-                    }
-                }
-            }
-
-            if (camera == null)
-            {
-                Debug.LogError("Mach1: cannot found camera!");
+                Debug.LogError("Mach1: cannot find AudioListener!");
+                attachAudioListener();
                 return;
             }
 
@@ -677,13 +667,13 @@ public class M1Base : MonoBehaviour
             float volumeRoom = 0.0f;
 
 
-            Vector3 cameraPosition = camera.transform.position;
+            Vector3 listenerPosition = audiolistener.transform.position;
             if (ignoreTopBottom)
             {
-                cameraPosition.y = gameObject.transform.position.y;
+                listenerPosition.y = gameObject.transform.position.y;
             }
 
-            bool isOutside = (ClosestPointOnBox(camera.transform.position, gameObject.transform.position, gameObject.transform.right, gameObject.transform.up, gameObject.transform.forward, gameObject.transform.localScale / 2, out outsideClosestPoint) > 0);
+            bool isOutside = (ClosestPointOnBox(audiolistener.transform.position, gameObject.transform.position, gameObject.transform.right, gameObject.transform.up, gameObject.transform.forward, gameObject.transform.localScale / 2, out outsideClosestPoint) > 0);
             bool hasSoundOutside = isOutside && !muteWhenOutsideObject;
             bool hasSoundInside = !isOutside && !muteWhenInsideObject;
 
@@ -693,7 +683,7 @@ public class M1Base : MonoBehaviour
             {
                 point = outsideClosestPoint;
 
-                dist = Vector3.Distance(camera.transform.position, point);
+                dist = Vector3.Distance(audiolistener.transform.position, point);
 
                 if (useFalloff)
                 {
@@ -705,9 +695,9 @@ public class M1Base : MonoBehaviour
                     Debug.DrawLine(gameObject.transform.position, point, Color.red);
                 }
             }
-            else if (hasSoundInside && useBlendMode) // && DoClipping(0, float.MaxValue, cameraPosition, (cameraPosition - gameObject.transform.position).normalized, gameObject.transform.position, gameObject.transform.right, gameObject.transform.up, gameObject.transform.forward, gameObject.transform.localScale / 2, true, out insidePoint0, out insidePoint1) == 2)
+            else if (hasSoundInside && useBlendMode) // && DoClipping(0, float.MaxValue, listenerPosition, (listenerPosition - gameObject.transform.position).normalized, gameObject.transform.position, gameObject.transform.right, gameObject.transform.up, gameObject.transform.forward, gameObject.transform.localScale / 2, true, out insidePoint0, out insidePoint1) == 2)
             {
-                Vector3 p0 = 2 * gameObject.transform.InverseTransformPoint(cameraPosition);
+                Vector3 p0 = 2 * gameObject.transform.InverseTransformPoint(listenerPosition);
 
                 Vector3 p1 = p0;
                 if (Mathf.Abs(p0.x) > Mathf.Abs(p0.y) && Mathf.Abs(p0.x) > Mathf.Abs(p0.z))
@@ -736,13 +726,13 @@ public class M1Base : MonoBehaviour
                 if (drawHelpers)
                 {
                     //Debug.Log("d: " + dist);
-                    Debug.DrawLine(cameraPosition, p1, Color.cyan);
+                    Debug.DrawLine(listenerPosition, p1, Color.cyan);
                     //Debug.Log("volumeWalls: " + volumeWalls);
                 }
             }
             else if (hasSoundOutside || hasSoundInside) // useCenterPointRotation
             {
-                dist = Vector3.Distance(camera.transform.position, point);
+                dist = Vector3.Distance(audiolistener.transform.position, point);
 
                 if (useFalloff)
                 {
@@ -762,24 +752,24 @@ public class M1Base : MonoBehaviour
                 volumeRoom = 0;
             }
 
-            Vector3 dir = (camera.transform.position - point).normalized;
+            Vector3 dir = (audiolistener.transform.position - point).normalized;
 
             // Compute matrix for draw gizmo
             Quaternion quatGizmo = Quaternion.LookRotation(dir, Vector3.up) * Quaternion.Inverse(gameObject.transform.rotation);
             quatGizmo.eulerAngles = new Vector3(usePitchForRotation ? quatGizmo.eulerAngles.x : 0, useYawForRotation ? quatGizmo.eulerAngles.y : 0, useRollForRotation ? quatGizmo.eulerAngles.z : 0);
-            mat = Matrix4x4.TRS(camera.transform.position, quatGizmo, new Vector3(1, 1, 1));
+            mat = Matrix4x4.TRS(audiolistener.transform.position, quatGizmo, new Vector3(1, 1, 1));
 
             // Compute rotation for sound
             Quaternion quat = Quaternion.Inverse(Quaternion.LookRotation(dir, Vector3.up)) * gameObject.transform.rotation;
             quat.eulerAngles = new Vector3(usePitchForRotation ? quat.eulerAngles.x : 0, useYawForRotation ? quat.eulerAngles.y : 0, useRollForRotation ? quat.eulerAngles.z : 0);
-            quat *= camera.transform.rotation;
+            quat *= audiolistener.transform.rotation;
 
             Vector3 eulerAngles = GetEuler(quat);
 
             matInternal = Matrix4x4.TRS(transform.position, quat, new Vector3(1, 1, 1)); 
 
             // debug for decode only
-            //eulerAngles = GetEuler(camera.transform.rotation);
+            //eulerAngles = GetEuler(audiolistener.transform.rotation);
 
             // Compute volumes
             float[] volumes = SoundAlgorithm(eulerAngles.x, eulerAngles.y, eulerAngles.z);
@@ -858,14 +848,12 @@ public class M1Base : MonoBehaviour
             m1Positional.setUseYawForRotation(useYawForRotation);
             m1Positional.setUsePitchForRotation(usePitchForRotation);
             m1Positional.setUseRollForRotation(useRollForRotation);
-
-            m1Positional.setCameraPosition(ConvertToMach1Point3D(camera.transform.position));
-            m1Positional.setCameraRotationQuat(ConvertToMach1Point4D(camera.transform.rotation));
+            m1Positional.setListenerPosition(ConvertToMach1Point3D(audiolistener.transform.position));
+            m1Positional.setListenerRotationQuat(ConvertToMach1Point4D(audiolistener.transform.rotation));
             m1Positional.setDecoderAlgoPosition(ConvertToMach1Point3D(gameObject.transform.position));
             m1Positional.setDecoderAlgoRotationQuat(ConvertToMach1Point4D(gameObject.transform.rotation));
             m1Positional.setDecoderAlgoScale(ConvertToMach1Point3D(gameObject.transform.lossyScale));
             m1Positional.evaluatePositionResults();
-
 
             if (useFalloff)
             {
@@ -893,7 +881,7 @@ public class M1Base : MonoBehaviour
 
                 // Compute rotation for sound
                 Mach1.Mach1Point3D angles = m1Positional.getVolumeRotation();
-                matInternal = Matrix4x4.TRS(camera.transform.position, Quaternion.Euler(angles.x, angles.y, angles.z), new Vector3(1, 1, 1)) * Matrix4x4.Rotate(Quaternion.Inverse(camera.transform.rotation));
+                matInternal = Matrix4x4.TRS(audiolistener.transform.position, Quaternion.Euler(angles.x, angles.y, angles.z), new Vector3(1, 1, 1)) * Matrix4x4.Rotate(Quaternion.Inverse(audiolistener.transform.rotation));
 
                 Debug.Log("M1Obj Euler Rotation Angles: " + m1Positional.getVolumeRotation().x + " , " + m1Positional.getVolumeRotation().y + " , " + m1Positional.getVolumeRotation().z);
                 Debug.Log("M1Obj Distance: " + m1Positional.getDist());
@@ -914,20 +902,19 @@ public class M1Base : MonoBehaviour
                 Debug.Log(str);
             }
 #endif
-
-
+                    
             // Mach1.Mach1Point3D angles = m1Positional.getVolumeRotation();
             //Debug.Log("volumeWalls: " + volumesWalls + " , " + "volumeRoom" + volumesRoom);
             // Debug.Log("d: " + dist + ", d2: " + m1Positional.getDist());
 
             if (drawHelpers)
             {
-                // Draw forward vector from camera
-                Vector3 targetForward = camera.transform.rotation * (Vector3.forward * 3);
-                Debug.DrawLine(camera.transform.position, camera.transform.position + targetForward, Color.blue);
+                // Draw forward vector from audio listener
+                Vector3 targetForward = audiolistener.transform.rotation * (Vector3.forward * 3);
+                Debug.DrawLine(audiolistener.transform.position, audiolistener.transform.position + targetForward, Color.blue);
 
-                // Draw direction from camera to object
-                Debug.DrawLine(camera.transform.position, point, Color.green);
+                // Draw direction from audio listener to object
+                Debug.DrawLine(audiolistener.transform.position, point, Color.green);
             }
         }
 

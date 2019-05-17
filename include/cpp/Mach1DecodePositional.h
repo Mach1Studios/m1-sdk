@@ -37,32 +37,54 @@ public:
 	void setMuteWhenOutsideObject(bool muteWhenOutsideObject);
 	void setMuteWhenInsideObject(bool muteWhenInsideObject);
 
-	void setUseFalloff(bool useFalloff);
-	void setFalloffCurve(float falloffCurve);
-	void setFalloffCurveBlendMode(float falloffCurveBlendMode);
+	void setUseAttenuation(bool useAttenuation);
+	void setAttenuationCurve(float attenuationCurve);
+	void setAttenuationCurveBlendMode(float attenuationCurveBlendMode);
 
-	void setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside);
+	void setUsePlaneCalculation(bool usePlaneCalculation);
 
 	void setUseYawForRotation(bool useYawForRotation);
 	void setUsePitchForRotation(bool usePitchForRotation);
 	void setUseRollForRotation(bool useRollForRotation);
 
-	// parameters for algo
-	void setCameraPosition(Mach1Point3D point);
-	void setCameraRotation(Mach1Point3D point);
-	void setCameraRotationQuat(Mach1Point4D quat);
+	void setListenerPosition(Mach1Point3D point);
+	void setListenerRotation(Mach1Point3D point);
+	void setListenerRotationQuat(Mach1Point4D quat);
 	void setDecoderAlgoPosition(Mach1Point3D point);
 	void setDecoderAlgoRotation(Mach1Point3D point);
 	void setDecoderAlgoRotationQuat(Mach1Point4D quat);
 	void setDecoderAlgoScale(Mach1Point3D point);
 
 	void evaluatePositionResults();
-	void getVolumesWalls(float* result);
-	void getVolumesRoom(float* result);
+	void getCoefficients(float* result);
+	void getCoefficientsInterior(float* result);
 	float getDist();
 	Mach1Point3D getCurrentAngle();
-	Mach1Point3D getVolumeRotation();
+	Mach1Point3D getCoefficientsRotation();
 	void setFilterSpeed(float filterSpeed);
+
+/* DEPRECATED START */
+	[[deprecated("setUseFalloff is deprecated, please use setUseAttenuation instead")]]
+	void setUseFalloff(bool useFalloff);
+	[[deprecated("setFalloffCurve is deprecated, please use setAttenuationCurve instead")]]
+	void setFalloffCurve(float falloffCurve);
+	[[deprecated("setFalloffCurveBlendMode is deprecated, please use setAttenuationCurveBlendMode instead")]]
+	void setFalloffCurveBlendMode(float falloffCurveBlendMode);
+	[[deprecated("setUseClosestPointRotationMuteInside is deprecated, please use setUsePlaneCalculation instead")]]
+	void setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside);
+	[[deprecated("setCameraPosition is deprecated, please use setListenerPosition instead")]]
+	void setCameraPosition(Mach1Point3D point);
+	[[deprecated("setCameraRotation is deprecated, please use setListenerRotation instead")]]
+	void setCameraRotation(Mach1Point3D point);
+	[[deprecated("setCameraRotationQuat is deprecated, please use setListenerRotationQuat instead")]]
+	void setCameraRotationQuat(Mach1Point4D quat);
+	[[deprecated("getVolumesWalls is deprecated, please use getCoefficients instead")]]
+	void getVolumesWalls(float* result);
+	[[deprecated("getVolumesRoom is deprecated, please use getCoefficientsInterior instead")]]
+	void getVolumesRoom(float* result);
+	[[deprecated("getVolumesRotation is depracted, pPlease use getCoefficientsRotation instead")]]
+	Mach1Point3D getVolumesRotation();
+/* DEPRECATED END */
 };
   
 #endif /* Mach1DecodePositional_h */

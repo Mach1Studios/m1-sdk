@@ -59,25 +59,25 @@ public class Mach1DecodePositional {
         /// when inside the positional reference shape/point
     }
     
-    public func setUseFalloff(useFalloff: Bool) {
-        Mach1DecodePositionalCAPI_setUseFalloff(M1obj, useFalloff)
+    public func setUseAttenuation(useAttenuation: Bool) {
+        Mach1DecodePositionalCAPI_setUseAttenuation(M1obj, useAttenuation)
         /// Set distance attenuation calculations on that mach1decode object on/off
         ///
         /// Remark: When off, distance remains 1.0
     }
 
-    public func setFalloffCurve(falloffCurve: Float) {
-        Mach1DecodePositionalCAPI_setFalloffCurve(M1obj, falloffCurve)
+    public func setAttenuationCurve(attenuationCurve: Float) {
+        Mach1DecodePositionalCAPI_setAttenuationCurve(M1obj, attenuationCurve)
     }
 
-    public func setFalloffCurveBlendMode(falloffCurveBlendMode: Float) {
-        Mach1DecodePositionalCAPI_setFalloffCurveBlendMode(M1obj, falloffCurveBlendMode)
+    public func setAttenuationCurveBlendMode(attenuationCurveBlendMode: Float) {
+        Mach1DecodePositionalCAPI_setAttenuationCurveBlendMode(M1obj, attenuationCurveBlendMode)
         /// Warning: Experimental feature
         /// Remark: Part of BlendMode
     }
     
-    public func setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside: Bool) {
-        Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(M1obj, useClosestPointRotationMuteInside)
+    public func setUsePlaneCalculation(bool usePlaneCalculation: Bool) {
+        Mach1DecodePositionalCAPI_setUsePlaneCalculation(M1obj, usePlaneCalculation)
     }
     
     public func setUseYawForRotation(bool useYawForRotation: Bool) {
@@ -101,24 +101,24 @@ public class Mach1DecodePositional {
         /// Remark: Default is true
     }
     
-    public func setCameraPosition(point: Mach1Point3D) {
-        Mach1DecodePositionalCAPI_setCameraPosition(M1obj, point)
+    public func setListenerPosition(point: Mach1Point3D) {
+        Mach1DecodePositionalCAPI_setListenerPosition(M1obj, point)
         /// Sets the device/camera's position in desired x,y,z space
         ///
         /// - Parameters:
         ///     - Mach1Point3D Position: x,y,z
     }
 
-    public func setCameraRotation(point: Mach1Point3D) {
-        Mach1DecodePositionalCAPI_setCameraRotation(M1obj, point)
+    public func setListenerRotation(point: Mach1Point3D) {
+        Mach1DecodePositionalCAPI_setListenerRotation(M1obj, point)
         /// Sets the device/camera's orientation with Euler angles
         ///
         /// - Parameters:
         ///     - Mach1Point3D Rotation: yaw,pitch,roll
     }
 
-    public func setCameraRotationQuat(point: Mach1Point4D) {
-        Mach1DecodePositionalCAPI_setCameraRotationQuat(M1obj, point)
+    public func setListenerRotationQuat(point: Mach1Point4D) {
+        Mach1DecodePositionalCAPI_setListenerRotationQuat(M1obj, point)
         /// Sets the device/camera's orientation with Quaternion
         ///
         /// - Parameters:
@@ -161,15 +161,15 @@ public class Mach1DecodePositional {
         Mach1DecodePositionalCAPI_evaluatePositionResults(M1obj)
     }
     
-    public func getVolumesWalls(result: inout [Float]) {
+    public func getCoefficients(result: inout [Float]) {
         let pointer: UnsafeMutablePointer< Float > = UnsafeMutablePointer(&result)
-        Mach1DecodePositionalCAPI_getVolumesWalls(M1obj, pointer);
+        Mach1DecodePositionalCAPI_getCoefficients(M1obj, pointer);
         /// Return the current coefficients to be applied to the audiopla yer's volume
     }
 
-    public func getVolumesRoom(result: inout [Float]) {
+    public func getCoefficientsInterior(result: inout [Float]) {
         let pointer: UnsafeMutablePointer< Float > = UnsafeMutablePointer(&result)
-        Mach1DecodePositionalCAPI_getVolumesRoom(M1obj, pointer);
+        Mach1DecodePositionalCAPI_getCoefficientsInterior(M1obj, pointer);
         /// Warning: Experimental feature
         /// Remark: Part of BlendMode
     }
@@ -185,8 +185,8 @@ public class Mach1DecodePositional {
         /// Return the current orientation angle of the m1obj
     }
     
-    public func getVolumeRotation() -> Mach1Point3D {
-        return Mach1DecodePositionalCAPI_getVolumeRotation(M1obj)
+    public func getCoefficientsRotation() -> Mach1Point3D {
+        return Mach1DecodePositionalCAPI_getCoefficientsRotation(M1obj)
         /// Return the current pivot rotation due to the m1obj comparison to the
         /// device/camera
     }
@@ -200,5 +200,71 @@ public class Mach1DecodePositional {
         ///     - value range: 0.0001 -> 1.0 (where 0.1 would be a slow filter
         ///     and 1.0 is no filter)
     }
-    
+
+/* DEPRECATED START*/
+    @available(*, deprecated, message: "Please use setUseAttenuation instead")
+    public func setUseFalloff(useFalloff: Bool) {
+        Mach1DecodePositionalCAPI_setUseFalloff(M1obj, useFalloff)
+        /// Set distance attenuation calculations on that mach1decode object on/off
+        ///
+        /// Remark: When off, distance remains 1.0
+    }
+    @available(*, deprecated, message: "Please use setAttenuationCurve instead")
+    public func setFalloffCurve(falloffCurve: Float) {
+        Mach1DecodePositionalCAPI_setFalloffCurve(M1obj, falloffCurve)
+    }
+    @available(*, deprecated, message: "Please use setAttenuationCurveBlendMode instead")
+    public func setFalloffCurveBlendMode(falloffCurveBlendMode: Float) {
+        Mach1DecodePositionalCAPI_setFalloffCurveBlendMode(M1obj, falloffCurveBlendMode)
+        /// Warning: Experimental feature
+        /// Remark: Part of BlendMode
+    }
+    @available(*, deprecated, message: "Please use setUsePlaneCalculation instead")
+    public func setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside: Bool) {
+        Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(M1obj, useClosestPointRotationMuteInside)
+    }
+    @available(*, deprecated, message: "Please use setListenerPosition instead")
+    public func setCameraPosition(point: Mach1Point3D) {
+       Mach1DecodePositionalCAPI_setCameraPosition(M1obj, point)
+        /// Sets the device/camera's position in desired x,y,z space
+        ///
+        /// - Parameters:
+        ///     - Mach1Point3D Position: x,y,z
+    }
+    @available(*, deprecated, message: "Please use setListenerRotation instead")
+    public func setCameraRotation(point: Mach1Point3D) {
+        Mach1DecodePositionalCAPI_setCameraRotation(M1obj, point)
+        /// Sets the device/camera's orientation with Euler angles
+        ///
+        /// - Parameters:
+        ///     - Mach1Point3D Rotation: yaw,pitch,roll
+    }
+    @available(*, deprecated, message: "Please use setListenerRotationQuat instead")
+    public func setCameraRotationQuat(point: Mach1Point4D) {
+        Mach1DecodePositionalCAPI_setCameraRotationQuat(M1obj, point)
+        /// Sets the device/camera's orientation with Quaternion
+        ///
+        /// - Parameters:
+    }
+    @available(*, deprecated, message: "Please use getCoefficients instead")
+    public func getVolumesWalls(result: inout [Float]) {
+        let pointer: UnsafeMutablePointer< Float > = UnsafeMutablePointer(&result)
+        Mach1DecodePositionalCAPI_getVolumesWalls(M1obj, pointer);
+        /// Return the current coefficients to be applied to the audiopla yer's volume
+    }
+    @available(*, deprecated, message: "Please use getCoefficientsInterior instead")
+    public func getVolumesRoom(result: inout [Float]) {
+         let pointer: UnsafeMutablePointer< Float > = UnsafeMutablePointer(&result)
+        Mach1DecodePositionalCAPI_getVolumesRoom(M1obj, pointer);
+        /// Warning: Experimental feature
+        /// Remark: Part of BlendMode
+    }
+    @available(*, deprecated, message: "Please use getCoefficientsRotation instead")
+    public func getVolumeRotation() -> Mach1Point3D {
+        return Mach1DecodePositionalCAPI_getVolumeRotation(M1obj)
+        /// Return the current pivot rotation due to the m1obj comparison to the
+        /// device/camera
+    }
+/* DEPRECATED END*/
+
 }

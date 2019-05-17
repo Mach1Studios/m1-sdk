@@ -12,7 +12,7 @@ select yn in "Yes" "No"; do
 			yes | cp -rf "_install/ios-12-1-dep-9-3/lib/libMach1EncodeCAPI.a" "_install/ios/lib/libMach1EncodeCAPI.a"
 			yes | cp -rf "_install/ios-12-1-dep-9-3/lib/libMach1DecodePositionalCAPI.a" "_install/ios/lib/libMach1DecodePositionalCAPI.a"
 			rm -rf "_install/ios-12-1-dep-9-3"; break;;
-        No ) exit;;
+        No ) break;;
     esac
 done
 
@@ -89,13 +89,26 @@ yes | cp -rf "_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1Deco
 echo "### Copying for ofxMach1 ###"
 yes | cp -rf "external/cpp/Mach1Decode.h" "../examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Decode.h"
 yes | cp -rf "external/cpp/Mach1Decode.cpp" "../examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Decode.cpp"
+yes | cp -rf "external/cpp/Mach1DecodePositional.h" "../examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1DecodePositional.h"
+yes | cp -rf "external/cpp/Mach1DecodePositional.cpp" "../examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1DecodePositional.cpp"
 yes | cp -rf "external/cpp/Mach1Encode.h" "../examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Encode.h"
 yes | cp -rf "external/cpp/Mach1Encode.cpp" "../examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Encode.cpp"
-
 yes | cp -rf "external/cpp/Mach1DecodeCAPI.h" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include/Mach1DecodeCAPI.h"
+yes | cp -rf "external/cpp/Mach1DecodePositionalCAPI.h" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include/Mach1DecodePositionalCAPI.h"
 yes | cp -rf "external/cpp/Mach1EncodeCAPI.h" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include/Mach1EncodeCAPI.h"
 yes | cp -rf "external/cpp/Mach1Point3D.h" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include/Mach1Point3D.h"
 yes | cp -rf "external/cpp/Mach1Point4D.h" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include/Mach1Point4D.h"
+
+echo "### Copying for UE ###"
+yes | cp -rf "external/cpp/Mach1DecodeCAPI.h" "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/ThirdParty/Mach1/include/Mach1DecodeCAPI.h"
+yes | cp -rf "external/cpp/Mach1DecodePositionalCAPI.h" "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/ThirdParty/Mach1/include/Mach1DecodePositionalCAPI.h"
+yes | cp -rf "external/cpp/Mach1Decode.h" "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/Source/Mach1DecodePlugin/Public/Mach1Decode.h"
+yes | cp -rf "external/cpp/Mach1Decode.cpp" "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/Source/Mach1DecodePlugin/Public/Mach1DecodePositional.h"
+yes | cp -rf "external/cpp/Mach1DecodePositional.h" "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/Source/Mach1DecodePlugin/Private/Mach1Decode.cpp"
+yes | cp -rf "external/cpp/Mach1DecodePositional.cpp" "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/Plugins/Mach1DecodePlugin/Source/Mach1DecodePlugin/Private/Mach1DecodePositional.cpp"
+
+echo "### Copying for Unity ###"
+yes | cp -rf external/c#/* "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/"
 
 echo "### Copying ofxMach1 to dev local ###"
 yes | cp -rf "../examples/mach1spatial-c/openframeworks/ofxMach1" "../../openFrameworks/addons/"
@@ -118,3 +131,13 @@ grep -rl "error" "/Volumes/git/m1-sdk/lib/_logs/polly" | wc -l
 grep -rl "Error" "/Volumes/git/m1-sdk/lib/_logs/polly" | wc -l
 grep -rl "failed" "/Volumes/git/m1-sdk/lib/_logs/polly" | wc -l
 grep -rl "FAILED" "/Volumes/git/m1-sdk/lib/_logs/polly" | wc -l
+
+cd ../../
+echo "Execute _bin_example_mover_release.sh?"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) 
+			sh ./_bin_example_mover_release.sh; break;;
+        No ) break;;
+    esac
+done

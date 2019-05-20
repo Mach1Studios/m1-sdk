@@ -15,12 +15,6 @@ public class Mach1Encode {
         Mach1EncodeCAPI_getPoints(M1obj)
     }
 
-    func convert(length: Int, data: UnsafePointer<Float>) -> [Float] {
-
-        let buffer = UnsafeBufferPointer(start: data, count: length);
-        return Array(buffer)
-    }
-
     public func getGains() -> [[Float]] {
         var array = Array(repeating: Array(repeating: Float(0), count: 8), count: Int(Mach1EncodeCAPI_getPointsCount(M1obj)))
         let gainsPtr = unsafeBitCast( Mach1EncodeCAPI_getGains(M1obj), to: UnsafeMutablePointer<UnsafeMutablePointer<Float>?>?.self)
@@ -31,7 +25,18 @@ public class Mach1Encode {
         }
         return array
     }
+    
+    public func getResultingVolumesDecoded(decodeType: Mach1DecodeAlgoType, decodeResult: [Float] ) -> [Float] {
+        let pointer: UnsafeMutablePointer = UnsafeMutablePointer(mutating: decodeResult)
+        let volumesPtr = unsafeBitCast( Mach1EncodeCAPI_getResultingVolumesDecoded(M1obj, decodeType, pointer), to: UnsafeMutablePointer<Float>?.self)
 
+        var array: [Float] = Array(repeating: 0.0, count: 18)
+        for i in 0..<array.count {
+            array[i] = (volumesPtr! + i).pointee
+        }
+        return array
+    }
+    
     public func getPointsNames() {
         Mach1EncodeCAPI_getPointsNames(M1obj)
     }

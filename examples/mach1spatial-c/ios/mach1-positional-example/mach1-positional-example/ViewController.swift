@@ -177,18 +177,18 @@ class ViewController : UIViewController, UITextFieldDelegate {
             m1obj.setUseBlendMode(useBlendMode: false)
             //Advanced Setting: ignore movements on height plane
             m1obj.setIgnoreTopBottom(ignoreTopBottom: false)
-            //Setting: mute audio when setCameraPosition position is outside of m1obj volume
+            //Setting: mute audio when setListenerPosition position is outside of m1obj volume
             //based on setDecoderAlgoPosition & setDecoderAlgoScale
             m1obj.setMuteWhenOutsideObject(muteWhenOutsideObject: false)
-            //Setting: mute audio when setCameraPosition position is inside of m1obj volume
+            //Setting: mute audio when setListenerPosition position is inside of m1obj volume
             //based on setDecoderAlgoPosition & setDecoderAlgoScale
             m1obj.setMuteWhenInsideObject(muteWhenInsideObject: true)
             //Setting: turn on/off distance attenuation of m1obj
-            m1obj.setUseFalloff(useFalloff: false)
+            m1obj.setUseAttenuation(useAttenuation: false)
             //Advanced Setting: when on, positional rotation is calculated from the closest point
             //of the m1obj's volume and not rotation from the center of m1obj.
             //use this if you want the positional rotation tracking to be from a plane instead of from a point
-            m1obj.setUseClosestPointRotationMuteInside(bool: false)
+            m1obj.setUsePlaneCalculation(bool: false)
         } catch {
             print (error)
         }
@@ -283,8 +283,8 @@ class ViewController : UIViewController, UITextFieldDelegate {
                 }
                 
                 //Send device orientation to m1obj with the preferred algo
-                m1obj.setCameraPosition(point: (cameraPosition))
-                m1obj.setCameraRotation(point: Mach1Point3D(x: cameraPitch, y: cameraYaw, z: cameraRoll))
+                m1obj.setListenerPosition(point: (cameraPosition))
+                m1obj.setListenerRotation(point: Mach1Point3D(x: cameraPitch, y: cameraYaw, z: cameraRoll))
                 m1obj.setDecoderAlgoPosition(point: (objectPosition))
                 m1obj.setDecoderAlgoRotation(point: Mach1Point3D(x: 0, y: 0, z: 0))
                 m1obj.setDecoderAlgoScale(point: Mach1Point3D(x: 0.1, y: 0.1, z: 0.1))
@@ -297,16 +297,16 @@ class ViewController : UIViewController, UITextFieldDelegate {
 
                 m1obj.evaluatePositionResults()
 
-                // compute falloff linear curve - project dist [0:1] to [1:0] interval
-                var falloff : Float = m1obj.getDist()
-                falloff = mapFloat(value: falloff, inMin: 0, inMax: 3, outMin: 1, outMax: 0)
-                falloff = clampFloat(value: falloff, min: 0, max: 3)
-                //m1obj.setUseFalloff(useFalloff: false)
-                m1obj.setFalloffCurve(falloffCurve: falloff)
-                //print(falloff)
+                // compute attenuation linear curve - project dist [0:1] to [1:0] interval
+                var attenuation : Float = m1obj.getDist()
+                attenuation = mapFloat(value: attenuation, inMin: 0, inMax: 3, outMin: 1, outMax: 0)
+                attenuation = clampFloat(value: attenuation, min: 0, max: 3)
+                //m1obj.setUseAttenuation(useAttenuation: false)
+                m1obj.setAttenuationCurve(attenuationCurve: attenuation)
+                //print(attenuation)
 
                 var decodeArray: [Float] = Array(repeating: 0.0, count: 18)
-                m1obj.getVolumesWalls(result: &decodeArray)
+                m1obj.getCoefficients(result: &decodeArray)
                 print(decodeArray)
                 
                 //Use each coeff to decode multichannel Mach1 Spatial mix

@@ -11,54 +11,53 @@ public class M1Base : MonoBehaviour
 {
     public AudioMixerGroup m1SpatialAudioMixerGroup;
 
-    [Space(10)]
+    [Header("Asset Source Settings")]
     public bool isFromAssets = true;
     public AudioClip[] audioClipMain;
-    public AudioClip[] audioClipBlend;
 
-    [Space(10)]
     public string externalAudioPath = "file:///";
     public string[] externalAudioFilenameMain;
-    public string[] externalAudioFilenameBlend;
 
-    [Space(10)]
+    [Header("Asset Load/Play Settings")]
     public bool autoPlay = false;
     public bool isLoop = false;
-    private bool isPlaying = false;
     public bool loadAudioOnStart = true;
+    private bool isPlaying = false;
 
-    [Space(10)]
-    public bool useFalloff = false;
-    public AnimationCurve falloffCurve;
-    public AnimationCurve blendModeFalloffCurve;
-
+    [Header("Attenuation Settings")]
+    public bool useAttenuation = false;
+    public AnimationCurve attenuationCurve;
+   
     private AudioSource[] audioSourceMain;
-    private AudioSource[] audioSourceBlend;
 
     private int MAX_SOUNDS_PER_CHANNEL;
     private Matrix4x4 mat;
     private Matrix4x4 matInternal;
 
-    [Space(10)]
-    public bool useBlendMode = false;
-    public bool ignoreTopBottom = true;
+    [Header("Point / Plane Setting")]
+    public bool usePlaneCalculation = false;
 
-    [Space(10)]
+    [Header("Advanced Settings")]
     public bool muteWhenInsideObject = false;
     public bool muteWhenOutsideObject = false;
-    public bool useClosestPointRotationMuteInside = false;
 
-    [Space(10)]
     public bool useYawForRotation = true;
     public bool usePitchForRotation = true;
     public bool useRollForRotation = true;
 
-    [Space(10)]
     public bool drawHelpers = false;
     public bool debug = false;
 
-    private float[] volumesWalls;
-    private float[] volumesRoom;
+    [Header("Experimental BlendMode")]
+    public bool useBlendMode = false;
+    public AudioClip[] audioClipBlend;
+    public string[] externalAudioFilenameBlend;
+    public AnimationCurve attenuationCurveBlendMode;
+    public bool ignoreTopBottom = true;
+    private AudioSource[] audioSourceBlend;
+
+    private float[] coeffs;
+    private float[] coeffsInterior;
 
     private AudioListener audiolistener;
     private bool needToPlay;
@@ -103,8 +102,8 @@ public class M1Base : MonoBehaviour
 
     public M1Base()
     {
-        volumesWalls = new float[18];
-        volumesRoom = new float[18];
+        coeffs = new float[18];
+        coeffsInterior = new float[18];
 
         m1Positional.setPlatformType(Mach1.Mach1PlatformType.Mach1PlatformUnity);
     }
@@ -114,8 +113,8 @@ public class M1Base : MonoBehaviour
         this.MAX_SOUNDS_PER_CHANNEL = MAX_SOUNDS_PER_CHANNEL;
 
         // Falloff
-        falloffCurve = generateCurve(10);
-        blendModeFalloffCurve = generateCurve(1);
+        attenuationCurve = generateCurve(10);
+        attenuationCurveBlendMode = generateCurve(1);
 
         // Init filenames
         externalAudioFilenameMain = new string[MAX_SOUNDS_PER_CHANNEL];
@@ -256,11 +255,11 @@ public class M1Base : MonoBehaviour
             {
                 Gizmos.color = Color.red;
                 Gizmos.matrix = gameObject.transform.localToWorldMatrix * (Matrix4x4.Translate(new Vector3(-radius, 0, 0)) * Matrix4x4.Translate(edges[i]));
-                Gizmos.DrawSphere(new Vector3(0, 0, 0), radius * volumesWalls[2 * i]);
+                Gizmos.DrawSphere(new Vector3(0, 0, 0), radius * coeffs[2 * i]);
 
                 Gizmos.color = Color.blue;
                 Gizmos.matrix = gameObject.transform.localToWorldMatrix * (Matrix4x4.Translate(new Vector3(radius, 0, 0)) * Matrix4x4.Translate(edges[i]));
-                Gizmos.DrawSphere(new Vector3(0, 0, 0), radius * volumesWalls[2 * i + 1]);
+                Gizmos.DrawSphere(new Vector3(0, 0, 0), radius * coeffs[2 * i + 1]);
 
                 Gizmos.DrawIcon((gameObject.transform.localToWorldMatrix * Matrix4x4.Translate(edges[i])).MultiplyPoint(new Vector4(0, -2 * radius, 0)), "sound_icon_" + i + ".png", true);
             }
@@ -627,9 +626,6 @@ public class M1Base : MonoBehaviour
             // Find closest point
             Vector3 point = gameObject.transform.position;
 
-            Vector3 outsideClosestPoint;
-            //Vector3 insidePoint0, insidePoint1;
-
             if (audiolistener == null)
             {
                 Debug.LogError("Mach1: cannot find AudioListener!");
@@ -644,8 +640,8 @@ public class M1Base : MonoBehaviour
             m1Positional.setIgnoreTopBottom(ignoreTopBottom);
             m1Positional.setMuteWhenOutsideObject(muteWhenOutsideObject);
             m1Positional.setMuteWhenInsideObject(muteWhenInsideObject);
-            m1Positional.setUseFalloff(useFalloff);
-            m1Positional.setUseClosestPointRotationMuteInside(useClosestPointRotationMuteInside);
+            m1Positional.setUseAttenuation(useAttenuation);
+            m1Positional.setUsePlaneCalculation(usePlaneCalculation);
             m1Positional.setUseYawForRotation(useYawForRotation);
             m1Positional.setUsePitchForRotation(usePitchForRotation);
             m1Positional.setUseRollForRotation(useRollForRotation);
@@ -656,34 +652,34 @@ public class M1Base : MonoBehaviour
             m1Positional.setDecoderAlgoScale(ConvertToMach1Point3D(gameObject.transform.lossyScale));
             m1Positional.evaluatePositionResults();
 
-            if (useFalloff)
+            if (useAttenuation)
             {
-                m1Positional.setFalloffCurve(falloffCurve.Evaluate(m1Positional.getDist()));
-                m1Positional.setFalloffCurveBlendMode(blendModeFalloffCurve.Evaluate(m1Positional.getDist()));
+                m1Positional.setAttenuationCurve(attenuationCurve.Evaluate(m1Positional.getDist()));
+                m1Positional.setAttenuationCurveBlendMode(attenuationCurveBlendMode.Evaluate(m1Positional.getDist()));
             }
 
-            m1Positional.getVolumesWalls(ref volumesWalls);
+            m1Positional.getCoefficients(ref coeffs);
             for (int i = 0; i < audioSourceMain.Length; i++)
             {
-                audioSourceMain[i].volume = volumesWalls[i];
+                audioSourceMain[i].volume = coeffs[i];
             }
 
             if (useBlendMode)
             {
-                m1Positional.getVolumesRoom(ref volumesRoom);
+                m1Positional.getCoefficientsInterior(ref coeffsInterior);
                 for (int i = 0; i < audioSourceBlend.Length; i++)
                 {
-                    audioSourceBlend[i].volume = volumesRoom[i];
+                    audioSourceBlend[i].volume = coeffsInterior[i];
                 }
             }
 
             if (debug)
             {
                 // Compute rotation for sound
-                Mach1.Mach1Point3D angles = m1Positional.getVolumeRotation();
+                Mach1.Mach1Point3D angles = m1Positional.getCoefficientsRotation();
                 matInternal = Matrix4x4.TRS(audiolistener.transform.position, Quaternion.Euler(angles.x, angles.y, angles.z), new Vector3(1, 1, 1)) * Matrix4x4.Rotate(Quaternion.Inverse(audiolistener.transform.rotation));
 
-                Debug.Log("M1Obj Euler Rotation Angles: " + m1Positional.getVolumeRotation().x + " , " + m1Positional.getVolumeRotation().y + " , " + m1Positional.getVolumeRotation().z);
+                Debug.Log("M1Obj Euler Rotation Angles: " + m1Positional.getCoefficientsRotation().x + " , " + m1Positional.getCoefficientsRotation().y + " , " + m1Positional.getCoefficientsRotation().z);
                 Debug.Log("M1Obj Distance: " + m1Positional.getDist());
 
                 string str = "Returned Coefficients: ";
@@ -702,11 +698,11 @@ public class M1Base : MonoBehaviour
                 Debug.Log(str);
             }
 
-            // Mach1.Mach1Point3D angles = m1Positional.getVolumeRotation();
-            //Debug.Log("volumeWalls: " + volumesWalls + " , " + "volumeRoom" + volumesRoom);
+            // Mach1.Mach1Point3D angles = m1Positional.getCoefficientsRotation();
+            //Debug.Log("volumeWalls: " + coeffs + " , " + "volumeRoom" + coeffsInterior);
             // Debug.Log("d: " + dist + ", d2: " + m1Positional.getDist());
 
-            if (drawHelpers)
+            if (drawHelpers) 
             {
                 // Draw forward vector from audio listener
                 Vector3 targetForward = audiolistener.transform.rotation * (Vector3.forward * 3);

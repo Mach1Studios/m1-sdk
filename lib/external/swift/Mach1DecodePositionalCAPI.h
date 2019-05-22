@@ -95,7 +95,7 @@ extern "C" {
 #endif
     M1_API void Mach1DecodePositionalCAPI_getVolumesWalls(void * M1obj, float* result);
 #if __cplusplus > 201103L
-	[[deprecated("getVolumesRotation is depracted, pPlease use getCoefficientsRotation instead")]]
+	[[deprecated("getVolumeRotation is deprecated, please use getCoefficientsRotation instead")]]
 #endif
     M1_API struct Mach1Point3D Mach1DecodePositionalCAPI_getVolumeRotation(void* M1obj);
 /* DEPRECATED END*/

@@ -82,8 +82,8 @@ public:
 	void getVolumesWalls(float* result);
 	[[deprecated("getVolumesRoom is deprecated, please use getCoefficientsInterior instead")]]
 	void getVolumesRoom(float* result);
-	[[deprecated("getVolumesRotation is depracted, pPlease use getCoefficientsRotation instead")]]
-	Mach1Point3D getVolumesRotation();
+	[[deprecated("getVolumeRotation is depracted, please use getCoefficientsRotation instead")]]
+	Mach1Point3D getVolumeRotation();
 /* DEPRECATED END */
 };
   

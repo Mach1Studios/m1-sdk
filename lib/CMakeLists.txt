@@ -3,7 +3,7 @@ project(Mach1SpatialLibraries)
 set(Mach1SpatialLibraries_VERSION_MAJOR 1)
 set(Mach1SpatialLibraries_VERSION_MINOR 0)
 set(Mach1SpatialLibraries_VERSION_PATCH 3)
-set(Mach1SpatialLibraries_VERSION_TWEAK 0)
+set(Mach1SpatialLibraries_VERSION_TWEAK 1)
 
 set(Mach1DecodeCAPIsrc "./Mach1DecodeCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")
 set(Mach1DecodePositionalCAPIsrc "./Mach1DecodePositionalCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1DecodePositionalCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")
@@ -16,6 +16,9 @@ add_library(Mach1DecodePositionalCAPIstatic STATIC ${Mach1DecodePositionalCAPIsr
 add_library(Mach1EncodeCAPIstatic STATIC ${Mach1EncodeCAPIsrc})
 
 if(IOS)
+    set_target_properties(Mach1DecodeCAPIstatic PROPERTIES CMAKE_XCODE_ATTRIBUTE_BITCODE_GENERATION_MODE "bitcode")
+    set_target_properties(Mach1DecodePositionalCAPIstatic PROPERTIES CMAKE_XCODE_ATTRIBUTE_BITCODE_GENERATION_MODE "bitcode")
+    set_target_properties(Mach1EncodeCAPIstatic PROPERTIES CMAKE_XCODE_ATTRIBUTE_BITCODE_GENERATION_MODE "bitcode")
 	set_target_properties(Mach1DecodeCAPIstatic PROPERTIES XCODE_ATTRIBUTE_ENABLE_BITCODE "YES")
 	set_target_properties(Mach1DecodePositionalCAPIstatic PROPERTIES XCODE_ATTRIBUTE_ENABLE_BITCODE "YES")
 	set_target_properties(Mach1EncodeCAPIstatic PROPERTIES XCODE_ATTRIBUTE_ENABLE_BITCODE "YES")

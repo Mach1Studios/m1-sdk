@@ -1,42 +1,54 @@
 #!/bin/bash
 
 #build all binaries and codesign them for use
-
-echo "### Change Dir ###"
-cd "/Volumes/git/m1-sdk/lib"
+if [[ $PWD/ = */m1-sdk/lib/ ]]
+then 
+	echo $PWD
+else
+	echo "WHERE ARE YOU!?!?!?!?"
+	exit
+fi
 
 rm -rf _logs
 
 echo "### BUILD ANDROID ###"
 echo "### BUILD NDK11 ###"
-/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-armeabi
-/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-armeabi-v7a
-/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-x86
-/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-x86-64
-/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips
-/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-arm64-v8a
-/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-arm64-v8a
-/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips64
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-armeabi
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-armeabi-v7a
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-x86
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-x86-64
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-arm64-v8a
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-arm64-v8a
+polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips64
 
 echo "### BUILD NDK16b ###"
-/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r16b-api-21-armeabi-clang-libcxx  
-/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx
-/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r16b-api-21-x86-clang-libcxx
-/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
+polly --clear --install --config Release --toolchain android-ndk-r16b-api-21-armeabi-clang-libcxx  
+polly --clear --install --config Release --toolchain android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx
+polly --clear --install --config Release --toolchain android-ndk-r16b-api-21-x86-clang-libcxx
+polly --clear --install --config Release --toolchain android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
 
 echo "### BUILD RPI ###"
-/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain raspberrypi2-cxx11
-/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain raspberrypi3-cxx11
+polly --clear --install --config Release --toolchain raspberrypi2-cxx11
+polly --clear --install --config Release --toolchain raspberrypi3-cxx11
 
-echo "### BUILD iOS ###"
-/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain ios-12-1-dep-9-3 --ios-multiarch --ios-combined
+echo "Please build release iOS from xcode 8.3.1 only!"
+echo "Do you want to build an unsafe for release develop ios lib(s)?"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) 
+			echo "### BUILD iOS ###";
+			polly --clear --install --config Release --toolchain ios-12-1-dep-9-3 --ios-multiarch --ios-combined; break;;
+        No ) break;;
+    esac
+done
 
 echo "### BUILD macOS ###"
-/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain xcode
+polly --clear --install --config Release --toolchain xcode
 
 #echo "### BUILD cross-compile Linux ###"
-#/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain linux-gcc-x64
-#/Volumes/git/polly/bin/polly --clear --install --config Release --toolchain gcc-static-std
+#polly --clear --install --config Release --toolchain linux-gcc-x64
+#polly --clear --install --config Release --toolchain gcc-static-std
 
 echo "### CODESIGN iOS & macOS ###"
 codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/ios/lib/libMach1DecodeCAPI.a"

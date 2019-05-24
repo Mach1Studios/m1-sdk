@@ -6,6 +6,8 @@
 #include "Mach1EncodeCAPI.h"
 #include "Mach1EncodeCore.h"
 
+#include <string.h>
+
 using namespace std;
 
 void* Mach1EncodeCAPI_create() {

@@ -25,13 +25,17 @@ function Mach1SoundPlayer(audioFiles, soundCount) {
 
     let startTime = 0;
     let stopTime = 0;
+	
+	let needToPlay = false;
+	let playLooped = false;
+	let waitToPlay = 0;
 
     function initArray(count) {
         return Array.apply(null, Array(count)).map(Number.prototype.valueOf, 0.0);
     }
 
     function preload(path, i) {
-        console.time('load file' + path);
+        console.time('load file ' + path);
 
         fetch(path, {
             method: 'GET',
@@ -55,10 +59,16 @@ function Mach1SoundPlayer(audioFiles, soundCount) {
             return i;
         }).then((i) => {
             console.log('Mach1Sound {path: ' + path + ', i: ' + i + ', ' + (i + 1) + '} loaded');
-
-            console.timeEnd('load file' + path);
+            console.timeEnd('load file ' + path);
+			
             countOfReadySound += 2;
             _isSoundReady = (SOUND_COUNT == countOfReadySound);
+			
+			if(_isSoundReady && needToPlay) {
+				thus.play(playLooped, waitToPlay);
+				needToPlay = false;
+			}
+			
         }).catch((err) => {
             console.warn(err);
         });
@@ -124,6 +134,11 @@ function Mach1SoundPlayer(audioFiles, soundCount) {
             createAudio(looped, time);
             setVolumes();
         }
+		else {
+			needToPlay = true;
+			playLooped = looped;
+			waitToPlay = time;
+		}
     };
 	
     this.pause = function() {
@@ -133,6 +148,7 @@ function Mach1SoundPlayer(audioFiles, soundCount) {
     this.stop = function() {
         if (this.isReady() && _isPlaying && !_isDeleted) {
             _isPlaying = false;
+			needToPlay = false;
 
             stopTime = audioCtx.currentTime;
 

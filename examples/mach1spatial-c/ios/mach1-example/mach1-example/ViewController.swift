@@ -17,12 +17,12 @@ import SceneKit
 var motionManager = CMMotionManager()
 
 var soundFiles: [[String]]  = [
-    ["Nature_Mono01","Nature_Mono01"],
+    ["Nature_Mono01"],
     ["Nature_Mono02","Nature_Mono02"],
-    ["Nature_Mono03","Nature_Mono03"],
-    ["SciFi_Mono01","SciFi_Mono01"],
-    ["SciFi_Mono02","SciFi_Mono02"],
-    ["SciFi_Mono03","SciFi_Mono03"],
+    ["Nature_Mono03"],
+    ["SciFi_Mono01"],
+    ["SciFi_Mono02"],
+    ["SciFi_Mono03"],
 ]
 
 class ViewController: UIViewController {
@@ -52,10 +52,18 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func StereoSliderChanged(_ sender: UISlider) {
+        if(encoderCurrent != nil) {
+            encoderCurrent?.stereoSpread = sender.value
+            // This slider is for setting the m1encode_obj's
+        }
+    }
+    
     @IBAction func SegmentedControlValueChanged(_ sender: Any) {
         if(encoderCurrent != nil) {
             encoderCurrent?.soundIndex = (soundTypeSegmentedControl?.selectedSegmentIndex)!
             encoderCurrent?.setupPlayers()
+            stereoSliderControl!.isEnabled = (self.encoderCurrent?.type == Mach1EncodeInputModeStereo)
         }
     }
   
@@ -69,6 +77,7 @@ class ViewController: UIViewController {
         if(encoder != nil) {
             volumeSliderControl?.value = (encoder?.volume)!
             heightSliderControl?.value = (encoder?.height)!
+            stereoSliderControl?.value = (encoder?.stereoSpread)!
             soundTypeSegmentedControl?.selectedSegmentIndex = (encoder?.soundIndex)!
         }
         self.encoderCurrent = encoder

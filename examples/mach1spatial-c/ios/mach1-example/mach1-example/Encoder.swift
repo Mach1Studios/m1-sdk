@@ -24,7 +24,7 @@ class Encoder: UIView {
     var yInternal : Float = 0.0
     var stereoSpread : Float = 0.0
     var type : Mach1EncodeInputModeType = Mach1EncodeInputModeMono
-
+ 
     let circleInternalLayer = CAShapeLayer()
     let circleExternalLayer = CAShapeLayer()
     
@@ -47,45 +47,55 @@ class Encoder: UIView {
     }
     
     func setupPlayers() {
-        if(players.count != 0) {
-            players[0].stop()
-            players[1].stop()
+      
+        for i in 0..<players.count {
+            players[i].stop()
+        }
+
+        if(soundFiles[soundIndex].count == 1) {
+            type = Mach1EncodeInputModeMono
+            players = [AVAudioPlayer(), AVAudioPlayer()]
+            try! players[0] = AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: soundFiles[soundIndex][0], ofType: "wav")!))
+            try! players[1] = AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: soundFiles[soundIndex][0], ofType: "wav")!))
+        }
+        else if(soundFiles[soundIndex].count == 2) {
+            type = Mach1EncodeInputModeStereo
+            players = [AVAudioPlayer(), AVAudioPlayer(), AVAudioPlayer(), AVAudioPlayer()]
+            try! players[0] = AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: soundFiles[soundIndex][0], ofType: "wav")!))
+            try! players[1] = AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: soundFiles[soundIndex][0], ofType: "wav")!))
+            try! players[2] = AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: soundFiles[soundIndex][1], ofType: "wav")!))
+            try! players[3] = AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: soundFiles[soundIndex][1], ofType: "wav")!))
         }
         
-        players = [AVAudioPlayer(), AVAudioPlayer()]
-        try! players[0] = AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: soundFiles[soundIndex][0], ofType: "wav")!))
-        try! players[1] = AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: soundFiles[soundIndex][1], ofType: "wav")!))
-        
-        type =  (soundFiles[soundIndex][0] == soundFiles[soundIndex][1]) ? Mach1EncodeInputModeMono : Mach1EncodeInputModeStereo
-
-        players[0].pan = -1.0
-        players[1].pan = 1.0
-        
-        players[0].volume = 0.0
-        players[1].volume = 0.0
-        
-        players[0].prepareToPlay()
-        players[1].prepareToPlay()
-        
-        players[0].numberOfLoops = -1
-        players[1].numberOfLoops = -1
-        
-        players[0].isMeteringEnabled = true
-        players[1].isMeteringEnabled = true
+        for i in stride(from: 0, to: players.count, by: 2) {
+            players[i + 0].pan = -1.0
+            players[i + 1].pan = 1.0
+            
+            players[i + 0].volume = 0.0
+            players[i + 1].volume = 0.0
+            
+            players[i + 0].prepareToPlay()
+            players[i + 1].prepareToPlay()
+            
+            players[i + 0].numberOfLoops = -1
+            players[i + 1].numberOfLoops = -1
+            
+            players[i + 0].isMeteringEnabled = true
+            players[i + 1].isMeteringEnabled = true
+        }
         
         let startDelayTime = 1.0
         let now = players[0].deviceCurrentTime
         let startTime = now + startDelayTime
-        players[0].play(atTime: startTime)
-        players[1].play(atTime: startTime)
-        print (startTime)
+        
+        for i in 0..<players.count {
+            players[i].play(atTime: startTime)
+        }
 
-    }
+        print (startTime)
+   }
     
     func update(decodeArray: [Float], decodeType: Mach1DecodeAlgoType) {
-        
-        var volumes : [Float] = [ 0, 0 ]
-        
         let rotation : Float = fmodf(atan2(-xInternal,yInternal) / (2 * Float.pi) + 0.5, 1.0) // 0 - 1
         let diverge : Float = min( sqrt(powf(xInternal,2) + powf(yInternal,2)), 1.0) *  0.707 // 0 - 0.707
         
@@ -99,11 +109,12 @@ class Encoder: UIView {
         
         m1Encode.generatePointResults()
         
-      //Use each coeff to decode multichannel Mach1 Spatial mix
-        volumes = m1Encode.getResultingVolumesDecoded(decodeType: decodeType, decodeResult: decodeArray)
-    
-        players[0].volume = volumes[0] * volume
-        players[1].volume = volumes[1] * volume
+        //Use each coeff to decode multichannel Mach1 Spatial mix
+        var volumes : [Float] = m1Encode.getResultingVolumesDecoded(decodeType: decodeType, decodeResult: decodeArray)
+
+        for i in 0..<players.count {
+            players[i].volume = volumes[i] * volume
+        }
         
         self.setNeedsDisplay()
     }
@@ -152,16 +163,22 @@ class Encoder: UIView {
     }
     
     override func draw(_ rect: CGRect) {
-        let amp = 10000 * dBToAmplitude(dB: players[0].averagePower(forChannel: 0) + players[1].averagePower(forChannel: 1))/2
+        var amp : Float = 0.0
+        if(players.count > 0) {
+            for i in stride(from: 0, to: players.count, by: 2) {
+                amp = amp + players[i + 0].averagePower(forChannel: 0)
+                amp = amp + players[i + 1].averagePower(forChannel: 1)
+
+                players[i + 0].updateMeters()
+                players[i + 1].updateMeters()
+            }
+            amp = 10000 * dBToAmplitude(dB: amp) / Float(players.count)
+        }
+        
         let scale : CGFloat = CGFloat(2 + 1 * amp)
-        
-        players[0].updateMeters()
-        players[1].updateMeters()
-        
+
         let selectedColor : CGColor = UIColor(red: 1, green: 0.8, blue: 0.4, alpha: 1).cgColor
-
         circleInternalLayer.fillColor = selected ? selectedColor : UIColor(red: 90.0/255, green: 90.0/255, blue: 90.0/255, alpha: 1).cgColor
-
         circleExternalLayer.fillColor = UIColor( red: 114.0/255, green: 114.0/255, blue:114.0/255, alpha: selected ? 0.0 : 1.0 ).cgColor
         circleExternalLayer.strokeColor = selected ? selectedColor : UIColor(red: 151.0/255, green: 151.0/255, blue: 151.0/255, alpha: 1).cgColor
         circleExternalLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.scaledBy(x: scale, y: scale))

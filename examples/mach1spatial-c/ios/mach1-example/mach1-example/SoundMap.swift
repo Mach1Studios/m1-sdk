@@ -262,29 +262,37 @@ class SoundMap: UIView {
                 var vec : SCNVector3 = SCNVector3(2.0 * (Float(touchPoint.x  / (self.frame.width)) - 0.5), 2.0 * (Float(touchPoint.y / (self.frame.height)) - 0.5), 0.0)
 
                 // limit encoder position
+                /*
                 let maxDist : Float = 0.95
                 let dist : Float = vec.length()
                 if(dist > maxDist) {
                     vec = vec.normalize() * maxDist
                 }
+                */
                 
+                let maxDist : Float = 1.0
+                vec.x = min(max(vec.x, -1), 1)
+                vec.y = min(max(vec.y, -1), 1)
+
                 viewsEncoders[selectedEncoder].xInternal = vec.x * 1.0 / maxDist
                 viewsEncoders[selectedEncoder].yInternal = vec.y * 1.0 / maxDist
                 viewsEncoders[selectedEncoder].center = CGPoint(x: CGFloat(self.frame.width * 0.5) * CGFloat(1.0 + vec.x), y: CGFloat(self.frame.height * 0.5) * CGFloat(1.0 + vec.y))
+                
+                print("point changed: ",  viewsEncoders[selectedEncoder].xInternal,  viewsEncoders[selectedEncoder].yInternal )
             }
             
             touchPoint.x /= self.frame.size.width
             touchPoint.y /= self.frame.size.height
-            print("pan changed: ",  touchPoint)
+            
         }
     }
     
-    func update(decodeArray: [Float], rotationAngleForDisplay : Float) {
+    func update(decodeArray: [Float], decodeType: Mach1DecodeAlgoType, rotationAngleForDisplay : Float) {
         self.rotationAngle = rotationAngleForDisplay
         
         if(viewsEncoders.count>0) {
             for i in 0...viewsEncoders.count-1 {
-                viewsEncoders[i].update(decodeArray: decodeArray)
+                viewsEncoders[i].update(decodeArray: decodeArray, decodeType: decodeType)
             }
         }
         

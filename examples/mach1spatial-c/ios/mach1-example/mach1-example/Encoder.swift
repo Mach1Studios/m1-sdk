@@ -22,7 +22,8 @@ class Encoder: UIView {
     
     var xInternal : Float = 0.0
     var yInternal : Float = 0.0
-    
+    var stereoSpread : Float = 0.0
+    var type : Mach1EncodeInputModeType = Mach1EncodeInputModeMono
 
     let circleInternalLayer = CAShapeLayer()
     let circleExternalLayer = CAShapeLayer()
@@ -55,6 +56,8 @@ class Encoder: UIView {
         try! players[0] = AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: soundFiles[soundIndex][0], ofType: "wav")!))
         try! players[1] = AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: soundFiles[soundIndex][1], ofType: "wav")!))
         
+        type =  (soundFiles[soundIndex][0] == soundFiles[soundIndex][1]) ? Mach1EncodeInputModeMono : Mach1EncodeInputModeStereo
+
         players[0].pan = -1.0
         players[1].pan = 1.0
         
@@ -79,7 +82,7 @@ class Encoder: UIView {
 
     }
     
-    func update(decodeArray: [Float]) {
+    func update(decodeArray: [Float], decodeType: Mach1DecodeAlgoType) {
         
         var volumes : [Float] = [ 0, 0 ]
         
@@ -91,18 +94,14 @@ class Encoder: UIView {
         m1Encode.setPitch(pitch: height)
         m1Encode.setAutoOrbit(setAutoOrbit: true)
         m1Encode.setIsotropicEncode(setIsotropicEncode: true)
-        m1Encode.setInputMode(inputMode: Mach1EncodeInputModeMono)
+        m1Encode.setInputMode(inputMode: type)
+        m1Encode.setStereoSpread(setStereoSpread: stereoSpread)
         
         m1Encode.generatePointResults()
         
-        let gains = m1Encode.getGains()
-        
-        //Use each coeff to decode multichannel Mach1 Spatial mix
-        for i in 0...7 {
-            volumes[0] += decodeArray[i * 2] * gains[0][i]
-            volumes[1] += decodeArray[i * 2 + 1] * gains[0][i]
-        }
-        
+      //Use each coeff to decode multichannel Mach1 Spatial mix
+        volumes = m1Encode.getResultingVolumesDecoded(decodeType: decodeType, decodeResult: decodeArray)
+    
         players[0].volume = volumes[0] * volume
         players[1].volume = volumes[1] * volume
         

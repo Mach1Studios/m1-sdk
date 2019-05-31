@@ -30,11 +30,11 @@ class ViewController: UIViewController {
     @IBOutlet var soundTypeSegmentedControl: UISegmentedControl?
     @IBOutlet var volumeSliderControl: UISlider?
     @IBOutlet var heightSliderControl: UISlider?
+    @IBOutlet var stereoSliderControl: UISlider?
     @IBOutlet var soundMap: SoundMap?
     @IBOutlet var yawMeter: YawMeter?
     @IBOutlet var rollMeter: RollMeter?
     @IBOutlet var pitchMeter: PitchMeter?
-    @IBOutlet var labelInfo: UILabel?
 
     @IBAction func VolumeSliderChanged(_ sender: UISlider) {
         if(encoderCurrent != nil) {
@@ -81,10 +81,12 @@ class ViewController: UIViewController {
             if (self.encoderCurrent == nil) {
                 volumeSliderControl!.isEnabled = false
                 heightSliderControl!.isEnabled = false
+                stereoSliderControl!.isEnabled = false
                 soundTypeSegmentedControl!.isEnabled = false
             } else {
                 volumeSliderControl!.isEnabled = true
                 heightSliderControl!.isEnabled = true
+                stereoSliderControl!.isEnabled = (self.encoderCurrent?.type == Mach1EncodeInputModeStereo)
                 soundTypeSegmentedControl!.isEnabled = true
             }
         }
@@ -95,7 +97,7 @@ class ViewController: UIViewController {
         let decodeArray: [Float]  = m1Decode.decode(Yaw: Float(cameraYaw), Pitch: Float(cameraPitch), Roll: Float(cameraRoll))
         m1Decode.endBuffer()
         
-        soundMap?.update(decodeArray: decodeArray, rotationAngleForDisplay: -cameraPitch * Float.pi/180)
+        soundMap?.update(decodeArray: decodeArray, decodeType: Mach1DecodeAlgoSpatial, rotationAngleForDisplay: -cameraPitch * Float.pi/180)
     }
     
     func getEuler(q1 : SCNVector4) -> float3
@@ -168,9 +170,11 @@ class ViewController: UIViewController {
                     self?.yawMeter?.update(meter: -angles.y / 180)
                     self?.rollMeter?.update(meter: -angles.z / 90)
                     self?.pitchMeter?.update(meter: -angles.x / 90)
+                    /*
                     self?.labelInfo?.text = "Yaw: " + String(format: "%.3f", angles.x) + "°" + "\r\n" +
                         "Pitch: " + String(format: "%.3f", angles.y) + "°" + "\r\n" +
                         "Roll: " + String(format: "%.3f", angles.z) + "°"
+                    */
                 }
 
             })
@@ -181,6 +185,7 @@ class ViewController: UIViewController {
         
         heightSliderControl!.isEnabled = false
         volumeSliderControl!.isEnabled = false
+        stereoSliderControl!.isEnabled = false
         soundTypeSegmentedControl?.isEnabled = false
     }
     

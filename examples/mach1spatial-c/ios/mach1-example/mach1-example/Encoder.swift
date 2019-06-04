@@ -27,7 +27,10 @@ class Encoder: UIView {
  
     let circleInternalLayer = CAShapeLayer()
     let circleExternalLayer = CAShapeLayer()
-    
+
+    let circleLeftLayer = CAShapeLayer()
+    let circleRightLayer = CAShapeLayer()
+
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
         
@@ -92,6 +95,9 @@ class Encoder: UIView {
             players[i].play(atTime: startTime)
         }
 
+        circleLeftLayer.isHidden = (type == Mach1EncodeInputModeMono)
+        circleRightLayer.isHidden = (type == Mach1EncodeInputModeMono)
+        
         print (startTime)
    }
     
@@ -151,8 +157,27 @@ class Encoder: UIView {
         let viewCircleInternal : UIView = UIView()
         viewCircleInternal.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
         viewCircleInternal.layer.addSublayer(circleInternalLayer)
-      
         
+        // circle left
+        var leftOffset : CGAffineTransform = CGAffineTransform.identity.translatedBy(x: -6, y: -6).translatedBy(x: -24, y: 0)
+        circleLeftLayer.path = circlePath.cgPath.copy(using: &leftOffset) // circleInternalPath.cgPath
+        circleLeftLayer.fillColor = UIColor( red: 114.0/255, green: 114.0/255, blue:114.0/255, alpha: 1.0 ).cgColor
+
+        let viewCircleLeft : UIView = UIView()
+        viewCircleLeft.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
+        viewCircleLeft.layer.addSublayer(circleLeftLayer)
+        
+        // circle left
+        var rightOffset : CGAffineTransform = CGAffineTransform.identity.translatedBy(x: -6, y: -6).translatedBy(x: 24, y: 0)
+        circleRightLayer.path = circlePath.cgPath.copy(using: &rightOffset) // circleInternalPath.cgPath
+        circleRightLayer.fillColor = UIColor( red: 114.0/255, green: 114.0/255, blue:114.0/255, alpha: 1.0 ).cgColor
+        
+        let viewCircleRight : UIView = UIView()
+        viewCircleRight.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
+        viewCircleRight.layer.addSublayer(circleRightLayer)
+        
+        self.addSubview(viewCircleLeft)
+        self.addSubview(viewCircleRight)
         self.addSubview(viewCircleExternal)
         self.addSubview(viewCircleInternal)
     }
@@ -160,6 +185,10 @@ class Encoder: UIView {
     func dBToAmplitude(dB : Float) -> Float
     {
         return pow(10.0, dB / 20.0)
+    }
+    
+    func deg2rad(_ number: Double) -> Double {
+        return number * .pi / 180
     }
     
     override func draw(_ rect: CGRect) {
@@ -182,6 +211,12 @@ class Encoder: UIView {
         circleExternalLayer.fillColor = UIColor( red: 114.0/255, green: 114.0/255, blue:114.0/255, alpha: selected ? 0.0 : 1.0 ).cgColor
         circleExternalLayer.strokeColor = selected ? selectedColor : UIColor(red: 151.0/255, green: 151.0/255, blue: 151.0/255, alpha: 1).cgColor
         circleExternalLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.scaledBy(x: scale, y: scale))
+        
+        let angle = atan2((self.superview?.frame.size.height)!/2 - (self.frame.origin.y + self.frame.size.height/2), (self.superview?.frame.size.width)!/2 - (self.frame.origin.x + self.frame.size.width/2)) + CGFloat(deg2rad(90))
+        circleLeftLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.rotated(by: angle) )
+        circleRightLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.rotated(by: angle) )
+        
+        print(CGPoint(x: (self.superview?.frame.size.width)!/2 - (self.frame.origin.x + self.frame.size.width/2), y: (self.superview?.frame.size.height)!/2 - (self.frame.origin.y + self.frame.size.height/2)))
     }
 }
 

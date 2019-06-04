@@ -146,6 +146,13 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        for i in 0..<soundFiles.count {
+            if(soundFiles[i].count == 2) {
+                let title = soundTypeSegmentedControl?.titleForSegment(at: i)
+                soundTypeSegmentedControl?.setTitle(title! + title!, forSegmentAt: i)
+            }
+        }
+        
         m1Decode = Mach1Decode()
         //Mach1 Decode Setup
         //Setup the correct angle convention for orientation Euler input angles

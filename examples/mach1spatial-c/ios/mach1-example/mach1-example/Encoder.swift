@@ -95,7 +95,7 @@ class Encoder: UIView {
             players[i].play(atTime: startTime)
         }
 
-        circleLeftLayer.isHidden = (type == Mach1EncodeInputModeMono)
+        circleLeftLayer	.isHidden = (type == Mach1EncodeInputModeMono)
         circleRightLayer.isHidden = (type == Mach1EncodeInputModeMono)
         
         print (startTime)
@@ -213,10 +213,12 @@ class Encoder: UIView {
         circleExternalLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.scaledBy(x: scale, y: scale))
         
         let angle = atan2((self.superview?.frame.size.height)!/2 - (self.frame.origin.y + self.frame.size.height/2), (self.superview?.frame.size.width)!/2 - (self.frame.origin.x + self.frame.size.width/2)) + CGFloat(deg2rad(90))
-        circleLeftLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.rotated(by: angle) )
-        circleRightLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.rotated(by: angle) )
+        circleLeftLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.rotated(by: angle).translatedBy(x: CGFloat(-stereoSpread * 10), y: 0) )
+        circleRightLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.rotated(by: angle).translatedBy(x: CGFloat(stereoSpread * 10), y: 0) )
         
-        print(CGPoint(x: (self.superview?.frame.size.width)!/2 - (self.frame.origin.x + self.frame.size.width/2), y: (self.superview?.frame.size.height)!/2 - (self.frame.origin.y + self.frame.size.height/2)))
+        
+        
+        //print(CGPoint(x: (self.superview?.frame.size.width)!/2 - (self.frame.origin.x + self.frame.size.width/2), y: (self.superview?.frame.size.height)!/2 - (self.frame.origin.y + self.frame.size.height/2)))
     }
 }
 

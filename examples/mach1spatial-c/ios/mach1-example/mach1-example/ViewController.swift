@@ -18,7 +18,7 @@ var motionManager = CMMotionManager()
 
 var soundFiles: [[String]]  = [
     ["Nature_Mono01"],
-    ["Nature_Mono02","Nature_Mono02"],
+    ["M1_SDKDemo_Electronic_Stereo_L","M1_SDKDemo_Electronic_Stereo_R"],
     ["Nature_Mono03"],
     ["SciFi_Mono01"],
     ["SciFi_Mono02"],

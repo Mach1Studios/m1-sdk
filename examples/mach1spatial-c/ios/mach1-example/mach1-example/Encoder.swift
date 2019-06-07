@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import AVFoundation
+import SceneKit
 
 class Encoder: UIView {
     
@@ -205,16 +206,28 @@ class Encoder: UIView {
         }
         
         let scale : CGFloat = CGFloat(2 + 1 * amp)
-
+        
         let selectedColor : CGColor = UIColor(red: 1, green: 0.8, blue: 0.4, alpha: 1).cgColor
         circleInternalLayer.fillColor = selected ? selectedColor : UIColor(red: 90.0/255, green: 90.0/255, blue: 90.0/255, alpha: 1).cgColor
         circleExternalLayer.fillColor = UIColor( red: 114.0/255, green: 114.0/255, blue:114.0/255, alpha: selected ? 0.0 : 1.0 ).cgColor
         circleExternalLayer.strokeColor = selected ? selectedColor : UIColor(red: 151.0/255, green: 151.0/255, blue: 151.0/255, alpha: 1).cgColor
         circleExternalLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.scaledBy(x: scale, y: scale))
         
-        let angle = atan2((self.superview?.frame.size.height)!/2 - (self.frame.origin.y + self.frame.size.height/2), (self.superview?.frame.size.width)!/2 - (self.frame.origin.x + self.frame.size.width/2)) + CGFloat(deg2rad(90))
-        circleLeftLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.rotated(by: angle).translatedBy(x: CGFloat(-stereoSpread * Float(self.frame.width)/2), y: 0) )
-        circleRightLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.rotated(by: angle).translatedBy(x: CGFloat(stereoSpread * Float(self.frame.width)/2), y: 0) )
+        if(m1Encode.getPointsCount() == 2) {
+            let points : [SCNVector3] = m1Encode.getPoints()
+            if(circleLeftLayer.isHidden == false) {
+                circleLeftLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.translatedBy(x: -self.center.x +  CGFloat(points[0].z * Float((self.superview?.frame.width)!)), y:  -self.center.y + CGFloat((1-points[0].x) * Float((self.superview?.frame.height)!))))
+            }
+            
+            if(circleRightLayer.isHidden == false) {
+                circleRightLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.translatedBy(x: -self.center.x +  CGFloat(points[1].z * Float((self.superview?.frame.width)!)), y: -self.center.y + CGFloat((1-points[1].x) * Float((self.superview?.frame.height)!))))
+            }
+        }
+
+       // let angle = atan2((self.superview?.frame.size.height)!/2 - (self.frame.origin.y + self.frame.size.height/2), (self.superview?.frame.size.width)!/2 - (self.frame.origin.x + self.frame.size.width/2)) + CGFloat(deg2rad(90))
+//        circleLeftLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.rotated(by: angle).translatedBy(x: CGFloat(-stereoSpread * Float(self.frame.width)/2), y: 0) )
+    //    circleRightLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.rotated(by: angle).translatedBy(x: CGFloat(stereoSpread * Float(self.frame.width)/2), y: 0) )
+        
         
         
         

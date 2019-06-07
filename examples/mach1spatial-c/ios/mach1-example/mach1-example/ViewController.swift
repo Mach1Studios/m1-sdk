@@ -17,12 +17,12 @@ import SceneKit
 var motionManager = CMMotionManager()
 
 var soundFiles: [[String]]  = [
-    ["Nature_Mono01","Nature_Mono01"],
-    ["Nature_Mono02","Nature_Mono02"],
-    ["Nature_Mono03","Nature_Mono03"],
-    ["SciFi_Mono01","SciFi_Mono01"],
-    ["SciFi_Mono02","SciFi_Mono02"],
-    ["SciFi_Mono03","SciFi_Mono03"],
+    ["Nature_Mono01"],
+    ["M1_SDKDemo_Electronic_Stereo_L","M1_SDKDemo_Electronic_Stereo_R"],
+    ["Nature_Mono03"],
+    ["SciFi_Mono01"],
+    ["SciFi_Mono02"],
+    ["SciFi_Mono03"],
 ]
 
 class ViewController: UIViewController {
@@ -30,11 +30,11 @@ class ViewController: UIViewController {
     @IBOutlet var soundTypeSegmentedControl: UISegmentedControl?
     @IBOutlet var volumeSliderControl: UISlider?
     @IBOutlet var heightSliderControl: UISlider?
+    @IBOutlet var stereoSliderControl: UISlider?
     @IBOutlet var soundMap: SoundMap?
     @IBOutlet var yawMeter: YawMeter?
     @IBOutlet var rollMeter: RollMeter?
     @IBOutlet var pitchMeter: PitchMeter?
-    @IBOutlet var labelInfo: UILabel?
 
     @IBAction func VolumeSliderChanged(_ sender: UISlider) {
         if(encoderCurrent != nil) {
@@ -52,10 +52,18 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func StereoSliderChanged(_ sender: UISlider) {
+        if(encoderCurrent != nil) {
+            encoderCurrent?.stereoSpread = sender.value
+            // This slider is for setting the m1encode_obj's
+        }
+    }
+    
     @IBAction func SegmentedControlValueChanged(_ sender: Any) {
         if(encoderCurrent != nil) {
             encoderCurrent?.soundIndex = (soundTypeSegmentedControl?.selectedSegmentIndex)!
             encoderCurrent?.setupPlayers()
+            stereoSliderControl!.isEnabled = (self.encoderCurrent?.type == Mach1EncodeInputModeStereo)
         }
     }
   
@@ -69,6 +77,7 @@ class ViewController: UIViewController {
         if(encoder != nil) {
             volumeSliderControl?.value = (encoder?.volume)!
             heightSliderControl?.value = (encoder?.height)!
+            stereoSliderControl?.value = (encoder?.stereoSpread)!
             soundTypeSegmentedControl?.selectedSegmentIndex = (encoder?.soundIndex)!
         }
         self.encoderCurrent = encoder
@@ -81,10 +90,12 @@ class ViewController: UIViewController {
             if (self.encoderCurrent == nil) {
                 volumeSliderControl!.isEnabled = false
                 heightSliderControl!.isEnabled = false
+                stereoSliderControl!.isEnabled = false
                 soundTypeSegmentedControl!.isEnabled = false
             } else {
                 volumeSliderControl!.isEnabled = true
                 heightSliderControl!.isEnabled = true
+                stereoSliderControl!.isEnabled = (self.encoderCurrent?.type == Mach1EncodeInputModeStereo)
                 soundTypeSegmentedControl!.isEnabled = true
             }
         }
@@ -95,7 +106,7 @@ class ViewController: UIViewController {
         let decodeArray: [Float]  = m1Decode.decode(Yaw: Float(cameraYaw), Pitch: Float(cameraPitch), Roll: Float(cameraRoll))
         m1Decode.endBuffer()
         
-        soundMap?.update(decodeArray: decodeArray, rotationAngleForDisplay: -cameraPitch * Float.pi/180)
+        soundMap?.update(decodeArray: decodeArray, decodeType: Mach1DecodeAlgoSpatial, rotationAngleForDisplay: -cameraPitch * Float.pi/180)
     }
     
     func getEuler(q1 : SCNVector4) -> float3
@@ -135,6 +146,13 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        for i in 0..<soundFiles.count {
+            if(soundFiles[i].count == 2) {
+                let title = soundTypeSegmentedControl?.titleForSegment(at: i)
+                soundTypeSegmentedControl?.setTitle(title! + title!, forSegmentAt: i)
+            }
+        }
+        
         m1Decode = Mach1Decode()
         //Mach1 Decode Setup
         //Setup the correct angle convention for orientation Euler input angles
@@ -168,9 +186,11 @@ class ViewController: UIViewController {
                     self?.yawMeter?.update(meter: -angles.y / 180)
                     self?.rollMeter?.update(meter: -angles.z / 90)
                     self?.pitchMeter?.update(meter: -angles.x / 90)
+                    /*
                     self?.labelInfo?.text = "Yaw: " + String(format: "%.3f", angles.x) + "°" + "\r\n" +
                         "Pitch: " + String(format: "%.3f", angles.y) + "°" + "\r\n" +
                         "Roll: " + String(format: "%.3f", angles.z) + "°"
+                    */
                 }
 
             })
@@ -181,6 +201,7 @@ class ViewController: UIViewController {
         
         heightSliderControl!.isEnabled = false
         volumeSliderControl!.isEnabled = false
+        stereoSliderControl!.isEnabled = false
         soundTypeSegmentedControl?.isEnabled = false
     }
     

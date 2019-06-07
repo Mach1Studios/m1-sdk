@@ -22,11 +22,15 @@ class Encoder: UIView {
     
     var xInternal : Float = 0.0
     var yInternal : Float = 0.0
-    
-
+    var stereoSpread : Float = 0.0
+    var type : Mach1EncodeInputModeType = Mach1EncodeInputModeMono
+ 
     let circleInternalLayer = CAShapeLayer()
     let circleExternalLayer = CAShapeLayer()
-    
+
+    let circleLeftLayer = CAShapeLayer()
+    let circleRightLayer = CAShapeLayer()
+
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
         
@@ -46,43 +50,58 @@ class Encoder: UIView {
     }
     
     func setupPlayers() {
-        if(players.count != 0) {
-            players[0].stop()
-            players[1].stop()
+      
+        for i in 0..<players.count {
+            players[i].stop()
+        }
+
+        if(soundFiles[soundIndex].count == 1) {
+            type = Mach1EncodeInputModeMono
+            players = [AVAudioPlayer(), AVAudioPlayer()]
+            try! players[0] = AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: soundFiles[soundIndex][0], ofType: "wav")!))
+            try! players[1] = AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: soundFiles[soundIndex][0], ofType: "wav")!))
+        }
+        else if(soundFiles[soundIndex].count == 2) {
+            type = Mach1EncodeInputModeStereo
+            players = [AVAudioPlayer(), AVAudioPlayer(), AVAudioPlayer(), AVAudioPlayer()]
+            try! players[0] = AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: soundFiles[soundIndex][0], ofType: "wav")!))
+            try! players[1] = AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: soundFiles[soundIndex][0], ofType: "wav")!))
+            try! players[2] = AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: soundFiles[soundIndex][1], ofType: "wav")!))
+            try! players[3] = AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: soundFiles[soundIndex][1], ofType: "wav")!))
         }
         
-        players = [AVAudioPlayer(), AVAudioPlayer()]
-        try! players[0] = AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: soundFiles[soundIndex][0], ofType: "wav")!))
-        try! players[1] = AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: soundFiles[soundIndex][1], ofType: "wav")!))
-        
-        players[0].pan = -1.0
-        players[1].pan = 1.0
-        
-        players[0].volume = 0.0
-        players[1].volume = 0.0
-        
-        players[0].prepareToPlay()
-        players[1].prepareToPlay()
-        
-        players[0].numberOfLoops = -1
-        players[1].numberOfLoops = -1
-        
-        players[0].isMeteringEnabled = true
-        players[1].isMeteringEnabled = true
+        for i in stride(from: 0, to: players.count, by: 2) {
+            players[i + 0].pan = -1.0
+            players[i + 1].pan = 1.0
+            
+            players[i + 0].volume = 0.0
+            players[i + 1].volume = 0.0
+            
+            players[i + 0].prepareToPlay()
+            players[i + 1].prepareToPlay()
+            
+            players[i + 0].numberOfLoops = -1
+            players[i + 1].numberOfLoops = -1
+            
+            players[i + 0].isMeteringEnabled = true
+            players[i + 1].isMeteringEnabled = true
+        }
         
         let startDelayTime = 1.0
         let now = players[0].deviceCurrentTime
         let startTime = now + startDelayTime
-        players[0].play(atTime: startTime)
-        players[1].play(atTime: startTime)
-        print (startTime)
+        
+        for i in 0..<players.count {
+            players[i].play(atTime: startTime)
+        }
 
-    }
+        circleLeftLayer	.isHidden = (type == Mach1EncodeInputModeMono)
+        circleRightLayer.isHidden = (type == Mach1EncodeInputModeMono)
+        
+        print (startTime)
+   }
     
-    func update(decodeArray: [Float]) {
-        
-        var volumes : [Float] = [ 0, 0 ]
-        
+    func update(decodeArray: [Float], decodeType: Mach1DecodeAlgoType) {
         let rotation : Float = fmodf(atan2(-xInternal,yInternal) / (2 * Float.pi) + 0.5, 1.0) // 0 - 1
         let diverge : Float = min( sqrt(powf(xInternal,2) + powf(yInternal,2)), 1.0) *  0.707 // 0 - 0.707
         
@@ -91,20 +110,17 @@ class Encoder: UIView {
         m1Encode.setPitch(pitch: height)
         m1Encode.setAutoOrbit(setAutoOrbit: true)
         m1Encode.setIsotropicEncode(setIsotropicEncode: true)
-        m1Encode.setInputMode(inputMode: Mach1EncodeInputModeMono)
+        m1Encode.setInputMode(inputMode: type)
+        m1Encode.setStereoSpread(setStereoSpread: stereoSpread)
         
         m1Encode.generatePointResults()
         
-        let gains = m1Encode.getGains()
-        
         //Use each coeff to decode multichannel Mach1 Spatial mix
-        for i in 0...7 {
-            volumes[0] += decodeArray[i * 2] * gains[0][i]
-            volumes[1] += decodeArray[i * 2 + 1] * gains[0][i]
+        var volumes : [Float] = m1Encode.getResultingVolumesDecoded(decodeType: decodeType, decodeResult: decodeArray)
+
+        for i in 0..<players.count {
+            players[i].volume = volumes[i] * volume
         }
-        
-        players[0].volume = volumes[0] * volume
-        players[1].volume = volumes[1] * volume
         
         self.setNeedsDisplay()
     }
@@ -141,8 +157,27 @@ class Encoder: UIView {
         let viewCircleInternal : UIView = UIView()
         viewCircleInternal.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
         viewCircleInternal.layer.addSublayer(circleInternalLayer)
-      
         
+        // circle left
+        var leftOffset : CGAffineTransform = CGAffineTransform.identity.translatedBy(x: -6, y: -6)//.translatedBy(x: -24, y: 0)
+        circleLeftLayer.path = circlePath.cgPath.copy(using: &leftOffset) // circleInternalPath.cgPath
+        circleLeftLayer.fillColor = UIColor( red: 114.0/255, green: 114.0/255, blue:114.0/255, alpha: 1.0 ).cgColor
+
+        let viewCircleLeft : UIView = UIView()
+        viewCircleLeft.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
+        viewCircleLeft.layer.addSublayer(circleLeftLayer)
+        
+        // circle left
+        var rightOffset : CGAffineTransform = CGAffineTransform.identity.translatedBy(x: -6, y: -6)//.translatedBy(x: 24, y: 0)
+        circleRightLayer.path = circlePath.cgPath.copy(using: &rightOffset) // circleInternalPath.cgPath
+        circleRightLayer.fillColor = UIColor( red: 114.0/255, green: 114.0/255, blue:114.0/255, alpha: 1.0 ).cgColor
+        
+        let viewCircleRight : UIView = UIView()
+        viewCircleRight.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
+        viewCircleRight.layer.addSublayer(circleRightLayer)
+        
+        self.addSubview(viewCircleLeft)
+        self.addSubview(viewCircleRight)
         self.addSubview(viewCircleExternal)
         self.addSubview(viewCircleInternal)
     }
@@ -152,20 +187,38 @@ class Encoder: UIView {
         return pow(10.0, dB / 20.0)
     }
     
+    func deg2rad(_ number: Double) -> Double {
+        return number * .pi / 180
+    }
+    
     override func draw(_ rect: CGRect) {
-        let amp = 10000 * dBToAmplitude(dB: players[0].averagePower(forChannel: 0) + players[1].averagePower(forChannel: 1))/2
+        var amp : Float = 0.0
+        if(players.count > 0) {
+            for i in stride(from: 0, to: players.count, by: 2) {
+                amp = amp + players[i + 0].averagePower(forChannel: 0)
+                amp = amp + players[i + 1].averagePower(forChannel: 1)
+
+                players[i + 0].updateMeters()
+                players[i + 1].updateMeters()
+            }
+            amp = 10000 * dBToAmplitude(dB: amp) / Float(players.count)
+        }
+        
         let scale : CGFloat = CGFloat(2 + 1 * amp)
-        
-        players[0].updateMeters()
-        players[1].updateMeters()
-        
+
         let selectedColor : CGColor = UIColor(red: 1, green: 0.8, blue: 0.4, alpha: 1).cgColor
-
         circleInternalLayer.fillColor = selected ? selectedColor : UIColor(red: 90.0/255, green: 90.0/255, blue: 90.0/255, alpha: 1).cgColor
-
         circleExternalLayer.fillColor = UIColor( red: 114.0/255, green: 114.0/255, blue:114.0/255, alpha: selected ? 0.0 : 1.0 ).cgColor
         circleExternalLayer.strokeColor = selected ? selectedColor : UIColor(red: 151.0/255, green: 151.0/255, blue: 151.0/255, alpha: 1).cgColor
         circleExternalLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.scaledBy(x: scale, y: scale))
+        
+        let angle = atan2((self.superview?.frame.size.height)!/2 - (self.frame.origin.y + self.frame.size.height/2), (self.superview?.frame.size.width)!/2 - (self.frame.origin.x + self.frame.size.width/2)) + CGFloat(deg2rad(90))
+        circleLeftLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.rotated(by: angle).translatedBy(x: CGFloat(-stereoSpread * Float(self.frame.width)/2), y: 0) )
+        circleRightLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.rotated(by: angle).translatedBy(x: CGFloat(stereoSpread * Float(self.frame.width)/2), y: 0) )
+        
+        
+        
+        //print(CGPoint(x: (self.superview?.frame.size.width)!/2 - (self.frame.origin.x + self.frame.size.width/2), y: (self.superview?.frame.size.height)!/2 - (self.frame.origin.y + self.frame.size.height/2)))
     }
 }
 

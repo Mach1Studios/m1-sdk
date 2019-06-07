@@ -170,11 +170,17 @@ class SoundMap: UIView {
         recreateView()
     }
     
+    func distance(_ a: CGPoint, _ b: CGPoint) -> CGFloat {
+        let xDist = a.x - b.x
+        let yDist = a.y - b.y
+        return CGFloat(sqrt(xDist * xDist + yDist * yDist))
+    }
+    
     func selectEncoder(touchPoint: CGPoint) {
         selectedEncoder = -1
         if(viewsEncoders.count>0) {
             for i in 0...viewsEncoders.count-1 {
-                if(viewsEncoders[i].frame.contains(touchPoint) && selectedEncoder == -1) {
+                if(distance(viewsEncoders[i].center,touchPoint) < 50 && selectedEncoder == -1) {
                     selectedEncoder = i
                     viewsEncoders[selectedEncoder].selected = true
                 }
@@ -222,8 +228,8 @@ class SoundMap: UIView {
         }
         else  if(sender.numberOfTapsRequired == 2) {
             let encoderView : Encoder = Encoder()
-            encoderView.frame.size.width = 50
-            encoderView.frame.size.height = 50
+            encoderView.frame.size.width = self.frame.size.width
+            encoderView.frame.size.height = self.frame.size.width
             encoderView.center = CGPoint(x: touchPoint.x, y: touchPoint.y)
             encoderView.selected = true
             self.addSubview(encoderView)
@@ -262,29 +268,37 @@ class SoundMap: UIView {
                 var vec : SCNVector3 = SCNVector3(2.0 * (Float(touchPoint.x  / (self.frame.width)) - 0.5), 2.0 * (Float(touchPoint.y / (self.frame.height)) - 0.5), 0.0)
 
                 // limit encoder position
+                /*
                 let maxDist : Float = 0.95
                 let dist : Float = vec.length()
                 if(dist > maxDist) {
                     vec = vec.normalize() * maxDist
                 }
+                */
                 
+                let maxDist : Float = 1.0
+                vec.x = min(max(vec.x, -1), 1)
+                vec.y = min(max(vec.y, -1), 1)
+
                 viewsEncoders[selectedEncoder].xInternal = vec.x * 1.0 / maxDist
                 viewsEncoders[selectedEncoder].yInternal = vec.y * 1.0 / maxDist
                 viewsEncoders[selectedEncoder].center = CGPoint(x: CGFloat(self.frame.width * 0.5) * CGFloat(1.0 + vec.x), y: CGFloat(self.frame.height * 0.5) * CGFloat(1.0 + vec.y))
+                
+                print("point changed: ",  viewsEncoders[selectedEncoder].xInternal,  viewsEncoders[selectedEncoder].yInternal )
             }
             
             touchPoint.x /= self.frame.size.width
             touchPoint.y /= self.frame.size.height
-            print("pan changed: ",  touchPoint)
+            
         }
     }
     
-    func update(decodeArray: [Float], rotationAngleForDisplay : Float) {
+    func update(decodeArray: [Float], decodeType: Mach1DecodeAlgoType, rotationAngleForDisplay : Float) {
         self.rotationAngle = rotationAngleForDisplay
         
         if(viewsEncoders.count>0) {
             for i in 0...viewsEncoders.count-1 {
-                viewsEncoders[i].update(decodeArray: decodeArray)
+                viewsEncoders[i].update(decodeArray: decodeArray, decodeType: decodeType)
             }
         }
         

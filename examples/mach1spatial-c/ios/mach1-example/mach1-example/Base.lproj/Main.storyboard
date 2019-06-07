@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_5" orientation="portrait">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,31 +17,31 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="mach1_example" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="P1Y-jj-FQ6" userLabel="Main Stack View">
-                                <rect key="frame" x="17" y="44" width="372.66666666666669" height="818"/>
+                                <rect key="frame" x="17" y="20" width="337.5" height="647"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ENCODE/DECODE DEMO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aNt-pK-u2r">
-                                        <rect key="frame" x="0.0" y="0.0" width="372.66666666666669" height="28.666666666666668"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="ENCODE/DECODE DEMO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aNt-pK-u2r">
+                                        <rect key="frame" x="0.0" y="0.0" width="337.5" height="0.0"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                         <color key="textColor" red="0.92156862745098034" green="0.92156862745098034" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v6J-VV-XWw" userLabel="Meters Stack View">
-                                        <rect key="frame" x="0.0" y="28.666666666666686" width="372.66666666666669" height="215"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v6J-VV-XWw" userLabel="Meters Stack View">
+                                        <rect key="frame" x="0.0" y="0.0" width="337.5" height="133.5"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ezo-82-caK" customClass="YawMeter" customModule="mach1_example" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="10" width="123" height="205"/>
+                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ezo-82-caK" customClass="YawMeter" customModule="mach1_example" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="10" width="111.5" height="123.5"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Fz-zf-MZH" userLabel="Pitch Meter" customClass="RollMeter" customModule="mach1_example" customModuleProvider="target">
-                                                <rect key="frame" x="123" y="10" width="126.66666666666669" height="205"/>
+                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Fz-zf-MZH" userLabel="Pitch Meter" customClass="RollMeter" customModule="mach1_example" customModuleProvider="target">
+                                                <rect key="frame" x="111.5" y="10" width="114.5" height="123.5"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d9Z-MG-kas" userLabel="Pitch Meter" customClass="PitchMeter" customModule="mach1_example" customModuleProvider="target">
-                                                <rect key="frame" x="249.66666666666669" y="10" width="123" height="205"/>
+                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d9Z-MG-kas" userLabel="Pitch Meter" customClass="PitchMeter" customModule="mach1_example" customModuleProvider="target">
+                                                <rect key="frame" x="226" y="10" width="111.5" height="123.5"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
                                         </subviews>
@@ -49,21 +51,21 @@
                                         </constraints>
                                         <edgeInsets key="layoutMargins" top="10" left="0.0" bottom="0.0" right="0.0"/>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="40e-gs-K1L" userLabel="Controls Stack View">
-                                        <rect key="frame" x="0.0" y="243.66666666666669" width="372.66666666666669" height="574.33333333333326"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="40e-gs-K1L" userLabel="Controls Stack View">
+                                        <rect key="frame" x="0.0" y="133.5" width="337.5" height="513.5"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Rdu-X5-dP8" userLabel="Sound Map Stack View">
-                                                <rect key="frame" x="0.0" y="0.0" width="372.66666666666669" height="376.33333333333331"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Rdu-X5-dP8" userLabel="Sound Map Stack View">
+                                                <rect key="frame" x="0.0" y="0.0" width="337.5" height="341"/>
                                                 <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gwy-b5-JIW" customClass="SoundMap" customModule="mach1_example" customModuleProvider="target">
-                                                        <rect key="frame" x="20" y="0.0" width="332.66666666666669" height="332.66666666666669"/>
+                                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gwy-b5-JIW" customClass="SoundMap" customModule="mach1_example" customModuleProvider="target">
+                                                        <rect key="frame" x="20" y="0.0" width="297.5" height="297.5"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" secondItem="Gwy-b5-JIW" secondAttribute="height" multiplier="1:1" id="QxE-xG-raI"/>
                                                         </constraints>
                                                     </view>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HRE-KA-rjC">
-                                                        <rect key="frame" x="20" y="332.66666666666669" width="332.66666666666669" height="33.666666666666686"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HRE-KA-rjC">
+                                                        <rect key="frame" x="20" y="297.5" width="297.5" height="33.5"/>
                                                         <string key="text">Double tap to add point
 Drag to change position</string>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -73,18 +75,12 @@ Drag to change position</string>
                                                 </subviews>
                                                 <edgeInsets key="layoutMargins" top="0.0" left="20" bottom="10" right="20"/>
                                             </stackView>
-                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ZBA-3Q-b3P">
-                                                <rect key="frame" x="0.0" y="376.33333333333331" width="372.66666666666669" height="95.666666666666686"/>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ZBA-3Q-b3P">
+                                                <rect key="frame" x="0.0" y="341" width="337.5" height="29"/>
                                                 <color key="backgroundColor" red="0.14117647058823529" green="0.14117647058823529" blue="0.13725490196078433" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <segments>
-                                                    <segment>
-                                                        <string key="title">🧠
-</string>
-                                                    </segment>
-                                                    <segment>
-                                                        <string key="title">🦷
-</string>
-                                                    </segment>
+                                                    <segment title="👅"/>
+                                                    <segment title="👅"/>
                                                     <segment title="👅"/>
                                                     <segment title="👅"/>
                                                     <segment title="👅"/>
@@ -94,30 +90,43 @@ Drag to change position</string>
                                                     <action selector="SegmentedControlValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="ZlK-rd-xjz"/>
                                                 </connections>
                                             </segmentedControl>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Volume" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kTF-Ic-7oC">
-                                                <rect key="frame" x="0.0" y="470.99999999999994" width="372.66666666666669" height="21.666666666666686"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Volume" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kTF-Ic-7oC">
+                                                <rect key="frame" x="0.0" y="369" width="337.5" height="21.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                 <color key="textColor" red="0.396078431372549" green="0.39215686274509803" blue="0.39215686274509803" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="R75-PC-MUV">
-                                                <rect key="frame" x="-2" y="492.66666666666669" width="376.66666666666669" height="31.000000000000057"/>
+                                            <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="R75-PC-MUV">
+                                                <rect key="frame" x="-2" y="390.5" width="341.5" height="31"/>
                                                 <color key="tintColor" red="1" green="0.80000000000000004" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <connections>
                                                     <action selector="VolumeSliderChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="E0m-EK-rLQ"/>
                                                 </connections>
                                             </slider>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Height" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eL1-Y4-EaL">
-                                                <rect key="frame" x="0.0" y="522.66666666666674" width="372.66666666666669" height="21.666666666666629"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Height" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eL1-Y4-EaL">
+                                                <rect key="frame" x="0.0" y="420.5" width="337.5" height="21.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                 <color key="textColor" red="0.39607843139999999" green="0.3921568627" blue="0.3921568627" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Msw-49-UN8" userLabel="Height Slider Control">
-                                                <rect key="frame" x="-2" y="544.33333333333326" width="376.66666666666669" height="31"/>
+                                            <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Msw-49-UN8" userLabel="Height Slider Control">
+                                                <rect key="frame" x="-2" y="442" width="341.5" height="31"/>
                                                 <color key="tintColor" red="1" green="0.80000000000000004" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <connections>
                                                     <action selector="HeightSliderChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="amP-eG-fGO"/>
+                                                </connections>
+                                            </slider>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Stereo Spread" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tcm-aE-NoU" userLabel="Stereo">
+                                                <rect key="frame" x="0.0" y="472" width="337.5" height="21.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                <color key="textColor" red="0.39607843139999999" green="0.3921568627" blue="0.3921568627" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="SxO-Le-PL0" userLabel="Stereo Slider Control">
+                                                <rect key="frame" x="-2" y="493.5" width="341.5" height="21"/>
+                                                <color key="tintColor" red="1" green="0.80000000000000004" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <connections>
+                                                    <action selector="StereoSliderChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="bv3-Nv-spd"/>
                                                 </connections>
                                             </slider>
                                         </subviews>
@@ -128,6 +137,7 @@ Drag to change position</string>
                         <color key="backgroundColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="P1Y-jj-FQ6" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="39w-EF-K6F"/>
+                            <constraint firstItem="v6J-VV-XWw" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.2" id="CPR-u7-baU"/>
                             <constraint firstItem="P1Y-jj-FQ6" firstAttribute="width" secondItem="6Tk-OE-BBY" secondAttribute="width" multiplier="0.9" id="DS3-YF-qSi"/>
                             <constraint firstItem="P1Y-jj-FQ6" firstAttribute="height" secondItem="6Tk-OE-BBY" secondAttribute="height" id="lnH-2j-xch"/>
                             <constraint firstItem="P1Y-jj-FQ6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="17" id="qUN-SR-YYO"/>
@@ -140,6 +150,7 @@ Drag to change position</string>
                         <outlet property="rollMeter" destination="2Fz-zf-MZH" id="Wyt-iG-be2"/>
                         <outlet property="soundMap" destination="Gwy-b5-JIW" id="KfH-Qj-Fj4"/>
                         <outlet property="soundTypeSegmentedControl" destination="ZBA-3Q-b3P" id="2rE-Pe-cA5"/>
+                        <outlet property="stereoSliderControl" destination="SxO-Le-PL0" id="h3T-l7-Ree"/>
                         <outlet property="volumeSliderControl" destination="R75-PC-MUV" id="KWM-Bx-paG"/>
                         <outlet property="yawMeter" destination="Ezo-82-caK" id="hlM-lq-oi9"/>
                     </connections>

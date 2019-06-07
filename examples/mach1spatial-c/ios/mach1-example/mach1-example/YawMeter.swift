@@ -56,10 +56,10 @@ class YawMeter: UIView {
         
         // background
         let imageViewBackground = UIImageView()
-        imageViewBackground.frame = CGRect(x: 7, y: 7, width: self.frame.width - 14, height: self.frame.height - 14)
+        imageViewBackground.frame = CGRect(x: 0, y: 0, width: self.frame.width - 60, height: self.frame.width - 60)
         imageViewBackground.image = UIImage(named: "yawMeter.png")
         imageViewBackground.backgroundColor = UIColor( red: 0.0, green: 0.0, blue:0.0, alpha: 0.0 )
-        imageViewBackground.contentMode = .scaleAspectFit
+        //imageViewBackground.contentMode = .topLeft
         imageViewBackground.clipsToBounds = true
         imageViewBackground.center = CGPoint(x: 0, y: 0)
         viewYaw.addSubview(imageViewBackground)
@@ -82,7 +82,7 @@ class YawMeter: UIView {
         viewYaw.layer.addSublayer(shapeLayerLine)
         
         // circle
-        let circlePath = UIBezierPath(arcCenter: CGPoint(x: 0,y: 0), radius: CGFloat(self.frame.width/4 - 4), startAngle: CGFloat(-Float.pi/2), endAngle:CGFloat(-Float.pi/2 + angle), clockwise: true)
+        let circlePath = UIBezierPath(arcCenter: CGPoint(x: 0,y: 0), radius: CGFloat(self.frame.width/2 - 8), startAngle: CGFloat(-Float.pi/2), endAngle:CGFloat(-Float.pi/2 + angle), clockwise: true)
         
         shapeLayerCircle = CAShapeLayer()
         shapeLayerCircle.path = circlePath.cgPath
@@ -124,19 +124,23 @@ class YawMeter: UIView {
     
     override func draw(_ rect: CGRect) {
         // line
-        let angle : Float = meter * Float.pi
+        var angle : Float = meter * Float.pi
         let dirX : CGFloat = CGFloat(sin(angle))
         let dirY : CGFloat = CGFloat(-cos(angle))
         
+        let radius : CGFloat = self.frame.width / 2 - 20
+
         let linePath = UIBezierPath()
-        linePath.move(to: CGPoint(x: dirX * (self.frame.width/6), y: dirY * (self.frame.width/6)))
-        linePath.addLine(to: CGPoint(x: dirX * (self.frame.width/4), y: dirY * (self.frame.width/4)))
+        linePath.move(to: CGPoint(x: dirX * (radius+2), y: dirY * (radius+2)))
+        linePath.addLine(to: CGPoint(x: dirX * (radius-2), y: dirY * (radius-2)))
         linePath.close()
         
         shapeLayerLine.path = linePath.cgPath
         
         // circle
-        let circlePath = UIBezierPath(arcCenter: CGPoint(x: 0,y: 0), radius: CGFloat(self.frame.width/4 + 10), startAngle: CGFloat(-Float.pi/2), endAngle:CGFloat(-Float.pi/2 + angle), clockwise: (angle > 0))
+        //angle = 0.33 * Float.pi
+        
+        let circlePath = UIBezierPath(arcCenter: CGPoint(x: 0,y: 0), radius: radius, startAngle: CGFloat(-Float.pi/2), endAngle:CGFloat(-Float.pi/2 + angle), clockwise: (angle > 0))
         
         shapeLayerCircle.path = circlePath.cgPath
         

@@ -159,7 +159,7 @@ class Encoder: UIView {
         viewCircleInternal.layer.addSublayer(circleInternalLayer)
         
         // circle left
-        var leftOffset : CGAffineTransform = CGAffineTransform.identity.translatedBy(x: -6, y: -6).translatedBy(x: -24, y: 0)
+        var leftOffset : CGAffineTransform = CGAffineTransform.identity.translatedBy(x: -6, y: -6)//.translatedBy(x: -24, y: 0)
         circleLeftLayer.path = circlePath.cgPath.copy(using: &leftOffset) // circleInternalPath.cgPath
         circleLeftLayer.fillColor = UIColor( red: 114.0/255, green: 114.0/255, blue:114.0/255, alpha: 1.0 ).cgColor
 
@@ -168,7 +168,7 @@ class Encoder: UIView {
         viewCircleLeft.layer.addSublayer(circleLeftLayer)
         
         // circle left
-        var rightOffset : CGAffineTransform = CGAffineTransform.identity.translatedBy(x: -6, y: -6).translatedBy(x: 24, y: 0)
+        var rightOffset : CGAffineTransform = CGAffineTransform.identity.translatedBy(x: -6, y: -6)//.translatedBy(x: 24, y: 0)
         circleRightLayer.path = circlePath.cgPath.copy(using: &rightOffset) // circleInternalPath.cgPath
         circleRightLayer.fillColor = UIColor( red: 114.0/255, green: 114.0/255, blue:114.0/255, alpha: 1.0 ).cgColor
         
@@ -213,8 +213,8 @@ class Encoder: UIView {
         circleExternalLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.scaledBy(x: scale, y: scale))
         
         let angle = atan2((self.superview?.frame.size.height)!/2 - (self.frame.origin.y + self.frame.size.height/2), (self.superview?.frame.size.width)!/2 - (self.frame.origin.x + self.frame.size.width/2)) + CGFloat(deg2rad(90))
-        circleLeftLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.rotated(by: angle).translatedBy(x: CGFloat(-stereoSpread * 10), y: 0) )
-        circleRightLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.rotated(by: angle).translatedBy(x: CGFloat(stereoSpread * 10), y: 0) )
+        circleLeftLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.rotated(by: angle).translatedBy(x: CGFloat(-stereoSpread * Float(self.frame.width)/2), y: 0) )
+        circleRightLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.rotated(by: angle).translatedBy(x: CGFloat(stereoSpread * Float(self.frame.width)/2), y: 0) )
         
         
         

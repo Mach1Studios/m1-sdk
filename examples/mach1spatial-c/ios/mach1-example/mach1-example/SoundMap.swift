@@ -170,11 +170,17 @@ class SoundMap: UIView {
         recreateView()
     }
     
+    func distance(_ a: CGPoint, _ b: CGPoint) -> CGFloat {
+        let xDist = a.x - b.x
+        let yDist = a.y - b.y
+        return CGFloat(sqrt(xDist * xDist + yDist * yDist))
+    }
+    
     func selectEncoder(touchPoint: CGPoint) {
         selectedEncoder = -1
         if(viewsEncoders.count>0) {
             for i in 0...viewsEncoders.count-1 {
-                if(viewsEncoders[i].frame.contains(touchPoint) && selectedEncoder == -1) {
+                if(distance(viewsEncoders[i].center,touchPoint) < 50 && selectedEncoder == -1) {
                     selectedEncoder = i
                     viewsEncoders[selectedEncoder].selected = true
                 }
@@ -222,8 +228,8 @@ class SoundMap: UIView {
         }
         else  if(sender.numberOfTapsRequired == 2) {
             let encoderView : Encoder = Encoder()
-            encoderView.frame.size.width = 80
-            encoderView.frame.size.height = 80
+            encoderView.frame.size.width = self.frame.size.width
+            encoderView.frame.size.height = self.frame.size.width
             encoderView.center = CGPoint(x: touchPoint.x, y: touchPoint.y)
             encoderView.selected = true
             self.addSubview(encoderView)

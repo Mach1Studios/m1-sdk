@@ -104,7 +104,7 @@ class Encoder: UIView {
     
     func update(decodeArray: [Float], decodeType: Mach1DecodeAlgoType) {
         let rotation : Float = fmodf(atan2(-xInternal,yInternal) / (2 * Float.pi) + 0.5, 1.0) // 0 - 1
-        let diverge : Float = min( sqrt(powf(xInternal,2) + powf(yInternal,2)), 1.0) *  0.707 // 0 - 0.707
+        let diverge : Float = min( sqrt(powf(xInternal,2) + powf(yInternal,2)), 1.0) // 0 - 1
         
         m1Encode.setRotation(rotation: rotation)
         m1Encode.setDiverge(diverge: diverge)
@@ -214,11 +214,10 @@ class Encoder: UIView {
         circleExternalLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.scaledBy(x: scale, y: scale))
         
         if(m1Encode.getPointsCount() == 2) {
-            let points : [SCNVector3] = m1Encode.getPoints()
+            var points : [SCNVector3] = m1Encode.getPoints()
             if(circleLeftLayer.isHidden == false) {
-                circleLeftLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.translatedBy(x: -self.center.x +  CGFloat(points[0].z * Float((self.superview?.frame.width)!)), y:  -self.center.y + CGFloat((1-points[0].x) * Float((self.superview?.frame.height)!))))
-            }
-            
+                circleLeftLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.translatedBy(x: -self.center.x +  CGFloat(points[0].z * Float((self.superview?.frame.width)!)), y: -self.center.y + CGFloat((1-points[0].x) * Float((self.superview?.frame.height)!))))
+             }
             if(circleRightLayer.isHidden == false) {
                 circleRightLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.translatedBy(x: -self.center.x +  CGFloat(points[1].z * Float((self.superview?.frame.width)!)), y: -self.center.y + CGFloat((1-points[1].x) * Float((self.superview?.frame.height)!))))
             }
@@ -227,9 +226,6 @@ class Encoder: UIView {
        // let angle = atan2((self.superview?.frame.size.height)!/2 - (self.frame.origin.y + self.frame.size.height/2), (self.superview?.frame.size.width)!/2 - (self.frame.origin.x + self.frame.size.width/2)) + CGFloat(deg2rad(90))
 //        circleLeftLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.rotated(by: angle).translatedBy(x: CGFloat(-stereoSpread * Float(self.frame.width)/2), y: 0) )
     //    circleRightLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.rotated(by: angle).translatedBy(x: CGFloat(stereoSpread * Float(self.frame.width)/2), y: 0) )
-        
-        
-        
         
         //print(CGPoint(x: (self.superview?.frame.size.width)!/2 - (self.frame.origin.x + self.frame.size.width/2), y: (self.superview?.frame.size.height)!/2 - (self.frame.origin.y + self.frame.size.height/2)))
     }

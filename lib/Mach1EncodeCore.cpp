@@ -14,6 +14,10 @@ updates and should not be integrated in sections but remain as an update-able fa
 #include <algorithm>
 #include <iostream>
 
+float clamp(float n, float lower, float upper) {
+	return std::max(lower, std::min(n, upper));
+}
+
 M1EncodeCorePointResults::M1EncodeCorePointResults() {
 
 }
@@ -162,6 +166,13 @@ void M1EncodeCore::generatePointResults() {
                         
                     }
                     
+					// Fixing it if we got outside the bounds
+					for (int i = 0; i < resultingPoints.pointsCount; i++) {
+						resultingPoints.ppoints[i].x = clamp(resultingPoints.ppoints[i].x, -1, 1);
+						resultingPoints.ppoints[i].y = clamp(resultingPoints.ppoints[i].y, -1, 1);
+						resultingPoints.ppoints[i].z = clamp(resultingPoints.ppoints[i].z, -1, 1);
+					}
+
                     break;
                 case OUTPUT_8CH:
                     resultingPoints.pointsCount = 2;
@@ -212,7 +223,13 @@ void M1EncodeCore::generatePointResults() {
                         
                     }
                     
-                    
+					// Fixing it if we got outside the bounds
+					for (int i = 0; i < resultingPoints.pointsCount; i++) {
+						resultingPoints.ppoints[i].x = clamp(resultingPoints.ppoints[i].x, -1, 1);
+						resultingPoints.ppoints[i].y = clamp(resultingPoints.ppoints[i].y, -1, 1);
+						resultingPoints.ppoints[i].z = clamp(resultingPoints.ppoints[i].z, -1, 1);
+					}
+
                     break;
                 default:
                     break;

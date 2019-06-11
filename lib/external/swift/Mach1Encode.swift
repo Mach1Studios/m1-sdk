@@ -1,4 +1,5 @@
 import Foundation
+import SceneKit
 
 public class Mach1Encode {
     var M1obj : UnsafeMutableRawPointer
@@ -11,8 +12,15 @@ public class Mach1Encode {
         Mach1EncodeCAPI_delete(M1obj)
     }
 
-    public func getPoints() {
-        Mach1EncodeCAPI_getPoints(M1obj)
+    public func getPoints() -> [SCNVector3] {
+        var array = Array(repeating: SCNVector3(x: 0, y: 0, z: 0), count: Int(Mach1EncodeCAPI_getPointsCount(M1obj)))
+        let pointsPtr = unsafeBitCast( Mach1EncodeCAPI_getPoints(M1obj), to: UnsafeMutablePointer<Float>?.self)
+        for i in 0..<array.count {
+            array[i].x = (pointsPtr! + 3 * i + 0).pointee
+            array[i].y = (pointsPtr! + 3 * i + 1).pointee
+            array[i].z = (pointsPtr! + 3 * i + 2).pointee
+        }
+        return array
     }
 
     public func getGains() -> [[Float]] {

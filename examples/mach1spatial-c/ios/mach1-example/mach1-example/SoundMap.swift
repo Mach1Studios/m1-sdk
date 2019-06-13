@@ -229,7 +229,7 @@ class SoundMap: UIView {
         else  if(sender.numberOfTapsRequired == 2) {
             let encoderView : Encoder = Encoder()
             encoderView.frame.size.width = self.frame.size.width
-            encoderView.frame.size.height = self.frame.size.width
+            encoderView.frame.size.height = self.frame.size.height
             encoderView.center = CGPoint(x: touchPoint.x, y: touchPoint.y)
             encoderView.selected = true
             self.addSubview(encoderView)

@@ -271,7 +271,7 @@ void Mach1DecodePositional::setFalloffCurveBlendMode(float falloffCurveBlendMode
 }
 void Mach1DecodePositional::setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside)
 {
-  Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInsiden(M1obj, useClosestPointRotationMuteInside);
+  Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(M1obj, useClosestPointRotationMuteInside);
 }
 void Mach1DecodePositional::setCameraPosition(Mach1Point3D point)
 {

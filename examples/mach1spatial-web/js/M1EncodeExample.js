@@ -17,8 +17,8 @@ document.addEventListener("DOMContentLoaded", function() {
 	
     const FRAMES_PER_SECOND = 60;
 
-    var audioFiles = ['audio/mono/1.mp3'];
-    var mach1SoundPlayer = new Mach1SoundPlayer(audioFiles);
+    var audioFiles;
+    var mach1SoundPlayer;
 
     const gui = new dat.GUI();
 
@@ -38,6 +38,24 @@ document.addEventListener("DOMContentLoaded", function() {
         decoderRotationP: 0,
         decoderRotationR: 0,
     };
+
+	function loadSounds() {
+        if (params.inputKind == 0) { // Input: MONO
+			audioFiles = ['audio/mono/1.mp3'];
+        }
+        else if (params.inputKind == 1) { // Input: STERO
+			audioFiles = ['audio/stereo/M1_SDKDemo_Electronic_Stereo_L.ogg', 'audio/stereo/M1_SDKDemo_Electronic_Stereo_R.ogg'];
+        }
+		else {
+			audioFiles = ['audio/mono/1.mp3'];
+		}
+		
+		if(mach1SoundPlayer) {
+			mach1SoundPlayer.remove();
+		}
+		
+		mach1SoundPlayer = new Mach1SoundPlayer(audioFiles);
+ 	};
 
     // three js
     function createTextLabel() {
@@ -148,6 +166,8 @@ document.addEventListener("DOMContentLoaded", function() {
     animate();
 
 
+	loadSounds();
+
     // gui
     var elementSRotation;
     var elementSSpread;
@@ -248,6 +268,7 @@ document.addEventListener("DOMContentLoaded", function() {
         'BFORMAT': 4
     }).name('Input type').onChange(function() {
         update();
+		loadSounds();
         toggleInputOutputKind();
     });
     folder.add(params, 'outputKind', {
@@ -286,7 +307,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
 	function __playTimeout() {
-        if (m1Decode && m1Encode && mach1SoundPlayer.isReady() ) {
+        if (m1Decode && m1Encode && mach1SoundPlayer && mach1SoundPlayer.isReady() ) {
 			update();
 			toggleInputOutputKind();
 			
@@ -295,7 +316,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	}
 	
 	function __timeoutUpdateVolumes() {
-        if (mach1SoundPlayer.isPlaying()) {
+        if (mach1SoundPlayer && mach1SoundPlayer.isPlaying()) {
 
             m1Encode.generatePointResults();
 
@@ -332,7 +353,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			if (params.outputKind == 1) { // Output: Mach1Spatial / Cuboid
 				vol = m1Encode.getResultingVolumesDecoded(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial, decoded);
 			}
-			console.log(vol);
+			//console.log(vol);
 
             var points = m1Encode.getPoints();
             var pointsNames = m1Encode.getPointsNames();

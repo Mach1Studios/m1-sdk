@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			audioFiles = ['audio/mono/1.mp3'];
         }
         else if (params.inputKind == 1) { // Input: STERO
-			audioFiles = ['audio/stereo/M1_SDKDemo_Electronic_Stereo_L.wav', 'audio/stereo/M1_SDKDemo_Electronic_Stereo_R.wav'];
+			audioFiles = ['audio/stereo/M1_SDKDemo_Electronic_Stereo_L.ogg', 'audio/stereo/M1_SDKDemo_Electronic_Stereo_R.ogg'];
         }
 		else {
 			audioFiles = ['audio/mono/1.mp3'];

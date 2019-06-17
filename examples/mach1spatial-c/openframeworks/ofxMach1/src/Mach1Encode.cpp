@@ -21,6 +21,13 @@ std::vector<Mach1Point3D> Mach1Encode::getPoints()
 	for (int i = 0; i < vec.size(); i++) vec[i] = arr[i];
 
 	return vec;
+    /// Retruns the control center reference point's normalized coordinate location (XYZ) 
+    /// within the vector panning space
+    ///
+    /// - Parameters:
+    ///     - X: front-back (0.0 (back) -> 1.0 (front))
+    ///     - Y: up-down (0.0 (down) -> 1.0 (up))
+    ///     - Z: left-right (0.0 (left) -> 1.0 (right))
 }
 
 std::vector<std::vector<float>> Mach1Encode::getGains()
@@ -37,6 +44,13 @@ std::vector<std::vector<float>> Mach1Encode::getGains()
 	}
 
 	return vec;
+    /// Returns an array per input channel, resulting in an array of array results
+    /// each internal array (per input channel) is a list of the needed coefficients to
+    /// encode to a Mach1 VVBP/SPS format (depending on the selected `setOutputMode`)
+    ///
+    /// - Parameters:
+    ///     - 1st dimension of array is the number of input channels/points
+    ///     - 2nd dimension of array is the resulting coefficient gains to be applied for encode
 }
 
 std::vector<std::string> Mach1Encode::getPointsNames()
@@ -50,6 +64,7 @@ std::vector<std::string> Mach1Encode::getPointsNames()
 	}
 
 	return vec;
+    /// Return the string name for each input channel/point
 }
 
 std::vector<float> Mach1Encode::getGainsForInputChannelNamed(std::string pointName)
@@ -68,11 +83,18 @@ std::vector<float> Mach1Encode::getGainsForInputChannelNamed(std::string pointNa
 void Mach1Encode::generatePointResults()
 {
 	Mach1EncodeCAPI_generatePointResults(M1obj);
+    /// Function for controlling the update of all calculations of a Mach1Encode instance
+    ///
+    /// - Remark: Call when an update to Mach1 vector calculations is desired
 }
 
 int Mach1Encode::getPointsCount()
 {
 	return Mach1EncodeCAPI_getPointsCount(M1obj);
+    /// Returns the number of input channels/points that Mach1Encode instance has
+    ///
+    /// - Parameters:
+    ///     - integer of number of input channels/points
 }
 
 std::vector<float> Mach1Encode::getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, std::vector<float>& decodeResult)
@@ -86,6 +108,12 @@ std::vector<float> Mach1Encode::getResultingVolumesDecoded(Mach1DecodeAlgoType d
 	}
 
 	return vec;
+    /// A shorthand function for encoding->decoding audio object handling,
+    /// useful preview UX so that a full input->mach1spatial_multichannel->stereo
+    /// rendeering to disk isnt required and instead designs that stack decode results 
+    /// live can more easily be created
+    ///
+    /// - Remark: Each input audio channel results a direct decode instead of the encode coefficients
 }
 
 void Mach1Encode::setInputMode(Mach1EncodeInputModeType inputMode)

@@ -65,13 +65,30 @@ public class Mach1Encode {
         /// - Remark: Each input audio channel results a direct decode instead of the encode coefficients
     }
     
-    public func getPointsNames() {
-        Mach1EncodeCAPI_getPointsNames(M1obj)
+    public func getPointsNames() -> [String] {
+        var array = Array(repeating: String(), count: Int(Mach1EncodeCAPI_getPointsCount(M1obj)))
+        let pointsPtr = unsafeBitCast( Mach1EncodeCAPI_getPointsNames(M1obj), to: UnsafeMutablePointer<UnsafeMutablePointer<Int8>?>?.self)
+        for i in 0..<array.count {
+            if((pointsPtr! + i).pointee != nil ) {
+                array[i] = String(cString: (pointsPtr! + i).pointee!) // String.cString((pointsPtr! + i).pointee)
+            }
+        }
+        return array
         /// Return the string name for each input channel/point
     }
 
-    public func getGainsForInputChannelNamed(pointName: String) {
-        Mach1EncodeCAPI_getGainsForInputChannelNamed(M1obj,  UnsafeMutablePointer<Int8>(mutating: (pointName as NSString).utf8String))
+    public func getGainsForInputChannelNamed(pointName: String) -> [Float] {
+        var array: [Float] = Array(repeating: 0.0, count: 7)
+        /*
+        let gainsPtr = unsafeBitCast( Mach1EncodeCAPI_getGainsForInputChannelNamed(M1obj,  UnsafeMutablePointer<Int8>(mutating: (pointName as NSString).utf8String)), to: UnsafeMutablePointer<Float>?.self)
+        if(gainsPtr != nil) {
+            for i in 0..<array.count {
+                array[i] = (gainsPtr! + i).pointee
+            }
+        }
+        */
+        return array
+        /// Returns array of gain coefficients for specificed input channel/point
     }
 
     public func generatePointResults() {

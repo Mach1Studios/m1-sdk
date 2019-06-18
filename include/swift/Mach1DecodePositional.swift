@@ -63,21 +63,37 @@ public class Mach1DecodePositional {
         Mach1DecodePositionalCAPI_setUseAttenuation(M1obj, useAttenuation)
         /// Set distance attenuation calculations on that mach1decode object on/off
         ///
-        /// Remark: When off, distance remains 1.0
+        /// Remark: When off, distance remains 0.0
     }
 
     public func setAttenuationCurve(attenuationCurve: Float) {
         Mach1DecodePositionalCAPI_setAttenuationCurve(M1obj, attenuationCurve)
+        /// Set the current normalized distance per update for attenuation coefficient
+        ///
+        /// - Parameters: 
+        ///     - Normalized range: 0.0 -> 1.0
     }
 
     public func setAttenuationCurveBlendMode(attenuationCurveBlendMode: Float) {
         Mach1DecodePositionalCAPI_setAttenuationCurveBlendMode(M1obj, attenuationCurveBlendMode)
+        /// Set the current normalized distance per update for blendmode's 
+        /// internalattenuation coefficient
+        ///
+        /// - Parameters: 
+        ///     - Normalized range: 0.0 -> 1.0
+        ///
         /// Warning: Experimental feature
         /// Remark: Part of BlendMode
     }
     
     public func setUsePlaneCalculation(bool usePlaneCalculation: Bool) {
         Mach1DecodePositionalCAPI_setUsePlaneCalculation(M1obj, usePlaneCalculation)
+        /// Calculate the rotation to the decode object from it's center point
+        /// or from the closest point to the object on a plane
+        ///
+        /// - Parameters:
+        ///     - True: Closest point of plane of object for calculations of rotation
+        ///     - False (default): center point of object for calculations of rotation 
     }
     
     public func setUseYawForRotation(bool useYawForRotation: Bool) {

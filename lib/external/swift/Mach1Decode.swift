@@ -59,11 +59,13 @@ public class Mach1Decode {
     public func getCurrentTime() -> Int {
         let t = Mach1DecodeCAPI_getCurrentTime(M1obj)
         return t
+        /// Returns the current elapsed time in milliseconds (ms) since Mach1Decode object's creation
     }
     
     public func getLog() -> String {
         let str = String(cString: UnsafePointer(Mach1DecodeCAPI_getLog(M1obj)))
         return str
+        /// Returns a string of the last log message (or empty string if none) from Mach1DecodeCAPI binary library
     }
     
     public func decode(Yaw: Float, Pitch: Float, Roll: Float, bufferSize: Int = 0, sampleIndex: Int = 0) -> [Float] {

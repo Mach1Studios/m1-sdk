@@ -18,7 +18,9 @@
 #include "Mach1Point4DCore.h"
 #include "Mach1DecodeCAPI.h"
 
+#ifndef SWIG
 using namespace std::chrono;
+#endif
 
 #ifndef PI
 #define PI       3.14159265358979323846

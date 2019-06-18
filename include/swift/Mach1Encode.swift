@@ -88,6 +88,7 @@ public class Mach1Encode {
         }
         */
         return array
+        /// Returns array of gain coefficients for specificed input channel/point
     }
 
     public func generatePointResults() {

@@ -74,6 +74,19 @@ public class Mach1Decode {
         return array
         /// Call with current update's angles to return the resulting coefficients
         /// to apply to the audioplayer's volume
+        ///
+        /// Includes two modes of use:
+        /// + Update decode results via audio callback
+        ///   + *Use your audio player's buffersize and current sample index for sync callbacks*
+        /// + Update decode results via main loop (or any loop)
+        ///   + *Default null or 0 values to **bufferSize** or **sampleIndex** will use the second mode*
+        ///
+        /// - Parameters: 
+        ///     - Yaw: float for device/listener yaw angle: [Range: 0->360 | -180->180]
+        ///     - Pitch: float for device/listener pitch angle: [Range: -90->90]
+        ///     - Roll: float for device/listener roll angle: [Range: -90->90]
+        ///     - bufferSize: int for number of samples in a buffer, ideally supplied from your audioplayer/engine
+        ///     - sampleIndex: int for current sample index array, ideally supplied from your audioplayer/engine
     }
    
 }

@@ -19,7 +19,13 @@ float clamp(float n, float lower, float upper) {
 }
 
 M1EncodeCorePointResults::M1EncodeCorePointResults() {
-
+	for (int i = 0; i < 7; i++) {
+		pointsNames[i] = "";
+		ppoints[i].x = 0;
+		ppoints[i].y = 0;
+		ppoints[i].z = 0;
+	}
+	pointsCount = 0;
 }
 
 M1EncodeCorePointResults::~M1EncodeCorePointResults() {
@@ -45,7 +51,9 @@ std::vector<float> M1EncodeCorePointResults::getGainsForInputChannelNamed(std::s
 	}
 
 	std::vector<float> result;
-	result.resize(gains[0].size());
+	if (gains.size() > 0) {
+		result.resize(gains[0].size());
+	}
 	return result;
 }
 

@@ -61,15 +61,15 @@ void Mach1DecodePositional::setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmTy
 void Mach1DecodePositional::setUseBlendMode(bool useBlendMode)
 {
 	Mach1DecodePositionalCAPI_setUseBlendMode(M1obj, useBlendMode);
-  /// Warning: Experimental feature
-  /// Remark: Part of BlendMode
+  /// - Warning: Experimental feature
+  /// - Remark: Part of BlendMode
 }
 
 void Mach1DecodePositional::setIgnoreTopBottom(bool ignoreTopBottom)
 {
 	Mach1DecodePositionalCAPI_setIgnoreTopBottom(M1obj, ignoreTopBottom);
-  /// Warning: Experimental feature
-  /// Remark: Part of BlendMode
+  /// - Warning: Experimental feature
+  /// - Remark: Part of BlendMode
 }
 
 void Mach1DecodePositional::setMuteWhenOutsideObject(bool muteWhenOutsideObject)
@@ -91,7 +91,7 @@ void Mach1DecodePositional::setUseAttenuation(bool useAttenuation)
 	Mach1DecodePositionalCAPI_setUseAttenuation(M1obj, useAttenuation);
   /// Set distance attenuation calculations on that mach1decode object on/off
   ///
-  /// Remark: When off, distance remains 1.0
+  /// - Remark: When off, distance remains 1.0
 }
 
 void Mach1DecodePositional::setAttenuationCurve(float attenuationCurve)
@@ -112,8 +112,8 @@ void Mach1DecodePositional::setAttenuationCurveBlendMode(float attenuationCurveB
   /// - Parameters: 
   ///     - Normalized range: 0.0 -> 1.0
   ///
-  /// Warning: Experimental feature
-  /// Remark: Part of BlendMode
+  /// - Warning: Experimental feature
+  /// - Remark: Part of BlendMode
 }
 
 void Mach1DecodePositional::setUsePlaneCalculation(bool usePlaneCalculation)
@@ -132,7 +132,7 @@ void Mach1DecodePositional::setUseYawForRotation(bool useYawForRotation)
 	Mach1DecodePositionalCAPI_setUseYawForRotation(M1obj, useYawForRotation);
   /// Set use/ignore Yaw angle rotation results from pivoting positionally
   ///
-  /// Remark: Default is true
+  /// - Remark: Default is true
 }
 
 void Mach1DecodePositional::setUsePitchForRotation(bool usePitchForRotation)
@@ -140,7 +140,7 @@ void Mach1DecodePositional::setUsePitchForRotation(bool usePitchForRotation)
 	Mach1DecodePositionalCAPI_setUsePitchForRotation(M1obj, usePitchForRotation);
   /// Set use/ignore Pitch angle rotation results from pivoting positionally
   ///
-  /// Remark: Default is true
+  /// - Remark: Default is true
 }
 
 void Mach1DecodePositional::setUseRollForRotation(bool useRollForRotation)
@@ -148,7 +148,7 @@ void Mach1DecodePositional::setUseRollForRotation(bool useRollForRotation)
 	Mach1DecodePositionalCAPI_setUseRollForRotation(M1obj, useRollForRotation);
   /// Set use/ignore Roll angle rotation results from pivoting positionally
   ///
-  /// Remark: Default is true
+  /// - Remark: Default is true
 }
 
 void Mach1DecodePositional::setListenerPosition(Mach1Point3D point)
@@ -223,13 +223,17 @@ void Mach1DecodePositional::getCoefficients(float * result)
 {
 	Mach1DecodePositionalCAPI_getCoefficients(M1obj, result);
   /// Return the current coefficients to be applied to the audioplayer's volume
+  ///
+  /// - Remark: Result is returned back as the argument, an array of 18 floats is required as an input
 }
 
 void Mach1DecodePositional::getCoefficientsInterior(float * result)
 {
 	Mach1DecodePositionalCAPI_getCoefficientsInterior(M1obj, result);
-  /// Warning: Experimental feature
-  /// Remark: Part of BlendMode
+  /// - Warning: Experimental feature
+  /// - Remark: Part of BlendMode
+  ///
+  /// - Remark: Result is returned back as the argument, an array of 18 floats is required as an input
 }
 
 float Mach1DecodePositional::getDist()
@@ -269,7 +273,7 @@ void Mach1DecodePositional::setUseFalloff(bool useFalloff)
   Mach1DecodePositionalCAPI_setUseFalloff(M1obj, useFalloff);
   /// Set distance attenuation calculations on that mach1decode object on/off
   ///
-  /// Remark: When off, distance remains 1.0
+  /// - Remark: When off, distance remains 1.0
 }
 void Mach1DecodePositional::setFalloffCurve(float falloffCurve)
 {
@@ -288,8 +292,8 @@ void Mach1DecodePositional::setFalloffCurveBlendMode(float falloffCurveBlendMode
   /// - Parameters: 
   ///     - Normalized range: 0.0 -> 1.0
   ///
-  /// Warning: Experimental feature
-  /// Remark: Part of BlendMode
+  /// - Warning: Experimental feature
+  /// - Remark: Part of BlendMode
 }
 void Mach1DecodePositional::setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside)
 {
@@ -328,13 +332,17 @@ void Mach1DecodePositional::setCameraRotationQuat(Mach1Point4D quat)
 void Mach1DecodePositional::getVolumesWalls(float * result)
 {
   Mach1DecodePositionalCAPI_getVolumesWalls(M1obj, result);
-  /// Return the current coefficients to be applied to the audiopla yer's volume
+  /// Return the current coefficients to be applied to the audioplayer's volume
+  ///
+  /// - Remark: Result is returned back as the argument, an array of 18 floats is required as an input
 }
 void Mach1DecodePositional::getVolumesRoom(float * result)
 {
   Mach1DecodePositionalCAPI_getVolumesRoom(M1obj, result);
-  /// Warning: Experimental feature
-  /// Remark: Part of BlendMode
+  /// - Warning: Experimental feature
+  /// - Remark: Part of BlendMode
+  ///
+  /// - Remark: Result is returned back as the argument, an array of 18 floats is required as an input
 }
 Mach1Point3D Mach1DecodePositional::getVolumeRotation()
 {

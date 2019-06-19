@@ -97,11 +97,11 @@ void* Mach1EncodeCAPI_getGainsForInputChannelNamed(void* M1obj, char * pointName
 
 	// first init
 	if (arr == nullptr) {
-		arr = new float[7];
+		arr = new float[8];
 	}
 
 	// clear
-	for (int i = 0; i < 7; i++) {
+	for (int i = 0; i < 8; i++) {
 		arr[i] = 0;
 	}
 

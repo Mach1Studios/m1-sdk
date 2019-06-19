@@ -37,14 +37,14 @@ public class Mach1DecodePositional {
     
     public func setUseBlendMode(useBlendMode: Bool) {
         Mach1DecodePositionalCAPI_setUseBlendMode(M1obj, useBlendMode)
-        /// Warning: Experimental feature
-        /// Remark: Part of BlendMode
+        /// - Warning: Experimental feature
+        /// - Remark: Part of BlendMode
     }
 
     public func setIgnoreTopBottom(ignoreTopBottom: Bool) {
         Mach1DecodePositionalCAPI_setIgnoreTopBottom(M1obj, ignoreTopBottom)
-        /// Warning: Experimental feature
-        /// Remark: Part of BlendMode
+        /// - Warning: Experimental feature
+        /// - Remark: Part of BlendMode
     }
     
     public func setMuteWhenOutsideObject(muteWhenOutsideObject: Bool) {
@@ -82,8 +82,8 @@ public class Mach1DecodePositional {
         /// - Parameters: 
         ///     - Normalized range: 0.0 -> 1.0
         ///
-        /// Warning: Experimental feature
-        /// Remark: Part of BlendMode
+        /// - Warning: Experimental feature
+        /// - Remark: Part of BlendMode
     }
     
     public func setUsePlaneCalculation(bool usePlaneCalculation: Bool) {
@@ -107,14 +107,14 @@ public class Mach1DecodePositional {
         Mach1DecodePositionalCAPI_setUsePitchForRotation(M1obj, usePitchForRotation)
         /// Set use/ignore Pitch angle rotation results from pivoting positionally
         ///
-        /// Remark: Default is true
+        /// - Remark: Default is true
     }
 
     public func setUseRollForRotation(bool useRollForRotation: Bool) {
         Mach1DecodePositionalCAPI_setUseRollForRotation(M1obj, useRollForRotation)
         /// Set use/ignore Roll angle rotation results from pivoting positionally
         ///
-        /// Remark: Default is true
+        /// - Remark: Default is true
     }
     
     public func setListenerPosition(point: Mach1Point3D) {
@@ -180,14 +180,18 @@ public class Mach1DecodePositional {
     public func getCoefficients(result: inout [Float]) {
         let pointer: UnsafeMutablePointer< Float > = UnsafeMutablePointer(&result)
         Mach1DecodePositionalCAPI_getCoefficients(M1obj, pointer);
-        /// Return the current coefficients to be applied to the audiopla yer's volume
+        /// Return the current coefficients to be applied to the audioplayer's volume
+        ///
+        /// - Remark: Result is returned back as the argument, an array of 18 floats is required as an input
     }
 
     public func getCoefficientsInterior(result: inout [Float]) {
         let pointer: UnsafeMutablePointer< Float > = UnsafeMutablePointer(&result)
         Mach1DecodePositionalCAPI_getCoefficientsInterior(M1obj, pointer);
-        /// Warning: Experimental feature
-        /// Remark: Part of BlendMode
+        /// - Warning: Experimental feature
+        /// - Remark: Part of BlendMode
+        ///
+        /// - Remark: Result is returned back as the argument, an array of 18 floats is required as an input
     }
 
     public func getDist() -> Float {
@@ -223,7 +227,7 @@ public class Mach1DecodePositional {
         Mach1DecodePositionalCAPI_setUseFalloff(M1obj, useFalloff)
         /// Set distance attenuation calculations on that mach1decode object on/off
         ///
-        /// Remark: When off, distance remains 1.0
+        /// - Remark: When off, distance remains 1.0
     }
     @available(*, deprecated, message: "Please use setAttenuationCurve instead")
     public func setFalloffCurve(falloffCurve: Float) {
@@ -232,8 +236,8 @@ public class Mach1DecodePositional {
     @available(*, deprecated, message: "Please use setAttenuationCurveBlendMode instead")
     public func setFalloffCurveBlendMode(falloffCurveBlendMode: Float) {
         Mach1DecodePositionalCAPI_setFalloffCurveBlendMode(M1obj, falloffCurveBlendMode)
-        /// Warning: Experimental feature
-        /// Remark: Part of BlendMode
+        /// - Warning: Experimental feature
+        /// - Remark: Part of BlendMode
     }
     @available(*, deprecated, message: "Please use setUsePlaneCalculation instead")
     public func setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside: Bool) {
@@ -266,14 +270,18 @@ public class Mach1DecodePositional {
     public func getVolumesWalls(result: inout [Float]) {
         let pointer: UnsafeMutablePointer< Float > = UnsafeMutablePointer(&result)
         Mach1DecodePositionalCAPI_getVolumesWalls(M1obj, pointer);
-        /// Return the current coefficients to be applied to the audiopla yer's volume
+        /// Return the current coefficients to be applied to the audioplayer's volume
+        ///
+        /// - Remark: Result is returned back as the argument, an array of 18 floats is required as an input
     }
     @available(*, deprecated, message: "Please use getCoefficientsInterior instead")
     public func getVolumesRoom(result: inout [Float]) {
          let pointer: UnsafeMutablePointer< Float > = UnsafeMutablePointer(&result)
         Mach1DecodePositionalCAPI_getVolumesRoom(M1obj, pointer);
-        /// Warning: Experimental feature
-        /// Remark: Part of BlendMode
+        /// - Warning: Experimental feature
+        /// - Remark: Part of BlendMode
+        ///
+        /// - Remark: Result is returned back as the argument, an array of 18 floats is required as an input
     }
     @available(*, deprecated, message: "Please use getCoefficientsRotation instead")
     public func getVolumeRotation() -> Mach1Point3D {

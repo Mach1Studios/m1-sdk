@@ -167,7 +167,7 @@ public class Mach1Encode {
         /// Sets encoding behavior acts evenly with distribution
         /// across all azimuth/rotation angles and all altitude/pitch angles
         ///
-        /// Remark: Default is true
+        /// - Remark: Default is true
     }
 
     public func setIsotropicEncode(setIsotropicEncode: Bool) {
@@ -176,7 +176,7 @@ public class Mach1Encode {
         /// center point between them so that they always triangulate
         /// toward center of the cuboid
         ///
-        /// Remark: Default is true
+        /// - Remark: Default is true
     }
 
 }

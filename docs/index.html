@@ -351,6 +351,9 @@
                     <a href="#suggested-metadata-spec-optional" class="toc-h2 toc-link" data-title="Mach1Transcode API">Suggested Metadata Spec [optional]</a>
                   </li>
                   <li>
+                    <a href="#examples-of-metadata-spec" class="toc-h2 toc-link" data-title="Mach1Transcode API">Examples of Metadata Spec</a>
+                  </li>
+                  <li>
                     <a href="#formats-supported" class="toc-h2 toc-link" data-title="Mach1Transcode API">Formats Supported</a>
                   </li>
               </ul>
@@ -1019,7 +1022,15 @@ Get coeff results for the center of "Blend Mode". Very experimental! -->
 </blockquote>
 <pre class="highlight plaintext"><code>  Metadata:
     comment         : mach1spatial-8
-</code></pre><h2 id='formats-supported'>Formats Supported</h2><h3 id='mach1-formats'>Mach1 Formats</h3>
+</code></pre><h2 id='examples-of-metadata-spec'>Examples of Metadata Spec</h2>
+<p>ffmpeg (wav output): <code>-metadata ICMT=&quot;mach1spatial-8&quot;</code></p>
+
+<p>ffmpeg (vorbis output): <code>-metadata spatial-audio=&#39;mach1spatial-8&#39;</code></p>
+
+<p>ffmpeg (aac output): <code>-metadata comment=&#39;mach1spatial-8&#39;</code></p>
+
+<p>libsndfile (wav output): <code>outfiles[i].setString(0x05, &quot;mach1spatial-8&quot;);</code></p>
+<h2 id='formats-supported'>Formats Supported</h2><h3 id='mach1-formats'>Mach1 Formats</h3>
 <ul>
 <li>M1Horizon (Mach1 Horizon / Quad) - L R Ls Rs</li>
 <li>M1Horizon+S (Mach1 Horizon / Quad) - L R Ls Rs StereoL StereoR</li>
@@ -1057,7 +1068,7 @@ Get coeff results for the center of "Blend Mode". Very experimental! -->
 </ul>
 
 <p><aside class="notice">Additional formats available upon request.</aside></p>
-<h3 id='ambisonic-formats-special-thanks-to-a-href-http-http-www-vvaudio-com-vvaudio-a'>Ambisonic Formats (special thanks to <a href="http://http//www.vvaudio.com/">VVAudio</a> ):</h3>
+<h3 id='ambisonic-formats-special-thanks-to-a-href-https-www-vvaudio-com-vvaudio-a'>Ambisonic Formats (special thanks to <a href="https://www.vvaudio.com/">VVAudio</a>)</h3>
 <ul>
 <li>ACNSN3D - 1st order B-format, ACN order and SN3D weighting</li>
 <li>FuMa - 1st order B-format, Furse-Malham order and weighting</li>
@@ -1085,9 +1096,9 @@ It is important to ensure sync between a visual element in your project / applic
 <aside class="notice">
 If you have your spatial audio streams coming from different audio managers that do not have sync between them you will start hearing strange channel phasing issues while you track your head orientation or device orientation. Eliminate these by ensuring your audio is called at the same time and managed properly. 
 </aside>
-<p><em>Last updated: 2018-May-16</em></p>
+<p><em>Last updated: 2019-June-21</em></p>
 
-<p>© Copyright 2017-2018, Mach1. All rights reserved.</p>
+<p>© Copyright 2017-2019, Mach1. All rights reserved.</p>
 
       </div>
       <div class="dark-box">

@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         sRotation: 0,
         sSpread: 0.5,
-        autoOrbit: false,
+        autoOrbit: true,
 
         decoderRotationY: 0,
         decoderRotationP: 0,

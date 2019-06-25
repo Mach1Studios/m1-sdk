@@ -303,7 +303,6 @@ document.addEventListener("DOMContentLoaded", function() {
         m1Encode.setStereoSpread(params.sSpread);
         m1Encode.setAutoOrbit(params.autoOrbit);
         m1Encode.setIsotropicEncode(params.enableIsotropicEncode);
-
     }
 
 	function __playTimeout() {

@@ -216,7 +216,11 @@ class Encoder: UIView {
         if(m1Encode.getPointsCount() == 2) {
             var points : [SCNVector3] = m1Encode.getPoints()
             
-            print("points[0]", points[0])
+            // Further Debug functions
+            print("points names: ", m1Encode.getPointsNames())
+            print("getGains: ", m1Encode.getGains())
+            print("getPointsCount: ", m1Encode.getPointsCount())
+            print("getGainsForInputChannelNamed: ", m1Encode.getGainsForInputChannelNamed(pointName: "R"))
             
             if(circleLeftLayer.isHidden == false) {
                 circleLeftLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity.translatedBy(x: -self.center.x +  CGFloat((points[0].z) * Float((self.superview?.frame.width)!)), y: -self.center.y + CGFloat((1-points[0].x) * Float((self.superview?.frame.height)!))))

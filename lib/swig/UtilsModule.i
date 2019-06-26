@@ -1,4 +1,4 @@
-%module StringModule
+%module UtilsModule
 
 %include "typemaps.i"
 %include "cpointer.i"
@@ -10,11 +10,17 @@ char* convertToString(void* in)
 {
     return (char*)in;
 }
+
+void* getitemVoid(void* in, int index)
+{
+    return (void*)((void**)in)[index];
+}
 %}
 
 %pragma(java) jniclassclassmodifiers="class"
 %pragma(java) jniclasscode=%{ 
   static {
-    System.loadLibrary("StringModule_lib");
+    System.loadLibrary("UtilsModule_lib");
   }
 %}
+

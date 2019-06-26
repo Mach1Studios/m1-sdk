@@ -21,24 +21,47 @@ public class Mach1Encode {
     if(M1obj != 0)  Mach1EncodeModuleJNI.Mach1EncodeCAPI_delete(M1obj);
   }
 
-  public SWIGTYPE_p_void Mach1EncodeCAPI_getPoints() {
+  public Mach1Point3DArray Mach1EncodeCAPI_getPoints() {
     long cPtr = Mach1EncodeModuleJNI.Mach1EncodeCAPI_getPoints(M1obj);
-    return (cPtr == 0) ? null : new SWIGTYPE_p_void(cPtr, false);
+    return (cPtr == 0) ? null : Mach1Point3DArray.frompointer(cPtr);
   }
 
-  public SWIGTYPE_p_void Mach1EncodeCAPI_getGains() {
+  public float[][] Mach1EncodeCAPI_getGains() {
     long cPtr = Mach1EncodeModuleJNI.Mach1EncodeCAPI_getGains(M1obj);
-    return (cPtr == 0) ? null : new SWIGTYPE_p_void(cPtr, false);
+
+    float[][] arr = new float[Mach1EncodeModuleJNI.Mach1EncodeCAPI_getPointsCount(M1obj)][8];
+    for( int i = 0; i < arr.length; i++)
+    {
+      floatArray flt = floatArray.frompointer(UtilsModuleJNI.getitemVoid(cPtr,i));
+      for( int j = 0; j < 8; j++)
+      {
+        arr[i][j] = flt.getitem(j);
+      }
+    }
+    return arr;
   }
 
-  public SWIGTYPE_p_void Mach1EncodeCAPI_getPointsNames() {
+  public String[] Mach1EncodeCAPI_getPointsNames() {
     long cPtr = Mach1EncodeModuleJNI.Mach1EncodeCAPI_getPointsNames(M1obj);
-    return (cPtr == 0) ? null : new SWIGTYPE_p_void(cPtr, false);
+
+    String[] arr = new String[Mach1EncodeModuleJNI.Mach1EncodeCAPI_getPointsCount(M1obj)];
+    for( int i = 0; i < arr.length; i++)
+    {
+      arr[i] = UtilsModuleJNI.convertToString(UtilsModuleJNI.getitemVoid(cPtr, i));
+    }
+    return arr;
   }
 
-  public SWIGTYPE_p_void Mach1EncodeCAPI_getGainsForInputChannelNamed(String pointName) {
+  public float[] Mach1EncodeCAPI_getGainsForInputChannelNamed(String pointName) {
     long cPtr = Mach1EncodeModuleJNI.Mach1EncodeCAPI_getGainsForInputChannelNamed(M1obj, pointName);
-    return (cPtr == 0) ? null : new SWIGTYPE_p_void(cPtr, false);
+    floatArray flt = floatArray.frompointer(cPtr);
+
+    float[] arr = new float[8];
+    for( int i = 0; i < 8; i++)
+    {
+      arr[i] = flt.getitem(i);
+    }
+    return arr;
   }
 
   public void Mach1EncodeCAPI_generatePointResults() {

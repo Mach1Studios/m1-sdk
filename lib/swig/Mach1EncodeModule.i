@@ -2,7 +2,6 @@
 
 %import(module="Mach1Point3DModule") "Mach1Point3D.h"
 %import(module="Mach1Point4DModule") "Mach1Point4D.h"
-%import(module="FloatArrayModule") "FloatArray.h"
 %import(module="Mach1DecodeModule") "Mach1DecodeCAPI.h"
 
 %{

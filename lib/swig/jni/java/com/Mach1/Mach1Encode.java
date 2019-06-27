@@ -32,7 +32,7 @@ public class Mach1Encode {
     float[][] arr = new float[Mach1EncodeModuleJNI.Mach1EncodeCAPI_getPointsCount(M1obj)][8];
     for( int i = 0; i < arr.length; i++)
     {
-      floatArray flt = floatArray.frompointer(UtilsModuleJNI.getitemVoid(cPtr,i));
+      Mach1FloatArray flt = Mach1FloatArray.frompointer(Mach1UtilsModuleJNI.getitemVoid(cPtr,i));
       for( int j = 0; j < 8; j++)
       {
         arr[i][j] = flt.getitem(j);
@@ -47,14 +47,14 @@ public class Mach1Encode {
     String[] arr = new String[Mach1EncodeModuleJNI.Mach1EncodeCAPI_getPointsCount(M1obj)];
     for( int i = 0; i < arr.length; i++)
     {
-      arr[i] = UtilsModuleJNI.convertToString(UtilsModuleJNI.getitemVoid(cPtr, i));
+      arr[i] = Mach1UtilsModuleJNI.convertToString(Mach1UtilsModuleJNI.getitemVoid(cPtr, i));
     }
     return arr;
   }
 
   public float[] Mach1EncodeCAPI_getGainsForInputChannelNamed(String pointName) {
     long cPtr = Mach1EncodeModuleJNI.Mach1EncodeCAPI_getGainsForInputChannelNamed(M1obj, pointName);
-    floatArray flt = floatArray.frompointer(cPtr);
+    Mach1FloatArray flt = Mach1FloatArray.frompointer(cPtr);
 
     float[] arr = new float[8];
     for( int i = 0; i < 8; i++)
@@ -72,9 +72,23 @@ public class Mach1Encode {
     return Mach1EncodeModuleJNI.Mach1EncodeCAPI_getPointsCount(M1obj);
   }
 
-  public SWIGTYPE_p_void Mach1EncodeCAPI_getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, SWIGTYPE_p_float decodeResult) {
-    long cPtr = Mach1EncodeModuleJNI.Mach1EncodeCAPI_getResultingVolumesDecoded(M1obj, decodeType.swigValue(), SWIGTYPE_p_float.getCPtr(decodeResult));
-    return (cPtr == 0) ? null : new SWIGTYPE_p_void(cPtr, false);
+  public float[] Mach1EncodeCAPI_getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, float[] decodeResult) {
+    Mach1FloatArray floatArrayIn = new Mach1FloatArray(18);
+    for( int i = 0; i < decodeResult.length; i++)
+    {
+      floatArrayIn.setitem(i, decodeResult[i]);
+    }
+    long cPtr = Mach1EncodeModuleJNI.Mach1EncodeCAPI_getResultingVolumesDecoded(M1obj, decodeType.swigValue(), floatArrayIn.asVoidPtr());
+    floatArrayIn.delete();
+
+    Mach1FloatArray floatArrayResulted = Mach1FloatArray.frompointer(cPtr);
+
+    float[] arr = new float[14];
+    for( int i = 0; i < 14; i++)
+    {
+      arr[i] = floatArrayResulted.getitem(i);
+    }
+    return arr;
   }
 
   public void Mach1EncodeCAPI_setInputMode(Mach1EncodeInputModeType inputMode) {

@@ -34,7 +34,7 @@ public class Mach1Decode {
   public void decode(float Yaw, float Pitch, float Roll, float[] data, int bufferSize, int sampleIndex)
   {
     int cnt = 18;
-    floatArray arr = new floatArray(cnt);
+    Mach1FloatArray arr = new Mach1FloatArray(cnt);
     Mach1DecodeModuleJNI.Mach1DecodeCAPI_decode(M1obj, Yaw, Pitch, Roll, SWIGTYPE_p_float.getCPtr(arr.cast()), bufferSize, sampleIndex);
 
     for(int i=0; i<cnt; i++) {

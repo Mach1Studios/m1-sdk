@@ -1,4 +1,4 @@
-%module UtilsModule
+%module Mach1UtilsModule
 
 %include "typemaps.i"
 %include "cpointer.i"
@@ -20,7 +20,7 @@ void* getitemVoid(void* in, int index)
 %pragma(java) jniclassclassmodifiers="class"
 %pragma(java) jniclasscode=%{ 
   static {
-    System.loadLibrary("UtilsModule_lib");
+    System.loadLibrary("Mach1UtilsModule_lib");
   }
 %}
 

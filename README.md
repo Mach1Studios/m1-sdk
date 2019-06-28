@@ -1,4 +1,4 @@
-<a href="http://mach1.xyz"><img src="http://mach1.xyz/images/logo_big_b_l.png"></a>
+<a href="http://dev.mach1.xyz"><img src="http://dev.mach1.xyz/images/logo_big_b_l.png"></a>
 
 
 ### M1 SDK ###
@@ -27,7 +27,7 @@
 
 ### Included ###
 
-API Binaries built for following Platforms:
+#### API Binaries built for following Platforms
 * Android r11c - r16b: arm64-v8a
 * Android r11c - r16b: armeabi
 * Android r11c - r16b: armeabi-v7a
@@ -43,7 +43,7 @@ API Binaries built for following Platforms:
 * RaspberryPi2
 * RaspberryPi3
 
-Includes:
+#### Includes
 * C
 * C++
 * C#
@@ -53,29 +53,29 @@ Includes:
 * Python (in progress)
 * Golang (in progress)
 
-Debug Tools:
+#### Debug Tools
 * Simple Audio Debug Examples
 * Unity Test Project 
 
-Implementation: 
+#### Implementation 
 * Unreal Engine Plugin
-	* UE Plugin for Mach1Decode/Mach1DecodePositional
+	* _UE Plugin for Mach1Decode/Mach1DecodePositional_
 * Unity Package
-	* .unitypackage for Mach1Decode/Mach1DecodePositional
+	* _.unitypackage for Mach1Decode/Mach1DecodePositional_
 * OpenFrameworks examples in cpp
 	* _Mach1Encode & live Mach1Decode example_
-	* Mach1Decode example_
-	* Mach1Decode 360 video example_
+	* _Mach1Decode example_
+	* _Mach1Decode 360 video example_
 * iOS example
 	* _Mach1Encode & live Mach1Decode example_
-	* Mach1Decode example_
+	* _Mach1Decode example_
 	* _Mach1DecodePositional example_
 * Android example
 	* _Mach1Encode & live Mach1Decode example_
-	* Mach1Decode example_
+	* _Mach1Decode example_
 * Web Example
 	* _Mach1Encode & live Mach1Decode example_
-	* Mach1Decode example_
+	* _Mach1Decode example_
 
 ### DOCUMENTATION ###
 

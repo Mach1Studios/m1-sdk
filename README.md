@@ -5,7 +5,7 @@
 
 * Summary
 * Included
-* Documentation: <a href="http://mach1.xyz">mach1.xyz</a>
+* Documentation: <a href="http://dev.mach1.xyz">dev.mach1.xyz</a>
 * Contact
 
 

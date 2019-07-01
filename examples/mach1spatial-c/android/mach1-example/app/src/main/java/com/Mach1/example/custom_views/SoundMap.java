@@ -18,9 +18,16 @@ import android.view.animation.Animation;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.Mach1.Mach1DecodeAlgoType;
+
 import com.Mach1.example.R;
 
 public class SoundMap extends View implements AngleView {
+
+    private boolean isActivatedActionMove = false;
+    private long timeDown = 0;
+    private boolean isPointSelected = false;
+    public Encoder selectedEncoder = null;
 
     private int STROKE_WIDTH_1 = 5;
     private Paint mBasePaint,
@@ -76,6 +83,12 @@ public class SoundMap extends View implements AngleView {
     float radius1 = 0;
     float centerX;
     float centerY;
+
+    public void update(float[] decoded, Mach1DecodeAlgoType decodeType) {
+        for (Encoder encoder : listEncoders) {
+            encoder.update(decoded, decodeType);
+        }
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -224,11 +237,6 @@ public class SoundMap extends View implements AngleView {
         }
     }
 
-    private boolean isActivatedActionMove = false;
-    private long timeDown = 0;
-    private boolean isPointSelected = false;
-    Encoder selectedEncoder = null;
-    Encoder newEncoder;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -264,8 +272,8 @@ public class SoundMap extends View implements AngleView {
                 resetPointSelected();
 
                 if (selectedEncoder == null) {
-                    newEncoder = new Encoder(event.getX(), event.getY(), getContext(), true);
-                    listEncoders.add(newEncoder);
+                    selectedEncoder = new Encoder(event.getX(), event.getY(), wight, height, getContext(), true);
+                    listEncoders.add(selectedEncoder);
 
                 } else {
 
@@ -275,7 +283,6 @@ public class SoundMap extends View implements AngleView {
                 invalidate();
 
             } else {
-
                 if (selectedEncoder != null) {
                     resetPointSelected();
                     selectedEncoder.setSelected(true);
@@ -292,9 +299,9 @@ public class SoundMap extends View implements AngleView {
             long aa = System.currentTimeMillis() - timeDown;
             if (aa > 500 && !isActivatedActionMove) {
 
-                Encoder myEvent1 = isEncoderExist(event.getX(), event.getY());
-                if (myEvent1 != null) {
-                    listEncoders.remove(myEvent1);
+                if (selectedEncoder != null) {
+                    selectedEncoder.stop();
+                    listEncoders.remove(selectedEncoder);
                     invalidate();
                 }
             }

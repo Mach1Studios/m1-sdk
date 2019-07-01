@@ -97,15 +97,15 @@ public class Mach1DecodePositional {
     Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_getCoefficients(M1obj, SWIGTYPE_p_float.getCPtr(result));
   }
 
-  public float Mach1DecodePositionalCAPI_getDist() {
+  public float getDist() {
     return Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_getDist(M1obj);
   }
 
-  public Mach1Point3D Mach1DecodePositionalCAPI_getCurrentAngle() {
+  public Mach1Point3D getCurrentAngle() {
     return new Mach1Point3D(Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_getCurrentAngle(M1obj), true);
   }
 
-  public Mach1Point3D Mach1DecodePositionalCAPI_getCoefficientsRotation() {
+  public Mach1Point3D getCoefficientsRotation() {
     return new Mach1Point3D(Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_getCoefficientsRotation(M1obj), true);
   }
 
@@ -141,7 +141,7 @@ public class Mach1DecodePositional {
     Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_getVolumesWalls(M1obj, SWIGTYPE_p_float.getCPtr(result));
   }
 
-  public Mach1Point3D Mach1DecodePositionalCAPI_getVolumeRotation() {
+  public Mach1Point3D getVolumeRotation() {
     return new Mach1Point3D(Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_getVolumeRotation(M1obj), true);
   }
 

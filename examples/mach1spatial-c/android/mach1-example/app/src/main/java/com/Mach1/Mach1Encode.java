@@ -21,12 +21,12 @@ public class Mach1Encode {
     if(M1obj != 0)  Mach1EncodeModuleJNI.Mach1EncodeCAPI_delete(M1obj);
   }
 
-  public Mach1Point3DArray Mach1EncodeCAPI_getPoints() {
+  public Mach1Point3DArray getPoints() {
     long cPtr = Mach1EncodeModuleJNI.Mach1EncodeCAPI_getPoints(M1obj);
     return (cPtr == 0) ? null : Mach1Point3DArray.frompointer(cPtr);
   }
 
-  public float[][] Mach1EncodeCAPI_getGains() {
+  public float[][] getGains() {
     long cPtr = Mach1EncodeModuleJNI.Mach1EncodeCAPI_getGains(M1obj);
 
     float[][] arr = new float[Mach1EncodeModuleJNI.Mach1EncodeCAPI_getPointsCount(M1obj)][8];
@@ -41,7 +41,7 @@ public class Mach1Encode {
     return arr;
   }
 
-  public String[] Mach1EncodeCAPI_getPointsNames() {
+  public String[] getPointsNames() {
     long cPtr = Mach1EncodeModuleJNI.Mach1EncodeCAPI_getPointsNames(M1obj);
 
     String[] arr = new String[Mach1EncodeModuleJNI.Mach1EncodeCAPI_getPointsCount(M1obj)];
@@ -52,7 +52,7 @@ public class Mach1Encode {
     return arr;
   }
 
-  public float[] Mach1EncodeCAPI_getGainsForInputChannelNamed(String pointName) {
+  public float[] getGainsForInputChannelNamed(String pointName) {
     long cPtr = Mach1EncodeModuleJNI.Mach1EncodeCAPI_getGainsForInputChannelNamed(M1obj, pointName);
     Mach1FloatArray flt = Mach1FloatArray.frompointer(cPtr);
 
@@ -64,15 +64,15 @@ public class Mach1Encode {
     return arr;
   }
 
-  public void Mach1EncodeCAPI_generatePointResults() {
+  public void generatePointResults() {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_generatePointResults(M1obj);
   }
 
-  public int Mach1EncodeCAPI_getPointsCount() {
+  public int getPointsCount() {
     return Mach1EncodeModuleJNI.Mach1EncodeCAPI_getPointsCount(M1obj);
   }
 
-  public float[] Mach1EncodeCAPI_getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, float[] decodeResult) {
+  public float[] getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, float[] decodeResult) {
     Mach1FloatArray floatArrayIn = new Mach1FloatArray(18);
     for( int i = 0; i < decodeResult.length; i++)
     {
@@ -91,39 +91,39 @@ public class Mach1Encode {
     return arr;
   }
 
-  public void Mach1EncodeCAPI_setInputMode(Mach1EncodeInputModeType inputMode) {
+  public void setInputMode(Mach1EncodeInputModeType inputMode) {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setInputMode(M1obj, inputMode.swigValue());
   }
 
-  public void Mach1EncodeCAPI_setOutputMode(Mach1EncodeOutputModeType outputMode) {
+  public void setOutputMode(Mach1EncodeOutputModeType outputMode) {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setOutputMode(M1obj, outputMode.swigValue());
   }
 
-  public void Mach1EncodeCAPI_setRotation(float rotation) {
+  public void setRotation(float rotation) {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setRotation(M1obj, rotation);
   }
 
-  public void Mach1EncodeCAPI_setDiverge(float diverge) {
+  public void setDiverge(float diverge) {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setDiverge(M1obj, diverge);
   }
 
-  public void Mach1EncodeCAPI_setPitch(float pitch) {
+  public void setPitch(float pitch) {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setPitch(M1obj, pitch);
   }
 
-  public void Mach1EncodeCAPI_setStereoRotate(float sRotate) {
+  public void setStereoRotate(float sRotate) {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setStereoRotate(M1obj, sRotate);
   }
 
-  public void Mach1EncodeCAPI_setStereoSpread(float sSpread) {
+  public void setStereoSpread(float sSpread) {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setStereoSpread(M1obj, sSpread);
   }
 
-  public void Mach1EncodeCAPI_setAutoOrbit(boolean autoOrbit) {
+  public void setAutoOrbit(boolean autoOrbit) {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setAutoOrbit(M1obj, autoOrbit);
   }
 
-  public void Mach1EncodeCAPI_setIsotropicEncode(boolean isotropicEncode) {
+  public void setIsotropicEncode(boolean isotropicEncode) {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setIsotropicEncode(M1obj, isotropicEncode);
   }
 }

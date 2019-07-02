@@ -1,6 +1,5 @@
 package com.Mach1.example.custom_views;
 
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;

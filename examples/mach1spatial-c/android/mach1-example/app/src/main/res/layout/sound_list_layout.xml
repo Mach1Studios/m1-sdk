@@ -12,8 +12,8 @@
 
         <LinearLayout
             android:layout_margin="2dp"
-            android:id="@+id/ll_smile_list"
-            android:background="@drawable/sime_border"
+            android:id="@+id/ll_sound_list"
+            android:background="@drawable/sound_border"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:orientation="horizontal">
@@ -22,37 +22,55 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:padding="5dp"
-                android:src="@drawable/smile" />
+                android:src="@drawable/icon_mono" />
 
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:padding="5dp"
-                android:src="@drawable/smile" />
+                android:src="@drawable/icon_mono" />
 
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:padding="5dp"
-                android:src="@drawable/smile" />
+                android:src="@drawable/icon_mono" />
+
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:padding="5dp"
-                android:src="@drawable/smile" />
+                android:src="@drawable/icon_mono" />
+
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:padding="5dp"
-                android:src="@drawable/smile" />
+                android:src="@drawable/icon_mono" />
+
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:padding="5dp"
-                android:src="@drawable/smile" />
+                android:src="@drawable/icon_mono" />
 
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:padding="5dp"
+                android:src="@drawable/icon_mono" />
 
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:padding="5dp"
+                android:src="@drawable/icon_stereo" />
 
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:padding="5dp"
+                android:src="@drawable/icon_stereo" />
 
         </LinearLayout>
     </ScrollView>

@@ -4,35 +4,48 @@ import com.Mach1.*;
 import com.Mach1.Mach1DecodeAlgoType;
 
 import com.Mach1.example.custom_views.AngleView;
+import com.Mach1.example.custom_views.SoundList;
 import com.Mach1.example.custom_views.SoundMap;
 import com.Mach1.example.custom_views.YawView;
 import com.Mach1.example.custom_views.FixedFocusScrollView;
+import com.Mach1.example.custom_views.OnSoundListSelectedItemChangedListener;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
+
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener {
+public class MainActivity extends AppCompatActivity implements SensorEventListener, OnSeekBarChangeListener {
 
     private Mach1Decode m1Decode;
 
     private AngleView arcView;
     private SoundMap soundMap;
     private LinearLayout llMainContainer;
+    private SoundList soundList;
 
     private FixedFocusScrollView sv;
     boolean isBlockedScrollView;
     boolean isGoneFromChart = false;
 
     private SeekBar sbRoll;
+    private TextView sbRollText;
     private SeekBar sbPitch;
+    private TextView sbPitchText;
     private YawView yawView;
+
+    private SeekBar sbVolume;
+    private SeekBar sbHeight;
+    private SeekBar sbStereo;
 
     private SensorManager sensorManager;
     private Sensor rotationSensor;
@@ -44,6 +57,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private final static float PI = (float) Math.PI;
     private final static float TWO_PI = PI*2;
     private Context context;
+
+    public static String[][] audioFiles = {
+            { "nature_mono01" },
+            { "nature_mono02" },
+            { "nature_mono03" },
+            { "scifi_mono01" },
+            { "scifi_mono02" },
+            { "scifi_mono03" },
+            { "scifi_mono01" },
+            { "m1_sdkdemo_electronic_stereo_l", "m1_sdkdemo_orchestral_stereo_r" },
+            { "m1_sdkdemo_orchestral_stereo_l", "m1_sdkdemo_electronic_stereo_r" },
+    };
+
+    public static int selectedSoundItem = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,20 +90,44 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
         arcView = findViewById(R.id.round_chart_view);
-        soundMap = findViewById(R.id.main_chart_view);
+        soundMap = (SoundMap)findViewById(R.id.main_chart_view);
 
         sv = findViewById(R.id.sv);
         soundMap.setScrollView(sv);
 
+        // angles
         sbPitch = (SeekBar)findViewById(R.id.sbPitch);
         sbPitch.setEnabled(false);
+        sbPitchText = (TextView) findViewById(R.id.sbPitchText);
 
         sbRoll = (SeekBar)findViewById(R.id.sbRoll);
         sbRoll.setEnabled(false);
+        sbRollText = (TextView) findViewById(R.id.sbRollText);
 
-        yawView = (YawView) findViewById(R.id.round_chart_view);
+        yawView = (YawView)findViewById(R.id.round_chart_view);
+
+        // sound list
+        soundList = (SoundList)findViewById(R.id.sound_list);
+        soundList.setSoundListSelectedItemChangedListener(new OnSoundListSelectedItemChangedListener() {
+            @Override
+            public void OnSoundListSelectedItemChanged(int idx) {
+                if(soundMap.selectedEncoder != null) {
+                    soundMap.selectedEncoder.play(idx, audioFiles[idx]);
+                }
+            }
+        });
 
         llMainContainer = findViewById(R.id.main_container);
+
+        sbVolume = (SeekBar)findViewById(R.id.sbVolume);
+        sbVolume.setOnSeekBarChangeListener(this);
+
+        sbHeight = (SeekBar)findViewById(R.id.sbHeight);
+        sbHeight.setOnSeekBarChangeListener(this);
+
+        sbStereo = (SeekBar)findViewById(R.id.sbStereo);
+        sbStereo.setOnSeekBarChangeListener(this);
+
 
         /*
         ValueAnimator anim = ValueAnimator.ofInt(0, sbPitch.getMax());
@@ -109,6 +160,31 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     */
 
     @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        if(soundMap.selectedEncoder != null) {
+            if(seekBar == sbVolume) {
+                soundMap.selectedEncoder.volume = 1.0f * progress / 100;
+            }
+            else  if(seekBar == sbHeight) {
+                soundMap.selectedEncoder.height = 1.0f * progress / 100;
+            }
+            else  if(seekBar == sbStereo) {
+                soundMap.selectedEncoder.stereoSpread = 1.0f * progress / 100;
+            }
+        }
+    }
+
+   @Override
     public final void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
@@ -141,8 +217,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             soundMap.setAngle((int)yaw);
             yawView.setAngle((int)yaw);
+
             sbPitch.setProgress((int)(map(pitch, -90, 90, 0, 100)));
+            sbPitchText.setText("" + (int)pitch + "º");
+
             sbRoll.setProgress((int)(map(roll, -90, 90, 0, 100)));
+            sbRollText.setText("" + (int)roll + "º");
 
             m1Decode.beginBuffer();
             float decoded[] = new float[18];
@@ -150,6 +230,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             m1Decode.endBuffer();
 
             soundMap.update(decoded, Mach1DecodeAlgoType.Mach1DecodeAlgoAltSpatial);
+
+            if(soundMap.selectedEncoder != null) {
+                sbVolume.setProgress((int)(soundMap.selectedEncoder.volume * 100));
+                sbHeight.setProgress((int)(soundMap.selectedEncoder.height * 100));
+                sbStereo.setProgress((int)(soundMap.selectedEncoder.stereoSpread * 100));
+                soundList.selectIndex(soundMap.selectedEncoder.indexSound);
+            }
+
             // Log.v("MYTAG",  "yaw: " + yaw + " , " + "pitch: " + pitch + " , " + "roll: " + roll);
         }
     }

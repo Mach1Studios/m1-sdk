@@ -19,6 +19,8 @@ public class Encoder {
     public float volume;
     public float height;
     public float stereoSpread;
+    public boolean isMono;
+    public int indexSound;
 
     float x;
     float y;
@@ -28,7 +30,6 @@ public class Encoder {
     MediaPlayer[] players;
     int parentHeight;
     int parentWidth;
-    boolean isMono;
 
     private final static float PI = (float) Math.PI;
 
@@ -62,9 +63,14 @@ public class Encoder {
         this.selected = selected;
         this.radiusPoint =  SoundMap.toPx(15, context);
 
+        // default values
         this.volume = 1.0f;
         this.height = 0.5f;
         this.stereoSpread = 1.0f;
+
+        this.isMono = true;
+        this.indexSound = -1;
+        this.type = Mach1EncodeInputModeType.Mach1EncodeInputModeMono;
 
         m1Encode = new Mach1Encode();
 
@@ -88,34 +94,33 @@ public class Encoder {
         mCirclePaint2Selected.setStyle(Paint.Style.FILL);
         mCirclePaint2Selected.setColor(ContextCompat.getColor(context, R.color.yellow));
 
-        play(  new String[]{ "m1_sdkdemo_electronic_stereo_l", "m1_sdkdemo_electronic_stereo_r" });
+        //play( 0, new String[]{ "m1_sdkdemo_electronic_stereo_l", "m1_sdkdemo_electronic_stereo_r" });
     }
 
-    public void play(String[] filenames) {
+    public void play(int indexSound, String[] filenames) {
+        if(this.indexSound != indexSound) {
+            this.indexSound = indexSound;
+            this.isMono = filenames.length == 1;
 
-        this.isMono = filenames.length == 1;
+            type = isMono ? Mach1EncodeInputModeType.Mach1EncodeInputModeMono : Mach1EncodeInputModeType.Mach1EncodeInputModeStereo;
 
-        type = isMono ? Mach1EncodeInputModeType.Mach1EncodeInputModeMono : Mach1EncodeInputModeType.Mach1EncodeInputModeStereo;
+            stop();
 
-        stop();
-
-        players = new MediaPlayer[2];
-
-        players[0] = MediaPlayer.create(context, Uri.parse("android.resource://" + context.getPackageName() + "/raw/" + (isMono ? filenames[0] : filenames[0])));
-        players[0].setVolume(0,0);
-        players[0].setLooping(true);
-        players[0].start();
-
-        players[1] = MediaPlayer.create(context, Uri.parse("android.resource://" + context.getPackageName() + "/raw/" + (isMono ? filenames[0] : filenames[1])));
-        players[1].setVolume(0,0);
-        players[1].setLooping(true);
-        players[1].start();
+            players = new MediaPlayer[isMono ? 1 : 2];
+            for (int i = 0; i < players.length; i++) {
+                players[i] = MediaPlayer.create(context, Uri.parse("android.resource://" + context.getPackageName() + "/raw/" + filenames[i]));
+                players[i].setVolume(0,0);
+                players[i].setLooping(true);
+                players[i].start();
+            }
+        }
     }
 
     public void stop() {
         if(players != null) {
-            players[0].stop();
-            players[1].stop();
+            for (int i = 0; i < players.length; i++) {
+                players[i].stop();
+            }
         }
     }
 
@@ -135,11 +140,15 @@ public class Encoder {
         m1Encode.setStereoSpread(stereoSpread);
         m1Encode.generatePointResults();
 
+        // Log.v("MYTAG",  "diverge: " + diverge + " , " + "rotation: " + rotation );
+
         //Use each coeff to decode multichannel Mach1 Spatial mix
         float[] volumes = m1Encode.getResultingVolumesDecoded(decodeType, decodeArray);
 
-        for (int i = 0; i < players.length; i++) {
-            players[i].setVolume(volumes[2*i+0] * volume,volumes[2*i+1] * volume);
+        if(players != null) {
+            for (int i = 0; i < players.length; i++) {
+                players[i].setVolume(volumes[2 * i + 0] * volume, volumes[2 * i + 1] * volume);
+            }
         }
     }
 

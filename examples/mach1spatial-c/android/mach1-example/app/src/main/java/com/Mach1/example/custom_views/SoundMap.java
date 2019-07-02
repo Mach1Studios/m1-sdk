@@ -20,6 +20,7 @@ import java.util.List;
 
 import com.Mach1.Mach1DecodeAlgoType;
 
+import com.Mach1.example.MainActivity;
 import com.Mach1.example.R;
 
 public class SoundMap extends View implements AngleView {
@@ -148,8 +149,6 @@ public class SoundMap extends View implements AngleView {
     }
 
     private void init() {
-
-
         mRectPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mRectPaint.setColor(ContextCompat.getColor(getContext(), R.color.gray));
         mRectPaint.setStrokeWidth(6);
@@ -273,6 +272,7 @@ public class SoundMap extends View implements AngleView {
 
                 if (selectedEncoder == null) {
                     selectedEncoder = new Encoder(event.getX(), event.getY(), wight, height, getContext(), true);
+                    selectedEncoder.play(0, MainActivity.audioFiles[0]);
                     listEncoders.add(selectedEncoder);
 
                 } else {

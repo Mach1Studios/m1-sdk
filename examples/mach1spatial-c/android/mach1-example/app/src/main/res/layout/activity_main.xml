@@ -66,6 +66,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/sbRollText"
                         style="@style/text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -117,6 +118,7 @@
                         android:thumb="@drawable/yellow_seek_bar_circle" />
 
                     <TextView
+                        android:id="@+id/sbPitchText"
                         style="@style/text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -169,7 +171,7 @@
                 android:orientation="vertical">
 
                 <com.Mach1.example.custom_views.SoundList
-                    android:id="@+id/smile_list"
+                    android:id="@+id/sound_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                 </com.Mach1.example.custom_views.SoundList>
@@ -188,6 +190,7 @@
                     android:text="Volume" />
 
                 <SeekBar
+                    android:id="@+id/sbVolume"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -201,6 +204,7 @@
                     android:text="Height" />
 
                 <SeekBar
+                    android:id="@+id/sbHeight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -214,6 +218,7 @@
                     android:text="Stereo Spread" />
 
                 <SeekBar
+                    android:id="@+id/sbStereo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"

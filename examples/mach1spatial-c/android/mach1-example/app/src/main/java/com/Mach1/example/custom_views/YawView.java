@@ -88,23 +88,12 @@ public class YawView extends View implements AngleView {
 
         mRect = new RectF(startTop, startLeft, endRight, endBottom);
         canvas.drawCircle(centerX, centerY, radius, mBasePaint);
-        //canvas.drawRect(mRect, mBasePaint);
 
         canvas.drawLine(centerX, centerY - radius, centerX, centerY - radius + toPx(longLineSizeDP, getContext()), mCenterPaint);
         canvas.drawLine(centerX, centerY + radius, centerX, centerY + radius - toPx(longLineSizeDP, getContext()), mCenterPaint);
 
         canvas.drawLine(centerX - radius, centerY, centerX - radius + toPx(longLineSizeDP, getContext()), centerY, mCenterPaint);
         canvas.drawLine(centerX + radius, centerY, centerX + radius - toPx(longLineSizeDP, getContext()), centerY, mCenterPaint);
-
-        //scanvas.drawArc(mRect, 270, timeValue, false, mDegreesPaint);
-        // canvas.drawRect(0, 0, getMeasuredWidth(), getMeasuredHeight(), mRectPaint);
-        //canvas.drawRect(mRect1, mRectPaint);
-        /*rx = x0 - x;
-        ry = y0 - y;
-        c = Math.cos(alpha);
-        s = Math.sin(alpha);
-        x1 = x + rx * c - ry * s;
-        y1 = y + rx * s + ry * c;*/
 
         float x0 = centerX;
         float y0 = centerY;
@@ -131,14 +120,7 @@ public class YawView extends View implements AngleView {
         }
 
         canvas.drawArc(mRect, 270, angle, false, mDegreesPaint1);
-        //canvas.drawArc(mRect1, 270, deepBreathValue, false, mDegreesPaint2);
-        //+10 т.к. мы хотим, чтобы надпись вдох была по центру относительно своего центра
-        canvas.drawText(angle+"º", centerX, centerY , mTextPaint);
-        // canvas.drawText(timeText, centerX, centerY - toPx(40, getContext()), mTextPaint2);
-        //canvas.drawText("Низкая", centerX - radius1, centerY - radius1 / 1.3f, mTextPaint1);
-        //canvas.drawText("Отличная", centerX + radius1, centerY - radius1 / 1.3f, mTextPaint1);
-        //canvas.drawText("Хорошая", centerX, startTop1 - 30, mTextPaint1);
-        //canvas.drawText("Глубина дыхания", centerX , startTop1  -50, mTextPaint2);
+        canvas.drawText(angle+"º", centerX, centerY + toPx(5, getContext()) , mTextPaint);
 
         super.onDraw(canvas);
     }
@@ -154,12 +136,12 @@ public class YawView extends View implements AngleView {
         mCenterPaint.setColor(ContextCompat.getColor(getContext(), R.color.white));
         mCenterPaint.setStrokeWidth(toPx(2, getContext()));
 
-        //Основной круг - background
+        // main circle - background
         mBasePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBasePaint.setStyle(Paint.Style.FILL);
         mBasePaint.setColor(ContextCompat.getColor(getContext(), R.color.gray2));
 
-        //Дуга над основным кругом - background
+        // arc over circle - background
         mDegreesPaint1 = new Paint(Paint.ANTI_ALIAS_FLAG);
         mDegreesPaint1.setStyle(Paint.Style.STROKE);
         mDegreesPaint1.setStrokeWidth(toPx(STROKE_WIDTH_1, getContext()));
@@ -167,7 +149,7 @@ public class YawView extends View implements AngleView {
 
         mDegreesPaint1.setStrokeCap(Paint.Cap.ROUND);
 
-        //Дуга над основным кругом - foreground
+        // arc over circle - foreground
         mDegreesPaint2 = new Paint(Paint.ANTI_ALIAS_FLAG);
         mDegreesPaint2.setStyle(Paint.Style.STROKE);
         mDegreesPaint2.setStrokeWidth(toPx(STROKE_WIDTH_1, getContext()));

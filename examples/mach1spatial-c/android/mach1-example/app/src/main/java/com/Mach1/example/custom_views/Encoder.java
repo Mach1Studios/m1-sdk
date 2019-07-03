@@ -141,7 +141,7 @@ public class Encoder {
         m1Encode.setStereoSpread(stereoSpread);
         m1Encode.generatePointResults();
 
-        // Log.v("Mach1",  "diverge: " + diverge + " , " + "rotation: " + rotation );
+        //Log.v("Mach1",  "diverge: " + diverge + " , " + "rotation: " + rotation );
 
         //Use each coeff to decode multichannel Mach1 Spatial mix
         float[] volumes = m1Encode.getResultingVolumesDecoded(decodeType, decodeArray);
@@ -190,8 +190,8 @@ public class Encoder {
             Log.v("Mach1", "getGainsForInputChannelNamed: " + m1Encode.getGainsForInputChannelNamed("R"));
             */
 
-            canvas.drawCircle(x + (points.getitem(0).getZ()-0.5f) * parentWidth, y+ (1-points.getitem(0).getX()-0.5f) * parentHeight/2, radiusPoint * 0.25f, (selected) ? mCirclePaint1Selected : mCirclePaint1);
-            canvas.drawCircle(x + (points.getitem(1).getZ()-0.5f) * parentWidth, y+ (1-points.getitem(1).getX()-0.5f) * parentHeight/2, radiusPoint * 0.25f, (selected) ? mCirclePaint1Selected : mCirclePaint1);
+            canvas.drawCircle(x + (points.getitem(0).getZ()-0.5f) * parentWidth, y + (1-points.getitem(0).getX()-0.5f) * parentHeight, radiusPoint * 0.25f, (selected) ? mCirclePaint1Selected : mCirclePaint1);
+            canvas.drawCircle(x + (points.getitem(1).getZ()-0.5f) * parentWidth, y + (1-points.getitem(1).getX()-0.5f) * parentHeight, radiusPoint * 0.25f, (selected) ? mCirclePaint1Selected : mCirclePaint1);
 
             points.delete();
         }

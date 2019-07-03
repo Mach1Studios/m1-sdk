@@ -235,10 +235,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 sbVolume.setProgress((int)(soundMap.selectedEncoder.volume * 100));
                 sbHeight.setProgress((int)(soundMap.selectedEncoder.height * 100));
                 sbStereo.setProgress((int)(soundMap.selectedEncoder.stereoSpread * 100));
+
+                sbStereo.setEnabled(!soundMap.selectedEncoder.isMono);
+
                 soundList.selectIndex(soundMap.selectedEncoder.indexSound);
             }
 
-            // Log.v("MYTAG",  "yaw: " + yaw + " , " + "pitch: " + pitch + " , " + "roll: " + roll);
+            // Log.v("Mach1",  "yaw: " + yaw + " , " + "pitch: " + pitch + " , " + "roll: " + roll);
         }
     }
 

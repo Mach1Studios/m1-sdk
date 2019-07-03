@@ -93,7 +93,6 @@ public class SoundMap extends View implements AngleView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-
         super.onDraw(canvas);
 
         float a = (Math.min(getMeasuredWidth(), getMeasuredWidth())) * 0.60f;
@@ -122,7 +121,6 @@ public class SoundMap extends View implements AngleView {
         next = step;
 
         for (int i = 0; i <= 3 + 1; i++) {
-
             canvas.drawLine(next, 0, next, height, mBasePaint);
             canvas.drawLine(0, next, wight, next, mBasePaint);
             next += step;
@@ -136,10 +134,9 @@ public class SoundMap extends View implements AngleView {
         radius = toPx(50, getContext());
 
         RectF rect = new RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
-        canvas.drawArc(rect, 250 - angle, 40, true, mRectPaint);
+        canvas.drawArc(rect, 250 + angle, 40, true, mRectPaint);
 
         //drawPoints
-
         for (Encoder encoder : listEncoders) {
             encoder.onDraw(canvas);
         }
@@ -159,12 +156,12 @@ public class SoundMap extends View implements AngleView {
         mCenterPaint.setStyle(Paint.Style.STROKE);
         mCenterPaint.setStrokeWidth(toPx(1, getContext()));
 
-        //Основной круг - background
+        // main circle - background
         mBasePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBasePaint.setStyle(Paint.Style.FILL);
         mBasePaint.setColor(ContextCompat.getColor(getContext(), R.color.gray2));
 
-        //Дуга над основным кругом - background
+        // arc above circle - background
         mDegreesPaint1 = new Paint(Paint.ANTI_ALIAS_FLAG);
         mDegreesPaint1.setStyle(Paint.Style.STROKE);
         mDegreesPaint1.setStrokeWidth(toPx(STROKE_WIDTH_1, getContext()));
@@ -172,7 +169,7 @@ public class SoundMap extends View implements AngleView {
 
         mDegreesPaint1.setStrokeCap(Paint.Cap.ROUND);
 
-        //Дуга над основным кругом - foreground
+        // arc above circle - foreground
         mDegreesPaint2 = new Paint(Paint.ANTI_ALIAS_FLAG);
         mDegreesPaint2.setStyle(Paint.Style.STROKE);
         mDegreesPaint2.setStrokeWidth(toPx(STROKE_WIDTH_1, getContext()));
@@ -197,7 +194,6 @@ public class SoundMap extends View implements AngleView {
         mTextPaint1.setStyle(Paint.Style.FILL);
 
         mTextPaint2 = new Paint(Paint.ANTI_ALIAS_FLAG);
-
         mTextPaint2.setColor(ContextCompat.getColor(getContext(), R.color.blue3));
 
         mTextPaint2.setTextSize(toPx(textSizeMidle, getContext()));
@@ -246,7 +242,7 @@ public class SoundMap extends View implements AngleView {
 
             fixedFocusScrollView.setEnableScrolling(false);
             if (firstTouch) {
-                Log.d("ffff", "x:" + event.getX() + ", y:" + event.getY());
+                //Log.d("Mach1", "x:" + event.getX() + ", y:" + event.getY());
 
                 if (selectedEncoder != null) {
                     selectedEncoder.setX(event.getX());
@@ -261,11 +257,11 @@ public class SoundMap extends View implements AngleView {
             fixedFocusScrollView.setEnableScrolling(false);
             isActivatedActionMove = false;
             timeDown = System.currentTimeMillis();
-            long aa = System.currentTimeMillis() - time;
+            long timeElapsed = System.currentTimeMillis() - time;
 
             selectedEncoder = isEncoderExist(event.getX(), event.getY());
 
-            if (firstTouch && aa <= 300) {
+            if (firstTouch && timeElapsed <= 300) {
                 //do stuff here for double tap
                 firstTouch = false;
                 resetPointSelected();

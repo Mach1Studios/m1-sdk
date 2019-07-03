@@ -11,6 +11,7 @@ import android.util.Log;
 import com.Mach1.Mach1Encode;
 import com.Mach1.Mach1EncodeInputModeType;
 import com.Mach1.Mach1DecodeAlgoType;
+import com.Mach1.Mach1Point3DArray;
 import com.Mach1.example.MainActivity;
 import com.Mach1.example.R;
 
@@ -65,8 +66,8 @@ public class Encoder {
 
         // default values
         this.volume = 1.0f;
-        this.height = 0.5f;
-        this.stereoSpread = 1.0f;
+        this.height = 1.0f;
+        this.stereoSpread = 0.25f;
 
         this.isMono = true;
         this.indexSound = -1;
@@ -140,7 +141,7 @@ public class Encoder {
         m1Encode.setStereoSpread(stereoSpread);
         m1Encode.generatePointResults();
 
-        // Log.v("MYTAG",  "diverge: " + diverge + " , " + "rotation: " + rotation );
+        // Log.v("Mach1",  "diverge: " + diverge + " , " + "rotation: " + rotation );
 
         //Use each coeff to decode multichannel Mach1 Spatial mix
         float[] volumes = m1Encode.getResultingVolumesDecoded(decodeType, decodeArray);
@@ -177,6 +178,23 @@ public class Encoder {
         canvas.drawCircle(x, y, radiusPoint, mCirclePaint);
         canvas.drawCircle(x, y, radiusPoint, (selected) ? mCirclePaint1Selected : mCirclePaint1);
         canvas.drawCircle(x, y, radiusPoint - SoundMap.toPx(10, context), (selected) ? mCirclePaint2Selected : mCirclePaint2);
+
+        if(m1Encode.getPointsCount() == 2) {
+            Mach1Point3DArray points = m1Encode.getPoints();
+
+            // Further Debug functions
+            /*
+            Log.v("Mach1", "points names: " + m1Encode.getPointsNames());
+            Log.v("Mach1", "getGains: " + m1Encode.getGains());
+            Log.v("Mach1", "getPointsCount: " + m1Encode.getPointsCount());
+            Log.v("Mach1", "getGainsForInputChannelNamed: " + m1Encode.getGainsForInputChannelNamed("R"));
+            */
+
+            canvas.drawCircle(x + (points.getitem(0).getZ()-0.5f) * parentWidth, y+ (1-points.getitem(0).getX()-0.5f) * parentHeight/2, radiusPoint * 0.25f, (selected) ? mCirclePaint1Selected : mCirclePaint1);
+            canvas.drawCircle(x + (points.getitem(1).getZ()-0.5f) * parentWidth, y+ (1-points.getitem(1).getX()-0.5f) * parentHeight/2, radiusPoint * 0.25f, (selected) ? mCirclePaint1Selected : mCirclePaint1);
+
+            points.delete();
+        }
     }
 
     public boolean isEncoderExist(float pointX, float pointY) {

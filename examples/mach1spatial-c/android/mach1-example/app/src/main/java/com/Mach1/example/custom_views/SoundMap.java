@@ -42,7 +42,7 @@ public class SoundMap extends View implements AngleView {
 
     float textSizeSmall = 13;
     float textSizeMidle = 20;
-    int wight;
+    int width;
     int height;
     List<Encoder> listEncoders = new ArrayList<>();
     OnActionEventListener onActionEventListener;
@@ -97,39 +97,39 @@ public class SoundMap extends View implements AngleView {
 
         float a = (Math.min(getMeasuredWidth(), getMeasuredWidth())) * 0.60f;
 
-        wight = getMeasuredWidth();
+        width = getMeasuredWidth();
         height = getMeasuredHeight();
         radius = (float) ((height / 2));
         radius1 = (float) ((height / 2) * 0.47);
         next = 0;
 
-        centerX = wight / 2;
+        centerX = width / 2;
         centerY = height / 2;
 
-        float step = wight / countLines;
+        float step = width / countLines;
         float step1 = height / countLines;
 
         for (int i = 0; i <= countLines + 1; i++) {
 
             canvas.drawLine(next, 0, next, height, mBasePaint);
-            canvas.drawLine(0, next, wight, next, mBasePaint);
+            canvas.drawLine(0, next, width, next, mBasePaint);
             next += step;
 
         }
 
-        step = wight / 3;
+        step = width / 3;
         next = step;
 
         for (int i = 0; i <= 3 + 1; i++) {
             canvas.drawLine(next, 0, next, height, mBasePaint);
-            canvas.drawLine(0, next, wight, next, mBasePaint);
+            canvas.drawLine(0, next, width, next, mBasePaint);
             next += step;
         }
 
-        canvas.drawLine(0, 0, wight, height, mCenterPaint);
-        canvas.drawLine(wight, 0, 0, height, mCenterPaint);
-        canvas.drawCircle(wight / 2, height / 2, radius, mCenterPaint);
-        canvas.drawCircle(wight / 2, height / 2, radius1, mCenterPaint);
+        canvas.drawLine(0, 0, width, height, mCenterPaint);
+        canvas.drawLine(width, 0, 0, height, mCenterPaint);
+        canvas.drawCircle(width / 2, height / 2, radius, mCenterPaint);
+        canvas.drawCircle(width / 2, height / 2, radius1, mCenterPaint);
 
         radius = toPx(50, getContext());
 
@@ -141,7 +141,7 @@ public class SoundMap extends View implements AngleView {
             encoder.onDraw(canvas);
         }
 
-        //Rect rect = new Rect(0,0, wight, height);
+        //Rect rect = new Rect(0,0, width, height);
         //canvas.drawRect(rect, mRectPaint);
     }
 
@@ -267,7 +267,7 @@ public class SoundMap extends View implements AngleView {
                 resetPointSelected();
 
                 if (selectedEncoder == null) {
-                    selectedEncoder = new Encoder(event.getX(), event.getY(), wight, height, getContext(), true);
+                    selectedEncoder = new Encoder(event.getX(), event.getY(), width, height, getContext(), true);
                     selectedEncoder.play(0, MainActivity.audioFiles[0]);
                     listEncoders.add(selectedEncoder);
 

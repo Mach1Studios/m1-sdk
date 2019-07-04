@@ -66,8 +66,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             { "scifi_mono02" },
             { "scifi_mono03" },
             { "scifi_mono01" },
-            { "m1_sdkdemo_electronic_stereo_l", "m1_sdkdemo_orchestral_stereo_r" },
-            { "m1_sdkdemo_orchestral_stereo_l", "m1_sdkdemo_electronic_stereo_r" },
+            { "m1_sdkdemo_electronic_stereo_l", "m1_sdkdemo_electronic_stereo_r" },
+            { "m1_sdkdemo_orchestral_stereo_l", "m1_sdkdemo_orchestral_stereo_r" },
     };
 
     public static int selectedSoundItem = 0;
@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             m1Decode.decode(yaw, pitch, roll, decoded, 0, 0);
             m1Decode.endBuffer();
 
-            soundMap.update(decoded, Mach1DecodeAlgoType.Mach1DecodeAlgoAltSpatial);
+            soundMap.update(decoded, Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial);
 
             if(soundMap.selectedEncoder != null) {
                 sbVolume.setProgress((int)(soundMap.selectedEncoder.volume * 100));

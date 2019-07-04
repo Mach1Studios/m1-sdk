@@ -66,7 +66,7 @@ public class Encoder {
 
         // default values
         this.volume = 1.0f;
-        this.height = 1.0f;
+        this.height = 0.0f;
         this.stereoSpread = 0.25f;
 
         this.isMono = true;

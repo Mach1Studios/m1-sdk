@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 soundMap.selectedEncoder.volume = 1.0f * progress / 100;
             }
             else  if(seekBar == sbHeight) {
-                soundMap.selectedEncoder.height = 1.0f * progress / 100;
+                soundMap.selectedEncoder.height = map(progress, 0, 100, -1, 1);
             }
             else  if(seekBar == sbStereo) {
                 soundMap.selectedEncoder.stereoSpread = 1.0f * progress / 100;
@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             SensorManager.getOrientation(remapedMatrix, rotVals);
 
             yaw = (float) Math.toDegrees(rotVals[0]);
-            pitch = (float) Math.toDegrees(rotVals[1]);
+            pitch = (float) Math.toDegrees(-1 * rotVals[1]);
             roll = (float) Math.toDegrees(rotVals[2]);
 
             soundMap.setAngle((int)yaw);
@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             if(soundMap.selectedEncoder != null) {
                 sbVolume.setProgress((int)(soundMap.selectedEncoder.volume * 100));
-                sbHeight.setProgress((int)(soundMap.selectedEncoder.height * 100));
+                sbHeight.setProgress((int)(map(soundMap.selectedEncoder.height, -1, 1, 0, 100)));
                 sbStereo.setProgress((int)(soundMap.selectedEncoder.stereoSpread * 100));
 
                 sbStereo.setEnabled(!soundMap.selectedEncoder.isMono);

@@ -293,7 +293,7 @@ public class SoundMap extends View implements AngleView {
             fixedFocusScrollView.setEnableScrolling(true);
 
             long aa = System.currentTimeMillis() - timeDown;
-            if (aa > 500 && !isActivatedActionMove) {
+            if (firstTouch && aa > 500 && !isActivatedActionMove) {
 
                 if (selectedEncoder != null) {
                     selectedEncoder.stop();

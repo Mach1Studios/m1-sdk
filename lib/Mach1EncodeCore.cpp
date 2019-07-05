@@ -103,7 +103,7 @@ M1EncodeCore::~M1EncodeCore() {
 
 void M1EncodeCore::generatePointResults() {
 
-    float normalisedOutputDiverge = diverge * (1 / cos(PI * 0.25));
+    float normalisedOutputDiverge = diverge * (1 / cos(PI * 0.25f));
     
     switch (inputMode) {
         case INPUT_MONO:
@@ -122,9 +122,9 @@ void M1EncodeCore::generatePointResults() {
                     resultingPoints.pointsNames[0] = "M";
                     
                     if (isotropicEncode) {
-                        resultingPoints.ppoints[0].x = cos((rotation) * PI * 2) * sin((-pitch + 1) * PI * 0.5) * normalisedOutputDiverge; // X
-                        resultingPoints.ppoints[0].y = cos((-pitch + 1) * PI * 0.5) * normalisedOutputDiverge; // Y
-                        resultingPoints.ppoints[0].z = sin((rotation) * PI * 2)  * sin((-pitch + 1) * PI * 0.5)* normalisedOutputDiverge; // Z
+                        resultingPoints.ppoints[0].x = cos((rotation) * PI * 2) * sin((-pitch + 1) * PI / 2) * normalisedOutputDiverge; // X
+                        resultingPoints.ppoints[0].y = cos((-pitch + 1) * PI / 2) * normalisedOutputDiverge; // Y
+                        resultingPoints.ppoints[0].z = sin((rotation) * PI * 2)  * sin((-pitch + 1) * PI / 2)* normalisedOutputDiverge; // Z
                         
                     } else {
                         
@@ -162,7 +162,7 @@ void M1EncodeCore::generatePointResults() {
                         resultingPoints.ppoints[1].z = center[2] - sin((sRotationInRadians)) * sSpread; // Z
                         
                     } else {
-                        float sRotationInRadians = sRotate * DEG_TO_RAD - PI / 2.;
+                        float sRotationInRadians = sRotate * DEG_TO_RAD - PI / 2;
                         
                         resultingPoints.ppoints[0].x = center[0] + cos((sRotationInRadians)) * sSpread; // X
                         resultingPoints.ppoints[0].y = 0; // Y
@@ -191,13 +191,13 @@ void M1EncodeCore::generatePointResults() {
                     if (autoOrbit) {
                         sRotationInRadians = rotation * PI * 2 - PI / 2;
                     } else {
-                        sRotationInRadians = sRotate * DEG_TO_RAD - PI / 2.;
+                        sRotationInRadians = sRotate * DEG_TO_RAD - PI / 2;
                     }
                     
                     if (isotropicEncode) {
-                        center[0] = cos((rotation) * PI * 2) * sin((pitch + 1) * PI * 0.5) * normalisedOutputDiverge; // X
-                        center[1] = cos((pitch + 1) * PI * 0.5) * normalisedOutputDiverge; // Y
-                        center[2] = sin((rotation) * PI * 2)  * sin((pitch + 1) * PI * 0.5) * normalisedOutputDiverge; // Z
+                        center[0] = cos((rotation) * PI * 2) * sin((pitch + 1) * PI / 2) * normalisedOutputDiverge; // X
+                        center[1] = cos((pitch + 1) * PI / 2) * normalisedOutputDiverge; // Y
+                        center[2] = sin((rotation) * PI * 2)  * sin((pitch + 1) * PI / 2) * normalisedOutputDiverge; // Z
                         
                         //                            resultingPoints.ppoints[0][0] = center[0] + cos((sRotationInRadians)) * sSpread; // X
                         //                            resultingPoints.ppoints[0][1] = center[1]; // Y
@@ -256,21 +256,21 @@ void M1EncodeCore::generatePointResults() {
                     resultingPoints.pointsNames[3] = "Ls";
                     
                     // L
-                    resultingPoints.ppoints[0].x = cos((rotation + 0.125 - 0.25) * PI * 2) * normalisedOutputDiverge; // X
+                    resultingPoints.ppoints[0].x = cos((rotation + 0.125f - 0.25f) * PI * 2) * normalisedOutputDiverge; // X
                     resultingPoints.ppoints[0].y = 0; // Y
-                    resultingPoints.ppoints[0].z = sin((rotation + 0.125 - 0.25) * PI * 2) * normalisedOutputDiverge; // Z
+                    resultingPoints.ppoints[0].z = sin((rotation + 0.125f - 0.25f) * PI * 2) * normalisedOutputDiverge; // Z
                     // R
-                    resultingPoints.ppoints[1].x = cos((rotation + 0.125) * PI * 2) * normalisedOutputDiverge; // X
+                    resultingPoints.ppoints[1].x = cos((rotation + 0.125f) * PI * 2) * normalisedOutputDiverge; // X
                     resultingPoints.ppoints[1].y = 0; // Y
-                    resultingPoints.ppoints[1].z = sin((rotation + 0.125) * PI * 2) * normalisedOutputDiverge; // Z
+                    resultingPoints.ppoints[1].z = sin((rotation + 0.125f) * PI * 2) * normalisedOutputDiverge; // Z
                     // Rs
-                    resultingPoints.ppoints[2].x = cos((rotation + 0.125 + 0.25) * PI * 2) * normalisedOutputDiverge; // X
+                    resultingPoints.ppoints[2].x = cos((rotation + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge; // X
                     resultingPoints.ppoints[2].y = 0; // Y
-                    resultingPoints.ppoints[2].z = sin((rotation + 0.125 + 0.25) * PI * 2) * normalisedOutputDiverge; // Z
+                    resultingPoints.ppoints[2].z = sin((rotation + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge; // Z
                     // Ls
-                    resultingPoints.ppoints[3].x = cos((rotation + 0.125 + 0.5) * PI * 2) * normalisedOutputDiverge; // X
+                    resultingPoints.ppoints[3].x = cos((rotation + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge; // X
                     resultingPoints.ppoints[3].y = 0; // Y
-                    resultingPoints.ppoints[3].z = sin((rotation + 0.125 + 0.5) * PI * 2) * normalisedOutputDiverge; // Z
+                    resultingPoints.ppoints[3].z = sin((rotation + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge; // Z
                     
                     break;
                 case OUTPUT_8CH:
@@ -283,21 +283,21 @@ void M1EncodeCore::generatePointResults() {
                     resultingPoints.pointsNames[3] = "Ls";
                     
                     // L
-                    resultingPoints.ppoints[0].x = cos((rotation + 0.125 - 0.25) * PI * 2) * normalisedOutputDiverge; // X
+                    resultingPoints.ppoints[0].x = cos((rotation + 0.125f - 0.25f) * PI * 2) * normalisedOutputDiverge; // X
                     resultingPoints.ppoints[0].y = pitch; // Y
-                    resultingPoints.ppoints[0].z = sin((rotation + 0.125 - 0.25) * PI * 2) * normalisedOutputDiverge; // Z
+                    resultingPoints.ppoints[0].z = sin((rotation + 0.125f - 0.25f) * PI * 2) * normalisedOutputDiverge; // Z
                     // R
-                    resultingPoints.ppoints[1].x = cos((rotation + 0.125) * PI * 2) * normalisedOutputDiverge; // X
+                    resultingPoints.ppoints[1].x = cos((rotation + 0.125f) * PI * 2) * normalisedOutputDiverge; // X
                     resultingPoints.ppoints[1].y = pitch; // Y
-                    resultingPoints.ppoints[1].z = sin((rotation + 0.125) * PI * 2) * normalisedOutputDiverge; // Z
+                    resultingPoints.ppoints[1].z = sin((rotation + 0.125f) * PI * 2) * normalisedOutputDiverge; // Z
                     // Rs
-                    resultingPoints.ppoints[2].x = cos((rotation + 0.125 + 0.25) * PI * 2) * normalisedOutputDiverge; // X
+                    resultingPoints.ppoints[2].x = cos((rotation + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge; // X
                     resultingPoints.ppoints[2].y = pitch; // Y
-                    resultingPoints.ppoints[2].z = sin((rotation + 0.125 + 0.25) * PI * 2) * normalisedOutputDiverge; // Z
+                    resultingPoints.ppoints[2].z = sin((rotation + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge; // Z
                     // Ls
-                    resultingPoints.ppoints[3].x = cos((rotation + 0.125 + 0.5) * PI * 2) * normalisedOutputDiverge; // X
+                    resultingPoints.ppoints[3].x = cos((rotation + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge; // X
                     resultingPoints.ppoints[3].y = pitch; // Y
-                    resultingPoints.ppoints[3].z = sin((rotation + 0.125 + 0.5) * PI * 2) * normalisedOutputDiverge; // Z
+                    resultingPoints.ppoints[3].z = sin((rotation + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge; // Z
                     break;
                 default:
                     break;
@@ -316,21 +316,21 @@ void M1EncodeCore::generatePointResults() {
                     resultingPoints.pointsNames[3] = "BRU";
                     
                     // FLU
-                    resultingPoints.ppoints[0].x = cos((rotation + 0.125 - 0.25) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[0].x = cos((rotation + 0.125f - 0.25f) * PI * 2) * diverge; // X
                     resultingPoints.ppoints[0].y = 0; // Y
-                    resultingPoints.ppoints[0].z = sin((rotation + 0.125 - 0.25) * PI * 2) * diverge; // Z
+                    resultingPoints.ppoints[0].z = sin((rotation + 0.125f - 0.25f) * PI * 2) * diverge; // Z
                     // FRD
-                    resultingPoints.ppoints[1].x = cos((rotation + 0.125) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[1].x = cos((rotation + 0.125f) * PI * 2) * diverge; // X
                     resultingPoints.ppoints[1].y = 0; // Y
-                    resultingPoints.ppoints[1].z = sin((rotation + 0.125) * PI * 2) * diverge; // Z
+                    resultingPoints.ppoints[1].z = sin((rotation + 0.125f) * PI * 2) * diverge; // Z
                     // BLD
-                    resultingPoints.ppoints[2].x = cos((rotation + 0.125 + 0.5) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[2].x = cos((rotation + 0.125f + 0.5f) * PI * 2) * diverge; // X
                     resultingPoints.ppoints[2].y = 0; // Y
-                    resultingPoints.ppoints[2].z = sin((rotation + 0.125 + 0.5) * PI * 2) * diverge; // Z
+                    resultingPoints.ppoints[2].z = sin((rotation + 0.125f + 0.5f) * PI * 2) * diverge; // Z
                     // BRU
-                    resultingPoints.ppoints[3].x = cos((rotation + 0.125 + 0.25) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[3].x = cos((rotation + 0.125f + 0.25f) * PI * 2) * diverge; // X
                     resultingPoints.ppoints[3].y = 0; // Y
-                    resultingPoints.ppoints[3].z = sin((rotation + 0.125 + 0.25) * PI * 2) * diverge; // Z
+                    resultingPoints.ppoints[3].z = sin((rotation + 0.125f + 0.25f) * PI * 2) * diverge; // Z
                     
                     break;
                 case OUTPUT_8CH:
@@ -343,21 +343,21 @@ void M1EncodeCore::generatePointResults() {
                     resultingPoints.pointsNames[3] = "BRU";
                     
                     // FLU
-                    resultingPoints.ppoints[0].x = cos((rotation + 0.125 - 0.25) * PI * 2) * diverge; // X
-                    resultingPoints.ppoints[0].y = (1.0 * diverge); // Y
-                    resultingPoints.ppoints[0].z = sin((rotation + 0.125 - 0.25) * PI * 2) * diverge; // Z
+                    resultingPoints.ppoints[0].x = cos((rotation + 0.125f - 0.25f) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[0].y = (1 * diverge); // Y
+                    resultingPoints.ppoints[0].z = sin((rotation + 0.125f - 0.25f) * PI * 2) * diverge; // Z
                     // FRD
-                    resultingPoints.ppoints[1].x = cos((rotation + 0.125) * PI * 2) * diverge; // X
-                    resultingPoints.ppoints[1].y = (-1.0 * diverge); // Y
-                    resultingPoints.ppoints[1].z = sin((rotation + 0.125) * PI * 2) * diverge; // Z
+                    resultingPoints.ppoints[1].x = cos((rotation + 0.125f) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[1].y = (-1 * diverge); // Y
+                    resultingPoints.ppoints[1].z = sin((rotation + 0.125f) * PI * 2) * diverge; // Z
                     // BLD
-                    resultingPoints.ppoints[2].x = cos((rotation + 0.125 + 0.5) * PI * 2) * diverge; // X
-                    resultingPoints.ppoints[2].y = (-1.0 * diverge); // Y
-                    resultingPoints.ppoints[2].z = sin((rotation + 0.125 + 0.5) * PI * 2) * diverge; // Z
+                    resultingPoints.ppoints[2].x = cos((rotation + 0.125f + 0.5f) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[2].y = (-1 * diverge); // Y
+                    resultingPoints.ppoints[2].z = sin((rotation + 0.125f + 0.5f) * PI * 2) * diverge; // Z
                     // BRU
-                    resultingPoints.ppoints[3].x = cos((rotation + 0.125 + 0.25) * PI * 2) * diverge; // X
-                    resultingPoints.ppoints[3].y = (1.0 * diverge); // Y
-                    resultingPoints.ppoints[3].z = sin((rotation + 0.125 + 0.25) * PI * 2) * diverge; // Z
+                    resultingPoints.ppoints[3].x = cos((rotation + 0.125f + 0.25f) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[3].y = (1 * diverge); // Y
+                    resultingPoints.ppoints[3].z = sin((rotation + 0.125f + 0.25f) * PI * 2) * diverge; // Z
                     break;
                 default:
                     break;
@@ -383,25 +383,25 @@ void M1EncodeCore::generatePointResults() {
                     resultingPoints.ppoints[0].y = 0; // Y z
                     resultingPoints.ppoints[0].z = 0; // Z y
                     // X
-                    resultingPoints.ppoints[1].x = cos((rotation + 0.250) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[1].x = cos((rotation + 0.250f) * PI * 2) * diverge; // X
                     resultingPoints.ppoints[1].y = 0; // Y
-                    resultingPoints.ppoints[1].z = sin((rotation + 0.250) * PI * 2) * diverge; // Z
+                    resultingPoints.ppoints[1].z = sin((rotation + 0.250f) * PI * 2) * diverge; // Z
                     // Y
-                    resultingPoints.ppoints[2].x = cos((rotation + 0.0) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[2].x = cos((rotation + 0.0f) * PI * 2) * diverge; // X
                     resultingPoints.ppoints[2].y = 0; // Y
-                    resultingPoints.ppoints[2].z = sin((rotation + 0.0) * PI * 2) * diverge; // Z
+                    resultingPoints.ppoints[2].z = sin((rotation + 0.0f) * PI * 2) * diverge; // Z
                     // Z
                     resultingPoints.ppoints[3].x = 0; // X
                     resultingPoints.ppoints[3].y = 0; // Y
                     resultingPoints.ppoints[3].z = 0; // Z
                     // -X
-                    resultingPoints.ppoints[4].x = cos((rotation + 0.75) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[4].x = cos((rotation + 0.75f) * PI * 2) * diverge; // X
                     resultingPoints.ppoints[4].y = 0; // Y
-                    resultingPoints.ppoints[4].z = sin((rotation + 0.75) * PI * 2) * diverge; // Z
+                    resultingPoints.ppoints[4].z = sin((rotation + 0.75f) * PI * 2) * diverge; // Z
                     // -Y
-                    resultingPoints.ppoints[5].x = cos((rotation + 0.5) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[5].x = cos((rotation + 0.5f) * PI * 2) * diverge; // X
                     resultingPoints.ppoints[5].y = 0; // Y
-                    resultingPoints.ppoints[5].z = sin((rotation + 0.5) * PI * 2) * diverge; // Z
+                    resultingPoints.ppoints[5].z = sin((rotation + 0.5f) * PI * 2) * diverge; // Z
                     // -Z
                     resultingPoints.ppoints[6].x = 0; // X
                     resultingPoints.ppoints[6].y = 0; // Y
@@ -425,28 +425,28 @@ void M1EncodeCore::generatePointResults() {
                     resultingPoints.ppoints[0].y = 0; // Y z
                     resultingPoints.ppoints[0].z = 0; // Z y
                     // X
-                    resultingPoints.ppoints[1].x = cos((rotation + 0.25) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[1].x = cos((rotation + 0.25f) * PI * 2) * diverge; // X
                     resultingPoints.ppoints[1].y = 0; // Y
-                    resultingPoints.ppoints[1].z = sin((rotation + 0.25) * PI * 2) * diverge; // Z
+                    resultingPoints.ppoints[1].z = sin((rotation + 0.25f) * PI * 2) * diverge; // Z
                     // Y
-                    resultingPoints.ppoints[2].x = cos((rotation + 0.0) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[2].x = cos((rotation + 0.0f) * PI * 2) * diverge; // X
                     resultingPoints.ppoints[2].y = 0; // Y
-                    resultingPoints.ppoints[2].z = sin((rotation + 0.0) * PI * 2) * diverge; // Z
+                    resultingPoints.ppoints[2].z = sin((rotation + 0.0f) * PI * 2) * diverge; // Z
                     // Z
                     resultingPoints.ppoints[3].x = 0; // X
-                    resultingPoints.ppoints[3].y = 1.0 * diverge; // Y
+                    resultingPoints.ppoints[3].y = 1 * diverge; // Y
                     resultingPoints.ppoints[3].z = 0; // Z
                     // -X
-                    resultingPoints.ppoints[4].x = cos((rotation + 0.75) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[4].x = cos((rotation + 0.75f) * PI * 2) * diverge; // X
                     resultingPoints.ppoints[4].y = 0; // Y
-                    resultingPoints.ppoints[4].z = sin((rotation + 0.75) * PI * 2) * diverge; // Z
+                    resultingPoints.ppoints[4].z = sin((rotation + 0.75f) * PI * 2) * diverge; // Z
                     // -Y
-                    resultingPoints.ppoints[5].x = cos((rotation + 0.5) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[5].x = cos((rotation + 0.5f) * PI * 2) * diverge; // X
                     resultingPoints.ppoints[5].y = 0; // Y
-                    resultingPoints.ppoints[5].z = sin((rotation + 0.5) * PI * 2) * diverge; // Z
+                    resultingPoints.ppoints[5].z = sin((rotation + 0.5f) * PI * 2) * diverge; // Z
                     // -Z
                     resultingPoints.ppoints[6].x = 0; // X
-                    resultingPoints.ppoints[6].y = -1.0 * diverge; // Y
+                    resultingPoints.ppoints[6].y = -1 * diverge; // Y
                     resultingPoints.ppoints[6].z = 0; // Z
                     break;
                 default:
@@ -466,9 +466,9 @@ void M1EncodeCore::generatePointResults() {
 	resultingPoints.gains.resize(resultingPoints.pointsCount);
 	for (int i = 0; i < resultingPoints.pointsCount; i++) {
 
-		resultingPoints.ppoints[i].x = resultingPoints.ppoints[i].x / 2 + 0.5;
-		resultingPoints.ppoints[i].y = resultingPoints.ppoints[i].y / 2 + 0.5;
-		resultingPoints.ppoints[i].z = resultingPoints.ppoints[i].z / 2 + 0.5;
+		resultingPoints.ppoints[i].x = resultingPoints.ppoints[i].x / 2 + 0.5f;
+		resultingPoints.ppoints[i].y = resultingPoints.ppoints[i].y / 2 + 0.5f;
+		resultingPoints.ppoints[i].z = resultingPoints.ppoints[i].z / 2 + 0.5f;
 
 		resultingPoints.gains[i].resize(outputChannelCount);
 

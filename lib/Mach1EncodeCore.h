@@ -14,11 +14,11 @@
 #include <string>
 
 #ifndef PI
-#define PI 3.14159265358979323846
+#define PI 3.14159265358979323846f
 #endif
 
 #ifndef DEG_TO_RAD
-#define DEG_TO_RAD (PI/180.0)
+#define DEG_TO_RAD (PI/180)
 #endif
 
 struct M1EncodeCorePoint

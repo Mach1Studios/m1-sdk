@@ -42,6 +42,14 @@ yes | cp -rf "_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1Deco
 yes | cp -rf "_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1EncodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/x86/libMach1EncodeCAPI.a"
 yes | cp -rf "_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1DecodePositionalCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/x86/libMach1DecodePositionalCAPI.a"
 
+yes | cp -rf "_install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/android/mach1-example/app/src/main/jniLibs/armeabi-v7a/libMach1DecodeCAPI.a"
+yes | cp -rf "_install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx/lib/libMach1EncodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/android/mach1-example/app/src/main/jniLibs/armeabi-v7a/libMach1EncodeCAPI.a"
+yes | cp -rf "_install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx/lib/libMach1DecodePositionalCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/android/mach1-example/app/src/main/jniLibs/armeabi-v7a/libMach1DecodePositionalCAPI.a"
+yes | cp -rf "_install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/android/mach1-example/app/src/main/jniLibs/arm64-v8a/libMach1DecodeCAPI.a"
+yes | cp -rf "_install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx/lib/libMach1EncodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/android/mach1-example/app/src/main/jniLibs/arm64-v8a/libMach1EncodeCAPI.a"
+yes | cp -rf "_install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx/lib/libMach1DecodePositionalCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/android/mach1-example/app/src/main/jniLibs/arm64-v8a/libMach1DecodePositionalCAPI.a"
+
+
 echo "### Copying for ofxMach1 ###"
 yes | cp -rf "external/cpp/Mach1Decode.h" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Decode.h"
 yes | cp -rf "external/cpp/Mach1Decode.cpp" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Decode.cpp"

@@ -23,7 +23,7 @@ using namespace std::chrono;
 #endif
 
 #ifndef PI
-#define PI       3.14159265358979323846
+#define PI       3.14159265358979323846f
 #endif 
 
 

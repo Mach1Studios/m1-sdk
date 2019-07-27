@@ -1,8 +1,17 @@
 #!/bin/bash
 
+M1SDK_PATH="/Volumes/git/m1-sdk/lib"
+
+if [ -d $M1SDK_PATH ] 
+then
+    echo "Directory m1-sdk repo found." 
+else
+    echo "Error: m1-sdk repo not found. Set path: $M1SDK_PATH"
+fi
+
 #replace all binaries in examples
 echo "### Change Dir ###"
-cd "/Volumes/git/m1-sdk/lib"
+cd $M1SDK_PATH
 
 echo "Built ios-12-1-dep-9-3?"
 select yn in "Yes" "No"; do

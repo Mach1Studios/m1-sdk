@@ -5,7 +5,7 @@ if [[ $PWD/ = */m1-sdk/lib/ ]]
 then 
 	echo $PWD
 else
-	echo "WHERE ARE YOU!?!?!?!?"
+	echo "You are in the wrong directory!"
 	exit
 fi
 

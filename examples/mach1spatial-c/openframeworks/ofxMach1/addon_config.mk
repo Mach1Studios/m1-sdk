@@ -65,24 +65,24 @@ linux64:
 linuxarmv6l:
 linuxarmv7l:
 android/armeabi-v7a:
-	ADDON_LIBS += libmach1/lib/android/armeabi-v7a/libMach1DecodeCAPI.a
-	ADDON_LIBS += libmach1/lib/android/armeabi-v7a/libMach1EncodeCAPI.a
-	ADDON_LIBS += libmach1/lib/android/armeabi-v7a/libMach1DecodePositionalCAPI.a
+	ADDON_LIBS += libs/libmach1/lib/android/armeabi-v7a/libMach1DecodeCAPI.a
+	ADDON_LIBS += libs/libmach1/lib/android/armeabi-v7a/libMach1EncodeCAPI.a
+	ADDON_LIBS += libs/libmach1/lib/android/armeabi-v7a/libMach1DecodePositionalCAPI.a
 android/x86:
-	ADDON_LIBS += libmach1/lib/android/x86/libMach1DecodeCAPI.a
-	ADDON_LIBS += libmach1/lib/android/x86/libMach1EncodeCAPI.a
-	ADDON_LIBS += libmach1/lib/android/x86/libMach1DecodePositionalCAPI.a
+	ADDON_LIBS += libs/libmach1/lib/android/x86/libMach1DecodeCAPI.a
+	ADDON_LIBS += libs/libmach1/lib/android/x86/libMach1EncodeCAPI.a
+	ADDON_LIBS += libs/libmach1/lib/android/x86/libMach1DecodePositionalCAPI.a
 osx:
-	ADDON_LIBS += libmach1/lib/osx/libMach1DecodeCAPI.a
-	ADDON_LIBS += libmach1/lib/osx/libMach1EncodeCAPI.a
-	ADDON_LIBS += libmach1/lib/osx/libMach1DecodePositionalCAPI.a
+	ADDON_LIBS += libs/libmach1/lib/osx/libMach1DecodeCAPI.a
+	ADDON_LIBS += libs/libmach1/lib/osx/libMach1EncodeCAPI.a
+	ADDON_LIBS += libs/libmach1/lib/osx/libMach1DecodePositionalCAPI.a
 ios:
-	ADDON_LIBS += libmach1/lib/ios/libMach1DecodeCAPI.a
-	ADDON_LIBS += libmach1/lib/ios/libMach1EncodeCAPI.a
-	ADDON_LIBS += libmach1/lib/ios/libMach1DecodePositionalCAPI.a
+	ADDON_LIBS += libs/libmach1/lib/ios/libMach1DecodeCAPI.a
+	ADDON_LIBS += libs/libmach1/lib/ios/libMach1EncodeCAPI.a
+	ADDON_LIBS += libs/libmach1/lib/ios/libMach1DecodePositionalCAPI.a
 tvos:
 msys2:
 vs:
-	ADDON_LIBS += libmach1/lib/vs/x64/Mach1DecodeCAPI.lib
-	ADDON_LIBS += libmach1/lib/vs/x64/Mach1EncodeCAPI.lib
-	ADDON_LIBS += libmach1/lib/vs/x64/Mach1DecodePositionalCAPI.lib
+	ADDON_LIBS += libs/libmach1/lib/vs/x64/Mach1DecodeCAPI.lib
+	ADDON_LIBS += libs/libmach1/lib/vs/x64/Mach1EncodeCAPI.lib
+	ADDON_LIBS += libs/libmach1/lib/vs/x64/Mach1DecodePositionalCAPI.lib

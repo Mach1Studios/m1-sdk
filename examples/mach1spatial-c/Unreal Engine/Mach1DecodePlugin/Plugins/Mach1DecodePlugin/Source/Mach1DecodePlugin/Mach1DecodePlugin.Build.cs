@@ -7,13 +7,11 @@ namespace UnrealBuildTool.Rules
     {
         public string GetUProjectPath()
         {
-            //Change this according to your module's relative location to your project file. If there is any better way to do this I'm interested!
-            //Assuming Source/ThirdParty/YourLib/
-            return Directory.GetParent(ModuleDirectory).Parent.Parent.ToString();
-        }
+            return Directory.GetParent(ModuleDirectory).Parent.Parent.Parent.FullName;
+        } 
 
         private void CopyToBinaries(string Filepath, ReadOnlyTargetRules Target)
-        {
+        { 
             //string binariesDir = Path.GetFullPath(Path.Combine(ModuleDirectory, "..", "..", "Binaries", Target.Platform.ToString()));
             string binariesDir = Path.Combine(GetUProjectPath(), "Binaries", Target.Platform.ToString());
             string filename = Path.GetFileName(Filepath);
@@ -79,27 +77,45 @@ namespace UnrealBuildTool.Rules
 				foreach(var arch in archs)
 				{
 					PublicLibraryPaths.Add(Path.Combine(Mach1BinDirectory, arch));
-					PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, arch, "libMach1DecodeCAPI.a"));
-				}
+                    PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, arch, "libMach1EncodeCAPI.a"));
+                    PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, arch, "libMach1DecodeCAPI.a"));
+                    PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, arch, "libMach1DecodePositionalCAPI.a"));
+                }
             }
             else if (Target.Platform == UnrealTargetPlatform.IOS)
             {
+                PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "libMach1EncodeCAPI.a"));
                 PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "libMach1DecodeCAPI.a"));
+                PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "libMach1DecodePositionalCAPI.a"));
             }
             else if (Target.Platform == UnrealTargetPlatform.Mac)
             {
                 PublicLibraryPaths.Add(Mach1BinDirectory);
-                PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "libMach1DecodeCAPI.dylib"));
-                RuntimeDependencies.Add(new RuntimeDependency(Path.Combine(Mach1BinDirectory, "libMach1DecodeCAPI.dylib")));
+                PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "libMach1EncodeCAPI.a"));
+                PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "libMach1DecodeCAPI.a"));
+                PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "libMach1DecodePositionalCAPI.a"));
 
+                RuntimeDependencies.Add(Path.Combine(Mach1BinDirectory, "libMach1EncodeCAPI.dylib"));
+                RuntimeDependencies.Add(Path.Combine(Mach1BinDirectory, "libMach1DecodeCAPI.dylib"));
+                RuntimeDependencies.Add(Path.Combine(Mach1BinDirectory, "libMach1DecodePositionalCAPI.dylib"));
+
+                CopyToBinaries(Path.Combine(Mach1BinDirectory, "libMach1EncodeCAPI.dylib"), Target);
                 CopyToBinaries(Path.Combine(Mach1BinDirectory, "libMach1DecodeCAPI.dylib"), Target);
+                CopyToBinaries(Path.Combine(Mach1BinDirectory, "libMach1DecodePositionalCAPI.dylib"), Target);
             }
             else if (Target.Platform == UnrealTargetPlatform.Win32 || Target.Platform == UnrealTargetPlatform.Win64)
             {
+                PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "Mach1EncodeCAPI.lib"));
                 PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "Mach1DecodeCAPI.lib"));
-                RuntimeDependencies.Add(new RuntimeDependency(Path.Combine(Mach1BinDirectory, "Mach1DecodeCAPI.dll")));
+                PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "Mach1DecodePositionalCAPI.lib"));
 
+                RuntimeDependencies.Add(Path.Combine(Mach1BinDirectory, "Mach1EncodeCAPI.dll"));
+                RuntimeDependencies.Add(Path.Combine(Mach1BinDirectory, "Mach1DecodeCAPI.dll"));
+                RuntimeDependencies.Add(Path.Combine(Mach1BinDirectory, "Mach1DecodePositionalCAPI.dll"));
+
+                CopyToBinaries(Path.Combine(Mach1BinDirectory, "Mach1EncodeCAPI.dll"), Target);
                 CopyToBinaries(Path.Combine(Mach1BinDirectory, "Mach1DecodeCAPI.dll"), Target);
+                CopyToBinaries(Path.Combine(Mach1BinDirectory, "Mach1DecodePositionalCAPI.dll"), Target);
             }
 
         }

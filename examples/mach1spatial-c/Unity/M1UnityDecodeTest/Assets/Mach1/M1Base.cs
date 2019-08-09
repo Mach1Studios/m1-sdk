@@ -602,6 +602,13 @@ public class M1Base : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (audiolistener == null)
+        {
+            Debug.LogError("Mach1: cannot find AudioListener!");
+            attachAudioListener();
+            return;
+        }
+
         if (IsReady())
         {
             if ((autoPlay || needToPlay) && !isPlaying)
@@ -621,16 +628,6 @@ public class M1Base : MonoBehaviour
 
                 needToPlay = false;
                 isPlaying = true;
-            }
-
-            // Find closest point
-            Vector3 point = gameObject.transform.position;
-
-            if (audiolistener == null)
-            {
-                Debug.LogError("Mach1: cannot find AudioListener!");
-                attachAudioListener();
-                return;
             }
 
             // In order to use values set in Unity's object inspector, we have to put them into an
@@ -709,7 +706,7 @@ public class M1Base : MonoBehaviour
                 Debug.DrawLine(audiolistener.transform.position, audiolistener.transform.position + targetForward, Color.blue);
 
                 // Draw direction from audio listener to object
-                Debug.DrawLine(audiolistener.transform.position, point, Color.green);
+                Debug.DrawLine(audiolistener.transform.position, gameObject.transform.position, Color.green);
             }
         }
     }

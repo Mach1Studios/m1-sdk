@@ -12,7 +12,6 @@
 	"SupportURL": "info@mach1.tech",
 	"EnabledByDefault": true,
 	"CanContainContent": false,
-	"IsBetaVersion": false,
 	"Installed": true,
 	"Modules": [
 		{
@@ -22,10 +21,8 @@
 			"WhitelistPlatforms": [
 				"Android",
 				"Linux",
-				"IOS",
 				"Mac",
-				"Win64",
-				"HTML5"
+				"Win64"
 			]
 		}
 	]

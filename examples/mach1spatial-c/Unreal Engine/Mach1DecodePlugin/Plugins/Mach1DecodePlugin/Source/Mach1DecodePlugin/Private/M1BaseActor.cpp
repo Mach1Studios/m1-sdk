@@ -4,6 +4,8 @@
 
 #include "M1BaseActor.h"
 
+#include "Runtime/Launch/Resources/Version.h"
+
 #include "Mach1DecodePluginPrivatePCH.h"
 
 #if ENGINE_MAJOR_VERSION == 4 && ENGINE_MINOR_VERSION >= 18

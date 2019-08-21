@@ -6,14 +6,13 @@
 
 #include "Mach1DecodePluginPrivatePCH.h"
 
-// 4.18
+#if ENGINE_MAJOR_VERSION == 4 && ENGINE_MINOR_VERSION >= 18
 #include "HeadMountedDisplay.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
-
-// OLD UE VERSION ( <= 4.17)
-//#include "Kismet/HeadMountedDisplayFunctionLibrary.h"
-
+#elif ENGINE_MAJOR_VERSION == 4 && ENGINE_MINOR_VERSION <= 17
+#include "Kismet/HeadMountedDisplayFunctionLibrary.h"
 #include "Kismet/KismetMathLibrary.h"
+#endif
 
 #include <sstream>
 

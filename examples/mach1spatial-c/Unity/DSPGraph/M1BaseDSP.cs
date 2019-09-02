@@ -10,16 +10,16 @@ using Unity.Burst;
 // internal state, and will have the Execute function called as part of the graph
 // traversal during an audio frame.
 [BurstCompile(CompileSynchronously = true)]
-struct Mach1PlayerNode : IAudioKernel<Mach1PlayerNode.Parameters, Mach1PlayerNode.SampleProviders>
+struct M1PlayerNode : IAudioKernel<M1PlayerNode.Parameters, M1PlayerNode.Providers>
 {
     // Parameters are currently defined with enumerations. Each enum value corresponds to
     // a parameter within the node. Setting a value for a parameter uses these enum values.
-    public enum Parameters { Rate0, Rate1, Rate2, Rate3, Rate4, Rate5, Rate6, Rate7 }
+    public enum Parameters { Rate0, Rate1, Rate2, Rate3, Rate4, Rate5, Rate6, Rate7, DSPBufferLength }
 
     // Sample providers are defined with enumerations. Each enum value defines a slot where
     // a sample provider can live on a IAudioKernel. Sample providers are used to get samples from
     // AudioClips and VideoPlayers. They will eventually be able to pull samples from microphones and other concepts.
-    public enum SampleProviders { Slot0, Slot1, Slot2, Slot3, Slot4, Slot5, Slot6, Slot7 }
+    public enum Providers { Slot0, Slot1, Slot2, Slot3, Slot4, Slot5, Slot6, Slot7 }
 
     // The clip sample rate might be different to the output rate used by the system. Therefore we use a resampler
     // here.
@@ -126,7 +126,7 @@ struct Mach1PlayerNode : IAudioKernel<Mach1PlayerNode.Parameters, Mach1PlayerNod
 
     public void Initialize()
     {
-        dspBufferLength = 1024;
+        dspBufferLength = 2048;
         inputChannels = 8; // samples providers
 
         ResamplerPositions = new NativeArray<double>(inputChannels, Allocator.AudioKernel);
@@ -140,8 +140,10 @@ struct Mach1PlayerNode : IAudioKernel<Mach1PlayerNode.Parameters, Mach1PlayerNod
         }
     }
 
-    public void Execute(ref ExecuteContext<Parameters, SampleProviders> context)
+    public void Execute(ref ExecuteContext<Parameters, Providers> context)
     {
+        dspBufferLength = (int)context.Parameters.GetFloat(Parameters.DSPBufferLength, 0);
+
         if (Playing)
         {
             var buffer = context.Outputs.GetSampleBuffer(0);
@@ -171,17 +173,9 @@ struct Mach1PlayerNode : IAudioKernel<Mach1PlayerNode.Parameters, Mach1PlayerNod
 
                     for (var j = 0; j < OutBuffersLength / 2; j++)
                     {
-                        output[j * 2 + 0] += OutBuffers[OutBuffersFrom + j * 2 + 0];
-                        output[j * 2 + 1] += OutBuffers[OutBuffersFrom + j * 2 + 1];
+                        output[j * 8 + i] = OutBuffers[OutBuffersFrom + j * 2 + 0]; // left rasampled channel
                     }
                 }
-            }
-
-            for (var i = 0; i < OutBuffersLength / 2; i++)
-            {
-                // 0.3f * (float)Math.Sin(0.02 * j);
-                output[i * 2 + 0] /= 8;
-                output[i * 2 + 1] /= 8;
             }
 
             if (finished)
@@ -206,11 +200,16 @@ struct Mach1PlayerNode : IAudioKernel<Mach1PlayerNode.Parameters, Mach1PlayerNod
 }
 
 [BurstCompile(CompileSynchronously = true)]
-struct PlayClipNode2 : IAudioKernel<PlayClipNode2.Parameters, PlayClipNode2.Providers>
+struct M1DecodeNode : IAudioKernel<M1DecodeNode.Parameters, M1DecodeNode.Providers>
 {
     // Parameters are currently defined with enumerations. Each enum value corresponds to
     // a parameter within the node. Setting a value for a parameter uses these enum values.
-    public enum Parameters { }
+    public enum Parameters
+    {
+        ChannelL0, ChannelL1, ChannelL3, ChannelL4, ChannelL5, ChannelL6, ChannelL7, ChannelL8,
+        ChannelR0, ChannelR1, ChannelR3, ChannelR4, ChannelR5, ChannelR6, ChannelR7, ChannelR8,
+        DSPBufferLength
+    }
 
     // Sample providers are defined with enumerations. Each enum value defines a slot where
     // a sample provider can live on a IAudioKernel. Sample providers are used to get samples from
@@ -222,7 +221,6 @@ struct PlayClipNode2 : IAudioKernel<PlayClipNode2.Parameters, PlayClipNode2.Prov
 
     public void Initialize()
     {
-
     }
 
     public void Execute(ref ExecuteContext<Parameters, Providers> context)
@@ -230,24 +228,12 @@ struct PlayClipNode2 : IAudioKernel<PlayClipNode2.Parameters, PlayClipNode2.Prov
         var outputBuffer = context.Outputs.GetSampleBuffer(0).Buffer;
 
         var inputBuff = context.Inputs.GetSampleBuffer(0).Buffer;
-        //for (var s = 0; s < outputBuffer.Length; s++) outputBuffer[s] += 3.2f * inputBuff[s];
+
         for (var i = 0; i < outputBuffer.Length / 2; i++)
         {
-            outputBuffer[i * 2 + 0] += 3 * inputBuff[i * 8 + 2];
-            outputBuffer[i * 2 + 1] += 3 * inputBuff[i * 8 + 3];
+            outputBuffer[i * 2 + 0] += 3 * inputBuff[i * 8 + 0];
+            outputBuffer[i * 2 + 1] += 3 * inputBuff[i * 8 + 1];
         }
-        //var read = provider1.Read(arr);//.Slice(0, arr.Length));
-
-        /*
-        NativeArray<float> output = buffer.Buffer;
-        for (var i = 0; i < output.Length / 2; i++)
-        {
-            output[i * 2 + 0] += arr[i * 2 + 0];
-            output[i * 2 + 1] += arr[i * 2 + 1];
-        }
-        */
-
-
     }
 
     public void Dispose()
@@ -258,10 +244,10 @@ struct PlayClipNode2 : IAudioKernel<PlayClipNode2.Parameters, PlayClipNode2.Prov
 
 
 [BurstCompile(CompileSynchronously = true)]
-struct PlayClipKernel : IAudioKernelUpdate<Mach1PlayerNode.Parameters, Mach1PlayerNode.SampleProviders, Mach1PlayerNode>
+struct PlayClipKernel : IAudioKernelUpdate<M1PlayerNode.Parameters, M1PlayerNode.Providers, M1PlayerNode>
 {
     // This update job is used to kick off playback of the node.
-    public void Update(ref Mach1PlayerNode audioKernel)
+    public void Update(ref M1PlayerNode audioKernel)
     {
         audioKernel.Playing = true;
     }
@@ -271,63 +257,58 @@ struct PlayClipKernel : IAudioKernelUpdate<Mach1PlayerNode.Parameters, Mach1Play
 struct ClipStopped { }
 
 // Bootstrap MonoBehaviour to get the example running.
-public class Mach1Player : MonoBehaviour
+public class M1BaseDSP : MonoBehaviour
 {
     public AudioClip[] ClipToPlay;
 
-    AudioOutputHandle m_Output;
-    DSPGraph m_Graph;
-    DSPNode m_Node;
-    // DSPNode m_Node2;
-    DSPNode m_NoiseFilter;
-    DSPConnection m_Connection;
-    //DSPConnection m_Connection1;
-
-    int m_HandlerID;
+    AudioOutputHandle output;
+    DSPGraph dpsGraph;
+    DSPNode nodePlayer;
+    DSPNode nodeDecode;
+    DSPConnection connectionDecodeNode;
+    DSPConnection connectionPlayerNode;
+ 
+    int handlerID;
 
     void Start()
     {
+        // 
         var format = Conversion.ConvertSpeakerMode(AudioSettings.speakerMode);
         var channels = Conversion.ConvertSoundFormatToChannels(format);
         AudioSettings.GetDSPBufferSize(out var bufferLength, out var numBuffers);
 
         var sampleRate = AudioSettings.outputSampleRate;
 
-        m_Graph = DSPGraph.Create(format, channels, bufferLength, sampleRate);
+        dpsGraph = DSPGraph.Create(format, channels, bufferLength, sampleRate);
 
-        var driver = new DefaultDSPGraphDriver { Graph = m_Graph };
-        m_Output = driver.AttachToDefaultOutput();
+        var driver = new DefaultDSPGraphDriver { Graph = dpsGraph };
+        output = driver.AttachToDefaultOutput();
 
         Debug.Log("bufferLength: " + bufferLength);
 
         // Add an event handler delegate to the graph for ClipStopped. So we are notified
         // of when a clip is stopped in the node and can handle the resources on the main thread.
-        m_HandlerID = m_Graph.AddNodeEventHandler<ClipStopped>((node, evt) =>
+        handlerID = dpsGraph.AddNodeEventHandler<ClipStopped>((node, evt) =>
         {
             Debug.Log("Received ClipStopped event on main thread, cleaning resources");
         });
 
         // All async interaction with the graph must be done through a DSPCommandBlock.
         // Create it here and complete it once all commands are added.
-        var block = m_Graph.CreateCommandBlock();
+        var block = dpsGraph.CreateCommandBlock();
 
-        m_Node = block.CreateDSPNode<Mach1PlayerNode.Parameters, Mach1PlayerNode.SampleProviders, Mach1PlayerNode>();
-        block.AddOutletPort(m_Node, 2, SoundFormat.Stereo);
-        //block.AddOutletPort(m_Node, 8, SoundFormat.SevenDot1);
+        nodePlayer = block.CreateDSPNode<M1PlayerNode.Parameters, M1PlayerNode.Providers, M1PlayerNode>();
+        block.SetFloat<M1PlayerNode.Parameters, M1PlayerNode.Providers, M1PlayerNode>(nodePlayer, M1PlayerNode.Parameters.DSPBufferLength, bufferLength);
+        block.AddOutletPort(nodePlayer, 8, SoundFormat.SevenDot1);
 
-        /*
-        m_Node2 = block.CreateDSPNode<PlayClipNode2.Parameters, PlayClipNode2.Providers, PlayClipNode2>(); // 
-        block.AddInletPort(m_Node2, 8, SoundFormat.SevenDot1);
-        block.AddOutletPort(m_Node2, 2, SoundFormat.Stereo);
-        */
-
-        // Currently input and output ports are dynamic and added via this API to a node.
-        // This will change to a static definition of nodes in the future.
-        // block.AddOutletPort(m_Node, 2, SoundFormat.Stereo);
+        nodeDecode = block.CreateDSPNode<M1DecodeNode.Parameters, M1DecodeNode.Providers, M1DecodeNode>();  
+        block.SetFloat<M1DecodeNode.Parameters, M1DecodeNode.Providers, M1DecodeNode>(nodeDecode, M1DecodeNode.Parameters.DSPBufferLength, bufferLength);
+        block.AddInletPort(nodeDecode, 8, SoundFormat.SevenDot1);
+        block.AddOutletPort(nodeDecode, 2, SoundFormat.Stereo);
 
         // Connect the node to the root of the graph.
-        //m_Connection1 = block.Connect(m_Node, 0, m_Node2, 0);
-        m_Connection = block.Connect(m_Node, 0, m_Graph.RootDSP, 0); // m_Node2
+        connectionPlayerNode = block.Connect(nodePlayer, 0, nodeDecode, 0);
+        connectionDecodeNode = block.Connect(nodeDecode, 0, dpsGraph.RootDSP, 0);
 
         // We are done, fire off the command block atomically to the mixer thread.
         block.Complete();
@@ -335,21 +316,30 @@ public class Mach1Player : MonoBehaviour
 
     void Update()
     {
-        m_Graph.Update();
+        using (var block = dpsGraph.CreateCommandBlock())
+        {
+            block.SetFloat<M1DecodeNode.Parameters, M1DecodeNode.Providers, M1DecodeNode>(nodeDecode, M1DecodeNode.Parameters.ChannelL0, 0);
+            block.SetFloat<M1DecodeNode.Parameters, M1DecodeNode.Providers, M1DecodeNode>(nodeDecode, M1DecodeNode.Parameters.ChannelL1, 0);
+            block.SetFloat<M1DecodeNode.Parameters, M1DecodeNode.Providers, M1DecodeNode>(nodeDecode, M1DecodeNode.Parameters.ChannelL2, 0);
+        }
+        
+        dpsGraph.Update();
     }
 
     void OnDisable()
     {
         // Command blocks can also be completed via the C# 'using' construct for convenience
-        using (var block = m_Graph.CreateCommandBlock())
+        using (var block = dpsGraph.CreateCommandBlock())
         {
-            block.Disconnect(m_Connection);
-            block.ReleaseDSPNode(m_Node);
+            block.Disconnect(connectionPlayerNode);
+            block.Disconnect(connectionDecodeNode);
+            block.ReleaseDSPNode(nodePlayer);
+            block.ReleaseDSPNode(nodeDecode);
         }
 
-        m_Graph.RemoveNodeEventHandler(m_HandlerID);
+        dpsGraph.RemoveNodeEventHandler(handlerID);
 
-        m_Output.Dispose();
+        output.Dispose();
     }
 
     void OnGUI()
@@ -362,7 +352,7 @@ public class Mach1Player : MonoBehaviour
                 return;
             }
 
-            using (var block = m_Graph.CreateCommandBlock())
+            using (var block = dpsGraph.CreateCommandBlock())
             {
                 for (var i = 0; i < ClipToPlay.Length; i++)
                 {
@@ -370,14 +360,14 @@ public class Mach1Player : MonoBehaviour
                     var resampleRate = (float)ClipToPlay[i].frequency / AudioSettings.outputSampleRate;
                     Debug.Log("Clip freq:" + resampleRate);
 
-                    block.SetFloat<Mach1PlayerNode.Parameters, Mach1PlayerNode.SampleProviders, Mach1PlayerNode>(m_Node, (Mach1PlayerNode.Parameters)i, resampleRate);
+                    block.SetFloat<M1PlayerNode.Parameters, M1PlayerNode.Providers, M1PlayerNode>(nodePlayer, (M1PlayerNode.Parameters)i, resampleRate);
 
                     // Assign the sample provider to the slot of the node.
-                    block.SetSampleProvider<Mach1PlayerNode.Parameters, Mach1PlayerNode.SampleProviders, Mach1PlayerNode>(ClipToPlay[i], m_Node, (Mach1PlayerNode.SampleProviders)i);
+                    block.SetSampleProvider<M1PlayerNode.Parameters, M1PlayerNode.Providers, M1PlayerNode>(ClipToPlay[i], nodePlayer, (M1PlayerNode.Providers)i);
                 }
 
                 // Kick off playback. This will be done in a better way in the future.
-                block.UpdateAudioKernel<PlayClipKernel, Mach1PlayerNode.Parameters, Mach1PlayerNode.SampleProviders, Mach1PlayerNode>(new PlayClipKernel(), m_Node);
+                block.UpdateAudioKernel<PlayClipKernel, M1PlayerNode.Parameters, M1PlayerNode.Providers, M1PlayerNode>(new PlayClipKernel(), nodePlayer);
             }
         }
     }

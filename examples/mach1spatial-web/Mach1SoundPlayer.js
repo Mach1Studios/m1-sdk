@@ -120,6 +120,9 @@ function Mach1SoundPlayer(audioFiles, soundCount) {
         }
     }
 
+    this.getAudioContext = function() {
+        return audioCtx;
+    };
 
     this.isReady = function() {
         return _isSoundReady && !_isDeleted;

@@ -2,11 +2,11 @@
 
 require('promise-decode-audio-data');
 
-let preloadCache = {};
+let _preloadCache = {};
+let _audioCtx = AudioContext();
 
-function Mach1SoundPlayer(audioFiles, soundCount, audioCtx = null) {
+function Mach1SoundPlayer(audioFiles, soundCount) {
 	const SOUND_COUNT = audioFiles.length * 2;
-    const _audioCtx = (audioCtx == null) ? new AudioContext() : audioCtx;
     let thus = this;
 
     let smp = initArray(SOUND_COUNT);
@@ -43,16 +43,16 @@ function Mach1SoundPlayer(audioFiles, soundCount, audioCtx = null) {
         }).then((res) => {
             return res.arrayBuffer();
         }).then((blob) => {
-            if (preloadCache[path]) {
-                return Promise.resolve(preloadCache[path]);
+            if (_preloadCache[path]) {
+                return Promise.resolve(_preloadCache[path]);
             } else {
                 return _audioCtx.decodeAudioData(blob);
             }
         }).then((aBuffer) => {
             buffer[Math.floor(i / 2)] = aBuffer;
 
-            if (!preloadCache[path]) {
-                preloadCache[path] = aBuffer;
+            if (!_preloadCache[path]) {
+                _preloadCache[path] = aBuffer;
             }
 
             return i;

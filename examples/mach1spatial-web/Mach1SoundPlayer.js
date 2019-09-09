@@ -4,11 +4,10 @@ require('promise-decode-audio-data');
 
 let preloadCache = {};
 
-function Mach1SoundPlayer(audioFiles, soundCount) {
+function Mach1SoundPlayer(audioFiles, soundCount, audioCtx = null) {
 	const SOUND_COUNT = audioFiles.length * 2;
-    const audioCtx = new AudioContext();
+    const _audioCtx = (audioCtx == null) ? new AudioContext() : audioCtx;
     let thus = this;
-
 
     let smp = initArray(SOUND_COUNT);
     let gainNode = initArray(SOUND_COUNT);
@@ -47,7 +46,7 @@ function Mach1SoundPlayer(audioFiles, soundCount) {
             if (preloadCache[path]) {
                 return Promise.resolve(preloadCache[path]);
             } else {
-                return audioCtx.decodeAudioData(blob);
+                return _audioCtx.decodeAudioData(blob);
             }
         }).then((aBuffer) => {
             buffer[Math.floor(i / 2)] = aBuffer;
@@ -79,35 +78,35 @@ function Mach1SoundPlayer(audioFiles, soundCount) {
         if (thus.isReady() && !_isPlaying) {
             for (let i = 0, j = 0; j < buffer.length; ++j, i += 2) {
                 // left
-                smp[i] = audioCtx.createBufferSource();
+                smp[i] = _audioCtx.createBufferSource();
                 smp[i].buffer = buffer[j];
 
-                gainNode[i] = audioCtx.createGain();
+                gainNode[i] = _audioCtx.createGain();
                 gainNode[i].gain.value = 0;
 
-                pannerNode[i] = audioCtx.createPanner();
+                pannerNode[i] = _audioCtx.createPanner();
                 pannerNode[i].setPosition(-1, 0, 0); // left
                 pannerNode[i].panningModel = "equalpower";
 
 
                 smp[i].connect(pannerNode[i]);
                 pannerNode[i].connect(gainNode[i]);
-                gainNode[i].connect(audioCtx.destination);
+                gainNode[i].connect(_audioCtx.destination);
 
                 // right
-                smp[i + 1] = audioCtx.createBufferSource();
+                smp[i + 1] = _audioCtx.createBufferSource();
                 smp[i + 1].buffer = buffer[j];
 
-                gainNode[i + 1] = audioCtx.createGain();
+                gainNode[i + 1] = _audioCtx.createGain();
                 gainNode[i + 1].gain.value = 0;
 
-                pannerNode[i + 1] = audioCtx.createPanner();
+                pannerNode[i + 1] = _audioCtx.createPanner();
                 pannerNode[i + 1].setPosition(1, 0, 0); // right
                 pannerNode[i + 1].panningModel = "equalpower";
 
                 smp[i + 1].connect(pannerNode[i + 1]);
                 pannerNode[i + 1].connect(gainNode[i + 1]);
-                gainNode[i + 1].connect(audioCtx.destination);
+                gainNode[i + 1].connect(_audioCtx.destination);
             }
 
             for (let i = 0; i < SOUND_COUNT; ++i) {
@@ -115,13 +114,13 @@ function Mach1SoundPlayer(audioFiles, soundCount) {
                 smp[i].start(0, time);
             }
 
-            startTime = audioCtx.currentTime - time;
+            startTime = _audioCtx.currentTime - time;
             _isPlaying = true;
         }
     }
 
     this.getAudioContext = function() {
-        return audioCtx;
+        return _audioCtx;
     };
 
     this.isReady = function() {
@@ -153,7 +152,7 @@ function Mach1SoundPlayer(audioFiles, soundCount) {
             _isPlaying = false;
 			needToPlay = false;
 
-            stopTime = audioCtx.currentTime;
+            stopTime = _audioCtx.currentTime;
 
             for (let i = 0; i < smp.length; ++i) {
                 smp[i].stop();
@@ -178,7 +177,7 @@ function Mach1SoundPlayer(audioFiles, soundCount) {
         if (!this.isReady() || !_isPlaying) {
             return stopTime - startTime > 0 ? stopTime - startTime : 0;
         } else {
-            return audioCtx.currentTime - startTime;
+            return _audioCtx.currentTime - startTime;
         }
     };
 

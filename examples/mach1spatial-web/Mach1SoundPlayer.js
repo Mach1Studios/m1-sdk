@@ -3,7 +3,7 @@
 require('promise-decode-audio-data');
 
 let _preloadCache = {};
-let _audioCtx = AudioContext();
+let _audioCtx = new AudioContext();
 
 function Mach1SoundPlayer(audioFiles, soundCount) {
 	const SOUND_COUNT = audioFiles.length * 2;

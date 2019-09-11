@@ -599,7 +599,7 @@ public class M1Base : MonoBehaviour
             m1Positional.getCoefficients(ref coeffs);
             for (int i = 0; i < 16; i++)
             {
-                dspPlayerMain.volumes[i] = coeffs[i];
+                dspPlayerMain.coeffs[i] = coeffs[i];
             }
 
             if (useBlendMode)
@@ -607,7 +607,7 @@ public class M1Base : MonoBehaviour
                 m1Positional.getCoefficientsInterior(ref coeffsInterior);
                 for (int i = 0; i < 16; i++)
                 {
-                    dspPlayerBlend.volumes[i] = coeffsInterior[i];
+                    dspPlayerBlend.coeffs[i] = coeffsInterior[i];
                 }
             }
 
@@ -621,24 +621,20 @@ public class M1Base : MonoBehaviour
                 Debug.Log("M1Obj Distance: " + m1Positional.getDist());
 
                 string str = "Returned Coefficients: ";
-                for (int i = 0; i < dspPlayerMain.volumes.Length; i++)
+                for (int i = 0; i < dspPlayerMain.coeffs.Length; i++)
                 {
-                    str += string.Format("{0:0.000}, ", dspPlayerMain.volumes[i]);
+                    str += string.Format("{0:0.000}, ", dspPlayerMain.coeffs[i]);
                 }
                 if (useBlendMode)
                 {
                     str += " , " + "Returned Coefficients Internal (BlendMode): ";
-                    for (int i = 0; i < dspPlayerBlend.volumes.Length; i++)
+                    for (int i = 0; i < dspPlayerBlend.coeffs.Length; i++)
                     {
-                        str += string.Format("{0:0.000}, ", dspPlayerBlend.volumes[i]);
+                        str += string.Format("{0:0.000}, ", dspPlayerBlend.coeffs[i]);
                     }
                 }
                 Debug.Log(str);
             }
-
-            // Mach1.Mach1Point3D angles = m1Positional.getCoefficientsRotation();
-            //Debug.Log("volumeWalls: " + coeffs + " , " + "volumeRoom" + coeffsInterior);
-            // Debug.Log("d: " + dist + ", d2: " + m1Positional.getDist());
 
             if (drawHelpers) 
             {

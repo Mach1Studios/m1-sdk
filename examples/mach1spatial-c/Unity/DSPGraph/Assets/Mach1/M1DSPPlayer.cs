@@ -206,22 +206,22 @@ struct M1DSPDecodeNode : IAudioKernel<M1DSPDecodeNode.Parameters, M1DSPDecodeNod
     // a parameter within the node. Setting a value for a parameter uses these enum values.
     public enum Parameters
     {
-        Volume0,
-        Volume1,
-        Volume2,
-        Volume3,
-        Volume4,
-        Volume5,
-        Volume6,
-        Volume7,
-        Volume8,
-        Volume9,
-        Volume10,
-        Volume11,
-        Volume12,
-        Volume13,
-        Volume14,
-        Volume15
+        Coeff0,
+        Coeff1,
+        Coeff2,
+        Coeff3,
+        Coeff4,
+        Coeff5,
+        Coeff6,
+        Coeff7,
+        Coeff8,
+        Coeff9,
+        Coeff10,
+        Coeff11,
+        Coeff12,
+        Coeff13,
+        Coeff14,
+        Coeff15
     }
 
     // Sample providers are defined with enumerations. Each enum value defines a slot where
@@ -233,11 +233,11 @@ struct M1DSPDecodeNode : IAudioKernel<M1DSPDecodeNode.Parameters, M1DSPDecodeNod
     // here.
 
     [NativeDisableContainerSafetyRestriction]
-    public NativeArray<float> volumes;
+    public NativeArray<float> coeffs;
 
     public void Initialize()
     {
-        volumes = new NativeArray<float>(16, Allocator.AudioKernel);
+        coeffs = new NativeArray<float>(16, Allocator.AudioKernel);
     }
 
     public void Execute(ref ExecuteContext<Parameters, Providers> context)
@@ -248,7 +248,7 @@ struct M1DSPDecodeNode : IAudioKernel<M1DSPDecodeNode.Parameters, M1DSPDecodeNod
 
         for (var i = 0; i < 16; i++)
         {
-            volumes[i] = context.Parameters.GetFloat((Parameters)i, 0);
+            coeffs[i] = context.Parameters.GetFloat((Parameters)i, 0);
         }
 
         for (var c = 0; c < 8; c++)
@@ -258,16 +258,16 @@ struct M1DSPDecodeNode : IAudioKernel<M1DSPDecodeNode.Parameters, M1DSPDecodeNod
 
             for (var i = 0; i < outputBuffer.Length / 2; i++)
             {
-                outputBuffer[i * 2 + 0] += 1.0f * inputBuff[i * 8 + c] * volumes[channel0];
-                outputBuffer[i * 2 + 1] += 1.0f * inputBuff[i * 8 + c] * volumes[channel1];
+                outputBuffer[i * 2 + 0] += 1.0f * inputBuff[i * 8 + c] * coeffs[channel0];
+                outputBuffer[i * 2 + 1] += 1.0f * inputBuff[i * 8 + c] * coeffs[channel1];
             }
         }
     }
 
     public void Dispose()
     {
-        if (volumes.IsCreated)
-            volumes.Dispose();
+        if (coeffs.IsCreated)
+            coeffs.Dispose();
     }
 }
 
@@ -299,7 +299,7 @@ struct ClipStopped { }
 public class M1DSPPlayer// : MonoBehaviour
 {
     public AudioClip[] audioClips;
-    public float[] volumes;
+    public float[] coeffs;
     public bool isPlaying;
 
     AudioOutputHandle output;
@@ -318,7 +318,7 @@ public class M1DSPPlayer// : MonoBehaviour
         {
             audioClips = new AudioClip[8];
         }
-        volumes = new float[16];
+        coeffs = new float[16];
         isPlaying = false;
 
         // DSPGraph init
@@ -365,15 +365,15 @@ public class M1DSPPlayer// : MonoBehaviour
 
     public void Update()
     {
-        //Debug.Log("dsp update: " + volumes.Length);
+        //Debug.Log("dsp update: " + coeffs.Length);
 
-        if (volumes != null && volumes.Length >= 16)
+        if (coeffs != null && coeffs.Length >= 16)
         {
             using (var block = dpsGraph.CreateCommandBlock())
             {
                 for (var i = 0; i < 16; i++)
                 {
-                    block.SetFloat<M1DSPDecodeNode.Parameters, M1DSPDecodeNode.Providers, M1DSPDecodeNode>(nodeDecode, (M1DSPDecodeNode.Parameters)i, volumes[i]);
+                    block.SetFloat<M1DSPDecodeNode.Parameters, M1DSPDecodeNode.Providers, M1DSPDecodeNode>(nodeDecode, (M1DSPDecodeNode.Parameters)i, coeffs[i]);
                 }
 
             }

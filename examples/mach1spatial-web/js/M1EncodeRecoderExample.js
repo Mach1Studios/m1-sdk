@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-	let m1Decode = null;
+    var recorder;
+ 
+    let m1Decode = null;
     let m1DecodeModule = Mach1DecodeModule();
 	m1DecodeModule.onInited = function() {
 		m1Decode = new(m1DecodeModule).Mach1Decode();
@@ -55,6 +57,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 		
 		mach1SoundPlayer = new Mach1SoundPlayer(audioFiles);
+		
  	};
 
     // three js
@@ -284,6 +287,8 @@ document.addEventListener("DOMContentLoaded", function() {
     folder.add(params, 'pitch', -1, 1, 0.01).name('Pitch').onChange(update);
     folder.add(params, 'enableIsotropicEncode').name('Isotropic encode').onChange(update);
 
+
+
     elementSRotation = folder.add(params, 'sRotation', -180, 180, 1).name('S Rotation').onChange(update).__li;
     elementSSpread = folder.add(params, 'sSpread', 0, 1, 0.01).name('S Spread').onChange(update).__li;
     elementAutoOrbit = folder.add(params, 'autoOrbit').name('Auto orbit').onChange(update).__li;
@@ -293,6 +298,27 @@ document.addEventListener("DOMContentLoaded", function() {
     folder.add(params, 'decoderRotationY', 0, 360, 1).name('Decoder Yaw');
     folder.add(params, 'decoderRotationP', -90, 90, 1).name('Decoder Pitch');
     folder.add(params, 'decoderRotationR', -180, 180, 1).name('Decoder Roll');
+
+    var folder = gui.addFolder("Recorder");
+    folder.open();
+	
+	var obj = {
+		start: function() {
+			 mach1SoundPlayer.startRecord();
+		},
+		stop: function() {
+			var url = mach1SoundPlayer.stopRecord();
+			var div = document.createElement('div');
+			var au = document.createElement('audio');
+			au.controls = true;
+			au.src = url;
+			div.appendChild(au);
+			document.getElementById('recordings').appendChild(div);
+		}
+	};
+
+	folder.add(obj, 'start').name('Start record');
+	folder.add(obj, 'stop').name('Stop record');
 
     // update 
     function update() {
@@ -352,7 +378,10 @@ document.addEventListener("DOMContentLoaded", function() {
 			if (params.outputKind == 1) { // Output: Mach1Spatial / Cuboid
 				vol = m1Encode.getResultingVolumesDecoded(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial, decoded);
 			}
-			//console.log(vol);
+			
+			var gains = m1Encode.getGains();
+			mach1SoundPlayer.pushGains(gains);
+			//console.log(gains);
 
             var points = m1Encode.getPoints();
             var pointsNames = m1Encode.getPointsNames();

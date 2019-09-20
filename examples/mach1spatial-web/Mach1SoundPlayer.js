@@ -73,7 +73,6 @@ function Mach1SoundPlayer(audioFiles, soundCount) {
         });
     }
 
-
     function createAudio(looped, time) {
         if (thus.isReady() && !_isPlaying) {
             for (let i = 0, j = 0; j < buffer.length; ++j, i += 2) {
@@ -119,6 +118,10 @@ function Mach1SoundPlayer(audioFiles, soundCount) {
         }
     }
 
+ 	this.getBuffer = function() {
+		return buffer;
+    };
+ 
     this.getAudioContext = function() {
         return _audioCtx;
     };

@@ -309,7 +309,8 @@ document.addEventListener("DOMContentLoaded", function() {
 			 mach1EncodeRecoder.startRecord();
 		},
 		stop: function() {
-			var url = mach1EncodeRecoder.stopRecord();
+			mach1EncodeRecoder.stopRecord();
+			var url = mach1EncodeRecoder.saveBufferToURL();
 			var div = document.createElement('div');
 			var au = document.createElement('audio');
 			au.controls = true;

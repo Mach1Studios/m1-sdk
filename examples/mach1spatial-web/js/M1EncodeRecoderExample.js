@@ -17,10 +17,12 @@ document.addEventListener("DOMContentLoaded", function() {
 		m1Encode = new(m1EncodeModule).Mach1Encode();
 	};
 	
+
     const FRAMES_PER_SECOND = 60;
 
     var audioFiles;
     var mach1SoundPlayer;
+    var mach1EncodeRecoder; 
 
     const gui = new dat.GUI();
 
@@ -57,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 		
 		mach1SoundPlayer = new Mach1SoundPlayer(audioFiles);
-		
+		mach1EncodeRecoder = new Mach1EncodeRecoder(mach1SoundPlayer);
  	};
 
     // three js
@@ -304,10 +306,11 @@ document.addEventListener("DOMContentLoaded", function() {
 	
 	var obj = {
 		start: function() {
-			 mach1SoundPlayer.startRecord();
+			 mach1EncodeRecoder.startRecord();
 		},
 		stop: function() {
-			var url = mach1SoundPlayer.stopRecord();
+			mach1EncodeRecoder.stopRecord();
+			var url = mach1EncodeRecoder.saveBufferToURL();
 			var div = document.createElement('div');
 			var au = document.createElement('audio');
 			au.controls = true;
@@ -380,7 +383,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			}
 			
 			var gains = m1Encode.getGains();
-			mach1SoundPlayer.pushGains(gains);
+			mach1EncodeRecoder.pushGains(gains);
 			//console.log(gains);
 
             var points = m1Encode.getPoints();

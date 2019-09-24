@@ -8,7 +8,7 @@ using UnityEngine;
 using System.Collections;
 using System.IO;
 
-public class M1HorizonDecode :  M1Base
+public class M1HorizonDecode :  M1BaseDecode
 {
     public M1HorizonDecode()
     {

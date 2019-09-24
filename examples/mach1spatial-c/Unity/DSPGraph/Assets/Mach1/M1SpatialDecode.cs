@@ -8,7 +8,7 @@ using UnityEngine;
 using System.Collections;
 using System.IO;
 
-public class M1SpatialDecode :  M1Base
+public class M1SpatialDecode :  M1BaseDecode
 {
     public M1SpatialDecode()
     {

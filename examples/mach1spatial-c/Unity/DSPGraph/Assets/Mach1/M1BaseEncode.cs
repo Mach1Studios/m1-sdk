@@ -8,7 +8,8 @@ using UnityEngine;
 
 public class M1BaseEncode : MonoBehaviour
 {
-    M1DSPPlayer dspPlayer;
+    [HideInInspector]
+    public float[][] gains;
 
     [Header("Asset Source Settings")]
     public bool isFromAssets = true;
@@ -29,8 +30,6 @@ public class M1BaseEncode : MonoBehaviour
     private int MAX_SOUNDS;
     private Matrix4x4 mat;
     private Matrix4x4 matInternal;
-
-    private float[] gains;
 
     private bool needToPlay;
 
@@ -74,13 +73,9 @@ public class M1BaseEncode : MonoBehaviour
 
     public M1BaseEncode()
     {
-        gains = new float[20];
-
         // TODO 
-
         m1Encode.setInputMode(Mach1.Mach1EncodeInputModeType.Mach1EncodeInputModeMono);
-
-        dspPlayer = new M1DSPPlayer();
+        m1Encode.setOutputMode(Mach1.Mach1EncodeOutputModeType.Mach1EncodeOutputMode8Ch);
     }
 
     protected void InitComponents(int MAX_SOUNDS_PER_CHANNEL)
@@ -104,14 +99,10 @@ public class M1BaseEncode : MonoBehaviour
 
     void Start()
     {
-        dspPlayer.Start();
-
         if (loadAudioOnStart)
         {
             LoadAudioData();
         }
-
-        
     }
 
     public void LoadAudioData()
@@ -204,7 +195,7 @@ public class M1BaseEncode : MonoBehaviour
 
         if (clip != null)
         {
-            dspPlayer.audioClips[n] = clip;
+            audioClips[n] = clip;
         }
 
         yield break;
@@ -213,9 +204,9 @@ public class M1BaseEncode : MonoBehaviour
     public bool IsReady()
     {
         bool isLoaded = true;
-        for (int i = 0; i < dspPlayer.audioClips.Length; i++)
+        for (int i = 0; i < audioClips.Length; i++)
         {
-            if (dspPlayer.audioClips[i].loadState != AudioDataLoadState.Loaded)
+            if (audioClips[i].loadState != AudioDataLoadState.Loaded)
             {
                 isLoaded = false;
                 break;
@@ -234,7 +225,6 @@ public class M1BaseEncode : MonoBehaviour
     {
         if (IsReady())
         {
-            dspPlayer.Stop();
         }
     }
 
@@ -255,10 +245,12 @@ public class M1BaseEncode : MonoBehaviour
         return 0;
     }
 
+    /*
     public bool IsPlaying()
     {
-        return (dspPlayer.isPlaying);
+        return false;
     }
+    */
 
     public string ToStringFormat(Vector3 v)
     {
@@ -302,35 +294,29 @@ public class M1BaseEncode : MonoBehaviour
         ) * Mathf.Rad2Deg;
     }
 
-    void OnDisable()
+    public bool IsPlaying()
     {
-        dspPlayer.OnDisable();
+        return isPlaying;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // attach to decode?
-
         if (IsReady())
         {
             if ((autoPlay || needToPlay) && !isPlaying)
             {
-                dspPlayer.Play();
-
                 needToPlay = false;
                 isPlaying = true;
             }
 
-            dspPlayer.Update();
-
-            // TODO
-
+            m1Encode.setIsotropicEncode(true);
+            m1Encode.setRotation(0);
             m1Encode.setPitch(0);
-
+            m1Encode.setDiverge(0);
             m1Encode.generatePointResults();
 
-            m1Encode.getGains();
+            gains = m1Encode.getGains();
 
             /*
             for (int i = 0; i < 16; i++)

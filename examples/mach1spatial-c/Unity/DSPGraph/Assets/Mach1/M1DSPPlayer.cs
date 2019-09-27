@@ -273,6 +273,104 @@ struct M1DSPDecodeNode : IAudioKernel<M1DSPDecodeNode.Parameters, M1DSPDecodeNod
 
 
 [BurstCompile(CompileSynchronously = true)]
+struct M1DSPEncodeNode : IAudioKernel<M1DSPEncodeNode.Parameters, M1DSPEncodeNode.Providers>
+{
+    // Parameters are currently defined with enumerations. Each enum value corresponds to
+    // a parameter within the node. Setting a value for a parameter uses these enum values.
+    public enum Parameters
+    {
+        inputChannels,
+        Point0_Gain0,
+        Point0_Gain1,
+        Point0_Gain2,
+        Point0_Gain3,
+        Point0_Gain4,
+        Point0_Gain5,
+        Point0_Gain6,
+        Point0_Gain7,
+        Point1_Gain0,
+        Point1_Gain1,
+        Point1_Gain2,
+        Point1_Gain3,
+        Point1_Gain4,
+        Point1_Gain5,
+        Point1_Gain6,
+        Point1_Gain7,
+        Point2_Gain0,
+        Point2_Gain1,
+        Point2_Gain2,
+        Point2_Gain3,
+        Point2_Gain4,
+        Point2_Gain5,
+        Point2_Gain6,
+        Point2_Gain7,
+        Point3_Gain0,
+        Point3_Gain1,
+        Point3_Gain2,
+        Point3_Gain3,
+        Point3_Gain4,
+        Point3_Gain5,
+        Point3_Gain6,
+        Point3_Gain7,
+    }
+
+    // Sample providers are defined with enumerations. Each enum value defines a slot where
+    // a sample provider can live on a IAudioKernel. Sample providers are used to get samples from
+    // AudioClips and VideoPlayers. They will eventually be able to pull samples from microphones and other concepts.
+    public enum Providers { }
+
+    // The clip sample rate might be different to the output rate used by the system. Therefore we use a resampler
+    // here.
+
+    [NativeDisableContainerSafetyRestriction]
+    public NativeArray<float> gains;
+
+    public void Initialize()
+    {
+        gains = new NativeArray<float>(4 * 8, Allocator.AudioKernel);
+    }
+
+    public void Execute(ref ExecuteContext<Parameters, Providers> context)
+    {
+        var outputBuffer = context.Outputs.GetSampleBuffer(0).Buffer;
+
+        var inputBuff = context.Inputs.GetSampleBuffer(0).Buffer;
+
+        int length = outputBuffer.Length / 8;
+        int inputChannels = (int)context.Parameters.GetFloat(Parameters.inputChannels, 0);
+
+        for (var i = 0; i < inputChannels; i++)
+        {
+            for (var j = 0; j < 8; j++)
+            {
+                gains[i * 8 + j] = context.Parameters.GetFloat((Parameters)(i * 8 + j + 1), 0);
+            }
+        }
+
+        for (var i = 0; i < length; i++)
+        {
+            for (var j = 0; j < inputChannels; j++)
+            {
+                float input = inputBuff[i * 8 + j];
+                for (var c = 0; c < 8; c++)
+                {
+                    outputBuffer[i * 8 + c] += 1.0f * input * gains[j * 8 + c];
+                }
+
+            }
+        }
+    }
+
+    public void Dispose()
+    {
+        if (gains.IsCreated)
+            gains.Dispose();
+    }
+}
+
+
+
+[BurstCompile(CompileSynchronously = true)]
 struct PlayClipKernel : IAudioKernelUpdate<M1DSPPlayerNode.Parameters, M1DSPPlayerNode.Providers, M1DSPPlayerNode>
 {
     // This update job is used to kick off playback of the node.
@@ -300,13 +398,18 @@ public class M1DSPPlayer// : MonoBehaviour
 {
     public AudioClip[] audioClips;
     public float[] coeffs;
+    public float[][] gains;
+
     public bool isPlaying;
+    public bool useEncode;
 
     AudioOutputHandle output;
     DSPGraph dpsGraph;
     DSPNode nodePlayer;
+    DSPNode nodeEncode;
     DSPNode nodeDecode;
     DSPConnection connectionDecodeNode;
+    DSPConnection connectionEncodeNode;
     DSPConnection connectionPlayerNode;
 
     int handlerID;
@@ -351,12 +454,27 @@ public class M1DSPPlayer// : MonoBehaviour
         block.SetFloat<M1DSPPlayerNode.Parameters, M1DSPPlayerNode.Providers, M1DSPPlayerNode>(nodePlayer, M1DSPPlayerNode.Parameters.DSPBufferLength, bufferLength);
         block.AddOutletPort(nodePlayer, 8, SoundFormat.SevenDot1);
 
+        if(useEncode)
+        {
+            nodeEncode = block.CreateDSPNode<M1DSPEncodeNode.Parameters, M1DSPEncodeNode.Providers, M1DSPEncodeNode>();
+            block.AddInletPort(nodeEncode, 8, SoundFormat.SevenDot1);
+            block.AddOutletPort(nodeEncode, 8, SoundFormat.SevenDot1);
+        }
+
         nodeDecode = block.CreateDSPNode<M1DSPDecodeNode.Parameters, M1DSPDecodeNode.Providers, M1DSPDecodeNode>();
         block.AddInletPort(nodeDecode, 8, SoundFormat.SevenDot1);
         block.AddOutletPort(nodeDecode, 2, SoundFormat.Stereo);
 
         // Connect the node to the root of the graph.
-        connectionPlayerNode = block.Connect(nodePlayer, 0, nodeDecode, 0);
+        if (!useEncode)
+        {
+            connectionPlayerNode = block.Connect(nodePlayer, 0, nodeDecode, 0);
+        }
+        else
+        {
+            connectionPlayerNode = block.Connect(nodePlayer, 0, nodeEncode, 0);
+            connectionEncodeNode = block.Connect(nodeEncode, 0, nodeDecode, 0);
+        }
         connectionDecodeNode = block.Connect(nodeDecode, 0, dpsGraph.RootDSP, 0);
 
         // We are done, fire off the command block atomically to the mixer thread.
@@ -376,6 +494,18 @@ public class M1DSPPlayer// : MonoBehaviour
                     block.SetFloat<M1DSPDecodeNode.Parameters, M1DSPDecodeNode.Providers, M1DSPDecodeNode>(nodeDecode, (M1DSPDecodeNode.Parameters)i, coeffs[i]);
                 }
 
+                if (useEncode)
+                {
+                    block.SetFloat<M1DSPEncodeNode.Parameters, M1DSPEncodeNode.Providers, M1DSPEncodeNode>(nodeEncode, M1DSPEncodeNode.Parameters.inputChannels, gains.Length);
+                    for (var i = 0; i < gains.Length; i++)
+                    {
+                        for (var j = 0; j < gains[i].Length; j++)
+                        {
+                            block.SetFloat<M1DSPEncodeNode.Parameters, M1DSPEncodeNode.Providers, M1DSPEncodeNode>(nodeEncode, (M1DSPEncodeNode.Parameters)(i * 8 + j), gains[i][j]);
+                        }
+                    }
+                }
+
             }
             dpsGraph.Update();
         }
@@ -390,6 +520,13 @@ public class M1DSPPlayer// : MonoBehaviour
             block.Disconnect(connectionDecodeNode);
             block.ReleaseDSPNode(nodePlayer);
             block.ReleaseDSPNode(nodeDecode);
+
+            if (useEncode)
+            {
+                block.Disconnect(connectionEncodeNode);
+                block.ReleaseDSPNode(nodeEncode);
+            }
+
         }
 
         dpsGraph.RemoveNodeEventHandler(handlerID);

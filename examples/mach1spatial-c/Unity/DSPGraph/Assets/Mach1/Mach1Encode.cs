@@ -24,13 +24,13 @@ namespace Mach1
 
 
         [DllImport(libname)]
-        internal static extern IntPtr[] Mach1EncodeCAPI_getPoints(IntPtr M1obj);
+        internal static extern IntPtr Mach1EncodeCAPI_getPoints(IntPtr M1obj);
 
         [DllImport(libname)]
-        internal static extern IntPtr[] Mach1EncodeCAPI_getGains(IntPtr M1obj);
+        internal static extern IntPtr Mach1EncodeCAPI_getGains(IntPtr M1obj);
 
         [DllImport(libname)]
-        internal static extern IntPtr[] Mach1EncodeCAPI_getPointsNames(IntPtr M1obj);
+        internal static extern IntPtr Mach1EncodeCAPI_getPointsNames(IntPtr M1obj);
 
         [DllImport(libname)]
         internal static extern IntPtr Mach1EncodeCAPI_getGainsForInputChannelNamed(IntPtr M1obj, [MarshalAs(UnmanagedType.LPStr)] string pointName);
@@ -87,7 +87,8 @@ namespace Mach1
 
         public Mach1Point3D[] getPoints()
         {
-            IntPtr[] pointsPtr = Mach1EncodeCAPI_getPoints(M1obj);
+            IntPtr[] pointsPtr = new IntPtr[getPointsCount()];
+            Marshal.Copy(Mach1EncodeCAPI_getPoints(M1obj), pointsPtr, 0, getPointsCount());
 
             Mach1Point3D[] points = new Mach1Point3D[getPointsCount()];
             for (int i = 0; i < points.Length; i++)
@@ -99,7 +100,8 @@ namespace Mach1
 
         public float[][] getGains()
         {
-            IntPtr[] gainsPtr = Mach1EncodeCAPI_getGains(M1obj);
+            IntPtr[] gainsPtr = new IntPtr[getPointsCount()];
+            Marshal.Copy(Mach1EncodeCAPI_getGains(M1obj), gainsPtr, 0, getPointsCount());
 
             float[][] gains = new float[getPointsCount()][];
             for (int i = 0; i < gains.Length; i++)
@@ -112,7 +114,8 @@ namespace Mach1
 
         public string[] getPointsNames()
         {
-            IntPtr[] namesPtr = Mach1EncodeCAPI_getPointsNames(M1obj);
+            IntPtr[] namesPtr = new IntPtr[getPointsCount()];
+            Marshal.Copy(Mach1EncodeCAPI_getPointsNames(M1obj), namesPtr, 0, getPointsCount());
 
             string[] names = new string[getPointsCount()];
             for(int i=0; i<names.Length; i++)

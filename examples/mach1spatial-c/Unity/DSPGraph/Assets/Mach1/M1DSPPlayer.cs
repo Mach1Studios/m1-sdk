@@ -343,7 +343,7 @@ struct M1DSPEncodeNode : IAudioKernel<M1DSPEncodeNode.Parameters, M1DSPEncodeNod
         {
             for (var j = 0; j < 8; j++)
             {
-                gains[i * 8 + j] = context.Parameters.GetFloat((Parameters)(i * 8 + j + 1), 0);
+                gains[i * 8 + j] = context.Parameters.GetFloat((Parameters)(1 + i * 8 + j), 0);
             }
         }
 
@@ -501,7 +501,7 @@ public class M1DSPPlayer// : MonoBehaviour
                     {
                         for (var j = 0; j < gains[i].Length; j++)
                         {
-                            block.SetFloat<M1DSPEncodeNode.Parameters, M1DSPEncodeNode.Providers, M1DSPEncodeNode>(nodeEncode, (M1DSPEncodeNode.Parameters)(i * 8 + j), gains[i][j]);
+                            block.SetFloat<M1DSPEncodeNode.Parameters, M1DSPEncodeNode.Providers, M1DSPEncodeNode>(nodeEncode, (M1DSPEncodeNode.Parameters)(1 + i * 8 + j), gains[i][j]);
                         }
                     }
                 }
@@ -518,15 +518,17 @@ public class M1DSPPlayer// : MonoBehaviour
         {
             block.Disconnect(connectionPlayerNode);
             block.Disconnect(connectionDecodeNode);
-            block.ReleaseDSPNode(nodePlayer);
-            block.ReleaseDSPNode(nodeDecode);
-
             if (useEncode)
             {
                 block.Disconnect(connectionEncodeNode);
-                block.ReleaseDSPNode(nodeEncode);
             }
 
+            block.ReleaseDSPNode(nodePlayer);
+            block.ReleaseDSPNode(nodeDecode);
+            if (useEncode)
+            {
+                block.ReleaseDSPNode(nodeEncode);
+            }
         }
 
         dpsGraph.RemoveNodeEventHandler(handlerID);

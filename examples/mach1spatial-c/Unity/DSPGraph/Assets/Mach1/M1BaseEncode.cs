@@ -25,12 +25,10 @@ public class M1BaseEncode : MonoBehaviour
     private bool isPlaying = false;
 
     [Header("Encode Settings")]
-    // 
+    // TODO
 
     private int MAX_SOUNDS;
-    private Matrix4x4 mat;
-    private Matrix4x4 matInternal;
-
+    private M1BaseDecode m1BaseDecode;
     private bool needToPlay;
 
     protected Mach1.Mach1Encode m1Encode = new Mach1.Mach1Encode();
@@ -76,6 +74,8 @@ public class M1BaseEncode : MonoBehaviour
         // TODO 
         m1Encode.setInputMode(Mach1.Mach1EncodeInputModeType.Mach1EncodeInputModeMono);
         m1Encode.setOutputMode(Mach1.Mach1EncodeOutputModeType.Mach1EncodeOutputMode8Ch);
+
+     
     }
 
     protected void InitComponents(int MAX_SOUNDS_PER_CHANNEL)
@@ -103,6 +103,8 @@ public class M1BaseEncode : MonoBehaviour
         {
             LoadAudioData();
         }
+
+        attachM1BaseDecode();
     }
 
     public void LoadAudioData()
@@ -137,10 +139,17 @@ public class M1BaseEncode : MonoBehaviour
         isPlaying = false;
     }
 
-     // Draw gizmo in editor (you may display this also in game windows if set "Gizmo" button)
+    public void attachM1BaseDecode()
+    {
+        m1BaseDecode = GameObject.FindObjectOfType<M1BaseDecode>();
+    }
+
+    // Draw gizmo in editor (you may display this also in game windows if set "Gizmo" button)
     void OnDrawGizmos()
     {
-        
+        Gizmos.color = Color.gray;
+        Gizmos.matrix = gameObject.transform.localToWorldMatrix;
+        Gizmos.DrawWireSphere(new Vector3(0, 0, 0), 0.5f);
     }
 
     string GetStreamingAssetsPath()
@@ -202,18 +211,25 @@ public class M1BaseEncode : MonoBehaviour
     }
 
     public bool IsReady()
-    {
-        bool isLoaded = true;
-        for (int i = 0; i < audioClips.Length; i++)
+    { 
+        if(isPlaying == false)
         {
-            if (audioClips[i].loadState != AudioDataLoadState.Loaded)
+            bool isLoaded = true;
+            for (int i = 0; i < audioClips.Length; i++)
             {
-                isLoaded = false;
-                break;
+                if (audioClips[i].loadState != AudioDataLoadState.Loaded)
+                {
+                    isLoaded = false;
+                    break;
+                } 
             }
-        }
 
-        return isLoaded;
+            return isLoaded;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     public void PlayAudio()
@@ -223,8 +239,9 @@ public class M1BaseEncode : MonoBehaviour
 
     public void StopAudio()
     {
-        if (IsReady())
+        if (isPlaying)
         {
+
         }
     }
 
@@ -302,6 +319,13 @@ public class M1BaseEncode : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (m1BaseDecode == null)
+        {
+            Debug.LogError("Mach1: cannot find AudioListener!");
+            attachM1BaseDecode();
+            return;
+        }
+
         if (IsReady())
         {
             if ((autoPlay || needToPlay) && !isPlaying)
@@ -310,21 +334,27 @@ public class M1BaseEncode : MonoBehaviour
                 isPlaying = true;
             }
 
+            Vector3 vec = gameObject.transform.position - m1BaseDecode.transform.position;
+
+            float angle = -Mathf.Atan2(vec.x, -vec.z) / Mathf.PI;
+            angle = 0.5f + angle / 2;
+
             m1Encode.setIsotropicEncode(true);
-            m1Encode.setRotation(0);
-            m1Encode.setPitch(0);
-            m1Encode.setDiverge(0);
+            m1Encode.setRotation(angle);
+            m1Encode.setPitch( Mathf.Clamp(vec.y / 10,-1,1));
+            m1Encode.setDiverge(Mathf.Clamp(vec.x / 10, -1, 1));
             m1Encode.generatePointResults();
 
             gains = m1Encode.getGains();
 
-            /*
-            for (int i = 0; i < 16; i++)
+            string fmt = "";
+            for(int i=0; i < gains[0].Length; i++ )
             {
-                dspPlayer.volumes[i] = gains[i];
+                fmt += " , " + gains[0][i];
             }
-            */
+            Debug.Log("gains: " + fmt);
 
+            //Debug.Log("vec.x / 10: " + vec.x / 10 +  " , " +  vec.y / 10);
         }
     }
 }

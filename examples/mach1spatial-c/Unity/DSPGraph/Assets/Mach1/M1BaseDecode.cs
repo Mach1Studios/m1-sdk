@@ -7,6 +7,8 @@ using UnityEngine.Audio;
 using System.Collections;
 using System.IO;
 using UnityEditor;
+using System.Text;
+using System;
 
 [CustomEditor(typeof(M1BaseDecode), true)]
 [CanEditMultipleObjects]
@@ -46,6 +48,9 @@ public class M1BaseDecode : MonoBehaviour
 
     public string externalAudioPath = "file:///";
     public string[] externalAudioFilenameMain;
+
+    public string outputFilename = "output.wav";
+    public bool useWriter = false;
 
     [Header("Load/Play Settings")]
     public bool autoPlay = false;
@@ -132,17 +137,6 @@ public class M1BaseDecode : MonoBehaviour
         coeffsInterior = new float[18];
 
         m1Positional.setPlatformType(Mach1.Mach1PlatformType.Mach1PlatformUnity);
-
-        if (sourceType == M1BaseDecodeSourceType.M1BaseDecodeSourceEncodeObject)
-        {
-            dspPlayerEncode = new M1DSPPlayer();
-            dspPlayerEncode.useEncode = true;
-        }
-        else
-        {
-            dspPlayerMain = new M1DSPPlayer();
-            dspPlayerBlend = new M1DSPPlayer();
-        }
     }
 
     protected void InitComponents(int MAX_SOUNDS_PER_CHANNEL)
@@ -175,14 +169,20 @@ public class M1BaseDecode : MonoBehaviour
     {
         if (sourceType == M1BaseDecodeSourceType.M1BaseDecodeSourceEncodeObject)
         {
+            dspPlayerEncode = new M1DSPPlayer();
+            dspPlayerEncode.useEncode = true;
+            dspPlayerEncode.useWriter = useWriter;
             dspPlayerEncode.Start();
         }
         else
         {
+            dspPlayerMain = new M1DSPPlayer();
+            dspPlayerMain.useWriter = useWriter;
             dspPlayerMain.Start();
+
+            dspPlayerBlend = new M1DSPPlayer();
             dspPlayerBlend.Start();
         }
-
 
         if (loadAudioOnStart)
         {
@@ -190,6 +190,59 @@ public class M1BaseDecode : MonoBehaviour
         }
 
         attachAudioListener();
+    }
+
+    public void OnDestroy()
+    {
+        if (useWriter && M1DSPWriterNode.writerData.Count > 0)
+        {
+            int length = (M1DSPWriterNode.writerData.Count * M1DSPWriterNode.writerData[0].Length);
+
+
+            BinaryWriter writer = new BinaryWriter(File.Create(outputFilename));
+
+            int fileSize = 44 + (length/8) * 2;
+
+            // header:
+
+            writer.Write(Encoding.ASCII.GetBytes("RIFF"));  // "RIFF"
+            writer.Write((Int32)length);                  // size of entire file with 16-bit data
+            writer.Write(Encoding.ASCII.GetBytes("WAVE"));  // "WAVE"
+
+            // chunk 1:
+            int sampleRate = 48000;
+            writer.Write(Encoding.ASCII.GetBytes("fmt "));  // "fmt "
+            writer.Write((Int32)16);                        // size of chunk in bytes
+            writer.Write((Int16)1);                         // 1 - for PCM
+            writer.Write((Int16)8);                         // channels
+            writer.Write((Int32)sampleRate);          // sample rate per second (usually 44100)
+            writer.Write((Int32)(2 * 8 * sampleRate));    // bytes per second (usually 176400)
+            writer.Write((Int16)(2 * 8));                         // data align 4 bytes (2 bytes sample stereo)
+            writer.Write((Int16)16);                        // only 16-bit in this version
+
+            // chunk 2:
+
+            writer.Write(Encoding.ASCII.GetBytes("data"));  // "data"
+            writer.Write((Int32)(length));   // size of audio data 16-bit
+
+            // audio data:
+
+            for (int i = 0; i < M1DSPWriterNode.writerData.Count; i++)
+            {
+                for (int j = 0; j < M1DSPWriterNode.writerData[i].Length; j++)
+                {
+                    writer.Write((byte)((int)(256 * M1DSPWriterNode.writerData[i][j]) >> 8));
+                    writer.Write((byte)((int)(256 * M1DSPWriterNode.writerData[i][j]) & 0xFF));
+                }
+            }
+
+           
+
+            writer.Flush();
+            writer.Close();
+
+            Debug.Log("finish: " + M1DSPWriterNode.writerData.Count);
+        }
     }
 
     public void LoadAudioData()

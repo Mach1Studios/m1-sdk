@@ -25,10 +25,11 @@ public class M1BaseEncode : MonoBehaviour
     private bool isPlaying = false;
 
     [Header("Encode Settings")]
-    // TODO
+    public float pitchDistanceMax = 10;
+    public float divergeDistanceMax = 100;
 
     private int MAX_SOUNDS;
-    private M1BaseDecode m1BaseDecode;
+    private AudioListener audiolistener;
     private bool needToPlay;
 
     protected Mach1.Mach1Encode m1Encode = new Mach1.Mach1Encode();
@@ -104,7 +105,7 @@ public class M1BaseEncode : MonoBehaviour
             LoadAudioData();
         }
 
-        attachM1BaseDecode();
+        attachAudioListener();
     }
 
     public void LoadAudioData()
@@ -139,10 +140,11 @@ public class M1BaseEncode : MonoBehaviour
         isPlaying = false;
     }
 
-    public void attachM1BaseDecode()
+    public void attachAudioListener()
     {
-        m1BaseDecode = GameObject.FindObjectOfType<M1BaseDecode>();
-    }
+        audiolistener = GameObject.FindObjectOfType<AudioListener>();
+    } 
+    
 
     // Draw gizmo in editor (you may display this also in game windows if set "Gizmo" button)
     void OnDrawGizmos()
@@ -319,10 +321,10 @@ public class M1BaseEncode : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (m1BaseDecode == null)
+        if (audiolistener == null)
         {
             Debug.LogError("Mach1: cannot find AudioListener!");
-            attachM1BaseDecode();
+            attachAudioListener();
             return;
         }
 
@@ -334,15 +336,15 @@ public class M1BaseEncode : MonoBehaviour
                 isPlaying = true;
             }
 
-            Vector3 vec = gameObject.transform.position - m1BaseDecode.transform.position;
+            Vector3 vec = gameObject.transform.position - audiolistener.transform.position;
 
             float angle = -Mathf.Atan2(vec.x, -vec.z) / Mathf.PI;
             angle = 0.5f + angle / 2;
 
             m1Encode.setIsotropicEncode(true);
             m1Encode.setRotation(angle);
-            m1Encode.setPitch( Mathf.Clamp(vec.y / 10,-1,1));
-            m1Encode.setDiverge(Mathf.Clamp(vec.x / 10, -1, 1));
+            m1Encode.setPitch(Mathf.Clamp(vec.y / pitchDistanceMax, -1, 1));
+            m1Encode.setDiverge(Mathf.Clamp(vec.x / divergeDistanceMax, -1, 1));
             m1Encode.generatePointResults();
 
             gains = m1Encode.getGains();

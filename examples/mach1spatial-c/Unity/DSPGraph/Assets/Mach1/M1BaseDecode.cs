@@ -196,50 +196,42 @@ public class M1BaseDecode : MonoBehaviour
     {
         if (useWriter && M1DSPWriterNode.writerData.Count > 0)
         {
-            int length = (M1DSPWriterNode.writerData.Count * M1DSPWriterNode.writerData[0].Length);
+            int numsamples = M1DSPWriterNode.writerData.Count * M1DSPWriterNode.writerData[0].Length / 8;
+            ushort numchannels = 8;
+            ushort samplelength = 2; // in bytes
+            uint samplerate = 48000;
 
+            FileStream fs = new FileStream(outputFilename, FileMode.Create);
+            BinaryWriter wr = new BinaryWriter(fs);
+            // 8 bytes
+            wr.Write(Encoding.ASCII.GetBytes("RIFF"));  // RIFF
+            wr.Write((int)(36 + numsamples * numchannels * samplelength)); // Filesize - 8 (Int32 + RIFF)
 
-            BinaryWriter writer = new BinaryWriter(File.Create(outputFilename));
+            // 28 bytes
+            wr.Write(Encoding.ASCII.GetBytes("WAVEfmt "));  // WAVEfmt (8)
+            wr.Write(16);   // size of waveformat data (4) int
+            wr.Write((ushort)1);    // wFormatTag (2) ushort
+            wr.Write(numchannels);  // nChannels (2) ushort
+            wr.Write(samplerate);   // sample rate (4) uint
+            wr.Write(samplerate * samplelength * numchannels);  // nAvgBytesPerSec (4) uint
+            wr.Write((ushort)(samplelength * numchannels));   // nBlockAlign (2) ushort
+            wr.Write((ushort)(8 * samplelength));   // wBitsPerSample (2) ushort
 
-            int fileSize = 44 + (length/8) * 2;
-
-            // header:
-
-            writer.Write(Encoding.ASCII.GetBytes("RIFF"));  // "RIFF"
-            writer.Write((Int32)length);                  // size of entire file with 16-bit data
-            writer.Write(Encoding.ASCII.GetBytes("WAVE"));  // "WAVE"
-
-            // chunk 1:
-            int sampleRate = 48000;
-            writer.Write(Encoding.ASCII.GetBytes("fmt "));  // "fmt "
-            writer.Write((Int32)16);                        // size of chunk in bytes
-            writer.Write((Int16)1);                         // 1 - for PCM
-            writer.Write((Int16)8);                         // channels
-            writer.Write((Int32)sampleRate);          // sample rate per second (usually 44100)
-            writer.Write((Int32)(2 * 8 * sampleRate));    // bytes per second (usually 176400)
-            writer.Write((Int16)(2 * 8));                         // data align 4 bytes (2 bytes sample stereo)
-            writer.Write((Int16)16);                        // only 16-bit in this version
-
-            // chunk 2:
-
-            writer.Write(Encoding.ASCII.GetBytes("data"));  // "data"
-            writer.Write((Int32)(length));   // size of audio data 16-bit
-
-            // audio data:
+            // 8
+            wr.Write(Encoding.ASCII.GetBytes("data"));  // data (4)
+            wr.Write((int)(numsamples * samplelength));    // length of data in bytes (4) int
 
             for (int i = 0; i < M1DSPWriterNode.writerData.Count; i++)
             {
                 for (int j = 0; j < M1DSPWriterNode.writerData[i].Length; j++)
                 {
-                    writer.Write((byte)((int)(256 * M1DSPWriterNode.writerData[i][j]) >> 8));
-                    writer.Write((byte)((int)(256 * M1DSPWriterNode.writerData[i][j]) & 0xFF));
+                    wr.Write((short)(short.MaxValue * M1DSPWriterNode.writerData[i][j]));
                 }
             }
 
-           
-
-            writer.Flush();
-            writer.Close();
+            wr.Flush();
+            wr.Close();
+            fs.Close();
 
             Debug.Log("finish: " + M1DSPWriterNode.writerData.Count);
         }

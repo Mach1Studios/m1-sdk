@@ -48,8 +48,23 @@ public:
 
 class M1EncodeCore {
 public:
-	enum InputMode { INPUT_MONO = 0, INPUT_STEREO, INPUT_QUAD, INPUT_AFORMAT, INPUT_BFORMAT };
-	enum OutputMode { OUTPUT_4CH = 0, OUTPUT_8CH };
+	enum InputMode { 
+		INPUT_MONO, 
+		INPUT_STEREO, 
+		INPUT_QUAD, 
+		INPUT_LCRS, 
+		INPUT_AFORMAT, 
+		#if __cplusplus > 201103L
+		[[deprecated("INPUT_BFORMAT is not specific enough, please use either: INPUT_FOAACN or INPUT_FOAFUMA")]]
+		#endif
+		INPUT_BFORMAT, 
+		INPUT_FOAACN, 
+		INPUT_FOAFUMA 
+	};
+	enum OutputMode { 
+		OUTPUT_4CH = 0, 
+		OUTPUT_8CH 
+	};
 
 private:
 	InputMode inputMode;

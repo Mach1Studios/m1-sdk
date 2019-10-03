@@ -364,7 +364,97 @@ void M1EncodeCore::generatePointResults() {
             }
             break;
             
-        case INPUT_BFORMAT:
+        case INPUT_FOAACN:
+            switch (outputMode) {
+                case OUTPUT_4CH:
+                    // BFormat input >> Quad output
+                    
+                    resultingPoints.pointsCount = 7;
+                    resultingPoints.pointsNames[0] = "W"; //hide from UI unless there is 3D view
+                    resultingPoints.pointsNames[1] = "1";
+                    resultingPoints.pointsNames[2] = "2";
+                    resultingPoints.pointsNames[3] = "3"; //hide from UI unless there is 3D view
+                    resultingPoints.pointsNames[4] = "-1"; //hide from UI
+                    resultingPoints.pointsNames[5] = "-2"; //hide from UI
+                    resultingPoints.pointsNames[6] = "-3"; //hide from UI
+                    
+                    // W
+                    resultingPoints.ppoints[0].x = 0; // X
+                    resultingPoints.ppoints[0].y = 0; // Y
+                    resultingPoints.ppoints[0].z = 0; // Z
+                    // Left/Right / L
+                    resultingPoints.ppoints[1].x = cos((rotation + 0.250) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[1].y = 0; // Y
+                    resultingPoints.ppoints[1].z = sin((rotation + 0.250) * PI * 2) * diverge; // Z
+                    // Top/Bottom / T
+                    resultingPoints.ppoints[2].x = 0; // X
+                    resultingPoints.ppoints[2].y = 0; // Y
+                    resultingPoints.ppoints[2].z = 0; // Z
+                    // Front/Back / F
+                    resultingPoints.ppoints[3].x = cos((rotation + 0.0) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[3].y = 0; // Y
+                    resultingPoints.ppoints[3].z = sin((rotation + 0.0) * PI * 2) * diverge; // Z
+                    // -Left/Right / R
+                    resultingPoints.ppoints[4].x = cos((rotation + 0.75) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[4].y = 0; // Y
+                    resultingPoints.ppoints[4].z = sin((rotation + 0.75) * PI * 2) * diverge; // Z
+                    // -Top/Bottom / B
+                    resultingPoints.ppoints[5].x = 0; // X
+                    resultingPoints.ppoints[5].y = 0; // Y
+                    resultingPoints.ppoints[5].z = 0; // Z
+                    // -Front/Back / B
+                    resultingPoints.ppoints[6].x = cos((rotation + 0.5) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[6].y = 0; // Y
+                    resultingPoints.ppoints[6].z = sin((rotation + 0.5) * PI * 2) * diverge; // Z
+                    
+                    break;
+                case OUTPUT_8CH:
+                    // BFormat input >> 7.1 output
+                    
+                    resultingPoints.pointsCount = 7;
+                    resultingPoints.pointsNames[0] = "W"; //hide from UI unless there is 3D view
+                    resultingPoints.pointsNames[1] = "1";
+                    resultingPoints.pointsNames[2] = "2";
+                    resultingPoints.pointsNames[3] = "3"; //hide from UI unless there is 3D view
+                    resultingPoints.pointsNames[4] = "-1"; //hide from UI
+                    resultingPoints.pointsNames[5] = "-2"; //hide from UI
+                    resultingPoints.pointsNames[6] = "-3"; //hide from UI
+                    
+                    // W
+                    resultingPoints.ppoints[0].x = 0; // X
+                    resultingPoints.ppoints[0].y = 0; // Y
+                    resultingPoints.ppoints[0].z = 0; // Z
+                    // Left/Right / L
+                    resultingPoints.ppoints[1].x = cos((rotation + 0.250) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[1].y = 0; // Y
+                    resultingPoints.ppoints[1].z = sin((rotation + 0.250) * PI * 2) * diverge; // Z
+                    // Top/Bottom / T
+                    resultingPoints.ppoints[2].x = 0; // X
+                    resultingPoints.ppoints[2].y = 1.0 * diverge; // Y
+                    resultingPoints.ppoints[2].z = 0; // Z
+                    // Front/Back / F
+                    resultingPoints.ppoints[3].x = cos((rotation + 0.0) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[3].y = 0; // Y
+                    resultingPoints.ppoints[3].z = sin((rotation + 0.0) * PI * 2) * diverge; // Z
+                    // -Left/Right / R
+                    resultingPoints.ppoints[4].x = cos((rotation + 0.75) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[4].y = 0; // Y
+                    resultingPoints.ppoints[4].z = sin((rotation + 0.75) * PI * 2) * diverge; // Z
+                    // -Top/Bottom / B
+                    resultingPoints.ppoints[5].x = 0; // X
+                    resultingPoints.ppoints[5].y = -1.0 * diverge; // Y
+                    resultingPoints.ppoints[5].z = 0; // Z
+                    // -Front/Back / B
+                    resultingPoints.ppoints[6].x = cos((rotation + 0.5) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[6].y = 0; // Y
+                    resultingPoints.ppoints[6].z = sin((rotation + 0.5) * PI * 2) * diverge; // Z
+                    break;
+                default:
+                    break;
+            }
+            break;
+            
+        case INPUT_FOAFUMA:
             switch (outputMode) {
                 case OUTPUT_4CH:
                     // BFormat input >> Quad output
@@ -382,27 +472,27 @@ void M1EncodeCore::generatePointResults() {
                     resultingPoints.ppoints[0].x = 0; // X x
                     resultingPoints.ppoints[0].y = 0; // Y z
                     resultingPoints.ppoints[0].z = 0; // Z y
-                    // X
-                    resultingPoints.ppoints[1].x = cos((rotation + 0.250f) * PI * 2) * diverge; // X
+                    // Front/Back / F
+                    resultingPoints.ppoints[1].x = cos((rotation + 0.0) * PI * 2) * diverge; // X
                     resultingPoints.ppoints[1].y = 0; // Y
-                    resultingPoints.ppoints[1].z = sin((rotation + 0.250f) * PI * 2) * diverge; // Z
-                    // Y
-                    resultingPoints.ppoints[2].x = cos((rotation + 0.0f) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[1].z = sin((rotation + 0.0) * PI * 2) * diverge; // Z
+                    // Left/Right / L
+                    resultingPoints.ppoints[2].x = cos((rotation + 0.250) * PI * 2) * diverge; // X
                     resultingPoints.ppoints[2].y = 0; // Y
-                    resultingPoints.ppoints[2].z = sin((rotation + 0.0f) * PI * 2) * diverge; // Z
-                    // Z
+                    resultingPoints.ppoints[2].z = sin((rotation + 0.250) * PI * 2) * diverge; // Z
+                    // Top/Bottom / T
                     resultingPoints.ppoints[3].x = 0; // X
                     resultingPoints.ppoints[3].y = 0; // Y
                     resultingPoints.ppoints[3].z = 0; // Z
-                    // -X
-                    resultingPoints.ppoints[4].x = cos((rotation + 0.75f) * PI * 2) * diverge; // X
+                    // -Front/Back / B
+                    resultingPoints.ppoints[4].x = cos((rotation + 0.5) * PI * 2) * diverge; // X
                     resultingPoints.ppoints[4].y = 0; // Y
-                    resultingPoints.ppoints[4].z = sin((rotation + 0.75f) * PI * 2) * diverge; // Z
-                    // -Y
-                    resultingPoints.ppoints[5].x = cos((rotation + 0.5f) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[4].z = sin((rotation + 0.5) * PI * 2) * diverge; // Z
+                    // -Left/Right / R
+                    resultingPoints.ppoints[5].x = cos((rotation + 0.75) * PI * 2) * diverge; // X
                     resultingPoints.ppoints[5].y = 0; // Y
-                    resultingPoints.ppoints[5].z = sin((rotation + 0.5f) * PI * 2) * diverge; // Z
-                    // -Z
+                    resultingPoints.ppoints[5].z = sin((rotation + 0.75) * PI * 2) * diverge; // Z
+                    // -Top/Bottom / B
                     resultingPoints.ppoints[6].x = 0; // X
                     resultingPoints.ppoints[6].y = 0; // Y
                     resultingPoints.ppoints[6].z = 0; // Z
@@ -413,41 +503,101 @@ void M1EncodeCore::generatePointResults() {
                     
                     resultingPoints.pointsCount = 7;
                     resultingPoints.pointsNames[0] = "W"; //hide from UI unless there is 3D view
-                    resultingPoints.pointsNames[1] = "X";
-                    resultingPoints.pointsNames[2] = "Y";
-                    resultingPoints.pointsNames[3] = "Z"; //hide from UI unless there is 3D view
-                    resultingPoints.pointsNames[4] = "-X"; //hide from UI
-                    resultingPoints.pointsNames[5] = "-Y"; //hide from UI
-                    resultingPoints.pointsNames[6] = "-Z"; //hide from UI
+                    resultingPoints.pointsNames[1] = "Y";
+                    resultingPoints.pointsNames[2] = "Z";
+                    resultingPoints.pointsNames[3] = "X"; //hide from UI unless there is 3D view
+                    resultingPoints.pointsNames[4] = "-Y"; //hide from UI
+                    resultingPoints.pointsNames[5] = "-Z"; //hide from UI
+                    resultingPoints.pointsNames[6] = "-X"; //hide from UI
                     
                     // W
                     resultingPoints.ppoints[0].x = 0; // X x
                     resultingPoints.ppoints[0].y = 0; // Y z
                     resultingPoints.ppoints[0].z = 0; // Z y
-                    // X
-                    resultingPoints.ppoints[1].x = cos((rotation + 0.25f) * PI * 2) * diverge; // X
+                    // Front/Back / F
+                    resultingPoints.ppoints[1].x = cos((rotation + 0.0) * PI * 2) * diverge; // X
                     resultingPoints.ppoints[1].y = 0; // Y
-                    resultingPoints.ppoints[1].z = sin((rotation + 0.25f) * PI * 2) * diverge; // Z
-                    // Y
-                    resultingPoints.ppoints[2].x = cos((rotation + 0.0f) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[1].z = sin((rotation + 0.0) * PI * 2) * diverge; // Z
+                    // Left/Right / L
+                    resultingPoints.ppoints[2].x = cos((rotation + 0.25) * PI * 2) * diverge; // X
                     resultingPoints.ppoints[2].y = 0; // Y
-                    resultingPoints.ppoints[2].z = sin((rotation + 0.0f) * PI * 2) * diverge; // Z
-                    // Z
+                    resultingPoints.ppoints[2].z = sin((rotation + 0.25) * PI * 2) * diverge; // Z
+                    // Top/Bottom / T
                     resultingPoints.ppoints[3].x = 0; // X
-                    resultingPoints.ppoints[3].y = 1 * diverge; // Y
+                    resultingPoints.ppoints[3].y = 1.0 * diverge; // Y
                     resultingPoints.ppoints[3].z = 0; // Z
-                    // -X
-                    resultingPoints.ppoints[4].x = cos((rotation + 0.75f) * PI * 2) * diverge; // X
+                    // -Front/Back / B
+                    resultingPoints.ppoints[4].x = cos((rotation + 0.5) * PI * 2) * diverge; // X
                     resultingPoints.ppoints[4].y = 0; // Y
-                    resultingPoints.ppoints[4].z = sin((rotation + 0.75f) * PI * 2) * diverge; // Z
-                    // -Y
-                    resultingPoints.ppoints[5].x = cos((rotation + 0.5f) * PI * 2) * diverge; // X
+                    resultingPoints.ppoints[4].z = sin((rotation + 0.5) * PI * 2) * diverge; // Z
+                    // -Left/Right / R
+                    resultingPoints.ppoints[5].x = cos((rotation + 0.75) * PI * 2) * diverge; // X
                     resultingPoints.ppoints[5].y = 0; // Y
-                    resultingPoints.ppoints[5].z = sin((rotation + 0.5f) * PI * 2) * diverge; // Z
-                    // -Z
+                    resultingPoints.ppoints[5].z = sin((rotation + 0.75) * PI * 2) * diverge; // Z
+                    // -Top/Bottom / B
                     resultingPoints.ppoints[6].x = 0; // X
-                    resultingPoints.ppoints[6].y = -1 * diverge; // Y
+                    resultingPoints.ppoints[6].y = -1.0 * diverge; // Y
                     resultingPoints.ppoints[6].z = 0; // Z
+                    break;
+                default:
+                    break;
+        }
+        break;
+
+        case INPUT_LCRS:
+            switch (outputMode) {
+                case OUTPUT_4CH:
+                    // Quad input >> 4ch output
+                    
+                    resultingPoints.pointsCount = 4;
+                    resultingPoints.pointsNames[0] = "L";
+                    resultingPoints.pointsNames[1] = "C";
+                    resultingPoints.pointsNames[2] = "R";
+                    resultingPoints.pointsNames[3] = "S";
+                    
+                    // L
+                    resultingPoints.ppoints[0].x = cos((rotation - 0.125) * PI * 2) * normalisedOutputDiverge; // X
+                    resultingPoints.ppoints[0].y = 0; // Y
+                    resultingPoints.ppoints[0].z = sin((rotation - 0.125) * PI * 2) * normalisedOutputDiverge; // Z
+                    // C
+                    resultingPoints.ppoints[1].x = cos((rotation) * PI * 2) * normalisedOutputDiverge; // X
+                    resultingPoints.ppoints[1].y = 0; // Y
+                    resultingPoints.ppoints[1].z = sin((rotation) * PI * 2) * normalisedOutputDiverge; // Z
+                    // R
+                    resultingPoints.ppoints[2].x = cos((rotation + 0.125) * PI * 2) * normalisedOutputDiverge; // X
+                    resultingPoints.ppoints[2].y = 0; // Y
+                    resultingPoints.ppoints[2].z = sin((rotation + 0.125) * PI * 2) * normalisedOutputDiverge; // Z
+                    // S
+                    resultingPoints.ppoints[3].x = cos((rotation + 0.125 + 0.25 + 0.125) * PI * 2) * normalisedOutputDiverge; // X
+                    resultingPoints.ppoints[3].y = 0; // Y
+                    resultingPoints.ppoints[3].z = sin((rotation + 0.125 + 0.25 + 0.125) * PI * 2) * normalisedOutputDiverge; // Z
+                    
+                    break;
+                case OUTPUT_8CH:
+                    // Quad input >> 8ch output
+                    
+                    resultingPoints.pointsCount = 4;
+                    resultingPoints.pointsNames[0] = "L";
+                    resultingPoints.pointsNames[1] = "C";
+                    resultingPoints.pointsNames[2] = "R";
+                    resultingPoints.pointsNames[3] = "S";
+                    
+                    // L
+                    resultingPoints.ppoints[0].x = cos((rotation + 0.125 - 0.25) * PI * 2) * normalisedOutputDiverge; // X
+                    resultingPoints.ppoints[0].y = pitch; // Y
+                    resultingPoints.ppoints[0].z = sin((rotation + 0.125 - 0.25) * PI * 2) * normalisedOutputDiverge; // Z
+                    // C
+                    resultingPoints.ppoints[1].x = cos((rotation) * PI * 2) * normalisedOutputDiverge; // X
+                    resultingPoints.ppoints[1].y = pitch; // Y
+                    resultingPoints.ppoints[1].z = sin((rotation) * PI * 2) * normalisedOutputDiverge; // Z
+                    // R
+                    resultingPoints.ppoints[2].x = cos((rotation + 0.125) * PI * 2) * normalisedOutputDiverge; // X
+                    resultingPoints.ppoints[2].y = pitch; // Y
+                    resultingPoints.ppoints[2].z = sin((rotation + 0.125) * PI * 2) * normalisedOutputDiverge; // Z
+                    // Ls
+                    resultingPoints.ppoints[3].x = cos((rotation + 0.125 + 0.25 +  0.125) * PI * 2) * normalisedOutputDiverge; // X
+                    resultingPoints.ppoints[3].y = pitch; // Y
+                    resultingPoints.ppoints[3].z = sin((rotation + 0.125 + 0.25 +  0.125) * PI * 2) * normalisedOutputDiverge; // Z
                     break;
                 default:
                     break;

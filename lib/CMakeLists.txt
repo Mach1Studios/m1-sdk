@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.8)
 project(Mach1SpatialLibraries)
 set(Mach1SpatialLibraries_VERSION_MAJOR 1)
 set(Mach1SpatialLibraries_VERSION_MINOR 0)
-set(Mach1SpatialLibraries_VERSION_PATCH 5)
+set(Mach1SpatialLibraries_VERSION_PATCH 6)
 set(Mach1SpatialLibraries_VERSION_TWEAK 0)
 
 set(Mach1DecodeCAPIsrc "./Mach1DecodeCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")

@@ -56,8 +56,14 @@ public:
 	void setDecoderAlgoScale(Mach1Point3D point);
 
 	void evaluatePositionResults();
+
+#ifndef  __EMSCRIPTEN__ 
 	void getCoefficients(float* result);
 	void getCoefficientsInterior(float* result);
+#endif
+	void getCoefficients(std::vector<float>& result);
+	void getCoefficientsInterior(std::vector<float>& result);
+
 	float getDist();
 	Mach1Point3D getCurrentAngle();
 	Mach1Point3D getCoefficientsRotation();
@@ -78,10 +84,18 @@ public:
 	void setCameraRotation(Mach1Point3D point);
 	[[deprecated("setCameraRotationQuat is deprecated, please use setListenerRotationQuat instead")]]
 	void setCameraRotationQuat(Mach1Point4D quat);
+
+#ifndef  __EMSCRIPTEN__ 
 	[[deprecated("getVolumesWalls is deprecated, please use getCoefficients instead")]]
 	void getVolumesWalls(float* result);
 	[[deprecated("getVolumesRoom is deprecated, please use getCoefficientsInterior instead")]]
 	void getVolumesRoom(float* result);
+#endif
+	[[deprecated("getVolumesWalls is deprecated, please use getCoefficients instead")]]
+	void getVolumesWalls(std::vector<float>& result);
+	[[deprecated("getVolumesRoom is deprecated, please use getCoefficientsInterior instead")]]
+	void getVolumesRoom(std::vector<float>& result);
+
 	[[deprecated("getVolumeRotation is depracted, please use getCoefficientsRotation instead")]]
 	Mach1Point3D getVolumeRotation();
 /* DEPRECATED END */

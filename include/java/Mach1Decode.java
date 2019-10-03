@@ -72,6 +72,7 @@ public class Mach1Decode {
   {
     M1API.Mach1DecodeCAPI_setDecodeAlgoType(M1obj, algorithmType.ordinal());
   }
+  
   public void setPlatformType(Pointer M1obj, Mach1PlatformType platformType)
   {
     M1API.Mach1DecodeCAPI_setPlatformType(M1obj, platformType.ordinal());

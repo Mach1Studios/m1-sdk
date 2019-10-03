@@ -13,14 +13,16 @@ fi
 echo "### Change Dir ###"
 cd $M1SDK_PATH
 
-echo "Built ios-12-1-dep-9-3?"
+echo "Did you build on older xcode-8.3.1 or pull fat-lib first?"
+echo "Yes: will pull from binaries dir and continue"
+echo "No: will do nothing"
 select yn in "Yes" "No"; do
     case $yn in
         Yes ) 
-			yes | cp -rf "_install/ios-12-1-dep-9-3/lib/libMach1DecodeCAPI.a" "_install/ios/lib/libMach1DecodeCAPI.a"
-			yes | cp -rf "_install/ios-12-1-dep-9-3/lib/libMach1EncodeCAPI.a" "_install/ios/lib/libMach1EncodeCAPI.a"
-			yes | cp -rf "_install/ios-12-1-dep-9-3/lib/libMach1DecodePositionalCAPI.a" "_install/ios/lib/libMach1DecodePositionalCAPI.a"
-			rm -rf "_install/ios-12-1-dep-9-3"; break;;
+            mkdir -p "_install/ios/lib/"
+			yes | cp -rf "../binaries/ios/lib/libMach1DecodeCAPI.a" "_install/ios/lib/libMach1DecodeCAPI.a"
+			yes | cp -rf "../binaries/ios/lib/libMach1EncodeCAPI.a" "_install/ios/lib/libMach1EncodeCAPI.a"
+			yes | cp -rf "../binaries/ios/lib/libMach1DecodePositionalCAPI.a" "_install/ios/lib/libMach1DecodePositionalCAPI.a"; break;;
         No ) break;;
     esac
 done

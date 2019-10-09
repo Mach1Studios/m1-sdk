@@ -31,11 +31,22 @@
 #define Mach1EncodeCAPI_h
 
 enum Mach1EncodeInputModeType {
-	Mach1EncodeInputModeMono = 0, Mach1EncodeInputModeStereo, Mach1EncodeInputModeQuad, Mach1EncodeInputModeAFormat, Mach1EncodeInputModeBFormat
+	Mach1EncodeInputModeMono = 0, 
+	Mach1EncodeInputModeStereo, 
+	Mach1EncodeInputModeQuad, 
+	Mach1EncodeInputModeLCRS, 
+	Mach1EncodeInputModeAFormat, 
+	#if __cplusplus > 201103L
+	[[deprecated("Mach1EncodeInputModeBFormat is not specific enough, please use either: Mach1EncodeInputModeBFOAACN or Mach1EncodeInputModeBFOAFUMA", true)]]
+	#endif
+	Mach1EncodeInputModeBFormat, 
+	Mach1EncodeInputModeBFOAACN, 
+	Mach1EncodeInputModeBFOAFUMA
 };
 
 enum Mach1EncodeOutputModeType {
-	Mach1EncodeOutputMode4Ch = 0, Mach1EncodeOutputMode8Ch
+	Mach1EncodeOutputMode4Ch = 0, 
+	Mach1EncodeOutputMode8Ch
 };
 
 #ifdef __cplusplus

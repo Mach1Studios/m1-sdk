@@ -31,11 +31,22 @@
 #define Mach1EncodeCAPI_h
 
 enum Mach1EncodeInputModeType {
-	Mach1EncodeInputModeMono = 0, Mach1EncodeInputModeStereo = 1, Mach1EncodeInputModeQuad = 2, Mach1EncodeInputModeAFormat = 3, Mach1EncodeInputModeBFormat = 4
+	Mach1EncodeInputModeMono = 0, 
+	Mach1EncodeInputModeStereo, 
+	Mach1EncodeInputModeQuad, 
+	Mach1EncodeInputModeLCRS, 
+	Mach1EncodeInputModeAFormat, 
+	#if __cplusplus > 201103L
+	[[deprecated("Mach1EncodeInputModeBFormat is not specific enough, please use either: Mach1EncodeInputModeBFOAACN or Mach1EncodeInputModeBFOAFUMA", true)]]
+	#endif
+	Mach1EncodeInputModeBFormat, 
+	Mach1EncodeInputModeBFOAACN, 
+	Mach1EncodeInputModeBFOAFUMA
 };
 
 enum Mach1EncodeOutputModeType {
-	Mach1EncodeOutputMode4Ch = 0, Mach1EncodeOutputMode8Ch = 1
+	Mach1EncodeOutputMode4Ch = 0, 
+	Mach1EncodeOutputMode8Ch
 };
 
 #ifdef __cplusplus
@@ -52,7 +63,7 @@ extern "C" {
 	M1_API void Mach1EncodeCAPI_generatePointResults(void* M1obj);
 	M1_API int Mach1EncodeCAPI_getPointsCount(void* M1obj);
 
-	M1_API void* Mach1EncodeCAPI_getResultingVolumesDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float* decodeResult);
+	M1_API void* Mach1EncodeCAPI_getResultingVolumesDecoded(void* M1obj, enum Mach1DecodeAlgoType decodeType, float* decodeResult);
 
 	M1_API void Mach1EncodeCAPI_setInputMode(void* M1obj, enum Mach1EncodeInputModeType inputMode);
 	M1_API void Mach1EncodeCAPI_setOutputMode(void* M1obj, enum Mach1EncodeOutputModeType outputMode);

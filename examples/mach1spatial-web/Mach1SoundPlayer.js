@@ -2,19 +2,21 @@
 
 require('promise-decode-audio-data');
 
-let _preloadCache = {};
-let _audioCtx = new AudioContext();
+let _soundPlayer_preloadCache = {};
+let _soundPlayer_audioCtx = new AudioContext();
 
 function Mach1SoundPlayer(audioFiles, soundCount) {
-	const SOUND_COUNT = audioFiles.length * 2;
+	let SOUND_COUNT = 0;
     let thus = this;
 
-    let smp = initArray(SOUND_COUNT);
-    let gainNode = initArray(SOUND_COUNT);
-    let volumes = initArray(SOUND_COUNT);
-    let pannerNode = initArray(SOUND_COUNT);
+    let buffer;
 
-    let buffer = initArray(audioFiles.length);
+    let _isFromBuffer = false;
+ 
+    let smp;
+    let gainNode;
+    let volumes;
+    let pannerNode;
 
     let _isSoundReady = false;
     let countOfReadySound = 0;
@@ -28,6 +30,44 @@ function Mach1SoundPlayer(audioFiles, soundCount) {
 	let needToPlay = false;
 	let playLooped = false;
 	let waitToPlay = 0;
+
+    this.setup = function(audioFiles, soundCount) {
+		_isFromBuffer = false;
+		
+		SOUND_COUNT = audioFiles.length * 2;
+		buffer = initArray(audioFiles.length);
+
+		init();
+
+		for (let i = 0; i < audioFiles.length; ++i) {
+			preload(audioFiles[i], i * 2);
+		}
+
+    };
+
+    this.setup = function(buf) {
+		_isFromBuffer = true;
+
+		SOUND_COUNT = buf.numberOfChannels * 2;
+		buffer = buf;
+
+		init();
+		
+		_isSoundReady = true;
+			
+		if(_isSoundReady && needToPlay) {
+			thus.play(playLooped, waitToPlay);
+			needToPlay = false;
+		}
+			
+    };
+
+    function init() {
+		smp = initArray(SOUND_COUNT);
+		gainNode = initArray(SOUND_COUNT);
+		volumes = initArray(SOUND_COUNT);
+		pannerNode = initArray(SOUND_COUNT);
+    }
 
     function initArray(count) {
         return Array.apply(null, Array(count)).map(Number.prototype.valueOf, 0.0);
@@ -43,16 +83,16 @@ function Mach1SoundPlayer(audioFiles, soundCount) {
         }).then((res) => {
             return res.arrayBuffer();
         }).then((blob) => {
-            if (_preloadCache[path]) {
-                return Promise.resolve(_preloadCache[path]);
+            if (_soundPlayer_preloadCache[path]) {
+                return Promise.resolve(_soundPlayer_preloadCache[path]);
             } else {
-                return _audioCtx.decodeAudioData(blob);
+                return _soundPlayer_audioCtx.decodeAudioData(blob);
             }
         }).then((aBuffer) => {
             buffer[Math.floor(i / 2)] = aBuffer;
 
-            if (!_preloadCache[path]) {
-                _preloadCache[path] = aBuffer;
+            if (!_soundPlayer_preloadCache[path]) {
+                _soundPlayer_preloadCache[path] = aBuffer;
             }
 
             return i;
@@ -75,37 +115,50 @@ function Mach1SoundPlayer(audioFiles, soundCount) {
 
     function createAudio(looped, time) {
         if (thus.isReady() && !_isPlaying) {
-            for (let i = 0, j = 0; j < buffer.length; ++j, i += 2) {
+            for (let i = 0, j = 0; j < SOUND_COUNT / 2; ++j, i += 2) {
                 // left
-                smp[i] = _audioCtx.createBufferSource();
-                smp[i].buffer = buffer[j];
+				
+                smp[i] = _soundPlayer_audioCtx.createBufferSource();
+				if(_isFromBuffer) {
+					smp[i].buffer = _soundPlayer_audioCtx.createBuffer(1, buffer.length / buffer.numberOfChannels, _soundPlayer_audioCtx.sampleRate);
+					smp[i].buffer.copyToChannel(buffer.getChannelData(j), 0, 0);
+				}
+				else {
+					smp[i].buffer = buffer[j];
+				}
 
-                gainNode[i] = _audioCtx.createGain();
+                gainNode[i] = _soundPlayer_audioCtx.createGain();
                 gainNode[i].gain.value = 0;
 
-                pannerNode[i] = _audioCtx.createPanner();
+                pannerNode[i] = _soundPlayer_audioCtx.createPanner();
                 pannerNode[i].setPosition(-1, 0, 0); // left
                 pannerNode[i].panningModel = "equalpower";
 
 
                 smp[i].connect(pannerNode[i]);
                 pannerNode[i].connect(gainNode[i]);
-                gainNode[i].connect(_audioCtx.destination);
+                gainNode[i].connect(_soundPlayer_audioCtx.destination);
 
                 // right
-                smp[i + 1] = _audioCtx.createBufferSource();
-                smp[i + 1].buffer = buffer[j];
+                smp[i + 1] = _soundPlayer_audioCtx.createBufferSource();
+				if(_isFromBuffer) {
+					smp[i + 1].buffer = _soundPlayer_audioCtx.createBuffer(1, buffer.length / buffer.numberOfChannels, _soundPlayer_audioCtx.sampleRate);
+					smp[i + 1].buffer.copyToChannel(buffer.getChannelData(j), 0, 0);
+				}
+				else {
+					smp[i + 1].buffer = buffer[j];
+				}
 
-                gainNode[i + 1] = _audioCtx.createGain();
+                gainNode[i + 1] = _soundPlayer_audioCtx.createGain();
                 gainNode[i + 1].gain.value = 0;
 
-                pannerNode[i + 1] = _audioCtx.createPanner();
+                pannerNode[i + 1] = _soundPlayer_audioCtx.createPanner();
                 pannerNode[i + 1].setPosition(1, 0, 0); // right
                 pannerNode[i + 1].panningModel = "equalpower";
 
                 smp[i + 1].connect(pannerNode[i + 1]);
                 pannerNode[i + 1].connect(gainNode[i + 1]);
-                gainNode[i + 1].connect(_audioCtx.destination);
+                gainNode[i + 1].connect(_soundPlayer_audioCtx.destination);
             }
 
             for (let i = 0; i < SOUND_COUNT; ++i) {
@@ -113,17 +166,17 @@ function Mach1SoundPlayer(audioFiles, soundCount) {
                 smp[i].start(0, time);
             }
 
-            startTime = _audioCtx.currentTime - time;
+            startTime = _soundPlayer_audioCtx.currentTime - time;
             _isPlaying = true;
         }
     }
 
  	this.getBuffer = function() {
-		return buffer;
-    };
- 
-    this.getAudioContext = function() {
-        return _audioCtx;
+		let arr = initArray(SOUND_COUNT / 2);
+		for (let i = 0; i < SOUND_COUNT / 2; ++i) {
+            arr[i] = smp[2 * i].buffer;
+		}		
+		return arr;
     };
 
     this.isReady = function() {
@@ -155,7 +208,7 @@ function Mach1SoundPlayer(audioFiles, soundCount) {
             _isPlaying = false;
 			needToPlay = false;
 
-            stopTime = _audioCtx.currentTime;
+            stopTime = _soundPlayer_audioCtx.currentTime;
 
             for (let i = 0; i < smp.length; ++i) {
                 smp[i].stop();
@@ -180,7 +233,7 @@ function Mach1SoundPlayer(audioFiles, soundCount) {
         if (!this.isReady() || !_isPlaying) {
             return stopTime - startTime > 0 ? stopTime - startTime : 0;
         } else {
-            return _audioCtx.currentTime - startTime;
+            return _soundPlayer_audioCtx.currentTime - startTime;
         }
     };
 
@@ -218,10 +271,6 @@ function Mach1SoundPlayer(audioFiles, soundCount) {
             setVolumes();
         }
     };
-
-    for (let i = 0; i < audioFiles.length; ++i) {
-        preload(audioFiles[i], i * 2);
-    }
 
     return this;
 }

@@ -21,7 +21,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const FRAMES_PER_SECOND = 60;
 
     var audioFiles;
-    var mach1SoundPlayer;
+
+    var mach1AudioLoader;
+    var mach1SoundPlayer; 
+
     var mach1EncodeRecoder; 
 
     const gui = new dat.GUI();
@@ -46,19 +49,27 @@ document.addEventListener("DOMContentLoaded", function() {
 	function loadSounds() {
         if (params.inputKind == 0) { // Input: MONO
 			audioFiles = ['audio/mono/1.mp3'];
+			mach1AudioLoader = new Mach1AudioLoader(audioFiles, 1);
         }
         else if (params.inputKind == 1) { // Input: STERO
 			audioFiles = ['audio/stereo/M1_SDKDemo_Electronic_Stereo_L.ogg', 'audio/stereo/M1_SDKDemo_Electronic_Stereo_R.ogg'];
+			mach1AudioLoader = new Mach1AudioLoader(audioFiles, 2);
         }
 		else {
 			audioFiles = ['audio/mono/1.mp3'];
+			mach1AudioLoader = new Mach1AudioLoader(audioFiles, 1);
 		}
 		
 		if(mach1SoundPlayer) {
 			mach1SoundPlayer.remove();
 		}
 		
-		mach1SoundPlayer = new Mach1SoundPlayer(audioFiles);
+		mach1SoundPlayer = new Mach1SoundPlayer();
+		
+		mach1AudioLoader.addLoadedCallback(function() {
+			mach1SoundPlayer.setup(mach1AudioLoader.getBuffer());
+		});
+		
 		mach1EncodeRecoder = new Mach1EncodeRecoder(mach1SoundPlayer);
  	};
 
@@ -381,6 +392,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			if (params.outputKind == 1) { // Output: Mach1Spatial / Cuboid
 				vol = m1Encode.getResultingVolumesDecoded(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial, decoded);
 			}
+			//console.log(vol);
 			
 			var gains = m1Encode.getGains();
 			mach1EncodeRecoder.pushGains(gains);

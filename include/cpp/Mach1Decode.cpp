@@ -104,7 +104,6 @@ long Mach1Decode::getCurrentTime()
 char* Mach1Decode::getLog()
 {
 	return Mach1DecodeCAPI_getLog(M1obj);
-	/// Returns a string of the last log message (or empty string if none) from Mach1DecodeCAPI binary library
 }
 #else
 std::string Mach1Decode::getLog()

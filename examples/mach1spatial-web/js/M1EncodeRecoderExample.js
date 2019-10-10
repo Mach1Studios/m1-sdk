@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			mach1AudioLoader = new Mach1AudioLoader(audioFiles, 1);
         }
         else if (params.inputKind == 1) { // Input: STERO
-			audioFiles = ['audio/stereo/M1_SDKDemo_Electronic_Stereo_L.ogg', 'audio/stereo/M1_SDKDemo_Electronic_Stereo_R.ogg'];
+			audioFiles = ['audio/stereo/M1_SDKDemo_Electronic_Stereo.ogg'];
 			mach1AudioLoader = new Mach1AudioLoader(audioFiles, 2);
         }
 		else {

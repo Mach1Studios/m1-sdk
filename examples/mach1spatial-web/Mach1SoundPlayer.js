@@ -5,7 +5,7 @@ require('promise-decode-audio-data');
 let _soundPlayer_preloadCache = {};
 let _soundPlayer_audioCtx = new AudioContext();
 
-function Mach1SoundPlayer(audioFiles, soundCount) {
+function Mach1SoundPlayer() {
 	let SOUND_COUNT = 0;
     let thus = this;
 
@@ -31,35 +31,41 @@ function Mach1SoundPlayer(audioFiles, soundCount) {
 	let playLooped = false;
 	let waitToPlay = 0;
 
-    this.setup = function(audioFiles, soundCount) {
-		_isFromBuffer = false;
-		
-		SOUND_COUNT = audioFiles.length * 2;
-		buffer = initArray(audioFiles.length);
-
-		init();
-
-		for (let i = 0; i < audioFiles.length; ++i) {
-			preload(audioFiles[i], i * 2);
-		}
-
-    };
-
-    this.setup = function(buf) {
-		_isFromBuffer = true;
-
-		SOUND_COUNT = buf.numberOfChannels * 2;
-		buffer = buf;
-
-		init();
-		
-		_isSoundReady = true;
+    this.setup = function(input) {
+		if(Object.getPrototypeOf(input) === AudioBuffer.prototype) {
+			_isFromBuffer = true;
 			
-		if(_isSoundReady && needToPlay) {
-			thus.play(playLooped, waitToPlay);
-			needToPlay = false;
-		}
+			let buf = input;
+
+			SOUND_COUNT = buf.numberOfChannels * 2;
+			buffer = buf;
+
+			init();
 			
+			_isSoundReady = true;
+				
+			if(_isSoundReady && needToPlay) {
+				thus.play(playLooped, waitToPlay);
+				needToPlay = false;
+			}
+		}
+		else if(Array.isArray(input)) {
+			_isFromBuffer = false;
+
+			let audioFiles = input;
+			
+			SOUND_COUNT = audioFiles.length * 2;
+			buffer = initArray(audioFiles.length);
+
+			init();
+
+			for (let i = 0; i < audioFiles.length; ++i) {
+				preload(audioFiles[i], i * 2);
+			}
+		}
+		else {
+			console.error("Mach1SoundPlayer can't parse input!");
+		}
     };
 
     function init() {

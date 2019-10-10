@@ -54,7 +54,8 @@ document.addEventListener("DOMContentLoaded", function() {
 			mach1SoundPlayer.remove();
 		}
 		
-		mach1SoundPlayer = new Mach1SoundPlayer(audioFiles);
+		mach1SoundPlayer = new Mach1SoundPlayer();
+		mach1SoundPlayer.setup(audioFiles);
  	};
 
     // three js

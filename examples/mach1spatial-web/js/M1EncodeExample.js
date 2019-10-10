@@ -55,6 +55,10 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 		
 		mach1SoundPlayer = new Mach1SoundPlayer();
+    /*
+    Mach1SoundPlayer can be used higher level pointing to already seperated multi-mono files/paths `mach1SoundPlayer.setup(audioFilesArray);`
+    or it can be used on a lower level to buffer a multichannel audio file in tandem with Mach1AudioLoader.js `mach1SoundPlayer.setup(audioBuffer);`
+     */
 		mach1SoundPlayer.setup(audioFiles);
  	};
 

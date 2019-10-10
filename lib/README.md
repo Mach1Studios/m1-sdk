@@ -33,8 +33,8 @@ set env var ANDROID_NDK_r16b to ndk path
 
 1. find the version of the installed iOS SDK:
 `xcodebuild -showsdks`
-2. then build with this version (for example 10.0):
-`polly --clear --install --config Release --toolchain ios-10-0`
+2. to build full fat lib required for Pod, please build on xcode 8.3.1
+`/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain ios-10-3-dep-9-0-bitcode --ios-multiarch --ios-combined`
 
 If using iOS 11.0:
 Add:

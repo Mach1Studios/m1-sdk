@@ -219,6 +219,7 @@ void Mach1DecodePositional::evaluatePositionResults()
 	Mach1DecodePositionalCAPI_evaluatePositionResults(M1obj);
 }
 
+#ifndef  __EMSCRIPTEN__ 
 void Mach1DecodePositional::getCoefficients(float * result)
 {
 	Mach1DecodePositionalCAPI_getCoefficients(M1obj, result);
@@ -230,6 +231,24 @@ void Mach1DecodePositional::getCoefficients(float * result)
 void Mach1DecodePositional::getCoefficientsInterior(float * result)
 {
 	Mach1DecodePositionalCAPI_getCoefficientsInterior(M1obj, result);
+  /// - Warning: Experimental feature
+  /// - Remark: Part of BlendMode
+  ///
+  /// - Remark: Result is returned back as the argument, an array of 18 floats is required as an input
+}
+#endif
+
+void Mach1DecodePositional::getCoefficients(std::vector<float>& result)
+{
+	Mach1DecodePositionalCAPI_getCoefficients(M1obj, result.data());
+  /// Return the current coefficients to be applied to the audioplayer's volume
+  ///
+  /// - Remark: Result is returned back as the argument, an array of 18 floats is required as an input
+}
+
+void Mach1DecodePositional::getCoefficientsInterior(std::vector<float>& result)
+{
+	Mach1DecodePositionalCAPI_getCoefficientsInterior(M1obj, result.data());
   /// - Warning: Experimental feature
   /// - Remark: Part of BlendMode
   ///
@@ -329,6 +348,8 @@ void Mach1DecodePositional::setCameraRotationQuat(Mach1Point4D quat)
   /// - Parameters:
   ///     - Mach1Point4D Rotation: Quaternion
 }
+
+#ifndef  __EMSCRIPTEN__ 
 void Mach1DecodePositional::getVolumesWalls(float * result)
 {
   Mach1DecodePositionalCAPI_getVolumesWalls(M1obj, result);
@@ -336,6 +357,7 @@ void Mach1DecodePositional::getVolumesWalls(float * result)
   ///
   /// - Remark: Result is returned back as the argument, an array of 18 floats is required as an input
 }
+
 void Mach1DecodePositional::getVolumesRoom(float * result)
 {
   Mach1DecodePositionalCAPI_getVolumesRoom(M1obj, result);
@@ -344,6 +366,25 @@ void Mach1DecodePositional::getVolumesRoom(float * result)
   ///
   /// - Remark: Result is returned back as the argument, an array of 18 floats is required as an input
 }
+#endif
+
+void Mach1DecodePositional::getVolumesWalls(std::vector<float>& result)
+{
+  Mach1DecodePositionalCAPI_getVolumesWalls(M1obj, result.data());
+  /// Return the current coefficients to be applied to the audioplayer's volume
+  ///
+  /// - Remark: Result is returned back as the argument, an array of 18 floats is required as an input
+}
+
+void Mach1DecodePositional::getVolumesRoom(std::vector<float>& result)
+{
+  Mach1DecodePositionalCAPI_getVolumesRoom(M1obj, result.data());
+  /// - Warning: Experimental feature
+  /// - Remark: Part of BlendMode
+  ///
+  /// - Remark: Result is returned back as the argument, an array of 18 floats is required as an input
+}
+
 Mach1Point3D Mach1DecodePositional::getVolumeRotation()
 {
   return Mach1DecodePositionalCAPI_getVolumeRotation(M1obj);

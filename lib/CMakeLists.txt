@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.8)
 project(Mach1SpatialLibraries)
 set(Mach1SpatialLibraries_VERSION_MAJOR 1)
 set(Mach1SpatialLibraries_VERSION_MINOR 0)
-set(Mach1SpatialLibraries_VERSION_PATCH 5)
+set(Mach1SpatialLibraries_VERSION_PATCH 6)
 set(Mach1SpatialLibraries_VERSION_TWEAK 0)
 
 set(Mach1DecodeCAPIsrc "./Mach1DecodeCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")
@@ -27,6 +27,10 @@ endif()
 set_target_properties(Mach1DecodeCAPIstatic PROPERTIES OUTPUT_NAME "Mach1DecodeCAPI")
 set_target_properties(Mach1DecodePositionalCAPIstatic PROPERTIES OUTPUT_NAME "Mach1DecodePositionalCAPI")
 set_target_properties(Mach1EncodeCAPIstatic PROPERTIES OUTPUT_NAME "Mach1EncodeCAPI")
+
+set_target_properties(Mach1DecodeCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static/)
+set_target_properties(Mach1DecodePositionalCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static/)
+set_target_properties(Mach1EncodeCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static/)
 
 set_target_properties(Mach1DecodeCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static/)
 set_target_properties(Mach1DecodePositionalCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static/)
@@ -57,11 +61,11 @@ endif()
 
 if(APPLE)
 	if(NOT IOS OR TVOS OR WATCHOS)
-		# bundles for Unity 
+		# bundles for Unity
 		add_library(Mach1DecodeCAPIbundle SHARED ${Mach1DecodeCAPIsrc})
 		add_library(Mach1DecodePositionalCAPIbundle SHARED ${Mach1DecodePositionalCAPIsrc})
 		add_library(Mach1EncodeCAPIbundle SHARED ${Mach1EncodeCAPIsrc})
-		
+
 		set_target_properties(Mach1DecodeCAPIbundle PROPERTIES BUNDLE TRUE)
 		set_target_properties(Mach1DecodePositionalCAPIbundle PROPERTIES BUNDLE TRUE)
 		set_target_properties(Mach1EncodeCAPIbundle PROPERTIES BUNDLE TRUE)

@@ -40,12 +40,16 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
 	function loadSounds() {
-        if (params.inputKind == 0) { // Input: MONO
+    if (params.inputKind == 0) { // Input: MONO
 			audioFiles = ['audio/mono/1.mp3'];
-        }
-        else if (params.inputKind == 1) { // Input: STERO
+    }
+    else if (params.inputKind == 1) { // Input: STERO
 			audioFiles = ['audio/stereo/M1_SDKDemo_Electronic_Stereo_L.ogg', 'audio/stereo/M1_SDKDemo_Electronic_Stereo_R.ogg'];
-        }
+    }
+    else if (params.inputKind == 2) {
+      audioFiles = ['audio/quad/guitar-m1horizon.ogg'];
+      mach1AudioLoader = new Mach1AudioLoader(audioFiles, 4);
+    }
 		else {
 			audioFiles = ['audio/mono/1.mp3'];
 		}
@@ -55,10 +59,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 		
 		mach1SoundPlayer = new Mach1SoundPlayer();
-    /*
-    Mach1SoundPlayer can be used higher level pointing to already seperated multi-mono files/paths `mach1SoundPlayer.setup(audioFilesArray);`
-    or it can be used on a lower level to buffer a multichannel audio file in tandem with Mach1AudioLoader.js `mach1SoundPlayer.setup(audioBuffer);`
-     */
 		mach1SoundPlayer.setup(audioFiles);
  	};
 

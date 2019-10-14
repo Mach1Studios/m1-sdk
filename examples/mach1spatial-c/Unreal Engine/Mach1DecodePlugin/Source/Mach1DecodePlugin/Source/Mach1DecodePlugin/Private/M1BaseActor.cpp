@@ -645,10 +645,10 @@ void AM1BaseActor::Tick(float DeltaTime)
 				 
 				//	/*
 				m1Positional.setListenerPosition(ConvertToMach1Point3D(FVector(PlayerPosition.Y, PlayerPosition.Z, PlayerPosition.X))); //ConvertToMach1Point3D(PlayerPosition));
-				FVector listenerAngle = GetEuler(PlayerRotation);
+				FVector listenerAngle = (PlayerRotation.Euler());
 				m1Positional.setListenerRotation(ConvertToMach1Point3D(FVector(listenerAngle.Y, listenerAngle.Z, listenerAngle.X)));
 				m1Positional.setDecoderAlgoPosition(ConvertToMach1Point3D(FVector(GetActorLocation().Y, GetActorLocation().Z, GetActorLocation().X))); //ConvertToMach1Point3D(GetActorLocation()));
-				FVector decoderAngle = GetEuler(GetActorRotation().Quaternion());
+				FVector decoderAngle = (GetActorRotation().Euler());
 				m1Positional.setDecoderAlgoRotation(ConvertToMach1Point3D(FVector(decoderAngle.Y, decoderAngle.Z, decoderAngle.X))); //ConvertToMach1Point3D(GetEuler(GetActorRotation().Quaternion())));
 				m1Positional.setDecoderAlgoScale(ConvertToMach1Point3D(scale));
 				

@@ -149,6 +149,7 @@ int AM1BaseActor::DoClipping(float t0, float t1, FVector origin, FVector directi
 FVector AM1BaseActor::GetEuler(FQuat q1)
 {
 	float test = q1.X * q1.Y + q1.Z * q1.W;
+	/*
 	if (test > 0.499) // singularity at north pole
 	{
 		return FMath::RadiansToDegrees(FVector(
@@ -165,6 +166,7 @@ FVector AM1BaseActor::GetEuler(FQuat q1)
 			-PI / 2
 		));
 	}
+	*/
 	float sqx = q1.X * q1.X;
 	float sqy = q1.Y * q1.Y;
 	float sqz = q1.Z * q1.Z;
@@ -643,10 +645,14 @@ void AM1BaseActor::Tick(float DeltaTime)
 				 
 				//	/*
 				m1Positional.setListenerPosition(ConvertToMach1Point3D(FVector(PlayerPosition.Y, PlayerPosition.Z, PlayerPosition.X))); //ConvertToMach1Point3D(PlayerPosition));
-				m1Positional.setListenerRotation(ConvertToMach1Point3D(FVector(GetEuler(PlayerRotation).Y, GetEuler(PlayerRotation).Z, GetEuler(PlayerRotation).X)));
+				FVector listenerAngle = GetEuler(PlayerRotation);
+				m1Positional.setListenerRotation(ConvertToMach1Point3D(FVector(listenerAngle.Y, listenerAngle.Z, listenerAngle.X)));
 				m1Positional.setDecoderAlgoPosition(ConvertToMach1Point3D(FVector(GetActorLocation().Y, GetActorLocation().Z, GetActorLocation().X))); //ConvertToMach1Point3D(GetActorLocation()));
-				m1Positional.setDecoderAlgoRotation(ConvertToMach1Point3D(FVector(GetEuler(GetActorRotation().Quaternion()).Y, GetEuler(GetActorRotation().Quaternion()).Z, GetEuler(GetActorRotation().Quaternion()).X))); //ConvertToMach1Point3D(GetEuler(GetActorRotation().Quaternion())));
+				FVector decoderAngle = GetEuler(GetActorRotation().Quaternion());
+				m1Positional.setDecoderAlgoRotation(ConvertToMach1Point3D(FVector(decoderAngle.Y, decoderAngle.Z, decoderAngle.X))); //ConvertToMach1Point3D(GetEuler(GetActorRotation().Quaternion())));
 				m1Positional.setDecoderAlgoScale(ConvertToMach1Point3D(scale));
+				
+				
 				//	*/
 
 				/*

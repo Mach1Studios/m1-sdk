@@ -5,10 +5,12 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "GameFramework/Pawn.h"
 #include "Components/BoxComponent.h"
 #include "Components/AudioComponent.h" 
 #include "Components/BillboardComponent.h"
 #include "Components/SceneCaptureComponent.h"
+#include "Camera/CameraComponent.h"
 
 #include "Mach1Decode.h"
 #include "Mach1DecodePositional.h"
@@ -98,6 +100,24 @@ public:
 	#endif
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 Class Settings", DisplayName = "Force HMD rotation instead of Player Controller")
 		bool ForceHMDRotation = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 Class Settings", DisplayName = "Manual Camera Offset")
+		FVector cameraManualAngleOffset;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 Class Settings", DisplayName = "Override Reference Object Position")
+		bool useReferenceObjectPosition = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 Class Settings", DisplayName = "Override Reference Object Rotation")
+		bool useReferenceObjectRotation = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 Class Settings", DisplayName = "Manual Reference Pawn")
+		APawn* manualPawn = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 Class Settings", DisplayName = "Manual Reference Actor")
+		AActor* manualActor = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 Class Settings", DisplayName = "Manual Reference Camera Actor")
+		ACameraActor* manualCameraActor = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 Class Settings", DisplayName = "Display Debug")
 		bool Debug = true;

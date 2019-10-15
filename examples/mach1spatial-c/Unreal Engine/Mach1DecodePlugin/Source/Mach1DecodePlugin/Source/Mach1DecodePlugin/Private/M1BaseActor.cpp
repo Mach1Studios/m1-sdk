@@ -18,6 +18,13 @@
 
 #include <sstream>
 
+#ifdef WIN32
+void OutputDebugStringA(const char* lpOutputString) 
+{
+	UE_LOG(LogTemp, Warning, TEXT("%s"), lpOutputString);
+}
+#endif
+
 #define MIN_SOUND_VOLUME (KINDA_SMALL_NUMBER*2)
 
 
@@ -413,6 +420,13 @@ void AM1BaseActor::BeginPlay()
 	}
 }
 
+void PrintDebug(const char* str) {
+#ifdef WIN32
+	OutputDebugStringA(str);
+	OutputDebugStringA("\r\n");
+#endif
+}
+
 
 // Called every frame
 void AM1BaseActor::Tick(float DeltaTime)
@@ -428,25 +442,70 @@ void AM1BaseActor::Tick(float DeltaTime)
 				Collision->SetHiddenInGame(!Debug);
 				Billboard->SetHiddenInGame(!Debug);
 
-				FQuat PlayerRotation;
-				FVector PlayerPosition;
+				FQuat PlayerRotation = FQuat::Identity;
+				FVector PlayerPosition = FVector(0,0,0);
+
+				 
+				if (manualPawn != nullptr)
+				{
+					if (useReferenceObjectRotation) PlayerRotation = manualPawn->GetControlRotation().Quaternion();
+					if (useReferenceObjectPosition) PlayerPosition = manualPawn->GetActorLocation();
+				}
+				else if (manualActor != nullptr)
+				{
+					if (useReferenceObjectRotation) PlayerRotation = manualActor->GetActorRotation().Quaternion();
+					if (useReferenceObjectPosition) PlayerPosition = manualActor->GetActorLocation();
+				}
+				else if (manualCameraActor != nullptr)
+				{
+					if (useReferenceObjectRotation) PlayerRotation = manualCameraActor->GetActorRotation().Quaternion();
+					if (useReferenceObjectPosition) PlayerPosition = manualCameraActor->GetActorLocation();
+				}
+
 				if (ForceHMDRotation && UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled())
 				{
-					FRotator rotator;
-					UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(rotator, PlayerPosition);
+					FRotator hmdRotator;
+					FVector hmdPosition;
+					UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(hmdRotator, hmdPosition);
 
 					// invert angles
+					FQuat hmdQuat = FQuat::MakeFromEuler(FVector(-hmdRotator.Quaternion().Euler().X, -hmdRotator.Quaternion().Euler().Y, hmdRotator.Quaternion().Euler().Z));
 
-					// playerPawn->GetActorRotation().Quaternion() * 
-					PlayerRotation = FQuat::MakeFromEuler(FVector(-rotator.Quaternion().Euler().X, -rotator.Quaternion().Euler().Y, rotator.Quaternion().Euler().Z));// rotator.Quaternion() * player->GetControlRotation().Quaternion();
-					PlayerPosition = playerPawn->GetActorLocation() + PlayerPosition;
+					PlayerRotation = PlayerRotation * hmdQuat;// rotator.Quaternion() * player->GetControlRotation().Quaternion();
+					PlayerPosition = PlayerPosition + hmdPosition;
 				}
 				else
 				{
-					PlayerRotation = player->GetControlRotation().Quaternion();
-					PlayerPosition = playerPawn->GetActorLocation();
+				//	PlayerRotation = player->GetControlRotation().Quaternion();
+				//	PlayerPosition = playerPawn->GetActorLocation();
 				}
 
+
+
+
+				PlayerRotation = PlayerRotation * FQuat::MakeFromEuler(cameraManualAngleOffset);
+
+				if (Debug) {
+					std::string info;
+
+					info = "Camera Rotation:  " + toDebugString(PlayerRotation.Euler());
+					PrintDebug(info.c_str());
+					GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, info.c_str());
+
+					info = "Camera Position:  " + toDebugString(PlayerPosition);
+					PrintDebug(info.c_str());
+					GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, info.c_str());
+
+					info = "Actor Rotation:  " + toDebugString(GetActorRotation().Quaternion().Euler());
+					PrintDebug(info.c_str());
+					GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, info.c_str());
+
+					info = "Actor Position:  " + toDebugString(GetActorLocation());
+					PrintDebug(info.c_str());
+					GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, info.c_str());
+
+
+				}
 			 	
 				// maybe use cameraComponent->bAbsoluteRotation & bAbsolutePosition for position?
 
@@ -697,10 +756,10 @@ void AM1BaseActor::Tick(float DeltaTime)
 				if (Debug)
 				{
 					std::string info;
-					info = "dist:  " + toDebugString(m1Positional.getDist());
+					info = "Lib Distance:  " + toDebugString(m1Positional.getDist());
 					GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Purple, info.c_str());
 
-					std::string str = "angles lib test:    " + toDebugString(m1Positional.getCurrentAngle().x) + " , " + toDebugString(m1Positional.getCurrentAngle().y) + " , " + toDebugString(m1Positional.getCurrentAngle().z);
+					std::string str = "Lib Euler Angles:    " + toDebugString(m1Positional.getCurrentAngle().x) + " , " + toDebugString(m1Positional.getCurrentAngle().y) + " , " + toDebugString(m1Positional.getCurrentAngle().z);
 					GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, str.c_str());
 
 

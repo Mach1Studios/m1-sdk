@@ -155,25 +155,7 @@ int AM1BaseActor::DoClipping(float t0, float t1, FVector origin, FVector directi
 
 FVector AM1BaseActor::GetEuler(FQuat q1)
 {
-	float test = q1.X * q1.Y + q1.Z * q1.W;
-	/*
-	if (test > 0.499) // singularity at north pole
-	{
-		return FMath::RadiansToDegrees(FVector(
-			0,
-			2 * atan2(q1.X, q1.W),
-			PI / 2
-		));
-	}
-	if (test < -0.499) // singularity at south pole
-	{
-		return FMath::RadiansToDegrees(FVector(
-			0,
-			-2 * atan2(q1.X, q1.W),
-			-PI / 2
-		));
-	}
-	*/
+	float sq = q1.X * q1.Y + q1.Z * q1.W;
 	float sqx = q1.X * q1.X;
 	float sqy = q1.Y * q1.Y;
 	float sqz = q1.Z * q1.Z;
@@ -181,7 +163,7 @@ FVector AM1BaseActor::GetEuler(FQuat q1)
 	return FMath::RadiansToDegrees(FVector(
 		atan2(2.0f * q1.X * q1.W - 2 * q1.Y * q1.Z, 1.0f - 2.0f * sqx - 2.0f * sqz),
 		atan2(2.0f * q1.Y * q1.W - 2 * q1.X * q1.Z, 1.0f - 2.0f * sqy - 2.0f * sqz),
-		sin(2.0f * test)
+		sin(2.0f * sq)
 	));
 
 }
@@ -468,7 +450,6 @@ void AM1BaseActor::Tick(float DeltaTime)
 					FVector hmdPosition;
 					UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(hmdRotator, hmdPosition);
 
-					// invert angles
 					FQuat hmdQuat = FQuat::MakeFromEuler(FVector(-hmdRotator.Quaternion().Euler().X, -hmdRotator.Quaternion().Euler().Y, hmdRotator.Quaternion().Euler().Z));
 
 					PlayerRotation = PlayerRotation * hmdQuat;// rotator.Quaternion() * player->GetControlRotation().Quaternion();
@@ -506,14 +487,6 @@ void AM1BaseActor::Tick(float DeltaTime)
 
 
 				}
-			 	
-				// maybe use cameraComponent->bAbsoluteRotation & bAbsolutePosition for position?
-
-				/*
-				GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Red, TEXT(">> " + PlayerRotation.Euler().ToString()));
-				GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, isInit ? TEXT("init ok") : TEXT("no init"));
-				GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Purple, GetWorld()->GetFirstPlayerController()->GetPawn()->GetName());
-				*/
 
 				FVector point = GetActorLocation();
 
@@ -525,7 +498,6 @@ void AM1BaseActor::Tick(float DeltaTime)
 #ifdef LEGACY_POSITIONAL
 
 				FVector outsideClosestPoint;
-				//FVector insidePoint0, insidePoint1;
 
 				FVector cameraPosition = PlayerPosition;
 				if (ignoreTopBottom && useBlendMode)
@@ -663,7 +635,6 @@ void AM1BaseActor::Tick(float DeltaTime)
 				quat = quat.Inverse();
 				quat = quat * actorRotation;
 
-
 				//FQuat quat = FLookAtMatrix(point, cameraPosition, FVector::UpVector).Inverse().ToQuat() * actorRotation;
 				quat = FQuat::MakeFromEuler(FVector(useRollForRotation ? quat.Euler().X : 0, usePitchForRotation ? quat.Euler().Y : 0, useYawForRotation ? quat.Euler().Z : 0));
 				quat *= PlayerRotation;
@@ -691,7 +662,6 @@ void AM1BaseActor::Tick(float DeltaTime)
 					20
 				);
 
-
 #else
 
 				m1Positional.setUseBlendMode(useBlendMode);
@@ -704,7 +674,6 @@ void AM1BaseActor::Tick(float DeltaTime)
 				m1Positional.setUsePitchForRotation(usePitchForRotation);
 				m1Positional.setUseRollForRotation(useRollForRotation);
 				 
-				//	/*
 				m1Positional.setListenerPosition(ConvertToMach1Point3D(FVector(PlayerPosition.Y, PlayerPosition.Z, PlayerPosition.X))); //ConvertToMach1Point3D(PlayerPosition));
 				FVector listenerAngle = (PlayerRotation.Euler());
 				m1Positional.setListenerRotation(ConvertToMach1Point3D(FVector(listenerAngle.Y, listenerAngle.Z, -listenerAngle.X)));
@@ -712,19 +681,6 @@ void AM1BaseActor::Tick(float DeltaTime)
 				FVector decoderAngle = (GetActorRotation().Euler());
 				m1Positional.setDecoderAlgoRotation(ConvertToMach1Point3D(FVector(decoderAngle.Y, decoderAngle.Z, -decoderAngle.X))); //ConvertToMach1Point3D(GetEuler(GetActorRotation().Quaternion())));
 				m1Positional.setDecoderAlgoScale(ConvertToMach1Point3D(scale));
-				//	*/
-
-				/*
-				m1Positional.setListenerPosition(ConvertToMach1Point3D(FVector(PlayerPosition.Y, PlayerPosition.Z, PlayerPosition.X))); //ConvertToMach1Point3D(PlayerPosition));
-//				m1Positional.setListenerPosition(ConvertToMach1Point3D(PlayerPosition));
-				//m1Positional.setListenerRotation(ConvertToMach1Point3D(FVector(GetEuler(PlayerRotation).Y, GetEuler(PlayerRotation).Z, GetEuler(PlayerRotation).X)));
-				m1Positional.setListenerRotation(ConvertToMach1Point3D(GetEuler(PlayerRotation)));
-				m1Positional.setDecoderAlgoPosition(ConvertToMach1Point3D(FVector(GetActorLocation().Y, GetActorLocation().Z, GetActorLocation().X))); //ConvertToMach1Point3D(GetActorLocation()));
-//				m1Positional.setDecoderAlgoPosition(ConvertToMach1Point3D(GetActorLocation()));
-				//m1Positional.setDecoderAlgoRotation(ConvertToMach1Point3D(FVector(GetEuler(GetActorRotation().Quaternion()).Y, GetEuler(GetActorRotation().Quaternion()).Z, GetEuler(GetActorRotation().Quaternion()).X))); //ConvertToMach1Point3D(GetEuler(GetActorRotation().Quaternion())));
-				m1Positional.setDecoderAlgoRotation(ConvertToMach1Point3D(GetEuler(GetActorRotation().Quaternion()))); //ConvertToMach1Point3D(GetEuler(GetActorRotation().Quaternion())));
-				m1Positional.setDecoderAlgoScale(ConvertToMach1Point3D(scale));
-				*/
 
 				m1Positional.evaluatePositionResults();
 
@@ -799,7 +755,6 @@ void AM1BaseActor::CalculateChannelVolumes(FQuat quat)
 {
 	static float volumes[18];
 
-	// test
 	FVector angles = GetEuler(quat);
 
 	std::string info = "euler    :  ";

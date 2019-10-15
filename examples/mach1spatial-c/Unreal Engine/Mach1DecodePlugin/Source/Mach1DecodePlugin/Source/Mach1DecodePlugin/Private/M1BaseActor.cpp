@@ -148,16 +148,10 @@ int AM1BaseActor::DoClipping(float t0, float t1, FVector origin, FVector directi
 
 FVector AM1BaseActor::GetEuler(FQuat q1)
 {
-	float test = q1.X * q1.Z + q1.Y * q1.W;
-
+	float test = q1.X * q1.Y + q1.Z * q1.W;
+	/*
 	if (test > 0.499) // singularity at north pole
 	{
-		/*
-		std::string info;
-		info = "!!!!  ";
-		GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Purple, info.c_str());
-		*/
-
 		return FMath::RadiansToDegrees(FVector(
 			0,
 			2 * atan2(q1.X, q1.W),
@@ -166,27 +160,20 @@ FVector AM1BaseActor::GetEuler(FQuat q1)
 	}
 	if (test < -0.499) // singularity at south pole
 	{
-		/*
-		std::string info;
-		info = "!!!!  ";
-		GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Purple, info.c_str());
-		*/
-
 		return FMath::RadiansToDegrees(FVector(
 			0,
 			-2 * atan2(q1.X, q1.W),
 			-PI / 2
 		));
 	}
-	 
-
+	*/
 	float sqx = q1.X * q1.X;
-	float sqy = q1.Z * q1.Z;
-	float sqz = q1.Y * q1.Y;
+	float sqy = q1.Y * q1.Y;
+	float sqz = q1.Z * q1.Z;
 
 	return FMath::RadiansToDegrees(FVector(
-		atan2(2.0f * q1.X * q1.W - 2 * q1.Z * q1.Y, 1.0f - 2.0f * sqx - 2.0f * sqz),
-		atan2(2.0f * q1.Z * q1.W - 2 * q1.X * q1.Y, 1.0f - 2.0f * sqy - 2.0f * sqz),
+		atan2(2.0f * q1.X * q1.W - 2 * q1.Y * q1.Z, 1.0f - 2.0f * sqx - 2.0f * sqz),
+		atan2(2.0f * q1.Y * q1.W - 2 * q1.X * q1.Z, 1.0f - 2.0f * sqy - 2.0f * sqz),
 		sin(2.0f * test)
 	));
 
@@ -449,6 +436,8 @@ void AM1BaseActor::Tick(float DeltaTime)
 					UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(rotator, PlayerPosition);
 
 					// invert angles
+
+					// playerPawn->GetActorRotation().Quaternion() * 
 					PlayerRotation = FQuat::MakeFromEuler(FVector(-rotator.Quaternion().Euler().X, -rotator.Quaternion().Euler().Y, rotator.Quaternion().Euler().Z));// rotator.Quaternion() * player->GetControlRotation().Quaternion();
 					PlayerPosition = playerPawn->GetActorLocation() + PlayerPosition;
 				}
@@ -658,24 +647,12 @@ void AM1BaseActor::Tick(float DeltaTime)
 				 
 				//	/*
 				m1Positional.setListenerPosition(ConvertToMach1Point3D(FVector(PlayerPosition.Y, PlayerPosition.Z, PlayerPosition.X))); //ConvertToMach1Point3D(PlayerPosition));
-				FVector listenerAngle = GetEuler(PlayerRotation);
-				listenerAngle = FVector(listenerAngle.X, listenerAngle.Z, listenerAngle.Y);
-				std::string info;
-				info = "listenerAngle GetEuler:  " + toDebugString(listenerAngle);
-				GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Purple, info.c_str());
-				info = "listenerAngle       UE:  " + toDebugString(PlayerRotation.Euler());
-				GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Purple, info.c_str());
-
-
-				m1Positional.setListenerRotation(ConvertToMach1Point3D(FVector(listenerAngle.Y, listenerAngle.Z , listenerAngle.X)));
+				FVector listenerAngle = (PlayerRotation.Euler());
+				m1Positional.setListenerRotation(ConvertToMach1Point3D(FVector(listenerAngle.Y, listenerAngle.Z, -listenerAngle.X)));
 				m1Positional.setDecoderAlgoPosition(ConvertToMach1Point3D(FVector(GetActorLocation().Y, GetActorLocation().Z, GetActorLocation().X))); //ConvertToMach1Point3D(GetActorLocation()));
-				FVector decoderAngle = GetEuler(GetActorRotation().Quaternion());
-				decoderAngle = FVector(decoderAngle.X, decoderAngle.Z, decoderAngle.Y);
-				
-				m1Positional.setDecoderAlgoRotation(ConvertToMach1Point3D(FVector(decoderAngle.Y, decoderAngle.Z , decoderAngle.X))); //ConvertToMach1Point3D(GetEuler(GetActorRotation().Quaternion())));
+				FVector decoderAngle = (GetActorRotation().Euler());
+				m1Positional.setDecoderAlgoRotation(ConvertToMach1Point3D(FVector(decoderAngle.Y, decoderAngle.Z, -decoderAngle.X))); //ConvertToMach1Point3D(GetEuler(GetActorRotation().Quaternion())));
 				m1Positional.setDecoderAlgoScale(ConvertToMach1Point3D(scale));
-				
-				
 				//	*/
 
 				/*

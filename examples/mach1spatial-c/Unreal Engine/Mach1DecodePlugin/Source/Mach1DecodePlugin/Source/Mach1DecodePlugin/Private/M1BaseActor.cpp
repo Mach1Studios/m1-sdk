@@ -301,7 +301,14 @@ void AM1BaseActor::SetSoundSet()
 
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
-			//if(SoundsMain[i]) SoundsMain[i]->bVirtualizeWhenSilent = true;
+			if (SoundsMain[i])
+			{
+#if ENGINE_MAJOR_VERSION == 4 && ENGINE_MINOR_VERSION >= 23
+				SoundsMain[i]->VirtualizationMode = EVirtualizationMode::PlayWhenSilent;
+#else
+				SoundsMain[i]->bVirtualizeWhenSilent = true;
+#endif
+			}
 		}
 
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
@@ -321,7 +328,14 @@ void AM1BaseActor::SetSoundSet()
 
 			for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 			{
-				//if (SoundsBlendMode[i]) SoundsBlendMode[i]->bVirtualizeWhenSilent = true;
+				if (SoundsBlendMode[i]) 
+				{
+#if ENGINE_MAJOR_VERSION == 4 && ENGINE_MINOR_VERSION >= 23
+					SoundsBlendMode[i]->VirtualizationMode = EVirtualizationMode::PlayWhenSilent;
+#else
+					SoundsBlendMode[i]->bVirtualizeWhenSilent = true;
+#endif
+				}
 			}
 
 			for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)

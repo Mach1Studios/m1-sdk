@@ -19,6 +19,8 @@
 
 #include "M1BaseActor.generated.h"
 
+class ACameraActor;
+
 //#define LEGACY_POSITIONAL
 
 UCLASS(abstract)
@@ -85,7 +87,7 @@ protected:
 
 public:
 
-	void InitComponents(int MAX_SOUNDS_PER_CHANNEL);
+	void InitComponents(int32 InMaxSoundsPerChannel);
 
 	// Called when the game starts or when spawned
 	void BeginPlay(); // overriden

@@ -3,7 +3,7 @@
 //
 
 #include "M1BaseActor.h"
-
+#include "Camera/CameraActor.h"
 #include "Runtime/Launch/Resources/Version.h"
 
 #include "Mach1DecodePluginPrivatePCH.h"
@@ -179,9 +179,9 @@ Mach1Point4D AM1BaseActor::ConvertToMach1Point4D(FQuat quat)
 }
 
 // Sets default values
-void AM1BaseActor::InitComponents(int MAX_SOUNDS_PER_CHANNEL)
+void AM1BaseActor::InitComponents(int32 InMaxSoundsPerChannel)
 {
-	this->MAX_SOUNDS_PER_CHANNEL = MAX_SOUNDS_PER_CHANNEL;
+	this->MAX_SOUNDS_PER_CHANNEL = InMaxSoundsPerChannel;
 
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;

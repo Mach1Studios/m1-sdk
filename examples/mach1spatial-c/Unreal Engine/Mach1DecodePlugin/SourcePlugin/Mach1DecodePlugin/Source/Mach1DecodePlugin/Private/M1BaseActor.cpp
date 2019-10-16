@@ -498,8 +498,6 @@ void AM1BaseActor::Tick(float DeltaTime)
 					info = "Actor Position:  " + toDebugString(GetActorLocation());
 					PrintDebug(info.c_str());
 					GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, info.c_str());
-
-
 				}
 
 				FVector point = GetActorLocation();

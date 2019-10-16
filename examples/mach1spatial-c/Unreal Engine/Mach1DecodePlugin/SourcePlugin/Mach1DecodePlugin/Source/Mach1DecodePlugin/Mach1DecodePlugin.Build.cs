@@ -1,5 +1,6 @@
 // Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
 using System.IO;
+using System.Diagnostics;
 
 namespace UnrealBuildTool.Rules
 {
@@ -73,7 +74,7 @@ namespace UnrealBuildTool.Rules
             if (Target.Platform == UnrealTargetPlatform.Android)
             {
                 //Mach1BinDirectory = Path.Combine(Mach1BinDirectory, Target.Architecture);
-				var archs =  new string[] { "armeabi-v7a", "x86" };
+                var archs =  new string[] { "armeabi-v7a", "x86" };
 				foreach(var arch in archs)
 				{
 					PublicLibraryPaths.Add(Path.Combine(Mach1BinDirectory, arch));

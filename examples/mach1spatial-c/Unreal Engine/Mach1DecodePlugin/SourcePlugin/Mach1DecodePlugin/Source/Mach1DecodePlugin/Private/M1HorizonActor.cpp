@@ -27,6 +27,10 @@ AM1HorizonActor::AM1HorizonActor()
 {
 	InitComponents(4);
 
+#ifdef LEGACY_POSITIONAL
 	mach1Decode.setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoHorizon);
+#else 
+	m1Positional.setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoHorizon);
+#endif
 }
  

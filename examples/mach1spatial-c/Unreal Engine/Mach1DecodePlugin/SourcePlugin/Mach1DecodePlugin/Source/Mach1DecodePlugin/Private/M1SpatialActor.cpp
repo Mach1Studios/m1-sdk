@@ -35,6 +35,10 @@ AM1SpatialActor::AM1SpatialActor()
 {
 	InitComponents(8);
 
+#ifdef LEGACY_POSITIONAL
 	mach1Decode.setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial);
+#else 
+	m1Positional.setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial);
+#endif	
 }
  

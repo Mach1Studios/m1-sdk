@@ -18,6 +18,13 @@
 
 #include <sstream>
 
+#ifdef WIN32
+void OutputDebugStringA(const char* lpOutputString) 
+{
+	UE_LOG(LogTemp, Warning, TEXT("%s"), lpOutputString);
+}
+#endif
+
 #define MIN_SOUND_VOLUME (KINDA_SMALL_NUMBER*2)
 
 
@@ -144,26 +151,11 @@ int AM1BaseActor::DoClipping(float t0, float t1, FVector origin, FVector directi
 	return quantity;
 }
 
+#endif
 
 FVector AM1BaseActor::GetEuler(FQuat q1)
 {
-	float test = q1.X * q1.Y + q1.Z * q1.W;
-	if (test > 0.499) // singularity at north pole
-	{
-		return FMath::RadiansToDegrees(FVector(
-			0,
-			2 * atan2(q1.X, q1.W),
-			PI / 2
-		));
-	}
-	if (test < -0.499) // singularity at south pole
-	{
-		return FMath::RadiansToDegrees(FVector(
-			0,
-			-2 * atan2(q1.X, q1.W),
-			-PI / 2
-		));
-	}
+	float sq = q1.X * q1.Y + q1.Z * q1.W;
 	float sqx = q1.X * q1.X;
 	float sqy = q1.Y * q1.Y;
 	float sqz = q1.Z * q1.Z;
@@ -171,12 +163,10 @@ FVector AM1BaseActor::GetEuler(FQuat q1)
 	return FMath::RadiansToDegrees(FVector(
 		atan2(2.0f * q1.X * q1.W - 2 * q1.Y * q1.Z, 1.0f - 2.0f * sqx - 2.0f * sqz),
 		atan2(2.0f * q1.Y * q1.W - 2 * q1.X * q1.Z, 1.0f - 2.0f * sqy - 2.0f * sqz),
-		sin(2.0f * test)
+		sin(2.0f * sq)
 	));
- 
-}
 
-#endif
+}
 
 Mach1Point3D AM1BaseActor::ConvertToMach1Point3D(FVector vec)
 {
@@ -219,8 +209,11 @@ void AM1BaseActor::InitComponents(int MAX_SOUNDS_PER_CHANNEL)
 	Volume = 1;
 	for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++) VolumeFactor.Add(1);
 	 
+#ifdef LEGACY_POSITIONAL
 	mach1Decode.setPlatformType(Mach1PlatformType::Mach1PlatformUE);
-	m1Positional.setPlatformType(Mach1PlatformType::Mach1PlatformUE);
+#else 
+	m1Positional.setPlatformType(Mach1PlatformType::Mach1PlatformUnity);
+#endif
 }
 
 void AM1BaseActor::Init()
@@ -308,7 +301,14 @@ void AM1BaseActor::SetSoundSet()
 
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
-			if(SoundsMain[i]) SoundsMain[i]->bVirtualizeWhenSilent = true;
+			if (SoundsMain[i])
+			{
+#if ENGINE_MAJOR_VERSION == 4 && ENGINE_MINOR_VERSION >= 23
+				SoundsMain[i]->VirtualizationMode = EVirtualizationMode::PlayWhenSilent;
+#else
+				SoundsMain[i]->bVirtualizeWhenSilent = true;
+#endif
+			}
 		}
 
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
@@ -328,7 +328,14 @@ void AM1BaseActor::SetSoundSet()
 
 			for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 			{
-				if (SoundsBlendMode[i]) SoundsBlendMode[i]->bVirtualizeWhenSilent = true;
+				if (SoundsBlendMode[i]) 
+				{
+#if ENGINE_MAJOR_VERSION == 4 && ENGINE_MINOR_VERSION >= 23
+					SoundsBlendMode[i]->VirtualizationMode = EVirtualizationMode::PlayWhenSilent;
+#else
+					SoundsBlendMode[i]->bVirtualizeWhenSilent = true;
+#endif
+				}
 			}
 
 			for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
@@ -409,6 +416,13 @@ void AM1BaseActor::BeginPlay()
 	}
 }
 
+void PrintDebug(const char* str) {
+#ifdef WIN32
+	OutputDebugStringA(str);
+	OutputDebugStringA("\r\n");
+#endif
+}
+
 
 // Called every frame
 void AM1BaseActor::Tick(float DeltaTime)
@@ -424,31 +438,67 @@ void AM1BaseActor::Tick(float DeltaTime)
 				Collision->SetHiddenInGame(!Debug);
 				Billboard->SetHiddenInGame(!Debug);
 
-				FQuat PlayerRotation;
-				FVector PlayerPosition;
+				FQuat PlayerRotation = FQuat::Identity;
+				FVector PlayerPosition = FVector(0,0,0);
+
+				 
+				if (manualPawn != nullptr)
+				{
+					if (useReferenceObjectRotation) PlayerRotation = manualPawn->GetControlRotation().Quaternion();
+					if (useReferenceObjectPosition) PlayerPosition = manualPawn->GetActorLocation();
+				}
+				else if (manualActor != nullptr)
+				{
+					if (useReferenceObjectRotation) PlayerRotation = manualActor->GetActorRotation().Quaternion();
+					if (useReferenceObjectPosition) PlayerPosition = manualActor->GetActorLocation();
+				}
+				else if (manualCameraActor != nullptr)
+				{
+					if (useReferenceObjectRotation) PlayerRotation = manualCameraActor->GetActorRotation().Quaternion();
+					if (useReferenceObjectPosition) PlayerPosition = manualCameraActor->GetActorLocation();
+				}
+
 				if (ForceHMDRotation && UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled())
 				{
-					FRotator rotator;
-					UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(rotator, PlayerPosition);
+					FRotator hmdRotator;
+					FVector hmdPosition;
+					UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(hmdRotator, hmdPosition);
 
-					// invert angles
-					PlayerRotation = playerPawn->GetActorRotation().Quaternion() * FQuat::MakeFromEuler(FVector(-rotator.Quaternion().Euler().X, -rotator.Quaternion().Euler().Y, rotator.Quaternion().Euler().Z));// rotator.Quaternion() * player->GetControlRotation().Quaternion();
-					PlayerPosition = playerPawn->GetActorLocation() + PlayerPosition;
+					FQuat hmdQuat = FQuat::MakeFromEuler(FVector(-hmdRotator.Quaternion().Euler().X, -hmdRotator.Quaternion().Euler().Y, hmdRotator.Quaternion().Euler().Z));
+
+					PlayerRotation = PlayerRotation * hmdQuat;// rotator.Quaternion() * player->GetControlRotation().Quaternion();
+					PlayerPosition = PlayerPosition + hmdPosition;
 				}
 				else
 				{
-					PlayerRotation = player->GetControlRotation().Quaternion();
-					PlayerPosition = playerPawn->GetActorLocation();
+				//	PlayerRotation = player->GetControlRotation().Quaternion();
+				//	PlayerPosition = playerPawn->GetActorLocation();
 				}
 
-			 	
-				// maybe use cameraComponent->bAbsoluteRotation & bAbsolutePosition for position?
 
-				/*
-				GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Red, TEXT(">> " + PlayerRotation.Euler().ToString()));
-				GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, isInit ? TEXT("init ok") : TEXT("no init"));
-				GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Purple, GetWorld()->GetFirstPlayerController()->GetPawn()->GetName());
-				*/
+
+
+				PlayerRotation = PlayerRotation * FQuat::MakeFromEuler(cameraManualAngleOffset);
+
+				if (Debug) {
+					std::string info;
+
+					info = "Camera Rotation:  " + toDebugString(PlayerRotation.Euler());
+					PrintDebug(info.c_str());
+					GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, info.c_str());
+
+					info = "Camera Position:  " + toDebugString(PlayerPosition);
+					PrintDebug(info.c_str());
+					GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, info.c_str());
+
+					info = "Actor Rotation:  " + toDebugString(GetActorRotation().Quaternion().Euler());
+					PrintDebug(info.c_str());
+					GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, info.c_str());
+
+					info = "Actor Position:  " + toDebugString(GetActorLocation());
+					PrintDebug(info.c_str());
+					GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, info.c_str());
+				}
 
 				FVector point = GetActorLocation();
 
@@ -460,7 +510,6 @@ void AM1BaseActor::Tick(float DeltaTime)
 #ifdef LEGACY_POSITIONAL
 
 				FVector outsideClosestPoint;
-				//FVector insidePoint0, insidePoint1;
 
 				FVector cameraPosition = PlayerPosition;
 				if (ignoreTopBottom && useBlendMode)
@@ -598,7 +647,6 @@ void AM1BaseActor::Tick(float DeltaTime)
 				quat = quat.Inverse();
 				quat = quat * actorRotation;
 
-
 				//FQuat quat = FLookAtMatrix(point, cameraPosition, FVector::UpVector).Inverse().ToQuat() * actorRotation;
 				quat = FQuat::MakeFromEuler(FVector(useRollForRotation ? quat.Euler().X : 0, usePitchForRotation ? quat.Euler().Y : 0, useYawForRotation ? quat.Euler().Z : 0));
 				quat *= PlayerRotation;
@@ -626,55 +674,36 @@ void AM1BaseActor::Tick(float DeltaTime)
 					20
 				);
 
-				quat = FQuat::MakeFromEuler(FVector(m1Positional.getCurrentAngle().x, m1Positional.getCurrentAngle().y, m1Positional.getCurrentAngle().z));
-
-				DrawDebugLine(
-					GetWorld(),
-					GetActorLocation(),
-					quat * (FVector::ForwardVector * 100),
-					FColor(255, 0, 0),
-					false,
-					-1,
-					0,
-					10
-				);
-				DrawDebugLine(
-					GetWorld(),
-					GetActorLocation(),
-					quat * (FVector::RightVector * 50),
-					FColor(255, 0, 0),
-					false,
-					-1,
-					0,
-					10
-				);
-#endif 
+#else
 
 				m1Positional.setUseBlendMode(useBlendMode);
 				m1Positional.setIgnoreTopBottom(ignoreTopBottom);
 				m1Positional.setMuteWhenOutsideObject(muteWhenOutsideObject);
 				m1Positional.setMuteWhenInsideObject(muteWhenInsideObject);
-				m1Positional.setUseFalloff(useFalloff);
-				m1Positional.setUseClosestPointRotationMuteInside(useClosestPointRotationMuteInside);
+				m1Positional.setUseAttenuation(useFalloff);
+				m1Positional.setUsePlaneCalculation(useClosestPointRotationMuteInside);
 				m1Positional.setUseYawForRotation(useYawForRotation);
 				m1Positional.setUsePitchForRotation(usePitchForRotation);
 				m1Positional.setUseRollForRotation(useRollForRotation);
 				 
-				m1Positional.setCameraPosition(ConvertToMach1Point3D(PlayerPosition));
-				m1Positional.setCameraRotationQuat(ConvertToMach1Point4D(PlayerRotation));
-				m1Positional.setDecoderAlgoPosition(ConvertToMach1Point3D(GetActorLocation()));
-				m1Positional.setDecoderAlgoRotationQuat(ConvertToMach1Point4D(GetActorRotation().Quaternion()));
+				m1Positional.setListenerPosition(ConvertToMach1Point3D(FVector(PlayerPosition.Y, PlayerPosition.Z, PlayerPosition.X))); //ConvertToMach1Point3D(PlayerPosition));
+				FVector listenerAngle = (PlayerRotation.Euler());
+				m1Positional.setListenerRotation(ConvertToMach1Point3D(FVector(listenerAngle.Y, listenerAngle.Z, -listenerAngle.X)));
+				m1Positional.setDecoderAlgoPosition(ConvertToMach1Point3D(FVector(GetActorLocation().Y, GetActorLocation().Z, GetActorLocation().X))); //ConvertToMach1Point3D(GetActorLocation()));
+				FVector decoderAngle = (GetActorRotation().Euler());
+				m1Positional.setDecoderAlgoRotation(ConvertToMach1Point3D(FVector(decoderAngle.Y, decoderAngle.Z, -decoderAngle.X))); //ConvertToMach1Point3D(GetEuler(GetActorRotation().Quaternion())));
 				m1Positional.setDecoderAlgoScale(ConvertToMach1Point3D(scale));
+
 				m1Positional.evaluatePositionResults();
 
 				if (useFalloff)
 				{
-					m1Positional.setFalloffCurve(attenuationCurve ? attenuationCurve->GetFloatValue(m1Positional.getDist()) : 1);
-					m1Positional.setFalloffCurveBlendMode(attenuationBlendModeCurve ? attenuationBlendModeCurve->GetFloatValue(m1Positional.getDist()) : 1);
+					m1Positional.setAttenuationCurve(attenuationCurve ? attenuationCurve->GetFloatValue(m1Positional.getDist()) : 1);
+					m1Positional.setAttenuationCurveBlendMode(attenuationBlendModeCurve ? attenuationBlendModeCurve->GetFloatValue(m1Positional.getDist()) : 1);
 				}
 
 				float volumesWalls[18];
-				m1Positional.getVolumesWalls(volumesWalls);
+				m1Positional.getCoefficients(volumesWalls);
 				for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
 				{
 					VolumeFactor[i] = volumesWalls[i];
@@ -682,7 +711,7 @@ void AM1BaseActor::Tick(float DeltaTime)
 				SetVolumeMain(1.0);
 
 				float volumesRoom[18];
-				m1Positional.getVolumesRoom(volumesRoom);
+				m1Positional.getCoefficientsInterior(volumesRoom);
 				if (useBlendMode)
 				{
 					for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
@@ -695,29 +724,21 @@ void AM1BaseActor::Tick(float DeltaTime)
 				if (Debug)
 				{
 					std::string info;
-					info = "dist:  " + toDebugString(m1Positional.getDist());
+					info = "Lib Distance:  " + toDebugString(m1Positional.getDist());
 					GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Purple, info.c_str());
 
-					std::string str = "angles lib test:    " + toDebugString(m1Positional.getCurrentAngle().x) + " , " + toDebugString(m1Positional.getCurrentAngle().y) + " , " + toDebugString(m1Positional.getCurrentAngle().z);
+					std::string str = "Lib Euler Angles:    " + toDebugString(m1Positional.getCurrentAngle().x) + " , " + toDebugString(m1Positional.getCurrentAngle().y) + " , " + toDebugString(m1Positional.getCurrentAngle().z);
 					GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Yellow, str.c_str());
 
 
-					info = "left lib:  ";
-					for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
+					info = "volumes:  ";
+					for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
 					{
-						info += toDebugString(volumesWalls[i * 2]) + ", ";
-					}
-					GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, info.c_str());
-
-
-					info = "right lib: ";
-					for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
-					{
-						info += toDebugString(volumesRoom[i * 2 + 1]) + ", ";
+						info += toDebugString(volumesWalls[i]) + ", ";
 					}
 					GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, info.c_str());
 				}
-
+#endif
 				 
 			}
 		}
@@ -742,12 +763,10 @@ void AM1BaseActor::PostEditChangeProperty(FPropertyChangedEvent & PropertyChange
 #endif
 
 #ifdef LEGACY_POSITIONAL
-
 void AM1BaseActor::CalculateChannelVolumes(FQuat quat)
 {
 	static float volumes[18];
 
-	// test
 	FVector angles = GetEuler(quat);
 
 	std::string info = "euler    :  ";
@@ -841,9 +860,10 @@ void AM1BaseActor::SetVolumeBlend(float volume)
  {
  }
 
+#ifdef LEGACY_POSITIONAL
  void AM1BaseActor::SoundAlgorithm(float Yaw, float Pitch, float Roll, float * volumes)
  {
 	 mach1Decode.decode(Yaw, Pitch, Roll, volumes);
 	 mach1Decode.beginBuffer();
  }
-
+#endif

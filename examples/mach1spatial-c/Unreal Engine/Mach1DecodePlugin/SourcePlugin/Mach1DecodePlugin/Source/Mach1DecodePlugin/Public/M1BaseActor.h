@@ -5,10 +5,12 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "GameFramework/Pawn.h"
 #include "Components/BoxComponent.h"
 #include "Components/AudioComponent.h" 
 #include "Components/BillboardComponent.h"
 #include "Components/SceneCaptureComponent.h"
+#include "Camera/CameraComponent.h"
 
 #include "Mach1Decode.h"
 #include "Mach1DecodePositional.h"
@@ -34,11 +36,11 @@ protected:
 	static bool Clip(float denom, float numer, float& t0, float& t1);
 	static int DoClipping(float t0, float t1, FVector origin, FVector direction, FVector center, FVector axis0, FVector axis1, FVector axis2, FVector extents, bool solid, FVector& point0, FVector& point1);
 
-	static FVector GetEuler(FQuat q1);
-
 	void CalculateChannelVolumes(FQuat quat);
 
 #endif
+
+	static FVector GetEuler(FQuat q1);
 
 	USoundAttenuation* NullAttenuation;
 
@@ -67,10 +69,15 @@ protected:
 
 	virtual void SetSoundsMain();
 	virtual void SetSoundsBlendMode();
+#ifdef LEGACY_POSITIONAL
 	virtual void SoundAlgorithm(float Yaw, float Pitch, float Roll, float* volumes);
+#endif
 
+#ifdef LEGACY_POSITIONAL
 	Mach1Decode mach1Decode;
+#else 
 	Mach1DecodePositional m1Positional;
+#endif
 
 	Mach1Point3D ConvertToMach1Point3D(FVector vec);
 	Mach1Point4D ConvertToMach1Point4D(FQuat quat);
@@ -93,6 +100,24 @@ public:
 	#endif
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 Class Settings", DisplayName = "Force HMD rotation instead of Player Controller")
 		bool ForceHMDRotation = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 Class Settings", DisplayName = "Manual Camera Offset")
+		FVector cameraManualAngleOffset;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 Class Settings", DisplayName = "Override Reference Object Position")
+		bool useReferenceObjectPosition = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 Class Settings", DisplayName = "Override Reference Object Rotation")
+		bool useReferenceObjectRotation = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 Class Settings", DisplayName = "Manual Reference Pawn")
+		APawn* manualPawn = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 Class Settings", DisplayName = "Manual Reference Actor")
+		AActor* manualActor = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 Class Settings", DisplayName = "Manual Reference Camera Actor")
+		ACameraActor* manualCameraActor = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mach1 Class Settings", DisplayName = "Display Debug")
 		bool Debug = true;

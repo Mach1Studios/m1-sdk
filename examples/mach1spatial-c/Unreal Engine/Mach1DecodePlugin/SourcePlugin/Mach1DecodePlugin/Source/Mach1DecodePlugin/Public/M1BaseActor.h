@@ -1,5 +1,5 @@
-//  Mach1 SDK
-//  Copyright � 2017 Mach1. All rights reserved.
+﻿//  Mach1 SDK
+//  Copyright © 2017 Mach1. All rights reserved.
 //
 
 #pragma once

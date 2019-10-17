@@ -12,7 +12,7 @@ namespace UnrealBuildTool.Rules
         } 
 
         private void CopyToBinaries(string Filepath, ReadOnlyTargetRules Target)
-        { 
+        {
             //string binariesDir = Path.GetFullPath(Path.Combine(ModuleDirectory, "..", "..", "Binaries", Target.Platform.ToString()));
             string binariesDir = Path.Combine(GetUProjectPath(), "Binaries", Target.Platform.ToString());
             string filename = Path.GetFileName(Filepath);
@@ -20,8 +20,12 @@ namespace UnrealBuildTool.Rules
             if (!Directory.Exists(binariesDir))
                 Directory.CreateDirectory(binariesDir);
 
-            if (!File.Exists(Path.Combine(binariesDir, filename)))
-                File.Copy(Filepath, Path.Combine(binariesDir, filename), true);
+            string FilepathTo = Path.Combine(binariesDir, filename);
+
+            System.Console.WriteLine("Copy: " + Filepath  + " to " + FilepathTo);
+
+            //if(!File.Exists(FilepathTo))
+                File.Copy(Filepath, FilepathTo, true);
         }
 
         public Mach1DecodePlugin(ReadOnlyTargetRules Target) : base(Target)

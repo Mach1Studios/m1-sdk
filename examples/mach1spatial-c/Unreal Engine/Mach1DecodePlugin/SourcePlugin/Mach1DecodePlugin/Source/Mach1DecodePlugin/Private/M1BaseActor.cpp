@@ -18,13 +18,6 @@
 
 #include <sstream>
 
-#ifdef WIN32
-void OutputDebugStringA(const char* lpOutputString) 
-{
-	UE_LOG(LogTemp, Warning, TEXT("%s"), lpOutputString);
-}
-#endif
-
 #define MIN_SOUND_VOLUME (KINDA_SMALL_NUMBER*2)
 
 
@@ -417,12 +410,8 @@ void AM1BaseActor::BeginPlay()
 }
 
 void PrintDebug(const char* str) {
-#ifdef WIN32
-	OutputDebugStringA(str);
-	OutputDebugStringA("\r\n");
-#endif
+	UE_LOG(LogTemp, Warning, TEXT("%s\r\n"), *FString(str));
 }
-
 
 // Called every frame
 void AM1BaseActor::Tick(float DeltaTime)
@@ -471,8 +460,8 @@ void AM1BaseActor::Tick(float DeltaTime)
 				}
 				else
 				{
-				//	PlayerRotation = player->GetControlRotation().Quaternion();
-				//	PlayerPosition = playerPawn->GetActorLocation();
+					PlayerRotation = PlayerRotation * player->GetControlRotation().Quaternion();
+					PlayerPosition = PlayerPosition + playerPawn->GetActorLocation();
 				}
 
 

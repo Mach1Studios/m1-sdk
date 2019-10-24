@@ -467,8 +467,8 @@ public:
     float filterSpeed;
 
 	// Angular settings functions
-	void convertAnglesToMach1(float* Y, float* P, float* R);
-	void convertAnglesToPlatform(float* Y, float* P, float* R);
+	static void convertAnglesToMach1(Mach1PlatformType platformType, float* Y, float* P, float* R);
+	static void convertAnglesToPlatform(Mach1PlatformType platformType, float* Y, float* P, float* R);
 
 	Mach1Point3DCore getCurrentAngle() {
 		Mach1Point3DCore angle(currentYaw, currentPitch, currentRoll);

@@ -159,7 +159,7 @@ void Mach1DecodeCore::updateAngles() {
 };
 
 // Angular settings functions
-void Mach1DecodeCore::convertAnglesToMach1(float* Y, float* P, float* R) {
+void Mach1DecodeCore::convertAnglesToMach1(Mach1PlatformType platformType, float* Y, float* P, float* R) {
 	switch (platformType) {
 	case Mach1PlatformDefault:
 		*Y = *Y;
@@ -182,10 +182,14 @@ void Mach1DecodeCore::convertAnglesToMach1(float* Y, float* P, float* R) {
 		break;
 
 	case Mach1PlatformUE:
-		std::swap(*R, *Y);
-		*Y = *Y;                    // Y in UE
-		*P = (*P < 0 ? 360 + *P : *P);   // Z in UE
-		*R = *R;                    // X in UE
+		*Y = -*Y;
+		std::swap(*Y, *P);
+		std::swap(*P, *R);
+
+		std::swap(*P, *Y);
+		*Y = *Y;                   // Y in Unity
+		*P = *P;             // X in Unity
+		*R = *R;                    // Z in Unity
 		break;
 
 	case Mach1PlatformOfEasyCam:
@@ -206,7 +210,7 @@ void Mach1DecodeCore::convertAnglesToMach1(float* Y, float* P, float* R) {
 	}
 }
 
-void Mach1DecodeCore::convertAnglesToPlatform(float * Y, float * P, float * R)
+void Mach1DecodeCore::convertAnglesToPlatform(Mach1PlatformType platformType, float * Y, float * P, float * R)
 {
 	 switch (platformType) {
 	 case Mach1PlatformDefault:
@@ -296,7 +300,7 @@ Mach1DecodeCore::Mach1DecodeCore() {
 
 	ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
-	smoothAngles = true;
+	smoothAngles = false;// true;
 
 	strLog.resize(0);
 }
@@ -408,7 +412,7 @@ void Mach1DecodeCore::endBuffer() {
 }
 
 void Mach1DecodeCore::processSample(functionAlgoSampleHP funcAlgoSampleHP, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
-	convertAnglesToMach1(&Yaw, &Pitch, &Roll);
+	convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
 
 	/*char buff[1024];
 	 snprintf(buff, sizeof(buff), "%.5f - current (%.4f %.4f %.4f), target (%.4f %.4f %.4f), previous (%.4f %.4f %.4f) \r\n", timeLastUpdate ? timeLastUpdate / 1000.0 : 0, currentYaw, currentPitch, currentRoll, targetYaw, targetPitch, targetRoll, previousYaw, previousPitch, previousRoll);
@@ -470,7 +474,7 @@ void Mach1DecodeCore::processSample(functionAlgoSampleHP funcAlgoSampleHP, float
 }
 
 std::vector<float> Mach1DecodeCore::processSample(functionAlgoSample funcAlgoSample, float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {
-	convertAnglesToMach1(&Yaw, &Pitch, &Roll);
+	convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
 	
 	/*char buff[1024];
 	snprintf(buff, sizeof(buff), "%.5f - current (%.4f %.4f %.4f), target (%.4f %.4f %.4f), previous (%.4f %.4f %.4f) \r\n", timeLastUpdate ? timeLastUpdate / 1000.0 : 0, currentYaw, currentPitch, currentRoll, targetYaw, targetPitch, targetRoll, previousYaw, previousPitch, previousRoll);
@@ -540,7 +544,7 @@ std::vector<float> Mach1DecodeCore::processSample(functionAlgoSample funcAlgoSam
 std::vector<float> Mach1DecodeCore::horizonAlgo(float Yaw, float Pitch, float Roll,
 	int bufferSize, int sampleIndex) {
 	
-	convertAnglesToMach1(&Yaw, &Pitch, &Roll);
+	convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
 
 
 	if (smoothAngles) {
@@ -600,7 +604,7 @@ std::vector<float> Mach1DecodeCore::horizonAlgo(float Yaw, float Pitch, float Ro
 void Mach1DecodeCore::horizonAlgo(float Yaw, float Pitch, float Roll, float *result,
                                             int bufferSize, int sampleIndex) {
     
-    convertAnglesToMach1(&Yaw, &Pitch, &Roll);
+    convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
     
     
     if (smoothAngles) {
@@ -735,7 +739,7 @@ void Mach1DecodeCore::spatialAltAlgo(float Yaw, float Pitch, float Roll, float *
 std::vector<float> Mach1DecodeCore::spatialPairsAlgo(float Yaw, float Pitch, float Roll,
 	int bufferSize, int sampleIndex) {
 
-	convertAnglesToMach1(&Yaw, &Pitch, &Roll);
+	convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
 
 
 	if (smoothAngles) {
@@ -823,7 +827,7 @@ std::vector<float> Mach1DecodeCore::spatialPairsAlgo(float Yaw, float Pitch, flo
 void Mach1DecodeCore::spatialPairsAlgo(float Yaw, float Pitch, float Roll, float *result,
                                                  int bufferSize, int sampleIndex) {
     
-    convertAnglesToMach1(&Yaw, &Pitch, &Roll);
+    convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
     
     
     if (smoothAngles) {

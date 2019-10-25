@@ -55,7 +55,9 @@ function Mach1AudioLoader(audioFiles, channelsCount) {
 
                 var minLength = Number.MAX_VALUE;
                 for (let i = 0; i < buffer.length; i++) {
-                    minLength = Math.min(minLength, buffer[i].length / buffer[i].numberOfChannels);
+                    //minLength = Math.min(minLength, buffer[i].length / buffer[i].numberOfChannels);
+                    //TODO: Why does this fix length of play issues?
+                    minLength = buffer[i].length*channelsCount;
                 }
 
                 finalBuffer = new AudioBuffer({

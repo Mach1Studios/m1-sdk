@@ -205,7 +205,7 @@ void AM1BaseActor::InitComponents(int32 InMaxSoundsPerChannel)
 #ifdef LEGACY_POSITIONAL
 	mach1Decode.setPlatformType(Mach1PlatformType::Mach1PlatformUE);
 #else 
-	m1Positional.setPlatformType(Mach1PlatformType::Mach1PlatformUnity);
+	m1Positional.setPlatformType(Mach1PlatformType::Mach1PlatformUE);
 #endif
 }
 
@@ -675,12 +675,12 @@ void AM1BaseActor::Tick(float DeltaTime)
 				m1Positional.setUsePitchForRotation(usePitchForRotation);
 				m1Positional.setUseRollForRotation(useRollForRotation);
 				 
-				m1Positional.setListenerPosition(ConvertToMach1Point3D(FVector(PlayerPosition.Y, PlayerPosition.Z, PlayerPosition.X))); //ConvertToMach1Point3D(PlayerPosition));
+				m1Positional.setListenerPosition(ConvertToMach1Point3D(PlayerPosition));
 				FVector listenerAngle = (PlayerRotation.Euler());
-				m1Positional.setListenerRotation(ConvertToMach1Point3D(FVector(listenerAngle.Y, listenerAngle.Z, -listenerAngle.X)));
-				m1Positional.setDecoderAlgoPosition(ConvertToMach1Point3D(FVector(GetActorLocation().Y, GetActorLocation().Z, GetActorLocation().X))); //ConvertToMach1Point3D(GetActorLocation()));
+				m1Positional.setListenerRotation(ConvertToMach1Point3D(listenerAngle));
+				m1Positional.setDecoderAlgoPosition(ConvertToMach1Point3D(GetActorLocation()));
 				FVector decoderAngle = (GetActorRotation().Euler());
-				m1Positional.setDecoderAlgoRotation(ConvertToMach1Point3D(FVector(decoderAngle.Y, decoderAngle.Z, -decoderAngle.X))); //ConvertToMach1Point3D(GetEuler(GetActorRotation().Quaternion())));
+				m1Positional.setDecoderAlgoRotation(ConvertToMach1Point3D(decoderAngle)); 
 				m1Positional.setDecoderAlgoScale(ConvertToMach1Point3D(scale));
 
 				m1Positional.evaluatePositionResults();

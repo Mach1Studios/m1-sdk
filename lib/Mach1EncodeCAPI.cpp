@@ -175,5 +175,5 @@ void Mach1EncodeCAPI_setIsotropicEncode(void* M1obj, bool isotropicEncode) {
 }
 
 long Mach1EncodeCAPI_getLastCalculationTime(void* M1obj) {
-	((M1EncodeCore*)M1obj)->getLastCalculationTime();
+	return ((M1EncodeCore*)M1obj)->getLastCalculationTime();
 }

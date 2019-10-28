@@ -605,12 +605,12 @@ int test(void)
 	return 0;
 }
 
-long Mach1DecodeCore::getCurrentTime()
+long Mach1DecodePositionalCore::getCurrentTime()
 {
 	return (long)(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) - ms).count();
 }
 
-long Mach1DecodeCore::getLastCalculationTime()
+long Mach1DecodePositionalCore::getLastCalculationTime()
 {
 	return timeLastCalculation;
 }

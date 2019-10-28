@@ -12,6 +12,11 @@
 
 #include <vector>
 #include <string>
+#include <chrono>
+
+#ifndef SWIG
+using namespace std::chrono;
+#endif
 
 #ifndef PI
 #define PI 3.14159265358979323846f
@@ -80,6 +85,9 @@ private:
 	void processGains4Channels(float x, float y, float(&result)[4]);
 	void processGains8Channels(float x, float y, float z, float(&result)[8]);
 
+	milliseconds ms;
+
+	long timeLastCalculation;
 
 public:
 	M1EncodeCore();
@@ -99,6 +107,9 @@ public:
 	void setStereoSpread(float sSpread);
 	void setAutoOrbit(bool autoOrbit);
 	void setIsotropicEncode(bool isotropicEncode);
+
+	long getCurrentTime();
+	long getLastCalculationTime();
 };
 
 #endif /* Mach1EncodeCore_h */

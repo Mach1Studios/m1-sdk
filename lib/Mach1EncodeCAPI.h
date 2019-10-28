@@ -74,6 +74,9 @@ extern "C" {
 	M1_API void Mach1EncodeCAPI_setStereoSpread(void* M1obj, float sSpread);
 	M1_API void Mach1EncodeCAPI_setAutoOrbit(void* M1obj, bool autoOrbit);
 	M1_API void Mach1EncodeCAPI_setIsotropicEncode(void* M1obj, bool isotropicEncode);
+
+	M1_API long Mach1EncodeCAPI_getLastCalculationTime(void* M1obj);
+
 #ifdef __cplusplus
 }
 #endif

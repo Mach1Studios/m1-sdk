@@ -56,6 +56,8 @@ extern "C" {
 	M1_API void Mach1DecodeCAPI_endBuffer(void* M1obj);
   
 	M1_API long Mach1DecodeCAPI_getCurrentTime(void* M1obj);
+	M1_API long Mach1DecodeCAPI_getLastCalculationTime(void* M1obj);
+
 	M1_API char* Mach1DecodeCAPI_getLog(void * M1obj);
 
 	M1_API struct Mach1Point3D Mach1DecodeCAPI_getCurrentAngle(void* M1obj);

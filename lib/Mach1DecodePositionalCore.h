@@ -84,6 +84,10 @@ private:
 
 	std::vector<float> volumes;
 
+	milliseconds ms;
+
+	long timeLastCalculation;
+
 public:
 
 	Mach1DecodePositionalCore();
@@ -172,4 +176,7 @@ public:
 	Mach1Point3DCore getVolumeRotation();
 
 	void setFilterSpeed(float filterSpeed);
+
+	long getCurrentTime();
+	long getLastCalculationTime();
 };

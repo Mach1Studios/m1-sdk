@@ -65,6 +65,8 @@ extern "C" {
 	M1_API struct Mach1Point3D Mach1DecodePositionalCAPI_getCoefficientsRotation(void* M1obj);
 	M1_API void Mach1DecodePositionalCAPI_setFilterSpeed(void* M1obj, float filterSpeed);
 
+	M1_API long Mach1DecodePositionalCAPI_getLastCalculationTime(void* M1obj);
+
 /* DEPRECATED START*/
 #if __cplusplus > 201103L
 	[[deprecated("setUseFalloff is deprecated, please use setUseAttenuation instead")]]

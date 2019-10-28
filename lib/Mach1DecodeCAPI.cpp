@@ -63,6 +63,11 @@ long Mach1DecodeCAPI_getCurrentTime(void * M1obj)
 	return ((Mach1DecodeCore*)M1obj)->getCurrentTime();
 }
 
+long Mach1DecodeCAPI_getLastCalculationTime(void * M1obj)
+{
+	return ((Mach1DecodeCore*)M1obj)->getLastCalculationTime();
+}
+
 char* Mach1DecodeCAPI_getLog(void * M1obj)
 {
 	return ((Mach1DecodeCore*)M1obj)->getLog();

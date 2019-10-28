@@ -95,6 +95,9 @@ M1EncodeCore::M1EncodeCore() {
 	isotropicEncode = true; 
 
 	outputChannelCount = 8;
+
+	ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+	timeLastCalculation = 0;
 }
 
 M1EncodeCore::~M1EncodeCore() {
@@ -102,6 +105,7 @@ M1EncodeCore::~M1EncodeCore() {
 }
 
 void M1EncodeCore::generatePointResults() {
+	long tStart = getCurrentTime();
 
     float normalisedOutputDiverge = diverge * (1 / cos(PI * 0.25f));
     
@@ -646,6 +650,7 @@ void M1EncodeCore::generatePointResults() {
 		}
 	}
 
+	timeLastCalculation = getCurrentTime() - tStart;
 }
 
 void M1EncodeCore::getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, float* decodeResult, float* result)
@@ -726,4 +731,14 @@ void M1EncodeCore::setAutoOrbit(bool autoOrbit) {
 
 void M1EncodeCore::setIsotropicEncode(bool isotropicEncode){
 	this->isotropicEncode = isotropicEncode;
+}
+
+long M1EncodeCore::getCurrentTime()
+{
+	return (long)(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) - ms).count();
+}
+
+long M1EncodeCore::getLastCalculationTime()
+{
+	return timeLastCalculation;
 }

@@ -173,3 +173,7 @@ void Mach1EncodeCAPI_setAutoOrbit(void* M1obj, bool autoOrbit) {
 void Mach1EncodeCAPI_setIsotropicEncode(void* M1obj, bool isotropicEncode) {
 	((M1EncodeCore*)M1obj)->setIsotropicEncode(isotropicEncode);
 }
+
+long Mach1EncodeCAPI_getLastCalculationTime(void* M1obj) {
+	((M1EncodeCore*)M1obj)->getLastCalculationTime();
+}

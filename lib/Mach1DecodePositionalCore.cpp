@@ -177,6 +177,9 @@ Mach1DecodePositionalCore::Mach1DecodePositionalCore()
 	falloffCurve = 1;
 	falloffCurveBlendMode = 1;
 
+	ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+	timeLastCalculation = 0;
+
 	setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial);
 }
 
@@ -329,6 +332,7 @@ void Mach1DecodePositionalCore::setDecoderAlgoScale(Mach1Point3DCore * scale) {
 }
 
 void Mach1DecodePositionalCore::evaluatePositionResults() {
+	long tStart = getCurrentTime();
 
 	volumeWalls = 1.0f;
 	volumeRoom = 0.0f;
@@ -451,6 +455,8 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
 	}
 
 	mach1Decode.beginBuffer();
+
+	timeLastCalculation = getCurrentTime() - tStart;
 }
 
 void Mach1DecodePositionalCore::getCoefficients(float *result)
@@ -597,4 +603,14 @@ int test(void)
 	float d = m1Positional.getDist();
 	m1Positional.getCoefficients(volumesWalls);
 	return 0;
+}
+
+long Mach1DecodeCore::getCurrentTime()
+{
+	return (long)(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) - ms).count();
+}
+
+long Mach1DecodeCore::getLastCalculationTime()
+{
+	return timeLastCalculation;
 }

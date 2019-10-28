@@ -152,6 +152,12 @@ void Mach1DecodePositionalCAPI_setFilterSpeed(void * M1obj, float filterSpeed)
 	((Mach1DecodePositionalCore*)M1obj)->setFilterSpeed(filterSpeed);
 }
 
+long Mach1DecodePositionalCAPI_getLastCalculationTime(void * M1obj)
+{
+	return ((Mach1DecodePositionalCore*)M1obj)->getLastCalculationTime();
+}
+
+
 /* DEPRECATED START*/
 void Mach1DecodePositionalCAPI_setUseFalloff(void * M1obj, bool useFalloff)
 {

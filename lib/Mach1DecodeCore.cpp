@@ -294,6 +294,7 @@ Mach1DecodeCore::Mach1DecodeCore() {
 		
 	filterSpeed = 0.9f;
 	timeLastUpdate = 0;
+	timeLastCalculation = 0;
 
 	platformType = Mach1PlatformDefault;
     algorithmType = Mach1DecodeAlgoSpatial;
@@ -308,6 +309,11 @@ Mach1DecodeCore::Mach1DecodeCore() {
 long Mach1DecodeCore::getCurrentTime()
 {
 	return (long)(duration_cast<milliseconds>(system_clock::now().time_since_epoch()) - ms).count();
+}
+
+long Mach1DecodeCore::getLastCalculationTime()
+{
+	return timeLastCalculation;
 }
 
 void Mach1DecodeCore::setPlatformType(Mach1PlatformType type) {
@@ -325,63 +331,71 @@ void Mach1DecodeCore::setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType) {
 }
 
 std::vector<float> Mach1DecodeCore::decode(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {
-    switch (algorithmType) {
+	long tStart = getCurrentTime();
+	std::vector<float> res;
+
+	switch (algorithmType) {
             // m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs, m1SpatialPairs
         case Mach1DecodeAlgoSpatial:
-            return spatialAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+			res = spatialAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
             break;
 
         case Mach1DecodeAlgoAltSpatial:
-            return spatialAltAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+			res = spatialAltAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
             break;
 
         case Mach1DecodeAlgoHorizon:
-            return horizonAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+			res = horizonAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
             break;
 
         case Mach1DecodeAlgoHorizonPairs:
-            return horizonPairsAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+			res = horizonPairsAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
             break;
 
         case Mach1DecodeAlgoSpatialPairs:
-            return spatialPairsAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+			res = spatialPairsAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
             break;
 
         default:
             break;
     }
 
-	return std::vector<float>();
+	timeLastCalculation = getCurrentTime() - tStart;
+	return res;
 }
 
 // Decode using the current algorithm type in a more efficient way
 
 void Mach1DecodeCore::decode(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
-    switch (algorithmType) {
+	long tStart = getCurrentTime();
+
+	switch (algorithmType) {
             // m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs, m1SpatialPairs
         case Mach1DecodeAlgoSpatial:
-            return spatialAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+            spatialAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
             break;
             
         case Mach1DecodeAlgoAltSpatial:
-            return spatialAltAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+            spatialAltAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
             break;
             
         case Mach1DecodeAlgoHorizon:
-            return horizonAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+            horizonAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
             break;
             
         case Mach1DecodeAlgoHorizonPairs:
-            return horizonPairsAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+            horizonPairsAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
             break;
             
         case Mach1DecodeAlgoSpatialPairs:
-            return spatialPairsAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+            spatialPairsAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
             break;
             
         default:
             break;
     }
+
+	timeLastCalculation = getCurrentTime() - tStart;
 }
 
 // The following functions are deprecated as of now
@@ -911,3 +925,4 @@ void Mach1DecodeCore::spatialPairsAlgo(float Yaw, float Pitch, float Roll, float
 }
 
 // ------------------------------------------------------------------
+

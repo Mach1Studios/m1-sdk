@@ -69,7 +69,8 @@ private:
     float previousYaw, previousPitch, previousRoll;
     
 	long timeLastUpdate;
-   
+	long timeLastCalculation;
+
     bool smoothAngles;
  
     Mach1PlatformType platformType;
@@ -485,7 +486,7 @@ public:
     void endBuffer();
 
     long getCurrentTime();
-    
+	long getLastCalculationTime();
     
     // Set the algorithm type to use when decoding
     

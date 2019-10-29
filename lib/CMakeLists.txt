@@ -2,12 +2,16 @@ cmake_minimum_required(VERSION 2.8.8)
 project(Mach1SpatialLibraries)
 set(Mach1SpatialLibraries_VERSION_MAJOR 1)
 set(Mach1SpatialLibraries_VERSION_MINOR 0)
-set(Mach1SpatialLibraries_VERSION_PATCH 6)
-set(Mach1SpatialLibraries_VERSION_TWEAK 0)
+set(Mach1SpatialLibraries_VERSION ${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR})
 
+# SET API VERSIONS
+set(ENCODE_VERSION "1.0.6.1")
+set(DECODE_VERSION "1.0.6.0")
+set(DECODEPOSITIONAL_VERSION "1.0.6.2")
+
+set(Mach1EncodeCAPIsrc "./Mach1EncodeCAPI.cpp" "./Mach1EncodeCore.cpp")
 set(Mach1DecodeCAPIsrc "./Mach1DecodeCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")
 set(Mach1DecodePositionalCAPIsrc "./Mach1DecodePositionalCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1DecodePositionalCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")
-set(Mach1EncodeCAPIsrc "./Mach1EncodeCAPI.cpp" "./Mach1EncodeCore.cpp")
 set(Mach1DecodePositionalCAPIinclude "./include")
 
 # STATIC
@@ -38,9 +42,32 @@ set_target_properties(Mach1EncodeCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY 
 
 target_include_directories(Mach1DecodePositionalCAPIstatic PRIVATE ${Mach1DecodePositionalCAPIinclude})
 
+set_target_properties(Mach1EncodeCAPIstatic PROPERTIES VERSION ${ENCODE_VERSION})
+set_target_properties(Mach1DecodeCAPIstatic PROPERTIES VERSION ${DECODE_VERSION})
+set_target_properties(Mach1DecodePositionalCAPIstatic PROPERTIES VERSION ${DECODEPOSITIONAL_VERSION})
+
 install(TARGETS Mach1DecodeCAPIstatic DESTINATION lib)
 install(TARGETS Mach1DecodePositionalCAPIstatic DESTINATION lib)
 install(TARGETS Mach1EncodeCAPIstatic DESTINATION lib)
+
+if(IOS)
+	option(BUILD_SHARED_LIBS "..." ON)
+	set_target_properties(
+    	Mach1DecodeCAPIstatic
+    	PROPERTIES
+    	FRAMEWORK TRUE
+	)
+	set_target_properties(
+    	Mach1DecodePositionalCAPIstatic
+    	PROPERTIES
+    	FRAMEWORK TRUE
+	)
+	set_target_properties(
+    	Mach1EncodeCAPIstatic
+    	PROPERTIES
+    	FRAMEWORK TRUE
+	)
+endif()
 
 # UNITY
 if(NOT IOS OR TVOS OR WATCHOS)
@@ -53,6 +80,10 @@ if(NOT IOS OR TVOS OR WATCHOS)
 	set_target_properties(Mach1EncodeCAPIshared PROPERTIES OUTPUT_NAME "Mach1EncodeCAPI")
 
 	target_include_directories(Mach1DecodePositionalCAPIshared PRIVATE ${Mach1DecodePositionalCAPIinclude})
+
+	set_target_properties(Mach1EncodeCAPIshared PROPERTIES VERSION ${ENCODE_VERSION})
+	set_target_properties(Mach1DecodeCAPIshared PROPERTIES VERSION ${DECODE_VERSION})
+	set_target_properties(Mach1DecodePositionalCAPIshared PROPERTIES VERSION ${DECODEPOSITIONAL_VERSION})
 
 	install(TARGETS Mach1DecodeCAPIshared DESTINATION libUnity)
 	install(TARGETS Mach1DecodePositionalCAPIshared DESTINATION libUnity)
@@ -79,6 +110,10 @@ if(APPLE)
 		set_target_properties(Mach1EncodeCAPIbundle PROPERTIES SUFFIX ".bundle")
 
 		target_include_directories(Mach1DecodePositionalCAPIbundle PRIVATE ${Mach1DecodePositionalCAPIinclude})
+
+		set_target_properties(Mach1EncodeCAPIbundle PROPERTIES VERSION ${ENCODE_VERSION})
+		set_target_properties(Mach1DecodeCAPIbundle PROPERTIES VERSION ${DECODE_VERSION})
+		set_target_properties(Mach1DecodePositionalCAPIbundle PROPERTIES VERSION ${DECODEPOSITIONAL_VERSION})
 
 		install(TARGETS Mach1DecodeCAPIbundle DESTINATION libBundle)
 		install(TARGETS Mach1DecodePositionalCAPIbundle DESTINATION libBundle)

@@ -36,10 +36,6 @@ set_target_properties(Mach1DecodeCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY 
 set_target_properties(Mach1DecodePositionalCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static/)
 set_target_properties(Mach1EncodeCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static/)
 
-set_target_properties(Mach1DecodeCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static/)
-set_target_properties(Mach1DecodePositionalCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static/)
-set_target_properties(Mach1EncodeCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static/)
-
 target_include_directories(Mach1DecodePositionalCAPIstatic PRIVATE ${Mach1DecodePositionalCAPIinclude})
 
 set_target_properties(Mach1EncodeCAPIstatic PROPERTIES VERSION ${ENCODE_VERSION})
@@ -49,25 +45,6 @@ set_target_properties(Mach1DecodePositionalCAPIstatic PROPERTIES VERSION ${DECOD
 install(TARGETS Mach1DecodeCAPIstatic DESTINATION lib)
 install(TARGETS Mach1DecodePositionalCAPIstatic DESTINATION lib)
 install(TARGETS Mach1EncodeCAPIstatic DESTINATION lib)
-
-if(IOS)
-	option(BUILD_SHARED_LIBS "..." ON)
-	set_target_properties(
-    	Mach1DecodeCAPIstatic
-    	PROPERTIES
-    	FRAMEWORK TRUE
-	)
-	set_target_properties(
-    	Mach1DecodePositionalCAPIstatic
-    	PROPERTIES
-    	FRAMEWORK TRUE
-	)
-	set_target_properties(
-    	Mach1EncodeCAPIstatic
-    	PROPERTIES
-    	FRAMEWORK TRUE
-	)
-endif()
 
 # UNITY
 if(NOT IOS OR TVOS OR WATCHOS)
@@ -119,4 +96,55 @@ if(APPLE)
 		install(TARGETS Mach1DecodePositionalCAPIbundle DESTINATION libBundle)
 		install(TARGETS Mach1EncodeCAPIbundle DESTINATION libBundle)
 	endif()
+endif()
+
+if(IOS)
+	# STATIC
+	add_library(Mach1DecodeCAPIframework STATIC ${Mach1DecodeCAPIsrc})
+	add_library(Mach1DecodePositionalCAPIframework STATIC ${Mach1DecodePositionalCAPIsrc})
+	add_library(Mach1EncodeCAPIframework STATIC ${Mach1EncodeCAPIsrc})
+
+	if(IOS)
+	    set_target_properties(Mach1DecodeCAPIframework PROPERTIES CMAKE_XCODE_ATTRIBUTE_BITCODE_GENERATION_MODE "bitcode")
+	    set_target_properties(Mach1DecodePositionalCAPIframework PROPERTIES CMAKE_XCODE_ATTRIBUTE_BITCODE_GENERATION_MODE "bitcode")
+	    set_target_properties(Mach1EncodeCAPIframework PROPERTIES CMAKE_XCODE_ATTRIBUTE_BITCODE_GENERATION_MODE "bitcode")
+		set_target_properties(Mach1DecodeCAPIframework PROPERTIES XCODE_ATTRIBUTE_ENABLE_BITCODE "YES")
+		set_target_properties(Mach1DecodePositionalCAPIframework PROPERTIES XCODE_ATTRIBUTE_ENABLE_BITCODE "YES")
+		set_target_properties(Mach1EncodeCAPIframework PROPERTIES XCODE_ATTRIBUTE_ENABLE_BITCODE "YES")
+	endif()
+
+	set_target_properties(Mach1DecodeCAPIframework PROPERTIES OUTPUT_NAME "Mach1DecodeCAPI")
+	set_target_properties(Mach1DecodePositionalCAPIframework PROPERTIES OUTPUT_NAME "Mach1DecodePositionalCAPI")
+	set_target_properties(Mach1EncodeCAPIframework PROPERTIES OUTPUT_NAME "Mach1EncodeCAPI")
+
+	set_target_properties(Mach1DecodeCAPIframework PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static/)
+	set_target_properties(Mach1DecodePositionalCAPIframework PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static/)
+	set_target_properties(Mach1EncodeCAPIframework PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static/)
+
+	target_include_directories(Mach1DecodePositionalCAPIframework PRIVATE ${Mach1DecodePositionalCAPIinclude})
+
+	set_target_properties(Mach1EncodeCAPIframework PROPERTIES VERSION ${ENCODE_VERSION})
+	set_target_properties(Mach1DecodeCAPIframework PROPERTIES VERSION ${DECODE_VERSION})
+	set_target_properties(Mach1DecodePositionalCAPIframework PROPERTIES VERSION ${DECODEPOSITIONAL_VERSION})
+
+	option(BUILD_SHARED_LIBS "..." ON)
+	set_target_properties(
+    	Mach1DecodeCAPIframework
+    	PROPERTIES
+    	FRAMEWORK TRUE
+	)
+	set_target_properties(
+    	Mach1DecodePositionalCAPIframework
+    	PROPERTIES
+    	FRAMEWORK TRUE
+	)
+	set_target_properties(
+    	Mach1EncodeCAPIframework
+    	PROPERTIES
+    	FRAMEWORK TRUE
+	)
+	
+	install(TARGETS Mach1DecodeCAPIframework DESTINATION Frameworks)
+	install(TARGETS Mach1DecodePositionalCAPIframework DESTINATION Frameworks)
+	install(TARGETS Mach1EncodeCAPIframework DESTINATION Frameworks)
 endif()

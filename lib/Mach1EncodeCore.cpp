@@ -590,14 +590,14 @@ void M1EncodeCore::generatePointResults() {
                     resultingPoints.ppoints[0].x = cos((rotation + 0.125 - 0.25) * PI * 2) * normalisedOutputDiverge; // X
                     resultingPoints.ppoints[0].y = pitch; // Y
                     resultingPoints.ppoints[0].z = sin((rotation + 0.125 - 0.25) * PI * 2) * normalisedOutputDiverge; // Z
-                    // C
-                    resultingPoints.ppoints[1].x = cos((rotation) * PI * 2) * normalisedOutputDiverge; // X
-                    resultingPoints.ppoints[1].y = pitch; // Y
-                    resultingPoints.ppoints[1].z = sin((rotation) * PI * 2) * normalisedOutputDiverge; // Z
                     // R
                     resultingPoints.ppoints[2].x = cos((rotation + 0.125) * PI * 2) * normalisedOutputDiverge; // X
                     resultingPoints.ppoints[2].y = pitch; // Y
                     resultingPoints.ppoints[2].z = sin((rotation + 0.125) * PI * 2) * normalisedOutputDiverge; // Z
+                    // C
+                    resultingPoints.ppoints[1].x = (resultingPoints.ppoints[0].x + resultingPoints.ppoints[2].x) / 2; // X
+                    resultingPoints.ppoints[1].y = pitch; // Y
+                    resultingPoints.ppoints[1].z = (resultingPoints.ppoints[0].z + resultingPoints.ppoints[2].z) / 2; // Z
                     // Ls
                     resultingPoints.ppoints[3].x = cos((rotation + 0.125 + 0.25 +  0.125) * PI * 2) * normalisedOutputDiverge; // X
                     resultingPoints.ppoints[3].y = pitch; // Y

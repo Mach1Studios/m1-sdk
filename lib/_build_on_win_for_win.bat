@@ -6,8 +6,8 @@ rmdir /s /q _win
 
 cd %~dp0
 
-xcopy _install\vs-15-2017\lib ..\binaries\windows-x86\x86 /Y
-xcopy _install\vs-15-2017-win64\lib ..\binaries\windows-x86_64\x64 /Y
+xcopy _install\vs-15-2017\lib ..\binaries\windows-x86 /Y
+xcopy _install\vs-15-2017-win64\lib ..\binaries\windows-x86_64 /Y
 
 xcopy _install\vs-15-2017\libUnity ..\examples\mach1spatial-c\Unity\M1UnityDecodeTest\Assets\Mach1\Plugins\Windows\x86 /Y
 xcopy _install\vs-15-2017-win64\libUnity ..\examples\mach1spatial-c\Unity\M1UnityDecodeTest\Assets\Mach1\Plugins\Windows\x86_64 /Y

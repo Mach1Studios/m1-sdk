@@ -36,9 +36,9 @@ enum Mach1EncodeInputModeType {
 	Mach1EncodeInputModeQuad, 
 	Mach1EncodeInputModeLCRS, 
 	Mach1EncodeInputModeAFormat, 
-	#if __cplusplus > 201103L
-	[[deprecated("Mach1EncodeInputModeBFormat is not specific enough, please use either: Mach1EncodeInputModeBFOAACN or Mach1EncodeInputModeBFOAFUMA", true)]]
-	#endif
+    #if __cplusplus >  201402L
+    [[deprecated("Mach1EncodeInputModeBFormat is not specific enough, please use either: Mach1EncodeInputModeBFOAACN or Mach1EncodeInputModeBFOAFUMA", true)]]
+    #endif
 	Mach1EncodeInputModeBFormat, 
 	Mach1EncodeInputModeBFOAACN, 
 	Mach1EncodeInputModeBFOAFUMA

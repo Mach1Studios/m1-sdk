@@ -28,7 +28,18 @@ static bool done = false;
 Mach1Decode m1Decode;
 std::vector<float> m1Coeffs;
 
-// variables for setting yaw/pitch/roll
+/*
+Orientation Euler
+
+Yaw[0]+ = rotate right [Range: 0->360 | -180->180]
+Yaw[0]- = rotate left [Range: 0->360 | -180->180]
+Pitch[1]+ = rotate up [Range: -90->90]
+Pitch[1]- = rotate down [Range: -90->90]
+Roll[2]+ = tilt right [Range: -90->90]
+Roll[2]- = tilt left [Range: -90->90]
+
+http://dev.mach1.tech/#mach1-internal-angle-standard
+*/
 static float yaw = 0;
 static float pitch = 0;
 static float roll = 0;

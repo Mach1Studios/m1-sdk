@@ -595,8 +595,8 @@ SWIGEXPORT void JNICALL Java_com_Mach1_Mach1DecodePositionalModuleJNI_Mach1Decod
   (void)jenv;
   (void)jcls;
   arg1 = *(void **)&jarg1; 
-  arg2 = jarg2 ? true : false; 
-  Mach1DecodePositionalCAPI_setUseFalloff(arg1,arg2);
+  arg2 = jarg2 ? true : false;
+  Mach1DecodePositionalCAPI_setUseAttenuation(arg1,arg2);
 }
 
 
@@ -607,8 +607,8 @@ SWIGEXPORT void JNICALL Java_com_Mach1_Mach1DecodePositionalModuleJNI_Mach1Decod
   (void)jenv;
   (void)jcls;
   arg1 = *(void **)&jarg1; 
-  arg2 = (float)jarg2; 
-  Mach1DecodePositionalCAPI_setFalloffCurve(arg1,arg2);
+  arg2 = (float)jarg2;
+  Mach1DecodePositionalCAPI_setAttenuationCurve(arg1,arg2);
 }
 
 
@@ -619,8 +619,9 @@ SWIGEXPORT void JNICALL Java_com_Mach1_Mach1DecodePositionalModuleJNI_Mach1Decod
   (void)jenv;
   (void)jcls;
   arg1 = *(void **)&jarg1; 
-  arg2 = jarg2 ? true : false; 
-  Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(arg1,arg2);
+  arg2 = jarg2 ? true : false;
+
+  Mach1DecodePositionalCAPI_setMuteWhenInsideObject(arg1,arg2);
 }
 
 
@@ -638,8 +639,9 @@ SWIGEXPORT void JNICALL Java_com_Mach1_Mach1DecodePositionalModuleJNI_Mach1Decod
     SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null Mach1Point3D");
     return ;
   }
-  arg2 = *argp2; 
-  Mach1DecodePositionalCAPI_setCameraPosition(arg1,arg2);
+  arg2 = *argp2;
+
+  Mach1DecodePositionalCAPI_setListenerPosition(arg1,arg2);
 }
 
 
@@ -658,7 +660,7 @@ SWIGEXPORT void JNICALL Java_com_Mach1_Mach1DecodePositionalModuleJNI_Mach1Decod
     return ;
   }
   arg2 = *argp2; 
-  Mach1DecodePositionalCAPI_setCameraRotation(arg1,arg2);
+  Mach1DecodePositionalCAPI_setListenerRotation(arg1,arg2);
 }
 
 
@@ -676,8 +678,8 @@ SWIGEXPORT void JNICALL Java_com_Mach1_Mach1DecodePositionalModuleJNI_Mach1Decod
     SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null Mach1Point4D");
     return ;
   }
-  arg2 = *argp2; 
-  Mach1DecodePositionalCAPI_setCameraRotationQuat(arg1,arg2);
+  arg2 = *argp2;
+  Mach1DecodePositionalCAPI_setListenerRotationQuat(arg1,arg2);
 }
 
 
@@ -689,7 +691,7 @@ SWIGEXPORT void JNICALL Java_com_Mach1_Mach1DecodePositionalModuleJNI_Mach1Decod
   (void)jcls;
   arg1 = *(void **)&jarg1; 
   arg2 = *(float **)&jarg2; 
-  Mach1DecodePositionalCAPI_getVolumesWalls(arg1,arg2);
+  Mach1DecodePositionalCAPI_getCoefficients(arg1,arg2);
 }
 
 
@@ -701,7 +703,7 @@ SWIGEXPORT jlong JNICALL Java_com_Mach1_Mach1DecodePositionalModuleJNI_Mach1Deco
   (void)jenv;
   (void)jcls;
   arg1 = *(void **)&jarg1; 
-  result = Mach1DecodePositionalCAPI_getVolumeRotation(arg1);
+  result = Mach1DecodePositionalCAPI_getCoefficientsRotation(arg1);
   *(Mach1Point3D **)&jresult = new Mach1Point3D((const Mach1Point3D &)result); 
   return jresult;
 }
@@ -739,7 +741,7 @@ SWIGEXPORT void JNICALL Java_com_Mach1_Mach1DecodePositionalModuleJNI_Mach1Decod
   (void)jcls;
   arg1 = *(void **)&jarg1; 
   arg2 = (float)jarg2; 
-  Mach1DecodePositionalCAPI_setFalloffCurveBlendMode(arg1,arg2);
+  Mach1DecodePositionalCAPI_setAttenuationCurveBlendMode(arg1,arg2);
 }
 
 
@@ -763,7 +765,7 @@ SWIGEXPORT void JNICALL Java_com_Mach1_Mach1DecodePositionalModuleJNI_Mach1Decod
   (void)jcls;
   arg1 = *(void **)&jarg1; 
   arg2 = *(float **)&jarg2; 
-  Mach1DecodePositionalCAPI_getVolumesRoom(arg1,arg2);
+  Mach1DecodePositionalCAPI_getCoefficientsInterior(arg1,arg2);
 }
 
 

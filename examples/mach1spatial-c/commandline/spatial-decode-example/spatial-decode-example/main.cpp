@@ -22,7 +22,7 @@
 #define PI 3.14159265358979323846
 #endif
 
-static void* run(void* v);
+static void* decode(void* v);
 static pthread_t thread;
 static bool done = false;
 Mach1Decode m1Decode;
@@ -44,7 +44,7 @@ float radToDeg (float input){
 }
 
 int main(int argc, const char * argv[]) {
-    // time increment for Yaw/Pitch/Roll updates
+    // time increment for Yaw/Pitch/Roll updates to decode
     struct timespec ts;
     ts.tv_sec =  0;
     ts.tv_nsec = (long)1e7; // 1/100 seconds
@@ -54,7 +54,7 @@ int main(int argc, const char * argv[]) {
     m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial);
     m1Decode.setFilterSpeed(1.0);
     done = false;
-    pthread_create(&thread, NULL, &run, NULL);
+    pthread_create(&thread, NULL, &decode, NULL);
     
     while (!done) {
         nanosleep(&ts, NULL);
@@ -66,10 +66,9 @@ int main(int argc, const char * argv[]) {
     return 0;
 }
 
-static void* run(void* v)
+static void* decode(void* v)
 {
-    /* change default terminal behavior to *not* expect "enter"
-     to be pressed after every character input */
+    /* Allow Terminal to input chars without "Enter" */
     struct termios info;
     tcgetattr(0, &info);
     info.c_lflag &= ~ICANON;
@@ -77,7 +76,6 @@ static void* run(void* v)
     info.c_cc[VTIME] = 0;
     tcsetattr(0, TCSANOW, &info);
     
-    // pthread_mutex_lock(&mutex);
     printf("In the run thread\n");
     char c;
     printf("Enter a command:\n");
@@ -112,7 +110,7 @@ static void* run(void* v)
                 printf("Input not recognized.\n");
         }
         
-        // ensure that values are in proper range
+        // check that the values are in proper range
         if (pitch < -M_PI) pitch = M_PI;
         else if (pitch > M_PI) pitch = -M_PI;
         if (yaw < 0) yaw = 2*M_PI;
@@ -120,12 +118,15 @@ static void* run(void* v)
         if (roll < -M_PI) roll = M_PI;
         else if (roll > M_PI) roll = -M_PI;
         
-        // uncomment to print out roll pitch and yaw over time
+        // Mach1DecodeCAPI Log:
         printf("\n");
         printf("y / p / r: %f %f %f\n", radToDeg(yaw), radToDeg(pitch), radToDeg(roll));
         printf("\n");
         printf("Decode Coeffs:\n");
-        printf("%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", m1Coeffs[0], m1Coeffs[1], m1Coeffs[2], m1Coeffs[3], m1Coeffs[4], m1Coeffs[5], m1Coeffs[6], m1Coeffs[7], m1Coeffs[8], m1Coeffs[9], m1Coeffs[10], m1Coeffs[11], m1Coeffs[12], m1Coeffs[13], m1Coeffs[14], m1Coeffs[15], m1Coeffs[16], m1Coeffs[17]);
+        printf("%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", m1Coeffs[0], m1Coeffs[1], m1Coeffs[2], m1Coeffs[3], m1Coeffs[4], m1Coeffs[5], m1Coeffs[6], m1Coeffs[7], m1Coeffs[8], m1Coeffs[9], m1Coeffs[10], m1Coeffs[11], m1Coeffs[12], m1Coeffs[13], m1Coeffs[14], m1Coeffs[15]);
+        printf("\n");
+        printf("Headlock Stereo Coeffs:\n");
+        printf("%f %f\n", m1Coeffs[16], m1Coeffs[17]);
         printf("\n");
         printf("Time Elapsed: %f\n", start-end);
         printf("\n");

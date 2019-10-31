@@ -15,9 +15,11 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <termios.h>
-#include "Mach1Decode.h"
+#include <chrono>
+#include "Mach1DecodePositional.h"
 
 #define DELTA_ANGLE 0.0174533 // equivalent of 1 degrees in radians
+#define DELTA_POS_STEP 0.25
 #ifndef PI
 #define PI 3.14159265358979323846
 #endif
@@ -25,24 +27,37 @@
 static void* decode(void* v);
 static pthread_t thread;
 static bool done = false;
-Mach1Decode m1Decode;
-std::vector<float> m1Coeffs;
+Mach1DecodePositional m1Decode;
+static std::vector<float> m1Coeffs;
 
 /*
-Orientation Euler
+ Positional 3D Coords
+ 
+ X+ = strafe right
+ X- = strafe left
+ Y+ = up
+ Y- = down
+ Z+ = forward
+ Z- = backward
+ 
+ Orientation Euler
+ 
+ Yaw[0]+ = rotate right [Range: 0->360 | -180->180]
+ Yaw[0]- = rotate left [Range: 0->360 | -180->180]
+ Pitch[1]+ = rotate up [Range: -90->90]
+ Pitch[1]- = rotate down [Range: -90->90]
+ Roll[2]+ = tilt right [Range: -90->90]
+ Roll[2]- = tilt left [Range: -90->90]
 
-Yaw[0]+ = rotate right [Range: 0->360 | -180->180]
-Yaw[0]- = rotate left [Range: 0->360 | -180->180]
-Pitch[1]+ = rotate up [Range: -90->90]
-Pitch[1]- = rotate down [Range: -90->90]
-Roll[2]+ = tilt right [Range: -90->90]
-Roll[2]- = tilt left [Range: -90->90]
-
-http://dev.mach1.tech/#mach1-internal-angle-standard
+ http://dev.mach1.tech/#mach1-internal-angle-standard
 */
+
 static float yaw = 0;
 static float pitch = 0;
 static float roll = 0;
+static float x = 0;
+static float y = 0;
+static float z = 0;
 
 // variables for time logs
 static auto start = 0.0;
@@ -64,13 +79,25 @@ int main(int argc, const char * argv[]) {
     m1Decode.setPlatformType(Mach1PlatformDefault);
     m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial);
     m1Decode.setFilterSpeed(1.0);
+    m1Decode.setUseAttenuation(true);
+    m1Decode.setUsePlaneCalculation(false);
+    m1Decode.setUseYawForRotation(true);
+    m1Decode.setUsePitchForRotation(true);
+    m1Decode.setUseRollForRotation(true);
+    
     done = false;
     pthread_create(&thread, NULL, &decode, NULL);
     
     while (!done) {
         nanosleep(&ts, NULL);
         auto start = std::chrono::high_resolution_clock::now();
-        m1Coeffs = m1Decode.decode(radToDeg(yaw), radToDeg(pitch), radToDeg(roll), 0, 0);
+        m1Decode.setDecoderAlgoRotation(Mach1Point3D {0.0, 0.0, 0.0});
+        m1Decode.setDecoderAlgoPosition(Mach1Point3D {0.0, 0.0, 10.0});
+        m1Decode.setDecoderAlgoScale(Mach1Point3D {0.1, 0.1, 0.1});
+        m1Decode.setListenerPosition(Mach1Point3D {radToDeg(yaw), radToDeg(pitch), radToDeg(roll)});
+        m1Decode.setListenerRotation(Mach1Point3D {x, y, z});
+        m1Decode.evaluatePositionResults();
+        m1Decode.getCoefficients(m1Coeffs);
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> elapsed = end - start;
         timeReturned = (float)elapsed.count();
@@ -119,6 +146,24 @@ static void* decode(void* v)
             case 'z':
                 roll -= DELTA_ANGLE;
                 break;
+            case 'i':
+                z += DELTA_POS_STEP;
+                break;
+            case 'k':
+                z -= DELTA_POS_STEP;
+                break;
+            case 'l':
+                x += DELTA_POS_STEP;
+                break;
+            case 'j':
+                x -= DELTA_POS_STEP;
+                break;
+            case 'y':
+                y += DELTA_POS_STEP;
+                break;
+            case 'h':
+                y -= DELTA_POS_STEP;
+                break;
             default:
                 printf("Input not recognized.\n");
         }
@@ -134,6 +179,8 @@ static void* decode(void* v)
         // Mach1DecodeCAPI Log:
         printf("\n");
         printf("y / p / r: %f %f %f\n", radToDeg(yaw), radToDeg(pitch), radToDeg(roll));
+        printf("\n");
+        printf("x / y / z: %f %f %f\n", x, y, z);
         printf("\n");
         printf("Decode Coeffs:\n");
         printf("%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", m1Coeffs[0], m1Coeffs[1], m1Coeffs[2], m1Coeffs[3], m1Coeffs[4], m1Coeffs[5], m1Coeffs[6], m1Coeffs[7], m1Coeffs[8], m1Coeffs[9], m1Coeffs[10], m1Coeffs[11], m1Coeffs[12], m1Coeffs[13], m1Coeffs[14], m1Coeffs[15]);

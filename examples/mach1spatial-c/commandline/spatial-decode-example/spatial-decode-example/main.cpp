@@ -26,7 +26,7 @@ static void* decode(void* v);
 static pthread_t thread;
 static bool done = false;
 Mach1Decode m1Decode;
-std::vector<float> m1Coeffs;
+static std::vector<float> m1Coeffs;
 
 /*
 Orientation Euler

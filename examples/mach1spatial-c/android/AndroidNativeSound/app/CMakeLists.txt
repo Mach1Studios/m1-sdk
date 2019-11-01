@@ -28,8 +28,8 @@ set_target_properties(libavutil_lib PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/
 add_library(libswresample_lib SHARED IMPORTED)
 set_target_properties(libswresample_lib PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libswresample-2.so)
 
-add_library(libMach1DecodeCAPI_lib SHARED IMPORTED)
-set_target_properties(libMach1DecodeCAPI_lib PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libMach1DecodeCAPI.so)
+add_library(libMach1DecodeCAPI_lib STATIC IMPORTED)
+set_target_properties(libMach1DecodeCAPI_lib PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libMach1DecodeCAPI.a)
 
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.

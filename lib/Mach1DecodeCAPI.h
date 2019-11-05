@@ -9,8 +9,8 @@
 #include "Mach1Point4D.h"
 #include <stdbool.h>
 
-#ifdef Mach1DecodeCore_h
-    #ifndef M1_API
+#if defined(Mach1DecodeCore_h) || defined(Mach1EncodeCore_h) ||  defined(Mach1PositionalCore_h)
+#ifndef M1_API
         #if defined(_WINDOWS) || defined(WIN32)
                 #define M1_API __declspec(dllexport)
         #else
@@ -19,7 +19,7 @@
     #endif
 #else
     #ifndef M1_API
-        #if defined(_WINDOWS) || defined(WIN32)
+		#if !defined(M1_STATIC) && (defined(_WINDOWS) || defined(WIN32))
             #define M1_API __declspec(dllimport)
         #else
             #define M1_API

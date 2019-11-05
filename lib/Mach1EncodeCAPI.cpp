@@ -3,8 +3,8 @@
 //
 //
 
-#include "Mach1EncodeCAPI.h"
 #include "Mach1EncodeCore.h"
+#include "Mach1EncodeCAPI.h"
 
 #include <string.h>
 

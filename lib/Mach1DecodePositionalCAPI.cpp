@@ -3,8 +3,8 @@
 //
 //
 
-#include "Mach1DecodePositionalCAPI.h"
 #include "Mach1DecodePositionalCore.h"
+#include "Mach1DecodePositionalCAPI.h"
 
 void* Mach1DecodePositionalCAPI_create(void)
 {

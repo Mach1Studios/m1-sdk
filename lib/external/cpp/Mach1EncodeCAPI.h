@@ -19,7 +19,7 @@
     #endif
 #else
     #ifndef M1_API
-        #if defined(_WINDOWS) || defined(WIN32)
+        #if !defined(M1_STATIC) && (defined(_WINDOWS) || defined(WIN32))
             #define M1_API __declspec(dllimport)
         #else
             #define M1_API

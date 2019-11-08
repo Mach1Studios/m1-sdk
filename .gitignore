@@ -374,3 +374,7 @@ freeline_project_description.json
 
 # exсlude of lib
 !**/ofxMach1/**
+
+#except *.dll
+!**/libs/**
+!**/libs/*/*.dll

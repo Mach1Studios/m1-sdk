@@ -8,15 +8,16 @@
 
 #define M1_STATIC
 
-#ifdef _WIN32
+#if (defined(_WINDOWS) || defined(WIN32))
 #include <time.h>
 #include <windows.h>
+#include <conio.h>
 #define _TIMESPEC_DEFINED
 #else
 #include <sys/time.h>
 #include <unistd.h>
 #include <termios.h>
-#endif // WIN32
+#endif
 
 #include <iostream>
 #include <time.h>
@@ -25,7 +26,6 @@
 
 #include <string.h>
 #include <stdio.h>
-#include <conio.h>
 #include <math.h>
 #include "Mach1Decode.h"
 
@@ -88,6 +88,11 @@ static float roll = 0;
 static auto start = 0.0;
 static auto end = 0.0;
 static float timeReturned = 0;
+
+// variables for debug internal
+static float checkSumL = 0;
+static float checkSumR = 0;
+static float checkSum = 0;
 
 float radToDeg (float input){
     float output = input * (180/PI);
@@ -177,17 +182,25 @@ static void* decode(void* v)
         if (roll < -M_PI) roll = M_PI;
         else if (roll > M_PI) roll = -M_PI;
         
+        checkSumL = (m1Coeffs[0] + m1Coeffs[2] + m1Coeffs[4] + m1Coeffs[6] + m1Coeffs[8] + m1Coeffs[10] + m1Coeffs[12] + m1Coeffs[14]);
+        checkSumR = (m1Coeffs[1] + m1Coeffs[3] + m1Coeffs[5] + m1Coeffs[7] + m1Coeffs[9] + m1Coeffs[11] + m1Coeffs[13] + m1Coeffs[15]);
+        checkSum = (checkSumL+checkSumR)/2;
+        
         // Mach1DecodeCAPI Log:
         printf("\n");
         printf("y / p / r: %f %f %f\n", radToDeg(yaw), radToDeg(pitch), radToDeg(roll));
         printf("\n");
         printf("Decode Coeffs:\n");
-        printf("%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", m1Coeffs[0], m1Coeffs[1], m1Coeffs[2], m1Coeffs[3], m1Coeffs[4], m1Coeffs[5], m1Coeffs[6], m1Coeffs[7], m1Coeffs[8], m1Coeffs[9], m1Coeffs[10], m1Coeffs[11], m1Coeffs[12], m1Coeffs[13], m1Coeffs[14], m1Coeffs[15]);
+        printf(" 1L: %f 1R: %f\n 2L: %f 2R: %f\n 3L: %f 3R: %f\n 4L: %f 4R: %f\n\n 5L: %f 5R: %f\n 6L: %f 6R: %f\n 7L: %f 7R: %f\n 8L: %f 8R: %f\n", m1Coeffs[0], m1Coeffs[1], m1Coeffs[2], m1Coeffs[3], m1Coeffs[4], m1Coeffs[5], m1Coeffs[6], m1Coeffs[7], m1Coeffs[8], m1Coeffs[9], m1Coeffs[10], m1Coeffs[11], m1Coeffs[12], m1Coeffs[13], m1Coeffs[14], m1Coeffs[15]);
         printf("\n");
         printf("Headlock Stereo Coeffs:\n");
         printf("%f %f\n", m1Coeffs[16], m1Coeffs[17]);
         printf("\n");
         printf("Elapsed time: %f Seconds\n", timeReturned);
+        printf("\n");
+        printf("SUM CHECK L: %f\n", checkSumL);
+        printf("SUM CHECK R: %f\n", checkSumR);
+        printf("SUM CHECK  : %f\n", checkSum);
         printf("\n");
     }
     printf("\n");

@@ -284,7 +284,7 @@ void ofApp::draw(){
     ImGui::Text("Angles:");
     bool angleChanged = false;
     angleChanged += (ImGui::SliderFloat("", &angleY, 0, 360, "Y / Yaw: %.0f deg"));
-    angleChanged += (!ImGui::SliderFloat("X / Pitch", &angleX, -90, 90, "X / Pitch: %.0f deg"));
+    angleChanged += (ImGui::SliderFloat("X / Pitch", &angleX, -90, 90, "X / Pitch: %.0f deg"));
     angleChanged += (ImGui::SliderFloat("Z / Roll", &angleZ, -90, 90, "Z / Roll: %.0f deg"));
     if (angleChanged) {
         simulationAngles = ofPoint(angleX, angleY, angleZ);

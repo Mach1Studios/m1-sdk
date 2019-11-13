@@ -55,7 +55,8 @@ class M1EncodeCore {
 public:
 	enum InputMode { 
 		INPUT_MONO, 
-		INPUT_STEREO, 
+		INPUT_STEREO,
+		INPUT_LCR, 
 		INPUT_QUAD, 
 		INPUT_LCRS, 
 		INPUT_AFORMAT, 
@@ -64,7 +65,11 @@ public:
 		#endif
 		INPUT_BFORMAT, 
 		INPUT_FOAACN, 
-		INPUT_FOAFUMA 
+		INPUT_FOAFUMA,
+		INPUT_2OAACN, 
+		INPUT_2OAFUMA,
+		INPUT_3OAACN, 
+		INPUT_3OAFUMA
 	};
 	enum OutputMode { 
 		OUTPUT_4CH = 0, 
@@ -84,6 +89,7 @@ private:
 
 	void processGains4Channels(float x, float y, float(&result)[4]);
 	void processGains8Channels(float x, float y, float z, float(&result)[8]);
+	void process2OAAmbisonicGains(float input[9], float(*transcoded)[9]);
 
 	milliseconds ms;
 

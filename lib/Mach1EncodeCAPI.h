@@ -33,6 +33,7 @@
 enum Mach1EncodeInputModeType {
 	Mach1EncodeInputModeMono = 0, 
 	Mach1EncodeInputModeStereo, 
+	Mach1EncodeInputModeLCR, 
 	Mach1EncodeInputModeQuad, 
 	Mach1EncodeInputModeLCRS, 
 	Mach1EncodeInputModeAFormat, 
@@ -41,7 +42,11 @@ enum Mach1EncodeInputModeType {
 	#endif
 	Mach1EncodeInputModeBFormat, 
 	Mach1EncodeInputModeBFOAACN, 
-	Mach1EncodeInputModeBFOAFUMA
+	Mach1EncodeInputModeBFOAFUMA,
+	Mach1EncodeInputModeB2OAACN, 
+	Mach1EncodeInputModeB2OAFUMA,
+	Mach1EncodeInputModeB3OAACN, 
+	Mach1EncodeInputModeB3OAFUMA
 };
 
 enum Mach1EncodeOutputModeType {

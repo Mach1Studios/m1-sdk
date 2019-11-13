@@ -129,32 +129,39 @@ void Mach1DecodeCore::updateAngles() {
 	if (currentPitch > 360) currentPitch -= 360;
 	if (currentRoll > 360) currentRoll -= 360;
 
-	float speedAngle = timeLastUpdate ? filterSpeed * 1.0f * (getCurrentTime() - timeLastUpdate) : 0;
-
-	timeLastUpdate = getCurrentTime();
-
-	float distanceYaw = radialDistance(targetYaw, currentYaw);
-	if (((distanceYaw) > speedAngle) /* && (distanceYaw < 360) */) {
-		currentYaw += speedAngle * targetDirectionMultiplier(currentYaw, targetYaw);
-	}
-	else {
+	if (filterSpeed >= 1.0) {
 		currentYaw = targetYaw;
-	}
-
-	float distancePitch = radialDistance(targetPitch, currentPitch);
-	if (((distancePitch) > speedAngle) /* && (distancePitch < 360) */) {
-		currentPitch += speedAngle * targetDirectionMultiplier(currentPitch, targetPitch);
-	}
-	else {
 		currentPitch = targetPitch;
-	}
-
-	float distanceRoll = radialDistance(targetRoll, currentRoll);
-	if (((distanceRoll) > speedAngle) && (distanceRoll < 360)) {
-		currentRoll += speedAngle * targetDirectionMultiplier(currentRoll, targetRoll);
+		currentRoll = targetRoll;
 	}
 	else {
-		currentRoll = targetRoll;
+		float speedAngle = timeLastUpdate ? filterSpeed * 1.0f * (getCurrentTime() - timeLastUpdate) : 0;
+
+		timeLastUpdate = getCurrentTime();
+
+		float distanceYaw = radialDistance(targetYaw, currentYaw);
+		if (((distanceYaw) > speedAngle) /* && (distanceYaw < 360) */) {
+			currentYaw += speedAngle * targetDirectionMultiplier(currentYaw, targetYaw);
+		}
+		else {
+			currentYaw = targetYaw;
+		}
+
+		float distancePitch = radialDistance(targetPitch, currentPitch);
+		if (((distancePitch) > speedAngle) /* && (distancePitch < 360) */) {
+			currentPitch += speedAngle * targetDirectionMultiplier(currentPitch, targetPitch);
+		}
+		else {
+			currentPitch = targetPitch;
+		}
+
+		float distanceRoll = radialDistance(targetRoll, currentRoll);
+		if (((distanceRoll) > speedAngle) && (distanceRoll < 360)) {
+			currentRoll += speedAngle * targetDirectionMultiplier(currentRoll, targetRoll);
+		}
+		else {
+			currentRoll = targetRoll;
+		}
 	}
 };
 
@@ -301,7 +308,7 @@ Mach1DecodeCore::Mach1DecodeCore() {
 
 	ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
-	smoothAngles = false;// true;
+	smoothAngles = true; // false
 
 	strLog.resize(0);
 }
@@ -484,6 +491,8 @@ void Mach1DecodeCore::processSample(functionAlgoSampleHP funcAlgoSampleHP, float
 		previousRoll = currentRoll;
 	}
     
+	//printf("%f, %f, %f\r\n", Yaw, Pitch, Roll);
+
     (this->*funcAlgoSampleHP)(Yaw, Pitch, Roll, result);
 }
 

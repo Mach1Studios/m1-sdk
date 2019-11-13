@@ -284,7 +284,7 @@ private:
                                                                                                     Mach1Point3DCore(cos(mDegToRad(simulationAngles[0] - 90)),
                                                                                                            sin(mDegToRad(simulationAngles[0] - 90))).normalize()) - faceVector2;
         
-        Mach1Point3DCore tiltSphereRotated = faceVectorOffsetted.rotate(-simulationAngles[2], faceVector2);
+        Mach1Point3DCore tiltSphereRotated = faceVectorOffsetted.getRotated(-simulationAngles[2], faceVector2);
         
         // Drawing another 8 dots
         
@@ -316,13 +316,12 @@ private:
             float vL = clamp(mmap(qL[i], 0, 200, 1.f, 0.), 0, 1);
             float vR = clamp(mmap(qR[i], 0, 200, 1.f, 0.), 0, 1);
             
-            result[i * 2] = vL;
-            result[i * 2 + 1] = vR;
-            
-        }
+			result[i * 2] = vL;
+			result[i * 2 + 1] = vR;
+
+       }
         
         // Volume Balancer v2.0
-        
         float sumL = 0, sumR = 0;
         for (int i = 0; i < 8; i++) {
             sumL += result[i * 2];
@@ -340,17 +339,18 @@ private:
         
         float correctedVolumesL[8], correctedVolumesR[8];
         for (int i = 0; i < 8; i++) {
-            correctedVolumesL[i] = result[i * 2] - sumDiffL * multipliersL[i];
-            correctedVolumesR[i] = result[i * 2 + 1] - sumDiffR * multipliersR[i];
+            correctedVolumesL[i] = result[i * 2] / sumL;
+            correctedVolumesR[i] = result[i * 2 + 1] / sumR;
         }
         
         for (int i = 0; i < 8; i++) {
-            result[i * 2] = correctedVolumesL[i];
-            result[i * 2 + 1] = correctedVolumesR[i];
-        }
-        
-        
-        result[8 + 8] = 1.0f; // static stereo L
+			result[i * 2] = correctedVolumesL[i];
+			result[i * 2 + 1] = correctedVolumesR[i];
+		}
+ 		 
+		//if(sumL > 1.0 || sumR > 1.0) printf("%f - %f\r\n", sumL, sumR);
+
+		result[8 + 8] = 1.0f; // static stereo L
         result[9 + 8] = 1.0f; // static stereo R
         
     };

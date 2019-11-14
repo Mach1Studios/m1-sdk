@@ -115,7 +115,9 @@ int main(int argc, const char * argv[]) {
     while (!done) {
         nanosleep(&ts, NULL);
         auto start = std::chrono::high_resolution_clock::now();
+        m1Decode.beginBuffer();
         m1Coeffs = m1Decode.decode(radToDeg(yaw), radToDeg(pitch), radToDeg(roll), 0, 0);
+        m1Decode.endBuffer();
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> elapsed = end - start;
         timeReturned = (float)elapsed.count();

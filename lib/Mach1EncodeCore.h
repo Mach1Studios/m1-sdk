@@ -89,7 +89,6 @@ private:
 
 	void processGains4Channels(float x, float y, float(&result)[4]);
 	void processGains8Channels(float x, float y, float z, float(&result)[8]);
-	void process2OAAmbisonicGains(float input[9], float(*transcoded)[9]);
 
 	milliseconds ms;
 

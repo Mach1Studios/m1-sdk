@@ -56,11 +56,10 @@ public:
 	enum InputMode { 
 		INPUT_MONO, 
 		INPUT_STEREO,
-		INPUT_LCR, 
 		INPUT_QUAD, 
 		INPUT_LCRS, 
 		INPUT_AFORMAT, 
-		#if __cplusplus > 201103L
+		#if __cplusplus > 201402L
 		[[deprecated("INPUT_BFORMAT is not specific enough, please use either: INPUT_FOAACN or INPUT_FOAFUMA")]]
 		#endif
 		INPUT_BFORMAT, 
@@ -69,7 +68,8 @@ public:
 		INPUT_2OAACN, 
 		INPUT_2OAFUMA,
 		INPUT_3OAACN, 
-		INPUT_3OAFUMA
+		INPUT_3OAFUMA,
+		INPUT_LCR
 	};
 	enum OutputMode { 
 		OUTPUT_4CH = 0, 

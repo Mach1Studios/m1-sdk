@@ -240,6 +240,7 @@ void Mach1DecodePositional::getCoefficientsInterior(float * result)
 
 void Mach1DecodePositional::getCoefficients(std::vector<float>& result)
 {
+    if(result.size() < 18) result.resize(18);
 	Mach1DecodePositionalCAPI_getCoefficients(M1obj, result.data());
   /// Return the current coefficients to be applied to the audioplayer's volume
   ///

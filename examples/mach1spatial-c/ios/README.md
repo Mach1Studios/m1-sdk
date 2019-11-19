@@ -1,3 +1,10 @@
+### Mach1 iOS Examples
+
+### Current Demos:
+ - m1-decode-example: Decoding example with variable device conditions and update rates 
+ - m1-example: Encoding example with every API installed and a simple GUI example included
+ - m1-positional-example: Decoding example with Mach1DecodePositional API also installed
+
 ## Setup
 Ideally you will want to decide on your preffered way to stream audio to the Mach1Decode lib depending on whether you application supports
 multichannel audio files or not. 

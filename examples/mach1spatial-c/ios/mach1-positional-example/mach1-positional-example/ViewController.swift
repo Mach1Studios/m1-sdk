@@ -184,7 +184,7 @@ class ViewController : UIViewController, UITextFieldDelegate {
             //based on setDecoderAlgoPosition & setDecoderAlgoScale
             m1obj.setMuteWhenInsideObject(muteWhenInsideObject: true)
             //Setting: turn on/off distance attenuation of m1obj
-            m1obj.setUseAttenuation(useAttenuation: false)
+            m1obj.setUseAttenuation(useAttenuation: true)
             //Advanced Setting: when on, positional rotation is calculated from the closest point
             //of the m1obj's volume and not rotation from the center of m1obj.
             //use this if you want the positional rotation tracking to be from a plane instead of from a point

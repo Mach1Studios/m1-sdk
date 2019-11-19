@@ -58,6 +58,8 @@ static float roll = 0;
 static float x = 0;
 static float y = 0;
 static float z = 0;
+static float distance = 0;
+static float attenuation = 0;
 
 // variables for time logs
 static auto start = 0.0;
@@ -67,6 +69,10 @@ static float timeReturned = 0;
 float radToDeg (float input){
     float output = input * (180/PI);
     return output;
+}
+
+float mapFloat(float input, float inMin, float inMax, float outMin, float outMax){
+    return (input - inMin) / (inMax - inMin) * (outMax - outMin) + outMin;
 }
 
 int main(int argc, const char * argv[]) {
@@ -97,6 +103,14 @@ int main(int argc, const char * argv[]) {
         m1Decode.setListenerPosition(Mach1Point3D {radToDeg(yaw), radToDeg(pitch), radToDeg(roll)});
         m1Decode.setListenerRotation(Mach1Point3D {x, y, z});
         m1Decode.evaluatePositionResults();
+        //Distance Application:
+        distance = m1Decode.getDist();
+        /*
+         Mapping distance to arbitrary linear curve
+         Design your own distance coefficient curve here
+        */
+        attenuation = mapFloat(distance, 0, 10, 1, 0);
+        m1Decode.setAttenuationCurve(attenuation);
         m1Decode.getCoefficients(m1Coeffs);
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> elapsed = end - start;
@@ -183,10 +197,15 @@ static void* decode(void* v)
         printf("x / y / z: %f %f %f\n", x, y, z);
         printf("\n");
         printf("Decode Coeffs:\n");
-        printf("%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", m1Coeffs[0], m1Coeffs[1], m1Coeffs[2], m1Coeffs[3], m1Coeffs[4], m1Coeffs[5], m1Coeffs[6], m1Coeffs[7], m1Coeffs[8], m1Coeffs[9], m1Coeffs[10], m1Coeffs[11], m1Coeffs[12], m1Coeffs[13], m1Coeffs[14], m1Coeffs[15]);
+        printf(" 1L: %f 1R: %f\n 2L: %f 2R: %f\n 3L: %f 3R: %f\n 4L: %f 4R: %f\n\n 5L: %f 5R: %f\n 6L: %f 6R: %f\n 7L: %f 7R: %f\n 8L: %f 8R: %f\n", m1Coeffs[0], m1Coeffs[1], m1Coeffs[2], m1Coeffs[3], m1Coeffs[4], m1Coeffs[5], m1Coeffs[6], m1Coeffs[7], m1Coeffs[8], m1Coeffs[9], m1Coeffs[10], m1Coeffs[11], m1Coeffs[12], m1Coeffs[13], m1Coeffs[14], m1Coeffs[15]);
         printf("\n");
         printf("Headlock Stereo Coeffs:\n");
         printf("%f %f\n", m1Coeffs[16], m1Coeffs[17]);
+        printf("\n");
+        printf("Distance:\n");
+        printf("%f\n", distance);
+        printf("Attenuation Curve:\n");
+        printf("%f\n", attenuation);
         printf("\n");
         printf("Elapsed time: %f Seconds\n", timeReturned);
         printf("\n");

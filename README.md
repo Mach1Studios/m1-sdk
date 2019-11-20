@@ -1,11 +1,11 @@
-<a href="http://dev.mach1.xyz"><img src="http://dev.mach1.xyz/images/logo_big_b_l.png"></a>
+<a href="http://dev.mach1.tech"><img src="http://dev.mach1.xyz/images/logo_big_b_l.png"></a>
 
 
 ### M1 SDK ###
 
 * Summary
 * Included
-* Documentation: <a href="http://dev.mach1.xyz">dev.mach1.xyz</a>
+* Documentation: <a href="http://dev.mach1.tech">dev.mach1.tech</a>
 * Contact
 
 
@@ -35,8 +35,9 @@
 * Android r11c - r16b: mips64
 * Android r11c - r16b: x86
 * Android r11c - r16b: x86-64
-* iOS
+* iOS (cocoapod, lib, frameworks)
 * macOS (xcode)
+* Linux (x86 & ARM)
 * Windows-x86 (Visual Studio)
 * Windows-x86-64 (Visual Studio)
 * Unix/linux: _m1-transcode executable_
@@ -55,27 +56,31 @@
 
 #### Debug Tools
 * Simple Audio Debug Examples
-* Unity Test Project 
 
 #### Implementation 
 * Unreal Engine Plugin
 	* _UE Plugin for Mach1Decode/Mach1DecodePositional_
 * Unity Package
 	* _.unitypackage for Mach1Decode/Mach1DecodePositional_
-* OpenFrameworks examples in cpp
-	* _Mach1Encode & live Mach1Decode example_
+* iOS Examples
 	* _Mach1Decode example_
-	* _Mach1Decode 360 video example_
-* iOS example
 	* _Mach1Encode & live Mach1Decode example_
-	* _Mach1Decode example_
 	* _Mach1DecodePositional example_
-* Android example
-	* _Mach1Encode & live Mach1Decode example_
+* Android Examples
 	* _Mach1Decode example_
-* Web Example
 	* _Mach1Encode & live Mach1Decode example_
+* Web Examples
 	* _Mach1Decode example_
+	* _Mach1Encode & live Mach1Decode example_
+	* _Mach1Encode Recorder example_
+* OpenFrameworks Examples in C++
+	* _Mach1Decode example_
+	* _Mach1Encode example_
+	* _Mach1Decode audio player example_
+* CommandLine Examples
+	* _Mach1Decode example(macOS)(win)_
+	* _Mach1DecodePositional example (macOS)_
+	* _Mach1Encode example (macOS)_
 
 ### DOCUMENTATION ###
 
@@ -83,5 +88,5 @@ open or load `docs/index.html` into your preferred browser to run through all th
 
 ### Contact ###
 
-Dylan Marcus - 
-dylan@mach1studios.com
+General:
+info@mach1.tech

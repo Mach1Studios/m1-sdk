@@ -1,6 +1,5 @@
-### Mach1 C++ Demonstrations
-### 
-### 
+### Mach1 C++ OpenFrameworks Examples
+
 ### Current Demos:
  - M1-Decode Example: Decoding example with variable device conditions and update rates 
  - M1-Encode Example: Encoding example with visual GUI

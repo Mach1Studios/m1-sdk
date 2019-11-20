@@ -193,7 +193,7 @@ static int MyAndroidAudioCallback(short *buffer, int num_samples)
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_example_user_myapplication_MainActivity_playAudio(JNIEnv *env, jobject /* this */,
+Java_com_mach1_example_decode_MainActivity_playAudio(JNIEnv *env, jobject /* this */,
                                                            jobject assetManager, jstring assetName) {
 
     const char *szAssetName = env->GetStringUTFChars(assetName, NULL);
@@ -223,7 +223,7 @@ Java_com_example_user_myapplication_MainActivity_playAudio(JNIEnv *env, jobject 
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_example_user_myapplication_MainActivity_stopAudio(
+Java_com_mach1_example_decode_MainActivity_stopAudio(
         JNIEnv *env,
         jobject /* this */) {
 
@@ -234,7 +234,7 @@ Java_com_example_user_myapplication_MainActivity_stopAudio(
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_example_user_myapplication_MainActivity_setAudioAngles(
+Java_com_mach1_example_decode_MainActivity_setAudioAngles(
         JNIEnv *env,
         jobject /* this */,
         jfloat Yaw, jfloat Pitch, jfloat Roll) {
@@ -243,7 +243,7 @@ Java_com_example_user_myapplication_MainActivity_setAudioAngles(
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_example_user_myapplication_MainActivity_initAudio(
+Java_com_mach1_example_decode_MainActivity_initAudio(
         JNIEnv *env,
         jobject /* this */,
         jint  framesPerBufferInt ) {
@@ -255,7 +255,7 @@ Java_com_example_user_myapplication_MainActivity_initAudio(
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_example_user_myapplication_MainActivity_shutdownAudio(
+Java_com_mach1_example_decode_MainActivity_shutdownAudio(
         JNIEnv *env,
         jobject /* this */) {
     OpenSLWrap_Shutdown();

@@ -1,4 +1,4 @@
-package com.example.user.myapplication;
+package com.mach1.example.decode;
 
 import android.app.Activity;
 import android.os.Bundle;

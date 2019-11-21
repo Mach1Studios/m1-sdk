@@ -30,9 +30,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var roll: UILabel!
     @IBAction func playButton(_ sender: Any) {
         if !isPlaying {
-            var startDelayTime = 1.0
-            var now = players[0].deviceCurrentTime
-            var startTime = now + startDelayTime
+            let startDelayTime = 1.0
+            let now = players[0].deviceCurrentTime
+            let startTime = now + startDelayTime
             print (startTime)
             for audioPlayer in players {
                 audioPlayer.play(atTime: startTime)
@@ -133,17 +133,16 @@ class ViewController: UIViewController {
                 // Get the attitudes of the device
                 let attitude = motion?.attitude
                 //Device orientation management
-                var deviceYaw = attitude!.yaw * 180/M_PI
-                var devicePitch = attitude!.pitch * 180/M_PI
-                //                    let devicePitch = 0.0
-                var deviceRoll = attitude!.roll * 180/M_PI
-                //                    let deviceRoll = 0.0
-                //                    print("Yaw: ", deviceYaw)
-                //                    print("Pitch: ", devicePitch)
+                var deviceYaw = attitude!.yaw * 180/Double.pi
+                var devicePitch = attitude!.pitch * 180/Double.pi
+                var deviceRoll = attitude!.roll * 180/Double.pi
+                print("Yaw: ", deviceYaw)
+                print("Pitch: ", devicePitch)
+                print("Roll: ", deviceRoll)
 
-                // Please notice that you're expected to correct the correct the angles you get from
-                // the device's sensors to provide M1 Library with accurate angles in accordance to documentation.
-                // (documentation URL here)
+                // Please notice that you're expected to correct the angles you get from
+                // the device's sensors to provide Mach1DecodeCAPI with accurate angles in accordance to documentation.
+                // http://dev.mach1.tech/#mach1-internal-angle-standard
                 switch UIDevice.current.orientation{
                     case .portrait:
                         deviceYaw += 90
@@ -156,10 +155,7 @@ class ViewController: UIViewController {
                     case .landscapeRight:
                         deviceYaw += 180
                         deviceRoll -= 90
-//                    default:
-                    
                     default: break
-                    //
                 }
                 
                 DispatchQueue.main.async() {
@@ -178,15 +174,11 @@ class ViewController: UIViewController {
                 m1obj.beginBuffer()
                 let decodeArray: [Float]  = m1obj.decode(Yaw: Float(deviceYaw), Pitch: Float(devicePitch), Roll: Float(deviceRoll))
                 m1obj.endBuffer()
-                //                    print(decodeArray)
                 
                 //Use each coeff to decode multichannel Mach1 Spatial mix
                 for i in 0...7 {
                     players[i * 2].setVolume(Float(decodeArray[i * 2]), fadeDuration: 0)
                     players[i * 2 + 1].setVolume(Float(decodeArray[i * 2 + 1]), fadeDuration: 0)
-                    
-                    print(String(players[i * 2].currentTime) + " ; " + String(i * 2))
-                    print(String(players[i * 2 + 1].currentTime) + " ; " + String(i * 2 + 1))
                 }
                 
                 

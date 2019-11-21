@@ -59,7 +59,7 @@ public:
 		INPUT_QUAD, 
 		INPUT_LCRS, 
 		INPUT_AFORMAT, 
-		#if __cplusplus > 201103L
+		#if __cplusplus > 201402L
 		[[deprecated("INPUT_BFORMAT is not specific enough, please use either: INPUT_FOAACN or INPUT_FOAFUMA")]]
 		#endif
 		INPUT_BFORMAT, 

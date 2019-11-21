@@ -91,7 +91,7 @@ private:
 		Mach1Point3DCore u = rayOrigin - ray;
 		float dot = _dot(normal, u);
 
-		if (abs(dot) > epsilon) {
+		if (fabs(dot) > epsilon) {
 			Mach1Point3DCore w = ray - coord;
 			float fac = -_dot(normal, w) / dot;
 			if (fac >= 0.0 && fac <= 1.0) {

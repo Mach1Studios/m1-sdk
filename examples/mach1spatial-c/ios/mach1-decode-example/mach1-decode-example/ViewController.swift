@@ -30,9 +30,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var roll: UILabel!
     @IBAction func playButton(_ sender: Any) {
         if !isPlaying {
-            var startDelayTime = 1.0
-            var now = players[0].deviceCurrentTime
-            var startTime = now + startDelayTime
+            let startDelayTime = 1.0
+            let now = players[0].deviceCurrentTime
+            let startTime = now + startDelayTime
             print (startTime)
             for audioPlayer in players {
                 audioPlayer.play(atTime: startTime)
@@ -136,6 +136,7 @@ class ViewController: UIViewController {
                 let deviceYaw = -(attitude!.yaw * 180/Double.pi)
                 let devicePitch = -(attitude!.pitch * 180/Double.pi)
                 let deviceRoll = -(attitude!.roll * 180/Double.pi)
+
                 print("Yaw: ", deviceYaw)
                 print("Pitch: ", devicePitch)
                 print("Roll: ", deviceRoll)
@@ -160,15 +161,11 @@ class ViewController: UIViewController {
                 m1obj.beginBuffer()
                 let decodeArray: [Float]  = m1obj.decode(Yaw: Float(deviceYaw), Pitch: Float(devicePitch), Roll: Float(deviceRoll))
                 m1obj.endBuffer()
-                //                    print(decodeArray)
                 
                 //Use each coeff to decode multichannel Mach1 Spatial mix
                 for i in 0...7 {
                     players[i * 2].setVolume(Float(decodeArray[i * 2]), fadeDuration: 0)
                     players[i * 2 + 1].setVolume(Float(decodeArray[i * 2 + 1]), fadeDuration: 0)
-                    
-                    print(String(players[i * 2].currentTime) + " ; " + String(i * 2))
-                    print(String(players[i * 2 + 1].currentTime) + " ; " + String(i * 2 + 1))
                 }
                 
                 

@@ -24,7 +24,7 @@ void Mach1EncodeCAPI_delete(void* M1obj) {
 void* Mach1EncodeCAPI_getPoints(void* M1obj) {
 	std::vector<M1EncodeCorePoint> vec = ((M1EncodeCore*)M1obj)->resultingPoints.getPoints();
 
-	static M1EncodeCorePoint* arr = nullptr;
+	M1EncodeCorePoint* arr = nullptr;
 
 	// first init
 	if (arr == nullptr) {
@@ -44,7 +44,7 @@ void* Mach1EncodeCAPI_getPoints(void* M1obj) {
 void* Mach1EncodeCAPI_getGains(void* M1obj) {
 	std::vector<std::vector<float>> vec = ((M1EncodeCore*)M1obj)->resultingPoints.getGains();
 
-	static float** arr = nullptr;
+	float** arr = nullptr;
 
 	// first init
 	if (arr == nullptr) {
@@ -69,7 +69,7 @@ void* Mach1EncodeCAPI_getGains(void* M1obj) {
 void* Mach1EncodeCAPI_getPointsNames(void* M1obj) {
 	std::vector<std::string> vec = ((M1EncodeCore*)M1obj)->resultingPoints.getPointsNames();
 
-	static char** arr = nullptr;
+	char** arr = nullptr;
 
 	// first init
 	if (arr == nullptr) {
@@ -93,7 +93,7 @@ void* Mach1EncodeCAPI_getPointsNames(void* M1obj) {
 void* Mach1EncodeCAPI_getGainsForInputChannelNamed(void* M1obj, char * pointName) {
 	std::vector<float> vec = ((M1EncodeCore*)M1obj)->resultingPoints.getGainsForInputChannelNamed(pointName);
 
-	static float* arr = nullptr;
+	float* arr = nullptr;
 
 	// first init
 	if (arr == nullptr) {
@@ -121,7 +121,7 @@ int Mach1EncodeCAPI_getPointsCount(void * M1obj)
 
 void* Mach1EncodeCAPI_getResultingVolumesDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float * decodeResult)
 {
-	static float* arr = nullptr;
+	float* arr = nullptr;
 
 	// first init
 	if (arr == nullptr) {

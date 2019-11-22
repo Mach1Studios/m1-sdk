@@ -91,7 +91,7 @@ class ViewController: UIViewController {
             
             //Mach1 Decode Setup
             //Setup the correct angle convention for orientation Euler input angles
-            m1obj.setPlatformType(type: Mach1PlatformiOS)
+            m1obj.setPlatformType(type: Mach1PlatformDefault)
             //Setup the expected spatial audio mix format for decoding
             m1obj.setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoSpatial)
             //Setup for the safety filter speed:
@@ -133,9 +133,9 @@ class ViewController: UIViewController {
                 // Get the attitudes of the device
                 let attitude = motion?.attitude
                 //Device orientation management
-                var deviceYaw = attitude!.yaw * 180/Double.pi
-                var devicePitch = attitude!.pitch * 180/Double.pi
-                var deviceRoll = attitude!.roll * 180/Double.pi
+                let deviceYaw = -(attitude!.yaw * 180/Double.pi)
+                let devicePitch = -(attitude!.pitch * 180/Double.pi)
+                let deviceRoll = -(attitude!.roll * 180/Double.pi)
                 print("Yaw: ", deviceYaw)
                 print("Pitch: ", devicePitch)
                 print("Roll: ", deviceRoll)
@@ -143,20 +143,6 @@ class ViewController: UIViewController {
                 // Please notice that you're expected to correct the angles you get from
                 // the device's sensors to provide Mach1DecodeCAPI with accurate angles in accordance to documentation.
                 // http://dev.mach1.tech/#mach1-internal-angle-standard
-                switch UIDevice.current.orientation{
-                    case .portrait:
-                        deviceYaw += 90
-                        devicePitch -= 90
-                    case .portraitUpsideDown:
-                        deviceYaw -= 90
-                        devicePitch += 90
-                    case .landscapeLeft:
-                        deviceRoll += 90
-                    case .landscapeRight:
-                        deviceYaw += 180
-                        deviceRoll -= 90
-                    default: break
-                }
                 
                 DispatchQueue.main.async() {
                     self?.yaw.text = String(deviceYaw)

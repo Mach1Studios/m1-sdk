@@ -24,11 +24,6 @@ void Mach1EncodeCAPI_delete(void* M1obj) {
 void* Mach1EncodeCAPI_getPoints(void* M1obj) {
 	std::vector<M1EncodeCorePoint> vec = ((M1EncodeCore*)M1obj)->resultingPoints.getPoints();
 
-	// first init
-	if (((M1EncodeCore*)M1obj)->arr_Points == nullptr) {
-		((M1EncodeCore*)M1obj)->arr_Points = new M1EncodeCorePoint[7];
-	}
-
 	// clear
 	for (int i = 0; i < 7; i++) {
 		((M1EncodeCore*)M1obj)->arr_Points[i] = M1EncodeCorePoint();
@@ -41,14 +36,6 @@ void* Mach1EncodeCAPI_getPoints(void* M1obj) {
 
 void* Mach1EncodeCAPI_getGains(void* M1obj) {
 	std::vector<std::vector<float>> vec = ((M1EncodeCore*)M1obj)->resultingPoints.getGains();
-
-	// first init
-	if (((M1EncodeCore*)M1obj)->arr_Gains == nullptr) {
-		((M1EncodeCore*)M1obj)->arr_Gains = new float*[7];
-		for (int i = 0; i < 7; i++) {
-			((M1EncodeCore*)M1obj)->arr_Gains[i] = new float[8];
-		}
-	}
 
 	// clear
 	for (int i = 0; i < 7; i++) {
@@ -65,15 +52,6 @@ void* Mach1EncodeCAPI_getGains(void* M1obj) {
 void* Mach1EncodeCAPI_getPointsNames(void* M1obj) {
 	std::vector<std::string> vec = ((M1EncodeCore*)M1obj)->resultingPoints.getPointsNames();
 
-	// first init
-	if (((M1EncodeCore*)M1obj)->arr_PointsNames == nullptr) {
-		((M1EncodeCore*)M1obj)->arr_PointsNames = new char*[7];
-		for (int i = 0; i < 7; i++) {
-			((M1EncodeCore*)M1obj)->arr_PointsNames[i] = new char[255];
-			((M1EncodeCore*)M1obj)->arr_PointsNames[i][0] = '\0';
-		}
-	}
-
 	// clear
 	for (int i = 0; i < 7; i++) {
 		((M1EncodeCore*)M1obj)->arr_PointsNames[i][0] = '\0';
@@ -86,11 +64,6 @@ void* Mach1EncodeCAPI_getPointsNames(void* M1obj) {
 
 void* Mach1EncodeCAPI_getGainsForInputChannelNamed(void* M1obj, char * pointName) {
 	std::vector<float> vec = ((M1EncodeCore*)M1obj)->resultingPoints.getGainsForInputChannelNamed(pointName);
-
-	// first init
-	if (((M1EncodeCore*)M1obj)->arr_GainsForInputChannelNamed == nullptr) {
-		((M1EncodeCore*)M1obj)->arr_GainsForInputChannelNamed = new float[8];
-	}
 
 	// clear
 	for (int i = 0; i < 8; i++) {
@@ -113,11 +86,6 @@ int Mach1EncodeCAPI_getPointsCount(void * M1obj)
 
 void* Mach1EncodeCAPI_getResultingVolumesDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float * decodeResult)
 {
-	// first init
-	if (((M1EncodeCore*)M1obj)->arr_ResultingVolumesDecoded == nullptr) {
-		((M1EncodeCore*)M1obj)->arr_ResultingVolumesDecoded = new float[14];
-	}
-
 	// clear
 	for (int i = 0; i < 14; i++) {
 		((M1EncodeCore*)M1obj)->arr_ResultingVolumesDecoded[i] = 0;

@@ -8,7 +8,7 @@
 
 #define M1_STATIC
 
-#if (defined(_WINDOWS) || defined(WIN32))
+#if defined(_WIN32)
 #include <time.h>
 #include <windows.h>
 #include <conio.h>

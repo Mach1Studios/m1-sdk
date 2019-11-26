@@ -4,6 +4,6 @@
 
 #ifdef _MSC_VER
 #ifndef _M_X64
-#error "ofxMach1 support only x64"
+#error "ofxMach1 only supports x64"
 #endif
 #endif

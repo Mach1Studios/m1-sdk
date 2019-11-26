@@ -24,90 +24,55 @@ void Mach1EncodeCAPI_delete(void* M1obj) {
 void* Mach1EncodeCAPI_getPoints(void* M1obj) {
 	std::vector<M1EncodeCorePoint> vec = ((M1EncodeCore*)M1obj)->resultingPoints.getPoints();
 
-	static M1EncodeCorePoint* arr = nullptr;
-
-	// first init
-	if (arr == nullptr) {
-		arr = new M1EncodeCorePoint[7];
-	}
-
 	// clear
 	for (int i = 0; i < 7; i++) {
-		arr[i] = M1EncodeCorePoint();
+		((M1EncodeCore*)M1obj)->arr_Points[i] = M1EncodeCorePoint();
 	}
 
-	for (int i = 0; i < vec.size(); i++) memcpy(&arr[i], &vec[i], sizeof(M1EncodeCorePoint));
+	for (int i = 0; i < vec.size(); i++) memcpy(&(((M1EncodeCore*)M1obj)->arr_Points)[i], &vec[i], sizeof(M1EncodeCorePoint));
 
-	return arr;
+	return ((M1EncodeCore*)M1obj)->arr_Points;
 }
 
 void* Mach1EncodeCAPI_getGains(void* M1obj) {
 	std::vector<std::vector<float>> vec = ((M1EncodeCore*)M1obj)->resultingPoints.getGains();
 
-	static float** arr = nullptr;
-
-	// first init
-	if (arr == nullptr) {
-		arr = new float*[7];
-		for (int i = 0; i < 7; i++) {
-			arr[i] = new float[8];
-		}
-	}
-
 	// clear
 	for (int i = 0; i < 7; i++) {
 		for (int j = 0; j < 8; j++) {
-			arr[i][j] = 0;
+			((M1EncodeCore*)M1obj)->arr_Gains[i][j] = 0;
 		}
 	}
 
-	for (int i = 0; i < vec.size(); i++) memcpy(arr[i], vec[i].data(), vec[i].size() * sizeof(float));
+	for (int i = 0; i < vec.size(); i++) memcpy(((M1EncodeCore*)M1obj)->arr_Gains[i], vec[i].data(), vec[i].size() * sizeof(float));
 
-	return arr;
+	return ((M1EncodeCore*)M1obj)->arr_Gains;
 }
 
 void* Mach1EncodeCAPI_getPointsNames(void* M1obj) {
 	std::vector<std::string> vec = ((M1EncodeCore*)M1obj)->resultingPoints.getPointsNames();
 
-	static char** arr = nullptr;
-
-	// first init
-	if (arr == nullptr) {
-		arr = new char*[7];
-		for (int i = 0; i < 7; i++) {
-			arr[i] = new char[255];
-			arr[i][0] = '\0';
-		}
-	}
-
 	// clear
 	for (int i = 0; i < 7; i++) {
-		arr[i][0] = '\0';
+		((M1EncodeCore*)M1obj)->arr_PointsNames[i][0] = '\0';
 	}
 
-	for (int i = 0; i < vec.size(); i++) memcpy(arr[i], vec[i].c_str(), (vec[i].length() + 1) * sizeof(char));
+	for (int i = 0; i < vec.size(); i++) memcpy(((M1EncodeCore*)M1obj)->arr_PointsNames[i], vec[i].c_str(), (vec[i].length() + 1) * sizeof(char));
 
-	return arr;
+	return ((M1EncodeCore*)M1obj)->arr_PointsNames;
 }
 
 void* Mach1EncodeCAPI_getGainsForInputChannelNamed(void* M1obj, char * pointName) {
 	std::vector<float> vec = ((M1EncodeCore*)M1obj)->resultingPoints.getGainsForInputChannelNamed(pointName);
 
-	static float* arr = nullptr;
-
-	// first init
-	if (arr == nullptr) {
-		arr = new float[8];
-	}
-
 	// clear
 	for (int i = 0; i < 8; i++) {
-		arr[i] = 0;
+		((M1EncodeCore*)M1obj)->arr_GainsForInputChannelNamed[i] = 0;
 	}
 
-	for (int i = 0; i < vec.size(); i++) memcpy(&arr[i], &vec[i], sizeof(float));
+	for (int i = 0; i < vec.size(); i++) memcpy(&((M1EncodeCore*)M1obj)->arr_GainsForInputChannelNamed[i], &vec[i], sizeof(float));
 
-	return arr;
+	return ((M1EncodeCore*)M1obj)->arr_GainsForInputChannelNamed;
 }
 
 void Mach1EncodeCAPI_generatePointResults(void* M1obj) {
@@ -121,21 +86,14 @@ int Mach1EncodeCAPI_getPointsCount(void * M1obj)
 
 void* Mach1EncodeCAPI_getResultingVolumesDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float * decodeResult)
 {
-	static float* arr = nullptr;
-
-	// first init
-	if (arr == nullptr) {
-		arr = new float[14];
-	}
-
 	// clear
 	for (int i = 0; i < 14; i++) {
-		arr[i] = 0;
+		((M1EncodeCore*)M1obj)->arr_ResultingVolumesDecoded[i] = 0;
 	}
 	
-	((M1EncodeCore*)M1obj)->getResultingVolumesDecoded(decodeType, decodeResult, arr);
+	((M1EncodeCore*)M1obj)->getResultingVolumesDecoded(decodeType, decodeResult, ((M1EncodeCore*)M1obj)->arr_ResultingVolumesDecoded);
 
-	return arr;
+	return ((M1EncodeCore*)M1obj)->arr_ResultingVolumesDecoded;
 }
 
 void Mach1EncodeCAPI_setInputMode(void* M1obj, enum Mach1EncodeInputModeType inputMode) {

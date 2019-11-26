@@ -76,6 +76,13 @@ public:
 		OUTPUT_8CH 
 	};
 
+	// arrays for CAPI
+	M1EncodeCorePoint* arr_Points = nullptr;
+	float** arr_Gains = nullptr;
+	char** arr_PointsNames = nullptr;
+	float* arr_GainsForInputChannelNamed = nullptr;
+	float* arr_ResultingVolumesDecoded = nullptr;
+
 private:
 	InputMode inputMode;
 	OutputMode outputMode;

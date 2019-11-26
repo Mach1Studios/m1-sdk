@@ -102,10 +102,62 @@ M1EncodeCore::M1EncodeCore() {
 
 	ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 	timeLastCalculation = 0;
+
+	// first init
+	if (arr_Points == nullptr) {
+		arr_Points = new M1EncodeCorePoint[7];
+	}
+
+	if (arr_Gains == nullptr) {
+		arr_Gains = new float*[7];
+		for (int i = 0; i < 7; i++) {
+			arr_Gains[i] = new float[8];
+		}
+	}
+
+	if (arr_PointsNames == nullptr) {
+		arr_PointsNames = new char*[7];
+		for (int i = 0; i < 7; i++) {
+			arr_PointsNames[i] = new char[255];
+			arr_PointsNames[i][0] = '\0';
+		}
+	}
+
+	if (arr_GainsForInputChannelNamed == nullptr) {
+		arr_GainsForInputChannelNamed = new float[8];
+	}
+
+	if (arr_ResultingVolumesDecoded == nullptr) {
+		arr_ResultingVolumesDecoded = new float[14];
+	}
 }
 
 M1EncodeCore::~M1EncodeCore() {
+	if (arr_Points != nullptr) {
+		delete[] arr_Points;
+	}
 
+	if (arr_Gains != nullptr) {
+		for (int i = 0; i < 7; i++) {
+			delete[] arr_Gains[i];
+		}
+		delete[] arr_Gains;
+	}
+
+	if (arr_PointsNames != nullptr) {
+		for (int i = 0; i < 7; i++) {
+			delete[] arr_PointsNames[i];
+		}
+		delete[] arr_PointsNames;
+	}
+
+	if (arr_GainsForInputChannelNamed != nullptr) {
+		delete[] arr_GainsForInputChannelNamed;
+	}
+
+	if (arr_ResultingVolumesDecoded != nullptr) {
+		delete[] arr_ResultingVolumesDecoded;
+	}
 }
 
 void M1EncodeCore::generatePointResults() {

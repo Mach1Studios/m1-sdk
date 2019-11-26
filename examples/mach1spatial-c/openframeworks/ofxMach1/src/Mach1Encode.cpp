@@ -126,8 +126,11 @@ void Mach1Encode::setInputMode(Mach1EncodeInputModeType inputMode)
 	///     - INPUT_MONO
 	///     - INPUT_STEREO
 	///     - INPUT_QUAD
-	///     - INPUT_AFORMAT
-	///     - INPUT_BFORMAT
+    ///     - INPUT_LCRS
+    ///     - INPUT_AFORMAT
+    ///     - INPUT_BFORMAT
+    ///     - INPUT_BFOAACN
+    ///     - INPUT_BFOAFuMa
 }
 
 void Mach1Encode::setOutputMode(Mach1EncodeOutputModeType outputMode)
@@ -136,7 +139,7 @@ void Mach1Encode::setOutputMode(Mach1EncodeOutputModeType outputMode)
 	/// Sets the output spatial format, Mach1Spatial or Mach1Horizon
 	///
 	/// - Parameters:
-	///     - OUTPUT_4CH (Mach1Horizon) [Yaw only]
+	///     - OUTPUT_4CH (Mach1Horizon) [Yaw]
 	///     - OUTPUT_8CH (Mach1Spatial) [Yaw, Pitch, Roll]
 }
 

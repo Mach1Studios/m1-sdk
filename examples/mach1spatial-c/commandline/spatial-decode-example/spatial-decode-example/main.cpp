@@ -8,7 +8,7 @@
 
 #define M1_STATIC
 
-#if (defined(_WINDOWS) || defined(WIN32))
+#if defined(_WIN32)
 #include <time.h>
 #include <windows.h>
 #include <conio.h>
@@ -92,7 +92,6 @@ static float timeReturned = 0;
 // variables for debug internal
 static float checkSumL = 0;
 static float checkSumR = 0;
-static float checkSum = 0;
 
 float radToDeg (float input){
     float output = input * (180/PI);
@@ -115,7 +114,9 @@ int main(int argc, const char * argv[]) {
     while (!done) {
         nanosleep(&ts, NULL);
         auto start = std::chrono::high_resolution_clock::now();
+        m1Decode.beginBuffer();
         m1Coeffs = m1Decode.decode(radToDeg(yaw), radToDeg(pitch), radToDeg(roll), 0, 0);
+        m1Decode.endBuffer();
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> elapsed = end - start;
         timeReturned = (float)elapsed.count();
@@ -184,7 +185,6 @@ static void* decode(void* v)
         
         checkSumL = (m1Coeffs[0] + m1Coeffs[2] + m1Coeffs[4] + m1Coeffs[6] + m1Coeffs[8] + m1Coeffs[10] + m1Coeffs[12] + m1Coeffs[14]);
         checkSumR = (m1Coeffs[1] + m1Coeffs[3] + m1Coeffs[5] + m1Coeffs[7] + m1Coeffs[9] + m1Coeffs[11] + m1Coeffs[13] + m1Coeffs[15]);
-        checkSum = (checkSumL+checkSumR)/2;
         
         // Mach1DecodeCAPI Log:
         printf("\n");
@@ -198,9 +198,8 @@ static void* decode(void* v)
         printf("\n");
         printf("Elapsed time: %f Seconds\n", timeReturned);
         printf("\n");
-        printf("SUM CHECK L: %f\n", checkSumL);
-        printf("SUM CHECK R: %f\n", checkSumR);
-        printf("SUM CHECK  : %f\n", checkSum);
+        printf("SUM CHECK L: %f    L REM: %f\n", checkSumL, abs(checkSumL-1.0f));
+        printf("SUM CHECK R: %f    R REM: %f\n", checkSumR, abs(checkSumR-1.0f));
         printf("\n");
     }
     printf("\n");

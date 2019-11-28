@@ -371,6 +371,48 @@ void AM1BaseActor::Play()
 	}
 }
 
+void AM1BaseActor::Pause()
+{
+	if (isInited)
+	{
+		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
+		{
+			LeftChannelsMain[i]->SetPaused(!LeftChannelsMain[i]->bIsPaused);
+			RightChannelsMain[i]->SetPaused(!RightChannelsMain[i]->bIsPaused);
+		}
+	}
+
+	if (isInited && useBlendMode)
+	{
+		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
+		{
+			LeftChannelsBlend[i]->SetPaused(!LeftChannelsBlend[i]->bIsPaused);
+			RightChannelsBlend[i]->SetPaused(!RightChannelsBlend[i]->bIsPaused);
+		}
+	}
+}
+
+void AM1BaseActor::Seek(float time)
+{
+	if (isInited)
+	{
+		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
+		{
+			LeftChannelsMain[i]->Play(time);
+			RightChannelsMain[i]->Play(time);
+		}
+	}
+
+	if (isInited && useBlendMode)
+	{
+		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
+		{
+			LeftChannelsBlend[i]->Play(time);
+			RightChannelsBlend[i]->Play(time);
+		}
+	}
+}
+
 void AM1BaseActor::Stop()
 {
 	if (isInited)

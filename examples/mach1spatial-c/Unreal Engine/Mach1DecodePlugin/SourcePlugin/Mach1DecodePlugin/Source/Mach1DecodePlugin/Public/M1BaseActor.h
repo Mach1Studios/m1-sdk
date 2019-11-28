@@ -128,6 +128,12 @@ public:
 		void Play();
 
 	UFUNCTION(BlueprintCallable, Category = "Trigger Options")
+		void Pause();
+
+	UFUNCTION(BlueprintCallable, Category = "Trigger Options")
+		void Seek(float time);
+
+	UFUNCTION(BlueprintCallable, Category = "Trigger Options")
 		void Stop();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Trigger Options", DisplayName = "Autoplay")

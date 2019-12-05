@@ -1,5 +1,5 @@
-//  Mach1 SDK
-//  Copyright � 2017 Mach1. All rights reserved.
+﻿//  Mach1 SDK
+//  Copyright © 2017 Mach1. All rights reserved.
 //
 
 #include "M1BaseActor.h"
@@ -17,13 +17,6 @@
 #endif
 
 #include <sstream>
-
-#ifdef WIN32
-void OutputDebugStringA(const char* lpOutputString) 
-{
-	UE_LOG(LogTemp, Warning, TEXT("%s"), lpOutputString);
-}
-#endif
 
 #define MIN_SOUND_VOLUME (KINDA_SMALL_NUMBER*2)
 
@@ -212,7 +205,7 @@ void AM1BaseActor::InitComponents(int32 InMaxSoundsPerChannel)
 #ifdef LEGACY_POSITIONAL
 	mach1Decode.setPlatformType(Mach1PlatformType::Mach1PlatformUE);
 #else 
-	m1Positional.setPlatformType(Mach1PlatformType::Mach1PlatformUnity);
+	m1Positional.setPlatformType(Mach1PlatformType::Mach1PlatformUE);
 #endif
 }
 
@@ -378,6 +371,48 @@ void AM1BaseActor::Play()
 	}
 }
 
+void AM1BaseActor::Pause()
+{
+	if (isInited)
+	{
+		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
+		{
+			LeftChannelsMain[i]->SetPaused(!LeftChannelsMain[i]->bIsPaused);
+			RightChannelsMain[i]->SetPaused(!RightChannelsMain[i]->bIsPaused);
+		}
+	}
+
+	if (isInited && useBlendMode)
+	{
+		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
+		{
+			LeftChannelsBlend[i]->SetPaused(!LeftChannelsBlend[i]->bIsPaused);
+			RightChannelsBlend[i]->SetPaused(!RightChannelsBlend[i]->bIsPaused);
+		}
+	}
+}
+
+void AM1BaseActor::Seek(float time)
+{
+	if (isInited)
+	{
+		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
+		{
+			LeftChannelsMain[i]->Play(time);
+			RightChannelsMain[i]->Play(time);
+		}
+	}
+
+	if (isInited && useBlendMode)
+	{
+		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
+		{
+			LeftChannelsBlend[i]->Play(time);
+			RightChannelsBlend[i]->Play(time);
+		}
+	}
+}
+
 void AM1BaseActor::Stop()
 {
 	if (isInited)
@@ -417,12 +452,8 @@ void AM1BaseActor::BeginPlay()
 }
 
 void PrintDebug(const char* str) {
-#ifdef WIN32
-	OutputDebugStringA(str);
-	OutputDebugStringA("\r\n");
-#endif
+	UE_LOG(LogTemp, Warning, TEXT("%s\r\n"), *FString(str));
 }
-
 
 // Called every frame
 void AM1BaseActor::Tick(float DeltaTime)
@@ -471,8 +502,8 @@ void AM1BaseActor::Tick(float DeltaTime)
 				}
 				else
 				{
-				//	PlayerRotation = player->GetControlRotation().Quaternion();
-				//	PlayerPosition = playerPawn->GetActorLocation();
+					PlayerRotation = PlayerRotation * player->GetControlRotation().Quaternion();
+					PlayerPosition = PlayerPosition + playerPawn->GetActorLocation();
 				}
 
 
@@ -686,12 +717,12 @@ void AM1BaseActor::Tick(float DeltaTime)
 				m1Positional.setUsePitchForRotation(usePitchForRotation);
 				m1Positional.setUseRollForRotation(useRollForRotation);
 				 
-				m1Positional.setListenerPosition(ConvertToMach1Point3D(FVector(PlayerPosition.Y, PlayerPosition.Z, PlayerPosition.X))); //ConvertToMach1Point3D(PlayerPosition));
+				m1Positional.setListenerPosition(ConvertToMach1Point3D(PlayerPosition));
 				FVector listenerAngle = (PlayerRotation.Euler());
-				m1Positional.setListenerRotation(ConvertToMach1Point3D(FVector(listenerAngle.Y, listenerAngle.Z, -listenerAngle.X)));
-				m1Positional.setDecoderAlgoPosition(ConvertToMach1Point3D(FVector(GetActorLocation().Y, GetActorLocation().Z, GetActorLocation().X))); //ConvertToMach1Point3D(GetActorLocation()));
+				m1Positional.setListenerRotation(ConvertToMach1Point3D(listenerAngle));
+				m1Positional.setDecoderAlgoPosition(ConvertToMach1Point3D(GetActorLocation()));
 				FVector decoderAngle = (GetActorRotation().Euler());
-				m1Positional.setDecoderAlgoRotation(ConvertToMach1Point3D(FVector(decoderAngle.Y, decoderAngle.Z, -decoderAngle.X))); //ConvertToMach1Point3D(GetEuler(GetActorRotation().Quaternion())));
+				m1Positional.setDecoderAlgoRotation(ConvertToMach1Point3D(decoderAngle)); 
 				m1Positional.setDecoderAlgoScale(ConvertToMach1Point3D(scale));
 
 				m1Positional.evaluatePositionResults();

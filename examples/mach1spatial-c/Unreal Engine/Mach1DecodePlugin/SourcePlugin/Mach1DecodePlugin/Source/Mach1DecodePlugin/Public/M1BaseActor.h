@@ -1,5 +1,5 @@
-//  Mach1 SDK
-//  Copyright � 2017 Mach1. All rights reserved.
+﻿//  Mach1 SDK
+//  Copyright © 2017 Mach1. All rights reserved.
 //
 
 #pragma once
@@ -126,6 +126,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Trigger Options")
 		void Play();
+
+	UFUNCTION(BlueprintCallable, Category = "Trigger Options")
+		void Pause();
+
+	UFUNCTION(BlueprintCallable, Category = "Trigger Options")
+		void Seek(float time);
 
 	UFUNCTION(BlueprintCallable, Category = "Trigger Options")
 		void Stop();

@@ -25,7 +25,7 @@ void* Mach1EncodeCAPI_getPoints(void* M1obj) {
 	std::vector<M1EncodeCorePoint> vec = ((M1EncodeCore*)M1obj)->resultingPoints.getPoints();
 
 	// clear
-	for (int i = 0; i < 7; i++) {
+	for (int i = 0; i < 8; i++) {
 		((M1EncodeCore*)M1obj)->arr_Points[i] = M1EncodeCorePoint();
 	}
 
@@ -38,7 +38,7 @@ void* Mach1EncodeCAPI_getGains(void* M1obj) {
 	std::vector<std::vector<float>> vec = ((M1EncodeCore*)M1obj)->resultingPoints.getGains();
 
 	// clear
-	for (int i = 0; i < 7; i++) {
+	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++) {
 			((M1EncodeCore*)M1obj)->arr_Gains[i][j] = 0;
 		}
@@ -53,7 +53,7 @@ void* Mach1EncodeCAPI_getPointsNames(void* M1obj) {
 	std::vector<std::string> vec = ((M1EncodeCore*)M1obj)->resultingPoints.getPointsNames();
 
 	// clear
-	for (int i = 0; i < 7; i++) {
+	for (int i = 0; i < 8; i++) {
 		((M1EncodeCore*)M1obj)->arr_PointsNames[i][0] = '\0';
 	}
 

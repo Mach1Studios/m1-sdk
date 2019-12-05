@@ -109,15 +109,15 @@ M1EncodeCore::M1EncodeCore() {
 	}
 
 	if (arr_Gains == nullptr) {
-		arr_Gains = new float*[7];
-		for (int i = 0; i < 7; i++) {
+		arr_Gains = new float*[8];
+		for (int i = 0; i < 8; i++) {
 			arr_Gains[i] = new float[8];
 		}
 	}
 
 	if (arr_PointsNames == nullptr) {
-		arr_PointsNames = new char*[7];
-		for (int i = 0; i < 7; i++) {
+		arr_PointsNames = new char*[8];
+		for (int i = 0; i < 8; i++) {
 			arr_PointsNames[i] = new char[255];
 			arr_PointsNames[i][0] = '\0';
 		}
@@ -138,14 +138,14 @@ M1EncodeCore::~M1EncodeCore() {
 	}
 
 	if (arr_Gains != nullptr) {
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < 8; i++) {
 			delete[] arr_Gains[i];
 		}
 		delete[] arr_Gains;
 	}
 
 	if (arr_PointsNames != nullptr) {
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < 8; i++) {
 			delete[] arr_PointsNames[i];
 		}
 		delete[] arr_PointsNames;

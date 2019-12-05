@@ -32,9 +32,9 @@ struct M1EncodeCorePoint
 };
 
 class M1EncodeCorePointResults {
-	M1EncodeCorePoint ppoints[7];
+	M1EncodeCorePoint ppoints[8];
 	int pointsCount;
-	std::string pointsNames[7];
+	std::string pointsNames[8];
 	std::vector<std::vector<float>> gains;
 
 	friend class M1EncodeCore;

@@ -108,7 +108,7 @@ static float dPitch = 0;
 static float dRoll = 0;
 static float x = 0;
 static float y = 0;
-static float z = 0;
+static float z = -2;
 static float distance = 0;
 static float attenuation = 0;
 
@@ -131,9 +131,9 @@ int main(int argc, const char * argv[]) {
     ts.tv_nsec = (long)1e7; // 1/100 seconds
     
     printf("Setting up\n");
-    m1Decode.setPlatformType(Mach1PlatformDefault);
-    m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial);
-    m1Decode.setFilterSpeed(1.0);
+	m1Decode.setPlatformType(Mach1PlatformType::Mach1PlatformDefault);
+	m1Decode.setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial);
+	m1Decode.setFilterSpeed(1.0);
     
     m1Decode.setUseBlendMode(false);
     m1Decode.setIgnoreTopBottom(false);
@@ -141,23 +141,22 @@ int main(int argc, const char * argv[]) {
     m1Decode.setMuteWhenOutsideObject(false);
     
     m1Decode.setUseAttenuation(true);
-    
     m1Decode.setUsePlaneCalculation(false);
     
     done = false;
     pthread_create(&thread, NULL, &decode, NULL);
     
     while (!done) {
-        nanosleep(&ts, NULL);
-        auto start = std::chrono::high_resolution_clock::now();
-        m1Decode.setDecoderAlgoPosition(Mach1Point3D {0.0, 0.0, 10.0});
+		nanosleep(&ts, NULL);
+		auto start = std::chrono::high_resolution_clock::now();
+        m1Decode.setDecoderAlgoPosition(Mach1Point3D {0.0, 0.0, 0.0});
         m1Decode.setDecoderAlgoRotation(Mach1Point3D {0.0, 0.0, 0.0});
-        m1Decode.setDecoderAlgoScale(Mach1Point3D {0.1, 0.1, 0.1});
-        dYaw = radToDeg(rYaw);
-        dPitch = radToDeg(rPitch);
+        m1Decode.setDecoderAlgoScale(Mach1Point3D {1.0, 1.0, 1.0});
+		dYaw = radToDeg(rYaw);
+		dPitch = radToDeg(rPitch);
         dRoll = radToDeg(rRoll);
-        m1Decode.setListenerPosition(Mach1Point3D {dYaw, dPitch, dRoll});
-        m1Decode.setListenerRotation(Mach1Point3D {x, y, z});
+        m1Decode.setListenerRotation(Mach1Point3D {dYaw, dPitch, dRoll});
+        m1Decode.setListenerPosition(Mach1Point3D {x, y, z});
         m1Decode.setUseYawForRotation(true);
         m1Decode.setUsePitchForRotation(true);
         m1Decode.setUseRollForRotation(true);

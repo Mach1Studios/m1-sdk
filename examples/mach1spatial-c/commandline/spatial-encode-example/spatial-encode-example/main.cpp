@@ -212,9 +212,9 @@ static void* decode(void* v)
             printf("Periphonic Active\n");
         }
         if(inputMode==1){
+            printf("Stereo Spread: %f\n", stereoSpread);
             if(!isAutoOrbit){
                 printf("Stereo Rotation: %f\n", radToDeg(stereoRotation));
-                printf("Stereo Spread: %f\n", stereoSpread);
                 printf("\n");
             }
             if(isAutoOrbit){

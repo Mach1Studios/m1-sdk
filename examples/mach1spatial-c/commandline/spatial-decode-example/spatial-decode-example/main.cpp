@@ -6,21 +6,61 @@
 //  Copyright © 2019 Mach1. All rights reserved.
 //
 
+#define M1_STATIC
+
+#if defined(_WIN32)
+#include <time.h>
+#include <windows.h>
+#include <conio.h>
+#define _TIMESPEC_DEFINED
+#else
+#include <sys/time.h>
+#include <unistd.h>
+#include <termios.h>
+#endif
+
 #include <iostream>
 #include <time.h>
-#include <sys/time.h>
+#include <pthread.h>
+#include <chrono>
+
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
-#include <pthread.h>
-#include <unistd.h>
-#include <termios.h>
 #include "Mach1Decode.h"
 
 #define DELTA_ANGLE 0.0174533 // equivalent of 1 degrees in radians
 #ifndef PI
 #define PI 3.14159265358979323846
 #endif
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846264338327950288
+#endif
+
+#ifdef WIN32
+BOOLEAN nanosleep(struct timespec* ts, void* p) {
+	/* Declarations */
+	HANDLE timer;	/* Timer handle */
+	LARGE_INTEGER li;	/* Time defintion */
+	/* Create timer */
+	if (!(timer = CreateWaitableTimer(NULL, TRUE, NULL)))
+		return FALSE;
+	/* Set timer properties */
+	li.QuadPart = -ts->tv_nsec;
+	if (!SetWaitableTimer(timer, &li, 0, NULL, NULL, FALSE)) {
+		CloseHandle(timer);
+		return FALSE;
+	}
+	/* Start & wait for timer */
+	WaitForSingleObject(timer, INFINITE);
+	/* Clean resources */
+	CloseHandle(timer);
+	/* Slept without problems */
+	return TRUE;
+}
+#endif
+
 
 static void* decode(void* v);
 static pthread_t thread;
@@ -49,6 +89,10 @@ static auto start = 0.0;
 static auto end = 0.0;
 static float timeReturned = 0;
 
+// variables for debug internal
+static float checkSumL = 0;
+static float checkSumR = 0;
+
 float radToDeg (float input){
     float output = input * (180/PI);
     return output;
@@ -70,7 +114,9 @@ int main(int argc, const char * argv[]) {
     while (!done) {
         nanosleep(&ts, NULL);
         auto start = std::chrono::high_resolution_clock::now();
+        m1Decode.beginBuffer();
         m1Coeffs = m1Decode.decode(radToDeg(yaw), radToDeg(pitch), radToDeg(roll), 0, 0);
+        m1Decode.endBuffer();
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> elapsed = end - start;
         timeReturned = (float)elapsed.count();
@@ -82,21 +128,27 @@ int main(int argc, const char * argv[]) {
 static void* decode(void* v)
 {
     /* Allow Terminal to input chars without "Enter" */
-    struct termios info;
+#ifndef _WIN32
+	struct termios info;
     tcgetattr(0, &info);
     info.c_lflag &= ~ICANON;
     info.c_cc[VMIN] = 1;
     info.c_cc[VTIME] = 0;
     tcsetattr(0, TCSANOW, &info);
-    
+#endif
+
     printf("In the run thread\n");
     char c;
     printf("Enter a command:\n");
     while (1) {
         
-        c = getchar();
-        
-        if (c == 'q') break;
+#ifdef _WIN32
+		c = _getch();
+#else 
+		c = getchar();
+#endif     
+
+		if (c == 'q') break;
         
         // delete entered character
         printf("\b");
@@ -131,17 +183,23 @@ static void* decode(void* v)
         if (roll < -M_PI) roll = M_PI;
         else if (roll > M_PI) roll = -M_PI;
         
+        checkSumL = (m1Coeffs[0] + m1Coeffs[2] + m1Coeffs[4] + m1Coeffs[6] + m1Coeffs[8] + m1Coeffs[10] + m1Coeffs[12] + m1Coeffs[14]);
+        checkSumR = (m1Coeffs[1] + m1Coeffs[3] + m1Coeffs[5] + m1Coeffs[7] + m1Coeffs[9] + m1Coeffs[11] + m1Coeffs[13] + m1Coeffs[15]);
+        
         // Mach1DecodeCAPI Log:
         printf("\n");
         printf("y / p / r: %f %f %f\n", radToDeg(yaw), radToDeg(pitch), radToDeg(roll));
         printf("\n");
         printf("Decode Coeffs:\n");
-        printf("%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", m1Coeffs[0], m1Coeffs[1], m1Coeffs[2], m1Coeffs[3], m1Coeffs[4], m1Coeffs[5], m1Coeffs[6], m1Coeffs[7], m1Coeffs[8], m1Coeffs[9], m1Coeffs[10], m1Coeffs[11], m1Coeffs[12], m1Coeffs[13], m1Coeffs[14], m1Coeffs[15]);
+        printf(" 1L: %f 1R: %f\n 2L: %f 2R: %f\n 3L: %f 3R: %f\n 4L: %f 4R: %f\n\n 5L: %f 5R: %f\n 6L: %f 6R: %f\n 7L: %f 7R: %f\n 8L: %f 8R: %f\n", m1Coeffs[0], m1Coeffs[1], m1Coeffs[2], m1Coeffs[3], m1Coeffs[4], m1Coeffs[5], m1Coeffs[6], m1Coeffs[7], m1Coeffs[8], m1Coeffs[9], m1Coeffs[10], m1Coeffs[11], m1Coeffs[12], m1Coeffs[13], m1Coeffs[14], m1Coeffs[15]);
         printf("\n");
         printf("Headlock Stereo Coeffs:\n");
         printf("%f %f\n", m1Coeffs[16], m1Coeffs[17]);
         printf("\n");
         printf("Elapsed time: %f Seconds\n", timeReturned);
+        printf("\n");
+        printf("SUM CHECK L: %f    L REM: %f\n", checkSumL, abs(checkSumL-1.0f));
+        printf("SUM CHECK R: %f    R REM: %f\n", checkSumR, abs(checkSumR-1.0f));
         printf("\n");
     }
     printf("\n");

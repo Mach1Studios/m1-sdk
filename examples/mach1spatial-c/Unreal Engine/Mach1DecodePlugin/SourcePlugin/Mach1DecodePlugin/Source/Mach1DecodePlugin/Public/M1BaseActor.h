@@ -131,6 +131,9 @@ public:
 		void Pause();
 
 	UFUNCTION(BlueprintCallable, Category = "Trigger Options")
+		void Resume();
+
+	UFUNCTION(BlueprintCallable, Category = "Trigger Options")
 		void Seek(float time);
 
 	UFUNCTION(BlueprintCallable, Category = "Trigger Options")

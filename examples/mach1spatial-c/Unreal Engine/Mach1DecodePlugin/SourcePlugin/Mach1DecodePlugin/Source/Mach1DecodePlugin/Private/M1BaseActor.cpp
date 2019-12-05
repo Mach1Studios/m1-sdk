@@ -392,6 +392,27 @@ void AM1BaseActor::Pause()
 	}
 }
 
+void AM1BaseActor::Resume()
+{
+	if (isInited)
+	{
+		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
+		{
+			LeftChannelsMain[i]->SetPaused(false);
+			RightChannelsMain[i]->SetPaused(false);
+		}
+	}
+
+	if (isInited && useBlendMode)
+	{
+		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
+		{
+			LeftChannelsBlend[i]->SetPaused(false);
+			RightChannelsBlend[i]->SetPaused(false);
+		}
+	}
+}
+
 void AM1BaseActor::Seek(float time)
 {
 	if (isInited)

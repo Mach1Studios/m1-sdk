@@ -377,8 +377,8 @@ void AM1BaseActor::Pause()
 	{
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
-			LeftChannelsMain[i]->SetPaused(!LeftChannelsMain[i]->bIsPaused);
-			RightChannelsMain[i]->SetPaused(!RightChannelsMain[i]->bIsPaused);
+			LeftChannelsMain[i]->SetPaused(true);
+			RightChannelsMain[i]->SetPaused(true);
 		}
 	}
 
@@ -386,8 +386,8 @@ void AM1BaseActor::Pause()
 	{
 		for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL; i++)
 		{
-			LeftChannelsBlend[i]->SetPaused(!LeftChannelsBlend[i]->bIsPaused);
-			RightChannelsBlend[i]->SetPaused(!RightChannelsBlend[i]->bIsPaused);
+			LeftChannelsBlend[i]->SetPaused(true);
+			RightChannelsBlend[i]->SetPaused(true);
 		}
 	}
 }

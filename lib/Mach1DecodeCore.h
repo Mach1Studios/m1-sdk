@@ -79,6 +79,31 @@ private:
     
     Mach1DecodeAlgoType algorithmType;
     
+
+	inline float _dot(const Mach1Point3DCore& p1, const Mach1Point3DCore& p2) const {
+		return p1.x * p2.x + p1.y * p2.y + p1.z * p2.z;
+	}
+
+	bool linePlaneIntersection(Mach1Point3DCore& contact, Mach1Point3DCore ray, Mach1Point3DCore rayOrigin, Mach1Point3DCore normal, Mach1Point3DCore coord)
+	{
+		float epsilon = 1e-6f;
+
+		Mach1Point3DCore u = rayOrigin - ray;
+		float dot = _dot(normal, u);
+
+		if (fabs(dot) > epsilon) {
+			Mach1Point3DCore w = ray - coord;
+			float fac = -_dot(normal, w) / dot;
+			if (fac >= 0.0 && fac <= 1.0) {
+				u = u * fac;
+				contact = ray + u;
+				return true;
+			}
+		}
+
+		return false;
+	}
+
     void horizonPairsAlgoSample(float Yaw, float Pitch, float Roll, float *result) {
         //Orientation input safety clamps/alignment
         Yaw = alignAngle(Yaw, 0, 360);
@@ -300,54 +325,60 @@ private:
             Mach1Point3DCore(-100, 100, 100)
             
         };
+
+		Mach1Point3DCore planes[8][2] =
+		{
+			{ Mach1Point3DCore(0, 1, 0), Mach1Point3DCore(0, 100, 0) },
+			{ Mach1Point3DCore(0, -1, 0), Mach1Point3DCore(0, -100, 0) },
+			{ Mach1Point3DCore(1, 0, 0), Mach1Point3DCore(100, 0, 0) },
+			{ Mach1Point3DCore(-1, 0, 0), Mach1Point3DCore(-100, 0, 0) },
+			{ Mach1Point3DCore(0, 0, 1), Mach1Point3DCore(0, 0, 100) },
+			{ Mach1Point3DCore(0, 0, -1), Mach1Point3DCore(0, 0, -100) }
+		};
+		
+		// intersection
+		Mach1Point3DCore contactL = faceVectorLeft * 100 + faceVector2 * 100;
+		Mach1Point3DCore contactR = faceVectorRight * 100 + faceVector2 * 100;
+
+		
+
+		for (int j = 0; j < 8; j++) {
+			linePlaneIntersection(contactL, Mach1Point3DCore(0, 0, 0), faceVectorLeft * 100 + faceVector2 * 100, planes[j][0], planes[j][1]);
+			linePlaneIntersection(contactR, Mach1Point3DCore(0, 0, 0), faceVectorRight * 100 + faceVector2 * 100, planes[j][0], planes[j][1]);
+		}
+
         
         float qL[8];
         for (int i = 0; i < 8; i++) {
-            qL[i] = (faceVectorLeft * 100 + faceVector2 * 100 - points[i]).length();
+            qL[i] = (contactL - points[i]).length();
         }
         
         float qR[8];
         for (int i = 0; i < 8; i++) {
-            qR[i] = (faceVectorRight * 100 + faceVector2 * 100 - points[i]).length();
+            qR[i] = (contactR - points[i]).length();
         }
         
-        
-        for (int i = 0; i < 8; i++) {
-            float vL = clamp(mmap(qL[i], 0, 200, 1.f, 0.), 0, 1);
-            float vR = clamp(mmap(qR[i], 0, 200, 1.f, 0.), 0, 1);
-            
-			result[i * 2] = vL;
-			result[i * 2 + 1] = vR;
+		float d = sqrt(100 * 100 + 200 * 200);
+		for (int i = 0; i < 8; i++) {
+			float vL = clamp(mmap(qL[i], 0, d, 1.f, 0.), 0, 1);
+			float vR = clamp(mmap(qR[i], 0, d, 1.f, 0.), 0, 1);
 
-       }
+			result[i * 2 + 0] = vL;
+			result[i * 2 + 1] = vR;
+		}
         
         // Volume Balancer v2.0
-        float sumL = 0, sumR = 0;
+		float sumL = 0, sumR = 0;
         for (int i = 0; i < 8; i++) {
             sumL += result[i * 2];
             sumR += result[i * 2 + 1];
         }
         
-        float multipliersL[8], multipliersR[8];
-        for (int i = 0; i < 8; i++) {
-            multipliersL[i] = result[i * 2] / sumL;
-            multipliersR[i] = result[i * 2 + 1] / sumR;
-        }
-        
-        float sumDiffL = sumL - 1.f;
-        float sumDiffR = sumR - 1.f;
-        
-        float correctedVolumesL[8], correctedVolumesR[8];
-        for (int i = 0; i < 8; i++) {
-            correctedVolumesL[i] = result[i * 2] / sumL;
-            correctedVolumesR[i] = result[i * 2 + 1] / sumR;
-        }
-        
-        for (int i = 0; i < 8; i++) {
-			result[i * 2] = correctedVolumesL[i];
-			result[i * 2 + 1] = correctedVolumesR[i];
+		for (int i = 0; i < 8; i++) {
+			result[i * 2 + 0] /= sumL;
+			result[i * 2 + 1] /= sumR;
 		}
- 		 
+
 		//if(sumL > 1.0 || sumR > 1.0) printf("%f - %f\r\n", sumL, sumR);
 
 		result[8 + 8] = 1.0f; // static stereo L
@@ -386,68 +417,73 @@ private:
         
         // Drawing another 8 dots
         
-        Mach1Point3DCore points[8] =
-        { Mach1Point3DCore(100, -100, -100),
-            Mach1Point3DCore(100, 100, -100),
-            Mach1Point3DCore(-100, -100, -100),
-            Mach1Point3DCore(-100, 100, -100),
-            
-            Mach1Point3DCore(100, -100, 100),
-            Mach1Point3DCore(100, 100, 100),
-            Mach1Point3DCore(-100, -100, 100),
-            Mach1Point3DCore(-100, 100, 100)
-            
-        };
-        
-        float qL[8];
-        for (int i = 0; i < 8; i++) {
-            qL[i] = (faceVectorLeft * 100 + faceVector2 * 100 - points[i]).length();
-        }
-        
-        float qR[8];
-        for (int i = 0; i < 8; i++) {
-            qR[i] = (faceVectorRight * 100 + faceVector2 * 100 - points[i]).length();
-        }
+		Mach1Point3DCore points[8] =
+		{ Mach1Point3DCore(100, -100, -100),
+			Mach1Point3DCore(100, 100, -100),
+			Mach1Point3DCore(-100, -100, -100),
+			Mach1Point3DCore(-100, 100, -100),
+
+			Mach1Point3DCore(100, -100, 100),
+			Mach1Point3DCore(100, 100, 100),
+			Mach1Point3DCore(-100, -100, 100),
+			Mach1Point3DCore(-100, 100, 100)
+
+		};
+
+		Mach1Point3DCore planes[8][2] =
+		{
+			{ Mach1Point3DCore(0, 1, 0), Mach1Point3DCore(0, 100, 0) },
+			{ Mach1Point3DCore(0, -1, 0), Mach1Point3DCore(0, -100, 0) },
+			{ Mach1Point3DCore(1, 0, 0), Mach1Point3DCore(100, 0, 0) },
+			{ Mach1Point3DCore(-1, 0, 0), Mach1Point3DCore(-100, 0, 0) },
+			{ Mach1Point3DCore(0, 0, 1), Mach1Point3DCore(0, 0, 100) },
+			{ Mach1Point3DCore(0, 0, -1), Mach1Point3DCore(0, 0, -100) }
+		};
+
+		// intersection
+		Mach1Point3DCore contactL = faceVectorLeft * 100 + faceVector2 * 100;
+		Mach1Point3DCore contactR = faceVectorRight * 100 + faceVector2 * 100;
+		for (int j = 0; j < 8; j++) {
+			linePlaneIntersection(contactL, Mach1Point3DCore(0, 0, 0), faceVectorLeft * 100 + faceVector2 * 100, planes[j][0], planes[j][1]);
+			linePlaneIntersection(contactR, Mach1Point3DCore(0, 0, 0), faceVectorRight * 100 + faceVector2 * 100, planes[j][0], planes[j][1]);
+		}
+
+
+		float qL[8];
+		for (int i = 0; i < 8; i++) {
+			qL[i] = (contactL - points[i]).length();
+		}
+
+		float qR[8];
+		for (int i = 0; i < 8; i++) {
+			qR[i] = (contactR - points[i]).length();
+		}
         
         std::vector<float> result;
         result.resize(16);
         
-        for (int i = 0; i < 8; i++) {
-            float vL = clamp(mmap(qL[i], 0, 200, 1.f, 0.), 0, 1);
-            float vR = clamp(mmap(qR[i], 0, 200, 1.f, 0.), 0, 1);
-            
-            result[i * 2] = vL;
-            result[i * 2 + 1] = vR;
-            
-        }
-        
-        // Volume Balancer v2.0
-        
-        float sumL = 0, sumR = 0;
-        for (int i = 0; i < 8; i++) {
-            sumL += result[i * 2];
-            sumR += result[i * 2 + 1];
-        }
-        
-        float multipliersL[8], multipliersR[8];
-        for (int i = 0; i < 8; i++) {
-            multipliersL[i] = result[i * 2] / sumL;
-            multipliersR[i] = result[i * 2 + 1] / sumR;
-        }
-        
-        float sumDiffL = sumL - 1.f;
-        float sumDiffR = sumR - 1.f;
-        
-        float correctedVolumesL[8], correctedVolumesR[8];
-        for (int i = 0; i < 8; i++) {
-            correctedVolumesL[i] = result[i * 2] - sumDiffL * multipliersL[i];
-            correctedVolumesR[i] = result[i * 2 + 1] - sumDiffR * multipliersR[i];
-        }
-        
-        for (int i = 0; i < 8; i++) {
-            result[i * 2] = correctedVolumesL[i];
-            result[i * 2 + 1] = correctedVolumesR[i];
-        }
+		float d = sqrt(100 * 100 + 200 * 200);
+		for (int i = 0; i < 8; i++) {
+			float vL = clamp(mmap(qL[i], 0, d, 1.f, 0.), 0, 1);
+			float vR = clamp(mmap(qR[i], 0, d, 1.f, 0.), 0, 1);
+
+			result[i * 2 + 0] = vL;
+			result[i * 2 + 1] = vR;
+		}
+
+		// Volume Balancer v2.0
+		float sumL = 0, sumR = 0;
+		for (int i = 0; i < 8; i++) {
+			sumL += result[i * 2];
+			sumR += result[i * 2 + 1];
+		}
+
+		for (int i = 0; i < 8; i++) {
+			result[i * 2 + 0] /= sumL;
+			result[i * 2 + 1] /= sumR;
+		}
+
+		//if(sumL > 1.0 || sumR > 1.0) printf("%f - %f\r\n", sumL, sumR);
         
         
         result.push_back(1.f); // static stereo L

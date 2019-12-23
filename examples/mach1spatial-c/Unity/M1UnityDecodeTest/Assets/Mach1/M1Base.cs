@@ -411,6 +411,50 @@ public class M1Base : MonoBehaviour
         }
     }
 
+    public void PauseAudio()
+    {
+        if (IsReady())
+        {
+            if (audioSourceMain != null)
+            {
+                for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
+                {
+                    audioSourceMain[i].Pause();
+                }
+            }
+
+            if (useBlendMode && audioSourceBlend != null)
+            {
+                for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
+                {
+                    audioSourceBlend[i].Pause();
+                }
+            }
+        }
+    }
+
+    public void ResumeAudio()
+    {
+        if (IsReady())
+        {
+            if (audioSourceMain != null)
+            {
+                for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
+                {
+                    audioSourceMain[i].UnPause();
+                }
+            }
+
+            if (useBlendMode && audioSourceBlend != null)
+            {
+                for (int i = 0; i < MAX_SOUNDS_PER_CHANNEL * 2; i++)
+                {
+                    audioSourceBlend[i].UnPause();
+                }
+            }
+        }
+    }
+
     public void Seek(float timeInSeconds)
     {
         if (audioSourceBlend != null)

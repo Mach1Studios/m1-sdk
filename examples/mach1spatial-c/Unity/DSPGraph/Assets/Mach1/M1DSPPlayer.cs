@@ -200,6 +200,57 @@ struct M1DSPPlayerNode : IAudioKernel<M1DSPPlayerNode.Parameters, M1DSPPlayerNod
     }
 }
 
+// M1 Mixer for players
+[BurstCompile(CompileSynchronously = true)]
+struct M1DSPMixerNode : IAudioKernel<M1DSPMixerNode.Parameters, M1DSPMixerNode.Providers>
+{
+    // Parameters are currently defined with enumerations. Each enum value corresponds to
+    // a parameter within the node. Setting a value for a parameter uses these enum values.
+    public enum Parameters { }
+
+    // Sample providers are defined with enumerations. Each enum value defines a slot where
+    // a sample provider can live on a IAudioKernel. Sample providers are used to get samples from
+    // AudioClips and VideoPlayers. They will eventually be able to pull samples from microphones and other concepts.
+    public enum Providers { }
+
+    public void Initialize()
+    {
+    }
+
+    public void Execute(ref ExecuteContext<Parameters, Providers> context)
+    {
+        var outputBuffer = context.Outputs.GetSampleBuffer(0).Buffer;
+
+        int c = context.Inputs.Count;
+
+        for (var i = 0; i < outputBuffer.Length; i++)
+        {
+            outputBuffer[i] = 0;
+        }
+
+        for (var i = 0; i < c; i++)
+        {
+            var inputBuffer = context.Inputs.GetSampleBuffer(i).Buffer;
+
+            for (var j = 0; j < inputBuffer.Length; j++)
+            {
+                outputBuffer[j] += inputBuffer[j];
+            }
+        }
+
+        for (var i = 0; i < outputBuffer.Length; i++)
+        {
+            outputBuffer[i] = outputBuffer[i] / c;
+        }
+
+    }
+
+    public void Dispose()
+    {
+    }
+}
+
+
 [BurstCompile(CompileSynchronously = true)]
 struct M1DSPWriterNode : IAudioKernel<M1DSPWriterNode.Parameters, M1DSPWriterNode.Providers>
 {
@@ -445,24 +496,23 @@ struct ClipStopped { }
 // Bootstrap MonoBehaviour to get the example running.
 public class M1DSPPlayer// : MonoBehaviour
 {
-    public AudioClip[] audioClips;
+    public List<AudioClip[]> audioClips;
+    public List<float[][]> gains;
     public float[] coeffs;
-    public float[][] gains;
 
     public bool isPlaying;
     public bool useEncode;
     public bool useWriter;
+    public int countPlayers;
 
     AudioOutputHandle output;
     DSPGraph dpsGraph;
-    DSPNode nodePlayer;
+    List<DSPNode> nodesPlayer;
+    List<DSPNode> nodesEncode;
+    DSPNode nodeMixer;
     DSPNode nodeWriter;
-    DSPNode nodeEncode;
     DSPNode nodeDecode;
-    DSPConnection connectionDecodeNode;
-    DSPConnection connectionEncodeNode;
-    DSPConnection connectionPlayerNode;
-    DSPConnection connectionWriterNode;
+    List<DSPConnection> connections;
 
     int handlerID;
 
@@ -471,8 +521,22 @@ public class M1DSPPlayer// : MonoBehaviour
         // init
         if (audioClips == null)
         {
-            audioClips = new AudioClip[8];
+            audioClips = new List<AudioClip[]>(countPlayers);
+            for (int i = 0; i < countPlayers; i++)
+            {
+                audioClips.Add(new AudioClip[8]);
+            }
         }
+
+        if (gains == null)
+        {
+            gains = new List<float[][]>(countPlayers);
+            for (int i = 0; i < countPlayers; i++)
+            {
+                gains.Add(new float[0][]);
+            }
+        }
+
         coeffs = new float[16];
         isPlaying = false;
 
@@ -502,11 +566,22 @@ public class M1DSPPlayer// : MonoBehaviour
         // Create it here and complete it once all commands are added.
         var block = dpsGraph.CreateCommandBlock();
 
-        nodePlayer = block.CreateDSPNode<M1DSPPlayerNode.Parameters, M1DSPPlayerNode.Providers, M1DSPPlayerNode>();
-        block.SetFloat<M1DSPPlayerNode.Parameters, M1DSPPlayerNode.Providers, M1DSPPlayerNode>(nodePlayer, M1DSPPlayerNode.Parameters.DSPBufferLength, bufferLength);
-        block.AddOutletPort(nodePlayer, 8, SoundFormat.SevenDot1);
+        connections = new List<DSPConnection>();
 
-        if(useWriter)
+        // create player node
+        {
+            nodesPlayer = new List<DSPNode>(countPlayers);
+            for (int i = 0; i < countPlayers; i++)
+            {
+                DSPNode nodePlayer = block.CreateDSPNode<M1DSPPlayerNode.Parameters, M1DSPPlayerNode.Providers, M1DSPPlayerNode>();
+                block.SetFloat<M1DSPPlayerNode.Parameters, M1DSPPlayerNode.Providers, M1DSPPlayerNode>(nodePlayer, M1DSPPlayerNode.Parameters.DSPBufferLength, bufferLength);
+                block.AddOutletPort(nodePlayer, 8, SoundFormat.SevenDot1);
+
+                nodesPlayer.Add(nodePlayer);
+            }
+        }
+
+        if (useWriter)
         { 
             nodeWriter = block.CreateDSPNode<M1DSPWriterNode.Parameters, M1DSPWriterNode.Providers, M1DSPWriterNode>();
             block.SetFloat<M1DSPWriterNode.Parameters, M1DSPWriterNode.Providers, M1DSPWriterNode>(nodeWriter, M1DSPWriterNode.Parameters.WriterIndex, 0);
@@ -516,9 +591,22 @@ public class M1DSPPlayer// : MonoBehaviour
 
         if (useEncode)
         {
-            nodeEncode = block.CreateDSPNode<M1DSPEncodeNode.Parameters, M1DSPEncodeNode.Providers, M1DSPEncodeNode>();
-            block.AddInletPort(nodeEncode, 8, SoundFormat.SevenDot1);
-            block.AddOutletPort(nodeEncode, 8, SoundFormat.SevenDot1);
+            nodesEncode = new List<DSPNode>(countPlayers);
+            for (int i = 0; i < countPlayers; i++)
+            {
+                DSPNode nodeEncode = block.CreateDSPNode<M1DSPEncodeNode.Parameters, M1DSPEncodeNode.Providers, M1DSPEncodeNode>();
+                block.AddInletPort(nodeEncode, 8, SoundFormat.SevenDot1);
+                block.AddOutletPort(nodeEncode, 8, SoundFormat.SevenDot1);
+
+                nodesEncode.Add(nodeEncode);
+            }
+
+            nodeMixer = block.CreateDSPNode<M1DSPMixerNode.Parameters, M1DSPMixerNode.Providers, M1DSPMixerNode>();
+            for (int i = 0; i < countPlayers; i++)
+            {
+                block.AddInletPort(nodeMixer, 8, SoundFormat.SevenDot1);
+            }
+            block.AddOutletPort(nodeMixer, 8, SoundFormat.SevenDot1);
         }
 
         nodeDecode = block.CreateDSPNode<M1DSPDecodeNode.Parameters, M1DSPDecodeNode.Providers, M1DSPDecodeNode>();
@@ -530,29 +618,34 @@ public class M1DSPPlayer// : MonoBehaviour
         {
             if (useWriter)
             {
-                connectionWriterNode = block.Connect(nodePlayer, 0, nodeWriter, 0);
-                connectionPlayerNode = block.Connect(nodeWriter, 0, nodeDecode, 0);
+                connections.Add(block.Connect(nodesPlayer[0], 0, nodeWriter, 0));
+                connections.Add(block.Connect(nodeWriter, 0, nodeDecode, 0));
             }
             else
             {
-                connectionPlayerNode = block.Connect(nodePlayer, 0, nodeDecode, 0);
+                connections.Add(block.Connect(nodesPlayer[0], 0, nodeDecode, 0));
             }
         }
         else
         {
+            for (int i = 0; i < countPlayers; i++)
+            {
+                connections.Add(block.Connect(nodesPlayer[i], 0, nodesEncode[i], 0));
+                connections.Add(block.Connect(nodesEncode[i], 0, nodeMixer, i));
+            }
+
             if (useWriter)
             {
-                connectionPlayerNode = block.Connect(nodePlayer, 0, nodeEncode, 0);
-                connectionWriterNode = block.Connect(nodeEncode, 0, nodeWriter, 0);
-                connectionEncodeNode = block.Connect(nodeWriter, 0, nodeDecode, 0);
+                connections.Add(block.Connect(nodeMixer, 0, nodeWriter, 0));
+                connections.Add(block.Connect(nodeWriter, 0, nodeDecode, 0));
             }
             else
             {
-                connectionPlayerNode = block.Connect(nodePlayer, 0, nodeEncode, 0);
-                connectionEncodeNode = block.Connect(nodeEncode, 0, nodeDecode, 0);
+                connections.Add(block.Connect(nodeMixer, 0, nodeDecode, 0));
             }
         }
-        connectionDecodeNode = block.Connect(nodeDecode, 0, dpsGraph.RootDSP, 0);
+
+        connections.Add(block.Connect(nodeDecode, 0, dpsGraph.RootDSP, 0));
 
         // We are done, fire off the command block atomically to the mixer thread.
         block.Complete();
@@ -573,12 +666,15 @@ public class M1DSPPlayer// : MonoBehaviour
 
                 if (useEncode)
                 {
-                    block.SetFloat<M1DSPEncodeNode.Parameters, M1DSPEncodeNode.Providers, M1DSPEncodeNode>(nodeEncode, M1DSPEncodeNode.Parameters.inputChannels, gains.Length);
-                    for (var i = 0; i < gains.Length; i++)
+                    for (var n = 0; n < countPlayers; n++)
                     {
-                        for (var j = 0; j < gains[i].Length; j++)
+                        block.SetFloat<M1DSPEncodeNode.Parameters, M1DSPEncodeNode.Providers, M1DSPEncodeNode>(nodesEncode[n], M1DSPEncodeNode.Parameters.inputChannels, gains[n].Length);
+                        for (var i = 0; i < gains[n].Length; i++)
                         {
-                            block.SetFloat<M1DSPEncodeNode.Parameters, M1DSPEncodeNode.Providers, M1DSPEncodeNode>(nodeEncode, (M1DSPEncodeNode.Parameters)(1 + i * 8 + j), gains[i][j]);
+                            for (var j = 0; j < gains[n][i].Length; j++)
+                            {
+                                block.SetFloat<M1DSPEncodeNode.Parameters, M1DSPEncodeNode.Providers, M1DSPEncodeNode>(nodesEncode[n], (M1DSPEncodeNode.Parameters)(1 + i * 8 + j), gains[n][i][j]);
+                            }
                         }
                     }
                 }
@@ -593,22 +689,25 @@ public class M1DSPPlayer// : MonoBehaviour
         // Command blocks can also be completed via the C# 'using' construct for convenience
         using (var block = dpsGraph.CreateCommandBlock())
         {
-            block.Disconnect(connectionPlayerNode);
-            block.Disconnect(connectionDecodeNode);
-            if (useEncode)
+            for (int i = 0; i < connections.Count; i++)
             {
-                block.Disconnect(connectionEncodeNode);
-            }
-            if (useWriter)
-            {
-                block.Disconnect(connectionWriterNode);
+                block.Disconnect(connections[i]);
             }
 
-            block.ReleaseDSPNode(nodePlayer);
+            for (int i = 0; i < nodesPlayer.Count; i++)
+            {
+                block.ReleaseDSPNode(nodesPlayer[i]);
+            }
+
             block.ReleaseDSPNode(nodeDecode);
             if (useEncode)
             {
-                block.ReleaseDSPNode(nodeEncode);
+                for (int i = 0; i < nodesEncode.Count; i++)
+                {
+                    block.ReleaseDSPNode(nodesEncode[i]);
+                }
+
+                block.ReleaseDSPNode(nodeMixer);
             }
             if (useWriter)
             {
@@ -627,37 +726,41 @@ public class M1DSPPlayer// : MonoBehaviour
 
         using (var block = dpsGraph.CreateCommandBlock())
         {
-            block.UpdateAudioKernel<StopClipKernel, M1DSPPlayerNode.Parameters, M1DSPPlayerNode.Providers, M1DSPPlayerNode>(new StopClipKernel(), nodePlayer);
+            for (int i = 0; i < nodesPlayer.Count; i++)
+            {
+                block.UpdateAudioKernel<StopClipKernel, M1DSPPlayerNode.Parameters, M1DSPPlayerNode.Providers, M1DSPPlayerNode>(new StopClipKernel(), nodesPlayer[i]);
+            }
             isPlaying = false;
         }
     }
 
     public void Play()
     {
-        Debug.Log("dsp play: " + audioClips.Length);
-
-        using (var block = dpsGraph.CreateCommandBlock())
+        for (var n = 0; n < countPlayers; n++)
         {
-            for (var i = 0; i < audioClips.Length; i++)
+            Debug.Log("dsp play: " + audioClips[n].Length);
+            using (var block = dpsGraph.CreateCommandBlock())
             {
-                // Decide on playback rate here by taking the provider input rate and the output settings of the system
-                var resampleRate = (float)audioClips[i].frequency / AudioSettings.outputSampleRate;
-                Debug.Log("dsp resampleRate: " + resampleRate);
+                for (var i = 0; i < audioClips[n].Length; i++)
+                {
+                    // Decide on playback rate here by taking the provider input rate and the output settings of the system
+                    var resampleRate = (float)audioClips[n][i].frequency / AudioSettings.outputSampleRate;
+                    Debug.Log("dsp resampleRate: " + resampleRate);
 
-                block.SetFloat<M1DSPPlayerNode.Parameters, M1DSPPlayerNode.Providers, M1DSPPlayerNode>(nodePlayer, (M1DSPPlayerNode.Parameters)i, resampleRate);
+                    block.SetFloat<M1DSPPlayerNode.Parameters, M1DSPPlayerNode.Providers, M1DSPPlayerNode>(nodesPlayer[n], (M1DSPPlayerNode.Parameters)i, resampleRate);
 
-                // Assign the sample provider to the slot of the node.
-                block.SetSampleProvider<M1DSPPlayerNode.Parameters, M1DSPPlayerNode.Providers, M1DSPPlayerNode>(audioClips[i], nodePlayer, (M1DSPPlayerNode.Providers)i);
+                    // Assign the sample provider to the slot of the node.
+                    block.SetSampleProvider<M1DSPPlayerNode.Parameters, M1DSPPlayerNode.Providers, M1DSPPlayerNode>(audioClips[n][i], nodesPlayer[n], (M1DSPPlayerNode.Providers)i);
+                }
+
+                // Kick off playback. This will be done in a better way in the future.
+                block.UpdateAudioKernel<PlayClipKernel, M1DSPPlayerNode.Parameters, M1DSPPlayerNode.Providers, M1DSPPlayerNode>(new PlayClipKernel(), nodesPlayer[n]);
             }
-
-            // Kick off playback. This will be done in a better way in the future.
-            block.UpdateAudioKernel<PlayClipKernel, M1DSPPlayerNode.Parameters, M1DSPPlayerNode.Providers, M1DSPPlayerNode>(new PlayClipKernel(), nodePlayer);
-
             isPlaying = true;
         }
     }
 
-    
+
     void OnGUI()
     {
         if (GUI.Button(new Rect(10, 10, 150, 100), "Play Clips!"))

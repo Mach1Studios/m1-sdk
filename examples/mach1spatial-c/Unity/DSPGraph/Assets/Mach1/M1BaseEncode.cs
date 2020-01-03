@@ -29,6 +29,8 @@ public class M1BaseEncode : MonoBehaviour
     public float pitchDistanceMax = 10;
     public float divergeDistanceMax = 100;
 
+    public bool debug = false;
+
     private int MAX_SOUNDS;
     private AudioListener audiolistener;
     private bool needToPlay;
@@ -76,8 +78,6 @@ public class M1BaseEncode : MonoBehaviour
         // TODO 
         m1Encode.setInputMode(Mach1.Mach1EncodeInputModeType.Mach1EncodeInputModeMono);
         m1Encode.setOutputMode(Mach1.Mach1EncodeOutputModeType.Mach1EncodeOutputMode8Ch);
-
-     
     }
 
     protected void InitComponents(int MAX_SOUNDS_PER_CHANNEL)
@@ -358,9 +358,11 @@ public class M1BaseEncode : MonoBehaviour
             {
                 fmt += " , " + gains[0][i];
             }
-            Debug.Log("gains: " + fmt);
 
-            //Debug.Log("vec.x / 10: " + vec.x / 10 +  " , " +  vec.y / 10);
+            if(debug)
+            {
+                Debug.Log("gains: " + fmt);
+            }
         }
     }
 }

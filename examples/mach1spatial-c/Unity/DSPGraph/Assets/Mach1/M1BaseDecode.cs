@@ -9,6 +9,7 @@ using System.IO;
 using UnityEditor;
 using System.Text;
 using System;
+using UnityEngine.Networking;
 
 [CustomEditor(typeof(M1BaseDecode), true)]
 [CanEditMultipleObjects]
@@ -393,15 +394,18 @@ public class M1BaseDecode : MonoBehaviour
 
             //Debug.Log ("load audio : " + url);
 
-            WWW www = new WWW(url);
-            yield return www;
-            if (www.error == null)
+            using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.UNKNOWN))
             {
-                clip = www.GetAudioClip(false, false);
-            }
-            else
-            {
-                Debug.Log("WWW Error: " + www.error + " (" + url + ")");
+                yield return www.SendWebRequest();
+
+                if (www.isNetworkError)
+                {
+                    Debug.Log("WWW Error: " + www.error + " (" + url + ")");
+                }
+                else
+                {
+                    AudioClip myClip = DownloadHandlerAudioClip.GetContent(www);
+                }
             }
         }
 

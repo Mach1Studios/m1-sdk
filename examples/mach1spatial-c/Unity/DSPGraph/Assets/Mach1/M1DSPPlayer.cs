@@ -477,8 +477,8 @@ public class M1DSPPlayer// : MonoBehaviour
         isPlaying = false;
 
         // DSPGraph init
-        var format = Conversion.ConvertSpeakerMode(AudioSettings.speakerMode);
-        var channels = Conversion.ConvertSoundFormatToChannels(format);
+        var format = ChannelEnumConverter.GetSoundFormatFromSpeakerMode(AudioSettings.speakerMode);
+        var channels = ChannelEnumConverter.GetChannelCountFromSoundFormat(format);
         AudioSettings.GetDSPBufferSize(out var bufferLength, out var numBuffers);
 
         var sampleRate = AudioSettings.outputSampleRate;

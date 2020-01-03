@@ -5,6 +5,7 @@
 using System.Collections;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class M1BaseEncode : MonoBehaviour
 {
@@ -192,15 +193,18 @@ public class M1BaseEncode : MonoBehaviour
 
             //Debug.Log ("load audio : " + url);
 
-            WWW www = new WWW(url);
-            yield return www;
-            if (www.error == null)
+            using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.UNKNOWN))
             {
-                clip = www.GetAudioClip(false, false);
-            }
-            else
-            {
-                Debug.Log("WWW Error: " + www.error + " (" + url + ")");
+                yield return www.SendWebRequest();
+
+                if (www.isNetworkError)
+                {
+                    Debug.Log("WWW Error: " + www.error + " (" + url + ")");
+                }
+                else
+                {
+                    AudioClip myClip = DownloadHandlerAudioClip.GetContent(www);
+                }
             }
         }
 

@@ -58,9 +58,9 @@
 * Simple Audio Debug Examples
 
 #### Implementation 
-* Unreal Engine Plugin
+* Unreal Engine Plugin -> mach1.tech/downloads-spatialgameengine
 	* _UE Plugin for Mach1Decode/Mach1DecodePositional_
-* Unity Package
+* Unity Package -> mach1.tech/downloads-spatialgameengine
 	* _.unitypackage for Mach1Decode/Mach1DecodePositional_
 * iOS Examples
 	* _Mach1Decode example_

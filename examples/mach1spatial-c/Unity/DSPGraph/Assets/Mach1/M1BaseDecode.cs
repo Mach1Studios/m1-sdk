@@ -807,20 +807,23 @@ public class M1BaseDecode : MonoBehaviour
                 Debug.Log("M1Obj Euler Rotation Angles: " + m1Positional.getCoefficientsRotation().x + " , " + m1Positional.getCoefficientsRotation().y + " , " + m1Positional.getCoefficientsRotation().z);
                 Debug.Log("M1Obj Distance: " + m1Positional.getDist());
 
-                string str = "Returned Coefficients: ";
-                for (int i = 0; i < dspPlayerMain.coeffs.Length; i++)
+                if (sourceType != M1BaseDecodeSourceType.M1BaseDecodeSourceEncodeObject)
                 {
-                    str += string.Format("{0:0.000}, ", dspPlayerMain.coeffs[i]);
-                }
-                if (useBlendMode)
-                {
-                    str += " , " + "Returned Coefficients Internal (BlendMode): ";
-                    for (int i = 0; i < dspPlayerBlend.coeffs.Length; i++)
+                    string str = "Returned Coefficients: ";
+                    for (int i = 0; i < dspPlayerMain.coeffs.Length; i++)
                     {
-                        str += string.Format("{0:0.000}, ", dspPlayerBlend.coeffs[i]);
+                        str += string.Format("{0:0.000}, ", dspPlayerMain.coeffs[i]);
                     }
+                    if (useBlendMode)
+                    {
+                        str += " , " + "Returned Coefficients Internal (BlendMode): ";
+                        for (int i = 0; i < dspPlayerBlend.coeffs.Length; i++)
+                        {
+                            str += string.Format("{0:0.000}, ", dspPlayerBlend.coeffs[i]);
+                        }
+                    }
+                    Debug.Log(str);
                 }
-                Debug.Log(str);
             }
 
             // Mach1.Mach1Point3D angles = m1Positional.getCoefficientsRotation();

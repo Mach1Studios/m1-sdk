@@ -1,3 +1,8 @@
 [submodule "examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI"]
 	path = examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI
 	url = git@github.com:Mach1Studios/Pod-Mach1SpatialAPI.git
+	active = true
+[submodule "examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI"]
+	path = examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI
+	url = git@github.com:Mach1Studios/JitPack-Mach1SpatialAPI.git
+	active = true

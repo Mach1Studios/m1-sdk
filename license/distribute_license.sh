@@ -40,6 +40,10 @@ cp LICENSE.txt ../../m1-sdk-release/examples/mach1spatial-c/android/mach1-exampl
 
 cp LICENSE.txt ../../m1-sdk-release/examples/mach1spatial-web/js/LICENSE.txt
 
+cp LICENSE.txt ../../m1-sdk-release/license/LICENSE.txt
+cp Mach1SpatialSDK-RoyaltyFreeLicense.pdf ../../m1-sdk-release/license/Mach1SpatialSDK-RoyaltyFreeLicense.pdf
+cp -r attribution ../../m1-sdk-release/license/
+
 # copy to website and s3
 rm "Mach1SpatialSDK-License.zip"
 zip Mach1SpatialSDK-License.zip -r . -x 'Mach1-LicenseDiagram.graffle/*' -x '*.docx' -x 'Mach1-LicenseDiagram.png' -x '*.DS_Store' -x '*.sh' -x '*.html'

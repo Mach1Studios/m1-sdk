@@ -26,8 +26,8 @@ public class M1BaseEncode : MonoBehaviour
     private bool isPlaying = false;
 
     [Header("Encode Settings")]
-    public float pitchDistanceMax = 10;
-    public float divergeDistanceMax = 100;
+    public float heightDistanceMax = 10;
+    public float divergeDistanceMax = 10;
 
     public bool debug = false;
 
@@ -347,7 +347,7 @@ public class M1BaseEncode : MonoBehaviour
 
             m1Encode.setIsotropicEncode(true);
             m1Encode.setRotation(angle);
-            m1Encode.setPitch(Mathf.Clamp(vec.y / pitchDistanceMax, -1, 1));
+            m1Encode.setPitch(Mathf.Clamp(vec.y / heightDistanceMax, -1, 1));
             m1Encode.setDiverge(Mathf.Clamp(vec.x / divergeDistanceMax, -1, 1));
             m1Encode.generatePointResults();
 

@@ -7,6 +7,16 @@
 # Mach1 Release #
 utility/
 
+# AudioFiles (please use download-audiofiles.sh where applicable)
+*.wav
+*.aif
+*.aiff
+*.ogg
+*.mp3
+*.mp4
+*.m4a
+*.aac
+
 # Xcode generated #
 *.xcscmblueprint
 *.xcuserdatad

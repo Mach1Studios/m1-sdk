@@ -5,6 +5,7 @@
 using System.Collections;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class M1BaseEncode : MonoBehaviour
 {
@@ -25,8 +26,10 @@ public class M1BaseEncode : MonoBehaviour
     private bool isPlaying = false;
 
     [Header("Encode Settings")]
-    public float pitchDistanceMax = 10;
-    public float divergeDistanceMax = 100;
+    public float heightDistanceMax = 10;
+    public float divergeDistanceMax = 10;
+
+    public bool debug = false;
 
     private int MAX_SOUNDS;
     private AudioListener audiolistener;
@@ -75,8 +78,6 @@ public class M1BaseEncode : MonoBehaviour
         // TODO 
         m1Encode.setInputMode(Mach1.Mach1EncodeInputModeType.Mach1EncodeInputModeMono);
         m1Encode.setOutputMode(Mach1.Mach1EncodeOutputModeType.Mach1EncodeOutputMode8Ch);
-
-     
     }
 
     protected void InitComponents(int MAX_SOUNDS_PER_CHANNEL)
@@ -192,15 +193,18 @@ public class M1BaseEncode : MonoBehaviour
 
             //Debug.Log ("load audio : " + url);
 
-            WWW www = new WWW(url);
-            yield return www;
-            if (www.error == null)
+            using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.UNKNOWN))
             {
-                clip = www.GetAudioClip(false, false);
-            }
-            else
-            {
-                Debug.Log("WWW Error: " + www.error + " (" + url + ")");
+                yield return www.SendWebRequest();
+
+                if (www.isNetworkError)
+                {
+                    Debug.Log("WWW Error: " + www.error + " (" + url + ")");
+                }
+                else
+                {
+                    AudioClip myClip = DownloadHandlerAudioClip.GetContent(www);
+                }
             }
         }
 
@@ -343,7 +347,7 @@ public class M1BaseEncode : MonoBehaviour
 
             m1Encode.setIsotropicEncode(true);
             m1Encode.setRotation(angle);
-            m1Encode.setPitch(Mathf.Clamp(vec.y / pitchDistanceMax, -1, 1));
+            m1Encode.setPitch(Mathf.Clamp(vec.y / heightDistanceMax, -1, 1));
             m1Encode.setDiverge(Mathf.Clamp(vec.x / divergeDistanceMax, -1, 1));
             m1Encode.generatePointResults();
 
@@ -354,9 +358,11 @@ public class M1BaseEncode : MonoBehaviour
             {
                 fmt += " , " + gains[0][i];
             }
-            Debug.Log("gains: " + fmt);
 
-            //Debug.Log("vec.x / 10: " + vec.x / 10 +  " , " +  vec.y / 10);
+            if(debug)
+            {
+                Debug.Log("gains: " + fmt);
+            }
         }
     }
 }

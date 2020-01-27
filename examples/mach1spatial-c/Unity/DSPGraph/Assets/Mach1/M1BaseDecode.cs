@@ -9,6 +9,7 @@ using System.IO;
 using UnityEditor;
 using System.Text;
 using System;
+using UnityEngine.Networking;
 
 [CustomEditor(typeof(M1BaseDecode), true)]
 [CanEditMultipleObjects]
@@ -42,7 +43,7 @@ public class M1BaseDecode : MonoBehaviour
     M1DSPPlayer dspPlayerBlend;
 
     [Header("Source Settings")]
-    public M1BaseEncode m1EncodeObject;
+    public M1BaseEncode[] m1EncodeObjects;
 
     public AudioClip[] audioClipMain;
 
@@ -170,6 +171,7 @@ public class M1BaseDecode : MonoBehaviour
         if (sourceType == M1BaseDecodeSourceType.M1BaseDecodeSourceEncodeObject)
         {
             dspPlayerEncode = new M1DSPPlayer();
+            dspPlayerEncode.countPlayers = m1EncodeObjects.Length;
             dspPlayerEncode.useEncode = true;
             dspPlayerEncode.useWriter = useWriter;
             dspPlayerEncode.Start();
@@ -177,10 +179,12 @@ public class M1BaseDecode : MonoBehaviour
         else
         {
             dspPlayerMain = new M1DSPPlayer();
+            dspPlayerMain.countPlayers = 1;
             dspPlayerMain.useWriter = useWriter;
             dspPlayerMain.Start();
 
             dspPlayerBlend = new M1DSPPlayer();
+            dspPlayerBlend.countPlayers = 1;
             dspPlayerBlend.Start();
         }
 
@@ -393,15 +397,18 @@ public class M1BaseDecode : MonoBehaviour
 
             //Debug.Log ("load audio : " + url);
 
-            WWW www = new WWW(url);
-            yield return www;
-            if (www.error == null)
+            using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.UNKNOWN))
             {
-                clip = www.GetAudioClip(false, false);
-            }
-            else
-            {
-                Debug.Log("WWW Error: " + www.error + " (" + url + ")");
+                yield return www.SendWebRequest();
+
+                if (www.isNetworkError)
+                {
+                    Debug.Log("WWW Error: " + www.error + " (" + url + ")");
+                }
+                else
+                {
+                    AudioClip myClip = DownloadHandlerAudioClip.GetContent(www);
+                }
             }
         }
 
@@ -409,11 +416,11 @@ public class M1BaseDecode : MonoBehaviour
         {
             if (!room)
             {
-                dspPlayerMain.audioClips[n] = clip;
+                dspPlayerMain.audioClips[0][n] = clip;
             }
             else
             {
-                dspPlayerBlend.audioClips[n] = clip;
+                dspPlayerBlend.audioClips[0][n] = clip;
             }
         }
 
@@ -426,12 +433,24 @@ public class M1BaseDecode : MonoBehaviour
         {
             if (sourceType == M1BaseDecodeSourceType.M1BaseDecodeSourceEncodeObject)
             {
-                if (m1EncodeObject.IsReady())
+                bool isReady = true;
+                for (int i = 0; i < m1EncodeObjects.Length; i++)
                 {
-                    dspPlayerEncode.audioClips = new AudioClip[m1EncodeObject.audioClips.Length];
-                    for (int i = 0; i < m1EncodeObject.audioClips.Length; i++)
+                    if (!m1EncodeObjects[i].IsReady())
                     {
-                        dspPlayerEncode.audioClips[i] = m1EncodeObject.audioClips[i];
+                        isReady = false;
+                    }
+                }
+
+                if (isReady)
+                {
+                    for (int i = 0; i < dspPlayerEncode.countPlayers; i++)
+                    {
+                        dspPlayerEncode.audioClips[i] = new AudioClip[m1EncodeObjects[i].audioClips.Length];
+                        for (int j = 0; j < m1EncodeObjects[i].audioClips.Length; j++)
+                        {
+                            dspPlayerEncode.audioClips[i][j] = m1EncodeObjects[i].audioClips[j];
+                        }
                     }
                     return true;
                 }
@@ -443,9 +462,9 @@ public class M1BaseDecode : MonoBehaviour
             else
             {
                 bool isLoadedMain = true;
-                for (int i = 0; i < dspPlayerMain.audioClips.Length; i++)
+                for (int i = 0; i < dspPlayerMain.audioClips[0].Length; i++)
                 {
-                    if (dspPlayerMain.audioClips[i].loadState != AudioDataLoadState.Loaded)
+                    if (dspPlayerMain.audioClips[0][i].loadState != AudioDataLoadState.Loaded)
                     {
                         isLoadedMain = false;
                         break;
@@ -455,9 +474,9 @@ public class M1BaseDecode : MonoBehaviour
                 bool isLoadedBlend = true;
                 if (useBlendMode)
                 {
-                    for (int i = 0; i < dspPlayerMain.audioClips.Length; i++)
+                    for (int i = 0; i < dspPlayerMain.audioClips[0].Length; i++)
                     {
-                        if (dspPlayerMain.audioClips[i].loadState != AudioDataLoadState.Loaded)
+                        if (dspPlayerMain.audioClips[0][i].loadState != AudioDataLoadState.Loaded)
                         {
                             isLoadedBlend = false;
                             break;
@@ -482,7 +501,10 @@ public class M1BaseDecode : MonoBehaviour
     {
         if (sourceType == M1BaseDecodeSourceType.M1BaseDecodeSourceEncodeObject)
         {
-            m1EncodeObject.StopAudio();
+            for (int i = 0; i < m1EncodeObjects.Length; i++)
+            {
+                m1EncodeObjects[i].StopAudio();
+            }
         }
         else
         {
@@ -751,7 +773,10 @@ public class M1BaseDecode : MonoBehaviour
                 {
                     dspPlayerEncode.coeffs[i] = coeffs[i];
                 }
-                dspPlayerEncode.gains = m1EncodeObject.gains;
+                for (int i = 0; i < m1EncodeObjects.Length; i++)
+                {
+                    dspPlayerEncode.gains[i] = m1EncodeObjects[i].gains;
+                }
                 dspPlayerEncode.Update();
             }
             else
@@ -782,20 +807,23 @@ public class M1BaseDecode : MonoBehaviour
                 Debug.Log("M1Obj Euler Rotation Angles: " + m1Positional.getCoefficientsRotation().x + " , " + m1Positional.getCoefficientsRotation().y + " , " + m1Positional.getCoefficientsRotation().z);
                 Debug.Log("M1Obj Distance: " + m1Positional.getDist());
 
-                string str = "Returned Coefficients: ";
-                for (int i = 0; i < dspPlayerMain.coeffs.Length; i++)
+                if (sourceType != M1BaseDecodeSourceType.M1BaseDecodeSourceEncodeObject)
                 {
-                    str += string.Format("{0:0.000}, ", dspPlayerMain.coeffs[i]);
-                }
-                if (useBlendMode)
-                {
-                    str += " , " + "Returned Coefficients Internal (BlendMode): ";
-                    for (int i = 0; i < dspPlayerBlend.coeffs.Length; i++)
+                    string str = "Returned Coefficients: ";
+                    for (int i = 0; i < dspPlayerMain.coeffs.Length; i++)
                     {
-                        str += string.Format("{0:0.000}, ", dspPlayerBlend.coeffs[i]);
+                        str += string.Format("{0:0.000}, ", dspPlayerMain.coeffs[i]);
                     }
+                    if (useBlendMode)
+                    {
+                        str += " , " + "Returned Coefficients Internal (BlendMode): ";
+                        for (int i = 0; i < dspPlayerBlend.coeffs.Length; i++)
+                        {
+                            str += string.Format("{0:0.000}, ", dspPlayerBlend.coeffs[i]);
+                        }
+                    }
+                    Debug.Log(str);
                 }
-                Debug.Log(str);
             }
 
             // Mach1.Mach1Point3D angles = m1Positional.getCoefficientsRotation();

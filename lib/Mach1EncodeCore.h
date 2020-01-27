@@ -32,9 +32,9 @@ struct M1EncodeCorePoint
 };
 
 class M1EncodeCorePointResults {
-	M1EncodeCorePoint ppoints[7];
+	M1EncodeCorePoint ppoints[8];
 	int pointsCount;
-	std::string pointsNames[7];
+	std::string pointsNames[8];
 	std::vector<std::vector<float>> gains;
 
 	friend class M1EncodeCore;
@@ -55,7 +55,7 @@ class M1EncodeCore {
 public:
 	enum InputMode { 
 		INPUT_MONO, 
-		INPUT_STEREO, 
+		INPUT_STEREO,
 		INPUT_QUAD, 
 		INPUT_LCRS, 
 		INPUT_AFORMAT, 
@@ -64,7 +64,12 @@ public:
 		#endif
 		INPUT_BFORMAT, 
 		INPUT_FOAACN, 
-		INPUT_FOAFUMA 
+		INPUT_FOAFUMA,
+		INPUT_2OAACN, 
+		INPUT_2OAFUMA,
+		INPUT_3OAACN, 
+		INPUT_3OAFUMA,
+		INPUT_LCR
 	};
 	enum OutputMode { 
 		OUTPUT_4CH = 0, 

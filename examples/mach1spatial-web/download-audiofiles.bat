@@ -1,7 +1,7 @@
-#
-# Mach1
-# Download audio files for web examples
-#
+REM
+REM Mach1
+REM Download audio files for web examples
+REM
 
 cd %~dp0
 mkdir audio\mono

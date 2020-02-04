@@ -129,8 +129,12 @@ void Mach1Encode::setInputMode(Mach1EncodeInputModeType inputMode)
     ///     - INPUT_LCRS
     ///     - INPUT_AFORMAT
     ///     - INPUT_BFORMAT
-    ///     - INPUT_BFOAACN
-    ///     - INPUT_BFOAFuMa
+    ///     - INPUT_FOAACN
+	///		- INPUT_FOAFUM
+	///		- INPUT_2OAACN
+	/// 	- INPUT_2OAFUM
+	/// 	- INPUT_3OAACN
+	///		- INPUT_3OAFUMA
 }
 
 void Mach1Encode::setOutputMode(Mach1EncodeOutputModeType outputMode)

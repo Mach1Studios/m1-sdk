@@ -9,8 +9,8 @@
 #include "Mach1Point4D.h"
 #include "Mach1DecodeCAPI.h"
 
-#ifdef Mach1EncodeCore_h
-    #ifndef M1_API
+#if defined(Mach1DecodeCore_h) || defined(Mach1EncodeCore_h) ||  defined(Mach1PositionalCore_h)
+#ifndef M1_API
         #if defined(_WINDOWS) || defined(WIN32)
             #define M1_API __declspec(dllexport)
         #else
@@ -19,7 +19,7 @@
     #endif
 #else
     #ifndef M1_API
-        #if !defined(M1_STATIC) && (defined(_WINDOWS) || defined(WIN32))
+		#if !defined(M1_STATIC) && (defined(_WINDOWS) || defined(WIN32))
             #define M1_API __declspec(dllimport)
         #else
             #define M1_API
@@ -41,7 +41,12 @@ enum Mach1EncodeInputModeType {
     #endif
 	Mach1EncodeInputModeBFormat, 
 	Mach1EncodeInputModeBFOAACN, 
-	Mach1EncodeInputModeBFOAFUMA
+	Mach1EncodeInputModeBFOAFUMA,
+	Mach1EncodeInputModeB2OAACN, 
+	Mach1EncodeInputModeB2OAFUMA,
+	Mach1EncodeInputModeB3OAACN, 
+	Mach1EncodeInputModeB3OAFUMA,
+	Mach1EncodeInputModeLCR
 };
 
 enum Mach1EncodeOutputModeType {
@@ -63,7 +68,7 @@ extern "C" {
 	M1_API void Mach1EncodeCAPI_generatePointResults(void* M1obj);
 	M1_API int Mach1EncodeCAPI_getPointsCount(void* M1obj);
 
-	M1_API void* Mach1EncodeCAPI_getResultingVolumesDecoded(void* M1obj, enum Mach1DecodeAlgoType decodeType, float* decodeResult);
+	M1_API void* Mach1EncodeCAPI_getResultingVolumesDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float* decodeResult);
 
 	M1_API void Mach1EncodeCAPI_setInputMode(void* M1obj, enum Mach1EncodeInputModeType inputMode);
 	M1_API void Mach1EncodeCAPI_setOutputMode(void* M1obj, enum Mach1EncodeOutputModeType outputMode);
@@ -74,6 +79,9 @@ extern "C" {
 	M1_API void Mach1EncodeCAPI_setStereoSpread(void* M1obj, float sSpread);
 	M1_API void Mach1EncodeCAPI_setAutoOrbit(void* M1obj, bool autoOrbit);
 	M1_API void Mach1EncodeCAPI_setIsotropicEncode(void* M1obj, bool isotropicEncode);
+
+	M1_API long Mach1EncodeCAPI_getLastCalculationTime(void* M1obj);
+
 #ifdef __cplusplus
 }
 #endif

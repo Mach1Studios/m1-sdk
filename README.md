@@ -1,15 +1,13 @@
 <a href="http://dev.mach1.tech"><img src="http://dev.mach1.xyz/images/logo_big_b_l.png"></a>
 
-
-### M1 SDK ###
+## MACH1 SPATIAL SDK ##
 
 * Summary
 * Included
 * Documentation: <a href="http://dev.mach1.tech">dev.mach1.tech</a>
 * Contact
 
-
-### Summary ###
+### SUMMARY ###
 
 *VVBP or Virtual Vector Based Panning is a controlled virtual version of traditional VBAP (Vector Based Amplitude Panning) or SPS (Spatial PCM Sampling). These formats are designed for simplicity and ease of use & implementation both for the content creators and the developers. The spatial audio mixes are based on only amplitude based coefficients changes for both encoding and decoding, and unlike many other spatial audio approaches, there are no additional signal altering processes (such as room modeling, delays or filters) to create coherent and accurate spatial sound fields and play them back from a first person headtracked perspective. Due to the simplicity of the format and cuboid vector space it relies on, it is also ideal for converting and carrying surround and spatial audio mixes without altering the mix to do so, making it an ideal server side audio middleman container. Bringing controlled post-produced spatial audio into new mediums easily.*
 
@@ -25,7 +23,7 @@
 *Mach1Transcode is supported on OSX and Windows, game engine support coming soon.*
 
 
-### Included ###
+### INCLUDED ###
 
 #### API Binaries built for following Platforms
 * Android r11c - r16b: arm64-v8a
@@ -95,7 +93,7 @@ permitted to use, link, compile and/or distribute any of the contents of this re
 
 Please view the [License/](license) directory for more information and proper attribution resources.
 
-### Contact ###
+### CONTACT ###
 
 General:
 info@mach1.tech

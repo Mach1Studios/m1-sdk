@@ -1,13 +1,13 @@
 MACH1 SPATIAL SDK
-Royalty Free Developer License Agreement Version 1.04
-MACH1 SPATIAL SDK Royalty Free Developer License Agreement
+Royalty Free License Version 1.05
+MACH1 SPATIAL SDK Royalty Free License 
 
 ------------
 
 M1-SDK License Summary
 
 CAN:
-Distribute with integrated libraries for commercial use, until Mach1 Extended Use License is needed
+Distribute with integrated libraries for commercial use, until distribution threshold is reached
 Privately Use
 Statically Link or Dynamically Link lib(s) to project for private or commercial use
 
@@ -16,24 +16,46 @@ Modify Mach1 binary libraries
 Hold Mach1 liable for any reason
 Rename Mach1 binary libraries
 Sublicense
-Distribute more than 100,000 copies of integrated Developer Application without Mach1 Extended Use License
+Distribute more than 100,000 copies of integrated Developer Application without Mach1 Spatial SDK Royalty License
 
 MUST:
-Agree to all terms and conditions of Mach1 SDK Royalty Free Developer License Agreement
-Contact Mach1 for extended license upon Mach1 SDK integrated project's distribution reaches more than 100,000 users/devices
-Include a copy of the Mach1 SDK Royalty Free Developer License Agreement with all distributions of Developer Applications with integrated Mach1 SDK libraries
-Mention use of Mach1 within project's documentation: "Spatial Audio SDK Software provided under license from Mach1"
-Display Mach1 logo in UI relating to selecting any content that needs the Mach1DecodeCAPI library for proper playback
+Agree to all terms and conditions of Mach1 SDK Royalty Free License 
+Contact Mach1 for Mach1 Spatial SDK Royalty License when Developer Application distribution reaches more than 100,000 distributions
+Include a copy of the Mach1 SDK Royalty Free License along side integrated Mach1 Spatial libs wihtin Developer Applications with integrated Mach1 SDK libraries
+Credit Mach1 appropriately and adhere to the Mach1 Spatial SDK Royalty License's outlined attribution steps
+Display Mach1 logo in UI relating to selecting any content that requires Mach1DecodeCAPI library for proper playback
 
 ------------
 
-This Mach1 Spatial SDK Royalty Free Developer License Agreement (“ROYALTY FREE AGREEMENT” or “AGREEMENT”) is entered into by and between MACH 1 CORP., a Delaware Corporation with offices located at 11 Vestry Street #1A, New York, NY 10013 (“MACH1”), and you as a developer (“DEVELOPER” or “you”) downloading and/or using the MACH1 SPATIAL SDK spatial audio libraries and related API (such current version of the files, documentation and code including interfaces, protocols and any other data included in or used in conjunction with programs that may or may not technically be considered software code; relating thereto or included therewith, collectively referenced herein as the “MACH1 SPATIAL SDK”, “MACH1 SPATIAL APIS” or “SOFTWARE”) for integration with a DEVELOPER SOFTWARE application (“DEVELOPER APPLICATION,” as further defined below). Each of MACH1 and DEVELOPER may be referred to individually as a “PARTY” and collectively as the “PARTIES”. Capitalized terms not immediately defined below. Capitalized terms shall have the meanings as defined herein, unless otherwise indicated.
+Definitions
+
+“DEVELOPER” or “you” or “LICENSEE” refers to the licensee and includes the company or organization they represent by downloading and/or utilizing the “SOFTWARE”.
+
+“SDK” is an acronym for Software Development Kit, refers to a collection of source code documentation and binary files that are assembled as interfacing code and examples to the Mach1 Spatial framework. The “BINARY” or “BINARIES” refer to the pre-compiled Mach1 Spatial APIs (application programming interface) to provide modular integration of the Mach1 Spatial framework as needed. 
+
+“SOFTWARE” or “MACH1 SPATIAL SOFTWARE” refers to the contents of MACH1 SPATIAL SDK, the associated spatial audio library files and related APIs; including current version of the files, documentation and code including interfaces, protocols and any other data included in or used in conjunction with programs that may or may not technically be considered software code. Additionally, covers updates, APIs, information, data, files, provided to the DEVELOPER at any date.
+		
+“ROYALTY FREE AGREEMENT” refers to the Mach1 Spatial SDK Royalty Free License and the terms and conditions of that license hereunto are referred to as the agreement. Serves as the default license and outlines the agreement conditions and terms of download and use of any MACH1 SPATIAL SOFTWARE as well as the appropriate methods of credit and attribution when utilized with DEVELOPER APPLICATION and upon DISTRIBUTION. Superseded only by updates maintained at www.mach1.tech/license or by the Mach1 Spatial SDK Royalty License if DEVELOPER APPLICATION requires those terms.
+
+“ROYALTY AGREEMENT” or “AGREEMENT” refers to the Mach1 Spatial SDK Royalty License and the terms and conditions of that license hereunto are referred to as the agreement. The Mach1 Spatial SDK Royalty license is only required when the DEVELOPER APPLICATION surpasses 100,000 DISTRIBUTIONS or more.
+	
+“DEVELOPER APPLICATION” refers to a software application that consumers can install on their personal device through any means of download (application store, utilization from web app, web download from server/DOM) developed (or repackaged) by DEVELOPER or LICENSEE and which incorporates any of the SOFTWARE.
+
+“MACH1 GENERAL EULA” or “MACH1 EULA” refers to the supplied End User License Agreement DEVELOPER or LICENSEE is required to include or reference by means of user click-through action, supplied to DEVELOPER or LICENSEE’s end users. The MACH1 GENERAL EULA is supplied herein as APPENDIX A.
+
+“DISTRIBUTION” or “DISTRIBUTIONS” refer to either an embedded/pre-bundled/pre-installed/platform application or software application that is downloaded/delivered or served to a user or device by any means of distribution including directly from the DEVELOPER.
+
+“REVERSE ENGINEER” includes, without limitation, any act of reverse engineering, translating, disassembling, decompiling, decrypting or deconstructing (including any aspect of “dumping of RAM/ROM or persistent storage”, “cable or wireless link sniffing”, or “black box” reverse engineering) data, software (including interfaces, protocols, and any other data included in or used in conjunction with programs that may or may not technically be considered software code), service, or hardware or any method or process of obtaining or converting any information, data or software from one form into a human-readable form.
+
+------------
+
+This Mach1 Spatial SDK Royalty Free License (“ROYALTY FREE AGREEMENT” or “AGREEMENT”) is entered into by and between MACH 1 CORP., a Delaware Corporation with offices located at 11 Vestry Street #1A, New York, NY 10013 (“MACH1”), and you as a developer (“DEVELOPER” or “you”) downloading and/or using the MACH1 SPATIAL SDK spatial audio libraries and related API (such current version of the files, documentation and code including interfaces, protocols and any other data included in or used in conjunction with programs that may or may not technically be considered software code; relating thereto or included therewith, collectively referenced herein as the “MACH1 SPATIAL SDK”, “MACH1 SPATIAL APIS” or “MACH1 SPATIAL SOFTWARE”) for integration with a DEVELOPER SOFTWARE application (“DEVELOPER APPLICATION,” as further defined below). Each of MACH1 and DEVELOPER may be referred to individually as a “PARTY” and collectively as the “PARTIES”. Capitalized terms not immediately defined below. Capitalized terms shall have the meanings as defined herein, unless otherwise indicated.
 
 MACH1 provides this ROYALTY FREE AGREEMENT for the purpose of allowing developers to use and distribute the MACH1 SPATIAL SDK for up to 100,000 distributions. If DEVELOPER distributes any DEVELOPER APPLICATION beyond 100,000 distributions, a royalty-bearing, paid extended use license is required, which can be obtained by contacting MACH1 at: licensing@mach1.tech. MACH1 may cancel the AGREEMENT for the MACH1 SPATIAL SDKs set forth in this section at any time with or without notice.
 
 Read this ROYALTY FREE AGREEMENT carefully as it is a legally binding document that explains DEVELOPER’s rights and obligations related to the MACH1 SPATIAL SDK and related content. By registering to download, downloading, installing or using this MACH1 SPATIAL SDK or any related content, DEVELOPER is agreeing to be bound by the terms of this ROYALTY FREE AGREEMENT. If you do not or cannot agree to the terms of this ROYALTY FREE AGREEMENT, please do not download or use this MACH1 SPATIAL SDK or any related content.
 
-By registering and/or clicking on the any “Agree” button and/or installing, incorporating and/or using the MACH1 SPATIAL, you acknowledge that you have read this AGREEMENT and agree to be bound by its terms and conditions. If you do not agree with the terms of this AGREEMENT, do not accept this ROYALTY FREE AGREEMENT, do not install the MACH1 SPATIAL SDK, do not use the MACH1 SPATIAL SDK, or discontinue the installation process. The acceptance of this AGREEMENT is required for use of the SOFTWARE by anyone downloading, transmitting, copying, installing, using, or otherwise operating the MACH1 SPATIAL SDK. 
+By registering and/or clicking on the any “Agree” button and/or installing, incorporating and/or using the MACH1 SPATIAL, you acknowledge that you have read this AGREEMENT and agree to be bound by its terms and conditions. If you do not agree with the terms of this AGREEMENT, do not accept this ROYALTY FREE AGREEMENT, do not install the MACH1 SPATIAL SDK, do not use the MACH1 SPATIAL SDK, or discontinue the installation process. The acceptance of this AGREEMENT is required for use of the SOFTWARE by anyone downloading, transmitting, copying, installing, using, or otherwise operating the MACH1 SPATIAL SDK. If you are entering into this ROYALTY FREE AGREEMENT on behalf of a company or other legal entity, you represent that you have the legal authority to bind the entity to this ROYALTY FREE AGREEMENT, in which case “you” will mean the entity you represent. If you don’t have the required age or authority to accept this ROYALTY FREE AGREEMENT, or if you do not accept all the terms and conditions of this ROYALTY FREE AGREEMENT, do not download or use the SOFTWARE.
 
 The latest version of the ROYALTY FREE AGREEMENT will be maintained at mach1.tech/license. If the latest version has a later effective date than the present version of the ROYALTY FREE AGREEMENT, then this ROYALTY FREE AGREEMENT is hereby replaced by the latest version as of the effective date of the latest version. By clicking on the link at mach1.tech/license, or by downloading, installing or using the MACH1 SPATIAL SDK, or by an other update method MACH1 selects, you are agreeing to be bound by the latest version of the ROYALTY FREE AGREEMENT. 
 Questions regarding licensing can be directed to licensing@mach1.tech
@@ -57,8 +79,9 @@ Questions regarding licensing can be directed to licensing@mach1.tech
 	e. Not to allow copying, use, display or distribution of the MACH1 SPATIAL SDK beyond the Royalty Free Uses;
 	f. To ensure that DEVELOPER’s employees, agents and other PARTIES under DEVELOPER’s control who will use the MACH1 SPATIAL SDK do so in accordance with the terms and conditions of this ROYALTY FREE AGREEMENT and are accordingly notified of the same;
 	g. Not to facilitate the use of the MACH1 SPATIAL SDK in any manner which would constitute a breach of the terms and conditions of this ROYALTY FREE AGREEMENT by DEVELOPER;
-	h. Not to place or distribute the MACH1 SPATIAL SDK on any website or ftp server without also including a copy of this ROYALTY FREE AGREEMENT, or the MACH1 EULA, as the case may be; and
-	i. Not to use the MACH1 SPATIAL SDK for any purpose which may violate any applicable law or regulation.
+	h. Not distribute the MACH1 SPATIAL SOFTWARE without also including a copy of this ROYALTY FREE AGREEMENT;
+	i. Not distribute the DEVELOPER APPLICATION without reference or inclusion of the MACH1 GENERAL EULA included herein as APPENDIX A; and
+	j. Not to use the MACH1 SPATIAL SDK for any purpose which may violate any applicable law or regulation.
 
 4. Attribution. Any DEVELOPER APPLICATION using the MACH1 SPATIAL SDK must include the following attributions:
 	a. Documentation/Website/Marketing of Application must include mention of Mach1 in the following ways:
@@ -114,3 +137,74 @@ AND		- Display “Spatial Audio Powered by Mach1™”
 18. Assignment. Without limiting any other restriction under this ROYALTY FREE AGREEMENT, DEVELOPER may not sell, convey, sub-license, delegate, assign, or otherwise transfer the MACH1 SPATIAL SDK, any component thereof, any right therein, or this ROYALTY FREE AGREEMENT, to any other person, either voluntarily or involuntarily, directly or indirectly, whether by operation of law or otherwise without the prior written consent of MACH1, which consent will not be unreasonably withheld. Any assignment or delegation by DEVELOPER in violation of this section shall be void. MACH1 may freely assign its rights and obligations under this ROYALTY FREE AGREEMENT without consent, including but not limited to, assignment (i) to an Affiliate (an “Affiliate” shall mean any other person or entity directly or indirectly Controlled by, Controlling or under common Control with, such person or entity), (ii) to an entity in which the transferring PARTY owns more than 50% of the assets, or (iii) as part of a transfer of all or substantially all of the assets of the transferring PARTY to any PARTY. This ROYALTY FREE AGREEMENT shall be binding upon and shall inure to the benefit of the PARTIES hereto, their heirs, administrators, successors and assigns.
 
 DEVELOPER acknowledges that it has read and understood this AGREEMENT, including the preceding limitation on warranties and limitations of liability, and agrees to be bound by its terms and conditions.
+
+------------
+
+APPENDIX A
+
+------------
+
+MACH1 End User License Agreement (EULA)
+
+MACH 1 CORP., IS A DELAWARE CORPORATION WITH OFFICES LOCATED AT 11 VESTRY STREET #1A, NEW YORK, NY 10013 (“MACH1”) SOFTWARE AND ALL COMPONENTS THEREOF (COLLECTIVELY THE “SOFTWARE”). USING THE SOFTWARE, PLEASE READ THIS EULA CAREFULLY. BY DOWNLOADING OR BY USING THE SOFTWARE, YOU REPRESENT THAT YOU HAVE REVIEWED THE TERMS OF THIS EULA, HAVE THE AUTHORITY TO ENTER INTO AND BE BOUND BY THIS EULA ON BEHALF OF YOU OR YOUR COMPANY (WHERE APPLICABLE), THAT YOU AGREE TO THE VALIDITY AND ENFORCEABILITY OF THIS EULA, AND AGREE TO BE IRREVOCABLY BOUND BY THIS EULA. THIS EULA DOES NOT NEED TO BE SIGNED IN ORDER TO BE VALID AND BINDING.
+
+************************************************************************************
+
+By using the MACH1 Software you agree to the terms of this End User License EULA (“EULA”) between you (“You” or “User”) and MACH 1 CORP., a Delaware Corporation with offices located at 11 Vestry Street #1A, New York, NY 10013 (“MACH1”). IF YOU DO NOT AGREE TO THE TERMS OF THIS EULA, YOU MAY NOT USE THE SOFTWARE.
+
+THE SOFTWARE IS NOT SOLD, AND INSTEAD IS ONLY LICENSED FOR USE, STRICTLY IN ACCORDANCE WITH THIS EULA. 
+
+THIS IS A LEGAL AGREEMENT. BY INSTALLING, ACCESSING AND/OR USING THE SOFTWARE, YOU ARE ACCEPTING AND AGREEING TO THIS EULA ON BEHALF OF YOURSELF OR THE PERSON YOU REPRESENT IN CONNECTION WITH THE ACCESS. YOU REPRESENT AND WARRANT THAT YOU HAVE THE RIGHT, AUTHORITY, AND CAPACITY TO ACCEPT AND AGREE TO THIS EULA ON BEHALF OF YOURSELF OR THE PERSON YOU REPRESENT. YOU REPRESENT THAT YOU ARE OF SUFFICIENT LEGAL AGE IN YOUR JURISDICTION OR RESIDENCE TO USE OR ACCESS THE SOFTWARE AND TO ENTER INTO THIS EULA. IF YOU DO NOT AGREE WITH ANY OF THE PROVISIONS OF THESE TERMS, YOU SHOULD CEASE ACCESSING OR USING THE SOFTWARE.
+
+1.	License Grant
+Subject to the terms of this EULA, MACH1 grants to you a limited, non-exclusive, non-transferable license, without the right to sublicense, to install, use, and execute the Software on a single workstation.
+
+2.	Restrictions
+No license or other right is granted by MACH1 to you under this EULA, either directly or by implication, estoppel, or otherwise (including, but not limited to, the right to prepare derivative works). You shall have no right or access to the source code of the Software.
+User may install and use one copy of the Software on a single computer, and except for making one back-up copy of the Software, may not otherwise copy the Software. This EULA of Software may not be shared or used concurrently on different computers.
+User agrees not to, and User will not permit others to: (a) license, sell, rent, lease, assign, distribute, transmit, host, outsource, disclose or otherwise commercially exploit the Software or make the Software available to any third party; (b) copy or use the Software for any purpose other than as permitted in this EULA; (c) use any part of the Software in a manner contrary to the terms of this EULA; (d) remove or alter any trademark, attribution, logo, copyright or other proprietary notices, legends, symbols or labels in the Software; or (e) modify, decrypt, extract, make derivative works of, disassemble, reverse compile or reverse engineer, or otherwise seek to duplicate or recreate the functionality of, any part of the Software.
+
+3.	Ownership.
+The Software and all rights in and to the copyrights, trade secrets, and all other intellectual property rights therein, worldwide, are the exclusive property of MACH1. MACH1 reserves all rights in and to the Software not expressly granted to you in this EULA. There are no implied licenses in this EULA. You agree that you shall not contest or challenge, or take any action inconsistent with or that may damage or impair MACH1’s ownership or rights or intellectual property rights in and to the Software.
+
+4.	Confidentiality. 
+User acknowledges that the Software contains valuable trade secrets of MACH1 and User agrees to maintain the confidentiality of the Software using at least the same degree of care you use with User’s own confidential information or that of User’s company. 
+
+5.	Term and Termination.
+This EULA is effective either upon your clicking the "I Accept" button or when You begin using the Software, and shall continue until terminated. You may terminate this EULA at any time by returning the Software and all copies and extracts to MACH1. MACH1 may terminate this EULA upon a material or continuing breach of this EULA by you by the giving of 10 days prior written notice of termination, stating the cause therefor, with termination becoming effective at the close of said 10-day term if the breach is not then cured to the satisfaction of MACH1.
+This LICENSE will automatically terminate if User fails to comply with any of the terms and conditions hereof. In such event, User must destroy all copies of the Software and all of its component parts. MACH1 may terminate this EULA at any time if you fail to comply with any term(s) hereof.
+Upon termination of this EULA, the license granted hereunder will terminate and you must stop all use of the Software, but the terms of relating to disclaimed warranties, limitations on liability, confidentiality, and any of MACH1’s rights in the Software, will survive such termination.
+
+6.	DISCLAIMER OF ALL WARRANTIES
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE SOFTWARE IS PROVIDED "AS IS" AND MACH1 DISCLAIMS ALL WARRANTIES, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, OR ANY WARRANTY AGAINST INFRINGEMENT.
+YOUR USE OF THE SOFTWARE IS AT YOUR OWN DISCRETION AND RISK. YOU WILL BE SOLELY RESPONSIBLE FOR (AND MACH1 DISCLAIMS) ANY AND ALL LOSS, LIABILITY, OR DAMAGES, INCLUDING TO YOUR HOME AND ALL ITEMS AND PETS IN YOUR HOME, RESULTING FROM YOUR USE OF THE PRODUCT INFORMATION OR PRODUCT SOFTWARE.
+
+7.	Limitation of Liability
+NETHER MACH1, NOR ANY OF ITS PRINCIPALS, OFFICERS, AGENTS, EMPLOYEES OR REPRESENTATIVES SHALL BE LIABLE FOR INDIRECT, SPECIAL, INCIDENTAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES OR PENALTIES INCLUDING DAMAGES FOR LOST PROFITS, LOST BUSINESS, PERSONAL INJURY, LOST DATA, BUSINESS INTERRUPTION, AND THE LIKE, HOWEVER IT ARISES, WHETHER FOR BREACH OR IN TORT, EVEN IF MACH1 HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+IN NO EVENT SHALL MACH1’S MONETARY LIABILITY IN CONNECTION WITH THIS AGREEMENT OR THE SOFTWARE TO YOU EXCEED THE AMOUNTS PAID TO IT BY YOU.
+
+8.	INDEMNITY
+You shall indemnify and hold harmless MACH1 from and against all losses, claims, damages or other causes of any nature or kind whatsoever (including reasonable attorney's fees) arising directly or indirectly out of third party claims concerning (i) a breach of any of Your obligations, covenants, representations or warranties contained herein; (ii) any product or system developed by You using the Software; (iii) any combination of the Software, or any component of it, with any product or system developed by You using the Software, and (iv) the negligence or intentional misconduct of You or your officers, employees, agents or contractors. You agree not to bring any cross-claim, third party claim or similar claim against MACH1 based on a claim, suit, action or proceeding  threatened or commenced against You related to the Software and arising out of any matter.
+
+9.	Export Compliance.
+The Software and related technology may be subject to U.S. export control laws and may be subject to export or import regulations in other countries. You agree to strictly comply with all such laws and regulations and acknowledge that you have the responsibility to obtain authorization to export, re-export, or import the Software and related technology, as may be required. You will indemnify and hold MACH1 harmless from any and all claims, losses, liabilities, damages, fines, penalties, costs and expenses (including attorney’s fees) arising from or relating to any breach by you of your obligations under this section.
+
+10.	Governing Law; Venue.
+You agree that this EULA, and any claim, dispute, action, cause of action, issue, or request for relief relating to this EULA, will be governed by the laws of the State of New York, without giving effect to any conflicts of laws principles that require the application of the laws of a different jurisdiction. Any action or proceeding relating to this EULA must be brought in a federal or state court located in New York County (Manhattan), New York and each party irrevocably submits to the jurisdiction and venue of any such court in any such claim or dispute, except that MACH1 may seek injunctive relief in any court having jurisdiction to protect its intellectual property or Confidential Information.
+
+11.	Assignment.
+Neither the rights nor the obligations arising under this EULA are assignable by You, and any such attempted assignment shall be void and without effect.
+
+12.	 Severability.
+If any provision of this EULA is unenforceable, such provision will be changed and interpreted to accomplish the objectives of such provision to the greatest extent possible under applicable law and the remaining provisions will continue in full force and effect.
+
+13.	Waiver.
+All waivers by MACH1 will be effective only if in writing. Any waiver or failure by MACH1 to enforce any provision of this EULA on one occasion will not be deemed a waiver of any other provision or of such provision on any other occasion.
+
+14.	Equitable Relief
+	You acknowledge that any breach of your obligations hereunder with respect to the Software or the confidential information of MACH1 will cause MACH1 irreparable injury for which it has no adequate remedy at law. You further agree that MACH1 will be entitled to seek and obtain equitable relief, including preliminary injunctions and temporary restraining orders, to prevent any unauthorized use of the Software and confidential information, without posting of bond or other security, in addition to all other remedies available to it under this EULA or other applicable law.
+15.	General.
+a.	The Software is deemed irrevocably accepted upon your use of the Software. MACH1 will have no responsibility to provide maintenance or support services with respect to the Software.
+b.	The headings of Sections of this EULA are for convenience and are not to be used in interpreting this EULA.
+c.	Except as otherwise provided in this section, no amendment to this EULA will be valid unless it is in writing hand-signed by the parties.
+d.	Questions or Additional Information. If you have questions regarding this EULA, please contact MACH1.

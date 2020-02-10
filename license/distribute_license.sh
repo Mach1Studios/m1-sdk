@@ -46,7 +46,7 @@ cp -r attribution ../../m1-sdk-release/license/
 
 # copy to website and s3
 rm "Mach1SpatialSDK-License.zip"
-zip Mach1SpatialSDK-License.zip -r . -x 'Mach1-LicenseDiagram.graffle/*' -x '*.docx' -x 'Mach1-LicenseDiagram.png' -x '*.DS_Store' -x '*.sh' -x '*.html' -x 'Mach1-LicenseDiagram_nobug.png' -x '*.ai'
+zip Mach1SpatialSDK-License.zip -r . -x 'Mach1-LicenseDiagram.graffle/*' -x '*.docx' -x 'Mach1-LicenseDiagram.png' -x '*.DS_Store' -x '*.sh' -x '*.html' -x 'Mach1-LicenseDiagram_nobug.png' -x '*.ai' -x 'attribution/Mach1-EndUserLicenseAgreement-General.docx'
 
 aws s3 cp "LICENSE.txt" "s3://mach1-public/assets/license/LICENSE.txt" --profile mach1
 aws s3 cp "LICENSE.html" "s3://mach1-public/assets/license/LICENSE.html" --profile mach1

@@ -32,6 +32,13 @@ using namespace std::chrono;
  
 class Mach1DecodeCore {
 
+public:
+	static float mDegToRad(float degrees);
+
+	static float mmap(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp = false);
+
+	static float clamp(float a, float min, float max);
+
 private:
 
 	typedef std::vector<float> (Mach1DecodeCore::*functionAlgoSample)(float Yaw, float Pitch, float Roll);
@@ -44,11 +51,6 @@ private:
 
     // Math utilities
     
-    static float mDegToRad(float degrees);
-    
-    static float mmap(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp = false);
-    
-    static float clamp(float a, float min, float max );
     
     static float alignAngle(float a, float min = -180, float max = 180);
     
@@ -341,7 +343,6 @@ private:
 		Mach1Point3DCore contactR = faceVectorRight * 100 + faceVector2 * 100;
 
 		
-
 		for (int j = 0; j < 8; j++) {
 			linePlaneIntersection(contactL, Mach1Point3DCore(0, 0, 0), faceVectorLeft * 100 + faceVector2 * 100, planes[j][0], planes[j][1]);
 			linePlaneIntersection(contactR, Mach1Point3DCore(0, 0, 0), faceVectorRight * 100 + faceVector2 * 100, planes[j][0], planes[j][1]);
@@ -515,6 +516,8 @@ public:
     Mach1DecodeCore();
     
 	void setPlatformType(Mach1PlatformType type);
+	Mach1PlatformType getPlatformType();
+
 
     void setFilterSpeed(float filterSpeed);
 
@@ -526,8 +529,9 @@ public:
     
     // Set the algorithm type to use when decoding
     
-    void setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType);
-    
+	void setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType);
+	Mach1DecodeAlgoType getDecodeAlgoType();
+
     // Decode using the current algorithm type
     
     //  Order of input angles:

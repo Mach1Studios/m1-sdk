@@ -327,6 +327,11 @@ void Mach1DecodeCore::setPlatformType(Mach1PlatformType type) {
 	platformType = type;
 }
 
+Mach1PlatformType Mach1DecodeCore::getPlatformType()
+{
+	return platformType;
+}
+
 void Mach1DecodeCore::setFilterSpeed(float newFilterSpeed) {
 	filterSpeed = newFilterSpeed;
 }
@@ -335,6 +340,11 @@ void Mach1DecodeCore::setFilterSpeed(float newFilterSpeed) {
 
 void Mach1DecodeCore::setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType) {
 	algorithmType = newAlgorithmType;
+}
+
+Mach1DecodeAlgoType Mach1DecodeCore::getDecodeAlgoType()
+{
+	return algorithmType;
 }
 
 std::vector<float> Mach1DecodeCore::decode(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {

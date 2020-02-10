@@ -33,6 +33,22 @@ void Mach1DecodeCAPI_setPlatformType(void * M1obj, Mach1PlatformType type)
 	}
 }
 
+Mach1DecodeAlgoType Mach1DecodeCAPI_getDecodeAlgoType(void * M1obj)
+{
+	if (M1obj != nullptr) {
+		return ((Mach1DecodeCore*)M1obj)->getDecodeAlgoType();
+	}
+	return (Mach1DecodeAlgoType)0;
+}
+
+Mach1PlatformType Mach1DecodeCAPI_getPlatformType(void * M1obj)
+{
+	if (M1obj != nullptr) {
+		return ((Mach1DecodeCore*)M1obj)->getPlatformType();
+	}
+	return (Mach1PlatformType)0;
+}
+
 void Mach1DecodeCAPI_decode(void * M1obj, float Yaw, float Pitch, float Roll, float * result, int bufferSize, int sampleIndex)
 {
 	// clear

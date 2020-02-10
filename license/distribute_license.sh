@@ -12,6 +12,7 @@
 #
 
 # copy to repo places
+cp LICENSE.txt ../LICENSE.txt
 cp LICENSE.txt ../binaries/LICENSE.txt
 cp LICENSE.txt ../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/LICENSE.txt
 cp LICENSE.txt ../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/LICENSE.txt
@@ -33,6 +34,7 @@ cp -r attribution ../examples/mach1spatial-c/Unreal\ Engine/Mach1DecodePlugin/So
 cp LICENSE.txt ../examples/mach1spatial-web/js/LICENSE.txt
 
 # copy to release places
+cp LICENSE.txt ../../m1-sdk-release/LICENSE.txt
 cp LICENSE.txt ../../m1-sdk-release/binaries/LICENSE.txt
 cp LICENSE.txt ../../m1-sdk-release/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/LICENSE.txt
 

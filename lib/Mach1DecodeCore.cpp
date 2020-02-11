@@ -9,7 +9,6 @@ This header file is not an example of use but an decoder that will require perio
 updates and should not be integrated in sections but remain as an update-able factored file.
 */
 
-
 #include "Mach1DecodeCore.h"
 
 #ifndef DEG_TO_RAD
@@ -26,12 +25,9 @@ float Mach1DecodeCore::lerp(float x1, float x2, float t)
 	return x1 + (x2 - x1)*t;
 }
 
-//
-
 float Mach1DecodeCore::mDegToRad(float degrees) {
 	return (float)(degrees * DEG_TO_RAD);
 }
-
 
 //
 // Map utility
@@ -111,7 +107,6 @@ float Mach1DecodeCore::targetDirectionMultiplier(float angleCurrent, float angle
 }
 
 // Envelope follower feature is defined here, in updateAngles()
-
 void Mach1DecodeCore::updateAngles() {
 	if (targetYaw < 0) targetYaw += 360;
 	if (targetPitch < 0) targetPitch += 360;
@@ -535,13 +530,10 @@ std::vector<float> Mach1DecodeCore::processSample(functionAlgoSample funcAlgoSam
 		targetPitch = Pitch;
 		targetRoll = Roll;
 
-
 		if (bufferSize > 0) {
 
 			// we're in per sample mode
             // returning values from right here!
-            
-			
 			std::vector<float> volumes1 = (this->*funcAlgoSample)(previousYaw, previousPitch, previousRoll);
 			std::vector<float> volumes2 = (this->*funcAlgoSample)(currentYaw, currentPitch, currentRoll);
             float phase = (float)sampleIndex / (float)bufferSize;
@@ -578,7 +570,6 @@ std::vector<float> Mach1DecodeCore::processSample(functionAlgoSample funcAlgoSam
 	}
 
     return (this->*funcAlgoSample)(Yaw, Pitch, Roll);
-
 }
 
 //
@@ -617,12 +608,11 @@ std::vector<float> Mach1DecodeCore::horizonAlgo(float Yaw, float Pitch, float Ro
 		currentYaw = Yaw;
 		currentPitch = Pitch;
 		currentRoll = Roll;
-        
+
         previousYaw = currentYaw;
         previousPitch = currentPitch;
         previousRoll = currentRoll;
 	}
-
 
 	//Orientation input safety clamps/alignment
 	Yaw = alignAngle(Yaw, 0, 360);
@@ -632,7 +622,6 @@ std::vector<float> Mach1DecodeCore::horizonAlgo(float Yaw, float Pitch, float Ro
 	coefficients[1] = 1.f - std::min(1.f, std::abs(90.f - Yaw) / 90.f);
 	coefficients[2] = 1.f - std::min(1.f, std::abs(180.f - Yaw) / 90.f);
 	coefficients[3] = 1.f - std::min(1.f, std::abs(270.f - Yaw) / 90.f);
-
 
 	std::vector<float> result;
 	result.resize(8);
@@ -652,12 +641,9 @@ std::vector<float> Mach1DecodeCore::horizonAlgo(float Yaw, float Pitch, float Ro
 
 void Mach1DecodeCore::horizonAlgo(float Yaw, float Pitch, float Roll, float *result,
                                             int bufferSize, int sampleIndex) {
-    
     convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
     
-    
     if (smoothAngles) {
-        
         targetYaw = Yaw;
         targetPitch = Pitch;
         targetRoll = Roll;
@@ -667,7 +653,6 @@ void Mach1DecodeCore::horizonAlgo(float Yaw, float Pitch, float Roll, float *res
         Yaw = currentYaw;
         Pitch = currentPitch;
         Roll = currentRoll;
-        
     }
     else {
         targetYaw = Yaw;
@@ -682,8 +667,7 @@ void Mach1DecodeCore::horizonAlgo(float Yaw, float Pitch, float Roll, float *res
         previousPitch = currentPitch;
         previousRoll = currentRoll;
     }
-    
-    
+
     //Orientation input safety clamps/alignment
     Yaw = alignAngle(Yaw, 0, 360);
     
@@ -918,27 +902,21 @@ void Mach1DecodeCore::spatialPairsAlgo(float Yaw, float Pitch, float Roll, float
         if (bufferSize > 0) {
             
             // we're in per sample mode
-            
             Yaw = alignAngle(lerp(previousYaw + 360, currentYaw + 360, (float)sampleIndex / (float)bufferSize) - 360,
                              0, 360);
             Pitch = alignAngle(lerp(previousPitch + 360, currentPitch + 360, (float)sampleIndex / (float)bufferSize) - 360,
                                -90, 90);
             Roll = alignAngle(lerp(previousRoll + 360, currentRoll + 360, (float)sampleIndex / (float)bufferSize) - 360,
                               -180, 180);
-            
             Yaw = currentYaw;
             Pitch = currentPitch;
             Roll = currentRoll;
-            
         }
         else {
-            
             Yaw = currentYaw;
             Pitch = currentPitch;
             Roll = currentRoll;
-            
         }
-        
     }
     else {
         targetYaw = Yaw;
@@ -953,7 +931,6 @@ void Mach1DecodeCore::spatialPairsAlgo(float Yaw, float Pitch, float Roll, float
         previousPitch = currentPitch;
         previousRoll = currentRoll;
     }
-    
     
     //Orientation input safety clamps/alignment
     Pitch = alignAngle(Pitch, -180, 180);

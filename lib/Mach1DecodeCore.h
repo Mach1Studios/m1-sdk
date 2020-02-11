@@ -3,6 +3,12 @@
 //
 //  Header file
 
+/*
+DISCLAIMER:
+This header file is not an example of use but an decoder that will require periodic
+updates and should not be integrated in sections but remain as an update-able factored file.
+*/
+
 #pragma once
 
 #ifndef Mach1DecodeCore_h
@@ -26,39 +32,28 @@ using namespace std::chrono;
 #define PI       3.14159265358979323846f
 #endif 
 
-
-
 //////////////
- 
+
 class Mach1DecodeCore {
 
 public:
-	static float mDegToRad(float degrees);
-
-	static float mmap(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp = false);
-
-	static float clamp(float a, float min, float max);
+    static float mDegToRad(float degrees);
+    static float mmap(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp = false);
+    static float clamp(float a, float min, float max);
 
 private:
-
-	typedef std::vector<float> (Mach1DecodeCore::*functionAlgoSample)(float Yaw, float Pitch, float Roll);
+    typedef std::vector<float> (Mach1DecodeCore::*functionAlgoSample)(float Yaw, float Pitch, float Roll);
     typedef void (Mach1DecodeCore::*functionAlgoSampleHP)(float Yaw, float Pitch, float Roll, float *result);
-	
-	std::vector<float> processSample(functionAlgoSample funcAlgoSample, float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
+
+    std::vector<float> processSample(functionAlgoSample funcAlgoSample, float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
     void processSample(functionAlgoSampleHP funcAlgoSampleHP, float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
-	
-	milliseconds ms;
+
+    milliseconds ms;
 
     // Math utilities
-    
-    
     static float alignAngle(float a, float min = -180, float max = 180);
-    
     static float lerp(float x1, float x2, float t);
-
-    
     float radialDistance(float angle1, float angle2);
-    
     float targetDirectionMultiplier(float angleCurrent, float angleTarget);
     
     // Filter features
@@ -66,12 +61,12 @@ private:
     
     void updateAngles();
     
-	float currentYaw, currentPitch, currentRoll;
-	float targetYaw, targetPitch, targetRoll;
+    float currentYaw, currentPitch, currentRoll;
+    float targetYaw, targetPitch, targetRoll;
     float previousYaw, previousPitch, previousRoll;
     
-	long timeLastUpdate;
-	long timeLastCalculation;
+    long timeLastUpdate;
+    long timeLastCalculation;
 
     bool smoothAngles;
  

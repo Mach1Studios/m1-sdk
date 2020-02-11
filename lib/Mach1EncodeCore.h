@@ -81,7 +81,7 @@ public:
 	float** arr_Gains = nullptr;
 	char** arr_PointsNames = nullptr;
 	float* arr_GainsForInputChannelNamed = nullptr;
-	float* arr_ResultingVolumesDecoded = nullptr;
+	float* arr_ResultingCoeffsDecoded = nullptr;
 
 private:
 	InputMode inputMode;
@@ -108,6 +108,10 @@ public:
 	void generatePointResults();
 	M1EncodeCorePointResults resultingPoints;
 
+	void getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, float *decodeResult, float *result);
+#if __cplusplus > 201103L
+	[[deprecated]]
+#endif	
 	void getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, float *decodeResult, float *result);
 
 	void setInputMode(InputMode inputMode);

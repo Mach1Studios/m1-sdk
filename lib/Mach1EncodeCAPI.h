@@ -68,6 +68,10 @@ extern "C" {
 	M1_API void Mach1EncodeCAPI_generatePointResults(void* M1obj);
 	M1_API int Mach1EncodeCAPI_getPointsCount(void* M1obj);
 
+	M1_API void* Mach1EncodeCAPI_getResultingCoeffsDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float* decodeResult);
+#if __cplusplus > 201103L
+	[[deprecated("getResultingVolumesDecoded is deprecated, please use getResultingCoeffsDecoded instead")]]
+#endif
 	M1_API void* Mach1EncodeCAPI_getResultingVolumesDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float* decodeResult);
 
 	M1_API void Mach1EncodeCAPI_setInputMode(void* M1obj, enum Mach1EncodeInputModeType inputMode);

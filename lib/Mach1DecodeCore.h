@@ -374,8 +374,9 @@ private:
 
 
     void spatialAlgoSample(float Yaw, float Pitch, float Roll, float *result) {
-        
-		Mach1Point3DCore points[8] =
+		const int countPoints = 8;
+		
+		Mach1Point3DCore points[countPoints] =
 		{ 
 			Mach1Point3DCore(100, -100, -100),
 			Mach1Point3DCore(100, 100, -100),
@@ -385,18 +386,20 @@ private:
 			Mach1Point3DCore(100, -100, 100),
 			Mach1Point3DCore(100, 100, 100),
 			Mach1Point3DCore(-100, -100, 100),
-			Mach1Point3DCore(-100, 100, 100)
+			Mach1Point3DCore(-100, 100, 100),
 		};
 
-		spatialMultichannelAlgo(points, 8, Yaw, Pitch, Roll, result);
+		spatialMultichannelAlgo(points, countPoints, Yaw, Pitch, Roll, result);
     };
 
 
     std::vector<float> spatialAlgoSample(float Yaw, float Pitch, float Roll) {
-        std::vector<float> result;
-        result.resize(18);
+		const int countPoints = 8;
+		
+		std::vector<float> result;
+        result.resize(countPoints * 2 + 2);
         
-		Mach1Point3DCore points[8] =
+		Mach1Point3DCore points[countPoints] =
 		{
 			Mach1Point3DCore(100, -100, -100),
 			Mach1Point3DCore(100, 100, -100),
@@ -406,14 +409,134 @@ private:
 			Mach1Point3DCore(100, -100, 100),
 			Mach1Point3DCore(100, 100, 100),
 			Mach1Point3DCore(-100, -100, 100),
-			Mach1Point3DCore(-100, 100, 100)
+			Mach1Point3DCore(-100, 100, 100),
 		};
 
-		spatialMultichannelAlgo(points, 8, Yaw, Pitch, Roll, result.data());
+		spatialMultichannelAlgo(points, countPoints, Yaw, Pitch, Roll, result.data());
 		 
         return result;
-        
     };
+
+	void spatialPlusAlgoSample(float Yaw, float Pitch, float Roll, float *result) {
+		const int countPoints = 8 + 4;
+		
+		float diag = sqrt(2 * 100 * 100);
+
+		Mach1Point3DCore points[countPoints] =
+		{
+			Mach1Point3DCore(100, -100, -100),
+			Mach1Point3DCore(100, 100, -100),
+			Mach1Point3DCore(-100, -100, -100),
+			Mach1Point3DCore(-100, 100, -100),
+
+			Mach1Point3DCore(100, -100, 100),
+			Mach1Point3DCore(100, 100, 100),
+			Mach1Point3DCore(-100, -100, 100),
+			Mach1Point3DCore(-100, 100, 100),
+
+			Mach1Point3DCore(diag, 0, 0),
+			Mach1Point3DCore(-diag, 0, 0),
+			Mach1Point3DCore(0, diag, 0),
+			Mach1Point3DCore(0, -diag, 0),
+		};
+
+		spatialMultichannelAlgo(points, countPoints, Yaw, Pitch, Roll, result);
+	};
+
+	std::vector<float> spatialPlusAlgoSample(float Yaw, float Pitch, float Roll) {
+		const int countPoints = 8 + 4;
+
+		float diag = sqrt(2 * 100 * 100);
+
+		std::vector<float> result;
+		result.resize(countPoints * 2 + 2);
+
+		Mach1Point3DCore points[countPoints] =
+		{
+			Mach1Point3DCore(100, -100, -100),
+			Mach1Point3DCore(100, 100, -100),
+			Mach1Point3DCore(-100, -100, -100),
+			Mach1Point3DCore(-100, 100, -100),
+
+			Mach1Point3DCore(100, -100, 100),
+			Mach1Point3DCore(100, 100, 100),
+			Mach1Point3DCore(-100, -100, 100),
+			Mach1Point3DCore(-100, 100, 100),
+
+			Mach1Point3DCore(diag, 0, 0),
+			Mach1Point3DCore(-diag, 0, 0),
+			Mach1Point3DCore(0, diag, 0),
+			Mach1Point3DCore(0, -diag, 0),
+		};
+
+		spatialMultichannelAlgo(points, countPoints, Yaw, Pitch, Roll, result.data());
+
+		return result;
+	};
+
+	void spatialPlusPlusAlgoSample(float Yaw, float Pitch, float Roll, float *result) {
+		const int countPoints = 8 + 4 + 2;
+
+		float diag = sqrt(2 * 100 * 100);
+
+		Mach1Point3DCore points[countPoints] =
+		{
+			Mach1Point3DCore(100, -100, -100),
+			Mach1Point3DCore(100, 100, -100),
+			Mach1Point3DCore(-100, -100, -100),
+			Mach1Point3DCore(-100, 100, -100),
+
+			Mach1Point3DCore(100, -100, 100),
+			Mach1Point3DCore(100, 100, 100),
+			Mach1Point3DCore(-100, -100, 100),
+			Mach1Point3DCore(-100, 100, 100),
+
+			Mach1Point3DCore(diag, 0, 0),
+			Mach1Point3DCore(-diag, 0, 0),
+			Mach1Point3DCore(0, diag, 0),
+			Mach1Point3DCore(0, -diag, 0),
+
+			Mach1Point3DCore(0, 0, diag),
+			Mach1Point3DCore(0, 0, -diag),
+		};
+
+		spatialMultichannelAlgo(points, countPoints, Yaw, Pitch, Roll, result);
+	};
+
+	std::vector<float> spatialPlusPlusAlgoSample(float Yaw, float Pitch, float Roll) {
+		const int countPoints = 8 + 4 + 2;
+
+		float diag = sqrt(2 * 100 * 100);
+
+		std::vector<float> result;
+		result.resize(countPoints * 2 + 2);
+
+		Mach1Point3DCore points[countPoints] =
+		{
+			Mach1Point3DCore(100, -100, -100),
+			Mach1Point3DCore(100, 100, -100),
+			Mach1Point3DCore(-100, -100, -100),
+			Mach1Point3DCore(-100, 100, -100),
+
+			Mach1Point3DCore(100, -100, 100),
+			Mach1Point3DCore(100, 100, 100),
+			Mach1Point3DCore(-100, -100, 100),
+			Mach1Point3DCore(-100, 100, 100),
+
+			Mach1Point3DCore(diag, 0, 0),
+			Mach1Point3DCore(-diag, 0, 0),
+			Mach1Point3DCore(0, diag, 0),
+			Mach1Point3DCore(0, -diag, 0),
+
+			Mach1Point3DCore(0, 0, diag),
+			Mach1Point3DCore(0, 0, -diag),
+		};
+
+		spatialMultichannelAlgo(points, countPoints, Yaw, Pitch, Roll, result.data());
+
+		return result;
+	};
+
     
 	// log
 	std::vector<std::string> strLog;
@@ -515,7 +638,19 @@ public:
     
     // ------------------------------------------------------------------
     
-    //
+	std::vector<float> spatialPlusAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
+
+	void spatialPlusAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
+
+	// ------------------------------------------------------------------
+
+	std::vector<float> spatialPlusPlusAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
+
+	void spatialPlusPlusAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
+
+	// ------------------------------------------------------------------
+
+	//
     //  Eight channel audio format.
     //
     //  Order of input angles:

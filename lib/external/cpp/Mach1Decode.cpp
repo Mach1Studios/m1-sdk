@@ -38,6 +38,8 @@ void Mach1Decode::setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType)
 	///     - Mach1DecodeAlgoHorizon = 2 (compass / yaw | 4 channels)
 	///     - Mach1DecodeAlgoHorizonPairs = 3 (compass / yaw | 4x stereo mastered pairs)
 	///     - Mach1DecodeAlgoSpatialPairs = 4 (experimental periphonic pairs | 8x stereo mastered pairs)
+	///     - Mach1DecodeAlgoSpatialPlus = 
+	///     - Mach1DecodeAlgoSpatialPlusPlus = 
 }
 
 #ifndef  __EMSCRIPTEN__

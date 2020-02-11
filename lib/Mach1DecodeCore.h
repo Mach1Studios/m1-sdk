@@ -393,38 +393,12 @@ private:
 
 
     std::vector<float> spatialAlgoSample(float Yaw, float Pitch, float Roll) {
-        
-        Mach1Point3DCore simulationAngles = Mach1Point3DCore(Yaw, Pitch, Roll);
-        
-        Mach1Point3DCore faceVector1 = Mach1Point3DCore(cos(mDegToRad(simulationAngles[0])),
-                                    sin(mDegToRad(simulationAngles[0]))).normalize();
-        
-        
-        Mach1Point3DCore faceVector2 = faceVector1.getRotated(simulationAngles[1],
-                                                    Mach1Point3DCore(cos(mDegToRad(simulationAngles[0] - 90)),
-                                                           sin(mDegToRad(simulationAngles[0] - 90))).normalize());
-        
-        
-        Mach1Point3DCore faceVector21 = faceVector1.getRotated(simulationAngles[1] + 90,
-                                                     Mach1Point3DCore(cos(mDegToRad(simulationAngles[0] - 90)),
-                                                            sin(mDegToRad(simulationAngles[0] - 90))).normalize());
-        
-        Mach1Point3DCore faceVectorLeft = faceVector21.getRotated(-simulationAngles[2] + 90, faceVector2);
-        Mach1Point3DCore faceVectorRight = faceVector21.getRotated(-simulationAngles[2] - 90, faceVector2);
-        
-        
-        Mach1Point3DCore faceVectorOffsetted = Mach1Point3DCore(cos(mDegToRad(simulationAngles[0])),
-                                            sin(mDegToRad(simulationAngles[0]))).normalize().rotate(
-                                                                                                    simulationAngles[1] + 10,
-                                                                                                    Mach1Point3DCore(cos(mDegToRad(simulationAngles[0] - 90)),
-                                                                                                           sin(mDegToRad(simulationAngles[0] - 90))).normalize()) - faceVector2;
-        
-        Mach1Point3DCore tiltSphereRotated = faceVectorOffsetted.rotate(-simulationAngles[2], faceVector2);
-        
-        // Drawing another 8 dots
+        std::vector<float> result;
+        result.resize(18);
         
 		Mach1Point3DCore points[8] =
-		{ Mach1Point3DCore(100, -100, -100),
+		{
+			Mach1Point3DCore(100, -100, -100),
 			Mach1Point3DCore(100, 100, -100),
 			Mach1Point3DCore(-100, -100, -100),
 			Mach1Point3DCore(-100, 100, -100),
@@ -433,68 +407,10 @@ private:
 			Mach1Point3DCore(100, 100, 100),
 			Mach1Point3DCore(-100, -100, 100),
 			Mach1Point3DCore(-100, 100, 100)
-
 		};
 
-		Mach1Point3DCore planes[8][2] =
-		{
-			{ Mach1Point3DCore(0, 1, 0), Mach1Point3DCore(0, 100, 0) },
-			{ Mach1Point3DCore(0, -1, 0), Mach1Point3DCore(0, -100, 0) },
-			{ Mach1Point3DCore(1, 0, 0), Mach1Point3DCore(100, 0, 0) },
-			{ Mach1Point3DCore(-1, 0, 0), Mach1Point3DCore(-100, 0, 0) },
-			{ Mach1Point3DCore(0, 0, 1), Mach1Point3DCore(0, 0, 100) },
-			{ Mach1Point3DCore(0, 0, -1), Mach1Point3DCore(0, 0, -100) }
-		};
-
-		// intersection
-		Mach1Point3DCore contactL = faceVectorLeft * 100 + faceVector2 * 100;
-		Mach1Point3DCore contactR = faceVectorRight * 100 + faceVector2 * 100;
-		for (int j = 0; j < 8; j++) {
-			linePlaneIntersection(contactL, Mach1Point3DCore(0, 0, 0), faceVectorLeft * 100 + faceVector2 * 100, planes[j][0], planes[j][1]);
-			linePlaneIntersection(contactR, Mach1Point3DCore(0, 0, 0), faceVectorRight * 100 + faceVector2 * 100, planes[j][0], planes[j][1]);
-		}
-
-
-		float qL[8];
-		for (int i = 0; i < 8; i++) {
-			qL[i] = (contactL - points[i]).length();
-		}
-
-		float qR[8];
-		for (int i = 0; i < 8; i++) {
-			qR[i] = (contactR - points[i]).length();
-		}
-        
-        std::vector<float> result;
-        result.resize(16);
-        
-		float d = sqrt(100 * 100 + 200 * 200);
-		for (int i = 0; i < 8; i++) {
-			float vL = clamp(mmap(qL[i], 0, d, 1.f, 0.), 0, 1);
-			float vR = clamp(mmap(qR[i], 0, d, 1.f, 0.), 0, 1);
-
-			result[i * 2 + 0] = vL;
-			result[i * 2 + 1] = vR;
-		}
-
-		// Volume Balancer v2.0
-		float sumL = 0, sumR = 0;
-		for (int i = 0; i < 8; i++) {
-			sumL += result[i * 2];
-			sumR += result[i * 2 + 1];
-		}
-
-		for (int i = 0; i < 8; i++) {
-			result[i * 2 + 0] /= sumL;
-			result[i * 2 + 1] /= sumR;
-		}
-
-		//if(sumL > 1.0 || sumR > 1.0) printf("%f - %f\r\n", sumL, sumR);
-        
-        
-        result.push_back(1.f); // static stereo L
-        result.push_back(1.f); // static stereo R
-        
+		spatialMultichannelAlgo(points, 8, Yaw, Pitch, Roll, result.data());
+		 
         return result;
         
     };

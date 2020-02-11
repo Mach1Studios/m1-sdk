@@ -127,9 +127,9 @@ M1EncodeCore::M1EncodeCore() {
 		arr_GainsForInputChannelNamed = new float[8];
 	}
 
-	if (arr_ResultingVolumesDecoded == nullptr) {
-		arr_ResultingVolumesDecoded = new float[14];
-	}
+    if (arr_ResultingCoeffsDecoded == nullptr) {
+        arr_ResultingCoeffsDecoded = new float[14]; //TODO: why 14?
+    }
 }
 
 M1EncodeCore::~M1EncodeCore() {
@@ -155,8 +155,8 @@ M1EncodeCore::~M1EncodeCore() {
 		delete[] arr_GainsForInputChannelNamed;
 	}
 
-	if (arr_ResultingVolumesDecoded != nullptr) {
-		delete[] arr_ResultingVolumesDecoded;
+	if (arr_ResultingCoeffsDecoded != nullptr) {
+		delete[] arr_ResultingCoeffsDecoded;
 	}
 }
 
@@ -1208,6 +1208,47 @@ void M1EncodeCore::generatePointResults() {
 	timeLastCalculation = getCurrentTime() - tStart;
 }
 
+void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, float* decodeResult, float* result)
+{
+    // clear
+    for (int i = 0; i < 14; i++) result[i] = 0;
+
+    int decodeResultSize = 0;
+    switch (decodeType)
+    {
+    case Mach1DecodeAlgoSpatial:
+        decodeResultSize = 16;
+        break;
+    case Mach1DecodeAlgoAltSpatial:
+        decodeResultSize = 16;
+        break;
+    case Mach1DecodeAlgoHorizon:
+        decodeResultSize = 8;
+        break;
+    case Mach1DecodeAlgoHorizonPairs:
+        decodeResultSize = 8;
+        break;
+    case Mach1DecodeAlgoSpatialPairs:
+        decodeResultSize = 8;
+        break;
+    default:
+        break;
+    }
+
+    // decode - 8, 16
+    if (outputChannelCount * 2 != decodeResultSize) {
+        std::cout << "This encode type is not suitable for decode type!" << std::endl;
+    }
+
+    for (int j = 0; j < resultingPoints.pointsCount; j++) {
+        for (int i = 0; i < outputChannelCount; i++) {
+            result[j * 2 + 0] += decodeResult[i * 2 + 0] * resultingPoints.gains[j][i]; // left
+            result[j * 2 + 1] += decodeResult[i * 2 + 1] * resultingPoints.gains[j][i]; // right
+        }
+    }
+}
+
+[[deprecated]]
 void M1EncodeCore::getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, float* decodeResult, float* result)
 {
 	// clear
@@ -1236,7 +1277,6 @@ void M1EncodeCore::getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, fl
 	}
 
 	// decode - 8, 16
-	
 	if (outputChannelCount * 2 != decodeResultSize) {
 		std::cout << "This encode type is not suitable for decode type!" << std::endl;
 	}

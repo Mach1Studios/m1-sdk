@@ -84,16 +84,16 @@ int Mach1EncodeCAPI_getPointsCount(void * M1obj)
 	return ((M1EncodeCore*)M1obj)->resultingPoints.getPointsCount();
 }
 
-void* Mach1EncodeCAPI_getResultingVolumesDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float * decodeResult)
+void* Mach1EncodeCAPI_getResultingCoeffsDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float * decodeResult)
 {
 	// clear
 	for (int i = 0; i < 14; i++) {
-		((M1EncodeCore*)M1obj)->arr_ResultingVolumesDecoded[i] = 0;
+		((M1EncodeCore*)M1obj)->arr_ResultingCoeffsDecoded[i] = 0;
 	}
 	
-	((M1EncodeCore*)M1obj)->getResultingVolumesDecoded(decodeType, decodeResult, ((M1EncodeCore*)M1obj)->arr_ResultingVolumesDecoded);
+	((M1EncodeCore*)M1obj)->getResultingCoeffsDecoded(decodeType, decodeResult, ((M1EncodeCore*)M1obj)->arr_ResultingCoeffsDecoded);
 
-	return ((M1EncodeCore*)M1obj)->arr_ResultingVolumesDecoded;
+	return ((M1EncodeCore*)M1obj)->arr_ResultingCoeffsDecoded;
 }
 
 void Mach1EncodeCAPI_setInputMode(void* M1obj, enum Mach1EncodeInputModeType inputMode) {
@@ -135,3 +135,17 @@ void Mach1EncodeCAPI_setIsotropicEncode(void* M1obj, bool isotropicEncode) {
 long Mach1EncodeCAPI_getLastCalculationTime(void* M1obj) {
 	return ((M1EncodeCore*)M1obj)->getLastCalculationTime();
 }
+
+/* DEPRECATED START*/
+void* Mach1EncodeCAPI_getResultingVolumesDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float * decodeResult)
+{
+	// clear
+	for (int i = 0; i < 14; i++) {
+		((M1EncodeCore*)M1obj)->arr_ResultingCoeffsDecoded[i] = 0;
+	}
+	
+	((M1EncodeCore*)M1obj)->getResultingVolumesDecoded(decodeType, decodeResult, ((M1EncodeCore*)M1obj)->arr_ResultingCoeffsDecoded);
+
+	return ((M1EncodeCore*)M1obj)->arr_ResultingCoeffsDecoded;
+}
+/* DEPRECATED END */

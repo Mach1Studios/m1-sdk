@@ -77,7 +77,7 @@ extern "C" {
 #endif
 	M1_API void Mach1DecodePositionalCAPI_setFalloffCurve(void* M1obj, float falloffCurve);
 #if __cplusplus > 201103L
-	[[deprecated("setFalloffCurveBlendMode is deprecated, please use setAttenuationCurveBlendMode instead")]]
+	[[deprecated("setUseClosestPointRotationMuteInside is deprecated, please use setUsePlaneCalculation instead")]]
 #endif
     M1_API void Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(void* M1obj, bool useClosestPointRotationMuteInside);
 #if __cplusplus > 201103L

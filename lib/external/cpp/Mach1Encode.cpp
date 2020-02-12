@@ -135,6 +135,7 @@ void Mach1Encode::setInputMode(Mach1EncodeInputModeType inputMode)
 	/// 	- INPUT_2OAFUM
 	/// 	- INPUT_3OAACN
 	///		- INPUT_3OAFUMA
+	///		- INPUT_LCR
 }
 
 void Mach1Encode::setOutputMode(Mach1EncodeOutputModeType outputMode)
@@ -145,6 +146,10 @@ void Mach1Encode::setOutputMode(Mach1EncodeOutputModeType outputMode)
 	/// - Parameters:
 	///     - OUTPUT_4CH (Mach1Horizon) [Yaw]
 	///     - OUTPUT_8CH (Mach1Spatial) [Yaw, Pitch, Roll]
+	///     - OUTPUT_12CH (Mach1SpatialPlus) [Yaw, Pitch, Roll]
+	///     - OUTPUT_14CH (Mach1SpatialPlusPlus) [Yaw, Pitch, Roll]
+	///     - OUTPUT_16CH (Mach1SpatialExt) [Yaw, Pitch, Roll]
+	///     - OUTPUT_18CH (Mach1SpatialExtPlus) [Yaw, Pitch, Roll]
 }
 
 void Mach1Encode::setRotation(float rotation)

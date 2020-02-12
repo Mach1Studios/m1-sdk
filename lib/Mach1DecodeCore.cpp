@@ -369,11 +369,19 @@ std::vector<float> Mach1DecodeCore::decode(float Yaw, float Pitch, float Roll, i
 			break;
 
 		case Mach1DecodeAlgoSpatialPlus:
-			res = spatialPlusAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+			spatialPlusAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
 			break;
 
 		case Mach1DecodeAlgoSpatialPlusPlus:
-			res = spatialPlusPlusAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+			spatialPlusPlusAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+			break;
+
+		case Mach1DecodeAlgoSpatialExt:
+			spatialPlusAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+			break;
+
+		case Mach1DecodeAlgoSpatialExtPlus:
+			spatialPlusPlusAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
 			break;
 
 		default:
@@ -416,6 +424,14 @@ void Mach1DecodeCore::decode(float Yaw, float Pitch, float Roll, float *result, 
 			break;
 
 		case Mach1DecodeAlgoSpatialPlusPlus:
+			spatialPlusPlusAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+			break;
+
+		case Mach1DecodeAlgoSpatialExt:
+			spatialPlusAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+			break;
+
+		case Mach1DecodeAlgoSpatialExtPlus:
 			spatialPlusPlusAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
 			break;
 

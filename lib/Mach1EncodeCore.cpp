@@ -1231,6 +1231,18 @@ void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, flo
     case Mach1DecodeAlgoSpatialPairs:
         decodeResultSize = 8;
         break;
+    case Mach1DecodeAlgoSpatialPlus:
+        decodeResultSize = 12;
+        break;
+    case Mach1DecodeAlgoSpatialPlusPlus:
+        decodeResultSize = 14;
+        break;
+    case Mach1DecodeAlgoSpatialExt:
+        decodeResultSize = 16;
+        break;
+    case Mach1DecodeAlgoSpataialExtPlus:
+        decodeResultSize = 18;
+        break;
     default:
         break;
     }
@@ -1275,6 +1287,12 @@ void M1EncodeCore::getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, fl
 	case Mach1DecodeAlgoSpatialPlusPlus:
 		decodeResultSize = 14;
 		break;
+    case Mach1DecodeAlgoSpatialExt:
+        decodeResultSize = 16;
+        break;
+    case Mach1DecodeAlgoSpataialExtPlus:
+        decodeResultSize = 18;
+        break;
 	default:
 		break;
 	}

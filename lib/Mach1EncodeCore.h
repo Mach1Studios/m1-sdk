@@ -73,7 +73,11 @@ public:
 	};
 	enum OutputMode { 
 		OUTPUT_4CH = 0, 
-		OUTPUT_8CH 
+		OUTPUT_8CH,
+		OUTPUT_12CH,
+		OUTPUT_14CH,
+		OUTPUT_16CH,
+		OUTPUT_18CH
 	};
 
 	// arrays for CAPI

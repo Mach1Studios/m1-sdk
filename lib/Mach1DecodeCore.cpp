@@ -369,19 +369,19 @@ std::vector<float> Mach1DecodeCore::decode(float Yaw, float Pitch, float Roll, i
 			break;
 
 		case Mach1DecodeAlgoSpatialPlus:
-			spatialPlusAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+			res = spatialPlusAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
 			break;
 
 		case Mach1DecodeAlgoSpatialPlusPlus:
-			spatialPlusPlusAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+			res = spatialPlusPlusAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
 			break;
 
 		case Mach1DecodeAlgoSpatialExt:
-			spatialPlusAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+			res = spatialExtAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
 			break;
 
 		case Mach1DecodeAlgoSpatialExtPlus:
-			spatialPlusPlusAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+			res = spatialExtPlusAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
 			break;
 
 		default:
@@ -428,11 +428,11 @@ void Mach1DecodeCore::decode(float Yaw, float Pitch, float Roll, float *result, 
 			break;
 
 		case Mach1DecodeAlgoSpatialExt:
-			spatialPlusAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+			spatialExtAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
 			break;
 
 		case Mach1DecodeAlgoSpatialExtPlus:
-			spatialPlusPlusAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+			spatialExtPlusAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
 			break;
 
         default:
@@ -753,6 +753,15 @@ void Mach1DecodeCore::spatialAlgo(float Yaw, float Pitch, float Roll, float *res
 
 // ------------------------------------------------------------------
 
+//
+//  Additional channel audio formats (isotropic version).
+//
+//  Order of input angles:
+//  Y = Yaw in degrees
+//  P = Pitch in degrees
+//  R = Roll in degrees
+//
+
 std::vector<float> Mach1DecodeCore::spatialPlusAlgo(float Yaw, float Pitch, float Roll,
 	int bufferSize, int sampleIndex) {
 
@@ -777,6 +786,34 @@ void Mach1DecodeCore::spatialPlusPlusAlgo(float Yaw, float Pitch, float Roll, fl
 	int bufferSize, int sampleIndex) {
 
 	return processSample(&Mach1DecodeCore::spatialPlusPlusAlgoSample, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+}
+
+// ------------------------------------------------------------------
+
+std::vector<float> Mach1DecodeCore::spatialExtAlgo(float Yaw, float Pitch, float Roll,
+	int bufferSize, int sampleIndex) {
+
+	return processSample(&Mach1DecodeCore::spatialExtAlgoSample, Yaw, Pitch, Roll, bufferSize, sampleIndex);
+}
+
+void Mach1DecodeCore::spatialExtAlgo(float Yaw, float Pitch, float Roll, float *result,
+	int bufferSize, int sampleIndex) {
+
+	return processSample(&Mach1DecodeCore::spatialExtAlgoSample, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+}
+
+// ------------------------------------------------------------------
+
+std::vector<float> Mach1DecodeCore::spatialExtPlusAlgo(float Yaw, float Pitch, float Roll,
+	int bufferSize, int sampleIndex) {
+
+	return processSample(&Mach1DecodeCore::spatialExtPlusAlgoSample, Yaw, Pitch, Roll, bufferSize, sampleIndex);
+}
+
+void Mach1DecodeCore::spatialExtPlusAlgo(float Yaw, float Pitch, float Roll, float *result,
+	int bufferSize, int sampleIndex) {
+
+	return processSample(&Mach1DecodeCore::spatialExtPlusAlgoSample, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
 }
 
 // ------------------------------------------------------------------

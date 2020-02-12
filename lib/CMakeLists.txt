@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 2.8.8)
 project(Mach1SpatialLibraries)
 set(Mach1SpatialLibraries_VERSION_MAJOR 1)
-set(Mach1SpatialLibraries_VERSION_MINOR 0)
+set(Mach1SpatialLibraries_VERSION_MINOR 1)
 set(Mach1SpatialLibraries_VERSION ${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR})
 
 # SET API VERSIONS
-set(ENCODE_VERSION "1.0.7.0")
-set(DECODE_VERSION "1.0.7.0")
+set(ENCODE_VERSION "1.1.0.0")
+set(DECODE_VERSION "1.1.0.0")
 set(DECODEPOSITIONAL_VERSION "1.0.6.2")
 
 set(Mach1EncodeCAPIsrc "./Mach1EncodeCAPI.cpp" "./Mach1EncodeCore.cpp")

@@ -1240,7 +1240,7 @@ void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, flo
     case Mach1DecodeAlgoSpatialExt:
         decodeResultSize = 16;
         break;
-    case Mach1DecodeAlgoSpataialExtPlus:
+    case Mach1DecodeAlgoSpatialExtPlus:
         decodeResultSize = 18;
         break;
     default:
@@ -1290,7 +1290,7 @@ void M1EncodeCore::getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, fl
     case Mach1DecodeAlgoSpatialExt:
         decodeResultSize = 16;
         break;
-    case Mach1DecodeAlgoSpataialExtPlus:
+    case Mach1DecodeAlgoSpatialExtPlus:
         decodeResultSize = 18;
         break;
 	default:

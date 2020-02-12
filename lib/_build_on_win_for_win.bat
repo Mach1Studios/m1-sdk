@@ -1,9 +1,6 @@
 python ../../polly-master/bin/polly.py --clear --install --config Release --toolchain vs-15-2017
 python ../../polly-master/bin/polly.py --clear --install --config Release --toolchain vs-15-2017-win64
 
-del /f /s /q _win 1>nul
-rmdir /s /q _win
-
 cd %~dp0
 
 xcopy _install\vs-15-2017\lib ..\binaries\windows-x86 /Y

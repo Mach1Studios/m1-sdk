@@ -12,21 +12,24 @@ python ../../polly-master/bin/polly.py --clear --install --config Release --tool
 del /f /s /q _android 1>nul
 rmdir /s /q _android
 
-mkdir _android
-cd _android
+mkdir ..\android-arm64-v8a
+mkdir ..\android-armeabi-v7a
+mkdir ..\android-x86
+mkdir ..\android-x86_64
 
-mkdir arm64-v8a
-mkdir armeabi
-mkdir armeabi-v7a
-mkdir mips
-mkdir mips64
-mkdir x86
-mkdir x86_64
+rem TODO: make single parent android dir and reference that via the following: 
+rem mkdir arm64-v8a
+rem mkdir armeabi
+rem mkdir armeabi-v7a
+rem mkdir mips
+rem mkdir mips64
+rem mkdir x86
+rem mkdir x86_64
 
 cd %~dp0
 
-xcopy _install\android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx\lib _android\arm64-v8a
-xcopy _install\android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx\lib _android\armeabi-v7a
-xcopy _install\android-ndk-r16b-api-21-x86-clang-libcxx\lib _android\x86
-xcopy _install\android-ndk-r16b-api-21-x86-64-clang-libcxx\lib _android\x86_64
+xcopy _install\android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx\lib ..\binaries\android-arm64-v8a /Y
+xcopy _install\android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx\lib ..\binaries\android-armeabi-v7a /Y
+xcopy _install\android-ndk-r16b-api-21-x86-clang-libcxx\lib _android\x86 ..\binaries\android-x86 /Y
+xcopy _install\android-ndk-r16b-api-21-x86-64-clang-libcxx\lib _android\x86_64 ..\binaries\android-x86_64 /Y
 pause

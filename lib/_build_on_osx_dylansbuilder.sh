@@ -12,15 +12,15 @@ fi
 rm -rf _logs
 
 echo "### BUILD ANDROID ###"
-echo "### BUILD NDK11 ###"
-polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-armeabi
-polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-armeabi-v7a
-polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-x86
-polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-x86-64
-polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips
-polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-arm64-v8a
-polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-arm64-v8a
-polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips64
+# echo "### BUILD NDK11 ###"
+# polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-armeabi
+# polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-armeabi-v7a
+# polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-x86
+# polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-x86-64
+# polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips
+# polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-arm64-v8a
+# polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-arm64-v8a
+# polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips64
 
 echo "### BUILD NDK16b ###"
 polly --clear --install --config Release --toolchain android-ndk-r16b-api-21-armeabi-clang-libcxx  

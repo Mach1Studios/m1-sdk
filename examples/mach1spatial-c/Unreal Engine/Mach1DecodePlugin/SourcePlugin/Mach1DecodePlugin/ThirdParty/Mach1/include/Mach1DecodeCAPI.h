@@ -19,7 +19,7 @@
     #endif
 #else
     #ifndef M1_API
-        #if defined(_WINDOWS) || defined(WIN32)
+        #if !defined(M1_STATIC) && (defined(_WINDOWS) || defined(WIN32))
             #define M1_API __declspec(dllimport)
         #else
             #define M1_API
@@ -36,7 +36,7 @@ enum Mach1PlatformType {
 };
 
 enum Mach1DecodeAlgoType {
-	Mach1DecodeAlgoSpatial = 0, Mach1DecodeAlgoAltSpatial, Mach1DecodeAlgoHorizon, Mach1DecodeAlgoHorizonPairs, Mach1DecodeAlgoSpatialPairs
+	Mach1DecodeAlgoSpatial = 0, Mach1DecodeAlgoAltSpatial, Mach1DecodeAlgoHorizon, Mach1DecodeAlgoHorizonPairs, Mach1DecodeAlgoSpatialPairs, Mach1DecodeAlgoSpatialPlus, Mach1DecodeAlgoSpatialPlusPlus
 };
 
 

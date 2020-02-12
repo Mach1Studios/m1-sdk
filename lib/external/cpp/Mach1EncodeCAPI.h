@@ -51,7 +51,11 @@ enum Mach1EncodeInputModeType {
 
 enum Mach1EncodeOutputModeType {
 	Mach1EncodeOutputMode4Ch = 0, 
-	Mach1EncodeOutputMode8Ch
+	Mach1EncodeOutputMode8Ch,
+	Mach1EncodeOutputMode12Ch,
+	Mach1EncodeOutputMode14Ch,
+	Mach1EncodeOutputMode16Ch,
+	Mach1EncodeOutputMode18Ch
 };
 
 #ifdef __cplusplus

@@ -27,7 +27,7 @@ polly --clear --install --config Release --toolchain android-ndk-r16b-api-21-arm
 polly --clear --install --config Release --toolchain android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
 polly --clear --install --config Release --toolchain android-ndk-r16b-api-21-x86-clang-libcxx
 polly --clear --install --config Release --toolchain android-ndk-r16b-api-21-x86-64-clang-libcxx
-yes | mv _install/android-ndk-r16b-api-21-armeabi-clang-libcxx _install/android-armeabi-v7a
+yes | mv _install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx _install/android-armeabi-v7a
 yes | mv _install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx _install/android-arm64-v8a
 yes | mv _install/android-ndk-r16b-api-21-x86-clang-libcxx _install/android-x86
 yes | mv _install/android-ndk-r16b-api-21-x86-64-clang-libcxx _install/android-x86_64

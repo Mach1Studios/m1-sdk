@@ -12,12 +12,12 @@ python ../../polly-master/bin/polly.py --clear --install --config Release --tool
 del /f /s /q _android 1>nul
 rmdir /s /q _android
 
-mkdir ..\android-arm64-v8a
-mkdir ..\android-armeabi-v7a
-mkdir ..\android-x86
-mkdir ..\android-x86_64
+mkdir ..\binaries\android-arm64-v8a
+mkdir ..\binaries\android-armeabi-v7a
+mkdir ..\binaries\android-x86
+mkdir ..\binaries\android-x86_64
 
-rem TODO: make single parent android dir and reference that via the following: 
+rem TODO: make single parent android dir and reference that via the following:
 rem mkdir arm64-v8a
 rem mkdir armeabi
 rem mkdir armeabi-v7a

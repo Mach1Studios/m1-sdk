@@ -29,6 +29,22 @@ using namespace std::chrono;
 struct M1EncodeCorePoint
 {
 	float x, y, z;
+
+	M1EncodeCorePoint operator + (M1EncodeCorePoint p)
+	{
+		return { this->x + p.x, this->y + p.y, this->z + p.z };
+	}
+	
+	M1EncodeCorePoint operator / (float f)
+	{
+		return { this->x / f, this->y / f, this->z / f };
+	}
+
+	M1EncodeCorePoint operator - ()
+	{
+		return { -this->x, -this->y, -this->z };
+	}
+
 };
 
 class M1EncodeCorePointResults {

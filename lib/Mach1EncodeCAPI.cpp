@@ -96,6 +96,18 @@ void* Mach1EncodeCAPI_getResultingCoeffsDecoded(void * M1obj, enum Mach1DecodeAl
 	return ((M1EncodeCore*)M1obj)->arr_ResultingCoeffsDecoded;
 }
 
+enum Mach1EncodeInputModeType Mach1EncodeCAPI_getInputMode(void* M1obj) {
+	return (Mach1EncodeInputModeType)(int)((M1EncodeCore*)M1obj)->getInputMode();
+}
+
+enum Mach1EncodeOutputModeType Mach1EncodeCAPI_getOutputMode(void* M1obj) {
+	return (Mach1EncodeOutputModeType)(int)((M1EncodeCore*)M1obj)->getOutputMode();
+}
+
+int Mach1EncodeCAPI_getOutputChannelsCount(void* M1obj) {
+	return ((M1EncodeCore*)M1obj)->getOutputChannelsCount();
+}
+
 void Mach1EncodeCAPI_setInputMode(void* M1obj, enum Mach1EncodeInputModeType inputMode) {
 	((M1EncodeCore*)M1obj)->setInputMode(static_cast<M1EncodeCore::InputMode>(inputMode));
 }

@@ -28,6 +28,10 @@ public:
 
 	std::vector<float> getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, std::vector<float>& decodeResult);
 
+	Mach1EncodeInputModeType getInputMode();
+	Mach1EncodeOutputModeType getOutputMode();
+	int getOutputChannelsCount();
+
 	void setInputMode(Mach1EncodeInputModeType inputMode);
 	void setOutputMode(Mach1EncodeOutputModeType outputMode);
 	void setRotation(float rotation);

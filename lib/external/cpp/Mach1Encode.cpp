@@ -37,7 +37,8 @@ std::vector<std::vector<float>> Mach1Encode::getGains()
 	float** arr = (float**)Mach1EncodeCAPI_getGains(M1obj);
 
 	for (int i = 0; i < vec.size(); i++) {
-		vec[i].resize(8);
+		vec[i].resize(Mach1EncodeCAPI_getOutputChannelsCount(M1obj));
+
 		for (int j = 0; j < vec[i].size(); j++) {
 			vec[i][j] = arr[i][j];
 		}
@@ -69,7 +70,7 @@ std::vector<std::string> Mach1Encode::getPointsNames()
 
 std::vector<float> Mach1Encode::getGainsForInputChannelNamed(std::string pointName)
 {
-	std::vector<float> vec(8);
+	std::vector<float> vec(Mach1EncodeCAPI_getOutputChannelsCount(M1obj));
 
 	float* arr = (float*)Mach1EncodeCAPI_getGainsForInputChannelNamed(M1obj, (char*)pointName.c_str());
 
@@ -115,6 +116,21 @@ std::vector<float> Mach1Encode::getResultingVolumesDecoded(Mach1DecodeAlgoType d
     /// live can more easily be created
     ///
     /// - Remark: Each input audio channel results a direct decode instead of the encode coefficients
+}
+
+Mach1EncodeInputModeType Mach1Encode::getInputMode()
+{
+	return Mach1EncodeCAPI_getInputMode(M1obj);
+}
+
+Mach1EncodeOutputModeType Mach1Encode::getOutputMode()
+{
+	return Mach1EncodeCAPI_getOutputMode(M1obj);
+}
+
+int Mach1Encode::getOutputChannelsCount()
+{
+	return Mach1EncodeCAPI_getOutputChannelsCount(M1obj);
 }
 
 void Mach1Encode::setInputMode(Mach1EncodeInputModeType inputMode)

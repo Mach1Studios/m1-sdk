@@ -78,6 +78,10 @@ extern "C" {
 #endif
 	M1_API void* Mach1EncodeCAPI_getResultingVolumesDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float* decodeResult);
 
+	M1_API enum Mach1EncodeInputModeType Mach1EncodeCAPI_getInputMode(void* M1obj);
+	M1_API enum Mach1EncodeOutputModeType Mach1EncodeCAPI_getOutputMode(void* M1obj);
+	M1_API int Mach1EncodeCAPI_getOutputChannelsCount(void* M1obj);
+
 	M1_API void Mach1EncodeCAPI_setInputMode(void* M1obj, enum Mach1EncodeInputModeType inputMode);
 	M1_API void Mach1EncodeCAPI_setOutputMode(void* M1obj, enum Mach1EncodeOutputModeType outputMode);
 	M1_API void Mach1EncodeCAPI_setRotation(void* M1obj, float rotation);

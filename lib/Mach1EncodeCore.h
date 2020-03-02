@@ -134,6 +134,10 @@ public:
 #endif	
 	void getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, float *decodeResult, float *result);
 
+	InputMode getInputMode();
+	OutputMode getOutputMode();
+	int getOutputChannelsCount();
+
 	void setInputMode(InputMode inputMode);
 	void setOutputMode(OutputMode outputMode);
 	void setRotation(float rotation);

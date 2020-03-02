@@ -280,7 +280,7 @@ void M1EncodeCore::generatePointResults() {
 		}
 
 	}
-	else if (inputMode == INPUT_BFORMAT || inputMode == INPUT_FOAACN) { // dublicate?
+	else if (inputMode == INPUT_BFORMAT || inputMode == INPUT_FOAACN) { // duplicate?
 
 		resultingPoints.pointsCount = 7;
 
@@ -335,7 +335,7 @@ void M1EncodeCore::generatePointResults() {
 			}
 		}
 	}
-	else if (inputMode == INPUT_2OAACN || inputMode == INPUT_2OAFUMA || inputMode == INPUT_3OAACN || inputMode == INPUT_3OAFUMA) { // dublicate?
+	else if (inputMode == INPUT_2OAACN || inputMode == INPUT_2OAFUMA || inputMode == INPUT_3OAACN || inputMode == INPUT_3OAFUMA) { // duplicate?
 
 		/*
 		TODO: Rework this into something smarter
@@ -541,6 +541,26 @@ void M1EncodeCore::getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, fl
 			result[j * 2 + 1] += decodeResult[i * 2 + 1] * resultingPoints.gains[j][i]; // right
 		}
 	}
+}
+
+M1EncodeCore::InputMode M1EncodeCore::getInputMode() {
+	return inputMode;
+}
+
+M1EncodeCore::OutputMode M1EncodeCore::getOutputMode() {
+	return outputMode;
+}
+
+int M1EncodeCore::getOutputChannelsCount() {
+	switch (outputMode) {
+		case OUTPUT_4CH: return 4;
+		case OUTPUT_8CH: return 8;
+		case OUTPUT_12CH: return 12;
+		case OUTPUT_14CH: return 14;
+		case OUTPUT_16CH: return 16;
+		case OUTPUT_18CH: return 18;
+	}
+	return 0;
 }
 
 void M1EncodeCore::setInputMode(InputMode inputMode) {

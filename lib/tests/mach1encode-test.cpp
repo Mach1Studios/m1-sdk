@@ -2,6 +2,7 @@
 #include "Mach1Encode.h"
 
 #include <iostream>
+#include <math.h>
 #include <map>
 
 void test_gains(void)

@@ -26,6 +26,14 @@ using namespace std::chrono;
 #define DEG_TO_RAD (PI/180)
 #endif
 
+#ifndef MAX_CHANNELS_COUNT
+#define MAX_CHANNELS_COUNT 20 // 18 + 2
+#endif
+
+#ifndef MAX_POINTS_COUNT
+#define MAX_POINTS_COUNT 8
+#endif
+
 struct M1EncodeCorePoint
 {
 	float x, y, z;
@@ -48,9 +56,9 @@ struct M1EncodeCorePoint
 };
 
 class M1EncodeCorePointResults {
-	M1EncodeCorePoint ppoints[8];
+	M1EncodeCorePoint ppoints[MAX_CHANNELS_COUNT];
 	int pointsCount;
-	std::string pointsNames[8];
+	std::string pointsNames[MAX_CHANNELS_COUNT];
 	std::vector<std::vector<float>> gains;
 
 	friend class M1EncodeCore;
@@ -111,8 +119,6 @@ private:
 	float sRotate, sSpread;
 	bool autoOrbit;
 	bool isotropicEncode;
-
-	int outputChannelCount;
 
 	void processGains4Channels(float x, float y, float(&result)[4]);
 	void processGains8Channels(float x, float y, float z, float(&result)[8]);

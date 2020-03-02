@@ -87,7 +87,7 @@ int Mach1EncodeCAPI_getPointsCount(void * M1obj)
 void* Mach1EncodeCAPI_getResultingCoeffsDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float * decodeResult)
 {
 	// clear
-	for (int i = 0; i < 14; i++) {
+	for (int i = 0; i < MAX_POINTS_COUNT * 2; i++) {
 		((M1EncodeCore*)M1obj)->arr_ResultingCoeffsDecoded[i] = 0;
 	}
 	
@@ -152,7 +152,7 @@ long Mach1EncodeCAPI_getLastCalculationTime(void* M1obj) {
 void* Mach1EncodeCAPI_getResultingVolumesDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float * decodeResult)
 {
 	// clear
-	for (int i = 0; i < 14; i++) {
+	for (int i = 0; i < MAX_POINTS_COUNT * 2; i++) {
 		((M1EncodeCore*)M1obj)->arr_ResultingCoeffsDecoded[i] = 0;
 	}
 	

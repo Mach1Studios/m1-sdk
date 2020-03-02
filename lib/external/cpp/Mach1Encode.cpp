@@ -101,7 +101,7 @@ int Mach1Encode::getPointsCount()
 
 std::vector<float> Mach1Encode::getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, std::vector<float>& decodeResult)
 {
-	std::vector<float> vec(14);
+	std::vector<float> vec(Mach1EncodeCAPI_getPointsCount(M1obj) * 2);
 
 	float* arr = (float*)Mach1EncodeCAPI_getResultingVolumesDecoded(M1obj, decodeType, decodeResult.data());
 

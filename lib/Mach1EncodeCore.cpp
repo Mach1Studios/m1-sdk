@@ -25,7 +25,7 @@ float clamp(float n, float lower, float upper) {
 }
 
 M1EncodeCorePointResults::M1EncodeCorePointResults() {
-	for (int i = 0; i < 7; i++) {
+	for (int i = 0; i < MAX_POINTS_COUNT; i++) {
 		pointsNames[i] = "";
 		ppoints[i].x = 0;
 		ppoints[i].y = 0;
@@ -100,37 +100,35 @@ M1EncodeCore::M1EncodeCore() {
 	autoOrbit = false;
 	isotropicEncode = true; 
 
-	outputChannelCount = 8;
-
 	ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 	timeLastCalculation = 0;
 
 	// first init
 	if (arr_Points == nullptr) {
-		arr_Points = new M1EncodeCorePoint[7];
+		arr_Points = new M1EncodeCorePoint[MAX_POINTS_COUNT];
 	}
 
 	if (arr_Gains == nullptr) {
-		arr_Gains = new float*[8];
-		for (int i = 0; i < 8; i++) {
-			arr_Gains[i] = new float[8];
+		arr_Gains = new float*[MAX_CHANNELS_COUNT];
+		for (int i = 0; i < MAX_CHANNELS_COUNT; i++) {
+			arr_Gains[i] = new float[MAX_CHANNELS_COUNT];
 		}
 	}
 
 	if (arr_PointsNames == nullptr) {
-		arr_PointsNames = new char*[8];
-		for (int i = 0; i < 8; i++) {
+		arr_PointsNames = new char*[MAX_CHANNELS_COUNT];
+		for (int i = 0; i < MAX_CHANNELS_COUNT; i++) {
 			arr_PointsNames[i] = new char[255];
 			arr_PointsNames[i][0] = '\0';
 		}
 	}
 
 	if (arr_GainsForInputChannelNamed == nullptr) {
-		arr_GainsForInputChannelNamed = new float[8];
+		arr_GainsForInputChannelNamed = new float[MAX_CHANNELS_COUNT];
 	}
 
     if (arr_ResultingCoeffsDecoded == nullptr) {
-        arr_ResultingCoeffsDecoded = new float[14]; //TODO: why 14?
+        arr_ResultingCoeffsDecoded = new float[MAX_POINTS_COUNT * 2];
     }
 }
 
@@ -140,14 +138,14 @@ M1EncodeCore::~M1EncodeCore() {
 	}
 
 	if (arr_Gains != nullptr) {
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < MAX_CHANNELS_COUNT; i++) {
 			delete[] arr_Gains[i];
 		}
 		delete[] arr_Gains;
 	}
 
 	if (arr_PointsNames != nullptr) {
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < MAX_CHANNELS_COUNT; i++) {
 			delete[] arr_PointsNames[i];
 		}
 		delete[] arr_PointsNames;
@@ -399,8 +397,6 @@ void M1EncodeCore::generatePointResults() {
 
 
 	// Generating channel gains
-	if (outputMode == OUTPUT_4CH) outputChannelCount = 4;
-	if (outputMode == OUTPUT_8CH) outputChannelCount = 8;
 
 	resultingPoints.gains.resize(resultingPoints.pointsCount);
 	for (int i = 0; i < resultingPoints.pointsCount; i++) {
@@ -409,14 +405,14 @@ void M1EncodeCore::generatePointResults() {
 		resultingPoints.ppoints[i].y = resultingPoints.ppoints[i].y / 2 + 0.5f;
 		resultingPoints.ppoints[i].z = resultingPoints.ppoints[i].z / 2 + 0.5f;
 
-		resultingPoints.gains[i].resize(outputChannelCount);
+		resultingPoints.gains[i].resize(getOutputChannelsCount());
 
 		// Generating gains for 4 channel output
 		if (outputMode == OUTPUT_4CH) {
 			float gains[4];
 			processGains4Channels(resultingPoints.ppoints[i].x,
 				resultingPoints.ppoints[i].z, gains);
-			for (int j = 0; j < outputChannelCount; j++) {
+			for (int j = 0; j < getOutputChannelsCount(); j++) {
 				resultingPoints.gains[i][j] = gains[j];
 			}
 		}
@@ -427,7 +423,7 @@ void M1EncodeCore::generatePointResults() {
 			processGains8Channels(resultingPoints.ppoints[i].x,
 				resultingPoints.ppoints[i].z,
 				resultingPoints.ppoints[i].y, gains);
-			for (int j = 0; j < outputChannelCount; j++) {
+			for (int j = 0; j < getOutputChannelsCount(); j++) {
 				resultingPoints.gains[i][j] = gains[j];
 			}
 		}
@@ -441,7 +437,8 @@ void M1EncodeCore::generatePointResults() {
 void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, float* decodeResult, float* result)
 {
     // clear
-    for (int i = 0; i < 14; i++) result[i] = 0;
+    for (int i = 0; i < resultingPoints.pointsCount * 2; i++) result[i] = 0;
+
 
     int decodeResultSize = 0;
     switch (decodeType)
@@ -478,12 +475,12 @@ void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, flo
     }
 
     // decode - 8, 16
-    if (outputChannelCount * 2 != decodeResultSize) {
+    if (getOutputChannelsCount() * 2 != decodeResultSize) {
         std::cout << "This encode type is not suitable for decode type!" << std::endl;
     }
 
     for (int j = 0; j < resultingPoints.pointsCount; j++) {
-        for (int i = 0; i < outputChannelCount; i++) {
+        for (int i = 0; i < getOutputChannelsCount(); i++) {
             result[j * 2 + 0] += decodeResult[i * 2 + 0] * resultingPoints.gains[j][i]; // left
             result[j * 2 + 1] += decodeResult[i * 2 + 1] * resultingPoints.gains[j][i]; // right
         }
@@ -531,12 +528,12 @@ void M1EncodeCore::getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, fl
 	for (int i = 0; i < decodeResultSize; i++) result[i] = 0;
 
 	// decode - 8, 16
-	if (outputChannelCount * 2 != decodeResultSize) {
+	if (getOutputChannelsCount() * 2 != decodeResultSize) {
 		std::cout << "This encode type is not suitable for decode type!" << std::endl;
 	}
 
 	for (int j = 0; j < resultingPoints.pointsCount; j++) {
-		for (int i = 0; i < outputChannelCount; i++) {
+		for (int i = 0; i < getOutputChannelsCount(); i++) {
 			result[j * 2 + 0] += decodeResult[i * 2 + 0] * resultingPoints.gains[j][i]; // left
 			result[j * 2 + 1] += decodeResult[i * 2 + 1] * resultingPoints.gains[j][i]; // right
 		}

@@ -35,10 +35,10 @@ void test_gains(void)
 		Mach1EncodeInputModeType inputMode;
 		Mach1EncodeOutputModeType outputMode;
 		bool isotropicEncode;
-		bool autoOrbit;
 		float rotation;
 		float diverge;
 		float pitch;
+		bool autoOrbit;
 		float stereoSpread;
 		float stereoRotate;
 	};
@@ -108,15 +108,13 @@ void test_gains(void)
 
 		std::cout
 			<< "testing " << test.name << ", "
-			<< "" << inputModeNames[test.input.inputMode] << " > " << outputModeNames[test.input.outputMode]
+			<< inputModeNames[test.input.inputMode] << " > " << outputModeNames[test.input.outputMode]
 			<< std::endl;
 
 		bool passed = true;
 		for (size_t i = 0; i < gains.size(); i++) {
 			for (size_t j = 0; j < gains[i].size(); j++) {
-
-
-				bool check = abs(test.output.gains[i][j] - gains[i][j]) < 0.00001;
+				bool check = fabs(test.output.gains[i][j] - gains[i][j]) < 0.0001;
 				if (check == false) {
 					TEST_CHECK_(check, "%s pass. gain with index [%d][%d]", test.name.c_str(), i, j);
 					passed = check;

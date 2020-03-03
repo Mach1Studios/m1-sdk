@@ -5,6 +5,10 @@
 #include <math.h>
 #include <map>
 
+float mapFloat(float input, float inMin, float inMax, float outMin, float outMax){
+    return (input - inMin) / (inMax - inMin) * (outMax - outMin) + outMin;
+}
+
 void test_results(void)
 {
 	std::map<Mach1PlatformType, std::string> platformModeNames = {
@@ -31,12 +35,21 @@ void test_results(void)
 	struct INPUT_DATA {
 		Mach1PlatformType platformMode;
 		Mach1DecodeAlgoType outputMode;
-		float yaw;
-		float pitch;
-		float roll;
-		float posX;
-		float posY;
-		float posZ;
+		float listenerYaw;
+		float listenerPitch;
+		float listenerRoll;
+		float listenerPosX;
+		float listenerPosY;
+		float listenerPosZ;
+		float m1PosX;
+		float m1PosY;
+		float m1PosZ;
+		float m1Yaw;
+		float m1Pitch;
+		float m1Roll;
+		float scaleX;
+		float scaleY;
+		float scaleZ;
 		bool atttenuate;
 		bool planeMode;
 		bool blendMode;
@@ -63,7 +76,7 @@ void test_results(void)
 		TODO: add all other output modes
 		 */
 		{
-			"Case: MACH1SPATIAL | Y0P0R0",
+			"Case 1",
 			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.0, 0.0, 0.0, 0.0, 5.0, true, false, false, false, false, 1.0 },
 			{
 				{
@@ -75,12 +88,13 @@ void test_results(void)
 					0.0, 0.5,
 					0.0, 0.0,
 					0.0, 0.0,
+					1.0, 1.0,
 				},
 				5.0,
 			}
 		},
 		{
-			"Case: MACH1SPATIAL | Y90P0R0",
+			"Case 2",
 			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 90.0, 0.0, 0.0, 0.0, 0.0, 5.0, true, false, false, false, false, 1.0 },
 			{
 				{
@@ -92,6 +106,7 @@ void test_results(void)
 					0.5, 0.0,
 					0.0, 0.0,
 					0.0, 0.5,
+					1.0, 1.0,
 				},
 				5.0,
 			}
@@ -110,23 +125,53 @@ void test_results(void)
 		m1Decode.setPlatformType(test.input.platformMode);
 		m1Decode.setDecodeAlgoType(test.input.outputMode);
 		m1Decode.setFilterSpeed(test.input.filterSpeed);
+		m1Decode.setUseBlendMode(test.input.blendMode);
+		m1Decode.setIgnoreTopBottom(false);
+		m1Decode.setMuteWhenInsideObject(test.input.muteWhenInside);
+		m1Decode.setMuteWhenOutsideObject(test.input.muteWhenOutside);
+
+		m1Decode.setUseAttenuation(test.input.atttenuate);
+		m1Decode.setUsePlaneCalculation(test.input.planeMode);
+
+		m1Decode.setDecoderAlgoPosition(Mach1Point3D {test.input.m1PosX, test.input.m1PosY, test.input.m1PosZ});
+		m1Decode.setDecoderAlgoRotation(Mach1Point3D {test.input.m1Yaw, test.input.m1Pitch, test.input.m1Roll});
+		m1Decode.setDecoderAlgoScale(Mach1Point3D {test.input.scaleX, test.input.scaleY, test.input.scaleZ});
+		m1Decode.setListenerRotation(Mach1Point3D {test.input.listenerYaw, test.input.listenerPitch, test.input.listenerRoll});
+		m1Decode.setListenerPosition(Mach1Point3D {test.input.listenerPosX, test.input.listenerPosY, test.input.listenerPosZ});
+
+		m1Decode.setUseYawForRotation(true);
+		m1Decode.setUsePitchForRotation(true);
+		m1Decode.setUseRollForRotation(true);
+		//Distance Application:
+		float distance = m1Decode.getDist();
+
+		/*
+		 Mapping distance to arbitrary linear curve
+		 Design your own distance coefficient curve here
+		 This example: Linear curve of 100% -> 0% from 0 to 10 distance away
+		*/
+		float attenuation = mapFloat(distance, 0, 10, 1, 0);
 
 		m1Decode.evaluatePositionResults();
-
 		std::vector<float> results(20);
 		m1Decode.getCoefficients(results);
 
 		std::cout
-			<< "testing " << test.name << ", "
-			<< platformModeNames[test.input.platformMode] << " > " << outputModeNames[test.input.outputMode]
-			<< std::endl;
+			<< "testing " << test.name << ": "
+			<< platformModeNames[test.input.platformMode] << " > " << outputModeNames[test.input.outputMode] << ", "
+			<< "m1PosRot: " << test.input.m1PosX << "," << test.input.m1PosY << "," << test.input.m1PosZ << "|" << test.input.m1Yaw << "," << test.input.m1Pitch << "," << test.input.m1Roll
+			<< "ListenerPosRot: " << test.input.listenerYaw << "," << test.input.listenerPitch << "," << test.input.listenerRoll << "|" << test.input.listenerPosX << "," << test.input.listenerPosY << "," << test.input.listenerPosZ;
 
-		bool passed = true;
+		int counter = 0;
+
 		for (size_t i = 0; i < results.size(); i++) {
 			bool check = fabs(test.output.results[i] - results[i]) < 0.0001;
+			counter += check;
 			if (check == false) {
-				TEST_CHECK_(check, "%s Pass. Results with index [%d]", test.name.c_str(), i);
-				passed = check;
+				TEST_CHECK_(check, "%s | Error with index [%d]", test.name.c_str(), i);
+			}
+			if (counter == results.size()){
+				std::cout << "... " << "\033[1;32mpassed\033[0m\n";
 			}
 		}
 	}

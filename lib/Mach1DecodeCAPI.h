@@ -58,6 +58,8 @@ extern "C" {
 	M1_API void Mach1DecodeCAPI_beginBuffer(void* M1obj);
 	M1_API void Mach1DecodeCAPI_endBuffer(void* M1obj);
   
+	M1_API int Mach1DecodeCAPI_getOutputChannelsCount(void* M1obj);
+
 	M1_API long Mach1DecodeCAPI_getCurrentTime(void* M1obj);
 	M1_API long Mach1DecodeCAPI_getLastCalculationTime(void* M1obj);
 

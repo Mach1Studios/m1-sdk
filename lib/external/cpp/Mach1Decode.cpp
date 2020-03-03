@@ -53,7 +53,7 @@ void Mach1Decode::decode(float Yaw, float Pitch, float Roll, float * result, int
 
 std::vector<float> Mach1Decode::decode(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
 {
-	static std::vector<float> vec(18);
+	static std::vector<float> vec(Mach1DecodeCAPI_getOutputChannelsCount(M1obj));
 
 	Mach1DecodeCAPI_decode(M1obj, Yaw, Pitch, Roll, vec.data(), bufferSize, sampleIndex);
 

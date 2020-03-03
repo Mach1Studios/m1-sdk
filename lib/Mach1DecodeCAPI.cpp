@@ -73,6 +73,11 @@ void Mach1DecodeCAPI_endBuffer(void* M1obj)
 {
 	((Mach1DecodeCore*)M1obj)->endBuffer();
 }
+
+int Mach1DecodeCAPI_getOutputChannelsCount(void * M1obj)
+{
+	return ((Mach1DecodeCore*)M1obj)->getOutputChannelsCount();
+}
 	
 long Mach1DecodeCAPI_getCurrentTime(void * M1obj)
 {

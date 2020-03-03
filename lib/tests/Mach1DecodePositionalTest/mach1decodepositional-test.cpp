@@ -35,12 +35,12 @@ void test_results(void)
 	struct INPUT_DATA {
 		Mach1PlatformType platformMode;
 		Mach1DecodeAlgoType outputMode;
-		float listenerYaw;
-		float listenerPitch;
-		float listenerRoll;
 		float listenerPosX;
 		float listenerPosY;
 		float listenerPosZ;
+		float listenerYaw;
+		float listenerPitch;
+		float listenerRoll;
 		float m1PosX;
 		float m1PosY;
 		float m1PosZ;
@@ -76,8 +76,14 @@ void test_results(void)
 		TODO: add all other output modes
 		 */
 		{
-			"Case 1",
-			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.0, 0.0, 0.0, 0.0, 5.0, true, false, false, false, false, 1.0 },
+			"Case: 0 ",
+			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 
+				0.0, 0.0, 0.0, //listener pos
+				0.0, 0.0, 0.0, //listener rot
+				0.0, 0.0, 5.0, //m1 pos
+				0.0, 0.0, 0.0, //m1 rot
+				1.0, 1.0, 1.0, //m1 scale
+				false, false, false, false, false, 1.0 },
 			{
 				{
 					0.5, 0.0,
@@ -94,8 +100,14 @@ void test_results(void)
 			}
 		},
 		{
-			"Case 2",
-			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 90.0, 0.0, 0.0, 0.0, 0.0, 5.0, true, false, false, false, false, 1.0 },
+			"Case: 90 Yaw ",
+			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 
+				0.0, 0.0, 0.0, //listener pos
+				90.0, 0.0, 0.0, //listener rot
+				0.0, 0.0, 5.0, //m1 pos
+				0.0, 0.0, 0.0, //m1 rot
+				1.0, 1.0, 1.0, //m1 scale
+				false, false, false, false, false, 1.0 },
 			{
 				{
 					0.0, 0.0,
@@ -159,7 +171,7 @@ void test_results(void)
 		std::cout
 			<< "testing " << test.name << ": "
 			<< platformModeNames[test.input.platformMode] << " > " << outputModeNames[test.input.outputMode] << ", "
-			<< "m1PosRot: " << test.input.m1PosX << "," << test.input.m1PosY << "," << test.input.m1PosZ << "|" << test.input.m1Yaw << "," << test.input.m1Pitch << "," << test.input.m1Roll
+			<< "m1PosRot: " << test.input.m1PosX << "," << test.input.m1PosY << "," << test.input.m1PosZ << "|" << test.input.m1Yaw << "," << test.input.m1Pitch << "," << test.input.m1Roll << " || "
 			<< "ListenerPosRot: " << test.input.listenerYaw << "," << test.input.listenerPitch << "," << test.input.listenerRoll << "|" << test.input.listenerPosX << "," << test.input.listenerPosY << "," << test.input.listenerPosZ;
 
 		int counter = 0;

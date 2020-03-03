@@ -121,6 +121,8 @@ TODO: add more input tests with less rounded inputs
 			counter += check;
 			if (check == false) {
 				TEST_CHECK_(check, "%s | Error with index [%d]", test.name.c_str(), i);
+				std::cout << "index: [" << i << "]: " << results[i] << ", should be: " << test.output.results[i];
+				std::cout << std::endl;
 			}
 			if (counter == results.size()){
 				std::cout << "... " << "\033[1;32mpassed\033[0m\n";

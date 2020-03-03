@@ -274,6 +274,8 @@ LCR
 				counter += check;
 				if (check == false) {
 					TEST_CHECK_(check, "%s | Error with index [%d][%d]", test.name.c_str(), i, j);
+					std::cout << "index: [" << i << "][" << j << "]: " << results[i][j] << ", should be: " << test.output.results[i][j];
+					std::cout << std::endl;
 				}
 			}
 			if (counter == results[i].size()){

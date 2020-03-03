@@ -19,11 +19,11 @@ target_include_directories(Mach1DecodeTest PRIVATE "./include" ${Mach1DecodeCAPI
 install(TARGETS Mach1DecodeTest DESTINATION bin)
 install(CODE "execute_process(COMMAND ${CMAKE_INSTALL_PREFIX}/bin/Mach1DecodeTest)" )
 
-set(Mach1DecodePositionalCAPIsrc "../Mach1DecodePositionalCAPI.cpp" "../Mach1DecodePositionalCore.cpp" "../external/cpp/Mach1DecodePositional.cpp")
-set(Mach1DecodePositionalCAPIinclude "../" "../external/cpp")
+# set(Mach1DecodePositionalCAPIsrc "../Mach1DecodePositionalCAPI.cpp" "../Mach1DecodePositionalCore.cpp" "../external/cpp/Mach1DecodePositional.cpp")
+# set(Mach1DecodePositionalCAPIinclude "../" "../external/cpp")
 
-add_executable(Mach1DecodePositionalTest "./Mach1DecodePositionalTest/mach1decodepositional-test.cpp" ${Mach1DecodePositionalCAPIsrc})
-target_include_directories(Mach1DecodePositionalTest PRIVATE "./include" ${Mach1DecodePositionalCAPIinclude})
+# add_executable(Mach1DecodePositionalTest "./Mach1DecodePositionalTest/mach1decodepositional-test.cpp" ${Mach1DecodePositionalCAPIsrc})
+# target_include_directories(Mach1DecodePositionalTest PRIVATE "./include" ${Mach1DecodePositionalCAPIinclude})
 
-install(TARGETS Mach1DecodePositionalTest DESTINATION bin)
-install(CODE "execute_process(COMMAND ${CMAKE_INSTALL_PREFIX}/bin/Mach1DecodePositionalTest)" )
+# install(TARGETS Mach1DecodePositionalTest DESTINATION bin)
+# install(CODE "execute_process(COMMAND ${CMAKE_INSTALL_PREFIX}/bin/Mach1DecodePositionalTest)" )

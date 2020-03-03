@@ -19,14 +19,14 @@ void Mach1DecodeCAPI_delete(void * M1obj)
 	}
 }
 
-void Mach1DecodeCAPI_setDecodeAlgoType(void * M1obj, Mach1DecodeAlgoType newAlgorithmType)
+void Mach1DecodeCAPI_setDecodeAlgoType(void * M1obj, enum Mach1DecodeAlgoType newAlgorithmType)
 {
 	if (M1obj != nullptr) {
 		((Mach1DecodeCore*)M1obj)->setDecodeAlgoType(newAlgorithmType);
 	}
 }
 
-void Mach1DecodeCAPI_setPlatformType(void * M1obj, Mach1PlatformType type)
+void Mach1DecodeCAPI_setPlatformType(void * M1obj, enum Mach1PlatformType type)
 {
 	if (M1obj != nullptr) {
 		((Mach1DecodeCore*)M1obj)->setPlatformType(type);
@@ -52,7 +52,7 @@ Mach1PlatformType Mach1DecodeCAPI_getPlatformType(void * M1obj)
 void Mach1DecodeCAPI_decode(void * M1obj, float Yaw, float Pitch, float Roll, float * result, int bufferSize, int sampleIndex)
 {
 	// clear
-	for (int i = 0; i < 18; i++) result[i] = 0;
+	for (int i = 0; i < ((Mach1DecodeCore*)M1obj)->getOutputChannelsCount(); i++) result[i] = 0;
 
 	if (M1obj != nullptr) {
 		((Mach1DecodeCore*)M1obj)->decode(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);

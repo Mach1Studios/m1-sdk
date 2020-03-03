@@ -189,7 +189,7 @@ TODO: add all other output modes
  */
 		{
 			"Encode",
-			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputMode8Ch, true, 0.0, 0.0, 0.0, true, 0.0, 0.0 },
+			{ Mach1EncodeInputModeQuad, Mach1EncodeOutputMode8Ch, true, 0.0, 0.0, 0.0, true, 0.0, 0.0 },
 			{
 				{
 					{ 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125 },
@@ -201,7 +201,7 @@ TODO: add all other output modes
 		},
 		{
 			"Encode Diverge",
-			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputMode8Ch, true, 0.0, 1.0, 0.0, true, 0.0, 0.0 },
+			{ Mach1EncodeInputModeQuad, Mach1EncodeOutputMode8Ch, true, 0.0, 1.0, 0.0, true, 0.0, 0.0 },
 			{
 				{
 					{ 0.5, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0 },
@@ -213,7 +213,7 @@ TODO: add all other output modes
 		},
 		{
 			"Encode Height",
-			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputMode8Ch, true, 0.0, 1.0, 90.0, true, 0.0, 0.0 },
+			{ Mach1EncodeInputModeQuad, Mach1EncodeOutputMode8Ch, true, 0.0, 1.0, 90.0, true, 0.0, 0.0 },
 			{
 				{
 					{ 0.0, 0.5, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0 },

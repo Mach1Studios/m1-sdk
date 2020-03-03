@@ -8,28 +8,28 @@
 void test_results(void)
 {
 	std::map<Mach1EncodeInputModeType, std::string> inputModeNames = {
-		{ Mach1EncodeInputModeMono , "Mono" },
-		{ Mach1EncodeInputModeStereo , "Stereo" },
-		{ Mach1EncodeInputModeQuad , "Quad" },
+		{ Mach1EncodeInputModeMono , "MONO" },
+		{ Mach1EncodeInputModeStereo , "STEREO" },
+		{ Mach1EncodeInputModeQuad , "QUAD" },
 		{ Mach1EncodeInputModeLCRS , "LCRS" },
-		{ Mach1EncodeInputModeAFormat , "AFormat" },
-		{ Mach1EncodeInputModeBFormat , "BFormat" },
-		{ Mach1EncodeInputModeBFOAACN , "BFOAACN" },
-		{ Mach1EncodeInputModeBFOAFUMA , "BFOAFUMA" },
-		{ Mach1EncodeInputModeB2OAACN , "B2OAACN" },
-		{ Mach1EncodeInputModeB2OAFUMA , "B2OAFUMA" },
-		{ Mach1EncodeInputModeB3OAACN , "B3OAACN" },
-		{ Mach1EncodeInputModeB3OAFUMA , "B3OAFUMA" },
+		{ Mach1EncodeInputModeAFormat , "AFORMAT" },
+		{ Mach1EncodeInputModeBFormat , "1OA-ACN-DEPRE" },
+		{ Mach1EncodeInputModeBFOAACN , "1OA-ACN" },
+		{ Mach1EncodeInputModeBFOAFUMA , "1OA-FUMA" },
+		{ Mach1EncodeInputModeB2OAACN , "2OA-ACN" },
+		{ Mach1EncodeInputModeB2OAFUMA , "2OA-FUMA" },
+		{ Mach1EncodeInputModeB3OAACN , "3OA-ACN" },
+		{ Mach1EncodeInputModeB3OAFUMA , "3OA-FUMA" },
 		{ Mach1EncodeInputModeLCR , "LCR" },
 	};
 
 	std::map<Mach1EncodeOutputModeType, std::string> outputModeNames = {
-		{ Mach1EncodeOutputMode4Ch , "4Ch" },
-		{ Mach1EncodeOutputMode8Ch , "8Ch" },
-		{ Mach1EncodeOutputMode12Ch , "12Ch" },
-		{ Mach1EncodeOutputMode14Ch , "14Ch" },
-		{ Mach1EncodeOutputMode16Ch , "16Ch" },
-		{ Mach1EncodeOutputMode18Ch , "18Ch" },
+		{ Mach1EncodeOutputMode4Ch , "MACH1HORIZON" },
+		{ Mach1EncodeOutputMode8Ch , "MACH1SPATIAL" },
+		{ Mach1EncodeOutputMode12Ch , "MACH1SPATIAL+" },
+		{ Mach1EncodeOutputMode14Ch , "MACH1SPATIAL++" },
+		{ Mach1EncodeOutputMode16Ch , "MACH1SPATIALEXT" },
+		{ Mach1EncodeOutputMode18Ch , "MACH1SPATIALEXT+" },
 	};
 
 	struct INPUT_DATA {
@@ -61,7 +61,7 @@ TODO: add more input tests with less rounded inputs
 TODO: add all other output modes
  */
 		{
-			"Case: Encode MONO -> MACH1HORIZON",
+			"Encode",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode4Ch, true, 0.0, 0.0, 0.0, true, 0.0, 0.0 },
 			{
 				{
@@ -70,7 +70,7 @@ TODO: add all other output modes
 			}
 		},
 		{
-			"Case: Encode MONO -> MACH1HORIZON | Diverge",
+			"Encode Diverge",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode4Ch, true, 0.0, 1.0, 0.0, true, 0.0, 0.0 },
 			{
 				{
@@ -79,7 +79,7 @@ TODO: add all other output modes
 			}
 		},
 		{
-			"Case: Encode MONO -> MACH1HORIZON | Rotation",
+			"Encode Rotation",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode4Ch, true, 90.0, 1.0, 0.0, true, 0.0, 0.0 },
 			{
 				{
@@ -92,7 +92,7 @@ MONO - MACH1SPATIAL
 TODO: add more input tests with less rounded inputs
  */
 		{
-			"Case: Encode MONO -> MACH1SPATIAL",
+			"Encode",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, 0.0, 0.0, 0.0, true, 0.0, 0.0 },
 			{
 				{
@@ -101,7 +101,7 @@ TODO: add more input tests with less rounded inputs
 			}
 		},
 		{
-			"Case: Encode MONO -> MACH1SPATIAL | Diverge",
+			"Encode Diverge",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, 0.0, 1.0, 0.0, true, 0.0, 0.0 },
 			{
 				{
@@ -110,7 +110,7 @@ TODO: add more input tests with less rounded inputs
 			}
 		},
 		{
-			"Case: Encode MONO -> MACH1SPATIAL | Rotation",
+			"Encode Rotation",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, 90.0, 1.0, 0.0, true, 0.0, 0.0 },
 			{
 				{
@@ -119,7 +119,7 @@ TODO: add more input tests with less rounded inputs
 			}
 		},
 		{
-			"Case: Encode MONO -> MACH1SPATIAL | Height",
+			"Encode Height",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, 90.0, 1.0, 90.0, true, 0.0, 0.0 },
 			{
 				{
@@ -133,7 +133,7 @@ TODO: add more input tests with less rounded inputs
 TODO: add all other output modes
  */
 		{
-			"Case: Encode STEREO -> MACH1SPATIAL",
+			"Encode",
 			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputMode8Ch, true, 0.0, 0.0, 0.0, true, 0.0, 0.0 },
 			{
 				{
@@ -143,7 +143,7 @@ TODO: add all other output modes
 			}
 		},
 		{
-			"Case: Encode STEREO -> MACH1SPATIAL | Diverge",
+			"Encode Diverge",
 			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputMode8Ch, true, 0.0, 1.0, 0.0, true, 0.0, 0.0 },
 			{
 				{
@@ -153,7 +153,7 @@ TODO: add all other output modes
 			}
 		},
 		{
-			"Case: Encode STEREO -> MACH1SPATIAL | Height",
+			"Encode Height",
 			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputMode8Ch, true, 0.0, 1.0, 90.0, true, 0.0, 0.0 },
 			{
 				{
@@ -163,7 +163,7 @@ TODO: add all other output modes
 			}
 		},
 		{
-			"Case: Encode STEREO -> MACH1SPATIAL | Stereo Spread",
+			"Encode Stereo Spread",
 			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputMode8Ch, true, 0.0, 1.0, 0.0, true, 1.0, 0.0 },
 			{
 				{
@@ -173,7 +173,7 @@ TODO: add all other output modes
 			}
 		},
 		{
-			"Case: Encode STEREO -> MACH1SPATIAL | Stereo Rotation",
+			"Encode Stereo Rotation",
 			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputMode8Ch, true, 0.0, 1.0, 0.0, false, 1.0, 90.0 },
 			{
 				{
@@ -188,7 +188,7 @@ TODO: add more input tests with less rounded inputs
 TODO: add all other output modes
  */
 		{
-			"Case: Encode QUAD -> MACH1SPATIAL",
+			"Encode",
 			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputMode8Ch, true, 0.0, 0.0, 0.0, true, 0.0, 0.0 },
 			{
 				{
@@ -200,7 +200,7 @@ TODO: add all other output modes
 			}
 		},
 		{
-			"Case: Encode QUAD -> MACH1SPATIAL | Diverge",
+			"Encode Diverge",
 			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputMode8Ch, true, 0.0, 1.0, 0.0, true, 0.0, 0.0 },
 			{
 				{
@@ -212,7 +212,7 @@ TODO: add all other output modes
 			}
 		},
 		{
-			"Case: Encode QUAD -> MACH1SPATIAL | Height",
+			"Encode Height",
 			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputMode8Ch, true, 0.0, 1.0, 90.0, true, 0.0, 0.0 },
 			{
 				{
@@ -263,18 +263,21 @@ LCR
 		auto results = m1Encode.getGains();
 
 		std::cout
-			<< "testing " << test.name << ", "
-			<< inputModeNames[test.input.inputMode] << " > " << outputModeNames[test.input.outputMode]
-			<< std::endl;
+			<< "testing " << test.name << ": "
+			<< inputModeNames[test.input.inputMode] << " > " << outputModeNames[test.input.outputMode];
 
-		bool passed = true;
+		int counter = 0;
+
 		for (size_t i = 0; i < results.size(); i++) {
 			for (size_t j = 0; j < results[i].size(); j++) {
 				bool check = fabs(test.output.results[i][j] - results[i][j]) < 0.0001;
+				counter += check;
 				if (check == false) {
-					TEST_CHECK_(check, "%s Pass. Results with index [%d][%d]", test.name.c_str(), i, j);
-					passed = check;
+					TEST_CHECK_(check, "%s | Results with index [%d][%d]", test.name.c_str(), i, j);
 				}
+			}
+			if (counter == results[i].size()){
+				std::cout << "... " << "\033[1;32mpassed\033[0m\n";
 			}
 		}
 	}

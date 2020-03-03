@@ -22,7 +22,7 @@ install(CODE "execute_process(COMMAND ${CMAKE_INSTALL_PREFIX}/bin/Mach1DecodeTes
 set(Mach1DecodePositionalCAPIsrc "../Mach1DecodePositionalCAPI.cpp" "../Mach1DecodePositionalCore.cpp" "../external/cpp/Mach1DecodePositional.cpp")
 set(Mach1DecodePositionalCAPIinclude "../" "../external/cpp")
 
-add_executable(Mach1DecodePositionalTest "./Mach1DecodePositionalTest/mach1decodePositional-test.cpp" ${Mach1DecodePositionalCAPIsrc})
+add_executable(Mach1DecodePositionalTest "./Mach1DecodePositionalTest/mach1decodepositional-test.cpp" ${Mach1DecodePositionalCAPIsrc})
 target_include_directories(Mach1DecodePositionalTest PRIVATE "./include" ${Mach1DecodePositionalCAPIinclude})
 
 install(TARGETS Mach1DecodePositionalTest DESTINATION bin)

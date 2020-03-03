@@ -67,6 +67,7 @@ TODO: add all other output modes
 						0.0, 0.5,
 						0.0, 0.0,
 						0.0, 0.0,
+						1.0, 1.0,
 					},
 				},
 			}
@@ -85,6 +86,7 @@ TODO: add all other output modes
 						0.5, 0.0,
 						0.0, 0.0,
 						0.0, 0.5,
+						1.0, 1,0,
 					},
 				},
 			}
@@ -109,16 +111,19 @@ TODO: add more input tests with less rounded inputs
         m1Decode.endBuffer();
 
 		std::cout
-			<< "testing " << test.name << ", "
-			<< platformModeNames[test.input.platformMode] << " > " << outputModeNames[test.input.outputMode]
-			<< std::endl;
+			<< "testing " << test.name << ": "
+			<< platformModeNames[test.input.platformMode] << " > " << outputModeNames[test.input.outputMode];
 
-		bool passed = true;
+		int counter = 0;
+
 		for (size_t i = 0; i < results.size(); i++) {
 			bool check = fabs(test.output.results[i] - results[i]) < 0.0001;
+			counter += check;
 			if (check == false) {
-				TEST_CHECK_(check, "%s Pass. Results with index [%d]", test.name.c_str(), i);
-				passed = check;
+				TEST_CHECK_(check, "%s | Error with index [%d]", test.name.c_str(), i);
+			}
+			if (counter == results.size()){
+				std::cout << "... " << "\033[1;32mpassed\033[0m\n";
 			}
 		}
 	}

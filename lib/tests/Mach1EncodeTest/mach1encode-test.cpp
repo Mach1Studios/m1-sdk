@@ -273,7 +273,7 @@ LCR
 				bool check = fabs(test.output.results[i][j] - results[i][j]) < 0.0001;
 				counter += check;
 				if (check == false) {
-					TEST_CHECK_(check, "%s | Results with index [%d][%d]", test.name.c_str(), i, j);
+					TEST_CHECK_(check, "%s | Error with index [%d][%d]", test.name.c_str(), i, j);
 				}
 			}
 			if (counter == results[i].size()){

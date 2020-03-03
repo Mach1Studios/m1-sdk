@@ -49,7 +49,7 @@ void test_results(void)
 		std::vector<float> results;
 		float distance;
 	};
-	
+
 	struct CASE {
 		std::string name;
 		INPUT_DATA input;
@@ -57,28 +57,26 @@ void test_results(void)
 	};
 
 	std::vector<CASE> cases = {
-/*
-DECODE TESTING
-TODO: add more input tests with less rounded inputs
-TODO: add all other output modes
- */
+		/*
+		POSITIONAL TESTING
+		TODO: add more input tests with less rounded inputs
+		TODO: add all other output modes
+		 */
 		{
 			"Case: MACH1SPATIAL | Y0P0R0",
 			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.0, 0.0, 0.0, 0.0, 5.0, true, false, false, false, false, 1.0 },
 			{
 				{
-					{ 
-						0.5, 0.0,
-						0.0, 0.5,
-						0.0, 0.0,
-						0.0, 0.0,
-						0.5, 0.0,
-						0.0, 0.5,
-						0.0, 0.0,
-						0.0, 0.0,
-					},
-					{ 5.0 },
+					0.5, 0.0,
+					0.0, 0.5,
+					0.0, 0.0,
+					0.0, 0.0,
+					0.5, 0.0,
+					0.0, 0.5,
+					0.0, 0.0,
+					0.0, 0.0,
 				},
+				5.0,
 			}
 		},
 		{
@@ -86,38 +84,37 @@ TODO: add all other output modes
 			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 90.0, 0.0, 0.0, 0.0, 0.0, 5.0, true, false, false, false, false, 1.0 },
 			{
 				{
-					{ 
-						0.0, 0.0,
-						0.5, 0.0,
-						0.0, 0.0,
-						0.0, 0.5,
-						0.0, 0.0,
-						0.5, 0.0,
-						0.0, 0.0,
-						0.0, 0.5,
-					},
-					{ 5.0 },
+					0.0, 0.0,
+					0.5, 0.0,
+					0.0, 0.0,
+					0.0, 0.5,
+					0.0, 0.0,
+					0.5, 0.0,
+					0.0, 0.0,
+					0.0, 0.5,
 				},
+				5.0,
 			}
 		},
-/*
-PLATFORM TESTING
-TODO: add more input tests with less rounded inputs
- */
+		/*
+		PLATFORM TESTING
+		TODO: add more input tests with less rounded inputs
+		 */
 	};
 
 	std::cout << std::endl;
 
 	for (auto test : cases) {
-		Mach1Decode m1Decode;
+		Mach1DecodePositional m1Decode;
 
 		m1Decode.setPlatformType(test.input.platformMode);
 		m1Decode.setDecodeAlgoType(test.input.outputMode);
 		m1Decode.setFilterSpeed(test.input.filterSpeed);
 
-		m1Decode.beginBuffer();
-        auto results = m1Decode.decode(test.input.yaw, test.input.pitch, test.input.roll, 0, 0);
-        m1Decode.endBuffer();
+		m1Decode.evaluatePositionResults();
+
+		std::vector<float> results(20);
+		m1Decode.getCoefficients(results);
 
 		std::cout
 			<< "testing " << test.name << ", "

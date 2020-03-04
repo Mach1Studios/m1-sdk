@@ -198,16 +198,21 @@ void M1EncodeCore::generatePointResults() {
 
 		std::vector<std::string> names = { "L", "R" };
 		std::vector<M1EncodeCorePoint> pnts = {
-			{ centerpoint.x + cos((sRotationInRadians)) * sSpread, pitch, centerpoint.z + sin((sRotationInRadians)) * sSpread },
-			{ centerpoint.x - cos((sRotationInRadians)) * sSpread, pitch, centerpoint.z - sin((sRotationInRadians)) * sSpread }
+			{ cos((sRotationInRadians)) * sSpread, 0, sin((sRotationInRadians)) * sSpread },
+			{ -cos((sRotationInRadians)) * sSpread, 0, - sin((sRotationInRadians)) * sSpread }
 		};
 
 		for (int i = 0; i < resultingPoints.pointsCount; i++)
 		{
 			resultingPoints.pointsNames[i] = names[i];
-			resultingPoints.ppoints[i] = pnts[i];
 			if (outputMode == OUTPUT_HORIZON_4CH) {
-				resultingPoints.ppoints[i].y = 0;
+				resultingPoints.ppoints[i] = pnts[i] + centerpoint;
+			}
+			else if (isotropicEncode) {
+				resultingPoints.ppoints[i] = pnts[i] + M1EncodeCorePoint { centerpoint.x * sin((pitch + 1) * PI / 2), pitch, centerpoint.z * sin((pitch + 1) * PI / 2) };
+			}
+			else {
+				resultingPoints.ppoints[i] = pnts[i] + M1EncodeCorePoint { centerpoint.x, pitch, centerpoint.z };
 			}
 		}
 	}

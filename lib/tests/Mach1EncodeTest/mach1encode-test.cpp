@@ -250,9 +250,10 @@ LCR
 
 		m1Encode.setIsotropicEncode(test.input.isotropicEncode);
 
-		m1Encode.setRotation(test.input.azimuth);
-		m1Encode.setDiverge(test.input.diverge);
-		m1Encode.setPitch(test.input.elevation);
+		m1Encode.setRotation(test.input.azimuth / 360. + 0.5);
+
+		m1Encode.setDiverge(test.input.diverge );
+		m1Encode.setPitch(test.input.elevation / 180 + 0.5);
 
 		m1Encode.setAutoOrbit(test.input.autoOrbit);
 		m1Encode.setStereoSpread(test.input.stereoSpread);
@@ -264,7 +265,7 @@ LCR
 
 		std::cout
 			<< "testing " << test.name << ": "
-			<< inputModeNames[test.input.inputMode] << " > " << outputModeNames[test.input.outputMode];
+			<< inputModeNames[test.input.inputMode] << " > " << outputModeNames[test.input.outputMode] << std::endl;
 
 		int counter = 0;
 
@@ -279,7 +280,7 @@ LCR
 				}
 			}
 			if (counter == results[i].size()){
-				std::cout << "... " << "\033[1;32mpassed\033[0m\n";
+				std::cout << "... " << "\033[1;32mpassed\033[0m\n" << std::endl;
 			}
 		}
 	}

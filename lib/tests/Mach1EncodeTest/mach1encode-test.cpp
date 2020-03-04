@@ -36,9 +36,9 @@ void test_results(void)
 		Mach1EncodeInputModeType inputMode;
 		Mach1EncodeOutputModeType outputMode;
 		bool isotropicEncode;
-		float rotation;
+		float azimuth;
 		float diverge;
-		float pitch;
+		float elevation;
 		bool autoOrbit;
 		float stereoSpread;
 		float stereoRotate;
@@ -250,9 +250,9 @@ LCR
 
 		m1Encode.setIsotropicEncode(test.input.isotropicEncode);
 
-		m1Encode.setRotation(test.input.rotation);
+		m1Encode.setRotation(test.input.azimuth);
 		m1Encode.setDiverge(test.input.diverge);
-		m1Encode.setPitch(test.input.pitch);
+		m1Encode.setPitch(test.input.elevation);
 
 		m1Encode.setAutoOrbit(test.input.autoOrbit);
 		m1Encode.setStereoSpread(test.input.stereoSpread);

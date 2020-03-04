@@ -89,7 +89,7 @@ void M1EncodeCore::processGains8Channels(float x, float y, float z, float(&resul
 
 M1EncodeCore::M1EncodeCore() {
 	inputMode = InputMode::INPUT_MONO;
-	outputMode = OutputMode::OUTPUT_8CH;
+	outputMode = OutputMode::OUTPUT_SPATIAL_8CH;
 
 	rotation = 0;
 	diverge = 0;
@@ -171,7 +171,7 @@ void M1EncodeCore::generatePointResults() {
 		resultingPoints.pointsCount = 1;
 		resultingPoints.pointsNames[0] = "M";
 
-		if (outputMode == OUTPUT_4CH) {
+		if (outputMode == OUTPUT_HORIZON_4CH) {
 			resultingPoints.ppoints[0] = { centerpoint.x, 0, centerpoint.z };
 		}
 		else
@@ -206,7 +206,7 @@ void M1EncodeCore::generatePointResults() {
 		{
 			resultingPoints.pointsNames[i] = names[i];
 			resultingPoints.ppoints[i] = pnts[i];
-			if (outputMode == OUTPUT_4CH) {
+			if (outputMode == OUTPUT_HORIZON_4CH) {
 				resultingPoints.ppoints[i].y = 0;
 			}
 		}
@@ -227,7 +227,7 @@ void M1EncodeCore::generatePointResults() {
 		{
 			resultingPoints.pointsNames[i] = names[i];
 			resultingPoints.ppoints[i] = pnts[i];
-			if (outputMode == OUTPUT_4CH) {
+			if (outputMode == OUTPUT_HORIZON_4CH) {
 				resultingPoints.ppoints[i].y = 0;
 			}
 		}
@@ -250,7 +250,7 @@ void M1EncodeCore::generatePointResults() {
 		{
 			resultingPoints.pointsNames[i] = names[i];
 			resultingPoints.ppoints[i] = pnts[i];
-			if (outputMode == OUTPUT_4CH) {
+			if (outputMode == OUTPUT_HORIZON_4CH) {
 				resultingPoints.ppoints[i].y = 0;
 			}
 		}
@@ -272,13 +272,13 @@ void M1EncodeCore::generatePointResults() {
 		{
 			resultingPoints.pointsNames[i] = names[i];
 			resultingPoints.ppoints[i] = pnts[i];
-			if (outputMode == OUTPUT_4CH) {
+			if (outputMode == OUTPUT_HORIZON_4CH) {
 				resultingPoints.ppoints[i].y = 0;
 			}
 		}
 
 	}
-	else if (inputMode == INPUT_BFORMAT || inputMode == INPUT_FOAACN) { // duplicate?
+	else if (inputMode == INPUT_BFORMAT || inputMode == INPUT_1OAACN) { // duplicate?
 
 		resultingPoints.pointsCount = 7;
 
@@ -303,13 +303,13 @@ void M1EncodeCore::generatePointResults() {
 		{
 			resultingPoints.pointsNames[i] = names[i];
 			resultingPoints.ppoints[i] = pnts[i];
-			if (outputMode == OUTPUT_4CH) { 
+			if (outputMode == OUTPUT_HORIZON_4CH) { 
 				resultingPoints.ppoints[i].y = 0;
 			}
 		}
 
 	}
-	else if (inputMode == INPUT_FOAFUMA) {
+	else if (inputMode == INPUT_1OAFUMA) {
 
 		resultingPoints.pointsCount = 7;
 
@@ -328,7 +328,7 @@ void M1EncodeCore::generatePointResults() {
 		{
 			resultingPoints.pointsNames[i] = names[i];
 			resultingPoints.ppoints[i] = pnts[i];
-			if (outputMode == OUTPUT_4CH) {
+			if (outputMode == OUTPUT_HORIZON_4CH) {
 				resultingPoints.ppoints[i].y = 0;
 			}
 		}
@@ -360,7 +360,7 @@ void M1EncodeCore::generatePointResults() {
 		{
 			resultingPoints.pointsNames[i] = names[i];
 			resultingPoints.ppoints[i] = pnts[i];
-			if (outputMode == OUTPUT_4CH) {
+			if (outputMode == OUTPUT_HORIZON_4CH) {
 				resultingPoints.ppoints[i].y = 0;
 			}
 		}
@@ -381,7 +381,7 @@ void M1EncodeCore::generatePointResults() {
 		{
 			resultingPoints.pointsNames[i] = names[i];
 			resultingPoints.ppoints[i] = pnts[i];
-			if (outputMode == OUTPUT_4CH) {
+			if (outputMode == OUTPUT_HORIZON_4CH) {
 				resultingPoints.ppoints[i].y = 0;
 			}
 		}
@@ -408,7 +408,7 @@ void M1EncodeCore::generatePointResults() {
 		resultingPoints.gains[i].resize(getOutputChannelsCount());
 
 		// Generating gains for 4 channel output
-		if (outputMode == OUTPUT_4CH) {
+		if (outputMode == OUTPUT_HORIZON_4CH) {
 			float gains[4];
 			processGains4Channels(resultingPoints.ppoints[i].x,
 				resultingPoints.ppoints[i].z, gains);
@@ -418,7 +418,7 @@ void M1EncodeCore::generatePointResults() {
 		}
 
 		// Generating gains for 8 channel output
-		if (outputMode == OUTPUT_8CH) {
+		if (outputMode == OUTPUT_SPATIAL_8CH) {
 			float gains[8];
 			processGains8Channels(resultingPoints.ppoints[i].x,
 				resultingPoints.ppoints[i].z,
@@ -550,12 +550,12 @@ M1EncodeCore::OutputMode M1EncodeCore::getOutputMode() {
 
 int M1EncodeCore::getOutputChannelsCount() {
 	switch (outputMode) {
-		case OUTPUT_4CH: return 4;
-		case OUTPUT_8CH: return 8;
-		case OUTPUT_12CH: return 12;
-		case OUTPUT_14CH: return 14;
-		case OUTPUT_16CH: return 16;
-		case OUTPUT_18CH: return 18;
+		case OUTPUT_HORIZON_4CH: return 4;
+		case OUTPUT_SPATIAL_8CH: return 8;
+		case OUTPUT_SPATIALPLUS_12CH: return 12;
+		case OUTPUT_SPATIALPLUSPLUS_14CH: return 14;
+		case OUTPUT_SPATIALEXT_16CH: return 16;
+		case OUTPUT_SPATIALEXTPLUS_18CH: return 18;
 	}
 	return 0;
 }

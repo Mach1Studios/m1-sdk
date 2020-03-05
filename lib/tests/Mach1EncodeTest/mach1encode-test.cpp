@@ -79,11 +79,29 @@ TODO: add all other output modes
 			}
 		},
 		{
-			"Encode Rotation",
+			"Encode Rotation 90",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode4Ch, true, 90.0, 1.0, 0.0, true, 0.0, 0.0 },
 			{
 				{
 					{ 0.0, 0.5, 0.0, 0.5 },
+				},
+			}
+		},
+		{
+			"Encode Rotation 180",
+			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode4Ch, true, 180.0, 1.0, 0.0, true, 0.0, 0.0 },
+			{
+				{
+					{ 0.0, 0.0, 0.5, 0.5 },
+				},
+			}
+		},
+		{
+			"Encode Rotation 270",
+			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode4Ch, true, 270.0, 1.0, 0.0, true, 0.0, 0.0 },
+			{
+				{
+					{ 0.5, 0.0, 0.5, 0.0 },
 				},
 			}
 		},
@@ -110,11 +128,29 @@ TODO: add more input tests with less rounded inputs
 			}
 		},
 		{
-			"Encode Rotation",
+			"Encode Rotation 90",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, 90.0, 1.0, 0.0, true, 0.0, 0.0 },
 			{
 				{
 					{ 0.0, 0.25, 0.0, 0.25, 0.0, 0.25, 0.0, 0.25 },
+				},
+			}
+		},
+		{
+			"Encode Rotation 180",
+			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, 180.0, 1.0, 0.0, true, 0.0, 0.0 },
+			{
+				{
+					{ 0.0, 0.0, 0.25, 0.25, 0.0, 0.0, 0.25, 0.25 },
+				},
+			}
+		},
+		{
+			"Encode Rotation 270",
+			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, 270.0, 1.0, 0.0, true, 0.0, 0.0 },
+			{
+				{
+					{ 0.25, 0.0, 0.25, 0.0, 0.25, 0.0, 0.25, 0.0 },
 				},
 			}
 		},
@@ -124,6 +160,24 @@ TODO: add more input tests with less rounded inputs
 			{
 				{
 					{ 0.25, 0.25, 0.25, 0.25, 0.0, 0.0, 0.0, 0.0 },
+				},
+			}
+		},
+		{
+			"Encode Periphonic Height",
+			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, false, 0.0, 1.0, 90.0, true, 0.0, 0.0 },
+			{
+				{
+					{ 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 },
+				},
+			}
+		},
+		{
+			"Encode Periphonic Height Corner",
+			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, false, 45.0, 1.0, 90.0, true, 0.0, 0.0 },
+			{
+				{
+					{ 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 },
 				},
 			}
 		},

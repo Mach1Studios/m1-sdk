@@ -172,12 +172,12 @@ void M1EncodeCore::generatePointResults() {
 		resultingPoints.pointsNames[0] = "M";
 
 		if (outputMode == OUTPUT_HORIZON_4CH) {
-			resultingPoints.ppoints[0] = { centerpoint.x, 0, centerpoint.z };
+			resultingPoints.ppoints[0] = centerpoint;
 		}
 		else
 		{
 			if (isotropicEncode) {
-				resultingPoints.ppoints[0] = { centerpoint.x * sin((-pitch + 1) * PI /2), cos((-pitch + 1) * PI / 2) * normalisedOutputDiverge, centerpoint.z * sin((-pitch + 1) * PI / 2) };
+				resultingPoints.ppoints[0] = { centerpoint.x * sin((-pitch + 1) * PI / 2), cos((-pitch + 1) * PI / 2) * normalisedOutputDiverge, centerpoint.z * sin((-pitch + 1) * PI / 2) };
 			}
 			else {
 				resultingPoints.ppoints[0] = { centerpoint.x, pitch, centerpoint.z };

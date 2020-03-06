@@ -32,6 +32,9 @@ public:
 	Mach1EncodeOutputModeType getOutputMode();
 	int getOutputChannelsCount();
 
+	template<typename T>
+	void encodeBuffer(std::vector< std::vector<T>> inBuffer, std::vector< std::vector<T>> outBuffer, int bufferSize);
+
 	void setInputMode(Mach1EncodeInputModeType inputMode);
 	void setOutputMode(Mach1EncodeOutputModeType outputMode);
 	void setRotation(float rotation);

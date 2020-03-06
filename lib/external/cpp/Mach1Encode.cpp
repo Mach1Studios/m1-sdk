@@ -133,6 +133,24 @@ int Mach1Encode::getOutputChannelsCount()
 	return Mach1EncodeCAPI_getOutputChannelsCount(M1obj);
 }
 
+template<typename T>
+void Mach1Encode::encodeBuffer(std::vector< std::vector<T>> inBuffer, std::vector< std::vector<T>> outBuffer, int bufferSize)
+{
+	generatePointResults();
+	auto gains = getGains();
+
+	T value; 
+	for (size_t c = 0; c < getOutputChannelsCount(); c++) {
+		for (size_t i = 0; i < bufferSize; i++) {
+			value = 0;
+			for (size_t p = 0; p < getPointsCount(); p++) {
+				value += inBuffer[p][i] * gains[p][c];
+			}
+			outBuffer[c][i] = value;
+		}
+	}
+}
+
 void Mach1Encode::setInputMode(Mach1EncodeInputModeType inputMode)
 {
 	Mach1EncodeCAPI_setInputMode(M1obj, inputMode);

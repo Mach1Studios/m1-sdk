@@ -42,20 +42,33 @@ public:
 	void setOutputMode(Mach1EncodeOutputModeType outputMode);
 
 #if __cplusplus > 201103L
-	[[deprecated("setRotation is deprecated, please use setRotationDegrees instead")]]
+	[[deprecated("setRotation is deprecated due to ambiguity of use, please use setAzimuth0to1, setAzimuthDegrees or setAzimuthRadians instead")]]
 #endif
 	void setRotation(float rotation);
-	
-	void setRotationDegrees(float rotation);
-	void setRotationRadians(float rotation);
-	void setRotation0to1(float rotation);
-	
+	void setAzimuthDegrees(float azimuth);
+	void setAzimuthRadians(float azimuth);
+	void setAzimuth0to1(float azimuth);
+
+#if __cplusplus > 201103L
+	[[deprecated("setPitch is deprecated due to ambiguity of use, please use setElevation0to1, setStereoRotationDegrees or setStereoRotationRadians instead")]]
+#endif
+	void setPitch(float pitch);
+	void setElevationDegrees(float elevation);
+	void setElevationRadians(float elevation);
+	void setElevation0to1(float elevation);
+
+	void setIsotropicEncode(bool isotropicEncode);
+
+#if __cplusplus > 201103L
+	[[deprecated("setStereoRotate is deprecated due to ambiguity of use, please use setOrbitRotation0to1, setOrbitRotationDegrees or setOrbitRotationRadians instead")]]
+#endif
+	void setStereoRotate(float sRotate);
+	void setOrbitRotationDegrees(float orbitRotation);
+	void setOrbitRotationRadians(float orbitRotation);
+	void setOrbitRotation0to1(float orbitRotation);
 
 	void setDiverge(float diverge);
-	void setPitch(float pitch);
-	void setStereoRotate(float sRotate);
 	void setStereoSpread(float sSpread);
 	void setAutoOrbit(bool autoOrbit);
-	void setIsotropicEncode(bool isotropicEncode);
 };
 

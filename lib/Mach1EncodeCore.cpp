@@ -91,14 +91,14 @@ M1EncodeCore::M1EncodeCore() {
 	inputMode = InputMode::INPUT_MONO;
 	outputMode = OutputMode::OUTPUT_SPATIAL_8CH;
 
-	rotation = 0;
+	azimuth = 0;
 	diverge = 0;
-	pitch = 0;
+	elevation = 0;
+	isotropicEncode = true; 
 
-	sRotate = 0;
+	orbitRotation = 0;
 	sSpread = 0;
 	autoOrbit = false;
-	isotropicEncode = true; 
 
 	ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 	timeLastCalculation = 0;
@@ -164,7 +164,7 @@ void M1EncodeCore::generatePointResults() {
 	long tStart = getCurrentTime();
 
 	float normalisedOutputDiverge = diverge * (1 / cos(PI * 0.25f));
-	M1EncodeCorePoint centerpoint = { cos((rotation)* PI * 2) * normalisedOutputDiverge, 0, sin((rotation)* PI * 2) * normalisedOutputDiverge };
+	M1EncodeCorePoint centerpoint = { cos((azimuth)* PI * 2) * normalisedOutputDiverge, 0, sin((azimuth)* PI * 2) * normalisedOutputDiverge };
 
 	if (inputMode == INPUT_MONO) {
 
@@ -177,10 +177,10 @@ void M1EncodeCore::generatePointResults() {
 		else
 		{
 			if (isotropicEncode) {
-				resultingPoints.ppoints[0] = { centerpoint.x * sin((-pitch + 1) * PI / 2), cos((-pitch + 1) * PI / 2) * normalisedOutputDiverge, centerpoint.z * sin((-pitch + 1) * PI / 2) };
+				resultingPoints.ppoints[0] = { centerpoint.x * sin((-elevation + 1) * PI / 2), cos((-elevation + 1) * PI / 2) * normalisedOutputDiverge, centerpoint.z * sin((-elevation + 1) * PI / 2) };
 			}
 			else {
-				resultingPoints.ppoints[0] = { centerpoint.x, pitch, centerpoint.z };
+				resultingPoints.ppoints[0] = { centerpoint.x, elevation, centerpoint.z };
 			}
 		}
 	}
@@ -188,10 +188,10 @@ void M1EncodeCore::generatePointResults() {
 
 		float sRotationInRadians;
 		if (autoOrbit) {
-			sRotationInRadians = rotation * PI * 2 - PI / 2;
+			sRotationInRadians = azimuth * PI * 2 - PI / 2;
 		}
 		else {
-			sRotationInRadians = sRotate * DEG_TO_RAD - PI / 2;
+			sRotationInRadians = orbitRotation * DEG_TO_RAD - PI / 2;
 		}
 
 		resultingPoints.pointsCount = 2;
@@ -209,10 +209,10 @@ void M1EncodeCore::generatePointResults() {
 				resultingPoints.ppoints[i] = pnts[i] + centerpoint;
 			}
 			else if (isotropicEncode) {
-				resultingPoints.ppoints[i] = pnts[i] + M1EncodeCorePoint { centerpoint.x * sin((pitch + 1) * PI / 2), pitch, centerpoint.z * sin((pitch + 1) * PI / 2) };
+				resultingPoints.ppoints[i] = pnts[i] + M1EncodeCorePoint { centerpoint.x * sin((elevation + 1) * PI / 2), elevation, centerpoint.z * sin((elevation + 1) * PI / 2) };
 			}
 			else {
-				resultingPoints.ppoints[i] = pnts[i] + M1EncodeCorePoint { centerpoint.x, pitch, centerpoint.z };
+				resultingPoints.ppoints[i] = pnts[i] + M1EncodeCorePoint { centerpoint.x, elevation, centerpoint.z };
 			}
 		}
 	}
@@ -222,10 +222,10 @@ void M1EncodeCore::generatePointResults() {
 
 		std::vector<std::string> names = { "L", "R", "Rs", "Ls" };
 		std::vector<M1EncodeCorePoint> pnts = {
-			{ cos((rotation + 0.125f - 0.25f) * PI * 2) * normalisedOutputDiverge, pitch, sin((rotation + 0.125f - 0.25f) * PI * 2) * normalisedOutputDiverge },
-			{ cos((rotation + 0.125f) * PI * 2) * normalisedOutputDiverge, pitch, sin((rotation + 0.125f) * PI * 2) * normalisedOutputDiverge },
-			{ cos((rotation + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, pitch, sin((rotation + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge },
-			{ cos((rotation + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge, pitch, sin((rotation + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge },
+			{ cos((azimuth + 0.125f - 0.25f) * PI * 2) * normalisedOutputDiverge, elevation, sin((azimuth + 0.125f - 0.25f) * PI * 2) * normalisedOutputDiverge },
+			{ cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge },
+			{ cos((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, elevation, sin((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge },
+			{ cos((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge, elevation, sin((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge },
 		};
 
 		for (int i = 0; i < resultingPoints.pointsCount; i++)
@@ -243,9 +243,9 @@ void M1EncodeCore::generatePointResults() {
 
 		std::vector<std::string> names = { "L", "C", "R", "S" };
 		std::vector<M1EncodeCorePoint> pnts = {
-			{ cos((rotation - 0.125f) * PI * 2) * normalisedOutputDiverge, pitch, sin((rotation - 0.125f) * PI * 2) * normalisedOutputDiverge },
+			{ cos((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, sin((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge },
 			{ 0, 0, 0 },
-			{ cos((rotation + 0.125f) * PI * 2) * normalisedOutputDiverge, pitch, sin((rotation + 0.125f) * PI * 2) * normalisedOutputDiverge },
+			{ cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge },
 			{ 0, 0, 0 },
 		};
 		pnts[1] = (pnts[0] + pnts[2]) / 2;
@@ -267,10 +267,10 @@ void M1EncodeCore::generatePointResults() {
 
 		std::vector<std::string> names = { "FLU", "FRD", "BLD", "BRU" };
 		std::vector<M1EncodeCorePoint> pnts = {
-			{ cos((rotation + 0.125f - 0.25f) * PI * 2) * diverge, (1 * diverge), sin((rotation + 0.125f - 0.25f) * PI * 2) * diverge },
-			{ cos((rotation + 0.125f) * PI * 2) * diverge, (-1 * diverge), sin((rotation + 0.125f) * PI * 2) * diverge },
-			{ cos((rotation + 0.125f + 0.5f) * PI * 2) * diverge, (-1 * diverge), sin((rotation + 0.125f + 0.5f) * PI * 2) * diverge },
-			{ cos((rotation + 0.125f + 0.25f) * PI * 2) * diverge, (1 * diverge), sin((rotation + 0.125f + 0.25f) * PI * 2) * diverge },
+			{ cos((azimuth + 0.125f - 0.25f) * PI * 2) * diverge, (1 * diverge), sin((azimuth + 0.125f - 0.25f) * PI * 2) * diverge },
+			{ cos((azimuth + 0.125f) * PI * 2) * diverge, (-1 * diverge), sin((azimuth + 0.125f) * PI * 2) * diverge },
+			{ cos((azimuth + 0.125f + 0.5f) * PI * 2) * diverge, (-1 * diverge), sin((azimuth + 0.125f + 0.5f) * PI * 2) * diverge },
+			{ cos((azimuth + 0.125f + 0.25f) * PI * 2) * diverge, (1 * diverge), sin((azimuth + 0.125f + 0.25f) * PI * 2) * diverge },
 		};
 
 		for (int i = 0; i < resultingPoints.pointsCount; i++)
@@ -290,12 +290,12 @@ void M1EncodeCore::generatePointResults() {
 		std::vector<std::string> names = { "W","1","2","3","-1","-2","-3" };
 		std::vector<M1EncodeCorePoint> pnts = {
 			{ 0, 0, 0 },  // W
-			{ cos((rotation + 0.250f) * PI * 2) * diverge, 0, sin((rotation + 0.250f) * PI * 2) * diverge }, // Left/Right / L
+			{ cos((azimuth + 0.250f) * PI * 2) * diverge, 0, sin((azimuth + 0.250f) * PI * 2) * diverge }, // Left/Right / L
 			{ 0, 1.0f * diverge, 0 }, // Top/Bottom / T
-			{ cos((rotation + 0.0f) * PI * 2) * diverge, 0, sin((rotation + 0.0f) * PI * 2) * diverge }, // Front/Back / F
-			{ cos((rotation + 0.75f) * PI * 2) * diverge, 0, sin((rotation + 0.75f) * PI * 2) * diverge }, // -Left/Right / R
+			{ cos((azimuth + 0.0f) * PI * 2) * diverge, 0, sin((azimuth + 0.0f) * PI * 2) * diverge }, // Front/Back / F
+			{ cos((azimuth + 0.75f) * PI * 2) * diverge, 0, sin((azimuth + 0.75f) * PI * 2) * diverge }, // -Left/Right / R
 			{ 0, -1.0f * diverge, 0 }, // -Top/Bottom / B
-			{ cos((rotation + 0.5f) * PI * 2) * diverge, 0, sin((rotation + 0.5f) * PI * 2) * diverge }, // -Front/Back / B
+			{ cos((azimuth + 0.5f) * PI * 2) * diverge, 0, sin((azimuth + 0.5f) * PI * 2) * diverge }, // -Front/Back / B
 		};
 
 		/*
@@ -321,11 +321,11 @@ void M1EncodeCore::generatePointResults() {
 		std::vector<std::string> names = { "W","X","Y","Z","-X","-Y","-Z" };
 		std::vector<M1EncodeCorePoint> pnts = {
 			{ 0, 0, 0 }, // W
-			{ cos((rotation + 0.0f) * PI * 2) * diverge, 0, sin((rotation + 0.0f) * PI * 2) * diverge }, // Front/Back / F
-			{ cos((rotation + 0.25f) * PI * 2) * diverge, 0, sin((rotation + 0.25f) * PI * 2) * diverge }, // Left/Right / L
+			{ cos((azimuth + 0.0f) * PI * 2) * diverge, 0, sin((azimuth + 0.0f) * PI * 2) * diverge }, // Front/Back / F
+			{ cos((azimuth + 0.25f) * PI * 2) * diverge, 0, sin((azimuth + 0.25f) * PI * 2) * diverge }, // Left/Right / L
 			{ 0, 1.0f * diverge, 0 },  // Top/Bottom / T
-			{ cos((rotation + 0.5f) * PI * 2) * diverge, 0, sin((rotation + 0.5f) * PI * 2) * diverge }, // -Front/Back / B
-			{ cos((rotation + 0.75f) * PI * 2) * diverge, 0, sin((rotation + 0.75f) * PI * 2) * diverge }, // -Left/Right / R
+			{ cos((azimuth + 0.5f) * PI * 2) * diverge, 0, sin((azimuth + 0.5f) * PI * 2) * diverge }, // -Front/Back / B
+			{ cos((azimuth + 0.75f) * PI * 2) * diverge, 0, sin((azimuth + 0.75f) * PI * 2) * diverge }, // -Left/Right / R
 			{ 0, -1.0f * diverge, 0 }, // -Top/Bottom / B
 		};
 
@@ -343,7 +343,7 @@ void M1EncodeCore::generatePointResults() {
 		/*
 		TODO: Rework this into something smarter
 		Currently expects 2OA and 3OA conversion to Mach1Spatial8 externally from this API
-		This API will just supply the rotations for Mach1Spatial8 Cuboid
+		This API will just supply the azimuths for Mach1Spatial8 Cuboid
 		*/
 
 					 
@@ -351,14 +351,14 @@ void M1EncodeCore::generatePointResults() {
 
 		std::vector<std::string> names = { "1","2","3","4","5","6","7","8" };
 		std::vector<M1EncodeCorePoint> pnts = {
-			{ cos((rotation + 0.125f - 0.25f) * PI * 2) * normalisedOutputDiverge, 1.0f * diverge, sin((rotation + 0.125f - 0.25f) * PI * 2) * normalisedOutputDiverge },
-			{ cos((rotation + 0.125f) * PI * 2) * normalisedOutputDiverge, 1.0f * diverge, sin((rotation + 0.125f) * PI * 2) * normalisedOutputDiverge },
-			{ cos((rotation + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, 1.0f * diverge, sin((rotation + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge },
-			{ cos((rotation + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge, 1.0f * diverge, sin((rotation + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge },
-			{ cos((rotation + 0.125f - 0.25f) * PI * 2) * normalisedOutputDiverge, -1.0f * diverge, sin((rotation + 0.125f - 0.25f) * PI * 2) * normalisedOutputDiverge },
-			{ cos((rotation + 0.125f) * PI * 2) * normalisedOutputDiverge, -1.0f * diverge, sin((rotation + 0.125f) * PI * 2) * normalisedOutputDiverge },
-			{ cos((rotation + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, -1.0f * diverge, sin((rotation + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge },
-			{ cos((rotation + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge, -1.0f * diverge, sin((rotation + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge },
+			{ cos((azimuth + 0.125f - 0.25f) * PI * 2) * normalisedOutputDiverge, 1.0f * diverge, sin((azimuth + 0.125f - 0.25f) * PI * 2) * normalisedOutputDiverge },
+			{ cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, 1.0f * diverge, sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge },
+			{ cos((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, 1.0f * diverge, sin((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge },
+			{ cos((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge, 1.0f * diverge, sin((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge },
+			{ cos((azimuth + 0.125f - 0.25f) * PI * 2) * normalisedOutputDiverge, -1.0f * diverge, sin((azimuth + 0.125f - 0.25f) * PI * 2) * normalisedOutputDiverge },
+			{ cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, -1.0f * diverge, sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge },
+			{ cos((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, -1.0f * diverge, sin((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge },
+			{ cos((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge, -1.0f * diverge, sin((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge },
 		};
 
 		for (int i = 0; i < resultingPoints.pointsCount; i++)
@@ -376,9 +376,9 @@ void M1EncodeCore::generatePointResults() {
 
 		std::vector<std::string> names = { "L","C","R" };
 		std::vector<M1EncodeCorePoint> pnts = {
-			{ cos((rotation - 0.125f) * PI * 2) * normalisedOutputDiverge, pitch, sin((rotation - 0.125f) * PI * 2) * normalisedOutputDiverge },
+			{ cos((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, sin((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge },
 			{ 0, 0, 0 },
-			{ cos((rotation + 0.125f) * PI * 2) * normalisedOutputDiverge, pitch, sin((rotation + 0.125f) * PI * 2) * normalisedOutputDiverge },
+			{ cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge },
 		};
 		pnts[1] = (pnts[0] + pnts[2]) / 2;
 
@@ -573,28 +573,50 @@ void M1EncodeCore::setOutputMode(OutputMode outputMode) {
 	this->outputMode = outputMode;
 }
 
-void M1EncodeCore::setRotationDegrees(float rotation) {
-	this->rotation = rotation / 360.0;
+void M1EncodeCore::setAzimuthDegrees(float azimuth) {
+	//TODO: Add in utilities such as modulo and check if -180 to 180
+	this->azimuth = azimuth / 360.0;
 }
 
-void M1EncodeCore::setRotationRadians(float rotation) {
-	this->rotation = rotation / DEG_TO_RAD / 360.0;
+void M1EncodeCore::setAzimuthRadians(float azimuth) {
+	//TODO: Add in utilities such as modulo and check if -PI to PI
+	this->azimuth = azimuth / 2 * PI;
 }
 
-void M1EncodeCore::setRotation0to1(float rotation) {
-	this->rotation = rotation;
+void M1EncodeCore::setAzimuth0to1(float azimuth) {
+	this->azimuth = azimuth;
 }
 
 void M1EncodeCore::setDiverge(float diverge) {
 	this->diverge = diverge;
 }
 
-void M1EncodeCore::setPitch(float pitch) {
-	this->pitch = pitch;
+void M1EncodeCore::setElevationDegrees(float elevation) {
+	this->elevation = elevation / 180.0;
 }
 
-void M1EncodeCore::setStereoRotate(float sRotate) {
-	this->sRotate = sRotate;
+void M1EncodeCore::setElevationRadians(float elevation) {
+	this->elevation = elevation / PI;
+}
+
+void M1EncodeCore::setElevation0to1(float elevation) {
+	this->elevation = elevation;
+}
+
+void M1EncodeCore::setIsotropicEncode(bool isotropicEncode){
+	this->isotropicEncode = isotropicEncode;
+}
+
+void M1EncodeCore::setOrbitRotationDegrees(float orbitRotation) {
+	this->orbitRotation = orbitRotation / 360.0;
+}
+
+void M1EncodeCore::setOrbitRotationRadians(float orbitRotation) {
+	this->orbitRotation = orbitRotation / 2 * PI;
+}
+
+void M1EncodeCore::setOrbitRotation0to1(float orbitRotation) {
+	this->orbitRotation = orbitRotation;
 }
 
 void M1EncodeCore::setStereoSpread(float sSpread) {
@@ -603,10 +625,6 @@ void M1EncodeCore::setStereoSpread(float sSpread) {
 
 void M1EncodeCore::setAutoOrbit(bool autoOrbit) {
 	this->autoOrbit = autoOrbit;
-}
-
-void M1EncodeCore::setIsotropicEncode(bool isotropicEncode){
-	this->isotropicEncode = isotropicEncode;
 }
 
 long M1EncodeCore::getCurrentTime()

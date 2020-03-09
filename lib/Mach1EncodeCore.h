@@ -146,15 +146,20 @@ public:
 
 	void setInputMode(InputMode inputMode);
 	void setOutputMode(OutputMode outputMode);
-	void setRotationDegrees(float rotation);
-	void setRotationRadians(float rotation);
-	void setRotation0to1(float rotation);
+	void setAzimuthDegrees(float azimuth);
+	void setAzimuthRadians(float azimuth);
+	void setAzimuth0to1(float azimuth);
 	void setDiverge(float diverge);
-	void setPitch(float pitch);
-	void setStereoRotate(float sRotate);
+	void setElevationDegrees(float elevation);
+	void setElevationRadians(float elevation);
+	void setElevation0to1(float elevation);
+	void setIsotropicEncode(bool isotropicEncode);
+
+	void setOrbitRotationDegrees(float orbitRotation);
+	void setOrbitRotationRadians(float orbitRotation);
+	void setOrbitRotation0to1(float orbitRotation);
 	void setStereoSpread(float sSpread);
 	void setAutoOrbit(bool autoOrbit);
-	void setIsotropicEncode(bool isotropicEncode);
 
 	long getCurrentTime();
 	long getLastCalculationTime();

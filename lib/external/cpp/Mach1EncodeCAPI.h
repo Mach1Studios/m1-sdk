@@ -85,16 +85,36 @@ extern "C" {
 	M1_API void Mach1EncodeCAPI_setInputMode(void* M1obj, enum Mach1EncodeInputModeType inputMode);
 	M1_API void Mach1EncodeCAPI_setOutputMode(void* M1obj, enum Mach1EncodeOutputModeType outputMode);
 
-	M1_API void Mach1EncodeCAPI_setRotationDegrees(void* M1obj, float rotation);
-	M1_API void Mach1EncodeCAPI_setRotationRadians(void* M1obj, float rotation);
-	M1_API void Mach1EncodeCAPI_setRotation0to1(void* M1obj, float rotation);
+#if __cplusplus > 201103L
+	[[deprecated("setRotation is deprecated due to ambiguity of use, please use setAzimuth0to1, setAzimuthDegrees or setAzimuthRadians instead")]]
+#endif
+	M1_API void Mach1EncodeCAPI_setRotation(void* M1obj, float rotation);
+
+	M1_API void Mach1EncodeCAPI_setAzimuthDegrees(void* M1obj, float azimuth);
+	M1_API void Mach1EncodeCAPI_setAzimuthRadians(void* M1obj, float azimuth);
+	M1_API void Mach1EncodeCAPI_setAzimuth0to1(void* M1obj, float azimuth);
 
 	M1_API void Mach1EncodeCAPI_setDiverge(void* M1obj, float diverge);
+
+#if __cplusplus > 201103L
+	[[deprecated("setPitch is deprecated due to ambiguity of use, please use setElevation0to1, setStereoRotationDegrees or setStereoRotationRadians instead")]]
+#endif
 	M1_API void Mach1EncodeCAPI_setPitch(void* M1obj, float pitch);
+	M1_API void Mach1EncodeCAPI_setElevationDegrees(void* M1obj, float elevation);
+	M1_API void Mach1EncodeCAPI_setElevationRadians(void* M1obj, float elevation);
+	M1_API void Mach1EncodeCAPI_setElevation0to1(void* M1obj, float elevation);
+
+	M1_API void Mach1EncodeCAPI_setIsotropicEncode(void* M1obj, bool isotropicEncode);
+
+#if __cplusplus > 201103L
+	[[deprecated("setStereoRotate is deprecated due to ambiguity of use, please use setOrbitRotation0to1, setOrbitRotationDegrees or setOrbitRotationRadians instead")]]
+#endif
 	M1_API void Mach1EncodeCAPI_setStereoRotate(void* M1obj, float sRotate);
+	M1_API void Mach1EncodeCAPI_setOrbitRotationDegrees(void* M1obj, float orbitRotation);
+	M1_API void Mach1EncodeCAPI_setOrbitRotationRadians(void* M1obj, float orbitRotation);
+	M1_API void Mach1EncodeCAPI_setOrbitRotation0to1(void* M1obj, float orbitRotation);
 	M1_API void Mach1EncodeCAPI_setStereoSpread(void* M1obj, float sSpread);
 	M1_API void Mach1EncodeCAPI_setAutoOrbit(void* M1obj, bool autoOrbit);
-	M1_API void Mach1EncodeCAPI_setIsotropicEncode(void* M1obj, bool isotropicEncode);
 
 	M1_API long Mach1EncodeCAPI_getLastCalculationTime(void* M1obj);
 

@@ -54,11 +54,23 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
 		.function("setInputMode", &Mach1Encode::setInputMode)
 		.function("setOutputMode", &Mach1Encode::setOutputMode)
 		.function("setRotation", &Mach1Encode::setRotation)
+        .function("setAzimuthDegrees", &Mach1Encode::setAzimuthDegrees)
+        .function("setAzimuthRadians", &Mach1Encode::setAzimuthRadians)
+        .function("setAzimuth0to1", &Mach1Encode::setAzimuth0to1)
+
 		.function("setDiverge", &Mach1Encode::setDiverge)
         .function("setPitch", &Mach1Encode::setPitch)
+        .function("setElevationDegrees", &Mach1Encode::setElevationDegrees)
+        .function("setElevationRadians", &Mach1Encode::setElevationRadians)
+        .function("setElevation0to1", &Mach1Encode::setElevation0to1)
+        .function("setIsotropicEncode", &Mach1Encode::setIsotropicEncode)
+
         .function("setStereoRotate", &Mach1Encode::setStereoRotate)
+        .function("setOrbitRotationDegrees", &Mach1Encode::setOrbitRotationDegrees)
+        .function("setOrbitRotationRadians", &Mach1Encode::setOrbitRotationRadians)
+        .function("setOrbitRotation0to1", &Mach1Encode::setOrbitRotation0to1)
+
         .function("setStereoSpread", &Mach1Encode::setStereoSpread)
         .function("setAutoOrbit", &Mach1Encode::setAutoOrbit)
-        .function("setIsotropicEncode", &Mach1Encode::setIsotropicEncode)
         ;
 }

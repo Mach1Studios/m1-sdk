@@ -206,7 +206,7 @@ void Mach1Encode::setOutputMode(Mach1EncodeOutputModeType outputMode)
 
 void Mach1Encode::setRotation(float rotation)
 {
-	setRotationDegrees(rotation);
+	setRotation0to1(rotation);
 }
 
 void Mach1Encode::setRotationDegrees(float rotation)
@@ -222,8 +222,6 @@ void Mach1Encode::setRotationRadians(float rotation)
 	/// - Parameters:
 	///     - value range: 0 -> PI
 }
-
-
 
 void Mach1Encode::setRotation0to1(float rotation)
 {

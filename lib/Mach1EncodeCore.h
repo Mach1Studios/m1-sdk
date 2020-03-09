@@ -115,8 +115,8 @@ private:
 	InputMode inputMode;
 	OutputMode outputMode;
 
-	float rotation, diverge, pitch;
-	float sRotate, sSpread;
+	float azimuth, diverge, elevation;
+	float orbitRotation, sSpread;
 	bool autoOrbit;
 	bool isotropicEncode;
 

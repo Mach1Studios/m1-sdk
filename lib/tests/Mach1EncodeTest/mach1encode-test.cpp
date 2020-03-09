@@ -227,12 +227,22 @@ TODO: add all other output modes
 			}
 		},
 		{
+			"Encode Stereo Spread Height",
+			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputMode8Ch, true, 0.0, 1.0, 0.0, true, 1.0, 0.0 },
+			{
+				{
+					{ 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 },
+					{ 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 },
+				},
+			}
+		},
+		{
 			"Encode Stereo Rotation",
 			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputMode8Ch, true, 0.0, 1.0, 0.0, false, 1.0, 90.0 },
 			{
 				{
-					{ 0.0, 0.5, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0 },
-					{ 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.5 },
+					{ 0.25, 0.25, 0.0, 0.0, 0.25, 0.25, 0.0, 0.0 },
+					{ 0.0, 0.0, 0.25, 0.25, 0.0, 0.0, 0.25, 0.25 },
 				},
 			}
 		},
@@ -409,13 +419,16 @@ AFormat
 		m1Encode.setIsotropicEncode(test.input.isotropicEncode);
 
 		m1Encode.setRotation(test.input.azimuth);
+		//TODO: test setAzimuth, setAzimuthDegrees, setAzimuthRadians
 
 		m1Encode.setDiverge(test.input.diverge );
-		m1Encode.setPitch(test.input.elevation / 180.0 + 0.5);
+		m1Encode.setPitch(test.input.elevation);
+		//TODO: test setElevation, setElevationDegrees, setElevationRadians
 
 		m1Encode.setAutoOrbit(test.input.autoOrbit);
 		m1Encode.setStereoSpread(test.input.stereoSpread);
 		m1Encode.setStereoRotate(test.input.stereoRotate);
+		//TODO: test setOrbitRotation, setOrbitRotationDegrees, setOrbitRotationsRadians
 
 		m1Encode.generatePointResults();
 		//auto points = m1Encode.getPoints();
@@ -438,7 +451,7 @@ AFormat
 				}
 			}
 			if (counter == results[i].size()){
-				std::cout << "... " << "\033[1;32mpassed\033[0m\n";
+				std::cout << "... " << "\033[1;32mpassed\033[0m\n"; //TODO: make this also work in windows
 			}
 		}
 	}

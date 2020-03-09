@@ -174,7 +174,7 @@ long Mach1EncodeCAPI_getLastCalculationTime(void* M1obj) {
 
 /* DEPRECATED START*/
 void Mach1EncodeCAPI_setRotation(void* M1obj, float rotation) {
-	((M1EncodeCore*)M1obj)->setRotationDegrees(rotation);
+	((M1EncodeCore*)M1obj)->setAzimuthDegrees(rotation);
 }
 
 void Mach1EncodeCAPI_setPitch(void* M1obj, float pitch) {

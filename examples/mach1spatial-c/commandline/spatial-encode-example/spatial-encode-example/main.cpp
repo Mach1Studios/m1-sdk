@@ -83,8 +83,8 @@ int main(int argc, const char * argv[]) {
         m1Encode.setAutoOrbit(isAutoOrbit);
         if (!isAutoOrbit){
             m1Encode.setStereoRotate(stereoRotation);
-            m1Encode.setStereoSpread(stereoSpread);
         }
+        m1Encode.setStereoSpread(stereoSpread);
         m1Encode.generatePointResults();
         m1Coeffs = m1Encode.getGains();
         auto end = std::chrono::high_resolution_clock::now();
@@ -170,16 +170,16 @@ static void* decode(void* v)
                 isAutoOrbit = !isAutoOrbit;
                 break;
             case 'c':
-                stereoRotation += DELTA_ANGLE;
-                break;
-            case 'v':
                 stereoRotation -= DELTA_ANGLE;
                 break;
+            case 'v':
+                stereoRotation += DELTA_ANGLE;
+                break;
             case 'b':
-                stereoSpread += DELTA_DIVERGE;
+                stereoSpread -= DELTA_DIVERGE;
                 break;
             case 'n':
-                stereoSpread -= DELTA_DIVERGE;
+                stereoSpread += DELTA_DIVERGE;
                 break;
             default:
                 printf("Input not recognized.\n");

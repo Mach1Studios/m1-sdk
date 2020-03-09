@@ -84,7 +84,10 @@ extern "C" {
 
 	M1_API void Mach1EncodeCAPI_setInputMode(void* M1obj, enum Mach1EncodeInputModeType inputMode);
 	M1_API void Mach1EncodeCAPI_setOutputMode(void* M1obj, enum Mach1EncodeOutputModeType outputMode);
-	M1_API void Mach1EncodeCAPI_setRotation(void* M1obj, float rotation);
+
+	M1_API void Mach1EncodeCAPI_setRotationDegrees(void* M1obj, float rotation);
+	M1_API void Mach1EncodeCAPI_setRotation0to1(void* M1obj, float rotation);
+
 	M1_API void Mach1EncodeCAPI_setDiverge(void* M1obj, float diverge);
 	M1_API void Mach1EncodeCAPI_setPitch(void* M1obj, float pitch);
 	M1_API void Mach1EncodeCAPI_setStereoRotate(void* M1obj, float sRotate);

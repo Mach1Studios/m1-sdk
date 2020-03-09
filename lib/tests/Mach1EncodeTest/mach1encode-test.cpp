@@ -408,7 +408,7 @@ AFormat
 
 		m1Encode.setIsotropicEncode(test.input.isotropicEncode);
 
-		m1Encode.setRotation(test.input.azimuth / 360.0);
+		m1Encode.setRotation(test.input.azimuth);
 
 		m1Encode.setDiverge(test.input.diverge );
 		m1Encode.setPitch(test.input.elevation / 180.0 + 0.5);

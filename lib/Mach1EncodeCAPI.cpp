@@ -116,8 +116,12 @@ void Mach1EncodeCAPI_setOutputMode(void* M1obj, enum Mach1EncodeOutputModeType o
 	((M1EncodeCore*)M1obj)->setOutputMode(static_cast<M1EncodeCore::OutputMode>(outputMode));
 }
 
-void Mach1EncodeCAPI_setRotation(void* M1obj, float rotation) {
-	((M1EncodeCore*)M1obj)->setRotation(rotation);
+void Mach1EncodeCAPI_setRotationDegrees(void* M1obj, float rotation) {
+	((M1EncodeCore*)M1obj)->setRotationDegrees(rotation);
+}
+
+void Mach1EncodeCAPI_setRotation0to1(void* M1obj, float rotation) {
+	((M1EncodeCore*)M1obj)->setRotation0to1(rotation);
 }
 
 void Mach1EncodeCAPI_setDiverge(void* M1obj, float diverge) {

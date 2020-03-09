@@ -33,11 +33,22 @@ public:
 	int getOutputChannelsCount();
 
 	template<typename T>
-	void encodeBuffer(std::vector< std::vector<T>> inBuffer, std::vector< std::vector<T>> outBuffer, int bufferSize);
+	void encodeBuffer(std::vector<std::vector<T>>* inBuffer, std::vector<std::vector<T>>* outBuffer, int bufferSize);
+
+	template<typename T>
+	void encodeBuffer(std::vector<T*>* inBuffer, std::vector<T*>* outBuffer, int bufferSize);
 
 	void setInputMode(Mach1EncodeInputModeType inputMode);
 	void setOutputMode(Mach1EncodeOutputModeType outputMode);
+
+#if __cplusplus > 201103L
+	[[deprecated("setRotation is deprecated, please use setRotationDegrees instead")]]
+#endif
 	void setRotation(float rotation);
+	
+	void setRotationDegrees(float rotation);
+	void setRotation0to1(float rotation);
+
 	void setDiverge(float diverge);
 	void setPitch(float pitch);
 	void setStereoRotate(float sRotate);

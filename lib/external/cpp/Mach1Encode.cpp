@@ -134,12 +134,30 @@ int Mach1Encode::getOutputChannelsCount()
 }
 
 template<typename T>
-void Mach1Encode::encodeBuffer(std::vector< std::vector<T>> inBuffer, std::vector< std::vector<T>> outBuffer, int bufferSize)
+void Mach1Encode::encodeBuffer(std::vector< std::vector<T>>* inBuffer, std::vector< std::vector<T>>* outBuffer, int bufferSize)
 {
 	generatePointResults();
 	auto gains = getGains();
 
-	T value; 
+	T value;
+	for (size_t c = 0; c < getOutputChannelsCount(); c++) {
+		for (size_t i = 0; i < bufferSize; i++) {
+			value = 0;
+			for (size_t p = 0; p < getPointsCount(); p++) {
+				value += inBuffer[p][i] * gains[p][c];
+			}
+			outBuffer[c][i] = value;
+		}
+	}
+}
+
+template<typename T>
+void Mach1Encode::encodeBuffer(std::vector<T*>* inBuffer, std::vector<T*>* outBuffer, int bufferSize)
+{
+	generatePointResults();
+	auto gains = getGains();
+
+	T value;
 	for (size_t c = 0; c < getOutputChannelsCount(); c++) {
 		for (size_t i = 0; i < bufferSize; i++) {
 			value = 0;
@@ -188,11 +206,23 @@ void Mach1Encode::setOutputMode(Mach1EncodeOutputModeType outputMode)
 
 void Mach1Encode::setRotation(float rotation)
 {
-	Mach1EncodeCAPI_setRotation(M1obj, rotation);
+	setRotationDegrees(rotation);
+}
+
+void Mach1Encode::setRotationDegrees(float rotation)
+{
+	Mach1EncodeCAPI_setRotationDegrees(M1obj, rotation);
+	/// - Parameters:
+	///     - value range: 0 -> 360
+}
+
+void Mach1Encode::setRotation0to1(float rotation)
+{
+	Mach1EncodeCAPI_setRotation0to1(M1obj, rotation);
 	/// Sets the point(s) around the center origin of the vector space
 	///
 	/// - Parameters:
-	///     - value range: 0.0 -> 1.0 (0->360)
+	///     - value range: 0.0 -> 1.0
 }
 
 void Mach1Encode::setDiverge(float diverge)

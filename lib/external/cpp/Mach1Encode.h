@@ -47,7 +47,9 @@ public:
 	void setRotation(float rotation);
 	
 	void setRotationDegrees(float rotation);
+	void setRotationRadians(float rotation);
 	void setRotation0to1(float rotation);
+	
 
 	void setDiverge(float diverge);
 	void setPitch(float pitch);

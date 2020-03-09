@@ -147,6 +147,7 @@ public:
 	void setInputMode(InputMode inputMode);
 	void setOutputMode(OutputMode outputMode);
 	void setRotationDegrees(float rotation);
+	void setRotationRadians(float rotation);
 	void setRotation0to1(float rotation);
 	void setDiverge(float diverge);
 	void setPitch(float pitch);

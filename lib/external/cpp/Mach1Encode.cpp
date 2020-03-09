@@ -216,6 +216,15 @@ void Mach1Encode::setRotationDegrees(float rotation)
 	///     - value range: 0 -> 360
 }
 
+void Mach1Encode::setRotationRadians(float rotation)
+{
+	Mach1EncodeCAPI_setRotationRadians(M1obj, rotation);
+	/// - Parameters:
+	///     - value range: 0 -> PI
+}
+
+
+
 void Mach1Encode::setRotation0to1(float rotation)
 {
 	Mach1EncodeCAPI_setRotation0to1(M1obj, rotation);

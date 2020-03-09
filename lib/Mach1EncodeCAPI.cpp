@@ -120,6 +120,10 @@ void Mach1EncodeCAPI_setRotationDegrees(void* M1obj, float rotation) {
 	((M1EncodeCore*)M1obj)->setRotationDegrees(rotation);
 }
 
+void Mach1EncodeCAPI_setRotationRadians(void* M1obj, float rotation) {
+	((M1EncodeCore*)M1obj)->setRotationRadians(rotation);
+}
+
 void Mach1EncodeCAPI_setRotation0to1(void* M1obj, float rotation) {
 	((M1EncodeCore*)M1obj)->setRotation0to1(rotation);
 }

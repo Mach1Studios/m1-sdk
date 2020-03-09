@@ -577,6 +577,10 @@ void M1EncodeCore::setRotationDegrees(float rotation) {
 	this->rotation = rotation / 360.0;
 }
 
+void M1EncodeCore::setRotationRadians(float rotation) {
+	this->rotation = rotation / DEG_TO_RAD / 360.0;
+}
+
 void M1EncodeCore::setRotation0to1(float rotation) {
 	this->rotation = rotation;
 }

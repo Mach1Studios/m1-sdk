@@ -99,11 +99,11 @@ int Mach1Encode::getPointsCount()
     ///     - integer of number of input channels/points
 }
 
-std::vector<float> Mach1Encode::getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, std::vector<float>& decodeResult)
+std::vector<float> Mach1Encode::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, std::vector<float>& decodeResult)
 {
 	std::vector<float> vec(Mach1EncodeCAPI_getPointsCount(M1obj) * 2);
 
-	float* arr = (float*)Mach1EncodeCAPI_getResultingVolumesDecoded(M1obj, decodeType, decodeResult.data());
+	float* arr = (float*)Mach1EncodeCAPI_getResultingCoeffsDecoded(M1obj, decodeType, decodeResult.data());
 
 	for (int i = 0; i < vec.size(); i++) {
 		vec[i] = arr[i];
@@ -204,32 +204,31 @@ void Mach1Encode::setOutputMode(Mach1EncodeOutputModeType outputMode)
 	///     - OUTPUT_18CH (Mach1SpatialExtPlus) [Yaw, Pitch, Roll]
 }
 
-void Mach1Encode::setRotation(float rotation)
+void Mach1Encode::setAzimuth(float azimuth)
 {
-	setRotation0to1(rotation);
+	Mach1EncodeCAPI_setAzimuth0to1(M1obj, azimuth);
+	/// Sets the point(s) azimuth rotation of the vector space
+	///
+	/// - Parameters:
+	///     - value range: -1.0 -> 1.0
 }
 
-void Mach1Encode::setRotationDegrees(float rotation)
+void Mach1Encode::setAzimuthDegrees(float azimuth)
 {
-	Mach1EncodeCAPI_setRotationDegrees(M1obj, rotation);
+	Mach1EncodeCAPI_setAzimuthDegrees(M1obj, azimuth);
+	/// Sets the point(s) azimuth rotation of the vector space
+	///
 	/// - Parameters:
 	///     - value range: 0 -> 360
 }
 
-void Mach1Encode::setRotationRadians(float rotation)
+void Mach1Encode::setAzimuthRadians(float azimuth)
 {
-	Mach1EncodeCAPI_setRotationRadians(M1obj, rotation);
-	/// - Parameters:
-	///     - value range: 0 -> PI
-}
-
-void Mach1Encode::setRotation0to1(float rotation)
-{
-	Mach1EncodeCAPI_setRotation0to1(M1obj, rotation);
-	/// Sets the point(s) around the center origin of the vector space
+	Mach1EncodeCAPI_setAzimuthRadians(M1obj, azimuth);
+	/// Sets the point(s) azimuth rotation of the vector space
 	///
 	/// - Parameters:
-	///     - value range: 0.0 -> 1.0
+	///     - value range: -PI/2 -> PI/2
 }
 
 void Mach1Encode::setDiverge(float diverge)
@@ -241,22 +240,68 @@ void Mach1Encode::setDiverge(float diverge)
 	///     - value range: -1.0 -> 1.0
 }
 
-void Mach1Encode::setPitch(float pitch)
+void Mach1Encode::setElevation(float pitch)
 {
-	Mach1EncodeCAPI_setPitch(M1obj, pitch);
+	Mach1EncodeCAPI_setElevation(M1obj, pitch);
 	/// Sets the point(s) up/down the vector space
 	///
 	/// - Parameters:
-	///     - value range: -1.0 -> 1.0 (-90->90)
+	///     - value range: -1.0 -> 1.0
 }
 
-void Mach1Encode::setStereoRotate(float sRotate)
+void Mach1Encode::setElevationDegrees(float elevation)
 {
-	Mach1EncodeCAPI_setStereoRotate(M1obj, sRotate);
+	Mach1EncodeCAPI_setElevationDegrees(M1obj, elevation);
+	/// Sets the point(s) up/down the vector space
+	///
+	/// - Parameters:
+	///     - value range: -90->90
+}
+
+void Mach1Encode::setElevationRadians(float elevation)
+{
+	Mach1EncodeCAPI_setElevationRadians(M1obj, elevation);
+	/// Sets the point(s) up/down the vector space
+	///
+	/// - Parameters:
+	///     - value range: -PI/2 -> PI/2
+}
+
+void Mach1Encode::setIsotropicEncode(bool isotropicEncode)
+{
+	Mach1EncodeCAPI_setIsotropicEncode(M1obj, isotropicEncode);
+	/// Sets both stereo points rotate in relation to the
+	/// center point between them so that they always triangulate
+	/// toward center of the cuboid
+	///
+	/// Remark: Default is true
+}
+
+void Mach1Encode::setOrbitRotation(float orbitRotation)
+{
+	Mach1EncodeCAPI_setOrbitRotation0to1(M1obj, orbitRotation);
+	/// Sets the two stereo points around the axis of the center point between them
+	///
+	/// - Parameters:
+	///     - value range: -1.0 -> 1.0
+}
+
+void Mach1Encode::setOrbitRotationDegrees(float orbitRotation)
+{
+	Mach1EncodeCAPI_setOrbitRotationDegrees(M1obj, orbitRotation);
 	/// Sets the two stereo points around the axis of the center point between them
 	///
 	/// - Parameters:
 	///     - value range: -180.0->180.0
+}
+
+void Mach1Encode::setOrbitRotationRadians(float orbitRotation)
+{
+	Mach1EncodeCAPI_setOrbitRotationRadians(M1obj, orbitRotation);
+	/// Sets the two stereo points around the axis of the center point between them
+	///
+	/// - Parameters:
+	///     - value range: -PI -> PI
 }
 
 void Mach1Encode::setStereoSpread(float sSpread)
@@ -277,12 +322,50 @@ void Mach1Encode::setAutoOrbit(bool autoOrbit)
 	/// Remark: Default is true
 }
 
-void Mach1Encode::setIsotropicEncode(bool isotropicEncode)
+/* DEPRECATED START*/
+std::vector<float> Mach1Encode::getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, std::vector<float>& decodeResult)
 {
-	Mach1EncodeCAPI_setIsotropicEncode(M1obj, isotropicEncode);
-	/// Sets both stereo points rotate in relation to the
-	/// center point between them so that they always triangulate
-	/// toward center of the cuboid
-	///
-	/// Remark: Default is true
+	std::vector<float> vec(Mach1EncodeCAPI_getPointsCount(M1obj) * 2);
+
+	float* arr = (float*)Mach1EncodeCAPI_getResultingVolumesDecoded(M1obj, decodeType, decodeResult.data());
+
+	for (int i = 0; i < vec.size(); i++) {
+		vec[i] = arr[i];
+	}
+
+	return vec;
+    /// A shorthand function for encoding->decoding audio object handling,
+    /// useful preview UX so that a full input->mach1spatial_multichannel->stereo
+    /// rendeering to disk isnt required and instead designs that stack decode results 
+    /// live can more easily be created
+    ///
+    /// - Remark: Each input audio channel results a direct decode instead of the encode coefficients
 }
+
+void Mach1Encode::setRotation(float rotation)
+{
+	/// Sets the point(s) azimuth rotation of the vector space
+	///
+	/// - Parameters:
+	///     - value range: 0 -> 360
+	setAzimuthDegrees(rotation);
+}
+
+void Mach1Encode::setPitch(float pitch)
+{
+	Mach1EncodeCAPI_setPitch(M1obj, pitch);
+	/// Sets the point(s) up/down the vector space
+	///
+	/// - Parameters:
+	///     - value range: -90->90
+}
+
+void Mach1Encode::setStereoRotate(float sRotate)
+{
+	Mach1EncodeCAPI_setStereoRotate(M1obj, sRotate);
+	/// Sets the two stereo points around the axis of the center point between them
+	///
+	/// - Parameters:
+	///     - value range: -180.0->180.0
+}
+/* DEPRECATED END */

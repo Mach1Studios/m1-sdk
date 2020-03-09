@@ -116,20 +116,24 @@ void Mach1EncodeCAPI_setOutputMode(void* M1obj, enum Mach1EncodeOutputModeType o
 	((M1EncodeCore*)M1obj)->setOutputMode(static_cast<M1EncodeCore::OutputMode>(outputMode));
 }
 
+void Mach1EncodeCAPI_setAzimuth(void* M1obj, float azimuth) {
+	((M1EncodeCore*)M1obj)->setAzimuth(azimuth);
+}
+
 void Mach1EncodeCAPI_setAzimuthDegrees(void* M1obj, float azimuth) {
 	((M1EncodeCore*)M1obj)->setAzimuthDegrees(azimuth);
 }
 
-void Mach1EncodeCAPI_setRotationRadians(void* M1obj, float azimuth) {
+void Mach1EncodeCAPI_setAzimuthRadians(void* M1obj, float azimuth) {
 	((M1EncodeCore*)M1obj)->setAzimuthRadians(azimuth);
-}
-
-void Mach1EncodeCAPI_setRotation0to1(void* M1obj, float azimuth) {
-	((M1EncodeCore*)M1obj)->setAzimuth0to1(azimuth);
 }
 
 void Mach1EncodeCAPI_setDiverge(void* M1obj, float diverge) {
 	((M1EncodeCore*)M1obj)->setDiverge(diverge);
+}
+
+void Mach1EncodeCAPI_setElevation(void* M1obj, float elevation) {
+	((M1EncodeCore*)M1obj)->setElevation(elevation);
 }
 
 void Mach1EncodeCAPI_setElevationDegrees(void* M1obj, float elevation) {
@@ -140,8 +144,8 @@ void Mach1EncodeCAPI_setElevationRadians(void* M1obj, float elevation) {
 	((M1EncodeCore*)M1obj)->setElevationRadians(elevation);
 }
 
-void Mach1EncodeCAPI_setElevation0to1(void* M1obj, float elevation) {
-	((M1EncodeCore*)M1obj)->setElevation0to1(elevation);
+void Mach1EncodeCAPI_setOrbitRotation(void* M1obj, float orbitRotation) {
+	((M1EncodeCore*)M1obj)->setOrbitRotation(orbitRotation);
 }
 
 void Mach1EncodeCAPI_setOrbitRotationDegrees(void* M1obj, float orbitRotation) {
@@ -150,10 +154,6 @@ void Mach1EncodeCAPI_setOrbitRotationDegrees(void* M1obj, float orbitRotation) {
 
 void Mach1EncodeCAPI_setOrbitRotationRadians(void* M1obj, float orbitRotation) {
 	((M1EncodeCore*)M1obj)->setOrbitRotationRadians(orbitRotation);
-}
-
-void Mach1EncodeCAPI_setOrbitRotation0to1(void* M1obj, float orbitRotation) {
-	((M1EncodeCore*)M1obj)->setOrbitRotation0to1(orbitRotation);
 }
 
 void Mach1EncodeCAPI_setStereoSpread(void* M1obj, float sSpread) {

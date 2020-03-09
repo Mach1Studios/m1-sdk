@@ -146,18 +146,18 @@ public:
 
 	void setInputMode(InputMode inputMode);
 	void setOutputMode(OutputMode outputMode);
+	void setAzimuth(float azimuth);
 	void setAzimuthDegrees(float azimuth);
 	void setAzimuthRadians(float azimuth);
-	void setAzimuth0to1(float azimuth);
 	void setDiverge(float diverge);
+	void setElevation(float elevation);
 	void setElevationDegrees(float elevation);
 	void setElevationRadians(float elevation);
-	void setElevation0to1(float elevation);
 	void setIsotropicEncode(bool isotropicEncode);
 
+	void setOrbitRotation(float orbitRotation);
 	void setOrbitRotationDegrees(float orbitRotation);
 	void setOrbitRotationRadians(float orbitRotation);
-	void setOrbitRotation0to1(float orbitRotation);
 	void setStereoSpread(float sSpread);
 	void setAutoOrbit(bool autoOrbit);
 

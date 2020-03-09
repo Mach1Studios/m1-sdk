@@ -573,6 +573,10 @@ void M1EncodeCore::setOutputMode(OutputMode outputMode) {
 	this->outputMode = outputMode;
 }
 
+void M1EncodeCore::setAzimuth(float azimuth) {
+	this->azimuth = azimuth;
+}
+
 void M1EncodeCore::setAzimuthDegrees(float azimuth) {
 	//TODO: Add in utilities such as modulo and check if -180 to 180
 	this->azimuth = azimuth / 360.0;
@@ -583,12 +587,12 @@ void M1EncodeCore::setAzimuthRadians(float azimuth) {
 	this->azimuth = azimuth / 2 * PI;
 }
 
-void M1EncodeCore::setAzimuth0to1(float azimuth) {
-	this->azimuth = azimuth;
-}
-
 void M1EncodeCore::setDiverge(float diverge) {
 	this->diverge = diverge;
+}
+
+void M1EncodeCore::setElevation(float elevation) {
+	this->elevation = elevation;
 }
 
 void M1EncodeCore::setElevationDegrees(float elevation) {
@@ -599,12 +603,12 @@ void M1EncodeCore::setElevationRadians(float elevation) {
 	this->elevation = elevation / PI;
 }
 
-void M1EncodeCore::setElevation0to1(float elevation) {
-	this->elevation = elevation;
-}
-
 void M1EncodeCore::setIsotropicEncode(bool isotropicEncode){
 	this->isotropicEncode = isotropicEncode;
+}
+
+void M1EncodeCore::setOrbitRotation(float orbitRotation) {
+	this->orbitRotation = orbitRotation;
 }
 
 void M1EncodeCore::setOrbitRotationDegrees(float orbitRotation) {
@@ -613,10 +617,6 @@ void M1EncodeCore::setOrbitRotationDegrees(float orbitRotation) {
 
 void M1EncodeCore::setOrbitRotationRadians(float orbitRotation) {
 	this->orbitRotation = orbitRotation / 2 * PI;
-}
-
-void M1EncodeCore::setOrbitRotation0to1(float orbitRotation) {
-	this->orbitRotation = orbitRotation;
 }
 
 void M1EncodeCore::setStereoSpread(float sSpread) {

@@ -45,17 +45,17 @@ public:
 	[[deprecated("setRotation is deprecated due to ambiguity of use, please use setAzimuth0to1, setAzimuthDegrees or setAzimuthRadians instead")]]
 #endif
 	void setRotation(float rotation);
+	void setAzimuth(float azimuth);
 	void setAzimuthDegrees(float azimuth);
 	void setAzimuthRadians(float azimuth);
-	void setAzimuth0to1(float azimuth);
 
 #if __cplusplus > 201103L
 	[[deprecated("setPitch is deprecated due to ambiguity of use, please use setElevation0to1, setStereoRotationDegrees or setStereoRotationRadians instead")]]
 #endif
 	void setPitch(float pitch);
+	void setElevation(float elevation);
 	void setElevationDegrees(float elevation);
 	void setElevationRadians(float elevation);
-	void setElevation0to1(float elevation);
 
 	void setIsotropicEncode(bool isotropicEncode);
 
@@ -63,9 +63,9 @@ public:
 	[[deprecated("setStereoRotate is deprecated due to ambiguity of use, please use setOrbitRotation0to1, setOrbitRotationDegrees or setOrbitRotationRadians instead")]]
 #endif
 	void setStereoRotate(float sRotate);
+	void setOrbitRotation(float orbitRotation);
 	void setOrbitRotationDegrees(float orbitRotation);
 	void setOrbitRotationRadians(float orbitRotation);
-	void setOrbitRotation0to1(float orbitRotation);
 
 	void setDiverge(float diverge);
 	void setStereoSpread(float sSpread);

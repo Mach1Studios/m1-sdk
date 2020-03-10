@@ -6,21 +6,61 @@
 //  Copyright © 2019 Mach1. All rights reserved.
 //
 
+#define M1_STATIC
+
+#if defined(_WIN32)
+#include <time.h>
+#include <windows.h>
+#include <conio.h>
+#define _TIMESPEC_DEFINED
+#else
+#include <sys/time.h>
+#include <unistd.h>
+#include <termios.h>
+#endif
+
 #include <iostream>
 #include <time.h>
-#include <sys/time.h>
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
 #include <pthread.h>
-#include <unistd.h>
-#include <termios.h>
+#include <chrono>
+
 #include "Mach1Encode.h"
 
 #define DELTA_ANGLE 0.0174533 // equivalent of 1 degrees in radians
 #define DELTA_DIVERGE 0.01
+
 #ifndef PI
 #define PI 3.14159265358979323846
+#endif
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846264338327950288
+#endif
+
+#ifdef WIN32
+BOOLEAN nanosleep(struct timespec* ts, void* p) {
+	/* Declarations */
+	HANDLE timer;	/* Timer handle */
+	LARGE_INTEGER li;	/* Time defintion */
+	/* Create timer */
+	if (!(timer = CreateWaitableTimer(NULL, TRUE, NULL)))
+		return FALSE;
+	/* Set timer properties */
+	li.QuadPart = -ts->tv_nsec;
+	if (!SetWaitableTimer(timer, &li, 0, NULL, NULL, FALSE)) {
+		CloseHandle(timer);
+		return FALSE;
+	}
+	/* Start & wait for timer */
+	WaitForSingleObject(timer, INFINITE);
+	/* Clean resources */
+	CloseHandle(timer);
+	/* Slept without problems */
+	return TRUE;
+}
 #endif
 
 static void* decode(void* v);
@@ -43,12 +83,12 @@ Mach1EncodeOutputModeType outputMode;
  
  http://dev.mach1.tech/#mach1-internal-angle-standard
  */
-static float rotation = 0.0;
+static float azimuth = 0.0;
 static float diverge = 0.0;
-static float height = 0.0;
+static float elevation = 0.0;
 static bool isIsotroptic = true;
 static bool isAutoOrbit = true;
-static float stereoRotation = 0.0;
+static float stereoOrbitRotation = 0.0;
 static float stereoSpread = 0.0;
 
 // variables for time logs
@@ -63,7 +103,7 @@ int main(int argc, const char * argv[]) {
     // time increment for Yaw/Pitch/Roll updates to decode
     struct timespec ts;
     ts.tv_sec =  0;
-    ts.tv_nsec = (long)1e7; // 1/100 seconds
+    ts.tv_nsec = (long)1e2;
     
     printf("Setting up\n");
     inputMode = Mach1EncodeInputModeMono;
@@ -74,17 +114,17 @@ int main(int argc, const char * argv[]) {
     while (!done) {
         nanosleep(&ts, NULL);
         auto start = std::chrono::high_resolution_clock::now();
-        m1Encode.setRotation(radToDeg(rotation));
+        m1Encode.setAzimuthDegrees(radToDeg(azimuth));
         m1Encode.setDiverge(diverge);
-        m1Encode.setPitch(radToDeg(height));
+        m1Encode.setElevationDegrees(radToDeg(elevation));
         m1Encode.setInputMode(inputMode);
         m1Encode.setOutputMode(outputMode);
         m1Encode.setIsotropicEncode(isIsotroptic);
         m1Encode.setAutoOrbit(isAutoOrbit);
         if (!isAutoOrbit){
-            m1Encode.setStereoRotate(stereoRotation);
-            m1Encode.setStereoSpread(stereoSpread);
+            m1Encode.setStereoRotate(stereoOrbitRotation);
         }
+        m1Encode.setStereoSpread(stereoSpread);
         m1Encode.generatePointResults();
         m1Coeffs = m1Encode.getGains();
         auto end = std::chrono::high_resolution_clock::now();
@@ -97,20 +137,26 @@ int main(int argc, const char * argv[]) {
 
 static void* decode(void* v)
 {
-    /* Allow Terminal to input chars without "Enter" */
-    struct termios info;
-    tcgetattr(0, &info);
-    info.c_lflag &= ~ICANON;
-    info.c_cc[VMIN] = 1;
-    info.c_cc[VTIME] = 0;
-    tcsetattr(0, TCSANOW, &info);
-    
+/* Allow Terminal to input chars without "Enter" */
+#ifndef _WIN32
+	struct termios info;
+	tcgetattr(0, &info);
+	info.c_lflag &= ~ICANON;
+	info.c_cc[VMIN] = 1;
+	info.c_cc[VTIME] = 0;
+	tcsetattr(0, TCSANOW, &info);
+#endif
+
     printf("In the run thread\n");
     char c;
     printf("Enter a command:\n");
     while (1) {
         
-        c = getchar();
+#ifdef _WIN32
+		c = _getch();
+#else 
+		c = getchar();
+#endif     
         
         if (c == 'q') break;
         
@@ -118,10 +164,10 @@ static void* decode(void* v)
         printf("\b");
         switch (c) {
             case 'd':
-                rotation += DELTA_ANGLE;
+                azimuth += DELTA_ANGLE;
                 break;
             case 'a':
-                rotation -= DELTA_ANGLE;
+                azimuth -= DELTA_ANGLE;
                 break;
             case 'w':
                 diverge += DELTA_DIVERGE;
@@ -130,10 +176,10 @@ static void* decode(void* v)
                 diverge -= DELTA_DIVERGE;
                 break;
             case 'x':
-                height += DELTA_ANGLE;
+                elevation += DELTA_ANGLE;
                 break;
             case 'z':
-                height -= DELTA_ANGLE;
+                elevation -= DELTA_ANGLE;
                 break;
             case 'i':
                 if(inputMode==Mach1EncodeInputModeMono){
@@ -170,16 +216,16 @@ static void* decode(void* v)
                 isAutoOrbit = !isAutoOrbit;
                 break;
             case 'c':
-                stereoRotation += DELTA_ANGLE;
+                stereoOrbitRotation -= DELTA_ANGLE;
                 break;
             case 'v':
-                stereoRotation -= DELTA_ANGLE;
+                stereoOrbitRotation += DELTA_ANGLE;
                 break;
             case 'b':
-                stereoSpread += DELTA_DIVERGE;
+                stereoSpread -= DELTA_DIVERGE;
                 break;
             case 'n':
-                stereoSpread -= DELTA_DIVERGE;
+                stereoSpread += DELTA_DIVERGE;
                 break;
             default:
                 printf("Input not recognized.\n");
@@ -190,21 +236,21 @@ static void* decode(void* v)
         else if (diverge > 1.0) diverge = 1.0;
         if (stereoSpread < -1.0) stereoSpread = -1.0;
         else if (stereoSpread > 1.0) stereoSpread = 1.0;
-        if (rotation < 0) rotation = 2*M_PI;
-        else if (rotation > 2*M_PI) rotation = 0;
-        if (stereoRotation < 0) stereoRotation = 2*M_PI;
-        else if (stereoRotation > 2*M_PI) stereoRotation = 0;
-        if (height < -M_PI/2) height = M_PI/2;
-        else if (height > M_PI/2) height = -M_PI/2;
+        if (azimuth < 0) azimuth = 2*M_PI;
+        else if (azimuth > 2*M_PI) azimuth = 0;
+        if (stereoOrbitRotation < 0) stereoOrbitRotation = 2*M_PI;
+        else if (stereoOrbitRotation > 2*M_PI) stereoOrbitRotation = 0;
+        if (elevation < -M_PI/2) elevation = -M_PI/2;
+        else if (elevation > M_PI/2) elevation = M_PI/2;
         
         // Mach1EncodeCAPI Log:
         printf("\n");
         printf("Input: %u\n", inputMode);
         printf("Output: %u\n", outputMode);
         printf("\n");
-        printf("Rotation: %f\n", radToDeg(rotation));
+        printf("Rotation: %f\n", radToDeg(azimuth));
         printf("Diverge: %f\n", diverge);
-        printf("Height: %f\n", radToDeg(height));
+        printf("Height: %f\n", radToDeg(elevation));
         printf("\n");
         if(isIsotroptic){
             printf("Isotropic Active\n");
@@ -214,7 +260,7 @@ static void* decode(void* v)
         if(inputMode==1){
             printf("Stereo Spread: %f\n", stereoSpread);
             if(!isAutoOrbit){
-                printf("Stereo Rotation: %f\n", radToDeg(stereoRotation));
+                printf("Stereo Rotation: %f\n", radToDeg(stereoOrbitRotation));
                 printf("\n");
             }
             if(isAutoOrbit){

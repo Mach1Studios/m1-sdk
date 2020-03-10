@@ -103,7 +103,7 @@ int main(int argc, const char * argv[]) {
     // time increment for Yaw/Pitch/Roll updates to decode
     struct timespec ts;
     ts.tv_sec =  0;
-    ts.tv_nsec = (long)1e7; // 1/100 seconds
+    ts.tv_nsec = (long)1e2;
     
     printf("Setting up\n");
     inputMode = Mach1EncodeInputModeMono;

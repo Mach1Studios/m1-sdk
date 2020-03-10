@@ -106,8 +106,10 @@ TODO: add more input tests with less rounded inputs
 		m1Decode.setDecodeAlgoType(test.input.outputMode);
 		m1Decode.setFilterSpeed(test.input.filterSpeed);
 
+		m1Decode.setRotationDegrees(Mach1Point3D{ test.input.yaw, test.input.pitch, test.input.roll });
+
 		m1Decode.beginBuffer();
-        auto results = m1Decode.decode(test.input.yaw, test.input.pitch, test.input.roll, 0, 0);
+        auto results = m1Decode.decode(0, 0);
         m1Decode.endBuffer();
 
 		std::cout

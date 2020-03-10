@@ -935,6 +935,11 @@ int Mach1DecodeCore::getOutputChannelsCount() {
 	return 0;
 }
 
+void Mach1DecodeCore::setRotationDegrees(Mach1Point3DCore newRotation)
+{
+	rotation = newRotation;
+}
+
 void Mach1DecodeCore::setFilterSpeed(float newFilterSpeed) {
 	filterSpeed = newFilterSpeed;
 }
@@ -1002,8 +1007,12 @@ std::vector<float> Mach1DecodeCore::decode(float Yaw, float Pitch, float Roll, i
 
 // Decode using the current algorithm type in a more efficient way
 
-void Mach1DecodeCore::decode(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
+void Mach1DecodeCore::decode(float *result, int bufferSize, int sampleIndex) {
 	long tStart = getCurrentTime();
+
+	float Yaw = rotation.x;
+	float Pitch = rotation.y;
+	float Roll = rotation.z;
 
 	switch (algorithmType) {
             // m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs, m1SpatialPairs

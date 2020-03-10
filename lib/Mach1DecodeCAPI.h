@@ -52,13 +52,14 @@ extern "C" {
 	M1_API enum Mach1DecodeAlgoType Mach1DecodeCAPI_getDecodeAlgoType(void* M1obj);
 	M1_API enum Mach1PlatformType Mach1DecodeCAPI_getPlatformType(void* M1obj);
 
-	M1_API void Mach1DecodeCAPI_decode(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
+	M1_API void Mach1DecodeCAPI_decode(void* M1obj, float *result, int bufferSize, int sampleIndex);
 
 	M1_API void Mach1DecodeCAPI_setFilterSpeed(void* M1obj, float filterSpeed);
 	M1_API void Mach1DecodeCAPI_beginBuffer(void* M1obj);
 	M1_API void Mach1DecodeCAPI_endBuffer(void* M1obj);
   
 	M1_API int Mach1DecodeCAPI_getOutputChannelsCount(void* M1obj);
+	M1_API void Mach1DecodeCAPI_setRotationDegrees(void* M1obj, Mach1Point3D rotation);
 
 	M1_API long Mach1DecodeCAPI_getCurrentTime(void* M1obj);
 	M1_API long Mach1DecodeCAPI_getLastCalculationTime(void* M1obj);

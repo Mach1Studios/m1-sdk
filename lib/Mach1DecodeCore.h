@@ -76,7 +76,6 @@ private:
     
     Mach1DecodeAlgoType algorithmType;
     
-
 	inline float _dot(const Mach1Point3DCore& p1, const Mach1Point3DCore& p2) const;
 
 	bool linePlaneIntersection(Mach1Point3DCore& contact, Mach1Point3DCore ray, Mach1Point3DCore rayOrigin, Mach1Point3DCore normal, Mach1Point3DCore coord);
@@ -108,6 +107,8 @@ private:
 	std::vector<std::string> strLog;
 	void addToLog(std::string str, int maxCount = 100);
 
+	Mach1Point3DCore rotation;
+
 public:
     
  	char* getLog();
@@ -126,6 +127,8 @@ public:
 	Mach1PlatformType getPlatformType();
 
 	int getOutputChannelsCount();
+
+	void setRotationDegrees(Mach1Point3DCore newRotation);
 
     void setFilterSpeed(float filterSpeed);
 
@@ -151,7 +154,7 @@ public:
 
     // Decode using the current algorithm type in a more efficient way
 
-    void decode(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
+    void decode(float *result, int bufferSize = 0, int sampleIndex = 0);
 
     // The following functions are deprecated as of now
     

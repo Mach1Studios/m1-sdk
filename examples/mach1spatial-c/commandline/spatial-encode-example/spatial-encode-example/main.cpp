@@ -6,21 +6,61 @@
 //  Copyright © 2019 Mach1. All rights reserved.
 //
 
+#define M1_STATIC
+
+#if defined(_WIN32)
+#include <time.h>
+#include <windows.h>
+#include <conio.h>
+#define _TIMESPEC_DEFINED
+#else
+#include <sys/time.h>
+#include <unistd.h>
+#include <termios.h>
+#endif
+
 #include <iostream>
 #include <time.h>
-#include <sys/time.h>
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
 #include <pthread.h>
-#include <unistd.h>
-#include <termios.h>
+#include <chrono>
+
 #include "Mach1Encode.h"
 
 #define DELTA_ANGLE 0.0174533 // equivalent of 1 degrees in radians
 #define DELTA_DIVERGE 0.01
+
 #ifndef PI
 #define PI 3.14159265358979323846
+#endif
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846264338327950288
+#endif
+
+#ifdef WIN32
+BOOLEAN nanosleep(struct timespec* ts, void* p) {
+	/* Declarations */
+	HANDLE timer;	/* Timer handle */
+	LARGE_INTEGER li;	/* Time defintion */
+	/* Create timer */
+	if (!(timer = CreateWaitableTimer(NULL, TRUE, NULL)))
+		return FALSE;
+	/* Set timer properties */
+	li.QuadPart = -ts->tv_nsec;
+	if (!SetWaitableTimer(timer, &li, 0, NULL, NULL, FALSE)) {
+		CloseHandle(timer);
+		return FALSE;
+	}
+	/* Start & wait for timer */
+	WaitForSingleObject(timer, INFINITE);
+	/* Clean resources */
+	CloseHandle(timer);
+	/* Slept without problems */
+	return TRUE;
+}
 #endif
 
 static void* decode(void* v);
@@ -97,20 +137,26 @@ int main(int argc, const char * argv[]) {
 
 static void* decode(void* v)
 {
-    /* Allow Terminal to input chars without "Enter" */
-    struct termios info;
-    tcgetattr(0, &info);
-    info.c_lflag &= ~ICANON;
-    info.c_cc[VMIN] = 1;
-    info.c_cc[VTIME] = 0;
-    tcsetattr(0, TCSANOW, &info);
-    
+	/* Allow Terminal to input chars without "Enter" */
+#ifndef _WIN32
+	struct termios info;
+	tcgetattr(0, &info);
+	info.c_lflag &= ~ICANON;
+	info.c_cc[VMIN] = 1;
+	info.c_cc[VTIME] = 0;
+	tcsetattr(0, TCSANOW, &info);
+#endif
+
     printf("In the run thread\n");
     char c;
     printf("Enter a command:\n");
     while (1) {
         
-        c = getchar();
+#ifdef _WIN32
+		c = _getch();
+#else 
+		c = getchar();
+#endif     
         
         if (c == 'q') break;
         

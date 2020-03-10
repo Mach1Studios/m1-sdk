@@ -206,7 +206,7 @@ void Mach1Encode::setOutputMode(Mach1EncodeOutputModeType outputMode)
 
 void Mach1Encode::setAzimuth(float azimuth)
 {
-	Mach1EncodeCAPI_setAzimuth0to1(M1obj, azimuth);
+	Mach1EncodeCAPI_setAzimuth(M1obj, azimuth);
 	/// Sets the point(s) azimuth rotation of the vector space
 	///
 	/// - Parameters:
@@ -279,7 +279,7 @@ void Mach1Encode::setIsotropicEncode(bool isotropicEncode)
 
 void Mach1Encode::setOrbitRotation(float orbitRotation)
 {
-	Mach1EncodeCAPI_setOrbitRotation0to1(M1obj, orbitRotation);
+	Mach1EncodeCAPI_setOrbitRotation(M1obj, orbitRotation);
 	/// Sets the two stereo points around the axis of the center point between them
 	///
 	/// - Parameters:

@@ -26,7 +26,11 @@ public:
 	void generatePointResults();
 	int getPointsCount();
 
+#if __cplusplus > 201103L
+	[[deprecated("getResultingVolumesDecoded is deprecated, please use getResultingCoeffsDecoded instead")]]
+#endif
 	std::vector<float> getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, std::vector<float>& decodeResult);
+	std::vector<float> getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, std::vector<float>& decodeResult);
 
 	Mach1EncodeInputModeType getInputMode();
 	Mach1EncodeOutputModeType getOutputMode();

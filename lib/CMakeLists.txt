@@ -7,7 +7,7 @@ set(Mach1SpatialLibraries_VERSION ${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1
 # SET API VERSIONS
 set(ENCODE_VERSION "1.2.0.0")
 set(DECODE_VERSION "1.2.0.0")
-set(DECODEPOSITIONAL_VERSION "1.0.6.2")
+set(DECODEPOSITIONAL_VERSION "1.2.0.0")
 
 set(Mach1EncodeCAPIsrc "./Mach1EncodeCAPI.cpp" "./Mach1EncodeCore.cpp")
 set(Mach1DecodeCAPIsrc "./Mach1DecodeCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")

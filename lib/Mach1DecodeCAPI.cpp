@@ -11,7 +11,7 @@ void* Mach1DecodeCAPI_create(void)
 	return new Mach1DecodeCore();
 }
 
-void Mach1DecodeCAPI_delete(void * M1obj)
+void Mach1DecodeCAPI_delete(void* M1obj)
 {
 	if (M1obj != nullptr) {
 		delete (Mach1DecodeCore*)M1obj;
@@ -19,21 +19,21 @@ void Mach1DecodeCAPI_delete(void * M1obj)
 	}
 }
 
-void Mach1DecodeCAPI_setDecodeAlgoType(void * M1obj, enum Mach1DecodeAlgoType newAlgorithmType)
+void Mach1DecodeCAPI_setDecodeAlgoType(void* M1obj, enum Mach1DecodeAlgoType newAlgorithmType)
 {
 	if (M1obj != nullptr) {
 		((Mach1DecodeCore*)M1obj)->setDecodeAlgoType(newAlgorithmType);
 	}
 }
 
-void Mach1DecodeCAPI_setPlatformType(void * M1obj, enum Mach1PlatformType type)
+void Mach1DecodeCAPI_setPlatformType(void* M1obj, enum Mach1PlatformType type)
 {
 	if (M1obj != nullptr) {
 		((Mach1DecodeCore*)M1obj)->setPlatformType(type);
 	}
 }
 
-Mach1DecodeAlgoType Mach1DecodeCAPI_getDecodeAlgoType(void * M1obj)
+Mach1DecodeAlgoType Mach1DecodeCAPI_getDecodeAlgoType(void* M1obj)
 {
 	if (M1obj != nullptr) {
 		return ((Mach1DecodeCore*)M1obj)->getDecodeAlgoType();
@@ -41,7 +41,7 @@ Mach1DecodeAlgoType Mach1DecodeCAPI_getDecodeAlgoType(void * M1obj)
 	return (Mach1DecodeAlgoType)0;
 }
 
-Mach1PlatformType Mach1DecodeCAPI_getPlatformType(void * M1obj)
+Mach1PlatformType Mach1DecodeCAPI_getPlatformType(void* M1obj)
 {
 	if (M1obj != nullptr) {
 		return ((Mach1DecodeCore*)M1obj)->getPlatformType();
@@ -49,7 +49,7 @@ Mach1PlatformType Mach1DecodeCAPI_getPlatformType(void * M1obj)
 	return (Mach1PlatformType)0;
 }
 
-void Mach1DecodeCAPI_decode(void * M1obj, float * result, int bufferSize, int sampleIndex)
+void Mach1DecodeCAPI_decode(void* M1obj, float* result, int bufferSize, int sampleIndex)
 {
 	((Mach1DecodeCore*)M1obj)->decode(result, bufferSize, sampleIndex);
 }
@@ -69,27 +69,27 @@ void Mach1DecodeCAPI_endBuffer(void* M1obj)
 	((Mach1DecodeCore*)M1obj)->endBuffer();
 }
 
-int Mach1DecodeCAPI_getOutputChannelsCount(void * M1obj)
+int Mach1DecodeCAPI_getOutputChannelsCount(void* M1obj)
 {
 	return ((Mach1DecodeCore*)M1obj)->getOutputChannelsCount();
 }
 
-void Mach1DecodeCAPI_setRotationDegrees(void * M1obj, Mach1Point3D rotation)
+void Mach1DecodeCAPI_setRotationDegrees(void* M1obj, Mach1Point3D rotation)
 {
 	((Mach1DecodeCore*)M1obj)->setRotationDegrees(Mach1Point3DCore{ rotation.x, rotation.y, rotation.z });
 }
 
-long Mach1DecodeCAPI_getCurrentTime(void * M1obj)
+long Mach1DecodeCAPI_getCurrentTime(void* M1obj)
 {
 	return ((Mach1DecodeCore*)M1obj)->getCurrentTime();
 }
 
-long Mach1DecodeCAPI_getLastCalculationTime(void * M1obj)
+long Mach1DecodeCAPI_getLastCalculationTime(void* M1obj)
 {
 	return ((Mach1DecodeCore*)M1obj)->getLastCalculationTime();
 }
 
-char* Mach1DecodeCAPI_getLog(void * M1obj)
+char* Mach1DecodeCAPI_getLog(void* M1obj)
 {
 	return ((Mach1DecodeCore*)M1obj)->getLog();
 }

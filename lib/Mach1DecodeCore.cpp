@@ -955,9 +955,13 @@ Mach1DecodeAlgoType Mach1DecodeCore::getDecodeAlgoType()
 	return algorithmType;
 }
 
-std::vector<float> Mach1DecodeCore::decode(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {
+std::vector<float> Mach1DecodeCore::decode(int bufferSize, int sampleIndex) {
 	long tStart = getCurrentTime();
 	std::vector<float> res;
+
+	float Yaw = rotation.x;
+	float Pitch = rotation.y;
+	float Roll = rotation.z;
 
 	switch (algorithmType) {
             // m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs, m1SpatialPairs
@@ -1006,7 +1010,6 @@ std::vector<float> Mach1DecodeCore::decode(float Yaw, float Pitch, float Roll, i
 }
 
 // Decode using the current algorithm type in a more efficient way
-
 void Mach1DecodeCore::decode(float *result, int bufferSize, int sampleIndex) {
 	long tStart = getCurrentTime();
 

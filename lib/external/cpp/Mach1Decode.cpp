@@ -45,6 +45,12 @@ void Mach1Decode::setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType)
 }
 
 #ifndef  __EMSCRIPTEN__
+void Mach1Decode::decode(float Yaw, float Pitch, float Roll, float * result, int bufferSize, int sampleIndex)
+{
+	setRotationDegrees(Mach1Point3D{ Yaw, Pitch, Roll });
+	decode(result, bufferSize, sampleIndex);
+}
+
 void Mach1Decode::decode(float * result, int bufferSize, int sampleIndex)
 {
 	Mach1DecodeCAPI_decode(M1obj, result, bufferSize, sampleIndex);
@@ -54,6 +60,7 @@ void Mach1Decode::decode(float * result, int bufferSize, int sampleIndex)
 std::vector<float> Mach1Decode::decode(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
 {
 	setRotationDegrees(Mach1Point3D{ Yaw, Pitch, Roll });
+
 	return decode(bufferSize, sampleIndex);
 }
 
@@ -146,12 +153,16 @@ void Mach1Decode::decodeBuffer(std::vector<std::vector<T>>* inBuffer, std::vecto
 	beginBuffer();
 	decode(Yaw, Pitch, Roll, volumes);
 
-	endBuffer();
+	for (size_t i = 0; i < buff; i++)
+	{
 
+	}
+
+	endBuffer();
 }
 
 template<typename T>
 void Mach1Decode::decodeBuffer(std::vector<T*>* inBuffer, std::vector<T*>* outBuffer, int bufferSize)
 {
-
+	// same code
 }

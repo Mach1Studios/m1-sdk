@@ -438,7 +438,8 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
 		eulerAngles = GetEuler(quat);
 
 		// SoundAlgorithm
-		volumes = mach1Decode.decode(eulerAngles.y, eulerAngles.x, eulerAngles.z);
+		mach1Decode.setRotationDegrees(Mach1Point3DCore{ eulerAngles.y, eulerAngles.x, eulerAngles.z });
+		volumes = mach1Decode.decode();
 	}
 	else 
 	{

@@ -13,7 +13,8 @@
 class Mach1Encode {
 private:
 	void* M1obj;
-
+	std::vector<std::vector<float>> gains;
+	
 public:
 	Mach1Encode();
 	~Mach1Encode();

@@ -150,12 +150,24 @@ Mach1Point3D Mach1Decode::getCurrentAngle()
 template<typename T>
 void Mach1Decode::decodeBuffer(std::vector<std::vector<T>>* inBuffer, std::vector<std::vector<T>>* outBuffer, int bufferSize)
 {
+	setRotationDegrees(Mach1Point3D{ angleYaw, anglePitch, angleRoll });
+
 	beginBuffer();
-	decode(Yaw, Pitch, Roll, volumes);
 
-	for (size_t i = 0; i < buff; i++)
+	float sample = 0;
+	for (size_t i = 0; i < bufferSize; i++)
 	{
-
+		std::vector<float> volumes = decode(bufferSize, i);
+		
+		for (size_t c = 0; c < outBuffer->size(); c++)
+		{
+			sample = 0;
+			for (size_t k = 0; k < inBuffer->size(); k++)
+			{
+				sample += inBuffer[k][i] * volumes[k * getOutputChannelsCount() + c];
+			}
+			outBuffer[c][i] = sample;
+		}
 	}
 
 	endBuffer();
@@ -164,5 +176,25 @@ void Mach1Decode::decodeBuffer(std::vector<std::vector<T>>* inBuffer, std::vecto
 template<typename T>
 void Mach1Decode::decodeBuffer(std::vector<T*>* inBuffer, std::vector<T*>* outBuffer, int bufferSize)
 {
-	// same code
+	setRotationDegrees(Mach1Point3D{ angleYaw, anglePitch, angleRoll });
+
+	beginBuffer();
+
+	float sample = 0;
+	for (size_t i = 0; i < bufferSize; i++)
+	{
+		std::vector<float> volumes = decode(bufferSize, i);
+
+		for (size_t c = 0; c < outBuffer->size(); c++)
+		{
+			sample = 0;
+			for (size_t k = 0; k < inBuffer->size(); k++)
+			{
+				sample += inBuffer[k][i] * volumes[k * getOutputChannelsCount() + c];
+			}
+			outBuffer[c][i] = sample;
+		}
+	}
+
+	endBuffer();
 }

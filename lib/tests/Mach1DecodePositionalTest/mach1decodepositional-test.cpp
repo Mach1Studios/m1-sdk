@@ -165,7 +165,7 @@ void test_results(void)
 		float attenuation = mapFloat(distance, 0, 10, 1, 0);
 
 		m1Decode.evaluatePositionResults();
-		std::vector<float> results(20);
+		std::vector<float> results;
 		m1Decode.getCoefficients(results);
 
 		std::cout

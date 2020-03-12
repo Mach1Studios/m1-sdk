@@ -71,6 +71,7 @@ Mach1Encode m1Encode;
 static std::vector<std::vector<float>> m1Coeffs; //2D array, [input channel][input channel's coeff]
 Mach1EncodeInputModeType inputMode;
 Mach1EncodeOutputModeType outputMode;
+std::string inputName;
 
 /*
  Orientation Euler
@@ -109,6 +110,7 @@ int main(int argc, const char * argv[]) {
     printf("Setting up\n");
     inputMode = Mach1EncodeInputModeMono;
     outputMode = Mach1EncodeOutputMode8Ch;
+    inputName = "MONO";
     done = false;
     pthread_create(&thread, NULL, &decode, NULL);
     
@@ -185,20 +187,28 @@ static void* decode(void* v)
             case 'i':
                 if(inputMode==Mach1EncodeInputModeMono){
                     inputMode=Mach1EncodeInputModeStereo;
+                    inputName="STEREO";
                 }else if(inputMode==Mach1EncodeInputModeStereo){
                     inputMode=Mach1EncodeInputModeQuad;
+                    inputName="QUAD";
                 }else if(inputMode==Mach1EncodeInputModeQuad){
                     inputMode=Mach1EncodeInputModeLCRS;
+                    inputName="LCRS";
                 }else if(inputMode==Mach1EncodeInputModeLCRS){
                     inputMode=Mach1EncodeInputModeAFormat;
+                    inputName="AFORMAT";
                 }else if(inputMode==Mach1EncodeInputModeAFormat){
                     inputMode=Mach1EncodeInputModeBFormat;
+                    inputName="1OA ACN";
                 }else if(inputMode==Mach1EncodeInputModeBFormat){
                     inputMode=Mach1EncodeInputModeBFOAACN;
+                    inputName="1OA ACN";
                 }else if(inputMode==Mach1EncodeInputModeBFOAACN){
                     inputMode=Mach1EncodeInputModeBFOAFUMA;
+                    inputName="1OA FUMA";
                 }else if(inputMode==Mach1EncodeInputModeBFOAFUMA){
                     inputMode=Mach1EncodeInputModeMono;
+                    inputName="MONO";
                 }else{
                     printf("Input out of scope.");
                 }
@@ -241,12 +251,12 @@ static void* decode(void* v)
         else if (azimuth > 360.0) azimuth = 0.0;
         if (stereoOrbitRotation < 0.0) stereoOrbitRotation = 360.0;
         else if (stereoOrbitRotation > 360.0) stereoOrbitRotation = 0;
-        if (elevation < -90.0) elevation = -90.0;
-        else if (elevation > 90.0) elevation = 90.0;
+        if (elevation < -180.0) elevation = -180.0;
+        else if (elevation > 180.0) elevation = 180.0;
         
         // Mach1EncodeCAPI Log:
         printf("\n");
-        printf("Input: %u\n", inputMode);
+        printf("Input: %s\n", inputName.c_str());
         printf("Output: %u\n", outputMode);
         printf("\n");
         printf("Azimuth: %f\n", azimuth);

@@ -29,7 +29,8 @@
 
 #include "Mach1Encode.h"
 
-#define DELTA_ANGLE 0.0174533 // equivalent of 1 degrees in radians
+#define DELTA_RADIAN 0.0174533 // equivalent of 1 degrees in radians
+#define DELTA_DEGREE 1.0
 #define DELTA_DIVERGE 0.01
 
 #ifndef PI
@@ -114,15 +115,15 @@ int main(int argc, const char * argv[]) {
     while (!done) {
         nanosleep(&ts, NULL);
         auto start = std::chrono::high_resolution_clock::now();
-        m1Encode.setAzimuthDegrees(radToDeg(azimuth));
+        m1Encode.setAzimuthDegrees(azimuth);
         m1Encode.setDiverge(diverge);
-        m1Encode.setElevationDegrees(radToDeg(elevation));
+        m1Encode.setElevationDegrees(elevation);
         m1Encode.setInputMode(inputMode);
         m1Encode.setOutputMode(outputMode);
         m1Encode.setIsotropicEncode(isIsotroptic);
         m1Encode.setAutoOrbit(isAutoOrbit);
         if (!isAutoOrbit){
-            m1Encode.setStereoRotate(stereoOrbitRotation);
+            m1Encode.setOrbitRotationDegrees(stereoOrbitRotation);
         }
         m1Encode.setStereoSpread(stereoSpread);
         m1Encode.generatePointResults();
@@ -164,10 +165,10 @@ static void* decode(void* v)
         printf("\b");
         switch (c) {
             case 'd':
-                azimuth += DELTA_ANGLE;
+                azimuth += DELTA_DEGREE;
                 break;
             case 'a':
-                azimuth -= DELTA_ANGLE;
+                azimuth -= DELTA_DEGREE;
                 break;
             case 'w':
                 diverge += DELTA_DIVERGE;
@@ -176,10 +177,10 @@ static void* decode(void* v)
                 diverge -= DELTA_DIVERGE;
                 break;
             case 'x':
-                elevation += DELTA_ANGLE;
+                elevation += DELTA_DEGREE;
                 break;
             case 'z':
-                elevation -= DELTA_ANGLE;
+                elevation -= DELTA_DEGREE;
                 break;
             case 'i':
                 if(inputMode==Mach1EncodeInputModeMono){
@@ -216,10 +217,10 @@ static void* decode(void* v)
                 isAutoOrbit = !isAutoOrbit;
                 break;
             case 'c':
-                stereoOrbitRotation -= DELTA_ANGLE;
+                stereoOrbitRotation -= DELTA_DEGREE;
                 break;
             case 'v':
-                stereoOrbitRotation += DELTA_ANGLE;
+                stereoOrbitRotation += DELTA_DEGREE;
                 break;
             case 'b':
                 stereoSpread -= DELTA_DIVERGE;
@@ -236,21 +237,21 @@ static void* decode(void* v)
         else if (diverge > 1.0) diverge = 1.0;
         if (stereoSpread < -1.0) stereoSpread = -1.0;
         else if (stereoSpread > 1.0) stereoSpread = 1.0;
-        if (azimuth < 0) azimuth = 2*M_PI;
-        else if (azimuth > 2*M_PI) azimuth = 0;
-        if (stereoOrbitRotation < 0) stereoOrbitRotation = 2*M_PI;
-        else if (stereoOrbitRotation > 2*M_PI) stereoOrbitRotation = 0;
-        if (elevation < -M_PI/2) elevation = -M_PI/2;
-        else if (elevation > M_PI/2) elevation = M_PI/2;
+        if (azimuth < 0.0) azimuth = 360.0;
+        else if (azimuth > 360.0) azimuth = 0.0;
+        if (stereoOrbitRotation < 0.0) stereoOrbitRotation = 360.0;
+        else if (stereoOrbitRotation > 360.0) stereoOrbitRotation = 0;
+        if (elevation < -90.0) elevation = -90.0;
+        else if (elevation > 90.0) elevation = 90.0;
         
         // Mach1EncodeCAPI Log:
         printf("\n");
         printf("Input: %u\n", inputMode);
         printf("Output: %u\n", outputMode);
         printf("\n");
-        printf("Rotation: %f\n", radToDeg(azimuth));
+        printf("Azimuth: %f\n", azimuth);
         printf("Diverge: %f\n", diverge);
-        printf("Height: %f\n", radToDeg(elevation));
+        printf("Elevation: %f\n", elevation);
         printf("\n");
         if(isIsotroptic){
             printf("Isotropic Active\n");
@@ -260,7 +261,7 @@ static void* decode(void* v)
         if(inputMode==1){
             printf("Stereo Spread: %f\n", stereoSpread);
             if(!isAutoOrbit){
-                printf("Stereo Rotation: %f\n", radToDeg(stereoOrbitRotation));
+                printf("Stereo Rotation: %f\n", stereoOrbitRotation);
                 printf("\n");
             }
             if(isAutoOrbit){

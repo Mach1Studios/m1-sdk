@@ -68,23 +68,47 @@ int M1EncodeCorePointResults::getPointsCount()
 	return pointsCount;
 }
 
-void M1EncodeCore::processGains4Channels(float x, float y, float(&result)[4]) {
-	result[2] = (1.0f - x) * (1.0f - y);
-	result[0] = x * (1.0f - y);
-	result[1] = x * y;
-	result[3] = (1.0f - x) * y;
+float M1EncodeCore::getCoeffForStandardPoint(float x, float y, float z, M1EncodeCorePoint point)
+{
+	return fabs(point.x - x) * fabs(point.y - y) * fabs(point.z - z);
 }
 
-void M1EncodeCore::processGains8Channels(float x, float y, float z, float(&result)[8]) {
-	result[2] = (1.0f - x) * (1.0f - y) * z;
-	result[0] = x * (1.0f - y) * z;
-	result[1] = x * y * z;
-	result[3] = (1.0f - x) * y * z;
+std::vector<float> M1EncodeCore::getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<M1EncodeCorePoint>& pointSet)
+{
+	std::vector<float> result;
+	for (auto &i : pointSet) {
+		result.push_back(getCoeffForStandardPoint(x, y, z, i));
+	}
+	return result;
+}
 
-	result[6] = (1.0f - x) * (1.0f - y) * (1.0f - z);
-	result[4] = x * (1.0f - y) * (1.0f - z);
-	result[5] = x * y * (1.0f - z);
-	result[7] = (1.0f - x) * y * (1.0f - z);
+void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<float>& result) {
+
+	std::vector<M1EncodeCorePoint> pointsSet;
+
+	if (outputMode == OUTPUT_HORIZON_4CH) {
+		pointsSet = {
+			{ 1.0f, 1.0f, 0 },
+			{ 0, 1.0f, 0 },
+			{ 0, 0, 0 },
+			{ 1.0f, 0, 0 },
+		};
+	}
+	else if (outputMode == OUTPUT_SPATIAL_8CH) {
+		pointsSet = {
+			{ 1.0f, 1.0f, 0 },
+			{ 0, 1.0f, 0 },
+			{ 0, 0, 0 },
+			{ 1.0f, 0, 0 },
+
+			{ 1.0f, 1.0f, 1.0f },
+			{ 0, 1.0f, 1.0f },
+			{ 0, 0, 1.0f },
+			{ 1.0f, 0, 1.0f },
+		};
+	}
+
+	result = getCoeffSetForStandardPointSet(x, y, z, pointsSet);
 }
 
 M1EncodeCore::M1EncodeCore() {
@@ -412,26 +436,13 @@ void M1EncodeCore::generatePointResults() {
 
 		resultingPoints.gains[i].resize(getOutputChannelsCount());
 
-		// Generating gains for 4 channel output
-		if (outputMode == OUTPUT_HORIZON_4CH) {
-			float gains[4];
-			processGains4Channels(resultingPoints.ppoints[i].x,
-				resultingPoints.ppoints[i].z, gains);
-			for (int j = 0; j < getOutputChannelsCount(); j++) {
-				resultingPoints.gains[i][j] = gains[j];
-			}
+		// Generating gains
+		std::vector<float> gains;
+		processGainsChannels(resultingPoints.ppoints[i].x, resultingPoints.ppoints[i].z, resultingPoints.ppoints[i].y, gains);
+		for (int j = 0; j < getOutputChannelsCount(); j++) {
+			resultingPoints.gains[i][j] = gains[j];
 		}
 
-		// Generating gains for 8 channel output
-		if (outputMode == OUTPUT_SPATIAL_8CH) {
-			float gains[8];
-			processGains8Channels(resultingPoints.ppoints[i].x,
-				resultingPoints.ppoints[i].z,
-				resultingPoints.ppoints[i].y, gains);
-			for (int j = 0; j < getOutputChannelsCount(); j++) {
-				resultingPoints.gains[i][j] = gains[j];
-			}
-		}
 	}
 
 	timeLastCalculation = getCurrentTime() - tStart;

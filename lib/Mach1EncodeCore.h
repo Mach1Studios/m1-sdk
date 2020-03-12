@@ -120,8 +120,10 @@ private:
 	bool autoOrbit;
 	bool isotropicEncode;
 
-	void processGains4Channels(float x, float y, float(&result)[4]);
-	void processGains8Channels(float x, float y, float z, float(&result)[8]);
+
+	float getCoeffForStandardPoint(float x, float y, float z, M1EncodeCorePoint point);
+	std::vector<float> getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<M1EncodeCorePoint>& pointSet);
+	void processGainsChannels(float x, float y, float z, std::vector<float>& result);
 
 	milliseconds ms;
 

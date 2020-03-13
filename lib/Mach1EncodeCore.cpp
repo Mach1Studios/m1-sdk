@@ -438,7 +438,13 @@ void M1EncodeCore::generatePointResults() {
 
 		// Generating gains
 		std::vector<float> gains;
-		processGainsChannels(resultingPoints.ppoints[i].x, resultingPoints.ppoints[i].z, resultingPoints.ppoints[i].y, gains);
+		if (outputMode == OUTPUT_HORIZON_4CH) {
+			processGainsChannels(resultingPoints.ppoints[i].x, resultingPoints.ppoints[i].z, 1, gains);
+		}
+		else {
+			processGainsChannels(resultingPoints.ppoints[i].x, resultingPoints.ppoints[i].z, resultingPoints.ppoints[i].y, gains);
+		}
+
 		for (int j = 0; j < getOutputChannelsCount(); j++) {
 			resultingPoints.gains[i][j] = gains[j];
 		}

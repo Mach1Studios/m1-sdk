@@ -625,6 +625,7 @@ void M1EncodeCore::setElevationDegrees(float elevation) {
 	if (elevation < 0) { //check if -180 to 180, convert to 0-360
 		elevation += 360.0;
 	}
+	elevation = clamp(elevation, -90, 90);
 	this->elevation = elevation / 360.0;
 }
 void M1EncodeCore::setElevationRadians(float elevation) {
@@ -632,6 +633,7 @@ void M1EncodeCore::setElevationRadians(float elevation) {
 	if (elevation < 0.0) { //check if -180 to 180, convert to 0-360
 		elevation += PI*2.0;
 	}
+	elevation = clamp(elevation, -PI/2, PI/2);
 	this->elevation = elevation / PI * 2.0;
 }
 

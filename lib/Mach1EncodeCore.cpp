@@ -88,22 +88,22 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 
 	if (outputMode == OUTPUT_HORIZON_4CH) {
 		pointsSet = {
-			{ 1.0f, 1.0f, 0 },
 			{ 0, 1.0f, 0 },
 			{ 0, 0, 0 },
+			{ 1.0f, 1.0f, 0 },
 			{ 1.0f, 0, 0 },
 		};
 	}
 	else if (outputMode == OUTPUT_SPATIAL_8CH) {
 		pointsSet = {
-			{ 1.0f, 1.0f, 0 },
 			{ 0, 1.0f, 0 },
 			{ 0, 0, 0 },
+			{ 1.0f, 1.0f, 0 },
 			{ 1.0f, 0, 0 },
 
-			{ 1.0f, 1.0f, 1.0f },
 			{ 0, 1.0f, 1.0f },
 			{ 0, 0, 1.0f },
+			{ 1.0f, 1.0f, 1.0f },
 			{ 1.0f, 0, 1.0f },
 		};
 	}

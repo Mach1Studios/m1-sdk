@@ -596,12 +596,18 @@ void M1EncodeCore::setAzimuth(float azimuth) {
 }
 
 void M1EncodeCore::setAzimuthDegrees(float azimuth) {
-	//TODO: Add in utilities such as modulo and check if -180 to 180
+	azimuth = fmod(azimuth, 360.0); //protect a 360 cycle
+	if (azimuth < 0) { //check if -180 to 180, convert to 0-360
+		azimuth += 360.0;
+	}
 	this->azimuth = azimuth / 360.0;
 }
 
 void M1EncodeCore::setAzimuthRadians(float azimuth) {
-	//TODO: Add in utilities such as modulo and check if -PI to PI
+	azimuth = fmod(azimuth, PI*2.0); //protect a 360 cycle
+	if (azimuth < 0.0) { //check if -180 to 180, convert to 0-360
+		azimuth += PI*2.0;
+	}
 	this->azimuth = azimuth / 2 * PI;
 }
 
@@ -615,13 +621,18 @@ void M1EncodeCore::setElevation(float elevation) {
 }
 
 void M1EncodeCore::setElevationDegrees(float elevation) {
-	//TODO: Add in utilities such as modulo and check if -180 to 180
-	this->elevation = elevation / 180.0;
+	elevation = fmod(elevation, 360.0); //protect a 360 cycle
+	if (elevation < 0) { //check if -180 to 180, convert to 0-360
+		elevation += 360.0;
+	}
+	this->elevation = elevation / 360.0;
 }
-
 void M1EncodeCore::setElevationRadians(float elevation) {
-	//TODO: Add in utilities such as modulo and check if -PI to PI
-	this->elevation = elevation / PI;
+	elevation = fmod(elevation, PI*2.0); //protect a 360 cycle
+	if (elevation < 0.0) { //check if -180 to 180, convert to 0-360
+		elevation += PI*2.0;
+	}
+	this->elevation = elevation / PI * 2.0;
 }
 
 void M1EncodeCore::setIsotropicEncode(bool isotropicEncode){

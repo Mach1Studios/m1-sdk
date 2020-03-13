@@ -608,7 +608,7 @@ void M1EncodeCore::setAzimuthRadians(float azimuth) {
 	if (azimuth < 0.0) { //check if -180 to 180, convert to 0-360
 		azimuth += PI*2.0;
 	}
-	this->azimuth = azimuth / 2 * PI;
+	this->azimuth = azimuth / PI*2.0;
 }
 
 void M1EncodeCore::setDiverge(float diverge) {
@@ -621,20 +621,21 @@ void M1EncodeCore::setElevation(float elevation) {
 }
 
 void M1EncodeCore::setElevationDegrees(float elevation) {
-	elevation = fmod(elevation, 360.0); //protect a 360 cycle
-	if (elevation < 0) { //check if -180 to 180, convert to 0-360
-		elevation += 360.0;
+	elevation = fmod(elevation, 180.0); //protect a 180 cycle
+	if (elevation < 0.0) { //check if -180 to 180, convert to 0-180
+		elevation += 180.0;
 	}
-	elevation = clamp(elevation, -90, 90);
-	this->elevation = elevation / 360.0;
+	elevation = clamp(elevation, 0.0, 180.0);
+	this->elevation = elevation / 180.0;
 }
+
 void M1EncodeCore::setElevationRadians(float elevation) {
-	elevation = fmod(elevation, PI*2.0); //protect a 360 cycle
-	if (elevation < 0.0) { //check if -180 to 180, convert to 0-360
-		elevation += PI*2.0;
+	elevation = fmod(elevation, PI*2.0); //protect a 180 cycle
+	if (elevation < 0.0) { //check if -180 to 180, convert to 0-180
+		elevation += PI;
 	}
-	elevation = clamp(elevation, -PI/2, PI/2);
-	this->elevation = elevation / PI * 2.0;
+	elevation = clamp(elevation, 0.0, PI);
+	this->elevation = elevation / PI;
 }
 
 void M1EncodeCore::setIsotropicEncode(bool isotropicEncode){

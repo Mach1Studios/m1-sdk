@@ -648,13 +648,19 @@ void M1EncodeCore::setOrbitRotation(float orbitRotation) {
 }
 
 void M1EncodeCore::setOrbitRotationDegrees(float orbitRotation) {
-	//TODO: Add in utilities such as modulo and check if -180 to 180
+	orbitRotation = fmod(orbitRotation, 360.0); //protect a 360 cycle
+	if (orbitRotation < 0) { //check if -180 to 180, convert to 0-360
+		orbitRotation += 360.0;
+	}
 	this->orbitRotation = orbitRotation / 360.0;
 }
 
 void M1EncodeCore::setOrbitRotationRadians(float orbitRotation) {
-	//TODO: Add in utilities such as modulo and check if -PI to PI
-	this->orbitRotation = orbitRotation / 2 * PI;
+	orbitRotation = fmod(azimuth, PI*2.0); //protect a 360 cycle
+	if (orbitRotation < 0.0) { //check if -180 to 180, convert to 0-360
+		orbitRotation += PI*2.0;
+	}
+	this->orbitRotation = orbitRotation / PI*2.0;
 }
 
 void M1EncodeCore::setStereoSpread(float sSpread) {

@@ -1,13 +1,23 @@
-//  Mach1 SDK
-//  Copyright © 2018 Mach1. All rights reserved.
-//
-//  Implementation
+//  Mach1 Spatial SDK
+//  Copyright © 2017-2020 Mach1. All rights reserved.
 
 /*
 DISCLAIMER:
-This header file is not an example of use but an decoder that will require periodic
+This file is not an example of use but an decoder that will require periodic
 updates and should not be integrated in sections but remain as an update-able factored file.
 */
+
+/*
+Internal Orientation Implementation:
+  -  Yaw[0]+ = rotate right 0-1 [Range: 0->360 | -180->180]
+  -  Yaw[0]- = rotate left 0-1 [Range: 0->360 | -180->180]
+  -  Pitch[1]+ = rotate up 0-1 [Range: -90->90]
+  -  Pitch[1]- = rotate down 0-1 [Range: -90->90]
+  -  Roll[2]+ = rotate up 0-1 [Range: -90->90]
+  -  Roll[2]- = rotate down 0-1 [Range: -90->90]
+
+Mach1DecodeCore normalizes all input ranges to an unsigned "0 to 1" range for Yaw, Pitch and Roll.
+ */
 
 #include "Mach1DecodeCore.h"
 

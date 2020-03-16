@@ -1,14 +1,5 @@
-//  Mach1 SDK
-//  Copyright © 2018 Mach1. All rights reserved.
-//
-//  Implementation
-
-/*
-DISCLAIMER:
-This header file is not an example of use but an decoder that will require periodic
-updates and should not be integrated in sections but remain as an update-able factored file.
-*/
-
+//  Mach1 Spatial SDK
+//  Copyright © 2017-2020 Mach1. All rights reserved.
 
 #include "Mach1Point4DCore.h"
 

@@ -1,16 +1,16 @@
-//  Mach1 SDK
-//  Copyright © 2018 Mach1. All rights reserved.
-//  
+//  Mach1 Spatial SDK
+//  Copyright © 2017-2020 Mach1. All rights reserved.
 
 /*
-Positional 3D Coords
+Internal Orientation Implementation:
+  -  Azimuth[+] = rotate right 0-1 [Range: 0->360 | -180->180]
+  -  Azimuth[-] = rotate left 0-1 [Range: 0->360 | -180->180]
+  -  Elevation[+] = rotate up 0-1 [Range: -90->90]
+  -  Elevation[-] = rotate down 0-1 [Range: -90->90]
+  -  OrbitRotation[+] = rotate right 0-1 [Range: 0->360 | -180->180]
+  -  OrbitRotation[-] = rotate left 0-1 [Range: 0->360 | -180->180]
 
-    X+ = strafe right
-    X- = strafe left
-    Y+ = up
-    Y- = down
-    Z+ = forward
-    Z- = backward
+Mach1EncodeCore normalizes all input ranges to an unsigned "0 to 1" range for Azimuth, Elevation and OrbitRotation.
  */
 
 #include "Mach1EncodeCore.h"
@@ -591,7 +591,7 @@ void M1EncodeCore::setOutputMode(OutputMode outputMode) {
 }
 
 void M1EncodeCore::setAzimuth(float azimuth) {
-	//TODO: currently expecting 0 to 1 but should be -1 to 1 to fit everything else
+	azimuth = fmod(azimuth, 0.0, 1.0);
 	this->azimuth = azimuth;
 }
 
@@ -612,16 +612,17 @@ void M1EncodeCore::setAzimuthRadians(float azimuth) {
 }
 
 void M1EncodeCore::setDiverge(float diverge) {
+	diverge = fmod(diverge, 0.0, 1.0);
 	this->diverge = diverge;
 }
 
 void M1EncodeCore::setElevation(float elevation) {
-	//TODO: currently expecting 0 to 1 but should be -1 to 1 to fit everything else
+	elevation = fmod(elevation, 0.0, 1.0);
 	this->elevation = elevation;
 }
 
 void M1EncodeCore::setElevationDegrees(float elevation) {
-	elevation = fmod(elevation, 180.0); //protect a 180 cycle
+	elevation = fmod(elevation-180.0, 180.0); //protect a 180 cycle
 	if (elevation < 0.0) { //check if -180 to 180, convert to 0-180
 		elevation += 180.0;
 	}
@@ -643,7 +644,7 @@ void M1EncodeCore::setIsotropicEncode(bool isotropicEncode){
 }
 
 void M1EncodeCore::setOrbitRotation(float orbitRotation) {
-	//TODO: currently expecting 0 to 1 but should be -1 to 1 to fit everything else
+	orbitRotation = fmod(orbitRotation, 0.0, 1.0);
 	this->orbitRotation = orbitRotation;
 }
 
@@ -664,6 +665,7 @@ void M1EncodeCore::setOrbitRotationRadians(float orbitRotation) {
 }
 
 void M1EncodeCore::setStereoSpread(float sSpread) {
+	sSpread = fmod(sSpread, 0.0, 1.0);
 	this->sSpread = sSpread;
 }
 

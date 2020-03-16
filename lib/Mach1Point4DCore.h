@@ -1,7 +1,5 @@
-//  Mach1 SDK
-//  Copyright © 2018 Mach1. All rights reserved.
-//
-//  Header file
+//  Mach1 Spatial SDK
+//  Copyright © 2017-2020 Mach1. All rights reserved.
 
 #pragma once
 

@@ -1,5 +1,5 @@
-//  Mach1 SDK
-//  Copyright © 2017 Mach1. All rights reserved.
+//  Mach1 Spatial SDK
+//  Copyright © 2017-2020 Mach1. All rights reserved.
 
 #include "Mach1Decode.h"
 

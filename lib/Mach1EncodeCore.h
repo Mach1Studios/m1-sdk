@@ -1,7 +1,17 @@
-//  Mach1 SDK
-//  Copyright © 2018 Mach1. All rights reserved.
-//
-//  Header file
+//  Mach1 Spatial SDK
+//  Copyright © 2017-2020 Mach1. All rights reserved.
+
+/*
+Internal Orientation Implementation:
+  -  Azimuth[+] = rotate right 0-1 [Range: 0->360 | -180->180]
+  -  Azimuth[-] = rotate left 0-1 [Range: 0->360 | -180->180]
+  -  Elevation[+] = rotate up 0-1 [Range: -90->90]
+  -  Elevation[-] = rotate down 0-1 [Range: -90->90]
+  -  OrbitRotation[+] = rotate right 0-1 [Range: 0->360 | -180->180]
+  -  OrbitRotation[-] = rotate left 0-1 [Range: 0->360 | -180->180]
+
+Mach1EncodeCore normalizes all input ranges to an unsigned "0 to 1" range for Azimuth, Elevation and OrbitRotation.
+ */
 
 #pragma once
 

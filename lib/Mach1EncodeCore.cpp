@@ -614,7 +614,7 @@ void M1EncodeCore::setAzimuthRadians(float azimuth) {
 
 void M1EncodeCore::setDiverge(float diverge) {
 	//TODO: do we need to protect from -1 to 1?
-	diverge = fmod(diverge, 1.0);
+	diverge = (diverge != 1.0) ? fmod(diverge, 1.0) : diverge;
 	this->diverge = diverge;
 }
 

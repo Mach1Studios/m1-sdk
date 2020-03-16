@@ -616,11 +616,11 @@ Input Data Checks
 		m1Encode.setDiverge(test.input.diverge);
 
 		if (test.input.inputType == signedDegrees || test.input.inputType == unsignedDegrees){
-			m1Encode.setElevationDegrees(test.input.azimuth);
+			m1Encode.setElevationDegrees(test.input.elevation);
 		} else if (test.input.inputType == signedRadians || test.input.inputType == unsignedRadians){
-			m1Encode.setElevationRadians(test.input.azimuth);
+			m1Encode.setElevationRadians(test.input.elevation);
 		} else if (test.input.inputType == signedNormalized || test.input.inputType == unsignedNormalized){
-			m1Encode.setElevation(test.input.azimuth);
+			m1Encode.setElevation(test.input.elevation);
 		} else if (test.input.inputType == quaternion) {
 			// case for quat
 		} else {

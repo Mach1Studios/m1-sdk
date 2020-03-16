@@ -592,7 +592,7 @@ void M1EncodeCore::setOutputMode(OutputMode outputMode) {
 
 void M1EncodeCore::setAzimuth(float azimuth) {
 	//TODO: do we need to protect from -1 to 1?
-	azimuth = fmod(azimuth, 0.0, 1.0);
+	azimuth = fmod(azimuth, 1.0);
 	this->azimuth = azimuth;
 }
 
@@ -614,13 +614,13 @@ void M1EncodeCore::setAzimuthRadians(float azimuth) {
 
 void M1EncodeCore::setDiverge(float diverge) {
 	//TODO: do we need to protect from -1 to 1?
-	diverge = fmod(diverge, 0.0, 1.0);
+	diverge = fmod(diverge, 1.0);
 	this->diverge = diverge;
 }
 
 void M1EncodeCore::setElevation(float elevation) {
 	//TODO: do we need to protect from -1 to 1?
-	elevation = fmod(elevation, 0.0, 1.0);
+	elevation = fmod(elevation, 1.0);
 	this->elevation = elevation;
 }
 
@@ -648,7 +648,7 @@ void M1EncodeCore::setIsotropicEncode(bool isotropicEncode){
 
 void M1EncodeCore::setOrbitRotation(float orbitRotation) {
 	//TODO: do we need to protect from -1 to 1?
-	orbitRotation = fmod(orbitRotation, 0.0, 1.0);
+	orbitRotation = fmod(orbitRotation, 1.0);
 	this->orbitRotation = orbitRotation;
 }
 
@@ -670,7 +670,7 @@ void M1EncodeCore::setOrbitRotationRadians(float orbitRotation) {
 
 void M1EncodeCore::setStereoSpread(float sSpread) {
 	//TODO: do we need to protect from -1 to 1?
-	sSpread = fmod(sSpread, 0.0, 1.0);
+	sSpread = fmod(sSpread, 1.0);
 	this->sSpread = sSpread;
 }
 

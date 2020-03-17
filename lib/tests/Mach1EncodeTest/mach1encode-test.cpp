@@ -269,7 +269,7 @@ TODO: add all other output modes
 		},
 		{
 			"Encode Stereo Rotation",
-			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputMode8Ch, true, 0.0, 1.0, 0.0, false, 1.0, 90.0, unsignedDegrees },
+			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputMode8Ch, true, 0.0, 0.0, 0.0, false, 1.0, 90.0, unsignedDegrees },
 			{
 				{
 					{ 0.25, 0.25, 0.0, 0.0, 0.25, 0.25, 0.0, 0.0 },

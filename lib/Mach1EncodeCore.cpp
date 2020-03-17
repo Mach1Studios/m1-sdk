@@ -608,7 +608,7 @@ void M1EncodeCore::setAzimuthRadians(float azimuth) {
 	if (azimuth < 0.0) { //check if -180 to 180, convert to 0-360
 		azimuth += PI*2.0;
 	}
-	this->azimuth = azimuth / PI*2.0;
+	this->azimuth = azimuth / (PI*2.0);
 }
 
 void M1EncodeCore::setDiverge(float diverge) {
@@ -653,7 +653,7 @@ void M1EncodeCore::setOrbitRotationRadians(float orbitRotation) {
 	if (orbitRotation < 0.0) { //check if -180 to 180, convert to 0-360
 		orbitRotation += PI*2.0;
 	}
-	this->orbitRotation = orbitRotation / PI*2.0;
+	this->orbitRotation = orbitRotation / (PI*2.0);
 }
 
 void M1EncodeCore::setStereoSpread(float sSpread) {

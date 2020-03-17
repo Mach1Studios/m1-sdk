@@ -630,11 +630,11 @@ Input Data Checks
 		m1Encode.setAutoOrbit(test.input.autoOrbit);
 		m1Encode.setStereoSpread(test.input.stereoSpread);
 		if (test.input.inputType == signedDegrees || test.input.inputType == unsignedDegrees){
-			m1Encode.setOrbitRotationDegrees(test.input.azimuth);
+			m1Encode.setOrbitRotationDegrees(test.input.stereoRotate);
 		} else if (test.input.inputType == signedRadians || test.input.inputType == unsignedRadians){
-			m1Encode.setOrbitRotationRadians(test.input.azimuth);
+			m1Encode.setOrbitRotationRadians(test.input.stereoRotate);
 		} else if (test.input.inputType == signedNormalized || test.input.inputType == unsignedNormalized){
-			m1Encode.setOrbitRotation(test.input.azimuth);
+			m1Encode.setOrbitRotation(test.input.stereoRotate);
 		} else if (test.input.inputType == quaternion) {
 			// case for quat
 		} else {

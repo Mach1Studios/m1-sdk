@@ -189,6 +189,9 @@ static void* decode(void* v)
                     inputMode=Mach1EncodeInputModeStereo;
                     inputName="STEREO";
                 }else if(inputMode==Mach1EncodeInputModeStereo){
+                    inputMode=Mach1EncodeInputModeLCR;
+                    inputName="LCR";
+                }else if(inputMode==Mach1EncodeInputModeLCR){
                     inputMode=Mach1EncodeInputModeQuad;
                     inputName="QUAD";
                 }else if(inputMode==Mach1EncodeInputModeQuad){

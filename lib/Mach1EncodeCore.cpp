@@ -214,8 +214,8 @@ void M1EncodeCore::generatePointResults() {
 		if (autoOrbit) {
 			sRotationInRadians = azimuth * PI * 2 - PI / 2;
 		}
-		else {
-			sRotationInRadians = orbitRotation * DEG_TO_RAD - PI / 2;
+		else { 
+			sRotationInRadians = orbitRotation * PI * 2 - PI / 2;
 		}
 
 		resultingPoints.pointsCount = 2;

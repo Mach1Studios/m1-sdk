@@ -446,7 +446,7 @@ Input Data Checks
 		},
 		{
 			"Azimuth: signed radians",
-			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, -1.5708, 1.0, 0.0, true, 0.0, 0.0, signedRadians },
+			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, -1.5707963268, 1.0, 0.0, true, 0.0, 0.0, signedRadians },
 			{
 				{
 					{ 0.25, 0.0, 0.25, 0.0, 0.25, 0.0, 0.25, 0.0 },
@@ -455,7 +455,7 @@ Input Data Checks
 		},
 		{
 			"Azimuth: unsigned radians",
-			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, 4.71239, 1.0, 0.0, true, 0.0, 0.0, unsignedRadians },
+			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, 4.7123889804, 1.0, 0.0, true, 0.0, 0.0, unsignedRadians },
 			{
 				{
 					{ 0.25, 0.0, 0.25, 0.0, 0.25, 0.0, 0.25, 0.0 },
@@ -500,7 +500,7 @@ Input Data Checks
 		},
 		{
 			"Elevation: signed radians",
-			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, 0.0, 1.0, -1.5708, true, 0.0, 0.0, signedRadians },
+			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, 0.0, 1.0, -1.5707963268, true, 0.0, 0.0, signedRadians },
 			{
 				{
 					{ 0.0, 0.0, 0.0, 0.0, 0.25, 0.25, 0.25, 0.25 },

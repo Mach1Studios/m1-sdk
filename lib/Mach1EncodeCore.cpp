@@ -244,12 +244,12 @@ void M1EncodeCore::generatePointResults() {
 
 		resultingPoints.pointsCount = 4;
 
-		std::vector<std::string> names = { "L", "R", "Rs", "Ls" };
+		std::vector<std::string> names = { "L", "R", "Ls", "Rs" };
 		std::vector<M1EncodeCorePoint> pnts = {
 			{ cos((azimuth + 0.125f - 0.25f) * PI * 2) * normalisedOutputDiverge, elevation, sin((azimuth + 0.125f - 0.25f) * PI * 2) * normalisedOutputDiverge },
 			{ cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge },
-			{ cos((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, elevation, sin((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge },
 			{ cos((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge, elevation, sin((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge },
+			{ cos((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, elevation, sin((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge },
 		};
 
 		for (int i = 0; i < resultingPoints.pointsCount; i++)

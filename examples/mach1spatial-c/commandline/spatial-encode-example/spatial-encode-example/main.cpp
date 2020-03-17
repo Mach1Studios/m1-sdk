@@ -105,7 +105,7 @@ int main(int argc, const char * argv[]) {
     // time increment for Yaw/Pitch/Roll updates to decode
     struct timespec ts;
     ts.tv_sec =  0;
-    ts.tv_nsec = (long)1e2;
+    ts.tv_nsec = (long)1e7;
     
     printf("Setting up\n");
     inputMode = Mach1EncodeInputModeMono;
@@ -189,6 +189,9 @@ static void* decode(void* v)
                     inputMode=Mach1EncodeInputModeStereo;
                     inputName="STEREO";
                 }else if(inputMode==Mach1EncodeInputModeStereo){
+                    inputMode=Mach1EncodeInputModeLCR;
+                    inputName="LCR";
+                }else if(inputMode==Mach1EncodeInputModeLCR){
                     inputMode=Mach1EncodeInputModeQuad;
                     inputName="QUAD";
                 }else if(inputMode==Mach1EncodeInputModeQuad){

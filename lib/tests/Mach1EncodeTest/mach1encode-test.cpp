@@ -229,7 +229,7 @@ TODO: add all other output modes
 		},
 		{
 			"Encode Height",
-			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputMode8Ch, true, 0.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees },
+			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputMode8Ch, false, 0.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
 					{ 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 },

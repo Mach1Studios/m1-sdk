@@ -5,8 +5,6 @@
 #include <math.h>
 #include <map>
 
-const float PI = 3.14159265358979f;
-
 void test_results(void)
 {
 	std::map<Mach1EncodeInputModeType, std::string> inputModeNames = {
@@ -502,29 +500,11 @@ Input Data Checks
 			}
 		},
 		{
-			"Elevation: unsigned degrees",
-			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, 0.0, 1.0, -90.0, true, 0.0, 0.0, unsignedDegrees },
-			{
-				{
-					{ 0.0, 0.0, 0.0, 0.0, 0.25, 0.25, 0.25, 0.25 }, //TODO: uh oh!?
-				},
-			}
-		},
-		{
 			"Elevation: signed radians",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, 0.0, 1.0, -1.5707963268, true, 0.0, 0.0, signedRadians },
 			{
 				{
 					{ 0.0, 0.0, 0.0, 0.0, 0.25, 0.25, 0.25, 0.25 },
-				},
-			}
-		},
-		{
-			"Elevation: unsigned radians",
-			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, 0.0, 1.0, -PI / 2.0, true, 0.0, 0.0, unsignedRadians },
-			{
-				{
-					{ 0.0, 0.0, 0.0, 0.0, 0.25, 0.25, 0.25, 0.25 }, 
 				},
 			}
 		},

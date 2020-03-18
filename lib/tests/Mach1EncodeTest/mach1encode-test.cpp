@@ -474,7 +474,7 @@ Input Data Checks
 		},
 		{
 			"Azimuth: signed norm",
-			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, -0.5, 1.0, 0.0, true, 0.0, 0.0, signedNormalized },
+			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, -0.25, 1.0, 0.0, true, 0.0, 0.0, signedNormalized },
 			{
 				{
 					{ 0.25, 0.0, 0.25, 0.0, 0.25, 0.0, 0.25, 0.0 },

@@ -47,7 +47,6 @@ void Mach1Decode::setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType)
 #ifndef  __EMSCRIPTEN__
 void Mach1Decode::decode(float Yaw, float Pitch, float Roll, float * result, int bufferSize, int sampleIndex)
 {
-	setRotationDegrees(Mach1Point3D{ Yaw, Pitch, Roll });
 	decode(result, bufferSize, sampleIndex);
 }
 

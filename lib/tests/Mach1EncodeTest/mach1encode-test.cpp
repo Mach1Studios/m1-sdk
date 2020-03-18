@@ -539,7 +539,7 @@ Input Data Checks
 		},
 		{
 			"Elevation: unsigned norm",
-			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedNormalized },
+			{ Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, 0.0, 1.0, -1.0, true, 0.0, 0.0, unsignedNormalized },
 			{
 				{
 					{ 0.0, 0.0, 0.0, 0.0, 0.25, 0.25, 0.25, 0.25 }, //TODO: uh oh!?

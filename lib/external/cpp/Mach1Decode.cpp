@@ -150,8 +150,6 @@ Mach1Point3D Mach1Decode::getCurrentAngle()
 template<typename T>
 void Mach1Decode::decodeBuffer(std::vector<std::vector<T>>* inBuffer, std::vector<std::vector<T>>* outBuffer, int bufferSize)
 {
-	setRotationDegrees(Mach1Point3D{ angleYaw, anglePitch, angleRoll });
-
 	beginBuffer();
 
 	float sample = 0;

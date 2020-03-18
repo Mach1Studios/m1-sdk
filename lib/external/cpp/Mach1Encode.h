@@ -75,3 +75,64 @@ public:
 	void setAutoOrbit(bool autoOrbit);
 };
 
+template<typename T>
+inline void Mach1Encode::encodeBuffer(std::vector<std::vector<T>>* inBuffer, std::vector<std::vector<T>>* outBuffer, int bufferSize)
+{
+	std::vector<std::vector<float>> gains = getGains();
+	std::vector<std::vector<float>> gainsLerped = gains; // init
+
+	if (this->gains.size() != gains.size()) this->gains = gains;
+
+	T value;
+	for (size_t c = 0; c < getOutputChannelsCount(); c++) {
+		for (size_t i = 0; i < bufferSize; i++) {
+			value = 0;
+
+			float prc = 1.0 * i / bufferSize;
+
+			for (size_t j = 0; j < gains.size(); j++) {
+				for (size_t k = 0; k < gains[j].size(); k++) {
+					gainsLerped[j][k] = this->gains[j][k] * (1 - prc) + gains[j][k] * prc;
+				}
+			}
+
+			for (size_t p = 0; p < getPointsCount(); p++) {
+				value += inBuffer->operator[](p)[i] * gainsLerped[p][c];
+			}
+			outBuffer->operator[](c)[i] = value;
+		}
+	}
+
+	this->gains = gains;
+}
+
+template<typename T>
+void Mach1Encode::encodeBuffer(std::vector<T*>* inBuffer, std::vector<T*>* outBuffer, int bufferSize)
+{
+	std::vector<std::vector<float>> gains = getGains();
+	std::vector<std::vector<float>> gainsLerped = gains; // init
+
+	if (this->gains.size() != gains.size()) this->gains = gains;
+
+	T value;
+	for (size_t c = 0; c < getOutputChannelsCount(); c++) {
+		for (size_t i = 0; i < bufferSize; i++) {
+			value = 0;
+
+			float prc = 1.0 * i / bufferSize;
+
+			for (size_t j = 0; j < gains.size(); j++) {
+				for (size_t k = 0; k < gains[j].size(); k++) {
+					gainsLerped[j][k] = this->gains[j][k] * (1 - prc) + gains[j][k] * prc;
+				}
+			}
+
+			for (size_t p = 0; p < getPointsCount(); p++) {
+				value += inBuffer->operator[](p)[i] * gainsLerped[p][c];
+			}
+			outBuffer->operator[](c)[i] = value;
+		}
+	}
+
+	this->gains = gains;
+}

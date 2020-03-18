@@ -159,6 +159,7 @@ M1EncodeCore::M1EncodeCore() {
 M1EncodeCore::~M1EncodeCore() {
 	if (arr_Points != nullptr) {
 		delete[] arr_Points;
+		arr_Points = nullptr;
 	}
 
 	if (arr_Gains != nullptr) {
@@ -166,6 +167,7 @@ M1EncodeCore::~M1EncodeCore() {
 			delete[] arr_Gains[i];
 		}
 		delete[] arr_Gains;
+		arr_Gains = nullptr;
 	}
 
 	if (arr_PointsNames != nullptr) {
@@ -173,14 +175,17 @@ M1EncodeCore::~M1EncodeCore() {
 			delete[] arr_PointsNames[i];
 		}
 		delete[] arr_PointsNames;
+		arr_PointsNames = nullptr;
 	}
 
 	if (arr_GainsForInputChannelNamed != nullptr) {
 		delete[] arr_GainsForInputChannelNamed;
+		arr_GainsForInputChannelNamed = nullptr;
 	}
 
 	if (arr_ResultingCoeffsDecoded != nullptr) {
 		delete[] arr_ResultingCoeffsDecoded;
+		arr_ResultingCoeffsDecoded = nullptr;
 	}
 }
 

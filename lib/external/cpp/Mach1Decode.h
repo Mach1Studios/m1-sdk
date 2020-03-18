@@ -49,5 +49,52 @@ public:
 
 
     Mach1Point3D getCurrentAngle();
-
 };
+
+template<typename T>
+void Mach1Decode::decodeBuffer(std::vector<std::vector<T>>* inBuffer, std::vector<std::vector<T>>* outBuffer, int bufferSize)
+{
+	beginBuffer();
+
+	float sample = 0;
+	for (size_t i = 0; i < bufferSize; i++)
+	{
+		std::vector<float> volumes = decode(bufferSize, i);
+
+		for (size_t c = 0; c < outBuffer->size(); c++)
+		{
+			sample = 0;
+			for (size_t k = 0; k < inBuffer->size(); k++)
+			{
+				sample += inBuffer[k][i] * volumes[k * getOutputChannelsCount() + c];
+			}
+			outBuffer[c][i] = sample;
+		}
+	}
+
+	endBuffer();
+}
+
+template<typename T>
+void Mach1Decode::decodeBuffer(std::vector<T*>* inBuffer, std::vector<T*>* outBuffer, int bufferSize)
+{
+	beginBuffer();
+
+	float sample = 0;
+	for (size_t i = 0; i < bufferSize; i++)
+	{
+		std::vector<float> volumes = decode(bufferSize, i);
+
+		for (size_t c = 0; c < outBuffer->size(); c++)
+		{
+			sample = 0;
+			for (size_t k = 0; k < inBuffer->size(); k++)
+			{
+				sample += inBuffer[k][i] * volumes[k * getOutputChannelsCount() + c];
+			}
+			outBuffer[c][i] = sample;
+		}
+	}
+
+	endBuffer();
+}

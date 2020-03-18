@@ -47,6 +47,7 @@ void Mach1Decode::setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType)
 #ifndef  __EMSCRIPTEN__
 void Mach1Decode::decode(float Yaw, float Pitch, float Roll, float * result, int bufferSize, int sampleIndex)
 {
+	setRotationDegrees(Mach1Point3D{ Yaw, Pitch, Roll });
 	decode(result, bufferSize, sampleIndex);
 }
 
@@ -173,8 +174,6 @@ void Mach1Decode::decodeBuffer(std::vector<std::vector<T>>* inBuffer, std::vecto
 template<typename T>
 void Mach1Decode::decodeBuffer(std::vector<T*>* inBuffer, std::vector<T*>* outBuffer, int bufferSize)
 {
-	setRotationDegrees(Mach1Point3D{ angleYaw, anglePitch, angleRoll });
-
 	beginBuffer();
 
 	float sample = 0;

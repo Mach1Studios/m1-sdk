@@ -596,7 +596,6 @@ void M1EncodeCore::setOutputMode(OutputMode outputMode) {
 }
 
 void M1EncodeCore::setAzimuth(float azimuth) {
-	//TODO: do we need to protect from -1 to 1?
 	this->azimuth = azimuth;
 }
 
@@ -641,7 +640,6 @@ void M1EncodeCore::setIsotropicEncode(bool isotropicEncode){
 }
 
 void M1EncodeCore::setOrbitRotation(float orbitRotation) {
-	//TODO: do we need to protect from -1 to 1?
 	this->orbitRotation = orbitRotation;
 }
 

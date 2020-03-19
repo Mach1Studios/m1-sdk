@@ -127,66 +127,41 @@ M1EncodeCore::M1EncodeCore() {
 	ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 	timeLastCalculation = 0;
 
-	// first init
-	if (arr_Points == nullptr) {
-		arr_Points = new M1EncodeCorePoint[MAX_POINTS_COUNT];
+	// init additional arrays
+	arr_Points = new M1EncodeCorePoint[MAX_POINTS_COUNT];
+
+	arr_Gains = new float*[MAX_POINTS_COUNT];
+	for (int i = 0; i < MAX_POINTS_COUNT; i++) {
+		arr_Gains[i] = new float[MAX_CHANNELS_COUNT];
 	}
 
-	if (arr_Gains == nullptr) {
-		arr_Gains = new float*[MAX_CHANNELS_COUNT];
-		for (int i = 0; i < MAX_CHANNELS_COUNT; i++) {
-			arr_Gains[i] = new float[MAX_CHANNELS_COUNT];
-		}
+	arr_PointsNames = new char*[MAX_POINTS_COUNT];
+	for (int i = 0; i < MAX_POINTS_COUNT; i++) {
+		arr_PointsNames[i] = new char[255];
+		arr_PointsNames[i][0] = '\0';
 	}
 
-	if (arr_PointsNames == nullptr) {
-		arr_PointsNames = new char*[MAX_CHANNELS_COUNT];
-		for (int i = 0; i < MAX_CHANNELS_COUNT; i++) {
-			arr_PointsNames[i] = new char[255];
-			arr_PointsNames[i][0] = '\0';
-		}
-	}
+	arr_GainsForInputChannelNamed = new float[MAX_CHANNELS_COUNT];
 
-	if (arr_GainsForInputChannelNamed == nullptr) {
-		arr_GainsForInputChannelNamed = new float[MAX_CHANNELS_COUNT];
-	}
-
-    if (arr_ResultingCoeffsDecoded == nullptr) {
-        arr_ResultingCoeffsDecoded = new float[MAX_POINTS_COUNT * 2];
-    }
+	arr_ResultingCoeffsDecoded = new float[MAX_CHANNELS_COUNT];
 }
 
 M1EncodeCore::~M1EncodeCore() {
-	if (arr_Points != nullptr) {
-		delete[] arr_Points;
-		arr_Points = nullptr;
-	}
+	delete[] arr_Points;
 
-	if (arr_Gains != nullptr) {
-		for (int i = 0; i < MAX_CHANNELS_COUNT; i++) {
-			delete[] arr_Gains[i];
-		}
-		delete[] arr_Gains;
-		arr_Gains = nullptr;
+	for (int i = 0; i < MAX_POINTS_COUNT; i++) {
+		delete[] arr_Gains[i];
 	}
+	delete[] arr_Gains;
 
-	if (arr_PointsNames != nullptr) {
-		for (int i = 0; i < MAX_CHANNELS_COUNT; i++) {
-			delete[] arr_PointsNames[i];
-		}
-		delete[] arr_PointsNames;
-		arr_PointsNames = nullptr;
+	for (int i = 0; i < MAX_POINTS_COUNT; i++) {
+		delete[] arr_PointsNames[i];
 	}
+	delete[] arr_PointsNames;
 
-	if (arr_GainsForInputChannelNamed != nullptr) {
-		delete[] arr_GainsForInputChannelNamed;
-		arr_GainsForInputChannelNamed = nullptr;
-	}
+	delete[] arr_GainsForInputChannelNamed;
 
-	if (arr_ResultingCoeffsDecoded != nullptr) {
-		delete[] arr_ResultingCoeffsDecoded;
-		arr_ResultingCoeffsDecoded = nullptr;
-	}
+	delete[] arr_ResultingCoeffsDecoded;
 }
 
 void M1EncodeCore::generatePointResults() {

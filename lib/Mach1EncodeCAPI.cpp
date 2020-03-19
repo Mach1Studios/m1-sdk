@@ -23,11 +23,11 @@ void* Mach1EncodeCAPI_getPoints(void* M1obj) {
 	std::vector<M1EncodeCorePoint> vec = ((M1EncodeCore*)M1obj)->resultingPoints.getPoints();
 
 	// clear
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < MAX_POINTS_COUNT; i++) {
 		((M1EncodeCore*)M1obj)->arr_Points[i] = M1EncodeCorePoint();
 	}
 
-	for (int i = 0; i < vec.size(); i++) memcpy(&(((M1EncodeCore*)M1obj)->arr_Points)[i], &vec[i], sizeof(M1EncodeCorePoint));
+	for (int i = 0; i < vec.size(); i++) memcpy(&(((M1EncodeCore*)M1obj)->arr_Points[i]), &vec[i], sizeof(M1EncodeCorePoint));
 
 	return ((M1EncodeCore*)M1obj)->arr_Points;
 }
@@ -36,8 +36,8 @@ void* Mach1EncodeCAPI_getGains(void* M1obj) {
 	std::vector<std::vector<float>> vec = ((M1EncodeCore*)M1obj)->resultingPoints.getGains();
 
 	// clear
-	for (int i = 0; i < 8; i++) {
-		for (int j = 0; j < 8; j++) {
+	for (int i = 0; i < MAX_POINTS_COUNT; i++) {
+		for (int j = 0; j < MAX_CHANNELS_COUNT; j++) {
 			((M1EncodeCore*)M1obj)->arr_Gains[i][j] = 0;
 		}
 	}
@@ -51,7 +51,7 @@ void* Mach1EncodeCAPI_getPointsNames(void* M1obj) {
 	std::vector<std::string> vec = ((M1EncodeCore*)M1obj)->resultingPoints.getPointsNames();
 
 	// clear
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < MAX_POINTS_COUNT; i++) {
 		((M1EncodeCore*)M1obj)->arr_PointsNames[i][0] = '\0';
 	}
 
@@ -64,7 +64,7 @@ void* Mach1EncodeCAPI_getGainsForInputChannelNamed(void* M1obj, char * pointName
 	std::vector<float> vec = ((M1EncodeCore*)M1obj)->resultingPoints.getGainsForInputChannelNamed(pointName);
 
 	// clear
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < MAX_CHANNELS_COUNT; i++) {
 		((M1EncodeCore*)M1obj)->arr_GainsForInputChannelNamed[i] = 0;
 	}
 
@@ -85,7 +85,7 @@ int Mach1EncodeCAPI_getPointsCount(void * M1obj)
 void* Mach1EncodeCAPI_getResultingCoeffsDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float * decodeResult)
 {
 	// clear
-	for (int i = 0; i < MAX_POINTS_COUNT * 2; i++) {
+	for (int i = 0; i < MAX_CHANNELS_COUNT; i++) {
 		((M1EncodeCore*)M1obj)->arr_ResultingCoeffsDecoded[i] = 0;
 	}
 	
@@ -186,7 +186,7 @@ void Mach1EncodeCAPI_setStereoRotate(void* M1obj, float sRotate) {
 void* Mach1EncodeCAPI_getResultingVolumesDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float * decodeResult)
 {
 	// clear
-	for (int i = 0; i < MAX_POINTS_COUNT * 2; i++) {
+	for (int i = 0; i < MAX_CHANNELS_COUNT; i++) {
 		((M1EncodeCore*)M1obj)->arr_ResultingCoeffsDecoded[i] = 0;
 	}
 	

@@ -66,9 +66,9 @@ struct M1EncodeCorePoint
 };
 
 class M1EncodeCorePointResults {
-	M1EncodeCorePoint ppoints[MAX_CHANNELS_COUNT];
+	M1EncodeCorePoint ppoints[MAX_POINTS_COUNT];
 	int pointsCount;
-	std::string pointsNames[MAX_CHANNELS_COUNT];
+	std::string pointsNames[MAX_POINTS_COUNT];
 	std::vector<std::vector<float>> gains;
 
 	friend class M1EncodeCore;

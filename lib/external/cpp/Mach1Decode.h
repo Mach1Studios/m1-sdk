@@ -56,7 +56,7 @@ void Mach1Decode::decodeBuffer(std::vector<std::vector<T>>* inBuffer, std::vecto
 {
 	beginBuffer();
 
-	float sample = 0;
+	T sample = 0;
 	for (size_t i = 0; i < bufferSize; i++)
 	{
 		std::vector<float> volumes = decode(bufferSize, i);
@@ -66,9 +66,9 @@ void Mach1Decode::decodeBuffer(std::vector<std::vector<T>>* inBuffer, std::vecto
 			sample = 0;
 			for (size_t k = 0; k < inBuffer->size(); k++)
 			{
-				sample += inBuffer[k][i] * volumes[k * getOutputChannelsCount() + c];
+				sample += inBuffer->operator[](k)[i] * volumes[k * getOutputChannelsCount() + c];
 			}
-			outBuffer[c][i] = sample;
+			outBuffer->operator[](c)[i] = sample;
 		}
 	}
 
@@ -80,7 +80,7 @@ void Mach1Decode::decodeBuffer(std::vector<T*>* inBuffer, std::vector<T*>* outBu
 {
 	beginBuffer();
 
-	float sample = 0;
+	T sample = 0;
 	for (size_t i = 0; i < bufferSize; i++)
 	{
 		std::vector<float> volumes = decode(bufferSize, i);
@@ -90,9 +90,9 @@ void Mach1Decode::decodeBuffer(std::vector<T*>* inBuffer, std::vector<T*>* outBu
 			sample = 0;
 			for (size_t k = 0; k < inBuffer->size(); k++)
 			{
-				sample += inBuffer[k][i] * volumes[k * getOutputChannelsCount() + c];
+				sample += inBuffer->operator[](k)[i] * volumes[k * getOutputChannelsCount() + c];
 			}
-			outBuffer[c][i] = sample;
+			outBuffer->operator[](c)[i] = sample;
 		}
 	}
 

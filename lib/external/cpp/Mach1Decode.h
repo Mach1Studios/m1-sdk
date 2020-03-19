@@ -66,7 +66,7 @@ void Mach1Decode::decodeBuffer(std::vector<std::vector<T>>* inBuffer, std::vecto
 			sample = 0;
 			for (size_t k = 0; k < inBuffer->size(); k++)
 			{
-				sample += inBuffer->operator[](k)[i] * volumes[k * getOutputChannelsCount() + c];
+				sample += inBuffer->operator[](k)[i] * volumes[k + c * (getOutputChannelsCount() - 1)/2];
 			}
 			outBuffer->operator[](c)[i] = sample;
 		}

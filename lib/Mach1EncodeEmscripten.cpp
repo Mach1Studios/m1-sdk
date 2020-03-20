@@ -53,20 +53,22 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
 
 		.function("setInputMode", &Mach1Encode::setInputMode)
 		.function("setOutputMode", &Mach1Encode::setOutputMode)
+
 		.function("setRotation", &Mach1Encode::setRotation)
-        .function("setAzimuth", &Mach1Encode::setAzimuth0to1)
+        .function("setAzimuth", &Mach1Encode::setAzimuth)
         .function("setAzimuthDegrees", &Mach1Encode::setAzimuthDegrees)
         .function("setAzimuthRadians", &Mach1Encode::setAzimuthRadians)
 
 		.function("setDiverge", &Mach1Encode::setDiverge)
+
         .function("setPitch", &Mach1Encode::setPitch)
-        .function("setElevation", &Mach1Encode::setElevation0to1)
+        .function("setElevation", &Mach1Encode::setElevation)
         .function("setElevationDegrees", &Mach1Encode::setElevationDegrees)
         .function("setElevationRadians", &Mach1Encode::setElevationRadians)
         .function("setIsotropicEncode", &Mach1Encode::setIsotropicEncode)
 
         .function("setStereoRotate", &Mach1Encode::setStereoRotate)
-        .function("setOrbitRotation", &Mach1Encode::setOrbitRotation0to1)
+        .function("setOrbitRotation", &Mach1Encode::setOrbitRotation)
         .function("setOrbitRotationDegrees", &Mach1Encode::setOrbitRotationDegrees)
         .function("setOrbitRotationRadians", &Mach1Encode::setOrbitRotationRadians)
 

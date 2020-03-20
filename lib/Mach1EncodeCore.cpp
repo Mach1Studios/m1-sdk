@@ -555,16 +555,16 @@ int M1EncodeCore::getInputChannelsCount() {
 		case INPUT_MONO: return 1;
 		case INPUT_STEREO: return 2;
 		case INPUT_QUAD: return 4;
-		case INPUT_LCRS: return 0;
-		case INPUT_AFORMAT: return 0;
-		case INPUT_BFORMAT: return 0;
-		case INPUT_1OAACN: return 0;
-		case INPUT_1OAFUMA: return 0;
-		case INPUT_2OAACN: return 0;
-		case INPUT_2OAFUMA: return 0;
-		case INPUT_3OAACN: return 0;
-		case INPUT_3OAFUMA: return 180;
-		case INPUT_LCR: return 0;
+		case INPUT_LCRS: return 4;
+		case INPUT_AFORMAT: return 4;
+		case INPUT_BFORMAT: return 4;
+		case INPUT_1OAACN: return 4;
+		case INPUT_1OAFUMA: return 4;
+		case INPUT_2OAACN: return 9;
+		case INPUT_2OAFUMA: return 9;
+		case INPUT_3OAACN: return 16;
+		case INPUT_3OAFUMA: return 16;
+		case INPUT_LCR: return 3;
 	}
 	return 0;
 }

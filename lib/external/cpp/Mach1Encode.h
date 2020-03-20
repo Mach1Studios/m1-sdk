@@ -33,6 +33,7 @@ public:
 
 	Mach1EncodeInputModeType getInputMode();
 	Mach1EncodeOutputModeType getOutputMode();
+	int getInputChannelsCount();
 	int getOutputChannelsCount();
 
 	template<typename T>
@@ -79,27 +80,18 @@ template<typename T>
 inline void Mach1Encode::encodeBuffer(std::vector<std::vector<T>>* inBuffer, std::vector<std::vector<T>>* outBuffer, int bufferSize)
 {
 	std::vector<std::vector<float>> gains = getGains();
-	std::vector<std::vector<float>> gainsLerped = gains; // init
-
 	if (this->gains.size() != gains.size()) this->gains = gains;
 
 	T value;
-	for (size_t c = 0; c < getOutputChannelsCount(); c++) {
-		for (size_t i = 0; i < bufferSize; i++) {
-			value = 0;
-
-			float prc = 1.0 * i / bufferSize;
-
-			for (size_t j = 0; j < gains.size(); j++) {
-				for (size_t k = 0; k < gains[j].size(); k++) {
-					gainsLerped[j][k] = this->gains[j][k] * (1 - prc) + gains[j][k] * prc;
-				}
+	float prc = 0;
+	float gain = 0;
+	for (size_t c = 0; c < gains.size(); c++) {
+		for (size_t k = 0; k < gains[c].size(); k++) {
+			for (size_t i = 0; i < bufferSize; i++) {
+				prc = 1.0 * i / bufferSize;
+				gain = this->gains[c][k] * (1 - prc) + gains[c][k] * prc;
+				outBuffer->operator[](k * getInputChannelsCount() + c)[i] = inBuffer->operator[](c)[i] * gain;
 			}
-
-			for (size_t p = 0; p < getPointsCount(); p++) {
-				value += inBuffer->operator[](p)[i] * gainsLerped[p][c];
-			}
-			outBuffer->operator[](c)[i] = value;
 		}
 	}
 
@@ -110,27 +102,18 @@ template<typename T>
 void Mach1Encode::encodeBuffer(std::vector<T*>* inBuffer, std::vector<T*>* outBuffer, int bufferSize)
 {
 	std::vector<std::vector<float>> gains = getGains();
-	std::vector<std::vector<float>> gainsLerped = gains; // init
-
 	if (this->gains.size() != gains.size()) this->gains = gains;
 
 	T value;
-	for (size_t c = 0; c < getOutputChannelsCount(); c++) {
-		for (size_t i = 0; i < bufferSize; i++) {
-			value = 0;
-
-			float prc = 1.0 * i / bufferSize;
-
-			for (size_t j = 0; j < gains.size(); j++) {
-				for (size_t k = 0; k < gains[j].size(); k++) {
-					gainsLerped[j][k] = this->gains[j][k] * (1 - prc) + gains[j][k] * prc;
-				}
+	float prc = 0;
+	float gain = 0;
+	for (size_t c = 0; c < gains.size(); c++) {
+		for (size_t k = 0; k < gains[c].size(); k++) {
+			for (size_t i = 0; i < bufferSize; i++) {
+				prc = 1.0 * i / bufferSize;
+				gain = this->gains[c][k] * (1 - prc) + gains[c][k] * prc;
+				outBuffer->operator[](k * getInputChannelsCount() + c)[i] = inBuffer->operator[](c)[i] * gain;
 			}
-
-			for (size_t p = 0; p < getPointsCount(); p++) {
-				value += inBuffer->operator[](p)[i] * gainsLerped[p][c];
-			}
-			outBuffer->operator[](c)[i] = value;
 		}
 	}
 

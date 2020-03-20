@@ -936,7 +936,7 @@ int Mach1DecodeCore::getOutputChannelsCount() {
 		case Mach1DecodeAlgoAltSpatial: return 8 * 2 + 2;
 		case Mach1DecodeAlgoHorizon: return 4 * 2 + 2;
 		case Mach1DecodeAlgoHorizonPairs: return  4 * 2 + 2;
-		case Mach1DecodeAlgoSpatialPairs: return 8;
+		case Mach1DecodeAlgoSpatialPairs: return 4 * 2 + 2;
 		case Mach1DecodeAlgoSpatialPlus: return 12 * 2 + 2;
 		case Mach1DecodeAlgoSpatialPlusPlus: return 14 * 2 + 2;
 		case Mach1DecodeAlgoSpatialExt: return 16 * 2 + 2;

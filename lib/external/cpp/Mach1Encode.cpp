@@ -128,6 +128,11 @@ Mach1EncodeOutputModeType Mach1Encode::getOutputMode()
 	return Mach1EncodeCAPI_getOutputMode(M1obj);
 }
 
+int Mach1Encode::getInputChannelsCount()
+{
+	return Mach1EncodeCAPI_getInputChannelsCount(M1obj);
+}
+
 int Mach1Encode::getOutputChannelsCount()
 {
 	return Mach1EncodeCAPI_getOutputChannelsCount(M1obj);

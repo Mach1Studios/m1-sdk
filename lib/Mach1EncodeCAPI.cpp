@@ -102,6 +102,10 @@ enum Mach1EncodeOutputModeType Mach1EncodeCAPI_getOutputMode(void* M1obj) {
 	return (Mach1EncodeOutputModeType)(int)((M1EncodeCore*)M1obj)->getOutputMode();
 }
 
+int Mach1EncodeCAPI_getInputChannelsCount(void* M1obj) {
+	return ((M1EncodeCore*)M1obj)->getInputChannelsCount();
+}
+
 int Mach1EncodeCAPI_getOutputChannelsCount(void* M1obj) {
 	return ((M1EncodeCore*)M1obj)->getOutputChannelsCount();
 }

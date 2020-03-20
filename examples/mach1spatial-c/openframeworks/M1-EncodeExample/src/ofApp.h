@@ -50,7 +50,7 @@ class ofApp : public ofBaseApp{
 	float sRotation, sSpread = 0.5;
 	bool autoOrbit = true;
 
-	bool useBufferProcessingFromLib;
+	bool useBufferProcessingFromLib = true;
 
 	// Decoder
 

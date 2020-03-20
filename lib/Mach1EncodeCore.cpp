@@ -550,6 +550,24 @@ M1EncodeCore::OutputMode M1EncodeCore::getOutputMode() {
 	return outputMode;
 }
 
+int M1EncodeCore::getInputChannelsCount() {
+	switch (inputMode) {
+		case INPUT_MONO: return 1;
+		case INPUT_STEREO: return 2;
+		case INPUT_QUAD: return 4;
+		case INPUT_LCRS: return 0;
+		case INPUT_AFORMAT: return 0;
+		case INPUT_BFORMAT: return 0;
+		case INPUT_1OAACN: return 0;
+		case INPUT_1OAFUMA: return 0;
+		case INPUT_2OAACN: return 0;
+		case INPUT_2OAFUMA: return 0;
+		case INPUT_3OAACN: return 0;
+		case INPUT_3OAFUMA: return 180;
+		case INPUT_LCR: return 0;
+	}
+	return 0;
+}
 int M1EncodeCore::getOutputChannelsCount() {
 	switch (outputMode) {
 		case OUTPUT_HORIZON_4CH: return 4;

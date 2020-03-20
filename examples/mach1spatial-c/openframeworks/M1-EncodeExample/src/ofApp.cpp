@@ -321,22 +321,24 @@ void ofApp::audioOut(ofSoundBuffer &outBuffer)
 
 	int bufferSize = outBuffer.getNumFrames();
 
+	volumes[0] = 0;
+	volumes[1] = 0;
+
 	if (useBufferProcessingFromLib) {
-		// fill input/output buffer
-		std::vector<std::vector<float>> buffer;
-		buffer.resize(2);
-		for (size_t c = 0; c < buffer.size(); c++)
+		// fill input buffer
+		std::vector<std::vector<float>> bufferIn;
+		bufferIn.resize(m1Encode.getInputChannelsCount());
+		for (size_t c = 0; c < bufferIn.size(); c++)
 		{
-			buffer[c].resize(bufferSize);
+			bufferIn[c].resize(bufferSize);
 		}
 
 		for (int i = 0; i < bufferSize; i++) {
-			for (size_t c = 0; c < 2; c++)
+			for (size_t c = 0; c < player.getNumChannels(); c++)
 			{
-				if (pos < player.getRawSamples().size()) buffer[c][i] = player.getRawSamples()[pos];
-				if (player.getNumChannels() > 1) pos++;
+				if (pos < player.getRawSamples().size() && c < m1Encode.getInputChannelsCount()) bufferIn[c][i] = player.getRawSamples()[pos];
+				pos++;
 			}
-			pos++;
 
 			// loop audio
 			if (pos >= player.getRawSamples().size()) pos = 0;
@@ -344,28 +346,33 @@ void ofApp::audioOut(ofSoundBuffer &outBuffer)
 
 		// create encoded buffer 
 		std::vector<std::vector<float>> bufferEncoded;
-		bufferEncoded.resize(m1Encode.getOutputChannelsCount());
+		bufferEncoded.resize(m1Encode.getInputChannelsCount() * m1Encode.getOutputChannelsCount());
 		for (size_t c = 0; c < bufferEncoded.size(); c++)
 		{
 			bufferEncoded[c].resize(bufferSize);
 		}
 
-		// processing buffer
-		m1Encode.encodeBuffer<float>(&buffer, &bufferEncoded, bufferSize);
-		m1Decode.decodeBuffer<float>(&bufferEncoded, &buffer, bufferSize);
+		// create output buffer
+		std::vector<std::vector<float>> bufferOut;
+		bufferOut.resize(2);
+		for (size_t c = 0; c < bufferOut.size(); c++)
+		{
+			bufferOut[c].resize(bufferSize);
+		}
 
+		// processing buffer
+		m1Encode.encodeBuffer<float>(&bufferIn, &bufferEncoded, bufferSize);
+		m1Decode.decodeBuffer<float>(&bufferEncoded, &bufferOut, m1Encode.getInputChannelsCount(), bufferSize);
 
 		for (int i = 0; i < bufferSize; i++)
 		{
 			// left channel
-			outBuffer.getSample(i, 0) = buffer[0][i];
-			volumes[0] += fabs(buffer[0][i]);
+			outBuffer.getSample(i, 0) = bufferOut[0][i];
+			volumes[0] += fabs(bufferOut[0][i]);
 
-			outBuffer.getSample(i, 1) = buffer[1][i];
-			volumes[1] += fabs(buffer[1][i]);
+			outBuffer.getSample(i, 1) = bufferOut[1][i];
+			volumes[1] += fabs(bufferOut[1][i]);
 		}
-
-
 	}
 	else {
 		mtx.lock();
@@ -432,16 +439,17 @@ void ofApp::audioOut(ofSoundBuffer &outBuffer)
 			if (pos >= player.getRawSamples().size()) pos = 0;
 		}
 
-		// show volumes
-		volumes[0] /= 1;// bufferSize;
-		volumes[1] /= 1;// bufferSize;
-
-		mtx.lock();
-		for (int j = 0; j < volumes.size(); j++) {
-			this->volumes[j] = ofLerp(this->volumes[j], volumes[j], 0.1);
-		}
-		mtx.unlock();
 	}
+
+	// show volumes
+	volumes[0] /= 1;// bufferSize;
+	volumes[1] /= 1;// bufferSize;
+
+	mtx.lock();
+	for (int j = 0; j < volumes.size(); j++) {
+		this->volumes[j] = ofLerp(this->volumes[j], volumes[j], 0.1);
+	}
+	mtx.unlock();
 }
 
 //--------------------------------------------------------------

@@ -154,6 +154,7 @@ public:
 
 	InputMode getInputMode();
 	OutputMode getOutputMode();
+	int getInputChannelsCount();
 	int getOutputChannelsCount();
 
 	void setInputMode(InputMode inputMode);

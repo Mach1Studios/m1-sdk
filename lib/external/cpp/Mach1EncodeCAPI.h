@@ -78,6 +78,7 @@ extern "C" {
 
 	M1_API enum Mach1EncodeInputModeType Mach1EncodeCAPI_getInputMode(void* M1obj);
 	M1_API enum Mach1EncodeOutputModeType Mach1EncodeCAPI_getOutputMode(void* M1obj);
+	M1_API int Mach1EncodeCAPI_getInputChannelsCount(void* M1obj);
 	M1_API int Mach1EncodeCAPI_getOutputChannelsCount(void* M1obj);
 
 	M1_API void Mach1EncodeCAPI_setInputMode(void* M1obj, enum Mach1EncodeInputModeType inputMode);

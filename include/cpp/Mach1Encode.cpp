@@ -1,5 +1,5 @@
-//  Mach1 SDK
-//  Copyright © 2018 Mach1. All rights reserved.
+//  Mach1 Spatial SDK
+//  Copyright © 2017-2020 Mach1. All rights reserved.
 
 #include "Mach1Encode.h"
 
@@ -131,42 +131,6 @@ Mach1EncodeOutputModeType Mach1Encode::getOutputMode()
 int Mach1Encode::getOutputChannelsCount()
 {
 	return Mach1EncodeCAPI_getOutputChannelsCount(M1obj);
-}
-
-template<typename T>
-void Mach1Encode::encodeBuffer(std::vector< std::vector<T>>* inBuffer, std::vector< std::vector<T>>* outBuffer, int bufferSize)
-{
-	generatePointResults();
-	auto gains = getGains();
-
-	T value;
-	for (size_t c = 0; c < getOutputChannelsCount(); c++) {
-		for (size_t i = 0; i < bufferSize; i++) {
-			value = 0;
-			for (size_t p = 0; p < getPointsCount(); p++) {
-				value += inBuffer[p][i] * gains[p][c];
-			}
-			outBuffer[c][i] = value;
-		}
-	}
-}
-
-template<typename T>
-void Mach1Encode::encodeBuffer(std::vector<T*>* inBuffer, std::vector<T*>* outBuffer, int bufferSize)
-{
-	generatePointResults();
-	auto gains = getGains();
-
-	T value;
-	for (size_t c = 0; c < getOutputChannelsCount(); c++) {
-		for (size_t i = 0; i < bufferSize; i++) {
-			value = 0;
-			for (size_t p = 0; p < getPointsCount(); p++) {
-				value += inBuffer[p][i] * gains[p][c];
-			}
-			outBuffer[c][i] = value;
-		}
-	}
 }
 
 void Mach1Encode::setInputMode(Mach1EncodeInputModeType inputMode)

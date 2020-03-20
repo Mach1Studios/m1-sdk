@@ -1,5 +1,5 @@
-//  Mach1 SDK
-//  Copyright © 2017 Mach1. All rights reserved.
+//  Mach1 Spatial SDK
+//  Copyright © 2017-2020 Mach1. All rights reserved.
 
 #include "Mach1Decode.h"
 
@@ -47,15 +47,28 @@ void Mach1Decode::setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType)
 #ifndef  __EMSCRIPTEN__
 void Mach1Decode::decode(float Yaw, float Pitch, float Roll, float * result, int bufferSize, int sampleIndex)
 {
-	Mach1DecodeCAPI_decode(M1obj, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+	setRotationDegrees(Mach1Point3D{ Yaw, Pitch, Roll });
+	decode(result, bufferSize, sampleIndex);
+}
+
+void Mach1Decode::decode(float * result, int bufferSize, int sampleIndex)
+{
+	Mach1DecodeCAPI_decode(M1obj, result, bufferSize, sampleIndex);
 }
 #endif
 
 std::vector<float> Mach1Decode::decode(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
 {
-	static std::vector<float> vec(18);
+	setRotationDegrees(Mach1Point3D{ Yaw, Pitch, Roll });
 
-	Mach1DecodeCAPI_decode(M1obj, Yaw, Pitch, Roll, vec.data(), bufferSize, sampleIndex);
+	return decode(bufferSize, sampleIndex);
+}
+
+std::vector<float> Mach1Decode::decode(int bufferSize, int sampleIndex)
+{
+	static std::vector<float> vec(getOutputChannelsCount());
+
+	Mach1DecodeCAPI_decode(M1obj, vec.data(), bufferSize, sampleIndex);
 
 	return vec;
     /// Call with current update's angles to return the resulting coefficients
@@ -73,6 +86,16 @@ std::vector<float> Mach1Decode::decode(float Yaw, float Pitch, float Roll, int b
     ///     - Roll: float for device/listener roll angle: [Range: -90->90]
     ///     - bufferSize: int for number of samples in a buffer, ideally supplied from your audioplayer/engine
     ///     - sampleIndex: int for current sample index array, ideally supplied from your audioplayer/engine
+}
+
+int Mach1Decode::getOutputChannelsCount()
+{
+	return Mach1DecodeCAPI_getOutputChannelsCount(M1obj);
+}
+
+void Mach1Decode::setRotationDegrees(Mach1Point3D rotation)
+{
+	Mach1DecodeCAPI_setRotationDegrees(M1obj, rotation);
 }
 
 void Mach1Decode::setFilterSpeed(float filterSpeed)

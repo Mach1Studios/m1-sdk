@@ -1,5 +1,5 @@
-//  Mach1 SDK
-//  Copyright © 2018 Mach1. All rights reserved.
+//  Mach1 Spatial SDK
+//  Copyright © 2017-2020 Mach1. All rights reserved.
 
 #include "Mach1Encode.h"
 
@@ -37,7 +37,8 @@ std::vector<std::vector<float>> Mach1Encode::getGains()
 	float** arr = (float**)Mach1EncodeCAPI_getGains(M1obj);
 
 	for (int i = 0; i < vec.size(); i++) {
-		vec[i].resize(8);
+		vec[i].resize(Mach1EncodeCAPI_getOutputChannelsCount(M1obj));
+
 		for (int j = 0; j < vec[i].size(); j++) {
 			vec[i][j] = arr[i][j];
 		}
@@ -69,7 +70,7 @@ std::vector<std::string> Mach1Encode::getPointsNames()
 
 std::vector<float> Mach1Encode::getGainsForInputChannelNamed(std::string pointName)
 {
-	std::vector<float> vec(8);
+	std::vector<float> vec(Mach1EncodeCAPI_getOutputChannelsCount(M1obj));
 
 	float* arr = (float*)Mach1EncodeCAPI_getGainsForInputChannelNamed(M1obj, (char*)pointName.c_str());
 
@@ -98,11 +99,11 @@ int Mach1Encode::getPointsCount()
     ///     - integer of number of input channels/points
 }
 
-std::vector<float> Mach1Encode::getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, std::vector<float>& decodeResult)
+std::vector<float> Mach1Encode::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, std::vector<float>& decodeResult)
 {
-	std::vector<float> vec(14);
+	std::vector<float> vec(Mach1EncodeCAPI_getPointsCount(M1obj) * 2);
 
-	float* arr = (float*)Mach1EncodeCAPI_getResultingVolumesDecoded(M1obj, decodeType, decodeResult.data());
+	float* arr = (float*)Mach1EncodeCAPI_getResultingCoeffsDecoded(M1obj, decodeType, decodeResult.data());
 
 	for (int i = 0; i < vec.size(); i++) {
 		vec[i] = arr[i];
@@ -115,6 +116,21 @@ std::vector<float> Mach1Encode::getResultingVolumesDecoded(Mach1DecodeAlgoType d
     /// live can more easily be created
     ///
     /// - Remark: Each input audio channel results a direct decode instead of the encode coefficients
+}
+
+Mach1EncodeInputModeType Mach1Encode::getInputMode()
+{
+	return Mach1EncodeCAPI_getInputMode(M1obj);
+}
+
+Mach1EncodeOutputModeType Mach1Encode::getOutputMode()
+{
+	return Mach1EncodeCAPI_getOutputMode(M1obj);
+}
+
+int Mach1Encode::getOutputChannelsCount()
+{
+	return Mach1EncodeCAPI_getOutputChannelsCount(M1obj);
 }
 
 void Mach1Encode::setInputMode(Mach1EncodeInputModeType inputMode)
@@ -152,13 +168,31 @@ void Mach1Encode::setOutputMode(Mach1EncodeOutputModeType outputMode)
 	///     - OUTPUT_18CH (Mach1SpatialExtPlus) [Yaw, Pitch, Roll]
 }
 
-void Mach1Encode::setRotation(float rotation)
+void Mach1Encode::setAzimuth(float azimuth)
 {
-	Mach1EncodeCAPI_setRotation(M1obj, rotation);
-	/// Sets the point(s) around the center origin of the vector space
+	Mach1EncodeCAPI_setAzimuth(M1obj, azimuth);
+	/// Sets the point(s) azimuth rotation of the vector space
 	///
 	/// - Parameters:
-	///     - value range: 0.0 -> 1.0 (0->360)
+	///     - value range: -1.0 -> 1.0
+}
+
+void Mach1Encode::setAzimuthDegrees(float azimuth)
+{
+	Mach1EncodeCAPI_setAzimuthDegrees(M1obj, azimuth);
+	/// Sets the point(s) azimuth rotation of the vector space
+	///
+	/// - Parameters:
+	///     - value range: 0 -> 360
+}
+
+void Mach1Encode::setAzimuthRadians(float azimuth)
+{
+	Mach1EncodeCAPI_setAzimuthRadians(M1obj, azimuth);
+	/// Sets the point(s) azimuth rotation of the vector space
+	///
+	/// - Parameters:
+	///     - value range: -PI/2 -> PI/2
 }
 
 void Mach1Encode::setDiverge(float diverge)
@@ -170,22 +204,68 @@ void Mach1Encode::setDiverge(float diverge)
 	///     - value range: -1.0 -> 1.0
 }
 
-void Mach1Encode::setPitch(float pitch)
+void Mach1Encode::setElevation(float pitch)
 {
-	Mach1EncodeCAPI_setPitch(M1obj, pitch);
+	Mach1EncodeCAPI_setElevation(M1obj, pitch);
 	/// Sets the point(s) up/down the vector space
 	///
 	/// - Parameters:
-	///     - value range: -1.0 -> 1.0 (-90->90)
+	///     - value range: -1.0 -> 1.0
 }
 
-void Mach1Encode::setStereoRotate(float sRotate)
+void Mach1Encode::setElevationDegrees(float elevation)
 {
-	Mach1EncodeCAPI_setStereoRotate(M1obj, sRotate);
+	Mach1EncodeCAPI_setElevationDegrees(M1obj, elevation);
+	/// Sets the point(s) up/down the vector space
+	///
+	/// - Parameters:
+	///     - value range: -90->90
+}
+
+void Mach1Encode::setElevationRadians(float elevation)
+{
+	Mach1EncodeCAPI_setElevationRadians(M1obj, elevation);
+	/// Sets the point(s) up/down the vector space
+	///
+	/// - Parameters:
+	///     - value range: -PI/2 -> PI/2
+}
+
+void Mach1Encode::setIsotropicEncode(bool isotropicEncode)
+{
+	Mach1EncodeCAPI_setIsotropicEncode(M1obj, isotropicEncode);
+	/// Sets both stereo points rotate in relation to the
+	/// center point between them so that they always triangulate
+	/// toward center of the cuboid
+	///
+	/// Remark: Default is true
+}
+
+void Mach1Encode::setOrbitRotation(float orbitRotation)
+{
+	Mach1EncodeCAPI_setOrbitRotation(M1obj, orbitRotation);
+	/// Sets the two stereo points around the axis of the center point between them
+	///
+	/// - Parameters:
+	///     - value range: -1.0 -> 1.0
+}
+
+void Mach1Encode::setOrbitRotationDegrees(float orbitRotation)
+{
+	Mach1EncodeCAPI_setOrbitRotationDegrees(M1obj, orbitRotation);
 	/// Sets the two stereo points around the axis of the center point between them
 	///
 	/// - Parameters:
 	///     - value range: -180.0->180.0
+}
+
+void Mach1Encode::setOrbitRotationRadians(float orbitRotation)
+{
+	Mach1EncodeCAPI_setOrbitRotationRadians(M1obj, orbitRotation);
+	/// Sets the two stereo points around the axis of the center point between them
+	///
+	/// - Parameters:
+	///     - value range: -PI -> PI
 }
 
 void Mach1Encode::setStereoSpread(float sSpread)
@@ -206,12 +286,50 @@ void Mach1Encode::setAutoOrbit(bool autoOrbit)
 	/// Remark: Default is true
 }
 
-void Mach1Encode::setIsotropicEncode(bool isotropicEncode)
+/* DEPRECATED START*/
+std::vector<float> Mach1Encode::getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, std::vector<float>& decodeResult)
 {
-	Mach1EncodeCAPI_setIsotropicEncode(M1obj, isotropicEncode);
-	/// Sets both stereo points rotate in relation to the
-	/// center point between them so that they always triangulate
-	/// toward center of the cuboid
-	///
-	/// Remark: Default is true
+	std::vector<float> vec(Mach1EncodeCAPI_getPointsCount(M1obj) * 2);
+
+	float* arr = (float*)Mach1EncodeCAPI_getResultingVolumesDecoded(M1obj, decodeType, decodeResult.data());
+
+	for (int i = 0; i < vec.size(); i++) {
+		vec[i] = arr[i];
+	}
+
+	return vec;
+    /// A shorthand function for encoding->decoding audio object handling,
+    /// useful preview UX so that a full input->mach1spatial_multichannel->stereo
+    /// rendeering to disk isnt required and instead designs that stack decode results 
+    /// live can more easily be created
+    ///
+    /// - Remark: Each input audio channel results a direct decode instead of the encode coefficients
 }
+
+void Mach1Encode::setRotation(float rotation)
+{
+	/// Sets the point(s) azimuth rotation of the vector space
+	///
+	/// - Parameters:
+	///     - value range: 0 -> 360
+	setAzimuthDegrees(rotation);
+}
+
+void Mach1Encode::setPitch(float pitch)
+{
+	Mach1EncodeCAPI_setPitch(M1obj, pitch);
+	/// Sets the point(s) up/down the vector space
+	///
+	/// - Parameters:
+	///     - value range: -90->90
+}
+
+void Mach1Encode::setStereoRotate(float sRotate)
+{
+	Mach1EncodeCAPI_setStereoRotate(M1obj, sRotate);
+	/// Sets the two stereo points around the axis of the center point between them
+	///
+	/// - Parameters:
+	///     - value range: -180.0->180.0
+}
+/* DEPRECATED END */

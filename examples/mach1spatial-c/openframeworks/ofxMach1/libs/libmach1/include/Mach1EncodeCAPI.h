@@ -1,7 +1,5 @@
-//  Mach1 SDK
-//  Copyright © 2018 Mach1. All rights reserved.
-//
-//  Header file
+//  Mach1 Spatial SDK
+//  Copyright © 2017-2020 Mach1. All rights reserved.
 
 #pragma once
 
@@ -36,9 +34,9 @@ enum Mach1EncodeInputModeType {
 	Mach1EncodeInputModeQuad, 
 	Mach1EncodeInputModeLCRS, 
 	Mach1EncodeInputModeAFormat, 
-    #if __cplusplus >  201402L
-    [[deprecated("Mach1EncodeInputModeBFormat is not specific enough, please use either: Mach1EncodeInputModeBFOAACN or Mach1EncodeInputModeBFOAFUMA", true)]]
-    #endif
+	#if __cplusplus > 201402L
+	[[deprecated("Mach1EncodeInputModeBFormat is not specific enough, please use either: Mach1EncodeInputModeBFOAACN or Mach1EncodeInputModeBFOAFUMA", true)]]
+	#endif
 	Mach1EncodeInputModeBFormat, 
 	Mach1EncodeInputModeBFOAACN, 
 	Mach1EncodeInputModeBFOAFUMA,
@@ -72,17 +70,49 @@ extern "C" {
 	M1_API void Mach1EncodeCAPI_generatePointResults(void* M1obj);
 	M1_API int Mach1EncodeCAPI_getPointsCount(void* M1obj);
 
+	M1_API void* Mach1EncodeCAPI_getResultingCoeffsDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float* decodeResult);
+#if __cplusplus > 201103L
+	[[deprecated("getResultingVolumesDecoded is deprecated, please use getResultingCoeffsDecoded instead")]]
+#endif
 	M1_API void* Mach1EncodeCAPI_getResultingVolumesDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float* decodeResult);
+
+	M1_API enum Mach1EncodeInputModeType Mach1EncodeCAPI_getInputMode(void* M1obj);
+	M1_API enum Mach1EncodeOutputModeType Mach1EncodeCAPI_getOutputMode(void* M1obj);
+	M1_API int Mach1EncodeCAPI_getOutputChannelsCount(void* M1obj);
 
 	M1_API void Mach1EncodeCAPI_setInputMode(void* M1obj, enum Mach1EncodeInputModeType inputMode);
 	M1_API void Mach1EncodeCAPI_setOutputMode(void* M1obj, enum Mach1EncodeOutputModeType outputMode);
+
+#if __cplusplus > 201103L
+	[[deprecated("setRotation is deprecated due to ambiguity of use, please use setAzimuth0to1, setAzimuthDegrees or setAzimuthRadians instead")]]
+#endif
 	M1_API void Mach1EncodeCAPI_setRotation(void* M1obj, float rotation);
+
+	M1_API void Mach1EncodeCAPI_setAzimuth(void* M1obj, float azimuth);
+	M1_API void Mach1EncodeCAPI_setAzimuthDegrees(void* M1obj, float azimuth);
+	M1_API void Mach1EncodeCAPI_setAzimuthRadians(void* M1obj, float azimuth);
+
 	M1_API void Mach1EncodeCAPI_setDiverge(void* M1obj, float diverge);
+
+#if __cplusplus > 201103L
+	[[deprecated("setPitch is deprecated due to ambiguity of use, please use setElevation0to1, setStereoRotationDegrees or setStereoRotationRadians instead")]]
+#endif
 	M1_API void Mach1EncodeCAPI_setPitch(void* M1obj, float pitch);
+	M1_API void Mach1EncodeCAPI_setElevation(void* M1obj, float elevation);
+	M1_API void Mach1EncodeCAPI_setElevationDegrees(void* M1obj, float elevation);
+	M1_API void Mach1EncodeCAPI_setElevationRadians(void* M1obj, float elevation);
+
+	M1_API void Mach1EncodeCAPI_setIsotropicEncode(void* M1obj, bool isotropicEncode);
+
+#if __cplusplus > 201103L
+	[[deprecated("setStereoRotate is deprecated due to ambiguity of use, please use setOrbitRotation0to1, setOrbitRotationDegrees or setOrbitRotationRadians instead")]]
+#endif
 	M1_API void Mach1EncodeCAPI_setStereoRotate(void* M1obj, float sRotate);
+	M1_API void Mach1EncodeCAPI_setOrbitRotation(void* M1obj, float orbitRotation);
+	M1_API void Mach1EncodeCAPI_setOrbitRotationDegrees(void* M1obj, float orbitRotation);
+	M1_API void Mach1EncodeCAPI_setOrbitRotationRadians(void* M1obj, float orbitRotation);
 	M1_API void Mach1EncodeCAPI_setStereoSpread(void* M1obj, float sSpread);
 	M1_API void Mach1EncodeCAPI_setAutoOrbit(void* M1obj, bool autoOrbit);
-	M1_API void Mach1EncodeCAPI_setIsotropicEncode(void* M1obj, bool isotropicEncode);
 
 	M1_API long Mach1EncodeCAPI_getLastCalculationTime(void* M1obj);
 

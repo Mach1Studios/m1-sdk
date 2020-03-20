@@ -1,7 +1,5 @@
-//  Mach1 SDK
-//  Copyright © 2017 Mach1. All rights reserved.
-//
-//  Header file
+//  Mach1 Spatial SDK
+//  Copyright © 2017-2020 Mach1. All rights reserved.
 
 #pragma once
 
@@ -15,8 +13,6 @@
 #include <algorithm>
 
 #include "Mach1DecodePositionalCAPI.h"
-
-//////////////
 
 class Mach1DecodePositional
 {

@@ -588,73 +588,73 @@ void M1EncodeCore::setOutputMode(OutputMode outputMode) {
 	this->outputMode = outputMode;
 }
 
-void M1EncodeCore::setAzimuth(float azimuth) {
-	this->azimuth = azimuth;
+void M1EncodeCore::setAzimuth(float azimuthFromMinus1To1) {
+	this->azimuth = azimuthFromMinus1To1;
 }
 
-void M1EncodeCore::setAzimuthDegrees(float azimuth) {
-	azimuth = fmod(azimuth, 360.0); //protect a 360 cycle
-	if (azimuth < 0) { //check if -180 to 180, convert to 0-360
-		azimuth += 360.0;
+void M1EncodeCore::setAzimuthDegrees(float azimuthDegrees) {
+	azimuthDegrees = fmod(azimuthDegrees, 360.0); //protect a 360 cycle
+	if (azimuthDegrees < 0) { //check if -180 to 180, convert to 0-360
+		azimuthDegrees += 360.0;
 	}
-	this->azimuth = azimuth / 360.0;
+	this->azimuth = azimuthDegrees / 360.0;
 }
 
-void M1EncodeCore::setAzimuthRadians(float azimuth) {
-	azimuth = fmod(azimuth, PI*2.0); //protect a 360 cycle
-	if (azimuth < 0.0) { //check if -180 to 180, convert to 0-360
-		azimuth += PI*2.0;
+void M1EncodeCore::setAzimuthRadians(float azimuthRadians) {
+	azimuthRadians = fmod(azimuthRadians, PI*2.0); //protect a 360 cycle
+	if (azimuthRadians < 0.0) { //check if -180 to 180, convert to 0-360
+		azimuthRadians += PI*2.0;
 	}
-	this->azimuth = azimuth / (PI*2.0);
+	this->azimuth = azimuthRadians / (PI*2.0);
 }
 
-void M1EncodeCore::setDiverge(float diverge) {
-	diverge = clamp(diverge, -1, 1);
-	this->diverge = diverge;
+void M1EncodeCore::setDiverge(float divergeFromMinus1To1) {
+	divergeFromMinus1To1 = clamp(divergeFromMinus1To1, -1, 1);
+	this->diverge = divergeFromMinus1To1;
 }
 
-void M1EncodeCore::setElevation(float elevation) {
-	elevation = clamp(elevation, -1, 1);
-	this->elevation = elevation;
+void M1EncodeCore::setElevation(float elevationFromMinus1to1) {
+	elevationFromMinus1to1 = clamp(elevationFromMinus1to1, -1, 1);
+	this->elevation = elevationFromMinus1to1;
 }
 
-void M1EncodeCore::setElevationDegrees(float elevation) {
-	elevation = clamp(elevation, -90, 90);
-	this->elevation = elevation / 90;
+void M1EncodeCore::setElevationDegrees(float elevationFromMinus90to90) {
+	elevationFromMinus90to90 = clamp(elevationFromMinus90to90, -90, 90);
+	this->elevation = elevationFromMinus90to90 / 90;
 }
 
-void M1EncodeCore::setElevationRadians(float elevation) {
-	elevation = clamp(elevation, -PI / 2, PI / 2);
-	this->elevation = elevation / (PI / 2);
+void M1EncodeCore::setElevationRadians(float elevationFromMinusHalfPItoHalfPI) {
+	elevationFromMinusHalfPItoHalfPI = clamp(elevationFromMinusHalfPItoHalfPI, -PI / 2, PI / 2);
+	this->elevation = elevationFromMinusHalfPItoHalfPI / (PI / 2);
 }
 
 void M1EncodeCore::setIsotropicEncode(bool isotropicEncode){
 	this->isotropicEncode = isotropicEncode;
 }
 
-void M1EncodeCore::setOrbitRotation(float orbitRotation) {
-	this->orbitRotation = orbitRotation;
+void M1EncodeCore::setOrbitRotation(float orbitRotationFromMinusOnetoOne) {
+	this->orbitRotation = orbitRotationFromMinusOnetoOne;
 }
 
-void M1EncodeCore::setOrbitRotationDegrees(float orbitRotation) {
-	orbitRotation = fmod(orbitRotation, 360.0); //protect a 360 cycle
-	if (orbitRotation < 0) { //check if -180 to 180, convert to 0-360
-		orbitRotation += 360.0;
+void M1EncodeCore::setOrbitRotationDegrees(float orbitRotationDegrees) {
+	orbitRotationDegrees = fmod(orbitRotationDegrees, 360.0); //protect a 360 cycle
+	if (orbitRotationDegrees < 0) { //check if -180 to 180, convert to 0-360
+		orbitRotationDegrees += 360.0;
 	}
-	this->orbitRotation = orbitRotation / 360.0;
+	this->orbitRotation = orbitRotationDegrees / 360.0;
 }
 
-void M1EncodeCore::setOrbitRotationRadians(float orbitRotation) {
-	orbitRotation = fmod(azimuth, PI*2.0); //protect a 360 cycle
-	if (orbitRotation < 0.0) { //check if -180 to 180, convert to 0-360
-		orbitRotation += PI*2.0;
+void M1EncodeCore::setOrbitRotationRadians(float orbitRotationRadians) {
+	orbitRotationRadians = fmod(azimuth, PI*2.0); //protect a 360 cycle
+	if (orbitRotationRadians < 0.0) { //check if -180 to 180, convert to 0-360
+		orbitRotationRadians += PI*2.0;
 	}
-	this->orbitRotation = orbitRotation / (PI*2.0);
+	this->orbitRotation = orbitRotationRadians / (PI*2.0);
 }
 
-void M1EncodeCore::setStereoSpread(float sSpread) {
-	sSpread = clamp(sSpread, -1, 1);
-	this->sSpread = sSpread;
+void M1EncodeCore::setStereoSpread(float sSpreadFrom0to1) {
+	sSpreadFrom0to1 = clamp(sSpreadFrom0to1, -1, 1);
+	this->sSpread = sSpreadFrom0to1;
 }
 
 void M1EncodeCore::setAutoOrbit(bool autoOrbit) {

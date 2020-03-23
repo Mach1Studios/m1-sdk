@@ -118,48 +118,48 @@ void Mach1EncodeCAPI_setOutputMode(void* M1obj, enum Mach1EncodeOutputModeType o
 	((M1EncodeCore*)M1obj)->setOutputMode(static_cast<M1EncodeCore::OutputMode>(outputMode));
 }
 
-void Mach1EncodeCAPI_setAzimuth(void* M1obj, float azimuth) {
-	((M1EncodeCore*)M1obj)->setAzimuth(azimuth);
+void Mach1EncodeCAPI_setAzimuth(void* M1obj, float azimuthFromMinus1To1) {
+	((M1EncodeCore*)M1obj)->setAzimuth(azimuthFromMinus1To1);
 }
 
-void Mach1EncodeCAPI_setAzimuthDegrees(void* M1obj, float azimuth) {
-	((M1EncodeCore*)M1obj)->setAzimuthDegrees(azimuth);
+void Mach1EncodeCAPI_setAzimuthDegrees(void* M1obj, float azimuthDegrees) {
+	((M1EncodeCore*)M1obj)->setAzimuthDegrees(azimuthDegrees);
 }
 
-void Mach1EncodeCAPI_setAzimuthRadians(void* M1obj, float azimuth) {
-	((M1EncodeCore*)M1obj)->setAzimuthRadians(azimuth);
+void Mach1EncodeCAPI_setAzimuthRadians(void* M1obj, float azimuthRadians) {
+	((M1EncodeCore*)M1obj)->setAzimuthRadians(azimuthRadians);
 }
 
-void Mach1EncodeCAPI_setDiverge(void* M1obj, float diverge) {
-	((M1EncodeCore*)M1obj)->setDiverge(diverge);
+void Mach1EncodeCAPI_setDiverge(void* M1obj, float divergeFromMinus1To1) {
+	((M1EncodeCore*)M1obj)->setDiverge(divergeFromMinus1To1);
 }
 
-void Mach1EncodeCAPI_setElevation(void* M1obj, float elevation) {
-	((M1EncodeCore*)M1obj)->setElevation(elevation);
+void Mach1EncodeCAPI_setElevation(void* M1obj, float elevationFromMinus1to1) {
+	((M1EncodeCore*)M1obj)->setElevation(elevationFromMinus1to1);
 }
 
-void Mach1EncodeCAPI_setElevationDegrees(void* M1obj, float elevation) {
-	((M1EncodeCore*)M1obj)->setElevationDegrees(elevation);
+void Mach1EncodeCAPI_setElevationDegrees(void* M1obj, float elevationFromMinus90to90) {
+	((M1EncodeCore*)M1obj)->setElevationDegrees(elevationFromMinus90to90);
 }
 
-void Mach1EncodeCAPI_setElevationRadians(void* M1obj, float elevation) {
-	((M1EncodeCore*)M1obj)->setElevationRadians(elevation);
+void Mach1EncodeCAPI_setElevationRadians(void* M1obj, float elevationFromMinusHalfPItoHalfPI) {
+	((M1EncodeCore*)M1obj)->setElevationRadians(elevationFromMinusHalfPItoHalfPI);
 }
 
-void Mach1EncodeCAPI_setOrbitRotation(void* M1obj, float orbitRotation) {
-	((M1EncodeCore*)M1obj)->setOrbitRotation(orbitRotation);
+void Mach1EncodeCAPI_setOrbitRotation(void* M1obj, float orbitRotationFromMinusOnetoOne) {
+	((M1EncodeCore*)M1obj)->setOrbitRotation(orbitRotationFromMinusOnetoOne);
 }
 
-void Mach1EncodeCAPI_setOrbitRotationDegrees(void* M1obj, float orbitRotation) {
-	((M1EncodeCore*)M1obj)->setOrbitRotationDegrees(orbitRotation);
+void Mach1EncodeCAPI_setOrbitRotationDegrees(void* M1obj, float orbitRotationDegrees) {
+	((M1EncodeCore*)M1obj)->setOrbitRotationDegrees(orbitRotationDegrees);
 }
 
-void Mach1EncodeCAPI_setOrbitRotationRadians(void* M1obj, float orbitRotation) {
-	((M1EncodeCore*)M1obj)->setOrbitRotationRadians(orbitRotation);
+void Mach1EncodeCAPI_setOrbitRotationRadians(void* M1obj, float orbitRotationRadians) {
+	((M1EncodeCore*)M1obj)->setOrbitRotationRadians(orbitRotationRadians);
 }
 
-void Mach1EncodeCAPI_setStereoSpread(void* M1obj, float sSpread) {
-	((M1EncodeCore*)M1obj)->setStereoSpread(sSpread);
+void Mach1EncodeCAPI_setStereoSpread(void* M1obj, float sSpreadFrom0to1) {
+	((M1EncodeCore*)M1obj)->setStereoSpread(sSpreadFrom0to1);
 }
 
 void Mach1EncodeCAPI_setAutoOrbit(void* M1obj, bool autoOrbit) {
@@ -175,16 +175,16 @@ long Mach1EncodeCAPI_getLastCalculationTime(void* M1obj) {
 }
 
 /* DEPRECATED START*/
-void Mach1EncodeCAPI_setRotation(void* M1obj, float rotation) {
-	((M1EncodeCore*)M1obj)->setAzimuthDegrees(rotation);
+void Mach1EncodeCAPI_setRotation(void* M1obj, float rotationDegrees) {
+	((M1EncodeCore*)M1obj)->setAzimuthDegrees(rotationDegrees);
 }
 
-void Mach1EncodeCAPI_setPitch(void* M1obj, float pitch) {
-	((M1EncodeCore*)M1obj)->setElevationDegrees(pitch);
+void Mach1EncodeCAPI_setPitch(void* M1obj, float pitchFromMinus90to90) {
+	((M1EncodeCore*)M1obj)->setElevationDegrees(pitchFromMinus90to90);
 }
 
-void Mach1EncodeCAPI_setStereoRotate(void* M1obj, float sRotate) {
-	((M1EncodeCore*)M1obj)->setOrbitRotationDegrees(sRotate);
+void Mach1EncodeCAPI_setStereoRotate(void* M1obj, float sRotateDegrees) {
+	((M1EncodeCore*)M1obj)->setOrbitRotationDegrees(sRotateDegrees);
 }
 
 void* Mach1EncodeCAPI_getResultingVolumesDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float * decodeResult)

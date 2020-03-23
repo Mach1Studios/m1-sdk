@@ -173,63 +173,63 @@ void Mach1Encode::setOutputMode(Mach1EncodeOutputModeType outputMode)
 	///     - OUTPUT_18CH (Mach1SpatialExtPlus) [Yaw, Pitch, Roll]
 }
 
-void Mach1Encode::setAzimuth(float azimuth)
+void Mach1Encode::setAzimuth(float azimuthFromMinus1To1)
 {
-	Mach1EncodeCAPI_setAzimuth(M1obj, azimuth);
+	Mach1EncodeCAPI_setAzimuth(M1obj, azimuthFromMinus1To1);
 	/// Sets the point(s) azimuth rotation of the vector space
 	///
 	/// - Parameters:
 	///     - value range: -1.0 -> 1.0
 }
 
-void Mach1Encode::setAzimuthDegrees(float azimuth)
+void Mach1Encode::setAzimuthDegrees(float azimuthDegrees)
 {
-	Mach1EncodeCAPI_setAzimuthDegrees(M1obj, azimuth);
+	Mach1EncodeCAPI_setAzimuthDegrees(M1obj, azimuthDegrees);
 	/// Sets the point(s) azimuth rotation of the vector space
 	///
 	/// - Parameters:
 	///     - value range: 0 -> 360
 }
 
-void Mach1Encode::setAzimuthRadians(float azimuth)
+void Mach1Encode::setAzimuthRadians(float azimuthRadians)
 {
-	Mach1EncodeCAPI_setAzimuthRadians(M1obj, azimuth);
+	Mach1EncodeCAPI_setAzimuthRadians(M1obj, azimuthRadians);
 	/// Sets the point(s) azimuth rotation of the vector space
 	///
 	/// - Parameters:
 	///     - value range: -PI/2 -> PI/2
 }
 
-void Mach1Encode::setDiverge(float diverge)
+void Mach1Encode::setDiverge(float divergeFromMinus1To1)
 {
-	Mach1EncodeCAPI_setDiverge(M1obj, diverge);
+	Mach1EncodeCAPI_setDiverge(M1obj, divergeFromMinus1To1);
 	/// Sets the point(s) to/from center origin of the vector space
 	///
 	/// - Parameters:
 	///     - value range: -1.0 -> 1.0
 }
 
-void Mach1Encode::setElevation(float pitch)
+void Mach1Encode::setElevation(float elevationFromMinus1to1)
 {
-	Mach1EncodeCAPI_setElevation(M1obj, pitch);
+	Mach1EncodeCAPI_setElevation(M1obj, elevationFromMinus1to1);
 	/// Sets the point(s) up/down the vector space
 	///
 	/// - Parameters:
 	///     - value range: -1.0 -> 1.0
 }
 
-void Mach1Encode::setElevationDegrees(float elevation)
+void Mach1Encode::setElevationDegrees(float elevationFromMinus90to90)
 {
-	Mach1EncodeCAPI_setElevationDegrees(M1obj, elevation);
+	Mach1EncodeCAPI_setElevationDegrees(M1obj, elevationFromMinus90to90);
 	/// Sets the point(s) up/down the vector space
 	///
 	/// - Parameters:
 	///     - value range: -90->90
 }
 
-void Mach1Encode::setElevationRadians(float elevation)
+void Mach1Encode::setElevationRadians(float elevationFromMinusHalfPItoHalfPI)
 {
-	Mach1EncodeCAPI_setElevationRadians(M1obj, elevation);
+	Mach1EncodeCAPI_setElevationRadians(M1obj, elevationFromMinusHalfPItoHalfPI);
 	/// Sets the point(s) up/down the vector space
 	///
 	/// - Parameters:
@@ -246,36 +246,36 @@ void Mach1Encode::setIsotropicEncode(bool isotropicEncode)
 	/// Remark: Default is true
 }
 
-void Mach1Encode::setOrbitRotation(float orbitRotation)
+void Mach1Encode::setOrbitRotation(float orbitRotationFromMinusOnetoOne)
 {
-	Mach1EncodeCAPI_setOrbitRotation(M1obj, orbitRotation);
+	Mach1EncodeCAPI_setOrbitRotation(M1obj, orbitRotationFromMinusOnetoOne);
 	/// Sets the two stereo points around the axis of the center point between them
 	///
 	/// - Parameters:
 	///     - value range: -1.0 -> 1.0
 }
 
-void Mach1Encode::setOrbitRotationDegrees(float orbitRotation)
+void Mach1Encode::setOrbitRotationDegrees(float orbitRotationDegrees)
 {
-	Mach1EncodeCAPI_setOrbitRotationDegrees(M1obj, orbitRotation);
+	Mach1EncodeCAPI_setOrbitRotationDegrees(M1obj, orbitRotationDegrees);
 	/// Sets the two stereo points around the axis of the center point between them
 	///
 	/// - Parameters:
 	///     - value range: -180.0->180.0
 }
 
-void Mach1Encode::setOrbitRotationRadians(float orbitRotation)
+void Mach1Encode::setOrbitRotationRadians(float orbitRotationRadians)
 {
-	Mach1EncodeCAPI_setOrbitRotationRadians(M1obj, orbitRotation);
+	Mach1EncodeCAPI_setOrbitRotationRadians(M1obj, orbitRotationRadians);
 	/// Sets the two stereo points around the axis of the center point between them
 	///
 	/// - Parameters:
 	///     - value range: -PI -> PI
 }
 
-void Mach1Encode::setStereoSpread(float sSpread)
+void Mach1Encode::setStereoSpread(float sSpreadFrom0to1)
 {
-	Mach1EncodeCAPI_setStereoSpread(M1obj, sSpread);
+	Mach1EncodeCAPI_setStereoSpread(M1obj, sSpreadFrom0to1);
 	/// Sets the space between the two stereo points
 	///
 	/// - Parameters:
@@ -311,27 +311,27 @@ std::vector<float> Mach1Encode::getResultingVolumesDecoded(Mach1DecodeAlgoType d
     /// - Remark: Each input audio channel results a direct decode instead of the encode coefficients
 }
 
-void Mach1Encode::setRotation(float rotation)
+void Mach1Encode::setRotation(float rotationDegrees)
 {
 	/// Sets the point(s) azimuth rotation of the vector space
 	///
 	/// - Parameters:
 	///     - value range: 0 -> 360
-	setAzimuthDegrees(rotation);
+	setAzimuthDegrees(rotationDegrees);
 }
 
-void Mach1Encode::setPitch(float pitch)
+void Mach1Encode::setPitch(float pitchFromMinus90to90)
 {
-	Mach1EncodeCAPI_setPitch(M1obj, pitch);
+	Mach1EncodeCAPI_setPitch(M1obj, pitchFromMinus90to90);
 	/// Sets the point(s) up/down the vector space
 	///
 	/// - Parameters:
 	///     - value range: -90->90
 }
 
-void Mach1Encode::setStereoRotate(float sRotate)
+void Mach1Encode::setStereoRotate(float sRotateDegrees)
 {
-	Mach1EncodeCAPI_setStereoRotate(M1obj, sRotate);
+	Mach1EncodeCAPI_setStereoRotate(M1obj, sRotateDegrees);
 	/// Sets the two stereo points around the axis of the center point between them
 	///
 	/// - Parameters:

@@ -7,7 +7,7 @@ This file is not an example of use but an decoder that will require periodic
 updates and should not be integrated in sections but remain as an update-able factored file.
 */
 
-/*
+/* 
 Internal Orientation Implementation:
   -  Yaw[0]+ = rotate right 0-1 [Range: 0->360 | -180->180]
   -  Yaw[0]- = rotate left 0-1 [Range: 0->360 | -180->180]
@@ -945,9 +945,45 @@ int Mach1DecodeCore::getOutputChannelsCount() {
 	return 0;
 }
 
-void Mach1DecodeCore::setRotationDegrees(Mach1Point3DCore newRotation)
+void Mach1DecodeCore::setRotation(Mach1Point3DCore newRotationFromMinusOnetoOne)
 {
-	rotation = newRotation;
+	rotation = newRotationFromMinusOnetoOne * 360.0;
+}
+
+void Mach1DecodeCore::setRotationDegrees(Mach1Point3DCore newRotationDegrees)
+{
+	rotation = newRotationDegrees;
+}
+
+void Mach1DecodeCore::setRotationRadians(Mach1Point3DCore newRotationRadians)
+{
+	rotation = newRotationRadians * (180.0 / PI);
+}
+
+void Mach1DecodeCore::setRotationQuat(Mach1Point4DCore newRotationQuat)
+{
+	Mach1Point3DCore angles;
+
+	// roll (x-axis rotation)
+	double sinr_cosp = 2 * (newRotationQuat.w * newRotationQuat.x + newRotationQuat.y * newRotationQuat.z);
+	double cosr_cosp = 1 - 2 * (newRotationQuat.x * newRotationQuat.x + newRotationQuat.y * newRotationQuat.y);
+	angles.x = std::atan2(sinr_cosp, cosr_cosp);
+
+	// pitch (y-axis rotation)
+	double sinp = 2 * (newRotationQuat.w * newRotationQuat.y - newRotationQuat.z * newRotationQuat.x);
+	if (std::abs(sinp) >= 1) {
+		angles.y = std::copysign(PI / 2, sinp); // use 90 degrees if out of range
+	}
+	else {
+		angles.y = std::asin(sinp);
+	}
+
+	// yaw (z-axis rotation)
+	double siny_cosp = 2 * (newRotationQuat.w * newRotationQuat.z + newRotationQuat.x * newRotationQuat.y);
+	double cosy_cosp = 1 - 2 * (newRotationQuat.y * newRotationQuat.y + newRotationQuat.z * newRotationQuat.z);
+	angles.z = std::atan2(siny_cosp, cosy_cosp);
+
+	setRotationRadians(angles);
 }
 
 void Mach1DecodeCore::setFilterSpeed(float newFilterSpeed) {

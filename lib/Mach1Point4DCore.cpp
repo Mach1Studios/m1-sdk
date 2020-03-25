@@ -1,3 +1,4 @@
+#include "Mach1Point4DCore.h"
 //  Mach1 Spatial SDK
 //  Copyright © 2017-2020 Mach1. All rights reserved.
 
@@ -15,6 +16,14 @@ Mach1Point4DCore::Mach1Point4DCore(float X, float Y, float Z, float W) {
 	y = Y;
 	z = Z;
 	w = W;
+}
+
+Mach1Point4DCore::Mach1Point4DCore(const Mach1Point4D & pnt)
+{
+	x = pnt.x;
+	y = pnt.y;
+	z = pnt.z;
+	w = pnt.w;
 }
  
 Mach1Point4DCore Mach1Point4DCore::operator+(const Mach1Point4DCore& pnt) const {

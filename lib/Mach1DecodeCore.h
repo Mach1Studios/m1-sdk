@@ -138,7 +138,10 @@ public:
 
 	int getOutputChannelsCount();
 
-	void setRotationDegrees(Mach1Point3DCore newRotation);
+	void setRotation(Mach1Point3DCore newRotationFromMinusOnetoOne);
+	void setRotationDegrees(Mach1Point3DCore newRotationDegrees);
+	void setRotationRadians(Mach1Point3DCore newRotationRadians);
+	void setRotationQuat(Mach1Point4DCore newRotationQuat);
 
     void setFilterSpeed(float filterSpeed);
 

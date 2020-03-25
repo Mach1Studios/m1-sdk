@@ -21,6 +21,13 @@ Mach1Point3DCore::Mach1Point3DCore(float X, float Y) {
 	z = 0;
 }
 
+Mach1Point3DCore::Mach1Point3DCore(const Mach1Point3D & pnt)
+{
+	x = pnt.x;
+	y = pnt.y;
+	z = pnt.z;
+}
+
 Mach1Point3DCore Mach1Point3DCore::operator+(const Mach1Point3DCore& pnt) const {
 	return Mach1Point3DCore(x + pnt.x, y + pnt.y, z + pnt.z);
 }

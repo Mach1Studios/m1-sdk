@@ -62,9 +62,24 @@ int Mach1DecodeCAPI_getOutputChannelsCount(void* M1obj)
 	return ((Mach1DecodeCore*)M1obj)->getOutputChannelsCount();
 }
 
-void Mach1DecodeCAPI_setRotationDegrees(void* M1obj, Mach1Point3D rotation)
+void Mach1DecodeCAPI_setRotation(void* M1obj, Mach1Point3D newRotationFromMinusOnetoOne)
 {
-	((Mach1DecodeCore*)M1obj)->setRotationDegrees(Mach1Point3DCore{ rotation.x, rotation.y, rotation.z });
+	((Mach1DecodeCore*)M1obj)->setRotation(newRotationFromMinusOnetoOne);
+}
+
+void Mach1DecodeCAPI_setRotationDegrees(void* M1obj, Mach1Point3D newRotationDegrees)
+{
+	((Mach1DecodeCore*)M1obj)->setRotationDegrees(newRotationDegrees);
+}
+
+void Mach1DecodeCAPI_setRotationRadians(void* M1obj, Mach1Point3D rotation)
+{
+	((Mach1DecodeCore*)M1obj)->setRotationRadians(rotation);
+}
+
+void Mach1DecodeCAPI_setRotationQuat(void* M1obj, Mach1Point4D newRotationQuat)
+{
+	((Mach1DecodeCore*)M1obj)->setRotationQuat(newRotationQuat);
 }
 
 long Mach1DecodeCAPI_getCurrentTime(void* M1obj)

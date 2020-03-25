@@ -21,6 +21,12 @@ Mach1DecodeCore normalizes all input ranges to an unsigned "0 to 1" range for Ya
 
 #include "Mach1DecodeCore.h"
 
+#include <math.h>
+#include <cmath>
+#include <chrono>
+#include <string>
+#include <algorithm>
+
 #ifndef DEG_TO_RAD
 #define DEG_TO_RAD (PI/180.0)
 #endif
@@ -1005,9 +1011,9 @@ std::vector<float> Mach1DecodeCore::decode(int bufferSize, int sampleIndex) {
 	long tStart = getCurrentTime();
 	std::vector<float> res;
 
-	float Yaw = rotation.x;
-	float Pitch = rotation.y;
-	float Roll = rotation.z;
+	float Yaw = fmod(rotation.x, 360.0); //protect a 360 cycle
+	float Pitch = fmod(rotation.y, 360.0);
+	float Roll = fmod(rotation.z, 360.0);
 
 	switch (algorithmType) {
             // m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs, m1SpatialPairs
@@ -1059,9 +1065,9 @@ std::vector<float> Mach1DecodeCore::decode(int bufferSize, int sampleIndex) {
 void Mach1DecodeCore::decode(float *result, int bufferSize, int sampleIndex) {
 	long tStart = getCurrentTime();
 
-	float Yaw = rotation.x;
-	float Pitch = rotation.y;
-	float Roll = rotation.z;
+	float Yaw = fmod(rotation.x, 360.0); //protect a 360 cycle
+	float Pitch = fmod(rotation.y, 360.0);
+	float Roll = fmod(rotation.z, 360.0);
 
 	switch (algorithmType) {
             // m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs, m1SpatialPairs

@@ -396,7 +396,7 @@ void ofApp::audioOut(ofSoundBuffer &outBuffer)
 			// left channel
 			sample = 0;
 			for (int j = 0; j < 8; j++) {
-				if (pos < player.getRawSamples().size()) sample += player.getRawSamples()[pos] * (decoded[2 * j + 0]) * gains[0][j];
+				if (pos < player.getRawSamples().size()) sample += player.getRawSamples()[pos] * gains[0][j] * (decoded[2 * j + 0]);
 			}
 			outBuffer.getSample(i, 0) = sample;
 			volumes[0] += fabs(sample);
@@ -423,13 +423,15 @@ void ofApp::audioOut(ofSoundBuffer &outBuffer)
 			//*/
 
 
-			if (player.getNumChannels() > 1) pos++;
+			if (player.getNumChannels() > 1 && gains.size() > 1) pos++; // goto next channel
 
 			// right channel
 			sample = 0;
 			for (int j = 0; j < 8; j++) {
 				if (pos < player.getRawSamples().size()) sample += player.getRawSamples()[pos] * (decoded[2 * j + 1]) * gains[gains.size() > 1 ? 1 : 0][j];
 			}
+
+			if (player.getNumChannels() > 1 && gains.size() == 1) pos++; // skip
 
 			outBuffer.getSample(i, 1) = sample;
 			volumes[1] += fabs(sample);

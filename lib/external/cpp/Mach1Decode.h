@@ -57,16 +57,19 @@ void Mach1Decode::decodeBuffer(std::vector<std::vector<T>>* inBuffer, std::vecto
 	beginBuffer();
 
 	T sample = 0;
-	int offset = 0;
+	int cOffset = 0;
+	int inputChannelsCount = inBuffer->size() / inputPoints;
+	int outChannelsCount = outBuffer->size();
+
 	for (size_t i = 0; i < bufferSize; i++) {
 		std::vector<float> volumes = decode(bufferSize, i);
 
-		for (size_t c = 0; c < outBuffer->size(); c++) {
+		for (size_t c = 0; c < outChannelsCount; c++) {
 			sample = 0;
-			offset = c < inputPoints ? c : 0;
-			for (size_t k = 0; k < inBuffer->size(); k++)
+			cOffset = c < inputPoints ? c : 0;
+			for (size_t k = 0; k < inputChannelsCount; k++)
 			{
-				sample += inBuffer->operator[](k * inputPoints + offset)[i] * volumes[k * 2 + c];
+				sample += inBuffer->operator[](k * inputPoints + cOffset)[i] * volumes[k * 2 + c];
 			}
 			outBuffer->operator[](c)[i] = sample;
 		}

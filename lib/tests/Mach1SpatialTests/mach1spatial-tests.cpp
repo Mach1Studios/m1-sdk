@@ -109,11 +109,11 @@ void test_results(void)
 				{
 					"Test 1 - Left channel prior",
 					{
-						Mach1EncodeInputModeMono, Mach1EncodeOutputMode4Ch, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees,
+						Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, 90.0, 0.5, 0.0, true, 0.0, 0.0, unsignedDegrees,
 						Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.0, 0.0, 1.0
 					},
 					{
-						{ 1.0, 0.0 }
+						{ 0.0, 0.2 }
 					}
 				},
 	};
@@ -205,20 +205,43 @@ void test_results(void)
 
 		int counter = 0;
 
+		// encode buffer
+		std::vector<float> bufferEncoded(m1Encode.getInputChannelsCount() * m1Encode.getOutputChannelsCount());
+		for (size_t c = 0; c < encodeResults.size(); c++) {
+			for (size_t k = 0; k < encodeResults[c].size(); k++) {
+				bufferEncoded[k * m1Encode.getInputChannelsCount() + c] = 1.0 *  encodeResults[c][k];
+			}
+		}
 
-		/*
-		for (size_t i = 0; i < decodeResults.size(); i++) {
-			bool checkL = fabs(test.output.results[i] - decodeResults[i]) < 0.0001;
-			if (checkL == false) {
-				TEST_CHECK_(checkL, "%s | Error with index [%d]", test.name.c_str(), i);
-				std::cout << "index: [" << i << "]: " << decodeResults[i] << ", should be: " << test.output.results[i];
+		// decode buffer
+		std::vector<float> bufferDecoded(2);
+		float sample = 0;
+		int cOffset = 0;
+		int inputChannelsCount = bufferEncoded.size() / m1Encode.getPointsCount();
+		int outChannelsCount = bufferDecoded.size();
+
+		for (size_t c = 0; c < outChannelsCount; c++) {
+			sample = 0;
+			cOffset = c < m1Encode.getPointsCount() ? c : 0;
+			for (size_t k = 0; k < inputChannelsCount; k++)
+			{
+				sample += bufferEncoded[k * m1Encode.getPointsCount() + cOffset] * decodeResults[k * 2 + c];
+			}
+			bufferDecoded[c] = sample;
+		}
+
+		for (size_t i = 0; i < bufferDecoded.size(); i++) {
+			bool check = fabs(test.output.results[i] - bufferDecoded[i]) < 0.1;
+			if (check == false) {
+				TEST_CHECK_(check, "%s | Error with index [%d]", test.name.c_str(), i);
+				std::cout << "index: [" << i << "]: " << bufferDecoded[i] << ", should be: " << test.output.results[i];
 				std::cout << std::endl;
 			}
 			if (counter == decodeResults.size()) {
 				std::cout << "... " << "\033[1;32mpassed\033[0m\n";
 			}
 		}
-		*/
+
 	}
 
 

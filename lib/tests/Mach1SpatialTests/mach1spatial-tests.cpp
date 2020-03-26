@@ -107,7 +107,7 @@ void test_results(void)
 
 	std::vector<CASE> cases = {
 				{
-					"Test 1 - Left channel prior",
+					"Test 1 - Right channel prior",
 					{
 						Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, 90.0, 0.5, 0.0, true, 0.0, 0.0, unsignedDegrees,
 						Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.0, 0.0, 1.0

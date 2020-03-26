@@ -33,3 +33,15 @@ target_include_directories(Mach1DecodePositionalTest PRIVATE "./include" ${Mach1
 
 install(TARGETS Mach1DecodePositionalTest DESTINATION bin)
 install(CODE "execute_process(COMMAND ${CMAKE_INSTALL_PREFIX}/bin/Mach1DecodePositionalTest)" )
+
+# Mach1SpatialTests
+
+set(Mach1DecodeCAPIsrc "../Mach1DecodeCAPI.cpp" "../Mach1DecodeCore.cpp" "../Mach1Point3DCore.cpp" "../Mach1Point4DCore.cpp" "../external/cpp/Mach1Decode.cpp")
+set(Mach1EncodeCAPIsrc "../Mach1EncodeCAPI.cpp" "../Mach1EncodeCore.cpp" "../external/cpp/Mach1Encode.cpp")
+set(Mach1CAPIinclude "../" "../external/cpp" "../include")
+
+add_executable(Mach1SpatialTests "./Mach1SpatialTests/mach1spatial-tests.cpp" ${Mach1DecodeCAPIsrc} ${Mach1EncodeCAPIsrc})
+target_include_directories(Mach1SpatialTests PRIVATE "./include" ${Mach1CAPIinclude})
+
+install(TARGETS Mach1SpatialTests DESTINATION bin)
+install(CODE "execute_process(COMMAND ${CMAKE_INSTALL_PREFIX}/bin/Mach1SpatialTests)" )

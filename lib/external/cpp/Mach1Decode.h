@@ -12,7 +12,7 @@ class Mach1Decode
 	void* M1obj;
 
 public:
- 
+
 	Mach1Decode();
 	~Mach1Decode();
 
@@ -32,8 +32,8 @@ public:
 	void setFilterSpeed(float filterSpeed);
 
 	void beginBuffer();
-    void endBuffer();
-	
+	void endBuffer();
+
 	template<typename T>
 	void decodeBuffer(std::vector<std::vector<T>>* inBuffer, std::vector<std::vector<T>>* outBuffer, int inputPoints, int bufferSize);
 

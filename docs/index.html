@@ -381,18 +381,18 @@
           </li>
       </div>
         <ul class="toc-footer">
-            <li><a href='http://dev.mach1.xyz/research/Mach1SpatialSystem-WhitePaper_180523.pdf'>Research Paper</a></li>
+            <li><a href='https://mach1-public.s3.amazonaws.com/research/Mach1SpatialSystem-WhitePaper_180523.pdf'>Research Paper</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
-<p>M1SDK includes APIs to allow developers to design applications that can encode or pan to a spatial audio render from audio streams and/or playback and decode Mach1Spatial 8channel spatial audio mixes with orientation to decode the correct stereo output sum of the user&#39;s current orientation. Additionally the M1SDK allows users to safely convert surround/spatial audio mixes to and from the Mach1Spatial or Mach1Horizon <strong>VVBP</strong> formats. </p>
+<p>Mach1 Spatial SDK includes APIs to allow developers to design applications that can encode or pan to a spatial audio render from audio streams and/or playback and decode Mach1Spatial 8channel spatial audio mixes with orientation to decode the correct stereo output sum of the user&#39;s current orientation. Additionally the Mach1 Spatial SDK allows users to safely convert surround/spatial audio mixes to and from the Mach1Spatial or Mach1Horizon <strong>VVBP</strong> formats. </p>
 
 <p><strong>VVBP</strong> or <em>Virtual Vector Based Panning</em> is a controlled virtual version of traditional <strong>VBAP</strong> (<em>Vector Based Amplitude Panning</em>) or <strong>SPS</strong> (<em>Spatial PCM Sampling</em>). These formats are designed for simplicity and ease of use &amp; implementation both for the content creators and the developers. The spatial audio mixes are based on only amplitude based coefficients changes for both encoding and decoding, and unlike many other spatial audio approaches, there are no additional signal altering processes (such as room modeling, delays or filters) to create coherent and accurate spatial sound fields and play them back from a first person headtracked perspective. Due to the simplicity of the format and cuboid vector space it relies on, it is also ideal for converting and carrying surround and spatial audio mixes without altering the mix to do so, making it an ideal server side audio middleman container. Bringing controlled post-produced spatial audio into new mediums easily.</p>
 <h1 id='overview'>Overview</h1>
-<p>The Mach1 Spatial SDK includes three components and libraries: </p>
+<p>The Mach1 Spatial SDK includes the following components and libraries: </p>
 
 <ul>
 <li><strong><em>Mach1Encode lib:</em></strong>
@@ -405,7 +405,7 @@ Add additional optional decoding layer to decode spatial mixes with 6DOF for pos
 Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatial VVBP format.</li>
 </ul>
 
-<p>Mach1Encode and Mach1Decode are supported on OSX 10.7+, Windows 10+, iOS 9.0+ and Android API 19+. Unity 4.0+ and Unreal Engine 4.10+ examples are available and said engines are supported too on the aforementioned platforms. </p>
+<p>Mach1Encode and Mach1Decode are C based and cross compiler friendly with pre-built library files supported on OSX 10.7+, Windows 10+, ARM based devices (Raspberry Pi), iOS 9.0+ and Android API 19+. Unity 4.0+ and Unreal Engine 4.10+ examples are available and said engines are supported too on the aforementioned platforms. </p>
 
 <p>Mach1Transcode is supported on macOS, linux and Windows, game engine support coming soon.</p>
 <h1 id='mach1-internal-angle-standard'>Mach1 Internal Angle Standard</h1><h3 id='positional-3d-coords'>Positional 3D Coords</h3>
@@ -424,7 +424,8 @@ Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatia
 <li> Pitch[1]+ = rotate up [Range: -90-&gt;90]</li>
 <li> Pitch[1]- = rotate down [Range: -90-&gt;90]</li>
 <li> Roll[2]+ = tilt right [Range: -90-&gt;90]</li>
-<li> Roll[2]- = tilt left [Range: -90-&gt;90]</li>
+<li> Roll[2]- = tilt left [Range: -90-&gt;90]
+<em>The orientation convention is based on the first person perspective point of view to make interfacing as easy to interpret as possible.</em></li>
 </ul>
 <h1 id='mach1encode-api'>Mach1Encode API</h1>
 <p>Mach1Encode allows you to transform input audio streams into the Mach1Spatial VVBP 8 channel format. Included are functions needed for mono, stereo or quad/FOA audio streams. The input streams are referred to as <code>Points</code> in our SDK.</p>

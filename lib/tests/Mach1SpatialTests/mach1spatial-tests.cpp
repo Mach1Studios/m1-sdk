@@ -93,6 +93,8 @@ void test_results(void)
 		float pitch;
 		float roll;
 		float filterSpeed;
+
+		std::vector<float> volumes;
 	};
 
 	struct OUTPUT_DATA {
@@ -110,7 +112,8 @@ void test_results(void)
 					"Test 1 - Right channel prior",
 					{
 						Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, 90.0, 0.5, 0.0, true, 0.0, 0.0, unsignedDegrees,
-						Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.0, 0.0, 1.0
+						Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.0, 0.0, 1.0,
+						{ 1.0 }
 					},
 					{
 						{ 0.0, 0.2 }
@@ -209,7 +212,7 @@ void test_results(void)
 		std::vector<float> bufferEncoded(m1Encode.getInputChannelsCount() * m1Encode.getOutputChannelsCount());
 		for (size_t c = 0; c < encodeResults.size(); c++) {
 			for (size_t k = 0; k < encodeResults[c].size(); k++) {
-				bufferEncoded[k * m1Encode.getInputChannelsCount() + c] = 1.0 *  encodeResults[c][k];
+				bufferEncoded[k * m1Encode.getInputChannelsCount() + c] = test.input.volumes[c] *  encodeResults[c][k];
 			}
 		}
 

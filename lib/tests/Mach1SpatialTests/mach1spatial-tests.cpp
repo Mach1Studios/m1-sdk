@@ -248,7 +248,7 @@ void test_results(void)
 	}
 
 
-	getchar();
+	// getchar();
 }
 
 TEST_LIST = {

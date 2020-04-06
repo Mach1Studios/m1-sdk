@@ -30,6 +30,7 @@
 #include "Mach1Decode.h"
 
 #define DELTA_ANGLE 0.0174533 // equivalent of 1 degrees in radians
+#define DELTA_VALUE 1.0 // used for incrementing in degrees directly
 #ifndef PI
 #define PI 3.14159265358979323846
 #endif
@@ -66,6 +67,9 @@ static void* decode(void* v);
 static pthread_t thread;
 static bool done = false;
 Mach1Decode m1Decode;
+Mach1DecodeAlgoType outputFormat;
+std::string outputName;
+int outputChannelCount;
 static std::vector<float> m1Coeffs;
 
 /*
@@ -80,6 +84,7 @@ Roll[2]- = tilt left [Range: -90->90]
 
 http://dev.mach1.tech/#mach1-internal-angle-standard
 */
+
 static float yaw = 0;
 static float pitch = 0;
 static float roll = 0;
@@ -94,7 +99,7 @@ static float checkSumL = 0;
 static float checkSumR = 0;
 
 float radToDeg (float input){
-    float output = input * (180/PI);
+    float output = input * (180.0/M_PI);
     return output;
 }
 
@@ -105,17 +110,21 @@ int main(int argc, const char * argv[]) {
     ts.tv_nsec = (long)1e7; // 1/100 seconds
     
     printf("Setting up\n");
-    m1Decode.setPlatformType(Mach1PlatformDefault);
-    m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial);
-    m1Decode.setFilterSpeed(1.0);
+    outputFormat = Mach1DecodeAlgoSpatial;
+    outputName = "Mach1 Spatial";
+    outputChannelCount = 18;
     done = false;
     pthread_create(&thread, NULL, &decode, NULL);
     
     while (!done) {
         nanosleep(&ts, NULL);
         auto start = std::chrono::high_resolution_clock::now();
+        m1Decode.setPlatformType(Mach1PlatformDefault);
+        m1Decode.setDecodeAlgoType(outputFormat);
+        m1Decode.setFilterSpeed(1.0);
+
         m1Decode.beginBuffer();
-        m1Coeffs = m1Decode.decode(radToDeg(yaw), radToDeg(pitch), radToDeg(roll), 0, 0);
+        m1Coeffs = m1Decode.decode(yaw, pitch, roll, 0, 0);
         m1Decode.endBuffer();
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> elapsed = end - start;
@@ -154,47 +163,88 @@ static void* decode(void* v)
         printf("\b");
         switch (c) {
             case 'd':
-                yaw += DELTA_ANGLE;
+                yaw += DELTA_VALUE;
                 break;
             case 'a':
-                yaw -= DELTA_ANGLE;
+                yaw -= DELTA_VALUE;
                 break;
             case 'w':
-                pitch += DELTA_ANGLE;
+                pitch += DELTA_VALUE;
                 break;
             case 's':
-                pitch -= DELTA_ANGLE;
+                pitch -= DELTA_VALUE;
                 break;
             case 'x':
-                roll += DELTA_ANGLE;
+                roll += DELTA_VALUE;
                 break;
             case 'z':
-                roll -= DELTA_ANGLE;
+                roll -= DELTA_VALUE;
+                break;
+            case 'o':
+                if(outputFormat==Mach1DecodeAlgoSpatial){
+                    outputFormat=Mach1DecodeAlgoHorizon;
+                    outputName="Mach1 Horizon";
+                }else if(outputFormat==Mach1DecodeAlgoHorizon){
+                    outputFormat=Mach1DecodeAlgoHorizonPairs;
+                    outputName="Mach1 Horizon Pairs";
+                }else if(outputFormat==Mach1DecodeAlgoHorizonPairs){
+                    outputFormat=Mach1DecodeAlgoAltSpatial;
+                    outputName="Mach1 Spatial Periphonic";
+                }else if(outputFormat==Mach1DecodeAlgoAltSpatial){
+                    outputFormat=Mach1DecodeAlgoSpatialPlus;
+                    outputName="Mach1 Spatial+";
+                }else if(outputFormat==Mach1DecodeAlgoSpatialPlus){
+                    outputFormat=Mach1DecodeAlgoSpatialPlusPlus;
+                    outputName="Mach1 Spatial++";
+                }else if(outputFormat==Mach1DecodeAlgoSpatialPlusPlus){
+                    outputFormat=Mach1DecodeAlgoSpatialExt;
+                    outputName="Mach1 Spatial Extended";
+                }else if(outputFormat==Mach1DecodeAlgoSpatialExt){
+                    outputFormat=Mach1DecodeAlgoSpatialExtPlus;
+                    outputName="Mach1 Spatial Extended+";
+                }else if(outputFormat==Mach1DecodeAlgoSpatialExtPlus){
+                    outputFormat=Mach1DecodeAlgoSpatial;
+                    outputName="Mach1 Spatial";
+                }else{
+                    printf("Input out of scope.");
+                }
+                //resize coeffs array to the size of the current output
+                m1Coeffs.resize(m1Decode.getOutputChannelsCount(), 0.0f);
                 break;
             default:
                 printf("Input not recognized.\n");
         }
         
         // check that the values are in proper range
-        if (pitch < -M_PI) pitch = M_PI;
-        else if (pitch > M_PI) pitch = -M_PI;
-        if (yaw < 0) yaw = 2*M_PI;
-        else if (yaw > 2*M_PI) yaw = 0;
-        if (roll < -M_PI) roll = M_PI;
-        else if (roll > M_PI) roll = -M_PI;
+        if (yaw < 0.0) yaw = 360.0;
+        else if (yaw > 360.0) yaw = 0.0;
+        if (pitch < -90.0) pitch = -90.0;
+        else if (pitch > 90.0) pitch = 90.0;
+        if (roll < -90.0) roll = -90.0;
+        else if (roll > 90.0) roll = 90.0;
         
-        checkSumL = (m1Coeffs[0] + m1Coeffs[2] + m1Coeffs[4] + m1Coeffs[6] + m1Coeffs[8] + m1Coeffs[10] + m1Coeffs[12] + m1Coeffs[14]);
-        checkSumR = (m1Coeffs[1] + m1Coeffs[3] + m1Coeffs[5] + m1Coeffs[7] + m1Coeffs[9] + m1Coeffs[11] + m1Coeffs[13] + m1Coeffs[15]);
+        for (int i = 0; i < m1Coeffs.size()-2; i++){ //minus 2 for removing the static stereo indices
+            if(i % 2 == 0){
+                checkSumL=checkSumL+m1Coeffs[i];
+            } else {
+                checkSumR=checkSumR+m1Coeffs[i];
+            }
+        }
         
         // Mach1DecodeCAPI Log:
         printf("\n");
-        printf("y / p / r: %f %f %f\n", radToDeg(yaw), radToDeg(pitch), radToDeg(roll));
+        printf("y / p / r: %f %f %f\n", yaw, pitch, roll);
+        printf("\n");
+        printf("Output M1 Format: %s\n", outputName.c_str());
+        printf("Output Count: %i\n", outputChannelCount); //TODO: remove me
         printf("\n");
         printf("Decode Coeffs:\n");
-        printf(" 1L: %f 1R: %f\n 2L: %f 2R: %f\n 3L: %f 3R: %f\n 4L: %f 4R: %f\n\n 5L: %f 5R: %f\n 6L: %f 6R: %f\n 7L: %f 7R: %f\n 8L: %f 8R: %f\n", m1Coeffs[0], m1Coeffs[1], m1Coeffs[2], m1Coeffs[3], m1Coeffs[4], m1Coeffs[5], m1Coeffs[6], m1Coeffs[7], m1Coeffs[8], m1Coeffs[9], m1Coeffs[10], m1Coeffs[11], m1Coeffs[12], m1Coeffs[13], m1Coeffs[14], m1Coeffs[15]);
-        printf("\n");
+        for (int i = 0; i < m1Coeffs.size()-2; i++){
+            printf(" %iL: %f", i * 2, m1Coeffs[i * 2]);
+            printf(" %iR: %f\n", i * 2 + 1, m1Coeffs[i * 2 + 1]);
+        }
         printf("Headlock Stereo Coeffs:\n");
-        printf("%f %f\n", m1Coeffs[16], m1Coeffs[17]);
+        printf("%f %f\n", m1Coeffs[m1Decode.getOutputChannelsCount()-1], m1Coeffs[m1Decode.getOutputChannelsCount()]);
         printf("\n");
         printf("Elapsed time: %f Seconds\n", timeReturned);
         printf("\n");

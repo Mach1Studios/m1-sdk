@@ -441,6 +441,7 @@ void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, flo
     // clear
     for (int i = 0; i < resultingPoints.pointsCount * 2; i++) result[i] = 0;
 
+    // TODO: check on these numbers
 
     int decodeResultSize = 0;
     switch (decodeType)
@@ -492,6 +493,9 @@ void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, flo
 [[deprecated]]
 void M1EncodeCore::getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, float* decodeResult, float* result)
 {
+
+	// TODO: check on these numbers
+
 	int decodeResultSize = 0;
 	switch (decodeType)
 	{

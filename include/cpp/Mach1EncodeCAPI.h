@@ -48,12 +48,12 @@ enum Mach1EncodeInputModeType {
 };
 
 enum Mach1EncodeOutputModeType {
-	Mach1EncodeOutputMode4Ch = 0, 
-	Mach1EncodeOutputMode8Ch,
-	Mach1EncodeOutputMode12Ch,
-	Mach1EncodeOutputMode14Ch,
-	Mach1EncodeOutputMode16Ch,
-	Mach1EncodeOutputMode18Ch
+	Mach1EncodeOutputModeM1Horizon = 0,
+	Mach1EncodeOutputModeM1Spatial,
+	Mach1EncodeOutputModeM1SpatialPlus,
+	Mach1EncodeOutputModeM1SpatialPlusPlus,
+	Mach1EncodeOutputModeM1SpatialExt,
+	Mach1EncodeOutputModeM1SpatialExtPlus
 };
 
 #ifdef __cplusplus

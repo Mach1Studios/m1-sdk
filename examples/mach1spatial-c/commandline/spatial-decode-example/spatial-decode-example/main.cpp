@@ -110,7 +110,7 @@ int main(int argc, const char * argv[]) {
     
     printf("Setting up\n");
     outputFormat = Mach1DecodeAlgoSpatial;
-    outputName = "Mach1 Spatial";
+    outputName = "MACH1 SPATIAL";
     done = false;
     pthread_create(&thread, NULL, &decode, NULL);
     
@@ -181,25 +181,25 @@ static void* decode(void* v)
             case 'o':
                 if(outputFormat==Mach1DecodeAlgoSpatial){
                     outputFormat=Mach1DecodeAlgoHorizon;
-                    outputName="Mach1 Horizon";
+                    outputName="MACH1 HORIZON";
                 }else if(outputFormat==Mach1DecodeAlgoHorizon){
                     outputFormat=Mach1DecodeAlgoAltSpatial;
-                    outputName="Mach1 Spatial Periphonic";
+                    outputName="MACH1 SPATIAL Periphonic";
                 }else if(outputFormat==Mach1DecodeAlgoAltSpatial){
                     outputFormat=Mach1DecodeAlgoSpatialPlus;
-                    outputName="Mach1 Spatial+";
+                    outputName="MACH1 SPATIAL+";
                 }else if(outputFormat==Mach1DecodeAlgoSpatialPlus){
                     outputFormat=Mach1DecodeAlgoSpatialPlusPlus;
-                    outputName="Mach1 Spatial++";
+                    outputName="MACH1 SPATIAL++";
                 }else if(outputFormat==Mach1DecodeAlgoSpatialPlusPlus){
                     outputFormat=Mach1DecodeAlgoSpatialExt;
-                    outputName="Mach1 Spatial Extended";
+                    outputName="MACH1 SPATIAL Extended";
                 }else if(outputFormat==Mach1DecodeAlgoSpatialExt){
                     outputFormat=Mach1DecodeAlgoSpatialExtPlus;
-                    outputName="Mach1 Spatial Extended+";
+                    outputName="MACH1 SPATIAL Extended+";
                 }else if(outputFormat==Mach1DecodeAlgoSpatialExtPlus){
                     outputFormat=Mach1DecodeAlgoSpatial;
-                    outputName="Mach1 Spatial";
+                    outputName="MACH1 SPATIAL";
                 }else{
                     printf("Input out of scope.");
                 }

@@ -72,6 +72,7 @@ static std::vector<std::vector<float>> m1Coeffs; //2D array, [input channel][inp
 Mach1EncodeInputModeType inputMode;
 Mach1EncodeOutputModeType outputMode;
 std::string inputName;
+std::string outputName;
 
 /*
  Orientation Euler
@@ -109,8 +110,9 @@ int main(int argc, const char * argv[]) {
     
     printf("Setting up\n");
     inputMode = Mach1EncodeInputModeMono;
-    outputMode = Mach1EncodeOutputMode8Ch;
+    outputMode = Mach1EncodeOutputModeM1Spatial;
     inputName = "MONO";
+    outputName = "MACH1 SPATIAL";
     done = false;
     pthread_create(&thread, NULL, &decode, NULL);
     
@@ -217,11 +219,33 @@ static void* decode(void* v)
                 }
                 break;
             case 'o':
-                if(outputMode==Mach1EncodeOutputMode8Ch){
-                    outputMode=Mach1EncodeOutputMode4Ch;
-                } else if (outputMode==Mach1EncodeOutputMode4Ch){
-                    outputMode=Mach1EncodeOutputMode8Ch;
+                if(outputMode==Mach1EncodeOutputModeM1Spatial){
+                    outputMode=Mach1EncodeOutputModeM1Horizon;
+                    outputName="MACH1 HORIZON";
+                }else if(outputMode==Mach1EncodeOutputModeM1Horizon){
+                    outputMode=Mach1EncodeOutputModeM1SpatialPlus;
+                    outputName="MACH1 SPATIAL+";
+                }else if(outputMode==Mach1EncodeOutputModeM1SpatialPlus){
+                    outputMode=Mach1EncodeOutputModeM1SpatialPlusPlus;
+                    outputName="MACH1 SPATIAL++";
+                }else if(outputMode==Mach1EncodeOutputModeM1SpatialPlusPlus){
+                    outputMode=Mach1EncodeOutputModeM1SpatialExt;
+                    outputName="MACH1 SPATIAL Extended";
+                }else if(outputMode==Mach1EncodeOutputModeM1SpatialExt){
+                    outputMode=Mach1EncodeOutputModeM1SpatialExtPlus;
+                    outputName="MACH1 SPATIAL Extended+";
+                }else if(outputMode==Mach1EncodeOutputModeM1SpatialExtPlus){
+                    outputMode=Mach1EncodeOutputModeM1Spatial;
+                    outputName="MACH1 SPATIAL";
+                }else{
+                    printf("Input out of scope.");
                 }
+                //resize coeffs array to the size of the current output
+                m1Encode.setOutputMode(outputMode);
+                for (int i = 0; i < m1Coeffs.size(); i++){
+                    m1Coeffs[i].resize(m1Encode.getOutputChannelsCount(), 0.0f);
+                }
+
                 break;
             case 'e': //isotropic encode enable
                 isIsotroptic = !isIsotroptic;
@@ -260,7 +284,7 @@ static void* decode(void* v)
         // Mach1EncodeCAPI Log:
         printf("\n");
         printf("Input: %s\n", inputName.c_str());
-        printf("Output: %u\n", outputMode);
+        printf("Output: %s\n", outputName.c_str());
         printf("\n");
         printf("Azimuth: %f\n", azimuth);
         printf("Diverge: %f\n", diverge);

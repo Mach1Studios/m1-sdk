@@ -938,15 +938,15 @@ Mach1PlatformType Mach1DecodeCore::getPlatformType()
 
 int Mach1DecodeCore::getOutputChannelsCount() {
 	switch (algorithmType) {
-		case Mach1DecodeAlgoSpatial: return  8 * 2 + 2;
-		case Mach1DecodeAlgoAltSpatial: return 8 * 2 + 2;
-		case Mach1DecodeAlgoHorizon: return 4 * 2 + 2;
-		case Mach1DecodeAlgoHorizonPairs: return  4 * 2 + 2;
-		case Mach1DecodeAlgoSpatialPairs: return 4 * 2 + 2;
-		case Mach1DecodeAlgoSpatialPlus: return 12 * 2 + 2;
-		case Mach1DecodeAlgoSpatialPlusPlus: return 14 * 2 + 2;
-		case Mach1DecodeAlgoSpatialExt: return 16 * 2 + 2;
-		case Mach1DecodeAlgoSpatialExtPlus: return 18 * 2 + 2;
+		case Mach1DecodeAlgoSpatial: return  (8 * 2) + 2;
+		case Mach1DecodeAlgoAltSpatial: return (8 * 2) + 2;
+		case Mach1DecodeAlgoHorizon: return (4 * 2) + 2;
+		case Mach1DecodeAlgoHorizonPairs: return  (4 * 2) + 2;
+		case Mach1DecodeAlgoSpatialPairs: return (4 * 2) + 2;
+		case Mach1DecodeAlgoSpatialPlus: return (12 * 2) + 2;
+		case Mach1DecodeAlgoSpatialPlusPlus: return (14 * 2) + 2;
+		case Mach1DecodeAlgoSpatialExt: return (16 * 2) + 2;
+		case Mach1DecodeAlgoSpatialExtPlus: return (18 * 2) + 2;
 	}
 	return 0;
 }

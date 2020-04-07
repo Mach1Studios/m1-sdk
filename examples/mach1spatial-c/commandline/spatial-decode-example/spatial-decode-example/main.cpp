@@ -69,7 +69,6 @@ static bool done = false;
 Mach1Decode m1Decode;
 Mach1DecodeAlgoType outputFormat;
 std::string outputName;
-int outputChannelCount;
 static std::vector<float> m1Coeffs;
 
 /*
@@ -112,7 +111,6 @@ int main(int argc, const char * argv[]) {
     printf("Setting up\n");
     outputFormat = Mach1DecodeAlgoSpatial;
     outputName = "Mach1 Spatial";
-    outputChannelCount = 18;
     done = false;
     pthread_create(&thread, NULL, &decode, NULL);
     
@@ -185,9 +183,6 @@ static void* decode(void* v)
                     outputFormat=Mach1DecodeAlgoHorizon;
                     outputName="Mach1 Horizon";
                 }else if(outputFormat==Mach1DecodeAlgoHorizon){
-                    outputFormat=Mach1DecodeAlgoHorizonPairs;
-                    outputName="Mach1 Horizon Pairs";
-                }else if(outputFormat==Mach1DecodeAlgoHorizonPairs){
                     outputFormat=Mach1DecodeAlgoAltSpatial;
                     outputName="Mach1 Spatial Periphonic";
                 }else if(outputFormat==Mach1DecodeAlgoAltSpatial){
@@ -209,6 +204,7 @@ static void* decode(void* v)
                     printf("Input out of scope.");
                 }
                 //resize coeffs array to the size of the current output
+                m1Decode.setDecodeAlgoType(outputFormat);
                 m1Coeffs.resize(m1Decode.getOutputChannelsCount(), 0.0f);
                 break;
             default:
@@ -223,6 +219,8 @@ static void* decode(void* v)
         if (roll < -90.0) roll = -90.0;
         else if (roll > 90.0) roll = 90.0;
         
+        checkSumL = 0; // zeroed for next loop
+        checkSumR = 0; // zeroed for next loop
         for (int i = 0; i < m1Coeffs.size()-2; i++){ //minus 2 for removing the static stereo indices
             if(i % 2 == 0){
                 checkSumL=checkSumL+m1Coeffs[i];
@@ -236,12 +234,11 @@ static void* decode(void* v)
         printf("y / p / r: %f %f %f\n", yaw, pitch, roll);
         printf("\n");
         printf("Output M1 Format: %s\n", outputName.c_str());
-        printf("Output Count: %i\n", outputChannelCount); //TODO: remove me
         printf("\n");
         printf("Decode Coeffs:\n");
-        for (int i = 0; i < m1Coeffs.size()-2; i++){
-            printf(" %iL: %f", i * 2, m1Coeffs[i * 2]);
-            printf(" %iR: %f\n", i * 2 + 1, m1Coeffs[i * 2 + 1]);
+        for (int i = 0; i < (m1Coeffs.size()-2)/2; i++){
+            printf(" %iL: %f", i, m1Coeffs[i * 2]);
+            printf(" %iR: %f\n", i, m1Coeffs[i * 2 + 1]);
         }
         printf("Headlock Stereo Coeffs:\n");
         printf("%f %f\n", m1Coeffs[m1Decode.getOutputChannelsCount()-1], m1Coeffs[m1Decode.getOutputChannelsCount()]);

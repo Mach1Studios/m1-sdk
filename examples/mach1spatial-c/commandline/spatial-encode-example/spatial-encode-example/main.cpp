@@ -312,9 +312,11 @@ static void* decode(void* v)
         for (int i = 0; i < m1Coeffs.size(); i++){
             printf("Number of Channels %i\n", i);
             printf("Channel %i Coeffs: \n", i);
-            printf("%f %f %f %f %f %f %f %f\n", m1Coeffs[i][0], m1Coeffs[i][1], m1Coeffs[i][2], m1Coeffs[i][3], m1Coeffs[i][4], m1Coeffs[i][5], m1Coeffs[i][6], m1Coeffs[i][7]);
-            printf("\n");
-        }
+			for (int j = 0; j < m1Coeffs[i].size(); j++) {
+				printf("%f ", m1Coeffs[i][j]);
+			}
+			printf("\n\n");
+		}
         printf("\n");
         printf("Elapsed time: %f Seconds\n", timeReturned);
         printf("\n");

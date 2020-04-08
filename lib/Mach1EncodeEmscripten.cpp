@@ -11,13 +11,25 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
         .value("Mach1EncodeInputModeMono", Mach1EncodeInputModeMono)
         .value("Mach1EncodeInputModeStereo", Mach1EncodeInputModeStereo)
         .value("Mach1EncodeInputModeQuad", Mach1EncodeInputModeQuad)
+        .value("Mach1EncodeInputModeLCRS", Mach1EncodeInputModeLCRS)
         .value("Mach1EncodeInputModeAFormat", Mach1EncodeInputModeAFormat)
         .value("Mach1EncodeInputModeBFormat", Mach1EncodeInputModeBFormat)
+        .value("Mach1EncodeInputModeBFOAACN", Mach1EncodeInputModeBFOAACN)
+        .value("Mach1EncodeInputModeBFOAFUMA", Mach1EncodeInputModeBFOAFUMA)
+        .value("Mach1EncodeInputModeB2OAACN", Mach1EncodeInputModeB2OAACN)
+        .value("Mach1EncodeInputModeB2OAFUMA", Mach1EncodeInputModeB2OAFUMA)
+        .value("Mach1EncodeInputModeB3OAACN", Mach1EncodeInputModeB3OAACN)
+        .value("Mach1EncodeInputModeB3OAFUMA", Mach1EncodeInputModeB3OAFUMA)
+        .value("Mach1EncodeInputModeLCR", Mach1EncodeInputModeLCR)
         ;
 		
     enum_<Mach1EncodeOutputModeType>("Mach1EncodeOutputModeType")
-        .value("Mach1EncodeOutputMode4Ch", Mach1EncodeOutputMode4Ch)
-        .value("Mach1EncodeOutputMode8Ch", Mach1EncodeOutputMode8Ch)
+        .value("Mach1EncodeOutputModeM1Horizon", Mach1EncodeOutputModeM1Horizon)
+        .value("Mach1EncodeOutputModeM1Spatial", Mach1EncodeOutputModeM1Spatial)
+        .value("Mach1EncodeOutputModeM1SpatialPlus", Mach1EncodeOutputModeM1SpatialPlus)
+        .value("Mach1EncodeOutputModeM1SpatialPlusPlus", Mach1EncodeOutputModeM1SpatialPlusPlus)
+        .value("Mach1EncodeOutputModeM1SpatialExt", Mach1EncodeOutputModeM1SpatialExt)
+        .value("Mach1EncodeOutputModeM1SpatialExtPlus", Mach1EncodeOutputModeM1SpatialExtPlus)
         ;
 
 	enum_<Mach1DecodeAlgoType>("Mach1DecodeAlgoType")

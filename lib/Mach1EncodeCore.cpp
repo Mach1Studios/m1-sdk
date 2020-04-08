@@ -68,16 +68,20 @@ int M1EncodeCorePointResults::getPointsCount()
 	return pointsCount;
 }
 
-float M1EncodeCore::getCoeffForStandardPoint(float x, float y, float z, M1EncodeCorePoint point)
+float M1EncodeCore::getCoeffForStandardPoint(float x, float y, float z, M1EncodeCorePoint point, bool ignoreZ)
 {
-	return fabs(point.x - x) * fabs(point.y - y) * fabs(point.z - z);
+	point.x = 1 - (point.x + 1) / 2;
+	point.y = 1 - (point.y + 1) / 2;
+	point.z = 1 - (point.z + 1) / 2;
+
+	return fabs(point.x - x) * fabs(point.y - y) * (ignoreZ ? 1.0 : fabs(point.z - z));
 }
 
-std::vector<float> M1EncodeCore::getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<M1EncodeCorePoint>& pointSet)
+std::vector<float> M1EncodeCore::getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<M1EncodeCorePoint>& pointSet, bool ignoreZ)
 {
 	std::vector<float> result;
 	for (auto &i : pointSet) {
-		result.push_back(getCoeffForStandardPoint(x, y, z, i));
+		result.push_back(getCoeffForStandardPoint(x, y, z, i, ignoreZ));
 	}
 	return result;
 }
@@ -87,66 +91,86 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 	std::vector<M1EncodeCorePoint> pointsSet;
 
 	if (outputMode == OUTPUT_HORIZON_4CH) {
-		pointsSet = {
-			{ 0, 1.0f, 0 },
-			{ 0, 0, 0 },
-			{ 1.0f, 1.0f, 0 },
-			{ 1.0f, 0, 0 },
-		};
+		pointsSet = { {1, -1, 0},
+			{1, 1, 0},
+			{-1, -1, 0},
+			{-1, 1, 0} };
 	}
 	else if (outputMode == OUTPUT_SPATIAL_8CH) {
-		pointsSet = {
-			{ 0, 1.0f, 0 },
-			{ 0, 0, 0 },
-			{ 1.0f, 1.0f, 0 },
-			{ 1.0f, 0, 0 },
+		pointsSet = { {1, -1, 1},
+			{1, 1, 1},
+			{-1, -1, 1},
+			{-1, 1, 1},
 
-			{ 0, 1.0f, 1.0f },
-			{ 0, 0, 1.0f },
-			{ 1.0f, 1.0f, 1.0f },
-			{ 1.0f, 0, 1.0f },
-		};
+			{1, -1, -1},
+			{1, 1, -1},
+			{-1, -1, -1},
+			{-1, 1, -1} };
 	}
 	else if (outputMode == OUTPUT_SPATIALPLUS_12CH) {
-		pointsSet = { 
-			{ 0, 1.0f, 0},
-			{ 0, 0, 0},
-			{ 1.0f, 1.0f, 0},
-			{ 1.0f, 0, 0},
+		pointsSet = { {1, -1, 1},
+			{1, 1, 1},
+			{-1, -1, 1},
+			{-1, 1, 1},
 
-			{ 0, 1.0f, 1.0f},
-			{ 0, 0, 1.0f},
-			{ 1.0f, 1.0f, 1.0f},
-			{ 1.0f, 0, 1.0f},
+			{1, -1, -1},
+			{1, 1, -1},
+			{-1, -1, -1},
+			{-1, 1, -1},
 
-			{ (1 - 1.414f)/2, 0, 0},
-			{ 0, 0, (1 - 1.414f)/2},
-			{ 0, 0, (1 + 1.414f)/2},
-			{ (1 + 1.414f)/2, 0, 0} 
-		};
+			{1 / 0.707, 0, 0},
+			{0, 1 / 0.707, 0},
+			{-1 / 0.707, 0, 0},
+			{0, -1 / 0.707, 0} };
 	}
-	else if (outputMode == OUTPUT_SPATIALPLUSPLUS_14CH) {
-		pointsSet = {
-			{ 0, 1.0f, 0},
-			{ 0, 0, 0},
-			{ 1.0f, 1.0f, 0},
-			{ 1.0f, 0, 0},
+	else if (outputMode == OUTPUT_SPATIALEXT_16CH) {
+		pointsSet = { {1, -1, 1},
+			{1, 1, 1},
+			{-1, -1, 1},
+			{-1, 1, 1},
 
-			{ 0, 1.0f, 1.0f},
-			{ 0, 0, 1.0f},
-			{ 1.0f, 1.0f, 1.0f},
-			{ 1.0f, 0, 1.0f},
+			{1, -1, -1},
+			{1, 1, -1},
+			{-1, -1, -1},
+			{-1, 1, -1},
 
-			{ (1 - 1.414f)/2, 0, 0},
-			{ 0, 0, (1 - 1.414f)/2},
-			{ 0, 0, (1 + 1.414f)/2},
-			{ (1 + 1.414f)/2, 0, 0},
-			{ 0, (1 + 1.414f)/2, 0},
-			{ 0, (1 - 1.414f)/2, 0}
-		};
+			{1 / 0.707, 0, 1},
+			{0, 1 / 0.707, 1},
+			{-1 / 0.707, 0, 1},
+			{0, -1 / 0.707, 1},
+
+			{1 / 0.707, 0, -1},
+			{0, 1 / 0.707, -1},
+			{-1 / 0.707, 0, -1},
+			{0, -1 / 0.707, -1} };
 	}
 
-	result = getCoeffSetForStandardPointSet(x, y, z, pointsSet);
+	else if (outputMode == OUTPUT_SPATIALEXTPLUS_18CH) {
+		pointsSet = { {1, -1, 1},
+			{1, 1, 1},
+			{-1, -1, 1},
+			{-1, 1, 1},
+
+			{1, -1, -1},
+			{1, 1, -1},
+			{-1, -1, -1},
+			{-1, 1, -1},
+
+			{1 / 0.707, 0, 1},
+			{0, 1 / 0.707, 1},
+			{-1 / 0.707, 0, 1},
+			{0, -1 / 0.707, 1},
+
+			{1 / 0.707, 0, -1},
+			{0, 1 / 0.707, -1},
+			{-1 / 0.707, 0, -1},
+			{0, -1 / 0.707, -1},
+
+			{0, 1 / 0.707, 0},
+			{0, -1 / 0.707, 0} };
+	}
+
+	result = getCoeffSetForStandardPointSet(x, y, z, pointsSet, outputMode == OUTPUT_HORIZON_4CH ? true : false);
 }
 
 M1EncodeCore::M1EncodeCore() {

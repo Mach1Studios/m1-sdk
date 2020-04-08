@@ -131,8 +131,8 @@ private:
 	bool isotropicEncode;
 
 
-	float getCoeffForStandardPoint(float x, float y, float z, M1EncodeCorePoint point);
-	std::vector<float> getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<M1EncodeCorePoint>& pointSet);
+	float getCoeffForStandardPoint(float x, float y, float z, M1EncodeCorePoint point, bool ignoreZ);
+	std::vector<float> getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<M1EncodeCorePoint>& pointSet, bool ignoreZ);
 	void processGainsChannels(float x, float y, float z, std::vector<float>& result);
 
 	milliseconds ms;

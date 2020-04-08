@@ -24,12 +24,12 @@ std::map<Mach1EncodeInputModeType, std::string> encodeInputModeNames = {
 };
 
 std::map<Mach1EncodeOutputModeType, std::string> encodeOutputModeNames = {
-	{ Mach1EncodeOutputMode4Ch , "MACH1HORIZON" },
-	{ Mach1EncodeOutputMode8Ch , "MACH1SPATIAL" },
-	{ Mach1EncodeOutputMode12Ch , "MACH1SPATIAL+" },
-	{ Mach1EncodeOutputMode14Ch , "MACH1SPATIAL++" },
-	{ Mach1EncodeOutputMode16Ch , "MACH1SPATIALEXT" },
-	{ Mach1EncodeOutputMode18Ch , "MACH1SPATIALEXT+" },
+		{ Mach1EncodeOutputModeM1Horizon , "MACH1HORIZON" },
+		{ Mach1EncodeOutputModeM1Spatial , "MACH1SPATIAL" },
+		{ Mach1EncodeOutputModeM1SpatialPlus , "MACH1SPATIAL+" },
+		{ Mach1EncodeOutputModeM1SpatialPlusPlus , "MACH1SPATIAL++" },
+		{ Mach1EncodeOutputModeM1SpatialExt , "MACH1SPATIALEXT" },
+		{ Mach1EncodeOutputModeM1SpatialExtPlus , "MACH1SPATIALEXT+" },
 };
 
 enum InputType {
@@ -111,7 +111,7 @@ void test_results(void)
 				{
 					"Test 1 - Right channel prior",
 					{
-						Mach1EncodeInputModeMono, Mach1EncodeOutputMode8Ch, true, 90.0, 0.5, 0.0, true, 0.0, 0.0, unsignedDegrees,
+						Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, 90.0, 0.5, 0.0, true, 0.0, 0.0, unsignedDegrees,
 						Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.0, 0.0, 1.0,
 						{ 1.0 }
 					},

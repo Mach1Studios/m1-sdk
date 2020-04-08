@@ -241,7 +241,7 @@ static void* decode(void* v)
             printf(" %iR: %f\n", i, m1Coeffs[i * 2 + 1]);
         }
         printf("Headlock Stereo Coeffs:\n");
-        printf("%f %f\n", m1Coeffs[m1Decode.getOutputChannelsCount()-1], m1Coeffs[m1Decode.getOutputChannelsCount()]);
+        printf("%f %f\n", m1Coeffs[m1Decode.getOutputChannelsCount()-2], m1Coeffs[m1Decode.getOutputChannelsCount()-1]);
         printf("\n");
         printf("Elapsed time: %f Seconds\n", timeReturned);
         printf("\n");

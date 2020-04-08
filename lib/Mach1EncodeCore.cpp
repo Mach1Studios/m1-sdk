@@ -107,6 +107,44 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 			{ 1.0f, 0, 1.0f },
 		};
 	}
+	else if (outputMode == OUTPUT_SPATIALPLUS_12CH) {
+		pointsSet = { 
+			{ 0, 1.0f, 0},
+			{ 0, 0, 0},
+			{ 1.0f, 1.0f, 0},
+			{ 1.0f, 0, 0},
+
+			{ 0, 1.0f, 1.0f},
+			{ 0, 0, 1.0f},
+			{ 1.0f, 1.0f, 1.0f},
+			{ 1.0f, 0, 1.0f},
+
+			{ (1 - 1.414f)/2, 0, 0},
+			{ 0, 0, (1 - 1.414f)/2},
+			{ 0, 0, (1 + 1.414f)/2},
+			{ (1 + 1.414f)/2, 0, 0} 
+		};
+	}
+	else if (outputMode == OUTPUT_SPATIALPLUSPLUS_14CH) {
+		pointsSet = {
+			{ 0, 1.0f, 0},
+			{ 0, 0, 0},
+			{ 1.0f, 1.0f, 0},
+			{ 1.0f, 0, 0},
+
+			{ 0, 1.0f, 1.0f},
+			{ 0, 0, 1.0f},
+			{ 1.0f, 1.0f, 1.0f},
+			{ 1.0f, 0, 1.0f},
+
+			{ (1 - 1.414f)/2, 0, 0},
+			{ 0, 0, (1 - 1.414f)/2},
+			{ 0, 0, (1 + 1.414f)/2},
+			{ (1 + 1.414f)/2, 0, 0},
+			{ 0, (1 + 1.414f)/2, 0},
+			{ 0, (1 - 1.414f)/2, 0}
+		};
+	}
 
 	result = getCoeffSetForStandardPointSet(x, y, z, pointsSet);
 }

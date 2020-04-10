@@ -59,6 +59,8 @@ common:
 	# when parsing the file system looking for libraries exclude this for all or
 	# a specific platform
 	# ADDON_LIBS_EXCLUDE =
+	
+	ADDON_DEFINES += M1_STATIC
 
 linux:
 linux64:

@@ -29,7 +29,8 @@
 
 #include "Mach1Encode.h"
 
-#define DELTA_ANGLE 0.0174533 // equivalent of 1 degrees in radians
+#define DELTA_RADIAN 0.0174533 // equivalent of 1 degrees in radians
+#define DELTA_DEGREE 1.0
 #define DELTA_DIVERGE 0.01
 
 #ifndef PI
@@ -70,6 +71,8 @@ Mach1Encode m1Encode;
 static std::vector<std::vector<float>> m1Coeffs; //2D array, [input channel][input channel's coeff]
 Mach1EncodeInputModeType inputMode;
 Mach1EncodeOutputModeType outputMode;
+std::string inputName;
+std::string outputName;
 
 /*
  Orientation Euler
@@ -103,26 +106,28 @@ int main(int argc, const char * argv[]) {
     // time increment for Yaw/Pitch/Roll updates to decode
     struct timespec ts;
     ts.tv_sec =  0;
-    ts.tv_nsec = (long)1e2;
+    ts.tv_nsec = (long)1e7;
     
     printf("Setting up\n");
     inputMode = Mach1EncodeInputModeMono;
-    outputMode = Mach1EncodeOutputMode8Ch;
+    outputMode = Mach1EncodeOutputModeM1Spatial;
+    inputName = "MONO";
+    outputName = "MACH1 SPATIAL";
     done = false;
     pthread_create(&thread, NULL, &decode, NULL);
     
     while (!done) {
         nanosleep(&ts, NULL);
         auto start = std::chrono::high_resolution_clock::now();
-        m1Encode.setAzimuthDegrees(radToDeg(azimuth));
+        m1Encode.setAzimuthDegrees(azimuth);
         m1Encode.setDiverge(diverge);
-        m1Encode.setElevationDegrees(radToDeg(elevation));
+        m1Encode.setElevationDegrees(elevation);
         m1Encode.setInputMode(inputMode);
         m1Encode.setOutputMode(outputMode);
         m1Encode.setIsotropicEncode(isIsotroptic);
         m1Encode.setAutoOrbit(isAutoOrbit);
         if (!isAutoOrbit){
-            m1Encode.setStereoRotate(stereoOrbitRotation);
+            m1Encode.setOrbitRotationDegrees(stereoOrbitRotation);
         }
         m1Encode.setStereoSpread(stereoSpread);
         m1Encode.generatePointResults();
@@ -164,10 +169,10 @@ static void* decode(void* v)
         printf("\b");
         switch (c) {
             case 'd':
-                azimuth += DELTA_ANGLE;
+                azimuth += DELTA_DEGREE;
                 break;
             case 'a':
-                azimuth -= DELTA_ANGLE;
+                azimuth -= DELTA_DEGREE;
                 break;
             case 'w':
                 diverge += DELTA_DIVERGE;
@@ -176,38 +181,71 @@ static void* decode(void* v)
                 diverge -= DELTA_DIVERGE;
                 break;
             case 'x':
-                elevation += DELTA_ANGLE;
+                elevation += DELTA_DEGREE;
                 break;
             case 'z':
-                elevation -= DELTA_ANGLE;
+                elevation -= DELTA_DEGREE;
                 break;
             case 'i':
                 if(inputMode==Mach1EncodeInputModeMono){
                     inputMode=Mach1EncodeInputModeStereo;
+                    inputName="STEREO";
                 }else if(inputMode==Mach1EncodeInputModeStereo){
+                    inputMode=Mach1EncodeInputModeLCR;
+                    inputName="LCR";
+                }else if(inputMode==Mach1EncodeInputModeLCR){
                     inputMode=Mach1EncodeInputModeQuad;
+                    inputName="QUAD";
                 }else if(inputMode==Mach1EncodeInputModeQuad){
                     inputMode=Mach1EncodeInputModeLCRS;
+                    inputName="LCRS";
                 }else if(inputMode==Mach1EncodeInputModeLCRS){
                     inputMode=Mach1EncodeInputModeAFormat;
+                    inputName="AFORMAT";
                 }else if(inputMode==Mach1EncodeInputModeAFormat){
                     inputMode=Mach1EncodeInputModeBFormat;
+                    inputName="1OA ACN";
                 }else if(inputMode==Mach1EncodeInputModeBFormat){
                     inputMode=Mach1EncodeInputModeBFOAACN;
+                    inputName="1OA ACN";
                 }else if(inputMode==Mach1EncodeInputModeBFOAACN){
                     inputMode=Mach1EncodeInputModeBFOAFUMA;
+                    inputName="1OA FUMA";
                 }else if(inputMode==Mach1EncodeInputModeBFOAFUMA){
                     inputMode=Mach1EncodeInputModeMono;
+                    inputName="MONO";
                 }else{
                     printf("Input out of scope.");
                 }
                 break;
             case 'o':
-                if(outputMode==Mach1EncodeOutputMode8Ch){
-                    outputMode=Mach1EncodeOutputMode4Ch;
-                } else if (outputMode==Mach1EncodeOutputMode4Ch){
-                    outputMode=Mach1EncodeOutputMode8Ch;
+                if(outputMode==Mach1EncodeOutputModeM1Spatial){
+                    outputMode=Mach1EncodeOutputModeM1Horizon;
+                    outputName="MACH1 HORIZON";
+                }else if(outputMode==Mach1EncodeOutputModeM1Horizon){
+                    outputMode=Mach1EncodeOutputModeM1SpatialPlus;
+                    outputName="MACH1 SPATIAL+";
+                }else if(outputMode==Mach1EncodeOutputModeM1SpatialPlus){
+                    outputMode=Mach1EncodeOutputModeM1SpatialPlusPlus;
+                    outputName="MACH1 SPATIAL++";
+                }else if(outputMode==Mach1EncodeOutputModeM1SpatialPlusPlus){
+                    outputMode=Mach1EncodeOutputModeM1SpatialExt;
+                    outputName="MACH1 SPATIAL Extended";
+                }else if(outputMode==Mach1EncodeOutputModeM1SpatialExt){
+                    outputMode=Mach1EncodeOutputModeM1SpatialExtPlus;
+                    outputName="MACH1 SPATIAL Extended+";
+                }else if(outputMode==Mach1EncodeOutputModeM1SpatialExtPlus){
+                    outputMode=Mach1EncodeOutputModeM1Spatial;
+                    outputName="MACH1 SPATIAL";
+                }else{
+                    printf("Input out of scope.");
                 }
+                //resize coeffs array to the size of the current output
+                m1Encode.setOutputMode(outputMode);
+                for (int i = 0; i < m1Coeffs.size(); i++){
+                    m1Coeffs[i].resize(m1Encode.getOutputChannelsCount(), 0.0f);
+                }
+
                 break;
             case 'e': //isotropic encode enable
                 isIsotroptic = !isIsotroptic;
@@ -216,10 +254,10 @@ static void* decode(void* v)
                 isAutoOrbit = !isAutoOrbit;
                 break;
             case 'c':
-                stereoOrbitRotation -= DELTA_ANGLE;
+                stereoOrbitRotation -= DELTA_DEGREE;
                 break;
             case 'v':
-                stereoOrbitRotation += DELTA_ANGLE;
+                stereoOrbitRotation += DELTA_DEGREE;
                 break;
             case 'b':
                 stereoSpread -= DELTA_DIVERGE;
@@ -236,21 +274,21 @@ static void* decode(void* v)
         else if (diverge > 1.0) diverge = 1.0;
         if (stereoSpread < -1.0) stereoSpread = -1.0;
         else if (stereoSpread > 1.0) stereoSpread = 1.0;
-        if (azimuth < 0) azimuth = 2*M_PI;
-        else if (azimuth > 2*M_PI) azimuth = 0;
-        if (stereoOrbitRotation < 0) stereoOrbitRotation = 2*M_PI;
-        else if (stereoOrbitRotation > 2*M_PI) stereoOrbitRotation = 0;
-        if (elevation < -M_PI/2) elevation = -M_PI/2;
-        else if (elevation > M_PI/2) elevation = M_PI/2;
+        if (azimuth < 0.0) azimuth = 360.0;
+        else if (azimuth > 360.0) azimuth = 0.0;
+        if (stereoOrbitRotation < 0.0) stereoOrbitRotation = 360.0;
+        else if (stereoOrbitRotation > 360.0) stereoOrbitRotation = 0;
+        if (elevation < -180.0) elevation = -180.0;
+        else if (elevation > 180.0) elevation = 180.0;
         
         // Mach1EncodeCAPI Log:
         printf("\n");
-        printf("Input: %u\n", inputMode);
-        printf("Output: %u\n", outputMode);
+        printf("Input: %s\n", inputName.c_str());
+        printf("Output: %s\n", outputName.c_str());
         printf("\n");
-        printf("Rotation: %f\n", radToDeg(azimuth));
+        printf("Azimuth: %f\n", azimuth);
         printf("Diverge: %f\n", diverge);
-        printf("Height: %f\n", radToDeg(elevation));
+        printf("Elevation: %f\n", elevation);
         printf("\n");
         if(isIsotroptic){
             printf("Isotropic Active\n");
@@ -260,7 +298,7 @@ static void* decode(void* v)
         if(inputMode==1){
             printf("Stereo Spread: %f\n", stereoSpread);
             if(!isAutoOrbit){
-                printf("Stereo Rotation: %f\n", radToDeg(stereoOrbitRotation));
+                printf("Stereo Rotation: %f\n", stereoOrbitRotation);
                 printf("\n");
             }
             if(isAutoOrbit){
@@ -274,9 +312,11 @@ static void* decode(void* v)
         for (int i = 0; i < m1Coeffs.size(); i++){
             printf("Number of Channels %i\n", i);
             printf("Channel %i Coeffs: \n", i);
-            printf("%f %f %f %f %f %f %f %f\n", m1Coeffs[i][0], m1Coeffs[i][1], m1Coeffs[i][2], m1Coeffs[i][3], m1Coeffs[i][4], m1Coeffs[i][5], m1Coeffs[i][6], m1Coeffs[i][7]);
-            printf("\n");
-        }
+			for (int j = 0; j < m1Coeffs[i].size(); j++) {
+				printf("%f ", m1Coeffs[i][j]);
+			}
+			printf("\n\n");
+		}
         printf("\n");
         printf("Elapsed time: %f Seconds\n", timeReturned);
         printf("\n");

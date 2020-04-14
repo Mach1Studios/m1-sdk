@@ -48,12 +48,12 @@ enum Mach1EncodeInputModeType {
 };
 
 enum Mach1EncodeOutputModeType {
-	Mach1EncodeOutputMode4Ch = 0, 
-	Mach1EncodeOutputMode8Ch,
-	Mach1EncodeOutputMode12Ch,
-	Mach1EncodeOutputMode14Ch,
-	Mach1EncodeOutputMode16Ch,
-	Mach1EncodeOutputMode18Ch
+	Mach1EncodeOutputModeM1Horizon = 0, 
+	Mach1EncodeOutputModeM1Spatial,
+	Mach1EncodeOutputModeM1SpatialPlus,
+	Mach1EncodeOutputModeM1SpatialPlusPlus,
+	Mach1EncodeOutputModeM1SpatialExt,
+	Mach1EncodeOutputModeM1SpatialExtPlus
 };
 
 #ifdef __cplusplus
@@ -78,6 +78,7 @@ extern "C" {
 
 	M1_API enum Mach1EncodeInputModeType Mach1EncodeCAPI_getInputMode(void* M1obj);
 	M1_API enum Mach1EncodeOutputModeType Mach1EncodeCAPI_getOutputMode(void* M1obj);
+	M1_API int Mach1EncodeCAPI_getInputChannelsCount(void* M1obj);
 	M1_API int Mach1EncodeCAPI_getOutputChannelsCount(void* M1obj);
 
 	M1_API void Mach1EncodeCAPI_setInputMode(void* M1obj, enum Mach1EncodeInputModeType inputMode);
@@ -86,32 +87,33 @@ extern "C" {
 #if __cplusplus > 201103L
 	[[deprecated("setRotation is deprecated due to ambiguity of use, please use setAzimuth0to1, setAzimuthDegrees or setAzimuthRadians instead")]]
 #endif
-	M1_API void Mach1EncodeCAPI_setRotation(void* M1obj, float rotation);
+	M1_API void Mach1EncodeCAPI_setRotation(void* M1obj, float rotationDegrees);
 
-	M1_API void Mach1EncodeCAPI_setAzimuth(void* M1obj, float azimuth);
-	M1_API void Mach1EncodeCAPI_setAzimuthDegrees(void* M1obj, float azimuth);
-	M1_API void Mach1EncodeCAPI_setAzimuthRadians(void* M1obj, float azimuth);
+	M1_API void Mach1EncodeCAPI_setAzimuth(void* M1obj, float azimuthFromMinus1To1);
+	M1_API void Mach1EncodeCAPI_setAzimuthDegrees(void* M1obj, float azimuthDegrees);
+	M1_API void Mach1EncodeCAPI_setAzimuthRadians(void* M1obj, float azimuthRadians);
 
-	M1_API void Mach1EncodeCAPI_setDiverge(void* M1obj, float diverge);
+	M1_API void Mach1EncodeCAPI_setDiverge(void* M1obj, float divergeFromMinus1To1);
 
 #if __cplusplus > 201103L
 	[[deprecated("setPitch is deprecated due to ambiguity of use, please use setElevation0to1, setStereoRotationDegrees or setStereoRotationRadians instead")]]
 #endif
-	M1_API void Mach1EncodeCAPI_setPitch(void* M1obj, float pitch);
-	M1_API void Mach1EncodeCAPI_setElevation(void* M1obj, float elevation);
-	M1_API void Mach1EncodeCAPI_setElevationDegrees(void* M1obj, float elevation);
-	M1_API void Mach1EncodeCAPI_setElevationRadians(void* M1obj, float elevation);
+	M1_API void Mach1EncodeCAPI_setPitch(void* M1obj, float pitchFromMinus90to90);
+	M1_API void Mach1EncodeCAPI_setElevation(void* M1obj, float elevationFromMinus1to1);
+	M1_API void Mach1EncodeCAPI_setElevationDegrees(void* M1obj, float elevationFromMinus90to90);
+	M1_API void Mach1EncodeCAPI_setElevationRadians(void* M1obj, float elevationFromMinusHalfPItoHalfPI);
 
 	M1_API void Mach1EncodeCAPI_setIsotropicEncode(void* M1obj, bool isotropicEncode);
 
 #if __cplusplus > 201103L
 	[[deprecated("setStereoRotate is deprecated due to ambiguity of use, please use setOrbitRotation0to1, setOrbitRotationDegrees or setOrbitRotationRadians instead")]]
 #endif
-	M1_API void Mach1EncodeCAPI_setStereoRotate(void* M1obj, float sRotate);
-	M1_API void Mach1EncodeCAPI_setOrbitRotation(void* M1obj, float orbitRotation);
-	M1_API void Mach1EncodeCAPI_setOrbitRotationDegrees(void* M1obj, float orbitRotation);
-	M1_API void Mach1EncodeCAPI_setOrbitRotationRadians(void* M1obj, float orbitRotation);
-	M1_API void Mach1EncodeCAPI_setStereoSpread(void* M1obj, float sSpread);
+	M1_API void Mach1EncodeCAPI_setStereoRotate(void* M1obj, float sRotateDegrees);
+	M1_API void Mach1EncodeCAPI_setOrbitRotation(void* M1obj, float orbitRotationFromMinusOnetoOne);
+	M1_API void Mach1EncodeCAPI_setOrbitRotationDegrees(void* M1obj, float orbitRotationDegrees);
+	M1_API void Mach1EncodeCAPI_setOrbitRotationRadians(void* M1obj, float orbitRotationRadians);
+	
+	M1_API void Mach1EncodeCAPI_setStereoSpread(void* M1obj, float sSpreadFrom0to1);
 	M1_API void Mach1EncodeCAPI_setAutoOrbit(void* M1obj, bool autoOrbit);
 
 	M1_API long Mach1EncodeCAPI_getLastCalculationTime(void* M1obj);

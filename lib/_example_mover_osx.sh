@@ -44,14 +44,6 @@ yes | cp -rf "_install/android-x86/libUnity/libMach1DecodeCAPI.so" "../examples/
 yes | cp -rf "_install/android-x86/libUnity/libMach1EncodeCAPI.so" "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/x86/libMach1EncodeCAPI.so"
 yes | cp -rf "_install/android-x86/libUnity/libMach1DecodePositionalCAPI.so" "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/x86/libMach1DecodePositionalCAPI.so"
 
-yes | cp -rf "_install/windows-x86_64/libUnity/Mach1DecodeCAPI.dll" "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/Windows/x86_64/Mach1DecodeCAPI.dll"
-yes | cp -rf "_install/windows-x86_64/libUnity/Mach1EncodeCAPI.dll" "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/Windows/x86_64/Mach1EncodeCAPI.dll"
-yes | cp -rf "_install/windows-x86_64/libUnity/Mach1DecodePositionalCAPI.dll" "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/Windows/x86_64/Mach1DecodePositionalCAPI.dll"
-
-yes | cp -rf "_install/windows-x86/libUnity/Mach1DecodeCAPI.dll" "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/Windows/x86/Mach1DecodeCAPI.dll"
-yes | cp -rf "_install/windows-x86/libUnity/Mach1EncodeCAPI.dll" "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/Windows/x86/Mach1EncodeCAPI.dll"
-yes | cp -rf "_install/windows-x86/libUnity/Mach1DecodePositionalCAPI.dll" "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/Windows/x86/Mach1DecodePositionalCAPI.dll"
-
 echo "### Copying all successful bins to /Binaries ###"
 yes | cp -rf "_install/" "../binaries/"
 yes | cp -rf "external/" "../include/"

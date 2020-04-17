@@ -39,7 +39,8 @@ select yn in "Yes" "No"; do
             rm -rf _install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx
             rm -rf _install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
             rm -rf _install/android-ndk-r16b-api-21-x86-clang-libcxx
-            rm -rf _install/android-ndk-r16b-api-21-x86-64-clang-libcxx; break;;
+            rm -rf _install/android-ndk-r16b-api-21-x86-64-clang-libcxx
+            sh ./swig/build_on_mac_for_jni.sh; break;;
         No ) break;;
     esac
 done

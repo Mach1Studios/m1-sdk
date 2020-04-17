@@ -56,7 +56,7 @@ extern "C" {
 	M1_API void Mach1DecodeCAPI_beginBuffer(void* M1obj);
 	M1_API void Mach1DecodeCAPI_endBuffer(void* M1obj);
   
-	M1_API int Mach1DecodeCAPI_getOutputChannelsCount(void* M1obj);
+	M1_API int Mach1DecodeCAPI_getFormatChannelCount(void* M1obj);
 	M1_API void Mach1DecodeCAPI_setRotation(void* M1obj, Mach1Point3D newRotationFromMinusOnetoOne);
 	M1_API void Mach1DecodeCAPI_setRotationDegrees(void* M1obj, Mach1Point3D newRotationDegrees);
 	M1_API void Mach1DecodeCAPI_setRotationRadians(void* M1obj, Mach1Point3D newRotationRadians);

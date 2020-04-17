@@ -66,7 +66,7 @@ std::vector<float> Mach1Decode::decode(float Yaw, float Pitch, float Roll, int b
 
 std::vector<float> Mach1Decode::decode(int bufferSize, int sampleIndex)
 {
-	static std::vector<float> vec(getOutputChannelsCount());
+	static std::vector<float> vec(getFormatChannelCount());
 
 	Mach1DecodeCAPI_decode(M1obj, vec.data(), bufferSize, sampleIndex);
 
@@ -88,9 +88,9 @@ std::vector<float> Mach1Decode::decode(int bufferSize, int sampleIndex)
     ///     - sampleIndex: int for current sample index array, ideally supplied from your audioplayer/engine
 }
 
-int Mach1Decode::getOutputChannelsCount()
+int Mach1Decode::getFormatChannelCount()
 {
-	return Mach1DecodeCAPI_getOutputChannelsCount(M1obj);
+	return Mach1DecodeCAPI_getFormatChannelCount(M1obj);
 }
 
 void Mach1Decode::setRotationDegrees(Mach1Point3D rotation)

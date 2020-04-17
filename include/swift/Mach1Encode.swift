@@ -50,24 +50,7 @@ public class Mach1Encode {
         ///     - 1st dimension of array is the number of input channels/points
         ///     - 2nd dimension of array is the resulting coefficient gains to be applied for encode
     }
-    
-    public func getResultingVolumesDecoded(decodeType: Mach1DecodeAlgoType, decodeResult: [Float] ) -> [Float] {
-        let pointer: UnsafeMutablePointer = UnsafeMutablePointer(mutating: decodeResult)
-        let volumesPtr = unsafeBitCast( Mach1EncodeCAPI_getResultingVolumesDecoded(M1obj, decodeType, pointer), to: UnsafeMutablePointer<Float>?.self)
 
-        var array: [Float] = Array(repeating: 0.0, count: 18)
-        for i in 0..<array.count {
-            array[i] = (volumesPtr! + i).pointee
-        }
-        return array
-        /// A shorthand function for encoding->decoding audio object handling,
-        /// useful preview UX so that a full input->mach1spatial_multichannel->stereo
-        /// rendeering to disk isnt required and instead designs that stack decode results 
-        /// live can more easily be created
-        ///
-        /// - Remark: Each input audio channel results a direct decode instead of the encode coefficients
-    }
-    
     public func getPointsNames() -> [String] {
         var array = Array(repeating: String(), count: Int(Mach1EncodeCAPI_getPointsCount(M1obj)))
         let pointsPtr = unsafeBitCast( Mach1EncodeCAPI_getPointsNames(M1obj), to: UnsafeMutablePointer<UnsafeMutablePointer<Int8>?>?.self)
@@ -104,6 +87,59 @@ public class Mach1Encode {
         ///     - integer of number of input channels/points
     }
 
+    public func getResultingCoeffsDecoded(decodeType: Mach1DecodeAlgoType, decodeResult: [Float] ) -> [Float] {
+        let pointer: UnsafeMutablePointer = UnsafeMutablePointer(mutating: decodeResult)
+        let volumesPtr = unsafeBitCast( Mach1EncodeCAPI_getResultingCoeffsDecoded(M1obj, decodeType, pointer), to: UnsafeMutablePointer<Float>?.self)
+
+        var array: [Float] = Array(repeating: 0.0, count: 18)
+        for i in 0..<array.count {
+            array[i] = (volumesPtr! + i).pointee
+        }
+        return array
+        /// A shorthand function for encoding->decoding audio object handling,
+        /// useful preview UX so that a full input->mach1spatial_multichannel->stereo
+        /// rendeering to disk isnt required and instead designs that stack decode results 
+        /// live can more easily be created
+        ///
+        /// - Remark: Each input audio channel results a direct decode instead of the encode coefficients
+    }
+
+    public func getInputMode() -> Mach1EncodeInputModeType {
+        let inputMode = Mach1EncodeCAPI_getInputMode(M1obj)
+        return inputMode
+        /// Returns the number of input channels/points that Mach1Encode instance has
+        ///
+        /// - Parameters:
+        ///     - integer of number of input channels/points
+    }
+
+    public func getOutputMode() -> Mach1EncodeOutputModeType {
+        let outputMode = Mach1EncodeCAPI_getOutputMode(M1obj)
+        return outputMode
+        /// Returns the number of input channels/points that Mach1Encode instance has
+        ///
+        /// - Parameters:
+        ///     - integer of number of input channels/points
+    }
+
+    public func getInputChannelsCount() -> Int {
+        let count = Mach1EncodeCAPI_getInputChannelsCount(M1obj)
+        return Int(count)
+        /// Returns the number of input channels/points that Mach1Encode instance has
+        ///
+        /// - Parameters:
+        ///     - integer of number of input channels/points
+    }
+
+    public func getOutputChannelsCount() -> Int {
+        let count = Mach1EncodeCAPI_getOutputChannelsCount(M1obj)
+        return Int(count)
+        /// Returns the number of output channels/points that Mach1Encode instance has
+        ///
+        /// - Parameters:
+        ///     - integer of number of output channels/points
+    }
+
     public func setInputMode(inputMode: Mach1EncodeInputModeType) {
         Mach1EncodeCAPI_setInputMode(M1obj, inputMode)
         /// Sets the number of input streams to be positioned as points
@@ -112,8 +148,16 @@ public class Mach1Encode {
         ///     - INPUT_MONO
         ///     - INPUT_STEREO
         ///     - INPUT_QUAD
+        ///     - INPUT_LCRS
         ///     - INPUT_AFORMAT
         ///     - INPUT_BFORMAT
+        ///     - INPUT_FOAACN
+        ///     - INPUT_FOAFUM
+        ///     - INPUT_2OAACN
+        ///     - INPUT_2OAFUM
+        ///     - INPUT_3OAACN
+        ///     - INPUT_3OAFUMA
+        ///     - INPUT_LCR
     }
 
     public func setOutputMode(outputMode: Mach1EncodeOutputModeType) {
@@ -121,16 +165,36 @@ public class Mach1Encode {
         /// Sets the output spatial format, Mach1Spatial or Mach1Horizon
         ///
         /// - Parameters:
-        ///     - OUTPUT_4CH (Mach1Horizon) [Yaw only]
-        ///     - OUTPUT_8CH (Mach1Spatial) [Yaw, Pitch, Roll]
+        ///     - Mach1Horizon (4ch) [Yaw]
+        ///     - Mach1Spatial (8ch) [Yaw, Pitch, Roll]
+        ///     - Mach1SpatialPlus (12ch) [Yaw, Pitch, Roll]
+        ///     - Mach1SpatialPlusPlus (14ch) [Yaw, Pitch, Roll]
+        ///     - Mach1SpatialExt (16ch) [Yaw, Pitch, Roll]
+        ///     - Mach1SpatialExtPlus (18ch) [Yaw, Pitch, Roll]
     }
 
-    public func setRotation(rotation: Float) {
-        Mach1EncodeCAPI_setRotation(M1obj, rotation)
-        /// Sets the point(s) around the center origin of the vector space
+    public func setAzimuth(azimuthFromMinus1To1: Float) {
+        Mach1EncodeCAPI_setAzimuth(M1obj, azimuthFromMinus1To1)
+        /// Sets the point(s) azimuth rotation of the vector space
         ///
         /// - Parameters:
-        ///     - value range: 0.0 -> 1.0 (0->360)
+        ///     - value range: -1.0 -> 1.0
+    }
+
+    public func setAzimuthDegrees(azimuthDegrees: Float) {
+        Mach1EncodeCAPI_setAzimuthDegrees(M1obj, azimuthDegrees)
+        /// Sets the point(s) azimuth rotation of the vector space
+        ///
+        /// - Parameters:
+        ///     - value range: 0 -> 360
+    }
+
+    public func setAzimuthRadians(azimuthRadians: Float) {
+        Mach1EncodeCAPI_setAzimuthRadians(M1obj, azimuthRadians)
+        /// Sets the point(s) azimuth rotation of the vector space
+        ///
+        /// - Parameters:
+        ///     - value range: -PI/2 -> PI/2
     }
 
     public func setDiverge(diverge: Float) {
@@ -141,20 +205,61 @@ public class Mach1Encode {
         ///     - value range: -1.0 -> 1.0
     }
 
-    public func setPitch(pitch: Float) {
-        Mach1EncodeCAPI_setPitch(M1obj, pitch)
+    public func setElevation(elevationFromMinus1to1: Float) {
+        Mach1EncodeCAPI_setElevation(M1obj, elevationFromMinus1to1)
         /// Sets the point(s) up/down the vector space
         ///
         /// - Parameters:
-        ///     - value range: -1.0 -> 1.0 (-90->90)
+        ///     - value range: -1.0 -> 1.0
     }
 
-    public func setStereoRotate(setStereoRotate: Float) {
-        Mach1EncodeCAPI_setStereoRotate(M1obj, setStereoRotate)
+    public func setElevationDegrees(elevationFromMinus90to90: Float) {
+        Mach1EncodeCAPI_setElevationDegrees(M1obj, elevationFromMinus90to90)
+        /// Sets the point(s) up/down the vector space
+        ///
+        /// - Parameters:
+        ///     - value range: -90->90
+    }
+
+    public func setElevationRadians(elevationFromMinusHalfPItoHalfPI: Float) {
+        Mach1EncodeCAPI_setElevationRadians(M1obj, elevationFromMinusHalfPItoHalfPI)
+        /// Sets the point(s) up/down the vector space
+        ///
+        /// - Parameters:
+        ///     - value range: -PI/2 -> PI/2
+    }
+
+    public func setIsotropicEncode(setIsotropicEncode: Bool) {
+        Mach1EncodeCAPI_setIsotropicEncode(M1obj, setIsotropicEncode)
+        /// Sets both stereo points rotate in relation to the
+        /// center point between them so that they always triangulate
+        /// toward center of the cuboid
+        ///
+        /// - Remark: Default is true
+    }
+
+    public func setOrbitRotation(orbitRotationFromMinusOnetoOne: Float) {
+        Mach1EncodeCAPI_setOrbitRotation(M1obj, orbitRotationFromMinusOnetoOne)
+        /// Sets the two stereo points around the axis of the center point between them
+        ///
+        /// - Parameters:
+        ///     - value range: -1.0 -> 1.0
+    }
+
+    public func setOrbitRotationDegrees(orbitRotationDegrees: Float) {
+        Mach1EncodeCAPI_setOrbitRotationDegrees(M1obj, orbitRotationDegrees)
         /// Sets the two stereo points around the axis of the center point between them
         ///
         /// - Parameters:
         ///     - value range: -180.0->180.0
+    }
+
+    public func setOrbitRotationRadians(orbitRotationRadians: Float) {
+        Mach1EncodeCAPI_setOrbitRotationRadians(M1obj, orbitRotationRadians)
+        /// Sets the two stereo points around the axis of the center point between them
+        ///
+        /// - Parameters:
+        ///     - value range: -PI -> PI
     }
 
     public func setStereoSpread(setStereoSpread: Float) {
@@ -173,13 +278,50 @@ public class Mach1Encode {
         /// - Remark: Default is true
     }
 
-    public func setIsotropicEncode(setIsotropicEncode: Bool) {
-        Mach1EncodeCAPI_setIsotropicEncode(M1obj, setIsotropicEncode)
-        /// Sets both stereo points rotate in relation to the
-        /// center point between them so that they always triangulate
-        /// toward center of the cuboid
+/*
+DEPRECATED START
+ */
+    public func getResultingVolumesDecoded(decodeType: Mach1DecodeAlgoType, decodeResult: [Float] ) -> [Float] {
+        let pointer: UnsafeMutablePointer = UnsafeMutablePointer(mutating: decodeResult)
+        let volumesPtr = unsafeBitCast( Mach1EncodeCAPI_getResultingVolumesDecoded(M1obj, decodeType, pointer), to: UnsafeMutablePointer<Float>?.self)
+
+        var array: [Float] = Array(repeating: 0.0, count: 18)
+        for i in 0..<array.count {
+            array[i] = (volumesPtr! + i).pointee
+        }
+        return array
+        /// A shorthand function for encoding->decoding audio object handling,
+        /// useful preview UX so that a full input->mach1spatial_multichannel->stereo
+        /// rendeering to disk isnt required and instead designs that stack decode results 
+        /// live can more easily be created
         ///
-        /// - Remark: Default is true
+        /// - Remark: Each input audio channel results a direct decode instead of the encode coefficients
     }
 
+    public func setRotation(rotation: Float) {
+        Mach1EncodeCAPI_setRotation(M1obj, rotation)
+        /// Sets the point(s) around the center origin of the vector space
+        ///
+        /// - Parameters:
+        ///     - value range: 0.0 -> 1.0 (0->360)
+    }
+
+    public func setPitch(pitch: Float) {
+        Mach1EncodeCAPI_setPitch(M1obj, pitch)
+        /// Sets the point(s) up/down the vector space
+        ///
+        /// - Parameters:
+        ///     - value range: -1.0 -> 1.0 (-90->90)
+    }
+
+    public func setStereoRotate(setStereoRotate: Float) {
+        Mach1EncodeCAPI_setStereoRotate(M1obj, setStereoRotate)
+        /// Sets the two stereo points around the axis of the center point between them
+        ///
+        /// - Parameters:
+        ///     - value range: -180.0->180.0
+    }
+/*
+DEPRECATED END
+ */
 }

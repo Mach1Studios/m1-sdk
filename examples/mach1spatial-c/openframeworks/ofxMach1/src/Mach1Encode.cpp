@@ -130,12 +130,20 @@ Mach1EncodeOutputModeType Mach1Encode::getOutputMode()
 
 int Mach1Encode::getInputChannelsCount()
 {
-	return Mach1EncodeCAPI_getInputChannelsCount(M1obj);
+    return Mach1EncodeCAPI_getInputChannelsCount(M1obj);
+    /// Returns the number of input channels/points that Mach1Encode instance has
+    ///
+    /// - Parameters:
+    ///     - integer of number of input channels/points
 }
 
 int Mach1Encode::getOutputChannelsCount()
 {
-	return Mach1EncodeCAPI_getOutputChannelsCount(M1obj);
+    return Mach1EncodeCAPI_getOutputChannelsCount(M1obj);
+    /// Returns the number of output channels/points that Mach1Encode instance has
+    ///
+    /// - Parameters:
+    ///     - integer of number of output channels/points
 }
 
 void Mach1Encode::setInputMode(Mach1EncodeInputModeType inputMode)
@@ -165,12 +173,12 @@ void Mach1Encode::setOutputMode(Mach1EncodeOutputModeType outputMode)
 	/// Sets the output spatial format, Mach1Spatial or Mach1Horizon
 	///
 	/// - Parameters:
-	///     - OUTPUT_4CH (Mach1Horizon) [Yaw]
-	///     - OUTPUT_8CH (Mach1Spatial) [Yaw, Pitch, Roll]
-	///     - OUTPUT_12CH (Mach1SpatialPlus) [Yaw, Pitch, Roll]
-	///     - OUTPUT_14CH (Mach1SpatialPlusPlus) [Yaw, Pitch, Roll]
-	///     - OUTPUT_16CH (Mach1SpatialExt) [Yaw, Pitch, Roll]
-	///     - OUTPUT_18CH (Mach1SpatialExtPlus) [Yaw, Pitch, Roll]
+	///     - Mach1Horizon (4ch) [Yaw]
+	///     - Mach1Spatial (8ch) [Yaw, Pitch, Roll]
+	///     - Mach1SpatialPlus (12ch) [Yaw, Pitch, Roll]
+	///     - Mach1SpatialPlusPlus (14ch) [Yaw, Pitch, Roll]
+	///     - Mach1SpatialExt (16ch) [Yaw, Pitch, Roll]
+	///     - Mach1SpatialExtPlus (18ch) [Yaw, Pitch, Roll]
 }
 
 void Mach1Encode::setAzimuth(float azimuthFromMinus1To1)

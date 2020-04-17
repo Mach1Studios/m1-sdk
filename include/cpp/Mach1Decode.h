@@ -26,7 +26,7 @@ public:
 	std::vector<float> decode(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
 	std::vector<float> decode(int bufferSize = 0, int sampleIndex = 0);
 
-	int getOutputChannelsCount();
+	int getFormatChannelCount();
 	void setRotationDegrees(Mach1Point3D rotation);
 
 	void setFilterSpeed(float filterSpeed);

@@ -112,6 +112,9 @@ yes | cp -rf "_install/android-x86_64/lib/libMach1EncodeCAPI.a" "../examples/mac
 yes | cp -rf "_install/android-x86_64/lib/libMach1DecodePositionalCAPI.a" "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/jniLibs/x86/libMach1DecodePositionalCAPI.a"
 yes | cp -rf external/cpp/*CAPI.h "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/include/"
 yes | cp -rf external/cpp/*D.h "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/include/"
+yes | cp -rf external/java/jni/cpp/mach1/* "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1"
+yes | cp -rf external/java/jni/java/com/mach1/Mach1SpatialLibs/* "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/java/com/mach1/Mach1SpatialLibs"
+
 # decode example
 yes | cp -rf "_install/android-armeabi-v7a/lib/libMach1DecodeCAPI.a" "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/mach1-decode-example/src/main/jniLibs/armeabi-v7a/libMach1DecodeCAPI.a"
 yes | cp -rf external/cpp/Mach1Decode.cpp "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/include/"

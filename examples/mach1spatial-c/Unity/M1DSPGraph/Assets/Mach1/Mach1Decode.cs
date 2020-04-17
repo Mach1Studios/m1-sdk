@@ -64,28 +64,28 @@ namespace Mach1
         public void setDecodeAlgoType(Mach1DecodeAlgoType type)
         {
             Mach1DecodeCAPI_setDecodeAlgoType(M1obj, type);
-            // Set the decoding algorithm
-            //
-            // - Parameters:
-            //     - Mach1DecodeAlgoSpatial = 0 (default spatial | 8 channels)
-            //     - Mach1DecodeAlgoAltSpatial = 1 (periphonic spatial | 8 channels)
-            //     - Mach1DecodeAlgoHorizon = 2 (compass / yaw | 4 channels)
-            //     - Mach1DecodeAlgoHorizonPairs = 3 (compass / yaw | 4x stereo mastered pairs)
-            //     - Mach1DecodeAlgoSpatialPairs = 4 (experimental periphonic pairs | 8x stereo mastered pairs)
+            /// Set the decoding algorithm
+            ///
+            /// - Parameters:
+            ///     - Mach1DecodeAlgoSpatial = 0 (default spatial | 8 channels)
+            ///     - Mach1DecodeAlgoAltSpatial = 1 (periphonic spatial | 8 channels)
+            ///     - Mach1DecodeAlgoHorizon = 2 (compass / yaw | 4 channels)
+            ///     - Mach1DecodeAlgoHorizonPairs = 3 (compass / yaw | 4x stereo mastered pairs)
+            ///     - Mach1DecodeAlgoSpatialPairs = 4 (experimental periphonic pairs | 8x stereo mastered pairs)
         }
 
         public void setPlatformType(Mach1PlatformType type)
         {
             Mach1DecodeCAPI_setPlatformType(M1obj, type);
-            // Set the device's angle order and convention if applicable
-            //
-            // - Parameters:
-            //     - Mach1PlatformDefault = 0
-            //     - Mach1PlatformUnity = 1
-            //     - Mach1PlatformUE = 2
-            //     - Mach1PlatformOfEasyCam = 3
-            //     - Mach1PlatformAndroid = 4
-            //     - Mach1PlatformiOS = 5
+            /// Set the device's angle order and convention if applicable
+            ///
+            /// - Parameters:
+            ///     - Mach1PlatformDefault = 0
+            ///     - Mach1PlatformUnity = 1
+            ///     - Mach1PlatformUE = 2
+            ///     - Mach1PlatformOfEasyCam = 3
+            ///     - Mach1PlatformAndroid = 4
+            ///     - Mach1PlatformiOS = 5
         }
 
         public void decode(float Yaw, float Pitch, float Roll, ref float[] data,  int bufferSize = 0, int sampleIndex = 0)
@@ -97,47 +97,63 @@ namespace Mach1
             Mach1DecodeCAPI_decode(M1obj, Yaw, Pitch, Roll, pointer, bufferSize, sampleIndex);
 
             pinnedArray.Free();
-            // Call with current update's angles to return the resulting coefficients
-            // to apply to the audioplayer's volume
+            /// Call with current update's angles to return the resulting coefficients
+            /// to apply to the audioplayer's volume
+            ///
+            /// Includes two modes of use:
+            /// + Update decode results via audio callback
+            ///   + *Use your audio player's buffersize and current sample index for sync callbacks*
+            /// + Update decode results via main loop (or any loop)
+            ///   + *Default null or 0 values to **bufferSize** or **sampleIndex** will use the second mode*
+            ///
+            /// - Parameters: 
+            ///     - Yaw: float for device/listener yaw angle: [Range: 0->360 | -180->180]
+            ///     - Pitch: float for device/listener pitch angle: [Range: -90->90]
+            ///     - Roll: float for device/listener roll angle: [Range: -90->90]
+            ///     - bufferSize: int for number of samples in a buffer, ideally supplied from your audioplayer/engine
+            ///     - sampleIndex: int for current sample index array, ideally supplied from your audioplayer/engine
 
         }
 
         public void setFilterSpeed(float filterSpeed)
         {
             Mach1DecodeCAPI_setFilterSpeed(M1obj, (float)filterSpeed);
-            // Filter speed determines the amount of angle smoothing applied
-            // to the orientation angles used for the Mach1DecodeCore class
-            //
-            // - Parameters:
-            //     - value range: 0.0001 -> 1.0 (where 0.1 would be a slow filter
-            //     and 1.0 is no filter)
+            /// Filter speed determines the amount of angle smoothing applied
+            /// to the orientation angles used for the Mach1DecodeCore class
+            ///
+            /// - Parameters:
+            ///     - value range: 0.0001 -> 1.0 (where 0.1 would be a slow filter
+            ///     and 1.0 is no filter)
         }
 
         public void beginBuffer()
         {
             Mach1DecodeCAPI_beginBuffer(M1obj);
-            // Call this function before reading from the Mach1Decode buffer
+            /// Call this function before reading from the Mach1Decode buffer
         }
 
         public void endBuffer()
         {
             Mach1DecodeCAPI_endBuffer(M1obj);
-            // Call this function after reading from the Mach1Decode buffer
+            /// Call this function after reading from the Mach1Decode buffer
         }
 
         public long getCurrentTime()
         {
             return Mach1DecodeCAPI_getCurrentTime(M1obj);
+            /// Returns the current elapsed time in milliseconds (ms) since Mach1Decode object creation
         }
 
         public string getLog()
         {
             return Mach1DecodeCAPI_getLog(M1obj);
+            /// Returns the current elapsed time in milliseconds (ms) since Mach1Decode object creation
         }
 
         public Mach1Point3D getCurrentAngle()
         {
             return Mach1DecodeCAPI_getCurrentAngle(M1obj);
+            /// Returns the Mach1Decode lib object's current 3D angle for feedback design
         }
 
     }

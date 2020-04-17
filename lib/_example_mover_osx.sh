@@ -27,6 +27,32 @@ select yn in "Yes" "No"; do
     esac
 done
 
+echo "Did you build and pull in Android libs?"
+echo "Yes: will pull from binaries dir and continue"
+echo "No: will do nothing"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) 
+            mkdir -p "_install/android-armeabi-v7a/lib/"
+            yes | cp -rf "../binaries/android-armeabi-v7a/lib/libMach1DecodeCAPI.a" "_install/android-armeabi-v7a/lib/libMach1DecodeCAPI.a"
+            yes | cp -rf "../binaries/android-armeabi-v7a/lib/libMach1EncodeCAPI.a" "_install/android-armeabi-v7a/lib/libMach1EncodeCAPI.a"
+            yes | cp -rf "../binaries/android-armeabi-v7a/lib/libMach1DecodePositionalCAPI.a" "_install/android-armeabi-v7a/lib/libMach1DecodePositionalCAPI.a"
+            mkdir -p "_install/android-arm64-v8a/lib/"
+            yes | cp -rf "../binaries/android-arm64-v8a/lib/libMach1DecodeCAPI.a" "_install/android-arm64-v8a/lib/libMach1DecodeCAPI.a"
+            yes | cp -rf "../binaries/android-arm64-v8a/lib/libMach1EncodeCAPI.a" "_install/android-arm64-v8a/lib/libMach1EncodeCAPI.a"
+            yes | cp -rf "../binaries/android-arm64-v8a/lib/libMach1DecodePositionalCAPI.a" "_install/android-arm64-v8a/lib/libMach1DecodePositionalCAPI.a"
+            mkdir -p "_install/android-x86/lib/"
+            yes | cp -rf "../binaries/android-x86/lib/libMach1DecodeCAPI.a" "_install/android-x86/lib/libMach1DecodeCAPI.a"
+            yes | cp -rf "../binaries/android-x86/lib/libMach1EncodeCAPI.a" "_install/android-x86/lib/libMach1EncodeCAPI.a"
+            yes | cp -rf "../binaries/android-x86/lib/libMach1DecodePositionalCAPI.a" "_install/android-x86/lib/libMach1DecodePositionalCAPI.a"
+            mkdir -p "_install/android-x86_64/lib/"
+            yes | cp -rf "../binaries/android-x86_64/lib/libMach1DecodeCAPI.a" "_install/android-x86_64/lib/libMach1DecodeCAPI.a"
+            yes | cp -rf "../binaries/android-x86_64/lib/libMach1EncodeCAPI.a" "_install/android-x86_64/lib/libMach1EncodeCAPI.a"
+            yes | cp -rf "../binaries/android-x86_64/lib/libMach1DecodePositionalCAPI.a" "_install/android-x86_64/lib/libMach1DecodePositionalCAPI.a"; break;;
+        No ) break;;
+    esac
+done
+
 echo "### Copying libs for Unity ###"
 yes | cp -rf "_install/xcode/libBundle/libMach1DecodeCAPI.bundle" "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1DecodeCAPI.bundle"
 yes | cp -rf "_install/xcode/libBundle/libMach1EncodeCAPI.bundle" "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1EncodeCAPI.bundle"

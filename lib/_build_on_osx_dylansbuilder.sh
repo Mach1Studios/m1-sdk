@@ -22,19 +22,27 @@ echo "### BUILD ANDROID ###"
 # polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-arm64-v8a
 # polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips64
 
-echo "### BUILD NDK16b ###"
-polly --clear --install --config Release --toolchain android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx
-polly --clear --install --config Release --toolchain android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
-polly --clear --install --config Release --toolchain android-ndk-r16b-api-21-x86-clang-libcxx
-polly --clear --install --config Release --toolchain android-ndk-r16b-api-21-x86-64-clang-libcxx
-yes | mv _install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx _install/android-armeabi-v7a
-yes | mv _install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx _install/android-arm64-v8a
-yes | mv _install/android-ndk-r16b-api-21-x86-clang-libcxx _install/android-x86
-yes | mv _install/android-ndk-r16b-api-21-x86-64-clang-libcxx _install/android-x86_64
-rm -rf _install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx
-rm -rf _install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
-rm -rf _install/android-ndk-r16b-api-21-x86-clang-libcxx
-rm -rf _install/android-ndk-r16b-api-21-x86-64-clang-libcxx
+echo "Build Android here, or install from pulled builds?"
+echo "Yes will build local, No do nothing"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) 
+            echo "### BUILD NDK16b ###"
+            polly --clear --install --config Release --toolchain android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx
+            polly --clear --install --config Release --toolchain android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
+            polly --clear --install --config Release --toolchain android-ndk-r16b-api-21-x86-clang-libcxx
+            polly --clear --install --config Release --toolchain android-ndk-r16b-api-21-x86-64-clang-libcxx
+            yes | mv _install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx _install/android-armeabi-v7a
+            yes | mv _install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx _install/android-arm64-v8a
+            yes | mv _install/android-ndk-r16b-api-21-x86-clang-libcxx _install/android-x86
+            yes | mv _install/android-ndk-r16b-api-21-x86-64-clang-libcxx _install/android-x86_64
+            rm -rf _install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx
+            rm -rf _install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
+            rm -rf _install/android-ndk-r16b-api-21-x86-clang-libcxx
+            rm -rf _install/android-ndk-r16b-api-21-x86-64-clang-libcxx; break;;
+        No ) break;;
+    esac
+done
 
 echo "### BUILD RPI ###"
 polly --clear --install --config Release --toolchain raspberrypi2-cxx11

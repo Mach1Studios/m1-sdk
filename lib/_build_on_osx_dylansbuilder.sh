@@ -31,6 +31,10 @@ yes | mv _install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx _install
 yes | mv _install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx _install/android-arm64-v8a
 yes | mv _install/android-ndk-r16b-api-21-x86-clang-libcxx _install/android-x86
 yes | mv _install/android-ndk-r16b-api-21-x86-64-clang-libcxx _install/android-x86_64
+rm -rf _install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx
+rm -rf _install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
+rm -rf _install/android-ndk-r16b-api-21-x86-clang-libcxx
+rm -rf _install/android-ndk-r16b-api-21-x86-64-clang-libcxx
 
 echo "### BUILD RPI ###"
 polly --clear --install --config Release --toolchain raspberrypi2-cxx11

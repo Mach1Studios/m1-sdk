@@ -45,7 +45,7 @@ public class Mach1Decode {
 
     public func getFormatChannelCount() -> Int {
         let count = Mach1DecodeCAPI_getFormatChannelCount(M1obj)
-        return count
+        return Int(count)
         /// Returns the number of channels for format to be decoded
     }
 
@@ -92,8 +92,9 @@ public class Mach1Decode {
     }
     
     public func decode(Yaw: Float, Pitch: Float, Roll: Float, bufferSize: Int = 0, sampleIndex: Int = 0) -> [Float] {
-        setRotationDegrees([Yaw, Pitch, Roll])
-        return decode(bufferSize, sampleIndex)
+        let rotation = Mach1Point3D(x: Yaw, y: Pitch, z: Roll)
+        setRotationDegrees(rotation: rotation)
+        return decode(bufferSize: bufferSize, sampleIndex: sampleIndex)
     }
 
     public func decode(bufferSize: Int = 0, sampleIndex: Int = 0) -> [Float] {

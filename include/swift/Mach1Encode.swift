@@ -106,7 +106,7 @@ public class Mach1Encode {
 
     public func getInputMode() -> Mach1EncodeInputModeType {
         let inputMode = Mach1EncodeCAPI_getInputMode(M1obj)
-        return Mach1EncodeInputModeType(inputMode)
+        return inputMode
         /// Returns the number of input channels/points that Mach1Encode instance has
         ///
         /// - Parameters:
@@ -115,7 +115,7 @@ public class Mach1Encode {
 
     public func getOutputMode() -> Mach1EncodeOutputModeType {
         let outputMode = Mach1EncodeCAPI_getOutputMode(M1obj)
-        return Mach1EncodeOutputModeType(outputMode)
+        return outputMode
         /// Returns the number of input channels/points that Mach1Encode instance has
         ///
         /// - Parameters:

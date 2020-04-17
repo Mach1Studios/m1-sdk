@@ -37,6 +37,26 @@ public class Mach1Decode {
         ///     - Mach1DecodeAlgoHorizon = 2 (compass / yaw | 4 channels)
         ///     - Mach1DecodeAlgoHorizonPairs = 3 (compass / yaw | 4x stereo mastered pairs)
         ///     - Mach1DecodeAlgoSpatialPairs = 4 (experimental periphonic pairs | 8x stereo mastered pairs)
+        ///     - Mach1DecodeAlgoSpatialPlus = 5 (higher order spatial | 12 channels)
+        ///     - Mach1DecodeAlgoSpatialPlusPlus = 6 (higher order spatial | 14 channels)
+        ///     - Mach1DecodeAlgoSpatialExt = 7 (higher order spatial | 16 channels)
+        ///     - Mach1DecodeAlgoSpatialExtPlus = 8 (higher order spatial | 18 channels)
+    }
+
+    public func getFormatChannelCount() -> Int {
+        let count = Mach1DecodeCAPI_getFormatChannelCount(M1obj)
+        return count
+        /// Returns the number of channels for format to be decoded
+    }
+
+    public func setRotationDegrees(rotation: Mach1Point3D) {
+        Mach1DecodeCAPI_setRotationDegrees(M1obj, rotation)
+        /// Set the rotation for this decode buffer/sample
+        ///
+        /// - Parameters:
+        ///     - Yaw: float for device/listener yaw angle: [Range: 0->360 | -180->180]
+        ///     - Pitch: float for device/listener pitch angle: [Range: -90->90]
+        ///     - Roll: float for device/listener roll angle: [Range: -90->90]
     }
 
     public func setFilterSpeed(filterSpeed: Float) {
@@ -72,8 +92,13 @@ public class Mach1Decode {
     }
     
     public func decode(Yaw: Float, Pitch: Float, Roll: Float, bufferSize: Int = 0, sampleIndex: Int = 0) -> [Float] {
-        var array: [Float] = Array(repeating: 0.0, count: 18)
-        Mach1DecodeCAPI_decode(M1obj, Yaw, Pitch, Roll, &array, CInt(bufferSize), CInt(sampleIndex))
+        setRotationDegrees([Yaw, Pitch, Roll])
+        return decode(bufferSize, sampleIndex)
+    }
+
+    public func decode(bufferSize: Int = 0, sampleIndex: Int = 0) -> [Float] {
+        var array: [Float] = Array(repeating: 0.0, count: getFormatChannelCount())
+        Mach1DecodeCAPI_decode(M1obj, &array, CInt(bufferSize), CInt(sampleIndex))
         return array
         /// Call with current update's angles to return the resulting coefficients
         /// to apply to the audioplayer's volume
@@ -91,5 +116,5 @@ public class Mach1Decode {
         ///     - bufferSize: int for number of samples in a buffer, ideally supplied from your audioplayer/engine
         ///     - sampleIndex: int for current sample index array, ideally supplied from your audioplayer/engine
     }
-   
+
 }

@@ -30,6 +30,6 @@ cd %~dp0
 
 xcopy _install\android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx\lib ..\binaries\android-arm64-v8a /Y
 xcopy _install\android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx\lib ..\binaries\android-armeabi-v7a /Y
-xcopy _install\android-ndk-r16b-api-21-x86-clang-libcxx\lib _android\x86 ..\binaries\android-x86 /Y
-xcopy _install\android-ndk-r16b-api-21-x86-64-clang-libcxx\lib _android\x86_64 ..\binaries\android-x86_64 /Y
+xcopy _install\android-ndk-r16b-api-21-x86-clang-libcxx\lib ..\binaries\android-x86 /Y
+xcopy _install\android-ndk-r16b-api-21-x86-64-clang-libcxx\lib ..\binaries\android-x86_64 /Y
 pause

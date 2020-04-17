@@ -57,9 +57,9 @@ void Mach1DecodeCAPI_endBuffer(void* M1obj)
 	((Mach1DecodeCore*)M1obj)->endBuffer();
 }
 
-int Mach1DecodeCAPI_getOutputChannelsCount(void* M1obj)
+int Mach1DecodeCAPI_getFormatChannelCount(void* M1obj)
 {
-	return ((Mach1DecodeCore*)M1obj)->getOutputChannelsCount();
+	return ((Mach1DecodeCore*)M1obj)->getFormatChannelCount();
 }
 
 void Mach1DecodeCAPI_setRotation(void* M1obj, Mach1Point3D newRotationFromMinusOnetoOne)

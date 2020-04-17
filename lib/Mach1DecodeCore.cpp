@@ -936,7 +936,7 @@ Mach1PlatformType Mach1DecodeCore::getPlatformType()
 	return platformType;
 }
 
-int Mach1DecodeCore::getOutputChannelsCount() {
+int Mach1DecodeCore::getFormatChannelCount() {
 	switch (algorithmType) {
 		case Mach1DecodeAlgoSpatial: return  (8 * 2) + 2;
 		case Mach1DecodeAlgoAltSpatial: return (8 * 2) + 2;

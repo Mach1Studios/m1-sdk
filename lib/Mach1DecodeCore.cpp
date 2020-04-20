@@ -1007,7 +1007,12 @@ Mach1DecodeAlgoType Mach1DecodeCore::getDecodeAlgoType()
 	return algorithmType;
 }
 
-std::vector<float> Mach1DecodeCore::decode(int bufferSize, int sampleIndex) {
+std::vector<float> Mach1DecodeCore::decode(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {
+	setRotationDegrees({Yaw, Pitch, Roll});
+	return decodeCoeffs(bufferSize, sampleIndex);
+}
+
+std::vector<float> Mach1DecodeCore::decodeCoeffs(int bufferSize, int sampleIndex) {
 	long tStart = getCurrentTime();
 	std::vector<float> res;
 
@@ -1062,7 +1067,12 @@ std::vector<float> Mach1DecodeCore::decode(int bufferSize, int sampleIndex) {
 }
 
 // Decode using the current algorithm type in a more efficient way
-void Mach1DecodeCore::decode(float *result, int bufferSize, int sampleIndex) {
+void Mach1DecodeCore::decode(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
+	setRotationDegrees({Yaw, Pitch, Roll});
+	decodeCoeffs(result, bufferSize, sampleIndex);
+}
+
+void Mach1DecodeCore::decodeCoeffs(float *result, int bufferSize, int sampleIndex) {
 	long tStart = getCurrentTime();
 
 	float Yaw = fmod(rotation.x, 360.0); //protect a 360 cycle

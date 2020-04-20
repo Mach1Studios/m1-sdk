@@ -47,28 +47,29 @@ void Mach1Decode::setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType)
 #ifndef  __EMSCRIPTEN__
 void Mach1Decode::decode(float Yaw, float Pitch, float Roll, float * result, int bufferSize, int sampleIndex)
 {
-	setRotationDegrees(Mach1Point3D{ Yaw, Pitch, Roll });
-	decode(result, bufferSize, sampleIndex);
+	Mach1DecodeCAPI_decode(M1obj, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
 }
 
-void Mach1Decode::decode(float * result, int bufferSize, int sampleIndex)
+void Mach1Decode::decodeCoeffs(float * result, int bufferSize, int sampleIndex)
 {
-	Mach1DecodeCAPI_decode(M1obj, result, bufferSize, sampleIndex);
+	Mach1DecodeCAPI_decodeCoeffs(M1obj, result, bufferSize, sampleIndex);
 }
 #endif
 
 std::vector<float> Mach1Decode::decode(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
 {
-	setRotationDegrees(Mach1Point3D{ Yaw, Pitch, Roll });
+	static std::vector<float> vec(getFormatChannelCount());
 
-	return decode(bufferSize, sampleIndex);
+	Mach1DecodeCAPI_decode(M1obj, Yaw, Pitch, Roll, vec.data(), bufferSize, sampleIndex);
+
+	return vec;
 }
 
-std::vector<float> Mach1Decode::decode(int bufferSize, int sampleIndex)
+std::vector<float> Mach1Decode::decodeCoeffs(int bufferSize, int sampleIndex)
 {
 	static std::vector<float> vec(getFormatChannelCount());
 
-	Mach1DecodeCAPI_decode(M1obj, vec.data(), bufferSize, sampleIndex);
+	Mach1DecodeCAPI_decodeCoeffs(M1obj, vec.data(), bufferSize, sampleIndex);
 
 	return vec;
     /// Call with current update's angles to return the resulting coefficients

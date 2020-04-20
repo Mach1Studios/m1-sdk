@@ -159,11 +159,13 @@ public:
     //  P = Pitch in degrees
     //  R = Roll in degrees
 
-    std::vector<float> decode(int bufferSize = 0, int sampleIndex = 0);
+    std::vector<float> decode(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
+    std::vector<float> decodeCoeffs(int bufferSize = 0, int sampleIndex = 0);
 
     // Decode using the current algorithm type in a more efficient way
 
-	void decode(float *result, int bufferSize = 0, int sampleIndex = 0);
+    void decode(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
+	void decodeCoeffs(float *result, int bufferSize = 0, int sampleIndex = 0);
 
     // The following functions are deprecated as of now
     

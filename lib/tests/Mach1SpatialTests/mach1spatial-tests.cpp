@@ -209,7 +209,7 @@ void test_results(void)
 		int counter = 0;
 
 		// encode buffer
-		std::vector<float> bufferEncoded(m1Encode.getInputChannelsCount() * m1Encode.getOutputChannelsCount());
+		std::vector<float> bufferEncoded(m1Encode.getInputChannelsCount() * m1Encode.getFormatChannelCount());
 		for (size_t c = 0; c < encodeResults.size(); c++) {
 			for (size_t k = 0; k < encodeResults[c].size(); k++) {
 				bufferEncoded[k * m1Encode.getInputChannelsCount() + c] = test.input.volumes[c] *  encodeResults[c][k];

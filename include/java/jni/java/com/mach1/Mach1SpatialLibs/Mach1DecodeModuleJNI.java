@@ -22,7 +22,8 @@ class Mach1DecodeModuleJNI {
   public final static native void Mach1DecodeCAPI_setPlatformType(long jarg1, int jarg2);
   public final static native int Mach1DecodeCAPI_getDecodeAlgoType(long jarg1);
   public final static native int Mach1DecodeCAPI_getPlatformType(long jarg1);
-  public final static native void Mach1DecodeCAPI_decode(long jarg1, long jarg2, int jarg3, int jarg4);
+  public final static native void Mach1DecodeCAPI_decode(long jarg1, float jarg2, float jarg3, float jarg4, long jarg5, int jarg6, int jarg7);
+  public final static native void Mach1DecodeCAPI_decodeCoeffs(long jarg1, long jarg2, int jarg3, int jarg4);
   public final static native void Mach1DecodeCAPI_setFilterSpeed(long jarg1, float jarg2);
   public final static native void Mach1DecodeCAPI_beginBuffer(long jarg1);
   public final static native void Mach1DecodeCAPI_endBuffer(long jarg1);

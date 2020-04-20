@@ -232,257 +232,47 @@ static void SWIGUNUSED SWIG_JavaThrowException(JNIEnv *jenv, SWIG_JavaExceptionC
 #define SWIG_contract_assert(nullreturn, expr, msg) if (!(expr)) {SWIG_JavaThrowException(jenv, SWIG_JavaIllegalArgumentException, msg); return nullreturn; } else
 
 
-#include "Mach1Point4D.h"
+char* convertToString(void* in)
+{
+    return (char*)in;
+}
 
+void* getitemVoid(void* in, int index)
+{
+    return (void*)((void**)in)[index];
+}
 
-typedef Mach1Point4D Mach1Point4DArray;
-
-SWIGINTERN Mach1Point4DArray *new_Mach1Point4DArray(int nelements){
-  return new Mach1Point4D[nelements]();
-}
-SWIGINTERN void delete_Mach1Point4DArray(Mach1Point4DArray *self){
-  delete [] self;
-}
-SWIGINTERN Mach1Point4D Mach1Point4DArray_getitem(Mach1Point4DArray *self,int index){
-  return self[index];
-}
-SWIGINTERN void Mach1Point4DArray_setitem(Mach1Point4DArray *self,int index,Mach1Point4D value){
-  self[index] = value;
-}
-SWIGINTERN Mach1Point4D *Mach1Point4DArray_cast(Mach1Point4DArray *self){
-  return self;
-}
-SWIGINTERN Mach1Point4DArray *Mach1Point4DArray_frompointer(Mach1Point4D *t){
-  return (Mach1Point4DArray *) t;
-}
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-SWIGEXPORT void JNICALL Java_com_mach1_spatiallibs_Mach1Point4DModuleJNI_Mach1Point4D_1x_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jfloat jarg2) {
-  Mach1Point4D *arg1 = (Mach1Point4D *) 0 ;
-  float arg2 ;
+SWIGEXPORT jstring JNICALL Java_com_mach1_spatiallibs_Mach1UtilsModuleJNI_convertToString(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  jstring jresult = 0 ;
+  void *arg1 = (void *) 0 ;
+  char *result = 0 ;
   
   (void)jenv;
   (void)jcls;
-  (void)jarg1_;
-  arg1 = *(Mach1Point4D **)&jarg1; 
-  arg2 = (float)jarg2; 
-  if (arg1) (arg1)->x = arg2;
-}
-
-
-SWIGEXPORT jfloat JNICALL Java_com_mach1_spatiallibs_Mach1Point4DModuleJNI_Mach1Point4D_1x_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jfloat jresult = 0 ;
-  Mach1Point4D *arg1 = (Mach1Point4D *) 0 ;
-  float result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(Mach1Point4D **)&jarg1; 
-  result = (float) ((arg1)->x);
-  jresult = (jfloat)result; 
+  arg1 = *(void **)&jarg1; 
+  result = (char *)convertToString(arg1);
+  if (result) jresult = jenv->NewStringUTF((const char *)result);
   return jresult;
 }
 
 
-SWIGEXPORT void JNICALL Java_com_mach1_spatiallibs_Mach1Point4DModuleJNI_Mach1Point4D_1y_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jfloat jarg2) {
-  Mach1Point4D *arg1 = (Mach1Point4D *) 0 ;
-  float arg2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(Mach1Point4D **)&jarg1; 
-  arg2 = (float)jarg2; 
-  if (arg1) (arg1)->y = arg2;
-}
-
-
-SWIGEXPORT jfloat JNICALL Java_com_mach1_spatiallibs_Mach1Point4DModuleJNI_Mach1Point4D_1y_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jfloat jresult = 0 ;
-  Mach1Point4D *arg1 = (Mach1Point4D *) 0 ;
-  float result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(Mach1Point4D **)&jarg1; 
-  result = (float) ((arg1)->y);
-  jresult = (jfloat)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_mach1_spatiallibs_Mach1Point4DModuleJNI_Mach1Point4D_1z_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jfloat jarg2) {
-  Mach1Point4D *arg1 = (Mach1Point4D *) 0 ;
-  float arg2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(Mach1Point4D **)&jarg1; 
-  arg2 = (float)jarg2; 
-  if (arg1) (arg1)->z = arg2;
-}
-
-
-SWIGEXPORT jfloat JNICALL Java_com_mach1_spatiallibs_Mach1Point4DModuleJNI_Mach1Point4D_1z_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jfloat jresult = 0 ;
-  Mach1Point4D *arg1 = (Mach1Point4D *) 0 ;
-  float result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(Mach1Point4D **)&jarg1; 
-  result = (float) ((arg1)->z);
-  jresult = (jfloat)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_mach1_spatiallibs_Mach1Point4DModuleJNI_Mach1Point4D_1w_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jfloat jarg2) {
-  Mach1Point4D *arg1 = (Mach1Point4D *) 0 ;
-  float arg2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(Mach1Point4D **)&jarg1; 
-  arg2 = (float)jarg2; 
-  if (arg1) (arg1)->w = arg2;
-}
-
-
-SWIGEXPORT jfloat JNICALL Java_com_mach1_spatiallibs_Mach1Point4DModuleJNI_Mach1Point4D_1w_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jfloat jresult = 0 ;
-  Mach1Point4D *arg1 = (Mach1Point4D *) 0 ;
-  float result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(Mach1Point4D **)&jarg1; 
-  result = (float) ((arg1)->w);
-  jresult = (jfloat)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_mach1_spatiallibs_Mach1Point4DModuleJNI_new_1Mach1Point4D(JNIEnv *jenv, jclass jcls) {
+SWIGEXPORT jlong JNICALL Java_com_mach1_spatiallibs_Mach1UtilsModuleJNI_getitemVoid(JNIEnv *jenv, jclass jcls, jlong jarg1, jint jarg2) {
   jlong jresult = 0 ;
-  Mach1Point4D *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  result = (Mach1Point4D *)new Mach1Point4D();
-  *(Mach1Point4D **)&jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_mach1_spatiallibs_Mach1Point4DModuleJNI_delete_1Mach1Point4D(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  Mach1Point4D *arg1 = (Mach1Point4D *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = *(Mach1Point4D **)&jarg1; 
-  delete arg1;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_mach1_spatiallibs_Mach1Point4DModuleJNI_new_1Mach1Point4DArray(JNIEnv *jenv, jclass jcls, jint jarg1) {
-  jlong jresult = 0 ;
-  int arg1 ;
-  Mach1Point4DArray *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = (int)jarg1; 
-  result = (Mach1Point4DArray *)new_Mach1Point4DArray(arg1);
-  *(Mach1Point4DArray **)&jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_mach1_spatiallibs_Mach1Point4DModuleJNI_delete_1Mach1Point4DArray(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  Mach1Point4DArray *arg1 = (Mach1Point4DArray *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = *(Mach1Point4DArray **)&jarg1; 
-  delete_Mach1Point4DArray(arg1);
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_mach1_spatiallibs_Mach1Point4DModuleJNI_Mach1Point4DArray_1getitem(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
-  jlong jresult = 0 ;
-  Mach1Point4DArray *arg1 = (Mach1Point4DArray *) 0 ;
+  void *arg1 = (void *) 0 ;
   int arg2 ;
-  Mach1Point4D result;
+  void *result = 0 ;
   
   (void)jenv;
   (void)jcls;
-  (void)jarg1_;
-  arg1 = *(Mach1Point4DArray **)&jarg1; 
+  arg1 = *(void **)&jarg1; 
   arg2 = (int)jarg2; 
-  result = Mach1Point4DArray_getitem(arg1,arg2);
-  *(Mach1Point4D **)&jresult = new Mach1Point4D((const Mach1Point4D &)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_mach1_spatiallibs_Mach1Point4DModuleJNI_Mach1Point4DArray_1setitem(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jlong jarg3, jobject jarg3_) {
-  Mach1Point4DArray *arg1 = (Mach1Point4DArray *) 0 ;
-  int arg2 ;
-  Mach1Point4D arg3 ;
-  Mach1Point4D *argp3 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  (void)jarg3_;
-  arg1 = *(Mach1Point4DArray **)&jarg1; 
-  arg2 = (int)jarg2; 
-  argp3 = *(Mach1Point4D **)&jarg3; 
-  if (!argp3) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null Mach1Point4D");
-    return ;
-  }
-  arg3 = *argp3; 
-  Mach1Point4DArray_setitem(arg1,arg2,arg3);
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_mach1_spatiallibs_Mach1Point4DModuleJNI_Mach1Point4DArray_1cast(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  Mach1Point4DArray *arg1 = (Mach1Point4DArray *) 0 ;
-  Mach1Point4D *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(Mach1Point4DArray **)&jarg1; 
-  result = (Mach1Point4D *)Mach1Point4DArray_cast(arg1);
-  *(Mach1Point4D **)&jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_mach1_spatiallibs_Mach1Point4DModuleJNI_Mach1Point4DArray_1frompointer(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  Mach1Point4D *arg1 = (Mach1Point4D *) 0 ;
-  Mach1Point4DArray *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(Mach1Point4D **)&jarg1; 
-  result = (Mach1Point4DArray *)Mach1Point4DArray_frompointer(arg1);
-  *(Mach1Point4DArray **)&jresult = result; 
+  result = (void *)getitemVoid(arg1,arg2);
+  *(void **)&jresult = result; 
   return jresult;
 }
 

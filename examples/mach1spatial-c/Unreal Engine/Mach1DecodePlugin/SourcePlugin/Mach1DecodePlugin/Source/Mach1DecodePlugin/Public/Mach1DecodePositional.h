@@ -47,28 +47,20 @@ void Mach1Decode::setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType)
 #ifndef  __EMSCRIPTEN__
 void Mach1Decode::decode(float Yaw, float Pitch, float Roll, float * result, int bufferSize, int sampleIndex)
 {
-	setRotationDegrees(Mach1Point3D{ Yaw, Pitch, Roll });
-	decode(result, bufferSize, sampleIndex);
+	Mach1DecodeCAPI_decode(M1obj, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
 }
 
-void Mach1Decode::decode(float * result, int bufferSize, int sampleIndex)
+void Mach1Decode::decodeCoeffs(float * result, int bufferSize, int sampleIndex)
 {
-	Mach1DecodeCAPI_decode(M1obj, result, bufferSize, sampleIndex);
+	Mach1DecodeCAPI_decodeCoeffs(M1obj, result, bufferSize, sampleIndex);
 }
 #endif
 
 std::vector<float> Mach1Decode::decode(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
 {
-	setRotationDegrees(Mach1Point3D{ Yaw, Pitch, Roll });
-
-	return decode(bufferSize, sampleIndex);
-}
-
-std::vector<float> Mach1Decode::decode(int bufferSize, int sampleIndex)
-{
 	static std::vector<float> vec(getFormatChannelCount());
 
-	Mach1DecodeCAPI_decode(M1obj, vec.data(), bufferSize, sampleIndex);
+	Mach1DecodeCAPI_decode(M1obj, Yaw, Pitch, Roll, vec.data(), bufferSize, sampleIndex);
 
 	return vec;
     /// Call with current update's angles to return the resulting coefficients
@@ -88,6 +80,27 @@ std::vector<float> Mach1Decode::decode(int bufferSize, int sampleIndex)
     ///     - sampleIndex: int for current sample index array, ideally supplied from your audioplayer/engine
 }
 
+std::vector<float> Mach1Decode::decodeCoeffs(int bufferSize, int sampleIndex)
+{
+	static std::vector<float> vec(getFormatChannelCount());
+
+	Mach1DecodeCAPI_decodeCoeffs(M1obj, vec.data(), bufferSize, sampleIndex);
+
+	return vec;
+    /// Call with current `setRotationDegrees` to return the resulting coefficients
+    /// to apply to the audioplayer's volume
+    ///
+    /// Includes two modes of use:
+    /// + Update decode results via audio callback
+    ///   + *Use your audio player's buffersize and current sample index for sync callbacks*
+    /// + Update decode results via main loop (or any loop)
+    ///   + *Default null or 0 values to **bufferSize** or **sampleIndex** will use the second mode*
+    ///
+    /// - Parameters: 
+    ///     - bufferSize: int for number of samples in a buffer, ideally supplied from your audioplayer/engine
+    ///     - sampleIndex: int for current sample index array, ideally supplied from your audioplayer/engine
+}
+
 int Mach1Decode::getFormatChannelCount()
 {
 	return Mach1DecodeCAPI_getFormatChannelCount(M1obj);
@@ -96,6 +109,12 @@ int Mach1Decode::getFormatChannelCount()
 void Mach1Decode::setRotationDegrees(Mach1Point3D rotation)
 {
 	Mach1DecodeCAPI_setRotationDegrees(M1obj, rotation);
+	/// Set current buffer/sample intended decoding orientation YPR.
+	///
+    /// - Parameters: 
+    ///     - Yaw: float for device/listener yaw angle: [Range: 0->360 | -180->180]
+    ///     - Pitch: float for device/listener pitch angle: [Range: -90->90]
+    ///     - Roll: float for device/listener roll angle: [Range: -90->90]
 }
 
 void Mach1Decode::setFilterSpeed(float filterSpeed)

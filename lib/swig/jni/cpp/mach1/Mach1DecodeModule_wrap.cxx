@@ -335,7 +335,29 @@ SWIGEXPORT jint JNICALL Java_com_mach1_Mach1SpatialLibs_Mach1DecodeModuleJNI_Mac
 }
 
 
-SWIGEXPORT void JNICALL Java_com_mach1_Mach1SpatialLibs_Mach1DecodeModuleJNI_Mach1DecodeCAPI_1decode(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jint jarg3, jint jarg4) {
+SWIGEXPORT void JNICALL Java_com_mach1_Mach1SpatialLibs_Mach1DecodeModuleJNI_Mach1DecodeCAPI_1decode(JNIEnv *jenv, jclass jcls, jlong jarg1, jfloat jarg2, jfloat jarg3, jfloat jarg4, jlong jarg5, jint jarg6, jint jarg7) {
+  void *arg1 = (void *) 0 ;
+  float arg2 ;
+  float arg3 ;
+  float arg4 ;
+  float *arg5 = (float *) 0 ;
+  int arg6 ;
+  int arg7 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(void **)&jarg1; 
+  arg2 = (float)jarg2; 
+  arg3 = (float)jarg3; 
+  arg4 = (float)jarg4; 
+  arg5 = *(float **)&jarg5; 
+  arg6 = (int)jarg6; 
+  arg7 = (int)jarg7; 
+  Mach1DecodeCAPI_decode(arg1,arg2,arg3,arg4,arg5,arg6,arg7);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_mach1_Mach1SpatialLibs_Mach1DecodeModuleJNI_Mach1DecodeCAPI_1decodeCoeffs(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jint jarg3, jint jarg4) {
   void *arg1 = (void *) 0 ;
   float *arg2 = (float *) 0 ;
   int arg3 ;
@@ -347,7 +369,7 @@ SWIGEXPORT void JNICALL Java_com_mach1_Mach1SpatialLibs_Mach1DecodeModuleJNI_Mac
   arg2 = *(float **)&jarg2; 
   arg3 = (int)jarg3; 
   arg4 = (int)jarg4; 
-  Mach1DecodeCAPI_decode(arg1,arg2,arg3,arg4);
+  Mach1DecodeCAPI_decodeCoeffs(arg1,arg2,arg3,arg4);
 }
 
 

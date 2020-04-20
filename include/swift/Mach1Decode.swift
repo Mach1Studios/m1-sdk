@@ -51,9 +51,9 @@ public class Mach1Decode {
 
     public func setRotationDegrees(rotation: Mach1Point3D) {
         Mach1DecodeCAPI_setRotationDegrees(M1obj, rotation)
-        /// Set the rotation for this decode buffer/sample
+        /// Set current buffer/sample intended decoding orientation YPR.
         ///
-        /// - Parameters:
+        /// - Parameters: 
         ///     - Yaw: float for device/listener yaw angle: [Range: 0->360 | -180->180]
         ///     - Pitch: float for device/listener pitch angle: [Range: -90->90]
         ///     - Roll: float for device/listener roll angle: [Range: -90->90]
@@ -94,13 +94,7 @@ public class Mach1Decode {
     public func decode(Yaw: Float, Pitch: Float, Roll: Float, bufferSize: Int = 0, sampleIndex: Int = 0) -> [Float] {
         let rotation = Mach1Point3D(x: Yaw, y: Pitch, z: Roll)
         setRotationDegrees(rotation: rotation)
-        return decode(bufferSize: bufferSize, sampleIndex: sampleIndex)
-    }
-
-    public func decode(bufferSize: Int = 0, sampleIndex: Int = 0) -> [Float] {
-        var array: [Float] = Array(repeating: 0.0, count: getFormatChannelCount())
-        Mach1DecodeCAPI_decode(M1obj, &array, CInt(bufferSize), CInt(sampleIndex))
-        return array
+        return decodeCoeffs(bufferSize: bufferSize, sampleIndex: sampleIndex)
         /// Call with current update's angles to return the resulting coefficients
         /// to apply to the audioplayer's volume
         ///
@@ -114,6 +108,24 @@ public class Mach1Decode {
         ///     - Yaw: float for device/listener yaw angle: [Range: 0->360 | -180->180]
         ///     - Pitch: float for device/listener pitch angle: [Range: -90->90]
         ///     - Roll: float for device/listener roll angle: [Range: -90->90]
+        ///     - bufferSize: int for number of samples in a buffer, ideally supplied from your audioplayer/engine
+        ///     - sampleIndex: int for current sample index array, ideally supplied from your audioplayer/engine
+    }
+
+    public func decodeCoeffs(bufferSize: Int = 0, sampleIndex: Int = 0) -> [Float] {
+        var array: [Float] = Array(repeating: 0.0, count: getFormatChannelCount())
+        Mach1DecodeCAPI_decodeCoeffs(M1obj, &array, CInt(bufferSize), CInt(sampleIndex))
+        return array
+        /// Call with current `setRotationDegrees` to return the resulting coefficients
+        /// to apply to the audioplayer's volume
+        ///
+        /// Includes two modes of use:
+        /// + Update decode results via audio callback
+        ///   + *Use your audio player's buffersize and current sample index for sync callbacks*
+        /// + Update decode results via main loop (or any loop)
+        ///   + *Default null or 0 values to **bufferSize** or **sampleIndex** will use the second mode*
+        ///
+        /// - Parameters: 
         ///     - bufferSize: int for number of samples in a buffer, ideally supplied from your audioplayer/engine
         ///     - sampleIndex: int for current sample index array, ideally supplied from your audioplayer/engine
     }

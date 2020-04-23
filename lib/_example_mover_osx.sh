@@ -136,12 +136,10 @@ yes | cp -rf "external/cpp/Mach1Point3D.h" "../examples/mach1spatial-c/openframe
 yes | cp -rf "external/cpp/Mach1Point4D.h" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include/Mach1Point4D.h"
 
 echo "### Copying for UE ###"
-yes | cp -rf "external/cpp/Mach1DecodeCAPI.h" "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/include/Mach1DecodeCAPI.h"
-yes | cp -rf "external/cpp/Mach1DecodePositionalCAPI.h" "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/include/Mach1DecodePositionalCAPI.h"
-yes | cp -rf "external/cpp/Mach1Decode.h" "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/Source/Mach1DecodePlugin/Public/Mach1Decode.h"
-yes | cp -rf "external/cpp/Mach1Decode.cpp" "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/Source/Mach1DecodePlugin/Public/Mach1DecodePositional.h"
-yes | cp -rf "external/cpp/Mach1DecodePositional.h" "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/Source/Mach1DecodePlugin/Private/Mach1Decode.cpp"
-yes | cp -rf "external/cpp/Mach1DecodePositional.cpp" "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/Source/Mach1DecodePlugin/Private/Mach1DecodePositional.cpp"
+yes | cp -rf external/cpp/*CAPI.h "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/include/"
+yes | cp -rf external/cpp/*.h "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/Source/Mach1DecodePlugin/Public/"
+rm -f ../examples/mach1spatial-c/Unreal\ Engine/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/Source/Mach1DecodePlugin/Public/*CAPI.h
+yes | cp -rf external/cpp/*.cpp "../examples/mach1spatial-c/Unreal Engine/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/Source/Mach1DecodePlugin/Private/"
 
 echo "### Copying for Unity ###"
 yes | cp -rf external/c#/* "../examples/mach1spatial-c/Unity/M1UnityDecodeTest/Assets/Mach1/"

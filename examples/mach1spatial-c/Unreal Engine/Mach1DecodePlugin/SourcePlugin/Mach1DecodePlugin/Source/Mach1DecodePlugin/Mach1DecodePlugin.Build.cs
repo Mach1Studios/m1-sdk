@@ -21,11 +21,12 @@ namespace UnrealBuildTool.Rules
                 Directory.CreateDirectory(binariesDir);
 
             string FilepathTo = Path.Combine(binariesDir, filename);
-
             System.Console.WriteLine("Copy: " + Filepath  + " to " + FilepathTo);
 
-            //if(!File.Exists(FilepathTo))
+            if (!File.Exists(FilepathTo))
+            {
                 File.Copy(Filepath, FilepathTo, true);
+            }
         }
 
         public Mach1DecodePlugin(ReadOnlyTargetRules Target) : base(Target)
@@ -41,7 +42,7 @@ namespace UnrealBuildTool.Rules
 
             PrivateIncludePaths.AddRange(
                 new string[] {
-                   "Developer/Mach1DecodePlugin/Private"
+                   "Mach1DecodePlugin/Private"
                     // ... add other private include paths required here ...
                 }
                 );
@@ -81,7 +82,6 @@ namespace UnrealBuildTool.Rules
                 var archs =  new string[] { "armeabi-v7a", "x86" };
 				foreach(var arch in archs)
 				{
-					PublicLibraryPaths.Add(Path.Combine(Mach1BinDirectory, arch));
                     PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, arch, "libMach1EncodeCAPI.a"));
                     PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, arch, "libMach1DecodeCAPI.a"));
                     PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, arch, "libMach1DecodePositionalCAPI.a"));
@@ -95,19 +95,9 @@ namespace UnrealBuildTool.Rules
             }
             else if (Target.Platform == UnrealTargetPlatform.Mac)
             {
-                PublicLibraryPaths.Add(Mach1BinDirectory);
-                PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "libMach1EncodeCAPI.dylib"));
-                PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "libMach1DecodeCAPI.dylib"));
-                PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "libMach1DecodePositionalCAPI.dylib"));
-                
-                RuntimeDependencies.Add(Path.Combine(Mach1BinDirectory, "libMach1EncodeCAPI.dylib"));
-                RuntimeDependencies.Add(Path.Combine(Mach1BinDirectory, "libMach1DecodeCAPI.dylib"));
-                RuntimeDependencies.Add(Path.Combine(Mach1BinDirectory, "libMach1DecodePositionalCAPI.dylib"));
-
-                CopyToBinaries(Path.Combine(Mach1BinDirectory, "libMach1EncodeCAPI.dylib"), Target);
-                CopyToBinaries(Path.Combine(Mach1BinDirectory, "libMach1DecodeCAPI.dylib"), Target);
-                CopyToBinaries(Path.Combine(Mach1BinDirectory, "libMach1DecodePositionalCAPI.dylib"), Target);
-                 
+                PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "libMach1EncodeCAPI.a"));
+                PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "libMach1DecodeCAPI.a"));
+                PublicAdditionalLibraries.Add(Path.Combine(Mach1BinDirectory, "libMach1DecodePositionalCAPI.a"));
             }
             else if (Target.Platform == UnrealTargetPlatform.Win32 || Target.Platform == UnrealTargetPlatform.Win64)
             { 

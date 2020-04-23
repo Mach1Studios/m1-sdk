@@ -83,7 +83,7 @@ extern "C" {
 
 	M1_API void Mach1EncodeCAPI_setInputMode(void* M1obj, enum Mach1EncodeInputModeType inputMode);
 	M1_API void Mach1EncodeCAPI_setOutputMode(void* M1obj, enum Mach1EncodeOutputModeType outputMode);
-
+	
 #if __cplusplus > 201103L
 	[[deprecated("setRotation is deprecated due to ambiguity of use, please use setAzimuth0to1, setAzimuthDegrees or setAzimuthRadians instead")]]
 #endif
@@ -112,7 +112,7 @@ extern "C" {
 	M1_API void Mach1EncodeCAPI_setOrbitRotation(void* M1obj, float orbitRotationFromMinusOnetoOne);
 	M1_API void Mach1EncodeCAPI_setOrbitRotationDegrees(void* M1obj, float orbitRotationDegrees);
 	M1_API void Mach1EncodeCAPI_setOrbitRotationRadians(void* M1obj, float orbitRotationRadians);
-	
+
 	M1_API void Mach1EncodeCAPI_setStereoSpread(void* M1obj, float sSpreadFrom0to1);
 	M1_API void Mach1EncodeCAPI_setAutoOrbit(void* M1obj, bool autoOrbit);
 

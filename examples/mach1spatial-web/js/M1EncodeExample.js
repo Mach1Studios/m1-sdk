@@ -191,15 +191,18 @@ document.addEventListener("DOMContentLoaded", function() {
         if (params.inputKind == 3) { // Input: AFORMAT
             m1Encode.setInputMode(m1Encode.Mach1EncodeInputModeType.Mach1EncodeInputModeAFormat);
         }
-        if (params.inputKind == 4) { // Input: BFORMAT
-            m1Encode.setInputMode(m1Encode.Mach1EncodeInputModeType.Mach1EncodeInputModeBFormat);
+        if (params.inputKind == 4) { // Input: 1OA ACNSN3D
+            m1Encode.setInputMode(m1Encode.Mach1EncodeInputModeType.Mach1EncodeInputModeBFOAACN);
+        }
+        if (params.inputKind == 5) { // Input: 1OA FuMa
+            m1Encode.setInputMode(m1Encode.Mach1EncodeInputModeType.Mach1EncodeInputModeBFOAFUMA);
         }
 
-        if (params.outputKind == 0) { // Output: Mach1Horizon / Quad
-            m1Encode.setOutputMode(m1Encode.Mach1EncodeOutputModeType.Mach1EncodeOutputMode4Ch);
+        if (params.outputKind == 0) { // Output: Mach1Horizon / Quad 4CH
+            m1Encode.setOutputMode(m1Encode.Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Horizon);
         }
-        if (params.outputKind == 1) { // Output: Mach1Spatial / Cuboid
-            m1Encode.setOutputMode(m1Encode.Mach1EncodeOutputModeType.Mach1EncodeOutputMode8Ch);
+        if (params.outputKind == 1) { // Output: Mach1Spatial / Cuboid 8CH
+            m1Encode.setOutputMode(m1Encode.Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial);
         }
 
         // Resets the Decoding input when changing Encoding output between Mach1Spatial and Mach1Horizon
@@ -270,7 +273,8 @@ document.addEventListener("DOMContentLoaded", function() {
         'STEREO': 1,
         'QUAD': 2,
         'AFORMAT': 3,
-        'BFORMAT': 4
+        '1OA:ACNSN3D': 4,
+        '1OA:FUMA': 5
     }).name('Input type').onChange(function() {
         update();
 		loadSounds();
@@ -301,9 +305,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // update 
     function update() {
-        m1Encode.setRotation(params.rotation);
+        m1Encode.setAzimuth(params.rotation);
         m1Encode.setDiverge(params.diverge);
-        m1Encode.setPitch(params.pitch);
+        m1Encode.setElevation(params.pitch);
         m1Encode.setStereoRotate(params.sRotation);
         m1Encode.setStereoSpread(params.sSpread);
         m1Encode.setAutoOrbit(params.autoOrbit);

@@ -31,12 +31,25 @@ EMSCRIPTEN_BINDINGS(Mach1Decode) {
 		.field("z", &Mach1Point3D::z)
         ;
 
+    value_object<Mach1Point4D>("Mach1Point4D")
+        .field("x", &Mach1Point4D::x)
+        .field("y", &Mach1Point4D::y)
+        .field("z", &Mach1Point4D::z)
+        .field("w", &Mach1Point4D::w)
+        ;
+
     class_<Mach1Decode>("Mach1DecodeInternal")
         .constructor<>()
         .function("setPlatformType", &Mach1Decode::setPlatformType)
         .function("setDecodeAlgoType", &Mach1Decode::setDecodeAlgoType)
         .function("decode", &Mach1Decode::decode)
+        .function("decodeCoeffs", &Mach1Decode::decodeCoeffs)
         .function("setFilterSpeed", &Mach1Decode::setFilterSpeed)
+        .function("getFormatChannelCount", &Mach1Decode::getFormatChannelCount)
+        .function("setRotation", &Mach1Decode::setRotation)
+        .function("setRotationDegrees", &Mach1Decode::setRotationDegrees)
+        .function("setRotationRadians", &Mach1Decode::setRotationRadians)
+        .function("setRotationQuat", &Mach1Decode::setRotationQuat)
         .function("beginBuffer", &Mach1Decode::beginBuffer)
         .function("endBuffer", &Mach1Decode::endBuffer)
         .function("getCurrentTime", &Mach1Decode::getCurrentTime)

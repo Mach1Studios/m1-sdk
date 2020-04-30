@@ -49,14 +49,45 @@ public class Mach1Decode {
         /// Returns the number of channels for format to be decoded
     }
 
-    public func setRotationDegrees(rotation: Mach1Point3D) {
-        Mach1DecodeCAPI_setRotationDegrees(M1obj, rotation)
+    public func setRotation(newRotationFromMinusOnetoOne: Mach1Point3D) {
+        Mach1DecodeCAPI_setRotation(M1obj, newRotationFromMinusOnetoOne)
+        /// Set current buffer/sample intended decoding orientation YPR.
+        ///
+        /// - Parameters: 
+        ///     - Yaw: float for device/listener yaw angle: [Range: -1.0 -> 1.0]
+        ///     - Pitch: float for device/listener pitch angle: [Range: -1.0 -> 1.0]
+        ///     - Roll: float for device/listener roll angle: [Range: -1.0 -> 1.0]
+    }
+
+    public func setRotationDegrees(newRotationDegrees: Mach1Point3D) {
+        Mach1DecodeCAPI_setRotationDegrees(M1obj, newRotationDegrees)
         /// Set current buffer/sample intended decoding orientation YPR.
         ///
         /// - Parameters: 
         ///     - Yaw: float for device/listener yaw angle: [Range: 0->360 | -180->180]
         ///     - Pitch: float for device/listener pitch angle: [Range: -90->90]
         ///     - Roll: float for device/listener roll angle: [Range: -90->90]
+    }
+
+    public func setRotationRadians(newRotationRadians: Mach1Point3D) {
+        Mach1DecodeCAPI_setRotationRadians(M1obj, newRotationRadians)
+        /// Set current buffer/sample intended decoding orientation YPR in radians.
+        ///
+        /// - Parameters: 
+        ///     - Yaw: float for device/listener yaw angle: [Range: 0->2PI | -PI->PI]
+        ///     - Pitch: float for device/listener pitch angle: -PI/2 -> PI/2
+        ///     - Roll: float for device/listener roll angle: -PI/2 -> PI/2
+    }
+
+    public func setRotationQuat(newRotationQuat: Mach1Point4D) {
+        Mach1DecodeCAPI_setRotationQuat(M1obj, newRotationQuat)
+        /// Set current buffer/sample intended decoding orientation YPR in quaternion.
+        ///
+        /// - Parameters: 
+        ///     - W: float for device/listener W: [Range: -1.0->1.0]
+        ///     - X: float for device/listener X: [Range: -1.0->1.0]
+        ///     - Y: float for device/listener Y: [Range: -1.0->1.0]
+        ///     - Z: float for device/listener Z: [Range: -1.0->1.0]
     }
 
     public func setFilterSpeed(filterSpeed: Float) {
@@ -93,7 +124,7 @@ public class Mach1Decode {
     
     public func decode(Yaw: Float, Pitch: Float, Roll: Float, bufferSize: Int = 0, sampleIndex: Int = 0) -> [Float] {
         let rotation = Mach1Point3D(x: Yaw, y: Pitch, z: Roll)
-        setRotationDegrees(rotation: rotation)
+        setRotationDegrees(newRotationDegrees: rotation)
         return decodeCoeffs(bufferSize: bufferSize, sampleIndex: sampleIndex)
         /// Call with current update's angles to return the resulting coefficients
         /// to apply to the audioplayer's volume

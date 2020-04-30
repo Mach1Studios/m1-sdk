@@ -106,15 +106,49 @@ int Mach1Decode::getFormatChannelCount()
 	return Mach1DecodeCAPI_getFormatChannelCount(M1obj);
 }
 
-void Mach1Decode::setRotationDegrees(Mach1Point3D rotation)
+void Mach1Decode::setRotation(Mach1Point3D newRotationFromMinusOnetoOne)
 {
-	Mach1DecodeCAPI_setRotationDegrees(M1obj, rotation);
+	Mach1DecodeCAPI_setRotation(M1obj, newRotationFromMinusOnetoOne);
+	/// Set current buffer/sample intended decoding orientation YPR.
+	///
+    /// - Parameters: 
+    ///     - Yaw: float for device/listener yaw angle: [Range: -1.0 -> 1.0]
+    ///     - Pitch: float for device/listener pitch angle: [Range: -1.0 -> 1.0]
+    ///     - Roll: float for device/listener roll angle: [Range: -1.0 -> 1.0]
+}
+
+void Mach1Decode::setRotationDegrees(Mach1Point3D newRotationDegrees)
+{
+	Mach1DecodeCAPI_setRotationDegrees(M1obj, newRotationDegrees);
 	/// Set current buffer/sample intended decoding orientation YPR.
 	///
     /// - Parameters: 
     ///     - Yaw: float for device/listener yaw angle: [Range: 0->360 | -180->180]
     ///     - Pitch: float for device/listener pitch angle: [Range: -90->90]
     ///     - Roll: float for device/listener roll angle: [Range: -90->90]
+}
+
+void Mach1Decode::setRotationRadians(Mach1Point3D newRotationRadians)
+{
+	Mach1DecodeCAPI_setRotationRadians(M1obj, newRotationRadians);
+    /// Set current buffer/sample intended decoding orientation YPR in radians.
+    ///
+    /// - Parameters: 
+    ///     - Yaw: float for device/listener yaw angle: [Range: 0->2PI | -PI->PI]
+    ///     - Pitch: float for device/listener pitch angle: -PI/2 -> PI/2
+    ///     - Roll: float for device/listener roll angle: -PI/2 -> PI/2
+}
+
+void Mach1Decode::setRotationQuat(Mach1Point4D newRotationQuat)
+{
+	Mach1DecodeCAPI_setRotationQuat(M1obj, newRotationQuat);
+    /// Set current buffer/sample intended decoding orientation YPR in quaternion.
+    ///
+    /// - Parameters: 
+    ///     - W: float for device/listener W: [Range: -1.0->1.0]
+    ///     - X: float for device/listener X: [Range: -1.0->1.0]
+    ///     - Y: float for device/listener Y: [Range: -1.0->1.0]
+    ///     - Z: float for device/listener Z: [Range: -1.0->1.0]
 }
 
 void Mach1Decode::setFilterSpeed(float filterSpeed)

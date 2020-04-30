@@ -27,7 +27,10 @@ public:
 	std::vector<float> decodeCoeffs(int bufferSize = 0, int sampleIndex = 0);
 
 	int getFormatChannelCount();
-	void setRotationDegrees(Mach1Point3D rotation);
+	void setRotation(Mach1Point3D newRotationFromMinusOnetoOne);
+	void setRotationDegrees(Mach1Point3D newRotationDegrees);
+	void setRotationRadians(Mach1Point3D newRotationRadians);
+	void setRotationQuat(Mach1Point4D newRotationQuat);
 
 	void setFilterSpeed(float filterSpeed);
 
@@ -62,7 +65,7 @@ void Mach1Decode::decodeBuffer(std::vector<std::vector<T>>* inBuffer, std::vecto
 	int outChannelsCount = outBuffer->size();
 
 	for (size_t i = 0; i < bufferSize; i++) {
-		std::vector<float> volumes = decode(bufferSize, i);
+		std::vector<float> volumes = decodeCoeffs(bufferSize, i);
 
 		for (size_t c = 0; c < outChannelsCount; c++) {
 			sample = 0;
@@ -86,7 +89,7 @@ void Mach1Decode::decodeBuffer(std::vector<T*>* inBuffer, std::vector<T*>* outBu
 	T sample = 0;
 	int offset = 0;
 	for (size_t i = 0; i < bufferSize; i++) {
-		std::vector<float> volumes = decode(bufferSize, i);
+		std::vector<float> volumes = decodeCoeffs(bufferSize, i);
 
 		for (size_t c = 0; c < outBuffer->size(); c++) {
 			sample = 0;

@@ -5,8 +5,8 @@
 
 #include "Mach1DecodeCAPI.h"
 
-#ifdef Mach1PositionalCore_h
-    #ifndef M1_API
+#if defined(Mach1DecodeCore_h) || defined(Mach1EncodeCore_h) ||  defined(Mach1PositionalCore_h)
+#ifndef M1_API
         #if defined(_WINDOWS) || defined(WIN32)
         #define M1_API __declspec(dllexport)
         #else
@@ -15,7 +15,7 @@
     #endif
 #else
     #ifndef M1_API
-        #if defined(_WINDOWS) || defined(WIN32)
+		#if !defined(M1_STATIC) && (defined(_WINDOWS) || defined(WIN32))
             #define M1_API __declspec(dllimport)
         #else
             #define M1_API
@@ -63,6 +63,8 @@ extern "C" {
 	M1_API struct Mach1Point3D Mach1DecodePositionalCAPI_getCoefficientsRotation(void* M1obj);
 	M1_API void Mach1DecodePositionalCAPI_setFilterSpeed(void* M1obj, float filterSpeed);
 
+	M1_API long Mach1DecodePositionalCAPI_getLastCalculationTime(void* M1obj);
+
 /* DEPRECATED START*/
 #if __cplusplus > 201103L
 	[[deprecated("setUseFalloff is deprecated, please use setUseAttenuation instead")]]
@@ -73,7 +75,7 @@ extern "C" {
 #endif
 	M1_API void Mach1DecodePositionalCAPI_setFalloffCurve(void* M1obj, float falloffCurve);
 #if __cplusplus > 201103L
-	[[deprecated("setFalloffCurveBlendMode is deprecated, please use setAttenuationCurveBlendMode instead")]]
+	[[deprecated("setUseClosestPointRotationMuteInside is deprecated, please use setUsePlaneCalculation instead")]]
 #endif
     M1_API void Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(void* M1obj, bool useClosestPointRotationMuteInside);
 #if __cplusplus > 201103L

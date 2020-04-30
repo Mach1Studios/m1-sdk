@@ -27,7 +27,10 @@ public:
 	std::vector<float> decodeCoeffs(int bufferSize = 0, int sampleIndex = 0);
 
 	int getFormatChannelCount();
-	void setRotationDegrees(Mach1Point3D rotation);
+	void setRotation(Mach1Point3D newRotationFromMinusOnetoOne);
+	void setRotationDegrees(Mach1Point3D newRotationDegrees);
+	void setRotationRadians(Mach1Point3D newRotationRadians);
+	void setRotationQuat(Mach1Point4D newRotationQuat);
 
 	void setFilterSpeed(float filterSpeed);
 

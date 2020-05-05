@@ -9,8 +9,6 @@
 #include <string>
 #include <algorithm>
 
-#include "Mach1Point4D.h"
-
 #ifndef DEG_TO_RAD
 #define DEG_TO_RAD (PI/180.0)
 #endif
@@ -25,7 +23,6 @@ public:
 
 	Mach1Point4DCore();
 	Mach1Point4DCore(float X, float Y, float Z, float W);
-	Mach1Point4DCore(const Mach1Point4D& pnt);
 
 	Mach1Point4DCore operator+(const Mach1Point4DCore& pnt) const;
 	Mach1Point4DCore operator*(const float f) const;

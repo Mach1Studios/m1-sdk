@@ -38,8 +38,8 @@ M1EncodeCorePointResults::~M1EncodeCorePointResults() {
 
 }
 
-std::vector<M1EncodeCorePoint> M1EncodeCorePointResults::getPoints() {
-	return std::vector<M1EncodeCorePoint>(ppoints, std::end(ppoints));
+std::vector<Mach1Point3DCore> M1EncodeCorePointResults::getPoints() {
+	return std::vector<Mach1Point3DCore>(ppoints, std::end(ppoints));
 }
 
 std::vector<std::vector<float>> M1EncodeCorePointResults::getGains() {
@@ -68,7 +68,7 @@ int M1EncodeCorePointResults::getPointsCount()
 	return pointsCount;
 }
 
-float M1EncodeCore::getCoeffForStandardPoint(float x, float y, float z, M1EncodeCorePoint point, bool ignoreZ)
+float M1EncodeCore::getCoeffForStandardPoint(float x, float y, float z, Mach1Point3DCore point, bool ignoreZ)
 {
 	point.x = 1 - (point.x + 1) / 2;
 	point.y = 1 - (point.y + 1) / 2;
@@ -77,7 +77,7 @@ float M1EncodeCore::getCoeffForStandardPoint(float x, float y, float z, M1Encode
 	return fabs(point.x - x) * fabs(point.y - y) * (ignoreZ ? 1.0 : fabs(point.z - z));
 }
 
-std::vector<float> M1EncodeCore::getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<M1EncodeCorePoint>& pointSet, bool ignoreZ)
+std::vector<float> M1EncodeCore::getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<Mach1Point3DCore>& pointSet, bool ignoreZ)
 {
 	std::vector<float> result;
 	for (auto &i : pointSet) {
@@ -88,86 +88,121 @@ std::vector<float> M1EncodeCore::getCoeffSetForStandardPointSet(float x, float y
 
 void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<float>& result) {
 
-	std::vector<M1EncodeCorePoint> pointsSet;
+	// M1 horizon plane points
+	static std::vector<Mach1Point3DCore> m1HorizonDef = { { 1, -1, 0},
+												{1, 1, 0},
+												{-1, -1, 0},
+												{-1, 1, 0} };
+
+	// M1 spatial cube points
+	static std::vector<Mach1Point3DCore> m1SpatialDef = { {1, -1, 1},
+												{1, 1, 1},
+												{-1, -1, 1},
+												{-1, 1, 1},
+
+												{1, -1, -1},
+												{1, 1, -1},
+												{-1, -1, -1},
+												{-1, 1, -1} };
+
+	// M1 spatial+ cube points
+	static std::vector<Mach1Point3DCore> m1SpatialPlusDef = { {1, -1, 1},
+													{1, 1, 1},
+													{-1, -1, 1},
+													{-1, 1, 1},
+
+													{1, -1, -1},
+													{1, 1, -1},
+													{-1, -1, -1},
+													{-1, 1, -1},
+
+													{1 / 0.707, 0, 0},
+													{0, 1 / 0.707, 0},
+													{-1 / 0.707, 0, 0},
+													{0, -1 / 0.707, 0} };
+
+	// M1 spatial++ cube points
+	static std::vector<Mach1Point3DCore> m1SpatialPlusPlusDef = { {1, -1, 1},
+														{1, 1, 1},
+														{-1, -1, 1},
+														{-1, 1, 1},
+
+														{1, -1, -1},
+														{1, 1, -1},
+														{-1, -1, -1},
+														{-1, 1, -1},
+
+														{1 / 0.707, 0, 0},
+														{0, 1 / 0.707, 0},
+														{-1 / 0.707, 0, 0},
+														{0, -1 / 0.707, 0},
+
+														{0, 1 / 0.707, 0},
+														{0, -1 / 0.707, 0} };
+
+	// M1 spatial extended cube points
+	static std::vector<Mach1Point3DCore> m1SpatialExtendedDef = { {1, -1, 1},
+													{1, 1, 1},
+													{-1, -1, 1},
+													{-1, 1, 1},
+
+													{1, -1, -1},
+													{1, 1, -1},
+													{-1, -1, -1},
+													{-1, 1, -1},
+
+													{1 / 0.707, 0, 1},
+													{0, 1 / 0.707, 1},
+													{-1 / 0.707, 0, 1},
+													{0, -1 / 0.707, 1},
+
+													{1 / 0.707, 0, -1},
+													{0, 1 / 0.707, -1},
+													{-1 / 0.707, 0, -1},
+													{0, -1 / 0.707, -1} };
+
+	// M1 spatial extended+ cube points
+	static std::vector<Mach1Point3DCore> m1SpatialExtendedPlusDef = { {1, -1, 1},
+													{1, 1, 1},
+													{-1, -1, 1},
+													{-1, 1, 1},
+
+													{1, -1, -1},
+													{1, 1, -1},
+													{-1, -1, -1},
+													{-1, 1, -1},
+
+													{1 / 0.707, 0, 1},
+													{0, 1 / 0.707, 1},
+													{-1 / 0.707, 0, 1},
+													{0, -1 / 0.707, 1},
+
+													{1 / 0.707, 0, -1},
+													{0, 1 / 0.707, -1},
+													{-1 / 0.707, 0, -1},
+													{0, -1 / 0.707, -1},
+
+													{0, 1 / 0.707, 0},
+													{0, -1 / 0.707, 0} };
+
+
+	std::vector<Mach1Point3DCore> pointsSet;
 
 	if (outputMode == OUTPUT_HORIZON_4CH) {
-		pointsSet = { {1, -1, 0},
-			{1, 1, 0},
-			{-1, -1, 0},
-			{-1, 1, 0} };
+		pointsSet = m1HorizonDef;
 	}
 	else if (outputMode == OUTPUT_SPATIAL_8CH) {
-		pointsSet = { {1, -1, 1},
-			{1, 1, 1},
-			{-1, -1, 1},
-			{-1, 1, 1},
-
-			{1, -1, -1},
-			{1, 1, -1},
-			{-1, -1, -1},
-			{-1, 1, -1} };
+		pointsSet = m1SpatialDef;
 	}
 	else if (outputMode == OUTPUT_SPATIALPLUS_12CH) {
-		pointsSet = { {1, -1, 1},
-			{1, 1, 1},
-			{-1, -1, 1},
-			{-1, 1, 1},
-
-			{1, -1, -1},
-			{1, 1, -1},
-			{-1, -1, -1},
-			{-1, 1, -1},
-
-			{1 / 0.707, 0, 0},
-			{0, 1 / 0.707, 0},
-			{-1 / 0.707, 0, 0},
-			{0, -1 / 0.707, 0} };
+		pointsSet = m1SpatialPlusDef;
 	}
 	else if (outputMode == OUTPUT_SPATIALEXT_16CH) {
-		pointsSet = { {1, -1, 1},
-			{1, 1, 1},
-			{-1, -1, 1},
-			{-1, 1, 1},
-
-			{1, -1, -1},
-			{1, 1, -1},
-			{-1, -1, -1},
-			{-1, 1, -1},
-
-			{1 / 0.707, 0, 1},
-			{0, 1 / 0.707, 1},
-			{-1 / 0.707, 0, 1},
-			{0, -1 / 0.707, 1},
-
-			{1 / 0.707, 0, -1},
-			{0, 1 / 0.707, -1},
-			{-1 / 0.707, 0, -1},
-			{0, -1 / 0.707, -1} };
+		pointsSet = m1SpatialPlusPlusDef;
 	}
 
 	else if (outputMode == OUTPUT_SPATIALEXTPLUS_18CH) {
-		pointsSet = { {1, -1, 1},
-			{1, 1, 1},
-			{-1, -1, 1},
-			{-1, 1, 1},
-
-			{1, -1, -1},
-			{1, 1, -1},
-			{-1, -1, -1},
-			{-1, 1, -1},
-
-			{1 / 0.707, 0, 1},
-			{0, 1 / 0.707, 1},
-			{-1 / 0.707, 0, 1},
-			{0, -1 / 0.707, 1},
-
-			{1 / 0.707, 0, -1},
-			{0, 1 / 0.707, -1},
-			{-1 / 0.707, 0, -1},
-			{0, -1 / 0.707, -1},
-
-			{0, 1 / 0.707, 0},
-			{0, -1 / 0.707, 0} };
+		pointsSet = m1SpatialExtendedDef;
 	}
 
 	result = getCoeffSetForStandardPointSet(x, y, z, pointsSet, outputMode == OUTPUT_HORIZON_4CH ? true : false);
@@ -190,7 +225,7 @@ M1EncodeCore::M1EncodeCore() {
 	timeLastCalculation = 0;
 
 	// init additional arrays
-	arr_Points = new M1EncodeCorePoint[MAX_POINTS_COUNT];
+	arr_Points = new Mach1Point3DCore[MAX_POINTS_COUNT];
 
 	arr_Gains = new float*[MAX_POINTS_COUNT];
 	for (int i = 0; i < MAX_POINTS_COUNT; i++) {
@@ -230,7 +265,7 @@ void M1EncodeCore::generatePointResults() {
 	long tStart = getCurrentTime();
 
 	float normalisedOutputDiverge = diverge * (1 / cos(PI * 0.25f));
-	M1EncodeCorePoint centerpoint = { (float)cos((azimuth)* PI * 2) * normalisedOutputDiverge, 0, (float)sin((azimuth)* PI * 2) * normalisedOutputDiverge };
+	Mach1Point3DCore centerpoint = { (float)cos((azimuth)* PI * 2) * normalisedOutputDiverge, 0, (float)sin((azimuth)* PI * 2) * normalisedOutputDiverge };
 
 	if (inputMode == INPUT_MONO) {
 
@@ -263,7 +298,7 @@ void M1EncodeCore::generatePointResults() {
 		resultingPoints.pointsCount = 2;
 
 		std::vector<std::string> names = { "L", "R" };
-		std::vector<M1EncodeCorePoint> pnts = {
+		std::vector<Mach1Point3DCore> pnts = {
 			{ (float)cos((sRotationInRadians)) * sSpread, 0, (float)sin((sRotationInRadians)) * sSpread },
 			{ (float)-cos((sRotationInRadians)) * sSpread, 0, (float)-sin((sRotationInRadians)) * sSpread }
 		};
@@ -275,10 +310,10 @@ void M1EncodeCore::generatePointResults() {
 				resultingPoints.ppoints[i] = pnts[i] + centerpoint;
 			}
 			else if (isotropicEncode) {
-				resultingPoints.ppoints[i] = pnts[i] + M1EncodeCorePoint { centerpoint.x * (float)sin((elevation + 1) * PI / 2), elevation, centerpoint.z * (float)sin((elevation + 1) * PI / 2) };
+				resultingPoints.ppoints[i] = pnts[i] + Mach1Point3DCore { centerpoint.x * (float)sin((elevation + 1) * PI / 2), elevation, centerpoint.z * (float)sin((elevation + 1) * PI / 2) };
 			}
 			else {
-				resultingPoints.ppoints[i] = pnts[i] + M1EncodeCorePoint { centerpoint.x, elevation, centerpoint.z };
+				resultingPoints.ppoints[i] = pnts[i] + Mach1Point3DCore { centerpoint.x, elevation, centerpoint.z };
 			}
 		}
 	}
@@ -287,7 +322,7 @@ void M1EncodeCore::generatePointResults() {
 		resultingPoints.pointsCount = 4;
 
 		std::vector<std::string> names = { "L", "R", "Ls", "Rs" };
-		std::vector<M1EncodeCorePoint> pnts = {
+		std::vector<Mach1Point3DCore> pnts = {
 			{ (float)cos((azimuth + 0.125f - 0.25f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f - 0.25f) * PI * 2) * normalisedOutputDiverge },
 			{ (float)cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge },
 			{ (float)cos((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge },
@@ -308,7 +343,7 @@ void M1EncodeCore::generatePointResults() {
 		resultingPoints.pointsCount = 4;
 
 		std::vector<std::string> names = { "L", "C", "R", "S" };
-		std::vector<M1EncodeCorePoint> pnts = {
+		std::vector<Mach1Point3DCore> pnts = {
 			{ (float)cos((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge },
 			{ 0, 0, 0 },
 			{ (float)cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge },
@@ -332,7 +367,7 @@ void M1EncodeCore::generatePointResults() {
 		resultingPoints.pointsCount = 4;
 
 		std::vector<std::string> names = { "FLU", "FRD", "BLD", "BRU" };
-		std::vector<M1EncodeCorePoint> pnts = {
+		std::vector<Mach1Point3DCore> pnts = {
 			{ (float)cos((azimuth + 0.125f - 0.25f) * PI * 2) * diverge, (1 * diverge), (float)sin((azimuth + 0.125f - 0.25f) * PI * 2) * diverge },
 			{ (float)cos((azimuth + 0.125f) * PI * 2) * diverge, (-1 * diverge), (float)sin((azimuth + 0.125f) * PI * 2) * diverge },
 			{ (float)cos((azimuth + 0.125f + 0.5f) * PI * 2) * diverge, (-1 * diverge), (float)sin((azimuth + 0.125f + 0.5f) * PI * 2) * diverge },
@@ -354,7 +389,7 @@ void M1EncodeCore::generatePointResults() {
 		resultingPoints.pointsCount = 7;
 
 		std::vector<std::string> names = { "W","1","2","3","-1","-2","-3" };
-		std::vector<M1EncodeCorePoint> pnts = {
+		std::vector<Mach1Point3DCore> pnts = {
 			{ 0, 0, 0 },  // W
 			{ (float)cos((azimuth + 0.250f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.250f) * PI * 2) * diverge }, // Left/Right / L
 			{ 0, 1.0f * diverge, 0 }, // Top/Bottom / T
@@ -385,7 +420,7 @@ void M1EncodeCore::generatePointResults() {
 		resultingPoints.pointsCount = 7;
 
 		std::vector<std::string> names = { "W","X","Y","Z","-X","-Y","-Z" };
-		std::vector<M1EncodeCorePoint> pnts = {
+		std::vector<Mach1Point3DCore> pnts = {
 			{ 0, 0, 0 }, // W
 			{ (float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge }, // Front/Back / F
 			{ (float)cos((azimuth + 0.25f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.25f) * PI * 2) * diverge }, // Left/Right / L
@@ -416,7 +451,7 @@ void M1EncodeCore::generatePointResults() {
 		resultingPoints.pointsCount = 8;
 
 		std::vector<std::string> names = { "1","2","3","4","5","6","7","8" };
-		std::vector<M1EncodeCorePoint> pnts = {
+		std::vector<Mach1Point3DCore> pnts = {
 			{ (float)cos((azimuth + 0.125f - 0.25f) * PI * 2) * normalisedOutputDiverge, 1.0f * diverge, (float)sin((azimuth + 0.125f - 0.25f) * PI * 2) * normalisedOutputDiverge },
 			{ (float)cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, 1.0f * diverge, (float)sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge },
 			{ (float)cos((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, 1.0f * diverge, (float)sin((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge },
@@ -441,7 +476,7 @@ void M1EncodeCore::generatePointResults() {
 		resultingPoints.pointsCount = 3;
 
 		std::vector<std::string> names = { "L","C","R" };
-		std::vector<M1EncodeCorePoint> pnts = {
+		std::vector<Mach1Point3DCore> pnts = {
 			{ (float)cos((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge },
 			{ 0, 0, 0 },
 			{ (float)cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge },

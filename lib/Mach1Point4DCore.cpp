@@ -17,14 +17,6 @@ Mach1Point4DCore::Mach1Point4DCore(float X, float Y, float Z, float W) {
 	w = W;
 }
 
-Mach1Point4DCore::Mach1Point4DCore(const Mach1Point4D & pnt)
-{
-	x = pnt.x;
-	y = pnt.y;
-	z = pnt.z;
-	w = pnt.w;
-}
- 
 Mach1Point4DCore Mach1Point4DCore::operator+(const Mach1Point4DCore& pnt) const {
 	return Mach1Point4DCore(x + pnt.x, y + pnt.y, z + pnt.z, w + pnt.w);
 }

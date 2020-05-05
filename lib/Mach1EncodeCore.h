@@ -18,6 +18,7 @@ Mach1EncodeCore normalizes all input ranges to an unsigned "0 to 1" range for Az
 #ifndef Mach1EncodeCore_h
 #define Mach1EncodeCore_h
 
+#include "Mach1Point3DCore.h"
 #include "Mach1DecodeCAPI.h"
 
 #include <vector>
@@ -44,29 +45,9 @@ using namespace std::chrono;
 #define MAX_POINTS_COUNT 8
 #endif
 
-struct M1EncodeCorePoint
-{
-	float x, y, z;
-
-	M1EncodeCorePoint operator + (M1EncodeCorePoint p)
-	{
-		return { this->x + p.x, this->y + p.y, this->z + p.z };
-	}
-	
-	M1EncodeCorePoint operator / (float f)
-	{
-		return { this->x / f, this->y / f, this->z / f };
-	}
-
-	M1EncodeCorePoint operator - ()
-	{
-		return { -this->x, -this->y, -this->z };
-	}
-
-};
 
 class M1EncodeCorePointResults {
-	M1EncodeCorePoint ppoints[MAX_POINTS_COUNT];
+	Mach1Point3DCore ppoints[MAX_POINTS_COUNT];
 	int pointsCount;
 	std::string pointsNames[MAX_POINTS_COUNT];
 	std::vector<std::vector<float>> gains;
@@ -78,7 +59,7 @@ public:
 	M1EncodeCorePointResults();
 	~M1EncodeCorePointResults();
 
-	std::vector<M1EncodeCorePoint> getPoints();
+	std::vector<Mach1Point3DCore> getPoints();
 	std::vector<std::vector<float>> getGains();
 	std::vector<std::string> getPointsNames();
 	std::vector<float> getGainsForInputChannelNamed(std::string pointName);
@@ -115,7 +96,7 @@ public:
 	};
 
 	// arrays for CAPI
-	M1EncodeCorePoint* arr_Points = nullptr;
+	Mach1Point3DCore* arr_Points = nullptr;
 	float** arr_Gains = nullptr;
 	char** arr_PointsNames = nullptr;
 	float* arr_GainsForInputChannelNamed = nullptr;
@@ -131,8 +112,8 @@ private:
 	bool isotropicEncode;
 
 
-	float getCoeffForStandardPoint(float x, float y, float z, M1EncodeCorePoint point, bool ignoreZ);
-	std::vector<float> getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<M1EncodeCorePoint>& pointSet, bool ignoreZ);
+	float getCoeffForStandardPoint(float x, float y, float z, Mach1Point3DCore point, bool ignoreZ);
+	std::vector<float> getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<Mach1Point3DCore>& pointSet, bool ignoreZ);
 	void processGainsChannels(float x, float y, float z, std::vector<float>& result);
 
 	milliseconds ms;

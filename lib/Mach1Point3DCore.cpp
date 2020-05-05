@@ -21,13 +21,6 @@ Mach1Point3DCore::Mach1Point3DCore(float X, float Y) {
 	z = 0;
 }
 
-Mach1Point3DCore::Mach1Point3DCore(const Mach1Point3D & pnt)
-{
-	x = pnt.x;
-	y = pnt.y;
-	z = pnt.z;
-}
-
 Mach1Point3DCore Mach1Point3DCore::operator+(const Mach1Point3DCore& pnt) const {
 	return Mach1Point3DCore(x + pnt.x, y + pnt.y, z + pnt.z);
 }
@@ -46,6 +39,17 @@ Mach1Point3DCore Mach1Point3DCore::operator*(const Mach1Point3DCore& vec) const 
 Mach1Point3DCore Mach1Point3DCore::operator-(const Mach1Point3DCore& vec) const {
 	return Mach1Point3DCore(x - vec.x, y - vec.y, z - vec.z);
 }
+
+Mach1Point3DCore Mach1Point3DCore::operator / (float f)
+{
+	return { this->x / f, this->y / f, this->z / f };
+}
+
+Mach1Point3DCore Mach1Point3DCore::operator - ()
+{
+	return { -this->x, -this->y, -this->z };
+}
+
 
 float Mach1Point3DCore::length() const {
 	return (float)sqrt(x*x + y*y + z*z);

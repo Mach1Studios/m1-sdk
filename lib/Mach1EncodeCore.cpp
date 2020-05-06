@@ -68,20 +68,20 @@ int M1EncodeCorePointResults::getPointsCount()
 	return pointsCount;
 }
 
-float M1EncodeCore::getCoeffForStandardPoint(float x, float y, float z, Mach1Point3DCore point, bool ignoreZ)
+float M1EncodeCore::getCoeffForStandardPoint(float x, float y, float z, Mach1Point3DCore point, bool ignoreY)
 {
 	point.x = 1 - (point.x + 1) / 2;
 	point.y = 1 - (point.y + 1) / 2;
 	point.z = 1 - (point.z + 1) / 2;
 
-	return fabs(point.x - x) * fabs(point.y - y) * (ignoreZ ? 1.0 : fabs(point.z - z));
+	return fabs(point.x - x) * (ignoreY ? 1.0 : fabs(point.y - y)) * fabs(point.z - z);
 }
 
-std::vector<float> M1EncodeCore::getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<Mach1Point3DCore>& pointSet, bool ignoreZ)
+std::vector<float> M1EncodeCore::getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<Mach1Point3DCore>& pointSet, bool ignoreY)
 {
 	std::vector<float> result;
 	for (auto &i : pointSet) {
-		result.push_back(getCoeffForStandardPoint(x, y, z, i, ignoreZ));
+		result.push_back(getCoeffForStandardPoint(x, y, z, i, ignoreY));
 	}
 	return result;
 }
@@ -89,102 +89,101 @@ std::vector<float> M1EncodeCore::getCoeffSetForStandardPointSet(float x, float y
 void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<float>& result) {
 
 	// M1 horizon plane points
-	static std::vector<Mach1Point3DCore> m1HorizonDef = { { 1, -1, 0},
-												{1, 1, 0},
-												{-1, -1, 0},
-												{-1, 1, 0} };
+	static std::vector<Mach1Point3DCore> m1HorizonDef = { {-1, 0, 1},
+												{1, 0, 1},
+												{-1, 0, -1},
+												{1, 0, -1} };
 
 	// M1 spatial cube points
-	static std::vector<Mach1Point3DCore> m1SpatialDef = { {1, -1, 1},
+	static std::vector<Mach1Point3DCore> m1SpatialDef = { {-1, 1, 1},
 												{1, 1, 1},
-												{-1, -1, 1},
-												{-1, 1, 1},
-
-												{1, -1, -1},
+												{-1, 1, -1},
 												{1, 1, -1},
+
+												{-1, -1, 1},
+												{1, -1, 1},
 												{-1, -1, -1},
-												{-1, 1, -1} };
+												{1, -1, -1} };
 
 	// M1 spatial+ cube points
-	static std::vector<Mach1Point3DCore> m1SpatialPlusDef = { {1, -1, 1},
-													{1, 1, 1},
-													{-1, -1, 1},
-													{-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1SpatialPlusDef = { {-1, 1, 1},
+												{1, 1, 1},
+												{-1, 1, -1},
+												{1, 1, -1},
 
-													{1, -1, -1},
-													{1, 1, -1},
-													{-1, -1, -1},
-													{-1, 1, -1},
+												{-1, -1, 1},
+												{1, -1, 1},
+												{-1, -1, -1},
+												{1, -1, -1},
 
-													{1 / 0.707, 0, 0},
-													{0, 1 / 0.707, 0},
-													{-1 / 0.707, 0, 0},
-													{0, -1 / 0.707, 0} };
+												{0, 0, 1 / 0.707},
+												{1 / 0.707, 0, 0},
+												{0, 0, -1 / 0.707},
+												{-1 / 0.707, 0, 0} };
 
 	// M1 spatial++ cube points
-	static std::vector<Mach1Point3DCore> m1SpatialPlusPlusDef = { {1, -1, 1},
-														{1, 1, 1},
-														{-1, -1, 1},
-														{-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1SpatialPlusPlusDef = { {-1, 1, 1},
+												{1, 1, 1},
+												{-1, 1, -1},
+												{1, 1, -1},
 
-														{1, -1, -1},
-														{1, 1, -1},
-														{-1, -1, -1},
-														{-1, 1, -1},
+												{-1, -1, 1},
+												{1, -1, 1},
+												{-1, -1, -1},
+												{1, -1, -1},
 
-														{1 / 0.707, 0, 0},
-														{0, 1 / 0.707, 0},
-														{-1 / 0.707, 0, 0},
-														{0, -1 / 0.707, 0},
+												{0, 0, 1 / 0.707},
+												{1 / 0.707, 0, 0},
+												{0, 0, -1 / 0.707},
+												{-1 / 0.707, 0, 0},
 
-														{0, 1 / 0.707, 0},
-														{0, -1 / 0.707, 0} };
+												{ 1 / 0.707, 0, 0},
+												{-1 / 0.707, 0, 0} };
 
 	// M1 spatial extended cube points
-	static std::vector<Mach1Point3DCore> m1SpatialExtendedDef = { {1, -1, 1},
-													{1, 1, 1},
-													{-1, -1, 1},
-													{-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1SpatialExtendedDef = { {-1, 1, 1},
+												{1, 1, 1},
+												{-1, 1, -1},
+												{1, 1, -1},
 
-													{1, -1, -1},
-													{1, 1, -1},
-													{-1, -1, -1},
-													{-1, 1, -1},
+												{-1, -1, 1},
+												{1, -1, 1},
+												{-1, -1, -1},
+												{1, -1, -1},
 
-													{1 / 0.707, 0, 1},
-													{0, 1 / 0.707, 1},
-													{-1 / 0.707, 0, 1},
-													{0, -1 / 0.707, 1},
+												{0, 1, 1 / 0.707},
+												{1 / 0.707, 1, 0},
+												{0, 1, -1 / 0.707},
+												{-1 / 0.707, 1, 0},
 
-													{1 / 0.707, 0, -1},
-													{0, 1 / 0.707, -1},
-													{-1 / 0.707, 0, -1},
-													{0, -1 / 0.707, -1} };
+												{0, -1, 1 / 0.707},
+												{1 / 0.707, -1, 0},
+												{0, -1, -1 / 0.707},
+												{-1 / 0.707, -1, 0} };
 
 	// M1 spatial extended+ cube points
-	static std::vector<Mach1Point3DCore> m1SpatialExtendedPlusDef = { {1, -1, 1},
-													{1, 1, 1},
-													{-1, -1, 1},
-													{-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1SpatialExtendedPlusDef = { {-1, 1, 1},
+												{1, 1, 1},
+												{-1, 1, -1},
+												{1, 1, -1},
 
-													{1, -1, -1},
-													{1, 1, -1},
-													{-1, -1, -1},
-													{-1, 1, -1},
+												{-1, -1, 1},
+												{1, -1, 1},
+												{-1, -1, -1},
+												{1, -1, -1},
 
-													{1 / 0.707, 0, 1},
-													{0, 1 / 0.707, 1},
-													{-1 / 0.707, 0, 1},
-													{0, -1 / 0.707, 1},
+												{0, 1, 1 / 0.707},
+												{1 / 0.707, 1, 0},
+												{0, 1, -1 / 0.707},
+												{-1 / 0.707, 1, 0},
 
-													{1 / 0.707, 0, -1},
-													{0, 1 / 0.707, -1},
-													{-1 / 0.707, 0, -1},
-													{0, -1 / 0.707, -1},
+												{0, -1, 1 / 0.707},
+												{1 / 0.707, -1, 0},
+												{0, -1, -1 / 0.707},
+												{-1 / 0.707, -1, 0},
 
-													{0, 1 / 0.707, 0},
-													{0, -1 / 0.707, 0} };
-
+												{1 / 0.707, 0, 0},
+												{-1 / 0.707, 0, 0} };
 
 	std::vector<Mach1Point3DCore> pointsSet;
 
@@ -516,10 +515,10 @@ void M1EncodeCore::generatePointResults() {
 		// Generating gains
 		std::vector<float> gains;
 		if (outputMode == OUTPUT_HORIZON_4CH) {
-			processGainsChannels(resultingPoints.ppoints[i].x, resultingPoints.ppoints[i].z, 1, gains);
+			processGainsChannels(resultingPoints.ppoints[i].z, 1, resultingPoints.ppoints[i].x, gains);
 		}
 		else {
-			processGainsChannels(resultingPoints.ppoints[i].x, resultingPoints.ppoints[i].z, resultingPoints.ppoints[i].y, gains);
+			processGainsChannels(resultingPoints.ppoints[i].z, resultingPoints.ppoints[i].y, resultingPoints.ppoints[i].x, gains);
 		}
 
 		for (int j = 0; j < getOutputChannelsCount(); j++) {

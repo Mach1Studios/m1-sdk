@@ -1436,7 +1436,7 @@ namespace Mach1TranscodeConstants {
 		{ Mach1TranscodeFormats::NineOneFour, "NineOneFour" },
 		{ Mach1TranscodeFormats::NineOneSix, "NineOneSix" },
 		{ Mach1TranscodeFormats::MarcoSixteen, "MarcoSixteen" },
-		{ Mach1TranscodeFormats::TTPoints, "TT Points" }
+		{ Mach1TranscodeFormats::TTPoints, "TTPoints" }
 	};
 
 	const std::map<Mach1TranscodeFormats::FormatType, int> FormatChannels = {
@@ -1683,6 +1683,7 @@ public:
 	void setInputFormatTTPoints(std::vector<Mach1Point3DCore> points);
 
 	void setOutputFormat(Mach1TranscodeFormats::FormatType outFmt);
+	void setOutputFormatTTJson(char* outJson);
 	void setOutputFormatTTPoints(std::vector<Mach1Point3DCore> points);
 
 	bool computeConvertionPath();

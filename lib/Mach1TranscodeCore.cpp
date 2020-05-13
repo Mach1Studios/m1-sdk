@@ -3,6 +3,7 @@
 
 #include "Mach1TranscodeCore.h"
 #include "Mach1GenerateCoeffs.h"
+#include "nlohmann/json.hpp"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -105,9 +106,23 @@ void Mach1TranscodeCore::setInputFormatADM(char * inXml)
     // TODO
 }
 
-void Mach1TranscodeCore::setInputFormatTTJson(char * inJson)
+std::vector<Mach1Point3DCore> parseTTJson(char* srtJson)
 {
-    // TODO
+	std::vector<Mach1Point3DCore> points;
+	nlohmann::json j = nlohmann::json::parse(srtJson);
+	nlohmann::json o = j["points"];
+	for (nlohmann::json::iterator it = o.begin(); it != o.end(); ++it) {
+		nlohmann::json p = it.value();
+		Mach1Point3DCore point(p["x"], p["y"], p["z"]);
+		points.push_back(point);
+	}
+	return points;
+}
+
+void Mach1TranscodeCore::setInputFormatTTJson(char * strJson)
+{
+	inFmt = Mach1TranscodeFormats::FormatType::TTPoints;
+	inTTPoints = parseTTJson(strJson);
 }
 
 void Mach1TranscodeCore::setInputFormatTTPoints(std::vector<Mach1Point3DCore> points)
@@ -119,6 +134,12 @@ void Mach1TranscodeCore::setInputFormatTTPoints(std::vector<Mach1Point3DCore> po
 void Mach1TranscodeCore::setOutputFormat(Mach1TranscodeFormats::FormatType outFmt)
 {
 	this->outFmt = outFmt;
+}
+
+void Mach1TranscodeCore::setOutputFormatTTJson(char* strJson)
+{
+	outFmt = Mach1TranscodeFormats::FormatType::TTPoints;
+	outTTPoints = parseTTJson(strJson);
 }
 
 void Mach1TranscodeCore::setOutputFormatTTPoints(std::vector<Mach1Point3DCore> points)
@@ -322,12 +343,11 @@ void Mach1TranscodeCore::convert(Mach1TranscodeFormats::FormatType inFmt, float*
         currentFormatConversionMatrix = generateCoeffSetForPoints(inTTPoints, getPointsSet(outFmt));
     }
     else if (inFmt != Mach1TranscodeFormats::FormatType::TTPoints && outFmt == Mach1TranscodeFormats::FormatType::TTPoints) {
-        // TODO
+		currentFormatConversionMatrix = generateCoeffSetForPoints(getPointsSet(outFmt), inTTPoints);
     }
     else if (inFmt != Mach1TranscodeFormats::FormatType::TTPoints && outFmt != Mach1TranscodeFormats::FormatType::TTPoints) {
         currentFormatConversionMatrix = ((SpatialSoundMatrix*)Mach1TranscodeConstants::FormatMatrix.at(std::make_pair(inFmt, outFmt)))->getData();
     }
-
     
     // copy pointers to local
     float* inPtrs[Mach1TranscodeConstants::MAXCHANS];

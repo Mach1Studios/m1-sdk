@@ -77,9 +77,9 @@ void Mach1Transcode::setInputFormatADM(char * inXml)
 	Mach1TranscodeCAPI_setInputFormatADM(M1obj, inXml);
 }
 
-void Mach1Transcode::setInputFormatTTJson(char * inJson)
+void Mach1Transcode::setInputFormatTTJson(char * strJson)
 {
-	Mach1TranscodeCAPI_setInputFormatTTJson(M1obj, inJson);
+	Mach1TranscodeCAPI_setInputFormatTTJson(M1obj, strJson);
 }
 
 void Mach1Transcode::setInputFormatTTPoints(std::vector<Mach1Point3D> points)
@@ -90,6 +90,11 @@ void Mach1Transcode::setInputFormatTTPoints(std::vector<Mach1Point3D> points)
 void Mach1Transcode::setOutputFormat(Mach1TranscodeFormatType outFmt)
 {
 	Mach1TranscodeCAPI_setOutputFormat(M1obj, outFmt);
+}
+
+void Mach1Transcode::setOutputFormatTTJson(char* strJson)
+{
+	Mach1TranscodeCAPI_setOutputFormatTTJson(M1obj, strJson);
 }
 
 void Mach1Transcode::setOutputFormatTTPoints(std::vector<Mach1Point3D> points)

@@ -84,9 +84,9 @@ M1_API void Mach1TranscodeCAPI_setInputFormatADM(void* M1obj, char * inXml)
 	((Mach1TranscodeCore*)M1obj)->setInputFormatADM(inXml);
 }
 
-M1_API void Mach1TranscodeCAPI_setInputFormatTTJson(void* M1obj, char * inJson)
+M1_API void Mach1TranscodeCAPI_setInputFormatTTJson(void* M1obj, char * strJson)
 {
-	((Mach1TranscodeCore*)M1obj)->setInputFormatTTJson(inJson);
+	((Mach1TranscodeCore*)M1obj)->setInputFormatTTJson(strJson);
 }
 
 M1_API void Mach1TranscodeCAPI_setInputFormatTTPoints(void* M1obj, Mach1Point3D* points, int count)
@@ -97,6 +97,11 @@ M1_API void Mach1TranscodeCAPI_setInputFormatTTPoints(void* M1obj, Mach1Point3D*
 M1_API void Mach1TranscodeCAPI_setOutputFormat(void* M1obj, Mach1TranscodeFormatType outFmt)
 {
 	((Mach1TranscodeCore*)M1obj)->setOutputFormat((Mach1TranscodeFormats::FormatType)outFmt);
+}
+
+M1_API void Mach1TranscodeCAPI_setOutputFormatTTJson(void* M1obj, char* strJson)
+{
+	((Mach1TranscodeCore*)M1obj)->setOutputFormatTTJson(strJson);
 }
 
 M1_API void Mach1TranscodeCAPI_setOutputFormatTTPoints(void* M1obj, Mach1Point3D* points, int count)

@@ -36,6 +36,7 @@ public:
 	void setInputFormatTTPoints(std::vector<Mach1Point3D> points);
 
 	void setOutputFormat(Mach1TranscodeFormatType outFmt);
+	void setOutputFormatTTJson(char* outJson);
 	void setOutputFormatTTPoints(std::vector<Mach1Point3D> points);
 
 	bool computeConvertionPath();

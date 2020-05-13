@@ -73,7 +73,8 @@ enum Mach1TranscodeFormatType {
 	Mach1TranscodeFormatM1SpatialFaces,
 	Mach1TranscodeFormatNineOneFour,
 	Mach1TranscodeFormatNineOneSix,
-	Mach1TranscodeFormatMarcoSixteen
+	Mach1TranscodeFormatMarcoSixteen,
+	Mach1TranscodeFormatTTPoints,
 };
 
 #ifdef __cplusplus
@@ -103,6 +104,7 @@ extern "C" {
 	M1_API void Mach1TranscodeCAPI_setInputFormatTTPoints(void* M1obj, Mach1Point3D* points, int count);
 
 	M1_API void Mach1TranscodeCAPI_setOutputFormat(void* M1obj, Mach1TranscodeFormatType outFmt);
+	M1_API void Mach1TranscodeCAPI_setOutputFormatTTJson(void* M1obj, char* outJson);
 	M1_API void Mach1TranscodeCAPI_setOutputFormatTTPoints(void* M1obj, Mach1Point3D* points, int count);
 
 	M1_API bool Mach1TranscodeCAPI_computeConvertionPath(void* M1obj);

@@ -1,0 +1,117 @@
+//  Mach1 Spatial SDK
+//  Copyright © 2017-2020 Mach1. All rights reserved.
+
+#pragma once
+
+#include <stdbool.h>
+#include "Mach1Point3D.h"
+
+#if defined(Mach1DecodeCore_h) || defined(Mach1EncodeCore_h) ||  defined(Mach1PositionalCore_h) || defined(Mach1TranscodeCore_h)
+#ifndef M1_API
+        #if defined(_WINDOWS) || defined(WIN32)
+                #define M1_API __declspec(dllexport)
+        #else
+                #define M1_API
+        #endif
+    #endif
+#else
+    #ifndef M1_API
+		#if !defined(M1_STATIC) && (defined(_WINDOWS) || defined(WIN32))
+            #define M1_API __declspec(dllimport)
+        #else
+            #define M1_API
+        #endif
+    #endif
+#endif
+
+
+#ifndef Mach1TranscodeCAPI_h
+#define Mach1TranscodeCAPI_h
+
+const int Mach1TranscodeMAXCHANS = 16;
+
+enum Mach1TranscodeFormatType {
+	Mach1TranscodeFormatEmpty = -1,
+	Mach1TranscodeFormatFuMa,
+	Mach1TranscodeFormatACNSN3D,
+	Mach1TranscodeFormatM1Horizon,
+	Mach1TranscodeFormatM1HorizonS,
+	Mach1TranscodeFormatM1HorizonPairs,
+	Mach1TranscodeFormatM1Spatial,
+	Mach1TranscodeFormatM1SpatialS,
+	Mach1TranscodeFormatM1SpatialPairs,
+	Mach1TranscodeFormatMono, 
+	Mach1TranscodeFormatStereo,
+	Mach1TranscodeFormatLCR,
+	Mach1TranscodeFormatFiveOh,
+	Mach1TranscodeFormatFiveOneFilm,
+	Mach1TranscodeFormatFiveOneFilm_Cinema,
+	Mach1TranscodeFormatFiveOneSmpte,
+	Mach1TranscodeFormatFiveOneDts,
+	Mach1TranscodeFormatSixOh,
+	Mach1TranscodeFormatSevenOnePt,
+	Mach1TranscodeFormatSevenOnePt_Cinema,
+	Mach1TranscodeFormatACNSN3DO2A,
+	Mach1TranscodeFormatFuMaO2A,
+	Mach1TranscodeFormatTBE,
+	Mach1TranscodeFormatACNSN3DO3A,
+	Mach1TranscodeFormatFuMaO3A,
+	Mach1TranscodeFormatSevenOneSDDS,
+	Mach1TranscodeFormatSevenZeroSDDS,
+	Mach1TranscodeFormatSevenOneTwo,
+	Mach1TranscodeFormatSevenZeroTwo,
+	Mach1TranscodeFormatNineOne,
+	Mach1TranscodeFormatNineZero,
+	Mach1TranscodeFormatStereo_Cinema,
+	Mach1TranscodeFormatFiveOneTwo,
+	Mach1TranscodeFormatFiveZeroTwo,
+	Mach1TranscodeFormatFiveOneFour,
+	Mach1TranscodeFormatFiveZeroFour,
+	Mach1TranscodeFormatSevenOneFour,
+	Mach1TranscodeFormatSevenZeroFour,
+	Mach1TranscodeFormatSevenZero_Cinema,
+	Mach1TranscodeFormatM1SpatialFaces,
+	Mach1TranscodeFormatNineOneFour,
+	Mach1TranscodeFormatNineOneSix,
+	Mach1TranscodeFormatMarcoSixteen
+};
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+	M1_API void* Mach1TranscodeCAPI_create();
+	M1_API void Mach1TranscodeCAPI_delete(void* M1obj);
+
+	M1_API int Mach1TranscodeCAPI_getInputNumChannels(void* M1obj);
+	M1_API int Mach1TranscodeCAPI_getOutputNumChannels(void* M1obj);
+	M1_API Mach1TranscodeFormatType Mach1TranscodeCAPI_getFormatFromString(void* M1obj, char* str);
+	M1_API char* Mach1TranscodeCAPI_getFormatName(void* M1obj, Mach1TranscodeFormatType fmt);
+
+	M1_API float Mach1TranscodeCAPI_calcNormalization(void* M1obj, float** bufs, int numSamples);
+	M1_API void Mach1TranscodeCAPI_applyMasterGain(void* M1obj, float** bufs, int numSamples, float masterGain = 1.0f);
+
+	M1_API float Mach1TranscodeCAPI_db2level(void* M1obj, float db);
+	M1_API float Mach1TranscodeCAPI_level2db(void* M1obj, float level);
+
+	M1_API void Mach1TranscodeCAPI_setLFESub(void* M1obj, int* subChannelIndices, int numChannels, int sampleRate);
+	M1_API void Mach1TranscodeCAPI_setSpatialDownmixer(void* M1obj, float corrThreshold = 0.1);
+	M1_API bool Mach1TranscodeCAPI_getSpatialDownmixerPossibility(void* M1obj);
+
+	M1_API void Mach1TranscodeCAPI_setInputFormat(void* M1obj, Mach1TranscodeFormatType inFmt);
+	M1_API void Mach1TranscodeCAPI_setInputFormatADM(void* M1obj, char *inXml);
+	M1_API void Mach1TranscodeCAPI_setInputFormatTTJson(void* M1obj, char* inJson);
+	M1_API void Mach1TranscodeCAPI_setInputFormatTTPoints(void* M1obj, Mach1Point3D* points, int count);
+
+	M1_API void Mach1TranscodeCAPI_setOutputFormat(void* M1obj, Mach1TranscodeFormatType outFmt);
+	M1_API void Mach1TranscodeCAPI_setOutputFormatTTPoints(void* M1obj, Mach1Point3D* points, int count);
+
+	M1_API bool Mach1TranscodeCAPI_computeConvertionPath(void* M1obj);
+	M1_API void Mach1TranscodeCAPI_convert(void* M1obj, float** inBufs, float** outBufs, int numSamples);
+
+	M1_API Mach1TranscodeFormatType* Mach1TranscodeCAPI_getFormatsConvertionPath(void* M1obj, int& count);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif 

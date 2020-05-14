@@ -32,12 +32,12 @@ char* Mach1Transcode::getFormatName(Mach1TranscodeFormatType fmt) {
 	return Mach1TranscodeCAPI_getFormatName(M1obj, fmt);
 }
 
-float Mach1Transcode::calcNormalization(float ** bufs, int numSamples)
+float Mach1Transcode::calcNormalization(float** bufs, int numSamples)
 {
 	return Mach1TranscodeCAPI_calcNormalization(M1obj, bufs, numSamples);
 }
 
-void Mach1Transcode::applyMasterGain(float ** bufs, int numSamples, float masterGain)
+void Mach1Transcode::applyMasterGain(float** bufs, int numSamples, float masterGain)
 {
 	Mach1TranscodeCAPI_applyMasterGain(M1obj, bufs, numSamples, masterGain);
 }
@@ -72,12 +72,12 @@ void Mach1Transcode::setInputFormat(Mach1TranscodeFormatType inFmt)
 	Mach1TranscodeCAPI_setInputFormat(M1obj, inFmt);
 }
 
-void Mach1Transcode::setInputFormatADM(char * inXml)
+void Mach1Transcode::setInputFormatADM(char* inXml)
 {
 	Mach1TranscodeCAPI_setInputFormatADM(M1obj, inXml);
 }
 
-void Mach1Transcode::setInputFormatTTJson(char * strJson)
+void Mach1Transcode::setInputFormatTTJson(char* strJson)
 {
 	Mach1TranscodeCAPI_setInputFormatTTJson(M1obj, strJson);
 }
@@ -107,7 +107,7 @@ bool Mach1Transcode::computeConvertionPath()
 	return Mach1TranscodeCAPI_computeConvertionPath(M1obj);
 }
 
-void Mach1Transcode::convert(float ** inBufs, float ** outBufs, int numSamples)
+void Mach1Transcode::convert(float** inBufs, float** outBufs, int numSamples)
 {
 	Mach1TranscodeCAPI_convert(M1obj, inBufs, outBufs, numSamples);
 }

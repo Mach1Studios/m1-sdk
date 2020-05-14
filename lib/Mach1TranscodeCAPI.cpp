@@ -28,22 +28,22 @@ M1_API int Mach1TranscodeCAPI_getOutputNumChannels(void* M1obj)
 	return ((Mach1TranscodeCore*)M1obj)->getOutputNumChannels();
 }
 
-M1_API Mach1TranscodeFormatType Mach1TranscodeCAPI_getFormatFromString(void* M1obj, char * str)
+M1_API Mach1TranscodeFormatType Mach1TranscodeCAPI_getFormatFromString(void* M1obj, char* str)
 {
 	return (Mach1TranscodeFormatType)((Mach1TranscodeCore*)M1obj)->getFormatFromString(str);
 }
 
-M1_API char* Mach1TranscodeCAPI_getFormatName(void * M1obj, Mach1TranscodeFormatType fmt)
+M1_API char* Mach1TranscodeCAPI_getFormatName(void* M1obj, Mach1TranscodeFormatType fmt)
 {
 	return ((Mach1TranscodeCore*)M1obj)->getFormatName(M1obj, (Mach1TranscodeFormats::FormatType)fmt);
 }
 
-M1_API float Mach1TranscodeCAPI_calcNormalization(void* M1obj, float ** bufs, int numSamples)
+M1_API float Mach1TranscodeCAPI_calcNormalization(void* M1obj, float** bufs, int numSamples)
 {
 	return ((Mach1TranscodeCore*)M1obj)->calcNormalization(bufs, numSamples);
 }
 
-M1_API void Mach1TranscodeCAPI_applyMasterGain(void* M1obj, float ** bufs, int numSamples, float masterGain)
+M1_API void Mach1TranscodeCAPI_applyMasterGain(void* M1obj, float** bufs, int numSamples, float masterGain)
 {
 	((Mach1TranscodeCore*)M1obj)->applyMasterGain(bufs, numSamples, masterGain);
 }
@@ -58,7 +58,7 @@ M1_API float Mach1TranscodeCAPI_level2db(void* M1obj, float level)
 	return ((Mach1TranscodeCore*)M1obj)->level2db(level);
 }
 
-M1_API void Mach1TranscodeCAPI_setLFESub(void* M1obj, int * subChannelIndices, int numChannels, int sampleRate)
+M1_API void Mach1TranscodeCAPI_setLFESub(void* M1obj, int* subChannelIndices, int numChannels, int sampleRate)
 {
 	std::vector<int> values(subChannelIndices, subChannelIndices + numChannels);
 	((Mach1TranscodeCore*)M1obj)->setLFESub(values, sampleRate);
@@ -79,12 +79,12 @@ M1_API void Mach1TranscodeCAPI_setInputFormat(void* M1obj, Mach1TranscodeFormatT
 	((Mach1TranscodeCore*)M1obj)->setInputFormat((Mach1TranscodeFormats::FormatType)inFmt);
 }
 
-M1_API void Mach1TranscodeCAPI_setInputFormatADM(void* M1obj, char * inXml)
+M1_API void Mach1TranscodeCAPI_setInputFormatADM(void* M1obj, char* inXml)
 {
 	((Mach1TranscodeCore*)M1obj)->setInputFormatADM(inXml);
 }
 
-M1_API void Mach1TranscodeCAPI_setInputFormatTTJson(void* M1obj, char * strJson)
+M1_API void Mach1TranscodeCAPI_setInputFormatTTJson(void* M1obj, char* strJson)
 {
 	((Mach1TranscodeCore*)M1obj)->setInputFormatTTJson(strJson);
 }
@@ -114,7 +114,7 @@ M1_API bool Mach1TranscodeCAPI_computeConvertionPath(void* M1obj)
 	return ((Mach1TranscodeCore*)M1obj)->computeConvertionPath();
 }
 
-M1_API void Mach1TranscodeCAPI_convert(void* M1obj, float ** inBufs, float ** outBufs, int numSamples)
+M1_API void Mach1TranscodeCAPI_convert(void* M1obj, float** inBufs, float** outBufs, int numSamples)
 {
 	((Mach1TranscodeCore*)M1obj)->convert(inBufs, outBufs, numSamples);
 }

@@ -31,7 +31,7 @@ public:
 	bool getSpatialDownmixerPossibility();
 
 	void setInputFormat(Mach1TranscodeFormatType inFmt);
-	void setInputFormatADM(char *inXml);
+	void setInputFormatADM(char* inXml);
 	void setInputFormatTTJson(char* inJson);
 	void setInputFormatTTPoints(std::vector<Mach1Point3D> points);
 

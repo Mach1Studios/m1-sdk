@@ -26,7 +26,15 @@ var audioFiles8 = [
 
 let sound = new Mach1SoundPlayer();
 sound.setup(audioFiles8);
-sound.play();
+//sound.play();
+
+function Play() {
+	sound.play();
+}
+
+function Stop() {
+	sound.stop();
+}
 
 // callback: launched if a face is detected or lost.
 function detect_callback(faceIndex, isDetected) {

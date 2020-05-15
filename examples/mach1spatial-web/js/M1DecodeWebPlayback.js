@@ -14,14 +14,14 @@ m1DecodeModule.onInited = function() {
 }
 
 var audioFiles8 = [
-    'audio/m1spatial/T1.mp3',
-    'audio/m1spatial/T2.mp3',
-    'audio/m1spatial/T3.mp3',
-    'audio/m1spatial/T4.mp3',
-    'audio/m1spatial/B5.mp3',
-    'audio/m1spatial/B6.mp3',
-    'audio/m1spatial/B7.mp3',
-    'audio/m1spatial/B8.mp3'
+    'audio/m1spatial/T1.ogg',
+    'audio/m1spatial/T2.ogg',
+    'audio/m1spatial/T3.ogg',
+    'audio/m1spatial/T4.ogg',
+    'audio/m1spatial/B5.ogg',
+    'audio/m1spatial/B6.ogg',
+    'audio/m1spatial/B7.ogg',
+    'audio/m1spatial/B8.ogg'
 ];
 
 let sound = new Mach1SoundPlayer();

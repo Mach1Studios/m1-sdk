@@ -8,20 +8,42 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
-		<script src="js/Mach1SoundPlayer.js"></script>
-		<script src="js/Mach1Decode.js"></script>
+        <script src="js/Mach1SoundPlayer.js"></script>
+        <script src="js/Mach1Decode.js"></script>
         <script src="js/jeelizFaceFilter.js"></script>
         <script src="js/JeelizThreejsHelper.js"></script>
         <script src="js/JeelizResizer.js"></script>
 
         <script src="js/M1DecodeWebPlayback.js"></script>
+
+        <style type="text/css">
+            .button {
+                background-color: #7892c2;
+                text-indent: 0;
+                border: 0px;
+                color: #ffffff;
+                font-family: arial;
+                font-size: 12px;
+                font-weight: bold;
+                font-style: normal;
+                height: 31px;
+                line-height: 31px;
+                width: 98px;
+                text-decoration: none;
+                text-align: center;
+                text-shadow: 0px 1px 0px #283966;
+            }
+            .button:hover {
+                background-color: #476e9e;
+            }
+        </style>
     </head>
 
     <body onload="main()" style="color: white;">
-		<div style= "position: absolute; top : 10px; left: 10px">
-			<button onclick="Play()">Play</button>
-			<button onclick="Stop()">Stop</button>
-		</div>
+        <div style="position: absolute; top: 20px; left: 20px;">
+            <button onclick="Play()" class="button">Play</button>
+            <button onclick="Stop()" class="button">Stop</button>
+        </div>
         <canvas width="600" height="600" id="jeeFaceFilterCanvas"></canvas>
     </body>
 </html>

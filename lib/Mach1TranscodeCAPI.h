@@ -103,7 +103,7 @@ extern "C" {
 	M1_API bool Mach1TranscodeCAPI_getSpatialDownmixerPossibility(void* M1obj);
 
 	M1_API void Mach1TranscodeCAPI_setInputFormat(void* M1obj, Mach1TranscodeFormatType inFmt);
-	M1_API void Mach1TranscodeCAPI_setInputFormatADM(void* M1obj, char *inXml);
+	M1_API void Mach1TranscodeCAPI_setInputFormatADM(void* M1obj, char* inXml);
 	M1_API void Mach1TranscodeCAPI_setInputFormatTTJson(void* M1obj, char* inJson);
 	M1_API void Mach1TranscodeCAPI_setInputFormatTTPoints(void* M1obj, Mach1Point3D* points, int count);
 

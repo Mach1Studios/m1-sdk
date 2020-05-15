@@ -322,8 +322,10 @@ std::vector<Mach1Point3DCore> getPointsSet(Mach1TranscodeFormats::FormatType fmt
 	static std::map<Mach1TranscodeFormats::FormatType, std::vector<Mach1Point3DCore>> standards = {
 		{Mach1TranscodeFormats::FormatType::M1Horizon, m1HorizonDef},
 		{Mach1TranscodeFormats::FormatType::M1Spatial, m1SpatialDef},
-		//{Mach1TranscodeFormats::FormatType::, m1SpatialPlusDef},
-		//{Mach1TranscodeFormats::FormatType::, m1SpatialPlusPlusDef}
+		{Mach1TranscodeFormats::FormatType::M1SpatialPlusDef, m1SpatialPlusDef},
+		{Mach1TranscodeFormats::FormatType::M1SpatialPlusPlusDef, m1SpatialPlusPlusDef},
+		{Mach1TranscodeFormats::FormatType::M1SpatialExtendedDef, m1SpatialExtendedDef},
+		{Mach1TranscodeFormats::FormatType::M1SpatialExtendedPlusDef, m1SpatialExtendedPlusDef},
 	};
 
 	std::vector<Mach1Point3DCore> vec;

@@ -1351,6 +1351,10 @@ namespace Mach1TranscodeFormats {
 		M1Spatial,
 		M1SpatialS,
 		M1SpatialPairs,
+		M1SpatialPlusDef,
+		M1SpatialPlusPlusDef,
+		M1SpatialExtendedDef,
+		M1SpatialExtendedPlusDef,
 		Mono, //
 		Stereo,
 		LCR,
@@ -1402,6 +1406,10 @@ namespace Mach1TranscodeConstants {
 		{ Mach1TranscodeFormats::M1Spatial, "M1Spatial" },
 		{ Mach1TranscodeFormats::M1SpatialS, "M1SpatialS" },
 		{ Mach1TranscodeFormats::M1SpatialPairs, "M1SpatialPairs" },
+		{ Mach1TranscodeFormats::M1SpatialPlusDef, "M1SpatialPlusDef" },
+		{ Mach1TranscodeFormats::M1SpatialPlusPlusDef, "M1SpatialPlusPlusDef" },
+		{ Mach1TranscodeFormats::M1SpatialExtendedDef, "M1SpatialExtendedDef" },
+		{ Mach1TranscodeFormats::M1SpatialExtendedPlusDef, "M1SpatialExtendedPlusDef" },
 		{ Mach1TranscodeFormats::Mono, "Mono" },
 		{ Mach1TranscodeFormats::Stereo, "Stereo" },
 		{ Mach1TranscodeFormats::LCR, "LCR" },
@@ -1449,6 +1457,10 @@ namespace Mach1TranscodeConstants {
 		{ Mach1TranscodeFormats::M1Spatial, 8 },
 		{ Mach1TranscodeFormats::M1SpatialS, 10 },
 		{ Mach1TranscodeFormats::M1SpatialPairs, 16 },
+		{ Mach1TranscodeFormats::M1SpatialPlusDef, 12 },
+		{ Mach1TranscodeFormats::M1SpatialPlusPlusDef, 14 },
+		{ Mach1TranscodeFormats::M1SpatialExtendedDef, 16 },
+		{ Mach1TranscodeFormats::M1SpatialExtendedPlusDef, 18 },
 		{ Mach1TranscodeFormats::Mono, 1 },
 		{ Mach1TranscodeFormats::Stereo, 2 },
 		{ Mach1TranscodeFormats::LCR, 3 },
@@ -1485,8 +1497,8 @@ namespace Mach1TranscodeConstants {
 		{ Mach1TranscodeFormats::MarcoSixteen, 16 }
 	};
 
-	const int MAXCHANS = 16;
-	const int NUMFMTS = 44;
+	const int MAXCHANS = 18;
+	const int NUMFMTS = 48;
 
 	const std::map<std::pair<Mach1TranscodeFormats::FormatType, Mach1TranscodeFormats::FormatType>, const SpatialSoundMatrix*> FormatMatrix = {
 		{std::make_pair(Mach1TranscodeFormats::FuMa, Mach1TranscodeFormats::ACNSN3D), &Mach1TranscodeConstantsInternal::FuMa2ACNSN3D},
@@ -1624,9 +1636,17 @@ namespace Mach1TranscodeConstants {
 
 		{ std::make_pair(Mach1TranscodeFormats::TTPoints, Mach1TranscodeFormats::M1Horizon), NULL },
 		{ std::make_pair(Mach1TranscodeFormats::TTPoints, Mach1TranscodeFormats::M1Spatial), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::TTPoints, Mach1TranscodeFormats::M1SpatialPlusDef), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::TTPoints, Mach1TranscodeFormats::M1SpatialPlusPlusDef), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::TTPoints, Mach1TranscodeFormats::M1SpatialExtendedDef), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::TTPoints, Mach1TranscodeFormats::M1SpatialExtendedPlusDef), NULL },
 
 		{ std::make_pair(Mach1TranscodeFormats::M1Horizon, Mach1TranscodeFormats::TTPoints), NULL },
 		{ std::make_pair(Mach1TranscodeFormats::M1Spatial, Mach1TranscodeFormats::TTPoints), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::M1SpatialPlusDef, Mach1TranscodeFormats::TTPoints), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::M1SpatialPlusPlusDef, Mach1TranscodeFormats::TTPoints), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::M1SpatialExtendedDef, Mach1TranscodeFormats::TTPoints), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::M1SpatialExtendedPlusDef, Mach1TranscodeFormats::TTPoints), NULL },
 	};
 };
 

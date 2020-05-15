@@ -74,7 +74,7 @@ function deg2rad(angle) {
 function init_faceFilter(videoSettings) {
     JEEFACEFILTERAPI.init({
         canvasId: 'jeeFaceFilterCanvas',
-        NNCpath: 'script/NNCwideAngles.json', // Neuron net with wide angles
+        NNCpath: 'js/NNCwideAngles.json', // Neuron net with wide angles
         maxFacesDetected: 1,
         stabilizationSettings: { // adjust stabilization parameters for more responsivity
             'translationFactorRange': [0.001, 0.003],

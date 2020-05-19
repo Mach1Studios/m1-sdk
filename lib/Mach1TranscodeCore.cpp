@@ -222,13 +222,13 @@ bool Mach1TranscodeCore::computeConvertionPath()
 
 std::vector<Mach1Point3DCore> getPointsSet(Mach1TranscodeFormats::FormatType fmt) {
 	// M1 horizon plane points
-	static std::vector<Mach1Point3DCore> m1HorizonDef = { {-1, 0, 1},
+	static std::vector<Mach1Point3DCore> m1Horizon = { {-1, 0, 1},
 												{1, 0, 1},
 												{-1, 0, -1},
 												{1, 0, -1} };
 
 	// M1 spatial cube points
-	static std::vector<Mach1Point3DCore> m1SpatialDef = { {-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1Spatial = { {-1, 1, 1},
 												{1, 1, 1},
 												{-1, 1, -1},
 												{1, 1, -1},
@@ -239,7 +239,7 @@ std::vector<Mach1Point3DCore> getPointsSet(Mach1TranscodeFormats::FormatType fmt
 												{1, -1, -1} };
 
 	// M1 spatial+ cube points
-	static std::vector<Mach1Point3DCore> m1SpatialPlusDef = { {-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1SpatialPlus = { {-1, 1, 1},
 												{1, 1, 1},
 												{-1, 1, -1},
 												{1, 1, -1},
@@ -255,7 +255,7 @@ std::vector<Mach1Point3DCore> getPointsSet(Mach1TranscodeFormats::FormatType fmt
 												{-1 / 0.707, 0, 0} };
 
 	// M1 spatial++ cube points
-	static std::vector<Mach1Point3DCore> m1SpatialPlusPlusDef = { {-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1SpatialPlusPlus = { {-1, 1, 1},
 												{1, 1, 1},
 												{-1, 1, -1},
 												{1, 1, -1},
@@ -274,7 +274,7 @@ std::vector<Mach1Point3DCore> getPointsSet(Mach1TranscodeFormats::FormatType fmt
 												{-1 / 0.707, 0, 0} };
 
 	// M1 spatial extended cube points
-	static std::vector<Mach1Point3DCore> m1SpatialExtendedDef = { {-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1SpatialExtended = { {-1, 1, 1},
 												{1, 1, 1},
 												{-1, 1, -1},
 												{1, 1, -1},
@@ -295,7 +295,7 @@ std::vector<Mach1Point3DCore> getPointsSet(Mach1TranscodeFormats::FormatType fmt
 												{-1 / 0.707, -1, 0} };
 
 	// M1 spatial extended+ cube points
-	static std::vector<Mach1Point3DCore> m1SpatialExtendedPlusDef = { {-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1SpatialExtendedPlus = { {-1, 1, 1},
 												{1, 1, 1},
 												{-1, 1, -1},
 												{1, 1, -1},
@@ -320,12 +320,12 @@ std::vector<Mach1Point3DCore> getPointsSet(Mach1TranscodeFormats::FormatType fmt
 
 
 	static std::map<Mach1TranscodeFormats::FormatType, std::vector<Mach1Point3DCore>> standards = {
-		{Mach1TranscodeFormats::FormatType::M1Horizon, m1HorizonDef},
-		{Mach1TranscodeFormats::FormatType::M1Spatial, m1SpatialDef},
-		{Mach1TranscodeFormats::FormatType::M1SpatialPlusDef, m1SpatialPlusDef},
-		{Mach1TranscodeFormats::FormatType::M1SpatialPlusPlusDef, m1SpatialPlusPlusDef},
-		{Mach1TranscodeFormats::FormatType::M1SpatialExtendedDef, m1SpatialExtendedDef},
-		{Mach1TranscodeFormats::FormatType::M1SpatialExtendedPlusDef, m1SpatialExtendedPlusDef},
+		{Mach1TranscodeFormats::FormatType::M1Horizon, m1Horizon},
+		{Mach1TranscodeFormats::FormatType::M1Spatial, m1Spatial},
+		{Mach1TranscodeFormats::FormatType::M1SpatialPlus, m1SpatialPlus},
+		{Mach1TranscodeFormats::FormatType::M1SpatialPlusPlus, m1SpatialPlusPlus},
+		{Mach1TranscodeFormats::FormatType::M1SpatialExtended, m1SpatialExtended},
+		{Mach1TranscodeFormats::FormatType::M1SpatialExtendedPlus, m1SpatialExtendedPlus},
 	};
 
 	std::vector<Mach1Point3DCore> vec;

@@ -28,7 +28,7 @@
 #ifndef Mach1TranscodeCAPI_h
 #define Mach1TranscodeCAPI_h
 
-const int Mach1TranscodeMAXCHANS = 16;
+const int Mach1TranscodeMAXCHANS = 64;
 
 enum Mach1TranscodeFormatType {
 	Mach1TranscodeFormatEmpty = -1,
@@ -40,10 +40,10 @@ enum Mach1TranscodeFormatType {
 	Mach1TranscodeFormatM1Spatial,
 	Mach1TranscodeFormatM1SpatialS,
 	Mach1TranscodeFormatM1SpatialPairs,
-	Mach1TranscodeFormatM1SpatialPlusDef,
-	Mach1TranscodeFormatM1SpatialPlusPlusDef,
-	Mach1TranscodeFormatM1SpatialExtendedDef,
-	Mach1TranscodeFormatM1SpatialExtendedPlusDef,
+	Mach1TranscodeFormatM1SpatialPlus,
+	Mach1TranscodeFormatM1SpatialPlusPlus,
+	Mach1TranscodeFormatM1SpatialExtended,
+	Mach1TranscodeFormatM1SpatialExtendedPlus,
 	Mach1TranscodeFormatMono, 
 	Mach1TranscodeFormatStereo,
 	Mach1TranscodeFormatLCR,
@@ -79,6 +79,13 @@ enum Mach1TranscodeFormatType {
 	Mach1TranscodeFormatNineOneSix,
 	Mach1TranscodeFormatMarcoSixteen,
 	Mach1TranscodeFormatTTPoints,
+    Mach1TranscodeFormatACNSN3DmaxRE1oa,
+    Mach1TranscodeFormatACNSN3DmaxRE2oa,
+    Mach1TranscodeFormatACNSN3DmaxRE3oa,
+    Mach1TranscodeFormatACNSN3DmaxRE4oa,
+    Mach1TranscodeFormatACNSN3DmaxRE5oa,
+    Mach1TranscodeFormatACNSN3DmaxRE6oa,
+    Mach1TranscodeFormatACNSN3DmaxRE7oa,
 };
 
 #ifdef __cplusplus

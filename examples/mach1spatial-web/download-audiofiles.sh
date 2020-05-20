@@ -22,9 +22,9 @@ cd audio/mono
 wget http://dev.mach1.xyz/mach1-sdk-sample-audio/web/mono/1.mp3
 
 cd ../stereo
-wget http://dev.mach1.xyz/mach1-sdk-sample-audio/web/stereo/M1_SDKDemo_Electronic_Stereo_L.ogg
-wget http://dev.mach1.xyz/mach1-sdk-sample-audio/web/stereo/M1_SDKDemo_Electronic_Stereo_R.ogg
-wget http://dev.mach1.xyz/mach1-sdk-sample-audio/web/stereo/M1_SDKDemo_Electronic_Stereo.ogg
+wget http://dev.mach1.xyz/mach1-sdk-sample-audio/web/stereo/M1_SDKDemo_Orchestral_Stereo_L.ogg
+wget http://dev.mach1.xyz/mach1-sdk-sample-audio/web/stereo/M1_SDKDemo_Orchestral_Stereo_R.ogg
+wget http://dev.mach1.xyz/mach1-sdk-sample-audio/web/stereo/M1_SDKDemo_Orchestral_Stereo.ogg
 
 cd ../quad
 wget http://dev.mach1.xyz/mach1-sdk-sample-audio/web/quad/guitar-m1horizon.ogg

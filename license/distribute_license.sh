@@ -36,7 +36,6 @@ cp LICENSE.txt ../examples/mach1spatial-web/js/LICENSE.txt
 # copy to release places
 cp LICENSE.txt ../../m1-sdk-release/LICENSE.txt
 cp LICENSE.txt ../../m1-sdk-release/binaries/LICENSE.txt
-cp LICENSE.txt ../../m1-sdk-release/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/LICENSE.txt
 
 cp LICENSE.txt ../../m1-sdk-release/examples/mach1spatial-web/js/LICENSE.txt
 
@@ -51,4 +50,6 @@ zip Mach1SpatialSDK-License.zip -r . -x 'Mach1-LicenseDiagram.graffle/*' -x '*.d
 aws s3 cp "LICENSE.txt" "s3://mach1-public/assets/license/LICENSE.txt" --profile mach1
 aws s3 cp "LICENSE.html" "s3://mach1-public/assets/license/LICENSE.html" --profile mach1
 aws s3 cp "Mach1SpatialSDK-RoyaltyFreeLicense.pdf" "s3://mach1-public/assets/license/Mach1SpatialSDK-RoyaltyFreeLicense.pdf" --profile mach1
+aws s3 cp "Mach1-LicenseDiagram.png" "s3://mach1-public/assets/license/Mach1-LicenseDiagram.png" --profile mach1
+aws s3 cp "attribution/Mach1-EndUserLicenseAgreement-General.pdf" "s3://mach1-public/assets/license/Mach1-EndUserLicenseAgreement-General.pdf" --profile mach1
 aws s3 cp "Mach1SpatialSDK-License.zip" "s3://mach1-releases/license/Mach1SpatialSDK-License.zip" --profile mach1

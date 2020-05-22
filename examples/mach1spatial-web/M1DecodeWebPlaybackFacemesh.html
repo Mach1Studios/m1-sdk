@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/facemesh"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+        <script src="js/Mach1SoundPlayer.js"></script>
+        <script src="js/Mach1Decode.js"></script>
+
+        <style type="text/css">
+            .canvas-wrapper {
+                display: inline-block;
+                vertical-align: top;
+            }
+
+            .button {
+                background-color: #7892c2;
+                text-indent: 0;
+                border: 0px;
+                color: #ffffff;
+                font-family: arial;
+                font-size: 12px;
+                font-weight: bold;
+                font-style: normal;
+                height: 31px;
+                line-height: 31px;
+                width: 98px;
+                text-decoration: none;
+                text-align: center;
+                text-shadow: 0px 1px 0px #283966;
+            }
+            .button:hover {
+                background-color: #476e9e;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="main">
+            <div class="container">
+                <div class="canvas-wrapper">
+                    <canvas id="output"></canvas>
+                    <video id="video" playsinline style="-webkit-transform: scaleX(-1); transform: scaleX(-1); visibility: hidden; width: auto; height: auto;"></video>
+                </div>
+            </div>
+            <div style="position: absolute; top: 20px; left: 20px;">
+                <button onclick="Play()" class="button">Play</button>
+                <button onclick="Stop()" class="button">Stop</button>
+            </div>
+        </div>
+
+        <div id="stats">...</div>
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.6/dat.gui.min.js"></script>
+
+    <script>
+        var controls = new (function () {
+            this.nPoint = 0;
+        })();
+
+        function setupDatGui() {
+            const gui = new dat.GUI();
+            gui.add(controls, "nPoint", 300, 468); //468);
+        }
+        setupDatGui();
+
+        function radians_to_degrees(radians) {
+            return radians * (180 / Math.PI);
+        }
+
+        function isMobile() {
+            const isAndroid = /Android/i.test(navigator.userAgent);
+            const isiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+            return isAndroid || isiOS;
+        }
+
+        let model, ctx, videoWidth, videoHeight, video, canvas;
+
+        const mobile = isMobile();
+
+        async function setupCamera() {
+            video = document.getElementById("video");
+
+            const stream = await navigator.mediaDevices.getUserMedia({
+                audio: false,
+                video: {
+                    facingMode: "user",
+                    width: mobile ? undefined : 640,
+                    height: mobile ? undefined : 480,
+                },
+            });
+            video.srcObject = stream;
+
+            return new Promise((resolve) => {
+                video.onloadedmetadata = () => {
+                    resolve(video);
+                };
+            });
+        }
+
+        async function renderPrediction() {
+            const predictions = await model.estimateFaces(video);
+            ctx.drawImage(video, 0, 0, videoWidth, videoHeight, 0, 0, canvas.width, canvas.height);
+
+            document.getElementById("stats").innerHTML = "";
+            if (predictions.length > 0) {
+                predictions.forEach((prediction) => {
+                    try {
+                        document.getElementById("stats").innerHTML += "confidence: " + prediction.faceInViewConfidence.toFixed(4);
+                    } catch (err) {
+                        document.getElementById("stats").innerHTML = err.message;
+                    }
+
+                    const keypoints = prediction.scaledMesh;
+                    // console.log(keypoints[0][2])
+
+                    for (let i = 0; i < keypoints.length; i++) {
+                        const x = keypoints[i][0];
+                        const y = keypoints[i][1];
+
+                        ctx.fillStyle = "white";
+                        ctx.fillRect(x, y, 2, 2);
+
+                        if (parseInt(controls.nPoint) == i) {
+                            ctx.fillStyle = "red";
+                            ctx.fillRect(x, y, 6, 6);
+                        }
+
+                        if (i == 10 || i == 152) {
+                            ctx.fillStyle = "green";
+                            ctx.fillRect(x, y, 6, 6);
+                        }
+                        if (i == 234 || i == 454) {
+                            ctx.fillStyle = "yellow";
+                            ctx.fillRect(x, y, 6, 6);
+                        }
+                    }
+
+                    var pTop = new THREE.Vector3(prediction.mesh[10][0], prediction.mesh[10][1], prediction.mesh[10][2]);
+                    var pBottom = new THREE.Vector3(prediction.mesh[152][0], prediction.mesh[152][1], prediction.mesh[152][2]);
+                    var pLeft = new THREE.Vector3(prediction.mesh[234][0], prediction.mesh[234][1], prediction.mesh[234][2]);
+                    var pRight = new THREE.Vector3(prediction.mesh[454][0], prediction.mesh[454][1], prediction.mesh[454][2]);
+
+                    var pTB = pTop.clone().addScaledVector(pBottom, -1).normalize();
+                    var pLR = pLeft.clone().addScaledVector(pRight, -1).normalize();
+
+                    var yaw = radians_to_degrees(Math.PI / 2 - pLR.angleTo(new THREE.Vector3(0, 0, 1)));
+                    var pitch = radians_to_degrees(Math.PI - pTB.angleTo(new THREE.Vector3(0, 1, 0)));
+                    var roll = radians_to_degrees(Math.PI / 2 - pTB.angleTo(new THREE.Vector3(1, 0, 0)));
+
+                    console.log(yaw.toFixed(2), pitch.toFixed(2), roll.toFixed(2));
+
+                    if (m1Decode != null) {
+                        m1Decode.beginBuffer();
+                        let decoded = m1Decode.decode(rot[0], rot[1], rot[2]);
+                        m1Decode.endBuffer();
+
+                        sound.updateVolumes(decoded);
+
+                        var strDebug = "";
+                        decoded.forEach(function (d) {
+                            strDebug += d.toFixed(2) + " , ";
+                        });
+                        console.log("decoded = ", strDebug);
+                    }
+                });
+            }
+
+            requestAnimationFrame(renderPrediction);
+        }
+
+        async function main() {
+            await tf.setBackend("webgl");
+
+            await setupCamera();
+            video.play();
+            videoWidth = video.videoWidth;
+            videoHeight = video.videoHeight;
+            video.width = videoWidth;
+            video.height = videoHeight;
+
+            canvas = document.getElementById("output");
+            canvas.width = videoWidth;
+            canvas.height = videoHeight;
+            const canvasContainer = document.querySelector(".canvas-wrapper");
+            canvasContainer.style = `width: ${videoWidth}px; height: ${videoHeight}px`;
+
+            ctx = canvas.getContext("2d");
+            ctx.translate(canvas.width, 0);
+            ctx.scale(-1, 1);
+            ctx.fillStyle = "#32EEDB";
+            ctx.strokeStyle = "#32EEDB";
+
+            model = await facemesh.load({ maxFaces: 1 });
+            renderPrediction();
+        }
+
+        // audio part
+        let m1Decode = null;
+
+        let m1DecodeModule = Mach1DecodeModule();
+        m1DecodeModule.onInited = function () {
+            m1Decode = new m1DecodeModule.Mach1Decode();
+            m1Decode.setPlatformType(m1Decode.Mach1PlatformType.Mach1PlatformDefault);
+            m1Decode.setDecodeAlgoType(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial);
+            m1Decode.setFilterSpeed(0.95);
+        };
+
+        var audioFiles8 = ["audio/m1spatial/T1.ogg", "audio/m1spatial/T2.ogg", "audio/m1spatial/T3.ogg", "audio/m1spatial/T4.ogg", "audio/m1spatial/B5.ogg", "audio/m1spatial/B6.ogg", "audio/m1spatial/B7.ogg", "audio/m1spatial/B8.ogg"];
+
+        let sound = new Mach1SoundPlayer();
+        sound.setup(audioFiles8);
+        //sound.play();
+
+        function Play() {
+            sound.play();
+        }
+
+        function Stop() {
+            sound.stop();
+        }
+
+        main();
+    </script>
+</html>

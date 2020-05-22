@@ -47,9 +47,8 @@ Furthermore, you agree
 	vii.	to include MACH1's attributions as further described in Section 7 ("ATTRIBUTION REQUIREMENTS AND TRADEMARK RIGHTS");
 	viii.	to distribute your Application with reference or inclusion of the MACH1 GENERAL EULA which is available for download at www.mach1.tech/license-eula;
 	ix.	to contact MACH1 via email at licensing@mach1.tech once you distribute or intend to Distribute (as defined in Section 9) more than 100,000 single licenses of your Application to obtain a paid license - which you agree is required for such a scenario - to the SDK (as further described in Section 9 below);
-	x.	to include a copy of this Agreement alongside integrated MACH1 spatial libraries within Applications that integrates the SDK libraries;
-	xi.	to contact MACH1 via email at licensing@mach1.tech if your Application includes software that integrates, applies, or utilizes in an open source environment to obtain a paid license - which you agree is required for such a scenario - to the SDK; and
-	xii.	to only to use the most Current Version of the SDK and to cease using older versions. 
+	x.	to include a copy of this Agreement alongside integrated MACH1 spatial libraries within Applications that integrates the SDK libraries; and
+	xi.	to contact MACH1 via email at licensing@mach1.tech if your Application includes software that integrates, applies, or utilizes in an open source environment to obtain a paid license - which you agree is required for such a scenario - to the SDK.
 
 We reserve the right to discontinue, modify, cease support of, and alter the pricing structure of the SDK.
 

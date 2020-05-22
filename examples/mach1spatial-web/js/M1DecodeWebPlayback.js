@@ -26,7 +26,6 @@ var audioFiles8 = [
 
 let sound = new Mach1SoundPlayer();
 sound.setup(audioFiles8);
-//sound.play();
 
 function Play() {
 	sound.play();
@@ -130,7 +129,7 @@ function init_faceFilter(videoSettings) {
                     m1Decode.endBuffer();
 
                     sound.updateVolumes(decoded);
-                    
+
 					var strDebug = "";
 					decoded.forEach(function(d) {
 						strDebug += d.toFixed(2) + " , ";

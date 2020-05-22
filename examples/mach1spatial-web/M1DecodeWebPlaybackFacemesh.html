@@ -153,7 +153,7 @@
 
                     if (m1Decode != null) {
                         m1Decode.beginBuffer();
-                        let decoded = m1Decode.decode(rot[0], rot[1], rot[2]);
+                        let decoded = m1Decode.decode(yaw, pitch, roll);
                         m1Decode.endBuffer();
 
                         sound.updateVolumes(decoded);
@@ -211,7 +211,6 @@
 
         let sound = new Mach1SoundPlayer();
         sound.setup(audioFiles8);
-        //sound.play();
 
         function Play() {
             sound.play();

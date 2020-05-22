@@ -57,11 +57,19 @@
     <script>
         var controls = new (function () {
             this.nPoint = 0;
+            this.yawMultiplier = 2;
+            this.pitchMultiplier = 1;
+            this.rollMultiplier = 1;
+            this.FOV = 35;
         })();
 
         function setupDatGui() {
             const gui = new dat.GUI();
             gui.add(controls, "nPoint", 300, 468); //468);
+            gui.add(controls, "yawMultiplier", 0.0, 5.0);
+            gui.add(controls, "pitchMultiplier", 0.0, 5.0);
+            gui.add(controls, "rollMultiplier", 0.0, 5.0);
+            gui.add(controls, "FOV", 30.0, 90.0);
         }
         setupDatGui();
 
@@ -150,10 +158,32 @@
                     var roll = radians_to_degrees(Math.PI / 2 - pTB.angleTo(new THREE.Vector3(1, 0, 0)));
 
                     console.log(yaw.toFixed(2), pitch.toFixed(2), roll.toFixed(2));
+                    if (yaw > parseFloat(controls.FOV)) {
+                        yaw = parseFloat(controls.FOV);
+                    }
+                    if (yaw < -parseFloat(controls.FOV)) {
+                        yaw = -parseFloat(controls.FOV);
+                    }
+                    if (pitch > parseFloat(controls.FOV)) {
+                        pitch = parseFloat(controls.FOV);
+                    }
+                    if (pitch < -parseFloat(controls.FOV)) {
+                        pitch = -parseFloat(controls.FOV);
+                    }
+                    if (roll > parseFloat(controls.FOV)) {
+                        roll = parseFloat(controls.FOV);
+                    }
+                    if (roll < -parseFloat(controls.FOV)) {
+                        roll = -parseFloat(controls.FOV);
+                    }
+                    yawOptimized = yaw * parseFloat(controls.yawMultiplier);
+                    pitchOptimized = pitch * parseFloat(controls.pitchMultiplier);
+                    rollOptimized = roll * parseFloat(controls.rollMultiplier);
+                    console.log(yawOptimized, pitchOptimized, rollOptimized);
 
                     if (m1Decode != null) {
                         m1Decode.beginBuffer();
-                        let decoded = m1Decode.decode(yaw, pitch, roll);
+                        let decoded = m1Decode.decode(yawOptimized, pitchOptimized, rollOptimized);
                         m1Decode.endBuffer();
 
                         sound.updateVolumes(decoded);

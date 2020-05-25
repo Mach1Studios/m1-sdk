@@ -94,9 +94,18 @@
             <div style="position: absolute; top: 20px; left: 20px;">
                 <table style="background: #7892c2;">
                     <tr>
-                        <td><input type="radio" name="mode" id="radio1" class="css-checkbox" checked="checked" / onclick="selectTracker()" ><label for="radio1" class="css-label">Facetracker</label></td>
-                        <td><input type="radio" name="mode" id="radio2" class="css-checkbox" onclick="selectTracker()" /><label for="radio2" class="css-label">Device</label></td>
-                        <td><input type="radio" name="mode" id="radio3" class="css-checkbox" onclick="selectTracker()" /><label for="radio3" class="css-label">Touch</label></td>
+                        <td>
+                            <input type="radio" name="mode" id="radio1" class="css-checkbox" checked="checked" value="facetraker" onclick="selectTracker()" />
+                            <label for="radio1" class="css-label">Facetracker</label>
+                        </td>
+                        <td>
+                            <input type="radio" name="mode" id="radio2" class="css-checkbox" value="device" onclick="selectTracker()" />
+                            <label for="radio2" class="css-label">Device</label>
+                        </td>
+                        <td>
+                            <input type="radio" name="mode" id="radio3" class="css-checkbox" value="touch" onclick="selectTracker()" />
+                            <label for="radio3" class="css-label">Touch</label>
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -110,10 +119,36 @@
     </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.6/dat.gui.min.js"></script>
     <script>
+        window.modeTracker = "";
+
         function selectTracker() {
-            //alert(1345);
+            var ele = document.getElementsByName("mode");
+            for (i = 0; i < ele.length; i++) {
+                if (ele[i].checked) {
+                    window.modeTracker = ele[i].value;
+                }
+            }
         }
+
+        selectTracker();
     </script>
+    <script>
+        function handleDeviceOrientation(event) {
+            var x = event.beta;
+            var y = event.alpha;
+            var y = event.gamma;
+            console.log(x, y, z);
+
+            if (window.modeTracker == "facetraker") {
+                window.yaw = x;
+                window.pitch = y;
+                window.roll = z;
+            }
+        }
+
+        window.addEventListener("deviceorientation", handleDeviceOrientation);
+    </script>
+
     <script>
         var controls = new (function () {
             this.nPoint = 0;
@@ -216,7 +251,7 @@
                     var yaw = radians_to_degrees(Math.PI / 2 - pLR.angleTo(new THREE.Vector3(0, 0, 1)));
                     var pitch = radians_to_degrees(Math.PI / 2 - pTB.angleTo(new THREE.Vector3(0, 0, 1)));
                     var roll = radians_to_degrees(Math.PI / 2 - pTB.angleTo(new THREE.Vector3(1, 0, 0)));
-                    console.log(yaw.toFixed(2), pitch.toFixed(2), roll.toFixed(2));
+                    //console.log(yaw.toFixed(2), pitch.toFixed(2), roll.toFixed(2));
 
                     if (yaw > parseFloat(controls.FOV)) {
                         yaw = parseFloat(controls.FOV);
@@ -241,22 +276,10 @@
                     rollOptimized = roll * parseFloat(controls.rollMultiplier);
                     //console.log(yawOptimized, pitchOptimized, rollOptimized);
 
-                    window.yaw = yawOptimized;
-                    window.pitch = pitchOptimized;
-                    window.roll = rollOptimized;
-
-                    if (m1Decode != null) {
-                        m1Decode.beginBuffer();
-                        let decoded = m1Decode.decode(yawOptimized, pitchOptimized, rollOptimized);
-                        m1Decode.endBuffer();
-
-                        sound.updateVolumes(decoded);
-
-                        var strDebug = "";
-                        decoded.forEach(function (d) {
-                            strDebug += d.toFixed(2) + " , ";
-                        });
-                        //console.log("decoded = ", strDebug);
+                    if (window.modeTracker == "facetraker") {
+                        window.yaw = yawOptimized;
+                        window.pitch = pitchOptimized;
+                        window.roll = rollOptimized;
                     }
                 });
             }
@@ -290,6 +313,10 @@
             renderPrediction();
         }
 
+        main();
+    </script>
+
+    <script type="module">
         // audio part
         let m1Decode = null;
 
@@ -314,10 +341,6 @@
             sound.stop();
         }
 
-        main();
-    </script>
-
-    <script type="module">
         // adopted from https://threejs.org/examples/webgl_materials_normalmap.html
 
         import * as THREE from "https://threejs.org/build/three.module.js";
@@ -342,8 +365,11 @@
         var targetX = 0;
         var targetY = 0;
 
-        var windowHalfX = window.innerWidth / 2;
-        var windowHalfY = window.innerHeight / 2;
+        var width = 640; //window.innerWidth;
+        var height = 480; //window.innerHeight;
+
+        var windowHalfX;
+        var windowHalfY;
 
         var composer, effectFXAA;
 
@@ -351,9 +377,6 @@
         animate();
 
         function init() {
-            var width = 640; //window.innerWidth;
-            var height = 480; //window.innerHeight;
-
             container = document.getElementById("3dview"); //document.createElement("div");
             //document.body.appendChild(container);
 
@@ -405,8 +428,10 @@
             composer.addPass(renderModel);
 
             // EVENTS
-            document.addEventListener("mousemove", onDocumentMouseMove, false);
+            container.addEventListener("mousemove", onDocumentMouseMove, false);
             window.addEventListener("resize", onWindowResize, false);
+
+            onWindowResize();
         }
 
         function createScene(geometry, scale, material) {
@@ -424,8 +449,8 @@
 
         //
         function onWindowResize() {
-            var width = 640; //window.innerWidth;
-            var height = 480; //window.innerHeight;
+            windowHalfX = width / 2;
+            windowHalfY = height / 2;
 
             camera.aspect = width / height;
             camera.updateProjectionMatrix();
@@ -435,8 +460,9 @@
         }
 
         function onDocumentMouseMove(event) {
-            mouseX = event.clientX - windowHalfX;
-            mouseY = event.clientY - windowHalfY;
+            var rect = event.target.getBoundingClientRect();
+            mouseX = (event.clientX - rect.left) / width;
+            mouseY = (event.clientY - rect.top) / height;
         }
 
         //
@@ -445,11 +471,30 @@
             requestAnimationFrame(animate);
             render();
             stats.update();
+
+            if (m1Decode != null) {
+                m1Decode.beginBuffer();
+                let decoded = m1Decode.decode(yawOptimized, pitchOptimized, rollOptimized);
+                m1Decode.endBuffer();
+
+                sound.updateVolumes(decoded);
+
+                var strDebug = "";
+                decoded.forEach(function (d) {
+                    strDebug += d.toFixed(2) + " , ";
+                });
+                //console.log("decoded = ", strDebug);
+            }
         }
 
+        const map = (value, x1, y1, x2, y2) => ((value - x1) * (y2 - x2)) / (y1 - x1) + x2;
+
         function render() {
-            //          targetX = Math.PI + mouseX * 0.001;
-            //          targetY = mouseY * 0.001;
+            if (window.modeTracker == "touch") {
+                window.yaw = map(mouseX, 0, 1, -90, 90);
+                window.pitch = map(mouseY, 0, 1, 70, -70);
+                window.roll = 0;
+            }
 
             if (mesh) {
                 pivot.rotation.y = Math.PI - THREE.Math.degToRad(window.yaw);

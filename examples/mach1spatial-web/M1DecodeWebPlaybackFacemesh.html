@@ -157,6 +157,7 @@
             this.pitchMultiplier = 1;
             this.rollMultiplier = 1;
             this.FOV = 35;
+            this.filterSpeed = 0.90;
         })();
 
         function setupDatGui() {
@@ -166,6 +167,7 @@
             gui.add(controls, "pitchMultiplier", 0.0, 5.0);
             gui.add(controls, "rollMultiplier", 0.0, 5.0);
             gui.add(controls, "FOV", 30.0, 90.0);
+            gui.add(controls, "filterSpeed", 0.1, 1.0);
         }
         setupDatGui();
 
@@ -325,7 +327,7 @@
             m1Decode = new m1DecodeModule.Mach1Decode();
             m1Decode.setPlatformType(m1Decode.Mach1PlatformType.Mach1PlatformDefault);
             m1Decode.setDecodeAlgoType(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial);
-            m1Decode.setFilterSpeed(0.95);
+            m1Decode.setFilterSpeed(0.90);
         };
 
         var audioFiles8 = ["audio/m1spatial/T1.ogg", "audio/m1spatial/T2.ogg", "audio/m1spatial/T3.ogg", "audio/m1spatial/T4.ogg", "audio/m1spatial/B5.ogg", "audio/m1spatial/B6.ogg", "audio/m1spatial/B7.ogg", "audio/m1spatial/B8.ogg"];
@@ -335,6 +337,7 @@
 
         function Decode(yaw, pitch, roll) {
             if (m1Decode != null) {
+                m1Decode.setFilterSpeed(controls.filterSpeed);
                 m1Decode.beginBuffer();
                 let decoded = m1Decode.decode(yaw, pitch, roll);
                 m1Decode.endBuffer();
@@ -359,21 +362,15 @@
     </script>
     <script type="module">
         // adopted from https://threejs.org/examples/webgl_materials_normalmap.html
-
         import * as THREE from "https://threejs.org/build/three.module.js";
-
         import Stats from "https://threejs.org/examples/jsm/libs/stats.module.js";
-
         import { GLTFLoader } from "https://threejs.org/examples/jsm/loaders/GLTFLoader.js";
         import { EffectComposer } from "https://threejs.org/examples/jsm/postprocessing/EffectComposer.js";
         import { RenderPass } from "https://threejs.org/examples/jsm/postprocessing/RenderPass.js";
 
         var container, stats, loader;
-
         var camera, scene, renderer;
-
         var mesh, pivot;
-
         var directionalLight, pointLight, ambientLight;
 
         var mouseX = 0;
@@ -390,7 +387,6 @@
 
         var composer, effectFXAA;
 
-        //
         var fYaw = OneEuroFilter(60, 3.0, 1, 1);
         var fPitch = OneEuroFilter(60, 3.0, 1, 1);
         var fRoll = OneEuroFilter(60, 3.0, 1, 1);
@@ -413,7 +409,6 @@
             scene.background = new THREE.Color(0x474747);
 
             // LIGHTS
-
             ambientLight = new THREE.AmbientLight(0x474747);
             scene.add(ambientLight);
 
@@ -473,7 +468,6 @@
             scene.add(pivot);
         }
 
-        //
         function onWindowResize() {
             windowHalfX = width / 2;
             windowHalfY = height / 2;

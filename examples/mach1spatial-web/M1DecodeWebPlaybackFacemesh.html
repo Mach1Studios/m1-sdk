@@ -6,6 +6,7 @@
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/facemesh"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+        <script src="js/1euro.js"></script>
         <script src="js/Mach1SoundPlayer.js"></script>
         <script src="js/Mach1Decode.js"></script>
 
@@ -136,7 +137,7 @@
         function handleDeviceOrientation(event) {
             var x = event.beta;
             var y = event.alpha;
-            var y = event.gamma;
+            var z = event.gamma;
             console.log(x, y, z);
 
             if (window.modeTracker == "facetraker") {
@@ -373,6 +374,15 @@
 
         var composer, effectFXAA;
 
+        // 
+        var fYaw = OneEuroFilter(60, 3.0, 1, 1);
+        var fPitch = OneEuroFilter(60, 3.0, 1, 1);
+        var fRoll = OneEuroFilter(60, 3.0, 1, 1);
+
+        var yaw = 0;
+        var pitch = 0;
+        var roll = 0;
+
         init();
         animate();
 
@@ -465,16 +475,25 @@
             mouseY = (event.clientY - rect.top) / height;
         }
 
-        //
-
         function animate() {
             requestAnimationFrame(animate);
+
+            if (window.modeTracker == "touch") {
+                window.yaw = map(mouseX, 0, 1, -90, 90);
+                window.pitch = map(mouseY, 0, 1, 70, -70);
+                window.roll = 0;
+            }
+
+            if(window.yaw != null) yaw = fYaw.filter(window.yaw);
+            if(window.pitch != null) pitch = fPitch.filter(window.pitch);
+            if(window.roll != null) roll = fRoll.filter(window.roll);
+
             render();
             stats.update();
 
             if (m1Decode != null) {
                 m1Decode.beginBuffer();
-                let decoded = m1Decode.decode(yawOptimized, pitchOptimized, rollOptimized);
+                let decoded = m1Decode.decode(yaw, pitch, roll);
                 m1Decode.endBuffer();
 
                 sound.updateVolumes(decoded);
@@ -490,16 +509,10 @@
         const map = (value, x1, y1, x2, y2) => ((value - x1) * (y2 - x2)) / (y1 - x1) + x2;
 
         function render() {
-            if (window.modeTracker == "touch") {
-                window.yaw = map(mouseX, 0, 1, -90, 90);
-                window.pitch = map(mouseY, 0, 1, 70, -70);
-                window.roll = 0;
-            }
-
             if (mesh) {
-                pivot.rotation.y = Math.PI - THREE.Math.degToRad(window.yaw);
-                pivot.rotation.x = THREE.Math.degToRad(window.pitch);
-                pivot.rotation.z = -THREE.Math.degToRad(window.roll);
+                pivot.rotation.y = Math.PI - THREE.Math.degToRad(yaw);
+                pivot.rotation.x = THREE.Math.degToRad(pitch);
+                pivot.rotation.z = -THREE.Math.degToRad(roll);
             }
             composer.render();
         }

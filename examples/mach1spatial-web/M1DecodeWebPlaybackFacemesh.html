@@ -511,7 +511,7 @@
 
             Decode(yaw, pitch, roll);
 
-            if (osc.status()) {
+            if (osc.status() == OSC.STATUS.IS_OPEN) {
                 osc.send(new OSC.Message("/orientation", yaw, pitch, roll));
             }
         }

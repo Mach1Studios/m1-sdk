@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
+        <meta charset="utf-8" />
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm/dist/tf-backend-wasm.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/facemesh"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+        <script src="js/osc.min.js"></script>
         <script src="js/1euro.js"></script>
         <script src="js/Mach1SoundPlayer.js"></script>
         <script src="js/Mach1Decode.js"></script>
@@ -361,7 +363,12 @@
         }
     </script>
     <script type="module">
-        // adopted from https://threejs.org/examples/webgl_materials_normalmap.html
+        // OSC part
+        const osc = new OSC();
+        osc.open({ port: 9010 });
+
+        // render part adopted from https://threejs.org/examples/webgl_materials_normalmap.html
+
         import * as THREE from "https://threejs.org/build/three.module.js";
         import Stats from "https://threejs.org/examples/jsm/libs/stats.module.js";
         import { GLTFLoader } from "https://threejs.org/examples/jsm/loaders/GLTFLoader.js";
@@ -502,6 +509,10 @@
             stats.update();
 
             Decode(yaw, pitch, roll);
+
+            if (osc.status()) {
+                osc.send(new OSC.Message("/Mach1Control", yaw, pitch, roll));
+            }
         }
 
         const map = (value, x1, y1, x2, y2) => ((value - x1) * (y2 - x2)) / (y1 - x1) + x2;

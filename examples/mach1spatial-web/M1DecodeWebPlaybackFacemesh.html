@@ -365,7 +365,7 @@
     <script type="module">
         // OSC part
         const osc = new OSC();
-        osc.open({ port: 9010 });
+        osc.open({ port: 9898 });
 
         // render part adopted from https://threejs.org/examples/webgl_materials_normalmap.html
 
@@ -394,9 +394,9 @@
 
         var composer, effectFXAA;
 
-        var fYaw = OneEuroFilter(60, 3.0, 1, 1);
-        var fPitch = OneEuroFilter(60, 3.0, 1, 1);
-        var fRoll = OneEuroFilter(60, 3.0, 1, 1);
+        var fYaw = OneEuroFilter(60, 1.0, 1, 1);
+        var fPitch = OneEuroFilter(60, 2.0, 1, 1);
+        var fRoll = OneEuroFilter(60, 2.0, 1, 1);
 
         var yaw = 0;
         var pitch = 0;
@@ -511,7 +511,7 @@
             Decode(yaw, pitch, roll);
 
             if (osc.status()) {
-                osc.send(new OSC.Message("/Mach1Control", yaw, pitch, roll));
+                osc.send(new OSC.Message("/orientation", yaw, pitch, roll));
             }
         }
 

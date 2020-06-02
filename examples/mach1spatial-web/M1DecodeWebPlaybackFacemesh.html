@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-        <meta content="utf-8" http-equiv="encoding">
+        <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+        <meta content="utf-8" http-equiv="encoding" />
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm/dist/tf-backend-wasm.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/facemesh"></script>
@@ -154,13 +154,14 @@
     </script>
 
     <script>
-        var controls = new (function () {
+        controls = new (function () {
             this.nPoint = 0;
             this.yawMultiplier = 2;
             this.pitchMultiplier = 1;
             this.rollMultiplier = 1;
             this.FOV = 35;
-            this.filterSpeed = 0.90;
+            this.filterSpeed = 0.9;
+            this.oneEuroFilterBeta = 0.06;
         })();
 
         function setupDatGui() {
@@ -171,6 +172,10 @@
             gui.add(controls, "rollMultiplier", 0.0, 5.0);
             gui.add(controls, "FOV", 30.0, 90.0);
             gui.add(controls, "filterSpeed", 0.1, 1.0);
+
+            gui.add(controls, "oneEuroFilterBeta", 0.05, 0.1).onChange(function (value) {
+                createOneEuroFilters();
+            });
         }
         setupDatGui();
 
@@ -330,7 +335,7 @@
             m1Decode = new m1DecodeModule.Mach1Decode();
             m1Decode.setPlatformType(m1Decode.Mach1PlatformType.Mach1PlatformDefault);
             m1Decode.setDecodeAlgoType(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial);
-            m1Decode.setFilterSpeed(0.90);
+            m1Decode.setFilterSpeed(0.9);
         };
 
         var audioFiles8 = ["audio/m1spatial/T1.ogg", "audio/m1spatial/T2.ogg", "audio/m1spatial/T3.ogg", "audio/m1spatial/T4.ogg", "audio/m1spatial/B5.ogg", "audio/m1spatial/B6.ogg", "audio/m1spatial/B7.ogg", "audio/m1spatial/B8.ogg"];
@@ -395,16 +400,19 @@
 
         var composer, effectFXAA;
 
-        var fYaw = OneEuroFilter(60, 1.0, 1, 1);
-        var fPitch = OneEuroFilter(60, 2.0, 1, 1);
-        var fRoll = OneEuroFilter(60, 2.0, 1, 1);
+        var fYaw;
+        var fPitch;
+        var fRoll;
 
         var yaw = 0;
         var pitch = 0;
         var roll = 0;
 
-        init();
-        animate();
+        window.createOneEuroFilters = function createOneEuroFilters() {
+            fYaw = OneEuroFilter(60, 1.0, window.controls.oneEuroFilterBeta, 1.0);
+            fPitch = OneEuroFilter(60, 1.0, window.controls.oneEuroFilterBeta, 1.0);
+            fRoll = OneEuroFilter(60, 1.0, window.controls.oneEuroFilterBeta, 1.0);
+        };
 
         function init() {
             container = document.getElementById("3dview"); //document.createElement("div");
@@ -513,6 +521,8 @@
 
             if (osc.status() == OSC.STATUS.IS_OPEN) {
                 osc.send(new OSC.Message("/orientation", yaw, pitch, roll));
+            } else if (osc.status() == OSC.STATUS.IS_CLOSED) {
+                osc.open({ port: 9898 });
             }
         }
 
@@ -526,5 +536,9 @@
             }
             composer.render();
         }
+		
+		createOneEuroFilters();
+        init();
+        animate();
     </script>
 </html>

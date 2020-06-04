@@ -107,7 +107,7 @@
                 <table style="background: #7892c2;">
                     <tr>
                         <td>
-                            <input type="radio" name="mode" id="radio1" class="css-checkbox" checked="checked" value="facetraker" onclick="selectTracker()" />
+                            <input type="radio" name="mode" id="radio1" class="css-checkbox" checked="checked" value="facetracker" onclick="selectTracker()" />
                             <label for="radio1" class="css-label">Facetracker</label>
                         </td>
                         <td>
@@ -127,8 +127,8 @@
             </div>
         </div>
 
-        <div id="stats">...</div>
-        <div id="info" style="position: absolute; top: 10px; left: 10px;">loading...</div>
+        <div id="stats"></div>
+        <div id="info" style="position: relative; margin: auto; margin-top: 50vh; text-align: center; font-size: 3em;">loading...</div>
     </body>
     <script>
         window.modeTracker = "";
@@ -151,7 +151,7 @@
             var z = event.gamma;
             console.log(x, y, z);
 
-            if (window.modeTracker == "facetraker") {
+            if (window.modeTracker == "facetracker") {
                 window.yaw = x;
                 window.pitch = y;
                 window.roll = z;
@@ -163,7 +163,7 @@
 
     <script>
         controls = new (function () {
-            this.nPoint = 0;
+            this.nPoint = 468;
             this.yawMultiplier = 2;
             this.pitchMultiplier = 1;
             this.rollMultiplier = 1;
@@ -174,7 +174,7 @@
 
         function setupDatGui() {
             const gui = new dat.GUI();
-            gui.add(controls, "nPoint", 300, 468); //468);
+            //gui.add(controls, "nPoint", 300, 468); //468);
             gui.add(controls, "yawMultiplier", 0.0, 5.0);
             gui.add(controls, "pitchMultiplier", 0.0, 5.0);
             gui.add(controls, "rollMultiplier", 0.0, 5.0);
@@ -270,7 +270,6 @@
                     var yaw = radians_to_degrees(Math.PI / 2 - pLR.angleTo(new THREE.Vector3(0, 0, 1)));
                     var pitch = radians_to_degrees(Math.PI / 2 - pTB.angleTo(new THREE.Vector3(0, 0, 1)));
                     var roll = radians_to_degrees(Math.PI / 2 - pTB.angleTo(new THREE.Vector3(1, 0, 0)));
-                    //console.log(yaw.toFixed(2), pitch.toFixed(2), roll.toFixed(2));
 
                     if (yaw > parseFloat(controls.FOV)) {
                         yaw = parseFloat(controls.FOV);
@@ -293,9 +292,8 @@
                     yawOptimized = yaw * parseFloat(controls.yawMultiplier);
                     pitchOptimized = pitch * parseFloat(controls.pitchMultiplier);
                     rollOptimized = roll * parseFloat(controls.rollMultiplier);
-                    //console.log(yawOptimized, pitchOptimized, rollOptimized);
 
-                    if (window.modeTracker == "facetraker") {
+                    if (window.modeTracker == "facetracker") {
                         window.yaw = yawOptimized;
                         window.pitch = pitchOptimized;
                         window.roll = rollOptimized;
@@ -308,7 +306,7 @@
 
         async function main() {
             var info = document.getElementById("info");
-            info.innerHTML = "loading";
+            info.innerHTML = "loading...";
             document.getElementById("main").style.display = "none";
 
             await tf.setBackend("webgl");
@@ -371,7 +369,6 @@
                 decoded.forEach(function (d) {
                     strDebug += d.toFixed(2) + " , ";
                 });
-                //console.log("decoded = ", strDebug);
             }
         }
 
@@ -389,7 +386,6 @@
         osc.open({ port: 9898 });
 
         // render part adopted from https://threejs.org/examples/webgl_materials_normalmap.html
-
         var container, stats, loader;
         var camera, scene, renderer;
         var mesh, pivot;

@@ -8,6 +8,14 @@
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/facemesh"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.6/dat.gui.min.js"></script>
+        <script src="js/three.js/libs/stats.min.js"></script>
+        <script src="js/three.js/loaders/GLTFLoader.js"></script>
+        <script src="js/three.js/postprocessing/EffectComposer.js"></script>
+        <script src="js/three.js/postprocessing/RenderPass.js"></script>
+        <script src="js/three.js/postprocessing/ShaderPass.js"></script>
+        <script src="js/three.js/shaders/CopyShader.js"></script>
+
         <script src="js/osc.min.js"></script>
         <script src="js/1euro.js"></script>
         <script src="js/Mach1SoundPlayer.js"></script>
@@ -87,7 +95,7 @@
         </style>
     </head>
     <body>
-        <div id="main">
+        <div id="main" style="display: none;">
             <div class="container">
                 <div class="canvas-wrapper">
                     <canvas id="output"></canvas>
@@ -120,8 +128,8 @@
         </div>
 
         <div id="stats">...</div>
+        <div id="info" style="position: absolute; top: 10px; left: 10px;">loading...</div>
     </body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.6/dat.gui.min.js"></script>
     <script>
         window.modeTracker = "";
 
@@ -299,6 +307,10 @@
         }
 
         async function main() {
+            var info = document.getElementById("info");
+            info.innerHTML = "loading";
+            document.getElementById("main").style.display = "none";
+
             await tf.setBackend("webgl");
 
             await setupCamera();
@@ -322,6 +334,9 @@
 
             model = await facemesh.load({ maxFaces: 1 });
             renderPrediction();
+
+            info.innerHTML = "";
+            document.getElementById("main").style.display = "";
         }
 
         main();
@@ -344,7 +359,7 @@
         sound.setup(audioFiles8);
 
         function Decode(yaw, pitch, roll) {
-            if (m1Decode != null) {
+            if (m1Decode != null && yaw != null && pitch != null && roll != null) {
                 m1Decode.setFilterSpeed(controls.filterSpeed);
                 m1Decode.beginBuffer();
                 let decoded = m1Decode.decode(yaw, pitch, roll);
@@ -368,18 +383,12 @@
             sound.stop();
         }
     </script>
-    <script type="module">
+    <script>
         // OSC part
         const osc = new OSC();
         osc.open({ port: 9898 });
 
         // render part adopted from https://threejs.org/examples/webgl_materials_normalmap.html
-
-        import * as THREE from "https://threejs.org/build/three.module.js";
-        import Stats from "https://threejs.org/examples/jsm/libs/stats.module.js";
-        import { GLTFLoader } from "https://threejs.org/examples/jsm/loaders/GLTFLoader.js";
-        import { EffectComposer } from "https://threejs.org/examples/jsm/postprocessing/EffectComposer.js";
-        import { RenderPass } from "https://threejs.org/examples/jsm/postprocessing/RenderPass.js";
 
         var container, stats, loader;
         var camera, scene, renderer;
@@ -444,7 +453,7 @@
                 normalScale: new THREE.Vector2(0.8, 0.8),
             });
 
-            loader = new GLTFLoader();
+            loader = new THREE.GLTFLoader();
             loader.load("https://threejs.org/examples/models/gltf/LeePerrySmith/LeePerrySmith.glb", function (gltf) {
                 createScene(gltf.scene.children[0].geometry, 100, material);
             });
@@ -460,8 +469,8 @@
             // COMPOSER
             renderer.autoClear = false;
 
-            var renderModel = new RenderPass(scene, camera);
-            composer = new EffectComposer(renderer);
+            var renderModel = new THREE.RenderPass(scene, camera);
+            composer = new THREE.EffectComposer(renderer);
             composer.addPass(renderModel);
 
             // EVENTS
@@ -536,8 +545,8 @@
             }
             composer.render();
         }
-		
-		createOneEuroFilters();
+
+        createOneEuroFilters();
         init();
         animate();
     </script>

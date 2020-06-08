@@ -3,7 +3,7 @@ project(Mach1Tests)
 
 # Mach1Encode
 
-set(Mach1EncodeCAPIsrc "../Mach1EncodeCAPI.cpp" "../Mach1EncodeCore.cpp" "../external/cpp/Mach1Encode.cpp")
+set(Mach1EncodeCAPIsrc "../Mach1EncodeCAPI.cpp" "../Mach1EncodeCore.cpp" "../external/cpp/Mach1Encode.cpp" "../Mach1Point3DCore.cpp")
 set(Mach1EncodeCAPIinclude "../" "../external/cpp")
 
 add_executable(Mach1EncodeTest "./Mach1EncodeTest/mach1encode-test.cpp" ${Mach1EncodeCAPIsrc})

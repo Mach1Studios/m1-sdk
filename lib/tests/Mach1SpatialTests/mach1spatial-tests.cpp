@@ -198,7 +198,7 @@ void test_results(void)
 		m1Decode.setRotationDegrees(Mach1Point3D{ test.input.yaw, test.input.pitch, test.input.roll });
 
 		m1Decode.beginBuffer();
-		auto decodeResults = m1Decode.decode(0, 0);
+		auto decodeResults = m1Decode.decodeCoeffs(0, 0);
 		m1Decode.endBuffer();
 
 		std::cout

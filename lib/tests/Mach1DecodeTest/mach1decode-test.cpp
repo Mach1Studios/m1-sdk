@@ -77,7 +77,7 @@ TODO: add all other output modes
 			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 90.0, 0.0, 0.0, 1.0 },
 			{
 				{
-					{ 
+					{
 						0.0, 0.0,
 						0.5, 0.0,
 						0.0, 0.0,
@@ -91,7 +91,26 @@ TODO: add all other output modes
 				},
 			}
 		},
-/*
+		{
+			"Case: MACH1SPATIAL | Y0P90R0",
+			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 90.0, 0.0, 1.0 },
+			{
+				{
+					{
+						0.5, 0.0,
+						0.0, 0.5,
+						0.5, 0.0,
+						0.0, 0.5,
+						0.0, 0.0,
+						0.0, 0.0,
+						0.0, 0.0,
+						0.0, 0.0,
+						1.0, 1,0,
+					},
+				},
+			}
+		},
+		/*
 PLATFORM TESTING
 TODO: add more input tests with less rounded inputs
  */
@@ -131,6 +150,8 @@ TODO: add more input tests with less rounded inputs
 			}
 		}
 	}
+
+	getchar();
 }
 
 TEST_LIST = {

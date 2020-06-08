@@ -469,6 +469,12 @@ void Mach1DecodeCore::spatialAlgoSample(float Yaw, float Pitch, float Roll, floa
 
 	Mach1Point3DCore points[countPoints] =
 	{
+		/*
+		Mach1 XYZ Coordinate Expectation:
+			X (left -> right | where -X is left)
+			Y (front -> back | where -Y is back)
+			Z (top -> bottom | where -Z is bottom)
+		 */
 		Mach1Point3DCore(100, -100, 100),
 		Mach1Point3DCore(100, 100, 100),
 		Mach1Point3DCore(-100, -100, 100),

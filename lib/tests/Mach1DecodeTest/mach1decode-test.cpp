@@ -131,7 +131,7 @@ TODO: add all other output modes
 		},
 		{
 			"Case: MACH1SPATIAL | Y0P0R90",
-			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 90.0, 0.0, 1.0 },
+			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.0, 90.0, 1.0 },
 			{
 				{
 					{

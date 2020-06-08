@@ -92,6 +92,25 @@ TODO: add all other output modes
 			}
 		},
 		{
+			"Case: MACH1SPATIAL | Y45P0R0",
+			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 45.0, 0.0, 0.0, 1.0 },
+			{
+				{
+					{
+						0.25, 0.0,
+						0.25, 0.25,
+						0.0, 0.0,
+						0.0, 0.25,
+						0.25, 0.0,
+						0.25, 0.25,
+						0.0, 0.0,
+						0.0, 0.25,
+						1.0, 1,0,
+					},
+				},
+			}
+		},
+		{
 			"Case: MACH1SPATIAL | Y0P90R0",
 			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 90.0, 0.0, 1.0 },
 			{
@@ -106,6 +125,37 @@ TODO: add all other output modes
 						0.0, 0.0,
 						0.0, 0.0,
 						1.0, 1,0,
+					},
+				},
+			}
+		},
+		{
+			"Case: MACH1SPATIAL | Y0P0R90",
+			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 90.0, 0.0, 1.0 },
+			{
+				{
+					{
+						0.5, 0.0,
+						0.5, 0.0,
+						0.0, 0.0,
+						0.0, 0.0,
+						0.0, 0.5,
+						0.0, 0.5,
+						0.0, 0.0,
+						0.0, 0.0,
+						1.0, 1,0,
+						/*
+						Should this be?:
+						0.25, 0.0,
+						0.25, 0.0,
+						0.25, 0.0,
+						0.25, 0.0,
+						0.0, 0.25,
+						0.0, 0.25,
+						0.0, 0.25,
+						0.0, 0.25,
+						1.0, 1,0,
+						*/ 
 					},
 				},
 			}

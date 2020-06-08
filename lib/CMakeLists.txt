@@ -6,8 +6,8 @@ set(Mach1SpatialLibraries_VERSION ${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1
 
 # SET API VERSIONS
 set(ENCODE_VERSION "1.2.0.0")
-set(DECODE_VERSION "1.2.0.0")
-set(DECODEPOSITIONAL_VERSION "1.2.0.0")
+set(DECODE_VERSION "1.2.0.1")
+set(DECODEPOSITIONAL_VERSION "1.2.0.1")
 set(TRANSCODE_VERSION "1.2.0.0")
 
 set(Mach1AdditionalInclude "./include")

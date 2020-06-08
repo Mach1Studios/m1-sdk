@@ -1191,13 +1191,25 @@ void Mach1DecodeCore::processSample(functionAlgoSampleHP funcAlgoSampleHP, float
 		}
 		else {
 			// Filtering per-buffer
-			 Yaw = currentYaw;
-			 Pitch = currentPitch;
-			 Roll = currentRoll;
+			if (filterSpeed >= 1.0) {
+				currentYaw = Yaw;
+				currentPitch = Pitch;
+				currentRoll = Roll;
 
-			 previousYaw = currentYaw;
-			 previousPitch = currentPitch;
-			 previousRoll = currentRoll;
+				previousYaw = currentYaw;
+				previousPitch = currentPitch;
+				previousRoll = currentRoll;
+
+			}
+			else {
+				Yaw = currentYaw;
+				Pitch = currentPitch;
+				Roll = currentRoll;
+
+				previousYaw = currentYaw;
+				previousPitch = currentPitch;
+				previousRoll = currentRoll;
+			}
 		}
 
 	}

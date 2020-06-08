@@ -240,11 +240,12 @@ void test_results(void)
 				std::cout << "index: [" << i << "]: " << bufferDecoded[i] << ", should be: " << test.output.results[i];
 				std::cout << std::endl;
 			}
-			if (counter == decodeResults.size()) {
-				std::cout << "... " << "\033[1;32mpassed\033[0m\n";
-			}
+			counter += check;
 		}
-
+		
+		if (counter == bufferDecoded.size()) {
+			std::cout << "... " << "\033[1;32mpassed\033[0m\n";
+		}
 	}
 
 

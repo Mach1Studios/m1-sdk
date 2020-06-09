@@ -376,42 +376,34 @@ std::vector<float> Mach1DecodeCore::spatialAltAlgoSample(float Yaw, float Pitch,
 	return result;
 }
 
-void Mach1DecodeCore::spatialMultichannelAlgo(Mach1Point3DCore * points, int countPoints, float Yaw, float Pitch, float Roll, float * result) {
 
+void Mach1DecodeCore::spatialMultichannelAlgo(Mach1Point3DCore * points, int countPoints, float Yaw, float Pitch, float Roll, float * result) {
 	Mach1Point3DCore simulationAngles = Mach1Point3DCore(Yaw, Pitch, Roll);
 
-	Mach1Point3DCore faceVector1 = Mach1Point3DCore(cos(mDegToRad(simulationAngles[0])),
-		sin(mDegToRad(simulationAngles[0]))).normalize();
+	Mach1Point3DCore faceVector1 = Mach1Point3DCore(
+		sin(mDegToRad(simulationAngles[0])),
+		cos(mDegToRad(simulationAngles[0]))
+	).normalize();
 
-	Mach1Point3DCore faceVector2 = faceVector1.getRotated(simulationAngles[1],
-		Mach1Point3DCore(cos(mDegToRad(simulationAngles[0] - 90)),
-			sin(mDegToRad(simulationAngles[0] - 90))).normalize());
+	Mach1Point3DCore faceVector11 = Mach1Point3DCore(
+		sin(mDegToRad(simulationAngles[0] - 90)),
+		cos(mDegToRad(simulationAngles[0] - 90))
+	).normalize();
 
-
-	Mach1Point3DCore faceVector21 = faceVector1.getRotated(simulationAngles[1] + 90,
-		Mach1Point3DCore(cos(mDegToRad(simulationAngles[0] - 90)),
-			sin(mDegToRad(simulationAngles[0] - 90))).normalize());
-
-	Mach1Point3DCore faceVectorLeft = faceVector21.getRotated(-simulationAngles[2] + 90, faceVector2);
-	Mach1Point3DCore faceVectorRight = faceVector21.getRotated(-simulationAngles[2] - 90, faceVector2);
-
-
-	Mach1Point3DCore faceVectorOffsetted = Mach1Point3DCore(cos(mDegToRad(simulationAngles[0])),
-		sin(mDegToRad(simulationAngles[0]))).normalize().rotate(
-			simulationAngles[1] + 10,
-			Mach1Point3DCore(cos(mDegToRad(simulationAngles[0] - 90)),
-				sin(mDegToRad(simulationAngles[0] - 90))).normalize()) - faceVector2;
-
-	Mach1Point3DCore tiltSphereRotated = faceVectorOffsetted.getRotated(-simulationAngles[2], faceVector2);
+	Mach1Point3DCore faceVector2 = faceVector1.getRotated(-simulationAngles[1], faceVector11);
+	Mach1Point3DCore faceVector21 = faceVector1.getRotated(-simulationAngles[1] - 90, faceVector11);
+	
+	Mach1Point3DCore faceVectorLeft = faceVector21.getRotated(simulationAngles[2] - 90, faceVector2);
+	Mach1Point3DCore faceVectorRight = faceVector21.getRotated(simulationAngles[2] + 90, faceVector2);
 
 	Mach1Point3DCore planes[8][2] =
 	{
+		{ Mach1Point3DCore(1, 0, 0), Mach1Point3DCore(100, 0, 0) },
+		{ Mach1Point3DCore(-1, 0, 0), Mach1Point3DCore(-100, 0, 0) },
 		{ Mach1Point3DCore(0, 1, 0), Mach1Point3DCore(0, 100, 0) },
-	{ Mach1Point3DCore(0, -1, 0), Mach1Point3DCore(0, -100, 0) },
-	{ Mach1Point3DCore(1, 0, 0), Mach1Point3DCore(100, 0, 0) },
-	{ Mach1Point3DCore(-1, 0, 0), Mach1Point3DCore(-100, 0, 0) },
-	{ Mach1Point3DCore(0, 0, 1), Mach1Point3DCore(0, 0, 100) },
-	{ Mach1Point3DCore(0, 0, -1), Mach1Point3DCore(0, 0, -100) }
+		{ Mach1Point3DCore(0, -1, 0), Mach1Point3DCore(0, -100, 0) },
+		{ Mach1Point3DCore(0, 0, 1), Mach1Point3DCore(0, 0, 100) },
+		{ Mach1Point3DCore(0, 0, -1), Mach1Point3DCore(0, 0, -100) }
 	};
 
 	Mach1Point3DCore contactL = faceVectorLeft * 100 + faceVector2 * 100;
@@ -475,15 +467,15 @@ void Mach1DecodeCore::spatialAlgoSample(float Yaw, float Pitch, float Roll, floa
 			Y (front -> back | where -Y is back)
 			Z (top -> bottom | where -Z is bottom)
 		 */
-		Mach1Point3DCore(100, -100, 100),
+		Mach1Point3DCore(-100, 100, 100),
 		Mach1Point3DCore(100, 100, 100),
 		Mach1Point3DCore(-100, -100, 100),
-		Mach1Point3DCore(-100, 100, 100),
+		Mach1Point3DCore(100, -100, 100),
 
-		Mach1Point3DCore(100, -100, -100),
+		Mach1Point3DCore(-100, 100, -100),
 		Mach1Point3DCore(100, 100, -100),
 		Mach1Point3DCore(-100, -100, -100),
-		Mach1Point3DCore(-100, 100, -100),
+		Mach1Point3DCore(100, -100, -100),
 	};
 
 	spatialMultichannelAlgo(points, countPoints, Yaw, Pitch, Roll, result);
@@ -497,15 +489,15 @@ std::vector<float> Mach1DecodeCore::spatialAlgoSample(float Yaw, float Pitch, fl
 
 	Mach1Point3DCore points[countPoints] =
 	{
-		Mach1Point3DCore(100, -100, 100),
+		Mach1Point3DCore(-100, 100, 100),
 		Mach1Point3DCore(100, 100, 100),
 		Mach1Point3DCore(-100, -100, 100),
-		Mach1Point3DCore(-100, 100, 100),
+		Mach1Point3DCore(100, -100, 100),
 
-		Mach1Point3DCore(100, -100, -100),
+		Mach1Point3DCore(-100, 100, -100),
 		Mach1Point3DCore(100, 100, -100),
 		Mach1Point3DCore(-100, -100, -100),
-		Mach1Point3DCore(-100, 100, -100),
+		Mach1Point3DCore(100, -100, -100),
 	};
 
 	spatialMultichannelAlgo(points, countPoints, Yaw, Pitch, Roll, result.data());
@@ -520,15 +512,15 @@ void Mach1DecodeCore::spatialPlusAlgoSample(float Yaw, float Pitch, float Roll, 
 
 	Mach1Point3DCore points[countPoints] =
 	{
-		Mach1Point3DCore(100, -100, 100),
+		Mach1Point3DCore(-100, 100, 100),
 		Mach1Point3DCore(100, 100, 100),
 		Mach1Point3DCore(-100, -100, 100),
-		Mach1Point3DCore(-100, 100, 100),
+		Mach1Point3DCore(100, -100, 100),
 
-		Mach1Point3DCore(100, -100, -100),
+		Mach1Point3DCore(-100, 100, -100),
 		Mach1Point3DCore(100, 100, -100),
 		Mach1Point3DCore(-100, -100, -100),
-		Mach1Point3DCore(-100, 100, -100),
+		Mach1Point3DCore(100, -100, -100),
 
 		Mach1Point3DCore(diag, 0, 0),
 		Mach1Point3DCore(-diag, 0, 0),
@@ -549,15 +541,15 @@ std::vector<float> Mach1DecodeCore::spatialPlusAlgoSample(float Yaw, float Pitch
 
 	Mach1Point3DCore points[countPoints] =
 	{
-		Mach1Point3DCore(100, -100, 100),
+		Mach1Point3DCore(-100, 100, 100),
 		Mach1Point3DCore(100, 100, 100),
 		Mach1Point3DCore(-100, -100, 100),
-		Mach1Point3DCore(-100, 100, 100),
+		Mach1Point3DCore(100, -100, 100),
 
-		Mach1Point3DCore(100, -100, -100),
+		Mach1Point3DCore(-100, 100, -100),
 		Mach1Point3DCore(100, 100, -100),
 		Mach1Point3DCore(-100, -100, -100),
-		Mach1Point3DCore(-100, 100, -100),
+		Mach1Point3DCore(100, -100, -100),
 
 		Mach1Point3DCore(diag, 0, 0),
 		Mach1Point3DCore(-diag, 0, 0),
@@ -577,15 +569,15 @@ void Mach1DecodeCore::spatialPlusPlusAlgoSample(float Yaw, float Pitch, float Ro
 
 	Mach1Point3DCore points[countPoints] =
 	{
-		Mach1Point3DCore(100, -100, 100),
+		Mach1Point3DCore(-100, 100, 100),
 		Mach1Point3DCore(100, 100, 100),
 		Mach1Point3DCore(-100, -100, 100),
-		Mach1Point3DCore(-100, 100, 100),
+		Mach1Point3DCore(100, -100, 100),
 
-		Mach1Point3DCore(100, -100, -100),
+		Mach1Point3DCore(-100, 100, -100),
 		Mach1Point3DCore(100, 100, -100),
 		Mach1Point3DCore(-100, -100, -100),
-		Mach1Point3DCore(-100, 100, -100),
+		Mach1Point3DCore(100, -100, -100),
 
 		Mach1Point3DCore(diag, 0, 0),
 		Mach1Point3DCore(-diag, 0, 0),
@@ -609,15 +601,15 @@ std::vector<float> Mach1DecodeCore::spatialPlusPlusAlgoSample(float Yaw, float P
 
 	Mach1Point3DCore points[countPoints] =
 	{
-		Mach1Point3DCore(100, -100, 100),
+		Mach1Point3DCore(-100, 100, 100),
 		Mach1Point3DCore(100, 100, 100),
 		Mach1Point3DCore(-100, -100, 100),
-		Mach1Point3DCore(-100, 100, 100),
+		Mach1Point3DCore(100, -100, 100),
 
-		Mach1Point3DCore(100, -100, -100),
+		Mach1Point3DCore(-100, 100, -100),
 		Mach1Point3DCore(100, 100, -100),
 		Mach1Point3DCore(-100, -100, -100),
-		Mach1Point3DCore(-100, 100, -100),
+		Mach1Point3DCore(100, -100, -100),
 
 		Mach1Point3DCore(diag, 0, 0),
 		Mach1Point3DCore(-diag, 0, 0),
@@ -640,15 +632,15 @@ void Mach1DecodeCore::spatialExtAlgoSample(float Yaw, float Pitch, float Roll, f
 
 	Mach1Point3DCore points[countPoints] =
 	{
-		Mach1Point3DCore(100, -100, 100),
+		Mach1Point3DCore(-100, 100, 100),
 		Mach1Point3DCore(100, 100, 100),
 		Mach1Point3DCore(-100, -100, 100),
-		Mach1Point3DCore(-100, 100, 100),
+		Mach1Point3DCore(100, -100, 100),
 
-		Mach1Point3DCore(100, -100, -100),
+		Mach1Point3DCore(-100, 100, -100),
 		Mach1Point3DCore(100, 100, -100),
 		Mach1Point3DCore(-100, -100, -100),
-		Mach1Point3DCore(-100, 100, -100),
+		Mach1Point3DCore(100, -100, -100),
 
 		//TODO: FIX THIS
 		Mach1Point3DCore(diag, 0, 0),
@@ -674,15 +666,16 @@ std::vector<float> Mach1DecodeCore::spatialExtAlgoSample(float Yaw, float Pitch,
 
 	Mach1Point3DCore points[countPoints] =
 	{
-		Mach1Point3DCore(100, -100, 100),
+		Mach1Point3DCore(-100, 100, 100),
 		Mach1Point3DCore(100, 100, 100),
 		Mach1Point3DCore(-100, -100, 100),
-		Mach1Point3DCore(-100, 100, 100),
+		Mach1Point3DCore(100, -100, 100),
 
-		Mach1Point3DCore(100, -100, -100),
+		Mach1Point3DCore(-100, 100, -100),
 		Mach1Point3DCore(100, 100, -100),
 		Mach1Point3DCore(-100, -100, -100),
-		Mach1Point3DCore(-100, 100, -100),
+		Mach1Point3DCore(100, -100, -100),
+
 		//TODO: FIX THIS
 		Mach1Point3DCore(diag, 0, 0),
 		Mach1Point3DCore(-diag, 0, 0),
@@ -706,15 +699,16 @@ void Mach1DecodeCore::spatialExtPlusAlgoSample(float Yaw, float Pitch, float Rol
 
 	Mach1Point3DCore points[countPoints] =
 	{
-		Mach1Point3DCore(100, -100, 100),
+		Mach1Point3DCore(-100, 100, 100),
 		Mach1Point3DCore(100, 100, 100),
 		Mach1Point3DCore(-100, -100, 100),
-		Mach1Point3DCore(-100, 100, 100),
+		Mach1Point3DCore(100, -100, 100),
 
-		Mach1Point3DCore(100, -100, -100),
+		Mach1Point3DCore(-100, 100, -100),
 		Mach1Point3DCore(100, 100, -100),
 		Mach1Point3DCore(-100, -100, -100),
-		Mach1Point3DCore(-100, 100, -100),
+		Mach1Point3DCore(100, -100, -100),
+
 		//TODO: FIX THIS
 		Mach1Point3DCore(diag, 0, 0),
 		Mach1Point3DCore(-diag, 0, 0),
@@ -742,15 +736,16 @@ std::vector<float> Mach1DecodeCore::spatialExtPlusAlgoSample(float Yaw, float Pi
 
 	Mach1Point3DCore points[countPoints] =
 	{
-		Mach1Point3DCore(100, -100, 100),
+		Mach1Point3DCore(-100, 100, 100),
 		Mach1Point3DCore(100, 100, 100),
 		Mach1Point3DCore(-100, -100, 100),
-		Mach1Point3DCore(-100, 100, 100),
+		Mach1Point3DCore(100, -100, 100),
 
-		Mach1Point3DCore(100, -100, -100),
+		Mach1Point3DCore(-100, 100, -100),
 		Mach1Point3DCore(100, 100, -100),
 		Mach1Point3DCore(-100, -100, -100),
-		Mach1Point3DCore(-100, 100, -100),
+		Mach1Point3DCore(100, -100, -100),
+
 		//TODO: FIX THIS
 		Mach1Point3DCore(diag, 0, 0),
 		Mach1Point3DCore(-diag, 0, 0),

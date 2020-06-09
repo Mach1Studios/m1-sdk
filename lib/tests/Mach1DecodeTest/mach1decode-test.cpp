@@ -323,7 +323,7 @@ TODO: add all other output modes
         },
         {
             "Case: MACH1SPATIAL | Y0P90R0 (Signed-Norm)",
-            { Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.5, 0.0, 1.0, signedNormalized },
+            { Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.25, 0.0, 1.0, signedNormalized },
             {
                 {
                     {
@@ -411,7 +411,7 @@ TODO: add all other output modes
         },
         {
             "Case: MACH1SPATIAL | Y0P0R90 (Norm)",
-            { Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.0, 0.5, 1.0, signedNormalized },
+            { Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.0, 0.25, 1.0, signedNormalized },
             {
                 {
                     {
@@ -430,7 +430,7 @@ TODO: add all other output modes
         },
         {
             "Case: MACH1SPATIAL | Y0P0R-90 (Norm)",
-            { Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.0, -0.5, 1.0, signedNormalized },
+            { Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.0, -0.25, 1.0, signedNormalized },
             {
                 {
                     {

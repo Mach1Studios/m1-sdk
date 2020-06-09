@@ -113,8 +113,8 @@ void Mach1Decode::setRotation(Mach1Point3D newRotationFromMinusOnetoOne)
 	///
     /// - Parameters: 
     ///     - Yaw: float for device/listener yaw angle: [Range: -1.0 -> 1.0]
-    ///     - Pitch: float for device/listener pitch angle: [Range: -1.0 -> 1.0]
-    ///     - Roll: float for device/listener roll angle: [Range: -1.0 -> 1.0]
+    ///     - Pitch: float for device/listener pitch angle: [Range: -0.5 -> 0.5]
+    ///     - Roll: float for device/listener roll angle: [Range: -0.5 -> 0.5]
 }
 
 void Mach1Decode::setRotationDegrees(Mach1Point3D newRotationDegrees)

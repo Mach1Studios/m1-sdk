@@ -55,8 +55,8 @@ public class Mach1Decode {
         ///
         /// - Parameters: 
         ///     - Yaw: float for device/listener yaw angle: [Range: -1.0 -> 1.0]
-        ///     - Pitch: float for device/listener pitch angle: [Range: -1.0 -> 1.0]
-        ///     - Roll: float for device/listener roll angle: [Range: -1.0 -> 1.0]
+        ///     - Pitch: float for device/listener pitch angle: [Range: -0.25 -> 0.25]
+        ///     - Roll: float for device/listener roll angle: [Range: -0.25 -> 0.25]
     }
 
     public func setRotationDegrees(newRotationDegrees: Mach1Point3D) {
@@ -124,7 +124,7 @@ public class Mach1Decode {
     
     public func decode(Yaw: Float, Pitch: Float, Roll: Float, bufferSize: Int = 0, sampleIndex: Int = 0) -> [Float] {
         let rotation = Mach1Point3D(x: Yaw, y: Pitch, z: Roll)
-        setRotationDegrees(rotation: rotation)
+        setRotationDegrees(newRotationDegrees: rotation)
         return decodeCoeffs(bufferSize: bufferSize, sampleIndex: sampleIndex)
         /// Call with current update's angles to return the resulting coefficients
         /// to apply to the audioplayer's volume

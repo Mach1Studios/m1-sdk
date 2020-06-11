@@ -51,5 +51,6 @@ aws s3 cp "LICENSE.txt" "s3://mach1-public/assets/license/LICENSE.txt" --profile
 aws s3 cp "LICENSE.html" "s3://mach1-public/assets/license/LICENSE.html" --profile mach1
 aws s3 cp "Mach1SpatialSDK-RoyaltyFreeLicense.pdf" "s3://mach1-public/assets/license/Mach1SpatialSDK-RoyaltyFreeLicense.pdf" --profile mach1
 aws s3 cp "Mach1-LicenseDiagram.png" "s3://mach1-public/assets/license/Mach1-LicenseDiagram.png" --profile mach1
+aws s3 cp "Mach1-LicenseDiagram-wbg.png" "s3://mach1-public/assets/license/Mach1-LicenseDiagram-wbg.png" --profile mach1
 aws s3 cp "attribution/Mach1-EndUserLicenseAgreement-General.pdf" "s3://mach1-public/assets/license/Mach1-EndUserLicenseAgreement-General.pdf" --profile mach1
 aws s3 cp "Mach1SpatialSDK-License.zip" "s3://mach1-releases/license/Mach1SpatialSDK-License.zip" --profile mach1

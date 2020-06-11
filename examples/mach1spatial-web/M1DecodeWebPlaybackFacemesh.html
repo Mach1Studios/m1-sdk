@@ -3,6 +3,7 @@
     <head>
         <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
         <meta content="utf-8" http-equiv="encoding" />
+        <script src="js/bose-ar-web-sdk.min.js"></script> 
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm/dist/tf-backend-wasm.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/facemesh"></script>
@@ -117,6 +118,10 @@
                         <td>
                             <input type="radio" name="mode" id="radio3" class="css-checkbox" value="touch" onclick="selectTracker()" />
                             <label for="radio3" class="css-label">Touch</label>
+                        </td>
+                        <td>
+                            <input type="radio" name="mode" id="radio4" class="css-checkbox" value="bose-ar" onclick="selectTracker()" />
+                            <label for="radio4" class="css-label" style="padding-bottom:5px;"><bose-ar-device game-rotation=20 rotation="very-fast"></bose-ar-device></label>
                         </td>
                     </tr>
                 </table>
@@ -420,8 +425,7 @@
         };
 
         function init() {
-            container = document.getElementById("3dview"); //document.createElement("div");
-            //document.body.appendChild(container);
+            container = document.getElementById("3dview");
 
             camera = new THREE.PerspectiveCamera(27, width / height, 1, 10000);
             camera.position.z = 2500;
@@ -458,9 +462,7 @@
             renderer.setSize(width, height);
             container.appendChild(renderer.domElement);
 
-            //
             stats = new Stats();
-            //container.appendChild(stats.dom);
 
             // COMPOSER
             renderer.autoClear = false;
@@ -515,6 +517,14 @@
                 window.roll = 0;
             }
 
+            if (window.modeTracker == "bose-ar") {
+                document.querySelector("bose-ar-device").addEventListener("gameRotation", event => {
+                    window.yaw = Number(document.querySelector("bose-ar-device").getAttribute("gameRotationYaw"));
+                    window.pitch = Number(document.querySelector("bose-ar-device").getAttribute("gameRotationPitch"));
+                    window.roll = Number(document.querySelector("bose-ar-device").getAttribute("gameRotationRoll"));
+                });
+            }
+
             if (window.yaw != null) yaw = fYaw.filter(window.yaw);
             if (window.pitch != null) pitch = fPitch.filter(window.pitch);
             if (window.roll != null) roll = fRoll.filter(window.roll);
@@ -527,7 +537,7 @@
             if (osc.status() == OSC.STATUS.IS_OPEN) {
                 osc.send(new OSC.Message("/orientation", yaw, pitch, roll));
             } else if (osc.status() == OSC.STATUS.IS_CLOSED) {
-                osc.open({ port: 9898 });
+                osc.open({ port: 9898 }); //TODO: add custom ports
             }
         }
 

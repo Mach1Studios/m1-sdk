@@ -16,14 +16,13 @@ void ofApp::setup() {
 	volumes.resize(2);
 
 	//CHANGE SECOND TO LAST ARG FOR BUFFER SIZE TESTING
+	soundStream.printDeviceList();
+	soundStream.setDeviceID(0);
 	soundStream.setup(this, 2, 0, 44100, 512, 1);
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
-	// update the sound playing system:
-	ofSoundUpdate();
-
 }
 
 //--------------------------------------------------------------
@@ -80,14 +79,14 @@ void ofApp::draw() {
     
         // Encode DSP point results
     
-		m1Encode.setRotation(rotation);
+		m1Encode.setAzimuth(rotation);
 		m1Encode.setDiverge(diverge);
-		m1Encode.setPitch(pitch);
-		m1Encode.setStereoRotate(sRotation);
+		m1Encode.setElevation(pitch);
+		m1Encode.setOrbitRotationDegrees(sRotation);
 		m1Encode.setStereoSpread(sSpread);
 		m1Encode.setAutoOrbit(autoOrbit);
 		m1Encode.setIsotropicEncode(enableIsotropicEncode);
-
+		 
 		if (inputKind == 0) { // Input: MONO
 			m1Encode.setInputMode(Mach1EncodeInputModeType::Mach1EncodeInputModeMono);
 		}
@@ -207,14 +206,14 @@ void ofApp::draw() {
         const char* outputOptions[] = {"Mach1Horizon/4CH", "Mach1Spatial/8CH"};
         ImGui::Combo("Output type", &outputKind, outputOptions, 2, 2);
     
-        ImGui::SliderFloat("Rotation", &rotation, 0, 1);
-        ImGui::SliderFloat("Diverge", &diverge, -0.707, 0.707);
+        ImGui::SliderFloat("Rotation", &rotation, -1, 1);
+        ImGui::SliderFloat("Diverge", &diverge, -1, 1);
         ImGui::SliderFloat("Pitch", &pitch, -1, 1);
         ImGui::Checkbox("Isotropic encode", &enableIsotropicEncode);
 
         if (inputKind == 1) { // Input: STERO
             ImGui::SliderFloat("S Rotation", &sRotation, -180, 180);
-            ImGui::SliderFloat("S Spread", &sSpread, 0, 1);
+            ImGui::SliderFloat("S Spread", &sSpread, -1, 1);
             ImGui::Checkbox("Auto orbit", &autoOrbit);
         }
     
@@ -226,6 +225,9 @@ void ofApp::draw() {
 
         ImGui::Separator();
         ImGui::Checkbox("Enable mouse", &enableMouse);
+
+		ImGui::Separator();
+		ImGui::Checkbox("Use Buffer Processing From Lib", &useBufferProcessingFromLib);
 
 		if (ImGui::IsMouseHoveringAnyWindow() || !enableMouse) {
 			camera.disableMouseInput();
@@ -253,8 +255,10 @@ void ofApp::loadAudio() {
 			player.load(text);
 
 			// resampling
-			((ofSoundBuffer&)player.getBuffer()).resample(1.0 * player.getBuffer().getSampleRate() / sampleRate);
-			((ofSoundBuffer&)player.getBuffer()).setSampleRate(sampleRate);
+			if (((ofSoundBuffer&)player.getBuffer()).size() > 0) {
+				((ofSoundBuffer&)player.getBuffer()).resample(1.0 * player.getBuffer().getSampleRate() / sampleRate);
+				((ofSoundBuffer&)player.getBuffer()).setSampleRate(sampleRate);
+			}
 		}
 	}
 	file.close();
@@ -308,75 +312,135 @@ void ofApp::windowResized(int w, int h) {
 
 //--------------------------------------------------------------
 void ofApp::gotMessage(ofMessage msg) {
-
+	
 }
 
-void ofApp::audioOut(float * output, int bufferSize, int nChannels)
+void ofApp::audioOut(ofSoundBuffer &outBuffer)
 {
 	if (player.getNumFrames() == 0) return;
 
-	mtx.lock();
-	std::vector<std::vector<float>> gains = m1Encode.getGains();
-	std::vector<float> decoded = this->decoded;
-	mtx.unlock();
+	int bufferSize = outBuffer.getNumFrames();
 
-	std::vector<float> volumes(2);
+	volumes[0] = 0;
+	volumes[1] = 0;
 
-	int channelCount = 8;
-	if (outputKind == 0) { // Output: Mach1Horizon / Quad
-		channelCount = 4;
+	if (useBufferProcessingFromLib) {
+		// fill input buffer
+		std::vector<std::vector<float>> bufferIn;
+		bufferIn.resize(m1Encode.getInputChannelsCount());
+		for (size_t c = 0; c < bufferIn.size(); c++)
+		{
+			bufferIn[c].resize(bufferSize);
+		}
+
+		for (int i = 0; i < bufferSize; i++) {
+			for (size_t c = 0; c < player.getNumChannels(); c++)
+			{
+				if (pos < player.getRawSamples().size() && c < m1Encode.getInputChannelsCount()) bufferIn[c][i] = player.getRawSamples()[pos];
+				pos++;
+			}
+
+			// loop audio
+			if (pos >= player.getRawSamples().size()) pos = 0;
+		}
+
+		// create encoded buffer 
+		std::vector<std::vector<float>> bufferEncoded;
+		bufferEncoded.resize(m1Encode.getInputChannelsCount() * m1Encode.getOutputChannelsCount());
+		for (size_t c = 0; c < bufferEncoded.size(); c++)
+		{
+			bufferEncoded[c].resize(bufferSize);
+		}
+
+		// create output buffer
+		std::vector<std::vector<float>> bufferOut;
+		bufferOut.resize(2);
+		for (size_t c = 0; c < bufferOut.size(); c++)
+		{
+			bufferOut[c].resize(bufferSize);
+		}
+
+		// processing buffer
+		m1Encode.encodeBuffer<float>(&bufferIn, &bufferEncoded, bufferSize);
+		m1Decode.decodeBuffer<float>(&bufferEncoded, &bufferOut, m1Encode.getInputChannelsCount(), bufferSize);
+
+		for (int i = 0; i < bufferSize; i++)
+		{
+			// left channel
+			outBuffer.getSample(i, 0) = bufferOut[0][i];
+			volumes[0] += fabs(bufferOut[0][i]);
+
+			outBuffer.getSample(i, 1) = bufferOut[1][i];
+			volumes[1] += fabs(bufferOut[1][i]);
+		}
 	}
-	if (outputKind == 1) { // Output: Mach1Spatial / Cuboid
-		channelCount = 8;
-	}
+	else {
+		mtx.lock();
+		std::vector<std::vector<float>> gains = m1Encode.getGains();
+		std::vector<float> decoded = this->decoded;
+		mtx.unlock();
 
-	float sample;
-	for (int i = 0; i < bufferSize; i++)
-	{
-		// left channel
-		sample = 0;
-		for (int j = 0; j < 8; j++) {
-			if (pos < player.getRawSamples().size()) sample += player.getRawSamples()[pos] * (decoded[2 * j + 0]) * gains[0][j];
-        }
-		output[i*nChannels] = sample;
-		volumes[0] += fabs(output[i*nChannels]);
+		std::vector<float> volumes(2);
 
-		/*
-		// debug coefficients
-		float sumDecodedLeft = 0;
-		//	cout << "----" << endl;
-		for (int j = 0; j < channelCount; j++) {
-			sumDecodedLeft += (decoded[2 * j + 0]) * gains[0][j];
-			//	cout << (decoded[2 * j + 0]) << " * " << gains[0][j]  << " = "  << (decoded[2 * j + 0]) * gains[0][j] << endl;
+		int channelCount = 8;
+		if (outputKind == 0) { // Output: Mach1Horizon / Quad
+			channelCount = 4;
 		}
-		//	cout << "----" << endl;
-		
-		float sumDecodedRight = 0;
-		for (int j = 0; j < channelCount; j++) {
-			sumDecodedRight += (decoded[2 * j + 1])* gains[0][j];
-		}
-		float sumGains = 0;
-		for (int j = 0; j < channelCount; j++) {
-			sumGains += (gains[0][j]);
-		}
-		cout <<  sumDecodedLeft << " , " << sumDecodedRight << " , " << sumGains << endl;
-		//*/
-
-
-		if(player.getNumChannels()>1) pos++;
-
-		// right channel
-		sample = 0;
-		for (int j = 0; j < 8; j++) {
-			if (pos < player.getRawSamples().size()) sample += player.getRawSamples()[pos] * (decoded[2 * j + 1]) * gains[gains.size() > 1 ? 1 : 0][j];
+		if (outputKind == 1) { // Output: Mach1Spatial / Cuboid
+			channelCount = 8;
 		}
 
-		output[i*nChannels + 1] = sample;
-		volumes[1] += fabs(output[i*nChannels + 1]);
-		pos++;
+		float sample;
+		for (int i = 0; i < bufferSize; i++)
+		{
+			// left channel
+			sample = 0;
+			for (int j = 0; j < 8; j++) {
+				if (pos < player.getRawSamples().size()) sample += player.getRawSamples()[pos] * gains[0][j] * (decoded[2 * j + 0]);
+			}
+			outBuffer.getSample(i, 0) = sample;
+			volumes[0] += fabs(sample);
 
-		// loop audio
-		if (pos >= player.getRawSamples().size()) pos = 0;
+			/*
+			// debug coefficients
+			float sumDecodedLeft = 0;
+			//	cout << "----" << endl;
+			for (int j = 0; j < channelCount; j++) {
+				sumDecodedLeft += (decoded[2 * j + 0]) * gains[0][j];
+				//	cout << (decoded[2 * j + 0]) << " * " << gains[0][j]  << " = "  << (decoded[2 * j + 0]) * gains[0][j] << endl;
+			}
+			//	cout << "----" << endl;
+
+			float sumDecodedRight = 0;
+			for (int j = 0; j < channelCount; j++) {
+				sumDecodedRight += (decoded[2 * j + 1])* gains[0][j];
+			}
+			float sumGains = 0;
+			for (int j = 0; j < channelCount; j++) {
+				sumGains += (gains[0][j]);
+			}
+			cout <<  sumDecodedLeft << " , " << sumDecodedRight << " , " << sumGains << endl;
+			//*/
+
+
+			if (player.getNumChannels() > 1 && gains.size() > 1) pos++; // goto next channel
+
+			// right channel
+			sample = 0;
+			for (int j = 0; j < 8; j++) {
+				if (pos < player.getRawSamples().size()) sample += player.getRawSamples()[pos] * (decoded[2 * j + 1]) * gains[gains.size() > 1 ? 1 : 0][j];
+			}
+
+			if (player.getNumChannels() > 1 && gains.size() == 1) pos++; // skip
+
+			outBuffer.getSample(i, 1) = sample;
+			volumes[1] += fabs(sample);
+			pos++;
+
+			// loop audio
+			if (pos >= player.getRawSamples().size()) pos = 0;
+		}
+
 	}
 
 	// show volumes

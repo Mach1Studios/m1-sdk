@@ -205,7 +205,7 @@ static void* decode(void* v)
                 }
                 //resize coeffs array to the size of the current output
                 m1Decode.setDecodeAlgoType(outputFormat);
-                m1Coeffs.resize(m1Decode.getOutputChannelsCount(), 0.0f);
+                m1Coeffs.resize(m1Decode.getFormatChannelCount(), 0.0f);
                 break;
             default:
                 printf("Input not recognized.\n");
@@ -241,7 +241,7 @@ static void* decode(void* v)
             printf(" %iR: %f\n", i, m1Coeffs[i * 2 + 1]);
         }
         printf("Headlock Stereo Coeffs:\n");
-        printf("%f %f\n", m1Coeffs[m1Decode.getOutputChannelsCount()-2], m1Coeffs[m1Decode.getOutputChannelsCount()-1]);
+        printf("%f %f\n", m1Coeffs[m1Decode.getFormatChannelCount()-2], m1Coeffs[m1Decode.getFormatChannelCount()-1]);
         printf("\n");
         printf("Elapsed time: %f Seconds\n", timeReturned);
         printf("\n");

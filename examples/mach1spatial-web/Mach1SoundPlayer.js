@@ -260,8 +260,8 @@ function Mach1SoundPlayer() {
 
     function setVolumes() {
         if (thus.isReady() && _isPlaying) {
-            for (let i = 0; i < smp.length; ++i) {
-                gainNode[i].gain.value = volumes[i];
+            for (let i = 0; i < smp.length; ++i) { 
+                gainNode[i].gain.setTargetAtTime(volumes[i], _soundPlayer_audioCtx.currentTime, 0.05);
             }
         }
     }

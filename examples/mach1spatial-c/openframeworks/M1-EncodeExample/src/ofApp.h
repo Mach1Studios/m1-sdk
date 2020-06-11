@@ -35,7 +35,7 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
-	void audioOut(float * output, int bufferSize, int nChannels);
+	void audioOut(ofSoundBuffer &outBuffer);
 
 	ofxImGui::Gui gui;
 
@@ -49,6 +49,8 @@ class ofApp : public ofBaseApp{
 
 	float sRotation, sSpread = 0.5;
 	bool autoOrbit = true;
+
+	bool useBufferProcessingFromLib = true;
 
 	// Decoder
 

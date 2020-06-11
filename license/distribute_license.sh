@@ -47,10 +47,10 @@ cp -r attribution ../../m1-sdk-release/license/
 rm "Mach1SpatialSDK-License.zip"
 zip Mach1SpatialSDK-License.zip -r . -x 'Mach1-LicenseDiagram.graffle/*' -x '*.docx' -x 'Mach1-LicenseDiagram.png' -x '*.DS_Store' -x '*.sh' -x '*.html' -x 'Mach1-LicenseDiagram_nobug.png' -x '*.ai' -x 'attribution/Mach1-EndUserLicenseAgreement-General.docx' -x '.gitignore'
 
-aws s3 cp "LICENSE.txt" "s3://mach1-public/assets/license/LICENSE.txt" --profile mach1
-aws s3 cp "LICENSE.html" "s3://mach1-public/assets/license/LICENSE.html" --profile mach1
-aws s3 cp "Mach1SpatialSDK-RoyaltyFreeLicense.pdf" "s3://mach1-public/assets/license/Mach1SpatialSDK-RoyaltyFreeLicense.pdf" --profile mach1
-aws s3 cp "Mach1-LicenseDiagram.png" "s3://mach1-public/assets/license/Mach1-LicenseDiagram.png" --profile mach1
-aws s3 cp "Mach1-LicenseDiagram-wbg.png" "s3://mach1-public/assets/license/Mach1-LicenseDiagram-wbg.png" --profile mach1
-aws s3 cp "attribution/Mach1-EndUserLicenseAgreement-General.pdf" "s3://mach1-public/assets/license/Mach1-EndUserLicenseAgreement-General.pdf" --profile mach1
-aws s3 cp "Mach1SpatialSDK-License.zip" "s3://mach1-releases/license/Mach1SpatialSDK-License.zip" --profile mach1
+aws s3 cp "LICENSE.txt" "s3://mach1-public/assets/license/LICENSE.txt" --cache-control 'max-age 0,no-cache,no-store,must-revalidate' --metadata-directive REPLACE --profile mach1
+aws s3 cp "LICENSE.html" "s3://mach1-public/assets/license/LICENSE.html" --cache-control 'max-age 0,no-cache,no-store,must-revalidate' --metadata-directive REPLACE --profile mach1
+aws s3 cp "Mach1SpatialSDK-RoyaltyFreeLicense.pdf" "s3://mach1-public/assets/license/Mach1SpatialSDK-RoyaltyFreeLicense.pdf" --cache-control 'max-age 0,no-cache,no-store,must-revalidate' --metadata-directive REPLACE --profile mach1
+aws s3 cp "Mach1-LicenseDiagram.png" "s3://mach1-public/assets/license/Mach1-LicenseDiagram.png" --cache-control 'max-age 0,no-cache,no-store,must-revalidate' --metadata-directive REPLACE --profile mach1
+aws s3 cp "Mach1-LicenseDiagram-wbg.png" "s3://mach1-public/assets/license/Mach1-LicenseDiagram-wbg.png" --cache-control 'max-age 0,no-cache,no-store,must-revalidate' --metadata-directive REPLACE --profile mach1
+aws s3 cp "attribution/Mach1-EndUserLicenseAgreement-General.pdf" "s3://mach1-public/assets/license/Mach1-EndUserLicenseAgreement-General.pdf" --cache-control 'max-age 0,no-cache,no-store,must-revalidate' --metadata-directive REPLACE --profile mach1
+aws s3 cp "Mach1SpatialSDK-License.zip" "s3://mach1-releases/license/Mach1SpatialSDK-License.zip" --cache-control 'max-age 0,no-cache,no-store,must-revalidate' --metadata-directive REPLACE --profile mach1

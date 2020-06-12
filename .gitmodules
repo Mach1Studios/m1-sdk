@@ -6,3 +6,6 @@
 	path = examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI
 	url = git@github.com:Mach1Studios/JitPack-Mach1SpatialAPI.git
 	active = true
+[submodule "examples/mach1spatial-web/m1-web-spatialaudioplayer"]
+	path = examples/mach1spatial-web/m1-web-spatialaudioplayer
+	url = git@github.com:Mach1Studios/m1-web-spatialaudioplayer.git

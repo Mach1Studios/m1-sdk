@@ -26,10 +26,10 @@ powershell -Command "Invoke-WebRequest -OutFile T1.ogg http://dev.mach1.xyz/mach
 powershell -Command "Invoke-WebRequest -OutFile T2.ogg http://dev.mach1.xyz/mach1-sdk-sample-audio/web/m1spatial/T2.ogg"
 powershell -Command "Invoke-WebRequest -OutFile T3.ogg http://dev.mach1.xyz/mach1-sdk-sample-audio/web/m1spatial/T3.ogg"
 powershell -Command "Invoke-WebRequest -OutFile T4.ogg http://dev.mach1.xyz/mach1-sdk-sample-audio/web/m1spatial/T4.ogg"
-powershell -Command "Invoke-WebRequest -OutFile B1.ogg http://dev.mach1.xyz/mach1-sdk-sample-audio/web/m1spatial/B1.ogg"
-powershell -Command "Invoke-WebRequest -OutFile B2.ogg http://dev.mach1.xyz/mach1-sdk-sample-audio/web/m1spatial/B2.ogg"
-powershell -Command "Invoke-WebRequest -OutFile B3.ogg http://dev.mach1.xyz/mach1-sdk-sample-audio/web/m1spatial/B3.ogg"
-powershell -Command "Invoke-WebRequest -OutFile B4.ogg http://dev.mach1.xyz/mach1-sdk-sample-audio/web/m1spatial/B4.ogg"
+powershell -Command "Invoke-WebRequest -OutFile B1.ogg http://dev.mach1.xyz/mach1-sdk-sample-audio/web/m1spatial/B5.ogg"
+powershell -Command "Invoke-WebRequest -OutFile B2.ogg http://dev.mach1.xyz/mach1-sdk-sample-audio/web/m1spatial/B6.ogg"
+powershell -Command "Invoke-WebRequest -OutFile B3.ogg http://dev.mach1.xyz/mach1-sdk-sample-audio/web/m1spatial/B7.ogg"
+powershell -Command "Invoke-WebRequest -OutFile B4.ogg http://dev.mach1.xyz/mach1-sdk-sample-audio/web/m1spatial/B8.ogg"
 
 cd ..\..\video
 powershell -Command "Invoke-WebRequest -OutFile video.webm http://dev.mach1.xyz/mach1-sdk-sample-audio/web/video/video.webm"

@@ -2,7 +2,7 @@
 
 ## Audio Directory
 
-1. use `./download-audiofiles.sh` on the previous directory of this README.md to download some prepared debug audio.
+1. use `./download-audiofiles.sh` (or `./download-audiofiles.bat` if on WIN) on this directory to download some prepared debug audio/video.
 
 2a. Place M1Encode audio file(s) in this [audio] directory per input channel type
 
@@ -13,22 +13,6 @@ Example path:
 
 Example paths:
 `audio/m1spatial/...ogg`
-
-#### Mach1DecodeAlgoHorizonPairs:
-```
-000.ogg
-090.ogg
-180.ogg
-270.ogg
-```
-
-#### Mach1DecodeAlgoHorizon:
-```
-1.ogg
-2.ogg
-3.ogg
-4.ogg
-```
 
 #### Mach1DecodeAlgoSpatial: 
 ```
@@ -42,3 +26,4 @@ B7.ogg
 B8.ogg
 ```
 
+3. Either serve the entire directory (or files needed) or run `http-server` to locally serve the examples

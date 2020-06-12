@@ -41,17 +41,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	function loadSounds() {
     if (params.inputKind == 0) { // Input: MONO
-			audioFiles = ['audio/mono/1.mp3'];
+			audioFiles = ['audio/mono/1.ogg'];
     }
     else if (params.inputKind == 1) { // Input: STERO
-			audioFiles = ['audio/stereo/M1_SDKDemo_Electronic_Stereo_L.ogg', 'audio/stereo/M1_SDKDemo_Electronic_Stereo_R.ogg'];
+			audioFiles = ['audio/stereo/M1_SDKDemo_Orchestral_Stereo_L.ogg', 'audio/stereo/M1_SDKDemo_Orchestral_Stereo_R.ogg'];
     }
     else if (params.inputKind == 2) {
       audioFiles = ['audio/quad/guitar-m1horizon.ogg'];
       mach1AudioLoader = new Mach1AudioLoader(audioFiles, 4);
     }
 		else {
-			audioFiles = ['audio/mono/1.mp3'];
+			audioFiles = ['audio/mono/1.ogg'];
 		}
 		
 		if(mach1SoundPlayer) {

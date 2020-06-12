@@ -41,6 +41,7 @@ cp LICENSE.txt ../../m1-sdk-release/examples/mach1spatial-web/js/LICENSE.txt
 
 cp LICENSE.txt ../../m1-sdk-release/license/LICENSE.txt
 cp Mach1SpatialSDK-RoyaltyFreeLicense.pdf ../../m1-sdk-release/license/Mach1SpatialSDK-RoyaltyFreeLicense.pdf
+cp Mach1-LicenseDiagram.png ../../m1-sdk-release/license/Mach1-LicenseDiagram.png
 cp -r attribution ../../m1-sdk-release/license/
 
 # copy to website and s3

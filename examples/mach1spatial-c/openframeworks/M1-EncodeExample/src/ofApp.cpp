@@ -104,10 +104,10 @@ void ofApp::draw() {
 		}
 
 		if (outputKind == 0) { // Output: Mach1Horizon / Quad
-			m1Encode.setOutputMode(Mach1EncodeOutputModeType::Mach1EncodeOutputMode4Ch);
+			m1Encode.setOutputMode(Mach1EncodeOutputModeType::Mach1EncodeOutputModeM1Horizon);
 		}
 		if (outputKind == 1) { // Output: Mach1Spatial / Cuboid
-			m1Encode.setOutputMode(Mach1EncodeOutputModeType::Mach1EncodeOutputMode8Ch);
+			m1Encode.setOutputMode(Mach1EncodeOutputModeType::Mach1EncodeOutputModeM1Spatial);
 		}
 
         // Resets the Decoding input when changing Encoding output between Mach1Spatial and Mach1Horizon

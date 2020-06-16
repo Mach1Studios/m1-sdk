@@ -1125,6 +1125,24 @@ void Mach1DecodeCore::decodeCoeffs(float *result, int bufferSize, int sampleInde
 	timeLastCalculation = getCurrentTime() - tStart;
 }
 
+void Mach1DecodeCore::decodeCoeffsUsingTranscodeMatrix(void * M1obj, float * matrix, int channels, float * result, int bufferSize, int sampleIndex)
+{
+	std::vector<float> coeffs = decodeCoeffs(bufferSize, sampleIndex);
+
+	int inChans = channels;
+	int outChans = (getFormatChannelCount() - 1) / 2;
+	int stereoChans = 2;
+
+	for (int i = 0; i < inChans; i++) {
+		for (int j = 0; j < stereoChans; j++) {
+			result[i * stereoChans + j] = 0;
+			for (int k = 0; k < outChans; k++) {
+				result[i * stereoChans + j] += matrix[k * inChans + i] * coeffs[k * stereoChans + j];
+			}
+		}
+	}
+}
+
 // The following functions are deprecated as of now
 
 //--------------------------------------------------

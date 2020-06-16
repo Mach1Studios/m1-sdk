@@ -166,6 +166,7 @@ public:
 
     void decode(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
 	void decodeCoeffs(float *result, int bufferSize = 0, int sampleIndex = 0);
+	void decodeCoeffsUsingTranscodeMatrix(void * M1obj, float * matrix, int channels, float * result, int bufferSize = 0, int sampleIndex = 0);
 
     // The following functions are deprecated as of now
     

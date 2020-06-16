@@ -455,7 +455,7 @@ void Mach1TranscodeCore::getMatrixConversion(float* matrix)
 			for (int i = 0; i < outChans; i++) {
 				for (int j = 0; j < prevInChans; j++) {
 					for (int k = 0; k < inChans; k++) {
-						mRes[i][j] = mRes[i][j] + mCurrent[i][k] * mPrev[k][j];
+						mRes[i][j] += mCurrent[i][k] * mPrev[k][j];
 					}
 				}
 			}

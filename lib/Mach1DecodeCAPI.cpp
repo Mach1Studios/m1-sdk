@@ -46,6 +46,11 @@ void Mach1DecodeCAPI_decodeCoeffs(void* M1obj, float* result, int bufferSize, in
 {
 	((Mach1DecodeCore*)M1obj)->decodeCoeffs(result, bufferSize, sampleIndex);
 }
+
+void Mach1DecodeCAPI_decodeCoeffsUsingTranscodeMatrix(void * M1obj, float * matrix, int channels, float * result, int bufferSize, int sampleIndex)
+{
+	((Mach1DecodeCore*)M1obj)->decodeCoeffsUsingTranscodeMatrix(M1obj, matrix, channels, result, bufferSize, sampleIndex);
+}
  
 void Mach1DecodeCAPI_setFilterSpeed(void* M1obj, float filterSpeed)
 {

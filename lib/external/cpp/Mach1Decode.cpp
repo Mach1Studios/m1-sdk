@@ -58,7 +58,7 @@ void Mach1Decode::decodeCoeffs(float * result, int bufferSize, int sampleIndex)
 
 std::vector<float> Mach1Decode::decode(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
 {
-	static std::vector<float> vec(getFormatChannelCount());
+	std::vector<float> vec(getFormatChannelCount());
 
 	Mach1DecodeCAPI_decode(M1obj, Yaw, Pitch, Roll, vec.data(), bufferSize, sampleIndex);
 
@@ -82,7 +82,7 @@ std::vector<float> Mach1Decode::decode(float Yaw, float Pitch, float Roll, int b
 
 std::vector<float> Mach1Decode::decodeCoeffs(int bufferSize, int sampleIndex)
 {
-	static std::vector<float> vec(getFormatChannelCount());
+	std::vector<float> vec(getFormatChannelCount());
 
 	Mach1DecodeCAPI_decodeCoeffs(M1obj, vec.data(), bufferSize, sampleIndex);
 
@@ -99,6 +99,26 @@ std::vector<float> Mach1Decode::decodeCoeffs(int bufferSize, int sampleIndex)
     /// - Parameters: 
     ///     - bufferSize: int for number of samples in a buffer, ideally supplied from your audioplayer/engine
     ///     - sampleIndex: int for current sample index array, ideally supplied from your audioplayer/engine
+}
+
+std::vector<float> Mach1Decode::decodeCoeffsUsingTranscodeMatrix(std::vector<std::vector<float>> matrix, int channels, int bufferSize, int sampleIndex)
+{
+	std::vector<float> vec(2 * channels);
+
+	int inChans = channels;
+	int outChans = (getFormatChannelCount() - 1) / 2;
+
+	float* m = new float[inChans * outChans];
+	for (int i = 0; i < outChans; i++) {
+		for (int j = 0; j < inChans; j++) {
+			m[i * inChans + j] = matrix[i][j];
+		}
+	}
+
+	Mach1DecodeCAPI_decodeCoeffsUsingTranscodeMatrix(M1obj, m, channels, vec.data(), bufferSize, sampleIndex);
+
+	delete[] m;
+	return vec;
 }
 
 int Mach1Decode::getFormatChannelCount()

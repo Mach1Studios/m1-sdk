@@ -473,6 +473,22 @@ void Mach1TranscodeCore::getMatrixConversion(float* matrix)
 			matrix[i *  inChans + j] = mRes[i][j];
 		}
 	}
+
+	/*
+	// debug output
+	printf("std::vector<std::vector<float>> res = { \r\n");// , outChans * inChans);
+	for (size_t i = 0; i < outChans; i++) {
+		printf("{ ");
+		for (size_t j = 0; j < inChans; j++) {
+			printf(" %f", mRes[i][j]);
+			if (j != inChans - 1) printf(",", mRes[i][j]);
+		}
+		printf("}");
+		if (i != outChans - 1) printf(",");
+		printf("\r\n");
+	}
+	printf("};\r\n");
+	*/
 }
 
 void Mach1TranscodeCore::convert(float ** inBufs, float ** outBufs, int numSamples)

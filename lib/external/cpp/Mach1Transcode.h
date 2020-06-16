@@ -40,7 +40,7 @@ public:
 	void setOutputFormatTTPoints(std::vector<Mach1Point3D> points);
 
 	bool computeConvertionPath();
-	void getMatrixConversion(float* matrix);
+	std::vector<std::vector<float>> getMatrixConversion();
 	void convert(float** inBufs, float** outBufs, int numSamples);
 
 	std::vector<Mach1TranscodeFormatType> getFormatsConvertionPath();

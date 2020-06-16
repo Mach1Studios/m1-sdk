@@ -32,6 +32,7 @@ cp Mach1SpatialSDK-RoyaltyFreeLicense.pdf ../examples/mach1spatial-c/Unreal\ Eng
 cp -r attribution ../examples/mach1spatial-c/Unreal\ Engine/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/Resources/license/
 
 cp LICENSE.txt ../examples/mach1spatial-web/js/LICENSE.txt
+cp LICENSE.txt ../examples/mach1spatial-web/m1-web-spatialaudioplayer/js/LICENSE.txt
 
 # copy to release places
 cp LICENSE.txt ../../m1-sdk-release/LICENSE.txt

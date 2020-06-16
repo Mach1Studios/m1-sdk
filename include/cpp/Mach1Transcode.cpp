@@ -107,6 +107,25 @@ bool Mach1Transcode::computeConvertionPath()
 	return Mach1TranscodeCAPI_computeConvertionPath(M1obj);
 }
 
+std::vector<std::vector<float>> Mach1Transcode::getMatrixConversion()
+{
+	float* matrix = new float[getInputNumChannels() * getOutputNumChannels()];
+	Mach1TranscodeCAPI_getMatrixConversion(M1obj, matrix);
+
+	std::vector<std::vector<float>> vec;
+	vec.resize(getOutputNumChannels());
+	for (size_t i = 0; i < vec.size(); i++)
+	{
+		vec[i].resize(getInputNumChannels());
+		for (size_t j = 0; j < vec[i].size(); j++)
+		{
+			vec[i][j] = matrix[i * getInputNumChannels() + j];
+		}
+	}
+
+	return vec;
+}
+
 void Mach1Transcode::convert(float** inBufs, float** outBufs, int numSamples)
 {
 	Mach1TranscodeCAPI_convert(M1obj, inBufs, outBufs, numSamples);

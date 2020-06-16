@@ -107,6 +107,11 @@ bool Mach1Transcode::computeConvertionPath()
 	return Mach1TranscodeCAPI_computeConvertionPath(M1obj);
 }
 
+void Mach1Transcode::getMatrixConversion(float * matrix)
+{
+	Mach1TranscodeCAPI_getMatrixConversion(M1obj, matrix);
+}
+
 void Mach1Transcode::convert(float** inBufs, float** outBufs, int numSamples)
 {
 	Mach1TranscodeCAPI_convert(M1obj, inBufs, outBufs, numSamples);

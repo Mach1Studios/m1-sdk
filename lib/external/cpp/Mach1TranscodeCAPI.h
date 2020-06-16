@@ -119,6 +119,7 @@ extern "C" {
 	M1_API void Mach1TranscodeCAPI_setOutputFormatTTPoints(void* M1obj, Mach1Point3D* points, int count);
 
 	M1_API bool Mach1TranscodeCAPI_computeConvertionPath(void* M1obj);
+	M1_API void Mach1TranscodeCAPI_getMatrixConversion(void* M1obj, float* matrix);
 	M1_API void Mach1TranscodeCAPI_convert(void* M1obj, float** inBufs, float** outBufs, int numSamples);
 
 	M1_API Mach1TranscodeFormatType* Mach1TranscodeCAPI_getFormatsConvertionPath(void* M1obj, int& count);

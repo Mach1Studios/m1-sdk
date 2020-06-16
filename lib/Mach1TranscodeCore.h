@@ -2276,6 +2276,7 @@ public:
 	void setOutputFormatTTPoints(std::vector<Mach1Point3DCore> points);
 
 	bool computeConvertionPath();
+	void getMatrixConversion(float* matrix);
 	void convert(float** inBufs, float** outBufs, int numSamples);
 
 	std::vector<Mach1TranscodeFormats::FormatType>& getFormatsConvertionPath();

@@ -406,6 +406,75 @@ float Mach1TranscodeCore::level2db(float level)
 	return (float)(20.0f * log((double)level) / M_LN10);
 }
 
+void Mach1TranscodeCore::getMatrixConversion(float* matrix)
+{
+	float mPrev[Mach1TranscodeConstants::MAXCHANS][Mach1TranscodeConstants::MAXCHANS];
+	float mCurrent[Mach1TranscodeConstants::MAXCHANS][Mach1TranscodeConstants::MAXCHANS];
+	float mRes[Mach1TranscodeConstants::MAXCHANS][Mach1TranscodeConstants::MAXCHANS];
+	int mSize = Mach1TranscodeConstants::MAXCHANS * Mach1TranscodeConstants::MAXCHANS * sizeof(float);
+
+	int prevInChans = 0;
+	int prevOutChans = 0;
+
+	memset(mPrev, 0, mSize);
+	memset(mCurrent, 0, mSize);
+	memset(mRes, 0, mSize);
+
+	for (int k = 0; k < formatsConvertionPath.size() - 1; k++) {
+		Mach1TranscodeFormats::FormatType inFmt = formatsConvertionPath[k];
+		Mach1TranscodeFormats::FormatType outFmt = formatsConvertionPath[k + 1];
+
+		int inChans = getNumChannels(inFmt, true);
+		int outChans = getNumChannels(outFmt, false);
+		std::vector<std::vector<float>> currentFormatConversionMatrix;
+
+		if (inFmt == Mach1TranscodeFormats::FormatType::TTPoints && outFmt != Mach1TranscodeFormats::FormatType::TTPoints) {
+			currentFormatConversionMatrix = generateCoeffSetForPoints(inTTPoints, getPointsSet(outFmt));
+		}
+		else if (inFmt != Mach1TranscodeFormats::FormatType::TTPoints && outFmt == Mach1TranscodeFormats::FormatType::TTPoints) {
+			currentFormatConversionMatrix = generateCoeffSetForPoints(getPointsSet(outFmt), inTTPoints);
+		}
+		else if (inFmt != Mach1TranscodeFormats::FormatType::TTPoints && outFmt != Mach1TranscodeFormats::FormatType::TTPoints) {
+			currentFormatConversionMatrix = ((SpatialSoundMatrix*)Mach1TranscodeConstants::FormatMatrix.at(std::make_pair(inFmt, outFmt)))->getData();
+		}
+
+		memset(mCurrent, 0, mSize);
+		for (int outChannel = 0; outChannel < outChans; outChannel++)
+		{
+			for (int inChannel = 0; inChannel < inChans; inChannel++) {
+				mCurrent[outChannel][inChannel] = currentFormatConversionMatrix[outChannel][inChannel];
+			}
+		}
+
+		if (k == 0) {
+			memcpy(mRes, mCurrent, mSize);
+		}
+		else {
+			memset(mRes, 0, mSize);
+			// multiply matrix
+			for (int i = 0; i < outChans; i++) {
+				for (int j = 0; j < prevInChans; j++) {
+					for (int k = 0; k < inChans; k++) {
+						mRes[i][j] = mRes[i][j] + mCurrent[i][k] * mPrev[k][j];
+					}
+				}
+			}
+		}
+
+		prevInChans = inChans;
+		prevOutChans = outChans;
+		memcpy(mPrev, mRes, Mach1TranscodeConstants::MAXCHANS * Mach1TranscodeConstants::MAXCHANS * sizeof(float));
+	}
+
+	int inChans = getInputNumChannels();
+	int outChans = getOutputNumChannels();
+	for (size_t i = 0; i < outChans; i++) {
+		for (size_t j = 0; j < inChans; j++) {
+			matrix[i *  inChans + j] = mRes[i][j];
+		}
+	}
+}
+
 void Mach1TranscodeCore::convert(float ** inBufs, float ** outBufs, int numSamples)
 {
 	// reinit internal buffer

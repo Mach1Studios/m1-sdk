@@ -123,6 +123,7 @@ std::vector<std::vector<float>> Mach1Transcode::getMatrixConversion()
 		}
 	}
 
+	delete[] matrix;
 	return vec;
 }
 

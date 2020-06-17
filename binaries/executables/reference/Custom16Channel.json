@@ -1,0 +1,180 @@
+{
+    "points": [
+        {
+            "x": -1.0,
+            "y": 0.0,
+            "z": 1.0,
+            "yaw": 0.0,
+            "pitch": 0.0,
+            "distance": 1.0,
+            "usePolar": false,
+            "name": "Speaker 1",
+            "children": []
+        },
+        {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 1.0,
+            "yaw": 0.0,
+            "pitch": 0.0,
+            "distance": 1.0,
+            "usePolar": false,
+            "name": "Speaker 2",
+            "children": []
+        },
+        {
+            "x": 1.0,
+            "y": 0.0,
+            "z": 1.0,
+            "yaw": 0.0,
+            "pitch": 0.0,
+            "distance": 1.0,
+            "usePolar": false,
+            "name": "Speaker 3",
+            "children": []
+        },
+        {
+            "x": 1.0,
+            "y": 0.0,
+            "z": 0.0,
+            "yaw": 0.0,
+            "pitch": 0.0,
+            "distance": 1.0,
+            "usePolar": false,
+            "name": "Speaker 4",
+            "children": []
+        },
+        {
+            "x": 1.0,
+            "y": 0.0,
+            "z": -1.0,
+            "yaw": 0.0,
+            "pitch": 0.0,
+            "distance": 1.0,
+            "usePolar": false,
+            "name": "Speaker 5",
+            "children": []
+        },
+        {
+            "x": 0.0,
+            "y": 0.0,
+            "z": -1.0,
+            "yaw": 0.0,
+            "pitch": 0.0,
+            "distance": 1.0,
+            "usePolar": false,
+            "name": "Speaker 6",
+            "children": []
+        },
+        {
+            "x": -1.0,
+            "y": 0.0,
+            "z": -1.0,
+            "yaw": 0.0,
+            "pitch": 0.0,
+            "distance": 1.0,
+            "usePolar": false,
+            "name": "Speaker 7",
+            "children": []
+        },
+        {
+            "x": -1.0,
+            "y": 0.0,
+            "z": 0.0,
+            "yaw": 0.0,
+            "pitch": 0.0,
+            "distance": 1.0,
+            "usePolar": false,
+            "name": "Speaker 8",
+            "children": []
+        },
+        {
+            "x": -1.0,
+            "y": 1.0,
+            "z": 1.0,
+            "yaw": 0.0,
+            "pitch": 0.0,
+            "distance": 1.0,
+            "usePolar": false,
+            "name": "Speaker 9",
+            "children": []
+        },
+        {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0,
+            "yaw": 0.0,
+            "pitch": 0.0,
+            "distance": 1.0,
+            "usePolar": false,
+            "name": "Speaker 10",
+            "children": []
+        },
+        {
+            "x": 1.0,
+            "y": 1.0,
+            "z": -1.0,
+            "yaw": 0.0,
+            "pitch": 0.0,
+            "distance": 1.0,
+            "usePolar": false,
+            "name": "Speaker 11",
+            "children": []
+        },
+        {
+            "x": -1.0,
+            "y": 1.0,
+            "z": -1.0,
+            "yaw": 0.0,
+            "pitch": 0.0,
+            "distance": 1.0,
+            "usePolar": false,
+            "name": "Speaker 12",
+            "children": []
+        },
+        {
+            "x": -1.0,
+            "y": -1.0,
+            "z": 1.0,
+            "yaw": 0.0,
+            "pitch": 0.0,
+            "distance": 1.0,
+            "usePolar": false,
+            "name": "Speaker 13",
+            "children": []
+        },
+        {
+            "x": 1.0,
+            "y": -1.0,
+            "z": 1.0,
+            "yaw": 0.0,
+            "pitch": 0.0,
+            "distance": 1.0,
+            "usePolar": false,
+            "name": "Speaker 14",
+            "children": []
+        },
+        {
+            "x": 1.0,
+            "y": -1.0,
+            "z": -1.0,
+            "yaw": 0.0,
+            "pitch": 0.0,
+            "distance": 1.0,
+            "usePolar": false,
+            "name": "Speaker 15",
+            "children": []
+        },
+        {
+            "x": -1.0,
+            "y": -1.0,
+            "z": -1.0,
+            "yaw": 0.0,
+            "pitch": 0.0,
+            "distance": 1.0,
+            "usePolar": false,
+            "name": "Speaker 16",
+            "children": []
+        }
+    ]
+}

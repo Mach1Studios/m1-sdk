@@ -160,5 +160,10 @@ public class Mach1Decode {
         ///     - bufferSize: int for number of samples in a buffer, ideally supplied from your audioplayer/engine
         ///     - sampleIndex: int for current sample index array, ideally supplied from your audioplayer/engine
     }
-
+    
+    public func decodeCoeffsUsingTranscodeMatrix(matrix:[Float], channels: Int, result:[Float],bufferSize:Int, sampleIndex: Int) {
+        let pointerMatrix: UnsafeMutablePointer = UnsafeMutablePointer(mutating: matrix)
+        let pointerResult: UnsafeMutablePointer = UnsafeMutablePointer(mutating: result)
+        Mach1DecodeCAPI_decodeCoeffsUsingTranscodeMatrix(M1obj, pointerMatrix, CInt(channels), pointerResult, CInt(bufferSize), CInt(sampleIndex));
+    }
 }

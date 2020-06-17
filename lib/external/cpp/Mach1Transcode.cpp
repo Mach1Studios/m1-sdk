@@ -135,7 +135,7 @@ void Mach1Transcode::convert(float** inBufs, float** outBufs, int numSamples)
 std::vector<Mach1TranscodeFormatType> Mach1Transcode::getFormatsConvertionPath()
 {
 	int count = 0;
-	Mach1TranscodeFormatType* arr = Mach1TranscodeCAPI_getFormatsConvertionPath(M1obj, count);
+	Mach1TranscodeFormatType* arr = Mach1TranscodeCAPI_getFormatsConvertionPath(M1obj, &count);
 
 	std::vector<Mach1TranscodeFormatType> vec(arr, arr + count);
 	return vec;

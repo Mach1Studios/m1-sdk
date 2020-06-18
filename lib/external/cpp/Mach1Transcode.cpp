@@ -16,16 +16,30 @@ Mach1Transcode::~Mach1Transcode()
 int Mach1Transcode::getInputNumChannels()
 {
 	return Mach1TranscodeCAPI_getInputNumChannels(M1obj);
+    /// Returns the number of channels for indicated input format
+    ///
+    /// - Returns:
+    ///     - integer of number of input channels
 }
 
 int Mach1Transcode::getOutputNumChannels()
 {
 	return Mach1TranscodeCAPI_getOutputNumChannels(M1obj);
+    /// Returns the number of channels for indicated output format
+    ///
+    /// - Returns:
+    ///     - integer of number of output channels
 }
 
 Mach1TranscodeFormatType Mach1Transcode::getFormatFromString(char * str)
 {
-	return Mach1TranscodeCAPI_getFormatFromString(M1obj, str); 
+	return Mach1TranscodeCAPI_getFormatFromString(M1obj, str);
+	/// Returns the enum for indicated format's string name
+	///
+	/// - Parameters: 
+	///		- string of format name
+	/// - Returns: 
+	///		- format from enum
 }
 
 char* Mach1Transcode::getFormatName(Mach1TranscodeFormatType fmt) {

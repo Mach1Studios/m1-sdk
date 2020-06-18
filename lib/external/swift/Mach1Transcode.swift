@@ -17,11 +17,19 @@ public class Mach1Transcode {
     public func getInputNumChannels() -> Int {
         let i = Mach1TranscodeCAPI_getInputNumChannels(M1obj)
         return Int(i)
+        /// Returns the number of channels for indicated input format
+        ///
+        /// - Parameters:
+        ///     - integer of number of output channels
     }
     
     public func getOutputNumChannels() -> Int {
         let i = Mach1TranscodeCAPI_getOutputNumChannels(M1obj)
         return Int(i)
+        /// Returns the number of channels for indicated output format
+        ///
+        /// - Parameters:
+        ///     - integer of number of output channels
     }
     
     public func getFormatFromString(str:String) -> Mach1TranscodeFormatType {

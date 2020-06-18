@@ -38,14 +38,14 @@ M1_API char* Mach1TranscodeCAPI_getFormatName(void* M1obj, Mach1TranscodeFormatT
 	return ((Mach1TranscodeCore*)M1obj)->getFormatName(M1obj, (Mach1TranscodeFormats::FormatType)fmt);
 }
 
-M1_API float Mach1TranscodeCAPI_calcNormalization(void* M1obj, float** bufs, int numSamples)
+M1_API float Mach1TranscodeCAPI_processNormalization(void* M1obj, float** bufs, int numSamples)
 {
-	return ((Mach1TranscodeCore*)M1obj)->calcNormalization(bufs, numSamples);
+	return ((Mach1TranscodeCore*)M1obj)->processNormalization(bufs, numSamples);
 }
 
-M1_API void Mach1TranscodeCAPI_applyMasterGain(void* M1obj, float** bufs, int numSamples, float masterGain)
+M1_API void Mach1TranscodeCAPI_processMasterGain(void* M1obj, float** bufs, int numSamples, float masterGain)
 {
-	((Mach1TranscodeCore*)M1obj)->applyMasterGain(bufs, numSamples, masterGain);
+	((Mach1TranscodeCore*)M1obj)->processMasterGain(bufs, numSamples, masterGain);
 }
 
 M1_API float Mach1TranscodeCAPI_db2level(void* M1obj, float db)
@@ -109,14 +109,14 @@ M1_API void Mach1TranscodeCAPI_setOutputFormatTTPoints(void* M1obj, Mach1Point3D
 	((Mach1TranscodeCore*)M1obj)->setOutputFormatTTPoints(std::vector< Mach1Point3DCore>((Mach1Point3DCore*)points, (Mach1Point3DCore*)points + count));
 }
 
-M1_API bool Mach1TranscodeCAPI_computeConvertionPath(void* M1obj)
+M1_API bool Mach1TranscodeCAPI_processConversionPath(void* M1obj)
 {
-	return ((Mach1TranscodeCore*)M1obj)->computeConvertionPath();
+	return ((Mach1TranscodeCore*)M1obj)->processConversionPath();
 }
 
-M1_API void Mach1TranscodeCAPI_convert(void* M1obj, float** inBufs, float** outBufs, int numSamples)
+M1_API void Mach1TranscodeCAPI_processConversion(void* M1obj, float** inBufs, float** outBufs, int numSamples)
 {
-	((Mach1TranscodeCore*)M1obj)->convert(inBufs, outBufs, numSamples);
+	((Mach1TranscodeCore*)M1obj)->processConversion(inBufs, outBufs, numSamples);
 }
 
 M1_API void Mach1TranscodeCAPI_getMatrixConversion(void * M1obj, float *matrix)

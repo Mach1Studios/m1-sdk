@@ -99,8 +99,8 @@ extern "C" {
 	M1_API enum Mach1TranscodeFormatType Mach1TranscodeCAPI_getFormatFromString(void* M1obj, char* str);
 	M1_API char* Mach1TranscodeCAPI_getFormatName(void* M1obj, enum Mach1TranscodeFormatType fmt);
 
-	M1_API float Mach1TranscodeCAPI_calcNormalization(void* M1obj, float** bufs, int numSamples);
-	M1_API void Mach1TranscodeCAPI_applyMasterGain(void* M1obj, float** bufs, int numSamples, float masterGain);
+	M1_API float Mach1TranscodeCAPI_processNormalization(void* M1obj, float** bufs, int numSamples);
+	M1_API void Mach1TranscodeCAPI_processMasterGain(void* M1obj, float** bufs, int numSamples, float masterGain);
 
 	M1_API float Mach1TranscodeCAPI_db2level(void* M1obj, float db);
 	M1_API float Mach1TranscodeCAPI_level2db(void* M1obj, float level);
@@ -118,9 +118,9 @@ extern "C" {
 	M1_API void Mach1TranscodeCAPI_setOutputFormatTTJson(void* M1obj, char* outJson);
 	M1_API void Mach1TranscodeCAPI_setOutputFormatTTPoints(void* M1obj, struct Mach1Point3D* points, int count);
 
-	M1_API bool Mach1TranscodeCAPI_computeConvertionPath(void* M1obj);
+	M1_API bool Mach1TranscodeCAPI_processConversionPath(void* M1obj);
 	M1_API void Mach1TranscodeCAPI_getMatrixConversion(void* M1obj, float* matrix);
-	M1_API void Mach1TranscodeCAPI_convert(void* M1obj, float** inBufs, float** outBufs, int numSamples);
+	M1_API void Mach1TranscodeCAPI_processConversion(void* M1obj, float** inBufs, float** outBufs, int numSamples);
 
 	M1_API enum Mach1TranscodeFormatType* Mach1TranscodeCAPI_getFormatsConvertionPath(void* M1obj, int* count);
 

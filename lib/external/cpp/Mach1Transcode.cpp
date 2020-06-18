@@ -46,14 +46,14 @@ char* Mach1Transcode::getFormatName(Mach1TranscodeFormatType fmt) {
 	return Mach1TranscodeCAPI_getFormatName(M1obj, fmt);
 }
 
-float Mach1Transcode::calcNormalization(float** bufs, int numSamples)
+float Mach1Transcode::processNormalization(float** bufs, int numSamples)
 {
-	return Mach1TranscodeCAPI_calcNormalization(M1obj, bufs, numSamples);
+	return Mach1TranscodeCAPI_processNormalization(M1obj, bufs, numSamples);
 }
 
-void Mach1Transcode::applyMasterGain(float** bufs, int numSamples, float masterGain)
+void Mach1Transcode::processMasterGain(float** bufs, int numSamples, float masterGain)
 {
-	Mach1TranscodeCAPI_applyMasterGain(M1obj, bufs, numSamples, masterGain);
+	Mach1TranscodeCAPI_processMasterGain(M1obj, bufs, numSamples, masterGain);
 }
 
 float Mach1Transcode::db2level(float db)
@@ -116,9 +116,9 @@ void Mach1Transcode::setOutputFormatTTPoints(std::vector<Mach1Point3D> points)
 	Mach1TranscodeCAPI_setInputFormatTTPoints(M1obj, points.data(), points.size());
 }
 
-bool Mach1Transcode::computeConvertionPath()
+bool Mach1Transcode::processConversionPath()
 {
-	return Mach1TranscodeCAPI_computeConvertionPath(M1obj);
+	return Mach1TranscodeCAPI_processConversionPath(M1obj);
 }
 
 std::vector<std::vector<float>> Mach1Transcode::getMatrixConversion()
@@ -141,9 +141,9 @@ std::vector<std::vector<float>> Mach1Transcode::getMatrixConversion()
 	return vec;
 }
 
-void Mach1Transcode::convert(float** inBufs, float** outBufs, int numSamples)
+void Mach1Transcode::processConversion(float** inBufs, float** outBufs, int numSamples)
 {
-	Mach1TranscodeCAPI_convert(M1obj, inBufs, outBufs, numSamples);
+	Mach1TranscodeCAPI_processConversion(M1obj, inBufs, outBufs, numSamples);
 }
 
 std::vector<Mach1TranscodeFormatType> Mach1Transcode::getFormatsConvertionPath()

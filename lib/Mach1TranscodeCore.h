@@ -2243,7 +2243,7 @@ private:
 	std::vector<M1DSP::Filters::CFilterSimpleLP> lpFilters;
 	std::vector<int> subChannelIndices;
 
-	void convert(Mach1TranscodeFormats::FormatType inFmt, float** inBufs, Mach1TranscodeFormats::FormatType outFmt, float** outBufs, int numSamples);
+	void processConversion(Mach1TranscodeFormats::FormatType inFmt, float** inBufs, Mach1TranscodeFormats::FormatType outFmt, float** outBufs, int numSamples);
 	int getNumChannels(Mach1TranscodeFormats::FormatType fmt, bool isInput);
 
 public:
@@ -2256,8 +2256,8 @@ public:
 	Mach1TranscodeFormats::FormatType getFormatFromString(char* str);
 	char* getFormatName(void * M1obj, Mach1TranscodeFormats::FormatType fmt);
 
-	float calcNormalization(float** bufs, int numSamples);
-	void applyMasterGain(float** bufs, int numSamples, float masterGain = 1.0f);
+	float processNormalization(float** bufs, int numSamples);
+	void processMasterGain(float** bufs, int numSamples, float masterGain = 1.0f);
 
 	float db2level(float db);
 	float level2db(float level);
@@ -2275,9 +2275,9 @@ public:
 	void setOutputFormatTTJson(char* outJson);
 	void setOutputFormatTTPoints(std::vector<Mach1Point3DCore> points);
 
-	bool computeConvertionPath();
+	bool processConversionPath();
 	void getMatrixConversion(float* matrix);
-	void convert(float** inBufs, float** outBufs, int numSamples);
+	void processConversion(float** inBufs, float** outBufs, int numSamples);
 
 	std::vector<Mach1TranscodeFormats::FormatType>& getFormatsConvertionPath();
 };

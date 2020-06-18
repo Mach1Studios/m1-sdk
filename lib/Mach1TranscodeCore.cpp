@@ -50,7 +50,7 @@ char * Mach1TranscodeCore::getFormatName(void * M1obj, Mach1TranscodeFormats::Fo
 	return Mach1TranscodeConstants::FormatNames.at(fmt);
 }
 
-float Mach1TranscodeCore::calcNormalization(float** bufs, int numSamples) {
+float Mach1TranscodeCore::processNormalization(float** bufs, int numSamples) {
 	float peak = 0;
 
 	int nChannels = getOutputNumChannels();
@@ -65,7 +65,7 @@ float Mach1TranscodeCore::calcNormalization(float** bufs, int numSamples) {
 	return peak;
 }
 
-void Mach1TranscodeCore::applyMasterGain(float** bufs, int numSamples, float masterGain) {
+void Mach1TranscodeCore::processMasterGain(float** bufs, int numSamples, float masterGain) {
 	if (masterGain == 1.0) return;
 	if (outFmt == Mach1TranscodeFormats::FormatType::Empty) return;
 
@@ -148,7 +148,7 @@ void Mach1TranscodeCore::setOutputFormatTTPoints(std::vector<Mach1Point3DCore> p
     outTTPoints = points;
 }
 
-bool Mach1TranscodeCore::computeConvertionPath()
+bool Mach1TranscodeCore::processConversionPath()
 {
     // compute tree of pathes from inFmt to all others
     struct Node {
@@ -335,7 +335,7 @@ std::vector<Mach1Point3DCore> getPointsSet(Mach1TranscodeFormats::FormatType fmt
 	return vec;
 }
 
-void Mach1TranscodeCore::convert(Mach1TranscodeFormats::FormatType inFmt, float** inBufs, Mach1TranscodeFormats::FormatType outFmt, float** outBufs, int numSamples)
+void Mach1TranscodeCore::processConversion(Mach1TranscodeFormats::FormatType inFmt, float** inBufs, Mach1TranscodeFormats::FormatType outFmt, float** outBufs, int numSamples)
 {
     int inChans = getNumChannels(inFmt, true);
     int outChans = getNumChannels(outFmt, false);
@@ -491,7 +491,7 @@ void Mach1TranscodeCore::getMatrixConversion(float* matrix)
 	*/
 }
 
-void Mach1TranscodeCore::convert(float ** inBufs, float ** outBufs, int numSamples)
+void Mach1TranscodeCore::processConversion(float ** inBufs, float ** outBufs, int numSamples)
 {
 	// reinit internal buffer
 	if (numSamples > bufferSize) {
@@ -520,7 +520,7 @@ void Mach1TranscodeCore::convert(float ** inBufs, float ** outBufs, int numSampl
 	}
 
 	for (int k = 0; k < formatsConvertionPath.size() - 1; k++) {
-		convert(formatsConvertionPath[k], k == 0 ? inBufs : buffers, formatsConvertionPath[k + 1], buffers, (int)numSamples);
+		processConversion(formatsConvertionPath[k], k == 0 ? inBufs : buffers, formatsConvertionPath[k + 1], buffers, (int)numSamples);
 	}
 
 	int nOutChannels = getOutputNumChannels();

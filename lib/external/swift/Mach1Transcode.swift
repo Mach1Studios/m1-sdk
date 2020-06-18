@@ -43,15 +43,15 @@ public class Mach1Transcode {
     }
     
     // TODO
-    public func calcNormalization(bufs: UnsafeMutablePointer<UnsafeMutablePointer<Float>?>!, numSamples:Int) -> Float {
+    public func processNormalization(bufs: UnsafeMutablePointer<UnsafeMutablePointer<Float>?>!, numSamples:Int) -> Float {
         let pointer: UnsafeMutablePointer = UnsafeMutablePointer(mutating: bufs)
-        return Mach1TranscodeCAPI_calcNormalization(M1obj, pointer, CInt(numSamples))
+        return Mach1TranscodeCAPI_processNormalization(M1obj, pointer, CInt(numSamples))
     }
     
     // TODO
-    public func applyMasterGain(bufs: UnsafeMutablePointer<UnsafeMutablePointer<Float>?>!, numSamples:Int, masterGain:Float) {
+    public func processMasterGain(bufs: UnsafeMutablePointer<UnsafeMutablePointer<Float>?>!, numSamples:Int, masterGain:Float) {
         let pointer: UnsafeMutablePointer = UnsafeMutablePointer(mutating: bufs)
-        Mach1TranscodeCAPI_applyMasterGain(M1obj, pointer, CInt(numSamples), masterGain)
+        Mach1TranscodeCAPI_processMasterGain(M1obj, pointer, CInt(numSamples), masterGain)
     }
     
     public func db2level(db:Float) -> Float {
@@ -109,8 +109,8 @@ public class Mach1Transcode {
         Mach1TranscodeCAPI_setOutputFormatTTPoints(M1obj, pointer, CInt(points.count));
     }
     
-    public func computeConvertionPath() -> Bool {
-        return Mach1TranscodeCAPI_computeConvertionPath(M1obj)
+    public func processConversionPath() -> Bool {
+        return Mach1TranscodeCAPI_processConversionPath(M1obj)
     }
     
     public func getMatrixConversion() -> [[Float]] {
@@ -128,8 +128,8 @@ public class Mach1Transcode {
         return vec
     }
     
-    public func convert(inBufs: UnsafeMutablePointer<UnsafeMutablePointer<Float>?>!, outBufs: UnsafeMutablePointer<UnsafeMutablePointer<Float>?>!, numSamples: Int) {
-        Mach1TranscodeCAPI_convert(M1obj, inBufs, outBufs, CInt(numSamples))
+    public func processConversion(inBufs: UnsafeMutablePointer<UnsafeMutablePointer<Float>?>!, outBufs: UnsafeMutablePointer<UnsafeMutablePointer<Float>?>!, numSamples: Int) {
+        Mach1TranscodeCAPI_processConversion(M1obj, inBufs, outBufs, CInt(numSamples))
     }
     
     public func getFormatsConvertionPath() -> [Mach1TranscodeFormatType] {

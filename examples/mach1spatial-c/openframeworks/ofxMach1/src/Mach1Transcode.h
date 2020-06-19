@@ -20,8 +20,8 @@ public:
 	Mach1TranscodeFormatType getFormatFromString(char* str);
 	char* getFormatName(Mach1TranscodeFormatType fmt);
 
-	float calcNormalization(float** bufs, int numSamples);
-	void applyMasterGain(float** bufs, int numSamples, float masterGain = 1.0f);
+	float processNormalization(float** bufs, int numSamples);
+	void processMasterGain(float** bufs, int numSamples, float masterGain = 1.0f);
 
 	float db2level(float db);
 	float level2db(float level);
@@ -39,8 +39,9 @@ public:
 	void setOutputFormatTTJson(char* outJson);
 	void setOutputFormatTTPoints(std::vector<Mach1Point3D> points);
 
-	bool computeConvertionPath();
-	void convert(float** inBufs, float** outBufs, int numSamples);
+	bool processConversionPath();
+	std::vector<std::vector<float>> getMatrixConversion();
+	void processConversion(float** inBufs, float** outBufs, int numSamples);
 
 	std::vector<Mach1TranscodeFormatType> getFormatsConvertionPath();
 };

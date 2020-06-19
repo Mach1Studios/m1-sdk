@@ -52,6 +52,7 @@ extern "C" {
 
 	M1_API void Mach1DecodeCAPI_decode(void* M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
 	M1_API void Mach1DecodeCAPI_decodeCoeffs(void* M1obj, float *result, int bufferSize, int sampleIndex);
+	M1_API void Mach1DecodeCAPI_decodeCoeffsUsingTranscodeMatrix(void* M1obj, float *matrix, int channels, float *result, int bufferSize, int sampleIndex);
 
 	M1_API void Mach1DecodeCAPI_setFilterSpeed(void* M1obj, float filterSpeed);
 	M1_API void Mach1DecodeCAPI_beginBuffer(void* M1obj);

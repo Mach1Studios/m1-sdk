@@ -119,9 +119,9 @@ public class Mach1Transcode {
         Mach1TranscodeCAPI_getMatrixConversion(M1obj, pointer)
        
         var vec = [[Float]](repeating: [], count: getOutputNumChannels())
-        for i in 0...vec.count {
+        for i in 0..<getOutputNumChannels() {
             vec[i] = [Float](repeating: 0.0, count: getInputNumChannels())
-            for j in 0..<vec[i].count {
+            for j in 0..<getInputNumChannels() {
                 vec[i][j] = matrix[i * getInputNumChannels() + j]
             }
         }

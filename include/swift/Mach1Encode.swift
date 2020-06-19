@@ -46,7 +46,7 @@ public class Mach1Encode {
         /// each internal array (per input channel) is a list of the needed coefficients to
         /// encode to a Mach1 VVBP/SPS format (depending on the selected `setOutputMode`)
         ///
-        /// - Parameters:
+        /// - Returns:
         ///     - 1st dimension of array is the number of input channels/points
         ///     - 2nd dimension of array is the resulting coefficient gains to be applied for encode
     }
@@ -83,7 +83,7 @@ public class Mach1Encode {
         return Int(count)
         /// Returns the number of input channels/points that Mach1Encode instance has
         ///
-        /// - Parameters:
+        /// - Returns:
         ///     - integer of number of input channels/points
     }
 
@@ -109,7 +109,7 @@ public class Mach1Encode {
         return inputMode
         /// Returns the number of input channels/points that Mach1Encode instance has
         ///
-        /// - Parameters:
+        /// - Returns:
         ///     - integer of number of input channels/points
     }
 
@@ -118,7 +118,7 @@ public class Mach1Encode {
         return outputMode
         /// Returns the number of input channels/points that Mach1Encode instance has
         ///
-        /// - Parameters:
+        /// - Returns:
         ///     - integer of number of input channels/points
     }
 
@@ -127,7 +127,7 @@ public class Mach1Encode {
         return Int(count)
         /// Returns the number of input channels/points that Mach1Encode instance has
         ///
-        /// - Parameters:
+        /// - Returns:
         ///     - integer of number of input channels/points
     }
 
@@ -136,7 +136,7 @@ public class Mach1Encode {
         return Int(count)
         /// Returns the number of output channels/points that Mach1Encode instance has
         ///
-        /// - Parameters:
+        /// - Returns:
         ///     - integer of number of output channels/points
     }
 

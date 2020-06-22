@@ -1854,7 +1854,7 @@ namespace Mach1TranscodeConstantsInternal {
 
 namespace Mach1TranscodeFormats {
 
-	const enum FormatType {
+	enum FormatType {
 		Empty = 0,
 		FuMa,
 		ACNSN3D,
@@ -1868,7 +1868,7 @@ namespace Mach1TranscodeFormats {
 		M1SpatialPlusPlus,
 		M1SpatialExtended,
 		M1SpatialExtendedPlus,
-		Mono, //
+		Mono,
 		Stereo,
 		LCR,
 		FiveOh,

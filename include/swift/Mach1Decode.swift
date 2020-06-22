@@ -123,9 +123,9 @@ public class Mach1Decode {
     }
     
     public func decode(Yaw: Float, Pitch: Float, Roll: Float, bufferSize: Int = 0, sampleIndex: Int = 0) -> [Float] {
-        var array: [Float] = Array(repeating: 0.0, count: 18)
-        Mach1DecodeCAPI_decode(M1obj, Yaw, Pitch, Roll, &array, CInt(bufferSize), CInt(sampleIndex))
-        return array
+        let rotation = Mach1Point3D(x: Yaw, y: Pitch, z: Roll)
+        setRotationDegrees(newRotationDegrees: rotation)
+        return decodeCoeffs(bufferSize: bufferSize, sampleIndex: sampleIndex)
         /// Call with current update's angles to return the resulting coefficients
         /// to apply to the audioplayer's volume
         ///
@@ -163,7 +163,7 @@ public class Mach1Decode {
     
     public func decodeCoeffsUsingTranscodeMatrix(matrix:[[Float]], channels: Int, bufferSize:Int = 0, sampleIndex: Int = 0) -> [Float] {
         let arr = matrix.reduce([], +)
-        let result: [Float] = Array(repeating: 0.0, count: channels * (getFormatChannelCount() / 2 - 1))
+        let result: [Float] = Array(repeating: 0.0, count: channels * 2)
         let pointerMatrix: UnsafeMutablePointer = UnsafeMutablePointer(mutating: arr)
         let pointerResult: UnsafeMutablePointer = UnsafeMutablePointer(mutating: result)
         Mach1DecodeCAPI_decodeCoeffsUsingTranscodeMatrix(M1obj, pointerMatrix, CInt(channels), pointerResult, CInt(bufferSize), CInt(sampleIndex));

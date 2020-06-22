@@ -54,6 +54,12 @@ float Mach1Transcode::processNormalization(float** bufs, int numSamples)
 void Mach1Transcode::processMasterGain(float** bufs, int numSamples, float masterGain)
 {
 	Mach1TranscodeCAPI_processMasterGain(M1obj, bufs, numSamples, masterGain);
+    /// Applys an input gain to the output soundfield
+    ///
+    /// - Parameters: 
+    ///     - input buffer
+    ///     - integer of input number of samples
+    ///     - float for gain multiplier
 }
 
 float Mach1Transcode::db2level(float db)
@@ -69,56 +75,99 @@ float Mach1Transcode::level2db(float level)
 void Mach1Transcode::setLFESub(std::vector<int> subChannelIndices, int sampleRate)
 {
 	Mach1TranscodeCAPI_setLFESub(M1obj, subChannelIndices.data(), subChannelIndices.size(), sampleRate);
+    /// Applys a low pass filter (LPF) to each indicated channel index of the input format and soundfield
+    ///
+    /// - Parameters: 
+    ///     - integer inputs for channel indices to be processed
+    ///     - integer for samplerate 
 }
 
 void Mach1Transcode::setSpatialDownmixer(float corrThreshold)
 {
 	Mach1TranscodeCAPI_setSpatialDownmixer(M1obj, corrThreshold);
+    /// Sets the threshold float for `getSpatialDownmixerPossibility` calculation
+    ///
+    /// - Parameters: 
+    ///     - float from 0.0 to 1.0 where 0.0 no difference and incrementing to 1.0 is more difference
 }
 
 bool Mach1Transcode::getSpatialDownmixerPossibility()
 {
 	return Mach1TranscodeCAPI_getSpatialDownmixerPossibility(M1obj);
+    /// Returns true if compared signals are less than the `setSpatialDownmixer(corrThreshold)`
+    ///
+    /// - Returns: 
+    ///     - boolean returned true if the compared signal difference is less then the `setSpatialDownmixer(corrThreshold)`
+    ///
+    /// - Remarks:
+    ///     - when true; transcodings that are set to ouput to `Mach1Spatial` will process an additional conversion to `Mach1Horizon` 
 }
 
 void Mach1Transcode::setInputFormat(Mach1TranscodeFormatType inFmt)
 {
 	Mach1TranscodeCAPI_setInputFormat(M1obj, inFmt);
+    /// Sets the input format for transcoding from the preset Mach1Transcode options
+    ///
+    /// Remarks:
+    ///     View the current list of Mach1Transcode preset formats here: https://dev.mach1.tech/#formats-supported
 }
 
 void Mach1Transcode::setInputFormatADM(char* inXml)
 {
 	Mach1TranscodeCAPI_setInputFormatADM(M1obj, inXml);
+    /// Sets the input format for transcoding from the parsed ADM metadata within the audiofile
 }
 
 void Mach1Transcode::setInputFormatTTJson(char* strJson)
 {
 	Mach1TranscodeCAPI_setInputFormatTTJson(M1obj, strJson);
+    /// Sets the input format for transcoding from an external JSON source
+    ///
+    /// Remarks:
+    ///     View the JSON spec for describing a format here: https://dev.mach1.tech/#json-descriptions
 }
 
 void Mach1Transcode::setInputFormatTTPoints(std::vector<Mach1Point3D> points)
 {
 	Mach1TranscodeCAPI_setInputFormatTTPoints(M1obj, points.data(), points.size());
+    /// Sets the input format for transcoding from TT directly
+    ///
+    /// Remarks:
+    ///     View the JSON spec for describing a format here: https://dev.mach1.tech/#json-descriptions
 }
 
 void Mach1Transcode::setOutputFormat(Mach1TranscodeFormatType outFmt)
 {
 	Mach1TranscodeCAPI_setOutputFormat(M1obj, outFmt);
+    /// Sets the output format for transcoding from the preset Mach1Transcode options
+    ///
+    /// Remarks:
+    ///     View the current list of Mach1Transcode preset formats here: https://dev.mach1.tech/#formats-supported
 }
 
 void Mach1Transcode::setOutputFormatTTJson(char* strJson)
 {
 	Mach1TranscodeCAPI_setOutputFormatTTJson(M1obj, strJson);
+    /// Sets the output format for transcoding from an external JSON source
+    ///
+    /// Remarks:
+    ///     View the JSON spec for describing a format here: https://dev.mach1.tech/#json-descriptions
 }
 
 void Mach1Transcode::setOutputFormatTTPoints(std::vector<Mach1Point3D> points)
 {
 	Mach1TranscodeCAPI_setInputFormatTTPoints(M1obj, points.data(), points.size());
+    /// Sets the output format for transcoding from TT directly
+    ///
+    /// Remarks:
+    ///     View the JSON spec for describing a format here: https://dev.mach1.tech/#json-descriptions
 }
 
 bool Mach1Transcode::processConversionPath()
 {
 	return Mach1TranscodeCAPI_processConversionPath(M1obj);
+    /// Use this function to control when to call for calculating the format transcoding calculations
+
 }
 
 std::vector<std::vector<float>> Mach1Transcode::getMatrixConversion()
@@ -139,6 +188,7 @@ std::vector<std::vector<float>> Mach1Transcode::getMatrixConversion()
 
 	delete[] matrix;
 	return vec;
+	/// Returns the transcoding matrix of coefficients based on the set input and output formats
 }
 
 void Mach1Transcode::processConversion(float** inBufs, float** outBufs, int numSamples)

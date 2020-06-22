@@ -18,7 +18,7 @@ namespace M1DSP
             void Setup( double attackMs, double releaseMs, int sampleRate );
             
             template<class T, int skip>
-            void Process( size_t count, const T *src );
+            void Process( std::size_t count, const T *src );
             
             double envelope;
             
@@ -34,7 +34,7 @@ namespace M1DSP
             void Setup( double attackMs, double releaseMs, int sampleRate );
             
             template<class T, int skip>
-            void Process( size_t nSamples, T *dest );
+            void Process( std::size_t nSamples, T *dest );
             
         private:
             EnvelopeFollower e;

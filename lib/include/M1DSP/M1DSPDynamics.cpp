@@ -17,7 +17,7 @@ inline void EnvelopeFollower::Setup( double attackMs, double releaseMs, int samp
 }
 
 template<class T, int skip>
-void EnvelopeFollower::Process( size_t count, const T *src )
+void EnvelopeFollower::Process( std::size_t count, const T *src )
 {
     while( count-- )
     {
@@ -36,7 +36,7 @@ inline void Limiter::Setup( double attackMs, double releaseMs, int sampleRate )
 }
 
 template<class T, int skip>
-void Limiter::Process( size_t count, T *dest )
+void Limiter::Process( std::size_t count, T *dest )
 {
     while( count-- )
     {

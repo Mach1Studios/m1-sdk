@@ -2,6 +2,7 @@
 //  Copyright © 2017-2020 Mach1. All rights reserved.
 
 #include "M1DSPFilters.h"
+#include <stdexcept>
 
 using namespace M1DSP::Filters;
 

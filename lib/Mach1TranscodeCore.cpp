@@ -344,10 +344,13 @@ void Mach1TranscodeCore::processConversion(Mach1TranscodeFormats::FormatType inF
     if (inFmt == Mach1TranscodeFormats::FormatType::TTPoints && outFmt != Mach1TranscodeFormats::FormatType::TTPoints) {
         currentFormatConversionMatrix = generateCoeffSetForPoints(inTTPoints, getPointsSet(outFmt));
     }
-    else if (inFmt != Mach1TranscodeFormats::FormatType::TTPoints && outFmt == Mach1TranscodeFormats::FormatType::TTPoints) {
-		currentFormatConversionMatrix = generateCoeffSetForPoints(getPointsSet(outFmt), inTTPoints);
-    }
-    else if (inFmt != Mach1TranscodeFormats::FormatType::TTPoints && outFmt != Mach1TranscodeFormats::FormatType::TTPoints) {
+	else if (inFmt != Mach1TranscodeFormats::FormatType::TTPoints && outFmt == Mach1TranscodeFormats::FormatType::TTPoints) {
+		currentFormatConversionMatrix = generateCoeffSetForPoints(getPointsSet(inFmt), outTTPoints);
+	}
+	else if (inFmt == Mach1TranscodeFormats::FormatType::TTPoints && outFmt == Mach1TranscodeFormats::FormatType::TTPoints) {
+		currentFormatConversionMatrix = generateCoeffSetForPoints(inTTPoints, outTTPoints);
+	}
+	else if (inFmt != Mach1TranscodeFormats::FormatType::TTPoints && outFmt != Mach1TranscodeFormats::FormatType::TTPoints) {
         currentFormatConversionMatrix = ((SpatialSoundMatrix*)Mach1TranscodeConstants::FormatMatrix.at(std::make_pair(inFmt, outFmt)))->getData();
     }
     
@@ -432,7 +435,10 @@ void Mach1TranscodeCore::getMatrixConversion(float* matrix)
 			currentFormatConversionMatrix = generateCoeffSetForPoints(inTTPoints, getPointsSet(outFmt));
 		}
 		else if (inFmt != Mach1TranscodeFormats::FormatType::TTPoints && outFmt == Mach1TranscodeFormats::FormatType::TTPoints) {
-			currentFormatConversionMatrix = generateCoeffSetForPoints(getPointsSet(outFmt), inTTPoints);
+			currentFormatConversionMatrix = generateCoeffSetForPoints(getPointsSet(inFmt), outTTPoints);
+		}
+		else if (inFmt == Mach1TranscodeFormats::FormatType::TTPoints && outFmt == Mach1TranscodeFormats::FormatType::TTPoints) {
+			currentFormatConversionMatrix = generateCoeffSetForPoints(inTTPoints, outTTPoints);
 		}
 		else if (inFmt != Mach1TranscodeFormats::FormatType::TTPoints && outFmt != Mach1TranscodeFormats::FormatType::TTPoints) {
 			currentFormatConversionMatrix = ((SpatialSoundMatrix*)Mach1TranscodeConstants::FormatMatrix.at(std::make_pair(inFmt, outFmt)))->getData();

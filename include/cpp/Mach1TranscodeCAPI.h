@@ -31,7 +31,7 @@
 const int Mach1TranscodeMAXCHANS = 64;
 
 enum Mach1TranscodeFormatType {
-	Mach1TranscodeFormatEmpty = -1,
+	Mach1TranscodeFormatEmpty = 0,
 	Mach1TranscodeFormatFuMa,
 	Mach1TranscodeFormatACNSN3D,
 	Mach1TranscodeFormatM1Horizon,

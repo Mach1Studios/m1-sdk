@@ -68,20 +68,20 @@ int M1EncodeCorePointResults::getPointsCount()
 	return pointsCount;
 }
 
-float M1EncodeCore::getCoeffForStandardPoint(float x, float y, float z, Mach1Point3DCore point, bool ignoreY)
+float M1EncodeCore::getCoeffForStandardPoint(float x, float y, float z, Mach1Point3DCore point, bool ignoreZ)
 {
 	point.x = 1 - (point.x + 1) / 2;
 	point.y = 1 - (point.y + 1) / 2;
 	point.z = 1 - (point.z + 1) / 2;
 
-	return fabs(point.x - x) * (ignoreY ? 1.0 : fabs(point.y - y)) * fabs(point.z - z);
+	return fabs(point.x - x) * fabs(point.y - y) * (ignoreZ ? 1.0 : fabs(point.z - z));
 }
 
-std::vector<float> M1EncodeCore::getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<Mach1Point3DCore>& pointSet, bool ignoreY)
+std::vector<float> M1EncodeCore::getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<Mach1Point3DCore>& pointSet, bool ignoreZ)
 {
 	std::vector<float> result;
 	for (auto &i : pointSet) {
-		result.push_back(getCoeffForStandardPoint(x, y, z, i, ignoreY));
+		result.push_back(getCoeffForStandardPoint(x, y, z, i, ignoreZ));
 	}
 	return result;
 }
@@ -89,119 +89,114 @@ std::vector<float> M1EncodeCore::getCoeffSetForStandardPointSet(float x, float y
 void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<float>& result) {
 
 	// M1 horizon plane points
-	static std::vector<Mach1Point3DCore> m1HorizonDef = { {-1, 0, 1},
-												{1, 0, 1},
-												{-1, 0, -1},
-												{1, 0, -1} };
+	static std::vector<Mach1Point3DCore> m1Horizon = { {-1, 1, 0},
+												{1, 1, 0},
+												{-1, -1, 0},
+												{1, -1, 0} };
 
 	// M1 spatial cube points
-	static std::vector<Mach1Point3DCore> m1SpatialDef = { {-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1Spatial = { {-1, 1, 1},
 												{1, 1, 1},
-												{-1, 1, -1},
-												{1, 1, -1},
-
 												{-1, -1, 1},
 												{1, -1, 1},
+
+												{-1, 1, -1},
+												{1, 1, -1},
 												{-1, -1, -1},
 												{1, -1, -1} };
 
 	// M1 spatial+ cube points
-	static std::vector<Mach1Point3DCore> m1SpatialPlusDef = { {-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1SpatialPlus = { {-1, 1, 1},
 												{1, 1, 1},
-												{-1, 1, -1},
-												{1, 1, -1},
-
 												{-1, -1, 1},
 												{1, -1, 1},
+
+												{-1, 1, -1},
+												{1, 1, -1},
 												{-1, -1, -1},
 												{1, -1, -1},
 
-												{0, 0, 1 / 0.707},
+												{0, 1 / 0.707, 0},
 												{1 / 0.707, 0, 0},
-												{0, 0, -1 / 0.707},
+												{0, -1 / 0.707, 0},
 												{-1 / 0.707, 0, 0} };
 
 	// M1 spatial++ cube points
-	static std::vector<Mach1Point3DCore> m1SpatialPlusPlusDef = { {-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1SpatialPlusPlus = { {-1, 1, 1},
 												{1, 1, 1},
-												{-1, 1, -1},
-												{1, 1, -1},
-
 												{-1, -1, 1},
 												{1, -1, 1},
+
+												{-1, 1, -1},
+												{1, 1, -1},
 												{-1, -1, -1},
 												{1, -1, -1},
 
-												{0, 0, 1 / 0.707},
+												{0, 1 / 0.707, 0},
 												{1 / 0.707, 0, 0},
-												{0, 0, -1 / 0.707},
+												{0, -1 / 0.707, 0},
 												{-1 / 0.707, 0, 0},
 
 												{ 1 / 0.707, 0, 0},
 												{-1 / 0.707, 0, 0} };
 
 	// M1 spatial extended cube points
-	static std::vector<Mach1Point3DCore> m1SpatialExtendedDef = { {-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1SpatialExtended = { {-1, 1, 1},
 												{1, 1, 1},
-												{-1, 1, -1},
-												{1, 1, -1},
-
 												{-1, -1, 1},
 												{1, -1, 1},
+
+												{-1, 1, -1},
+												{1, 1, -1},
 												{-1, -1, -1},
 												{1, -1, -1},
 
-												{0, 1, 1 / 0.707},
-												{1 / 0.707, 1, 0},
-												{0, 1, -1 / 0.707},
-												{-1 / 0.707, 1, 0},
+												{0, 1 / 0.707, 1},
+												{1 / 0.707, 0, 1},
+												{0, -1 / 0.707, 1},
+												{-1 / 0.707, 0, 1},
 
-												{0, -1, 1 / 0.707},
-												{1 / 0.707, -1, 0},
-												{0, -1, -1 / 0.707},
-												{-1 / 0.707, -1, 0} };
+												{0, 1 / 0.707, -1},
+												{1 / 0.707, 0, -1},
+												{0, -1 / 0.707, -1},
+												{-1 / 0.707, 0, -1} };
 
 	// M1 spatial extended+ cube points
-	static std::vector<Mach1Point3DCore> m1SpatialExtendedPlusDef = { {-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1SpatialExtendedPlus = { {-1, 1, 1},
 												{1, 1, 1},
-												{-1, 1, -1},
-												{1, 1, -1},
-
 												{-1, -1, 1},
 												{1, -1, 1},
+
+												{-1, 1, -1},
+												{1, 1, -1},
 												{-1, -1, -1},
 												{1, -1, -1},
 
-												{0, 1, 1 / 0.707},
-												{1 / 0.707, 1, 0},
-												{0, 1, -1 / 0.707},
-												{-1 / 0.707, 1, 0},
+												{0, 1 / 0.707, 1},
+												{1 / 0.707, 0, 1},
+												{0, -1 / 0.707, 1},
+												{-1 / 0.707, 0, 1},
 
-												{0, -1, 1 / 0.707},
-												{1 / 0.707, -1, 0},
-												{0, -1, -1 / 0.707},
-												{-1 / 0.707, -1, 0},
+												{0, 1 / 0.707, -1},
+												{1 / 0.707, 0, -1},
+												{0, -1 / 0.707, -1},
+												{-1 / 0.707, 0, -1},
 
 												{1 / 0.707, 0, 0},
 												{-1 / 0.707, 0, 0} };
 
+	static std::map<OutputMode, std::vector<Mach1Point3DCore>> standards = {
+		{OUTPUT_HORIZON_4CH, m1Horizon},
+		{OUTPUT_SPATIAL_8CH, m1Spatial},
+		{OUTPUT_SPATIALPLUS_12CH, m1SpatialPlus},
+		{OUTPUT_SPATIALPLUSPLUS_14CH, m1SpatialPlusPlus},
+		{OUTPUT_SPATIALEXT_16CH, m1SpatialExtended},
+		{OUTPUT_SPATIALEXTPLUS_18CH, m1SpatialExtendedPlus},
+	};
+
 	std::vector<Mach1Point3DCore> pointsSet;
-
-	if (outputMode == OUTPUT_HORIZON_4CH) {
-		pointsSet = m1HorizonDef;
-	}
-	else if (outputMode == OUTPUT_SPATIAL_8CH) {
-		pointsSet = m1SpatialDef;
-	}
-	else if (outputMode == OUTPUT_SPATIALPLUS_12CH) {
-		pointsSet = m1SpatialPlusDef;
-	}
-	else if (outputMode == OUTPUT_SPATIALEXT_16CH) {
-		pointsSet = m1SpatialPlusPlusDef;
-	}
-
-	else if (outputMode == OUTPUT_SPATIALEXTPLUS_18CH) {
-		pointsSet = m1SpatialExtendedDef;
+	if (standards.find(outputMode) != standards.end()) {
+		pointsSet = standards[outputMode];
 	}
 
 	result = getCoeffSetForStandardPointSet(x, y, z, pointsSet, outputMode == OUTPUT_HORIZON_4CH ? true : false);
@@ -515,10 +510,10 @@ void M1EncodeCore::generatePointResults() {
 		// Generating gains
 		std::vector<float> gains;
 		if (outputMode == OUTPUT_HORIZON_4CH) {
-			processGainsChannels(resultingPoints.ppoints[i].z, 1, resultingPoints.ppoints[i].x, gains);
+			processGainsChannels(resultingPoints.ppoints[i].z, resultingPoints.ppoints[i].x, 1, gains);
 		}
 		else {
-			processGainsChannels(resultingPoints.ppoints[i].z, resultingPoints.ppoints[i].y, resultingPoints.ppoints[i].x, gains);
+			processGainsChannels(resultingPoints.ppoints[i].z, resultingPoints.ppoints[i].x, resultingPoints.ppoints[i].y, gains);
 		}
 
 		for (int j = 0; j < getOutputChannelsCount(); j++) {

@@ -89,13 +89,13 @@ std::vector<float> M1EncodeCore::getCoeffSetForStandardPointSet(float x, float y
 void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<float>& result) {
 
 	// M1 horizon plane points
-	static std::vector<Mach1Point3DCore> m1Horizon = { {-1, 1, 0},
+	static std::vector<Mach1Point3DCore> m1HorizonDef = { {-1, 1, 0},
 												{1, 1, 0},
 												{-1, -1, 0},
 												{1, -1, 0} };
 
 	// M1 spatial cube points
-	static std::vector<Mach1Point3DCore> m1Spatial = { {-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1SpatialDef = { {-1, 1, 1},
 												{1, 1, 1},
 												{-1, -1, 1},
 												{1, -1, 1},
@@ -106,7 +106,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 												{1, -1, -1} };
 
 	// M1 spatial+ cube points
-	static std::vector<Mach1Point3DCore> m1SpatialPlus = { {-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1SpatialPlusDef = { {-1, 1, 1},
 												{1, 1, 1},
 												{-1, -1, 1},
 												{1, -1, 1},
@@ -122,7 +122,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 												{-1 / 0.707, 0, 0} };
 
 	// M1 spatial++ cube points
-	static std::vector<Mach1Point3DCore> m1SpatialPlusPlus = { {-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1SpatialPlusPlusDef = { {-1, 1, 1},
 												{1, 1, 1},
 												{-1, -1, 1},
 												{1, -1, 1},
@@ -141,7 +141,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 												{-1 / 0.707, 0, 0} };
 
 	// M1 spatial extended cube points
-	static std::vector<Mach1Point3DCore> m1SpatialExtended = { {-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1SpatialExtendedDef = { {-1, 1, 1},
 												{1, 1, 1},
 												{-1, -1, 1},
 												{1, -1, 1},
@@ -162,7 +162,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 												{-1 / 0.707, 0, -1} };
 
 	// M1 spatial extended+ cube points
-	static std::vector<Mach1Point3DCore> m1SpatialExtendedPlus = { {-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1SpatialExtendedPlusDef = { {-1, 1, 1},
 												{1, 1, 1},
 												{-1, -1, 1},
 												{1, -1, 1},
@@ -186,12 +186,12 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 												{-1 / 0.707, 0, 0} };
 
 	static std::map<OutputMode, std::vector<Mach1Point3DCore>> standards = {
-		{OUTPUT_HORIZON_4CH, m1Horizon},
-		{OUTPUT_SPATIAL_8CH, m1Spatial},
-		{OUTPUT_SPATIALPLUS_12CH, m1SpatialPlus},
-		{OUTPUT_SPATIALPLUSPLUS_14CH, m1SpatialPlusPlus},
-		{OUTPUT_SPATIALEXT_16CH, m1SpatialExtended},
-		{OUTPUT_SPATIALEXTPLUS_18CH, m1SpatialExtendedPlus},
+		{OUTPUT_HORIZON_4CH, m1HorizonDef},
+		{OUTPUT_SPATIAL_8CH, m1SpatialDef},
+		{OUTPUT_SPATIALPLUS_12CH, m1SpatialPlusDef},
+		{OUTPUT_SPATIALPLUSPLUS_14CH, m1SpatialPlusPlusDef},
+		{OUTPUT_SPATIALEXT_16CH, m1SpatialExtendedDef},
+		{OUTPUT_SPATIALEXTPLUS_18CH, m1SpatialExtendedPlusDef},
 	};
 
 	std::vector<Mach1Point3DCore> pointsSet;

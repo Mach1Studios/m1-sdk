@@ -156,6 +156,7 @@ public class Mach1Transcode {
     
     public func processConversionPath() -> Bool {
         return Mach1TranscodeCAPI_processConversionPath(M1obj)
+        /// Use this function to control when to call for calculating the format transcoding calculations
     }
     
     public func getMatrixConversion() -> [[Float]] {
@@ -171,6 +172,7 @@ public class Mach1Transcode {
             }
         }
         return vec
+        /// Returns the transcoding matrix of coefficients based on the set input and output formats
     }
     
     public func processConversion(inBufs: UnsafeMutablePointer<UnsafeMutablePointer<Float>?>!, outBufs: UnsafeMutablePointer<UnsafeMutablePointer<Float>?>!, numSamples: Int) {

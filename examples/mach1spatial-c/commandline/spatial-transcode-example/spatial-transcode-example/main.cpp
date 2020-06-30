@@ -116,7 +116,7 @@ int main(int argc, const char * argv[]) {
         m1Transcode.setOutputFormat(outputMode);
         m1Transcode.setSpatialDownmixer();
 
-        m1Transcode.computeConvertionPath();
+        m1Transcode.processConversionPath();
         m1Coeffs = m1Transcode.getMatrixConversion();
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> elapsed = end - start;

@@ -28,13 +28,12 @@ function Mach1VideoPlayer(audioFiles8, elemId, statusElId) {
         let sound = new Mach1SoundPlayer(audioFiles8);
 		
 		let m1Decode = null;
-        let m1DecodeModule = Mach1DecodeModule();
-		m1DecodeModule.onInited = function() {
+		Mach1DecodeModule().then(function(m1DecodeModule) {
 			m1Decode = new(m1DecodeModule).Mach1Decode();
 			m1Decode.setPlatformType(m1Decode.Mach1PlatformType.Mach1PlatformOfEasyCam);
 			m1Decode.setDecodeAlgoType(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial);
 			m1Decode.setFilterSpeed(0.95);
-		}
+		});
 
         // DEBUG
         document.sound = sound;

@@ -304,8 +304,8 @@ document.addEventListener("DOMContentLoaded", function() {
     // update 
     function update() {
         m1Encode.setAzimuth(params.rotation);
-        m1Encode.setDiverge(params.diverge);
         m1Encode.setElevation(params.pitch);
+        m1Encode.setDiverge(params.diverge);
         m1Encode.setStereoRotate(params.sRotation);
         m1Encode.setStereoSpread(params.sSpread);
         m1Encode.setAutoOrbit(params.autoOrbit);

@@ -1,5 +1,8 @@
 document.addEventListener("DOMContentLoaded", function() {
 
+    /*
+    Initialize Mach1Decode Module and use some default settings
+    */
 	let m1Decode = null;
 	Mach1DecodeModule().then(function(m1DecodeModule) {
 		m1Decode = new(m1DecodeModule).Mach1Decode();
@@ -8,6 +11,9 @@ document.addEventListener("DOMContentLoaded", function() {
 		m1Decode.setFilterSpeed(0.95);
 	});
 
+    /*
+    Initialize Mach1Encode Module
+    */
     let m1Encode = null;
 	Mach1EncodeModule().then(function(m1EncodeModule) {		
 		m1Encode = new(m1EncodeModule).Mach1Encode();
@@ -20,23 +26,30 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const gui = new dat.GUI();
 
+    // Parameters for GUI
     var params = {
+        // Mach1Encode Parameters
         inputKind: 0, // mono
         outputKind: 1, // 8 ch
         rotation: 0,
         diverge: 0.5,
         pitch: 0,
         enableIsotropicEncode: true,
-
         sRotation: 0,
         sSpread: 0.5,
         autoOrbit: true,
 
+        // Mach1Decode Parameters
         decoderRotationY: 0,
         decoderRotationP: 0,
         decoderRotationR: 0,
     };
 
+    /*
+    Function for setting up loading for audio in path
+    currently using hardcoded example audio downloaded from
+    running `download-audiofiles.sh` or `download-audiofiles.bat`
+    */
 	function loadSounds() {
     if (params.inputKind == 0) { // Input: MONO
 			audioFiles = ['audio/mono/1.ogg'];
@@ -55,7 +68,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		if(mach1SoundPlayer) {
 			mach1SoundPlayer.remove();
 		}
-		
 		mach1SoundPlayer = new Mach1SoundPlayer();
 		mach1SoundPlayer.setup(audioFiles);
  	};
@@ -168,10 +180,9 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     animate();
 
-
 	loadSounds();
 
-    // gui
+    // GUI parameters
     var elementSRotation;
     var elementSSpread;
     var elementAutoOrbit;
@@ -338,8 +349,11 @@ document.addEventListener("DOMContentLoaded", function() {
             m1Decode.endBuffer();
 
 			/* 
-			// legacy style
-			
+            MACH1ENCODE -> MACH1DECODE IMPLEMENTATION
+            Implementation example for passing Coefficients from Mach1Encode directly to Mach1Decode
+			*/
+
+            /*
 			var vol = [0, 0];
             var gains = m1Encode.getGains();
 
@@ -352,12 +366,20 @@ document.addEventListener("DOMContentLoaded", function() {
 			console.log(vol);
 			*/
 			
+            /*
+            MACH1ENCODE OBJECT AUDIO IMPLEMENTATION
+            Implementation example for using Mach1Encode::getResultingVolumesDecoded() function for 
+            object audio handling.
+
+            `getResultingCoeffsDecoded` has an inline Mach1Decode function built in so that each input
+            audio source is outputted as an already decoded stereo output for internal object audio handling.
+            */
 			var vol = [];
 			if (params.outputKind == 0) { // Output: Mach1Horizon / Quad
-				vol = m1Encode.getResultingVolumesDecoded(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoHorizon, decoded);
+				vol = m1Encode.getResultingCoeffsDecoded(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoHorizon, decoded);
 			}
 			if (params.outputKind == 1) { // Output: Mach1Spatial / Cuboid
-				vol = m1Encode.getResultingVolumesDecoded(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial, decoded);
+				vol = m1Encode.getResultingCoeffsDecoded(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial, decoded);
 			}
 			//console.log(vol);
 

@@ -392,10 +392,10 @@ document.addEventListener("DOMContentLoaded", function() {
 			
 			var vol = [];
 			if (params.outputKind == 0) { // Output: Mach1Horizon / Quad
-				vol = m1Encode.getResultingVolumesDecoded(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoHorizon, decoded);
+				vol = m1Encode.getResultingCoeffsDecoded(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoHorizon, decoded);
 			}
 			if (params.outputKind == 1) { // Output: Mach1Spatial / Cuboid
-				vol = m1Encode.getResultingVolumesDecoded(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial, decoded);
+				vol = m1Encode.getResultingCoeffsDecoded(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial, decoded);
 			}
 			//console.log(vol);
 			

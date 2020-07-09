@@ -368,7 +368,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			
             /*
             MACH1ENCODE OBJECT AUDIO IMPLEMENTATION
-            Implementation example for using Mach1Encode::getResultingVolumesDecoded() function for 
+            Implementation example for using Mach1Encode::getResultingCoeffsDecoded() function for 
             object audio handling.
 
             `getResultingCoeffsDecoded` has an inline Mach1Decode function built in so that each input

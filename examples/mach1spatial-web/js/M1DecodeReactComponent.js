@@ -11,7 +11,7 @@ class M1DecodeReactComponent extends React.Component {
 
         Mach1DecodeModule().then(function(m1DecodeModule) {
             var m1Decode = new(m1DecodeModule).Mach1Decode();
-            m1Decode.setPlatformType(m1Decode.Mach1PlatformType.Mach1PlatformOfEasyCam);
+            m1Decode.setPlatformType(m1Decode.Mach1PlatformType.Mach1PlatformDefault);
             m1Decode.setDecodeAlgoType(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial);
             m1Decode.setFilterSpeed(0.95);
 

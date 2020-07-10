@@ -15,7 +15,7 @@ function Mach1SoundPlayer() {
  
     let smp;
     let gainNode;
-    let volumes;
+    let gains;
     let pannerNode;
 
     let _isSoundReady = false;
@@ -71,7 +71,7 @@ function Mach1SoundPlayer() {
     function init() {
 		smp = initArray(SOUND_COUNT);
 		gainNode = initArray(SOUND_COUNT);
-		volumes = initArray(SOUND_COUNT);
+		gains = initArray(SOUND_COUNT);
 		pannerNode = initArray(SOUND_COUNT);
     }
 
@@ -122,8 +122,7 @@ function Mach1SoundPlayer() {
     function createAudio(looped, time) {
         if (thus.isReady() && !_isPlaying) {
             for (let i = 0, j = 0; j < SOUND_COUNT / 2; ++j, i += 2) {
-                // left
-				
+                // LEFT PLAYERS
                 smp[i] = _soundPlayer_audioCtx.createBufferSource();
 				if(_isFromBuffer) {
 					smp[i].buffer = _soundPlayer_audioCtx.createBuffer(1, buffer.length / buffer.numberOfChannels, _soundPlayer_audioCtx.sampleRate);
@@ -136,6 +135,9 @@ function Mach1SoundPlayer() {
                 gainNode[i] = _soundPlayer_audioCtx.createGain();
                 gainNode[i].gain.value = 0;
 
+                /*
+                Create left side players of coeffs
+                */
                 pannerNode[i] = _soundPlayer_audioCtx.createPanner();
                 pannerNode[i].setPosition(-1, 0, 0); // left
                 pannerNode[i].panningModel = "equalpower";
@@ -145,7 +147,7 @@ function Mach1SoundPlayer() {
                 pannerNode[i].connect(gainNode[i]);
                 gainNode[i].connect(_soundPlayer_audioCtx.destination);
 
-                // right
+                // RIGHT PLAYERS
                 smp[i + 1] = _soundPlayer_audioCtx.createBufferSource();
 				if(_isFromBuffer) {
 					smp[i + 1].buffer = _soundPlayer_audioCtx.createBuffer(1, buffer.length / buffer.numberOfChannels, _soundPlayer_audioCtx.sampleRate);
@@ -158,6 +160,9 @@ function Mach1SoundPlayer() {
                 gainNode[i + 1] = _soundPlayer_audioCtx.createGain();
                 gainNode[i + 1].gain.value = 0;
 
+                /*
+                Create right side players of coeffs
+                */
                 pannerNode[i + 1] = _soundPlayer_audioCtx.createPanner();
                 pannerNode[i + 1].setPosition(1, 0, 0); // right
                 pannerNode[i + 1].panningModel = "equalpower";
@@ -196,7 +201,7 @@ function Mach1SoundPlayer() {
     this.play = function(looped = false, time = thus.currentTime()) {
         if (this.isReady() && !_isPlaying && !_isDeleted) {
             createAudio(looped, time);
-            setVolumes();
+            setGains();
         }
 		else {
 			needToPlay = true;
@@ -254,27 +259,27 @@ function Mach1SoundPlayer() {
         console.log('rewind');
     };
 
-    this.getVolumes = function() {
-        return volumes;
+    this.getGains = function() {
+        return gains;
     };
 
-    function setVolumes() {
+    function setGains() {
         if (thus.isReady() && _isPlaying) {
             for (let i = 0; i < smp.length; ++i) { 
-                gainNode[i].gain.setTargetAtTime(volumes[i], _soundPlayer_audioCtx.currentTime, 0.05);
+                gainNode[i].gain.setTargetAtTime(gains[i], _soundPlayer_audioCtx.currentTime, 0.05);
             }
         }
     }
 
-    this.updateVolumes = function(vols) {
+    this.updateGains = function(vols) {
         if (Array.isArray(vols)) {
             for (let i = 0; i < SOUND_COUNT; ++i) {
-                volumes[i] = vols[i];
+                gains[i] = vols[i];
             }
         }
 
         if (_isPlaying) {
-            setVolumes();
+            setGains();
         }
     };
 

@@ -77,7 +77,7 @@ function Mach1VideoPlayer(audioFiles8, elemId, statusElId) {
             sound.play();
         });
 
-        function updateVolumes() {
+        function updateGains() {
             if (m1Decode && thus.getChild('Canvas')) {
                 let vector = new THREE.Vector3();
 
@@ -93,13 +93,13 @@ function Mach1VideoPlayer(audioFiles8, elemId, statusElId) {
 				let decoded = m1Decode.decode(-theta, -alpha, 0);
 				m1Decode.endBuffer();
 
-				sound.updateVolumes(decoded);
+				sound.updateGains(decoded);
             }
         }
 
-        setTimeout(function __timeoutUpdateVolumes() {
+        setTimeout(function __timeoutUpdateGains() {
             if (!isDelete && isVideoReady) {
-                updateVolumes();
+                updateGains();
 
                 if (Math.abs(sound.currentTime() - thus.currentTime()) > MAX_SOUND_PLAYER_ERROR && isPlay) {
                     console.warn('Rebalance: player - sound error = ' + (thus.currentTime() - sound.currentTime()));
@@ -119,7 +119,7 @@ function Mach1VideoPlayer(audioFiles8, elemId, statusElId) {
 
                 status.innerHTML = logHtml;
 
-                setTimeout(__timeoutUpdateVolumes, 1000 / FRAMES_PER_SECOND);
+                setTimeout(__timeoutUpdateGains, 1000 / FRAMES_PER_SECOND);
 
             }
         }, 1000 / FRAMES_PER_SECOND);

@@ -59,7 +59,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     else if (params.inputKind == 2) {
       audioFiles = ['audio/quad/guitar-m1horizon.ogg'];
-      mach1AudioLoader = new Mach1AudioLoader(audioFiles, 4);
     }
 		else {
 			audioFiles = ['audio/mono/1.ogg'];
@@ -337,35 +336,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
             m1Encode.generatePointResults();
 
-			/*
-            var rotation = new THREE.Euler().setFromQuaternion(camera.quaternion);
-            rotation.x = Math.fround(THREE.Math.radToDeg(rotation.x));
-            rotation.y = Math.fround(THREE.Math.radToDeg(rotation.y));
-            rotation.z = Math.fround(THREE.Math.radToDeg(rotation.z));
-			*/
-			
             m1Decode.beginBuffer();
-            var decoded = m1Decode.decode(params.decoderRotationY, params.decoderRotationP, params.decoderRotationR);// rotation.x, rotation.y, rotation.z);
+            var decoded = m1Decode.decode(params.decoderRotationY, params.decoderRotationP, params.decoderRotationR);
             m1Decode.endBuffer();
 
-			/* 
-            MACH1ENCODE -> MACH1DECODE IMPLEMENTATION
-            Implementation example for passing Coefficients from Mach1Encode directly to Mach1Decode
-			*/
-
-            /*
-			var vol = [0, 0];
-            var gains = m1Encode.getGains();
-
-            // left & right channels
-            for (let j = 0; j < 8; j++) {
-                vol[0] += (decoded[2 * j + 0]) * gains[0][j];
-                vol[1] += (decoded[2 * j + 1]) * gains[gains.length > 1 ? 1 : 0][j];
-            }
-			
-			console.log(vol);
-			*/
-			
             /*
             MACH1ENCODE OBJECT AUDIO IMPLEMENTATION
             Implementation example for using Mach1Encode::getResultingCoeffsDecoded() function for 

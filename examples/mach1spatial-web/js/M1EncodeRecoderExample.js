@@ -123,7 +123,6 @@ document.addEventListener("DOMContentLoaded", function() {
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     var renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
-    //document.body.appendChild(renderer.domElement);
     container.appendChild(renderer.domElement);
 
     var controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -364,32 +363,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
             m1Encode.generatePointResults();
 
-			/*
-            var rotation = new THREE.Euler().setFromQuaternion(camera.quaternion);
-            rotation.x = Math.fround(THREE.Math.radToDeg(rotation.x));
-            rotation.y = Math.fround(THREE.Math.radToDeg(rotation.y));
-            rotation.z = Math.fround(THREE.Math.radToDeg(rotation.z));
-			*/
-			
             m1Decode.beginBuffer();
-            var decoded = m1Decode.decode(params.decoderRotationY, params.decoderRotationP, params.decoderRotationR);// rotation.x, rotation.y, rotation.z);
+            var decoded = m1Decode.decode(params.decoderRotationY, params.decoderRotationP, params.decoderRotationR);
             m1Decode.endBuffer();
 
-			/* 
-			// legacy style
-			
-			var vol = [0, 0];
-            var gains = m1Encode.getGains();
-
-            // left & right channels
-            for (let j = 0; j < 8; j++) {
-                vol[0] += (decoded[2 * j + 0]) * gains[0][j];
-                vol[1] += (decoded[2 * j + 1]) * gains[gains.length > 1 ? 1 : 0][j];
-            }
-			
-			console.log(vol);
-			*/
-			
 			var vol = [];
 			if (params.outputKind == 0) { // Output: Mach1Horizon / Quad
 				vol = m1Encode.getResultingCoeffsDecoded(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoHorizon, decoded);

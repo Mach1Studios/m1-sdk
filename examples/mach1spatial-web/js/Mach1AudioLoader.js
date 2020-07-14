@@ -1,7 +1,5 @@
 "use strict";
 
-// require('promise-decode-audio-data');
-
 let _audioLoader_preloadCache = {};
 let _audioLoader_audioCtx = new AudioContext();
 
@@ -107,5 +105,3 @@ function Mach1AudioLoader(audioFiles, channelsCount) {
 
     return this;
 }
-
-// module.exports = Mach1SoundPlayer;

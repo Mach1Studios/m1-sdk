@@ -1,1 +1,282 @@
-var Mach1SoundPlayer=function(e){var t={};function n(o){if(t[o])return t[o].exports;var r=t[o]={i:o,l:!1,exports:{}};return e[o].call(r.exports,r,r.exports,n),r.l=!0,r.exports}return n.m=e,n.c=t,n.d=function(e,t,o){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:o})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var o=Object.create(null);if(n.r(o),Object.defineProperty(o,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var r in e)n.d(o,r,function(t){return e[t]}.bind(null,r));return o},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=1)}([function(e,t){var n;n=function(){return this}();try{n=n||new Function("return this")()}catch(e){"object"==typeof window&&(n=window)}e.exports=n},function(e,t,n){e.exports=n(2)},function(e,t,n){"use strict";n(3);let o={},r=new AudioContext;e.exports=function(){let e,t,n,i,u,f=0,a=this,c=!1,l=!1,s=0,d=!1,p=!1,h=0,y=0,b=!1,g=!1,m=0;function A(){t=v(f),n=v(f),i=v(f),u=v(f)}function v(e){return Array.apply(null,Array(e)).map(Number.prototype.valueOf,0)}function O(t,n){console.time("load file "+t),fetch(t,{method:"GET",responseType:"arrayBuffer",cache:"force-cache"}).then(e=>e.arrayBuffer()).then(e=>o[t]?Promise.resolve(o[t]):r.decodeAudioData(e)).then(r=>(e[Math.floor(n/2)]=r,o[t]||(o[t]=r),n)).then(e=>{console.log("Mach1Sound {path: "+t+", i: "+e+", "+(e+1)+"} loaded"),console.timeEnd("load file "+t),(l=f==(s+=2))&&b&&(a.play(g,m),b=!1)}).catch(e=>{console.warn(e)})}function w(){if(a.isReady()&&d)for(let e=0;e<t.length;++e)n[e].gain.setTargetAtTime(i[e],r.currentTime,.05)}return this.setup=function(t){if(Object.getPrototypeOf(t)===AudioBuffer.prototype){c=!0;let n=t;f=2*n.numberOfChannels,e=n,A(),(l=!0)&&b&&(a.play(g,m),b=!1)}else if(Array.isArray(t)){c=!1;let n=t;f=2*n.length,e=v(n.length),A();for(let e=0;e<n.length;++e)O(n[e],2*e)}else console.error("Mach1SoundPlayer can't parse input!")},this.getBuffer=function(){let e=v(f/2);for(let n=0;n<f/2;++n)e[n]=t[2*n].buffer;return e},this.isReady=function(){return l&&!p},this.isPlaying=function(){return d},this.play=function(o=!1,i=a.currentTime()){!this.isReady()||d||p?(b=!0,g=o,m=i):(!function(o,i){if(a.isReady()&&!d){for(let o=0,i=0;i<f/2;++i,o+=2)t[o]=r.createBufferSource(),c?(t[o].buffer=r.createBuffer(1,e.length/e.numberOfChannels,r.sampleRate),t[o].buffer.copyToChannel(e.getChannelData(i),0,0)):t[o].buffer=e[i],n[o]=r.createGain(),n[o].gain.value=0,u[o]=r.createPanner(),u[o].setPosition(-1,0,0),u[o].panningModel="equalpower",t[o].connect(u[o]),u[o].connect(n[o]),n[o].connect(r.destination),t[o+1]=r.createBufferSource(),c?(t[o+1].buffer=r.createBuffer(1,e.length/e.numberOfChannels,r.sampleRate),t[o+1].buffer.copyToChannel(e.getChannelData(i),0,0)):t[o+1].buffer=e[i],n[o+1]=r.createGain(),n[o+1].gain.value=0,u[o+1]=r.createPanner(),u[o+1].setPosition(1,0,0),u[o+1].panningModel="equalpower",t[o+1].connect(u[o+1]),u[o+1].connect(n[o+1]),n[o+1].connect(r.destination);for(let e=0;e<f;++e)t[e].loop=o,t[e].start(0,i);h=r.currentTime-i,d=!0}}(o,i),w())},this.pause=function(){this.stop()},this.stop=function(){if(this.isReady()&&d&&!p){d=!1,b=!1,y=r.currentTime;for(let e=0;e<t.length;++e)t[e].stop(),"function"==typeof t[e].disconnect&&t[e].disconnect()}},this.remove=function(){if(this.isReady())for(let e=0;e<t.length;++e)t[e].stop();p=!0},this.currentTime=function(){return this.isReady()&&d?r.currentTime-h:y-h>0?y-h:0},this.rewind=function(e){e<0&&(e=0),this.stop(),this.play(e),console.log("rewind")},this.getVolumes=function(){return i},this.updateVolumes=function(e){if(Array.isArray(e))for(let t=0;t<f;++t)i[t]=e[t];d&&w()},this}},function(e,t,n){"use strict";(function(e){var t=n(4),o=e.OfflineAudioContext||e.webkitOfflineAudioContext;if(o){var r=new Uint32Array([1179011410,56,1163280727,544501094,16,65537,44100,88200,1048578,1635017060,20,0,0,0,0,0]).buffer;if(!new o(1,128,44100).decodeAudioData(r,function(){},function(){})){var i=t.prototype.decodeAudioData;t.prototype.decodeAudioData=function(e,t,n){var o=this,r=new Promise(function(t,n){return i.call(o,e,t,n)});return r.then(t,n),r},t.prototype.decodeAudioData.original=i}}}).call(this,n(0))},function(e,t,n){(function(t){var n=t.AudioContext||t.webkitAudioContext,o=t.OfflineAudioContext||t.webkitOfflineAudioContext,r=t.BaseAudioContext||o&&Object.getPrototypeOf(o);e.exports="function"==typeof r&&r.prototype?r:n}).call(this,n(0))}]);
+"use strict";
+
+let _soundPlayer_preloadCache = {};
+let _soundPlayer_audioCtx = new AudioContext();
+
+function Mach1SoundPlayer() {
+	let SOUND_COUNT = 0;
+    let thus = this;
+
+    let buffer;
+
+    let _isFromBuffer = false;
+ 
+    let smp;
+    let gainNode;
+    let volumes;
+    let pannerNode;
+
+    let _isSoundReady = false;
+    let countOfReadySound = 0;
+
+    let _isPlaying = false;
+    let _isDeleted = false;
+
+    let startTime = 0;
+    let stopTime = 0;
+	
+	let needToPlay = false;
+	let playLooped = false;
+	let waitToPlay = 0;
+
+    this.setup = function(input) {
+		if(Object.getPrototypeOf(input) === AudioBuffer.prototype) {
+			_isFromBuffer = true;
+			
+			let buf = input;
+
+			SOUND_COUNT = buf.numberOfChannels * 2;
+			buffer = buf;
+
+			init();
+			
+			_isSoundReady = true;
+				
+			if(_isSoundReady && needToPlay) {
+				thus.play(playLooped, waitToPlay);
+				needToPlay = false;
+			}
+		}
+		else if(Array.isArray(input)) {
+			_isFromBuffer = false;
+
+			let audioFiles = input;
+			
+			SOUND_COUNT = audioFiles.length * 2;
+			buffer = initArray(audioFiles.length);
+
+			init();
+
+			for (let i = 0; i < audioFiles.length; ++i) {
+				preload(audioFiles[i], i * 2);
+			}
+		}
+		else {
+			console.error("Mach1SoundPlayer can't parse input!");
+		}
+    };
+
+    function init() {
+		smp = initArray(SOUND_COUNT);
+		gainNode = initArray(SOUND_COUNT);
+		volumes = initArray(SOUND_COUNT);
+		pannerNode = initArray(SOUND_COUNT);
+    }
+
+    function initArray(count) {
+        return Array.apply(null, Array(count)).map(Number.prototype.valueOf, 0.0);
+    }
+
+    function preload(path, i) {
+        console.time('load file ' + path);
+
+        fetch(path, {
+            method: 'GET',
+            responseType: 'arrayBuffer',
+            cache: 'force-cache'
+        }).then((res) => {
+            return res.arrayBuffer();
+        }).then((blob) => {
+            if (_soundPlayer_preloadCache[path]) {
+                return Promise.resolve(_soundPlayer_preloadCache[path]);
+            } else {
+                return _soundPlayer_audioCtx.decodeAudioData(blob);
+            }
+        }).then((aBuffer) => {
+            buffer[Math.floor(i / 2)] = aBuffer;
+
+            if (!_soundPlayer_preloadCache[path]) {
+                _soundPlayer_preloadCache[path] = aBuffer;
+            }
+
+            return i;
+        }).then((i) => {
+            console.log('Mach1Sound {path: ' + path + ', i: ' + i + ', ' + (i + 1) + '} loaded');
+            console.timeEnd('load file ' + path);
+			
+            countOfReadySound += 2;
+            _isSoundReady = (SOUND_COUNT == countOfReadySound);
+			
+			if(_isSoundReady && needToPlay) {
+				thus.play(playLooped, waitToPlay);
+				needToPlay = false;
+			}
+			
+        }).catch((err) => {
+            console.warn(err);
+        });
+    }
+
+    function createAudio(looped, time) {
+        if (thus.isReady() && !_isPlaying) {
+            for (let i = 0, j = 0; j < SOUND_COUNT / 2; ++j, i += 2) {
+                // left
+				
+                smp[i] = _soundPlayer_audioCtx.createBufferSource();
+				if(_isFromBuffer) {
+					smp[i].buffer = _soundPlayer_audioCtx.createBuffer(1, buffer.length / buffer.numberOfChannels, _soundPlayer_audioCtx.sampleRate);
+					smp[i].buffer.copyToChannel(buffer.getChannelData(j), 0, 0);
+				}
+				else {
+					smp[i].buffer = buffer[j];
+				}
+
+                gainNode[i] = _soundPlayer_audioCtx.createGain();
+                gainNode[i].gain.value = 0;
+
+                pannerNode[i] = _soundPlayer_audioCtx.createPanner();
+                pannerNode[i].setPosition(-1, 0, 0); // left
+                pannerNode[i].panningModel = "equalpower";
+
+
+                smp[i].connect(pannerNode[i]);
+                pannerNode[i].connect(gainNode[i]);
+                gainNode[i].connect(_soundPlayer_audioCtx.destination);
+
+                // right
+                smp[i + 1] = _soundPlayer_audioCtx.createBufferSource();
+				if(_isFromBuffer) {
+					smp[i + 1].buffer = _soundPlayer_audioCtx.createBuffer(1, buffer.length / buffer.numberOfChannels, _soundPlayer_audioCtx.sampleRate);
+					smp[i + 1].buffer.copyToChannel(buffer.getChannelData(j), 0, 0);
+				}
+				else {
+					smp[i + 1].buffer = buffer[j];
+				}
+
+                gainNode[i + 1] = _soundPlayer_audioCtx.createGain();
+                gainNode[i + 1].gain.value = 0;
+
+                pannerNode[i + 1] = _soundPlayer_audioCtx.createPanner();
+                pannerNode[i + 1].setPosition(1, 0, 0); // right
+                pannerNode[i + 1].panningModel = "equalpower";
+
+                smp[i + 1].connect(pannerNode[i + 1]);
+                pannerNode[i + 1].connect(gainNode[i + 1]);
+                gainNode[i + 1].connect(_soundPlayer_audioCtx.destination);
+            }
+
+            for (let i = 0; i < SOUND_COUNT; ++i) {
+                smp[i].loop = looped;
+                smp[i].start(0, time);
+            }
+
+            startTime = _soundPlayer_audioCtx.currentTime - time;
+            _isPlaying = true;
+        }
+    }
+
+ 	this.getBuffer = function() {
+		let arr = initArray(SOUND_COUNT / 2);
+		for (let i = 0; i < SOUND_COUNT / 2; ++i) {
+            arr[i] = smp[2 * i].buffer;
+		}		
+		return arr;
+    };
+
+    this.isReady = function() {
+        return _isSoundReady && !_isDeleted;
+    };
+
+    this.isPlaying = function() {
+        return _isPlaying;
+    };
+
+    this.play = function(looped = false, time = thus.currentTime()) {
+        if (this.isReady() && !_isPlaying && !_isDeleted) {
+            createAudio(looped, time);
+            setVolumes();
+        }
+		else {
+			needToPlay = true;
+			playLooped = looped;
+			waitToPlay = time;
+		}
+    };
+	
+    this.pause = function() {
+        this.stop();
+    };
+
+    this.stop = function() {
+        if (this.isReady() && _isPlaying && !_isDeleted) {
+            _isPlaying = false;
+			needToPlay = false;
+
+            stopTime = _soundPlayer_audioCtx.currentTime;
+
+            for (let i = 0; i < smp.length; ++i) {
+                smp[i].stop();
+
+                if (typeof smp[i].disconnect == 'function')
+                    smp[i].disconnect();
+            }
+        }
+    };
+
+    this.remove = function() {
+        if (this.isReady()) {
+            for (let i = 0; i < smp.length; ++i) {
+                smp[i].stop();
+            }
+        }
+
+        _isDeleted = true;
+    };
+
+    this.currentTime = function() {
+        if (!this.isReady() || !_isPlaying) {
+            return stopTime - startTime > 0 ? stopTime - startTime : 0;
+        } else {
+            return _soundPlayer_audioCtx.currentTime - startTime;
+        }
+    };
+
+    this.rewind = function(time) {
+        if (time < 0) {
+            time = 0;
+        }
+
+        this.stop();
+        this.play(time);
+
+        console.log('rewind');
+    };
+
+    this.getVolumes = function() {
+        return volumes;
+    };
+
+    function setVolumes() {
+        if (thus.isReady() && _isPlaying) {
+            for (let i = 0; i < smp.length; ++i) { 
+                gainNode[i].gain.setTargetAtTime(volumes[i], _soundPlayer_audioCtx.currentTime, 0.05);
+            }
+        }
+    }
+
+    this.updateVolumes = function(vols) {
+        if (Array.isArray(vols)) {
+            for (let i = 0; i < SOUND_COUNT; ++i) {
+                volumes[i] = vols[i];
+            }
+        }
+
+        if (_isPlaying) {
+            setVolumes();
+        }
+    };
+
+    return this;
+}
+
+module.exports = Mach1SoundPlayer;

@@ -61,6 +61,7 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
 		.function("generatePointResults", &Mach1Encode::generatePointResults)
 		.function("getPointsCount", &Mach1Encode::getPointsCount)
 
+		.function("getResultingCoeffsDecoded", &Mach1Encode::getResultingCoeffsDecoded)
 		.function("getResultingVolumesDecoded", &Mach1Encode::getResultingVolumesDecoded)
 
 		.function("setInputMode", &Mach1Encode::setInputMode)

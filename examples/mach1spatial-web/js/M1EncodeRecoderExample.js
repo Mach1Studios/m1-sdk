@@ -358,7 +358,7 @@ document.addEventListener("DOMContentLoaded", function() {
         } 
 	}
 	
-	function __timeoutUpdateVolumes() {
+	function __timeoutUpdateGains() {
         if (mach1SoundPlayer && mach1SoundPlayer.isPlaying()) {
 
             m1Encode.generatePointResults();
@@ -404,7 +404,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 lines[i].geometry.attributes.position.needsUpdate = true;
             }
 
-            mach1SoundPlayer.updateVolumes(vol);
+            mach1SoundPlayer.updateGains(vol);
 
             var angle = m1Decode.getCurrentAngle();
  
@@ -430,5 +430,5 @@ document.addEventListener("DOMContentLoaded", function() {
 	}
 	
     setInterval(__playTimeout, 100);
-    setInterval(__timeoutUpdateVolumes, 1000 / FRAMES_PER_SECOND);
+    setInterval(__timeoutUpdateGains, 1000 / FRAMES_PER_SECOND);
 });

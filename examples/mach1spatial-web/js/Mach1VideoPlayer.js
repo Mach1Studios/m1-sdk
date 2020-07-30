@@ -1,13 +1,7 @@
 "use strict";
 
-/*
-const videojs = require('./video.min.js');
-const THREE = require('./three.min.js');
-//import panorama from './videojs-panorama.js' 
-*/
- 
- const FRAMES_PER_SECOND = 60;
- const MAX_SOUND_PLAYER_ERROR = 0.1; //s
+const FRAMES_PER_SECOND = 60;
+const MAX_SOUND_PLAYER_ERROR = 0.1; //s
 
 function Mach1VideoPlayer(audioFiles8, elemId, statusElId) {
 
@@ -147,5 +141,3 @@ function Mach1VideoPlayer(audioFiles8, elemId, statusElId) {
 	
     return this;
 }
-
-//module.exports = Mach1VideoPlayer;

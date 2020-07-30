@@ -1,12 +1,10 @@
 "use strict";
 
-require('promise-decode-audio-data');
-
 let _soundPlayer_preloadCache = {};
 let _soundPlayer_audioCtx = new AudioContext();
 
 function Mach1SoundPlayer() {
-	let SOUND_COUNT = 0;
+    let SOUND_COUNT = 0;
     let thus = this;
 
     let buffer;
@@ -26,53 +24,53 @@ function Mach1SoundPlayer() {
 
     let startTime = 0;
     let stopTime = 0;
-	
-	let needToPlay = false;
-	let playLooped = false;
-	let waitToPlay = 0;
+    
+    let needToPlay = false;
+    let playLooped = false;
+    let waitToPlay = 0;
 
     this.setup = function(input) {
-		if(Object.getPrototypeOf(input) === AudioBuffer.prototype) {
-			_isFromBuffer = true;
-			
-			let buf = input;
+        if(Object.getPrototypeOf(input) === AudioBuffer.prototype) {
+            _isFromBuffer = true;
+            
+            let buf = input;
 
-			SOUND_COUNT = buf.numberOfChannels * 2;
-			buffer = buf;
+            SOUND_COUNT = buf.numberOfChannels * 2;
+            buffer = buf;
 
-			init();
-			
-			_isSoundReady = true;
-				
-			if(_isSoundReady && needToPlay) {
-				thus.play(playLooped, waitToPlay);
-				needToPlay = false;
-			}
-		}
-		else if(Array.isArray(input)) {
-			_isFromBuffer = false;
+            init();
+            
+            _isSoundReady = true;
+                
+            if(_isSoundReady && needToPlay) {
+                thus.play(playLooped, waitToPlay);
+                needToPlay = false;
+            }
+        }
+        else if(Array.isArray(input)) {
+            _isFromBuffer = false;
 
-			let audioFiles = input;
-			
-			SOUND_COUNT = audioFiles.length * 2;
-			buffer = initArray(audioFiles.length);
+            let audioFiles = input;
+            
+            SOUND_COUNT = audioFiles.length * 2;
+            buffer = initArray(audioFiles.length);
 
-			init();
+            init();
 
-			for (let i = 0; i < audioFiles.length; ++i) {
-				preload(audioFiles[i], i * 2);
-			}
-		}
-		else {
-			console.error("Mach1SoundPlayer can't parse input!");
-		}
+            for (let i = 0; i < audioFiles.length; ++i) {
+                preload(audioFiles[i], i * 2);
+            }
+        }
+        else {
+            console.error("Mach1SoundPlayer can't parse input!");
+        }
     };
 
     function init() {
-		smp = initArray(SOUND_COUNT);
-		gainNode = initArray(SOUND_COUNT);
-		gains = initArray(SOUND_COUNT);
-		pannerNode = initArray(SOUND_COUNT);
+        smp = initArray(SOUND_COUNT);
+        gainNode = initArray(SOUND_COUNT);
+        gains = initArray(SOUND_COUNT);
+        pannerNode = initArray(SOUND_COUNT);
     }
 
     function initArray(count) {
@@ -105,15 +103,15 @@ function Mach1SoundPlayer() {
         }).then((i) => {
             console.log('Mach1Sound {path: ' + path + ', i: ' + i + ', ' + (i + 1) + '} loaded');
             console.timeEnd('load file ' + path);
-			
+            
             countOfReadySound += 2;
             _isSoundReady = (SOUND_COUNT == countOfReadySound);
-			
-			if(_isSoundReady && needToPlay) {
-				thus.play(playLooped, waitToPlay);
-				needToPlay = false;
-			}
-			
+            
+            if(_isSoundReady && needToPlay) {
+                thus.play(playLooped, waitToPlay);
+                needToPlay = false;
+            }
+            
         }).catch((err) => {
             console.warn(err);
         });
@@ -124,13 +122,13 @@ function Mach1SoundPlayer() {
             for (let i = 0, j = 0; j < SOUND_COUNT / 2; ++j, i += 2) {
                 // LEFT PLAYERS
                 smp[i] = _soundPlayer_audioCtx.createBufferSource();
-				if(_isFromBuffer) {
-					smp[i].buffer = _soundPlayer_audioCtx.createBuffer(1, buffer.length / buffer.numberOfChannels, _soundPlayer_audioCtx.sampleRate);
-					smp[i].buffer.copyToChannel(buffer.getChannelData(j), 0, 0);
-				}
-				else {
-					smp[i].buffer = buffer[j];
-				}
+                if(_isFromBuffer) {
+                    smp[i].buffer = _soundPlayer_audioCtx.createBuffer(1, buffer.length / buffer.numberOfChannels, _soundPlayer_audioCtx.sampleRate);
+                    smp[i].buffer.copyToChannel(buffer.getChannelData(j), 0, 0);
+                }
+                else {
+                    smp[i].buffer = buffer[j];
+                }
 
                 gainNode[i] = _soundPlayer_audioCtx.createGain();
                 gainNode[i].gain.value = 0;
@@ -149,13 +147,13 @@ function Mach1SoundPlayer() {
 
                 // RIGHT PLAYERS
                 smp[i + 1] = _soundPlayer_audioCtx.createBufferSource();
-				if(_isFromBuffer) {
-					smp[i + 1].buffer = _soundPlayer_audioCtx.createBuffer(1, buffer.length / buffer.numberOfChannels, _soundPlayer_audioCtx.sampleRate);
-					smp[i + 1].buffer.copyToChannel(buffer.getChannelData(j), 0, 0);
-				}
-				else {
-					smp[i + 1].buffer = buffer[j];
-				}
+                if(_isFromBuffer) {
+                    smp[i + 1].buffer = _soundPlayer_audioCtx.createBuffer(1, buffer.length / buffer.numberOfChannels, _soundPlayer_audioCtx.sampleRate);
+                    smp[i + 1].buffer.copyToChannel(buffer.getChannelData(j), 0, 0);
+                }
+                else {
+                    smp[i + 1].buffer = buffer[j];
+                }
 
                 gainNode[i + 1] = _soundPlayer_audioCtx.createGain();
                 gainNode[i + 1].gain.value = 0;
@@ -182,12 +180,12 @@ function Mach1SoundPlayer() {
         }
     }
 
- 	this.getBuffer = function() {
-		let arr = initArray(SOUND_COUNT / 2);
-		for (let i = 0; i < SOUND_COUNT / 2; ++i) {
+    this.getBuffer = function() {
+        let arr = initArray(SOUND_COUNT / 2);
+        for (let i = 0; i < SOUND_COUNT / 2; ++i) {
             arr[i] = smp[2 * i].buffer;
-		}		
-		return arr;
+        }       
+        return arr;
     };
 
     this.isReady = function() {
@@ -203,13 +201,13 @@ function Mach1SoundPlayer() {
             createAudio(looped, time);
             setGains();
         }
-		else {
-			needToPlay = true;
-			playLooped = looped;
-			waitToPlay = time;
-		}
+        else {
+            needToPlay = true;
+            playLooped = looped;
+            waitToPlay = time;
+        }
     };
-	
+    
     this.pause = function() {
         this.stop();
     };
@@ -217,7 +215,7 @@ function Mach1SoundPlayer() {
     this.stop = function() {
         if (this.isReady() && _isPlaying && !_isDeleted) {
             _isPlaying = false;
-			needToPlay = false;
+            needToPlay = false;
 
             stopTime = _soundPlayer_audioCtx.currentTime;
 
@@ -285,5 +283,3 @@ function Mach1SoundPlayer() {
 
     return this;
 }
-
-module.exports = Mach1SoundPlayer;

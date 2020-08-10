@@ -10,7 +10,7 @@ function Mach1SoundPlayer() {
     let buffer;
 
     let _isFromBuffer = false;
- 
+
     let smp;
     let gainNode;
     let gains;
@@ -24,7 +24,7 @@ function Mach1SoundPlayer() {
 
     let startTime = 0;
     let stopTime = 0;
-    
+
     let needToPlay = false;
     let playLooped = false;
     let waitToPlay = 0;
@@ -32,16 +32,16 @@ function Mach1SoundPlayer() {
     this.setup = function(input) {
         if(Object.getPrototypeOf(input) === AudioBuffer.prototype) {
             _isFromBuffer = true;
-            
+
             let buf = input;
 
             SOUND_COUNT = buf.numberOfChannels * 2;
             buffer = buf;
 
             init();
-            
+
             _isSoundReady = true;
-                
+
             if(_isSoundReady && needToPlay) {
                 thus.play(playLooped, waitToPlay);
                 needToPlay = false;
@@ -51,7 +51,7 @@ function Mach1SoundPlayer() {
             _isFromBuffer = false;
 
             let audioFiles = input;
-            
+
             SOUND_COUNT = audioFiles.length * 2;
             buffer = initArray(audioFiles.length);
 
@@ -103,15 +103,15 @@ function Mach1SoundPlayer() {
         }).then((i) => {
             console.log('Mach1Sound {path: ' + path + ', i: ' + i + ', ' + (i + 1) + '} loaded');
             console.timeEnd('load file ' + path);
-            
+
             countOfReadySound += 2;
             _isSoundReady = (SOUND_COUNT == countOfReadySound);
-            
+
             if(_isSoundReady && needToPlay) {
                 thus.play(playLooped, waitToPlay);
                 needToPlay = false;
             }
-            
+
         }).catch((err) => {
             console.warn(err);
         });
@@ -184,7 +184,7 @@ function Mach1SoundPlayer() {
         let arr = initArray(SOUND_COUNT / 2);
         for (let i = 0; i < SOUND_COUNT / 2; ++i) {
             arr[i] = smp[2 * i].buffer;
-        }       
+        }
         return arr;
     };
 
@@ -207,7 +207,7 @@ function Mach1SoundPlayer() {
             waitToPlay = time;
         }
     };
-    
+
     this.pause = function() {
         this.stop();
     };
@@ -263,7 +263,7 @@ function Mach1SoundPlayer() {
 
     function setGains() {
         if (thus.isReady() && _isPlaying) {
-            for (let i = 0; i < smp.length; ++i) { 
+            for (let i = 0; i < smp.length; ++i) {
                 gainNode[i].gain.setTargetAtTime(gains[i], _soundPlayer_audioCtx.currentTime, 0.05);
             }
         }
@@ -280,6 +280,10 @@ function Mach1SoundPlayer() {
             setGains();
         }
     };
+
+    this.getCountOfReadySound = function () {
+      return (countOfReadySound / SOUND_COUNT * 100).toFixed(0);
+    }
 
     return this;
 }

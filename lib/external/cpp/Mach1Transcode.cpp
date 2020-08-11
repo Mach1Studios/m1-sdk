@@ -203,7 +203,7 @@ std::vector<Mach1TranscodeFormatType> Mach1Transcode::getFormatConversionPath()
 
 	std::vector<Mach1TranscodeFormatType> vec(arr, arr + count);
 	return vec;
-    /// Returns the shortest found conversion path to get from input format X to output format Y, both set by   Mach1Transcode::setInputFormat(Mach1TranscodeFormatType inFmt) ` and `Mach1Transcode::setOutputFormat(Mach1TranscodeFormatType outFmt)`
+    /// Returns the shortest found conversion path to get from input format X to output format Y, both set by `Mach1Transcode::setInputFormat(Mach1TranscodeFormatType inFmt)` and `Mach1Transcode::setOutputFormat(Mach1TranscodeFormatType outFmt)`
     ///
     /// Remarks:
     ///     Majority of format instances will use Mach1Spatial as the middle format for non-Mach1-format -> non-Mach1-format transcodings. This is due to Mach1 Spatial being a platonic solid format, ideal for safe calculations without loss

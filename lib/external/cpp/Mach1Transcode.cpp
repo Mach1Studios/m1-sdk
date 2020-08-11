@@ -196,10 +196,10 @@ void Mach1Transcode::processConversion(float** inBufs, float** outBufs, int numS
     /// Call to process the conversion as set by previous functions
 }
 
-std::vector<Mach1TranscodeFormatType> Mach1Transcode::getFormatsConvertionPath()
+std::vector<Mach1TranscodeFormatType> Mach1Transcode::getFormatConversionPath()
 {
 	int count = 0;
-	Mach1TranscodeFormatType* arr = Mach1TranscodeCAPI_getFormatsConvertionPath(M1obj, &count);
+	Mach1TranscodeFormatType* arr = Mach1TranscodeCAPI_getFormatConversionPath(M1obj, &count);
 
 	std::vector<Mach1TranscodeFormatType> vec(arr, arr + count);
 	return vec;

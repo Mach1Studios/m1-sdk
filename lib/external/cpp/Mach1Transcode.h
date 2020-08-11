@@ -43,5 +43,5 @@ public:
 	std::vector<std::vector<float>> getMatrixConversion();
 	void processConversion(float** inBufs, float** outBufs, int numSamples);
 
-	std::vector<Mach1TranscodeFormatType> getFormatsConvertionPath();
+	std::vector<Mach1TranscodeFormatType> getFormatConversionPath();
 };

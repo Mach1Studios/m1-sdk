@@ -317,6 +317,9 @@
                   <li>
                     <a href="#get-log" class="toc-h2 toc-link" data-title="Mach1Decode API">Get Log</a>
                   </li>
+                  <li>
+                    <a href="#get-current-angle" class="toc-h2 toc-link" data-title="Mach1Decode API">Get Current Angle</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -346,22 +349,66 @@
               </ul>
           </li>
           <li>
+            <a href="#mach1transcode-commandline" class="toc-h1 toc-link" data-title="Mach1Transcode CommandLine">Mach1Transcode CommandLine</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#usage" class="toc-h2 toc-link" data-title="Mach1Transcode CommandLine">Usage</a>
+                  </li>
+                  <li>
+                    <a href="#suggested-metadata-spec-optional" class="toc-h2 toc-link" data-title="Mach1Transcode CommandLine">Suggested Metadata Spec [optional]</a>
+                  </li>
+                  <li>
+                    <a href="#examples-of-metadata-spec" class="toc-h2 toc-link" data-title="Mach1Transcode CommandLine">Examples of Metadata Spec</a>
+                  </li>
+                  <li>
+                    <a href="#formats-supported" class="toc-h2 toc-link" data-title="Mach1Transcode CommandLine">Formats Supported</a>
+                  </li>
+                  <li>
+                    <a href="#additional-features" class="toc-h2 toc-link" data-title="Mach1Transcode CommandLine">Additional Features</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#mach1transcode-api" class="toc-h1 toc-link" data-title="Mach1Transcode API">Mach1Transcode API</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#usage" class="toc-h2 toc-link" data-title="Mach1Transcode API">Usage</a>
+                    <a href="#summary-of-use" class="toc-h2 toc-link" data-title="Mach1Transcode API">Summary of Use</a>
                   </li>
                   <li>
-                    <a href="#suggested-metadata-spec-optional" class="toc-h2 toc-link" data-title="Mach1Transcode API">Suggested Metadata Spec [optional]</a>
+                    <a href="#installation" class="toc-h2 toc-link" data-title="Mach1Transcode API">Installation</a>
                   </li>
                   <li>
-                    <a href="#examples-of-metadata-spec" class="toc-h2 toc-link" data-title="Mach1Transcode API">Examples of Metadata Spec</a>
+                    <a href="#set-get-input-format" class="toc-h2 toc-link" data-title="Mach1Transcode API">Set / Get Input Format</a>
                   </li>
                   <li>
-                    <a href="#formats-supported" class="toc-h2 toc-link" data-title="Mach1Transcode API">Formats Supported</a>
+                    <a href="#set-get-output-format" class="toc-h2 toc-link" data-title="Mach1Transcode API">Set / Get Output Format</a>
                   </li>
                   <li>
-                    <a href="#additional-features" class="toc-h2 toc-link" data-title="Mach1Transcode API">Additional Features</a>
+                    <a href="#set-get-spatial-downmixer" class="toc-h2 toc-link" data-title="Mach1Transcode API">Set / Get Spatial Downmixer</a>
+                  </li>
+                  <li>
+                    <a href="#set-lfe-sub-channels" class="toc-h2 toc-link" data-title="Mach1Transcode API">Set LFE / Sub Channels</a>
+                  </li>
+                  <li>
+                    <a href="#set-input-as-json" class="toc-h2 toc-link" data-title="Mach1Transcode API">Set Input as JSON</a>
+                  </li>
+                  <li>
+                    <a href="#set-input-as-tt-points" class="toc-h2 toc-link" data-title="Mach1Transcode API">Set Input as TT Points</a>
+                  </li>
+                  <li>
+                    <a href="#set-input-as-adm" class="toc-h2 toc-link" data-title="Mach1Transcode API">Set Input as ADM</a>
+                  </li>
+                  <li>
+                    <a href="#process-normalization" class="toc-h2 toc-link" data-title="Mach1Transcode API">Process Normalization</a>
+                  </li>
+                  <li>
+                    <a href="#process-master-gain" class="toc-h2 toc-link" data-title="Mach1Transcode API">Process Master Gain</a>
+                  </li>
+                  <li>
+                    <a href="#process-conversion-path" class="toc-h2 toc-link" data-title="Mach1Transcode API">Process Conversion Path</a>
+                  </li>
+                  <li>
+                    <a href="#process-conversion" class="toc-h2 toc-link" data-title="Mach1Transcode API">Process Conversion</a>
                   </li>
               </ul>
           </li>
@@ -434,12 +481,10 @@ Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatia
 <p>Mach1Encode allows you to transform input audio streams into the Mach1Spatial VVBP 8 channel format. Included are functions needed for mono, stereo or quad/FOA audio streams. The input streams are referred to as <code>Points</code> in our SDK.</p>
 
 <p>The typical encoding process starts with creating an object of a class Mach1EncodeCore, and setting it up as described below. After that, you&#39;re meant to generate Points by calling generatePointResults() on the object of this class. You&#39;ll get as many points as there are input channels and as many gains in each point as there are output channels. You then copy each input channel to each output channel with the according gain.</p>
-<h2 id='summary-of-use'>Summary of Use</h2>
-<p>The Mach1Encode API is designed to aid in developing tools for inputting to a Mach1 VVBP/SPS format. They give access to common calculations needed for the audio processing and UI/UX handling for panning/encoding Mach1 VVBP/SPS formats via the following common structure:</p>
-<pre class="highlight cpp tab-cpp"><code><span class="kt">void</span> <span class="n">update</span><span class="p">(){</span>
-    <span class="n">m1Encode</span><span class="p">.</span><span class="n">setRotation</span><span class="p">(</span><span class="n">rotation</span><span class="p">);</span>
+<h2 id='summary-of-use'>Summary of Use</h2><pre class="highlight cpp tab-cpp"><code><span class="kt">void</span> <span class="n">update</span><span class="p">(){</span>
+    <span class="n">m1Encode</span><span class="p">.</span><span class="n">setAzimuth</span><span class="p">(</span><span class="n">azimuth</span><span class="p">);</span>
+    <span class="n">m1Encode</span><span class="p">.</span><span class="n">setElevation</span><span class="p">(</span><span class="n">elevation</span><span class="p">);</span>
     <span class="n">m1Encode</span><span class="p">.</span><span class="n">setDiverge</span><span class="p">(</span><span class="n">diverge</span><span class="p">);</span>
-    <span class="n">m1Encode</span><span class="p">.</span><span class="n">setPitch</span><span class="p">(</span><span class="n">pitch</span><span class="p">);</span>
     <span class="n">m1Encode</span><span class="p">.</span><span class="n">setStereoRotate</span><span class="p">(</span><span class="n">sRotation</span><span class="p">);</span>
     <span class="n">m1Encode</span><span class="p">.</span><span class="n">setStereoSpread</span><span class="p">(</span><span class="n">sSpread</span><span class="p">);</span>
     <span class="n">m1Encode</span><span class="p">.</span><span class="n">setAutoOrbit</span><span class="p">(</span><span class="n">autoOrbit</span><span class="p">);</span>
@@ -458,9 +503,9 @@ Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatia
     <span class="n">mtx</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span>
 <span class="p">}</span>
 </code></pre><pre class="highlight swift tab-swift"><code><span class="kd">func</span> <span class="nf">update</span><span class="p">(</span><span class="nv">decodeArray</span><span class="p">:</span> <span class="p">[</span><span class="kt">Float</span><span class="p">],</span> <span class="nv">decodeType</span><span class="p">:</span> <span class="kt">Mach1DecodeAlgoType</span><span class="p">){</span>
-    <span class="n">m1Encode</span><span class="o">.</span><span class="nf">setRotation</span><span class="p">(</span><span class="nv">rotation</span><span class="p">:</span> <span class="n">rotation</span><span class="p">)</span>
+    <span class="n">m1Encode</span><span class="o">.</span><span class="nf">setAzimuth</span><span class="p">(</span><span class="nv">rotation</span><span class="p">:</span> <span class="n">azimuth</span><span class="p">)</span>
+    <span class="n">m1Encode</span><span class="o">.</span><span class="nf">setElevation</span><span class="p">(</span><span class="nv">pitch</span><span class="p">:</span> <span class="n">elevation</span><span class="p">)</span>
     <span class="n">m1Encode</span><span class="o">.</span><span class="nf">setDiverge</span><span class="p">(</span><span class="nv">diverge</span><span class="p">:</span> <span class="n">diverge</span><span class="p">)</span>
-    <span class="n">m1Encode</span><span class="o">.</span><span class="nf">setPitch</span><span class="p">(</span><span class="nv">pitch</span><span class="p">:</span> <span class="n">height</span><span class="p">)</span>
     <span class="n">m1Encode</span><span class="o">.</span><span class="nf">setAutoOrbit</span><span class="p">(</span><span class="nv">setAutoOrbit</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
     <span class="n">m1Encode</span><span class="o">.</span><span class="nf">setIsotropicEncode</span><span class="p">(</span><span class="nv">setIsotropicEncode</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
     <span class="n">m1Encode</span><span class="o">.</span><span class="nf">setStereoSpread</span><span class="p">(</span><span class="nv">setStereoSpread</span><span class="p">:</span> <span class="n">stereoSpread</span><span class="p">)</span>
@@ -480,17 +525,20 @@ Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatia
     <span class="nx">m1Encode</span> <span class="o">=</span> <span class="k">new</span><span class="p">(</span><span class="nx">m1EncodeModule</span><span class="p">).</span><span class="nx">Mach1Encode</span><span class="p">();</span>
 <span class="p">});</span>
 <span class="kd">function</span> <span class="nx">update</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">m1Encode</span><span class="p">.</span><span class="nx">setRotation</span><span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">rotation</span><span class="p">);</span>
+    <span class="nx">m1Encode</span><span class="p">.</span><span class="nx">setAzimuth</span><span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">azimuth</span><span class="p">);</span>
+    <span class="nx">m1Encode</span><span class="p">.</span><span class="nx">setElevation</span><span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">elevation</span><span class="p">);</span>
     <span class="nx">m1Encode</span><span class="p">.</span><span class="nx">setDiverge</span><span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">diverge</span><span class="p">);</span>
-    <span class="nx">m1Encode</span><span class="p">.</span><span class="nx">setPitch</span><span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">pitch</span><span class="p">);</span>
     <span class="nx">m1Encode</span><span class="p">.</span><span class="nx">setStereoRotate</span><span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">sRotation</span><span class="p">);</span>
     <span class="nx">m1Encode</span><span class="p">.</span><span class="nx">setStereoSpread</span><span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">sSpread</span><span class="p">);</span>
     <span class="nx">m1Encode</span><span class="p">.</span><span class="nx">setAutoOrbit</span><span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">autoOrbit</span><span class="p">);</span>
     <span class="nx">m1Encode</span><span class="p">.</span><span class="nx">setIsotropicEncode</span><span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">enableIsotropicEncode</span><span class="p">);</span>
 
     <span class="nx">m1Encode</span><span class="p">.</span><span class="nx">generatePointResults</span><span class="p">();</span>
+    <span class="kd">var</span> <span class="nx">encodeCoeffs</span> <span class="o">=</span> <span class="nx">m1Encode</span><span class="p">.</span><span class="nx">getGains</span><span class="p">();</span>
 <span class="p">}</span>
-</code></pre><h2 id='installation'>Installation</h2>
+</code></pre>
+<p>The Mach1Encode API is designed to aid in developing tools for inputting to a Mach1 VVBP/SPS format. They give access to common calculations needed for the audio processing and UI/UX handling for panning/encoding Mach1 VVBP/SPS formats via the following common structure:</p>
+<h2 id='installation'>Installation</h2>
 <p>Import and link the appropriate target device&#39;s / IDE&#39;s library file. </p>
 <h2 id='generate-point-results'>Generate Point Results</h2>
 <p>Returns the resulting <code>points</code> coefficients based on selected and calculated input/output configuration.</p>
@@ -504,8 +552,15 @@ Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatia
 <li>INPUT_MONO</li>
 <li>INPUT_STEREO</li>
 <li>INPUT_QUAD</li>
+<li>INPUT_LCRS</li>
 <li>INPUT_AFORMAT</li>
-<li>INPUT_BFORMAT</li>
+<li>INPUT_FOAACN</li>
+<li>INPUT_FOAFUMA</li>
+<li>INPUT_2OAACN</li>
+<li>INPUT_2OAFUMA</li>
+<li>INPUT_3OAACN</li>
+<li>INPUT_3OAFUMA</li>
+<li>INPUT_LCR</li>
 </ul>
 <pre class="highlight cpp tab-cpp"><code><span class="k">if</span> <span class="p">(</span><span class="n">inputKind</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Input: MONO
 </span>    <span class="n">m1Encode</span><span class="p">.</span><span class="n">inputMode</span> <span class="o">=</span> <span class="n">M1Encode</span><span class="o">::</span><span class="n">INPUT_MONO</span><span class="p">;</span>
@@ -520,7 +575,7 @@ Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatia
 </span>    <span class="n">m1Encode</span><span class="p">.</span><span class="n">inputMode</span> <span class="o">=</span> <span class="n">M1Encode</span><span class="o">::</span><span class="n">INPUT_AFORMAT</span><span class="p">;</span>
 <span class="p">}</span>
 <span class="k">if</span> <span class="p">(</span><span class="n">inputKind</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Input: BFORMAT
-</span>    <span class="n">m1Encode</span><span class="p">.</span><span class="n">inputMode</span> <span class="o">=</span> <span class="n">M1Encode</span><span class="o">::</span><span class="n">INPUT_BFORMAT</span><span class="p">;</span>
+</span>    <span class="n">m1Encode</span><span class="p">.</span><span class="n">inputMode</span> <span class="o">=</span> <span class="n">M1Encode</span><span class="o">::</span><span class="n">INPUT_FOAACN</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre><pre class="highlight swift tab-swift"><code><span class="k">var</span> <span class="nv">type</span> <span class="p">:</span> <span class="kt">Mach1EncodeInputModeType</span> <span class="o">=</span> <span class="kt">Mach1EncodeInputModeMono</span>
 <span class="n">m1Encode</span><span class="o">.</span><span class="nf">setInputMode</span><span class="p">(</span><span class="nv">inputMode</span><span class="p">:</span> <span class="n">type</span><span class="p">)</span>
@@ -539,7 +594,7 @@ Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatia
         <span class="n">type</span> <span class="o">=</span> <span class="kt">Mach1EncodeInputModeAFormat</span>
     <span class="p">}</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">bFormatMode</span><span class="p">){</span>
-        <span class="n">type</span> <span class="o">=</span> <span class="kt">Mach1EncodeInputModeBFormat</span>
+        <span class="n">type</span> <span class="o">=</span> <span class="kt">Mach1EncodeInputModeBFOAACN</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="k">if</span> <span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">inputKind</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Input: MONO</span>
@@ -554,33 +609,37 @@ Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatia
 <span class="k">if</span> <span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">inputKind</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Input: AFORMAT</span>
     <span class="nx">m1Encode</span><span class="p">.</span><span class="nx">setInputMode</span><span class="p">(</span><span class="nx">m1Encode</span><span class="p">.</span><span class="nx">Mach1EncodeInputModeType</span><span class="p">.</span><span class="nx">Mach1EncodeInputModeAFormat</span><span class="p">);</span>
 <span class="p">}</span>
-<span class="k">if</span> <span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">inputKind</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Input: BFORMAT</span>
-    <span class="nx">m1Encode</span><span class="p">.</span><span class="nx">setInputMode</span><span class="p">(</span><span class="nx">m1Encode</span><span class="p">.</span><span class="nx">Mach1EncodeInputModeType</span><span class="p">.</span><span class="nx">Mach1EncodeInputModeBFormat</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">inputKind</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Input: 1st Order Ambisonics (ACNSN3D)</span>
+    <span class="nx">m1Encode</span><span class="p">.</span><span class="nx">setInputMode</span><span class="p">(</span><span class="nx">m1Encode</span><span class="p">.</span><span class="nx">Mach1EncodeInputModeType</span><span class="p">.</span><span class="nx">Mach1EncodeInputModeBFOAACN</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre><h2 id='set-output-mode'>Set Output Mode</h2>
 <p>Sets the output spatial format, Mach1Spatial or Mach1Horizon</p>
 
 <ul>
-<li>OUTPUT_4CH (Mach1Horizon) [Yaw only]</li>
-<li>OUTPUT_8CH (Mach1Spatial) [Yaw, Pitch, Roll]</li>
+<li>Mach1Horizon (4ch) [Yaw]</li>
+<li>Mach1Spatial (8ch) [Yaw, Pitch, Roll]</li>
+<li>Mach1SpatialPlus (12ch) [Yaw, Pitch, Roll]</li>
+<li>Mach1SpatialPlusPlus (14ch) [Yaw, Pitch, Roll]</li>
+<li>Mach1SpatialExt (16ch) [Yaw, Pitch, Roll]</li>
+<li>Mach1SpatialExtPlus (18ch) [Yaw, Pitch, Roll]</li>
 </ul>
 <pre class="highlight cpp tab-cpp"><code><span class="k">if</span> <span class="p">(</span><span class="n">outputKind</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Output: 4CH Mach1Horizon
-</span>    <span class="n">m1Encode</span><span class="p">.</span><span class="n">outputMode</span> <span class="o">=</span> <span class="n">M1Encode</span><span class="o">::</span><span class="n">OUTPUT_4CH</span><span class="p">;</span>
+</span>    <span class="n">m1Encode</span><span class="p">.</span><span class="n">outputMode</span> <span class="o">=</span> <span class="n">M1Encode</span><span class="o">::</span><span class="n">Mach1Horizon</span><span class="p">;</span>
 <span class="p">}</span>
 <span class="k">if</span> <span class="p">(</span><span class="n">outputKind</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Output: 8CH Mach1Spatial
-</span>    <span class="n">m1Encode</span><span class="p">.</span><span class="n">outputMode</span> <span class="o">=</span> <span class="n">M1Encode</span><span class="o">::</span><span class="n">OUTPUT_8CH</span><span class="p">;</span>
+</span>    <span class="n">m1Encode</span><span class="p">.</span><span class="n">outputMode</span> <span class="o">=</span> <span class="n">M1Encode</span><span class="o">::</span><span class="n">Mach1Spatial</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre><pre class="highlight swift tab-swift"><code><span class="k">if</span> <span class="p">(</span><span class="n">outputKind</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Output: 4CH Mach1Horizon</span>
-    <span class="n">m1Encode</span><span class="o">.</span><span class="nf">setOutputMode</span><span class="p">(</span><span class="nv">outputMode</span><span class="p">:</span> <span class="kt">Mach1EncodeOutputMode4Ch</span><span class="p">)</span>
+    <span class="n">m1Encode</span><span class="o">.</span><span class="nf">setOutputMode</span><span class="p">(</span><span class="nv">outputMode</span><span class="p">:</span> <span class="kt">Mach1EncodeOutputModeM1Horizon</span><span class="p">)</span>
 <span class="p">}</span>
 <span class="k">if</span> <span class="p">(</span><span class="n">outputKind</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Output: 8CH Mach1Spatial</span>
-    <span class="n">m1Encode</span><span class="o">.</span><span class="nf">setOutputMode</span><span class="p">(</span><span class="nv">outputMode</span><span class="p">:</span> <span class="kt">Mach1EncodeOutputMode8Ch</span><span class="p">)</span>
+    <span class="n">m1Encode</span><span class="o">.</span><span class="nf">setOutputMode</span><span class="p">(</span><span class="nv">outputMode</span><span class="p">:</span> <span class="kt">Mach1EncodeOutputModeM1Spatial</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="k">if</span> <span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">outputKind</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Output: Mach1Horizon / Quad</span>
-    <span class="nx">m1Encode</span><span class="p">.</span><span class="nx">setOutputMode</span><span class="p">(</span><span class="nx">m1Encode</span><span class="p">.</span><span class="nx">Mach1EncodeOutputModeType</span><span class="p">.</span><span class="nx">Mach1EncodeOutputMode4Ch</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="k">if</span> <span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">outputKind</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Output: 4CH Mach1Horizon</span>
+    <span class="nx">m1Encode</span><span class="p">.</span><span class="nx">setOutputMode</span><span class="p">(</span><span class="nx">m1Encode</span><span class="p">.</span><span class="nx">Mach1EncodeOutputModeType</span><span class="p">.</span><span class="nx">Mach1EncodeOutputModeM1Horizon</span><span class="p">);</span>
 <span class="p">}</span>
-<span class="k">if</span> <span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">outputKind</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Output: Mach1Spatial / Cuboid</span>
-    <span class="nx">m1Encode</span><span class="p">.</span><span class="nx">setOutputMode</span><span class="p">(</span><span class="nx">m1Encode</span><span class="p">.</span><span class="nx">Mach1EncodeOutputModeType</span><span class="p">.</span><span class="nx">Mach1EncodeOutputMode8Ch</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">outputKind</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Output: 8CH Mach1Spatial</span>
+    <span class="nx">m1Encode</span><span class="p">.</span><span class="nx">setOutputMode</span><span class="p">(</span><span class="nx">m1Encode</span><span class="p">.</span><span class="nx">Mach1EncodeOutputModeType</span><span class="p">.</span><span class="nx">Mach1EncodeOutputModeM1Spatial</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre><h2 id='set-rotation'>Set Rotation</h2><pre class="highlight cpp tab-cpp"><code><span class="n">m1Encode</span><span class="p">.</span><span class="n">setRotation</span> <span class="o">=</span> <span class="n">rotation</span><span class="p">;</span>
 </code></pre><pre class="highlight swift tab-swift"><code><span class="n">m1Encode</span><span class="o">.</span><span class="nf">setRotation</span><span class="p">(</span><span class="nv">rotation</span><span class="p">:</span> <span class="n">rotation</span><span class="p">)</span>
@@ -657,17 +716,23 @@ Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatia
 <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">0</span><span class="o">..&lt;</span><span class="n">players</span><span class="o">.</span><span class="n">count</span> <span class="p">{</span>
     <span class="n">players</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">volume</span> <span class="o">=</span> <span class="n">volumes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">volume</span>
 <span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="nx">m1Encode</span><span class="p">.</span><span class="nx">generatePointResults</span><span class="p">();</span>
+
+<span class="nx">m1Decode</span><span class="p">.</span><span class="nx">beginBuffer</span><span class="p">();</span>
+<span class="kd">var</span> <span class="nx">decoded</span> <span class="o">=</span> <span class="nx">m1Decode</span><span class="p">.</span><span class="nx">decode</span><span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">decoderRotationY</span><span class="p">,</span> <span class="nx">params</span><span class="p">.</span><span class="nx">decoderRotationP</span><span class="p">,</span> <span class="nx">params</span><span class="p">.</span><span class="nx">decoderRotationR</span><span class="p">);</span>
+<span class="nx">m1Decode</span><span class="p">.</span><span class="nx">endBuffer</span><span class="p">();</span>
+
+<span class="kd">var</span> <span class="nx">vol</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">outputKind</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Output: Mach1Spatial</span>
+    <span class="nx">vol</span> <span class="o">=</span> <span class="nx">m1Encode</span><span class="p">.</span><span class="nx">getResultingCoeffsDecoded</span><span class="p">(</span><span class="nx">m1Decode</span><span class="p">.</span><span class="nx">Mach1DecodeAlgoType</span><span class="p">.</span><span class="nx">Mach1DecodeAlgoSpatial</span><span class="p">,</span> <span class="nx">decoded</span><span class="p">);</span>
+<span class="p">}</span>
 </code></pre>
 <p>This function allows designs where only previewing or live rendering to decoded audio output is required without any step of rendering or exporting to disk. This enables designs where developers can stack and sum multiple Mach1Encode object&#39;s decoded outputs instead of using Mach1Encode objects to write to a master 8 channel intermediary file. Allowing shorthand versions of Mach1Encode-&gt;Mach1Decode-&gt;Stereo if only live playback is needed. </p>
 
 <p>This can also be used to add object audio design to your application from the Mach1 Spatial APIs and add further control to an application to layer pre-rendered spatial audio and runtime spatial audio as needed.</p>
 <h1 id='mach1decode-api'>Mach1Decode API</h1>
 <p>Mach1Decode supplies the functions needed to playback Mach1 Spatial VVBP formats to a stereo stream based on the device&#39;s orientation, this can be used for mobile device windowing or first person based media such as AR/VR/MR without any additional processing effects required.</p>
-<h2 id='summary-use'>Summary Use</h2>
-<p>The Mach1Decode API is designed to be used the following way:</p>
-
-<p>Setup Step (setup/start):</p>
-<pre class="highlight cpp tab-cpp"><code><span class="kt">void</span> <span class="n">setup</span><span class="p">(){</span>
+<h2 id='summary-use'>Summary Use</h2><pre class="highlight cpp tab-cpp"><code><span class="kt">void</span> <span class="n">setup</span><span class="p">(){</span>
     <span class="n">mach1Decode</span><span class="p">.</span><span class="n">setDecodeAlgoType</span><span class="p">(</span><span class="n">Mach1DecodeAlgoSpatial</span><span class="p">);</span>
     <span class="n">mach1Decode</span><span class="p">.</span><span class="n">setPlatformType</span><span class="p">(</span><span class="n">Mach1PlatformDefault</span><span class="p">);</span>
     <span class="n">mach1Decode</span><span class="p">.</span><span class="n">setFilterSpeed</span><span class="p">(</span><span class="mf">1.0</span><span class="n">f</span><span class="p">);</span>
@@ -690,7 +755,7 @@ Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatia
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="kd">let</span> <span class="nx">mach1Decode</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
 <span class="nx">Mach1DecodeModule</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">m1DecodeModule</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">m1Decode</span> <span class="o">=</span> <span class="k">new</span><span class="p">(</span><span class="nx">m1DecodeModule</span><span class="p">).</span><span class="nx">Mach1Decode</span><span class="p">();</span>
-    <span class="nx">m1Decode</span><span class="p">.</span><span class="nx">setPlatformType</span><span class="p">(</span><span class="nx">m1Decode</span><span class="p">.</span><span class="nx">Mach1PlatformType</span><span class="p">.</span><span class="nx">Mach1PlatformOfEasyCam</span><span class="p">);</span>
+    <span class="nx">m1Decode</span><span class="p">.</span><span class="nx">setPlatformType</span><span class="p">(</span><span class="nx">m1Decode</span><span class="p">.</span><span class="nx">Mach1PlatformType</span><span class="p">.</span><span class="nx">Mach1PlatformDefault</span><span class="p">);</span>
     <span class="nx">m1Decode</span><span class="p">.</span><span class="nx">setDecodeAlgoType</span><span class="p">(</span><span class="nx">m1Decode</span><span class="p">.</span><span class="nx">Mach1DecodeAlgoType</span><span class="p">.</span><span class="nx">Mach1DecodeAlgoSpatial</span><span class="p">);</span>
     <span class="nx">m1Decode</span><span class="p">.</span><span class="nx">setFilterSpeed</span><span class="p">(</span><span class="mf">0.95</span><span class="p">);</span>
 <span class="p">});</span>
@@ -700,6 +765,10 @@ Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatia
     <span class="nx">mach1Decode</span><span class="p">.</span><span class="nx">endBuffer</span><span class="p">();</span>
 <span class="p">}</span>
 </code></pre>
+<p>The Mach1Decode API is designed to be used the following way:</p>
+
+<p>Setup Step (setup/start):</p>
+
 <ul>
 <li><code>setAlgorithmType</code></li>
 <li><code>setAngularSettingsType</code></li>
@@ -877,12 +946,8 @@ This function of decoding is deprecated and only helpful for experimental use ca
 <p>Returns the current elapsed time in milliseconds (ms) since Mach1Decode object&#39;s creation. </p>
 <h2 id='get-log'>Get Log</h2>
 <p>Returns a string of the last log message (or empty string if none) from Mach1DecodeCAPI binary library. Use this to assist in debug with a list of input angles and the associated output coefficients from the used Mach1Decode function.</p>
-
-<!-- 
-## Get Current Angle
-
-Use this to get the current angle being processed by Mach1Decode, good for orientation latency checks. 
- -->
+<h2 id='get-current-angle'>Get Current Angle</h2>
+<p>Use this to get the current angle being processed by Mach1Decode, good for orientation latency checks. </p>
 <h1 id='mach1decodepositional-api'>Mach1DecodePositional API</h1>
 <p>Mach1DecodePositional allows the 3DOF orientation decoding to decode in a dev environment that supports 6DOF with positional movement. It does this by referencing the user&#39;s device to a location and adding an additional layer of rotations and attenuations to the spatial decoding. </p>
 <h2 id='unity-amp-unreal-engine'>Unity &amp; Unreal Engine</h2>
@@ -1092,7 +1157,7 @@ Get coeff results for the center of "Blend Mode". Very experimental! -->
 </code></pre>
 <p>Set a resulting float of that curve to the current buffer
 <aside class="notice">setFalloffCurve has been deprecated</aside></p>
-<h1 id='mach1transcode-api'>Mach1Transcode API</h1>
+<h1 id='mach1transcode-commandline'>Mach1Transcode CommandLine</h1>
 <p>Mach1Transcode includes functions for use cases that utilizing Mach1Spatial&#39;s agnostic abilities and allows 1:1 VBAP style conversions from any surround or spatial audio format and to any other surround or spatial audio format. This is very helpful for apps that have certain input requirements but different output requirements based on whether the app is launched for VR/AR/MR or just mobile use without completely redesigning the application&#39;s structure for audio. This is also a recommended method of carrying one master spatial audio container and at endpoints converting it as needed without adverse signal altering effects seen in other spatial audio formats. </p>
 <h2 id='usage'>Usage</h2>
 <p>Rapidly offline render to and from Mach1 formats.</p>
@@ -1223,6 +1288,92 @@ Get coeff results for the center of "Blend Mode". Very experimental! -->
 <p>An ADM metadata reader and parser is embedded into m1-transcode binary executable to help with custom pipelines using Mach1Encode API to render Object Audio Soundfields into Mach1 Spatial mixes/renders for easier handling. </p>
 
 <p><code>-extract-metadata</code> will dump any found XML ADM metadata in the audio binary as a textfile with the same output name and path.</p>
+<h1 id='mach1transcode-api'>Mach1Transcode API</h1>
+<p>Mach1Transcode leverages the benefits of the Mach1 Spatial virtual vector based panning (VVBP) priniciples to enable faster than real time multichannel audio format conversions safely to retain the soundfield and not use any additional processing effects for simulation. Lack of processing effects ensures transparent input and output soundfields during conversion and the lightweight modular design of the API allows use with any audio handler or media library already natively installed. </p>
+
+<p>Multichannel audio development and creative use currently has a lot of challenges plagued by legacy surround implementations, the Mach1Transcode API can be used to help customize multichannel and spatial audio pipelines in development and garner control without requiring adoption of legacy practices. </p>
+<h2 id='summary-of-use'>Summary of Use</h2><pre class="highlight cpp tab-cpp"><code><span class="k">static</span> <span class="kt">void</span><span class="o">*</span> <span class="n">decode</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">v</span><span class="p">);</span>
+<span class="n">Mach1Transcode</span> <span class="n">m1Transcode</span><span class="p">;</span>
+<span class="k">static</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;&gt;</span> <span class="n">m1Coeffs</span><span class="p">;</span> <span class="c1">//2D array, [input channel][input channel's coeff]
+</span><span class="n">Mach1TranscodeFormatType</span> <span class="n">inputMode</span><span class="p">;</span>
+<span class="n">Mach1TranscodeFormatType</span> <span class="n">outputMode</span><span class="p">;</span>
+
+<span class="c1">// Mach1 Transcode Setup
+</span><span class="n">inputMode</span> <span class="o">=</span> <span class="n">Mach1TranscodeFormatACNSN3DmaxRE3oa</span><span class="p">;</span>
+<span class="n">outputMode</span> <span class="o">=</span> <span class="n">Mach1TranscodeFormatM1Spatial</span><span class="p">;</span>
+
+<span class="c1">//resize coeffs array to the size of the current output
+</span><span class="n">m1Transcode</span><span class="p">.</span><span class="n">setOutputFormat</span><span class="p">(</span><span class="n">outputMode</span><span class="p">);</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m1Coeffs</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="n">m1Coeffs</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">resize</span><span class="p">(</span><span class="n">m1Transcode</span><span class="p">.</span><span class="n">getOutputNumChannels</span><span class="p">(),</span> <span class="mf">0.0</span><span class="n">f</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">m1Transcode</span><span class="p">.</span><span class="n">setInputFormat</span><span class="p">(</span><span class="n">inputMode</span><span class="p">);</span>
+<span class="n">m1Transcode</span><span class="p">.</span><span class="n">setOutputFormat</span><span class="p">(</span><span class="n">outputMode</span><span class="p">);</span>
+
+<span class="c1">// Called to update Mach1Transcode
+</span><span class="n">m1Transcode</span><span class="p">.</span><span class="n">setSpatialDownmixer</span><span class="p">();</span>
+<span class="n">m1Transcode</span><span class="p">.</span><span class="n">processConversionPath</span><span class="p">();</span>
+<span class="n">m1Coeffs</span> <span class="o">=</span> <span class="n">m1Transcode</span><span class="p">.</span><span class="n">getMatrixConversion</span><span class="p">();</span>
+</code></pre><pre class="highlight swift tab-swift"><code><span class="kd">import</span> <span class="kt">Mach1SpatialAPI</span>
+<span class="kd">private</span> <span class="k">var</span> <span class="nv">m1Decode</span> <span class="o">=</span> <span class="kt">Mach1Decode</span><span class="p">()</span>
+<span class="kd">private</span> <span class="k">var</span> <span class="nv">m1Transcode</span> <span class="o">=</span> <span class="kt">Mach1Transcode</span><span class="p">()</span>
+
+<span class="c1">// Mach1 Transcode Setup</span>
+<span class="n">m1Transcode</span><span class="o">.</span><span class="nf">setInputFormat</span><span class="p">(</span><span class="nv">inFmt</span><span class="p">:</span> <span class="kt">Mach1TranscodeFormatType</span><span class="p">)</span>
+<span class="n">m1Transcode</span><span class="o">.</span><span class="nf">setOutputFormat</span><span class="p">(</span><span class="nv">outFmt</span><span class="p">:</span> <span class="kt">Mach1TranscodeFormatM1Spatial</span><span class="p">)</span>
+<span class="n">m1Transcode</span><span class="o">.</span><span class="nf">processConversionPath</span><span class="p">()</span>
+<span class="n">matrix</span> <span class="o">=</span> <span class="n">m1Transcode</span><span class="o">.</span><span class="nf">getMatrixConversion</span><span class="p">()</span>
+<span class="c1">// Mach1 Decode Setup</span>
+<span class="n">m1Decode</span><span class="o">.</span><span class="nf">setPlatformType</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="kt">Mach1PlatformiOS</span><span class="p">)</span>
+<span class="n">m1Decode</span><span class="o">.</span><span class="nf">setDecodeAlgoType</span><span class="p">(</span><span class="nv">newAlgorithmType</span><span class="p">:</span> <span class="kt">Mach1DecodeAlgoSpatial</span><span class="p">)</span>
+<span class="n">m1Decode</span><span class="o">.</span><span class="nf">setFilterSpeed</span><span class="p">(</span><span class="nv">filterSpeed</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">)</span>
+
+<span class="c1">// Called when updating InputFormat for Mach1Transcode</span>
+<span class="n">m1Decode</span><span class="o">.</span><span class="nf">beginBuffer</span><span class="p">()</span>
+<span class="n">m1Decode</span><span class="o">.</span><span class="nf">setRotationDegrees</span><span class="p">(</span><span class="nv">newRotationDegrees</span><span class="p">:</span> <span class="kt">Mach1Point3D</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">z</span><span class="p">:</span> <span class="mi">0</span><span class="p">))</span>
+<span class="k">let</span> <span class="nv">result</span><span class="p">:</span> <span class="p">[</span><span class="kt">Float</span><span class="p">]</span> <span class="o">=</span> <span class="n">m1Decode</span><span class="o">.</span><span class="nf">decodeCoeffsUsingTranscodeMatrix</span><span class="p">(</span><span class="nv">matrix</span><span class="p">:</span> <span class="n">matrix</span><span class="p">,</span> <span class="nv">channels</span><span class="p">:</span> <span class="n">m1Transcode</span><span class="o">.</span><span class="nf">getInputNumChannels</span><span class="p">())</span>
+<span class="n">m1Decode</span><span class="o">.</span><span class="nf">endBuffer</span><span class="p">()</span>
+
+<span class="c1">// Called when updating input orientation for Mach1Decode</span>
+<span class="n">m1Decode</span><span class="o">.</span><span class="nf">beginBuffer</span><span class="p">()</span>
+<span class="n">m1Decode</span><span class="o">.</span><span class="nf">setRotationDegrees</span><span class="p">(</span><span class="nv">newRotationDegrees</span><span class="p">:</span> <span class="kt">Mach1Point3D</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="kt">Float</span><span class="p">(</span><span class="n">deviceYaw</span><span class="p">),</span> <span class="nv">y</span><span class="p">:</span> <span class="kt">Float</span><span class="p">(</span><span class="n">devicePitch</span><span class="p">),</span> <span class="nv">z</span><span class="p">:</span> <span class="kt">Float</span><span class="p">(</span><span class="n">deviceRoll</span><span class="p">)))</span>
+<span class="k">let</span> <span class="nv">result</span><span class="p">:</span> <span class="p">[</span><span class="kt">Float</span><span class="p">]</span> <span class="o">=</span> <span class="n">m1Decode</span><span class="o">.</span><span class="nf">decodeCoeffsUsingTranscodeMatrix</span><span class="p">(</span><span class="nv">matrix</span><span class="p">:</span> <span class="n">matrix</span><span class="p">,</span> <span class="nv">channels</span><span class="p">:</span> <span class="n">m1Transcode</span><span class="o">.</span><span class="nf">getInputNumChannels</span><span class="p">())</span>
+<span class="n">m1Decode</span><span class="o">.</span><span class="nf">endBuffer</span><span class="p">()</span>
+</code></pre>
+<p>The Mach1Transcode API is designed openly by supplying a coefficient matrix for conversion, intepreted as needed. 
+However, the following will be an example of setting up Mach1Transcode for any input and for direct conversion to Mach1Spatial to be decoded with orientation to stereo for spatial previewing applications:</p>
+<h2 id='installation'>Installation</h2>
+<p>Import and link the appropriate target device&#39;s / IDE&#39;s library file and headers. </p>
+<h2 id='set-get-input-format'>Set / Get Input Format</h2><pre class="highlight cpp tab-cpp"><code></code></pre><pre class="highlight swift tab-swift"><code></code></pre><pre class="highlight javascript tab-javascript"><code></code></pre>
+<p>Set or return the input format/configuration for processing.</p>
+<h2 id='set-get-output-format'>Set / Get Output Format</h2><pre class="highlight cpp tab-cpp"><code></code></pre><pre class="highlight swift tab-swift"><code></code></pre><pre class="highlight javascript tab-javascript"><code></code></pre>
+<p>Set or return the output format/configuration for processing.</p>
+<h2 id='set-get-spatial-downmixer'>Set / Get Spatial Downmixer</h2><pre class="highlight cpp tab-cpp"><code></code></pre><pre class="highlight swift tab-swift"><code></code></pre><pre class="highlight javascript tab-javascript"><code></code></pre>
+<p>Sets the threshold float for <code>getSpatialDownmixerPossibility</code> calculation. The <code>getSpatialDownmixerPossibility</code> returns true if the compared signals are less than the <code>setSpatialDownmixer(corrThreshold)</code>.</p>
+
+<blockquote>
+<p>Float from 0.0 to 1.0 where 0.0 no difference and incrementing to 1.0 is more difference
+When returned true; transcodings that are set to ouput to <code>Mach1Spatial</code> will process an additional conversion to <code>Mach1Horizon</code> </p>
+</blockquote>
+<h2 id='set-lfe-sub-channels'>Set LFE / Sub Channels</h2><pre class="highlight cpp tab-cpp"><code></code></pre><pre class="highlight swift tab-swift"><code></code></pre><pre class="highlight javascript tab-javascript"><code></code></pre>
+<p>Applys a low pass filter (LPF) to each indicated channel index of the input format and soundfield. Input vector of ints representing the index of input channels to be processed.</p>
+<h2 id='set-input-as-json'>Set Input as JSON</h2><pre class="highlight cpp tab-cpp"><code></code></pre><pre class="highlight swift tab-swift"><code></code></pre><pre class="highlight javascript tab-javascript"><code></code></pre>
+<p>Sets the input format for transcoding from TT directly. View the JSON spec for describing a format here: https://dev.mach1.tech/#json-descriptions.</p>
+<h2 id='set-input-as-tt-points'>Set Input as TT Points</h2><pre class="highlight cpp tab-cpp"><code></code></pre><pre class="highlight swift tab-swift"><code></code></pre><pre class="highlight javascript tab-javascript"><code></code></pre>
+<p>Sets the input format for transcoding from an external JSON source. View the JSON spec for describing a format here: https://dev.mach1.tech/#json-descriptions.</p>
+<h2 id='set-input-as-adm'>Set Input as ADM</h2><pre class="highlight cpp tab-cpp"><code></code></pre><pre class="highlight swift tab-swift"><code></code></pre><pre class="highlight javascript tab-javascript"><code></code></pre>
+<p>Sets the input format for transcoding from the parsed ADM metadata within the audiofile.</p>
+<h2 id='process-normalization'>Process Normalization</h2><pre class="highlight cpp tab-cpp"><code></code></pre><pre class="highlight swift tab-swift"><code></code></pre><pre class="highlight javascript tab-javascript"><code></code></pre><h2 id='process-master-gain'>Process Master Gain</h2><pre class="highlight cpp tab-cpp"><code></code></pre><pre class="highlight swift tab-swift"><code></code></pre><pre class="highlight javascript tab-javascript"><code></code></pre>
+<p>Applys an input gain to the output soundfield. </p>
+
+<blockquote>
+<p>Parameters: Input buffer, Integer of input number of samples, Float for gain multiplier</p>
+</blockquote>
+<h2 id='process-conversion-path'>Process Conversion Path</h2><pre class="highlight cpp tab-cpp"><code></code></pre><pre class="highlight swift tab-swift"><code></code></pre><pre class="highlight javascript tab-javascript"><code></code></pre>
+<p>Use this function to control when to call for calculating the format transcoding calculations.</p>
+<h2 id='process-conversion'>Process Conversion</h2><pre class="highlight cpp tab-cpp"><code></code></pre><pre class="highlight swift tab-swift"><code></code></pre><pre class="highlight javascript tab-javascript"><code></code></pre>
+<p>Call to process the conversion as set by previous functions.</p>
 <h1 id='common-issues'>Common Issues</h1>
 <p>The following is a list of common heard issues during implementation and include audio tools to help find these issues as well as basic descriptions of their behavior and how they can be avoided.</p>
 <h3 id='orientation-latency-issues'>Orientation Latency Issues</h3>

@@ -1,4 +1,4 @@
-<a href="http://dev.mach1.tech"><img src="http://dev.mach1.xyz/images/logo_big_b_l.png"></a>
+<a href="http://dev.mach1.tech"><img src="https://mach1-public.s3.amazonaws.com/assets/logo_big_b_l.png"></a>
 
 ## MACH1 SPATIAL SDK ##
 

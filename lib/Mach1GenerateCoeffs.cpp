@@ -1,9 +1,11 @@
 #include "Mach1GenerateCoeffs.h"
 
-float clamp(float a, float min, float max)
-{
-	return (a < min) ? min : ((a > max) ? max : a);
-}
+namespace Mach1Utils {
+	float clamp(float a, float min, float max)
+	{
+		return (a < min) ? min : ((a > max) ? max : a);
+	}
+};
 
 std::vector<float> generateCoeffSetForPoint(float x, float y, float z, std::vector<Mach1Point3DCore> targetStandart) {
 	std::vector<float> result;
@@ -21,7 +23,7 @@ std::vector<float> generateCoeffSetForPoint(float x, float y, float z, std::vect
 
 		float falloff = 1; // the bigger this value, the closer you need to be
 						   // to a point for it to affect coeffs
-		result[i] = clamp(1 + (1.22 - rawCoeff) * falloff, 0, 1);
+		result[i] = Mach1Utils::clamp(1 + (1.22 - rawCoeff) * falloff, 0, 1);
 		coeffSum += result[i];
 	}
 

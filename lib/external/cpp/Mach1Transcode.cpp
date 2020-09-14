@@ -196,14 +196,14 @@ void Mach1Transcode::processConversion(float** inBufs, float** outBufs, int numS
     /// Call to process the conversion as set by previous functions
 }
 
-std::vector<Mach1TranscodeFormatType> Mach1Transcode::getFormatsConvertionPath()
+std::vector<Mach1TranscodeFormatType> Mach1Transcode::getFormatConversionPath()
 {
 	int count = 0;
-	Mach1TranscodeFormatType* arr = Mach1TranscodeCAPI_getFormatsConvertionPath(M1obj, &count);
+	Mach1TranscodeFormatType* arr = Mach1TranscodeCAPI_getFormatConversionPath(M1obj, &count);
 
 	std::vector<Mach1TranscodeFormatType> vec(arr, arr + count);
 	return vec;
-    /// Returns the shortest found conversion path to get from input format X to output format Y, both set by   Mach1Transcode::setInputFormat(Mach1TranscodeFormatType inFmt) ` and `Mach1Transcode::setOutputFormat(Mach1TranscodeFormatType outFmt)`
+    /// Returns the shortest found conversion path to get from input format X to output format Y, both set by `Mach1Transcode::setInputFormat(Mach1TranscodeFormatType inFmt)` and `Mach1Transcode::setOutputFormat(Mach1TranscodeFormatType outFmt)`
     ///
     /// Remarks:
     ///     Majority of format instances will use Mach1Spatial as the middle format for non-Mach1-format -> non-Mach1-format transcodings. This is due to Mach1 Spatial being a platonic solid format, ideal for safe calculations without loss

@@ -159,9 +159,9 @@ void Mach1Encode::setInputMode(Mach1EncodeInputModeType inputMode)
     ///     - INPUT_AFORMAT
     ///     - INPUT_BFORMAT
     ///     - INPUT_FOAACN
-	///		- INPUT_FOAFUM
+	///		- INPUT_FOAFUMA
 	///		- INPUT_2OAACN
-	/// 	- INPUT_2OAFUM
+	/// 	- INPUT_2OAFUMA
 	/// 	- INPUT_3OAACN
 	///		- INPUT_3OAFUMA
 	///		- INPUT_LCR

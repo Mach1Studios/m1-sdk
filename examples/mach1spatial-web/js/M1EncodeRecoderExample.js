@@ -1,7 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
 
     var recorder;
- 
+    
+     /*
+    Initialize Mach1Decode Module and use some default settings
+    */
     let m1Decode = null;
 	Mach1DecodeModule().then(function(m1DecodeModule) {
 		m1Decode = new(m1DecodeModule).Mach1Decode();
@@ -10,6 +13,9 @@ document.addEventListener("DOMContentLoaded", function() {
 		m1Decode.setFilterSpeed(0.95);
 	};
 
+    /*
+    Initialize Mach1Encode Module
+    */
     let m1Encode = null;
 	Mach1EncodeModule().then(function(m1EncodeModule) {		
 		m1Encode = new(m1EncodeModule).Mach1Encode();
@@ -21,28 +27,34 @@ document.addEventListener("DOMContentLoaded", function() {
 
     var mach1AudioLoader;
     var mach1SoundPlayer; 
-
     var mach1EncodeRecoder; 
 
     const gui = new dat.GUI();
 
+    // Parameters for GUI
     var params = {
+        // Mach1Encode Parameters
         inputKind: 0, // mono
         outputKind: 1, // 8 ch
         rotation: 0,
         diverge: 0.5,
         pitch: 0,
         enableIsotropicEncode: true,
-
         sRotation: 0,
         sSpread: 0.5,
         autoOrbit: true,
 
+        // Mach1Decode Parameters
         decoderRotationY: 0,
         decoderRotationP: 0,
         decoderRotationR: 0,
     };
 
+    /*
+    Function for setting up loading for audio in path
+    currently using hardcoded example audio downloaded from
+    running `download-audiofiles.sh` or `download-audiofiles.bat`
+    */
 	function loadSounds() {
     if (params.inputKind == 0) { // Input: MONO
 			audioFiles = ['audio/mono/1.ogg'];
@@ -135,7 +147,6 @@ document.addEventListener("DOMContentLoaded", function() {
     var gridHelper = new THREE.GridHelper(size, divisions);
     scene.add(gridHelper);
 
-
     var sphereGeometry = new THREE.SphereGeometry(0.1, 16, 16);
     var sphereMaterial = new THREE.MeshBasicMaterial({
         color: 0xff0000
@@ -144,7 +155,6 @@ document.addEventListener("DOMContentLoaded", function() {
     var lineMaterial = new THREE.LineBasicMaterial({
         color: 0xaaaaaa
     });
-
 
     var dir = new THREE.Vector3(1, 0, 0);
     var origin = new THREE.Vector3(0, 0, 0);
@@ -170,7 +180,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function animate() {
         requestAnimationFrame(animate);
-
         //sphere.position.x += 0.001; 
         controls.update(); // required if controls.enableDamping or controls.autoRotate are set to true
         for (var i = 0; i < textlabels.length; i++) {
@@ -256,7 +265,6 @@ document.addEventListener("DOMContentLoaded", function() {
             spheres.push(sphere);
             scene.add(sphere);
 
-
             // line
             var geometry = new THREE.BufferGeometry(); // geometry
             var pointsCount = 3;
@@ -303,8 +311,6 @@ document.addEventListener("DOMContentLoaded", function() {
     folder.add(params, 'diverge', -0.707, 0.707, 0.01).name('Diverge').onChange(update);
     folder.add(params, 'pitch', -1, 1, 0.01).name('Pitch').onChange(update);
     folder.add(params, 'enableIsotropicEncode').name('Isotropic encode').onChange(update);
-
-
 
     elementSRotation = folder.add(params, 'sRotation', -180, 180, 1).name('S Rotation').onChange(update).__li;
     elementSSpread = folder.add(params, 'sSpread', 0, 1, 0.01).name('S Spread').onChange(update).__li;
@@ -367,6 +373,14 @@ document.addEventListener("DOMContentLoaded", function() {
             var decoded = m1Decode.decode(params.decoderRotationY, params.decoderRotationP, params.decoderRotationR);
             m1Decode.endBuffer();
 
+            /*
+            MACH1ENCODE OBJECT AUDIO IMPLEMENTATION
+            Implementation example for using Mach1Encode::getResultingCoeffsDecoded() function for 
+            object audio handling.
+
+            `getResultingCoeffsDecoded` has an inline Mach1Decode function built in so that each input
+            audio source is outputted as an already decoded stereo output for internal object audio handling.
+            */
 			var vol = [];
 			if (params.outputKind == 0) { // Output: Mach1Horizon / Quad
 				vol = m1Encode.getResultingCoeffsDecoded(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoHorizon, decoded);
@@ -374,11 +388,25 @@ document.addEventListener("DOMContentLoaded", function() {
 			if (params.outputKind == 1) { // Output: Mach1Spatial / Cuboid
 				vol = m1Encode.getResultingCoeffsDecoded(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial, decoded);
 			}
-			//console.log(vol);
+			
+            /* 
+            MACH1ENCODE -> MACH1DECODE IMPLEMENTATION
+            Implementation example for passing Coefficients from Mach1Encode directly to Mach1Decode
+            */
+
+            /*
+            var vol = [0, 0];
+            var gains = m1Encode.getGains();
+
+            // left & right channels
+            for (let j = 0; j < 8; j++) {
+                vol[0] += (decoded[2 * j + 0]) * gains[0][j];
+                vol[1] += (decoded[2 * j + 1]) * gains[gains.length > 1 ? 1 : 0][j];
+            }
+            */
 			
 			var gains = m1Encode.getGains();
 			mach1EncodeRecoder.pushGains(gains);
-			//console.log(gains);
 
             var points = m1Encode.getPoints();
             var pointsNames = m1Encode.getPointsNames();

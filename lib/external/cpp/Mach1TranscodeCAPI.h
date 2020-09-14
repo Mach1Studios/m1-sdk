@@ -122,7 +122,7 @@ extern "C" {
 	M1_API void Mach1TranscodeCAPI_getMatrixConversion(void* M1obj, float* matrix);
 	M1_API void Mach1TranscodeCAPI_processConversion(void* M1obj, float** inBufs, float** outBufs, int numSamples);
 
-	M1_API enum Mach1TranscodeFormatType* Mach1TranscodeCAPI_getFormatsConvertionPath(void* M1obj, int* count);
+	M1_API enum Mach1TranscodeFormatType* Mach1TranscodeCAPI_getFormatConversionPath(void* M1obj, int* count);
 
 #ifdef __cplusplus
 }

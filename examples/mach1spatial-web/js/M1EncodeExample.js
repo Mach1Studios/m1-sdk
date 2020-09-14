@@ -120,7 +120,6 @@ document.addEventListener("DOMContentLoaded", function() {
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     var renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
-    //document.body.appendChild(renderer.domElement);
     container.appendChild(renderer.domElement);
 
     var controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -133,7 +132,6 @@ document.addEventListener("DOMContentLoaded", function() {
     var gridHelper = new THREE.GridHelper(size, divisions);
     scene.add(gridHelper);
 
-
     var sphereGeometry = new THREE.SphereGeometry(0.1, 16, 16);
     var sphereMaterial = new THREE.MeshBasicMaterial({
         color: 0xff0000
@@ -142,7 +140,6 @@ document.addEventListener("DOMContentLoaded", function() {
     var lineMaterial = new THREE.LineBasicMaterial({
         color: 0xaaaaaa
     });
-
 
     var dir = new THREE.Vector3(1, 0, 0);
     var origin = new THREE.Vector3(0, 0, 0);
@@ -168,7 +165,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function animate() {
         requestAnimationFrame(animate);
-
         //sphere.position.x += 0.001; 
         controls.update(); // required if controls.enableDamping or controls.autoRotate are set to true
         for (var i = 0; i < textlabels.length; i++) {
@@ -252,7 +248,6 @@ document.addEventListener("DOMContentLoaded", function() {
             sphere.position.set(points[i].x * 2 - 1, points[i].y * 2 - 1, points[i].z * 2 - 1);
             spheres.push(sphere);
             scene.add(sphere);
-
 
             // line
             var geometry = new THREE.BufferGeometry(); // geometry
@@ -355,7 +350,22 @@ document.addEventListener("DOMContentLoaded", function() {
 			if (params.outputKind == 1) { // Output: Mach1Spatial / Cuboid
 				vol = m1Encode.getResultingCoeffsDecoded(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial, decoded);
 			}
-			//console.log(vol);
+
+            /* 
+            MACH1ENCODE -> MACH1DECODE IMPLEMENTATION
+            Implementation example for passing Coefficients from Mach1Encode directly to Mach1Decode
+            */
+
+            /*
+            var vol = [0, 0];
+            var gains = m1Encode.getGains();
+
+            // left & right channels
+            for (let j = 0; j < 8; j++) {
+                vol[0] += (decoded[2 * j + 0]) * gains[0][j];
+                vol[1] += (decoded[2 * j + 1]) * gains[gains.length > 1 ? 1 : 0][j];
+            }
+            */
 
             var points = m1Encode.getPoints();
             var pointsNames = m1Encode.getPointsNames();

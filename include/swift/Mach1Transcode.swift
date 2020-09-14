@@ -179,9 +179,9 @@ public class Mach1Transcode {
         Mach1TranscodeCAPI_processConversion(M1obj, inBufs, outBufs, CInt(numSamples))
     }
     
-    public func getFormatsConvertionPath() -> [Mach1TranscodeFormatType] {
+    public func getFormatConversionPath() -> [Mach1TranscodeFormatType] {
         var count:CInt = 0
-        let pointer:UnsafeMutablePointer<Mach1TranscodeFormatType> = Mach1TranscodeCAPI_getFormatsConvertionPath(M1obj, &count)
+        let pointer:UnsafeMutablePointer<Mach1TranscodeFormatType> = Mach1TranscodeCAPI_getFormatConversionPath(M1obj, &count)
 
         let vec = Array(UnsafeBufferPointer(start: pointer, count: Int(count)))
         return vec

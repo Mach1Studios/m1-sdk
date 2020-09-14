@@ -211,11 +211,11 @@ bool Mach1TranscodeCore::processConversionPath()
     }
     
 	if (intermediateFormatsList.size() < 2) {
-		formatsConvertionPath.clear();
+		formatConversionPath.clear();
 		return false;
 	}
 	else {
-		formatsConvertionPath = intermediateFormatsList;
+		formatConversionPath = intermediateFormatsList;
 		return true;
 	}
 }
@@ -422,9 +422,9 @@ void Mach1TranscodeCore::getMatrixConversion(float* matrix)
 	memset(mCurrent, 0, mSize);
 	memset(mRes, 0, mSize);
 
-	for (int k = 0; k < formatsConvertionPath.size() - 1; k++) {
-		Mach1TranscodeFormats::FormatType inFmt = formatsConvertionPath[k];
-		Mach1TranscodeFormats::FormatType outFmt = formatsConvertionPath[k + 1];
+	for (int k = 0; k < formatConversionPath.size() - 1; k++) {
+		Mach1TranscodeFormats::FormatType inFmt = formatConversionPath[k];
+		Mach1TranscodeFormats::FormatType outFmt = formatConversionPath[k + 1];
 
 		int inChans = getNumChannels(inFmt, true);
 		int outChans = getNumChannels(outFmt, false);
@@ -524,8 +524,8 @@ void Mach1TranscodeCore::processConversion(float ** inBufs, float ** outBufs, in
 		}
 	}
 
-	for (int k = 0; k < formatsConvertionPath.size() - 1; k++) {
-		processConversion(formatsConvertionPath[k], k == 0 ? inBufs : buffers, formatsConvertionPath[k + 1], buffers, (int)numSamples);
+	for (int k = 0; k < formatConversionPath.size() - 1; k++) {
+		processConversion(formatConversionPath[k], k == 0 ? inBufs : buffers, formatConversionPath[k + 1], buffers, (int)numSamples);
 	}
 
 	int nOutChannels = getOutputNumChannels();
@@ -539,6 +539,6 @@ void Mach1TranscodeCore::processConversion(float ** inBufs, float ** outBufs, in
 	}
 }
 
-std::vector<Mach1TranscodeFormats::FormatType>& Mach1TranscodeCore::getFormatsConvertionPath() {
-	return formatsConvertionPath;
+std::vector<Mach1TranscodeFormats::FormatType>& Mach1TranscodeCore::getFormatConversionPath() {
+	return formatConversionPath;
 }

@@ -2236,7 +2236,7 @@ private:
 	float *buffers[Mach1TranscodeConstants::MAXCHANS];
 	int bufferSize;
 
-	std::vector<Mach1TranscodeFormats::FormatType> formatsConvertionPath;
+	std::vector<Mach1TranscodeFormats::FormatType> formatConversionPath;
 	
 	M1DSP::Utilities::CSpatialDownmixChecker spatialDownmixChecker;
 
@@ -2279,7 +2279,7 @@ public:
 	void getMatrixConversion(float* matrix);
 	void processConversion(float** inBufs, float** outBufs, int numSamples);
 
-	std::vector<Mach1TranscodeFormats::FormatType>& getFormatsConvertionPath();
+	std::vector<Mach1TranscodeFormats::FormatType>& getFormatConversionPath();
 };
 
 #endif /* Mach1TranscodeCore_h */

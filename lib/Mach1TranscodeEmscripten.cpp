@@ -87,9 +87,6 @@ EMSCRIPTEN_BINDINGS(Mach1Transcode) {
 		.function("processNormalization", &Mach1Transcode::processNormalization)
 		.function("processMasterGain", &Mach1Transcode::processMasterGain)
 
-		.function("getResultingCoeffsDecoded", &Mach1Transcode::getResultingCoeffsDecoded)
-		.function("getResultingVolumesDecoded", &Mach1Transcode::getResultingVolumesDecoded)
-
 		.function("db2level", &Mach1Transcode::db2level)
 		.function("level2db", &Mach1Transcode::level2db)
 

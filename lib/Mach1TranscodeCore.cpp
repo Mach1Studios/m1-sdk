@@ -36,18 +36,32 @@ int Mach1TranscodeCore::getOutputNumChannels()
     return getNumChannels(outFmt, false);
 }
 
-Mach1TranscodeFormats::FormatType Mach1TranscodeCore::getFormatFromString(char * str) {
+Mach1TranscodeFormats::FormatType Mach1TranscodeCore::getFormatFromString(std::string str) {
 	for (auto it = Mach1TranscodeConstants::FormatNames.begin(); it != Mach1TranscodeConstants::FormatNames.end(); ++it) {
-		if (strcmp(str, it->second) == 0) {
+		if (str == it->second) {
 			return it->first;
 		}
 	}
 	return Mach1TranscodeFormats::Empty;
 }
 
-char * Mach1TranscodeCore::getFormatName(void * M1obj, Mach1TranscodeFormats::FormatType fmt)
+std::string Mach1TranscodeCore::getFormatName(void * M1obj, Mach1TranscodeFormats::FormatType fmt)
 {
 	return Mach1TranscodeConstants::FormatNames.at(fmt);
+}
+
+float Mach1TranscodeCore::processNormalization(std::vector<std::vector<float>>& bufs)
+{
+	if (bufs.size() == 0) return 0;
+
+	float** b = new float*[bufs.size()];
+	for (int i = 0; i < bufs.size(); i++) {
+		b[i] = bufs[i].data();
+	}
+	float peak = processNormalization(b, bufs[0].size());
+	delete[] b;
+
+	return peak;
 }
 
 float Mach1TranscodeCore::processNormalization(float** bufs, int numSamples) {
@@ -63,6 +77,18 @@ float Mach1TranscodeCore::processNormalization(float** bufs, int numSamples) {
 	}
 
 	return peak;
+}
+
+void Mach1TranscodeCore::processMasterGain(std::vector<std::vector<float>>& bufs, float masterGain)
+{
+	if (bufs.size() == 0) return;
+
+	float** b = new float*[bufs.size()];
+	for (int i = 0; i < bufs.size(); i++) {
+		b[i] = bufs[i].data();
+	}
+	processMasterGain(b, bufs[0].size(), masterGain);
+	delete[] b;
 }
 
 void Mach1TranscodeCore::processMasterGain(float** bufs, int numSamples, float masterGain) {
@@ -101,12 +127,12 @@ void Mach1TranscodeCore::setInputFormat(Mach1TranscodeFormats::FormatType inFmt)
 	this->inFmt = inFmt;
 }
 
-void Mach1TranscodeCore::setInputFormatADM(char * inXml)
+void Mach1TranscodeCore::setInputFormatADM(std::string inXml)
 {
     // TODO
 }
 
-std::vector<Mach1Point3DCore> parseTTJson(char* srtJson)
+std::vector<Mach1Point3DCore> parseTTJson(std::string srtJson)
 {
 	std::vector<Mach1Point3DCore> points;
 	nlohmann::json j = nlohmann::json::parse(srtJson);
@@ -119,7 +145,7 @@ std::vector<Mach1Point3DCore> parseTTJson(char* srtJson)
 	return points;
 }
 
-void Mach1TranscodeCore::setInputFormatTTJson(char * strJson)
+void Mach1TranscodeCore::setInputFormatTTJson(std::string strJson)
 {
 	inFmt = Mach1TranscodeFormats::FormatType::TTPoints;
 	inTTPoints = parseTTJson(strJson);
@@ -136,7 +162,7 @@ void Mach1TranscodeCore::setOutputFormat(Mach1TranscodeFormats::FormatType outFm
 	this->outFmt = outFmt;
 }
 
-void Mach1TranscodeCore::setOutputFormatTTJson(char* strJson)
+void Mach1TranscodeCore::setOutputFormatTTJson(std::string strJson)
 {
 	outFmt = Mach1TranscodeFormats::FormatType::TTPoints;
 	outTTPoints = parseTTJson(strJson);

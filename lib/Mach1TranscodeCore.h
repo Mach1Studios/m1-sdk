@@ -1916,7 +1916,7 @@ namespace Mach1TranscodeFormats {
 
 namespace Mach1TranscodeConstants {
 
-	const std::map<Mach1TranscodeFormats::FormatType, char*> FormatNames = {
+	const std::map<Mach1TranscodeFormats::FormatType, std::string> FormatNames = {
 		{ Mach1TranscodeFormats::Empty, "None" },
 		{ Mach1TranscodeFormats::FuMa, "FuMa" },
 		{ Mach1TranscodeFormats::ACNSN3D, "ACNSN3D" },
@@ -2253,10 +2253,13 @@ public:
 
 	int getInputNumChannels();
 	int getOutputNumChannels();
-	Mach1TranscodeFormats::FormatType getFormatFromString(char* str);
-	char* getFormatName(void * M1obj, Mach1TranscodeFormats::FormatType fmt);
+	Mach1TranscodeFormats::FormatType getFormatFromString(std::string str);
+	std::string getFormatName(void * M1obj, Mach1TranscodeFormats::FormatType fmt);
 
+	float processNormalization(std::vector< std::vector<float>>& bufs);
 	float processNormalization(float** bufs, int numSamples);
+
+	void processMasterGain(std::vector<std::vector<float>>& bufs, float masterGain = 1.0f);
 	void processMasterGain(float** bufs, int numSamples, float masterGain = 1.0f);
 
 	float db2level(float db);
@@ -2267,12 +2270,12 @@ public:
 	bool getSpatialDownmixerPossibility();
 
 	void setInputFormat(Mach1TranscodeFormats::FormatType inFmt);
-	void setInputFormatADM(char *inXml);
-	void setInputFormatTTJson(char *inJson);
+	void setInputFormatADM(std::string inXml );
+	void setInputFormatTTJson(std::string inJson);
 	void setInputFormatTTPoints(std::vector<Mach1Point3DCore> points);
 
 	void setOutputFormat(Mach1TranscodeFormats::FormatType outFmt);
-	void setOutputFormatTTJson(char* outJson);
+	void setOutputFormatTTJson(std::string outJson);
 	void setOutputFormatTTPoints(std::vector<Mach1Point3DCore> points);
 
 	bool processConversionPath();

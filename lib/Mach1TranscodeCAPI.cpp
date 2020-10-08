@@ -30,12 +30,12 @@ M1_API int Mach1TranscodeCAPI_getOutputNumChannels(void* M1obj)
 
 M1_API Mach1TranscodeFormatType Mach1TranscodeCAPI_getFormatFromString(void* M1obj, char* str)
 {
-	return (Mach1TranscodeFormatType)((Mach1TranscodeCore*)M1obj)->getFormatFromString(std::string(str));
+	return (Mach1TranscodeFormatType)((Mach1TranscodeCore*)M1obj)->getFormatFromString(str);
 }
 
 M1_API char* Mach1TranscodeCAPI_getFormatName(void* M1obj, Mach1TranscodeFormatType fmt)
 {
-	return (char*)((Mach1TranscodeCore*)M1obj)->getFormatName(M1obj, (Mach1TranscodeFormats::FormatType)fmt).c_str();
+	return ((Mach1TranscodeCore*)M1obj)->getFormatName(M1obj, (Mach1TranscodeFormats::FormatType)fmt);
 }
 
 M1_API float Mach1TranscodeCAPI_processNormalization(void* M1obj, float** bufs, int numSamples)

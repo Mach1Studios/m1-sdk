@@ -36,32 +36,18 @@ int Mach1TranscodeCore::getOutputNumChannels()
     return getNumChannels(outFmt, false);
 }
 
-Mach1TranscodeFormats::FormatType Mach1TranscodeCore::getFormatFromString(std::string str) {
+Mach1TranscodeFormats::FormatType Mach1TranscodeCore::getFormatFromString(char* str) {
 	for (auto it = Mach1TranscodeConstants::FormatNames.begin(); it != Mach1TranscodeConstants::FormatNames.end(); ++it) {
-		if (str == it->second) {
+		if (strcmp(str, it->second) == 0) {
 			return it->first;
 		}
 	}
 	return Mach1TranscodeFormats::Empty;
 }
 
-std::string Mach1TranscodeCore::getFormatName(void * M1obj, Mach1TranscodeFormats::FormatType fmt)
+char* Mach1TranscodeCore::getFormatName(void * M1obj, Mach1TranscodeFormats::FormatType fmt)
 {
 	return Mach1TranscodeConstants::FormatNames.at(fmt);
-}
-
-float Mach1TranscodeCore::processNormalization(std::vector<std::vector<float>>& bufs)
-{
-	if (bufs.size() == 0) return 0;
-
-	float** b = new float*[bufs.size()];
-	for (int i = 0; i < bufs.size(); i++) {
-		b[i] = bufs[i].data();
-	}
-	float peak = processNormalization(b, bufs[0].size());
-	delete[] b;
-
-	return peak;
 }
 
 float Mach1TranscodeCore::processNormalization(float** bufs, int numSamples) {
@@ -77,18 +63,6 @@ float Mach1TranscodeCore::processNormalization(float** bufs, int numSamples) {
 	}
 
 	return peak;
-}
-
-void Mach1TranscodeCore::processMasterGain(std::vector<std::vector<float>>& bufs, float masterGain)
-{
-	if (bufs.size() == 0) return;
-
-	float** b = new float*[bufs.size()];
-	for (int i = 0; i < bufs.size(); i++) {
-		b[i] = bufs[i].data();
-	}
-	processMasterGain(b, bufs[0].size(), masterGain);
-	delete[] b;
 }
 
 void Mach1TranscodeCore::processMasterGain(float** bufs, int numSamples, float masterGain) {

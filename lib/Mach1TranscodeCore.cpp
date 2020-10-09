@@ -4,6 +4,8 @@
 #include "Mach1TranscodeCore.h"
 #include "Mach1GenerateCoeffs.h"
 #include "json/json.h"
+#include <string.h> 
+#include <cstring>
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -38,7 +40,7 @@ int Mach1TranscodeCore::getOutputNumChannels()
 
 Mach1TranscodeFormats::FormatType Mach1TranscodeCore::getFormatFromString(char* str) {
 	for (auto it = Mach1TranscodeConstants::FormatNames.begin(); it != Mach1TranscodeConstants::FormatNames.end(); ++it) {
-		if (strcmp(str, it->second) == 0) {
+		if (std::strcmp(str, it->second) == 0) {
 			return it->first;
 		}
 	}
@@ -429,9 +431,9 @@ void Mach1TranscodeCore::getMatrixConversion(float* matrix)
 	int prevInChans = 0;
 	int prevOutChans = 0;
 
-	memset(mPrev, 0, mSize);
-	memset(mCurrent, 0, mSize);
-	memset(mRes, 0, mSize);
+	std::memset(mPrev, 0, mSize);
+	std::memset(mCurrent, 0, mSize);
+	std::memset(mRes, 0, mSize);
 
 	for (int k = 0; k < formatConversionPath.size() - 1; k++) {
 		Mach1TranscodeFormats::FormatType inFmt = formatConversionPath[k];
@@ -454,7 +456,7 @@ void Mach1TranscodeCore::getMatrixConversion(float* matrix)
 			currentFormatConversionMatrix = ((SpatialSoundMatrix*)Mach1TranscodeConstants::FormatMatrix.at(std::make_pair(inFmt, outFmt)))->getData();
 		}
 
-		memset(mCurrent, 0, mSize);
+		std::memset(mCurrent, 0, mSize);
 		for (int outChannel = 0; outChannel < outChans; outChannel++)
 		{
 			for (int inChannel = 0; inChannel < inChans; inChannel++) {
@@ -463,10 +465,10 @@ void Mach1TranscodeCore::getMatrixConversion(float* matrix)
 		}
 
 		if (k == 0) {
-			memcpy(mRes, mCurrent, mSize);
+			std::memcpy(mRes, mCurrent, mSize);
 		}
 		else {
-			memset(mRes, 0, mSize);
+			std::memset(mRes, 0, mSize);
 			// multiply matrix
 			for (int i = 0; i < outChans; i++) {
 				for (int j = 0; j < prevInChans; j++) {
@@ -479,7 +481,7 @@ void Mach1TranscodeCore::getMatrixConversion(float* matrix)
 
 		prevInChans = inChans;
 		prevOutChans = outChans;
-		memcpy(mPrev, mRes, Mach1TranscodeConstants::MAXCHANS * Mach1TranscodeConstants::MAXCHANS * sizeof(float));
+		std::memcpy(mPrev, mRes, Mach1TranscodeConstants::MAXCHANS * Mach1TranscodeConstants::MAXCHANS * sizeof(float));
 	}
 
 	int inChans = getInputNumChannels();
@@ -525,7 +527,7 @@ void Mach1TranscodeCore::processConversion(float ** inBufs, float ** outBufs, in
 	// copy input
 	int nInChannels = getInputNumChannels();
 	for (int i = 0; i < nInChannels; i++) {
-		memcpy(buffers[i], inBufs[i], (int)numSamples * sizeof(float));
+		std::memcpy(buffers[i], inBufs[i], (int)numSamples * sizeof(float));
 	}
 
 	// process input sub channels
@@ -541,7 +543,7 @@ void Mach1TranscodeCore::processConversion(float ** inBufs, float ** outBufs, in
 
 	int nOutChannels = getOutputNumChannels();
 	for (int i = 0; i < nOutChannels; i++) {
-		memcpy(outBufs[i], buffers[i], (int)numSamples * sizeof(float));
+		std::memcpy(outBufs[i], buffers[i], (int)numSamples * sizeof(float));
 	}
 
 	// spatial downmix check

@@ -24,6 +24,7 @@
             console.log('m1DecodePositional:','decoded = ', decoded);
             // this is reached when everything is ready, and you can call methods on myModule
         });
+
 		let m1Decode = null;
 		Mach1DecodeModule().then(function(m1DecodeModule) {
 			m1Decode = new(m1DecodeModule).Mach1Decode();

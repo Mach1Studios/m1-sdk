@@ -3,7 +3,7 @@
 
 #include "Mach1TranscodeCore.h"
 #include "Mach1GenerateCoeffs.h"
-#include "nlohmann/json.hpp"
+#include "json/json.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -109,13 +109,24 @@ void Mach1TranscodeCore::setInputFormatADM(std::string inXml)
 std::vector<Mach1Point3DCore> parseTTJson(std::string srtJson)
 {
 	std::vector<Mach1Point3DCore> points;
-	nlohmann::json j = nlohmann::json::parse(srtJson);
-	nlohmann::json o = j["points"];
-	for (nlohmann::json::iterator it = o.begin(); it != o.end(); ++it) {
-		nlohmann::json p = it.value();
-		Mach1Point3DCore point(p["x"], p["y"], p["z"]);
-		points.push_back(point);
+
+	auto doc = JSON::parse(srtJson);
+	auto jsonPoints = JSON::getChildren(doc, "points");
+	for (int i = 0; ; i++) {
+		auto jsonPoint = JSON::getElement(jsonPoints, 3, i);
+		if (jsonPoint.size() == 0) break;
+		else {
+			points.push_back(
+				Mach1Point3DCore(
+					std::stof(JSON::getChildren(jsonPoint, "x")[0]->value),
+					std::stof(JSON::getChildren(jsonPoint, "y")[0]->value),
+					std::stof(JSON::getChildren(jsonPoint, "z")[0]->value)
+				)
+			);
+		}
 	}
+	for (int i = 0; i < doc.size(); i++) delete doc[i];
+
 	return points;
 }
 

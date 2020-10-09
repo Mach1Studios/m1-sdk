@@ -2267,12 +2267,12 @@ public:
 	bool getSpatialDownmixerPossibility();
 
 	void setInputFormat(Mach1TranscodeFormats::FormatType inFmt);
-	void setInputFormatADM(char *inXml);
-	void setInputFormatTTJson(char *inJson);
+	void setInputFormatADM(std::string inXml );
+	void setInputFormatTTJson(std::string inJson);
 	void setInputFormatTTPoints(std::vector<Mach1Point3DCore> points);
 
 	void setOutputFormat(Mach1TranscodeFormats::FormatType outFmt);
-	void setOutputFormatTTJson(char* outJson);
+	void setOutputFormatTTJson(std::string outJson);
 	void setOutputFormatTTPoints(std::vector<Mach1Point3DCore> points);
 
 	bool processConversionPath();

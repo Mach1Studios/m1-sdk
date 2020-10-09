@@ -3,7 +3,7 @@
 
 #include "Mach1TranscodeCore.h"
 #include "Mach1GenerateCoeffs.h"
-#include "nlohmann/json.hpp"
+#include "json/json.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -36,7 +36,7 @@ int Mach1TranscodeCore::getOutputNumChannels()
     return getNumChannels(outFmt, false);
 }
 
-Mach1TranscodeFormats::FormatType Mach1TranscodeCore::getFormatFromString(char * str) {
+Mach1TranscodeFormats::FormatType Mach1TranscodeCore::getFormatFromString(char* str) {
 	for (auto it = Mach1TranscodeConstants::FormatNames.begin(); it != Mach1TranscodeConstants::FormatNames.end(); ++it) {
 		if (strcmp(str, it->second) == 0) {
 			return it->first;
@@ -45,7 +45,7 @@ Mach1TranscodeFormats::FormatType Mach1TranscodeCore::getFormatFromString(char *
 	return Mach1TranscodeFormats::Empty;
 }
 
-char * Mach1TranscodeCore::getFormatName(void * M1obj, Mach1TranscodeFormats::FormatType fmt)
+char* Mach1TranscodeCore::getFormatName(void * M1obj, Mach1TranscodeFormats::FormatType fmt)
 {
 	return Mach1TranscodeConstants::FormatNames.at(fmt);
 }
@@ -101,25 +101,36 @@ void Mach1TranscodeCore::setInputFormat(Mach1TranscodeFormats::FormatType inFmt)
 	this->inFmt = inFmt;
 }
 
-void Mach1TranscodeCore::setInputFormatADM(char * inXml)
+void Mach1TranscodeCore::setInputFormatADM(std::string inXml)
 {
     // TODO
 }
 
-std::vector<Mach1Point3DCore> parseTTJson(char* srtJson)
+std::vector<Mach1Point3DCore> parseTTJson(std::string srtJson)
 {
 	std::vector<Mach1Point3DCore> points;
-	nlohmann::json j = nlohmann::json::parse(srtJson);
-	nlohmann::json o = j["points"];
-	for (nlohmann::json::iterator it = o.begin(); it != o.end(); ++it) {
-		nlohmann::json p = it.value();
-		Mach1Point3DCore point(p["x"], p["y"], p["z"]);
-		points.push_back(point);
+
+	auto doc = JSON::parse(srtJson);
+	auto jsonPoints = JSON::getChildren(doc, "points");
+	for (int i = 0; ; i++) {
+		auto jsonPoint = JSON::getElement(jsonPoints, 3, i);
+		if (jsonPoint.size() == 0) break;
+		else {
+			points.push_back(
+				Mach1Point3DCore(
+					std::stof(JSON::getChildren(jsonPoint, "x")[0]->value),
+					std::stof(JSON::getChildren(jsonPoint, "y")[0]->value),
+					std::stof(JSON::getChildren(jsonPoint, "z")[0]->value)
+				)
+			);
+		}
 	}
+	for (int i = 0; i < doc.size(); i++) delete doc[i];
+
 	return points;
 }
 
-void Mach1TranscodeCore::setInputFormatTTJson(char * strJson)
+void Mach1TranscodeCore::setInputFormatTTJson(std::string strJson)
 {
 	inFmt = Mach1TranscodeFormats::FormatType::TTPoints;
 	inTTPoints = parseTTJson(strJson);
@@ -136,7 +147,7 @@ void Mach1TranscodeCore::setOutputFormat(Mach1TranscodeFormats::FormatType outFm
 	this->outFmt = outFmt;
 }
 
-void Mach1TranscodeCore::setOutputFormatTTJson(char* strJson)
+void Mach1TranscodeCore::setOutputFormatTTJson(std::string strJson)
 {
 	outFmt = Mach1TranscodeFormats::FormatType::TTPoints;
 	outTTPoints = parseTTJson(strJson);

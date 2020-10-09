@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mach1
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="/external/js/Mach1DecodePositional.js"></script>
+    <script src="/external/js/Mach1Decode.js"></script>
+    <script src="/external/js/Mach1Encode.js"></script>
+    <script src="/external/js/Mach1Transcode.js"></script>
+    <script>
+        let m1DecodePositional = null;
+        Mach1DecodePositionalModule().then((m1DecodePositionalModule) => {
+            m1DecodePositional = new(m1DecodePositionalModule).Mach1DecodePositional();
+            m1DecodePositional.setPlatformType(m1DecodePositional.Mach1PlatformType.Mach1PlatformOfEasyCam);
+            m1DecodePositional.setDecodeAlgoType(m1DecodePositional.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial);
+            m1DecodePositional.setFilterSpeed(0.95);
+            m1DecodePositional.setListenerPosition(0, 0, 1);
+            m1DecodePositional.setDecoderAlgoPosition(0, 0, 0);
+            m1DecodePositional.evaluatePositionResults();
+            var decoded = m1DecodePositional.getCoefficients();
+            console.log('m1DecodePositional:','decoded = ', decoded);
+            // this is reached when everything is ready, and you can call methods on myModule
+        });
+
+		let m1Decode = null;
+		Mach1DecodeModule().then(function(m1DecodeModule) {
+			m1Decode = new(m1DecodeModule).Mach1Decode();
+			m1Decode.setPlatformType(m1Decode.Mach1PlatformType.Mach1PlatformOfEasyCam);
+			m1Decode.setDecodeAlgoType(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial);
+			m1Decode.setFilterSpeed(0.95);
+		});
+
+		let m1Encode = null;
+		Mach1EncodeModule().then(function(m1EncodeModule) {		
+			m1Encode = new(m1EncodeModule).Mach1Encode();
+            m1Encode.setInputMode(m1Encode.Mach1EncodeInputModeType.Mach1EncodeInputModeMono);
+			m1Encode.generatePointResults();
+
+			var pointsNames = m1Encode.getPointsNames();
+			var points = m1Encode.getPoints();
+			
+            m1Decode.beginBuffer();
+            var decoded = m1Decode.decode(0, 0, 0);
+            m1Decode.endBuffer();
+			
+			var vol = m1Encode.getResultingCoeffsDecoded(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoHorizon, decoded);
+            console.log('m1Encode:','vol = ', vol);
+		});
+
+		let m1Transcode = null;
+		Mach1TranscodeModule().then(function(m1TranscodeModule) {		
+			m1Transcode = new(m1TranscodeModule).Mach1Transcode();
+            m1Transcode.setInputFormat(m1Transcode.Mach1TranscodeFormatType.Mach1TranscodeFormatStereo);
+            m1Transcode.setOutputFormat(m1Transcode.Mach1TranscodeFormatType.Mach1TranscodeFormatM1Spatial);
+			console.log('m1Transcode:','processConversionPath = ', m1Transcode.processConversionPath());
+			console.log('m1Transcode:','getFormatConversionPath = ', m1Transcode.getFormatConversionPath());
+			console.log('m1Transcode:','getMatrixConversion = ', m1Transcode.getMatrixConversion());
+		});
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>

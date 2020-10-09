@@ -31,9 +31,9 @@ int Mach1Transcode::getOutputNumChannels()
     ///     - integer of number of output channels
 }
 
-Mach1TranscodeFormatType Mach1Transcode::getFormatFromString(char * str)
+Mach1TranscodeFormatType Mach1Transcode::getFormatFromString(std::string str)
 {
-	return Mach1TranscodeCAPI_getFormatFromString(M1obj, str);
+	return Mach1TranscodeCAPI_getFormatFromString(M1obj, (char*)str.c_str());
 	/// Returns the enum for indicated format's string name
 	///
 	/// - Parameters: 
@@ -42,10 +42,10 @@ Mach1TranscodeFormatType Mach1Transcode::getFormatFromString(char * str)
 	///		- format from enum
 }
 
-char* Mach1Transcode::getFormatName(Mach1TranscodeFormatType fmt) {
-	return Mach1TranscodeCAPI_getFormatName(M1obj, fmt);
+std::string Mach1Transcode::getFormatName(Mach1TranscodeFormatType fmt) {
+	return std::string(Mach1TranscodeCAPI_getFormatName(M1obj, fmt));
 }
-
+#ifndef  __EMSCRIPTEN__ 
 float Mach1Transcode::processNormalization(float** bufs, int numSamples)
 {
 	return Mach1TranscodeCAPI_processNormalization(M1obj, bufs, numSamples);
@@ -60,6 +60,33 @@ void Mach1Transcode::processMasterGain(float** bufs, int numSamples, float maste
     ///     - input buffer
     ///     - integer of input number of samples
     ///     - float for gain multiplier
+}
+#endif
+
+float Mach1Transcode::processNormalization(std::vector<std::vector<float>>& bufs)
+{
+	if (bufs.size() == 0) return 0;
+
+	float** b = new float*[bufs.size()];
+	for (int i = 0; i < bufs.size(); i++) {
+		b[i] = bufs[i].data();
+	}
+	float peak = Mach1TranscodeCAPI_processNormalization(M1obj, b, bufs[0].size());
+	delete[] b;
+
+	return peak;
+}
+
+void Mach1Transcode::processMasterGain(std::vector<std::vector<float>>& bufs, float masterGain)
+{
+	if (bufs.size() == 0) return;
+
+	float** b = new float*[bufs.size()];
+	for (int i = 0; i < bufs.size(); i++) {
+		b[i] = bufs[i].data();
+	}
+	Mach1TranscodeCAPI_processMasterGain(M1obj, b, bufs[0].size(), masterGain);
+	delete[] b;
 }
 
 float Mach1Transcode::db2level(float db)
@@ -112,15 +139,15 @@ void Mach1Transcode::setInputFormat(Mach1TranscodeFormatType inFmt)
     ///     View the current list of Mach1Transcode preset formats here: https://dev.mach1.tech/#formats-supported
 }
 
-void Mach1Transcode::setInputFormatADM(char* inXml)
+void Mach1Transcode::setInputFormatADM(std::string inXml)
 {
-	Mach1TranscodeCAPI_setInputFormatADM(M1obj, inXml);
+	Mach1TranscodeCAPI_setInputFormatADM(M1obj, (char*)inXml.c_str());
     /// Sets the input format for transcoding from the parsed ADM metadata within the audiofile
 }
 
-void Mach1Transcode::setInputFormatTTJson(char* strJson)
+void Mach1Transcode::setInputFormatTTJson(std::string strJson)
 {
-	Mach1TranscodeCAPI_setInputFormatTTJson(M1obj, strJson);
+	Mach1TranscodeCAPI_setInputFormatTTJson(M1obj, (char*)strJson.c_str());
     /// Sets the input format for transcoding from an external JSON source
     ///
     /// Remarks:
@@ -145,9 +172,9 @@ void Mach1Transcode::setOutputFormat(Mach1TranscodeFormatType outFmt)
     ///     View the current list of Mach1Transcode preset formats here: https://dev.mach1.tech/#formats-supported
 }
 
-void Mach1Transcode::setOutputFormatTTJson(char* strJson)
+void Mach1Transcode::setOutputFormatTTJson(std::string strJson)
 {
-	Mach1TranscodeCAPI_setOutputFormatTTJson(M1obj, strJson);
+	Mach1TranscodeCAPI_setOutputFormatTTJson(M1obj, (char*)strJson.c_str());
     /// Sets the output format for transcoding from an external JSON source
     ///
     /// Remarks:
@@ -189,11 +216,31 @@ std::vector<std::vector<float>> Mach1Transcode::getMatrixConversion()
 	return vec;
 	/// Returns the transcoding matrix of coefficients based on the set input and output formats
 }
-
+#ifndef  __EMSCRIPTEN__ 
 void Mach1Transcode::processConversion(float** inBufs, float** outBufs, int numSamples)
 {
 	Mach1TranscodeCAPI_processConversion(M1obj, inBufs, outBufs, numSamples);
     /// Call to process the conversion as set by previous functions
+}
+#endif
+
+void Mach1Transcode::processConversion(std::vector<std::vector<float>>& inBufs, std::vector<std::vector<float>>& outBufs)
+{
+	if (inBufs.size() == 0 || outBufs.size() == 0) return;
+	
+	float** bIn = new float*[inBufs.size()];
+	for (int i = 0; i < inBufs.size(); i++) {
+		bIn[i] = inBufs[i].data();
+	}
+	float** bOut = new float*[outBufs.size()];
+	for (int i = 0; i < outBufs.size(); i++) {
+		bOut[i] = outBufs[i].data();
+	}
+
+	Mach1TranscodeCAPI_processConversion(M1obj, bIn, bOut, inBufs[0].size());
+
+	delete[] bIn;
+	delete[] bOut;
 }
 
 std::vector<Mach1TranscodeFormatType> Mach1Transcode::getFormatConversionPath()

@@ -113,20 +113,24 @@ std::vector<Mach1Point3DCore> parseTTJson(std::string srtJson)
 	std::vector<Mach1Point3DCore> points;
 
 	auto doc = JSON::parse(srtJson);
-	auto jsonPoints = JSON::getChildren(doc, "points");
-	for (int i = 0; ; i++) {
-		auto jsonPoint = JSON::getElement(jsonPoints, 3, i);
-		if (jsonPoint.size() == 0) break;
-		else {
-			points.push_back(
-				Mach1Point3DCore(
-					std::stof(JSON::getChildren(jsonPoint, "x")[0]->value),
-					std::stof(JSON::getChildren(jsonPoint, "y")[0]->value),
-					std::stof(JSON::getChildren(jsonPoint, "z")[0]->value)
-				)
-			);
+	if (doc.size() > 0) {
+		auto jsonPoints = JSON::getChildren(doc, "points");
+		if (jsonPoints.size() > 0) {
+			for (int i = 0; ; i++) {
+				auto jsonPoint = JSON::getElement(jsonPoints, 3, i);
+				if (jsonPoint.size() > 0) {
+					points.push_back(
+						Mach1Point3DCore(
+							std::stof(JSON::getChildren(jsonPoint, "x")[0]->value),
+							std::stof(JSON::getChildren(jsonPoint, "y")[0]->value),
+							std::stof(JSON::getChildren(jsonPoint, "z")[0]->value)
+						)
+					);
+				}
+			}
 		}
 	}
+
 	for (int i = 0; i < doc.size(); i++) delete doc[i];
 
 	return points;

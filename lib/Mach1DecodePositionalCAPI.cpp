@@ -150,11 +150,16 @@ void Mach1DecodePositionalCAPI_setFilterSpeed(void * M1obj, float filterSpeed)
 	((Mach1DecodePositionalCore*)M1obj)->setFilterSpeed(filterSpeed);
 }
 
+Mach1Point3D Mach1DecodePositionalCAPI_getClosestPointOnPlane(void * M1obj)
+{
+	Mach1Point3DCore p = ((Mach1DecodePositionalCore*)M1obj)->getClosestPointOnPlane();
+	return Mach1Point3D{ p.x, p.y, p.z };
+}
+
 long Mach1DecodePositionalCAPI_getLastCalculationTime(void * M1obj)
 {
 	return ((Mach1DecodePositionalCore*)M1obj)->getLastCalculationTime();
 }
-
 
 /* DEPRECATED START*/
 void Mach1DecodePositionalCAPI_setUseFalloff(void * M1obj, bool useFalloff)

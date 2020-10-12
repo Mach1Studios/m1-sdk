@@ -411,6 +411,8 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
 		volumeRoom = 0;
 	}
 
+	closestPointOnPlane = point;
+
 	glm::vec3 dir = point - cameraPosition;
 
 	if (glm::length(dir) > 0)
@@ -498,6 +500,11 @@ Mach1Point3DCore Mach1DecodePositionalCore::getCoefficientsRotation()
 Mach1Point3DCore Mach1DecodePositionalCore::getVolumeRotation()
 {
 	return Mach1Point3DCore{ eulerAngles.x , eulerAngles.y, eulerAngles.z };
+}
+
+Mach1Point3DCore Mach1DecodePositionalCore::getClosestPointOnPlane()
+{
+	return Mach1Point3DCore{ closestPointOnPlane.x , closestPointOnPlane.y, closestPointOnPlane.z };
 }
 
 float Mach1DecodePositionalCore::getDist()

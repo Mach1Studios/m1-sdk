@@ -92,6 +92,8 @@ private:
 
 	long timeLastCalculation;
 
+	glm::vec3 closestPointOnPlane;
+
 public:
 
 	Mach1DecodePositionalCore();
@@ -178,6 +180,8 @@ public:
 	[[deprecated]]
 #endif	
 	Mach1Point3DCore getVolumeRotation();
+
+	Mach1Point3DCore getClosestPointOnPlane();
 
 	void setFilterSpeed(float filterSpeed);
 

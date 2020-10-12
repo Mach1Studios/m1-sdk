@@ -749,8 +749,9 @@ public class M1Base : MonoBehaviour
                 Vector3 targetForward = audiolistener.transform.rotation * (Vector3.forward * 3);
                 Debug.DrawLine(audiolistener.transform.position, audiolistener.transform.position + targetForward, Color.blue);
 
-                // Draw direction from audio listener to object
-                Debug.DrawLine(audiolistener.transform.position, gameObject.transform.position, Color.green);
+                // Draw direction from closest point to object
+                Mach1.Mach1Point3D point = m1Positional.getClosestPointOnPlane();
+                Debug.DrawLine(audiolistener.transform.position, new Vector3(point.x, point.y, point.z), Color.green);
             }
         }
     }

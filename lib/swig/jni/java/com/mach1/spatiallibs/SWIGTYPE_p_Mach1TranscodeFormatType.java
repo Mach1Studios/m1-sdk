@@ -8,18 +8,18 @@
 
 package com.mach1.spatiallibs;
 
-public class SWIGTYPE_p_void {
+public class SWIGTYPE_p_Mach1TranscodeFormatType {
   private transient long swigCPtr;
 
-  protected SWIGTYPE_p_void(long cPtr, @SuppressWarnings("unused") boolean futureUse) {
+  protected SWIGTYPE_p_Mach1TranscodeFormatType(long cPtr, @SuppressWarnings("unused") boolean futureUse) {
     swigCPtr = cPtr;
   }
 
-  protected SWIGTYPE_p_void() {
+  protected SWIGTYPE_p_Mach1TranscodeFormatType() {
     swigCPtr = 0;
   }
 
-  protected static long getCPtr(SWIGTYPE_p_void obj) {
+  protected static long getCPtr(SWIGTYPE_p_Mach1TranscodeFormatType obj) {
     return (obj == null) ? 0 : obj.swigCPtr;
   }
 }

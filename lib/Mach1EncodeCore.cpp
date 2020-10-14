@@ -70,11 +70,17 @@ int M1EncodeCorePointResults::getPointsCount()
 
 float M1EncodeCore::getCoeffForStandardPoint(float x, float y, float z, Mach1Point3DCore point, bool ignoreZ)
 {
+	// map from [-1,1] to [0,1]
 	point.x = 1 - (point.x + 1) / 2;
 	point.y = 1 - (point.y + 1) / 2;
 	point.z = 1 - (point.z + 1) / 2;
 
-	return fabs(point.x - x) * fabs(point.y - y) * (ignoreZ ? 1.0 : fabs(point.z - z));
+	float dist = fabs(point.x - x) * fabs(point.y - y) * (ignoreZ ? 1.0 : fabs(point.z - z));
+
+	// "pan law" experiment
+	dist = sqrt(1 - pow(dist - 1, 2));
+
+	return dist;
 }
 
 std::vector<float> M1EncodeCore::getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<Mach1Point3DCore>& pointSet, bool ignoreZ)

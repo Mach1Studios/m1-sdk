@@ -99,7 +99,7 @@ public:
 		MODE_ISOTROPICLINEAR = 0,
 		MODE_ISOTROPICEQUALPOWER,
 		MODE_PERIPHONICLINEAR
-	}
+	};
 
 	// arrays for CAPI
 	Mach1Point3DCore* arr_Points = nullptr;
@@ -151,7 +151,7 @@ public:
 	void setElevation(float elevationFromMinus1to1);
 	void setElevationDegrees(float elevationFromMinus90to90);
 	void setElevationRadians(float elevationFromMinusHalfPItoHalfPI);
-	void setisotropicEncode(bool isotropicEncode);
+	void setIsotropicEncode(bool isotropicEncode);
 	void setPannerMode(PannerMode pannerMode);
 
 	void setOrbitRotation(float orbitRotationFromMinusOnetoOne);

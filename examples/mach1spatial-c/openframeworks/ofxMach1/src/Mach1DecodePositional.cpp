@@ -278,6 +278,11 @@ void Mach1DecodePositional::setFilterSpeed(float filterSpeed)
   ///     and 1.0 is no filter)
 }
 
+Mach1Point3D Mach1DecodePositional::getClosestPointOnPlane()
+{
+	return Mach1DecodePositionalCAPI_getClosestPointOnPlane(M1obj);
+}
+
 /* DEPRECATED START */
 void Mach1DecodePositional::setUseFalloff(bool useFalloff)
 {

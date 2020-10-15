@@ -65,6 +65,8 @@ public:
 	Mach1Point3D getCoefficientsRotation();
 	void setFilterSpeed(float filterSpeed);
 
+	Mach1Point3D getClosestPointOnPlane();
+
 /* DEPRECATED START */
 	[[deprecated("setUseFalloff is deprecated, please use setUseAttenuation instead")]]
 	void setUseFalloff(bool useFalloff);

@@ -16,6 +16,7 @@ class Mach1EncodeModuleJNI {
 
   public final static native int Mach1EncodeInputModeMono_get();
   public final static native int Mach1EncodeOutputModeM1Horizon_get();
+  public final static native int Mach1EncodePannerModeIsotropicLinear_get();
   public final static native long Mach1EncodeCAPI_create();
   public final static native void Mach1EncodeCAPI_delete(long jarg1);
   public final static native long Mach1EncodeCAPI_getPoints(long jarg1);
@@ -41,6 +42,7 @@ class Mach1EncodeModuleJNI {
   public final static native void Mach1EncodeCAPI_setElevation(long jarg1, float jarg2);
   public final static native void Mach1EncodeCAPI_setElevationDegrees(long jarg1, float jarg2);
   public final static native void Mach1EncodeCAPI_setElevationRadians(long jarg1, float jarg2);
+  public final static native void Mach1EncodeCAPI_setPannerMode(long jarg1, int jarg2);
   public final static native void Mach1EncodeCAPI_setIsotropicEncode(long jarg1, boolean jarg2);
   public final static native void Mach1EncodeCAPI_setStereoRotate(long jarg1, float jarg2);
   public final static native void Mach1EncodeCAPI_setOrbitRotation(long jarg1, float jarg2);

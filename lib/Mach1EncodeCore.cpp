@@ -78,7 +78,9 @@ float M1EncodeCore::getCoeffForStandardPoint(float x, float y, float z, Mach1Poi
 	float dist = fabs(point.x - x) * fabs(point.y - y) * (ignoreZ ? 1.0 : fabs(point.z - z));
 
 	// "pan law" experiment
-	dist = sqrt(1 - pow(dist - 1, 2));
+	if (pannerMode == MODE_ISOTROPICEQUALPOWER){
+		dist = sqrt(1 - pow(dist - 1, 2));
+	}
 
 	return dist;
 }
@@ -211,11 +213,12 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 M1EncodeCore::M1EncodeCore() {
 	inputMode = InputMode::INPUT_MONO;
 	outputMode = OutputMode::OUTPUT_SPATIAL_8CH;
+	pannerMode = PannerMode::MODE_ISOTROPICLINEAR;
 
 	azimuth = 0;
 	diverge = 0;
 	elevation = 0;
-	isotropicEncode = true; 
+	isotropicEncode = true;
 
 	orbitRotation = 0;
 	sSpread = 0;
@@ -264,6 +267,10 @@ M1EncodeCore::~M1EncodeCore() {
 void M1EncodeCore::generatePointResults() {
 	long tStart = getCurrentTime();
 
+	if (!isotropicEncode){
+		pannerMode = MODE_PERIPHONICLINEAR;
+	}
+
 	float normalisedOutputDiverge = diverge * (1 / cos(PI * 0.25f));
 	Mach1Point3DCore centerpoint = { (float)cos((azimuth)* PI * 2) * normalisedOutputDiverge, 0, (float)sin((azimuth)* PI * 2) * normalisedOutputDiverge };
 
@@ -277,7 +284,7 @@ void M1EncodeCore::generatePointResults() {
 		}
 		else
 		{
-			if (isotropicEncode) {
+			if (pannerMode == MODE_ISOTROPICLINEAR || pannerMode == MODE_ISOTROPICEQUALPOWER) {
 				resultingPoints.ppoints[0] = { centerpoint.x * (float)sin((-elevation + 1) * PI / 2), (float)cos((-elevation + 1) * PI / 2) * normalisedOutputDiverge, centerpoint.z * (float)sin((-elevation + 1) * PI / 2) };
 			}
 			else {
@@ -309,7 +316,7 @@ void M1EncodeCore::generatePointResults() {
 			if (outputMode == OUTPUT_HORIZON_4CH) {
 				resultingPoints.ppoints[i] = pnts[i] + centerpoint;
 			}
-			else if (isotropicEncode) {
+			else if (pannerMode == MODE_ISOTROPICLINEAR || pannerMode == MODE_ISOTROPICEQUALPOWER) {
 				resultingPoints.ppoints[i] = pnts[i] + Mach1Point3DCore { centerpoint.x * (float)sin((elevation + 1) * PI / 2), elevation, centerpoint.z * (float)sin((elevation + 1) * PI / 2) };
 			}
 			else {
@@ -731,6 +738,10 @@ void M1EncodeCore::setElevationRadians(float elevationFromMinusHalfPItoHalfPI) {
 
 void M1EncodeCore::setIsotropicEncode(bool isotropicEncode){
 	this->isotropicEncode = isotropicEncode;
+}
+
+void M1EncodeCore::setPannerMode(PannerMode pannerMode){
+	this->pannerMode = pannerMode;
 }
 
 void M1EncodeCore::setOrbitRotation(float orbitRotationFromMinusOnetoOne) {

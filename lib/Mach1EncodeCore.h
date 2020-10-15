@@ -95,6 +95,12 @@ public:
 		OUTPUT_SPATIALEXTPLUS_18CH
 	};
 
+	enum PannerMode {
+		MODE_ISOTROPICLINEAR = 0,
+		MODE_ISOTROPICEQUALPOWER,
+		MODE_PERIPHONICLINEAR
+	}
+
 	// arrays for CAPI
 	Mach1Point3DCore* arr_Points = nullptr;
 	float** arr_Gains = nullptr;
@@ -105,19 +111,17 @@ public:
 private:
 	InputMode inputMode;
 	OutputMode outputMode;
+	PannerMode pannerMode;
 
 	float azimuth, diverge, elevation;
 	float orbitRotation, sSpread;
 	bool autoOrbit;
-	bool isotropicEncode;
-
 
 	float getCoeffForStandardPoint(float x, float y, float z, Mach1Point3DCore point, bool ignoreZ);
 	std::vector<float> getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<Mach1Point3DCore>& pointSet, bool ignoreZ);
 	void processGainsChannels(float x, float y, float z, std::vector<float>& result);
 
 	milliseconds ms;
-
 	long timeLastCalculation;
 
 public:
@@ -147,7 +151,8 @@ public:
 	void setElevation(float elevationFromMinus1to1);
 	void setElevationDegrees(float elevationFromMinus90to90);
 	void setElevationRadians(float elevationFromMinusHalfPItoHalfPI);
-	void setIsotropicEncode(bool isotropicEncode);
+	void setisotropicEncode(bool isotropicEncode);
+	void setPannerMode(PannerMode pannerMode);
 
 	void setOrbitRotation(float orbitRotationFromMinusOnetoOne);
 	void setOrbitRotationDegrees(float orbitRotationDegrees);

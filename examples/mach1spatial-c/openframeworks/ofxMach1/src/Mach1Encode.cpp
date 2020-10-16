@@ -244,14 +244,15 @@ void Mach1Encode::setElevationRadians(float elevationFromMinusHalfPItoHalfPI)
 	///     - value range: -PI/2 -> PI/2
 }
 
-void Mach1Encode::setIsotropicEncode(bool isotropicEncode)
+void Mach1Encode::setPannerMode(Mach1EncodePannerMode pannerMode)
 {
-	Mach1EncodeCAPI_setIsotropicEncode(M1obj, isotropicEncode);
-	/// Sets both stereo points rotate in relation to the
-	/// center point between them so that they always triangulate
-	/// toward center of the cuboid
+	Mach1EncodeCAPI_setPannerMode(M1obj, pannerMode);
+	/// Sets the style and mode of panner input calculation
 	///
-	/// Remark: Default is true
+	/// - Parameters:
+	///		- Mach1EncodePannerModeIsotropicLinear
+	///		- Mach1EncodePannerModeIsotropicEqualPower
+	///		- Mach1EncodePannerModePeriphonicLinear
 }
 
 void Mach1Encode::setOrbitRotation(float orbitRotationFromMinusOnetoOne)
@@ -344,5 +345,15 @@ void Mach1Encode::setStereoRotate(float sRotateDegrees)
 	///
 	/// - Parameters:
 	///     - value range: -180.0->180.0
+}
+
+void Mach1Encode::setIsotropicEncode(bool isotropicEncode)
+{
+	Mach1EncodeCAPI_setIsotropicEncode(M1obj, isotropicEncode);
+	/// Sets both stereo points rotate in relation to the
+	/// center point between them so that they always triangulate
+	/// toward center of the cuboid
+	///
+	/// Remark: Default is true
 }
 /* DEPRECATED END */

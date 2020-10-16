@@ -116,7 +116,6 @@ private:
 	float azimuth, diverge, elevation;
 	float orbitRotation, sSpread;
 	bool autoOrbit;
-	bool isotropicEncode; // deprecated
 
 	float getCoeffForStandardPoint(float x, float y, float z, Mach1Point3DCore point, bool ignoreZ);
 	std::vector<float> getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<Mach1Point3DCore>& pointSet, bool ignoreZ);

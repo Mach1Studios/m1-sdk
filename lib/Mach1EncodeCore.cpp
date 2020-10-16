@@ -218,6 +218,7 @@ M1EncodeCore::M1EncodeCore() {
 	azimuth = 0;
 	diverge = 0;
 	elevation = 0;
+	isotropicEncode = true;
 
 	orbitRotation = 0;
 	sSpread = 0;
@@ -265,6 +266,10 @@ M1EncodeCore::~M1EncodeCore() {
 
 void M1EncodeCore::generatePointResults() {
 	long tStart = getCurrentTime();
+
+	if (!isotropicEncode){
+		pannerMode = MODE_PERIPHONICLINEAR;
+	}
 
 	float normalisedOutputDiverge = diverge * (1 / cos(PI * 0.25f));
 	Mach1Point3DCore centerpoint = { (float)cos((azimuth)* PI * 2) * normalisedOutputDiverge, 0, (float)sin((azimuth)* PI * 2) * normalisedOutputDiverge };
@@ -716,9 +721,7 @@ void M1EncodeCore::setElevationRadians(float elevationFromMinusHalfPItoHalfPI) {
 }
 
 void M1EncodeCore::setIsotropicEncode(bool isotropicEncode){
-	if (!isotropicEncode) {
-		setPannerMode(PannerMode::MODE_PERIPHONICLINEAR);
-	}
+	this->isotropicEncode = isotropicEncode;
 }
 
 void M1EncodeCore::setPannerMode(PannerMode pannerMode){

@@ -70,11 +70,19 @@ int M1EncodeCorePointResults::getPointsCount()
 
 float M1EncodeCore::getCoeffForStandardPoint(float x, float y, float z, Mach1Point3DCore point, bool ignoreZ)
 {
+	// map from [-1,1] to [0,1]
 	point.x = 1 - (point.x + 1) / 2;
 	point.y = 1 - (point.y + 1) / 2;
 	point.z = 1 - (point.z + 1) / 2;
 
-	return fabs(point.x - x) * fabs(point.y - y) * (ignoreZ ? 1.0 : fabs(point.z - z));
+	float dist = fabs(point.x - x) * fabs(point.y - y) * (ignoreZ ? 1.0 : fabs(point.z - z));
+
+	// "pan law" experiment
+	if (pannerMode == MODE_ISOTROPICEQUALPOWER){
+		dist = sqrt(1 - pow(dist - 1, 2));
+	}
+
+	return dist;
 }
 
 std::vector<float> M1EncodeCore::getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<Mach1Point3DCore>& pointSet, bool ignoreZ)
@@ -205,11 +213,12 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 M1EncodeCore::M1EncodeCore() {
 	inputMode = InputMode::INPUT_MONO;
 	outputMode = OutputMode::OUTPUT_SPATIAL_8CH;
+	pannerMode = PannerMode::MODE_ISOTROPICLINEAR;
 
 	azimuth = 0;
 	diverge = 0;
 	elevation = 0;
-	isotropicEncode = true; 
+	isotropicEncode = true;
 
 	orbitRotation = 0;
 	sSpread = 0;
@@ -258,6 +267,10 @@ M1EncodeCore::~M1EncodeCore() {
 void M1EncodeCore::generatePointResults() {
 	long tStart = getCurrentTime();
 
+	if (!isotropicEncode){
+		pannerMode = MODE_PERIPHONICLINEAR;
+	}
+
 	float normalisedOutputDiverge = diverge * (1 / cos(PI * 0.25f));
 	Mach1Point3DCore centerpoint = { (float)cos((azimuth)* PI * 2) * normalisedOutputDiverge, 0, (float)sin((azimuth)* PI * 2) * normalisedOutputDiverge };
 
@@ -268,24 +281,19 @@ void M1EncodeCore::generatePointResults() {
 
 		if (outputMode == OUTPUT_HORIZON_4CH) {
 			resultingPoints.ppoints[0] = centerpoint;
-		}
-		else
-		{
-			if (isotropicEncode) {
+		} else {
+			if (pannerMode == MODE_ISOTROPICLINEAR || pannerMode == MODE_ISOTROPICEQUALPOWER) {
 				resultingPoints.ppoints[0] = { centerpoint.x * (float)sin((-elevation + 1) * PI / 2), (float)cos((-elevation + 1) * PI / 2) * normalisedOutputDiverge, centerpoint.z * (float)sin((-elevation + 1) * PI / 2) };
-			}
-			else {
+			} else if (pannerMode == MODE_PERIPHONICLINEAR) {
 				resultingPoints.ppoints[0] = { centerpoint.x, elevation, centerpoint.z };
 			}
 		}
-	}
-	else if (inputMode == INPUT_STEREO) {
+	} else if (inputMode == INPUT_STEREO) {
 
 		float sRotationInRadians;
 		if (autoOrbit) {
 			sRotationInRadians = azimuth * PI * 2 - PI / 2;
-		}
-		else { 
+		} else { 
 			sRotationInRadians = orbitRotation * PI * 2 - PI / 2;
 		}
 
@@ -302,16 +310,13 @@ void M1EncodeCore::generatePointResults() {
 			resultingPoints.pointsNames[i] = names[i];
 			if (outputMode == OUTPUT_HORIZON_4CH) {
 				resultingPoints.ppoints[i] = pnts[i] + centerpoint;
-			}
-			else if (isotropicEncode) {
+			} else if (pannerMode == MODE_ISOTROPICLINEAR || pannerMode == MODE_ISOTROPICEQUALPOWER) {
 				resultingPoints.ppoints[i] = pnts[i] + Mach1Point3DCore { centerpoint.x * (float)sin((elevation + 1) * PI / 2), elevation, centerpoint.z * (float)sin((elevation + 1) * PI / 2) };
-			}
-			else {
+			} else if (pannerMode == MODE_PERIPHONICLINEAR) {
 				resultingPoints.ppoints[i] = pnts[i] + Mach1Point3DCore { centerpoint.x, elevation, centerpoint.z };
 			}
 		}
-	}
-	else if (inputMode == INPUT_QUAD) {
+	} else if (inputMode == INPUT_QUAD) {
 
 		resultingPoints.pointsCount = 4;
 
@@ -331,8 +336,7 @@ void M1EncodeCore::generatePointResults() {
 				resultingPoints.ppoints[i].y = 0;
 			}
 		}
-	}
-	else if (inputMode == INPUT_LCRS) {
+	} else if (inputMode == INPUT_LCRS) {
 
 		resultingPoints.pointsCount = 4;
 
@@ -355,8 +359,7 @@ void M1EncodeCore::generatePointResults() {
 			}
 		}
 
-	}
-	else if (inputMode == INPUT_AFORMAT) {
+	} else if (inputMode == INPUT_AFORMAT) {
 
 		resultingPoints.pointsCount = 4;
 
@@ -377,8 +380,7 @@ void M1EncodeCore::generatePointResults() {
 			}
 		}
 
-	}
-	else if (inputMode == INPUT_BFORMAT || inputMode == INPUT_1OAACN) { // duplicate?
+	} else if (inputMode == INPUT_BFORMAT || inputMode == INPUT_1OAACN) { // duplicate?
 
 		resultingPoints.pointsCount = 7;
 
@@ -408,8 +410,7 @@ void M1EncodeCore::generatePointResults() {
 			}
 		}
 
-	}
-	else if (inputMode == INPUT_1OAFUMA) {
+	} else if (inputMode == INPUT_1OAFUMA) {
 
 		resultingPoints.pointsCount = 7;
 
@@ -432,15 +433,13 @@ void M1EncodeCore::generatePointResults() {
 				resultingPoints.ppoints[i].y = 0;
 			}
 		}
-	}
-	else if (inputMode == INPUT_2OAACN || inputMode == INPUT_2OAFUMA || inputMode == INPUT_3OAACN || inputMode == INPUT_3OAFUMA) { // duplicate?
+	} else if (inputMode == INPUT_2OAACN || inputMode == INPUT_2OAFUMA || inputMode == INPUT_3OAACN || inputMode == INPUT_3OAFUMA) { // duplicate?
 
 		/*
 		TODO: Rework this into something smarter
 		Currently expects 2OA and 3OA conversion to Mach1Spatial8 externally from this API
 		This API will just supply the azimuths for Mach1Spatial8 Cuboid
 		*/
-
 					 
 		resultingPoints.pointsCount = 8;
 
@@ -464,8 +463,7 @@ void M1EncodeCore::generatePointResults() {
 				resultingPoints.ppoints[i].y = 0;
 			}
 		}
-	}
-	else if (inputMode == INPUT_LCR) {
+	} else if (inputMode == INPUT_LCR) {
 
 		resultingPoints.pointsCount = 3;
 
@@ -511,8 +509,7 @@ void M1EncodeCore::generatePointResults() {
 		std::vector<float> gains;
 		if (outputMode == OUTPUT_HORIZON_4CH) {
 			processGainsChannels(resultingPoints.ppoints[i].z, resultingPoints.ppoints[i].x, 1, gains);
-		}
-		else {
+		} else {
 			processGainsChannels(resultingPoints.ppoints[i].z, resultingPoints.ppoints[i].x, resultingPoints.ppoints[i].y, gains);
 		}
 
@@ -725,6 +722,10 @@ void M1EncodeCore::setElevationRadians(float elevationFromMinusHalfPItoHalfPI) {
 
 void M1EncodeCore::setIsotropicEncode(bool isotropicEncode){
 	this->isotropicEncode = isotropicEncode;
+}
+
+void M1EncodeCore::setPannerMode(PannerMode pannerMode){
+	this->pannerMode = pannerMode;
 }
 
 void M1EncodeCore::setOrbitRotation(float orbitRotationFromMinusOnetoOne) {

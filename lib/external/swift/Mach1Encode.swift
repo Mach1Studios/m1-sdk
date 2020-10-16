@@ -229,13 +229,15 @@ public class Mach1Encode {
         ///     - value range: -PI/2 -> PI/2
     }
 
-    public func setIsotropicEncode(setIsotropicEncode: Bool) {
-        Mach1EncodeCAPI_setIsotropicEncode(M1obj, setIsotropicEncode)
-        /// Sets both stereo points rotate in relation to the
-        /// center point between them so that they always triangulate
-        /// toward center of the cuboid
+    public func setPannerMode(pannerMode: Mach1EncodePannerMode) {
+        Mach1EncodeCAPI_setPannerMode(M1obj, pannerMode)
+        /// Sets the style and mode of panner input calculation
         ///
-        /// - Remark: Default is true
+        /// - Parameters:
+        ///     - Mach1EncodePannerModeIsotropicLinear
+        ///     - Mach1EncodePannerModeIsotropicEqualPower
+        ///     - Mach1EncodePannerModePeriphonicLinear
+
     }
 
     public func setOrbitRotation(orbitRotationFromMinusOnetoOne: Float) {
@@ -321,6 +323,16 @@ DEPRECATED START
         /// - Parameters:
         ///     - value range: -180.0->180.0
     }
+
+    public func setIsotropicEncode(setIsotropicEncode: Bool) {
+        Mach1EncodeCAPI_setIsotropicEncode(M1obj, setIsotropicEncode)
+        /// Sets both stereo points rotate in relation to the
+        /// center point between them so that they always triangulate
+        /// toward center of the cuboid
+        ///
+        /// - Remark: Default is true
+    }
+
 /*
 DEPRECATED END
  */

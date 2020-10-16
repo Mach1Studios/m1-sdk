@@ -61,6 +61,10 @@ public:
 	void setElevationDegrees(float elevationFromMinus90to90);
 	void setElevationRadians(float elevationFromMinusHalfPItoHalfPI);
 
+	void setPannerMode(enum Mach1EncodePannerMode pannerMode);
+#if __cplusplus > 201103L
+	[[deprecated("setIsotropicEncode is deprecated, please use setPannerMode instead")]]
+#endif
 	void setIsotropicEncode(bool isotropicEncode);
 
 #if __cplusplus > 201103L

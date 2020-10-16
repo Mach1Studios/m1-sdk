@@ -56,6 +56,12 @@ enum Mach1EncodeOutputModeType {
 	Mach1EncodeOutputModeM1SpatialExtPlus
 };
 
+enum Mach1EncodePannerMode {
+	Mach1EncodePannerModeIsotropicLinear = 0,
+	Mach1EncodePannerModeIsotropicEqualPower,
+	Mach1EncodePannerModePeriphonicLinear
+};
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -83,7 +89,7 @@ extern "C" {
 
 	M1_API void Mach1EncodeCAPI_setInputMode(void* M1obj, enum Mach1EncodeInputModeType inputMode);
 	M1_API void Mach1EncodeCAPI_setOutputMode(void* M1obj, enum Mach1EncodeOutputModeType outputMode);
-
+	
 #if __cplusplus > 201103L
 	[[deprecated("setRotation is deprecated due to ambiguity of use, please use setAzimuth0to1, setAzimuthDegrees or setAzimuthRadians instead")]]
 #endif
@@ -103,7 +109,11 @@ extern "C" {
 	M1_API void Mach1EncodeCAPI_setElevationDegrees(void* M1obj, float elevationFromMinus90to90);
 	M1_API void Mach1EncodeCAPI_setElevationRadians(void* M1obj, float elevationFromMinusHalfPItoHalfPI);
 
-	M1_API void Mach1EncodeCAPI_setIsotropicEncode(void* M1obj, bool isotropicEncode);
+	M1_API void Mach1EncodeCAPI_setPannerMode(void* M1obj, enum Mach1EncodePannerMode pannerMode);
+#if __cplusplus > 201103L
+	[[deprecated("setIsotropicEncode is deprecated, please use setPannerMode instead")]]
+#endif
+	M1_API void Mach1EncodeCAPI_setIsotropicEncode(void* M1obj, bool isotropicEncode);	
 
 #if __cplusplus > 201103L
 	[[deprecated("setStereoRotate is deprecated due to ambiguity of use, please use setOrbitRotation0to1, setOrbitRotationDegrees or setOrbitRotationRadians instead")]]
@@ -112,7 +122,7 @@ extern "C" {
 	M1_API void Mach1EncodeCAPI_setOrbitRotation(void* M1obj, float orbitRotationFromMinusOnetoOne);
 	M1_API void Mach1EncodeCAPI_setOrbitRotationDegrees(void* M1obj, float orbitRotationDegrees);
 	M1_API void Mach1EncodeCAPI_setOrbitRotationRadians(void* M1obj, float orbitRotationRadians);
-	
+
 	M1_API void Mach1EncodeCAPI_setStereoSpread(void* M1obj, float sSpreadFrom0to1);
 	M1_API void Mach1EncodeCAPI_setAutoOrbit(void* M1obj, bool autoOrbit);
 

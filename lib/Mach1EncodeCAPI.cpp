@@ -166,8 +166,8 @@ void Mach1EncodeCAPI_setAutoOrbit(void* M1obj, bool autoOrbit) {
 	((M1EncodeCore*)M1obj)->setAutoOrbit(autoOrbit);
 }
 
-void Mach1EncodeCAPI_setIsotropicEncode(void* M1obj, bool isotropicEncode) {
-	((M1EncodeCore*)M1obj)->setIsotropicEncode(isotropicEncode);
+void Mach1EncodeCAPI_setPannerMode(void* M1obj, enum Mach1EncodePannerMode pannerMode) {
+	((M1EncodeCore*)M1obj)->setPannerMode(static_cast<M1EncodeCore::PannerMode>(pannerMode));
 }
 
 long Mach1EncodeCAPI_getLastCalculationTime(void* M1obj) {
@@ -185,6 +185,10 @@ void Mach1EncodeCAPI_setPitch(void* M1obj, float pitchFromMinus90to90) {
 
 void Mach1EncodeCAPI_setStereoRotate(void* M1obj, float sRotateDegrees) {
 	((M1EncodeCore*)M1obj)->setOrbitRotationDegrees(sRotateDegrees);
+}
+
+void Mach1EncodeCAPI_setIsotropicEncode(void* M1obj, bool isotropicEncode) {
+	((M1EncodeCore*)M1obj)->setIsotropicEncode(isotropicEncode);
 }
 
 void* Mach1EncodeCAPI_getResultingVolumesDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float * decodeResult)

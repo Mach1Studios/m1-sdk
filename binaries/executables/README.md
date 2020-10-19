@@ -28,7 +28,7 @@ Input JSON description of the surround/spatial soundfield setup per your design 
 
 The `-in-fmt` or `-out-fmt` as `TTPoints` can be used to set a custom json format.
 
-You can also find an example custom `.json` file here: [references/Custom16Channel.json](references/Custom16Channel.json)
+You can also find an example custom `.json` file here: [reference/Custom16Channel.json](reference/Custom16Channel.json)
 
 #### ADM Extractor
 `./m1-transcode fmtconv -in-file /path/to/input-ADM.wav -in-fmt SevenOneFour -out-file /path/to/output.wav -extract-metadata -out-fmt M1Spatial -out-file-chans 0`

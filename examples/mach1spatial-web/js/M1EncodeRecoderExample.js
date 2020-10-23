@@ -36,9 +36,9 @@ document.addEventListener("DOMContentLoaded", function() {
         // Mach1Encode Parameters
         inputKind: 0, // mono
         outputKind: 1, // 8 ch
-        rotation: 0,
+        azimuth: 0,
         diverge: 0.5,
-        pitch: 0,
+        elevation: 0,
         enableIsotropicEncode: true,
         sRotation: 0,
         sSpread: 0.5,
@@ -59,16 +59,13 @@ document.addEventListener("DOMContentLoaded", function() {
     if (params.inputKind == 0) { // Input: MONO
 			audioFiles = ['audio/mono/1.ogg'];
 			mach1AudioLoader = new Mach1AudioLoader(audioFiles, 1);
-    }
-    else if (params.inputKind == 1) { // Input: STERO
+        } else if (params.inputKind == 1) { // Input: STERO
 			audioFiles = ['audio/stereo/M1_SDKDemo_Orchestral_Stereo.ogg'];
 			mach1AudioLoader = new Mach1AudioLoader(audioFiles, 2);
-    }
-    else if (params.inputKind == 2) {
-      audioFiles = ['audio/quad/guitar-m1horizon.ogg'];
-      mach1AudioLoader = new Mach1AudioLoader(audioFiles, 4);
-    }
-		else {
+        } else if (params.inputKind == 2) {
+            audioFiles = ['audio/quad/guitar-m1horizon.ogg'];
+            mach1AudioLoader = new Mach1AudioLoader(audioFiles, 4);
+        }else {
 			audioFiles = ['audio/mono/1.ogg'];
 			mach1AudioLoader = new Mach1AudioLoader(audioFiles, 1);
 		}
@@ -307,9 +304,9 @@ document.addEventListener("DOMContentLoaded", function() {
         toggleInputOutputKind();
     });
 
-    folder.add(params, 'rotation', 0, 1, 0.01).name('Rotation').onChange(update);
+    folder.add(params, 'azimuth', 0, 1, 0.01).name('Azimuth').onChange(update);
     folder.add(params, 'diverge', -0.707, 0.707, 0.01).name('Diverge').onChange(update);
-    folder.add(params, 'pitch', -1, 1, 0.01).name('Pitch').onChange(update);
+    folder.add(params, 'elevation', -1, 1, 0.01).name('Elevation').onChange(update);
     folder.add(params, 'enableIsotropicEncode').name('Isotropic encode').onChange(update);
 
     elementSRotation = folder.add(params, 'sRotation', -180, 180, 1).name('S Rotation').onChange(update).__li;
@@ -346,9 +343,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // update 
     function update() {
-        m1Encode.setAzimuth(params.rotation);
+        m1Encode.setAzimuth(params.azimuth);
         m1Encode.setDiverge(params.diverge);
-        m1Encode.setElevation(params.pitch);
+        m1Encode.setElevation(params.elevation);
         m1Encode.setStereoRotate(params.sRotation);
         m1Encode.setStereoSpread(params.sSpread);
         m1Encode.setAutoOrbit(params.autoOrbit);
@@ -432,7 +429,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 lines[i].geometry.attributes.position.needsUpdate = true;
             }
 
-            mach1SoundPlayer.updateGains(vol);
+            mach1SoundPlayer.gains = vol;
 
             var angle = m1Decode.getCurrentAngle();
  

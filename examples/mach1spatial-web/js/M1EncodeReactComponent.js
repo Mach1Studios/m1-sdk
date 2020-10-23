@@ -42,7 +42,7 @@ class M1EncodeReactComponent extends React.Component {
             this.state.m1Encode.setStereoRotate(0.0);
             this.state.m1Encode.setStereoSpread(1.0);
             this.state.m1Encode.setAutoOrbit(true);
-            this.state.m1Encode.setIsotropicEncode(true);
+            this.state.m1Encode.setIsotropicEncode(true); //TODO: update this with PannerMode
 
             this.state.m1Encode.generatePointResults();
             let encodedCoeffs = this.state.m1Encode.getGains();

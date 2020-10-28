@@ -215,16 +215,16 @@ public:
     
     void spatialAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
     
-// ------------------------------------------------------------------
+    // ------------------------------------------------------------------
 
-//
-//  Additional channel audio formats (isotropic version).
-//
-//  Order of input angles:
-//  Y = Yaw in degrees
-//  P = Pitch in degrees
-//  R = Roll in degrees
-//
+    //
+    //  Additional channel audio formats (isotropic version).
+    //
+    //  Order of input angles:
+    //  Y = Yaw in degrees
+    //  P = Pitch in degrees
+    //  R = Roll in degrees
+    //
 
 	std::vector<float> spatialPlusAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
 

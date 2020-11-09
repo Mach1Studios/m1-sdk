@@ -66,8 +66,15 @@ void Mach1Decode::decodeBuffer(std::vector<std::vector<T>>* inBuffer, std::vecto
 	int inputChannelsCount = inBuffer->size() / inputPoints;
 	int outChannelsCount = outBuffer->size();
 
+	std::vector<float> startVolumes = decodeCoeffs(bufferSize, 0);
+	std::vector<float> endVolumes = decodeCoeffs(bufferSize, bufferSize);
+	std::vector<float> volumes(inputChannelsCount * 2);
+
 	for (size_t i = 0; i < bufferSize; i++) {
-		std::vector<float> volumes = decodeCoeffs(bufferSize, i);
+		float lerp = float(i) / bufferSize;
+		for (size_t c = 0; c < volumes.size(); c++) {
+			volumes[c] = startVolumes[c] * (1 - lerp) + endVolumes[c] * lerp;
+		}
 
 		for (size_t c = 0; c < outChannelsCount; c++) {
 			sample = 0;
@@ -90,8 +97,16 @@ void Mach1Decode::decodeBuffer(std::vector<T*>* inBuffer, std::vector<T*>* outBu
 
 	T sample = 0;
 	int offset = 0;
+
+	std::vector<float> startVolumes = decodeCoeffs(bufferSize, 0);
+	std::vector<float> endVolumes = decodeCoeffs(bufferSize, bufferSize);
+	std::vector<float> volumes(inBuffer->size() * 2);
+
 	for (size_t i = 0; i < bufferSize; i++) {
-		std::vector<float> volumes = decodeCoeffs(bufferSize, i);
+		float lerp = float(i) / bufferSize;
+		for (size_t c = 0; c < volumes.size(); c++) {
+			volumes[c] = startVolumes[c] * (1 - lerp) + endVolumes[c] * lerp;
+		}
 
 		for (size_t c = 0; c < outBuffer->size(); c++) {
 			sample = 0;

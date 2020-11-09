@@ -70,10 +70,14 @@ void Mach1Decode::decodeBuffer(std::vector<std::vector<T>>* inBuffer, std::vecto
 	std::vector<float> endVolumes = decodeCoeffs(bufferSize, bufferSize);
 	std::vector<float> volumes(inputChannelsCount * 2);
 
+	float* startVol = startVolumes.data();
+	float* endVol = endVolumes.data();
+	float* vol = volumes.data();
+
 	for (size_t i = 0; i < bufferSize; i++) {
 		float lerp = float(i) / bufferSize;
 		for (size_t c = 0; c < volumes.size(); c++) {
-			volumes[c] = startVolumes[c] * (1 - lerp) + endVolumes[c] * lerp;
+			vol[c] = startVol[c] * (1 - lerp) + endVol[c] * lerp;
 		}
 
 		for (size_t c = 0; c < outChannelsCount; c++) {
@@ -81,7 +85,7 @@ void Mach1Decode::decodeBuffer(std::vector<std::vector<T>>* inBuffer, std::vecto
 			cOffset = c < inputPoints ? c : 0;
 			for (size_t k = 0; k < inputChannelsCount; k++)
 			{
-				sample += inBuffer->operator[](k * inputPoints + cOffset)[i] * volumes[k * 2 + c];
+				sample += inBuffer->operator[](k * inputPoints + cOffset)[i] * vol[k * 2 + c];
 			}
 			outBuffer->operator[](c)[i] = sample;
 		}
@@ -102,10 +106,14 @@ void Mach1Decode::decodeBuffer(std::vector<T*>* inBuffer, std::vector<T*>* outBu
 	std::vector<float> endVolumes = decodeCoeffs(bufferSize, bufferSize);
 	std::vector<float> volumes(inBuffer->size() * 2);
 
+	float* startVol = startVolumes.data();
+	float* endVol = endVolumes.data();
+	float* vol = volumes.data();
+
 	for (size_t i = 0; i < bufferSize; i++) {
 		float lerp = float(i) / bufferSize;
 		for (size_t c = 0; c < volumes.size(); c++) {
-			volumes[c] = startVolumes[c] * (1 - lerp) + endVolumes[c] * lerp;
+			vol[c] = startVol[c] * (1 - lerp) + endVol[c] * lerp;
 		}
 
 		for (size_t c = 0; c < outBuffer->size(); c++) {
@@ -113,7 +121,7 @@ void Mach1Decode::decodeBuffer(std::vector<T*>* inBuffer, std::vector<T*>* outBu
 			offset = c < inputPoints ? c : 0;
 			for (size_t k = 0; k < inBuffer->size(); k++)
 			{
-				sample += inBuffer->operator[](k * inputPoints + offset)[i] * volumes[k * 2 + c];
+				sample += inBuffer->operator[](k * inputPoints + offset)[i] * vol[k * 2 + c];
 			}
 			outBuffer->operator[](c)[i] = sample;
 		}

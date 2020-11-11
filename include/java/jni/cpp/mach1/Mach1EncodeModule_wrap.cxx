@@ -263,6 +263,18 @@ SWIGEXPORT jint JNICALL Java_com_mach1_spatiallibs_Mach1EncodeModuleJNI_Mach1Enc
 }
 
 
+SWIGEXPORT jint JNICALL Java_com_mach1_spatiallibs_Mach1EncodeModuleJNI_Mach1EncodePannerModeIsotropicLinear_1get(JNIEnv *jenv, jclass jcls) {
+  jint jresult = 0 ;
+  Mach1EncodePannerMode result;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (Mach1EncodePannerMode)Mach1EncodePannerModeIsotropicLinear;
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT jlong JNICALL Java_com_mach1_spatiallibs_Mach1EncodeModuleJNI_Mach1EncodeCAPI_1create(JNIEnv *jenv, jclass jcls) {
   jlong jresult = 0 ;
   void *result = 0 ;
@@ -593,6 +605,18 @@ SWIGEXPORT void JNICALL Java_com_mach1_spatiallibs_Mach1EncodeModuleJNI_Mach1Enc
   arg1 = *(void **)&jarg1; 
   arg2 = (float)jarg2; 
   Mach1EncodeCAPI_setElevationRadians(arg1,arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_mach1_spatiallibs_Mach1EncodeModuleJNI_Mach1EncodeCAPI_1setPannerMode(JNIEnv *jenv, jclass jcls, jlong jarg1, jint jarg2) {
+  void *arg1 = (void *) 0 ;
+  enum Mach1EncodePannerMode arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(void **)&jarg1; 
+  arg2 = (enum Mach1EncodePannerMode)jarg2; 
+  Mach1EncodeCAPI_setPannerMode(arg1,arg2);
 }
 
 

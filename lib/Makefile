@@ -2,6 +2,7 @@
 
 # local paths are in this file
 include ../../m1-workflow/m1-globallocal.mk
+EMSDK_PATH=../../emsdk/
 
 # getting OS type
 ifeq ($(OS),Windows_NT)
@@ -12,6 +13,9 @@ endif
 
 pull: FORCE
 	git pull --recurse-submodules
+
+setup: FORCE
+	source $(EMSDK_PATH)/emsdk_env.sh
 
 build: FORCE
 ifeq ($(detected_OS),Darwin)
@@ -28,14 +32,14 @@ ifeq ($(detected_OS),Darwin)
 	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1TranscodeModule'" --pre-js Mach1TranscodeEmscripten.js -o external/js/Mach1Transcode.js -Iinclude Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1TranscodeCore.cpp Mach1TranscodeCAPI.cpp Mach1TranscodeEmscripten.cpp Mach1GenerateCoeffs.cpp include/M1DSP/M1DSPUtilities.cpp include/M1DSP/M1DSPFilters.cpp
 	polly --clear --install --config Release --toolchain raspberrypi2-cxx11
 	polly --clear --install --config Release --toolchain raspberrypi3-cxx11
-else ifeq ($(OS),Windows)
+endif
+ifeq ($(detected_OS),Windows)
 	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-15-2017
 	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-15-2017-win64
 	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1TranscodeModule'" --pre-js Mach1TranscodeEmscripten.js -o external/js/Mach1Transcode.js -Iinclude Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1TranscodeCore.cpp Mach1TranscodeCAPI.cpp Mach1TranscodeEmscripten.cpp Mach1GenerateCoeffs.cpp include/M1DSP/M1DSPUtilities.cpp include/M1DSP/M1DSPFilters.cpp
 	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1DecodeModule'" --pre-js Mach1DecodeEmscripten.js -o external/js/Mach1Decode.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodeEmscripten.cpp
 	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1EncodeModule'" --pre-js Mach1EncodeEmscripten.js -o external/js/Mach1Encode.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1EncodeCore.cpp Mach1EncodeCAPI.cpp Mach1EncodeEmscripten.cpp
 	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1DecodePositionalModule'" -Iinclude/ --pre-js Mach1DecodePositionalEmscripten.js -o external/js/Mach1DecodePositional.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodePositionalCore.cpp Mach1DecodePositionalCAPI.cpp Mach1DecodePositionalEmscripten.cpp
-else
 endif
 
 build-mac: FORCE

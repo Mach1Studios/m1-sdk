@@ -140,7 +140,7 @@ void Mach1DecodeCore::updateAngles() {
 	if (currentPitch > 360) currentPitch -= 360;
 	if (currentRoll > 360) currentRoll -= 360;
 
-	if (filterSpeed >= 1.0) {
+	if (filterSpeed >= 1.0f) {
 		currentYaw = targetYaw;
 		currentPitch = targetPitch;
 		currentRoll = targetRoll;
@@ -415,7 +415,7 @@ void Mach1DecodeCore::spatialMultichannelAlgo(Mach1Point3DCore * points, int cou
 		linePlaneIntersection(contactR, Mach1Point3DCore(0, 0, 0), faceVectorRight * 100 + faceVector2 * 100, planes[j][0], planes[j][1]);
 	}
 
-	float d = sqrt(100 * 100 + 200 * 200);
+	float d = sqrtf(100 * 100 + 200 * 200);
 
 	std::vector<float> vL(countPoints);
 	std::vector<float> vR(countPoints);
@@ -423,7 +423,7 @@ void Mach1DecodeCore::spatialMultichannelAlgo(Mach1Point3DCore * points, int cou
 	std::vector<float> vL_clamped(countPoints);
 	std::vector<float> vR_clamped(countPoints);
 
-	for (size_t i = 0; i < countPoints; i++)
+	for (int i = 0; i < countPoints; i++)
 	{
 		Mach1Point3DCore qL = (contactL - points[i]);
 		Mach1Point3DCore qR = (contactR - points[i]);
@@ -508,7 +508,7 @@ std::vector<float> Mach1DecodeCore::spatialAlgoSample(float Yaw, float Pitch, fl
 void Mach1DecodeCore::spatialPlusAlgoSample(float Yaw, float Pitch, float Roll, float * result) {
 	const int countPoints = 8 + 4;
 
-	float diag = sqrt(2 * 100 * 100);
+	float diag = sqrtf(2 * 100 * 100);
 
 	Mach1Point3DCore points[countPoints] =
 	{
@@ -534,7 +534,7 @@ void Mach1DecodeCore::spatialPlusAlgoSample(float Yaw, float Pitch, float Roll, 
 std::vector<float> Mach1DecodeCore::spatialPlusAlgoSample(float Yaw, float Pitch, float Roll) {
 	const int countPoints = 8 + 4;
 
-	float diag = sqrt(2 * 100 * 100);
+	float diag = sqrtf(2 * 100 * 100);
 
 	std::vector<float> result;
 	result.resize(countPoints * 2 + 2);
@@ -565,7 +565,7 @@ std::vector<float> Mach1DecodeCore::spatialPlusAlgoSample(float Yaw, float Pitch
 void Mach1DecodeCore::spatialPlusPlusAlgoSample(float Yaw, float Pitch, float Roll, float * result) {
 	const int countPoints = 8 + 4 + 2;
 
-	float diag = sqrt(2 * 100 * 100);
+	float diag = sqrtf(2 * 100 * 100);
 
 	Mach1Point3DCore points[countPoints] =
 	{
@@ -594,7 +594,7 @@ void Mach1DecodeCore::spatialPlusPlusAlgoSample(float Yaw, float Pitch, float Ro
 std::vector<float> Mach1DecodeCore::spatialPlusPlusAlgoSample(float Yaw, float Pitch, float Roll) {
 	const int countPoints = 8 + 4 + 2;
 
-	float diag = sqrt(2 * 100 * 100);
+	float diag = sqrtf(2 * 100 * 100);
 
 	std::vector<float> result;
 	result.resize(countPoints * 2 + 2);
@@ -628,7 +628,7 @@ std::vector<float> Mach1DecodeCore::spatialPlusPlusAlgoSample(float Yaw, float P
 void Mach1DecodeCore::spatialExtAlgoSample(float Yaw, float Pitch, float Roll, float * result) {
 	const int countPoints = 8 + 8;
 
-	float diag = sqrt(2 * 100 * 100);
+	float diag = sqrtf(2 * 100 * 100);
 
 	Mach1Point3DCore points[countPoints] =
 	{
@@ -659,7 +659,7 @@ void Mach1DecodeCore::spatialExtAlgoSample(float Yaw, float Pitch, float Roll, f
 std::vector<float> Mach1DecodeCore::spatialExtAlgoSample(float Yaw, float Pitch, float Roll) {
 	const int countPoints = 8 + 8;
 
-	float diag = sqrt(2 * 100 * 100);
+	float diag = sqrtf(2 * 100 * 100);
 
 	std::vector<float> result;
 	result.resize(countPoints * 2 + 2);
@@ -695,7 +695,7 @@ std::vector<float> Mach1DecodeCore::spatialExtAlgoSample(float Yaw, float Pitch,
 void Mach1DecodeCore::spatialExtPlusAlgoSample(float Yaw, float Pitch, float Roll, float * result) {
 	const int countPoints = 8 + 8 + 2;
 
-	float diag = sqrt(2 * 100 * 100);
+	float diag = sqrtf(2 * 100 * 100);
 
 	Mach1Point3DCore points[countPoints] =
 	{
@@ -729,7 +729,7 @@ void Mach1DecodeCore::spatialExtPlusAlgoSample(float Yaw, float Pitch, float Rol
 std::vector<float> Mach1DecodeCore::spatialExtPlusAlgoSample(float Yaw, float Pitch, float Roll) {
 	const int countPoints = 8 + 8 + 2;
 
-	float diag = sqrt(2 * 100 * 100);
+	float diag = sqrtf(2 * 100 * 100);
 
 	std::vector<float> result;
 	result.resize(countPoints * 2 + 2);
@@ -972,23 +972,23 @@ void Mach1DecodeCore::setRotationQuat(Mach1Point4DCore newRotationQuat)
 	Mach1Point3DCore angles;
 
 	// roll (x-axis rotation)
-	double sinr_cosp = 2 * (newRotationQuat.w * newRotationQuat.x + newRotationQuat.y * newRotationQuat.z);
-	double cosr_cosp = 1 - 2 * (newRotationQuat.x * newRotationQuat.x + newRotationQuat.y * newRotationQuat.y);
-	angles.x = std::atan2(sinr_cosp, cosr_cosp);
+	float sinr_cosp = 2 * (newRotationQuat.w * newRotationQuat.x + newRotationQuat.y * newRotationQuat.z);
+	float cosr_cosp = 1 - 2 * (newRotationQuat.x * newRotationQuat.x + newRotationQuat.y * newRotationQuat.y);
+	angles.x = std::atan2f(sinr_cosp, cosr_cosp);
 
 	// pitch (y-axis rotation)
-	double sinp = 2 * (newRotationQuat.w * newRotationQuat.y - newRotationQuat.z * newRotationQuat.x);
+	float sinp = 2 * (newRotationQuat.w * newRotationQuat.y - newRotationQuat.z * newRotationQuat.x);
 	if (std::abs(sinp) >= 1) {
-		angles.y = std::copysign(PI / 2, sinp); // use 90 degrees if out of range
+		angles.y = std::copysignf(PI / 2, sinp); // use 90 degrees if out of range
 	}
 	else {
-		angles.y = std::asin(sinp);
+		angles.y = std::asinf(sinp);
 	}
 
 	// yaw (z-axis rotation)
-	double siny_cosp = 2 * (newRotationQuat.w * newRotationQuat.z + newRotationQuat.x * newRotationQuat.y);
-	double cosy_cosp = 1 - 2 * (newRotationQuat.y * newRotationQuat.y + newRotationQuat.z * newRotationQuat.z);
-	angles.z = std::atan2(siny_cosp, cosy_cosp);
+	float siny_cosp = 2 * (newRotationQuat.w * newRotationQuat.z + newRotationQuat.x * newRotationQuat.y);
+	float cosy_cosp = 1 - 2 * (newRotationQuat.y * newRotationQuat.y + newRotationQuat.z * newRotationQuat.z);
+	angles.z = std::atan2f(siny_cosp, cosy_cosp);
 
 	setRotationRadians(angles);
 }

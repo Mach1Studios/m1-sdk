@@ -524,7 +524,7 @@ void Mach1DecodePositionalCore::setFilterSpeed(float filterSpeed)
 	mach1Decode.setFilterSpeed(filterSpeed);
 }
 
-int test(void)
+int test()
 {
 	Mach1DecodePositionalCore m1Positional;
 

@@ -36,7 +36,7 @@ Mach1Point4DCore Mach1Point4DCore::operator-(const Mach1Point4DCore& vec) const 
 }
 
 float Mach1Point4DCore::length() const {
-	return (float)sqrt(x*x + y*y + z*z + w*w);
+	return (float)sqrtf(x*x + y*y + z*z + w*w);
 }
 
 float Mach1Point4DCore::operator[] (int index) {

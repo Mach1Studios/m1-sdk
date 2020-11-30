@@ -10,7 +10,7 @@
 #include <algorithm>
 
 #ifndef DEG_TO_RAD
-#define DEG_TO_RAD (PI/180.0)
+#define DEG_TO_RAD (PI/180.0f)
 #endif
 
 #ifndef PI

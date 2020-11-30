@@ -266,10 +266,10 @@ std::vector<Mach1Point3DCore> getPointsSet(Mach1TranscodeFormats::FormatType fmt
 												{-1, -1, -1},
 												{1, -1, -1},
 
-												{0, 1 / 0.707, 0},
-												{1 / 0.707, 0, 0},
-												{0, -1 / 0.707, 0},
-												{-1 / 0.707, 0, 0} };
+												{0, 1 / 0.707f, 0},
+												{1 / 0.707f, 0, 0},
+												{0, -1 / 0.707f, 0},
+												{-1 / 0.707f, 0, 0} };
 
 	// M1 spatial++ cube points
 	static std::vector<Mach1Point3DCore> m1SpatialPlusPlusDef = { {-1, 1, 1},
@@ -282,13 +282,13 @@ std::vector<Mach1Point3DCore> getPointsSet(Mach1TranscodeFormats::FormatType fmt
 												{-1, -1, -1},
 												{1, -1, -1},
 
-												{0, 1 / 0.707, 0},
-												{1 / 0.707, 0, 0},
-												{0, -1 / 0.707, 0},
-												{-1 / 0.707, 0, 0},
+												{0, 1 / 0.707f, 0},
+												{1 / 0.707f, 0, 0},
+												{0, -1 / 0.707f, 0},
+												{-1 / 0.707f, 0, 0},
 
-												{ 1 / 0.707, 0, 0},
-												{-1 / 0.707, 0, 0} };
+												{ 1 / 0.707f, 0, 0},
+												{-1 / 0.707f, 0, 0} };
 
 	// M1 spatial extended cube points
 	static std::vector<Mach1Point3DCore> m1SpatialExtendedDef = { {-1, 1, 1},
@@ -301,15 +301,15 @@ std::vector<Mach1Point3DCore> getPointsSet(Mach1TranscodeFormats::FormatType fmt
 												{-1, -1, -1},
 												{1, -1, -1},
 
-												{0, 1 / 0.707, 1},
-												{1 / 0.707, 0, 1},
-												{0, -1 / 0.707, 1},
-												{-1 / 0.707, 0, 1},
+												{0, 1 / 0.707f, 1},
+												{1 / 0.707f, 0, 1},
+												{0, -1 / 0.707f, 1},
+												{-1 / 0.707f, 0, 1},
 
-												{0, 1 / 0.707, -1},
-												{1 / 0.707, 0, -1},
-												{0, -1 / 0.707, -1},
-												{-1 / 0.707, 0, -1} };
+												{0, 1 / 0.707f, -1},
+												{1 / 0.707f, 0, -1},
+												{0, -1 / 0.707f, -1},
+												{-1 / 0.707f, 0, -1} };
 
 	// M1 spatial extended+ cube points
 	static std::vector<Mach1Point3DCore> m1SpatialExtendedPlusDef = { {-1, 1, 1},
@@ -322,18 +322,18 @@ std::vector<Mach1Point3DCore> getPointsSet(Mach1TranscodeFormats::FormatType fmt
 												{-1, -1, -1},
 												{1, -1, -1},
 
-												{0, 1 / 0.707, 1},
-												{1 / 0.707, 0, 1},
-												{0, -1 / 0.707, 1},
-												{-1 / 0.707, 0, 1},
+												{0, 1 / 0.707f, 1},
+												{1 / 0.707f, 0, 1},
+												{0, -1 / 0.707f, 1},
+												{-1 / 0.707f, 0, 1},
 
-												{0, 1 / 0.707, -1},
-												{1 / 0.707, 0, -1},
-												{0, -1 / 0.707, -1},
-												{-1 / 0.707, 0, -1},
+												{0, 1 / 0.707f, -1},
+												{1 / 0.707f, 0, -1},
+												{0, -1 / 0.707f, -1},
+												{-1 / 0.707f, 0, -1},
 
-												{1 / 0.707, 0, 0},
-												{-1 / 0.707, 0, 0} };
+												{1 / 0.707f, 0, 0},
+												{-1 / 0.707f, 0, 0} };
 
 	static std::map<Mach1TranscodeFormats::FormatType, std::vector<Mach1Point3DCore>> standards = {
 		{Mach1TranscodeFormats::FormatType::M1Horizon, m1HorizonDef},

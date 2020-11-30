@@ -741,7 +741,7 @@ void M1EncodeCore::setOrbitRotationDegrees(float orbitRotationDegrees) {
 }
 
 void M1EncodeCore::setOrbitRotationRadians(float orbitRotationRadians) {
-	orbitRotationRadians = fmod(azimuth, PI*2.0); //protect a 360 cycle
+	orbitRotationRadians = fmod(orbitRotationRadians, PI*2.0); //protect a 360 cycle
 	if (orbitRotationRadians < 0.0) { //check if -180 to 180, convert to 0-360
 		orbitRotationRadians += PI*2.0;
 	}

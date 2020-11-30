@@ -52,7 +52,7 @@ Mach1Point3DCore Mach1Point3DCore::operator - ()
 
 
 float Mach1Point3DCore::length() const {
-	return (float)sqrt(x*x + y*y + z*z);
+	return (float)sqrtf(x*x + y*y + z*z);
 }
 
 
@@ -64,8 +64,8 @@ float Mach1Point3DCore::operator[] (int index) {
 Mach1Point3DCore& Mach1Point3DCore::rotate(float angle, const Mach1Point3DCore& axis) {
 	Mach1Point3DCore ax = axis.getNormalized();
 	float a = (float)(angle*DEG_TO_RAD);
-	float sina = sin(a);
-	float cosa = cos(a);
+	float sina = sinf(a);
+	float cosa = cosf(a);
 	float cosb = 1.0f - cosa;
 
 	float nx = x*(ax.x*ax.x*cosb + cosa)
@@ -82,7 +82,7 @@ Mach1Point3DCore& Mach1Point3DCore::rotate(float angle, const Mach1Point3DCore& 
 }
 
 Mach1Point3DCore& Mach1Point3DCore::normalize() {
-	float length = (float)sqrt(x*x + y*y + z*z);
+	float length = (float)sqrtf(x*x + y*y + z*z);
 	if (length > 0) {
 		x /= length;
 		y /= length;
@@ -93,7 +93,7 @@ Mach1Point3DCore& Mach1Point3DCore::normalize() {
 
 
 Mach1Point3DCore Mach1Point3DCore::getNormalized() const {
-	float length = (float)sqrt(x*x + y*y + z*z);
+	float length = (float)sqrtf(x*x + y*y + z*z);
 	if (length > 0) {
 		return Mach1Point3DCore(x / length, y / length, z / length);
 	}
@@ -106,8 +106,8 @@ Mach1Point3DCore Mach1Point3DCore::getNormalized() const {
 Mach1Point3DCore Mach1Point3DCore::getRotated(float angle, const Mach1Point3DCore& axis) const {
 	Mach1Point3DCore ax = axis.getNormalized();
 	float a = (float)(angle*DEG_TO_RAD);
-	float sina = sin(a);
-	float cosa = cos(a);
+	float sina = sinf(a);
+	float cosa = cosf(a);
 	float cosb = 1.0f - cosa;
 
 	return Mach1Point3DCore(x*(ax.x*ax.x*cosb + cosa)

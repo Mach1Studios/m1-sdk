@@ -61,7 +61,7 @@ double CFilterSimpleLP::Run(double in)
 	return out;
 }
 
-CFilterButterworth24db::CFilterButterworth24db(void)
+CFilterButterworth24db::CFilterButterworth24db()
 {
     this->history1 = 0.f;
     this->history2 = 0.f;
@@ -72,7 +72,7 @@ CFilterButterworth24db::CFilterButterworth24db(void)
     this->Setup(22050.f, 0.0);
 }
 
-CFilterButterworth24db::~CFilterButterworth24db(void)
+CFilterButterworth24db::~CFilterButterworth24db()
 {
 }
 
@@ -102,7 +102,7 @@ void CFilterButterworth24db::Setup(double cutoff, double q)
         q = 1.f;
 
     double wp = this->t2 * tanf(this->t3 * cutoff);
-    double bd, bd_tmp, b1, b2;
+    double bd = 0, bd_tmp = 0, b1 = 0, b2 = 0;
 
     q *= BUDDA_Q_SCALE;
     q += 1.f;
@@ -133,7 +133,7 @@ void CFilterButterworth24db::Setup(double cutoff, double q)
 double CFilterButterworth24db::Run(double input)
 {
     double output = input * this->gain;
-    double new_hist;
+    double new_hist = 0;
 
     output -= this->history1 * this->coef0;
     new_hist = output - this->history2 * this->coef1;
@@ -187,11 +187,11 @@ double CFilterLowPass::filterWithAlpha(double value, double alpha) {
     return Run(value);
 }
 
-bool CFilterLowPass::hasLastRawValue(void) {
+bool CFilterLowPass::hasLastRawValue() {
     return initialized;
 }
 
-double CFilterLowPass::lastRawValue(void) {
+double CFilterLowPass::lastRawValue() {
     return y;
 }
 
@@ -242,7 +242,7 @@ void CFilterOneEuro::SetSampleRate(double fs)
     freq = fs;
 }
 
-CFilterOneEuro::~CFilterOneEuro(void)
+CFilterOneEuro::~CFilterOneEuro()
 {
     delete x;
     delete dx;

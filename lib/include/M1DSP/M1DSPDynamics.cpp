@@ -7,6 +7,8 @@ using namespace M1DSP::Dynamics;
 
 inline EnvelopeFollower::EnvelopeFollower()
 {
+	a = 0;
+	r = 0;
     envelope=0;
 }
 

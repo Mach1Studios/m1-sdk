@@ -5,7 +5,7 @@
 #include "Mach1TranscodeCAPI.h"
 #include "Mach1Point3DCore.h"
 
-void* Mach1TranscodeCAPI_create(void)
+void* Mach1TranscodeCAPI_create()
 {
 	return new Mach1TranscodeCore();
 }

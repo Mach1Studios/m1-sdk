@@ -4,7 +4,7 @@
 #include "Mach1DecodeCore.h"
 #include "Mach1DecodeCAPI.h"
 
-void* Mach1DecodeCAPI_create(void)
+void* Mach1DecodeCAPI_create()
 {
 	return new Mach1DecodeCore();
 }
@@ -110,6 +110,5 @@ char* Mach1DecodeCAPI_getLog(void* M1obj)
 Mach1Point3D Mach1DecodeCAPI_getCurrentAngle(void* M1obj)
 {
 	Mach1Point3DCore angle = ((Mach1DecodeCore*)M1obj)->getCurrentAngle();
-	Mach1Point3D p = { angle.x, angle.y, angle.z };
-	return p;
+	return Mach1Point3D { angle.x, angle.y, angle.z };
 }

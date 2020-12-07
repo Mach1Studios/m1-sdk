@@ -168,6 +168,14 @@ class Mach1SoundPlayer {
   }
 
   /**
+   * Getting gains for all files
+   * @param  {Array} vols return last gain values by index
+   */
+  get gains() {
+    return this.#gains;
+  }
+
+  /**
    * Start playing sound files
    */
   play(looped, time = this.#currentTime()) {

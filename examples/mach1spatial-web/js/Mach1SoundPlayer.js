@@ -769,6 +769,9 @@ var Mach1SoundPlayer = /*#__PURE__*/ (function () {
         if (_classPrivateFieldGet(this, _isPlaying)) {
           _classPrivateFieldGet(this, _setGains).call(this);
         }
+      },
+      get: function get() {
+        return _classPrivateFieldGet(this, _gains);
       }
     }
   ]);

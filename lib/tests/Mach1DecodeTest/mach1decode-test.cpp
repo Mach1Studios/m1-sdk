@@ -72,8 +72,83 @@ void test_results(void)
 /*
 DECODE TESTING
 TODO: add more input tests with less rounded inputs
-TODO: add all other output modes
+TODO: add all other modes
  */
+        {
+            "Case: MACH1HORIZON | Y0P0R0",
+            { Mach1PlatformDefault, Mach1DecodeAlgoHorizon, 0.0, 0.0, 0.0, 1.0, unsignedDegrees },
+            {
+                {
+                    { 
+                        1.0, 0.0,
+                        0.0, 1.0,
+                        0.0, 0.0,
+                        0.0, 0.0,
+                        1.0, 1.0,
+                    },
+                },
+            }
+        },
+        {
+            "Case: MACH1HORIZON | Y45P0R0",
+            { Mach1PlatformDefault, Mach1DecodeAlgoHorizon, 45.0, 0.0, 0.0, 1.0, unsignedDegrees },
+            {
+                {
+                    { 
+                        0.5, 0.0,
+                        0.5, 0.5,
+                        0.0, 0.0,
+                        0.0, 0.5,
+                        1.0, 1.0,
+                    },
+                },
+            }
+        },
+        {
+            "Case: MACH1HORIZON | Y90P0R0",
+            { Mach1PlatformDefault, Mach1DecodeAlgoHorizon, 90.0, 0.0, 0.0, 1.0, unsignedDegrees },
+            {
+                {
+                    { 
+                        0.0, 0.0,
+                        1.0, 0.0,
+                        0.0, 0.0,
+                        0.0, 1.0,
+                        1.0, 1.0,
+                    },
+                },
+            }
+        },
+        {
+            "Case: MACH1HORIZON | Y180P0R0",
+            { Mach1PlatformDefault, Mach1DecodeAlgoHorizon, 180.0, 0.0, 0.0, 1.0, unsignedDegrees },
+            {
+                {
+                    { 
+                        0.0, 0.0,
+                        0.0, 0.0,
+                        0.0, 1.0,
+                        1.0, 0.0,
+                        1.0, 1.0,
+                    },
+                },
+            }
+        },
+        {
+            "Case: MACH1HORIZON | Y270P0R0",
+            { Mach1PlatformDefault, Mach1DecodeAlgoHorizon, 270.0, 0.0, 0.0, 1.0, unsignedDegrees },
+            {
+                {
+                    { 
+                        0.0, 1.0,
+                        0.0, 0.0,
+                        1.0, 0.0,
+                        0.0, 0.0,
+                        1.0, 1.0,
+                    },
+                },
+            }
+        },
 		{
 			"Case: MACH1SPATIAL | Y0P0R0",
 			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.0, 0.0, 1.0, unsignedDegrees },

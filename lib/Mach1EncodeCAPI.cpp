@@ -3,8 +3,7 @@
 
 #include "Mach1EncodeCore.h"
 #include "Mach1EncodeCAPI.h"
-
-using namespace std;
+#include <cstring>
 
 void* Mach1EncodeCAPI_create() {
 	return new M1EncodeCore();
@@ -25,7 +24,7 @@ void* Mach1EncodeCAPI_getPoints(void* M1obj) {
 		((M1EncodeCore*)M1obj)->arr_Points[i] = Mach1Point3DCore();
 	}
 
-	for (int i = 0; i < vec.size(); i++) memcpy(&(((M1EncodeCore*)M1obj)->arr_Points[i]), &vec[i], sizeof(Mach1Point3DCore));
+	for (int i = 0; i < vec.size(); i++) std::memcpy(&(((M1EncodeCore*)M1obj)->arr_Points[i]), &vec[i], sizeof(Mach1Point3DCore));
 
 	return ((M1EncodeCore*)M1obj)->arr_Points;
 }
@@ -40,7 +39,7 @@ void* Mach1EncodeCAPI_getGains(void* M1obj) {
 		}
 	}
 
-	for (int i = 0; i < vec.size(); i++) memcpy(((M1EncodeCore*)M1obj)->arr_Gains[i], vec[i].data(), vec[i].size() * sizeof(float));
+	for (int i = 0; i < vec.size(); i++) std::memcpy(((M1EncodeCore*)M1obj)->arr_Gains[i], vec[i].data(), vec[i].size() * sizeof(float));
 
 	return ((M1EncodeCore*)M1obj)->arr_Gains;
 }
@@ -53,7 +52,7 @@ void* Mach1EncodeCAPI_getPointsNames(void* M1obj) {
 		((M1EncodeCore*)M1obj)->arr_PointsNames[i][0] = '\0';
 	}
 
-	for (int i = 0; i < vec.size(); i++) memcpy(((M1EncodeCore*)M1obj)->arr_PointsNames[i], vec[i].c_str(), (vec[i].length() + 1) * sizeof(char));
+	for (int i = 0; i < vec.size(); i++) std::memcpy(((M1EncodeCore*)M1obj)->arr_PointsNames[i], vec[i].c_str(), (vec[i].length() + 1) * sizeof(char));
 
 	return ((M1EncodeCore*)M1obj)->arr_PointsNames;
 }
@@ -66,7 +65,7 @@ void* Mach1EncodeCAPI_getGainsForInputChannelNamed(void* M1obj, char * pointName
 		((M1EncodeCore*)M1obj)->arr_GainsForInputChannelNamed[i] = 0;
 	}
 
-	for (int i = 0; i < vec.size(); i++) memcpy(&((M1EncodeCore*)M1obj)->arr_GainsForInputChannelNamed[i], &vec[i], sizeof(float));
+	for (int i = 0; i < vec.size(); i++) std::memcpy(&((M1EncodeCore*)M1obj)->arr_GainsForInputChannelNamed[i], &vec[i], sizeof(float));
 
 	return ((M1EncodeCore*)M1obj)->arr_GainsForInputChannelNamed;
 }

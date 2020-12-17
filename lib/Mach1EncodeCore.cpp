@@ -272,6 +272,8 @@ void M1EncodeCore::generatePointResults() {
 		pannerMode = MODE_PERIPHONICLINEAR;
 	}
 
+	Mach1Point3DCore CenterChannel;
+
 	float normalisedOutputDiverge = diverge * (1 / cos(PI * 0.25f));
 	Mach1Point3DCore centerpoint = { (float)cos((azimuth)* PI * 2) * normalisedOutputDiverge, 0, (float)sin((azimuth)* PI * 2) * normalisedOutputDiverge };
 
@@ -342,13 +344,14 @@ void M1EncodeCore::generatePointResults() {
 		resultingPoints.pointsCount = 4;
 
 		std::vector<std::string> names = { "L", "C", "R", "S" };
+		if (frontSurroundPerspective) {
+			CenterChannel = { (float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge };
+		} else {
+			CenterChannel = { 0, 0, 0 };
+		}
 		std::vector<Mach1Point3DCore> pnts = {
 			{ (float)cos((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge },
-			if (frontSurroundPerspective){
-				{ (float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge },
-			} else {
-				{ 0, 0, 0 },
-			}
+			CenterChannel,
 			{ (float)cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge },
 			{ (float)cos((azimuth + 0.5f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.5f) * PI * 2) * diverge },
 		};
@@ -473,13 +476,14 @@ void M1EncodeCore::generatePointResults() {
 		resultingPoints.pointsCount = 3;
 
 		std::vector<std::string> names = { "L","C","R" };
+		if (frontSurroundPerspective) {
+			CenterChannel = { (float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge };
+		} else {
+			CenterChannel = { 0, 0, 0 };
+		}
 		std::vector<Mach1Point3DCore> pnts = {
 			{ (float)cos((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge },
-			if (frontSurroundPerspective){
-				{ (float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge },
-			} else {
-				{ 0, 0, 0 },
-			}
+			CenterChannel,
 			{ (float)cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge },
 		};
 		pnts[1] = (pnts[0] + pnts[2]) / 2;
@@ -492,18 +496,19 @@ void M1EncodeCore::generatePointResults() {
 				resultingPoints.ppoints[i].y = 0;
 			}
 		}
-	} else if (inputMode == FIVE_ZERO) {
+	} else if (inputMode == INPUT_FIVE_ZERO) {
 
 		resultingPoints.pointsCount = 5;
 
 		std::vector<std::string> names = { "L","C","R","Ls","Rs" };
+		if (frontSurroundPerspective) {
+			CenterChannel = { (float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge };
+		} else {
+			CenterChannel = { 0, 0, 0 };
+		}
 		std::vector<Mach1Point3DCore> pnts = {
 			{ (float)cos((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge },
-			if (frontSurroundPerspective){
-				{ (float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge },
-			} else {
-				{ 0, 0, 0 },
-			}
+			CenterChannel,
 			{ (float)cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge },
 			{ (float)cos((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge },
 			{ (float)cos((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge },
@@ -518,18 +523,19 @@ void M1EncodeCore::generatePointResults() {
 				resultingPoints.ppoints[i].y = 0;
 			}
 		}
-	} else if (inputMode == FIVE_ONE_FILM) {
+	} else if (inputMode == INPUT_FIVE_ONE_FILM) {
 
 		resultingPoints.pointsCount = 6;
 
 		std::vector<std::string> names = { "L","C","R","Ls","Rs","LFE" };
+		if (frontSurroundPerspective) {
+			CenterChannel = { (float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge };
+		} else {
+			CenterChannel = { 0, 0, 0 };
+		}
 		std::vector<Mach1Point3DCore> pnts = {
 			{ (float)cos((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge },
-			if (frontSurroundPerspective){
-				{ (float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge },
-			} else {
-				{ 0, 0, 0 },
-			}
+			CenterChannel,
 			{ (float)cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge },
 			{ (float)cos((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge },
 			{ (float)cos((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge },
@@ -545,21 +551,22 @@ void M1EncodeCore::generatePointResults() {
 				resultingPoints.ppoints[i].y = 0;
 			}
 		}
-	} else if (inputMode == FIVE_ONE_DTS) {
+	} else if (inputMode == INPUT_FIVE_ONE_DTS) {
 
 		resultingPoints.pointsCount = 5;
 
 		std::vector<std::string> names = { "L","R","Ls","Rs","C","LFE" };
+		if (frontSurroundPerspective) {
+			CenterChannel = { (float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge };
+		} else {
+			CenterChannel = { 0, 0, 0 };
+		}
 		std::vector<Mach1Point3DCore> pnts = {
 			{ (float)cos((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge },
 			{ (float)cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge },
 			{ (float)cos((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge },
 			{ (float)cos((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge },
-			if (frontSurroundPerspective){
-				{ (float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge },
-			} else {
-				{ 0, 0, 0 },
-			}
+			CenterChannel,
 			{ 0, 0, 0 },
 		};
 		pnts[1] = (pnts[0] + pnts[2]) / 2;
@@ -572,19 +579,20 @@ void M1EncodeCore::generatePointResults() {
 				resultingPoints.ppoints[i].y = 0;
 			}
 		}
-	} else if (inputMode == FIVE_ONE_SMPTE) {
+	} else if (inputMode == INPUT_FIVE_ONE_SMPTE) {
 
 		resultingPoints.pointsCount = 5;
 
 		std::vector<std::string> names = { "L","R","C","LFE","Ls","Rs" };
+		if (frontSurroundPerspective) {
+			CenterChannel = { (float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge };
+		} else {
+			CenterChannel = { 0, 0, 0 };
+		}
 		std::vector<Mach1Point3DCore> pnts = {
 			{ (float)cos((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge },
 			{ (float)cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge },
-			if (frontSurroundPerspective){
-				{ (float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge },
-			} else {
-				{ 0, 0, 0 },
-			}
+			CenterChannel,
 			{ 0, 0, 0 },
 			{ (float)cos((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge },
 			{ (float)cos((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge },
@@ -773,6 +781,10 @@ int M1EncodeCore::getInputChannelsCount() {
 		case INPUT_3OAACN: return 16;
 		case INPUT_3OAFUMA: return 16;
 		case INPUT_LCR: return 3;
+		case INPUT_FIVE_ZERO: return 5;
+		case INPUT_FIVE_ONE_FILM: return 6;
+		case INPUT_FIVE_ONE_DTS: return 6; 
+		case INPUT_FIVE_ONE_SMPTE: return 6;
 	}
 	return 0;
 }

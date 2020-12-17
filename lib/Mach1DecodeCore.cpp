@@ -21,7 +21,6 @@ Mach1DecodeCore normalizes all input ranges to an unsigned "0 to 1" range for Ya
 
 #include "Mach1DecodeCore.h"
 
-#include <math.h>
 #include <cmath>
 #include <chrono>
 #include <string>
@@ -974,7 +973,7 @@ void Mach1DecodeCore::setRotationQuat(Mach1Point4DCore newRotationQuat)
 	// roll (x-axis rotation)
 	float sinr_cosp = 2 * (newRotationQuat.w * newRotationQuat.x + newRotationQuat.y * newRotationQuat.z);
 	float cosr_cosp = 1 - 2 * (newRotationQuat.x * newRotationQuat.x + newRotationQuat.y * newRotationQuat.y);
-	angles.x = std::atan2f(sinr_cosp, cosr_cosp);
+	angles.x = atan2f(sinr_cosp, cosr_cosp);
 
 	// pitch (y-axis rotation)
 	float sinp = 2 * (newRotationQuat.w * newRotationQuat.y - newRotationQuat.z * newRotationQuat.x);
@@ -982,13 +981,13 @@ void Mach1DecodeCore::setRotationQuat(Mach1Point4DCore newRotationQuat)
 		angles.y = std::copysignf(PI / 2, sinp); // use 90 degrees if out of range
 	}
 	else {
-		angles.y = std::asinf(sinp);
+		angles.y = asinf(sinp);
 	}
 
 	// yaw (z-axis rotation)
 	float siny_cosp = 2 * (newRotationQuat.w * newRotationQuat.z + newRotationQuat.x * newRotationQuat.y);
 	float cosy_cosp = 1 - 2 * (newRotationQuat.y * newRotationQuat.y + newRotationQuat.z * newRotationQuat.z);
-	angles.z = std::atan2f(siny_cosp, cosy_cosp);
+	angles.z = atan2f(siny_cosp, cosy_cosp);
 
 	setRotationRadians(angles);
 }

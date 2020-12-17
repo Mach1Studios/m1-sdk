@@ -127,6 +127,10 @@ public class Mach1Encode {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setPannerMode(M1obj, pannerMode.swigValue());
   }
 
+  public void setFrontSurroundPerspective(boolean frontSurroundPerspective) {
+    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setFrontSurroundPerspective(M1obj, frontSurroundPerspective);
+  }
+
   public void setIsotropicEncode(boolean isotropicEncode) {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setIsotropicEncode(M1obj, isotropicEncode);
   }

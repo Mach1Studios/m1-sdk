@@ -168,6 +168,10 @@ void Mach1EncodeCAPI_setPannerMode(void* M1obj, enum Mach1EncodePannerMode panne
 	((M1EncodeCore*)M1obj)->setPannerMode(static_cast<M1EncodeCore::PannerMode>(pannerMode));
 }
 
+void Mach1EncodeCAPI_setFrontSurroundPerspective(void* M1obj, bool frontSurroundPerspective) {
+	((M1EncodeCore*)M1obj)->setFrontSurroundPerspective(frontSurroundPerspective);
+}
+
 long Mach1EncodeCAPI_getLastCalculationTime(void* M1obj) {
 	return ((M1EncodeCore*)M1obj)->getLastCalculationTime();
 }

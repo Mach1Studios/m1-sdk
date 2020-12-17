@@ -84,7 +84,11 @@ public:
 		INPUT_2OAFUMA,
 		INPUT_3OAACN, 
 		INPUT_3OAFUMA,
-		INPUT_LCR
+		INPUT_LCR,
+		INPUT_FIVE_ZERO, /// (Using Mach1Transcode is recommended instead)
+		INPUT_FIVE_ONE_FILM, /// (Using Mach1Transcode is recommended instead)
+		INPUT_FIVE_ONE_DTS, /// (Using Mach1Transcode is recommended instead)
+		INPUT_FIVE_ONE_SMPTE /// (Using Mach1Transcode is recommended instead)
 	};
 	enum OutputMode { 
 		OUTPUT_HORIZON_4CH = 0, 
@@ -117,6 +121,7 @@ private:
 	float orbitRotation, sSpread;
 	bool autoOrbit;
 	bool isotropicEncode; // deprecated
+	bool frontSurroundPerspective; 
 
 	float getCoeffForStandardPoint(float x, float y, float z, Mach1Point3DCore point, bool ignoreZ);
 	std::vector<float> getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<Mach1Point3DCore>& pointSet, bool ignoreZ);
@@ -154,6 +159,7 @@ public:
 	void setElevationRadians(float elevationFromMinusHalfPItoHalfPI);
 	void setIsotropicEncode(bool isotropicEncode);
 	void setPannerMode(PannerMode pannerMode);
+	void setFrontSurroundPerspective(bool frontSurroundPerspective);
 
 	void setOrbitRotation(float orbitRotationFromMinusOnetoOne);
 	void setOrbitRotationDegrees(float orbitRotationDegrees);

@@ -165,6 +165,10 @@ void Mach1Encode::setInputMode(Mach1EncodeInputModeType inputMode)
 	/// 	- INPUT_3OAACN
 	///		- INPUT_3OAFUMA
 	///		- INPUT_LCR
+    ///     - INPUT_FIVE_ZERO (Mach1Transcode Recommended Instead)
+    ///     - INPUT_FIVE_ONE_FILM (Mach1Transcode Recommended Instead)
+    ///     - INPUT_FIVE_ONE_DTS (Mach1Transcode Recommended Instead)
+    ///     - INPUT_FIVE_ONE_SMPTE (Mach1Transcode Recommended Instead)
 }
 
 void Mach1Encode::setOutputMode(Mach1EncodeOutputModeType outputMode)

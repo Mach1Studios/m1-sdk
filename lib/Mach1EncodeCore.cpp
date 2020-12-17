@@ -219,6 +219,7 @@ M1EncodeCore::M1EncodeCore() {
 	diverge = 0;
 	elevation = 0;
 	isotropicEncode = true;
+	frontSurroundPerspective = true; // default set surround formats to be front first person perspective
 
 	orbitRotation = 0;
 	sSpread = 0;
@@ -343,9 +344,13 @@ void M1EncodeCore::generatePointResults() {
 		std::vector<std::string> names = { "L", "C", "R", "S" };
 		std::vector<Mach1Point3DCore> pnts = {
 			{ (float)cos((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge },
-			{ 0, 0, 0 },
+			if (frontSurroundPerspective){
+				{ (float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge },
+			} else {
+				{ 0, 0, 0 },
+			}
 			{ (float)cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge },
-			{ 0, 0, 0 },
+			{ (float)cos((azimuth + 0.5f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.5f) * PI * 2) * diverge },
 		};
 		pnts[1] = (pnts[0] + pnts[2]) / 2;
 		pnts[3] = -pnts[1];
@@ -470,8 +475,119 @@ void M1EncodeCore::generatePointResults() {
 		std::vector<std::string> names = { "L","C","R" };
 		std::vector<Mach1Point3DCore> pnts = {
 			{ (float)cos((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge },
-			{ 0, 0, 0 },
+			if (frontSurroundPerspective){
+				{ (float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge },
+			} else {
+				{ 0, 0, 0 },
+			}
 			{ (float)cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge },
+		};
+		pnts[1] = (pnts[0] + pnts[2]) / 2;
+
+		for (int i = 0; i < resultingPoints.pointsCount; i++)
+		{
+			resultingPoints.pointsNames[i] = names[i];
+			resultingPoints.ppoints[i] = pnts[i];
+			if (outputMode == OUTPUT_HORIZON_4CH) {
+				resultingPoints.ppoints[i].y = 0;
+			}
+		}
+	} else if (inputMode == FIVE_ZERO) {
+
+		resultingPoints.pointsCount = 5;
+
+		std::vector<std::string> names = { "L","C","R","Ls","Rs" };
+		std::vector<Mach1Point3DCore> pnts = {
+			{ (float)cos((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge },
+			if (frontSurroundPerspective){
+				{ (float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge },
+			} else {
+				{ 0, 0, 0 },
+			}
+			{ (float)cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge },
+			{ (float)cos((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge },
+			{ (float)cos((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge },
+		};
+		pnts[1] = (pnts[0] + pnts[2]) / 2;
+
+		for (int i = 0; i < resultingPoints.pointsCount; i++)
+		{
+			resultingPoints.pointsNames[i] = names[i];
+			resultingPoints.ppoints[i] = pnts[i];
+			if (outputMode == OUTPUT_HORIZON_4CH) {
+				resultingPoints.ppoints[i].y = 0;
+			}
+		}
+	} else if (inputMode == FIVE_ONE_FILM) {
+
+		resultingPoints.pointsCount = 6;
+
+		std::vector<std::string> names = { "L","C","R","Ls","Rs","LFE" };
+		std::vector<Mach1Point3DCore> pnts = {
+			{ (float)cos((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge },
+			if (frontSurroundPerspective){
+				{ (float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge },
+			} else {
+				{ 0, 0, 0 },
+			}
+			{ (float)cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge },
+			{ (float)cos((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge },
+			{ (float)cos((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge },
+			{ 0, 0, 0 },
+		};
+		pnts[1] = (pnts[0] + pnts[2]) / 2;
+
+		for (int i = 0; i < resultingPoints.pointsCount; i++)
+		{
+			resultingPoints.pointsNames[i] = names[i];
+			resultingPoints.ppoints[i] = pnts[i];
+			if (outputMode == OUTPUT_HORIZON_4CH) {
+				resultingPoints.ppoints[i].y = 0;
+			}
+		}
+	} else if (inputMode == FIVE_ONE_DTS) {
+
+		resultingPoints.pointsCount = 5;
+
+		std::vector<std::string> names = { "L","R","Ls","Rs","C","LFE" };
+		std::vector<Mach1Point3DCore> pnts = {
+			{ (float)cos((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge },
+			{ (float)cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge },
+			{ (float)cos((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge },
+			{ (float)cos((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge },
+			if (frontSurroundPerspective){
+				{ (float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge },
+			} else {
+				{ 0, 0, 0 },
+			}
+			{ 0, 0, 0 },
+		};
+		pnts[1] = (pnts[0] + pnts[2]) / 2;
+
+		for (int i = 0; i < resultingPoints.pointsCount; i++)
+		{
+			resultingPoints.pointsNames[i] = names[i];
+			resultingPoints.ppoints[i] = pnts[i];
+			if (outputMode == OUTPUT_HORIZON_4CH) {
+				resultingPoints.ppoints[i].y = 0;
+			}
+		}
+	} else if (inputMode == FIVE_ONE_SMPTE) {
+
+		resultingPoints.pointsCount = 5;
+
+		std::vector<std::string> names = { "L","R","C","LFE","Ls","Rs" };
+		std::vector<Mach1Point3DCore> pnts = {
+			{ (float)cos((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge },
+			{ (float)cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge },
+			if (frontSurroundPerspective){
+				{ (float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge },
+			} else {
+				{ 0, 0, 0 },
+			}
+			{ 0, 0, 0 },
+			{ (float)cos((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge },
+			{ (float)cos((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge },
 		};
 		pnts[1] = (pnts[0] + pnts[2]) / 2;
 
@@ -726,6 +842,10 @@ void M1EncodeCore::setIsotropicEncode(bool isotropicEncode){
 
 void M1EncodeCore::setPannerMode(PannerMode pannerMode){
 	this->pannerMode = pannerMode;
+}
+
+void M1EncodeCore::setFrontSurroundPerspective(bool frontSurroundPerspective){
+	this->frontSurroundPerspective = frontSurroundPerspective;
 }
 
 void M1EncodeCore::setOrbitRotation(float orbitRotationFromMinusOnetoOne) {

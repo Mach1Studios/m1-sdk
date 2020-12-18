@@ -66,6 +66,7 @@ public:
 	[[deprecated("setIsotropicEncode is deprecated, please use setPannerMode instead")]]
 #endif
 	void setIsotropicEncode(bool isotropicEncode);
+	void setFrontSurroundPerspective(bool frontSurroundPerspective);
 
 #if __cplusplus > 201103L
 	[[deprecated("setStereoRotate is deprecated due to ambiguity of use, please use setOrbitRotation0to1, setOrbitRotationDegrees or setOrbitRotationRadians instead")]]

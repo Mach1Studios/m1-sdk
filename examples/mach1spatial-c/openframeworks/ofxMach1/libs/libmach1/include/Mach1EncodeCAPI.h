@@ -44,7 +44,11 @@ enum Mach1EncodeInputModeType {
 	Mach1EncodeInputModeB2OAFUMA,
 	Mach1EncodeInputModeB3OAACN, 
 	Mach1EncodeInputModeB3OAFUMA,
-	Mach1EncodeInputModeLCR
+	Mach1EncodeInputModeLCR,
+	Mach1EncodeInputMode5dot0,
+	Mach1EncodeInputMode5dot1Film,
+	Mach1EncodeInputMode5dot1DTS,
+	Mach1EncodeInputMode5dot1SMTPE
 };
 
 enum Mach1EncodeOutputModeType {
@@ -114,6 +118,7 @@ extern "C" {
 	[[deprecated("setIsotropicEncode is deprecated, please use setPannerMode instead")]]
 #endif
 	M1_API void Mach1EncodeCAPI_setIsotropicEncode(void* M1obj, bool isotropicEncode);	
+	M1_API void Mach1EncodeCAPI_setFrontSurroundPerspective(void* M1obj, bool frontSurroundPerspective);
 
 #if __cplusplus > 201103L
 	[[deprecated("setStereoRotate is deprecated due to ambiguity of use, please use setOrbitRotation0to1, setOrbitRotationDegrees or setOrbitRotationRadians instead")]]

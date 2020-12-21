@@ -55,7 +55,7 @@ class Mach1SoundPlayer {
   #setGains = () => {
     if (this.isReady() && this.#isPlaying) {
       for (let i = 0; i < this.#smp.length; i += 1) {
-        this.#gainNode[i].gain.setTargetAtTime(this.#gains[i] * this.#volume, this.#audioContext.currentTime, 0.05);
+        this.#gainNode[i].gain.setTargetAtTime(this.#gains[i] * this.#volume, this.audioContext.currentTime, 0.05);
       }
     }
   }

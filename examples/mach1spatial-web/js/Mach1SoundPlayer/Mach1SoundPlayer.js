@@ -1,11 +1,11 @@
-/* 
+/*
  * Nach1 Spatial Web SoundPlayer Example
  * Description: Example of an audio player for Mach1Decode API and spatial audio playback
 */
 
 /* eslint-disable new-cap, no-alert */
 
-class Mach1SoundPlayer {
+class Mach1SoundPlayer { // eslint-disable-line no-unused-vars
   #soundFilesCount = 0
   #soundFilesCountReady = 0
 
@@ -178,7 +178,7 @@ class Mach1SoundPlayer {
   }
 
  /**
-   * Setting volume
+   * Setting Master Gain/Volume
    * @param  {Array} volume
    */
   set volume(vol) {
@@ -186,13 +186,12 @@ class Mach1SoundPlayer {
   }
   
   /**
-   * Returnvolume
+   * Return Master Gain/Volume
    * @return {String} Volume from 0 to 1 as a float
    */
   get volume() {
     return this.#volume;
   }
-
 
   /**
    * Start playing sound files
@@ -311,20 +310,7 @@ class Mach1SoundPlayer {
     return this.#isPlaying;
   }
 
-  rewind(time = 0) {
-    this.stop();
-    this.play(time >= 0 ? time : 0);
-  }
-
-  isReady() {
-    return this.#isSoundReady && !this.#isDeleted;
-  }
-
-  isPlaying() {
-    return this.#isPlaying;
-  }
-  
-  getAudioContext(){
-    return this.audioContext; 
+  getAudioContext() {
+    return this.audioContext;
   }
 }

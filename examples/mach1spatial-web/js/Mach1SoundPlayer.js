@@ -89,6 +89,8 @@ var _isSoundReady = new WeakMap();
 
 var _buffer = new WeakMap();
 
+var _volume = new WeakMap();
+
 var _gainNode = new WeakMap();
 
 var _gains = new WeakMap();
@@ -124,6 +126,8 @@ var _preload = new WeakMap();
 
 /* eslint-disable new-cap, no-alert */
 var Mach1SoundPlayer = /*#__PURE__*/ (function () {
+  // eslint-disable-line no-unused-vars
+
   /**
    * Private method which should calculate and return time before start playing,
    * based on Audio Context
@@ -186,6 +190,11 @@ var Mach1SoundPlayer = /*#__PURE__*/ (function () {
     _buffer.set(this, {
       writable: true,
       value: void 0
+    });
+
+    _volume.set(this, {
+      writable: true,
+      value: 1.0
     });
 
     _gainNode.set(this, {
@@ -286,7 +295,8 @@ var Mach1SoundPlayer = /*#__PURE__*/ (function () {
             i += 1
           ) {
             _classPrivateFieldGet(_this, _gainNode)[i].gain.setTargetAtTime(
-              _classPrivateFieldGet(_this, _gains)[i],
+              _classPrivateFieldGet(_this, _gains)[i] *
+                _classPrivateFieldGet(_this, _volume),
               _this.audioContext.currentTime,
               0.05
             );
@@ -713,30 +723,6 @@ var Mach1SoundPlayer = /*#__PURE__*/ (function () {
       }
     },
     {
-      key: "rewind",
-      value: function rewind() {
-        var time =
-          arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-        this.stop();
-        this.play(time >= 0 ? time : 0);
-      }
-    },
-    {
-      key: "isReady",
-      value: function isReady() {
-        return (
-          _classPrivateFieldGet(this, _isSoundReady) &&
-          !_classPrivateFieldGet(this, _isDeleted)
-        );
-      }
-    },
-    {
-      key: "isPlaying",
-      value: function isPlaying() {
-        return _classPrivateFieldGet(this, _isPlaying);
-      }
-    },
-    {
       key: "getAudioContext",
       value: function getAudioContext() {
         return this.audioContext;
@@ -770,8 +756,29 @@ var Mach1SoundPlayer = /*#__PURE__*/ (function () {
           _classPrivateFieldGet(this, _setGains).call(this);
         }
       },
+      /**
+       * Getting gains for all files
+       * @param  {Array} vols return last gain values by index
+       */
       get: function get() {
         return _classPrivateFieldGet(this, _gains);
+      }
+      /**
+       * Setting Master Gain/Volume
+       * @param  {Array} volume
+       */
+    },
+    {
+      key: "volume",
+      set: function set(vol) {
+        _classPrivateFieldSet(this, _volume, parseFloat(vol));
+      },
+      /**
+       * Return Master Gain/Volume
+       * @return {String} Volume from 0 to 1 as a float
+       */
+      get: function get() {
+        return _classPrivateFieldGet(this, _volume);
       }
     }
   ]);

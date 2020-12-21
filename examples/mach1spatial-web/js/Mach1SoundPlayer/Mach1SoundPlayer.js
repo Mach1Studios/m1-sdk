@@ -16,10 +16,12 @@ class Mach1SoundPlayer {
 
   #buffer
 
-  #gainNode;
-  #gains;
-  #pannerNode;
-  #smp;
+  #volume = 1.0
+
+  #gainNode
+  #gains
+  #pannerNode
+  #smp
 
   #cache = {}
   audioContext = (window.AudioContext) ? new window.AudioContext() : new window.webkitAudioContext()
@@ -53,7 +55,7 @@ class Mach1SoundPlayer {
   #setGains = () => {
     if (this.isReady() && this.#isPlaying) {
       for (let i = 0; i < this.#smp.length; i += 1) {
-        this.#gainNode[i].gain.setTargetAtTime(this.#gains[i], this.audioContext.currentTime, 0.05);
+        this.#gainNode[i].gain.setTargetAtTime(this.#gains[i] * this.#volume, this.#audioContext.currentTime, 0.05);
       }
     }
   }
@@ -174,6 +176,23 @@ class Mach1SoundPlayer {
   get gains() {
     return this.#gains;
   }
+
+ /**
+   * Setting volume
+   * @param  {Array} volume
+   */
+  set volume(vol) {
+    this.#volume = parseFloat(vol);
+  }
+  
+  /**
+   * Returnvolume
+   * @return {String} Volume from 0 to 1 as a float
+   */
+  get volume() {
+    return this.#volume;
+  }
+
 
   /**
    * Start playing sound files

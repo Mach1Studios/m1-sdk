@@ -553,7 +553,7 @@ void M1EncodeCore::generatePointResults() {
 		}
 	} else if (inputMode == INPUT_FIVE_ONE_DTS) {
 
-		resultingPoints.pointsCount = 5;
+		resultingPoints.pointsCount = 6;
 
 		std::vector<std::string> names = { "L","R","Ls","Rs","C","LFE" };
 		if (frontSurroundPerspective) {
@@ -581,7 +581,7 @@ void M1EncodeCore::generatePointResults() {
 		}
 	} else if (inputMode == INPUT_FIVE_ONE_SMPTE) {
 
-		resultingPoints.pointsCount = 5;
+		resultingPoints.pointsCount = 6;
 
 		std::vector<std::string> names = { "L","R","C","LFE","Ls","Rs" };
 		if (frontSurroundPerspective) {

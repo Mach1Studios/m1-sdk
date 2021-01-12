@@ -44,6 +44,7 @@ class Mach1EncodeModuleJNI {
   public final static native void Mach1EncodeCAPI_setElevationRadians(long jarg1, float jarg2);
   public final static native void Mach1EncodeCAPI_setPannerMode(long jarg1, int jarg2);
   public final static native void Mach1EncodeCAPI_setIsotropicEncode(long jarg1, boolean jarg2);
+  public final static native void Mach1EncodeCAPI_setFrontSurroundPerspective(long jarg1, boolean jarg2);
   public final static native void Mach1EncodeCAPI_setStereoRotate(long jarg1, float jarg2);
   public final static native void Mach1EncodeCAPI_setOrbitRotation(long jarg1, float jarg2);
   public final static native void Mach1EncodeCAPI_setOrbitRotationDegrees(long jarg1, float jarg2);

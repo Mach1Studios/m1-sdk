@@ -22,6 +22,10 @@ public final class Mach1EncodeInputModeType {
   public final static Mach1EncodeInputModeType Mach1EncodeInputModeB3OAACN = new Mach1EncodeInputModeType("Mach1EncodeInputModeB3OAACN");
   public final static Mach1EncodeInputModeType Mach1EncodeInputModeB3OAFUMA = new Mach1EncodeInputModeType("Mach1EncodeInputModeB3OAFUMA");
   public final static Mach1EncodeInputModeType Mach1EncodeInputModeLCR = new Mach1EncodeInputModeType("Mach1EncodeInputModeLCR");
+  public final static Mach1EncodeInputModeType Mach1EncodeInputMode5dot0 = new Mach1EncodeInputModeType("Mach1EncodeInputMode5dot0");
+  public final static Mach1EncodeInputModeType Mach1EncodeInputMode5dot1Film = new Mach1EncodeInputModeType("Mach1EncodeInputMode5dot1Film");
+  public final static Mach1EncodeInputModeType Mach1EncodeInputMode5dot1DTS = new Mach1EncodeInputModeType("Mach1EncodeInputMode5dot1DTS");
+  public final static Mach1EncodeInputModeType Mach1EncodeInputMode5dot1SMTPE = new Mach1EncodeInputModeType("Mach1EncodeInputMode5dot1SMTPE");
 
   public final int swigValue() {
     return swigValue;
@@ -57,7 +61,7 @@ public final class Mach1EncodeInputModeType {
     swigNext = this.swigValue+1;
   }
 
-  private static Mach1EncodeInputModeType[] swigValues = { Mach1EncodeInputModeMono, Mach1EncodeInputModeStereo, Mach1EncodeInputModeQuad, Mach1EncodeInputModeLCRS, Mach1EncodeInputModeAFormat, Mach1EncodeInputModeBFormat, Mach1EncodeInputModeBFOAACN, Mach1EncodeInputModeBFOAFUMA, Mach1EncodeInputModeB2OAACN, Mach1EncodeInputModeB2OAFUMA, Mach1EncodeInputModeB3OAACN, Mach1EncodeInputModeB3OAFUMA, Mach1EncodeInputModeLCR };
+  private static Mach1EncodeInputModeType[] swigValues = { Mach1EncodeInputModeMono, Mach1EncodeInputModeStereo, Mach1EncodeInputModeQuad, Mach1EncodeInputModeLCRS, Mach1EncodeInputModeAFormat, Mach1EncodeInputModeBFormat, Mach1EncodeInputModeBFOAACN, Mach1EncodeInputModeBFOAFUMA, Mach1EncodeInputModeB2OAACN, Mach1EncodeInputModeB2OAFUMA, Mach1EncodeInputModeB3OAACN, Mach1EncodeInputModeB3OAFUMA, Mach1EncodeInputModeLCR, Mach1EncodeInputMode5dot0, Mach1EncodeInputMode5dot1Film, Mach1EncodeInputMode5dot1DTS, Mach1EncodeInputMode5dot1SMTPE };
   private static int swigNext = 0;
   private final int swigValue;
   private final String swigName;

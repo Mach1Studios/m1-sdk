@@ -21,6 +21,10 @@ void test_results(void)
 		{ Mach1EncodeInputModeB3OAACN , "3OA-ACN" },
 		{ Mach1EncodeInputModeB3OAFUMA , "3OA-FUMA" },
 		{ Mach1EncodeInputModeLCR , "LCR" },
+		{ Mach1EncodeInputMode5dot0 , "5.0" },
+		{ Mach1EncodeInputMode5dot1Film , "5.1-FILM" },
+		{ Mach1EncodeInputMode5dot1DTS , "5.1-DTS" },
+		{ Mach1EncodeInputMode5dot1SMTPE , "5.1-SMPTE" }
 	};
 
 	std::map<Mach1EncodeOutputModeType, std::string> outputModeNames = {
@@ -430,6 +434,64 @@ AFormat
 					{ 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125 },
 					{ 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125 },
 					{ 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125 },
+				},
+			}
+		},
+/*
+SURROUND 5.0, 5.1
+*/
+		{
+			"Encode Diverge", // "L","C","R","Ls","Rs"
+			{ Mach1EncodeInputMode5dot0, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
+			{
+				{
+					{ 0.5, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0 },
+					{ 0.25, 0.25, 0.0, 0.0, 0.25, 0.25, 0.0, 0.0 },
+					{ 0.0, 0.5, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0 },
+					{ 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.5, 0.0 },
+					{ 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.5 },
+				},
+			}
+		},
+		{
+			"Encode Diverge", // "L","C","R","Ls","Rs","LFE"
+			{ Mach1EncodeInputMode5dot1Film, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
+			{
+				{
+					{ 0.5, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0 },
+					{ 0.25, 0.25, 0.0, 0.0, 0.25, 0.25, 0.0, 0.0 },
+					{ 0.0, 0.5, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0 },
+					{ 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.5, 0.0 },
+					{ 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.5 },
+					{ 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125 },
+				},
+			}
+		},
+		{
+			"Encode Diverge", // "L","R","Ls","Rs","C","LFE"
+			{ Mach1EncodeInputMode5dot1DTS, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
+			{
+				{
+					{ 0.5, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0 },
+					{ 0.0, 0.5, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0 },
+					{ 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.5, 0.0 },
+					{ 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.5 },
+					{ 0.25, 0.25, 0.0, 0.0, 0.25, 0.25, 0.0, 0.0 },
+					{ 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125 },
+				},
+			}
+		},
+		{
+			"Encode Diverge", // "L","R","C","LFE","Ls","Rs"
+			{ Mach1EncodeInputMode5dot1SMTPE, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
+			{
+				{
+					{ 0.5, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0 },
+					{ 0.0, 0.5, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0 },
+					{ 0.25, 0.25, 0.0, 0.0, 0.25, 0.25, 0.0, 0.0 },
+					{ 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125 },
+					{ 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.5, 0.0 },
+					{ 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.5 },
 				},
 			}
 		},

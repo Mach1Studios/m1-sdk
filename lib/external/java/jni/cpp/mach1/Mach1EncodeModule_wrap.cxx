@@ -632,6 +632,18 @@ SWIGEXPORT void JNICALL Java_com_mach1_spatiallibs_Mach1EncodeModuleJNI_Mach1Enc
 }
 
 
+SWIGEXPORT void JNICALL Java_com_mach1_spatiallibs_Mach1EncodeModuleJNI_Mach1EncodeCAPI_1setFrontSurroundPerspective(JNIEnv *jenv, jclass jcls, jlong jarg1, jboolean jarg2) {
+  void *arg1 = (void *) 0 ;
+  bool arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(void **)&jarg1; 
+  arg2 = jarg2 ? true : false; 
+  Mach1EncodeCAPI_setFrontSurroundPerspective(arg1,arg2);
+}
+
+
 SWIGEXPORT void JNICALL Java_com_mach1_spatiallibs_Mach1EncodeModuleJNI_Mach1EncodeCAPI_1setStereoRotate(JNIEnv *jenv, jclass jcls, jlong jarg1, jfloat jarg2) {
   void *arg1 = (void *) 0 ;
   float arg2 ;

@@ -51,6 +51,10 @@ build-mac: FORCE
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/libBundle/libMach1DecodeCAPI.bundle"
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/libBundle/libMach1DecodePositionalCAPI.bundle"
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/libBundle/libMach1EncodeCAPI.bundle"
+	yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.a" "../binaries/xcode/lib/libMach1DecodeCAPI.a"
+	yes | cp -rf "_install/xcode/lib/libMach1EncodeCAPI.a" "../binaries/xcode/lib/libMach1EncodeCAPI.a"
+	yes | cp -rf "_install/xcode/lib/libMach1TranscodeCAPI.a" "../binaries/xcode/lib/libMach1TranscodeCAPI.a"
+	yes | cp -rf "_install/xcode/lib/libMach1DecodePositionalCAPI.a" "../binaries/xcode/lib/libMach1DecodePositionalCAPI.a"
 
 build-ios: FORCE
 	polly --clear --install --config Release --toolchain ios-12-1-dep-9-3 --ios-multiarch --ios-combined

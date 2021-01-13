@@ -55,6 +55,9 @@ build-mac: FORCE
 	yes | cp -rf "_install/xcode/lib/libMach1EncodeCAPI.a" "../binaries/xcode/lib/libMach1EncodeCAPI.a"
 	yes | cp -rf "_install/xcode/lib/libMach1TranscodeCAPI.a" "../binaries/xcode/lib/libMach1TranscodeCAPI.a"
 	yes | cp -rf "_install/xcode/lib/libMach1DecodePositionalCAPI.a" "../binaries/xcode/lib/libMach1DecodePositionalCAPI.a"
+	echo "[NOTE] To compile for Universal Binary follow instructions below:"
+	cat  ./macOS-UB-readme.md
+	open _builds/xcode/Mach1SpatialLibraries.xcodeproj
 
 build-ios: FORCE
 	polly --clear --install --config Release --toolchain ios-12-1-dep-9-3 --ios-multiarch --ios-combined

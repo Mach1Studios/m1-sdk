@@ -617,7 +617,6 @@ void M1EncodeCore::generatePointResults() {
 		resultingPoints.ppoints[i].z = clamp(resultingPoints.ppoints[i].z, -1, 1);
 	}
 
-
 	// Generating channel gains
 
 	resultingPoints.gains.resize(resultingPoints.pointsCount);
@@ -636,15 +635,11 @@ void M1EncodeCore::generatePointResults() {
 		} else {
 			processGainsChannels(resultingPoints.ppoints[i].z, resultingPoints.ppoints[i].x, resultingPoints.ppoints[i].y, gains);
 		}
-
 		for (int j = 0; j < getOutputChannelsCount(); j++) {
 			resultingPoints.gains[i][j] = gains[j];
 		}
-
 	}
-
 	timeLastCalculation = getCurrentTime() - tStart;
-
 }
 
 

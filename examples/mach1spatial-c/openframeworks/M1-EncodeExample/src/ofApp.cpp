@@ -102,6 +102,9 @@ void ofApp::draw() {
 		if (inputKind == 4) { // Input: BFORMAT
 			m1Encode.setInputMode(Mach1EncodeInputModeType::Mach1EncodeInputModeBFormat);
 		}
+		if (inputKind == 5) { // Input: BFORMAT
+			m1Encode.setInputMode(Mach1EncodeInputModeType::Mach1EncodeInputMode5dot1DTS);
+		}
 
 		if (outputKind == 0) { // Output: Mach1Horizon / Quad
 			m1Encode.setOutputMode(Mach1EncodeOutputModeType::Mach1EncodeOutputModeM1Horizon);
@@ -119,6 +122,47 @@ void ofApp::draw() {
         }
 
 		mtx.lock();
+
+		/*
+		vector< Mach1EncodeInputModeType> types = {
+			Mach1EncodeInputModeType::Mach1EncodeInputModeMono,
+			Mach1EncodeInputModeType::Mach1EncodeInputModeStereo,
+			Mach1EncodeInputModeType::Mach1EncodeInputModeAFormat,
+			Mach1EncodeInputModeType::Mach1EncodeInputModeBFormat,
+
+
+		};
+
+
+
+		bool isEqual = true;
+		for (int m = 0; m < 13; m++)
+		{
+			for (int n = 0; n< 2; n++)
+			{
+				m1Encode.setInputMode((Mach1EncodeInputModeType)m);
+				m1Encode.setOutputMode((Mach1EncodeOutputModeType)n);
+
+				m1Encode.generatePointResults();
+				std::vector<std::vector<float>> gains1 = m1Encode.getGains();
+				m1Encode.generatePointResults2();
+				std::vector<std::vector<float>> gains2 = m1Encode.getGains();
+
+				for (int i = 0; i < gains1.size(); i++)
+					for (int j = 0; j < gains1[i].size(); j++)
+						if (abs(gains1[i][j] - gains2[i][j]) > FLT_MAX) {
+							isEqual = false;
+							break;
+						}
+			}
+		}
+
+		cout << (isEqual ? "yes" : "no") << endl;
+		*/
+
+
+		//std::vector<float> vec = m1Encode.getGainsForInputChannelNamed("M");
+
 		m1Encode.generatePointResults();
 
 		m1Decode.beginBuffer();
@@ -199,11 +243,11 @@ void ofApp::draw() {
 
 
     gui.begin();
-	{
+	{ 
         ImGui::LabelText("Encoder settings", "");
-        const char* inputOptions[] = {"MONO", "STEREO", "QUAD", "AFORMAT", "BFORMAT"};
-        ImGui::Combo("Input type", &inputKind, inputOptions, 5, 5);
-        const char* outputOptions[] = {"Mach1Horizon/4CH", "Mach1Spatial/8CH"};
+        const char* inputOptions[] = {"MONO", "STEREO", "QUAD", "AFORMAT", "BFORMAT", "5.1DTS"};
+        ImGui::Combo("Input type", &inputKind, inputOptions, 6, 6);
+        const char* outputOptions[] = { "Mach1Horizon/4CH", "Mach1Spatial/8CH"};
         ImGui::Combo("Output type", &outputKind, outputOptions, 2, 2);
     
         ImGui::SliderFloat("Rotation", &rotation, -1, 1);

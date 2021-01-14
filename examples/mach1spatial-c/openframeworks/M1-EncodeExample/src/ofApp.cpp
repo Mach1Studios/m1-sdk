@@ -102,9 +102,15 @@ void ofApp::draw() {
 		if (inputKind == 4) { // Input: BFORMAT
 			m1Encode.setInputMode(Mach1EncodeInputModeType::Mach1EncodeInputModeBFormat);
 		}
-		if (inputKind == 5) { // Input: BFORMAT
+		if (inputKind == 5) { // 
+			m1Encode.setInputMode(Mach1EncodeInputModeType::Mach1EncodeInputMode5dot1Film);
+		}
+		if (inputKind == 6) { // 
 			m1Encode.setInputMode(Mach1EncodeInputModeType::Mach1EncodeInputMode5dot1DTS);
 		}
+		if (inputKind == 7) { // 
+			m1Encode.setInputMode(Mach1EncodeInputModeType::Mach1EncodeInputMode5dot1SMTPE);
+		} 
 
 		if (outputKind == 0) { // Output: Mach1Horizon / Quad
 			m1Encode.setOutputMode(Mach1EncodeOutputModeType::Mach1EncodeOutputModeM1Horizon);
@@ -245,8 +251,8 @@ void ofApp::draw() {
     gui.begin();
 	{ 
         ImGui::LabelText("Encoder settings", "");
-        const char* inputOptions[] = {"MONO", "STEREO", "QUAD", "AFORMAT", "BFORMAT", "5.1DTS"};
-        ImGui::Combo("Input type", &inputKind, inputOptions, 6, 6);
+        const char* inputOptions[] = {"MONO", "STEREO", "QUAD", "AFORMAT", "BFORMAT", "5.1 Film" , "5.1 DTS" , "5.1 SMPTE" };
+        ImGui::Combo("Input type", &inputKind, inputOptions, 8, 8);
         const char* outputOptions[] = { "Mach1Horizon/4CH", "Mach1Spatial/8CH"};
         ImGui::Combo("Output type", &outputKind, outputOptions, 2, 2);
     

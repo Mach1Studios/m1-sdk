@@ -1,5 +1,12 @@
-cmake_minimum_required(VERSION 2.8.8)
+cmake_minimum_required(VERSION 3.19.3)
 project(Mach1SpatialLibraries)
+if (UNIX)
+	#set(CMAKE_OSX_SYSROOT macosx11.0)
+	#set(CMAKE_OSX_DEPLOYMENT_TARGET 10.14)
+	set(CMAKE_OSX_ARCHITECTURES "$(ARCHS_STANDARD)")
+	set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED "NO")
+endif (UNIX)
+
 set(Mach1SpatialLibraries_VERSION_MAJOR 1)
 set(Mach1SpatialLibraries_VERSION_MINOR 3)
 set(Mach1SpatialLibraries_VERSION ${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR})

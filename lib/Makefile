@@ -1,7 +1,7 @@
 # Mach1 Spatial SDK
 
 # local paths are in this file
-include ../../m1-workflow/m1-globallocal.mk
+include ~/m1-globallocal.mk
 EMSDK_PATH=../../emsdk/
 
 # getting OS type

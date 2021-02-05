@@ -72,7 +72,7 @@ public class Mach1Encode {
     return Mach1EncodeModuleJNI.Mach1EncodeCAPI_getPointsCount(M1obj);
   }
 
-  public float[] getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, float[] decodeResult) {
+  public float[] getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, float[] decodeResult) {
     Mach1FloatArray floatArrayIn = new Mach1FloatArray(18);
     for( int i = 0; i < decodeResult.length; i++)
     {
@@ -99,20 +99,44 @@ public class Mach1Encode {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setOutputMode(M1obj, outputMode.swigValue());
   }
 
-  public void setRotation(float rotation) {
-    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setRotation(M1obj, rotation);
+  public void setAzimuth(float azimuthFromMinus1To1) {
+    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setAzimuth(M1obj, azimuthFromMinus1To1);
+  }
+
+  public void setAzimuthDegrees(float azimuthDegrees) {
+    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setAzimuthDegrees(M1obj, azimuthDegrees);
+  }
+
+  public void setAzimuthRadians(float azimuthRadians) {
+    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setAzimuthRadians(M1obj, azimuthRadians);
+  }
+
+  public void setElevation(float elevationFromMinus1to1) {
+    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setElevation(M1obj, elevationFromMinus1to1);
+  }
+
+  public void setElevationDegrees(float elevationFromMinus90to90) {
+    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setElevationDegrees(M1obj, elevationFromMinus90to90);
+  }
+
+  public void setElevationRadians(float elevationFromMinusHalfPItoHalfPI) {
+    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setElevationRadians(M1obj, elevationFromMinusHalfPItoHalfPI);
+  }
+
+  public void setOrbitRotation(float orbitRotationFromMinusOnetoOne) {
+    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setOrbitRotation(M1obj, orbitRotationFromMinusOnetoOne);
+  }
+
+  public void setOrbitRotationDegrees(float orbitRotationDegrees) {
+    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setOrbitRotationDegrees(M1obj, orbitRotationDegrees);
+  }
+
+  public void setOrbitRotationRadians(float orbitRotationRadians) {
+    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setOrbitRotationRadians(M1obj, orbitRotationRadians);
   }
 
   public void setDiverge(float diverge) {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setDiverge(M1obj, diverge);
-  }
-
-  public void setPitch(float pitch) {
-    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setPitch(M1obj, pitch);
-  }
-
-  public void setStereoRotate(float sRotate) {
-    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setStereoRotate(M1obj, sRotate);
   }
 
   public void setStereoSpread(float sSpread) {
@@ -133,5 +157,34 @@ public class Mach1Encode {
 
   public void setIsotropicEncode(boolean isotropicEncode) {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setIsotropicEncode(M1obj, isotropicEncode);
+  }
+
+  // Deprecated
+  public float[] getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, float[] decodeResult) {
+    Mach1FloatArray floatArrayIn = new Mach1FloatArray(18);
+    for( int i = 0; i < decodeResult.length; i++)
+    {
+      floatArrayIn.setitem(i, decodeResult[i]);
+    }
+    long cPtr = Mach1EncodeModuleJNI.Mach1EncodeCAPI_getResultingVolumesDecoded(M1obj, decodeType.swigValue(), floatArrayIn.asVoidPtr());
+    floatArrayIn.delete();
+
+    Mach1FloatArray floatArrayResulted = Mach1FloatArray.frompointer(cPtr);
+
+    float[] arr = new float[14];
+    for( int i = 0; i < 14; i++)
+    {
+      arr[i] = floatArrayResulted.getitem(i);
+    }
+    return arr;
+  }
+  public void setRotation(float rotation) {
+    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setRotation(M1obj, rotation);
+  }
+  public void setPitch(float pitch) {
+    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setPitch(M1obj, pitch);
+  }
+  public void setStereoRotate(float sRotate) {
+    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setStereoRotate(M1obj, sRotate);
   }
 }

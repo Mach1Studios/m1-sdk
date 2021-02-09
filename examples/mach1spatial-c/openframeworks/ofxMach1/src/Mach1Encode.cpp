@@ -152,19 +152,23 @@ void Mach1Encode::setInputMode(Mach1EncodeInputModeType inputMode)
 	/// Sets the number of input streams to be positioned as points
 	///
 	/// - Parameters:
-	///     - INPUT_MONO
-	///     - INPUT_STEREO
-	///     - INPUT_QUAD
-    ///     - INPUT_LCRS
-    ///     - INPUT_AFORMAT
-    ///     - INPUT_BFORMAT
-    ///     - INPUT_FOAACN
-	///		- INPUT_FOAFUMA
-	///		- INPUT_2OAACN
-	/// 	- INPUT_2OAFUMA
-	/// 	- INPUT_3OAACN
-	///		- INPUT_3OAFUMA
-	///		- INPUT_LCR
+	/// 	- Mach1EncodeInputModeMono
+	/// 	- Mach1EncodeInputModeStereo
+	/// 	- Mach1EncodeInputModeQuad
+	/// 	- Mach1EncodeInputModeLCRS
+	/// 	- Mach1EncodeInputModeAFormat
+	/// 	- Mach1EncodeInputModeBFormat
+	/// 	- Mach1EncodeInputModeBFOAACN
+	/// 	- Mach1EncodeInputModeBFOAFUM
+	/// 	- Mach1EncodeInputModeB2OAACN
+	/// 	- Mach1EncodeInputModeB2OAFUMA
+	/// 	- Mach1EncodeInputModeB3OAACN, 
+	/// 	- Mach1EncodeInputModeB3OAFUMA
+	/// 	- Mach1EncodeInputModeLCR
+	/// 	- Mach1EncodeInputMode5dot0
+	/// 	- Mach1EncodeInputMode5dot1Film
+	/// 	- Mach1EncodeInputMode5dot1DTS
+	/// 	- Mach1EncodeInputMode5dot1SMTPE
 }
 
 void Mach1Encode::setOutputMode(Mach1EncodeOutputModeType outputMode)
@@ -253,6 +257,17 @@ void Mach1Encode::setPannerMode(Mach1EncodePannerMode pannerMode)
 	///		- Mach1EncodePannerModeIsotropicLinear
 	///		- Mach1EncodePannerModeIsotropicEqualPower
 	///		- Mach1EncodePannerModePeriphonicLinear
+}
+
+void Mach1Encode::setFrontSurroundPerspective(bool frontSurroundPerspective)
+{
+	Mach1EncodeCAPI_setFrontSurroundPerspective(M1obj, frontSurroundPerspective);
+	/// Sets the encoding behavior of the Center input channels of relevant Surround format,
+	/// when true the encoding behavior assumes first person perspective encoding Center channels
+	/// toward the front of the soundfield, when false we use Center channel literally making it
+	/// encoded MONO and omni-directional. 
+	///
+	/// Remark: Default is true
 }
 
 void Mach1Encode::setOrbitRotation(float orbitRotationFromMinusOnetoOne)

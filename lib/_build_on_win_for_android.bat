@@ -28,14 +28,14 @@ rem mkdir x86_64
 
 cd %~dp0
 
-xcopy _install\android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx\lib ..\binaries\android-arm64-v8a\lib /Y
-xcopy _install\android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx\lib ..\binaries\android-armeabi-v7a\lib /Y
-xcopy _install\android-ndk-r16b-api-21-x86-clang-libcxx\lib ..\binaries\android-x86\lib /Y
-xcopy _install\android-ndk-r16b-api-21-x86-64-clang-libcxx\lib ..\binaries\android-x86_64\lib /Y
+xcopy _install\android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx\lib ..\binaries\android-arm64-v8a\lib /Y  /I
+xcopy _install\android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx\lib ..\binaries\android-armeabi-v7a\lib /Y  /I
+xcopy _install\android-ndk-r16b-api-21-x86-clang-libcxx\lib ..\binaries\android-x86\lib /Y  /I
+xcopy _install\android-ndk-r16b-api-21-x86-64-clang-libcxx\lib ..\binaries\android-x86_64\lib /Y  /I
 
-xcopy _install\android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx\libUnity ..\binaries\android-arm64-v8a\libUnity /Y
-xcopy _install\android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx\libUnity ..\binaries\android-armeabi-v7a\libUnity /Y
-xcopy _install\android-ndk-r16b-api-21-x86-clang-libcxx\libUnity ..\binaries\android-x86\libUnity /Y
-xcopy _install\android-ndk-r16b-api-21-x86-64-clang-libcxx\libUnity ..\binaries\android-x86_64\libUnity /Y
+xcopy _install\android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx\libUnity ..\binaries\android-arm64-v8a\libUnity /Y  /I
+xcopy _install\android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx\libUnity ..\binaries\android-armeabi-v7a\libUnity /Y  /I
+xcopy _install\android-ndk-r16b-api-21-x86-clang-libcxx\libUnity ..\binaries\android-x86\libUnity /Y  /I
+xcopy _install\android-ndk-r16b-api-21-x86-64-clang-libcxx\libUnity ..\binaries\android-x86_64\libUnity /Y  /I
 
 pause

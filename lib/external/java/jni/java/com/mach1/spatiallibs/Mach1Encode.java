@@ -91,6 +91,14 @@ public class Mach1Encode {
     return arr;
   }
 
+  public int getInputChannelsCount() {
+    return Mach1EncodeModuleJNI.Mach1EncodeCAPI_getInputChannelsCount(M1obj);
+  }
+
+  public int getOutputChannelsCount() {
+    return Mach1EncodeModuleJNI.Mach1EncodeCAPI_getOutputChannelsCount(M1obj);
+  }  
+
   public void setInputMode(Mach1EncodeInputModeType inputMode) {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setInputMode(M1obj, inputMode.swigValue());
   }

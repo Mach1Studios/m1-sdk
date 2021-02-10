@@ -783,6 +783,7 @@ int M1EncodeCore::getInputChannelsCount() {
 	}
 	return 0;
 }
+
 int M1EncodeCore::getOutputChannelsCount() {
 	switch (outputMode) {
 		case OUTPUT_HORIZON_4CH: return 4;

@@ -26,7 +26,6 @@ public:
 	std::vector<float> decode(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
 	std::vector<float> decodeCoeffs(int bufferSize = 0, int sampleIndex = 0);
 	std::vector<float> decodeCoeffsUsingTranscodeMatrix(std::vector<std::vector<float>> matrix, int channels, int bufferSize = 0, int sampleIndex = 0);
-	
 
 	int getFormatChannelCount();
 	void setRotation(Mach1Point3D newRotationFromMinusOnetoOne);

@@ -31,6 +31,31 @@ public class Mach1Decode {
     Mach1DecodeModuleJNI.Mach1DecodeCAPI_setPlatformType(M1obj, platformType.swigValue());
   }
 
+  public void setFilterSpeed(float filterSpeed)
+  {
+    Mach1DecodeModuleJNI.Mach1DecodeCAPI_setFilterSpeed(M1obj, filterSpeed);
+  }
+
+  public void setRotation(Mach1Point3D newRotationFromMinusOnetoOne)
+  {
+    Mach1DecodeModuleJNI.Mach1DecodeCAPI_setRotation(M1obj, Mach1Point3D.getCPtr(newRotationFromMinusOnetoOne), newRotationFromMinusOnetoOne);
+  }
+
+  public void setRotationDegrees(Mach1Point3D newRotationDegrees)
+  {
+    Mach1DecodeModuleJNI.Mach1DecodeCAPI_setRotationDegrees(M1obj, Mach1Point3D.getCPtr(newRotationDegrees), newRotationDegrees);
+  }
+
+  public void setRotationRadians(Mach1Point3D newRotationRadians)
+  {
+    Mach1DecodeModuleJNI.Mach1DecodeCAPI_setRotationRadians(M1obj, Mach1Point3D.getCPtr(newRotationRadians), newRotationRadians);
+  }
+
+  public void setRotationQuat(Mach1Point4D newRotationQuat)
+  {
+    Mach1DecodeModuleJNI.Mach1DecodeCAPI_setRotationQuat(M1obj, Mach1Point4D.getCPtr(newRotationQuat), newRotationQuat);
+  }
+
   public void decode(float Yaw, float Pitch, float Roll, float[] data, int bufferSize, int sampleIndex)
   {
     int cnt = 18;
@@ -43,9 +68,16 @@ public class Mach1Decode {
     arr.delete();
   }
 
-  public void setFilterSpeed(float filterSpeed)
+  public void decodeCoeffs(float[] data, int bufferSize, int sampleIndex)
   {
-    Mach1DecodeModuleJNI.Mach1DecodeCAPI_setFilterSpeed(M1obj, filterSpeed);
+    int cnt = 18;
+    Mach1FloatArray arr = new Mach1FloatArray(cnt);
+    Mach1DecodeModuleJNI.Mach1DecodeCAPI_decodeCoeffs(M1obj, SWIGTYPE_p_float.getCPtr(arr.cast()), bufferSize, sampleIndex);
+
+    for(int i=0; i<cnt; i++) {
+      data[i] = arr.getitem(i);
+    }
+    arr.delete();
   }
 
   public void beginBuffer()
@@ -58,6 +90,26 @@ public class Mach1Decode {
     Mach1DecodeModuleJNI.Mach1DecodeCAPI_endBuffer(M1obj);
   }
 
+  public int getFormatChannelCount()
+  {
+    return Mach1DecodeModuleJNI.Mach1DecodeCAPI_getFormatChannelCount(M1obj);
+  }
+
+  public int getDecodeAlgoType()
+  {
+    return Mach1DecodeModuleJNI.Mach1DecodeCAPI_getDecodeAlgoType(M1obj);
+  }
+
+  public int getPlatformType()
+  {
+    return Mach1DecodeModuleJNI.Mach1DecodeCAPI_getPlatformType(M1obj);
+  }
+
+  public Mach1Point3D getCurrentAngle()
+  {
+    return new Mach1Point3D(Mach1DecodeModuleJNI.Mach1DecodeCAPI_getCurrentAngle(M1obj), true);
+  }
+
   public long getCurrentTime()
   {
     return Mach1DecodeModuleJNI.Mach1DecodeCAPI_getCurrentTime(M1obj);
@@ -66,11 +118,6 @@ public class Mach1Decode {
   public String getLog()
   {
     return Mach1DecodeModuleJNI.Mach1DecodeCAPI_getLog(M1obj);
-  }
-
-  public Mach1Point3D getCurrentAngle()
-  {
-    return new Mach1Point3D(Mach1DecodeModuleJNI.Mach1DecodeCAPI_getCurrentAngle(M1obj), true);
   }
 
 }

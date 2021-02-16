@@ -54,7 +54,7 @@ public class Mach1Decode {
         /// Set current buffer/sample intended decoding orientation YPR.
         ///
         /// - Parameters: 
-        ///     - Yaw: float for device/listener yaw angle:     [Range: 0.0 -> 1.0 | -1.0 -> 1.0]
+        ///     - Yaw: float for device/listener yaw angle:     [Range: 0.0 -> 1.0 | -0.5 -> 0.5]
         ///                                                     [Range: 0.0 -> 360 | -180 -> 180]
         ///     - Pitch: float for device/listener pitch angle: [Range: -0.25 -> 0.25]
         ///                                                     [Range: -90   -> 90]

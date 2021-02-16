@@ -54,9 +54,12 @@ public class Mach1Decode {
         /// Set current buffer/sample intended decoding orientation YPR.
         ///
         /// - Parameters: 
-        ///     - Yaw: float for device/listener yaw angle: [Range: -1.0 -> 1.0]
+        ///     - Yaw: float for device/listener yaw angle:     [Range: 0.0 -> 1.0 | -0.5 -> 0.5]
+        ///                                                     [Range: 0.0 -> 360 | -180 -> 180]
         ///     - Pitch: float for device/listener pitch angle: [Range: -0.25 -> 0.25]
-        ///     - Roll: float for device/listener roll angle: [Range: -0.25 -> 0.25]
+        ///                                                     [Range: -90   -> 90]
+        ///     - Roll: float for device/listener roll angle:   [Range: -0.25 -> 0.25]
+        ///                                                     [Range: -90   -> 90]
     }
 
     public func setRotationDegrees(newRotationDegrees: Mach1Point3D) {
@@ -74,9 +77,12 @@ public class Mach1Decode {
         /// Set current buffer/sample intended decoding orientation YPR in radians.
         ///
         /// - Parameters: 
-        ///     - Yaw: float for device/listener yaw angle: [Range: 0->2PI | -PI->PI]
-        ///     - Pitch: float for device/listener pitch angle: -PI/2 -> PI/2
-        ///     - Roll: float for device/listener roll angle: -PI/2 -> PI/2
+        ///     - Yaw: float for device/listener yaw angle:     [Range: 0.0 -> 2PI | -PI  -> PI]
+        ///                                                     [Range: 0.0 -> 360 | -180 -> 180]
+        ///     - Pitch: float for device/listener pitch angle: [Range: -PI/2 -> PI/2]
+        ///                                                     [Range: -90   -> 90]
+        ///     - Roll: float for device/listener roll angle:   [Range: -PI/2 -> PI/2]
+        ///                                                     [Range: -90   -> 90]
     }
 
     public func setRotationQuat(newRotationQuat: Mach1Point4D) {

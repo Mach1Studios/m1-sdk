@@ -132,9 +132,12 @@ void Mach1Decode::setRotation(Mach1Point3D newRotationFromMinusOnetoOne)
 	/// Set current buffer/sample intended decoding orientation YPR.
 	///
     /// - Parameters: 
-    ///     - Yaw: float for device/listener yaw angle: [Range: -1.0 -> 1.0]
+    ///     - Yaw: float for device/listener yaw angle: 	[Range: 0.0 -> 1.0 | -1.0 -> 1.0]
+    ///														[Range: 0.0 -> 360 | -180 -> 180]
     ///     - Pitch: float for device/listener pitch angle: [Range: -0.25 -> 0.25]
-    ///     - Roll: float for device/listener roll angle: [Range: -0.25 -> 0.25]
+    ///														[Range: -90   -> 90]
+    ///     - Roll: float for device/listener roll angle: 	[Range: -0.25 -> 0.25]
+    ///													  	[Range: -90   -> 90]
 }
 
 void Mach1Decode::setRotationDegrees(Mach1Point3D newRotationDegrees)
@@ -143,9 +146,9 @@ void Mach1Decode::setRotationDegrees(Mach1Point3D newRotationDegrees)
 	/// Set current buffer/sample intended decoding orientation YPR.
 	///
     /// - Parameters: 
-    ///     - Yaw: float for device/listener yaw angle: [Range: 0->360 | -180->180]
-    ///     - Pitch: float for device/listener pitch angle: [Range: -90->90]
-    ///     - Roll: float for device/listener roll angle: [Range: -90->90]
+    ///     - Yaw: float for device/listener yaw angle: [Range: 0.0 -> 360 | -180 -> 180]
+    ///     - Pitch: float for device/listener pitch angle: [Range: -90 -> 90]
+    ///     - Roll: float for device/listener roll angle: [Range: -90 -> 90]
 }
 
 void Mach1Decode::setRotationRadians(Mach1Point3D newRotationRadians)
@@ -154,9 +157,12 @@ void Mach1Decode::setRotationRadians(Mach1Point3D newRotationRadians)
     /// Set current buffer/sample intended decoding orientation YPR in radians.
     ///
     /// - Parameters: 
-    ///     - Yaw: float for device/listener yaw angle: [Range: 0->2PI | -PI->PI]
-    ///     - Pitch: float for device/listener pitch angle: -PI/2 -> PI/2
-    ///     - Roll: float for device/listener roll angle: -PI/2 -> PI/2
+    ///     - Yaw: float for device/listener yaw angle: 	[Range: 0.0 -> 2PI | -PI  -> PI]
+    ///														[Range: 0.0 -> 360 | -180 -> 180]
+    ///     - Pitch: float for device/listener pitch angle: [Range: -PI/2 -> PI/2]
+    ///														[Range: -90   -> 90]
+    ///     - Roll: float for device/listener roll angle: 	[Range: -PI/2 -> PI/2]
+    ///														[Range: -90   -> 90]
 }
 
 void Mach1Decode::setRotationQuat(Mach1Point4D newRotationQuat)

@@ -17,6 +17,11 @@ pull: FORCE
 setup: FORCE
 	source $(EMSDK_PATH)/emsdk_env.sh
 
+clear: 
+	rm -rf _install/*
+
+build-all: clear build build-web grab-ios build-android build-rpi deploy-dev deploy-release
+
 build: FORCE
 ifeq ($(detected_OS),Darwin)
 	polly --clear --install --config Release --toolchain xcode
@@ -26,21 +31,10 @@ ifeq ($(detected_OS),Darwin)
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/libBundle/libMach1DecodeCAPI.bundle"
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/libBundle/libMach1DecodePositionalCAPI.bundle"
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/libBundle/libMach1EncodeCAPI.bundle"
-	source $(EMSDK_PATH)/emsdk_env.sh
-	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1DecodeModule'" --pre-js Mach1DecodeEmscripten.js -o external/js/Mach1Decode.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodeEmscripten.cpp
-	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1DecodePositionalModule'" -Iinclude/ --pre-js Mach1DecodePositionalEmscripten.js -o external/js/Mach1DecodePositional.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodePositionalCore.cpp Mach1DecodePositionalCAPI.cpp Mach1DecodePositionalEmscripten.cpp
-	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1EncodeModule'" --pre-js Mach1EncodeEmscripten.js -o external/js/Mach1Encode.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1EncodeCore.cpp Mach1EncodeCAPI.cpp Mach1EncodeEmscripten.cpp
-	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1TranscodeModule'" --pre-js Mach1TranscodeEmscripten.js -o external/js/Mach1Transcode.js -Iinclude Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1TranscodeCore.cpp Mach1TranscodeCAPI.cpp Mach1TranscodeEmscripten.cpp Mach1GenerateCoeffs.cpp include/M1DSP/M1DSPUtilities.cpp include/M1DSP/M1DSPFilters.cpp
-	polly --clear --install --config Release --toolchain raspberrypi2-cxx11
-	polly --clear --install --config Release --toolchain raspberrypi3-cxx11
 endif
 ifeq ($(detected_OS),Windows)
 	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-15-2017
 	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-15-2017-win64
-	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1TranscodeModule'" --pre-js Mach1TranscodeEmscripten.js -o external/js/Mach1Transcode.js -Iinclude Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1TranscodeCore.cpp Mach1TranscodeCAPI.cpp Mach1TranscodeEmscripten.cpp Mach1GenerateCoeffs.cpp include/M1DSP/M1DSPUtilities.cpp include/M1DSP/M1DSPFilters.cpp
-	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1DecodeModule'" --pre-js Mach1DecodeEmscripten.js -o external/js/Mach1Decode.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodeEmscripten.cpp
-	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1EncodeModule'" --pre-js Mach1EncodeEmscripten.js -o external/js/Mach1Encode.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1EncodeCore.cpp Mach1EncodeCAPI.cpp Mach1EncodeEmscripten.cpp
-	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1DecodePositionalModule'" -Iinclude/ --pre-js Mach1DecodePositionalEmscripten.js -o external/js/Mach1DecodePositional.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodePositionalCore.cpp Mach1DecodePositionalCAPI.cpp Mach1DecodePositionalEmscripten.cpp
 endif
 
 build-mac: FORCE
@@ -59,13 +53,15 @@ build-mac: FORCE
 	cat  ./macOS-UB-readme.md
 	open _builds/xcode/Mach1SpatialLibraries.xcodeproj
 
-build-ios: FORCE
-	polly --clear --install --config Release --toolchain ios-12-1-dep-9-3 --ios-multiarch --ios-combined
+grab-ios: FORCE
 	mkdir -p "_install/ios/lib/"
 	yes | cp -rf "../binaries/ios/lib/libMach1DecodeCAPI.a" "_install/ios/lib/libMach1DecodeCAPI.a"
 	yes | cp -rf "../binaries/ios/lib/libMach1EncodeCAPI.a" "_install/ios/lib/libMach1EncodeCAPI.a"
 	yes | cp -rf "../binaries/ios/lib/libMach1DecodePositionalCAPI.a" "_install/ios/lib/libMach1DecodePositionalCAPI.a"
 	yes | cp -rf "../binaries/ios/lib/libMach1TranscodeCAPI.a" "_install/ios/lib/libMach1TranscodeCAPI.a"
+
+build-ios: FORCE
+	polly --clear --install --config Release --toolchain ios-12-1-dep-9-3 --ios-multiarch --ios-combined
 
 build-ios-dev: FORCE
 	polly --clear --install --config Release --toolchain ios --ios-multiarch --ios-combined
@@ -73,6 +69,14 @@ build-ios-dev: FORCE
 build-rpi: FORCE
 	polly --clear --install --config Release --toolchain raspberrypi2-cxx11
 	polly --clear --install --config Release --toolchain raspberrypi3-cxx11
+	yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.a" "../binaries/xcode/lib/libMach1DecodeCAPI.a"
+	yes | cp -rf "_install/xcode/lib/libMach1EncodeCAPI.a" "../binaries/xcode/lib/libMach1EncodeCAPI.a"
+	yes | cp -rf "_install/xcode/lib/libMach1TranscodeCAPI.a" "../binaries/xcode/lib/libMach1TranscodeCAPI.a"
+	yes | cp -rf "_install/xcode/lib/libMach1DecodePositionalCAPI.a" "../binaries/xcode/lib/libMach1DecodePositionalCAPI.a"
+	yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.a" "../binaries/xcode/lib/libMach1DecodeCAPI.a"
+	yes | cp -rf "_install/xcode/lib/libMach1EncodeCAPI.a" "../binaries/xcode/lib/libMach1EncodeCAPI.a"
+	yes | cp -rf "_install/xcode/lib/libMach1TranscodeCAPI.a" "../binaries/xcode/lib/libMach1TranscodeCAPI.a"
+	yes | cp -rf "_install/xcode/lib/libMach1DecodePositionalCAPI.a" "../binaries/xcode/lib/libMach1DecodePositionalCAPI.a"
 
 build-web: FORCE
 	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1DecodeModule'" --pre-js Mach1DecodeEmscripten.js -o external/js/Mach1Decode.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodeEmscripten.cpp
@@ -85,8 +89,60 @@ build-android: FORCE
 	python ../../polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx
 	python ../../polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r16b-api-21-x86-clang-libcxx
 	python ../../polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r16b-api-21-x86-64-clang-libcxx
+ifeq ($(detected_OS),Darwin)
+	yes | mv _install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx _install/android-armeabi-v7a
+	yes | mv _install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx _install/android-arm64-v8a
+	yes | mv _install/android-ndk-r16b-api-21-x86-clang-libcxx _install/android-x86
+	yes | mv _install/android-ndk-r16b-api-21-x86-64-clang-libcxx _install/android-x86_64
+	yes | cp -rf "_install/android-armeabi-v7a/lib/libMach1DecodeCAPI.a" "../binaries/android-armeabi-v7a/lib/libMach1DecodeCAPI.a" 
+	yes | cp -rf "_install/android-armeabi-v7a/lib/libMach1EncodeCAPI.a" "../binaries/android-armeabi-v7a/lib/libMach1EncodeCAPI.a"
+	yes | cp -rf "_install/android-armeabi-v7a/lib/libMach1TranscodeCAPI.a" "../binaries/android-armeabi-v7a/lib/libMach1TranscodeCAPI.a"
+	yes | cp -rf "_install/android-armeabi-v7a/lib/libMach1DecodePositionalCAPI.a" "../binaries/android-armeabi-v7a/lib/libMach1DecodePositionalCAPI.a"
+	yes | cp -rf "_install/android-arm64-v8a/lib/libMach1DecodeCAPI.a" "../binaries/android-arm64-v8a/lib/libMach1DecodeCAPI.a"
+	yes | cp -rf "_install/android-arm64-v8a/lib/libMach1EncodeCAPI.a" "../binaries/android-arm64-v8a/lib/libMach1EncodeCAPI.a"
+	yes | cp -rf "_install/android-arm64-v8a/lib/libMach1TranscodeCAPI.a" "../binaries/android-arm64-v8a/lib/libMach1TranscodeCAPI.a"
+	yes | cp -rf "_install/android-arm64-v8a/lib/libMach1DecodePositionalCAPI.a" "../binaries/android-arm64-v8a/lib/libMach1DecodePositionalCAPI.a"
+	yes | cp -rf "_install/android-x86/lib/libMach1DecodeCAPI.a" "../binaries/android-x86/lib/libMach1DecodeCAPI.a"
+	yes | cp -rf "_install/android-x86/lib/libMach1EncodeCAPI.a" "../binaries/android-x86/lib/libMach1EncodeCAPI.a"
+	yes | cp -rf "_install/android-x86/lib/libMach1TranscodeCAPI.a" "../binaries/android-x86/lib/libMach1TranscodeCAPI.a"
+	yes | cp -rf "_install/android-x86/lib/libMach1DecodePositionalCAPI.a" "../binaries/android-x86/lib/libMach1DecodePositionalCAPI.a"
+	yes | cp -rf "_install/android-x86_64/lib/libMach1DecodeCAPI.a" "../binaries/android-x86_64/lib/libMach1DecodeCAPI.a"
+	yes | cp -rf "_install/android-x86_64/lib/libMach1EncodeCAPI.a" "../binaries/android-x86_64/lib/libMach1EncodeCAPI.a"
+	yes | cp -rf "_install/android-x86_64/lib/libMach1TranscodeCAPI.a" "../binaries/android-x86_64/lib/libMach1TranscodeCAPI.a"
+	yes | cp -rf "_install/android-x86_64/lib/libMach1DecodePositionalCAPI.a" "../binaries/android-x86_64/lib/libMach1DecodePositionalCAPI.a"
+	# copy for Unity
+	yes | cp -rf "_install/android-armeabi-v7a/libUnity/libMach1DecodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/armeabi-v7a/libMach1DecodeCAPI.so" 
+	yes | cp -rf "_install/android-armeabi-v7a/libUnity/libMach1EncodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/armeabi-v7a/libMach1EncodeCAPI.so"
+	yes | cp -rf "_install/android-armeabi-v7a/libUnity/libMach1TranscodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/armeabi-v7a/libMach1TranscodeCAPI.so"
+	yes | cp -rf "_install/android-armeabi-v7a/libUnity/libMach1DecodePositionalCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/armeabi-v7a/libMach1DecodePositionalCAPI.so"
+	yes | cp -rf "_install/android-arm64-v8a/libUnity/libMach1DecodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/arm64-v8a/libMach1DecodeCAPI.so"
+	yes | cp -rf "_install/android-arm64-v8a/libUnity/libMach1EncodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/arm64-v8a/libMach1EncodeCAPI.so"
+	yes | cp -rf "_install/android-arm64-v8a/libUnity/libMach1TranscodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/arm64-v8a/libMach1TranscodeCAPI.so"
+	yes | cp -rf "_install/android-arm64-v8a/libUnity/libMach1DecodePositionalCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/arm64-v8a/libMach1DecodePositionalCAPI.so"
+	yes | cp -rf "_install/android-x86/libUnity/libMach1DecodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/x86/libMach1DecodeCAPI.so"
+	yes | cp -rf "_install/android-x86/libUnity/libMach1EncodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/x86/libMach1EncodeCAPI.so"
+	yes | cp -rf "_install/android-x86/libUnity/libMach1TranscodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/x86/libMach1TranscodeCAPI.so"
+	yes | cp -rf "_install/android-x86/libUnity/libMach1DecodePositionalCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/x86/libMach1DecodePositionalCAPI.so"
+	yes | cp -rf "_install/android-armeabi-v7a/libUnity/libMach1DecodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/armeabi-v7a/libMach1DecodeCAPI.so" 
+	yes | cp -rf "_install/android-armeabi-v7a/libUnity/libMach1EncodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/armeabi-v7a/libMach1EncodeCAPI.so"
+	yes | cp -rf "_install/android-armeabi-v7a/libUnity/libMach1TranscodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/armeabi-v7a/libMach1TranscodeCAPI.so"
+	yes | cp -rf "_install/android-armeabi-v7a/libUnity/libMach1DecodePositionalCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/armeabi-v7a/libMach1DecodePositionalCAPI.so"
+	yes | cp -rf "_install/android-arm64-v8a/libUnity/libMach1DecodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/arm64-v8a/libMach1DecodeCAPI.so"
+	yes | cp -rf "_install/android-arm64-v8a/libUnity/libMach1EncodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/arm64-v8a/libMach1EncodeCAPI.so"
+	yes | cp -rf "_install/android-arm64-v8a/libUnity/libMach1TranscodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/arm64-v8a/libMach1TranscodeCAPI.so"
+	yes | cp -rf "_install/android-arm64-v8a/libUnity/libMach1DecodePositionalCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/arm64-v8a/libMach1DecodePositionalCAPI.so"
+	yes | cp -rf "_install/android-x86/libUnity/libMach1DecodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/x86/libMach1DecodeCAPI.so"
+	yes | cp -rf "_install/android-x86/libUnity/libMach1EncodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/x86/libMach1EncodeCAPI.so"
+	yes | cp -rf "_install/android-x86/libUnity/libMach1TranscodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/x86/libMach1TranscodeCAPI.so"
+	yes | cp -rf "_install/android-x86/libUnity/libMach1DecodePositionalCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/x86/libMach1DecodePositionalCAPI.so"
+	# cleanup
+	rm -rf _install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx
+	rm -rf _install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
+	rm -rf _install/android-ndk-r16b-api-21-x86-clang-libcxx
+	rm -rf _install/android-ndk-r16b-api-21-x86-64-clang-libcxx
+endif
+ifeq ($(detected_OS),Windows)
 	# copy over android from pull
-	cd %~dp0
 	xcopy _install\android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx\lib ..\binaries\android-arm64-v8a\lib /Y
 	xcopy _install\android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx\lib ..\binaries\android-armeabi-v7a\lib /Y
 	xcopy _install\android-ndk-r16b-api-21-x86-clang-libcxx\lib ..\binaries\android-x86\lib /Y
@@ -105,10 +161,10 @@ build-android: FORCE
 	rm -rf _install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
 	rm -rf _install/android-ndk-r16b-api-21-x86-clang-libcxx
 	rm -rf _install/android-ndk-r16b-api-21-x86-64-clang-libcxx
+endif
 
 deploy-windows: FORCE
 	# copy over windows libs
-	cd %~dp0
 	xcopy _install\vs-15-2017\lib ..\binaries\windows-x86 /Y
 	xcopy _install\vs-15-2017-win64\lib ..\binaries\windows-x86_64 /Y
 	xcopy _install\vs-15-2017\libUnity ..\examples\mach1spatial-c\Unity\Unity-Mach1SpatialAPI\M1UnityDecodeTest\Assets\Mach1\Plugins\Windows\x86 /Y
@@ -332,3 +388,4 @@ deploy-dev: FORCE
 
 # place anything you need all commands to run here
 FORCE:
+	rm -rf _install/*

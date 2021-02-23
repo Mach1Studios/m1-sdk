@@ -20,7 +20,8 @@ setup: FORCE
 clear: 
 	rm -rf _install/*
 
-build-all: clear build build-web grab-ios build-android build-rpi deploy-dev deploy-release
+build-all: clear includes-dev includes-release build build-web grab-ios build-android build-rpi deploy-dev deploy-release
+	echo "REMINDER: Build FAT iOS lib first!"
 
 build: FORCE
 ifeq ($(detected_OS),Darwin)
@@ -36,6 +37,12 @@ ifeq ($(detected_OS),Windows)
 	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-15-2017
 	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-15-2017-win64
 endif
+
+includes-dev: 
+	yes | cp -rf "external/" "../include/"
+
+includes-release:
+	yes | cp -rf "external/" "../../m1-sdk-release/include/"
 
 build-mac: FORCE
 	polly --clear --install --config Release --toolchain xcode
@@ -69,16 +76,17 @@ build-ios-dev: FORCE
 build-rpi: FORCE
 	polly --clear --install --config Release --toolchain raspberrypi2-cxx11
 	polly --clear --install --config Release --toolchain raspberrypi3-cxx11
-	yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.a" "../binaries/xcode/lib/libMach1DecodeCAPI.a"
-	yes | cp -rf "_install/xcode/lib/libMach1EncodeCAPI.a" "../binaries/xcode/lib/libMach1EncodeCAPI.a"
-	yes | cp -rf "_install/xcode/lib/libMach1TranscodeCAPI.a" "../binaries/xcode/lib/libMach1TranscodeCAPI.a"
-	yes | cp -rf "_install/xcode/lib/libMach1DecodePositionalCAPI.a" "../binaries/xcode/lib/libMach1DecodePositionalCAPI.a"
-	yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.a" "../binaries/xcode/lib/libMach1DecodeCAPI.a"
-	yes | cp -rf "_install/xcode/lib/libMach1EncodeCAPI.a" "../binaries/xcode/lib/libMach1EncodeCAPI.a"
-	yes | cp -rf "_install/xcode/lib/libMach1TranscodeCAPI.a" "../binaries/xcode/lib/libMach1TranscodeCAPI.a"
-	yes | cp -rf "_install/xcode/lib/libMach1DecodePositionalCAPI.a" "../binaries/xcode/lib/libMach1DecodePositionalCAPI.a"
+	find _install/ -type d -name "libUnity" -exec rm -rf {} +
+	yes | cp -rf "_install/raspberrypi2-cxx11/lib/libMach1DecodeCAPI.a" "../binaries/raspberrypi2-cxx11/lib/libMach1DecodeCAPI.a"
+	yes | cp -rf "_install/raspberrypi2-cxx11/lib/libMach1EncodeCAPI.a" "../binaries/raspberrypi2-cxx11/lib/libMach1EncodeCAPI.a"
+	yes | cp -rf "_install/raspberrypi2-cxx11/lib/libMach1TranscodeCAPI.a" "../binaries/raspberrypi2-cxx11/lib/libMach1TranscodeCAPI.a"
+	yes | cp -rf "_install/raspberrypi2-cxx11/lib/libMach1DecodePositionalCAPI.a" "../binaries/raspberrypi2-cxx11/lib/libMach1DecodePositionalCAPI.a"
+	yes | cp -rf "_install/raspberrypi3-cxx11/lib/libMach1DecodeCAPI.a" "../binaries/raspberrypi3-cxx11/lib/libMach1DecodeCAPI.a"
+	yes | cp -rf "_install/raspberrypi3-cxx11/lib/libMach1EncodeCAPI.a" "../binaries/raspberrypi3-cxx11/lib/libMach1EncodeCAPI.a"
+	yes | cp -rf "_install/raspberrypi3-cxx11/lib/libMach1TranscodeCAPI.a" "../binaries/raspberrypi3-cxx11/lib/libMach1TranscodeCAPI.a"
+	yes | cp -rf "_install/raspberrypi3-cxx11/lib/libMach1DecodePositionalCAPI.a" "../binaries/raspberrypi3-cxx11/lib/libMach1DecodePositionalCAPI.a"
 
-build-web: FORCE
+build-web: setup
 	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1DecodeModule'" --pre-js Mach1DecodeEmscripten.js -o external/js/Mach1Decode.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodeEmscripten.cpp
 	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1DecodePositionalModule'" -Iinclude/ --pre-js Mach1DecodePositionalEmscripten.js -o external/js/Mach1DecodePositional.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodePositionalCore.cpp Mach1DecodePositionalCAPI.cpp Mach1DecodePositionalEmscripten.cpp
 	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1EncodeModule'" --pre-js Mach1EncodeEmscripten.js -o external/js/Mach1Encode.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1EncodeCore.cpp Mach1EncodeCAPI.cpp Mach1EncodeEmscripten.cpp
@@ -140,6 +148,7 @@ ifeq ($(detected_OS),Darwin)
 	rm -rf _install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
 	rm -rf _install/android-ndk-r16b-api-21-x86-clang-libcxx
 	rm -rf _install/android-ndk-r16b-api-21-x86-64-clang-libcxx
+	find _install/ -type d -name "libUnity" -exec rm -rf {} +
 endif
 ifeq ($(detected_OS),Windows)
 	# copy over android from pull

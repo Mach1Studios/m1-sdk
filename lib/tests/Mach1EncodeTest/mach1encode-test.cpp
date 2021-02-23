@@ -86,7 +86,7 @@ TODO: add more input tests with less rounded inputs
 TODO: add all other output modes
  */
 		{
-			"Encode",
+			"case: ENCODE | MONO->MACH1HORIZON",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Horizon, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -95,7 +95,7 @@ TODO: add all other output modes
 			}
 		},
 		{
-			"Encode Diverge",
+			"case: ENCODE | MONO->MACH1HORIZON | Diverge",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Horizon, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -104,7 +104,7 @@ TODO: add all other output modes
 			}
 		},
 		{
-			"Encode Rotation 90",
+			"case: ENCODE | MONO->MACH1HORIZON | Azimuth 90",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Horizon, true, 90.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -113,7 +113,7 @@ TODO: add all other output modes
 			}
 		},
 		{
-			"Encode Rotation 180",
+			"case: ENCODE | MONO->MACH1HORIZON | Azimuth 180",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Horizon, true, 180.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -122,7 +122,7 @@ TODO: add all other output modes
 			}
 		},
 		{
-			"Encode Rotation 270",
+			"case: ENCODE | MONO->MACH1HORIZON | Azimuth 270",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Horizon, true, 270.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -135,7 +135,7 @@ MONO - MACH1SPATIAL
 TODO: add more input tests with less rounded inputs
  */
 		{
-			"Encode",
+			"case: ENCODE | MONO->MACH1SPATIAL",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -144,7 +144,7 @@ TODO: add more input tests with less rounded inputs
 			}
 		},
 		{
-			"Encode Diverge",
+			"case: ENCODE | MONO->MACH1SPATIAL | Diverge",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -153,7 +153,7 @@ TODO: add more input tests with less rounded inputs
 			}
 		},
 		{
-			"Encode Rotation 90",
+			"case: ENCODE | MONO->MACH1SPATIAL | Azimuth 90",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, 90.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -162,7 +162,7 @@ TODO: add more input tests with less rounded inputs
 			}
 		},
 		{
-			"Encode Rotation 180",
+			"case: ENCODE | MONO->MACH1SPATIAL | Azimuth 180",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, 180.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -171,7 +171,7 @@ TODO: add more input tests with less rounded inputs
 			}
 		},
 		{
-			"Encode Rotation 270",
+			"case: ENCODE | MONO->MACH1SPATIAL | Azimuth 270",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, 270.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -180,7 +180,7 @@ TODO: add more input tests with less rounded inputs
 			}
 		},
 		{
-			"Encode Height",
+			"case: ENCODE | MONO->MACH1SPATIAL | Height",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, 90.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -189,7 +189,7 @@ TODO: add more input tests with less rounded inputs
 			}
 		},
 		{
-			"Encode Periphonic Height",
+			"case: ENCODE | MONO->MACH1SPATIAL | Periphonic Height",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, false, 0.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -198,7 +198,7 @@ TODO: add more input tests with less rounded inputs
 			}
 		},
 		{
-			"Encode Periphonic Height Corner",
+			"case: ENCODE | MONO->MACH1SPATIAL | Periphonic Height Corner",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, false, 45.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -212,7 +212,7 @@ TODO: add more input tests with less rounded inputs
 TODO: add all other output modes
  */
 		{
-			"Encode",
+			"case: ENCODE | STEREO->MACH1SPATIAL",
 			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputModeM1Spatial, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -222,7 +222,7 @@ TODO: add all other output modes
 			}
 		},
 		{
-			"Encode Diverge",
+			"case: ENCODE | STEREO->MACH1SPATIAL | Diverge",
 			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -232,7 +232,7 @@ TODO: add all other output modes
 			}
 		},
 		{
-			"Encode Height",
+			"case: ENCODE | STEREO->MACH1SPATIAL | Height",
 			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -242,7 +242,7 @@ TODO: add all other output modes
 			}
 		},
 		{
-			"Encode Stereo Spread",
+			"case: ENCODE | STEREO->MACH1SPATIAL | Stereo Spread",
 			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, 0.0, true, 1.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -252,7 +252,7 @@ TODO: add all other output modes
 			}
 		},
 		{
-			"Encode Stereo Spread Height",
+			"case: ENCODE | STEREO->MACH1SPATIAL | Stereo Spread Height",
 			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, 90.0, true, 1.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -262,7 +262,7 @@ TODO: add all other output modes
 			}
 		},
 		{
-			"Encode Stereo Spread Height - Periphonic",
+			"case: ENCODE | STEREO->MACH1SPATIAL | Stereo Spread Height - Periphonic",
 			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputModeM1Spatial, false, 0.0, 1.0, 90.0, true, 1.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -272,7 +272,7 @@ TODO: add all other output modes
 			}
 		},
 		{
-			"Encode Stereo Rotation",
+			"case: ENCODE | STEREO->MACH1SPATIAL | Stereo Rotation",
 			{ Mach1EncodeInputModeStereo, Mach1EncodeOutputModeM1Spatial, true, 0.0, 0.0, 0.0, false, 1.0, 90.0, unsignedDegrees },
 			{
 				{
@@ -285,7 +285,7 @@ TODO: add all other output modes
 LCR
  */
 		{
-			"Encode",
+			"case: ENCODE | LCR->MACH1SPATIAL",
 			{ Mach1EncodeInputModeLCR, Mach1EncodeOutputModeM1Spatial, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -296,7 +296,7 @@ LCR
 			}
 		},
 		{
-			"Encode Diverge",
+			"case: ENCODE | LCR->MACH1SPATIAL | Diverge",
 			{ Mach1EncodeInputModeLCR, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -312,7 +312,7 @@ TODO: add more input tests with less rounded inputs
 TODO: add all other output modes
  */
 		{
-			"Encode",
+			"case: ENCODE | QUAD->MACH1SPATIAL",
 			{ Mach1EncodeInputModeQuad, Mach1EncodeOutputModeM1Spatial, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -324,7 +324,7 @@ TODO: add all other output modes
 			}
 		},
 		{
-			"Encode Diverge",
+			"case: ENCODE | QUAD->MACH1SPATIAL | Diverge",
 			{ Mach1EncodeInputModeQuad, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -336,7 +336,7 @@ TODO: add all other output modes
 			}
 		},
 		{
-			"Encode Height",
+			"case: ENCODE | QUAD->MACH1SPATIAL | Height",
 			{ Mach1EncodeInputModeQuad, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -351,7 +351,7 @@ TODO: add all other output modes
 LCRS
  */
 		{
-			"Encode",
+			"case: ENCODE | LCRS->MACH1SPATIAL",
 			{ Mach1EncodeInputModeLCRS, Mach1EncodeOutputModeM1Spatial, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -363,7 +363,7 @@ LCRS
 			}
 		},
 		{
-			"Encode Diverge",
+			"case: ENCODE | LCRS->MACH1SPATIAL | Diverge",
 			{ Mach1EncodeInputModeLCRS, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -378,7 +378,7 @@ LCRS
 AFormat
  */
 		{
-			"Encode",
+			"case: ENCODE | AFORMAT->MACH1SPATIAL",
 			{ Mach1EncodeInputModeAFormat, Mach1EncodeOutputModeM1Spatial, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -390,7 +390,7 @@ AFormat
 			}
 		},
 		{
-			"Encode Diverge",
+			"case: ENCODE | AFORMAT->MACH1SPATIAL | Diverge",
 			{ Mach1EncodeInputModeAFormat, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -405,7 +405,7 @@ AFormat
 1OA ACNSN3D
  */
 		{
-			"Encode",
+			"case: ENCODE | 1OA-ACN->MACH1SPATIAL",
 			{ Mach1EncodeInputModeBFOAACN, Mach1EncodeOutputModeM1Spatial, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -423,7 +423,7 @@ AFormat
 1OA FuMa
  */
 		{
-			"Encode",
+			"case: ENCODE | 1OA-FUMA->MACH1SPATIAL",
 			{ Mach1EncodeInputModeBFOAFUMA, Mach1EncodeOutputModeM1Spatial, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -441,7 +441,7 @@ AFormat
 SURROUND 5.0, 5.1
 */
 		{
-			"Encode Diverge", // "L","C","R","Ls","Rs"
+			"case: ENCODE | 5.0->MACH1SPATIAL | Diverge", // "L","C","R","Ls","Rs"
 			{ Mach1EncodeInputMode5dot0, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -454,7 +454,7 @@ SURROUND 5.0, 5.1
 			}
 		},
 		{
-			"Encode Diverge", // "L","C","R","Ls","Rs","LFE"
+			"case: ENCODE | 5.1->MACH1SPATIAL | Diverge", // "L","C","R","Ls","Rs","LFE"
 			{ Mach1EncodeInputMode5dot1Film, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -471,7 +471,7 @@ SURROUND 5.0, 5.1
 Input Data Checks
  */
 		{
-			"Azimuth: signed degrees",
+			"ENCODE | Azimuth: signed degrees",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, -90.0, 1.0, 0.0, true, 0.0, 0.0, signedDegrees },
 			{
 				{
@@ -480,7 +480,7 @@ Input Data Checks
 			}
 		},
 		{
-			"Azimuth: unsigned degrees",
+			"ENCODE | Azimuth: unsigned degrees",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, 270.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -489,7 +489,7 @@ Input Data Checks
 			}
 		},
 		{
-			"Azimuth: signed radians",
+			"ENCODE | Azimuth: signed radians",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, -1.5707963268, 1.0, 0.0, true, 0.0, 0.0, signedRadians },
 			{
 				{
@@ -498,7 +498,7 @@ Input Data Checks
 			}
 		},
 		{
-			"Azimuth: unsigned radians",
+			"ENCODE | Azimuth: unsigned radians",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, 4.7123889804, 1.0, 0.0, true, 0.0, 0.0, unsignedRadians },
 			{
 				{
@@ -507,7 +507,7 @@ Input Data Checks
 			}
 		},
 		{
-			"Azimuth: signed norm",
+			"ENCODE | Azimuth: signed norm",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, -0.25, 1.0, 0.0, true, 0.0, 0.0, signedNormalized },
 			{
 				{
@@ -516,7 +516,7 @@ Input Data Checks
 			}
 		},
 		{
-			"Azimuth: unsigned norm",
+			"ENCODE | Azimuth: unsigned norm",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, 0.75, 1.0, 0.0, true, 0.0, 0.0, unsignedNormalized },
 			{
 				{
@@ -525,7 +525,7 @@ Input Data Checks
 			}
 		},
 		{
-			"Elevation: signed degrees",
+			"ENCODE | Elevation: signed degrees",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, -90.0, true, 0.0, 0.0, signedDegrees },
 			{
 				{
@@ -534,7 +534,7 @@ Input Data Checks
 			}
 		},
 		{
-			"Elevation: signed radians",
+			"ENCODE | Elevation: signed radians",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, -1.5707963268, true, 0.0, 0.0, signedRadians },
 			{
 				{
@@ -543,7 +543,7 @@ Input Data Checks
 			}
 		},
 		{
-			"Elevation: signed norm",
+			"ENCODE | Elevation: signed norm",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, -1.0, true, 0.0, 0.0, signedNormalized },
 			{
 				{
@@ -552,7 +552,7 @@ Input Data Checks
 			}
 		},
 		{
-			"Elevation: unsigned norm",
+			"ENCODE | Elevation: unsigned norm",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, -1.0, true, 0.0, 0.0, unsignedNormalized },
 			{
 				{

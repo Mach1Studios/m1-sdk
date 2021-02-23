@@ -75,7 +75,7 @@ TODO: add more input tests with less rounded inputs
 TODO: add all other modes
  */
         {
-            "Case: MACH1HORIZON | Y0P0R0",
+            "case: DECODE | MACH1HORIZON | Y0P0R0",
             { Mach1PlatformDefault, Mach1DecodeAlgoHorizon, 0.0, 0.0, 0.0, 1.0, unsignedDegrees },
             {
                 {
@@ -90,7 +90,7 @@ TODO: add all other modes
             }
         },
         {
-            "Case: MACH1HORIZON | Y45P0R0",
+            "case: DECODE | MACH1HORIZON | Y45P0R0",
             { Mach1PlatformDefault, Mach1DecodeAlgoHorizon, 45.0, 0.0, 0.0, 1.0, unsignedDegrees },
             {
                 {
@@ -105,7 +105,7 @@ TODO: add all other modes
             }
         },
         {
-            "Case: MACH1HORIZON | Y90P0R0",
+            "case: DECODE | MACH1HORIZON | Y90P0R0",
             { Mach1PlatformDefault, Mach1DecodeAlgoHorizon, 90.0, 0.0, 0.0, 1.0, unsignedDegrees },
             {
                 {
@@ -120,7 +120,7 @@ TODO: add all other modes
             }
         },
         {
-            "Case: MACH1HORIZON | Y180P0R0",
+            "case: DECODE | MACH1HORIZON | Y180P0R0",
             { Mach1PlatformDefault, Mach1DecodeAlgoHorizon, 180.0, 0.0, 0.0, 1.0, unsignedDegrees },
             {
                 {
@@ -135,7 +135,7 @@ TODO: add all other modes
             }
         },
         {
-            "Case: MACH1HORIZON | Y270P0R0",
+            "case: DECODE | MACH1HORIZON | Y270P0R0",
             { Mach1PlatformDefault, Mach1DecodeAlgoHorizon, 270.0, 0.0, 0.0, 1.0, unsignedDegrees },
             {
                 {
@@ -150,7 +150,7 @@ TODO: add all other modes
             }
         },
 		{
-			"Case: MACH1SPATIAL | Y0P0R0",
+			"case: DECODE | MACH1SPATIAL | Y0P0R0",
 			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.0, 0.0, 1.0, unsignedDegrees },
 			{
 				{
@@ -169,7 +169,7 @@ TODO: add all other modes
 			}
 		},
 		{
-			"Case: MACH1SPATIAL | Y45P0R0",
+			"case: DECODE | MACH1SPATIAL | Y45P0R0",
 			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 45.0, 0.0, 0.0, 1.0, unsignedDegrees },
 			{
 				{
@@ -188,7 +188,7 @@ TODO: add all other modes
 			}
 		},
         {
-            "Case: MACH1SPATIAL | Y90P0R0",
+            "case: DECODE | MACH1SPATIAL | Y90P0R0",
             { Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 90.0, 0.0, 0.0, 1.0, unsignedDegrees },
             {
                 {
@@ -207,7 +207,7 @@ TODO: add all other modes
             }
         },
         {
-            "Case: MACH1SPATIAL | Y90P0R0 (Norm)",
+            "case: DECODE | MACH1SPATIAL | Y90P0R0 (Norm)",
             { Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.25, 0.0, 0.0, 1.0, unsignedNormalized },
             {
                 {
@@ -226,7 +226,7 @@ TODO: add all other modes
             }
         },
         {
-            "Case: MACH1SPATIAL | Y90P0R0 (Radians)",
+            "case: DECODE | MACH1SPATIAL | Y90P0R0 (Radians)",
             { Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 1.5708, 0.0, 0.0, 1.0, signedRadians },
             {
                 {
@@ -245,7 +245,7 @@ TODO: add all other modes
             }
         },
         {
-            "Case: MACH1SPATIAL | Y135P0R0",
+            "case: DECODE | MACH1SPATIAL | Y135P0R0",
             { Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 135.0, 0.0, 0.0, 1.0, unsignedDegrees },
             {
                 {
@@ -264,7 +264,7 @@ TODO: add all other modes
             }
         },
         {
-            "Case: MACH1SPATIAL | Y180P0R0",
+            "case: DECODE | MACH1SPATIAL | Y180P0R0",
             { Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 180.0, 0.0, 0.0, 1.0, unsignedDegrees },
             {
                 {
@@ -283,7 +283,7 @@ TODO: add all other modes
             }
         },
         {
-            "Case: MACH1SPATIAL | Y225P0R0",
+            "case: DECODE | MACH1SPATIAL | Y225P0R0",
             { Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 225.0, 0.0, 0.0, 1.0, unsignedDegrees },
             {
                 {
@@ -302,7 +302,7 @@ TODO: add all other modes
             }
         },
         {
-            "Case: MACH1SPATIAL | Y-135P0R0",
+            "case: DECODE | MACH1SPATIAL | Y-135P0R0",
             { Mach1PlatformDefault, Mach1DecodeAlgoSpatial, -135.0, 0.0, 0.0, 1.0, signedDegrees },
             {
                 {
@@ -321,7 +321,7 @@ TODO: add all other modes
             }
         },
         {
-            "Case: MACH1SPATIAL | Y315P0R0",
+            "case: DECODE | MACH1SPATIAL | Y315P0R0",
             { Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 315.0, 0.0, 0.0, 1.0, unsignedDegrees },
             {
                 {
@@ -340,7 +340,7 @@ TODO: add all other modes
             }
         },
         {
-            "Case: MACH1SPATIAL | Y-45P0R0",
+            "case: DECODE | MACH1SPATIAL | Y-45P0R0",
             { Mach1PlatformDefault, Mach1DecodeAlgoSpatial, -45.0, 0.0, 0.0, 1.0, signedDegrees },
             {
                 {
@@ -359,7 +359,7 @@ TODO: add all other modes
             }
         },
 		{
-			"Case: MACH1SPATIAL | Y0P90R0",
+			"case: DECODE | MACH1SPATIAL | Y0P90R0",
 			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 90.0, 0.0, 1.0, unsignedDegrees },
 			{
 				{
@@ -378,7 +378,7 @@ TODO: add all other modes
 			}
 		},
         {
-            "Case: MACH1SPATIAL | Y0P90R0 (Radians)",
+            "case: DECODE | MACH1SPATIAL | Y0P90R0 (Radians)",
             { Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 1.5708, 0.0, 1.0, signedRadians },
             {
                 {
@@ -397,7 +397,7 @@ TODO: add all other modes
             }
         },
         {
-            "Case: MACH1SPATIAL | Y0P90R0 (Signed-Norm)",
+            "case: DECODE | MACH1SPATIAL | Y0P90R0 (Signed-Norm)",
             { Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.25, 0.0, 1.0, signedNormalized },
             {
                 {
@@ -416,7 +416,7 @@ TODO: add all other modes
             }
         },
         {
-            "Case: MACH1SPATIAL | Y0P-90R0",
+            "case: DECODE | MACH1SPATIAL | Y0P-90R0",
             { Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, -90.0, 0.0, 1.0, signedDegrees },
             {
                 {
@@ -435,7 +435,7 @@ TODO: add all other modes
             }
         },
 		{
-			"Case: MACH1SPATIAL | Y0P0R90",
+			"case: DECODE | MACH1SPATIAL | Y0P0R90",
 			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.0, 90.0, 1.0, unsignedDegrees },
 			{
 				{
@@ -466,7 +466,7 @@ TODO: add all other modes
 			}
 		},
         {
-            "Case: MACH1SPATIAL | Y0P0R90 (Radians)",
+            "case: DECODE | MACH1SPATIAL | Y0P0R90 (Radians)",
             { Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.0, 1.5708, 1.0, signedRadians },
             {
                 {
@@ -485,7 +485,7 @@ TODO: add all other modes
             }
         },
         {
-            "Case: MACH1SPATIAL | Y0P0R90 (Norm)",
+            "case: DECODE | MACH1SPATIAL | Y0P0R90 (Norm)",
             { Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.0, 0.25, 1.0, signedNormalized },
             {
                 {
@@ -504,7 +504,7 @@ TODO: add all other modes
             }
         },
         {
-            "Case: MACH1SPATIAL | Y0P0R-90 (Norm)",
+            "case: DECODE | MACH1SPATIAL | Y0P0R-90 (Norm)",
             { Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.0, -0.25, 1.0, signedNormalized },
             {
                 {

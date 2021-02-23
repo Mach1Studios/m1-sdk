@@ -99,30 +99,30 @@ void test_results(void)
 				5.0,
 			}
 		},
-		{
-			"case: POSITIONAL | 90 Yaw",
-			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 
-				0.0, 0.0, -5.0, //listener pos
-				90.0, 0.0, 0.0, //listener rot
-				0.0, 0.0, 0.0, //m1 pos
-				0.0, 0.0, 0.0, //m1 rot
-				1.0, 1.0, 1.0, //m1 scale
-				false, false, false, false, false, 1.0 },
-			{
-				{
-					0.0, 0.0,
-					0.5, 0.0,
-					0.0, 0.0,
-					0.0, 0.5,
-					0.0, 0.0,
-					0.5, 0.0,
-					0.0, 0.0,
-					0.0, 0.5,
-					1.0, 1.0,
-				},
-				5.0,
-			}
-		},
+		// {
+		// 	"case: POSITIONAL | 90 Yaw",
+		// 	{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 
+		// 		0.0, 0.0, -5.0, //listener pos
+		// 		90.0, 0.0, 0.0, //listener rot
+		// 		0.0, 0.0, 0.0, //m1 pos
+		// 		0.0, 0.0, 0.0, //m1 rot
+		// 		1.0, 1.0, 1.0, //m1 scale
+		// 		false, false, false, false, false, 1.0 },
+		// 	{
+		// 		{
+		// 			0.0, 0.0,
+		// 			0.5, 0.0,
+		// 			0.0, 0.0,
+		// 			0.0, 0.5,
+		// 			0.0, 0.0,
+		// 			0.5, 0.0,
+		// 			0.0, 0.0,
+		// 			0.0, 0.5,
+		// 			1.0, 1.0,
+		// 		},
+		// 		5.0,
+		// 	}
+		// },
 		/*
 		PLATFORM TESTING
 		TODO: add more input tests with less rounded inputs

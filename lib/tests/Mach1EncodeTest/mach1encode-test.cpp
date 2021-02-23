@@ -471,7 +471,7 @@ SURROUND 5.0, 5.1
 Input Data Checks
  */
 		{
-			"ENCODE | Azimuth: signed degrees",
+			"case: ENCODE | Azimuth: signed degrees",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, -90.0, 1.0, 0.0, true, 0.0, 0.0, signedDegrees },
 			{
 				{
@@ -480,7 +480,7 @@ Input Data Checks
 			}
 		},
 		{
-			"ENCODE | Azimuth: unsigned degrees",
+			"case: ENCODE | Azimuth: unsigned degrees",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, 270.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
@@ -489,7 +489,7 @@ Input Data Checks
 			}
 		},
 		{
-			"ENCODE | Azimuth: signed radians",
+			"case: ENCODE | Azimuth: signed radians",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, -1.5707963268, 1.0, 0.0, true, 0.0, 0.0, signedRadians },
 			{
 				{
@@ -498,7 +498,7 @@ Input Data Checks
 			}
 		},
 		{
-			"ENCODE | Azimuth: unsigned radians",
+			"case: ENCODE | Azimuth: unsigned radians",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, 4.7123889804, 1.0, 0.0, true, 0.0, 0.0, unsignedRadians },
 			{
 				{
@@ -507,7 +507,7 @@ Input Data Checks
 			}
 		},
 		{
-			"ENCODE | Azimuth: signed norm",
+			"case: ENCODE | Azimuth: signed norm",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, -0.25, 1.0, 0.0, true, 0.0, 0.0, signedNormalized },
 			{
 				{
@@ -516,7 +516,7 @@ Input Data Checks
 			}
 		},
 		{
-			"ENCODE | Azimuth: unsigned norm",
+			"case: ENCODE | Azimuth: unsigned norm",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, 0.75, 1.0, 0.0, true, 0.0, 0.0, unsignedNormalized },
 			{
 				{
@@ -525,7 +525,7 @@ Input Data Checks
 			}
 		},
 		{
-			"ENCODE | Elevation: signed degrees",
+			"case: ENCODE | Elevation: signed degrees",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, -90.0, true, 0.0, 0.0, signedDegrees },
 			{
 				{
@@ -534,7 +534,7 @@ Input Data Checks
 			}
 		},
 		{
-			"ENCODE | Elevation: signed radians",
+			"case: ENCODE | Elevation: signed radians",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, -1.5707963268, true, 0.0, 0.0, signedRadians },
 			{
 				{
@@ -543,7 +543,7 @@ Input Data Checks
 			}
 		},
 		{
-			"ENCODE | Elevation: signed norm",
+			"case: ENCODE | Elevation: signed norm",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, -1.0, true, 0.0, 0.0, signedNormalized },
 			{
 				{
@@ -552,7 +552,7 @@ Input Data Checks
 			}
 		},
 		{
-			"ENCODE | Elevation: unsigned norm",
+			"case: ENCODE | Elevation: unsigned norm",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, 0.0, 1.0, -1.0, true, 0.0, 0.0, unsignedNormalized },
 			{
 				{

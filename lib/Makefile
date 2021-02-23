@@ -20,7 +20,19 @@ setup:
 clear: 
 	rm -rf _install/*
 
-build-all: clear includes-dev includes-release build build-web grab-ios build-android build-rpi deploy-dev deploy-release
+test: FORCE
+ifeq ($(detected_OS),Darwin)
+	cd tests && polly --clear --install --config Release --toolchain xcode
+	./tests/_install/xcode/bin/Mach1EncodeTest
+	./tests/_install/xcode/bin/Mach1DecodeTest
+	./tests/_install/xcode/bin/Mach1DecodePositionalTest
+	./tests/_install/xcode/bin/Mach1SpatialTests
+endif
+ifeq ($(detected_OS),Windows)
+	cd tests && python ../../../polly/bin/polly.py --clear --install --config Release --toolchain vs-15-2017-win64
+endif
+
+build-all: clear test includes-dev includes-release build build-web grab-ios build-android build-rpi deploy-dev deploy-release
 	echo "REMINDER: Build FAT iOS lib first!"
 
 build: FORCE

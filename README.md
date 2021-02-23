@@ -2,7 +2,7 @@
 
 ## MACH1 SPATIAL SDK ##
 [![Mach1SpatialAPI CocoaPods](https://cocoapod-badges.herokuapp.com/v/Mach1SpatialAPI/badge.png)](https://www.mach1.tech/developers)
-[![Mach1SpatialAPI Jitpack](https://jitpack.io/v/Mach1Studios/JitPack-Mach1SpatialAPI.svg)](https://jitpack.io/#Mach1Studios/JitPack-Mach1SpatialAPI)
+[![Mach1SpatialAPI Jitpack](https://jitpack.io/v/Mach1Studios/JitPack-Mach1SpatialAPI.svg)](https://www.mach1.tech/developers)
 
 * [LICENSE](#license)
 * [SUMMARY](#summary)

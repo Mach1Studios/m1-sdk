@@ -2,7 +2,7 @@
 
 # local paths are in this file
 include ~/m1-globallocal.mk
-EMSDK_PATH=../../emsdk/
+EMSDK_PATH=../../emsdk
 
 # getting OS type
 ifeq ($(OS),Windows_NT)
@@ -14,8 +14,8 @@ endif
 pull: FORCE
 	git pull --recurse-submodules
 
-setup: FORCE
-	source $(EMSDK_PATH)/emsdk_env.sh
+setup:
+	./$(EMSDK_PATH)/emsdk_env.sh
 
 clear: 
 	rm -rf _install/*

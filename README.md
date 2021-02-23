@@ -1,6 +1,8 @@
 <a href="http://dev.mach1.tech"><img src="https://mach1-public.s3.amazonaws.com/assets/logo_big_b_l.png"></a>
 
 ## MACH1 SPATIAL SDK ##
+[![Mach1SpatialAPI CocoaPods](https://cocoapod-badges.herokuapp.com/v/Mach1SpatialAPI/badge.png)](https://www.mach1.tech/developers)
+[![Mach1SpatialAPI Jitpack](https://jitpack.io/v/Mach1Studios/JitPack-Mach1SpatialAPI.svg)](https://jitpack.io/#Mach1Studios/JitPack-Mach1SpatialAPI)
 
 * [LICENSE](#license)
 * [SUMMARY](#summary)

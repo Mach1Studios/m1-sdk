@@ -686,7 +686,7 @@ void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, flo
 
     // decode - 8, 16
     if (getOutputChannelsCount() * 2 != decodeResultSize) {
-        std::cout << "This encode type is not suitable for decode type!" << std::endl;
+        std::cout << "[MACH1] Warning: The Mach1EncodeOutputModeType in use is not suitable for the Mach1DecodeAlgoType selected" << std::endl;
     }
 
     for (int j = 0; j < resultingPoints.pointsCount; j++) {
@@ -742,7 +742,7 @@ void M1EncodeCore::getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, fl
 
 	// decode - 8, 16
 	if (getOutputChannelsCount() * 2 != decodeResultSize) {
-		std::cout << "This encode type is not suitable for decode type!" << std::endl;
+        std::cout << "[MACH1] Warning: The Mach1EncodeOutputModeType in use is not suitable for the Mach1DecodeAlgoType selected" << std::endl;
 	}
 
 	for (int j = 0; j < resultingPoints.pointsCount; j++) {

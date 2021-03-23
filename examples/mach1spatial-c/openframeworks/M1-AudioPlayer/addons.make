@@ -1,4 +1,8 @@
 ofxImGui
 ofxJSON
 ofxMach1
+ofxMach1WebSocketServer
+ofxMetaMotion
 ofxOsc
+ofxPoco
+ofxWitMotion

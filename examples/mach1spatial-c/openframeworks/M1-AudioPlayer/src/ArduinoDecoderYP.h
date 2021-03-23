@@ -12,7 +12,6 @@
 class ArduinoDecoderYP: public ofSerial {
 public:
     ArduinoDecoderYP() {
-        
     }
     
     float lastY = 0, lastP = 0, lastR = 0;
@@ -204,11 +203,8 @@ public:
             anythingNewDetected = true;
         }
         
-        
         return anythingNewDetected;
-        
     }
-    
 };
 
 #endif /* ArduinoDecoder_h */

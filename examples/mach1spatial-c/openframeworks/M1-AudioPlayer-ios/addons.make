@@ -1,6 +1,0 @@
-ofxImGui
-ofxJSON
-ofxMach1
-ofxMetaMotion
-ofxOsc
-ofxWitMotion

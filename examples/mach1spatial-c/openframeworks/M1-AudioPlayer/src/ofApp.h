@@ -65,6 +65,7 @@ public:
     // Device / IMU / Controller
     void deviceSearch();
     bool deviceSearching = false;
+    bool deviceFound = false; // Global device bool for allowing only one device at a time
     
     // WitMotion Controller
     ThreadedWMC threadedwmc;
@@ -74,7 +75,8 @@ public:
     Mach1WebSocketServer webSocketServer;
     void websocketMessageReceived(char* data, int cnt);
     
-    float angleYaw, anglePitch, angleRoll; // Main angles
+    float angleYaw, anglePitch, angleRoll; // Main output angles
+    float uiYaw, uiPitch, uiRoll; // UI angles
     float websocketYaw, websocketPitch, websocketRoll;
     float witYaw, witPitch, witRoll;
     float metaYaw, metaPitch, metaRoll;

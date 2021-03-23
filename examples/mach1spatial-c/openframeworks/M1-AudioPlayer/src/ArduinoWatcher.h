@@ -10,16 +10,13 @@ public:
         
 #ifndef _WIN32
         std::vector<std::string> result;
-        
         result = separateString(ofSystem("ls /dev/cu.Mach1*"));
-        
         
         if ((result.size() > 0) && (result.size() < 100))
             for (int i = 0; i < result.size(); i++) {
                 ofLog() << i << " : " << result[i];
             }
 #endif
-        
     }
     
     void exit() {
@@ -34,9 +31,7 @@ public:
     
     size_t stringCount(const std::string& referenceString,
                        const std::string& subString) {
-        
         const size_t step = subString.size();
-        
         size_t count(0);
         size_t pos(0) ;
         
@@ -44,15 +39,12 @@ public:
             pos +=step;
             ++count ;
         }
-        
         return count;
-        
     }
     
     void threadedFunction() {
         while (isThreadRunning()) {
             // Searching for new arduinos
-            
             auto search = separateString(ofSystem("ls /dev/cu.Mach1*"));
             auto search2 = separateString(ofSystem("ls /dev/cu.usbserial-*"));
             auto search3 = separateString(ofSystem("ls /dev/cu.wchusbserial*"));
@@ -107,14 +99,11 @@ public:
                     ofLog() << "got data: " << result;
                     for (int i = 0; i < result.size(); i++) {
                         ofLog() << " ::: " << result[i];
-                        
                     }
                     ofLog() << "how many symbols: " << result.length();
                     ofLog() << ((ofGetElapsedTimef() - testStarted) > 7);
                     ofLog() << (gotBytes > 10);
-                    
-                    //                        ofLog() << "got from serial: " << result;
-                    
+                                        
                     std::string testStr;
                     testStr += '\377';
                     int slCount = stringCount(result, testStr);
@@ -139,8 +128,6 @@ public:
     }
     
     std::vector<std::string> separateString(std::string arg) {
-        
-        
         int i = 0, lastWordIndex = 0;
         std::vector<std::string> result = std::vector<std::string>();
         
@@ -153,13 +140,9 @@ public:
                 }
                 lastWordIndex = i + 1;
             }
-            
-            
             i++;
         }
         return result;
-        
-        
     }
     
     ofSerial serial;

@@ -67,6 +67,7 @@ void ofApp::deviceSearch() {
     if (!threadedmmc.mmc.isConnected){
         threadedmmc.setup(); // BLE device includes its own search instead of bluetooth device handling below
         threadedmmc.start();
+        deviceFound = true;
     }
     
     //hardcode controller input if available
@@ -82,7 +83,6 @@ void ofApp::deviceSearch() {
         
         decoder->setup(address, 115200);
         while(!decoder->isInitialized()) {
-            
         }
         
         ofLog() << "serial initialized";
@@ -99,10 +99,10 @@ void ofApp::deviceSearch() {
             angleYaw = Y;
             anglePitch = -pitchAngleClampFix;
             angleRoll = R;
+            deviceFound = true;
         };
         arduinoDecoders.push_back(decoder);
     };
-    
     deviceSearching = false;
 }
 //--------------------------------------------------------------
@@ -125,19 +125,23 @@ void ofApp::update(){
         //metaRoll = a[1]; // disabled for now
     }
     
-    if (initializedController)
-    if (serial.isInitialized())
-    if (serial.available()) {
-        if (queueBuffer.size() > 0) {
-            queueBuffer.clear();
-        }
-        vector<unsigned char> inputs;
-        while (serial.available() > 0) {
-            unsigned char i = serial.readByte();
-            inputs.push_back(i);
-        }
-        for (int i = 0; i < inputs.size(); i++) {
-            queueBuffer.insert(queueBuffer.begin() + i, (int)inputs[i]);
+    if (deviceFound){ // to block multiple devices
+        arduinoWatcher->exit();
+    }
+
+    if (initializedController){
+        if (serial.available()) {
+            if (queueBuffer.size() > 0) {
+                queueBuffer.clear();
+            }
+            vector<unsigned char> inputs;
+            while (serial.available() > 0) {
+                unsigned char i = serial.readByte();
+                inputs.push_back(i);
+            }
+            for (int i = 0; i < inputs.size(); i++) {
+                queueBuffer.insert(queueBuffer.begin() + i, (int)inputs[i]);
+            }
         }
     }
     
@@ -151,15 +155,14 @@ void ofApp::update(){
     }
     
     if (initializedController) {
-        
         for (auto &i:arduinoDecoders)
             i->update();
     }
     
     // Update combined orientation angles //
-    angleYaw = angleYaw + ofDegToRad(websocketYaw) + ofDegToRad(witYaw) + ofDegToRad(metaYaw);
-    anglePitch = anglePitch + ofDegToRad(websocketPitch) + ofDegToRad(witPitch) + ofDegToRad(metaPitch);
-    angleRoll = angleRoll + ofDegToRad(websocketRoll) + ofDegToRad(witRoll) + ofDegToRad(metaRoll);
+    angleYaw = uiYaw + -websocketYaw + -witYaw + -metaYaw;
+    anglePitch = uiPitch + websocketPitch + -witPitch + -metaPitch;
+    angleRoll = uiRoll + websocketRoll + witRoll + metaRoll;
     
     pointLight->setPosition((ofGetWidth()*.5)+ cos(ofGetElapsedTimef()*.15)*(ofGetWidth()*.3), ofGetHeight()/2, 500);
     pointLight2->setPosition((ofGetWidth()*.5)+ cos(ofGetElapsedTimef()*.015)*(ofGetWidth()*.3),
@@ -276,18 +279,18 @@ void ofApp::draw(){
     ImGui::Begin("Mach1 Spatial Audio", &aWindow, window_flags);
     
     ImGui::Text("Select source");
-//Mach1Spatial
+    // Mach1Spatial
     const char* source_options[] = {"M1Spatial-SpatialAlgo1", "M1Spatial-SpatialAlgo2"};
-//Mach1HorizonPairs
-//    const char* source_options[] = {"M1Spatial-HorizonPairsAlgo", "M1Spatial-HorizonPairsAlgo2"};
+    // Mach1HorizonPairs
+    //const char* source_options[] = {"M1Spatial-HorizonPairsAlgo", "M1Spatial-HorizonPairsAlgo2"};
     
     ImGui::PushItemWidth(-1);
     ImGui::ListBox("##", &selectedTest, source_options, 2, 2);
     ImGui::Text("Angles:");
     bool angleChanged = false;
-    angleChanged += (ImGui::SliderFloat("", &angleYaw, 0, 360, "Y / Yaw: %.0f deg"));
-    angleChanged += (ImGui::SliderFloat("X / Pitch", &anglePitch, -90, 90, "X / Pitch: %.0f deg"));
-    angleChanged += (ImGui::SliderFloat("Z / Roll", &angleRoll, -90, 90, "Z / Roll: %.0f deg"));
+    angleChanged += (ImGui::SliderFloat("", &uiYaw, 0, 360, "Y / Yaw: %.0f deg"));
+    angleChanged += (ImGui::SliderFloat("X / Pitch", &uiPitch, -90, 90, "X / Pitch: %.0f deg"));
+    angleChanged += (ImGui::SliderFloat("Z / Roll", &uiRoll, -90, 90, "Z / Roll: %.0f deg"));
     if (angleChanged) {
         simulationAngles = ofPoint(anglePitch, angleYaw, angleRoll);
     }
@@ -306,18 +309,17 @@ void ofApp::serialAngleUpdate(float serialY, float serialP){
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
     tests[selectedTest]->keyPressed(key);
+}
+
+//--------------------------------------------------------------
+void ofApp::keyReleased(int key){
     if (key == OF_KEY_UP) {
-        // recenter/reset Orientation of WitMotion
+        // recenter/reset Orientation of WitMotion/MetaMotion
         threadedwmc.wmc.recenter();
         threadedmmc.mmc.recenter();
     }
     if ((!deviceSearching) && (key == 'h')) deviceSearch();
     if (key == 'g') threadedmmc.mmc.bUseMagnoHeading = !threadedmmc.mmc.bUseMagnoHeading;
-}
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-    
 }
 
 //--------------------------------------------------------------
@@ -347,7 +349,7 @@ void ofApp::mousePressed(int x, int y, int button){
         if (x < (ofGetWidth() - SETTINGS_TOOLBAR_WIDTH)) {
             dragginCamera = false;
             dragStart = ofPoint(x, y);
-            anglesDragStart = ofVec3f(anglePitch, angleYaw, angleRoll);
+            anglesDragStart = ofVec3f(uiPitch, uiYaw, uiRoll);
         }
     }
     tests[selectedTest]->mousePressed(x, y);

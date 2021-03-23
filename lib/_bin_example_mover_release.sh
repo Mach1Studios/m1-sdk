@@ -47,6 +47,16 @@ yes | cp -rf "external/cpp/Mach1TranscodeCAPI.h" "../../m1-sdk-release/examples/
 yes | cp -rf "external/cpp/Mach1Point3D.h" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include/Mach1Point3D.h"
 yes | cp -rf "external/cpp/Mach1Point4D.h" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include/Mach1Point4D.h"
 
+echo "### Copying for nodejs ###"
+yes | cp -rf "external/js/Mach1Decode.js" "../../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-decode/lib/Mach1Decode.js"
+yes | cp -rf "external/js/Mach1Decode.wasm" "../../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-decode/lib/Mach1Decode.wasm"
+yes | cp -rf "external/js/Mach1DecodePositional.js" "../../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-decode/lib/Mach1DecodePositional.js"
+yes | cp -rf "external/js/Mach1DecodePositional.wasm" "../../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-decode/lib/Mach1DecodePositional.wasm"
+yes | cp -rf "external/js/Mach1Encode.js" "../../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-encode/lib/Mach1Encode.js"
+yes | cp -rf "external/js/Mach1Encode.wasm" "../../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-encode/lib/Mach1Encode.wasm"
+yes | cp -rf "external/js/Mach1Transcode.js" "../../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-transcode/lib/Mach1Transcode.js"
+yes | cp -rf "external/js/Mach1Transcode.wasm" "../../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-transcode/lib/Mach1Transcode.wasm"
+
 echo "### DELETE all libUnity dirs"
 cd ../../m1-sdk-release/binaries
 find . -type d -name 'libUnity' -print0 | xargs -0 rm -rf

@@ -206,14 +206,14 @@ yes | cp -rf "../examples/mach1spatial-c/openframeworks/ofxMach1" "../../of_v0.1
 yes | cp -rf "../examples/mach1spatial-c/openframeworks/ofxMach1" "../../of_v0.10.1_osx_release/addons/"
 
 echo "### Copying for nodejs ###"
-yes | cp -rf "external/js/Mach1Decode.js" "../examples/mach1spatial-nodejs/mach1spatial-decode/Mach1Decode.js"
-yes | cp -rf "external/js/Mach1Decode.wasm" "../examples/mach1spatial-nodejs/mach1spatial-decode/Mach1Decode.wasm"
-yes | cp -rf "external/js/Mach1DecodePositional.js" "../examples/mach1spatial-nodejs/mach1spatial-decode/Mach1DecodePositional.js"
-yes | cp -rf "external/js/Mach1DecodePositional.wasm" "../examples/mach1spatial-nodejs/mach1spatial-decode/Mach1DecodePositional.wasm"
-yes | cp -rf "external/js/Mach1Encode.js" "../examples/mach1spatial-nodejs/mach1spatial-decode/Mach1Encode.js"
-yes | cp -rf "external/js/Mach1Encode.wasm" "../examples/mach1spatial-nodejs/mach1spatial-decode/Mach1Encode.wasm"
-yes | cp -rf "external/js/Mach1Transcode.js" "../examples/mach1spatial-nodejs/mach1spatial-decode/Mach1Transcode.js"
-yes | cp -rf "external/js/Mach1Transcode.wasm" "../examples/mach1spatial-nodejs/mach1spatial-decode/Mach1Transcode.wasm"
+yes | cp -rf "external/js/Mach1Decode.js" "../examples/mach1spatial-nodejs/mach1spatial-decode/lib/Mach1Decode.js"
+yes | cp -rf "external/js/Mach1Decode.wasm" "../examples/mach1spatial-nodejs/mach1spatial-decode/lib/Mach1Decode.wasm"
+yes | cp -rf "external/js/Mach1DecodePositional.js" "../examples/mach1spatial-nodejs/mach1spatial-decode/lib/Mach1DecodePositional.js"
+yes | cp -rf "external/js/Mach1DecodePositional.wasm" "../examples/mach1spatial-nodejs/mach1spatial-decode/lib/Mach1DecodePositional.wasm"
+yes | cp -rf "external/js/Mach1Encode.js" "../examples/mach1spatial-nodejs/mach1spatial-encode/lib/Mach1Encode.js"
+yes | cp -rf "external/js/Mach1Encode.wasm" "../examples/mach1spatial-nodejs/mach1spatial-encode/lib/Mach1Encode.wasm"
+yes | cp -rf "external/js/Mach1Transcode.js" "../examples/mach1spatial-nodejs/mach1spatial-transcode/lib/Mach1Transcode.js"
+yes | cp -rf "external/js/Mach1Transcode.wasm" "../examples/mach1spatial-nodejs/mach1spatial-transcode/lib/Mach1Transcode.wasm"
 
 echo "### DELETE all libUnity dirs"
 cd ../binaries

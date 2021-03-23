@@ -2,7 +2,7 @@
 
 # local paths are in this file
 include ~/m1-globallocal.mk
-EMSDK_PATH=../../emsdk
+EMSDK_PATH=/Volumes/git/emsdk
 
 # getting OS type
 ifeq ($(OS),Windows_NT)
@@ -15,7 +15,7 @@ pull: FORCE
 	git pull --recurse-submodules
 
 setup:
-	./$(EMSDK_PATH)/emsdk_env.sh
+	$(EMSDK_PATH)/emsdk_env.sh
 
 clear: 
 	rm -rf _install/*
@@ -103,6 +103,24 @@ build-web: setup
 	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1DecodePositionalModule'" -Iinclude/ --pre-js Mach1DecodePositionalEmscripten.js -o external/js/Mach1DecodePositional.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodePositionalCore.cpp Mach1DecodePositionalCAPI.cpp Mach1DecodePositionalEmscripten.cpp
 	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1EncodeModule'" --pre-js Mach1EncodeEmscripten.js -o external/js/Mach1Encode.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1EncodeCore.cpp Mach1EncodeCAPI.cpp Mach1EncodeEmscripten.cpp
 	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1TranscodeModule'" --pre-js Mach1TranscodeEmscripten.js -o external/js/Mach1Transcode.js -Iinclude Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1TranscodeCore.cpp Mach1TranscodeCAPI.cpp Mach1TranscodeEmscripten.cpp Mach1GenerateCoeffs.cpp include/M1DSP/M1DSPUtilities.cpp include/M1DSP/M1DSPFilters.cpp
+	yes | cp -rf "external/js/Mach1Decode.js" "../examples/mach1spatial-nodejs/mach1spatial-decode/Mach1Decode.js"
+	yes | cp -rf "external/js/Mach1Decode.wasm" "../examples/mach1spatial-nodejs/mach1spatial-decode/Mach1Decode.wasm"
+	yes | cp -rf "external/js/Mach1DecodePositional.js" "../examples/mach1spatial-nodejs/mach1spatial-decode/Mach1DecodePositional.js"
+	yes | cp -rf "external/js/Mach1DecodePositional.wasm" "../examples/mach1spatial-nodejs/mach1spatial-decode/Mach1DecodePositional.wasm"
+	yes | cp -rf "external/js/Mach1Encode.js" "../examples/mach1spatial-nodejs/mach1spatial-decode/Mach1Encode.js"
+	yes | cp -rf "external/js/Mach1Encode.wasm" "../examples/mach1spatial-nodejs/mach1spatial-decode/Mach1Encode.wasm"
+	yes | cp -rf "external/js/Mach1Transcode.js" "../examples/mach1spatial-nodejs/mach1spatial-decode/Mach1Transcode.js"
+	yes | cp -rf "external/js/Mach1Transcode.wasm" "../examples/mach1spatial-nodejs/mach1spatial-decode/Mach1Transcode.wasm"
+	yes | cp -rf "external/js/Mach1Decode.js" "../examples/mach1spatial-web/js/Mach1Decode.js"
+	yes | cp -rf "external/js/Mach1Decode.wasm" "../examples/mach1spatial-web/js/Mach1Decode.wasm"
+	yes | cp -rf "external/js/Mach1DecodePositional.js" "../examples/mach1spatial-web/js/Mach1DecodePositional.js"
+	yes | cp -rf "external/js/Mach1DecodePositional.wasm" "../examples/mach1spatial-web/js/Mach1DecodePositional.wasm"
+	yes | cp -rf "external/js/Mach1Encode.js" "../examples/mach1spatial-web/js/Mach1Encode.js"
+	yes | cp -rf "external/js/Mach1Encode.wasm" "../examples/mach1spatial-web/js/Mach1Encode.wasm"
+	yes | cp -rf "external/js/Mach1Transcode.js" "../examples/mach1spatial-web/js/Mach1Transcode.js"
+	yes | cp -rf "external/js/Mach1Transcode.wasm" "../examples/mach1spatial-web/js/Mach1Transcode.wasm"
+	yes | cp -rf "external/js/Mach1Decode.js" "../examples/mach1spatial-web/m1-web-spatialaudioplayer/js/Mach1Decode.js"
+	yes | cp -rf "external/js/Mach1Decode.wasm" "../examples/mach1spatial-web/m1-web-spatialaudioplayer/js/Mach1Decode.wasm"
 
 build-android: FORCE
 	python ../../polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx

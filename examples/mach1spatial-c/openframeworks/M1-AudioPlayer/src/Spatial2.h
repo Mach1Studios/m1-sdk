@@ -57,7 +57,6 @@ public:
         }
     }
     
-    
     void draw() {
         // Restart offset fix
         if (scheduleRestart > 0) scheduleRestart--;

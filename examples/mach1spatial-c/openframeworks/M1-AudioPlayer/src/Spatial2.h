@@ -14,8 +14,6 @@ public:
         spherePoints[6] = ofPoint(-200, -200, 200);
         spherePoints[7] = ofPoint(-200, 200, 200);
         
-        //
-        
         volumes.resize(8);
         
         for (int i = 0; i < 8; i++){
@@ -61,7 +59,6 @@ public:
     
     
     void draw() {
-        
         // Restart offset fix
         if (scheduleRestart > 0) scheduleRestart--;
         if (scheduleRestart == 0) {
@@ -72,18 +69,11 @@ public:
         ofSetLineWidth(4);
         ofSetCircleResolution(48);
         for (int i = 0; i < 8; i++) {
-            //            ofSetColor(200, 0, 0); // 1
-            //            ofDrawSphere(spherePoints[i].x, spherePoints[i].y - 20, spherePoints[i].z, volumes[i * 2] * 18 + 2);
-            //            ofSetColor(0, 0, 200);
-            //            ofDrawSphere(spherePoints[i].x, spherePoints[i].y + 20, spherePoints[i].z, volumes[i * 2 + 1] * 18 + 2);
-            
         }
-        
         
         ofDisableLighting();
         for (int i = 0; i < 8; i++) {
             ofSetColor(255);
-            //            ofDrawBitmapString(ofToString(i), spherePoints[i].x, spherePoints[i].y, spherePoints[i].z);
         }
         
         ofSetColor(0, 100, 0);
@@ -113,12 +103,6 @@ public:
     
     void setOverallVolume(float volume) {
         overallVolume = volume;
-        
-        //    ofSetColor(255, 0, 0);
-        //    ofDrawBitmapString("Red means left", 20, ofGetHeight() - 250);
-        //    ofSetColor(0, 0, 255);
-        //    ofDrawBitmapString("Blue means right", 20, ofGetHeight() - 230);
-        
     }
     
     virtual void mousePressed(int x, int y) {
@@ -131,16 +115,12 @@ public:
         }
     };
     
-    //
-    
     ofPoint spherePoints[8];
     std::vector<float> volumes;
     float overallVolume = 0;
     float coefficients[8];
     ofSoundPlayer playersLeft[8];
     ofSoundPlayer playersRight[8];
-    
-    //////////////
     Mach1Decode mach1Decode;
     
     std::vector<float> audioMixAlgorithm(float X, float Y, float Z) {
@@ -179,5 +159,4 @@ public:
             restart();
         }
     }
-    
 };

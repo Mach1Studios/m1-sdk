@@ -331,10 +331,10 @@ void ofApp::mouseMoved(int x, int y ){
 void ofApp::mouseDragged(int x, int y, int button){
     ofPoint delta = ofPoint(x - dragStart.x, y - dragStart.y) / 500.;
     if (x > (ofGetWidth() - SETTINGS_TOOLBAR_WIDTH)) return;
-    if (dragginCamera) {
-        spectatorCam.x = -ofWrap(spectatorCamStart.x + delta.x, 0., 1.);
-        spectatorCam.y = ofClamp(spectatorCamStart.y + delta.y, 0., 1.);
-    }
+//    if (dragginCamera) {
+//        spectatorCam.x = -ofWrap(spectatorCamStart.x + delta.x, 0., 1.);
+//        spectatorCam.y = ofClamp(spectatorCamStart.y + delta.y, 0., 1.);
+//    }
 }
 
 //--------------------------------------------------------------

@@ -1,9 +1,8 @@
 //
 //  ArduinoDecoder.h
-//  M1 Player
+//  M1 Audio Player
 //
-//  Created by zebra on 21/09/16.
-//
+//  Created on 21/09/16.
 //
 
 #ifndef ArduinoDecoder_h

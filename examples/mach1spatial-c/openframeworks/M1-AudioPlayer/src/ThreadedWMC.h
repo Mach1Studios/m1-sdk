@@ -1,6 +1,5 @@
 //
 //  ThreadedWMC.h
-//  M1-VideoPlayer
 //
 //  Created by Dylan Marcus on 1/5/21.
 //

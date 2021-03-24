@@ -1764,7 +1764,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rsync -aved \"$OF_PATH/addons/ofxMetaMotion/libs/libmetawear/lib/osx/libmetawear.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/\";\ninstall_name_tool -id @executable_path/../Frameworks/libmetawear.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/libmetawear.dylib\";\ninstall_name_tool -change libmetawear.dylib @executable_path/../Frameworks/libmetawear.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\";\n";
+			shellScript = "rsync -aved \"$OF_PATH/addons/ofxMetaMotion/libs/libmetawear/lib/osx/libmetawear.dylib\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/\";\ninstall_name_tool -id @executable_path/../Frameworks/libmetawear.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/libmetawear.dylib\";\ninstall_name_tool -change libmetawear.dylib @executable_path/../Frameworks/libmetawear.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\";\n\n# Copy bin/data into App/Resources\nrsync -avz --exclude='.DS_Store' \"${SRCROOT}/bin/data/\" \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"\n";
 		};
 		E42962A92163ECCD00A6A9E2 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1777,7 +1777,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "xcodebuild -project \"$OF_PATH/libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj\" -target openFrameworks -configuration \"${CONFIGURATION}\"";
+			shellScript = "xcodebuild -project \"$OF_PATH/libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj\" -target openFrameworks -configuration \"${CONFIGURATION}\"\n";
 		};
 		E4B6FFFD0C3F9AB9008CF71C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

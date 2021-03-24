@@ -195,16 +195,13 @@ void ofApp::draw(){
     
     float fogColor[3] = {0.3, 0.3, 0.3};
     glFogfv(GL_FOG_COLOR, fogColor);
-    
-    //    glEnable(GL_FOG);
-    
+
     ofPushMatrix();
     ofTranslate(ofGetWidth() / 2, ofGetHeight() / 2);
-    ofRotate(90 * spectatorCam.y, 1, 0, 0);
-    ofRotate(360 * spectatorCam.x, 0, 0, 1);
+    ofRotate(90*spectatorCam.x, 1, 0, 0);
+    ofRotate(-180*spectatorCam.y, 0, 0, 1);
     
     // Drawing grid
-    
     ofSetColor(100);
     ofSetLineWidth(1);
     int lCount = 80;
@@ -288,7 +285,7 @@ void ofApp::draw(){
     ImGui::ListBox("##", &selectedTest, source_options, 2, 2);
     ImGui::Text("Angles:");
     bool angleChanged = false;
-    angleChanged += (ImGui::SliderFloat("", &uiYaw, 0, 360, "Y / Yaw: %.0f deg"));
+    angleChanged += (ImGui::SliderFloat("", &uiYaw, -180, 180, "Y / Yaw: %.0f deg"));
     angleChanged += (ImGui::SliderFloat("X / Pitch", &uiPitch, -90, 90, "X / Pitch: %.0f deg"));
     angleChanged += (ImGui::SliderFloat("Z / Roll", &uiRoll, -90, 90, "Z / Roll: %.0f deg"));
     if (angleChanged) {
@@ -343,7 +340,7 @@ void ofApp::mousePressed(int x, int y, int button){
         if (x < (ofGetWidth() - SETTINGS_TOOLBAR_WIDTH)) {
             dragginCamera = true;
             dragStart = ofPoint(x, y);
-            spectatorCamStart = spectatorCam;
+            //spectatorCamStart = spectatorCam;
         } else dragginCamera = false;
     } else {
         if (x < (ofGetWidth() - SETTINGS_TOOLBAR_WIDTH)) {

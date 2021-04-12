@@ -1,5 +1,5 @@
 //  Mach1 Spatial SDK
-//  Copyright © 2017-2020 Mach1. All rights reserved.
+//  Copyright © 2017-2021 Mach1. All rights reserved.
 
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS
@@ -378,7 +378,6 @@ int main(int argc, char* argv[])
 	//=================================================================
 	//  main sound loop
 	// 
-
 	int inChannels = 0;
 	for (int i = 0; i < numInFiles; i++)
 		inChannels += infile[i]->channels();

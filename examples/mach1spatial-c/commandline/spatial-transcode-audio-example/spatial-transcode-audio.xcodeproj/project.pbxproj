@@ -9,11 +9,9 @@
 /* Begin PBXBuildFile section */
 		A45C55862624AACB0008FF4D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A45C55822624AACB0008FF4D /* main.cpp */; };
 		A45C558B2624AADA0008FF4D /* Mach1Transcode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A45C55882624AADA0008FF4D /* Mach1Transcode.cpp */; };
-		A45C55942624AAF60008FF4D /* M1DSPDynamics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A45C55902624AAF60008FF4D /* M1DSPDynamics.cpp */; };
-		A45C55952624AAF60008FF4D /* M1DSPFilters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A45C55922624AAF60008FF4D /* M1DSPFilters.cpp */; };
-		A45C55962624AAF60008FF4D /* M1DSPUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A45C55932624AAF60008FF4D /* M1DSPUtilities.cpp */; };
 		A45C560E2624BB500008FF4D /* libMach1TranscodeCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A45C55F62624B12F0008FF4D /* libMach1TranscodeCAPI.a */; };
 		A45C56412624D0EA0008FF4D /* libsndfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A45C563D2624C6910008FF4D /* libsndfile.a */; };
+		A45C564C2624DD3D0008FF4D /* M1DSPUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A45C564B2624DD3D0008FF4D /* M1DSPUtilities.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -35,18 +33,14 @@
 		A45C55882624AADA0008FF4D /* Mach1Transcode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mach1Transcode.cpp; path = ../../../../../include/cpp/Mach1Transcode.cpp; sourceTree = "<group>"; };
 		A45C55892624AADA0008FF4D /* Mach1Transcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1Transcode.h; path = ../../../../../include/cpp/Mach1Transcode.h; sourceTree = "<group>"; };
 		A45C558A2624AADA0008FF4D /* Mach1TranscodeCAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1TranscodeCAPI.h; path = ../../../../../include/cpp/Mach1TranscodeCAPI.h; sourceTree = "<group>"; };
-		A45C558E2624AAF60008FF4D /* M1DSPFilters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M1DSPFilters.h; sourceTree = "<group>"; };
-		A45C558F2624AAF60008FF4D /* M1DSPUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M1DSPUtilities.h; sourceTree = "<group>"; };
-		A45C55902624AAF60008FF4D /* M1DSPDynamics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = M1DSPDynamics.cpp; sourceTree = "<group>"; };
-		A45C55912624AAF60008FF4D /* M1DSPDynamics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M1DSPDynamics.h; sourceTree = "<group>"; };
-		A45C55922624AAF60008FF4D /* M1DSPFilters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = M1DSPFilters.cpp; sourceTree = "<group>"; };
-		A45C55932624AAF60008FF4D /* M1DSPUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = M1DSPUtilities.cpp; sourceTree = "<group>"; };
 		A45C55F62624B12F0008FF4D /* libMach1TranscodeCAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMach1TranscodeCAPI.a; path = ../../../../binaries/xcode/lib/libMach1TranscodeCAPI.a; sourceTree = "<group>"; };
 		A45C56242624C0B00008FF4D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A45C562E2624C5B20008FF4D /* sndfile.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sndfile.hh; sourceTree = "<group>"; };
 		A45C562F2624C5B20008FF4D /* sndfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sndfile.h; sourceTree = "<group>"; };
 		A45C563D2624C6910008FF4D /* libsndfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsndfile.a; path = ../../../../../../../usr/local/Cellar/libsndfile/1.0.31/lib/libsndfile.a; sourceTree = "<group>"; };
 		A45C563F2624D0600008FF4D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A45C564A2624DD3D0008FF4D /* M1DSPUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M1DSPUtilities.h; sourceTree = "<group>"; };
+		A45C564B2624DD3D0008FF4D /* M1DSPUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = M1DSPUtilities.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,23 +93,9 @@
 				A45C55892624AADA0008FF4D /* Mach1Transcode.h */,
 				A45C55882624AADA0008FF4D /* Mach1Transcode.cpp */,
 				A45C558A2624AADA0008FF4D /* Mach1TranscodeCAPI.h */,
-				A45C558D2624AAF60008FF4D /* M1DSP */,
+				A45C56492624DD3D0008FF4D /* M1DSP */,
 			);
 			path = src;
-			sourceTree = "<group>";
-		};
-		A45C558D2624AAF60008FF4D /* M1DSP */ = {
-			isa = PBXGroup;
-			children = (
-				A45C558E2624AAF60008FF4D /* M1DSPFilters.h */,
-				A45C558F2624AAF60008FF4D /* M1DSPUtilities.h */,
-				A45C55902624AAF60008FF4D /* M1DSPDynamics.cpp */,
-				A45C55912624AAF60008FF4D /* M1DSPDynamics.h */,
-				A45C55922624AAF60008FF4D /* M1DSPFilters.cpp */,
-				A45C55932624AAF60008FF4D /* M1DSPUtilities.cpp */,
-			);
-			name = M1DSP;
-			path = ../../../../../lib/include/M1DSP;
 			sourceTree = "<group>";
 		};
 		A45C562D2624C5B20008FF4D /* include */ = {
@@ -126,6 +106,16 @@
 			);
 			name = include;
 			path = ../../../../../../../usr/local/Cellar/libsndfile/1.0.31/include;
+			sourceTree = "<group>";
+		};
+		A45C56492624DD3D0008FF4D /* M1DSP */ = {
+			isa = PBXGroup;
+			children = (
+				A45C564A2624DD3D0008FF4D /* M1DSPUtilities.h */,
+				A45C564B2624DD3D0008FF4D /* M1DSPUtilities.cpp */,
+			);
+			name = M1DSP;
+			path = ../../../../../include/cpp/M1DSP;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,10 +175,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A45C55862624AACB0008FF4D /* main.cpp in Sources */,
+				A45C564C2624DD3D0008FF4D /* M1DSPUtilities.cpp in Sources */,
 				A45C558B2624AADA0008FF4D /* Mach1Transcode.cpp in Sources */,
-				A45C55962624AAF60008FF4D /* M1DSPUtilities.cpp in Sources */,
-				A45C55942624AAF60008FF4D /* M1DSPDynamics.cpp in Sources */,
-				A45C55952624AAF60008FF4D /* M1DSPFilters.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme
+   LastUpgradeVersion = "1010"
+   version = "1.3">
+   <BuildAction
+      parallelizeBuildables = "YES"
+      buildImplicitDependencies = "YES">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "A41FB94221CAB28400F2CBD4"
+               BuildableName = "spatial-transcode-audio"
+               BlueprintName = "spatial-transcode-audio"
+               ReferencedContainer = "container:spatial-transcode-audio.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
+   </BuildAction>
+   <TestAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      shouldUseLaunchSchemeArgsEnv = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "A41FB94221CAB28400F2CBD4"
+            BuildableName = "spatial-transcode-audio"
+            BlueprintName = "spatial-transcode-audio"
+            ReferencedContainer = "container:spatial-transcode-audio.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+      <Testables>
+      </Testables>
+   </TestAction>
+   <LaunchAction
+      buildConfiguration = "Release"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      launchStyle = "0"
+      useCustomWorkingDirectory = "NO"
+      ignoresPersistentStateOnLaunch = "NO"
+      debugDocumentVersioning = "YES"
+      debugServiceExtension = "internal"
+      allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "A41FB94221CAB28400F2CBD4"
+            BuildableName = "spatial-transcode-audio"
+            BlueprintName = "spatial-transcode-audio"
+            ReferencedContainer = "container:spatial-transcode-audio.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "fmtconv -in-file /Users/dylanmarcus/Desktop/Mach1-TestFiles/Mach1Spatial/OrientationCheck/guitar-m1transcoded.wav -in-fmt M1Spatial -out-file /Users/dylanmarcus/Desktop/Mach1-TestFiles/Mach1Spatial/OrientationCheck/guitar-m1transcoded_71.wav -out-fmt FiveOneFilm_Cinema -out-file-chans 0"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "fmtconv -in-file /Users/dylanmarcus/Desktop/Mach1-TestFiles/fiveone_test.wav -in-fmt FiveOneFilm_Cinema -spatial-downmixer 0.9 -out-file /Users/dylanmarcus/Desktop/Mach1-TestFiles/test_spatial.wav -out-fmt M1Spatial -out-file-chans 0"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "fmtconv -in-file /Users/dylanmarcus/Desktop/Mach1-TestFiles/Mach1Spatial/OrientationCheck/guitar-m1transcoded.wav -in-fmt M1Spatial -out-file /Users/dylanmarcus/Desktop/Mach1-TestFiles/Mach1Spatial/OrientationCheck/guitar-m1transcoded_71.wav -lfe-sub 0,1,2,3,4,5,6,7 -out-fmt Stereo -out-file-chans 0"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "fmtconv -in-file /Users/dylanmarcus/Desktop/Mach1-TestFiles/channels_5_1_4_adm.wav -in-fmt FiveOneFour -out-file /Users/dylanmarcus/Desktop/Mach1-TestFiles/ADM-test.wav -extract-metadata -out-fmt M1Spatial -out-file-chans 0"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "fmtconv -in-file /Users/dylanmarcus/Desktop/Mach1-TestFiles/pan_engine_polar_adm.wav -in-fmt FiveOneFour -out-file /Users/dylanmarcus/Desktop/Mach1-TestFiles/ADM-test.wav -extract-metadata -out-fmt FiveOneFour -out-file-chans 0"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "fmtconv -in-file /Users/dylanmarcus/Desktop/Mach1-TestFiles/channels_5_1_4_adm.wav -in-fmt FiveOneFour -out-file /Users/dylanmarcus/Desktop/Mach1-TestFiles/ADM-test.wav -out-fmt FiveOneFour -out-file-chans 0"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "fmtconv -in-file /Users/dylanmarcus/Desktop/Mach1-TestFiles/channels_7_1_4_adm.wav -in-fmt SevenOneFour -out-file /Users/dylanmarcus/Desktop/Mach1-TestFiles/ADM-test.wav -out-fmt M1Spatial -out-file-chans 0"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "fmtconv -in-file /Users/dylanmarcus/Desktop/Mach1-TestFiles/panned_noise_adm.wav -in-fmt SevenOneFour -out-file /Users/dylanmarcus/Desktop/Mach1-TestFiles/ADM-test.wav -extract-metadata -out-fmt M1Spatial -out-file-chans 0"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "fmtconv -in-file /Users/dylanmarcus/Desktop/Mach1-TranscoderQA/Guitar-8ch.aif -in-fmt M1Spatial -out-file /Users/dylanmarcus/Desktop/Mach1-TranscoderQA/M1Spatial-to-16channel.wav -out-json /Users/dylanmarcus/Desktop/Mach1-TranscoderQA/SurroundInputs/Custom16Channel.json -out-fmt TTPoints -out-file-chans 0"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "fmtconv -in-file ~/Desktop/avg_r1_summed.wav -in-fmt M1SpatialFaces -out-fmt M1Spatial -out-file ~/Desktop/avg_r1_m1spatial.wav -out-file-chans 0"
+            isEnabled = "NO">
+         </CommandLineArgument>
+      </CommandLineArguments>
+   </LaunchAction>
+   <ProfileAction
+      buildConfiguration = "Release"
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      savedToolIdentifier = ""
+      useCustomWorkingDirectory = "NO"
+      debugDocumentVersioning = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "A41FB94221CAB28400F2CBD4"
+            BuildableName = "spatial-transcode-audio"
+            BlueprintName = "spatial-transcode-audio"
+            ReferencedContainer = "container:spatial-transcode-audio.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
+   </ProfileAction>
+   <AnalyzeAction
+      buildConfiguration = "Debug">
+   </AnalyzeAction>
+   <ArchiveAction
+      buildConfiguration = "Release"
+      revealArchiveInOrganizer = "YES">
+   </ArchiveAction>
+</Scheme>

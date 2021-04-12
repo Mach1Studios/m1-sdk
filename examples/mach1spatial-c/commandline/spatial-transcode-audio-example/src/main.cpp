@@ -73,7 +73,6 @@ void printHelp()
 	cout << "    FiveOneFilm_Cinema (Pro Tools default / C|24)  - L C R Ls Rs LFE, forward focus" << std::endl;
 	cout << "    FiveOneSmpte (SMPTE/ITU for Dolby Digital (AC3) - L R C LFE Ls Rs" << std::endl;
 	cout << "    FiveOneDts (DTS) - L R Ls Rs C LFE" << std::endl;
-	cout << "    SixOh   - [INCOMPLETE]" << std::endl;
 	cout << "    SevenOnePt (Pro Tools default) - L C R Lss Rss Lsr Rsr LFE" << std::endl;
 	cout << "    SevenOnePt_Cinema (Pro Tools default) - L C R Lss Rss Lsr Rsr LFE, forward focus" << std::endl;
 	cout << "    SevenZero_Cinema (Pro Tools default) - L C R Lss Rss Lsr Rsr, forward focus" << std::endl;
@@ -89,8 +88,6 @@ void printHelp()
 	cout << "    SevenZeroFour (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr FLts FRts BLts BRts" << std::endl;
 	cout << "    SevenOneTwo (SMPTE) - L R C LFE Lss Rss Lsr Rsr Lts Rts [INCOMPLETE]" << std::endl;
 	cout << "    SevenZeroTwo (SMPTE) - L R C Lss Rss Lsr Rsr Lts Rts [INCOMPLETE]" << std::endl;
-	cout << "    NineOne - [INCOMPLETE]" << std::endl;
-	cout << "    NineZero - [INCOMPLETE]" << std::endl;
 	cout << "    ACNSN3D  - 1st order B-format, ACN order and SN3D weighting" << std::endl;
 	cout << "    FuMa     - 1st order B-format, Furse-Malham order and weighting" << std::endl;
 	cout << "    TBE   - W, X, Y, Z, U, V, T, S" << std::endl;

@@ -13,6 +13,7 @@
 		A45C55952624AAF60008FF4D /* M1DSPFilters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A45C55922624AAF60008FF4D /* M1DSPFilters.cpp */; };
 		A45C55962624AAF60008FF4D /* M1DSPUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A45C55932624AAF60008FF4D /* M1DSPUtilities.cpp */; };
 		A45C560E2624BB500008FF4D /* libMach1TranscodeCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A45C55F62624B12F0008FF4D /* libMach1TranscodeCAPI.a */; };
+		A45C56412624D0EA0008FF4D /* libsndfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A45C563D2624C6910008FF4D /* libsndfile.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -45,6 +46,7 @@
 		A45C562E2624C5B20008FF4D /* sndfile.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sndfile.hh; sourceTree = "<group>"; };
 		A45C562F2624C5B20008FF4D /* sndfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sndfile.h; sourceTree = "<group>"; };
 		A45C563D2624C6910008FF4D /* libsndfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsndfile.a; path = ../../../../../../../usr/local/Cellar/libsndfile/1.0.31/lib/libsndfile.a; sourceTree = "<group>"; };
+		A45C563F2624D0600008FF4D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A45C560E2624BB500008FF4D /* libMach1TranscodeCAPI.a in Frameworks */,
+				A45C56412624D0EA0008FF4D /* libsndfile.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,6 +65,8 @@
 		A41FB93A21CAB28400F2CBD4 = {
 			isa = PBXGroup;
 			children = (
+				A45C563F2624D0600008FF4D /* README.md */,
+				A45C56242624C0B00008FF4D /* Info.plist */,
 				A45C557D2624AACB0008FF4D /* src */,
 				A41FB94421CAB28400F2CBD4 /* Products */,
 				A41FB95721CAB41E00F2CBD4 /* Frameworks */,
@@ -89,9 +94,8 @@
 		A45C557D2624AACB0008FF4D /* src */ = {
 			isa = PBXGroup;
 			children = (
-				A45C56242624C0B00008FF4D /* Info.plist */,
-				A45C55802624AACB0008FF4D /* CmdOption.h */,
 				A45C55822624AACB0008FF4D /* main.cpp */,
+				A45C55802624AACB0008FF4D /* CmdOption.h */,
 				A45C55892624AADA0008FF4D /* Mach1Transcode.h */,
 				A45C55882624AADA0008FF4D /* Mach1Transcode.cpp */,
 				A45C558A2624AADA0008FF4D /* Mach1TranscodeCAPI.h */,

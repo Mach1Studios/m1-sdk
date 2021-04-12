@@ -162,7 +162,6 @@ int main(int argc, char* argv[])
 	//=================================================================
 	// read command line parameters
 	//
-
 	char *pStr;
 	if (cmdOptionExists(argv, argv + argc, "-h")
 		|| cmdOptionExists(argv, argv + argc, "-help")
@@ -405,7 +404,7 @@ int main(int argc, char* argv[])
 					}
 					*/ 
 
-					// reinit
+					// reinitialize inputs and outputs
 					outFmt = Mach1TranscodeFormatType::Mach1TranscodeFormatM1Horizon;
 					m1transcode.setOutputFormat(outFmt);
 					m1transcode.processConversionPath();
@@ -493,12 +492,15 @@ int main(int argc, char* argv[])
 			}
 			totalSamples += samplesRead;
 
+            /*
+             `processConversion()` is called after `processConversionPath() has been called and set at least once!
+             */
 			m1transcode.processConversion(inPtrs, outPtrs, (int)samplesRead);
 
 			if (pass == 1) {
 				if (normalize)
 				{
-					// find max
+					// find max for first pass normalization
 					peak = (std::max)(peak, m1transcode.processNormalization(outPtrs, samplesRead));
 				}
 			}

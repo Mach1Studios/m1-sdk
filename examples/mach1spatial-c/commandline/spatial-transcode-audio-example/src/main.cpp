@@ -1,6 +1,20 @@
 //  Mach1 Spatial SDK
 //  Copyright © 2017-2021 Mach1. All rights reserved.
 
+/*
+ This example is for reference for how Mach1Spatial Coefficients from Mach1Transcode API
+ could be used on audio streams and buffers.
+ 
+ Order of Operations:
+ 1. Setup Input and Output formats (and paths)
+ 2. Call `processConversionPath()` to setup the conversion for processing
+ 3. Use `setSpatialDownmixer()` & `getSpatialDownmixerPossibility()` to downmix content to Mach1Horizon if top/bottom
+    difference is less than correlation threshold
+    Note: Afterwards reinitizalize setup of Input and Output formats
+ 4. Call `processConversion()` to execute the conversion and return coeffs per buffer/sample per channel
+ 5. Apply to buffer/samples per channel in file rendering or audio mixer
+ */
+
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS
 #endif
@@ -397,13 +411,6 @@ int main(int argc, char* argv[])
 			{
 				if (m1transcode.getSpatialDownmixerPossibility())
 				{
-					/*
-					std::vector<float> avgSamplesDiff = spatialDownmixChecker.getAvgSamplesDiff();
-					for (int i = 0; i < avgSamplesDiff.size(); i++) {
-						printf("Average samples diff: %f\r\n", avgSamplesDiff[i]);
-					}
-					*/ 
-
 					// reinitialize inputs and outputs
 					outFmt = Mach1TranscodeFormatType::Mach1TranscodeFormatM1Horizon;
 					m1transcode.setOutputFormat(outFmt);

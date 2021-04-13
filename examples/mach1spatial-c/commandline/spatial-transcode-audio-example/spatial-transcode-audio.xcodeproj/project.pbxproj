@@ -78,8 +78,8 @@
 		A41FB95721CAB41E00F2CBD4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A45C563D2624C6910008FF4D /* libsndfile.a */,
 				A45C55F62624B12F0008FF4D /* libMach1TranscodeCAPI.a */,
+				A45C563D2624C6910008FF4D /* libsndfile.a */,
 				A45C562D2624C5B20008FF4D /* include */,
 			);
 			name = Frameworks;

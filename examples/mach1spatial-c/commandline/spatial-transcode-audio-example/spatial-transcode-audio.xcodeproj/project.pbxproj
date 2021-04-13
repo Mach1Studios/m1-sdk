@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		15EAEE1B26262F5D001AEF0B /* RtAudio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15EAEE1926262F5D001AEF0B /* RtAudio.cpp */; };
 		A45C55862624AACB0008FF4D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A45C55822624AACB0008FF4D /* main.cpp */; };
 		A45C558B2624AADA0008FF4D /* Mach1Transcode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A45C55882624AADA0008FF4D /* Mach1Transcode.cpp */; };
 		A45C560E2624BB500008FF4D /* libMach1TranscodeCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A45C55F62624B12F0008FF4D /* libMach1TranscodeCAPI.a */; };
@@ -27,6 +28,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		15EAEE1926262F5D001AEF0B /* RtAudio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RtAudio.cpp; sourceTree = "<group>"; };
+		15EAEE1A26262F5D001AEF0B /* RtAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtAudio.h; sourceTree = "<group>"; };
 		A41FB94321CAB28400F2CBD4 /* spatial-transcode-audio */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "spatial-transcode-audio"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A45C55802624AACB0008FF4D /* CmdOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CmdOption.h; sourceTree = "<group>"; };
 		A45C55822624AACB0008FF4D /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -88,6 +91,8 @@
 		A45C557D2624AACB0008FF4D /* src */ = {
 			isa = PBXGroup;
 			children = (
+				15EAEE1926262F5D001AEF0B /* RtAudio.cpp */,
+				15EAEE1A26262F5D001AEF0B /* RtAudio.h */,
 				A45C55822624AACB0008FF4D /* main.cpp */,
 				A45C55802624AACB0008FF4D /* CmdOption.h */,
 				A45C55892624AADA0008FF4D /* Mach1Transcode.h */,
@@ -174,6 +179,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15EAEE1B26262F5D001AEF0B /* RtAudio.cpp in Sources */,
 				A45C55862624AACB0008FF4D /* main.cpp in Sources */,
 				A45C564C2624DD3D0008FF4D /* M1DSPUtilities.cpp in Sources */,
 				A45C558B2624AADA0008FF4D /* Mach1Transcode.cpp in Sources */,

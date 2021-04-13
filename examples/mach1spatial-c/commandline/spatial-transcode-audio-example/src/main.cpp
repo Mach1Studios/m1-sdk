@@ -31,6 +31,24 @@
 #include "sndfile.hh"
 #include "CmdOption.h"
 
+#include "RtAudio.h"
+
+typedef signed short MY_TYPE;
+#define FORMAT RTAUDIO_SINT16
+
+
+int inout( void *outputBuffer, void *inputBuffer, unsigned int /*nBufferFrames*/,
+           double /*streamTime*/, RtAudioStreamStatus status, void *data )
+{
+  // Since the number of input and output channels is equal, we can do
+  // a simple buffer copy operation here.
+  if ( status ) std::cout << "Stream over/underflow detected." << std::endl;
+
+  unsigned int *bytes = (unsigned int *) data;
+  memcpy( outputBuffer, inputBuffer, *bytes );
+  return 0;
+}
+
 using namespace std;
 
 vector<string> &split(const string &s, char delim, vector<string> &elems) {
@@ -137,6 +155,33 @@ void printFileInfo(SndfileHandle file)
 
 int main(int argc, char* argv[])
 {
+    // RtAudio setup
+    
+    // Set the same number of channels for both input and output.
+    unsigned int audioOutputChannels = 2, fs, bufferBytes, oDevice = 0, iDevice = 0, iOffset = 0, oOffset = 0;
+    unsigned int bufferFrames = 512;
+    RtAudio::StreamParameters iParams, oParams;
+    iParams.deviceId = iDevice;
+    iParams.nChannels = audioOutputChannels;
+    iParams.firstChannel = iOffset;
+    oParams.deviceId = oDevice;
+    oParams.nChannels = audioOutputChannels;
+    oParams.firstChannel = oOffset;
+    
+    RtAudio adac;
+    if ( adac.getDeviceCount() < 1 ) {
+      std::cout << "\nNo audio devices found!\n";
+      exit( 1 );
+    }
+
+    if ( iDevice == 0 )
+      iParams.deviceId = adac.getDefaultInputDevice();
+    if ( oDevice == 0 )
+      oParams.deviceId = adac.getDefaultOutputDevice();
+
+    
+    // Mach1Transcode setup
+    
 	Mach1Transcode m1transcode;
 
 	// locals for cmd line parameters

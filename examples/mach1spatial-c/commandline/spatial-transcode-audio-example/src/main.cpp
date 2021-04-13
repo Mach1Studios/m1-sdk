@@ -367,6 +367,7 @@ int main(int argc, char* argv[])
 		printf("\r\n");
 	}
 
+    // Return matrix of coeffs for conversion for further customization or tweaking
 	vector<vector<float>> matrix = m1transcode.getMatrixConversion();
 
 	//=================================================================

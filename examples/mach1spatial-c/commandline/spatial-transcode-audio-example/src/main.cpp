@@ -201,7 +201,6 @@ int main(int argc, char* argv[])
 	 */
 	pStr = getCmdOption(argv, argv + argc, "-spatial-downmix");
 	if (pStr != NULL) {
-        std::cout << "Correlation Threshold: " << pStr << std::endl;
 		spatialDownmixerMode = true;
 		corrThreshold = atof(pStr);
 	}
@@ -353,7 +352,7 @@ int main(int argc, char* argv[])
 	//  print intermediate formats path
 	//
 	if (!m1transcode.processConversionPath()) {
-		printf("Can't found conversion between formats!");
+		printf("No applicable conversion between selected input & output formats!");
 		return -1;
 	}
 	else {

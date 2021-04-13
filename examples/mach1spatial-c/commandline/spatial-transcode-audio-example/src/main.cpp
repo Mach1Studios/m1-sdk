@@ -154,8 +154,8 @@ int main(int argc, char* argv[])
 	int outFileChans;
 	int channels;
 	bool spatialDownmixerMode = false;
-	float corrThreshold = 0.0;
 
+	float corrThreshold = 0.1;
 	sf_count_t totalSamples;
 	long sampleRate;
 
@@ -398,17 +398,16 @@ int main(int argc, char* argv[])
 	totalSamples = 0;
 	float peak = 0.0f;
 
-	spatialDownmixerMode = (spatialDownmixerMode && outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatM1Spatial);
-	m1transcode.setSpatialDownmixer(corrThreshold);
-
 	for (int pass = 1, countPasses = ((normalize || spatialDownmixerMode) ? 2 : 1); pass <= countPasses; pass++)
 	{
 		if (pass == 2) {
 			// Mach1 Spatial Downmixer
 			// Triggered due to correlation of top vs bottom
 			// being higher than threshold
-			if (spatialDownmixerMode)
+			if (spatialDownmixerMode && outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatM1Spatial)
 			{
+                m1transcode.setSpatialDownmixer(corrThreshold);
+
 				if (m1transcode.getSpatialDownmixerPossibility())
 				{
 					// reinitialize inputs and outputs
@@ -420,8 +419,9 @@ int main(int argc, char* argv[])
 					actualOutFileChannels = outFileChans == 0 ? channels : outFileChans;
 					numOutFiles = channels / actualOutFileChannels;
 
-					printf("convert to: ");
+					printf("Spatial Downmix:    ");
                     printf("%s", m1transcode.getFormatName(outFmt).c_str());
+                    printf("\r\n");
 				}
 			}
 
@@ -466,13 +466,13 @@ int main(int argc, char* argv[])
 					cerr << "Error: opening out-file: " << outfilestr << std::endl;
 					return -1;
 				}
-				if (Mach1TranscodeFormatType::Mach1TranscodeFormatM1Spatial) {
+				if (outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatM1Spatial) {
 					outfiles[i].setString(0x05, "mach1spatial-8");
 				}
-				else if (Mach1TranscodeFormatType::Mach1TranscodeFormatM1Horizon) {
+				else if (outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatM1Horizon) {
 					outfiles[i].setString(0x05, "mach1horizon-4");
 				}
-				else if (Mach1TranscodeFormatType::Mach1TranscodeFormatM1HorizonPairs) {
+				else if (outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatM1HorizonPairs) {
 					outfiles[i].setString(0x05, "mach1horizon-8");
 				}
 			}

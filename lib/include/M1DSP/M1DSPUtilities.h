@@ -18,7 +18,7 @@ namespace M1DSP
          If soundfield top/bottom difference is less than the input correlation threshold the soundfield
          will be safely downmixed to the lowest Mach1 format.
          
-         `threshold` value range = 0.0f -> 1.0f
+         `threshold` value range = 0.0f [0% signal difference] -> 1.0f [100% signal difference]
          */
         
 		class CSpatialDownmixChecker

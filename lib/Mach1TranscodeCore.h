@@ -169,6 +169,11 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.3123f,  0.3975f,  0.0000f, -0.3975f, -0.2705f,  0.0000f, -0.1562f,  -0.0000f, -0.0000f,  0.0349f,  -0.0000f, -0.0270f,  -0.0000f,  0.0270f,  -0.0000f,  0.0349f },
 		{ 0.3123f, -0.3975f,  0.0000f, -0.3975f,  0.2705f,  -0.0000f, -0.1562f,  -0.0000f,  0.0000f, -0.0349f,  0.0000f,  0.0270f,  -0.0000f,  0.0270f,  0.0000f,  0.0349f },
 		{ 0.3123f, -0.3975f,  0.0000f,  0.3975f, -0.2705f,  -0.0000f, -0.1562f,  0.0000f, -0.0000f, -0.0349f,  -0.0000f,  0.0270f,  -0.0000f, -0.0270f,  -0.0000f, -0.0349f } });
+	const SpatialSoundMatrix M1Horizon2M1Horizon(std::vector<std::vector<float>>
+	{   { 1, 0, 0, 0 },
+		{ 0, 1, 0, 0 },
+		{ 0, 0, 1, 0 },
+		{ 0, 0, 0, 1 } });
 	const SpatialSoundMatrix M1Horizon2M1HorizonPairs(std::vector<std::vector<float>>
 	{   { 1, 0, 0, 0 },
 		{ 0, 1, 0, 0 },
@@ -339,7 +344,7 @@ namespace Mach1TranscodeConstantsInternal {
 
 	// --- M1Spatial ( std::vector<std::vector<float>>M1Spatial) ---
 	const SpatialSoundMatrix M1Spatial2M1Spatial(std::vector<std::vector<float>> // requested for conversions of number of files
-	{   { 1, 0, 0, 0, 0, 0, 0, 0},
+	{   { 1, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 1, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 1, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 1, 0, 0, 0, 0 },
@@ -2048,6 +2053,7 @@ namespace Mach1TranscodeConstants {
 		{std::make_pair(Mach1TranscodeFormats::ACNSN3D, Mach1TranscodeFormats::M1Horizon), &Mach1TranscodeConstantsInternal::ACNSN3D2M1Horizon},
 		{std::make_pair(Mach1TranscodeFormats::ACNSN3DO2A, Mach1TranscodeFormats::M1Horizon), &Mach1TranscodeConstantsInternal::ACNSN3DO2A2M1Horizon},
 		{std::make_pair(Mach1TranscodeFormats::ACNSN3DO3A, Mach1TranscodeFormats::M1Horizon), &Mach1TranscodeConstantsInternal::ACNSN3DO3A2M1Horizon},
+		{std::make_pair(Mach1TranscodeFormats::M1Horizon, Mach1TranscodeFormats::M1Horizon), &Mach1TranscodeConstantsInternal::M1Horizon2M1Horizon},
 		{std::make_pair(Mach1TranscodeFormats::M1Horizon, Mach1TranscodeFormats::M1HorizonPairs), &Mach1TranscodeConstantsInternal::M1Horizon2M1HorizonPairs},
 		{std::make_pair(Mach1TranscodeFormats::M1Horizon, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::M1Horizon2M1Spatial},
 		{std::make_pair(Mach1TranscodeFormats::M1Horizon, Mach1TranscodeFormats::M1SpatialPairs), &Mach1TranscodeConstantsInternal::M1Horizon2M1SpatialPairs},

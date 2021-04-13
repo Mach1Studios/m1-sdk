@@ -194,6 +194,7 @@ bool Mach1Transcode::processConversionPath()
 {
 	return Mach1TranscodeCAPI_processConversionPath(M1obj);
     /// Use this function to control when to call for calculating the format transcoding calculations
+    /// Returns true if successful, false when no conversion path is found (used for error handling)
     ///
     /// Remarks:
     ///     Needs to be called before `processConversion()` is called.

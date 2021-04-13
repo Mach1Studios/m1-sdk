@@ -28,10 +28,10 @@ std::vector<float> M1DSP::Utilities::CSpatialDownmixChecker::getAvgSamplesDiff()
 }
 
 bool M1DSP::Utilities::CSpatialDownmixChecker::bShouldDownmix() {
-	bool ConvertToHorizon = true;
+	bool ConvertToHorizon = false;
 	std::vector<float> avgSamplesDiff = getAvgSamplesDiff();
 	for (int n = 0; n < avgSamplesDiff.size(); n++) {
-		if (avgSamplesDiff[n] > threshold) ConvertToHorizon = false;
+		if (avgSamplesDiff[n] < threshold) ConvertToHorizon = true;
 	}
 	return ConvertToHorizon;
 }

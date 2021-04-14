@@ -34,7 +34,6 @@
 		A45C55892624AADA0008FF4D /* Mach1Transcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1Transcode.h; path = ../../../../../include/cpp/Mach1Transcode.h; sourceTree = "<group>"; };
 		A45C558A2624AADA0008FF4D /* Mach1TranscodeCAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1TranscodeCAPI.h; path = ../../../../../include/cpp/Mach1TranscodeCAPI.h; sourceTree = "<group>"; };
 		A45C55F62624B12F0008FF4D /* libMach1TranscodeCAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMach1TranscodeCAPI.a; path = ../../../../binaries/xcode/lib/libMach1TranscodeCAPI.a; sourceTree = "<group>"; };
-		A45C56242624C0B00008FF4D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A45C562E2624C5B20008FF4D /* sndfile.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sndfile.hh; sourceTree = "<group>"; };
 		A45C562F2624C5B20008FF4D /* sndfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sndfile.h; sourceTree = "<group>"; };
 		A45C563D2624C6910008FF4D /* libsndfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsndfile.a; path = ../../../../../../../usr/local/Cellar/libsndfile/1.0.31/lib/libsndfile.a; sourceTree = "<group>"; };
@@ -60,7 +59,6 @@
 			isa = PBXGroup;
 			children = (
 				A45C563F2624D0600008FF4D /* README.md */,
-				A45C56242624C0B00008FF4D /* Info.plist */,
 				A45C557D2624AACB0008FF4D /* src */,
 				A41FB94421CAB28400F2CBD4 /* Products */,
 				A41FB95721CAB41E00F2CBD4 /* Frameworks */,

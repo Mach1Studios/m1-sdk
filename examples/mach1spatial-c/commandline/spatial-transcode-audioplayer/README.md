@@ -7,5 +7,6 @@ _Please reference or link/use the full feature Mach1 Transcode commandline tool 
 
 #### Setup
  - install homebrew: https://brew.sh/
- - `brew install sndfile@1.0.31`
+ - `brew install libsndfile`
+ - `brew install rt-audio`
  - Open each xcode project

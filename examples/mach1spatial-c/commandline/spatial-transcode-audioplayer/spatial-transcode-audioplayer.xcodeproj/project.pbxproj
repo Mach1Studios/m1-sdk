@@ -305,6 +305,7 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(PROJECT_DIR)/../../../../m1-sdk/lib/include\"",
 					/usr/local/Cellar/libsndfile/1.0.31/include,
+					"/usr/local/Cellar/rt-audio/5.1.0_1/include",
 				);
 				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
 				INFOPLIST_FILE = "$(PROJECT_DIR)/src/Info.plist";
@@ -313,9 +314,14 @@
 					"$(PROJECT_DIR)",
 					"\"$(PROJECT_DIR)/../../../../binaries/xcode/lib\"",
 					/usr/local/Cellar/libsndfile/1.0.31/lib,
+					"/usr/local/Cellar/rt-audio/5.1.0_1/lib",
 				);
 				MARKETING_VERSION = "";
-				OTHER_LDFLAGS = "\"$(PROJECT_DIR)/../../../../binaries/xcode/lib/libMach1TranscodeCAPI.a\"";
+				OTHER_LDFLAGS = (
+					"\"$(PROJECT_DIR)/../../../../binaries/xcode/lib/libMach1TranscodeCAPI.a\"",
+					"-lrtaudio",
+					"-lsndfile",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.transcode-audio";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -332,6 +338,7 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(PROJECT_DIR)/../../../../m1-sdk/lib/include\"",
 					/usr/local/Cellar/libsndfile/1.0.31/include,
+					"/usr/local/Cellar/rt-audio/5.1.0_1/include",
 				);
 				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
 				INFOPLIST_FILE = "$(PROJECT_DIR)/src/Info.plist";
@@ -340,9 +347,14 @@
 					"$(PROJECT_DIR)",
 					"\"$(PROJECT_DIR)/../../../../binaries/xcode/lib\"",
 					/usr/local/Cellar/libsndfile/1.0.31/lib,
+					"/usr/local/Cellar/rt-audio/5.1.0_1/lib",
 				);
 				MARKETING_VERSION = "";
-				OTHER_LDFLAGS = "\"$(PROJECT_DIR)/../../../../binaries/xcode/lib/libMach1TranscodeCAPI.a\"";
+				OTHER_LDFLAGS = (
+					"\"$(PROJECT_DIR)/../../../../binaries/xcode/lib/libMach1TranscodeCAPI.a\"",
+					"-lrtaudio",
+					"-lsndfile",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.transcode-audio";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

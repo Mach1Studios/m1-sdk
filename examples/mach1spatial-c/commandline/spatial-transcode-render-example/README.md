@@ -5,5 +5,5 @@ This is a stripped down transcoding commmandline example, please reference or li
 
 #### Setup
  - install homebrew: https://brew.sh/
- - `brew install sndfile@1.0.31`
+ - `brew install libsndfile` _(project is currently linked to 1.0.31)_
  - Open each xcode project

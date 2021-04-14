@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		15EAEE1B26262F5D001AEF0B /* RtAudio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15EAEE1926262F5D001AEF0B /* RtAudio.cpp */; };
 		A45C55862624AACB0008FF4D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A45C55822624AACB0008FF4D /* main.cpp */; };
 		A45C558B2624AADA0008FF4D /* Mach1Transcode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A45C55882624AADA0008FF4D /* Mach1Transcode.cpp */; };
 		A45C560E2624BB500008FF4D /* libMach1TranscodeCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A45C55F62624B12F0008FF4D /* libMach1TranscodeCAPI.a */; };
@@ -28,9 +27,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		15EAEE1926262F5D001AEF0B /* RtAudio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RtAudio.cpp; sourceTree = "<group>"; };
-		15EAEE1A26262F5D001AEF0B /* RtAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtAudio.h; sourceTree = "<group>"; };
-		A41FB94321CAB28400F2CBD4 /* spatial-transcode-audio */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "spatial-transcode-audio"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A41FB94321CAB28400F2CBD4 /* spatial-transcode-audioplayer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "spatial-transcode-audioplayer"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A45C55802624AACB0008FF4D /* CmdOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CmdOption.h; sourceTree = "<group>"; };
 		A45C55822624AACB0008FF4D /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		A45C55882624AADA0008FF4D /* Mach1Transcode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mach1Transcode.cpp; path = ../../../../../include/cpp/Mach1Transcode.cpp; sourceTree = "<group>"; };
@@ -73,7 +70,7 @@
 		A41FB94421CAB28400F2CBD4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A41FB94321CAB28400F2CBD4 /* spatial-transcode-audio */,
+				A41FB94321CAB28400F2CBD4 /* spatial-transcode-audioplayer */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -81,8 +78,8 @@
 		A41FB95721CAB41E00F2CBD4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A45C55F62624B12F0008FF4D /* libMach1TranscodeCAPI.a */,
 				A45C563D2624C6910008FF4D /* libsndfile.a */,
+				A45C55F62624B12F0008FF4D /* libMach1TranscodeCAPI.a */,
 				A45C562D2624C5B20008FF4D /* include */,
 			);
 			name = Frameworks;
@@ -91,8 +88,6 @@
 		A45C557D2624AACB0008FF4D /* src */ = {
 			isa = PBXGroup;
 			children = (
-				15EAEE1926262F5D001AEF0B /* RtAudio.cpp */,
-				15EAEE1A26262F5D001AEF0B /* RtAudio.h */,
 				A45C55822624AACB0008FF4D /* main.cpp */,
 				A45C55802624AACB0008FF4D /* CmdOption.h */,
 				A45C55892624AADA0008FF4D /* Mach1Transcode.h */,
@@ -126,9 +121,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A41FB94221CAB28400F2CBD4 /* spatial-transcode-audio */ = {
+		A41FB94221CAB28400F2CBD4 /* spatial-transcode-audioplayer */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A41FB94A21CAB28400F2CBD4 /* Build configuration list for PBXNativeTarget "spatial-transcode-audio" */;
+			buildConfigurationList = A41FB94A21CAB28400F2CBD4 /* Build configuration list for PBXNativeTarget "spatial-transcode-audioplayer" */;
 			buildPhases = (
 				A41FB93F21CAB28400F2CBD4 /* Sources */,
 				A41FB94021CAB28400F2CBD4 /* Frameworks */,
@@ -138,9 +133,9 @@
 			);
 			dependencies = (
 			);
-			name = "spatial-transcode-audio";
+			name = "spatial-transcode-audioplayer";
 			productName = "m1-transcode";
-			productReference = A41FB94321CAB28400F2CBD4 /* spatial-transcode-audio */;
+			productReference = A41FB94321CAB28400F2CBD4 /* spatial-transcode-audioplayer */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -157,7 +152,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A41FB93E21CAB28400F2CBD4 /* Build configuration list for PBXProject "spatial-transcode-audio" */;
+			buildConfigurationList = A41FB93E21CAB28400F2CBD4 /* Build configuration list for PBXProject "spatial-transcode-audioplayer" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -169,7 +164,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A41FB94221CAB28400F2CBD4 /* spatial-transcode-audio */,
+				A41FB94221CAB28400F2CBD4 /* spatial-transcode-audioplayer */,
 			);
 		};
 /* End PBXProject section */
@@ -179,7 +174,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				15EAEE1B26262F5D001AEF0B /* RtAudio.cpp in Sources */,
 				A45C55862624AACB0008FF4D /* main.cpp in Sources */,
 				A45C564C2624DD3D0008FF4D /* M1DSPUtilities.cpp in Sources */,
 				A45C558B2624AADA0008FF4D /* Mach1Transcode.cpp in Sources */,
@@ -359,7 +353,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A41FB93E21CAB28400F2CBD4 /* Build configuration list for PBXProject "spatial-transcode-audio" */ = {
+		A41FB93E21CAB28400F2CBD4 /* Build configuration list for PBXProject "spatial-transcode-audioplayer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A41FB94821CAB28400F2CBD4 /* Debug */,
@@ -368,7 +362,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A41FB94A21CAB28400F2CBD4 /* Build configuration list for PBXNativeTarget "spatial-transcode-audio" */ = {
+		A41FB94A21CAB28400F2CBD4 /* Build configuration list for PBXNativeTarget "spatial-transcode-audioplayer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A41FB94B21CAB28400F2CBD4 /* Debug */,

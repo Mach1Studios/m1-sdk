@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A41FB94221CAB28400F2CBD4"
-               BuildableName = "spatial-transcode-audio"
-               BlueprintName = "spatial-transcode-audio"
-               ReferencedContainer = "container:spatial-transcode-audio.xcodeproj">
+               BuildableName = "spatial-transcode-audioplayer"
+               BlueprintName = "spatial-transcode-audioplayer"
+               ReferencedContainer = "container:spatial-transcode-audioplayer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -31,9 +31,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A41FB94221CAB28400F2CBD4"
-            BuildableName = "spatial-transcode-audio"
-            BlueprintName = "spatial-transcode-audio"
-            ReferencedContainer = "container:spatial-transcode-audio.xcodeproj">
+            BuildableName = "spatial-transcode-audioplayer"
+            BlueprintName = "spatial-transcode-audioplayer"
+            ReferencedContainer = "container:spatial-transcode-audioplayer.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <Testables>
@@ -54,9 +54,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A41FB94221CAB28400F2CBD4"
-            BuildableName = "spatial-transcode-audio"
-            BlueprintName = "spatial-transcode-audio"
-            ReferencedContainer = "container:spatial-transcode-audio.xcodeproj">
+            BuildableName = "spatial-transcode-audioplayer"
+            BlueprintName = "spatial-transcode-audioplayer"
+            ReferencedContainer = "container:spatial-transcode-audioplayer.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -71,9 +71,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A41FB94221CAB28400F2CBD4"
-            BuildableName = "spatial-transcode-audio"
-            BlueprintName = "spatial-transcode-audio"
-            ReferencedContainer = "container:spatial-transcode-audio.xcodeproj">
+            BuildableName = "spatial-transcode-audioplayer"
+            BlueprintName = "spatial-transcode-audioplayer"
+            ReferencedContainer = "container:spatial-transcode-audioplayer.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

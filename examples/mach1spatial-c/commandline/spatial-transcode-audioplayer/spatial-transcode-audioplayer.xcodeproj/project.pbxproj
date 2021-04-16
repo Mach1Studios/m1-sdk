@@ -12,6 +12,7 @@
 		A45C560E2624BB500008FF4D /* libMach1TranscodeCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A45C55F62624B12F0008FF4D /* libMach1TranscodeCAPI.a */; };
 		A45C56412624D0EA0008FF4D /* libsndfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A45C563D2624C6910008FF4D /* libsndfile.a */; };
 		A45C564C2624DD3D0008FF4D /* M1DSPUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A45C564B2624DD3D0008FF4D /* M1DSPUtilities.cpp */; };
+		A4B211892629DB3700AE071A /* Mach1Decode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A4B211872629DB3700AE071A /* Mach1Decode.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,6 +41,9 @@
 		A45C563F2624D0600008FF4D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A45C564A2624DD3D0008FF4D /* M1DSPUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M1DSPUtilities.h; sourceTree = "<group>"; };
 		A45C564B2624DD3D0008FF4D /* M1DSPUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = M1DSPUtilities.cpp; sourceTree = "<group>"; };
+		A4B211862629DB3700AE071A /* Mach1Decode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1Decode.h; path = ../../../../../include/cpp/Mach1Decode.h; sourceTree = "<group>"; };
+		A4B211872629DB3700AE071A /* Mach1Decode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mach1Decode.cpp; path = ../../../../../include/cpp/Mach1Decode.cpp; sourceTree = "<group>"; };
+		A4B211882629DB3700AE071A /* Mach1DecodeCAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1DecodeCAPI.h; path = ../../../../../include/cpp/Mach1DecodeCAPI.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +95,9 @@
 				A45C55892624AADA0008FF4D /* Mach1Transcode.h */,
 				A45C55882624AADA0008FF4D /* Mach1Transcode.cpp */,
 				A45C558A2624AADA0008FF4D /* Mach1TranscodeCAPI.h */,
+				A4B211862629DB3700AE071A /* Mach1Decode.h */,
+				A4B211872629DB3700AE071A /* Mach1Decode.cpp */,
+				A4B211882629DB3700AE071A /* Mach1DecodeCAPI.h */,
 				A45C56492624DD3D0008FF4D /* M1DSP */,
 			);
 			path = src;
@@ -174,6 +181,7 @@
 			files = (
 				A45C55862624AACB0008FF4D /* main.cpp in Sources */,
 				A45C564C2624DD3D0008FF4D /* M1DSPUtilities.cpp in Sources */,
+				A4B211892629DB3700AE071A /* Mach1Decode.cpp in Sources */,
 				A45C558B2624AADA0008FF4D /* Mach1Transcode.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -319,8 +327,9 @@
 				MARKETING_VERSION = "";
 				OTHER_LDFLAGS = (
 					"\"$(PROJECT_DIR)/../../../../binaries/xcode/lib/libMach1TranscodeCAPI.a\"",
-					"-lrtaudio",
+					"\"$(PROJECT_DIR)/../../../../binaries/xcode/lib/libMach1DecodeCAPI.a\"",
 					"-lsndfile",
+					"-lrtaudio",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.transcode-audio";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -352,8 +361,9 @@
 				MARKETING_VERSION = "";
 				OTHER_LDFLAGS = (
 					"\"$(PROJECT_DIR)/../../../../binaries/xcode/lib/libMach1TranscodeCAPI.a\"",
-					"-lrtaudio",
+					"\"$(PROJECT_DIR)/../../../../binaries/xcode/lib/libMach1DecodeCAPI.a\"",
 					"-lsndfile",
+					"-lrtaudio",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.transcode-audio";
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -28,8 +28,7 @@
 #include <string>
 
 #include "Mach1Transcode.h"
-// TODO: Sort out the following include file
-#include "../../../../../include/cpp/Mach1Decode.h"
+#include "Mach1Decode.h"
 #include "M1DSPUtilities.h"
 #include "sndfile.hh"
 #include "CmdOption.h"

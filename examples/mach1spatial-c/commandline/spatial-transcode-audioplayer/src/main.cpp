@@ -28,6 +28,8 @@
 #include <string>
 
 #include "Mach1Transcode.h"
+// TODO: Sort out the following include file
+#include "../../../../../include/cpp/Mach1Decode.h"
 #include "M1DSPUtilities.h"
 #include "sndfile.hh"
 #include "CmdOption.h"
@@ -101,6 +103,7 @@ void printHelp()
     std::cout << "    FiveOneFilm (Pro Tools default / C|24)  - L C R Ls Rs LFE" << std::endl;
     std::cout << "    FiveOneFilm_Cinema (Pro Tools default / C|24)  - L C R Ls Rs LFE, forward focus" << std::endl;
     std::cout << "    FiveOneSmpte (SMPTE/ITU for Dolby Digital (AC3) - L R C LFE Ls Rs" << std::endl;
+
     std::cout << "    FiveOneDts (DTS) - L R Ls Rs C LFE" << std::endl;
     std::cout << "    SevenOnePt (Pro Tools default) - L C R Lss Rss Lsr Rsr LFE" << std::endl;
     std::cout << "    SevenOnePt_Cinema (Pro Tools default) - L C R Lss Rss Lsr Rsr LFE, forward focus" << std::endl;
@@ -191,7 +194,7 @@ int main(int argc, char* argv[])
 	char* outFmtStr = NULL;
 	Mach1TranscodeFormatType outFmt;
 	int outFileChans;
-	int channels;
+	int outFormatChannels;
     M1DSP::Utilities::CSpatialDownmixChecker spatialDownmixChecker;
     bool spatialDownmixerMode = false;
 	float corrThreshold = 0.1; // 10% difference in signal or less will auto downmix
@@ -309,26 +312,7 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	bool foundOutFmt = false;
-	outFmt = m1transcode.getFormatFromString(outFmtStr);
-	if (outFmt != Mach1TranscodeFormatType::Mach1TranscodeFormatEmpty) {
-		foundOutFmt = true;
-	} else {
-        std::cerr << "Please select a valid output format" << std::endl;
-		return -1;
-	}
-
-	pStr = getCmdOption(argv, argv + argc, "-out-file-chans");
-	if (pStr != NULL)
-		outFileChans = atoi(pStr);
-	else
-		outFileChans = 0;
-	if (!((outFileChans == 0) || (outFileChans == 1) || (outFileChans == 2)))
-	{
-        std::cerr << "Please select 0, 1, or 2, zero meaning a single, multichannel output file" << std::endl;
-		return -1;
-	}
-    std::cout << std::endl;
+    outFmt = Mach1TranscodeFormatType::Mach1TranscodeFormatM1Spatial;
 
 	//=================================================================
 	// initialize inputs, outputs and components
@@ -364,22 +348,26 @@ int main(int argc, char* argv[])
 		infile[i]->seek(0, 0); // rewind input
 	}
 
-	// -- setup 
+	// -- Transcode setup
 	m1transcode.setInputFormat(inFmt);
 	m1transcode.setOutputFormat(outFmt);
+    
+    // -- Mach1 Decode
+    Mach1Decode m1decode;
+    m1decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial);
 
 	// -- output file(s) --------------------------------------
 
-	channels = m1transcode.getOutputNumChannels();
+	outFormatChannels = m1transcode.getOutputNumChannels();
 	SndfileHandle outfiles[Mach1TranscodeMAXCHANS];
-	int actualOutFileChannels = outFileChans == 0 ? channels : outFileChans;
+	int actualOutFileChannels = outFileChans == 0 ? outFormatChannels : outFileChans;
 
 	if (actualOutFileChannels == 0) {
         std::cerr << "Output channels count is 0!" << std::endl;
 		return -1;
 	}
 
-	int numOutFiles = channels / actualOutFileChannels;
+	int numOutFiles = outFormatChannels / actualOutFileChannels;
 
 	for (int i = 0; i < Mach1TranscodeMAXCHANS; i++) {
 		memset(inBuffers[i], 0, sizeof(inBuffers[i]));
@@ -437,9 +425,9 @@ int main(int argc, char* argv[])
 					m1transcode.setOutputFormat(outFmt);
 					m1transcode.processConversionPath();
 
-					channels = m1transcode.getOutputNumChannels();
-					actualOutFileChannels = outFileChans == 0 ? channels : outFileChans;
-					numOutFiles = channels / actualOutFileChannels;
+					outFormatChannels = m1transcode.getOutputNumChannels();
+					actualOutFileChannels = outFileChans == 0 ? outFormatChannels : outFileChans;
+					numOutFiles = outFormatChannels / actualOutFileChannels;
 
 					printf("Spatial Downmix:    ");
                     printf("%s", m1transcode.getFormatName(outFmt).c_str());
@@ -535,18 +523,20 @@ int main(int argc, char* argv[])
 
 				// multiplex to output channels with master gain
 				float *ptrFileBuffer = fileBuffer;
-				float(*outBuf)[Mach1TranscodeMAXCHANS][BUFFERLEN] = (float(*)[Mach1TranscodeMAXCHANS][BUFFERLEN])&(outBuffers[0][0]);
+				float(*outBuf)[Mach1TranscodeMAXCHANS][BUFFERLEN] = (float(*)[Mach1TranscodeMAXCHANS][BUFFERLEN]) & (outBuffers[0][0]);
                 for (int file = 0; file < numOutFiles; file++) {
                     for (int j = 0; j < samplesRead; j++) {
                         for (int k = 0; k < actualOutFileChannels; k++) {
-							*ptrFileBuffer++ = (*outBuf)[(file*actualOutFileChannels) + k][j];
+							*ptrFileBuffer++ = (*outBuf)[(file * actualOutFileChannels) + k][j];
                         }
                     }
                 }
 
 				// write to outfile
 				for (int j = 0; j < numOutFiles; j++) {
-					outfiles[j].write(fileBuffer + (j*actualOutFileChannels*samplesRead), actualOutFileChannels*samplesRead);
+					outfiles[j].write(fileBuffer +
+                                      (j * actualOutFileChannels * samplesRead),
+                                      actualOutFileChannels * samplesRead);
 				}
 			}
 		}

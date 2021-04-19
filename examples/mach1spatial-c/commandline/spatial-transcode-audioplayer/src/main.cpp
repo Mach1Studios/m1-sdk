@@ -73,7 +73,7 @@ void printHelp()
 	std::cout << "spatial-transcode-audio -- light command line example conversion tool" << std::endl;
     std::cout << "note: for a complete transcoding tool use `m1-transcode` from the `binaries/executables` directory" << std::endl;
     std::cout << std::endl;
-    std::cout << "usage: fmtconv -in-file test_s8.wav -in-fmt M1Spatial -out-file test_b.wav -out-fmt ACNSN3D -out-file-chans 0" << std::endl;
+    std::cout << "usage: -in-file test_FiveOneFilm.wav -in-fmt FiveOneFilm_Cinema -out-file test_b.wav -out-fmt M1Spatial -out-file-chans 0 -yaw 90.0 -pitch 15.0 -roll 0.0" << std::endl;
     std::cout << std::endl;
     std::cout << "  -help                 - list command line options" << std::endl;
     std::cout << "  -in-file  <filename>  - input file: put quotes around sets of files" << std::endl;
@@ -86,54 +86,11 @@ void printHelp()
     std::cout << "  -normalize            - two pass normalize absolute peak to zero dBFS" << std::endl;
     std::cout << "  -master-gain <#>      - final output gain in dB like -3 or 2.3" << std::endl;
     std::cout << "  -spatial-downmix <#>  - compare top vs. bottom of the input soundfield, if difference is less than the set threshold (float) output format will be Mach1 Horizon" << std::endl;
+    std::cout << "  -yaw <#>              - yaw angle for decoded output's yaw orientation in float" << std::endl;
+    std::cout << "  -pitch <#>              - yaw angle for decoded output's pitch orientation in float" << std::endl;
+    std::cout << "  -roll <#>              - yaw angle for decoded output's roll orientation in float" << std::endl;
     std::cout << std::endl;
-    std::cout << "  Formats Supported:" << std::endl;
-    std::cout << "    Stereo   - L & R spatialized" << std::endl;
-    std::cout << "    Stereo_Cinema  - L & R spatialized, forward focus" << std::endl;
-    std::cout << "    LCR      - L & R spatialized with C mono" << std::endl;
-    std::cout << "    M1Horizon (Mach1 Horizon / Quad) - L R Ls Rs" << std::endl;
-    std::cout << "    M1Horizon+S (Mach1 Horizon / Quad) - L R Ls Rs StereoL StereoR" << std::endl;
-    std::cout << "    M1HorizonPairs (Mach1 Horizon / Quad-Binaural) - FrontPair, LeftPair, RearPair, RightPair" << std::endl;
-    std::cout << "    M1Spatial (Mach1 Spatial) - Upper L R Ls Rs, Lower L R Ls Rs" << std::endl;
-    std::cout << "    M1Spatial+S (Mach1 Spatial) - Upper L R Ls Rs, Lower L R Ls Rs, StereoL StereoR" << std::endl;
-    std::cout << "    M1SpatialPairs (Mach1 Spatial Pairs) - Upper front, left, rear, right, pairs, then lower same" << std::endl;
-    std::cout << "    M1SpatialFaces - Fc, Lc, Rc, Bc, Tc, Bc" << std::endl;
-    std::cout << "    FiveOh   - L C R Ls Rs" << std::endl;
-    std::cout << "    FiveOneFilm (Pro Tools default / C|24)  - L C R Ls Rs LFE" << std::endl;
-    std::cout << "    FiveOneFilm_Cinema (Pro Tools default / C|24)  - L C R Ls Rs LFE, forward focus" << std::endl;
-    std::cout << "    FiveOneSmpte (SMPTE/ITU for Dolby Digital (AC3) - L R C LFE Ls Rs" << std::endl;
-
-    std::cout << "    FiveOneDts (DTS) - L R Ls Rs C LFE" << std::endl;
-    std::cout << "    SevenOnePt (Pro Tools default) - L C R Lss Rss Lsr Rsr LFE" << std::endl;
-    std::cout << "    SevenOnePt_Cinema (Pro Tools default) - L C R Lss Rss Lsr Rsr LFE, forward focus" << std::endl;
-    std::cout << "    SevenZero_Cinema (Pro Tools default) - L C R Lss Rss Lsr Rsr, forward focus" << std::endl;
-    std::cout << "    SevenOneSDDS (Sony SDDS) - L Lc C Rc R Ls Rs LFE" << std::endl;
-    std::cout << "    SevenZeroSDDS (Sony SDDS) - L Lc C Rc R Ls Rs" << std::endl;
-    std::cout << "    FiveOneTwo (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr FLts FRts BLts BRts" << std::endl;
-    std::cout << "    FiveZeroTwo (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr FLts FRts BLts BRts" << std::endl;
-    std::cout << "    FiveOneFour (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr FLts FRts BLts BRts" << std::endl;
-    std::cout << "    FiveZeroFour (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr FLts FRts BLts BRts" << std::endl;
-    std::cout << "    SevenOneTwo (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr LFE Lts Rts" << std::endl;
-    std::cout << "    SevenZeroTwo (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr Lts Rts" << std::endl;
-    std::cout << "    SevenOneFour (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr LFE FLts FRts BLts BRts" << std::endl;
-    std::cout << "    SevenZeroFour (Film / Pro Tools default) - L C R Lss Rss Lsr Rsr FLts FRts BLts BRts" << std::endl;
-    std::cout << "    SevenOneTwo (SMPTE) - L R C LFE Lss Rss Lsr Rsr Lts Rts [INCOMPLETE]" << std::endl;
-    std::cout << "    SevenZeroTwo (SMPTE) - L R C Lss Rss Lsr Rsr Lts Rts [INCOMPLETE]" << std::endl;
-    std::cout << "    ACNSN3D  - 1st order B-format, ACN order and SN3D weighting" << std::endl;
-    std::cout << "    FuMa     - 1st order B-format, Furse-Malham order and weighting" << std::endl;
-    std::cout << "    TBE   - W, X, Y, Z, U, V, T, S" << std::endl;
-    std::cout << "    ACNSN3DO2A   - 2nd order B-format, AmbiX ACN order and SN3D weighting" << std::endl;
-    std::cout << "    FuMaO2A      - 2nd order B-format, Furse-Malham order and weighting, W, Y, Z, X, V, T, R, S, U" << std::endl;
-    std::cout << "    ACNSN3DO3A   - 16 channel AmbiX" << std::endl;
-    std::cout << "    FuMaO3A   - 3rd order B-format, W, Y, Z, X, V, T, R, S, U, Q, O, M, K, L, N, P" << std::endl;
-    std::cout << "    ACNSN3DmaxRE1oa   - 1st order, AmbiX ACN order and SN3D-maxRE from IEM AllRAD" << std::endl;
-    std::cout << "    ACNSN3DmaxRE2oa   - 2nd order, AmbiX ACN order and SN3D-maxRE from IEM AllRAD" << std::endl;
-    std::cout << "    ACNSN3DmaxRE3oa   - 3rd order, AmbiX ACN order and SN3D-maxRE from IEM AllRAD" << std::endl;
-    std::cout << "    ACNSN3DmaxRE4oa   - 4th order, AmbiX ACN order and SN3D-maxRE from IEM AllRAD" << std::endl;
-    std::cout << "    ACNSN3DmaxRE5oa   - 5th order, AmbiX ACN order and SN3D-maxRE from IEM AllRAD" << std::endl;
-    std::cout << "    ACNSN3DmaxRE6oa   - 6th order, AmbiX ACN order and SN3D-maxRE from IEM AllRAD" << std::endl;
-    std::cout << "    ACNSN3DmaxRE7oa   - 7th order, AmbiX ACN order and SN3D-maxRE from IEM AllRAD" << std::endl;
-    std::cout << "    16.0   - 16 channel Surround 3D layout" << std::endl;
+    std::cout << "  Formats Supported: https://dev.mach1.tech/#formats-supported" << std::endl;
     std::cout << std::endl;
 }
 
@@ -179,24 +136,30 @@ int main(int argc, char* argv[])
     
     // Mach1Transcode setup
 	Mach1Transcode m1transcode;
+    Mach1TranscodeFormatType inFmt;
+    Mach1TranscodeFormatType outFmt;
+    M1DSP::Utilities::CSpatialDownmixChecker spatialDownmixChecker;
+    bool spatialDownmixerMode = false;
+    float corrThreshold = 0.1; // 10% difference in signal or less will auto downmix
+    
+    // Mach1Decode setup
+    Mach1Decode m1decode;
+    float yaw = 0.0f;
+    float pitch = 0.0f;
+    float roll = 0.0f;
 
 	// locals for cmd line parameters
 	bool fileOut = false;
-	//TODO: inputGain = 1.0f; // in level, not db
 	float masterGain = 1.0f; // in level, not dB
 	bool normalize = false;
 	char* infilename = NULL;
 	char* inFmtStr = NULL;
-	Mach1TranscodeFormatType inFmt;
 	char* outfilename = NULL;
-	std::string md_outfilename = "";
 	char* outFmtStr = NULL;
-	Mach1TranscodeFormatType outFmt;
+    std::string md_outfilename = "";
 	int outFileChans;
 	int outFormatChannels;
-    M1DSP::Utilities::CSpatialDownmixChecker spatialDownmixChecker;
-	float corrThreshold = 0.1; // 10% difference in signal or less will auto downmix
-    
+
 	sf_count_t totalSamples;
 	long sampleRate;
 
@@ -238,7 +201,54 @@ int main(int argc, char* argv[])
 	 compares top/bottom to downmix to Horizon
 	 TODO: scale to other formats
 	 */
-	// input file name and format
+
+    pStr = getCmdOption(argv, argv + argc, "-spatial-downmix");
+	if (pStr != NULL) {
+		spatialDownmixerMode = true;
+		corrThreshold = atof(pStr);
+	}
+	if (spatialDownmixerMode && (corrThreshold < 0.0 || corrThreshold > 1.0)) {
+        std::cerr << "Please use 0.0 to 1.0 range for correlation threshold" << std::endl;
+		return -1;
+	}
+    /*
+     yaw orientation angle for decoded stereo output
+     Range: Signed float degrees [-180->180]
+     */
+    pStr = getCmdOption(argv, argv + argc, "-yaw");
+    if (pStr != NULL) {
+        yaw = atof(pStr);
+    }
+    if (yaw < -180.0f || yaw > 180.0f) {
+        std::cerr << "Please use -180.0 to 180.0 for yaw angle range" << std::endl;
+        return -1;
+    }
+    /*
+     pitch orientation angle for decoded stereo output
+     Range: Signed float degrees [-90->90]
+     */
+    pStr = getCmdOption(argv, argv + argc, "-pitch");
+    if (pStr != NULL) {
+        pitch = atof(pStr);
+    }
+    if (pitch < -90.0f || pitch > 90.0f) {
+        std::cerr << "Please use -90.0 to 90.0 for pitch angle range" << std::endl;
+        return -1;
+    }
+    /*
+     roll orientation angle for decoded stereo output
+     Range: Signed float degrees [-90->90]
+     */
+    pStr = getCmdOption(argv, argv + argc, "-roll");
+    if (pStr != NULL) {
+        roll = atof(pStr);
+    }
+    if (roll < -180.0f || roll > 180.0f) {
+        std::cerr << "Please use -90.0 to 90.0 for roll angle range" << std::endl;
+        return -1;
+    }
+
+    // input file name and format
 	pStr = getCmdOption(argv, argv + argc, "-in-file");
 	if (pStr && (strlen(pStr) > 0)) {
 		infilename = pStr;
@@ -337,16 +347,21 @@ int main(int argc, char* argv[])
 		infile[i]->seek(0, 0); // rewind input
 	}
 
-	// -- Transcode setup
+	// -- Mach1Transcode setup
 	m1transcode.setInputFormat(inFmt);
 	m1transcode.setOutputFormat(outFmt);
     
-    // -- Mach1 Decode
-    Mach1Decode m1decode;
+    // -- Mach1Decode setup
+    m1decode.setPlatformType(Mach1PlatformDefault);
     m1decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial);
-
+    m1decode.setFilterSpeed(0.95f);
+    Mach1Point3D orientation;
+    orientation.x = yaw;
+    orientation.y = pitch;
+    orientation.z = roll;
+    m1decode.setRotationDegrees(orientation);
+    
 	// -- output file(s) --------------------------------------
-
 	outFormatChannels = m1transcode.getOutputNumChannels();
 	SndfileHandle outfiles[Mach1TranscodeMAXCHANS];
 	int actualOutFileChannels = outFileChans == 0 ? outFormatChannels : outFileChans;

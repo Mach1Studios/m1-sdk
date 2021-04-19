@@ -195,7 +195,6 @@ int main(int argc, char* argv[])
 	int outFileChans;
 	int outFormatChannels;
     M1DSP::Utilities::CSpatialDownmixChecker spatialDownmixChecker;
-    bool spatialDownmixerMode = false;
 	float corrThreshold = 0.1; // 10% difference in signal or less will auto downmix
     
 	sf_count_t totalSamples;
@@ -239,15 +238,6 @@ int main(int argc, char* argv[])
 	 compares top/bottom to downmix to Horizon
 	 TODO: scale to other formats
 	 */
-	pStr = getCmdOption(argv, argv + argc, "-spatial-downmix");
-	if (pStr != NULL) {
-		spatialDownmixerMode = true;
-		corrThreshold = atof(pStr);
-	}
-	if (spatialDownmixerMode && (corrThreshold < 0.0 || corrThreshold > 1.0)) {
-        std::cerr << "Please use 0.0 to 1.0 range for correlation threshold" << std::endl;
-		return -1;
-	}
 	// input file name and format
 	pStr = getCmdOption(argv, argv + argc, "-in-file");
 	if (pStr && (strlen(pStr) > 0)) {
@@ -411,29 +401,8 @@ int main(int argc, char* argv[])
      - if normalization or spatial downmixer is used then the render will use 2 loops to process
      - otherwise only 1 loop used to process
      */
-	for (int currentRenderLoop = 1, maxNumRenderLoops = ((normalize || spatialDownmixerMode) ? 2 : 1); currentRenderLoop <= maxNumRenderLoops; currentRenderLoop++) {
+	for (int currentRenderLoop = 1, maxNumRenderLoops = normalize; currentRenderLoop <= maxNumRenderLoops; currentRenderLoop++) {
 		if (currentRenderLoop == 2) {
-			// Mach1 Spatial Downmixer
-			// Triggered due to correlation of top vs bottom
-			// being higher than threshold
-			if (spatialDownmixerMode && outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatM1Spatial) {
-                m1transcode.setSpatialDownmixer(corrThreshold);
-				if (m1transcode.getSpatialDownmixerPossibility()) {
-					// reinitialize inputs and outputs
-					outFmt = Mach1TranscodeFormatType::Mach1TranscodeFormatM1Horizon;
-					m1transcode.setOutputFormat(outFmt);
-					m1transcode.processConversionPath();
-
-					outFormatChannels = m1transcode.getOutputNumChannels();
-					actualOutFileChannels = outFileChans == 0 ? outFormatChannels : outFileChans;
-					numOutFiles = outFormatChannels / actualOutFileChannels;
-
-					printf("Spatial Downmix:    ");
-                    printf("%s", m1transcode.getFormatName(outFmt).c_str());
-                    printf("\r\n");
-				}
-			}
-
 			// normalize
 			if (normalize) {
                 std::cout << "Reducing gain by " << m1transcode.level2db(peak) << std::endl;

@@ -98,6 +98,18 @@ build-rpi: FORCE
 	yes | cp -rf "_install/raspberrypi3-cxx11/lib/libMach1TranscodeCAPI.a" "../binaries/raspberrypi3-cxx11/lib/libMach1TranscodeCAPI.a"
 	yes | cp -rf "_install/raspberrypi3-cxx11/lib/libMach1DecodePositionalCAPI.a" "../binaries/raspberrypi3-cxx11/lib/libMach1DecodePositionalCAPI.a"
 
+build-beaglebone: FORCE
+	echo "[NOTE] Ensure to change polly toolchain to use c++14 instead of default c++11"
+	polly --clear --install --config Release --toolchain linux-gcc-armhf
+	yes | cp -rf "_install/linux-gcc-armhf/lib/libMach1DecodeCAPI.a" "../binaries/beaglebone/lib/libMach1DecodeCAPI.a"
+	yes | cp -rf "_install/linux-gcc-armhf/lib/libMach1EncodeCAPI.a" "../binaries/beaglebone/lib/libMach1EncodeCAPI.a"
+	yes | cp -rf "_install/linux-gcc-armhf/lib/libMach1TranscodeCAPI.a" "../binaries/beaglebone/lib/libMach1TranscodeCAPI.a"
+	yes | cp -rf "_install/linux-gcc-armhf/lib/libMach1DecodePositionalCAPI.a" "../binaries/beaglebone/lib/libMach1DecodePositionalCAPI.a"
+	yes | cp -rf "_install/linux-gcc-armhf/lib/libMach1DecodeCAPI.a" "/usr/local/lib/libMach1DecodeCAPI.a"
+	yes | cp -rf "_install/linux-gcc-armhf/lib/libMach1EncodeCAPI.a" "/usr/local/lib/libMach1EncodeCAPI.a"
+	yes | cp -rf "_install/linux-gcc-armhf/lib/libMach1TranscodeCAPI.a" "/usr/local/lib/libMach1TranscodeCAPI.a"
+	yes | cp -rf "_install/linux-gcc-armhf/lib/libMach1DecodePositionalCAPI.a" "/usr/local/lib/libMach1DecodePositionalCAPI.a"
+
 build-web: setup
 	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1DecodeModule'" --pre-js Mach1DecodeEmscripten.js -o external/js/Mach1Decode.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodeEmscripten.cpp
 	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1DecodePositionalModule'" -Iinclude/ --pre-js Mach1DecodePositionalEmscripten.js -o external/js/Mach1DecodePositional.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodePositionalCore.cpp Mach1DecodePositionalCAPI.cpp Mach1DecodePositionalEmscripten.cpp

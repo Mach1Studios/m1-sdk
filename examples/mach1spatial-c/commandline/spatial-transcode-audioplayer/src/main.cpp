@@ -109,9 +109,109 @@ void printFileInfo(SndfileHandle file)
 // ---------------------------------------------------------
 #define BUFFERLEN 512
 
+
+size_t numInFiles;
+SndfileHandle *infile[Mach1TranscodeMAXCHANS];
+
+// multiplexed buffers
+float fileBuffer[Mach1TranscodeMAXCHANS * BUFFERLEN];
+
+// process buffers
+float inBuffers[Mach1TranscodeMAXCHANS][BUFFERLEN];
+float *inPtrs[Mach1TranscodeMAXCHANS];
+float outBuffers[Mach1TranscodeMAXCHANS][BUFFERLEN];
+float *outPtrs[Mach1TranscodeMAXCHANS];
+
+// Mach1Transcode variables & objects
+Mach1Transcode m1transcode;
+Mach1TranscodeFormatType inFmt;
+Mach1TranscodeFormatType outFmt;
+M1DSP::Utilities::CSpatialDownmixChecker spatialDownmixChecker;
+bool spatialDownmixerMode = false;
+float corrThreshold = 0.1; // 10% difference in signal or less will auto downmix
+
+// Mach1Decode variables & objects
+Mach1Decode m1decode;
+float yaw = 0.0f;
+float pitch = 0.0f;
+float roll = 0.0f;
+
+// locals for cmd line parameters
+bool fileOut = false;
+float masterGain = 1.0f; // in level, not dB
+bool normalize = false;
+char* infilename = NULL;
+char* inFmtStr = NULL;
+char* outfilename = NULL;
+char* outFmtStr = NULL;
+std::string md_outfilename = "";
+int outFileChans;
+int outFormatChannels;
+
+sf_count_t totalSamplesRead;
+long sampleRate;
+
+sf_count_t numBlocksInInputAudio = 0;
+
+// Two-channel sawtooth wave generator.
+int saw( void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
+         double streamTime, RtAudioStreamStatus status, void *userData )
+{
+  unsigned int i, j;
+  double *buffer = (double *) outputBuffer;
+  double *lastValues = (double *) userData;
+  if ( status )
+    std::cout << "Stream underflow detected!" << std::endl;
+  // Write interleaved audio data.
+  for ( i=0; i<nBufferFrames; i++ ) {
+    for ( j=0; j<2; j++ ) {
+      *buffer++ = lastValues[j];
+      lastValues[j] += 0.005 * (j+1+(j*0.1));
+      if ( lastValues[j] >= 1.0 ) lastValues[j] -= 2.0;
+    }
+  }
+  return 0;
+}
+
+// RtAudio playback reader.
+int rtAudioPlayback( void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
+                     double streamTime, RtAudioStreamStatus status, void *userData )
+{
+    printf("before %d / %d \n", totalSamplesRead, numBlocksInInputAudio * BUFFERLEN);
+
+    unsigned int i, j;
+    double *buffer = (double *) outputBuffer;
+    double *lastValues = (double *) userData;
+    if ( status )
+    std::cout << "Stream underflow detected!" << std::endl;
+
+
+    // read next buffer from each infile
+    sf_count_t samplesRead;
+    sf_count_t firstBuf = 0;
+    for (int file = 0; file < numInFiles; file++){
+        sf_count_t thisChannels = infile[file]->channels();
+        sf_count_t framesRead = infile[file]->read(fileBuffer, thisChannels * BUFFERLEN);
+        samplesRead = framesRead / thisChannels;
+        // demultiplex into process buffers
+        float *ptrFileBuffer = fileBuffer;
+        float(*inBuf)[Mach1TranscodeMAXCHANS][BUFFERLEN] = (float(*)[Mach1TranscodeMAXCHANS][BUFFERLEN])&(inBuffers[0][0]);
+        for (int j = 0; j < samplesRead; j++)
+            for (int k = 0; k < thisChannels; k++)
+                (*inBuf)[firstBuf + k][j] = *ptrFileBuffer++;
+        firstBuf += thisChannels;
+    }
+    totalSamplesRead += samplesRead;
+
+    printf("%d / %d \n", totalSamplesRead, numBlocksInInputAudio * BUFFERLEN);
+
+  return 0;
+}
+
 int main(int argc, char* argv[])
 {
     // RtAudio setup
+    /*
     // Set the same number of channels for both input and output.
     unsigned int audioOutputChannels = 2, fs, bufferBytes, oDevice = 0, iDevice = 0, iOffset = 0, oOffset = 0;
     unsigned int bufferFrames = 512;
@@ -133,44 +233,24 @@ int main(int argc, char* argv[])
       iParams.deviceId = adac.getDefaultInputDevice();
     if ( oDevice == 0 )
       oParams.deviceId = adac.getDefaultOutputDevice();
+    */
     
-    // Mach1Transcode setup
-	Mach1Transcode m1transcode;
-    Mach1TranscodeFormatType inFmt;
-    Mach1TranscodeFormatType outFmt;
-    M1DSP::Utilities::CSpatialDownmixChecker spatialDownmixChecker;
-    bool spatialDownmixerMode = false;
-    float corrThreshold = 0.1; // 10% difference in signal or less will auto downmix
+    RtAudio dac;
+    if ( dac.getDeviceCount() < 1 ) {
+    std::cout << "\nNo audio devices found!\n";
+    exit( 0 );
+    }
+    RtAudio::StreamParameters parameters;
+    parameters.deviceId = dac.getDefaultOutputDevice();
+    parameters.nChannels = 2;
+    parameters.firstChannel = 0;
+    unsigned int playbackSampleRate = 44100;
+    unsigned int bufferFrames = 512; // 256 sample frames
     
-    // Mach1Decode setup
-    Mach1Decode m1decode;
-    float yaw = 0.0f;
-    float pitch = 0.0f;
-    float roll = 0.0f;
+    ///////////////////////////
+    
 
-	// locals for cmd line parameters
-	bool fileOut = false;
-	float masterGain = 1.0f; // in level, not dB
-	bool normalize = false;
-	char* infilename = NULL;
-	char* inFmtStr = NULL;
-	char* outfilename = NULL;
-	char* outFmtStr = NULL;
-    std::string md_outfilename = "";
-	int outFileChans;
-	int outFormatChannels;
-
-	sf_count_t totalSamples;
-	long sampleRate;
-
-	// multiplexed buffers
-	float fileBuffer[Mach1TranscodeMAXCHANS * BUFFERLEN];
-
-	// process buffers
-	float inBuffers[Mach1TranscodeMAXCHANS][BUFFERLEN];
-	float *inPtrs[Mach1TranscodeMAXCHANS];
-	float outBuffers[Mach1TranscodeMAXCHANS][BUFFERLEN];
-	float *outPtrs[Mach1TranscodeMAXCHANS];
+    // Initializing process buffers
 	for (int i = 0; i < Mach1TranscodeMAXCHANS; i++) {
 		inPtrs[i] = inBuffers[i];
 		outPtrs[i] = outBuffers[i];
@@ -319,7 +399,6 @@ int main(int argc, char* argv[])
 
 	// -- input file ---------------------------------------
 	// determine number of input files
-	SndfileHandle *infile[Mach1TranscodeMAXCHANS];
     std::vector<std::string> fNames;
 	split(infilename, ' ', fNames);
 	size_t numInFiles = fNames.size();
@@ -407,15 +486,49 @@ int main(int argc, char* argv[])
     for (int i = 0; i < numInFiles; i++) {
 		inChannels += infile[i]->channels();
     }
-	sf_count_t numBlocks = infile[0]->frames() / BUFFERLEN; // files must be the same length
-	totalSamples = 0;
+    numBlocksInInputAudio = infile[0]->frames() / BUFFERLEN; // files must be the same length
+	totalSamplesRead = 0;
 	float peak = 0.0f;
 
-    /*
+    
+    // Starting playback
+    
+    double data[2];
+    try {
+        dac.openStream( &parameters, NULL, RTAUDIO_FLOAT64,
+                       playbackSampleRate, &bufferFrames, &rtAudioPlayback, (void *)&data );
+        dac.startStream();
+    }
+    catch ( RtAudioError& e ) {
+        e.printMessage();
+        exit( 0 );
+    }
+
+    
+    char input;
+//    std::cout << "\nPlaying ... press <enter> to quit.\n";
+    std::cout << "\n Playing...";
+    
+    std::cin.get( input );
+    try {
+        // Stop the stream
+        dac.stopStream();
+    }
+    catch (RtAudioError& e) {
+        e.printMessage();
+    }
+    if ( dac.isStreamOpen() ) dac.closeStream();
+    
+    return 0;
+    
+
+    
+    /* // UPD: Currently removing a multi-loop variant
      Multi-loop processing:
      - if normalization or spatial downmixer is used then the render will use 2 loops to process
      - otherwise only 1 loop used to process
      */
+    /*
 	for (int currentRenderLoop = 1, maxNumRenderLoops = normalize; currentRenderLoop <= maxNumRenderLoops; currentRenderLoop++) {
 		if (currentRenderLoop == 2) {
 			// normalize
@@ -477,7 +590,7 @@ int main(int argc, char* argv[])
 			sf_count_t firstBuf = 0;
 			for (int file = 0; file < numInFiles; file++){
 				sf_count_t thisChannels = infile[file]->channels();
-				sf_count_t framesRead = infile[file]->read(fileBuffer, thisChannels*BUFFERLEN);
+				sf_count_t framesRead = infile[file]->read(fileBuffer, thisChannels * BUFFERLEN);
 				samplesRead = framesRead / thisChannels;
 				// demultiplex into process buffers
 				float *ptrFileBuffer = fileBuffer;
@@ -489,9 +602,7 @@ int main(int argc, char* argv[])
 			}
 			totalSamples += samplesRead;
 
-            /*
-             `processConversion()` is called after `processConversionPath() has been called and set at least once!
-             */
+            // `processConversion()` is called after `processConversionPath() has been called and set at least once!
 			m1transcode.processConversion(inPtrs, outPtrs, (int)samplesRead);
 
 			if (currentRenderLoop == 1) {
@@ -524,7 +635,8 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
+    */
 	// print time played
-    std::cout << "Length (sec):     " << (float)totalSamples / (float)sampleRate << std::endl;
+//    std::cout << "Length (sec):     " << (float)totalSamples / (float)sampleRate << std::endl;
 	return 0;
 }

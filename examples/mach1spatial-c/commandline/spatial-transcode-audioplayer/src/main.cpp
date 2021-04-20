@@ -15,9 +15,16 @@
  5. Apply to buffer/samples per channel in file rendering or audio mixer
  */
 
+
+/* 
+for windows, add these definitions to the project settings:
+__WINDOWS_ASIO__;__WINDOWS_WASAPI__;_CRT_SECURE_NO_WARNINGS
+*/
+
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS
 #endif
+
 
 #include <stdlib.h>
 #include <cstring>
@@ -177,9 +184,9 @@ int saw( void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 int rtAudioPlayback( void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
                      double streamTime, RtAudioStreamStatus status, void *userData )
 {
-    printf("before %d / %d \n", totalSamplesRead, numBlocksInInputAudio * BUFFERLEN);
+    //printf("before %d / %d \n", totalSamplesRead, numBlocksInInputAudio * BUFFERLEN);
 
-    unsigned int i, j;
+    unsigned int i, c;
     double *buffer = (double *) outputBuffer;
     double *lastValues = (double *) userData;
     if ( status )
@@ -195,6 +202,14 @@ int rtAudioPlayback( void *outputBuffer, void *inputBuffer, unsigned int nBuffer
         samplesRead = framesRead / thisChannels;
         // demultiplex into process buffers
         float *ptrFileBuffer = fileBuffer;
+
+		// play audio
+		for (c = 0; c < 2; c++) {
+			for (i = 0; i < nBufferFrames; i++) {
+				buffer[i * 2 + c] = ptrFileBuffer[i * thisChannels + c];
+			}
+		}
+
         float(*inBuf)[Mach1TranscodeMAXCHANS][BUFFERLEN] = (float(*)[Mach1TranscodeMAXCHANS][BUFFERLEN])&(inBuffers[0][0]);
         for (int j = 0; j < samplesRead; j++)
             for (int k = 0; k < thisChannels; k++)
@@ -241,12 +256,12 @@ int main(int argc, char* argv[])
     exit( 0 );
     }
     RtAudio::StreamParameters parameters;
-    parameters.deviceId = dac.getDefaultOutputDevice();
-    parameters.nChannels = 2;
+	parameters.deviceId = dac.getDefaultOutputDevice();
+	parameters.nChannels = 2;
     parameters.firstChannel = 0;
     unsigned int playbackSampleRate = 44100;
-    unsigned int bufferFrames = 512; // 256 sample frames
-    
+    unsigned int bufferFrames = BUFFERLEN;
+
     ///////////////////////////
     
 
@@ -401,7 +416,7 @@ int main(int argc, char* argv[])
 	// determine number of input files
     std::vector<std::string> fNames;
 	split(infilename, ' ', fNames);
-	size_t numInFiles = fNames.size();
+	numInFiles = fNames.size();
 	for (int i = 0; i < numInFiles; i++) {
 		infile[i] = new SndfileHandle(fNames[i].c_str());
 		if (infile[i] && (infile[i]->error() == 0)) {
@@ -492,8 +507,7 @@ int main(int argc, char* argv[])
 
     
     // Starting playback
-    
-    double data[2];
+	double *data = (double *)calloc(parameters.nChannels, sizeof(double));
     try {
         dac.openStream( &parameters, NULL, RTAUDIO_FLOAT64,
                        playbackSampleRate, &bufferFrames, &rtAudioPlayback, (void *)&data );

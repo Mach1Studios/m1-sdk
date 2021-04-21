@@ -364,41 +364,7 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
-    /*
-	// output file name and format
-	pStr = getCmdOption(argv, argv + argc, "-out-file");
-	if (pStr && (strlen(pStr) > 0)) {
-		fileOut = true;
-		outfilename = pStr;
-		std::string FileExt = ".txt";
-		int outfilename_size = strlen(outfilename);
-		md_outfilename = convertToString(outfilename, outfilename_size);
-		std::string Path, FileName;
-		std::string::size_type found = md_outfilename.find_last_of(".");
-		// if we found one of this symbols
-		if (found != std::string::npos) {
-			// path will be all symbols before found position
-			Path = md_outfilename.substr(0, found);
-		}
-		else { // if we not found '.', path is empty
-			Path.clear();
-		}
-		md_outfilename += FileExt;
-	}
-	pStr = getCmdOption(argv, argv + argc, "-out-fmt");
-	if (pStr && (strlen(pStr) > 0)) {
-		outFmtStr = pStr;
-		if (strcmp(outFmtStr, "TTPoints") == 0) {
-			pStr = getCmdOption(argv, argv + argc, "-out-json");
-			if (pStr && (strlen(pStr) > 0)) {
-                std::ifstream file(pStr);
-                std::string strJson((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-				m1transcode.setOutputFormatTTJson((char*)strJson.c_str());
-			}
-		}
-	}
-     */
-    
+
     outFmt = Mach1TranscodeFormatType::Mach1TranscodeFormatM1Spatial;
 
 	//=================================================================
@@ -488,7 +454,8 @@ int main(int argc, char* argv[])
 
     
     // This should work, but it doesn't.
-    decodeCoeffs = m1decode.decodeCoeffsUsingTranscodeMatrix(conversionMatrix, inChannels);
+//    transcodeToDecodeCoeffs = m1decode.decodeCoeffsUsingTranscodeMatrix(conversionMatrix, inChannels);
+    
     
     // So we calculate a different set of coefficients.
     decodeCoeffs = m1decode.decodeCoeffs();
@@ -507,8 +474,8 @@ int main(int argc, char* argv[])
             float conversionMatrixCoeff = conversionMatrix[i][c];
             thisInputToRightChannel += decodeCoeffs[i + 8] * conversionMatrixCoeff;
         }
-        transcodeToDecodeCoeffs[c] = thisInputToLeftChannel;
-        transcodeToDecodeCoeffs[c + inChannels] = thisInputToRightChannel;
+        transcodeToDecodeCoeffs[c * 2] = thisInputToLeftChannel;
+        transcodeToDecodeCoeffs[c * 2 + 1] = thisInputToRightChannel;
     }
 
     

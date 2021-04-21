@@ -441,26 +441,13 @@ int main(int argc, char* argv[])
     // -- Mach1Decode setup
     m1decode.setPlatformType(Mach1PlatformDefault);
     m1decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial);
-    m1decode.setFilterSpeed(0.95f);
+    m1decode.setFilterSpeed(1.0f);
     Mach1Point3D orientation;
     orientation.x = yaw;
     orientation.y = pitch;
     orientation.z = roll;
     m1decode.setRotationDegrees(orientation);
     
-    /*
-	// -- output file(s) --------------------------------------
-	outFormatChannels = m1transcode.getOutputNumChannels();
-	SndfileHandle outfiles[Mach1TranscodeMAXCHANS];
-	int actualOutFileChannels = outFileChans == 0 ? outFormatChannels : outFileChans;
-
-	if (actualOutFileChannels == 0) {
-        std::cerr << "Output channels count is 0!" << std::endl;
-		return -1;
-	}
-
-	int numOutFiles = outFormatChannels / actualOutFileChannels;
-     */
 	for (int i = 0; i < Mach1TranscodeMAXCHANS; i++) {
 		memset(inBuffers[i], 0, sizeof(inBuffers[i]));
 //		memset(outBuffers[i], 0, sizeof(outBuffers[i]));
@@ -484,7 +471,7 @@ int main(int argc, char* argv[])
 		}
 		printf("\r\n");
 	}
-
+    
     // Return matrix of coeffs for conversion for further customization or tweaking
     conversionMatrix = m1transcode.getMatrixConversion();
 
@@ -553,123 +540,4 @@ int main(int argc, char* argv[])
     if ( dac.isStreamOpen() ) dac.closeStream();
     
     return 0;
-    
-
-    
-    /* // UPD: Currently removing a multi-loop variant
-     Multi-loop processing:
-     - if normalization or spatial downmixer is used then the render will use 2 loops to process
-     - otherwise only 1 loop used to process
-     */
-    /*
-	for (int currentRenderLoop = 1, maxNumRenderLoops = normalize; currentRenderLoop <= maxNumRenderLoops; currentRenderLoop++) {
-		if (currentRenderLoop == 2) {
-			// normalize
-			if (normalize) {
-                std::cout << "Reducing gain by " << m1transcode.level2db(peak) << std::endl;
-				masterGain /= peak;
-			}
-
-			totalSamples = 0;
-            for (int file = 0; file < numInFiles; file++) {
-				infile[file]->seek(0, SEEK_SET);
-            }
-		} 
-
-		if (currentRenderLoop == maxNumRenderLoops){ // final loop of processing (prepares the output file)
-			// init outfiles
-			for (int i = 0; i < numOutFiles; i++) {
-                //TODO: expand this out to other output types and better handling from printFileInfo()
-                int format = SF_FORMAT_WAV | SF_FORMAT_PCM_16;
-                int inputFormat = infile[0]->format() & 0xffff;
-                if (inputFormat == SF_FORMAT_PCM_16) format = SF_FORMAT_WAV | SF_FORMAT_PCM_16;
-                if (inputFormat == SF_FORMAT_PCM_24) format = SF_FORMAT_WAV | SF_FORMAT_PCM_24;
-                if (inputFormat == SF_FORMAT_FLOAT)  format = SF_FORMAT_WAV | SF_FORMAT_FLOAT;
-				char outfilestr[1024];
-                if (numOutFiles > 1) {
-					sprintf(outfilestr, "%s_%0d.wav", outfilename, i);
-                } else {
-					strcpy(outfilestr, outfilename);
-                }
-                outfiles[i] = SndfileHandle(outfilestr, SFM_WRITE, format, actualOutFileChannels, (int)sampleRate);
-				if (outfiles[i] && (outfiles[i].error() == 0)) {
-					// set clipping mode
-					outfiles[i].command(SFC_SET_CLIPPING, NULL, SF_TRUE);
-					// output file stats
-                    std::cout << "Output File:        " << outfilestr << std::endl;
-					printFileInfo(outfiles[i]);
-				}
-				else
-				{
-                    std::cerr << "Error: opening out-file: " << outfilestr << std::endl;
-					return -1;
-				}
-				if (outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatM1Spatial) {
-					outfiles[i].setString(0x05, "mach1spatial-8");
-				}
-				else if (outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatM1Horizon) {
-					outfiles[i].setString(0x05, "mach1horizon-4");
-				}
-				else if (outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatM1HorizonPairs) {
-					outfiles[i].setString(0x05, "mach1horizon-8");
-				}
-			}
-            std::cout << std::endl;
-		}
-
-		for (int i = 0; i <= numBlocks; i++) {
-			// read next buffer from each infile
-			sf_count_t samplesRead;
-			sf_count_t firstBuf = 0;
-			for (int file = 0; file < numInFiles; file++){
-				sf_count_t thisChannels = infile[file]->channels();
-				sf_count_t framesRead = infile[file]->read(fileBuffer, thisChannels * BUFFERLEN);
-				samplesRead = framesRead / thisChannels;
-				// demultiplex into process buffers
-				float *ptrFileBuffer = fileBuffer;
-				float(*inBuf)[Mach1TranscodeMAXCHANS][BUFFERLEN] = (float(*)[Mach1TranscodeMAXCHANS][BUFFERLEN])&(inBuffers[0][0]);
-				for (int j = 0; j < samplesRead; j++)
-					for (int k = 0; k < thisChannels; k++)
-						(*inBuf)[firstBuf + k][j] = *ptrFileBuffer++;
-				firstBuf += thisChannels;
-			}
-			totalSamples += samplesRead;
-
-            // `processConversion()` is called after `processConversionPath() has been called and set at least once!
-			m1transcode.processConversion(inPtrs, outPtrs, (int)samplesRead);
-
-			if (currentRenderLoop == 1) {
-				if (normalize) {
-					// find max for first pass normalization
-					peak = (std::max)(peak, m1transcode.processNormalization(outPtrs, (int)samplesRead));
-				}
-			}
-
-			if (currentRenderLoop == maxNumRenderLoops) {
-				m1transcode.processMasterGain(outPtrs, (int)samplesRead, masterGain);
-
-				// multiplex to output channels with master gain
-				float *ptrFileBuffer = fileBuffer;
-				float(*outBuf)[Mach1TranscodeMAXCHANS][BUFFERLEN] = (float(*)[Mach1TranscodeMAXCHANS][BUFFERLEN]) & (outBuffers[0][0]);
-                for (int file = 0; file < numOutFiles; file++) {
-                    for (int j = 0; j < samplesRead; j++) {
-                        for (int k = 0; k < actualOutFileChannels; k++) {
-							*ptrFileBuffer++ = (*outBuf)[(file * actualOutFileChannels) + k][j];
-                        }
-                    }
-                }
-
-				// write to outfile
-				for (int j = 0; j < numOutFiles; j++) {
-					outfiles[j].write(fileBuffer +
-                                      (j * actualOutFileChannels * samplesRead),
-                                      actualOutFileChannels * samplesRead);
-				}
-			}
-		}
-	}
-    */
-	// print time played
-//    std::cout << "Length (sec):     " << (float)totalSamples / (float)sampleRate << std::endl;
-	return 0;
 }

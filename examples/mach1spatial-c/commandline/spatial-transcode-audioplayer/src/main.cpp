@@ -119,6 +119,7 @@ void printFileInfo(SndfileHandle file)
 
 size_t numInFiles;
 SndfileHandle *infile[Mach1TranscodeMAXCHANS];
+int inChannels = 0;
 
 // multiplexed buffers
 float fileBuffer[Mach1TranscodeMAXCHANS * BUFFERLEN];
@@ -136,12 +137,15 @@ Mach1TranscodeFormatType outFmt;
 M1DSP::Utilities::CSpatialDownmixChecker spatialDownmixChecker;
 bool spatialDownmixerMode = false;
 float corrThreshold = 0.1; // 10% difference in signal or less will auto downmix
+std::vector<std::vector<float>> conversionMatrix;
+std::vector<float> transcodeToDecodeCoeffs;
 
 // Mach1Decode variables & objects
 Mach1Decode m1decode;
 float yaw = 0.0f;
 float pitch = 0.0f;
 float roll = 0.0f;
+std::vector<float> decodeCoeffs;
 
 // locals for cmd line parameters
 bool fileOut = false;
@@ -160,26 +164,6 @@ long sampleRate;
 
 sf_count_t numBlocksInInputAudio = 0;
 
-// Two-channel sawtooth wave generator.
-int saw( void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
-         double streamTime, RtAudioStreamStatus status, void *userData )
-{
-  unsigned int i, j;
-  double *buffer = (double *) outputBuffer;
-  double *lastValues = (double *) userData;
-  if ( status )
-    std::cout << "Stream underflow detected!" << std::endl;
-  // Write interleaved audio data.
-  for ( i=0; i<nBufferFrames; i++ ) {
-    for ( j=0; j<2; j++ ) {
-      *buffer++ = lastValues[j];
-      lastValues[j] += 0.005 * (j+1+(j*0.1));
-      if ( lastValues[j] >= 1.0 ) lastValues[j] -= 2.0;
-    }
-  }
-  return 0;
-}
-
 // RtAudio playback reader.
 int rtAudioPlayback( void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
                      double streamTime, RtAudioStreamStatus status, void *userData )
@@ -187,7 +171,7 @@ int rtAudioPlayback( void *outputBuffer, void *inputBuffer, unsigned int nBuffer
     //printf("before %d / %d \n", totalSamplesRead, numBlocksInInputAudio * BUFFERLEN);
 
     unsigned int i, c;
-    double *buffer = (double *) outputBuffer;
+    double *stereoOutputBuffer = (double *) outputBuffer;
     double *lastValues = (double *) userData;
     if ( status )
     std::cout << "Stream underflow detected!" << std::endl;
@@ -201,19 +185,26 @@ int rtAudioPlayback( void *outputBuffer, void *inputBuffer, unsigned int nBuffer
         sf_count_t framesRead = infile[file]->read(fileBuffer, thisChannels * BUFFERLEN);
         samplesRead = framesRead / thisChannels;
         // demultiplex into process buffers
-        float *ptrFileBuffer = fileBuffer;
+        float *inputFileBufferPtr = fileBuffer;
 
 		// play audio
-		for (c = 0; c < 2; c++) {
+        float coeffs[6 * 2];
+        for (int I = 0; I < 6 * 2; I ++) {
+            coeffs[I] = 0.25;
+        }
+		for (c = 0; c < inChannels; c++) {
 			for (i = 0; i < nBufferFrames; i++) {
-				buffer[i * 2 + c] = ptrFileBuffer[i * thisChannels + c];
+                // LEFT:
+                stereoOutputBuffer[i * 2 + 0] = inputFileBufferPtr[i * thisChannels + c] * transcodeToDecodeCoeffs[c];
+                // RIGHT:
+                stereoOutputBuffer[i * 2 + 1] = inputFileBufferPtr[i * thisChannels + c] * transcodeToDecodeCoeffs[inChannels + c];
 			}
 		}
 
         float(*inBuf)[Mach1TranscodeMAXCHANS][BUFFERLEN] = (float(*)[Mach1TranscodeMAXCHANS][BUFFERLEN])&(inBuffers[0][0]);
         for (int j = 0; j < samplesRead; j++)
             for (int k = 0; k < thisChannels; k++)
-                (*inBuf)[firstBuf + k][j] = *ptrFileBuffer++;
+                (*inBuf)[firstBuf + k][j] = *inputFileBufferPtr++;
         firstBuf += thisChannels;
     }
     totalSamplesRead += samplesRead;
@@ -373,6 +364,7 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
+    /*
 	// output file name and format
 	pStr = getCmdOption(argv, argv + argc, "-out-file");
 	if (pStr && (strlen(pStr) > 0)) {
@@ -405,7 +397,8 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-
+     */
+    
     outFmt = Mach1TranscodeFormatType::Mach1TranscodeFormatM1Spatial;
 
 	//=================================================================
@@ -455,6 +448,7 @@ int main(int argc, char* argv[])
     orientation.z = roll;
     m1decode.setRotationDegrees(orientation);
     
+    /*
 	// -- output file(s) --------------------------------------
 	outFormatChannels = m1transcode.getOutputNumChannels();
 	SndfileHandle outfiles[Mach1TranscodeMAXCHANS];
@@ -466,10 +460,10 @@ int main(int argc, char* argv[])
 	}
 
 	int numOutFiles = outFormatChannels / actualOutFileChannels;
-
+     */
 	for (int i = 0; i < Mach1TranscodeMAXCHANS; i++) {
 		memset(inBuffers[i], 0, sizeof(inBuffers[i]));
-		memset(outBuffers[i], 0, sizeof(outBuffers[i]));
+//		memset(outBuffers[i], 0, sizeof(outBuffers[i]));
 	}
 
 	//=================================================================
@@ -492,18 +486,43 @@ int main(int argc, char* argv[])
 	}
 
     // Return matrix of coeffs for conversion for further customization or tweaking
-    std::vector<std::vector<float>> matrix = m1transcode.getMatrixConversion();
+    conversionMatrix = m1transcode.getMatrixConversion();
 
 	//=================================================================
 	//  main sound loop
 	// 
-	int inChannels = 0;
+	
     for (int i = 0; i < numInFiles; i++) {
 		inChannels += infile[i]->channels();
     }
     numBlocksInInputAudio = infile[0]->frames() / BUFFERLEN; // files must be the same length
 	totalSamplesRead = 0;
 	float peak = 0.0f;
+
+    
+    // This should work, but it doesn't.
+    decodeCoeffs = m1decode.decodeCoeffsUsingTranscodeMatrix(conversionMatrix, inChannels);
+    
+    // So we calculate a different set of coefficients.
+    decodeCoeffs = m1decode.decodeCoeffs();
+    transcodeToDecodeCoeffs.resize(inChannels * 2);
+    for (int c = 0; c < inChannels; c++) {
+        // How much of this input is going to the left channel?
+        float thisInputToLeftChannel = 0;
+        for (int i = 0; i < 8; i++) {
+            float conversionMatrixCoeff = conversionMatrix[i][c];
+            thisInputToLeftChannel += decodeCoeffs[i] * conversionMatrixCoeff;
+        }
+
+        // How much of this input is going to the right channel?
+        float thisInputToRightChannel = 0;
+        for (int i = 0; i < 8; i++) {
+            float conversionMatrixCoeff = conversionMatrix[i][c];
+            thisInputToRightChannel += decodeCoeffs[i + 8] * conversionMatrixCoeff;
+        }
+        transcodeToDecodeCoeffs[c] = thisInputToLeftChannel;
+        transcodeToDecodeCoeffs[c + inChannels] = thisInputToRightChannel;
+    }
 
     
     // Starting playback

@@ -6,8 +6,6 @@
 //  Copyright © 2019 Mach1. All rights reserved.
 //
 
-#define M1_STATIC
-
 #if defined(_WIN32)
 #include <time.h>
 #include <windows.h>

@@ -52,9 +52,15 @@ endif
 
 includes-dev: 
 	yes | cp -rf "external/" "../include/"
+	mkdir -p "../include/cpp/M1DSP"
+	yes | cp -rf "include/M1DSP/M1DSPUtilities.h" "../include/cpp/M1DSP/M1DSPUtilities.h"
+	yes | cp -rf "include/M1DSP/M1DSPUtilities.cpp" "../include/cpp/M1DSP/M1DSPUtilities.cpp"
 
 includes-release:
 	yes | cp -rf "external/" "../../m1-sdk-release/include/"
+	mkdir -p "../../m1-sdk-release/include/cpp/M1DSP"
+	yes | cp -rf "include/M1DSP/M1DSPUtilities.h" "../../m1-sdk-release/include/cpp/M1DSP/M1DSPUtilities.h"
+	yes | cp -rf "include/M1DSP/M1DSPUtilities.cpp" "../../m1-sdk-release/include/cpp/M1DSP/M1DSPUtilities.cpp"
 
 build-mac: FORCE
 	polly --clear --install --config Release --toolchain xcode
@@ -241,7 +247,6 @@ deploy-release: deploy-dev
 	#replace all binaries in github release 
 	echo "### Copying all successful bins to /Binaries \###"
 	yes | cp -rf "_install/" "../../m1-sdk-release/binaries/"
-	yes | cp -rf "external/" "../../m1-sdk-release/include/"
 	echo "### Move and replace bins \###"
 	echo "### Replacing Xcode/macOS \###"
 	yes | cp -rf "../binaries/xcode/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/osx/libMach1DecodeCAPI.a"
@@ -285,7 +290,6 @@ deploy-dev: FORCE
 	# general copy over
 	echo "### Copying all successful bins to /Binaries \###"
 	yes | cp -rf "_install/" "../binaries/"
-	yes | cp -rf "external/" "../include/"
 	# copy over mac libs
 	echo "### Move and replace bins \###"
 	echo "### Replacing Xcode/macOS \###"

@@ -45,7 +45,7 @@ __WINDOWS_ASIO__;__WINDOWS_WASAPI__;_CRT_SECURE_NO_WARNINGS
 #include <string>
 #include <iostream>
 #include <time.h>
-#include <pthread.h>
+#include <thread>
 #include <chrono>
 
 #include "Mach1Transcode.h"
@@ -211,8 +211,9 @@ long sampleRate;
 sf_count_t numBlocksInInputAudio = 0;
 
 // threading setup for handling key command inputs to Mach1Decode
-static void* updateMach1DecodeOrientation(void* v);
-static pthread_t thread;
+static void updateMach1DecodeOrientation();
+static void updateMach1Transcode();
+static std::thread* threadUpdateMach1DecodeOrientation;
 static bool done = false;
 
 // RtAudio playback reader.
@@ -283,7 +284,8 @@ int main(int argc, char* argv[])
 	}
     
     // create thread for reading key command updates for Mach1Decode
-    pthread_create(&thread, NULL, &updateMach1DecodeOrientation, NULL);
+	threadUpdateMach1DecodeOrientation = new std::thread(updateMach1DecodeOrientation);
+	threadUpdateMach1DecodeOrientation->detach();
 
 	//=================================================================
 	// read command line parameters
@@ -471,25 +473,7 @@ int main(int argc, char* argv[])
     numBlocksInInputAudio = infile[0]->frames() / BUFFERLEN; // files must be the same length
 	totalSamplesRead = 0;
 
-    m1Coeffs = m1Decode.decodeCoeffs();
-    transcodeToDecodeCoeffs.resize(inChannels * 2);
-    for (int c = 0; c < inChannels; c++) {
-        // How much of this input is going to the left channel?
-        float thisInputToLeftChannel = 0;
-        for (int i = 0; i < 8; i++) {
-            float conversionMatrixCoeff = conversionMatrix[i][c];
-            thisInputToLeftChannel += m1Coeffs[i] * conversionMatrixCoeff;
-        }
-
-        // How much of this input is going to the right channel?
-        float thisInputToRightChannel = 0;
-        for (int i = 0; i < 8; i++) {
-            float conversionMatrixCoeff = conversionMatrix[i][c];
-            thisInputToRightChannel += m1Coeffs[i + 8] * conversionMatrixCoeff;
-        }
-        transcodeToDecodeCoeffs[c * 2] = thisInputToLeftChannel;
-        transcodeToDecodeCoeffs[c * 2 + 1] = thisInputToRightChannel;
-    }
+	updateMach1Transcode();
     
     // Starting playback
 	double *data = (double *)calloc(parameters.nChannels, sizeof(double));
@@ -503,22 +487,40 @@ int main(int argc, char* argv[])
         exit( 0 );
     }
     
-    char input;
-    std::cin.get( input );
-    try {
-        // Stop the stream
-        //dac.stopStream();
-    }
-    catch (RtAudioError& e) {
-        e.printMessage();
-    }
+	while (!done) {
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	}
+
     if ( dac.isStreamOpen() ) dac.closeStream();
     
     return 0;
 }
 
+void updateMach1Transcode()
+{
+	m1Coeffs = m1Decode.decodeCoeffs();
+	transcodeToDecodeCoeffs.resize(inChannels * 2);
+	for (int c = 0; c < inChannels; c++) {
+		// How much of this input is going to the left channel?
+		float thisInputToLeftChannel = 0;
+		for (int i = 0; i < 8; i++) {
+			float conversionMatrixCoeff = conversionMatrix[i][c];
+			thisInputToLeftChannel += m1Coeffs[i] * conversionMatrixCoeff;
+		}
+
+		// How much of this input is going to the right channel?
+		float thisInputToRightChannel = 0;
+		for (int i = 0; i < 8; i++) {
+			float conversionMatrixCoeff = conversionMatrix[i][c];
+			thisInputToRightChannel += m1Coeffs[i + 8] * conversionMatrixCoeff;
+		}
+		transcodeToDecodeCoeffs[c * 2] = thisInputToLeftChannel;
+		transcodeToDecodeCoeffs[c * 2 + 1] = thisInputToRightChannel;
+	}
+}
+
 // Thread for handling key inputs for updating orientation to Mach1Decode
-static void* updateMach1DecodeOrientation(void* v)
+static void updateMach1DecodeOrientation()
 {
     /* Allow Terminal to input chars without "Enter" */
 #ifndef _WIN32
@@ -541,7 +543,7 @@ static void* updateMach1DecodeOrientation(void* v)
         c = getchar();
 #endif
 
-        if (c == 'q') return 0;
+        if (c == 'q') return;
         
         // delete entered character
         printf("\b");
@@ -585,7 +587,9 @@ static void* updateMach1DecodeOrientation(void* v)
         m1Coeffs = m1Decode.decodeCoeffs();
         m1Decode.endBuffer();
         
-        /* Mach1DecodeCAPI Log:
+		updateMach1Transcode();
+
+        // Mach1DecodeCAPI Log:
         printf("\n");
         printf("y / p / r: %f %f %f\n", yaw, pitch, roll);
         printf("\n");
@@ -597,10 +601,8 @@ static void* updateMach1DecodeOrientation(void* v)
         printf("Headlock Stereo Coeffs:\n");
         printf("%f %f\n", m1Coeffs[m1Decode.getFormatChannelCount()-2], m1Coeffs[m1Decode.getFormatChannelCount()-1]);
         printf("\n");
-         */
     }
     printf("\n");
     printf("Exiting\n");
     done = true;
-    return NULL;
 }

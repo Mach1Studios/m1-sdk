@@ -5,14 +5,14 @@
  This example is for reference for how Mach1Spatial Coefficients from Mach1Transcode API
  could be used on audio streams and buffers.
  
+ Usage: Set starting orientation with `-yaw` `-pitch` `-roll` flags in command or use `w`/`a`/`s`/`d`
+ during playback to update the orientation.
+ 
  Order of Operations:
  1. Setup Input and Output formats (and paths)
  2. Call `processConversionPath()` to setup the conversion for processing
- 3. Use `setSpatialDownmixer()` & `getSpatialDownmixerPossibility()` to downmix content to Mach1Horizon if top/bottom
-    difference is less than correlation threshold
-    Note: Afterwards reinitizalize setup of Input and Output formats
- 4. Call `processConversion()` to execute the conversion and return coeffs per buffer/sample per channel
- 5. Apply to buffer/samples per channel in file rendering or audio mixer
+ 3. Call `processConversion()` to execute the conversion and return coeffs per buffer/sample per channel
+ 4. Apply to buffer/samples per channel along with Mach1Decode for realtime playback
  */
 
 
@@ -157,8 +157,6 @@ float *outPtrs[Mach1TranscodeMAXCHANS];
 Mach1Transcode m1transcode;
 Mach1TranscodeFormatType inFmt;
 Mach1TranscodeFormatType outFmt;
-M1DSP::Utilities::CSpatialDownmixChecker spatialDownmixChecker;
-bool spatialDownmixerMode = false;
 float corrThreshold = 0.1; // 10% difference in signal or less will auto downmix
 std::vector<std::vector<float>> conversionMatrix;
 std::vector<float> transcodeToDecodeCoeffs;
@@ -287,21 +285,6 @@ int main(int argc, char* argv[])
 	if (pStr != NULL) {
 		masterGain = (float)atof(pStr); // still in dB
 		masterGain = m1transcode.db2level(masterGain);
-	}
-	/*
-	 flag for auto Mach1 Spatial downmixer
-	 compares top/bottom to downmix to Horizon
-	 TODO: scale to other formats
-	 */
-
-    pStr = getCmdOption(argv, argv + argc, "-spatial-downmix");
-	if (pStr != NULL) {
-		spatialDownmixerMode = true;
-		corrThreshold = atof(pStr);
-	}
-	if (spatialDownmixerMode && (corrThreshold < 0.0 || corrThreshold > 1.0)) {
-        std::cerr << "Please use 0.0 to 1.0 range for correlation threshold" << std::endl;
-		return -1;
 	}
     /*
      yaw orientation angle for decoded stereo output
@@ -482,14 +465,12 @@ void updateMach1Transcode()
 	m1Coeffs = m1Decode.decodeCoeffs();
 	transcodeToDecodeCoeffs.resize(inChannels * 2);
 	for (int c = 0; c < inChannels; c++) {
-		// How much of this input is going to the left channel?
 		float thisInputToLeftChannel = 0;
 		for (int i = 0; i < 8; i++) {
 			float conversionMatrixCoeff = conversionMatrix[i][c];
 			thisInputToLeftChannel += m1Coeffs[2 * i + 0] * conversionMatrixCoeff;
 		}
 
-		// How much of this input is going to the right channel?
 		float thisInputToRightChannel = 0;
 		for (int i = 0; i < 8; i++) {
 			float conversionMatrixCoeff = conversionMatrix[i][c];

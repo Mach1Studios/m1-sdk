@@ -65,29 +65,6 @@ __WINDOWS_ASIO__;__WINDOWS_WASAPI__;_CRT_SECURE_NO_WARNINGS
 #define M_PI 3.14159265358979323846264338327950288
 #endif
 
-#ifdef WIN32
-BOOLEAN nanosleep(struct timespec* ts, void* p) {
-    /* Declarations */
-    HANDLE timer;    /* Timer handle */
-    LARGE_INTEGER li;    /* Time defintion */
-    /* Create timer */
-    if (!(timer = CreateWaitableTimer(NULL, TRUE, NULL)))
-        return FALSE;
-    /* Set timer properties */
-    li.QuadPart = -ts->tv_nsec;
-    if (!SetWaitableTimer(timer, &li, 0, NULL, NULL, FALSE)) {
-        CloseHandle(timer);
-        return FALSE;
-    }
-    /* Start & wait for timer */
-    WaitForSingleObject(timer, INFINITE);
-    /* Clean resources */
-    CloseHandle(timer);
-    /* Slept without problems */
-    return TRUE;
-}
-#endif
-
 typedef signed short MY_TYPE;
 #define FORMAT RTAUDIO_SINT16
 
@@ -213,7 +190,7 @@ sf_count_t numBlocksInInputAudio = 0;
 // threading setup for handling key command inputs to Mach1Decode
 static void updateMach1DecodeOrientation();
 static void updateMach1Transcode();
-static std::thread* threadUpdateMach1DecodeOrientation;
+static std::thread* threadUpdateMach1DecodeOrientation = nullptr;
 static bool done = false;
 
 // RtAudio playback reader.
@@ -241,12 +218,16 @@ int rtAudioPlayback( void *outputBuffer, void *inputBuffer, unsigned int nBuffer
         for (int I = 0; I < 6 * 2; I ++) {
             coeffs[I] = 0.25;
         }
+		for (i = 0; i < nBufferFrames; i++) {
+			stereoOutputBuffer[i * 2 + 0] = 0;
+			stereoOutputBuffer[i * 2 + 1] = 0;
+		}
 		for (c = 0; c < inChannels; c++) {
 			for (i = 0; i < nBufferFrames; i++) {
                 // LEFT:
-                stereoOutputBuffer[i * 2 + 0] = inputFileBufferPtr[i * thisChannels + c] * transcodeToDecodeCoeffs[c];
+                stereoOutputBuffer[i * 2 + 0] += inputFileBufferPtr[i * thisChannels + c] * transcodeToDecodeCoeffs[2 * c + 0];
                 // RIGHT:
-                stereoOutputBuffer[i * 2 + 1] = inputFileBufferPtr[i * thisChannels + c] * transcodeToDecodeCoeffs[inChannels + c];
+                stereoOutputBuffer[i * 2 + 1] += inputFileBufferPtr[i * thisChannels + c] * transcodeToDecodeCoeffs[2 * c + 1];
 			}
 		}
 
@@ -505,16 +486,16 @@ void updateMach1Transcode()
 		float thisInputToLeftChannel = 0;
 		for (int i = 0; i < 8; i++) {
 			float conversionMatrixCoeff = conversionMatrix[i][c];
-			thisInputToLeftChannel += m1Coeffs[i] * conversionMatrixCoeff;
+			thisInputToLeftChannel += m1Coeffs[2 * i + 0] * conversionMatrixCoeff;
 		}
 
 		// How much of this input is going to the right channel?
 		float thisInputToRightChannel = 0;
 		for (int i = 0; i < 8; i++) {
 			float conversionMatrixCoeff = conversionMatrix[i][c];
-			thisInputToRightChannel += m1Coeffs[i + 8] * conversionMatrixCoeff;
+			thisInputToRightChannel += m1Coeffs[2 * i + 1] * conversionMatrixCoeff;
 		}
-		transcodeToDecodeCoeffs[c * 2] = thisInputToLeftChannel;
+		transcodeToDecodeCoeffs[c * 2 + 0] = thisInputToLeftChannel;
 		transcodeToDecodeCoeffs[c * 2 + 1] = thisInputToRightChannel;
 	}
 }

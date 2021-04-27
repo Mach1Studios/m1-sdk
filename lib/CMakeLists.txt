@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.19.3)
 project(Mach1SpatialLibraries)
-if (UNIX)
+if(APPLE)
 	#set(CMAKE_OSX_SYSROOT macosx11.0)
 	#set(CMAKE_OSX_DEPLOYMENT_TARGET 10.14)
 	set(CMAKE_OSX_ARCHITECTURES "$(ARCHS_STANDARD)")
 	set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED "NO")
-endif (UNIX)
+endif()
 
 set(Mach1SpatialLibraries_VERSION_MAJOR 1)
 set(Mach1SpatialLibraries_VERSION_MINOR 3)
@@ -47,11 +47,6 @@ set_target_properties(Mach1DecodePositionalCAPIstatic PROPERTIES OUTPUT_NAME "Ma
 set_target_properties(Mach1EncodeCAPIstatic PROPERTIES OUTPUT_NAME "Mach1EncodeCAPI")
 set_target_properties(Mach1TranscodeCAPIstatic PROPERTIES OUTPUT_NAME "Mach1TranscodeCAPI")
 
-set_target_properties(Mach1DecodeCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static/)
-set_target_properties(Mach1DecodePositionalCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static/)
-set_target_properties(Mach1EncodeCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static/)
-set_target_properties(Mach1TranscodeCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static/)
-
 target_include_directories(Mach1DecodePositionalCAPIstatic PRIVATE ${Mach1AdditionalInclude})
 target_include_directories(Mach1TranscodeCAPIstatic PRIVATE ${Mach1AdditionalInclude})
 
@@ -66,29 +61,31 @@ install(TARGETS Mach1EncodeCAPIstatic DESTINATION lib)
 install(TARGETS Mach1TranscodeCAPIstatic DESTINATION lib)
 
 # UNITY
-if(NOT IOS OR TVOS OR WATCHOS)
-	add_library(Mach1DecodeCAPIshared SHARED ${Mach1DecodeCAPIsrc})
-	add_library(Mach1DecodePositionalCAPIshared SHARED ${Mach1DecodePositionalCAPIsrc})
-	add_library(Mach1EncodeCAPIshared SHARED ${Mach1EncodeCAPIsrc})
-	add_library(Mach1TranscodeCAPIshared SHARED ${Mach1TranscodeCAPIsrc})
+if (APPLE OR WIN32)
+	if(NOT IOS OR TVOS OR WATCHOS)
+		add_library(Mach1DecodeCAPIshared SHARED ${Mach1DecodeCAPIsrc})
+		add_library(Mach1DecodePositionalCAPIshared SHARED ${Mach1DecodePositionalCAPIsrc})
+		add_library(Mach1EncodeCAPIshared SHARED ${Mach1EncodeCAPIsrc})
+		add_library(Mach1TranscodeCAPIshared SHARED ${Mach1TranscodeCAPIsrc})
 
-	set_target_properties(Mach1DecodeCAPIshared PROPERTIES OUTPUT_NAME "Mach1DecodeCAPI")
-	set_target_properties(Mach1DecodePositionalCAPIshared PROPERTIES OUTPUT_NAME "Mach1DecodePositionalCAPI")
-	set_target_properties(Mach1EncodeCAPIshared PROPERTIES OUTPUT_NAME "Mach1EncodeCAPI")
-	set_target_properties(Mach1TranscodeCAPIshared PROPERTIES OUTPUT_NAME "Mach1TranscodeCAPI")
+		set_target_properties(Mach1DecodeCAPIshared PROPERTIES OUTPUT_NAME "Mach1DecodeCAPI")
+		set_target_properties(Mach1DecodePositionalCAPIshared PROPERTIES OUTPUT_NAME "Mach1DecodePositionalCAPI")
+		set_target_properties(Mach1EncodeCAPIshared PROPERTIES OUTPUT_NAME "Mach1EncodeCAPI")
+		set_target_properties(Mach1TranscodeCAPIshared PROPERTIES OUTPUT_NAME "Mach1TranscodeCAPI")
 
-	target_include_directories(Mach1DecodePositionalCAPIshared PRIVATE ${Mach1AdditionalInclude})
-	target_include_directories(Mach1TranscodeCAPIshared PRIVATE ${Mach1AdditionalInclude})
+		target_include_directories(Mach1DecodePositionalCAPIshared PRIVATE ${Mach1AdditionalInclude})
+		target_include_directories(Mach1TranscodeCAPIshared PRIVATE ${Mach1AdditionalInclude})
 
-	set_target_properties(Mach1EncodeCAPIshared PROPERTIES VERSION ${ENCODE_VERSION})
-	set_target_properties(Mach1DecodeCAPIshared PROPERTIES VERSION ${DECODE_VERSION})
-	set_target_properties(Mach1DecodePositionalCAPIshared PROPERTIES VERSION ${DECODEPOSITIONAL_VERSION})
-	set_target_properties(Mach1TranscodeCAPIshared PROPERTIES VERSION ${TRANSCODE_VERSION})
+		set_target_properties(Mach1EncodeCAPIshared PROPERTIES VERSION ${ENCODE_VERSION})
+		set_target_properties(Mach1DecodeCAPIshared PROPERTIES VERSION ${DECODE_VERSION})
+		set_target_properties(Mach1DecodePositionalCAPIshared PROPERTIES VERSION ${DECODEPOSITIONAL_VERSION})
+		set_target_properties(Mach1TranscodeCAPIshared PROPERTIES VERSION ${TRANSCODE_VERSION})
 
-	install(TARGETS Mach1DecodeCAPIshared DESTINATION libUnity)
-	install(TARGETS Mach1DecodePositionalCAPIshared DESTINATION libUnity)
-	install(TARGETS Mach1EncodeCAPIshared DESTINATION libUnity)
-	install(TARGETS Mach1TranscodeCAPIshared DESTINATION libUnity)
+		install(TARGETS Mach1DecodeCAPIshared DESTINATION libUnity)
+		install(TARGETS Mach1DecodePositionalCAPIshared DESTINATION libUnity)
+		install(TARGETS Mach1EncodeCAPIshared DESTINATION libUnity)
+		install(TARGETS Mach1TranscodeCAPIshared DESTINATION libUnity)
+	endif()
 endif()
 
 if(APPLE)
@@ -136,10 +133,10 @@ if(IOS)
 	add_library(Mach1EncodeCAPIframework STATIC ${Mach1EncodeCAPIsrc})
 	add_library(Mach1TranscodeCAPIframework STATIC ${Mach1TranscodeCAPIsrc})
 
-    set_target_properties(Mach1DecodeCAPIframework PROPERTIES CMAKE_XCODE_ATTRIBUTE_BITCODE_GENERATION_MODE "bitcode")
-    set_target_properties(Mach1DecodePositionalCAPIframework PROPERTIES CMAKE_XCODE_ATTRIBUTE_BITCODE_GENERATION_MODE "bitcode")
-    set_target_properties(Mach1EncodeCAPIframework PROPERTIES CMAKE_XCODE_ATTRIBUTE_BITCODE_GENERATION_MODE "bitcode")
-    set_target_properties(Mach1TranscodeCAPIframework PROPERTIES CMAKE_XCODE_ATTRIBUTE_BITCODE_GENERATION_MODE "bitcode")
+	set_target_properties(Mach1DecodeCAPIframework PROPERTIES CMAKE_XCODE_ATTRIBUTE_BITCODE_GENERATION_MODE "bitcode")
+	set_target_properties(Mach1DecodePositionalCAPIframework PROPERTIES CMAKE_XCODE_ATTRIBUTE_BITCODE_GENERATION_MODE "bitcode")
+	set_target_properties(Mach1EncodeCAPIframework PROPERTIES CMAKE_XCODE_ATTRIBUTE_BITCODE_GENERATION_MODE "bitcode")
+	set_target_properties(Mach1TranscodeCAPIframework PROPERTIES CMAKE_XCODE_ATTRIBUTE_BITCODE_GENERATION_MODE "bitcode")
 
 	set_target_properties(Mach1DecodeCAPIframework PROPERTIES XCODE_ATTRIBUTE_ENABLE_BITCODE "YES")
 	set_target_properties(Mach1DecodePositionalCAPIframework PROPERTIES XCODE_ATTRIBUTE_ENABLE_BITCODE "YES")
@@ -166,26 +163,26 @@ if(IOS)
 
 	option(BUILD_SHARED_LIBS "..." ON)
 	set_target_properties(
-    	Mach1DecodeCAPIframework
-    	PROPERTIES
-    	FRAMEWORK TRUE
+		Mach1DecodeCAPIframework
+		PROPERTIES
+		FRAMEWORK TRUE
 	)
 	set_target_properties(
-    	Mach1DecodePositionalCAPIframework
-    	PROPERTIES
-    	FRAMEWORK TRUE
+		Mach1DecodePositionalCAPIframework
+		PROPERTIES
+		FRAMEWORK TRUE
 	)
 	set_target_properties(
-    	Mach1EncodeCAPIframework
-    	PROPERTIES
-    	FRAMEWORK TRUE
+		Mach1EncodeCAPIframework
+		PROPERTIES
+		FRAMEWORK TRUE
 	)
 	set_target_properties(
-    	Mach1TranscodeCAPIframework
-    	PROPERTIES
-    	FRAMEWORK TRUE
+		Mach1TranscodeCAPIframework
+		PROPERTIES
+		FRAMEWORK TRUE
 	)
-	
+
 	install(TARGETS Mach1DecodeCAPIframework DESTINATION Frameworks)
 	install(TARGETS Mach1DecodePositionalCAPIframework DESTINATION Frameworks)
 	install(TARGETS Mach1EncodeCAPIframework DESTINATION Frameworks)

@@ -8,7 +8,11 @@
 #include <cstring>
 
 #define _USE_MATH_DEFINES
-#include <math.h>
+#include <cmath>
+
+#ifndef M_LN10
+    #define M_LN10 2.30258509299404568402
+#endif
 
 Mach1TranscodeCore::Mach1TranscodeCore()
 {

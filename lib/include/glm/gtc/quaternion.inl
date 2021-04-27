@@ -15,7 +15,13 @@ namespace glm
 	template<typename T, qualifier Q>
 	GLM_FUNC_QUALIFIER T roll(qua<T, Q> const& q)
 	{
-		return static_cast<T>(atan(static_cast<T>(2) * (q.x * q.y + q.w * q.z), q.w * q.w + q.x * q.x - q.y * q.y - q.z * q.z));
+		T const y = static_cast<T>(2) * (q.x * q.y + q.w * q.z);
+		T const x = q.w * q.w + q.x * q.x - q.y * q.y - q.z * q.z;
+
+		if(all(equal(vec<2, T, Q>(x, y), vec<2, T, Q>(0), epsilon<T>()))) //avoid atan2(0,0) - handle singularity - Matiis
+			return static_cast<T>(0);
+
+		return static_cast<T>(atan(y, x));
 	}
 
 	template<typename T, qualifier Q>
@@ -175,7 +181,8 @@ namespace glm
 		mat<3, 3, T, Q> Result;
 
 		Result[2] = -direction;
-		Result[0] = normalize(cross(up, Result[2]));
+		vec<3, T, Q> const& Right = cross(up, Result[2]);
+		Result[0] = Right * inversesqrt(max(static_cast<T>(0.00001), dot(Right, Right)));
 		Result[1] = cross(Result[2], Result[0]);
 
 		return quat_cast(Result);
@@ -187,7 +194,8 @@ namespace glm
 		mat<3, 3, T, Q> Result;
 
 		Result[2] = direction;
-		Result[0] = normalize(cross(up, Result[2]));
+		vec<3, T, Q> const& Right = cross(up, Result[2]);
+		Result[0] = Right * inversesqrt(max(static_cast<T>(0.00001), dot(Right, Right)));
 		Result[1] = cross(Result[2], Result[0]);
 
 		return quat_cast(Result);

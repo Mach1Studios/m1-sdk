@@ -1,5 +1,5 @@
 MACH1 SPATIAL SDK
-Royalty Free License Version 2.0
+Royalty Free License Version 2.1
 MACH1 SPATIAL SDK Royalty Free License 
 
 ------------
@@ -74,7 +74,9 @@ AND/OR	- Display "Spatial Audio Powered by Mach1™"
 AND		- Display "Spatial Audio Powered by Mach1™"
 
 	iv.	Application must have mention of Mach1 when using the Mach1Transcode API with the following:
-		- "Spatial Audio Software provided under license from Mach1™"
+		- Display "Spatial Audio Powered by Mach1™"
+
+MACH1 grants DEVELOPER/its Affiliates a non-exclusive, worldwide, royalty-free, irrevocable right to use the Trademarks solely for the purposes specified above. The Trademarks may be modified in size and file format if technically required to incorporate them into the respective products. The use of the Trademarks for any other purposes shall be subject to prior written approval of MACH1. MACH1 shall retain all right, tile and interest in and to the Trademarks.
 
 8.	SUPPORT AND UPGRADES:  This Agreement does not entitle you to any support for the SDK, unless you enter into a separate agreement with us in writing signed by both parties. Any such support provided by us shall be subject to the terms and disclaimers of this Agreement. 
 
@@ -94,7 +96,7 @@ AND		- Display "Spatial Audio Powered by Mach1™"
 
 14.	LIABILITY LIMITATION: REGARDLESS OF WHETHER ANY REMEDY SET FORTH HEREIN FAILS OF ITS ESSENTIAL PURPOSE OR OTHERWISE, AND EXCEPT FOR BODILY INJURY, IN NO EVENT WILL WE OR OUR CONTRACTORS, EMPLOYEES OR AFFILIATES BE LIABLE TO YOU OR TO ANY THIRD PARTY UNDER ANY TORT, CONTRACT, NEGLIGENCE, STRICT LIABILITY OR OTHER LEGAL OR EQUITABLE THEORY FOR ANY LOST PROFITS, LOST OR CORRUPTED DATA, COMPUTER FAILURE OR MALFUNCTION, INFRINGEMENT, INTERRUPTION OF BUSINESS, OR OTHER SPECIAL, INDIRECT, INCIDENTAL OR CONSEQUENTIAL DAMAGES OF ANY KIND ARISING OUT OF THE USE OR INABILITY TO USE THE SDK, EVEN IF WE HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH LOSS OR DAMAGES AND WHETHER OR NOT SUCH LOSS OR DAMAGES ARE FORESEEABLE.  IN NO EVENT SHALL OUR TOTAL LIABILITY TO YOU OR ANY THIRD PARTY EXCEED TEN DOLLARS. ANY CLAIM ARISING OUT OF OR RELATING TO THIS AGREEMENT MUST BE BROUGHT WITHIN ONE (1) YEAR AFTER THE OCCURRENCE OF THE EVENT GIVING RISE TO SUCH CLAIM. 
 
-15.	INDEMNITY: You agree that we shall have no liability whatsoever for your or your end users of the SDK. You shall indemnify, defend and hold us harmless from any and all claims, damages, liabilities, costs, and fees (including reasonable attorneys' fees) arising from your or your end users' use of the SDK or for any breach of this Agreement, including any breach of the representations and warranties you made herein.
+15.	INDEMNITY: You agree that we shall have no liability whatsoever for you or your end users of the SDK. You shall indemnify, defend and hold us harmless from any and all claims, damages, liabilities, costs, and fees (including reasonable attorneys' fees) arising from you or your end users' use of the SDK or for any breach of this Agreement, including any breach of the representations and warranties you made herein.
 
 16.	TERM AND TERMINATION: This Agreement shall continue until terminated as set forth in this Section. Either party may terminate this Agreement at any time, for any reason, or for no reason including, but not limited to, if you violate any provision of this Agreement. We reserve the right to cancel, amend, or modify the SDK at anytime.  Any termination of this Agreement shall also terminate the license granted hereunder. Upon termination of this Agreement for any reason, you shall immediately destroy and remove from all computers, hard drives, networks, and other storage media all copies of the SDK, and shall so certify to us that such actions have occurred (including all cached ephemeral copies). Sections 5 ("REPRESENTATIONS AND WARRANTIES"), 6 ("OWNERSHIP AND PROPRIETARY RIGHTS"), 11 (TRADE SECRETS), 12 ("WARRANTY DISCLAIMER"), 13 ("LIABILITY LIMITATION"), 13 ("INDEMNITY"), 18 ("GENERAL PROVISIONS") shall survive termination of this Agreement.
 

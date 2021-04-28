@@ -13,7 +13,8 @@ branches:
     - develop
 
 before_script:
-
+  - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+  
 script:
   - cd ${TRAVIS_BUILD_DIR}/lib
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make build-ci-linux; fi

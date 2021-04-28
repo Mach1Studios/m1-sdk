@@ -31,9 +31,9 @@ document.addEventListener("DOMContentLoaded", function() {
         // Mach1Encode Parameters
         inputKind: 0, // mono
         outputKind: 1, // 8 ch
-        rotation: 0,
+        azimuth: 0,
         diverge: 0.5,
-        pitch: 0,
+        elevation: 0,
         enableIsotropicEncode: true,
         sRotation: 0,
         sSpread: 0.5,
@@ -51,24 +51,20 @@ document.addEventListener("DOMContentLoaded", function() {
     running `download-audiofiles.sh` or `download-audiofiles.bat`
     */
 	function loadSounds() {
-    if (params.inputKind == 0) { // Input: MONO
-			audioFiles = ['audio/mono/1.ogg'];
-    }
-    else if (params.inputKind == 1) { // Input: STERO
-			audioFiles = ['audio/stereo/M1_SDKDemo_Orchestral_Stereo_L.ogg', 'audio/stereo/M1_SDKDemo_Orchestral_Stereo_R.ogg'];
-    }
-    else if (params.inputKind == 2) {
-      audioFiles = ['audio/quad/guitar-m1horizon.ogg'];
-    }
-		else {
-			audioFiles = ['audio/mono/1.ogg'];
-		}
-		
-		if(mach1SoundPlayer) {
-			mach1SoundPlayer.remove();
-		}
-		mach1SoundPlayer = new Mach1SoundPlayer();
-		mach1SoundPlayer.setup(audioFiles);
+        if (params.inputKind == 0) { // Input: MONO
+    		audioFiles = ['audio/mono/1.ogg'];
+        } else if (params.inputKind == 1) { // Input: STERO
+    		audioFiles = ['audio/stereo/M1_SDKDemo_Orchestral_Stereo_L.ogg', 'audio/stereo/M1_SDKDemo_Orchestral_Stereo_R.ogg'];
+        } else if (params.inputKind == 2) {
+          audioFiles = ['audio/quad/guitar-m1horizon.ogg'];
+        } else {
+    		audioFiles = ['audio/mono/1.ogg'];
+    	}
+    		
+    	if(mach1SoundPlayer) {
+    		mach1SoundPlayer.remove();
+    	}
+    		mach1SoundPlayer = new Mach1SoundPlayer(audioFiles);
  	};
 
     // three js
@@ -120,7 +116,6 @@ document.addEventListener("DOMContentLoaded", function() {
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     var renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
-    //document.body.appendChild(renderer.domElement);
     container.appendChild(renderer.domElement);
 
     var controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -133,7 +128,6 @@ document.addEventListener("DOMContentLoaded", function() {
     var gridHelper = new THREE.GridHelper(size, divisions);
     scene.add(gridHelper);
 
-
     var sphereGeometry = new THREE.SphereGeometry(0.1, 16, 16);
     var sphereMaterial = new THREE.MeshBasicMaterial({
         color: 0xff0000
@@ -142,7 +136,6 @@ document.addEventListener("DOMContentLoaded", function() {
     var lineMaterial = new THREE.LineBasicMaterial({
         color: 0xaaaaaa
     });
-
 
     var dir = new THREE.Vector3(1, 0, 0);
     var origin = new THREE.Vector3(0, 0, 0);
@@ -168,7 +161,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function animate() {
         requestAnimationFrame(animate);
-
         //sphere.position.x += 0.001; 
         controls.update(); // required if controls.enableDamping or controls.autoRotate are set to true
         for (var i = 0; i < textlabels.length; i++) {
@@ -253,7 +245,6 @@ document.addEventListener("DOMContentLoaded", function() {
             spheres.push(sphere);
             scene.add(sphere);
 
-
             // line
             var geometry = new THREE.BufferGeometry(); // geometry
             var pointsCount = 3;
@@ -296,9 +287,9 @@ document.addEventListener("DOMContentLoaded", function() {
         toggleInputOutputKind();
     });
 
-    folder.add(params, 'rotation', 0, 1, 0.01).name('Rotation').onChange(update);
+    folder.add(params, 'azimuth', 0, 1, 0.01).name('Azimuth').onChange(update);
     folder.add(params, 'diverge', -0.707, 0.707, 0.01).name('Diverge').onChange(update);
-    folder.add(params, 'pitch', -1, 1, 0.01).name('Pitch').onChange(update);
+    folder.add(params, 'elevation', -1, 1, 0.01).name('Elevation').onChange(update);
     folder.add(params, 'enableIsotropicEncode').name('Isotropic encode').onChange(update);
 
     elementSRotation = folder.add(params, 'sRotation', -180, 180, 1).name('S Rotation').onChange(update).__li;
@@ -313,8 +304,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // update 
     function update() {
-        m1Encode.setAzimuth(params.rotation);
-        m1Encode.setElevation(params.pitch);
+        m1Encode.setAzimuth(params.azimuth);
+        m1Encode.setElevation(params.elevation);
         m1Encode.setDiverge(params.diverge);
         m1Encode.setStereoRotate(params.sRotation);
         m1Encode.setStereoSpread(params.sSpread);
@@ -355,7 +346,22 @@ document.addEventListener("DOMContentLoaded", function() {
 			if (params.outputKind == 1) { // Output: Mach1Spatial / Cuboid
 				vol = m1Encode.getResultingCoeffsDecoded(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial, decoded);
 			}
-			//console.log(vol);
+
+            /* 
+            MACH1ENCODE -> MACH1DECODE IMPLEMENTATION
+            Implementation example for passing Coefficients from Mach1Encode directly to Mach1Decode
+            */
+
+            /*
+            var vol = [0, 0];
+            var gains = m1Encode.getGains();
+
+            // left & right channels
+            for (let j = 0; j < 8; j++) {
+                vol[0] += (decoded[2 * j + 0]) * gains[0][j];
+                vol[1] += (decoded[2 * j + 1]) * gains[gains.length > 1 ? 1 : 0][j];
+            }
+            */
 
             var points = m1Encode.getPoints();
             var pointsNames = m1Encode.getPointsNames();
@@ -381,7 +387,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 lines[i].geometry.attributes.position.needsUpdate = true;
             }
 
-            mach1SoundPlayer.updateGains(vol);
+            mach1SoundPlayer.gains = vol;
 
             var angle = m1Decode.getCurrentAngle();
  

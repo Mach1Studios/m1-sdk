@@ -1,5 +1,5 @@
 //  Mach1 Spatial SDK
-//  Copyright © 2017-2020 Mach1. All rights reserved.
+//  Copyright © 2017-2021 Mach1. All rights reserved.
 
 #include "Mach1Transcode.h"
 
@@ -194,6 +194,9 @@ bool Mach1Transcode::processConversionPath()
 {
 	return Mach1TranscodeCAPI_processConversionPath(M1obj);
     /// Use this function to control when to call for calculating the format transcoding calculations
+    ///
+    /// Remarks:
+    ///     Needs to be called before `processConversion()` is called.
 }
 
 std::vector<std::vector<float>> Mach1Transcode::getMatrixConversion()

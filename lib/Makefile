@@ -11,7 +11,7 @@ else
 	detected_OS := $(shell uname)
 endif
 
-pull: FORCE
+pull: 
 	git pull --recurse-submodules
 
 setup:
@@ -20,7 +20,7 @@ setup:
 clear: 
 	rm -rf _install/*
 
-test: FORCE
+test: clear
 ifeq ($(detected_OS),Darwin)
 	cd tests && polly --clear --install --config Release --toolchain xcode
 	./tests/_install/xcode/bin/Mach1EncodeTest
@@ -62,7 +62,7 @@ includes-release:
 	yes | cp -rf "include/M1DSP/M1DSPUtilities.h" "../../m1-sdk-release/include/cpp/M1DSP/M1DSPUtilities.h"
 	yes | cp -rf "include/M1DSP/M1DSPUtilities.cpp" "../../m1-sdk-release/include/cpp/M1DSP/M1DSPUtilities.cpp"
 
-build-mac: FORCE
+build-mac:
 	polly --clear --install --config Release --toolchain xcode
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/lib/libMach1DecodeCAPI.a"
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/lib/libMach1DecodePositionalCAPI.a"
@@ -78,7 +78,7 @@ build-mac: FORCE
 	cat  ./macOS-UB-readme.md
 	open _builds/xcode/Mach1SpatialLibraries.xcodeproj
 
-grab-ios: FORCE
+grab-ios:
 	mkdir -p "_install/ios/lib/"
 	yes | cp -rf "../binaries/ios/lib/libMach1DecodeCAPI.a" "_install/ios/lib/libMach1DecodeCAPI.a"
 	yes | cp -rf "../binaries/ios/lib/libMach1EncodeCAPI.a" "_install/ios/lib/libMach1EncodeCAPI.a"
@@ -91,7 +91,7 @@ build-ios: FORCE
 build-ios-dev: FORCE
 	polly --clear --install --config Release --toolchain ios --ios-multiarch --ios-combined
 
-build-rpi: FORCE
+build-rpi:
 	polly --clear --install --config Release --toolchain raspberrypi2-cxx11
 	polly --clear --install --config Release --toolchain raspberrypi3-cxx11
 	find _install/ -type d -name "libUnity" -exec rm -rf {} +
@@ -104,7 +104,7 @@ build-rpi: FORCE
 	yes | cp -rf "_install/raspberrypi3-cxx11/lib/libMach1TranscodeCAPI.a" "../binaries/raspberrypi3-cxx11/lib/libMach1TranscodeCAPI.a"
 	yes | cp -rf "_install/raspberrypi3-cxx11/lib/libMach1DecodePositionalCAPI.a" "../binaries/raspberrypi3-cxx11/lib/libMach1DecodePositionalCAPI.a"
 
-build-beaglebone: FORCE
+build-beaglebone:
 	echo "[NOTE] Ensure to change polly toolchain to use c++14 instead of default c++11"
 	polly --clear --install --config Release --toolchain linux-gcc-armhf
 	yes | cp -rf "_install/linux-gcc-armhf/lib/libMach1DecodeCAPI.a" "../binaries/beaglebone/lib/libMach1DecodeCAPI.a"
@@ -140,7 +140,7 @@ build-web: setup
 	yes | cp -rf "external/js/Mach1Decode.js" "../examples/mach1spatial-web/m1-web-spatialaudioplayer/js/Mach1Decode.js"
 	yes | cp -rf "external/js/Mach1Decode.wasm" "../examples/mach1spatial-web/m1-web-spatialaudioplayer/js/Mach1Decode.wasm"
 
-build-android: FORCE
+build-android:
 	python ../../polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
 	python ../../polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx
 	python ../../polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r16b-api-21-x86-clang-libcxx
@@ -220,7 +220,7 @@ ifeq ($(detected_OS),Windows)
 	rm -rf _install/android-ndk-r16b-api-21-x86-64-clang-libcxx
 endif
 
-deploy-windows: FORCE
+deploy-windows:
 	# copy over windows libs
 	xcopy _install\vs-15-2017\lib ..\binaries\windows-x86 /Y
 	xcopy _install\vs-15-2017-win64\lib ..\binaries\windows-x86_64 /Y
@@ -239,7 +239,7 @@ build-linux: FORCE
 	cd tests && sh ./_build_on_linux_for_linux.sh
 	~/git/polly/bin/polly --clear --install --config Release --toolchain gcc
 
-deploy-linux: FORCE
+deploy-linux:
 	yes | cp -rf "_install/gcc/lib/libMach1DecodeCAPI.a" "../binaries/linux/lib/libMach1DecodeCAPI.a"
 	yes | cp -rf "_install/gcc/lib/libMach1EncodeCAPI.a" "../binaries/linux/lib/libMach1EncodeCAPI.a"
 	yes | cp -rf "_install/gcc/lib/libMach1TranscodeCAPI.a" "../binaries/linux/lib/libMach1TranscodeCAPI.a"
@@ -249,7 +249,7 @@ build-linux-arm: FORCE
 	cd tests && sh ./_build_on_linux_for_linux.sh
 	~/git/polly/bin/polly --clear --install --config Release --toolchain gcc
 
-deploy-linux-arm: FORCE
+deploy-linux-arm:
 	yes | cp -rf "_install/gcc/lib/libMach1DecodeCAPI.a" "../binaries/linux-arm/lib/libMach1DecodeCAPI.a"
 	yes | cp -rf "_install/gcc/lib/libMach1EncodeCAPI.a" "../binaries/linux-arm/lib/libMach1EncodeCAPI.a"
 	yes | cp -rf "_install/gcc/lib/libMach1TranscodeCAPI.a" "../binaries/linux-arm/lib/libMach1TranscodeCAPI.a"
@@ -298,7 +298,7 @@ deploy-release: deploy-dev
 	cd ../../m1-sdk-release/binaries && find . -type d -name 'libUnity' -print0 | xargs -0 rm -rf
 	cd ../../m1-sdk-release/binaries && find . -type d -name 'libBundle' -print0 | xargs -0 rm -rf
 
-deploy-dev: FORCE
+deploy-dev:
 	# general copy over
 	echo "### Copying all successful bins to /Binaries \###"
 	yes | cp -rf "_install/" "../binaries/"
@@ -455,4 +455,3 @@ deploy-dev: FORCE
 
 # place anything you need all commands to run here
 FORCE:
-	rm -rf _install/*

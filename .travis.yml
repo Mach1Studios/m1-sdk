@@ -12,7 +12,7 @@ before_script:
 
 
 script:
-#  - cd ${TRAVIS_BUILD_DIR}/lib
+  - cd ${TRAVIS_BUILD_DIR}/lib
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make build-ci-linux; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then make build-ci-mac; fi
   - if [ "$TRAVIS_OS_NAME" = "windows" ]; then then make build-ci-win; fi 

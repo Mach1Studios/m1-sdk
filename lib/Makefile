@@ -35,6 +35,12 @@ endif
 build-all: clear test includes-dev includes-release build build-web grab-ios build-android build-rpi build-cortexm0 deploy-dev deploy-release
 	echo "REMINDER: Build FAT iOS lib first!"
 
+build-ci-mac: clear test includes-dev includes-release build build-web deploy-dev deploy-release
+
+build-ci-linux: clear test includes-dev includes-release build deploy-dev deploy-release
+
+build-ci-win: clear test includes-dev includes-release build deploy-dev deploy-release
+
 build: FORCE
 ifeq ($(detected_OS),Darwin)
 	polly --clear --install --config Release --toolchain xcode
@@ -48,6 +54,9 @@ endif
 ifeq ($(detected_OS),Windows)
 	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-15-2017
 	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-15-2017-win64
+endif
+else 
+	polly --clear --install --config Release --toolchain gcc
 endif
 
 includes-dev: 

@@ -1,0 +1,58 @@
+os:
+  - osx
+  - linux
+  - windows
+
+language: cpp
+
+compiler:
+  - gcc
+
+before_script:
+
+
+script:
+#  - cd ${TRAVIS_BUILD_DIR}/lib
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make build-ci-linux; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then make build-ci-mac; fi
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then then make build-ci-win; fi 
+
+install:
+  # Info about OS
+  - uname -a
+  - export HOMEBREW_NO_AUTO_UPDATE=1
+  - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
+  - mkdir ${DEPS_DIR}
+
+  # Install polly
+  - cd ${DEPS_DIR}
+  - git clone https://github.com/Mach1Studios/polly.git
+  - POLLY_SOURCE_DIR=${DEPS_DIR}/polly
+  - python3 "${POLLY_SOURCE_DIR}/bin/install-ci-dependencies.py"
+  - PATH=${DEPS_DIR}/polly/bin/polly:$PATH
+
+  # Install cmake on linux
+  - if [[ "`uname`" == "Linux" ]]; then cd ${DEPS_DIR}; fi
+  - if [[ "`uname`" == "Linux" ]]; then travis_retry wget --no-check-certificate https://github.com/Kitware/CMake/releases/download/v3.20.1/cmake-3.20.1-linux-x86_64.tar.gz; fi
+  # extract the binaries; the output here is quite lengthy,
+  # so we swallow it to not clutter up the travis console
+  - if [[ "`uname`" == "Linux" ]]; then tar -xvf cmake-3.20.1-linux-x86_64.tar.gz > /dev/null; fi
+  - if [[ "`uname`" == "Linux" ]]; thenmv cmake-3.20.1-linux-x86_64 cmake-install; fi
+  # add both the top-level directory and the bin directory from the archive
+  # to the system PATH. By adding it to the front of the path we hide the
+  # preinstalled CMake with our own.
+  - if [[ "`uname`" == "Linux" ]]; then PATH=${DEPS_DIR}/cmake-install:${DEPS_DIR}/cmake-install/bin:$PATH; fi
+  - cd ${TRAVIS_BUILD_DIR}
+
+  # Install Python 3 & cmake on macos
+  - if [[ "`uname`" == "Darwin" ]]; then travis_retry brew upgrade python || echo "Ignoring failure..."; fi
+  - if [[ "`uname`" == "Darwin" ]]; then travis_retry brew install python3; fi
+  - if [[ "`uname`" == "Darwin" ]]; then travis_retry brew install cmake; fi
+
+  # Install Python package 'requests'
+  # 'easy_install3' is not installed by 'brew install python3' on OS X 10.9 Maverick
+  - if [[ "`uname`" == "Darwin" ]]; then pip3 install requests; fi
+  - if [[ "`uname`" == "Linux" ]]; then travis_retry pip3 install --user requests; fi
+  # fix broken clang link on Travis-CI
+  - if [[ "`uname`" == "Linux" ]]; then  mkdir clang-bin; ln -s /usr/local/clang-5.0.0/bin/clang++ clang-bin/clang++-5.0; fi
+  - if [[ "`uname`" == "Darwin" ]]; then mkdir clang-bin; ln -s /usr/bin/clang++ clang-bin/clang++-5.0; fi

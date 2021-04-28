@@ -1,9 +1,8 @@
 //
 //  ArduinoDecoder.h
-//  M1 Player
+//  M1 Audio Player
 //
-//  Created by zebra on 21/09/16.
-//
+//  Created on 21/09/16.
 //
 
 #ifndef ArduinoDecoder_h
@@ -12,7 +11,6 @@
 class ArduinoDecoderYP: public ofSerial {
 public:
     ArduinoDecoderYP() {
-        
     }
     
     float lastY = 0, lastP = 0, lastR = 0;
@@ -204,11 +202,8 @@ public:
             anythingNewDetected = true;
         }
         
-        
         return anythingNewDetected;
-        
     }
-    
 };
 
 #endif /* ArduinoDecoder_h */

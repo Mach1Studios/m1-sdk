@@ -13,7 +13,10 @@
 
 #include "ArduinoWatcher.h"
 #include "ArduinoDecoderYP.h"
-
+#include "Mach1WebSocketServer.h"
+#include <oscpp/server.hpp>
+#include "ThreadedWMC.h" // witmotion controller
+#include "ThreadedMMC.h" // metamotion controller
 
 #define SETTINGS_TOOLBAR_WIDTH 200
 
@@ -30,7 +33,7 @@ public:
         
         serial.close();
         arduinoWatcher->stopThread();
-        ofSleepMillis(1000);
+        ofSleepMillis(500);
         
         delete arduinoWatcher;
     }
@@ -56,18 +59,33 @@ public:
     std::vector<BaseAudioTest*> tests;
     
     // Simulation
-    
     ofPoint simulationAngles = ofPoint(0);
     void updateSimulationAngles();
     
-    float angleX, angleY, angleZ;
+    // Device / IMU / Controller
+    void deviceSearch();
+    bool deviceSearching = false;
+    bool deviceFound = false; // Global device bool for allowing only one device at a time
+    
+    // WitMotion Controller
+    ThreadedWMC threadedwmc;
+    // MetaMotion Controller
+    ThreadedMMC threadedmmc;
+    
+    Mach1WebSocketServer webSocketServer;
+    void websocketMessageReceived(char* data, int cnt);
+    
+    float angleYaw, anglePitch, angleRoll; // Main output angles
+    float uiYaw, uiPitch, uiRoll; // UI angles
+    float websocketYaw, websocketPitch, websocketRoll;
+    float witYaw, witPitch, witRoll;
+    float metaYaw, metaPitch, metaRoll;
 
     ArduinoWatcher *arduinoWatcher;
     vector<ArduinoDecoderYP*> arduinoDecoders;
     bool initializedController = false;
     
     // Visualizing
-    
     ofPoint spectatorCam = ofPoint(0.25, 0.5); // spectator cam angle
     
     ofLight *pointLight;
@@ -76,7 +94,6 @@ public:
     ofMaterial material;
     
     ofSpherePrimitive sphere;
-    
     
     void drawSphere(float x, float y, float z, float scale, bool wireframe = false) {
         if (wireframe) {
@@ -92,9 +109,7 @@ public:
         }
     }
     
-    
     // UI
-    
     ofPoint spectatorCamStart, dragStart, anglesDragStart;
     
     bool dragginCamera;
@@ -121,7 +136,6 @@ public:
             }
             return outVal;
         }
-        
     }
     
     vector<unsigned char> queueBuffer;
@@ -131,8 +145,6 @@ public:
     float pitchAngle = 0., pitchAngleClamp = 0.;
     
     bool getNewDataFromQueue(int & Y, int & P) {
-        
-        
         unsigned char newData[4];
         
         int idx = -1;
@@ -147,16 +159,13 @@ public:
             //            ofLog() << "found 255 at " << idx << " / " << queueBuffer.size();
             //            newData[0] = queueBuffer[idx];
             int Yp, Pp;
-            
             newData[0] = queueBuffer[idx + 1];
             newData[1] = queueBuffer[idx + 2];
             newData[2] = queueBuffer[idx + 3];
-            
-            
+ 
             decode(newData, Yp, Pp);
             Y = Yp;
             P = Pp;
-            
             
             queueBuffer.erase(queueBuffer.begin() + idx, queueBuffer.begin() + idx + 4);
             return true;
@@ -168,11 +177,9 @@ public:
             queueBuffer.clear();
             return false;
         }
-        
     }
     
     void encode(int Y, int P, unsigned char* x) {
-        
         unsigned char Ypart2 = Y / 254;
         unsigned char Yc[2] = {0, 0};
         Yc[0] = (Y - (int)Ypart2 * 254);
@@ -183,13 +190,11 @@ public:
         Pc[0] = (unsigned char)((P - (int)Ppart2 * 254));
         Pc[1] = Ppart2;
         
-        
         unsigned char multipliers = (Ypart2 << 4) | Ppart2;
         
         x[0] = Yc[0];
         x[1] = Pc[0];
         x[2] = multipliers;
-        
     }
     
     void decode(unsigned char* input, int & Y, int & P) {
@@ -203,9 +208,5 @@ public:
         
         Y = ((int)Ypart2 * 254 + (int)input[0]);
         P = ((int)Ppart2 * 254 + (int)input[1]);
-        
-        
-        
     }
-    
 };

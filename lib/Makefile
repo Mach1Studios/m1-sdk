@@ -236,12 +236,24 @@ deploy-windows: FORCE
 	xcopy _install\vs-15-2017-win64\lib ..\examples\mach1spatial-c\openframeworks\ofxMach1\libs\libmach1\lib\vs\x64 /Y
 
 build-linux: FORCE
+	cd tests && sh ./_build_on_linux_for_linux.sh
+	~/git/polly/bin/polly --clear --install --config Release --toolchain gcc
 
 deploy-linux: FORCE
+	yes | cp -rf "_install/gcc/lib/libMach1DecodeCAPI.a" "../binaries/linux/lib/libMach1DecodeCAPI.a"
+	yes | cp -rf "_install/gcc/lib/libMach1EncodeCAPI.a" "../binaries/linux/lib/libMach1EncodeCAPI.a"
+	yes | cp -rf "_install/gcc/lib/libMach1TranscodeCAPI.a" "../binaries/linux/lib/libMach1TranscodeCAPI.a"
+	yes | cp -rf "_install/gcc/lib/libMach1DecodePositionalCAPI.a" "../binaries/linux/lib/libMach1DecodePositionalCAPI.a"
 
 build-linux-arm: FORCE
+	cd tests && sh ./_build_on_linux_for_linux.sh
+	~/git/polly/bin/polly --clear --install --config Release --toolchain gcc
 
 deploy-linux-arm: FORCE
+	yes | cp -rf "_install/gcc/lib/libMach1DecodeCAPI.a" "../binaries/linux-arm/lib/libMach1DecodeCAPI.a"
+	yes | cp -rf "_install/gcc/lib/libMach1EncodeCAPI.a" "../binaries/linux-arm/lib/libMach1EncodeCAPI.a"
+	yes | cp -rf "_install/gcc/lib/libMach1TranscodeCAPI.a" "../binaries/linux-arm/lib/libMach1TranscodeCAPI.a"
+	yes | cp -rf "_install/gcc/lib/libMach1DecodePositionalCAPI.a" "../binaries/linux-arm/lib/libMach1DecodePositionalCAPI.a"
 
 deploy-release: deploy-dev
 	#replace all binaries in github release 

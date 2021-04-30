@@ -70,7 +70,7 @@ else ifeq ($(detected_OS),Windows)
 	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-15-2017
 	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-15-2017-win64
 else 
-	polly --clear --install --config Release --toolchain gcc
+	~/git/polly/bin/polly --clear --install --config Release --toolchain gcc
 endif
 
 includes-dev: 

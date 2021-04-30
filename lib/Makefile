@@ -41,7 +41,6 @@ ifeq ($(detected_OS),Darwin)
 else ifeq ($(detected_OS),Windows)
 
 else 
-	~/git/polly/bin/polly --clear --install --config Release --toolchain gcc
 	g++ -o spatial-decode-exmple -I../include/cpp -L_install/gcc/lib -lMach1DecodeCAPI ../examples/mach1spatial-c/commandline/spatial-decode-example/main.cpp 
 	g++ -o spatial-encode-exmple -I../include/cpp -L_install/gcc/lib -lMach1EncodeCAPI ../examples/mach1spatial-c/commandline/spatial-encode-example/main.cpp 
 	g++ -o spatial-decodepositional-exmple -I../include/cpp -L_install/gcc/lib -lMach1DecodeCAPI -lMach1DecodePositionalCAPI ../examples/mach1spatial-c/commandline/spatial-decodepositional-example/main.cpp 

@@ -41,10 +41,10 @@ ifeq ($(detected_OS),Darwin)
 else ifeq ($(detected_OS),Windows)
 
 else 
-	g++ -o spatial-decode-exmple -I../include/cpp -L_install/gcc/lib -lMach1DecodeCAPI ../examples/mach1spatial-c/commandline/spatial-decode-example/main.cpp 
-	g++ -o spatial-encode-exmple -I../include/cpp -L_install/gcc/lib -lMach1EncodeCAPI ../examples/mach1spatial-c/commandline/spatial-encode-example/main.cpp 
-	g++ -o spatial-decodepositional-exmple -I../include/cpp -L_install/gcc/lib -lMach1DecodeCAPI -lMach1DecodePositionalCAPI ../examples/mach1spatial-c/commandline/spatial-decodepositional-example/main.cpp 
-	g++ -o spatial-transcode-exmple -I../include/cpp -L_install/gcc/lib -lMach1TranscodeCAPI ../examples/mach1spatial-c/commandline/spatial-transcode-example/main.cpp 
+	g++ -o spatial-decode-exmple -I../include/cpp -L_install/gcc/lib -lMach1DecodeCAPI ../examples/mach1spatial-c/commandline/spatial-decode-example/spatial-decode-example/main.cpp 
+	g++ -o spatial-encode-exmple -I../include/cpp -L_install/gcc/lib -lMach1EncodeCAPI ../examples/mach1spatial-c/commandline/spatial-encode-example/spatial-encode-example/main.cpp 
+	g++ -o spatial-decodepositional-exmple -I../include/cpp -L_install/gcc/lib -lMach1DecodeCAPI -lMach1DecodePositionalCAPI ../examples/mach1spatial-c/commandline/spatial-decodepositional-example/spatial-decodepositional-example/main.cpp 
+	g++ -o spatial-transcode-exmple -I../include/cpp -L_install/gcc/lib -lMach1TranscodeCAPI ../examples/mach1spatial-c/commandline/spatial-transcode-example/spatial-transcode-example/main.cpp 
 endif	
 
 build-all: clear test includes-dev includes-release build build-web grab-ios build-android build-rpi build-cortexm0 deploy-dev deploy-release

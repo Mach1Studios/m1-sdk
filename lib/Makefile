@@ -37,17 +37,17 @@ endif
 
 test-linking:
 ifeq ($(detected_OS),Darwin)
-	mkdir builds
-	g++ -o builds/spatial-decode-exmple ../examples/mach1spatial-c/commandline/spatial-decode-example/spatial-decode-example/main.cpp ../include/cpp/Mach1Decode.cpp -I../include/cpp -L_install/xcode/lib -lstdc++ -lpthread -lMach1DecodeCAPI
-	g++ -o builds/spatial-encode-exmple ../examples/mach1spatial-c/commandline/spatial-encode-example/spatial-encode-example/main.cpp ../include/cpp/Mach1Encode.cpp -I../include/cpp -L_install/xcode/lib -lstdc++ -lpthread -lMach1EncodeCAPI
-	g++ -o builds/spatial-transcode-exmple ../examples/mach1spatial-c/commandline/spatial-transcode-example/spatial-transcode-example/main.cpp ../include/cpp/Mach1Transcode.cpp -I../include/cpp -L_install/xcode/lib -lstdc++ -lMach1TranscodeCAPI
+	mkdir -p builds
+	g++ -o builds/spatial-decode-example ../examples/mach1spatial-c/commandline/spatial-decode-example/spatial-decode-example/main.cpp ../include/cpp/Mach1Decode.cpp -I../include/cpp -L_install/xcode/lib -lstdc++ -lpthread -lMach1DecodeCAPI
+	g++ -o builds/spatial-encode-example ../examples/mach1spatial-c/commandline/spatial-encode-example/spatial-encode-example/main.cpp ../include/cpp/Mach1Encode.cpp -I../include/cpp -L_install/xcode/lib -lstdc++ -lpthread -lMach1EncodeCAPI
+	g++ -o builds/spatial-transcode-example ../examples/mach1spatial-c/commandline/spatial-transcode-example/spatial-transcode-example/main.cpp ../include/cpp/Mach1Transcode.cpp -I../include/cpp -L_install/xcode/lib -lstdc++ -lMach1TranscodeCAPI
 else ifeq ($(detected_OS),Windows)
 	# windows testing
 else 
-	mkdir builds
-	g++ -o builds/spatial-decode-exmple ../examples/mach1spatial-c/commandline/spatial-decode-example/spatial-decode-example/main.cpp ../include/cpp/Mach1Decode.cpp -I../include/cpp -L_install/gcc/lib -lstdc++ -lpthread -lMach1DecodeCAPI
-	g++ -o builds/spatial-encode-exmple ../examples/mach1spatial-c/commandline/spatial-encode-example/spatial-encode-example/main.cpp ../include/cpp/Mach1Encode.cpp -I../include/cpp -L_install/gcc/lib -lstdc++ -lpthread -lMach1EncodeCAPI
-	g++ -o builds/spatial-transcode-exmple ../examples/mach1spatial-c/commandline/spatial-transcode-example/spatial-transcode-example/main.cpp ../include/cpp/Mach1Transcode.cpp -I../include/cpp -L_install/gcc/lib -lstdc++ -lMach1TranscodeCAPI
+	mkdir -p builds
+	g++ -o builds/spatial-decode-example ../examples/mach1spatial-c/commandline/spatial-decode-example/spatial-decode-example/main.cpp ../include/cpp/Mach1Decode.cpp -I../include/cpp -L_install/gcc/lib -lstdc++ -lpthread -lMach1DecodeCAPI
+	g++ -o builds/spatial-encode-example ../examples/mach1spatial-c/commandline/spatial-encode-example/spatial-encode-example/main.cpp ../include/cpp/Mach1Encode.cpp -I../include/cpp -L_install/gcc/lib -lstdc++ -lpthread -lMach1EncodeCAPI
+	g++ -o builds/spatial-transcode-example ../examples/mach1spatial-c/commandline/spatial-transcode-example/spatial-transcode-example/main.cpp ../include/cpp/Mach1Transcode.cpp -I../include/cpp -L_install/gcc/lib -lstdc++ -lMach1TranscodeCAPI
 endif	
 
 build-all: clear test includes-dev includes-release build build-web grab-ios build-android build-rpi build-cortexm0 deploy-dev deploy-release

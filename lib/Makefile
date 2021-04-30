@@ -1,7 +1,5 @@
 # Mach1 Spatial SDK
 
-# local paths are in this file
-include ~/m1-globallocal.mk
 EMSDK_PATH=/Volumes/git/emsdk
 
 # getting OS type
@@ -27,10 +25,28 @@ ifeq ($(detected_OS),Darwin)
 	./tests/_install/xcode/bin/Mach1DecodeTest
 	./tests/_install/xcode/bin/Mach1DecodePositionalTest
 	./tests/_install/xcode/bin/Mach1SpatialTests
-endif
-ifeq ($(detected_OS),Windows)
+else ifeq ($(detected_OS),Windows)
 	cd tests && python ../../../polly/bin/polly.py --clear --install --config Release --toolchain vs-15-2017-win64
+else 
+	cd tests && ~/git/polly/bin/polly --clear --install --config Release --toolchain gcc
+	./tests/_install/gcc/bin/Mach1EncodeTest
+	./tests/_install/gcc/bin/Mach1DecodeTest
+	./tests/_install/gcc/bin/Mach1DecodePositionalTest
+	./tests/_install/gcc/bin/Mach1SpatialTests
 endif
+
+test-linking:
+ifeq ($(detected_OS),Darwin)
+
+else ifeq ($(detected_OS),Windows)
+
+else 
+	~/git/polly/bin/polly --clear --install --config Release --toolchain gcc
+	g++ -o spatial-decode-exmple -I../include/cpp -L_install/gcc/lib -lMach1DecodeCAPI ../examples/mach1spatial-c/commandline/spatial-decode-example/main.cpp 
+	g++ -o spatial-encode-exmple -I../include/cpp -L_install/gcc/lib -lMach1EncodeCAPI ../examples/mach1spatial-c/commandline/spatial-encode-example/main.cpp 
+	g++ -o spatial-decodepositional-exmple -I../include/cpp -L_install/gcc/lib -lMach1DecodeCAPI -lMach1DecodePositionalCAPI ../examples/mach1spatial-c/commandline/spatial-decodepositional-example/main.cpp 
+	g++ -o spatial-transcode-exmple -I../include/cpp -L_install/gcc/lib -lMach1TranscodeCAPI ../examples/mach1spatial-c/commandline/spatial-transcode-example/main.cpp 
+endif	
 
 build-all: clear test includes-dev includes-release build build-web grab-ios build-android build-rpi build-cortexm0 deploy-dev deploy-release
 	echo "REMINDER: Build FAT iOS lib first!"
@@ -50,11 +66,9 @@ ifeq ($(detected_OS),Darwin)
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/libBundle/libMach1DecodeCAPI.bundle"
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/libBundle/libMach1DecodePositionalCAPI.bundle"
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/libBundle/libMach1EncodeCAPI.bundle"
-endif
-ifeq ($(detected_OS),Windows)
+else ifeq ($(detected_OS),Windows)
 	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-15-2017
 	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-15-2017-win64
-endif
 else 
 	polly --clear --install --config Release --toolchain gcc
 endif
@@ -213,8 +227,7 @@ ifeq ($(detected_OS),Darwin)
 	rm -rf _install/android-ndk-r16b-api-21-x86-clang-libcxx
 	rm -rf _install/android-ndk-r16b-api-21-x86-64-clang-libcxx
 	find _install/ -type d -name "libUnity" -exec rm -rf {} +
-endif
-ifeq ($(detected_OS),Windows)
+else ifeq ($(detected_OS),Windows)
 	# copy over android from pull
 	xcopy _install\android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx\lib ..\binaries\android-arm64-v8a\lib /Y
 	xcopy _install\android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx\lib ..\binaries\android-armeabi-v7a\lib /Y

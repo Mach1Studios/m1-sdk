@@ -63,7 +63,7 @@ void Mach1Transcode::processMasterGain(float** bufs, int numSamples, float maste
 }
 #endif
 
-float Mach1Transcode::processNormalization(std::vector<std::vector<float>>& bufs)
+float Mach1Transcode::processNormalization(std::vector< std::vector<float> >& bufs)
 {
 	if (bufs.size() == 0) return 0;
 
@@ -77,7 +77,7 @@ float Mach1Transcode::processNormalization(std::vector<std::vector<float>>& bufs
 	return peak;
 }
 
-void Mach1Transcode::processMasterGain(std::vector<std::vector<float>>& bufs, float masterGain)
+void Mach1Transcode::processMasterGain(std::vector< std::vector<float> >& bufs, float masterGain)
 {
 	if (bufs.size() == 0) return;
 
@@ -194,17 +194,18 @@ bool Mach1Transcode::processConversionPath()
 {
 	return Mach1TranscodeCAPI_processConversionPath(M1obj);
     /// Use this function to control when to call for calculating the format transcoding calculations
+    /// Returns true if successful, false when no conversion path is found (used for error handling)
     ///
     /// Remarks:
     ///     Needs to be called before `processConversion()` is called.
 }
 
-std::vector<std::vector<float>> Mach1Transcode::getMatrixConversion()
+std::vector< std::vector<float> > Mach1Transcode::getMatrixConversion()
 {
 	float* matrix = new float[getInputNumChannels() * getOutputNumChannels()];
 	Mach1TranscodeCAPI_getMatrixConversion(M1obj, matrix);
 
-	std::vector<std::vector<float>> vec;
+	std::vector< std::vector<float> > vec;
 	vec.resize(getOutputNumChannels());
 	for (size_t i = 0; i < vec.size(); i++)
 	{
@@ -227,7 +228,7 @@ void Mach1Transcode::processConversion(float** inBufs, float** outBufs, int numS
 }
 #endif
 
-void Mach1Transcode::processConversion(std::vector<std::vector<float>>& inBufs, std::vector<std::vector<float>>& outBufs)
+void Mach1Transcode::processConversion(std::vector< std::vector<float> >& inBufs, std::vector< std::vector<float> >& outBufs)
 {
 	if (inBufs.size() == 0 || outBufs.size() == 0) return;
 	

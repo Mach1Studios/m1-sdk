@@ -45,8 +45,8 @@ else ifeq ($(detected_OS),Windows)
 	# windows testing
 else 
 	mkdir -p builds
-	g++ -o builds/spatial-decode-example ../examples/mach1spatial-c/commandline/spatial-decode-example/spatial-decode-example/main.cpp ../include/cpp/Mach1Decode.cpp -I../include/cpp -L_install/gcc/lib -lstdc++ -lpthread -lMach1DecodeCAPI
-	g++ -o builds/spatial-encode-example ../examples/mach1spatial-c/commandline/spatial-encode-example/spatial-encode-example/main.cpp ../include/cpp/Mach1Encode.cpp -I../include/cpp -L_install/gcc/lib -lstdc++ -lpthread -lMach1EncodeCAPI
+	g++ -o builds/spatial-decode-example ../examples/mach1spatial-c/commandline/spatial-decode-example/spatial-decode-example/main.cpp ../include/cpp/Mach1Decode.cpp -I../include/cpp -L_install/gcc/lib -lstdc++ -pthread -lMach1DecodeCAPI
+	g++ -o builds/spatial-encode-example ../examples/mach1spatial-c/commandline/spatial-encode-example/spatial-encode-example/main.cpp ../include/cpp/Mach1Encode.cpp -I../include/cpp -L_install/gcc/lib -lstdc++ -pthread -lMach1EncodeCAPI
 	g++ -o builds/spatial-transcode-example ../examples/mach1spatial-c/commandline/spatial-transcode-example/spatial-transcode-example/main.cpp ../include/cpp/Mach1Transcode.cpp -I../include/cpp -L_install/gcc/lib -lstdc++ -lMach1TranscodeCAPI
 endif	
 

@@ -3,28 +3,28 @@
 
 build:
 ifeq ($(OS),Windows_NT)
-    ifeq ($(PROCESSOR_ARCHITEW6432),AMD64) #default
-    else
-        ifeq ($(PROCESSOR_ARCHITECTURE),AMD64) #amd64
-        endif
-        ifeq ($(PROCESSOR_ARCHITECTURE),x86) # 32bit
-        endif
-    endif
+	ifeq ($(PROCESSOR_ARCHITEW6432),AMD64) #default
+	else
+		ifeq ($(PROCESSOR_ARCHITECTURE),AMD64) #amd64
+		endif
+		ifeq ($(PROCESSOR_ARCHITECTURE),x86) # 32bit
+		endif
+	endif
 else
-    UNAME_S := $(shell uname -s)
-    ifeq ($(UNAME_S),Linux)
-    	g++ -o spatial-transcode-example spatial-transcode-example/main.cpp ../../../../include/cpp/Mach1Transcode.cpp -I../../../../include/cpp -L../../../../binaries/linux/lib -lstdc++ -pthread -lMach1TranscodeCAPI
-    endif
-    ifeq ($(UNAME_S),Darwin)
-        g++ -o spatial-transcode-example spatial-transcode-example/main.cpp ../../../../include/cpp/Mach1Transcode.cpp -I../../../../include/cpp -L../../../../binaries/xcode/lib -lstdc++ -lpthread -lMach1TranscodeCAPI
-    endif
-    UNAME_P := $(shell uname -p)
-    ifeq ($(UNAME_P),x86_64)
-    	g++ -o spatial-transcode-example spatial-transcode-example/main.cpp ../../../../include/cpp/Mach1Transcode.cpp -I../../../../include/cpp -L../../../../binaries/linux/lib -lstdc++ -pthread -lMach1TranscodeCAPI
-    endif
-    ifneq ($(filter arm%,$(UNAME_P)),)
-    	g++ -o spatial-transcode-example spatial-transcode-example/main.cpp ../../../../include/cpp/Mach1Transcode.cpp -I../../../../include/cpp -L../../../../binaries/linux-arm/lib -lstdc++ -pthread -lMach1TranscodeCAPI
-    endif
+	UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S),Linux)
+		g++ -o spatial-transcode-example spatial-transcode-example/main.cpp ../../../../include/cpp/Mach1Transcode.cpp -I../../../../include/cpp -L../../../../binaries/linux/lib -lstdc++ -pthread -lMach1TranscodeCAPI
+	endif
+	ifeq ($(UNAME_S),Darwin)
+		g++ -o spatial-transcode-example spatial-transcode-example/main.cpp ../../../../include/cpp/Mach1Transcode.cpp -I../../../../include/cpp -L../../../../binaries/xcode/lib -lstdc++ -lpthread -lMach1TranscodeCAPI
+	endif
+	UNAME_P := $(shell uname -p)
+	ifeq ($(UNAME_P),x86_64)
+		g++ -o spatial-transcode-example spatial-transcode-example/main.cpp ../../../../include/cpp/Mach1Transcode.cpp -I../../../../include/cpp -L../../../../binaries/linux/lib -lstdc++ -pthread -lMach1TranscodeCAPI
+	endif
+	ifneq ($(filter arm%,$(UNAME_P)),)
+		g++ -o spatial-transcode-example spatial-transcode-example/main.cpp ../../../../include/cpp/Mach1Transcode.cpp -I../../../../include/cpp -L../../../../binaries/linux-arm/lib -lstdc++ -pthread -lMach1TranscodeCAPI
+	endif
 endif
 
 build-beaglebone:

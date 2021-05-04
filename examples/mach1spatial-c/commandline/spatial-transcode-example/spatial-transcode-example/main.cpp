@@ -68,7 +68,7 @@ static void* decode(void* v);
 static pthread_t thread;
 static bool done = false;
 Mach1Transcode m1Transcode;
-static std::vector<std::vector<float>> m1Coeffs; //2D array, [input channel][input channel's coeff]
+static std::vector< std::vector<float> > m1Coeffs; //2D array, [input channel][input channel's coeff]
 Mach1TranscodeFormatType inputMode;
 Mach1TranscodeFormatType outputMode;
 std::string inputName;

@@ -24,11 +24,14 @@ set(Mach1DecodeCAPIsrc "./Mach1DecodeCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1P
 set(Mach1DecodePositionalCAPIsrc "./Mach1DecodePositionalCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1DecodePositionalCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")
 set(Mach1TranscodeCAPIsrc "./Mach1TranscodeCore.cpp" "./Mach1TranscodeCAPI.cpp" "./Mach1Point3DCore.cpp" "./Mach1GenerateCoeffs.cpp" "${Mach1AdditionalInclude}/M1DSP/M1DSPFilters.cpp" "${Mach1AdditionalInclude}/M1DSP/M1DSPDynamics.cpp" "${Mach1AdditionalInclude}/M1DSP/M1DSPUtilities.cpp")
 
+set(Mach1DecodeMINCAPIsrc "./Mach1DecodeMINCAPI.cpp" "./Mach1DecodeMINCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")
+
 # STATIC
 add_library(Mach1DecodeCAPIstatic STATIC ${Mach1DecodeCAPIsrc})
 add_library(Mach1DecodePositionalCAPIstatic STATIC ${Mach1DecodePositionalCAPIsrc})
 add_library(Mach1EncodeCAPIstatic STATIC ${Mach1EncodeCAPIsrc})
 add_library(Mach1TranscodeCAPIstatic STATIC ${Mach1TranscodeCAPIsrc})
+add_library(Mach1DecodeMINCAPIstatic STATIC ${Mach1DecodeMINCAPIsrc})
 
 if(IOS)
     set_target_properties(Mach1DecodeCAPIstatic PROPERTIES CMAKE_XCODE_ATTRIBUTE_BITCODE_GENERATION_MODE "bitcode")
@@ -46,6 +49,7 @@ set_target_properties(Mach1DecodeCAPIstatic PROPERTIES OUTPUT_NAME "Mach1DecodeC
 set_target_properties(Mach1DecodePositionalCAPIstatic PROPERTIES OUTPUT_NAME "Mach1DecodePositionalCAPI")
 set_target_properties(Mach1EncodeCAPIstatic PROPERTIES OUTPUT_NAME "Mach1EncodeCAPI")
 set_target_properties(Mach1TranscodeCAPIstatic PROPERTIES OUTPUT_NAME "Mach1TranscodeCAPI")
+set_target_properties(Mach1DecodeMINCAPIstatic PROPERTIES OUTPUT_NAME "Mach1Decode-minifiedCAPI")
 
 target_include_directories(Mach1DecodePositionalCAPIstatic PRIVATE ${Mach1AdditionalInclude})
 target_include_directories(Mach1TranscodeCAPIstatic PRIVATE ${Mach1AdditionalInclude})
@@ -54,11 +58,13 @@ set_target_properties(Mach1EncodeCAPIstatic PROPERTIES VERSION ${ENCODE_VERSION}
 set_target_properties(Mach1DecodeCAPIstatic PROPERTIES VERSION ${DECODE_VERSION})
 set_target_properties(Mach1DecodePositionalCAPIstatic PROPERTIES VERSION ${DECODEPOSITIONAL_VERSION})
 set_target_properties(Mach1TranscodeCAPIstatic PROPERTIES VERSION ${TRANSCODE_VERSION})
+set_target_properties(Mach1DecodeMINCAPIstatic PROPERTIES VERSION ${DECODE_VERSION})
 
 install(TARGETS Mach1DecodeCAPIstatic DESTINATION lib)
 install(TARGETS Mach1DecodePositionalCAPIstatic DESTINATION lib)
 install(TARGETS Mach1EncodeCAPIstatic DESTINATION lib)
 install(TARGETS Mach1TranscodeCAPIstatic DESTINATION lib)
+install(TARGETS Mach1DecodeMINCAPIstatic DESTINATION lib)
 
 # UNITY
 if (APPLE OR WIN32)

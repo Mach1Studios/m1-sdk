@@ -69,7 +69,7 @@ public:
 class M1EncodeCore {
 public:
 	enum InputMode { 
-		INPUT_MONO, 
+		INPUT_MONO = (int) 0, 
 		INPUT_STEREO,
 		INPUT_QUAD, 
 		INPUT_LCRS, 
@@ -91,7 +91,7 @@ public:
 		INPUT_FIVE_ONE_SMPTE /// (Using Mach1Transcode is recommended instead)
 	};
 	enum OutputMode { 
-		OUTPUT_HORIZON_4CH = 0, 
+		OUTPUT_HORIZON_4CH = (int) 0, 
 		OUTPUT_SPATIAL_8CH,
 		OUTPUT_SPATIALPLUS_12CH,
 		OUTPUT_SPATIALPLUSPLUS_14CH,
@@ -100,7 +100,7 @@ public:
 	};
 
 	enum PannerMode {
-		MODE_ISOTROPICLINEAR = 0,
+		MODE_ISOTROPICLINEAR = (int) 0,
 		MODE_ISOTROPICEQUALPOWER,
 		MODE_PERIPHONICLINEAR
 	};

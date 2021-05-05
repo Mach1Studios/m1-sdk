@@ -1860,7 +1860,7 @@ namespace Mach1TranscodeConstantsInternal {
 namespace Mach1TranscodeFormats {
 
 	enum FormatType {
-		Empty = 0,
+		Empty = (int) 0,
 		FuMa,
 		ACNSN3D,
 		M1Horizon,

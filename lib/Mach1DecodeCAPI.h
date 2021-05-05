@@ -30,13 +30,25 @@
 #define Mach1DecodeCAPI_h
 
 enum Mach1PlatformType {
-	Mach1PlatformDefault = 0, Mach1PlatformUnity, Mach1PlatformUE, Mach1PlatformOfEasyCam, Mach1PlatformAndroid, Mach1PlatformiOS
+	Mach1PlatformDefault = (int) 0,
+	Mach1PlatformUnity,
+	Mach1PlatformUE,
+	Mach1PlatformOfEasyCam,
+	Mach1PlatformAndroid,
+	Mach1PlatformiOS
 };
 
 enum Mach1DecodeAlgoType {
-	Mach1DecodeAlgoSpatial = 0, Mach1DecodeAlgoAltSpatial, Mach1DecodeAlgoHorizon, Mach1DecodeAlgoHorizonPairs, Mach1DecodeAlgoSpatialPairs, Mach1DecodeAlgoSpatialPlus, Mach1DecodeAlgoSpatialPlusPlus, Mach1DecodeAlgoSpatialExt, Mach1DecodeAlgoSpatialExtPlus
+	Mach1DecodeAlgoSpatial = (int) 0,
+	Mach1DecodeAlgoAltSpatial,
+	Mach1DecodeAlgoHorizon,
+	Mach1DecodeAlgoHorizonPairs,
+	Mach1DecodeAlgoSpatialPairs,
+	Mach1DecodeAlgoSpatialPlus,
+	Mach1DecodeAlgoSpatialPlusPlus,
+	Mach1DecodeAlgoSpatialExt,
+	Mach1DecodeAlgoSpatialExtPlus
 };
-
 
 #ifdef __cplusplus
 extern "C" {

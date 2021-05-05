@@ -454,15 +454,82 @@ void Mach1DecodeCore::beginBuffer() {
     updateAngles();
 }
 
-
 //  End function that has to be called
 //  after per-sample coefficient calculation.
 //
 
 void Mach1DecodeCore::endBuffer() {
-
 	//  ;)
+}
 
+void Mach1DecodeCore::processSample(functionAlgoSampleHP funcAlgoSampleHP, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
+	if (smoothAngles) {
+
+		targetYaw = Yaw;
+		targetPitch = Pitch;
+		targetRoll = Roll;
+
+		if (bufferSize > 0) {
+
+			// we're in per sample mode
+			// returning values from right here!
+
+			float volumes1[18];
+			float volumes2[18];
+			(this->*funcAlgoSampleHP)(previousYaw, previousPitch, previousRoll, volumes1);
+			(this->*funcAlgoSampleHP)(currentYaw, currentPitch, currentRoll, volumes2);
+			float phase = (float)sampleIndex / (float)bufferSize;
+
+			float volumes_lerp[18];
+			for (int i = 0; i < 18; i++) {
+				volumes_lerp[i] = volumes1[i] * (1 - phase) + volumes2[i] * phase;
+				result[i] = volumes_lerp[i];
+			}
+            
+            return;
+		}
+		else {
+			// Filtering per-buffer
+			if (filterSpeed >= 1.0) {
+				currentYaw = Yaw;
+				currentPitch = Pitch;
+				currentRoll = Roll;
+
+				previousYaw = currentYaw;
+				previousPitch = currentPitch;
+				previousRoll = currentRoll;
+
+			}
+			else {
+				Yaw = currentYaw;
+				Pitch = currentPitch;
+				Roll = currentRoll;
+
+				previousYaw = currentYaw;
+				previousPitch = currentPitch;
+				previousRoll = currentRoll;
+			}
+		}
+
+	}
+	else {
+		// for test purpose only!
+		targetYaw = Yaw;
+		targetPitch = Pitch;
+		targetRoll = Roll;
+
+		currentYaw = Yaw;
+		currentPitch = Pitch;
+		currentRoll = Roll;
+
+		previousYaw = currentYaw;
+		previousPitch = currentPitch;
+		previousRoll = currentRoll;
+	}
+    
+	//printf("%f, %f, %f\r\n", Yaw, Pitch, Roll);
+
+    (this->*funcAlgoSampleHP)(Yaw, Pitch, Roll, result);
 }
 
 std::vector<float> Mach1DecodeCore::processSample(functionAlgoSample funcAlgoSample, float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {

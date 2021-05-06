@@ -27,11 +27,6 @@ Mach1DecodeAlgoType Mach1DecodeCAPI_getDecodeAlgoType(void* M1obj)
 	return ((Mach1DecodeCore*)M1obj)->getDecodeAlgoType();
 }
 
-void Mach1DecodeCAPI_decode(void * M1obj, float Yaw, float Pitch, float Roll, float * result, int bufferSize, int sampleIndex)
-{
-	((Mach1DecodeCore*)M1obj)->decode(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-}
-
 void Mach1DecodeCAPI_decodeCoeffs(void* M1obj, float* result, int bufferSize, int sampleIndex)
 {
 	((Mach1DecodeCore*)M1obj)->decodeCoeffs(result, bufferSize, sampleIndex);

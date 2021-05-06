@@ -1,5 +1,5 @@
 # Mach1 Spatial SDK
-# Compile and test Mach1Decode API
+# Compile and test Mach1Decode Minified API
 
 build:
 ifeq ($(OS),Windows_NT)

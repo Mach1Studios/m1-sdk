@@ -1,8 +1,10 @@
-# Mach1Decode C++ Example
+# Mach1Decode Minified C++ Example
+
+## Description
+This example and the linked Mach1DecodeMinifiedCAPI.a are only for use on very small footprint CPUs, it has stripped out several protective features and has a limited usage design.
 
 ### IDE Project Files
  - `spatial-decode-example.xcodeproj` Xcode project file
- - `spatial-decode-example.vcxproj` Visual Studio project file
 
 ### Makefile Options
  - `build`: generic build instructions for macos & linux

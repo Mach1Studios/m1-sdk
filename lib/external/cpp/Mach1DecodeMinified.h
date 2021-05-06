@@ -5,7 +5,7 @@
 
 #include <vector>
 #include <string>
-#include "Mach1DecodeMINCAPI.h"
+#include "Mach1DecodeMinifiedCAPI.h"
 
 class Mach1Decode
 {
@@ -19,10 +19,8 @@ public:
 	void setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType);
 
 #ifndef  __EMSCRIPTEN__ 
-	void decode(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
 	void decodeCoeffs(float *result, int bufferSize = 0, int sampleIndex = 0);
 #endif
-	std::vector<float> decode(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
 	std::vector<float> decodeCoeffs(int bufferSize = 0, int sampleIndex = 0);
 	std::vector<float> decodeCoeffsUsingTranscodeMatrix(std::vector< std::vector<float> > matrix, int channels, int bufferSize = 0, int sampleIndex = 0);
 

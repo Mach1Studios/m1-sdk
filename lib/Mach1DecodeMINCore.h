@@ -54,7 +54,6 @@ private:
     static float alignAngle(float a, float min = -180, float max = 180);
     static float lerp(float x1, float x2, float t);
     float radialDistance(float angle1, float angle2);
-    float targetDirectionMultiplier(float angleCurrent, float angleTarget);
     
     // Filter features
     // Envelope follower feature is defined here, in updateAngles()
@@ -111,12 +110,10 @@ public:
     //  P = Pitch in degrees
     //  R = Roll in degrees
 
-    std::vector<float> decode(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
     std::vector<float> decodeCoeffs(int bufferSize = 0, int sampleIndex = 0);
 
     // Decode using the current algorithm type in a more efficient way
 
-    void decode(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
 	void decodeCoeffs(float *result, int bufferSize = 0, int sampleIndex = 0);
 	void decodeCoeffsUsingTranscodeMatrix(void * M1obj, float * matrix, int channels, float * result, int bufferSize = 0, int sampleIndex = 0);
 

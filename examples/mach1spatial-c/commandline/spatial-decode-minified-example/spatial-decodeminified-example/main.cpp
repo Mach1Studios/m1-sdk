@@ -85,6 +85,7 @@ http://dev.mach1.tech/#mach1-internal-angle-standard
 static float yaw = 0;
 static float pitch = 0;
 static float roll = 0;
+Mach1Point3D orientation;
 
 // variables for time logs
 static auto start = 0.0;
@@ -118,7 +119,11 @@ int main(int argc, const char * argv[]) {
         m1Decode.setDecodeAlgoType(outputFormat);
 
         m1Decode.beginBuffer();
-        m1Coeffs = m1Decode.decode(yaw, pitch, roll, 0, 0);
+        orientation.x = yaw;
+        orientation.y = pitch;
+        orientation.z = roll;
+        m1Decode.setRotationDegrees(orientation);
+        m1Coeffs = m1Decode.decodeCoeffs(0, 0);
         m1Decode.endBuffer();
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> elapsed = end - start;

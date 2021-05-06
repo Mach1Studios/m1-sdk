@@ -31,9 +31,9 @@
 		A433888B236B5523002ADB19 /* Mach1Point3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Mach1Point3D.h; path = ../../../../include/cpp/Mach1Point3D.h; sourceTree = "<group>"; };
 		A433888D236B5523002ADB19 /* Mach1Point4D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Mach1Point4D.h; path = ../../../../include/cpp/Mach1Point4D.h; sourceTree = "<group>"; };
 		A4D6E9922643138800BF13F0 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = "spatial-decodeminified-example/main.cpp"; sourceTree = SOURCE_ROOT; };
-		A4D6E99F2643152300BF13F0 /* Mach1DecodeMINCAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1DecodeMINCAPI.h; path = ../../../../include/cpp/Mach1DecodeMINCAPI.h; sourceTree = "<group>"; };
 		A4D6E9A02643152400BF13F0 /* Mach1DecodeMinified.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mach1DecodeMinified.cpp; path = ../../../../include/cpp/Mach1DecodeMinified.cpp; sourceTree = "<group>"; };
 		A4D6E9A12643152400BF13F0 /* Mach1DecodeMinified.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1DecodeMinified.h; path = ../../../../include/cpp/Mach1DecodeMinified.h; sourceTree = "<group>"; };
+		A4D6E9B626443DBA00BF13F0 /* Mach1DecodeMinifiedCAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1DecodeMinifiedCAPI.h; path = ../../../../include/cpp/Mach1DecodeMinifiedCAPI.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,9 +50,9 @@
 		A4338871236B4B52002ADB19 = {
 			isa = PBXGroup;
 			children = (
-				A4D6E99F2643152300BF13F0 /* Mach1DecodeMINCAPI.h */,
-				A4D6E9A02643152400BF13F0 /* Mach1DecodeMinified.cpp */,
 				A4D6E9A12643152400BF13F0 /* Mach1DecodeMinified.h */,
+				A4D6E9A02643152400BF13F0 /* Mach1DecodeMinified.cpp */,
+				A4D6E9B626443DBA00BF13F0 /* Mach1DecodeMinifiedCAPI.h */,
 				A433888B236B5523002ADB19 /* Mach1Point3D.h */,
 				A433888D236B5523002ADB19 /* Mach1Point4D.h */,
 				A433887C236B4B52002ADB19 /* spatial-decode-example */,

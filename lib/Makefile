@@ -163,6 +163,14 @@ build-cortexm0:
 	yes | cp -rf "_install/gcc-arm-cortexm0-cxx14/lib/libMach1DecodePositionalCAPI.a" "../binaries/arm/gcc-arm-cortexm0-cxx14/lib/libMach1DecodePositionalCAPI.a"
 	yes | cp -rf "_install/gcc-arm-cortexm0-cxx14/lib/libMach1Decode-minifiedCAPI.a" "../binaries/arm/gcc-arm-cortexm0-cxx14/lib/libMach1Decode-minifiedCAPI.a"
 
+build-armhfneonvfpv4:
+	polly --clear --install --config Release --toolchain gcc-armhf-neon-vfpv4
+	yes | cp -rf "_install/gcc-armhf-neon-vfpv4/lib/libMach1DecodeCAPI.a" "../binaries/arm/gcc-armhf-neon-vfpv4/lib/libMach1DecodeCAPI.a"
+	yes | cp -rf "_install/gcc-armhf-neon-vfpv4/lib/libMach1EncodeCAPI.a" "../binaries/arm/gcc-armhf-neon-vfpv4/lib/libMach1EncodeCAPI.a"
+	yes | cp -rf "_install/gcc-armhf-neon-vfpv4/lib/libMach1TranscodeCAPI.a" "../binaries/arm/gcc-armhf-neon-vfpv4/lib/libMach1TranscodeCAPI.a"
+	yes | cp -rf "_install/gcc-armhf-neon-vfpv4/lib/libMach1DecodePositionalCAPI.a" "../binaries/arm/gcc-armhf-neon-vfpv4/lib/libMach1DecodePositionalCAPI.a"
+	yes | cp -rf "_install/gcc-armhf-neon-vfpv4/lib/libMach1Decode-minifiedCAPI.a" "../binaries/arm/gcc-armhf-neon-vfpv4/lib/libMach1Decode-minifiedCAPI.a"
+
 build-web: setup
 	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1DecodeModule'" --pre-js Mach1DecodeEmscripten.js -o external/js/Mach1Decode.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodeEmscripten.cpp
 	emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1DecodePositionalModule'" -Iinclude/ --pre-js Mach1DecodePositionalEmscripten.js -o external/js/Mach1DecodePositional.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodePositionalCore.cpp Mach1DecodePositionalCAPI.cpp Mach1DecodePositionalEmscripten.cpp

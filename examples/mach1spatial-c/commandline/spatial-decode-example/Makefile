@@ -33,6 +33,9 @@ build-beaglebone:
 build-arm-cortexm0:
 	g++ -o spatial-decode-example-test spatial-decode-example/main.cpp ../../../../include/cpp/Mach1Decode.cpp -I../../../../include/cpp -L../../../../binaries/arm/gcc-arm-cortexm0-cxx14/lib -lstdc++ -pthread -lMach1DecodeCAPI
 
+build-armhf-neonvfpv4:
+	g++ -o spatial-decode-example-test spatial-decode-example/main.cpp ../../../../include/cpp/Mach1Decode.cpp -I../../../../include/cpp -L../../../../binaries/arm/gcc-armhf-neon-vfpv4/lib -lstdc++ -pthread -lMach1DecodeCAPI
+
 build-rpi2:
 	g++ -o spatial-decode-example-test spatial-decode-example/main.cpp ../../../../include/cpp/Mach1Decode.cpp -I../../../../include/cpp -L../../../../binaries/arm/raspberrypi2-cxx11/lib -lstdc++ -pthread -lMach1DecodeCAPI
 

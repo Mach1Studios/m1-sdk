@@ -33,7 +33,7 @@ M1_API Mach1TranscodeFormatType Mach1TranscodeCAPI_getFormatFromString(void* M1o
 	return (Mach1TranscodeFormatType)((Mach1TranscodeCore*)M1obj)->getFormatFromString(str);
 }
 
-M1_API char* Mach1TranscodeCAPI_getFormatName(void* M1obj, Mach1TranscodeFormatType fmt)
+M1_API const char* Mach1TranscodeCAPI_getFormatName(void* M1obj, Mach1TranscodeFormatType fmt)
 {
 	return ((Mach1TranscodeCore*)M1obj)->getFormatName(M1obj, (Mach1TranscodeFormats::FormatType)fmt);
 }
@@ -72,6 +72,12 @@ M1_API void Mach1TranscodeCAPI_setSpatialDownmixer(void* M1obj, float corrThresh
 M1_API bool Mach1TranscodeCAPI_getSpatialDownmixerPossibility(void* M1obj)
 {
 	return ((Mach1TranscodeCore*)M1obj)->getSpatialDownmixerPossibility();
+}
+
+M1_API float* Mach1TranscodeCAPI_getAvgSamplesDiff(void* M1obj)
+{
+	std::vector<float>& avgSamplesDiff = ((Mach1TranscodeCore*)M1obj)->getAvgSamplesDiff();
+	return (float*)avgSamplesDiff.data();
 }
 
 M1_API void Mach1TranscodeCAPI_setInputFormat(void* M1obj, Mach1TranscodeFormatType inFmt)

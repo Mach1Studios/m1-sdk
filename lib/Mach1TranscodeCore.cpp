@@ -51,7 +51,7 @@ Mach1TranscodeFormats::FormatType Mach1TranscodeCore::getFormatFromString(char* 
 	return Mach1TranscodeFormats::Empty;
 }
 
-char* Mach1TranscodeCore::getFormatName(void * M1obj, Mach1TranscodeFormats::FormatType fmt)
+const char* Mach1TranscodeCore::getFormatName(void * M1obj, Mach1TranscodeFormats::FormatType fmt)
 {
 	return Mach1TranscodeConstants::FormatNames.at(fmt);
 }
@@ -100,6 +100,10 @@ void Mach1TranscodeCore::setSpatialDownmixer(float corrThreshold) {
 
 bool Mach1TranscodeCore::getSpatialDownmixerPossibility() {
 	return spatialDownmixChecker.bShouldDownmix();
+}
+
+std::vector<float>& Mach1TranscodeCore::getAvgSamplesDiff() {
+	return spatialDownmixChecker.getAvgSamplesDiff();
 }
 
 void Mach1TranscodeCore::setInputFormat(Mach1TranscodeFormats::FormatType inFmt)

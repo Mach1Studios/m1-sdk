@@ -1921,7 +1921,7 @@ namespace Mach1TranscodeFormats {
 
 namespace Mach1TranscodeConstants {
 
-	const std::map<Mach1TranscodeFormats::FormatType, char*> FormatNames = {
+	const std::map<Mach1TranscodeFormats::FormatType, const char*> FormatNames = {
 		{ Mach1TranscodeFormats::Empty, "None" },
 		{ Mach1TranscodeFormats::FuMa, "FuMa" },
 		{ Mach1TranscodeFormats::ACNSN3D, "ACNSN3D" },
@@ -2260,7 +2260,7 @@ public:
 	int getInputNumChannels();
 	int getOutputNumChannels();
 	Mach1TranscodeFormats::FormatType getFormatFromString(char* str);
-	char* getFormatName(void * M1obj, Mach1TranscodeFormats::FormatType fmt);
+	const char* getFormatName(void * M1obj, Mach1TranscodeFormats::FormatType fmt);
 
 	float processNormalization(float** bufs, int numSamples);
 	void processMasterGain(float** bufs, int numSamples, float masterGain = 1.0f);
@@ -2271,6 +2271,7 @@ public:
 	void setLFESub(std::vector<int> subChannelIndices, int sampleRate);
 	void setSpatialDownmixer(float corrThreshold = 0.1);
 	bool getSpatialDownmixerPossibility();
+	std::vector<float>& getAvgSamplesDiff();
 
 	void setInputFormat(Mach1TranscodeFormats::FormatType inFmt);
 	void setInputFormatADM(std::string inXml );

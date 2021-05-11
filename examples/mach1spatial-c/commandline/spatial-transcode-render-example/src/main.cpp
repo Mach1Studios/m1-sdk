@@ -365,6 +365,8 @@ int main(int argc, char* argv[])
 			{
 				if (m1transcode.getSpatialDownmixerPossibility())
 				{
+					vector<float> avgSamples = m1transcode.getAvgSamplesDiff();
+
 					// reinitialize inputs and outputs
 					outFmt = Mach1TranscodeFormatType::Mach1TranscodeFormatM1Horizon;
 					m1transcode.setOutputFormat(outFmt);

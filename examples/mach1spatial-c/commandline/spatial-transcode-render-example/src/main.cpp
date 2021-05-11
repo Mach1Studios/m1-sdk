@@ -161,6 +161,8 @@ int main(int argc, char* argv[])
 	{
 		spatialDownmixerMode = true;
 		corrThreshold = atof(pStr);
+
+		m1transcode.setSpatialDownmixer(corrThreshold);
 	}
 	if (spatialDownmixerMode && (corrThreshold < 0.0 || corrThreshold > 1.0))
 	{
@@ -361,8 +363,6 @@ int main(int argc, char* argv[])
 			// being higher than threshold
 			if (spatialDownmixerMode && outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatM1Spatial)
 			{
-                m1transcode.setSpatialDownmixer(corrThreshold);
-
 				if (m1transcode.getSpatialDownmixerPossibility())
 				{
 					// reinitialize inputs and outputs

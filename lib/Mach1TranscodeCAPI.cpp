@@ -76,7 +76,7 @@ M1_API bool Mach1TranscodeCAPI_getSpatialDownmixerPossibility(void* M1obj)
 
 M1_API float* Mach1TranscodeCAPI_getAvgSamplesDiff(void* M1obj)
 {
-	std::vector<float>& avgSamplesDiff = ((Mach1TranscodeCore*)M1obj)->getAvgSamplesDiff();
+	const std::vector<float>& avgSamplesDiff = ((Mach1TranscodeCore*)M1obj)->getAvgSamplesDiff();
 	return (float*)avgSamplesDiff.data();
 }
 

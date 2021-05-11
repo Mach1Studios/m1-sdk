@@ -102,7 +102,7 @@ bool Mach1TranscodeCore::getSpatialDownmixerPossibility() {
 	return spatialDownmixChecker.bShouldDownmix();
 }
 
-std::vector<float>& Mach1TranscodeCore::getAvgSamplesDiff() {
+const std::vector<float>& Mach1TranscodeCore::getAvgSamplesDiff() {
 	return spatialDownmixChecker.getAvgSamplesDiff();
 }
 

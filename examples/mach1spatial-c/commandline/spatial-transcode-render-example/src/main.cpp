@@ -377,7 +377,8 @@ int main(int argc, char* argv[])
 					numOutFiles = channels / actualOutFileChannels;
 
 					printf("Spatial Downmix:    ");
-                    printf("%s", m1transcode.getFormatName(outFmt).c_str());
+                    printf("%s\r\n", m1transcode.getFormatName(outFmt).c_str());
+                    printf("Top/Bottom Soundfield Differences:\r\n%f %f %f %f\r\n", avgSamples[0], avgSamples[1], avgSamples[2], avgSamples[3], avgSamples[4], avgSamples[5], avgSamples[6], avgSamples[7] );
                     printf("\r\n");
 				}
 			}

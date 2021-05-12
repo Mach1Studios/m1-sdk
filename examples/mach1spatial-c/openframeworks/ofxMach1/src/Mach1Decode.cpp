@@ -101,7 +101,7 @@ std::vector<float> Mach1Decode::decodeCoeffs(int bufferSize, int sampleIndex)
     ///     - sampleIndex: int for current sample index array, ideally supplied from your audioplayer/engine
 }
 
-std::vector<float> Mach1Decode::decodeCoeffsUsingTranscodeMatrix(std::vector<std::vector<float>> matrix, int channels, int bufferSize, int sampleIndex)
+std::vector<float> Mach1Decode::decodeCoeffsUsingTranscodeMatrix(std::vector< std::vector<float> > matrix, int channels, int bufferSize, int sampleIndex)
 {
 	std::vector<float> vec(2 * channels);
 

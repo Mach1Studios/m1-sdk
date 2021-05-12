@@ -30,9 +30,9 @@ std::vector<Mach1Point3D> Mach1Encode::getPoints()
     ///     - Z: left-right (0.0 (left) -> 1.0 (right))
 }
 
-std::vector<std::vector<float>> Mach1Encode::getGains()
+std::vector< std::vector<float> > Mach1Encode::getGains()
 {
-	std::vector<std::vector<float>> vec(Mach1EncodeCAPI_getPointsCount(M1obj));
+	std::vector< std::vector<float> > vec(Mach1EncodeCAPI_getPointsCount(M1obj));
 
 	float** arr = (float**)Mach1EncodeCAPI_getGains(M1obj);
 

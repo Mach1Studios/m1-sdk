@@ -4,6 +4,7 @@
 #include "Mach1TranscodeCore.h"
 #include "Mach1GenerateCoeffs.h"
 #include "json/json.h"
+#include "yaml/yaml.hpp"
 #include <string.h> 
 #include <cstring>
 
@@ -397,7 +398,14 @@ void Mach1TranscodeCore::processConversion(Mach1TranscodeFormats::FormatType inF
             ins[inChannel] = inPtrs[inChannel][sample];
         for (int channel = inChans; channel < Mach1TranscodeConstants::MAXCHANS; channel++)
             ins[channel] = 0;
-        
+    
+		/*
+		TODO:
+		if(perSamplePointsUpdateCallback(inTTPoints*, sample)){  // updates the points, std::function<bool(vector<M1Point>*, int)>  
+			currentFormatConversionMatrix = generateCoeffSetForPoints(inTTPoints, outTTPoints);
+		}
+		*/
+		
         for (int outChannel = 0; outChannel < outChans; outChannel++)
         {
             float out = 0;

@@ -2271,7 +2271,7 @@ public:
 	void setLFESub(std::vector<int> subChannelIndices, int sampleRate);
 	void setSpatialDownmixer(float corrThreshold = 0.1);
 	bool getSpatialDownmixerPossibility();
-	std::vector<float>& getAvgSamplesDiff();
+	const std::vector<float>& getAvgSamplesDiff();
 
 	void setInputFormat(Mach1TranscodeFormats::FormatType inFmt);
 	void setInputFormatADM(std::string inXml );

@@ -31,7 +31,7 @@
 const int Mach1TranscodeMAXCHANS = 64;
 
 enum Mach1TranscodeFormatType {
-	Mach1TranscodeFormatEmpty = 0,
+	Mach1TranscodeFormatEmpty = (int) 0,
 	Mach1TranscodeFormatFuMa,
 	Mach1TranscodeFormatACNSN3D,
 	Mach1TranscodeFormatM1Horizon,
@@ -97,7 +97,7 @@ extern "C" {
 	M1_API int Mach1TranscodeCAPI_getInputNumChannels(void* M1obj);
 	M1_API int Mach1TranscodeCAPI_getOutputNumChannels(void* M1obj);
 	M1_API enum Mach1TranscodeFormatType Mach1TranscodeCAPI_getFormatFromString(void* M1obj, char* str);
-	M1_API char* Mach1TranscodeCAPI_getFormatName(void* M1obj, enum Mach1TranscodeFormatType fmt);
+	M1_API const char* Mach1TranscodeCAPI_getFormatName(void* M1obj, enum Mach1TranscodeFormatType fmt);
 
 	M1_API float Mach1TranscodeCAPI_processNormalization(void* M1obj, float** bufs, int numSamples);
 	M1_API void Mach1TranscodeCAPI_processMasterGain(void* M1obj, float** bufs, int numSamples, float masterGain);
@@ -108,6 +108,7 @@ extern "C" {
 	M1_API void Mach1TranscodeCAPI_setLFESub(void* M1obj, int* subChannelIndices, int numChannels, int sampleRate);
 	M1_API void Mach1TranscodeCAPI_setSpatialDownmixer(void* M1obj, float corrThreshold);
 	M1_API bool Mach1TranscodeCAPI_getSpatialDownmixerPossibility(void* M1obj);
+	M1_API float* Mach1TranscodeCAPI_getAvgSamplesDiff(void* M1obj);
 
 	M1_API void Mach1TranscodeCAPI_setInputFormat(void* M1obj, enum Mach1TranscodeFormatType inFmt);
 	M1_API void Mach1TranscodeCAPI_setInputFormatADM(void* M1obj, char* inXml);

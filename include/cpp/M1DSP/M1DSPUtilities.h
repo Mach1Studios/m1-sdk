@@ -26,11 +26,10 @@ namespace M1DSP
 			std::vector<float> sumSample;
 			float threshold;
 			int totalSamples;
-			std::vector<float> avgSamplesDiff;
 		public: 
 			void Setup(float threshold = 0.1);
 			void ProcessBuffer(float** buffer, int bufferSize);
-			std::vector<float>& getAvgSamplesDiff();
+			std::vector<float> getAvgSamplesDiff();
 			bool bShouldDownmix();
 		};
 	}

@@ -130,6 +130,12 @@ bool Mach1Transcode::getSpatialDownmixerPossibility()
     ///     - when true; transcodings that are set to ouput to `Mach1Spatial` will process an additional conversion to `Mach1Horizon` 
 }
 
+std::vector<float> Mach1Transcode::getAvgSamplesDiff()
+{
+	float* avg = Mach1TranscodeCAPI_getAvgSamplesDiff(M1obj);
+	return std::vector<float>(avg, avg +4);
+}
+
 void Mach1Transcode::setInputFormat(Mach1TranscodeFormatType inFmt)
 {
 	Mach1TranscodeCAPI_setInputFormat(M1obj, inFmt);

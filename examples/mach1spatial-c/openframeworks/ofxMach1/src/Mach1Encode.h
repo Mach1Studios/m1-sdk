@@ -11,14 +11,14 @@
 class Mach1Encode {
 private:
 	void* M1obj;
-	std::vector<std::vector<float>> gains;
+	std::vector< std::vector<float> > gains;
 	
 public:
 	Mach1Encode();
 	~Mach1Encode();
 
 	std::vector<Mach1Point3D> getPoints();
-	std::vector<std::vector<float>> getGains();
+	std::vector< std::vector<float> > getGains();
 	std::vector<std::string> getPointsNames();
 	std::vector<float> getGainsForInputChannelNamed(std::string pointName);
 
@@ -37,7 +37,7 @@ public:
 	int getOutputChannelsCount();
 
 	template<typename T>
-	void encodeBuffer(std::vector<std::vector<T>>* inBuffer, std::vector<std::vector<T>>* outBuffer, int bufferSize);
+	void encodeBuffer(std::vector< std::vector<T> >* inBuffer, std::vector< std::vector<T> >* outBuffer, int bufferSize);
 
 	template<typename T>
 	void encodeBuffer(std::vector<T*>* inBuffer, std::vector<T*>* outBuffer, int bufferSize);
@@ -82,9 +82,9 @@ public:
 };
 
 template<typename T>
-inline void Mach1Encode::encodeBuffer(std::vector<std::vector<T>>* inBuffer, std::vector<std::vector<T>>* outBuffer, int bufferSize)
+inline void Mach1Encode::encodeBuffer(std::vector< std::vector<T> >* inBuffer, std::vector< std::vector<T> >* outBuffer, int bufferSize)
 {
-	std::vector<std::vector<float>> gains = getGains();
+	std::vector< std::vector<float> > gains = getGains();
 	if (this->gains.size() != gains.size()) this->gains = gains;
 
 	T value;
@@ -112,7 +112,7 @@ inline void Mach1Encode::encodeBuffer(std::vector<std::vector<T>>* inBuffer, std
 template<typename T>
 void Mach1Encode::encodeBuffer(std::vector<T*>* inBuffer, std::vector<T*>* outBuffer, int bufferSize)
 {
-	std::vector<std::vector<float>> gains = getGains();
+	std::vector< std::vector<float> > gains = getGains();
 	if (this->gains.size() != gains.size()) this->gains = gains;
 
 	T value;

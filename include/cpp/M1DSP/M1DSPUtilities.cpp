@@ -19,8 +19,8 @@ void M1DSP::Utilities::CSpatialDownmixChecker::ProcessBuffer(float ** buffer, in
 	totalSamples += bufferSize;
 }
 
-std::vector<float>& M1DSP::Utilities::CSpatialDownmixChecker::getAvgSamplesDiff() {
-	avgSamplesDiff.resize(sumSample.size());
+std::vector<float> M1DSP::Utilities::CSpatialDownmixChecker::getAvgSamplesDiff() {
+	std::vector<float> avgSamplesDiff(sumSample.size());
 	for (int n = 0; n < avgSamplesDiff.size(); n++) {
 		avgSamplesDiff[n] = sumSample[n] / totalSamples;
 	}
@@ -29,7 +29,7 @@ std::vector<float>& M1DSP::Utilities::CSpatialDownmixChecker::getAvgSamplesDiff(
 
 bool M1DSP::Utilities::CSpatialDownmixChecker::bShouldDownmix() {
 	bool ConvertToHorizon = false;
-	std::vector<float>& avgSamplesDiff = getAvgSamplesDiff();
+	std::vector<float> avgSamplesDiff = getAvgSamplesDiff();
 	for (int n = 0; n < avgSamplesDiff.size(); n++) {
 		if (avgSamplesDiff[n] < threshold) ConvertToHorizon = true;
 	}

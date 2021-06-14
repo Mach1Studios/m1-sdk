@@ -29,7 +29,7 @@
 #define Mach1EncodeCAPI_h
 
 enum Mach1EncodeInputModeType {
-	Mach1EncodeInputModeMono = 0, 
+	Mach1EncodeInputModeMono = (int) 0, 
 	Mach1EncodeInputModeStereo, 
 	Mach1EncodeInputModeQuad, 
 	Mach1EncodeInputModeLCRS, 
@@ -52,7 +52,7 @@ enum Mach1EncodeInputModeType {
 };
 
 enum Mach1EncodeOutputModeType {
-	Mach1EncodeOutputModeM1Horizon = 0, 
+	Mach1EncodeOutputModeM1Horizon = (int) 0, 
 	Mach1EncodeOutputModeM1Spatial,
 	Mach1EncodeOutputModeM1SpatialPlus,
 	Mach1EncodeOutputModeM1SpatialPlusPlus,
@@ -61,7 +61,7 @@ enum Mach1EncodeOutputModeType {
 };
 
 enum Mach1EncodePannerMode {
-	Mach1EncodePannerModeIsotropicLinear = 0,
+	Mach1EncodePannerModeIsotropicLinear = (int) 0,
 	Mach1EncodePannerModeIsotropicEqualPower,
 	Mach1EncodePannerModePeriphonicLinear
 };

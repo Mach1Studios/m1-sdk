@@ -124,7 +124,7 @@ int main(int argc, const char * argv[]) {
         orientation.x = yaw;
         orientation.y = pitch;
         orientation.z = roll;
-        m1Decode.setRotationRadians(orientation);
+        m1Decode.setRotationDegrees(orientation);
         m1Coeffs = m1Decode.decodeCoeffs();
         m1Decode.endBuffer();
         auto end = std::chrono::high_resolution_clock::now();

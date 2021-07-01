@@ -1,5 +1,5 @@
 //  Mach1 Spatial SDK
-//  Copyright © 2017-2020 Mach1. All rights reserved.
+//  Copyright © 2017-2021 Mach1. All rights reserved.
 
 #pragma once
 
@@ -8,20 +8,20 @@
 
 #if defined(Mach1DecodeCore_h) || defined(Mach1EncodeCore_h) ||  defined(Mach1PositionalCore_h) || defined(Mach1TranscodeCore_h)
 #ifndef M1_API
-        #if defined(_WINDOWS) || defined(WIN32)
-                #define M1_API __declspec(dllexport)
-        #else
-                #define M1_API
-        #endif
-    #endif
+		#if defined(_WINDOWS) || defined(WIN32)
+				#define M1_API __declspec(dllexport)
+		#else
+				#define M1_API
+		#endif
+	#endif
 #else
-    #ifndef M1_API
+	#ifndef M1_API
 		#if !defined(M1_STATIC) && (defined(_WINDOWS) || defined(WIN32))
-            #define M1_API __declspec(dllimport)
-        #else
-            #define M1_API
-        #endif
-    #endif
+			#define M1_API __declspec(dllimport)
+		#else
+			#define M1_API
+		#endif
+	#endif
 #endif
 
 
@@ -120,7 +120,8 @@ extern "C" {
 	M1_API float* Mach1TranscodeCAPI_getAvgSamplesDiff(void* M1obj);
 
 	M1_API void Mach1TranscodeCAPI_setInputFormat(void* M1obj, enum Mach1TranscodeFormatType inFmt);
-	M1_API void Mach1TranscodeCAPI_setInputFormatADM(void* M1obj, char* inXml);
+	M1_API void Mach1TranscodeCAPI_setInputFormatADM(void* M1obj, char* inXml, Mach1TranscodeProcessMode processMode);
+	M1_API void Mach1TranscodeCAPI_setInputFormatAtmos(void* M1obj, char* inDotAtmos, char* inDotAtmosDotMetadata, Mach1TranscodeProcessMode processMode);
 	M1_API void Mach1TranscodeCAPI_setInputFormatTTJson(void* M1obj, char* inJson);
 	M1_API void Mach1TranscodeCAPI_setInputFormatTTPoints(void* M1obj, struct Mach1Point3D* points, int count);
 

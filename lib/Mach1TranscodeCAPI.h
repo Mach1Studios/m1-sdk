@@ -79,13 +79,22 @@ enum Mach1TranscodeFormatType {
 	Mach1TranscodeFormatNineOneSix,
 	Mach1TranscodeFormatMarcoSixteen,
 	Mach1TranscodeFormatTTPoints,
-    Mach1TranscodeFormatACNSN3DmaxRE1oa,
-    Mach1TranscodeFormatACNSN3DmaxRE2oa,
-    Mach1TranscodeFormatACNSN3DmaxRE3oa,
-    Mach1TranscodeFormatACNSN3DmaxRE4oa,
-    Mach1TranscodeFormatACNSN3DmaxRE5oa,
-    Mach1TranscodeFormatACNSN3DmaxRE6oa,
-    Mach1TranscodeFormatACNSN3DmaxRE7oa,
+	Mach1TranscodeFormatACNSN3DmaxRE1oa,
+	Mach1TranscodeFormatACNSN3DmaxRE2oa,
+	Mach1TranscodeFormatACNSN3DmaxRE3oa,
+	Mach1TranscodeFormatACNSN3DmaxRE4oa,
+	Mach1TranscodeFormatACNSN3DmaxRE5oa,
+	Mach1TranscodeFormatACNSN3DmaxRE6oa,
+	Mach1TranscodeFormatACNSN3DmaxRE7oa,
+};
+
+enum Mach1TranscodeProcessMode {
+	Mach1TranscodeProcessAll = (int) 0,
+	Mach1TranscodeProcessObjectBed,
+	Mach1TranscodeProcessChannelBed,
+	Mach1TranscodeProcessAllWithoutBinauralRendering,
+	Mach1TranscodeProcessObjectBedWithoutBinauralRendering,
+	Mach1TranscodeProcessChannelBedWithoutBinauralRendering,
 };
 
 #ifdef __cplusplus

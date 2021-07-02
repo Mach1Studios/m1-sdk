@@ -88,13 +88,10 @@ enum Mach1TranscodeFormatType {
 	Mach1TranscodeFormatACNSN3DmaxRE7oa,
 };
 
-enum Mach1TranscodeProcessMode {
-	Mach1TranscodeProcessAll = (int) 0,
-	Mach1TranscodeProcessObjectBed,
-	Mach1TranscodeProcessChannelBed,
-	Mach1TranscodeProcessAllWithoutBinauralRendering,
-	Mach1TranscodeProcessObjectBedWithoutBinauralRendering,
-	Mach1TranscodeProcessChannelBedWithoutBinauralRendering,
+struct Mach1TranscodeProcessSettings {
+    bool processObjectBed = true;
+    bool processChannelBed = true;
+    bool enableBinauralRendering = true;
 };
 
 #ifdef __cplusplus
@@ -120,8 +117,8 @@ extern "C" {
 	M1_API float* Mach1TranscodeCAPI_getAvgSamplesDiff(void* M1obj);
 
 	M1_API void Mach1TranscodeCAPI_setInputFormat(void* M1obj, enum Mach1TranscodeFormatType inFmt);
-	M1_API void Mach1TranscodeCAPI_setInputFormatADM(void* M1obj, char* inXml, Mach1TranscodeProcessMode processMode);
-	M1_API void Mach1TranscodeCAPI_setInputFormatAtmos(void* M1obj, char* inDotAtmos, char* inDotAtmosDotMetadata, Mach1TranscodeProcessMode processMode);
+	M1_API void Mach1TranscodeCAPI_setInputFormatADM(void* M1obj, char* inXml, Mach1TranscodeProcessSettings processSettings);
+	M1_API void Mach1TranscodeCAPI_setInputFormatAtmos(void* M1obj, char* inDotAtmos, char* inDotAtmosDotMetadata, Mach1TranscodeProcessSettings processSettings);
 	M1_API void Mach1TranscodeCAPI_setInputFormatTTJson(void* M1obj, char* inJson);
 	M1_API void Mach1TranscodeCAPI_setInputFormatTTPoints(void* M1obj, struct Mach1Point3D* points, int count);
 

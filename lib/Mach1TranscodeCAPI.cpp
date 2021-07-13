@@ -85,11 +85,16 @@ M1_API void Mach1TranscodeCAPI_setInputFormat(void* M1obj, Mach1TranscodeFormatT
 	((Mach1TranscodeCore*)M1obj)->setInputFormat((Mach1TranscodeFormats::FormatType)inFmt);
 }
 
-M1_API void Mach1TranscodeCAPI_setInputFormatADM(void* M1obj, char* inXml)
+M1_API void Mach1TranscodeCAPI_setInputFormatADM(void* M1obj, char* inXml, Mach1TranscodeProcessSettings processSettings)
 {
-	((Mach1TranscodeCore*)M1obj)->setInputFormatADM(inXml);
+	((Mach1TranscodeCore*)M1obj)->setInputFormatADM(inXml, (ProcessSettings&)processSettings);
 }
 
+M1_API void Mach1TranscodeCAPI_setInputFormatAtmos(void* M1obj, char* inDotAtmos, char* inDotAtmosDotMetadata, Mach1TranscodeProcessSettings processSettings)
+{
+	((Mach1TranscodeCore*)M1obj)->setInputFormatAtmos(inDotAtmos, inDotAtmosDotMetadata, (ProcessSettings&)processSettings);
+}
+ 
 M1_API void Mach1TranscodeCAPI_setInputFormatTTJson(void* M1obj, char* strJson)
 {
 	((Mach1TranscodeCore*)M1obj)->setInputFormatTTJson(strJson);

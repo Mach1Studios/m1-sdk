@@ -16,6 +16,7 @@
 #include "M1DSP/M1DSPFilters.h"
 #include "M1DSP/M1DSPUtilities.h"
 #include "Mach1Point3DCore.h"
+#include "atmos/ADMParser.h"
 
 class SpatialSoundMatrix {
 	std::vector<std::vector<float>> data;
@@ -1876,8 +1877,13 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0, 0, 0, oor4, 0 } }); //bottom -135
 };
 
-namespace Mach1TranscodeFormats {
+struct ProcessSettings {
+	bool processObjectBed = true;
+	bool processChannelBed = true;
+	bool enableBinauralRendering = true;
+};
 
+namespace Mach1TranscodeFormats {
 	enum FormatType {
 		Empty = (int) 0,
 		FuMa,
@@ -2258,6 +2264,8 @@ private:
 	std::vector<Mach1Point3DCore> inTTPoints;
 	std::vector<Mach1Point3DCore> outTTPoints;
 
+	ADMParser::AudioTracks audioTracks;
+
 	float *buffers[Mach1TranscodeConstants::MAXCHANS];
 	int bufferSize;
 
@@ -2293,7 +2301,9 @@ public:
 	const std::vector<float>& getAvgSamplesDiff();
 
 	void setInputFormat(Mach1TranscodeFormats::FormatType inFmt);
-	void setInputFormatADM(std::string inXml );
+
+	void setInputFormatADM(char* inXml, ProcessSettings processSettings);
+	void setInputFormatAtmos(char* inDotAtmos, char* inDotAtmosDotMetadata, ProcessSettings processSettings);
 	void setInputFormatTTJson(std::string inJson);
 	void setInputFormatTTPoints(std::vector<Mach1Point3DCore> points);
 

@@ -112,9 +112,41 @@ void Mach1TranscodeCore::setInputFormat(Mach1TranscodeFormats::FormatType inFmt)
 	this->inFmt = inFmt;
 }
 
-void Mach1TranscodeCore::setInputFormatADM(std::string inXml)
+void Mach1TranscodeCore::setInputFormatADM(char* inXml, ProcessSettings processSettings)
 {
-    // TODO
+	// TODO:
+	ADMParser admParser;
+	admParser.ParseString(inXml, audioTracks);
+
+	// output yaml file
+	/*
+	std::ofstream out("output.atmos");
+	out << "sampleRate: 48000" << std::endl;
+	out << "events:" << std::endl;
+	for (auto & audioTrack : audioTracks) {
+		out << "  - ID: " << audioTrack.first << std::endl;
+		std::vector<ADMParser::KeyPoint> points = audioTrack.second;
+		for (size_t i = 0; i < points.size(); i++) {
+			if (i == 0) {
+				out << "    ";
+			}
+			else {
+				out << "  - ";
+			}
+
+			out << "samplePos: " << (long long int)(points[i].time * 48000) << std::endl;
+			out << "    pos: [" << points[i].y << ", " << points[i].z << ", " << points[i].x << "]" << std::endl;
+		}
+	}
+	out.close();
+	*/
+
+}
+
+void Mach1TranscodeCore::setInputFormatAtmos(char* inDotAtmos, char* inDotAtmosDotMetadata, ProcessSettings processSettings)
+{
+	// TODO:
+	// parse yaml to audioTracks
 }
 
 std::vector<Mach1Point3DCore> parseTTJson(std::string srtJson)

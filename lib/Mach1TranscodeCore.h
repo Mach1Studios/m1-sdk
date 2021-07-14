@@ -17,6 +17,7 @@
 #include "M1DSP/M1DSPUtilities.h"
 #include "Mach1Point3DCore.h"
 #include "atmos/ADMParser.h"
+#include "yaml/Yaml.hpp"
 
 class SpatialSoundMatrix {
 	std::vector<std::vector<float>> data;

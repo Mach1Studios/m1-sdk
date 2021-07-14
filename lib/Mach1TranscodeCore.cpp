@@ -147,6 +147,117 @@ void Mach1TranscodeCore::setInputFormatAtmos(char* inDotAtmos, char* inDotAtmosD
 {
 	// TODO:
 	// parse yaml to audioTracks
+	Yaml::Node generalmetadata;
+	Yaml::Node objectmetadata;
+	int cnt = 0;
+
+	Yaml::Parse(generalmetadata, inDotAtmos, strlen(inDotAtmos));
+	Yaml::Parse(objectmetadata, inDotAtmos, strlen(inDotAtmos));
+
+	{
+		Yaml::Node & item = generalmetadata["presentations"][0]["bedInstances"][0]["channels"];
+		for (auto it = item.Begin(); it != item.End(); it++) {
+			string ID = (*it).second["ID"].As<string>();
+			std::cout << (*it).first << ": " << (*it).second.As<string>() << std::endl;
+
+			float Rotation = 0;
+			float Diverge = 0;
+			float Elevation = 0;
+
+			string channel = (*it).second["channel"].As<string>();
+
+			if (channel == "L") {
+				Rotation = -45;
+				Diverge = 100;
+				Elevation = 0;
+			}
+			else if (channel == "R") {
+
+				Rotation = 45;
+				Diverge = 100;
+				Elevation = 0;
+			}
+			else if (channel == "C") {
+				Rotation = 0;
+				Diverge = 100;
+				Elevation = 0;
+			}
+			else if (channel == "LFE") {
+				Rotation = 0;
+				Diverge = 0;
+				Elevation = 0;
+			}
+			else if (channel == "Lss") {
+				Rotation = -90;
+				Diverge = 100;
+				Elevation = 0;
+			}
+			else if (channel == "Rss") {
+				Rotation = 90;
+				Diverge = 100;
+				Elevation = 0;
+			}
+			else if (channel == "Lrs") {
+				Rotation = -135;
+				Diverge = 100;
+				Elevation = 0;
+			}
+			else if (channel == "Rrs") {
+				Rotation = 135;
+				Diverge = 100;
+				Elevation = 0;
+			}
+			else if (channel == "Lts") {
+				Rotation = -90;
+				Diverge = 35;
+				Elevation = 0;
+			}
+			else if (channel == "Rts") {
+				Rotation = 90;
+				Diverge = 35;
+				Elevation = 0;
+			}
+
+			//float x, y;
+			//ConvertRCtoXYRaw(Rotation, Diverge, x, y);
+
+			cnt++;
+		}
+	}
+
+	{
+		Yaml::Node & item = objectmetadata["events"];
+		for (auto it = item.Begin(); it != item.End(); it++) {
+			string ID = (*it).second["ID"].As<string>();
+			std::cout << (*it).first << ": " << (*it).second.As<string>() << std::endl;
+
+			if (!(*it).second["pos"].IsNone()) {
+				float p = 1.0 * (*it).second["samplePos"].As<int>() / objectmetadata["sampleRate"].As<int>();
+				float x = ((*it).second["pos"][0].As<float>());
+				float y = ((*it).second["pos"][1].As<float>());
+				float z = ((*it).second["pos"][2].As<float>());
+
+				float Rotation = atan2(x, y) * 180 / PI;
+				float Diverge = 100 * sqrt(x * x + y * y) / sqrt(2.0);
+				
+				Mach1Point3DCore a(x, y, z);
+				Mach1Point3DCore b(x, y, 0.0);
+
+				float Elevation = 0;
+				if (a != b) {
+					// vector_angle_between
+					Elevation = (acos(Mach1Point3DCore::dot(a, b)) / (a.length() * b.length())) * 180 / PI;
+				}
+
+				//float x, y;
+				//ConvertRCtoXYRaw(Rotation, Diverge, x, y);	
+
+				cnt++;
+			}
+		}
+	}
+
+	cout << "Imported " << cnt << " points";
 }
 
 std::vector<Mach1Point3DCore> parseTTJson(std::string srtJson)

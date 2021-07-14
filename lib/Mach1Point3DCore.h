@@ -34,6 +34,7 @@ public:
 	float length() const;
 	float operator[] (int index);
 
+	
 
 	Mach1Point3DCore& rotate(float angle, const Mach1Point3DCore& axis);
 	Mach1Point3DCore& normalize();
@@ -43,3 +44,11 @@ public:
 	static float dot(const Mach1Point3DCore & vec1, const Mach1Point3DCore & vec2);
 	static float distance(const Mach1Point3DCore & vec1, const Mach1Point3DCore & vec2);
 };
+
+bool operator==(const Mach1Point3DCore& p1, const Mach1Point3DCore& p2) { 
+	return (p1.x == p2.x && p1.y == p2.y && p1.z == p2.z);
+}
+
+bool operator!=(const Mach1Point3DCore& p1, const Mach1Point3DCore& p2) { 
+	return !(p1 == p2); 
+}

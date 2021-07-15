@@ -9,3 +9,16 @@
 [submodule "examples/mach1spatial-web/m1-web-spatialaudioplayer"]
 	path = examples/mach1spatial-web/m1-web-spatialaudioplayer
 	url = git@github.com:Mach1Studios/m1-web-spatialaudioplayer.git
+	active = true
+[submodule "examples/mach1spatial-nodejs/mach1spatial-decode"]
+	path = examples/mach1spatial-nodejs/mach1spatial-decode
+	url = git@github.com:Mach1Studios/NodeJS-Mach1Decode.git
+	active = true
+[submodule "examples/mach1spatial-nodejs/mach1spatial-encode"]
+	path = examples/mach1spatial-nodejs/mach1spatial-encode
+	url = git@github.com:Mach1Studios/NodeJS-Mach1Encode.git
+	active = true
+[submodule "examples/mach1spatial-nodejs/mach1spatial-transcode"]
+	path = examples/mach1spatial-nodejs/mach1spatial-transcode
+	url = git@github.com:Mach1Studios/NodeJS-Mach1Transcode.git
+	active = true

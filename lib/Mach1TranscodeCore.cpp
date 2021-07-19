@@ -15,6 +15,10 @@
     #define M_LN10 2.30258509299404568402
 #endif
 
+float clamp(float n, float lower, float upper) {
+	return std::max(lower, std::min(n, upper));
+}
+
 Mach1TranscodeCore::Mach1TranscodeCore()
 {
 	inFmt = Mach1TranscodeFormats::FormatType::Empty;
@@ -112,41 +116,50 @@ void Mach1TranscodeCore::setInputFormat(Mach1TranscodeFormats::FormatType inFmt)
 	this->inFmt = inFmt;
 }
 
+void Mach1TranscodeCore::setInputChannelsNames(std::vector<std::string> channelsNames) {
+	this->channelsNames = channelsNames;
+}
+
+void ConvertRCtoXYRaw(float r, float d, float& x, float& y)
+{
+	float abs_d = fabs(d);
+	float x_tmp;
+	float y_tmp;
+
+	if (abs_d == 0.0) {
+		x_tmp = 0;
+		y_tmp = 0;
+	}
+	else {
+		float sign = d / abs_d;
+		float rotation_radian = r * PI / 180;
+		float center = abs_d * sqrt(2);
+		float ratio_x_center = sin(rotation_radian);
+		float ratio_y_center = cos(rotation_radian);
+		x_tmp = sign * ratio_x_center * center;
+		y_tmp = sign * ratio_y_center * center;
+	}
+
+	x = clamp(x_tmp, -100, 100);
+	y = clamp(y_tmp, -100, 100);
+}
+
 void Mach1TranscodeCore::setInputFormatADM(char* inXml, ProcessSettings processSettings)
 {
-	// TODO:
+	inFmt = Mach1TranscodeFormats::FormatType::ADM;
+
+	audioTracks.clear();
+
 	ADMParser admParser;
 	admParser.ParseString(inXml, audioTracks);
-
-	// output yaml file
-	/*
-	std::ofstream out("output.atmos");
-	out << "sampleRate: 48000" << std::endl;
-	out << "events:" << std::endl;
-	for (auto & audioTrack : audioTracks) {
-		out << "  - ID: " << audioTrack.first << std::endl;
-		std::vector<ADMParser::KeyPoint> points = audioTrack.second;
-		for (size_t i = 0; i < points.size(); i++) {
-			if (i == 0) {
-				out << "    ";
-			}
-			else {
-				out << "  - ";
-			}
-
-			out << "samplePos: " << (long long int)(points[i].time * 48000) << std::endl;
-			out << "    pos: [" << points[i].y << ", " << points[i].z << ", " << points[i].x << "]" << std::endl;
-		}
-	}
-	out.close();
-	*/
-
 }
 
 void Mach1TranscodeCore::setInputFormatAtmos(char* inDotAtmos, char* inDotAtmosDotMetadata, ProcessSettings processSettings)
 {
-	// TODO:
-	// parse yaml to audioTracks
+	inFmt = Mach1TranscodeFormats::FormatType::Atmos;
+
+	audioTracks.clear();
+
 	Yaml::Node generalmetadata;
 	Yaml::Node objectmetadata;
 	int cnt = 0;
@@ -172,7 +185,6 @@ void Mach1TranscodeCore::setInputFormatAtmos(char* inDotAtmos, char* inDotAtmosD
 				Elevation = 0;
 			}
 			else if (channel == "R") {
-
 				Rotation = 45;
 				Diverge = 100;
 				Elevation = 0;
@@ -218,8 +230,10 @@ void Mach1TranscodeCore::setInputFormatAtmos(char* inDotAtmos, char* inDotAtmosD
 				Elevation = 0;
 			}
 
-			//float x, y;
-			//ConvertRCtoXYRaw(Rotation, Diverge, x, y);
+			float xConv, yConv;
+			ConvertRCtoXYRaw(Rotation, Diverge, xConv, yConv);
+
+			audioTracks[channel].push_back(ADMParser::KeyPoint(0, xConv, yConv, Elevation));
 
 			cnt++;
 		}
@@ -228,11 +242,11 @@ void Mach1TranscodeCore::setInputFormatAtmos(char* inDotAtmos, char* inDotAtmosD
 	{
 		Yaml::Node & item = objectmetadata["events"];
 		for (auto it = item.Begin(); it != item.End(); it++) {
-			string ID = (*it).second["ID"].As<string>();
+			string channel = (*it).second["ID"].As<string>();
 			std::cout << (*it).first << ": " << (*it).second.As<string>() << std::endl;
 
 			if (!(*it).second["pos"].IsNone()) {
-				float p = 1.0 * (*it).second["samplePos"].As<int>() / objectmetadata["sampleRate"].As<int>();
+				long p = (*it).second["samplePos"].As<long long>(); // 1.0 * (*it).second["samplePos"].As<int>() / objectmetadata["sampleRate"].As<int>();
 				float x = ((*it).second["pos"][0].As<float>());
 				float y = ((*it).second["pos"][1].As<float>());
 				float z = ((*it).second["pos"][2].As<float>());
@@ -249,8 +263,10 @@ void Mach1TranscodeCore::setInputFormatAtmos(char* inDotAtmos, char* inDotAtmosD
 					Elevation = (acos(Mach1Point3DCore::dot(a, b)) / (a.length() * b.length())) * 180 / PI;
 				}
 
-				//float x, y;
-				//ConvertRCtoXYRaw(Rotation, Diverge, x, y);	
+				float xConv, yConv;
+				ConvertRCtoXYRaw(Rotation, Diverge, xConv, yConv);
+
+				audioTracks[channel].push_back(ADMParser::KeyPoint(p, xConv, yConv, Elevation));
 
 				cnt++;
 			}
@@ -541,13 +557,27 @@ void Mach1TranscodeCore::processConversion(Mach1TranscodeFormats::FormatType inF
             ins[inChannel] = inPtrs[inChannel][sample];
         for (int channel = inChans; channel < Mach1TranscodeConstants::MAXCHANS; channel++)
             ins[channel] = 0;
-    
-		/*
-		TODO:
-		if(perSamplePointsUpdateCallback(inTTPoints*, sample)){  // updates the points, std::function<bool(vector<M1Point>*, int)>  
+
+
+		if(inFmt == Mach1TranscodeFormats::FormatType::ADM || inFmt == Mach1TranscodeFormats::FormatType::Atmos) {
+			// updates the points
+			inTTPoints.clear();
+			for (auto & channel : channelsNames) {
+				Mach1Point3DCore point;
+				for (ADMParser::KeyPoint& p : audioTracks[channel]) {
+					if (p.sample >= sample) {
+						point.x = p.x;
+						point.y = p.y;
+						point.z = p.z;
+						break;
+					}
+				}
+				
+				inTTPoints.push_back(point);
+			}
+
 			currentFormatConversionMatrix = generateCoeffSetForPoints(inTTPoints, outTTPoints);
 		}
-		*/
 		
         for (int outChannel = 0; outChannel < outChans; outChannel++)
         {

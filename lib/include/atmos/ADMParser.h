@@ -158,13 +158,27 @@ private:
 public:
 
 	struct KeyPoint {
-		float time;
+		long long sample;
 		float x;
 		float y;
 		float z;
 
 		bool operator < (const KeyPoint& b) const {
-			return time < b.time;
+			return sample < b.sample;
+		}
+
+		KeyPoint() {
+			sample = 0;
+			x = 0;
+			y = 0;
+			z = 0;
+		}
+
+		KeyPoint(long sample, float x, float y, float z) {
+			this->sample = sample;
+			this->x = x;
+			this->y = y;
+			this->z = z;
 		}
 	};
 	
@@ -223,7 +237,7 @@ public:
             if (!sessionDataFound){
                 findSessionDetails(doc);
             }
-            
+
 			for (pugi::xml_node xmlAudioProgramme : doc.child("ebuCoreMain").child("coreMetadata").child("format").child("audioFormatExtended").children("audioProgramme"))
 			{
 				ADMAudioProgramme admAudioProgramme;
@@ -271,6 +285,16 @@ public:
 				admDocument.audioProgrammes.push_back(admAudioProgramme);
 			}
 
+			std::map<std::string, long long> audioTracksSamplerates;
+			for (pugi::xml_node audioFormatExtended : doc.child("ebuCoreMain").child("coreMetadata").child("format").child("audioFormatExtended"))
+			{
+				for (pugi::xml_node xmlAudioTrackUID : audioFormatExtended.children("audioTrackUID"))
+				{
+					string audioTrackUID = xmlAudioTrackUID.attribute("UID").as_string();
+					audioTracksSamplerates[audioTrackUID] = xmlAudioTrackUID.attribute("sampleRate").as_llong();
+				}
+			}
+
 			audioTracks.clear();
 			for (auto audioProgramme : admDocument.audioProgrammes) {
 				for (auto audioContent : audioProgramme.audioContents) {
@@ -285,11 +309,11 @@ public:
 										audioTracks[audioObject.audioTracks[i]] = std::vector<KeyPoint>();
 									}
 
-									KeyPoint point;
+									ADMParser::KeyPoint point;
 									point.x = block.x;
 									point.y = block.z;
 									point.z = block.y;
-									point.time = block.rtime;
+									point.sample = block.rtime * audioTracksSamplerates[audioObject.audioTracks[i]];
 									audioTracks[audioObject.audioTracks[i]].push_back(point);
 								}
 							}

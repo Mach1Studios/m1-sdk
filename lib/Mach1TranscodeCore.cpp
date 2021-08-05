@@ -3,10 +3,9 @@
 
 #include "Mach1TranscodeCore.h"
 #include "Mach1GenerateCoeffs.h"
-#include "json/json.h"
-#include "yaml/yaml.hpp"
 #include <string.h> 
 #include <cstring>
+#include "json/json.h"
 
 #define _USE_MATH_DEFINES
 #include <cmath>
@@ -14,10 +13,6 @@
 #ifndef M_LN10
     #define M_LN10 2.30258509299404568402
 #endif
-
-float clamp(float n, float lower, float upper) {
-	return std::max(lower, std::min(n, upper));
-}
 
 Mach1TranscodeCore::Mach1TranscodeCore()
 {
@@ -116,166 +111,6 @@ void Mach1TranscodeCore::setInputFormat(Mach1TranscodeFormats::FormatType inFmt)
 	this->inFmt = inFmt;
 }
 
-void Mach1TranscodeCore::setInputChannelsNames(std::vector<std::string> channelsNames) {
-	this->channelsNames = channelsNames;
-}
-
-void ConvertRCtoXYRaw(float r, float d, float& x, float& y)
-{
-	float abs_d = fabs(d);
-	float x_tmp;
-	float y_tmp;
-
-	if (abs_d == 0.0) {
-		x_tmp = 0;
-		y_tmp = 0;
-	}
-	else {
-		float sign = d / abs_d;
-		float rotation_radian = r * PI / 180;
-		float center = abs_d * sqrt(2);
-		float ratio_x_center = sin(rotation_radian);
-		float ratio_y_center = cos(rotation_radian);
-		x_tmp = sign * ratio_x_center * center;
-		y_tmp = sign * ratio_y_center * center;
-	}
-
-	x = clamp(x_tmp, -100, 100);
-	y = clamp(y_tmp, -100, 100);
-}
-
-void Mach1TranscodeCore::setInputFormatADM(char* inXml, ProcessSettings processSettings)
-{
-	inFmt = Mach1TranscodeFormats::FormatType::ADM;
-
-	audioTracks.clear();
-
-	ADMParser admParser;
-	admParser.ParseString(inXml, audioTracks);
-}
-
-void Mach1TranscodeCore::setInputFormatAtmos(char* inDotAtmos, char* inDotAtmosDotMetadata, ProcessSettings processSettings)
-{
-	inFmt = Mach1TranscodeFormats::FormatType::Atmos;
-
-	audioTracks.clear();
-
-	Yaml::Node generalmetadata;
-	Yaml::Node objectmetadata;
-	int cnt = 0;
-
-	Yaml::Parse(generalmetadata, inDotAtmos, strlen(inDotAtmos));
-	Yaml::Parse(objectmetadata, inDotAtmos, strlen(inDotAtmos));
-
-	{
-		Yaml::Node & item = generalmetadata["presentations"][0]["bedInstances"][0]["channels"];
-		for (auto it = item.Begin(); it != item.End(); it++) {
-			string ID = (*it).second["ID"].As<string>();
-			std::cout << (*it).first << ": " << (*it).second.As<string>() << std::endl;
-
-			float Rotation = 0;
-			float Diverge = 0;
-			float Elevation = 0;
-
-			string channel = (*it).second["channel"].As<string>();
-
-			if (channel == "L") {
-				Rotation = -45;
-				Diverge = 100;
-				Elevation = 0;
-			}
-			else if (channel == "R") {
-				Rotation = 45;
-				Diverge = 100;
-				Elevation = 0;
-			}
-			else if (channel == "C") {
-				Rotation = 0;
-				Diverge = 100;
-				Elevation = 0;
-			}
-			else if (channel == "LFE") {
-				Rotation = 0;
-				Diverge = 0;
-				Elevation = 0;
-			}
-			else if (channel == "Lss") {
-				Rotation = -90;
-				Diverge = 100;
-				Elevation = 0;
-			}
-			else if (channel == "Rss") {
-				Rotation = 90;
-				Diverge = 100;
-				Elevation = 0;
-			}
-			else if (channel == "Lrs") {
-				Rotation = -135;
-				Diverge = 100;
-				Elevation = 0;
-			}
-			else if (channel == "Rrs") {
-				Rotation = 135;
-				Diverge = 100;
-				Elevation = 0;
-			}
-			else if (channel == "Lts") {
-				Rotation = -90;
-				Diverge = 35;
-				Elevation = 0;
-			}
-			else if (channel == "Rts") {
-				Rotation = 90;
-				Diverge = 35;
-				Elevation = 0;
-			}
-
-			float xConv, yConv;
-			ConvertRCtoXYRaw(Rotation, Diverge, xConv, yConv);
-
-			audioTracks[channel].push_back(ADMParser::KeyPoint(0, xConv, yConv, Elevation));
-
-			cnt++;
-		}
-	}
-
-	{
-		Yaml::Node & item = objectmetadata["events"];
-		for (auto it = item.Begin(); it != item.End(); it++) {
-			string channel = (*it).second["ID"].As<string>();
-			std::cout << (*it).first << ": " << (*it).second.As<string>() << std::endl;
-
-			if (!(*it).second["pos"].IsNone()) {
-				long p = (*it).second["samplePos"].As<long long>(); // 1.0 * (*it).second["samplePos"].As<int>() / objectmetadata["sampleRate"].As<int>();
-				float x = ((*it).second["pos"][0].As<float>());
-				float y = ((*it).second["pos"][1].As<float>());
-				float z = ((*it).second["pos"][2].As<float>());
-
-				float Rotation = atan2(x, y) * 180 / PI;
-				float Diverge = 100 * sqrt(x * x + y * y) / sqrt(2.0);
-				
-				Mach1Point3DCore a(x, y, z);
-				Mach1Point3DCore b(x, y, 0.0);
-
-				float Elevation = 0;
-				if (a != b) {
-					// vector_angle_between
-					Elevation = (acos(Mach1Point3DCore::dot(a, b)) / (a.length() * b.length())) * 180 / PI;
-				}
-
-				float xConv, yConv;
-				ConvertRCtoXYRaw(Rotation, Diverge, xConv, yConv);
-
-				audioTracks[channel].push_back(ADMParser::KeyPoint(p, xConv, yConv, Elevation));
-
-				cnt++;
-			}
-		}
-	}
-
-	cout << "Imported " << cnt << " points";
-}
-
 std::vector<Mach1Point3DCore> parseTTJson(std::string srtJson)
 {
 	std::vector<Mach1Point3DCore> points;
@@ -331,6 +166,11 @@ void Mach1TranscodeCore::setOutputFormatTTPoints(std::vector<Mach1Point3DCore> p
 {
     outFmt = Mach1TranscodeFormats::FormatType::TTPoints;
     outTTPoints = points;
+}
+
+void Mach1TranscodeCore::setCustomPointsSamplerCallback(Mach1Point3D *(*callback)(long long, int &))
+{
+	customPointsSamplerCallback = callback;
 }
 
 bool Mach1TranscodeCore::processConversionPath()
@@ -559,21 +399,14 @@ void Mach1TranscodeCore::processConversion(Mach1TranscodeFormats::FormatType inF
             ins[channel] = 0;
 
 
-		if(inFmt == Mach1TranscodeFormats::FormatType::ADM || inFmt == Mach1TranscodeFormats::FormatType::Atmos) {
+		if(inFmt == Mach1TranscodeFormats::FormatType::TTPoints && customPointsSamplerCallback != nullptr) {
 			// updates the points
 			inTTPoints.clear();
-			for (auto & channel : channelsNames) {
-				Mach1Point3DCore point;
-				for (ADMParser::KeyPoint& p : audioTracks[channel]) {
-					if (p.sample >= sample) {
-						point.x = p.x;
-						point.y = p.y;
-						point.z = p.z;
-						break;
-					}
-				}
-				
-				inTTPoints.push_back(point);
+
+			int cnt = 0;
+			Mach1Point3D* points = customPointsSamplerCallback(sample, cnt);
+			for (int i = 0; i < cnt; i++) {
+				inTTPoints.push_back(*(Mach1Point3DCore*)&points[i]);
 			}
 
 			currentFormatConversionMatrix = generateCoeffSetForPoints(inTTPoints, outTTPoints);

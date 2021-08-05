@@ -145,21 +145,6 @@ void Mach1Transcode::setInputFormat(Mach1TranscodeFormatType inFmt)
     ///     View the current list of Mach1Transcode preset formats here: https://dev.mach1.tech/#formats-supported
 }
 
-void Mach1Transcode::setInputFormatADM(std::string inXml)
-{
-	Mach1TranscodeCAPI_setInputFormatADM(M1obj, (char*)inXml.c_str());
-    /// Sets the input format for transcoding from the parsed ADM metadata within the audiofile
-}
-
-void Mach1Transcode::setInputFormatTTJson(std::string strJson)
-{
-	Mach1TranscodeCAPI_setInputFormatTTJson(M1obj, (char*)strJson.c_str());
-    /// Sets the input format for transcoding from an external JSON source
-    ///
-    /// Remarks:
-    ///     View the JSON spec for describing a format here: https://dev.mach1.tech/#json-descriptions
-}
-
 void Mach1Transcode::setInputFormatTTPoints(std::vector<Mach1Point3D> points)
 {
 	Mach1TranscodeCAPI_setInputFormatTTPoints(M1obj, points.data(), points.size());

@@ -16,8 +16,7 @@
 #include "M1DSP/M1DSPFilters.h"
 #include "M1DSP/M1DSPUtilities.h"
 #include "Mach1Point3DCore.h"
-#include "atmos/ADMParser.h"
-#include "yaml/Yaml.hpp"
+#include "Mach1Point3D.h"
 
 class SpatialSoundMatrix {
 	std::vector<std::vector<float>> data;
@@ -1941,8 +1940,6 @@ namespace Mach1TranscodeFormats {
         ACNSN3DmaxRE5oa,
         ACNSN3DmaxRE6oa,
 		ACNSN3DmaxRE7oa,
-		Atmos,
-		ADM,
 	};
 };
 
@@ -2005,8 +2002,6 @@ namespace Mach1TranscodeConstants {
         { Mach1TranscodeFormats::ACNSN3DmaxRE5oa, "ACNSN3DmaxRE5oa" },
         { Mach1TranscodeFormats::ACNSN3DmaxRE6oa, "ACNSN3DmaxRE6oa" },
 		{ Mach1TranscodeFormats::ACNSN3DmaxRE7oa, "ACNSN3DmaxRE7oa" },
-		{ Mach1TranscodeFormats::Atmos, "Atmos" },
-		{ Mach1TranscodeFormats::ADM, "ADM" },
 	};
 
 	const std::map<Mach1TranscodeFormats::FormatType, int> FormatChannels = {
@@ -2064,8 +2059,6 @@ namespace Mach1TranscodeConstants {
         { Mach1TranscodeFormats::ACNSN3DmaxRE5oa, 36 },
         { Mach1TranscodeFormats::ACNSN3DmaxRE6oa, 49 },
         { Mach1TranscodeFormats::ACNSN3DmaxRE7oa, 64 },
-		{ Mach1TranscodeFormats::Atmos, 0 },
-		{ Mach1TranscodeFormats::ADM, 0 },
 	};
 
 	const int MAXCHANS = 64;
@@ -2254,22 +2247,6 @@ namespace Mach1TranscodeConstants {
 		{ std::make_pair(Mach1TranscodeFormats::M1SpatialPlusPlus, Mach1TranscodeFormats::TTPoints), NULL },
 		{ std::make_pair(Mach1TranscodeFormats::M1SpatialExtended, Mach1TranscodeFormats::TTPoints), NULL },
 		{ std::make_pair(Mach1TranscodeFormats::M1SpatialExtendedPlus, Mach1TranscodeFormats::TTPoints), NULL },
-
-
-		{ std::make_pair(Mach1TranscodeFormats::Atmos, Mach1TranscodeFormats::M1Horizon), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::Atmos, Mach1TranscodeFormats::M1Spatial), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::Atmos, Mach1TranscodeFormats::M1SpatialPlus), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::Atmos, Mach1TranscodeFormats::M1SpatialPlusPlus), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::Atmos, Mach1TranscodeFormats::M1SpatialExtended), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::Atmos, Mach1TranscodeFormats::M1SpatialExtendedPlus), NULL },
-
-
-		{ std::make_pair(Mach1TranscodeFormats::ADM, Mach1TranscodeFormats::M1Horizon), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::ADM, Mach1TranscodeFormats::M1Spatial), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::ADM, Mach1TranscodeFormats::M1SpatialPlus), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::ADM, Mach1TranscodeFormats::M1SpatialPlusPlus), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::ADM, Mach1TranscodeFormats::M1SpatialExtended), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::ADM, Mach1TranscodeFormats::M1SpatialExtendedPlus), NULL },
 	};
 };
 
@@ -2287,9 +2264,6 @@ private:
 	std::vector<Mach1Point3DCore> inTTPoints;
 	std::vector<Mach1Point3DCore> outTTPoints;
 
-	ADMParser::AudioTracks audioTracks;
-	std::vector<std::string> channelsNames;
-
 	float *buffers[Mach1TranscodeConstants::MAXCHANS];
 	int bufferSize;
 
@@ -2302,6 +2276,8 @@ private:
 
 	void processConversion(Mach1TranscodeFormats::FormatType inFmt, float** inBufs, Mach1TranscodeFormats::FormatType outFmt, float** outBufs, int numSamples);
 	int getNumChannels(Mach1TranscodeFormats::FormatType fmt, bool isInput);
+
+	Mach1Point3D* (*customPointsSamplerCallback) (long long, int&) = nullptr;
 
 public:
 
@@ -2326,16 +2302,14 @@ public:
 
 	void setInputFormat(Mach1TranscodeFormats::FormatType inFmt);
 
-	void setInputFormatADM(char* inXml, ProcessSettings processSettings);
-	void setInputFormatAtmos(char* inDotAtmos, char* inDotAtmosDotMetadata, ProcessSettings processSettings);
 	void setInputFormatTTJson(std::string inJson);
 	void setInputFormatTTPoints(std::vector<Mach1Point3DCore> points);
-
-	void setInputChannelsNames(std::vector<std::string> channelsNames);
 
 	void setOutputFormat(Mach1TranscodeFormats::FormatType outFmt);
 	void setOutputFormatTTJson(std::string outJson);
 	void setOutputFormatTTPoints(std::vector<Mach1Point3DCore> points);
+
+	void setCustomPointsSamplerCallback(Mach1Point3D* (*callback) (long long, int&));
 
 	bool processConversionPath();
 	void getMatrixConversion(float* matrix);

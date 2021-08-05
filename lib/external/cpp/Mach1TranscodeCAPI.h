@@ -117,8 +117,6 @@ extern "C" {
 	M1_API float* Mach1TranscodeCAPI_getAvgSamplesDiff(void* M1obj);
 
 	M1_API void Mach1TranscodeCAPI_setInputFormat(void* M1obj, enum Mach1TranscodeFormatType inFmt);
-	M1_API void Mach1TranscodeCAPI_setInputFormatADM(void* M1obj, char* inXml, Mach1TranscodeProcessSettings processSettings);
-	M1_API void Mach1TranscodeCAPI_setInputFormatAtmos(void* M1obj, char* inDotAtmos, char* inDotAtmosDotMetadata, Mach1TranscodeProcessSettings processSettings);
 	M1_API void Mach1TranscodeCAPI_setInputFormatTTJson(void* M1obj, char* inJson);
 	M1_API void Mach1TranscodeCAPI_setInputFormatTTPoints(void* M1obj, struct Mach1Point3D* points, int count);
 

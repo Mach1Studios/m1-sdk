@@ -42,7 +42,6 @@ extern "C" {
 
 	M1_API int Mach1AudioTimelineCAPI_getAudioObjectCount(void* M1obj);
 	M1_API void* Mach1AudioTimelineCAPI_getAudioObject(void* M1obj, int n);
-	M1_API bool Mach1AudioTimelineCAPI_getAudioObject(void* M1obj, int n);
 
 #ifdef __cplusplus
 }

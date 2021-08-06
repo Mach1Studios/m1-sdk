@@ -181,6 +181,11 @@ void Mach1Transcode::setOutputFormatTTPoints(std::vector<Mach1Point3D> points)
     ///     View the JSON spec for describing a format here: https://dev.mach1.tech/#json-descriptions
 }
 
+void Mach1Transcode::setCustomPointsSamplerCallback(Mach1Point3D *(*callback)(long long, int &))
+{
+	Mach1TranscodeCAPI_setCustomPointsSamplerCallback(M1obj, callback);
+}
+
 bool Mach1Transcode::processConversionPath()
 {
 	return Mach1TranscodeCAPI_processConversionPath(M1obj);

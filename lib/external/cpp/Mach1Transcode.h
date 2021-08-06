@@ -45,6 +45,8 @@ public:
 	void setOutputFormatTTJson(std::string outJson);
 	void setOutputFormatTTPoints(std::vector<Mach1Point3D> points);
 
+	void setCustomPointsSamplerCallback(Mach1Point3D *(*callback)(long long, int &));
+
 	bool processConversionPath();
 	std::vector< std::vector<float> > getMatrixConversion();
 #ifndef  __EMSCRIPTEN__ 

@@ -4,6 +4,7 @@
 #include "Mach1TranscodeCore.h"
 #include "Mach1TranscodeCAPI.h"
 #include "Mach1Point3DCore.h"
+#include "external\cpp\Mach1TranscodeCAPI.h"
 
 void* Mach1TranscodeCAPI_create()
 {
@@ -108,6 +109,11 @@ M1_API void Mach1TranscodeCAPI_setOutputFormatTTJson(void* M1obj, char* strJson)
 M1_API void Mach1TranscodeCAPI_setOutputFormatTTPoints(void* M1obj, Mach1Point3D* points, int count)
 {
 	((Mach1TranscodeCore*)M1obj)->setOutputFormatTTPoints(std::vector< Mach1Point3DCore>((Mach1Point3DCore*)points, (Mach1Point3DCore*)points + count));
+}
+
+M1_API void Mach1TranscodeCAPI_setCustomPointsSamplerCallback(void * M1obj, Mach1Point3D *(*callback)(long long, int &))
+{
+	((Mach1TranscodeCore*)M1obj)->setCustomPointsSamplerCallback(callback);
 }
 
 M1_API bool Mach1TranscodeCAPI_processConversionPath(void* M1obj)

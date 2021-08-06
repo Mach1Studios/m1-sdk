@@ -86,14 +86,14 @@ M1_API void Mach1TranscodeCAPI_setInputFormat(void* M1obj, Mach1TranscodeFormatT
 	((Mach1TranscodeCore*)M1obj)->setInputFormat((Mach1TranscodeFormats::FormatType)inFmt);
 }
 
-M1_API void Mach1TranscodeCAPI_setInputFormatTTJson(void* M1obj, char* strJson)
+M1_API void Mach1TranscodeCAPI_setInputFormatCustomPointsJson(void* M1obj, char* strJson)
 {
-	((Mach1TranscodeCore*)M1obj)->setInputFormatTTJson(strJson);
+	((Mach1TranscodeCore*)M1obj)->setInputFormatCustomPointsJson(strJson);
 }
 
-M1_API void Mach1TranscodeCAPI_setInputFormatTTPoints(void* M1obj, Mach1Point3D* points, int count)
+M1_API void Mach1TranscodeCAPI_setInputFormatCustomPoints(void* M1obj, Mach1Point3D* points, int count)
 {
-	((Mach1TranscodeCore*)M1obj)->setInputFormatTTPoints(std::vector< Mach1Point3DCore>((Mach1Point3DCore*)points, (Mach1Point3DCore*)points + count));
+	((Mach1TranscodeCore*)M1obj)->setInputFormatCustomPoints(std::vector< Mach1Point3DCore>((Mach1Point3DCore*)points, (Mach1Point3DCore*)points + count));
 }
 
 M1_API void Mach1TranscodeCAPI_setOutputFormat(void* M1obj, Mach1TranscodeFormatType outFmt)
@@ -101,14 +101,14 @@ M1_API void Mach1TranscodeCAPI_setOutputFormat(void* M1obj, Mach1TranscodeFormat
 	((Mach1TranscodeCore*)M1obj)->setOutputFormat((Mach1TranscodeFormats::FormatType)outFmt);
 }
 
-M1_API void Mach1TranscodeCAPI_setOutputFormatTTJson(void* M1obj, char* strJson)
+M1_API void Mach1TranscodeCAPI_setOutputFormatCustomPointsJson(void* M1obj, char* strJson)
 {
-	((Mach1TranscodeCore*)M1obj)->setOutputFormatTTJson(strJson);
+	((Mach1TranscodeCore*)M1obj)->setOutputFormatCustomPointsJson(strJson);
 }
 
-M1_API void Mach1TranscodeCAPI_setOutputFormatTTPoints(void* M1obj, Mach1Point3D* points, int count)
+M1_API void Mach1TranscodeCAPI_setOutputFormatCustomPoints(void* M1obj, Mach1Point3D* points, int count)
 {
-	((Mach1TranscodeCore*)M1obj)->setOutputFormatTTPoints(std::vector< Mach1Point3DCore>((Mach1Point3DCore*)points, (Mach1Point3DCore*)points + count));
+	((Mach1TranscodeCore*)M1obj)->setOutputFormatCustomPoints(std::vector< Mach1Point3DCore>((Mach1Point3DCore*)points, (Mach1Point3DCore*)points + count));
 }
 
 M1_API void Mach1TranscodeCAPI_setCustomPointsSamplerCallback(void * M1obj, Mach1Point3D *(*callback)(long long, int &))

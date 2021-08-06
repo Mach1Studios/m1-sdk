@@ -78,7 +78,7 @@ enum Mach1TranscodeFormatType {
 	Mach1TranscodeFormatNineOneFour,
 	Mach1TranscodeFormatNineOneSix,
 	Mach1TranscodeFormatMarcoSixteen,
-	Mach1TranscodeFormatTTPoints,
+	Mach1TranscodeFormatCustomPoints,
 	Mach1TranscodeFormatACNSN3DmaxRE1oa,
 	Mach1TranscodeFormatACNSN3DmaxRE2oa,
 	Mach1TranscodeFormatACNSN3DmaxRE3oa,
@@ -117,12 +117,12 @@ extern "C" {
 	M1_API float* Mach1TranscodeCAPI_getAvgSamplesDiff(void* M1obj);
 
 	M1_API void Mach1TranscodeCAPI_setInputFormat(void* M1obj, enum Mach1TranscodeFormatType inFmt);
-	M1_API void Mach1TranscodeCAPI_setInputFormatTTJson(void* M1obj, char* inJson);
-	M1_API void Mach1TranscodeCAPI_setInputFormatTTPoints(void* M1obj, struct Mach1Point3D* points, int count);
+	M1_API void Mach1TranscodeCAPI_setInputFormatCustomPointsJson(void* M1obj, char* inJson);
+	M1_API void Mach1TranscodeCAPI_setInputFormatCustomPoints(void* M1obj, struct Mach1Point3D* points, int count);
 
 	M1_API void Mach1TranscodeCAPI_setOutputFormat(void* M1obj, enum Mach1TranscodeFormatType outFmt);
-	M1_API void Mach1TranscodeCAPI_setOutputFormatTTJson(void* M1obj, char* outJson);
-	M1_API void Mach1TranscodeCAPI_setOutputFormatTTPoints(void* M1obj, struct Mach1Point3D* points, int count);
+	M1_API void Mach1TranscodeCAPI_setOutputFormatCustomPointsJson(void* M1obj, char* outJson);
+	M1_API void Mach1TranscodeCAPI_setOutputFormatCustomPoints(void* M1obj, struct Mach1Point3D* points, int count);
 
 	M1_API void Mach1TranscodeCAPI_setCustomPointsSamplerCallback(void* M1obj, Mach1Point3D *(*callback)(long long, int &));
 

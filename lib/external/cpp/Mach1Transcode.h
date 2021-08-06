@@ -38,12 +38,12 @@ public:
 	void setInputFormat(Mach1TranscodeFormatType inFmt);
 	void setInputFormatADM(std::string inXml, Mach1TranscodeProcessSettings processSettings);
 	void setInputFormatAtmos(std::string inDotAtmos, std::string inDotAtmosDotMetadata, Mach1TranscodeProcessSettings processSettings);
-	void setInputFormatTTJson(std::string inJson);
-	void setInputFormatTTPoints(std::vector<Mach1Point3D> points);
+	void setInputFormatCustomPointsJson(std::string inJson);
+	void setInputFormatCustomPoints(std::vector<Mach1Point3D> points);
 
 	void setOutputFormat(Mach1TranscodeFormatType outFmt);
-	void setOutputFormatTTJson(std::string outJson);
-	void setOutputFormatTTPoints(std::vector<Mach1Point3D> points);
+	void setOutputFormatCustomPointsJson(std::string outJson);
+	void setOutputFormatCustomPoints(std::vector<Mach1Point3D> points);
 
 	void setCustomPointsSamplerCallback(Mach1Point3D *(*callback)(long long, int &));
 

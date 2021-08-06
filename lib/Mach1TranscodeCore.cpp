@@ -111,7 +111,7 @@ void Mach1TranscodeCore::setInputFormat(Mach1TranscodeFormats::FormatType inFmt)
 	this->inFmt = inFmt;
 }
 
-std::vector<Mach1Point3DCore> parseTTJson(std::string srtJson)
+std::vector<Mach1Point3DCore> parseCustomPointsJson(std::string srtJson)
 {
 	std::vector<Mach1Point3DCore> points;
 
@@ -139,16 +139,16 @@ std::vector<Mach1Point3DCore> parseTTJson(std::string srtJson)
 	return points;
 }
 
-void Mach1TranscodeCore::setInputFormatTTJson(std::string strJson)
+void Mach1TranscodeCore::setInputFormatCustomPointsJson(std::string strJson)
 {
-	inFmt = Mach1TranscodeFormats::FormatType::TTPoints;
-	inTTPoints = parseTTJson(strJson);
+	inFmt = Mach1TranscodeFormats::FormatType::CustomPoints;
+	inCustomPoints = parseCustomPointsJson(strJson);
 }
 
-void Mach1TranscodeCore::setInputFormatTTPoints(std::vector<Mach1Point3DCore> points)
+void Mach1TranscodeCore::setInputFormatCustomPoints(std::vector<Mach1Point3DCore> points)
 {
-    inFmt = Mach1TranscodeFormats::FormatType::TTPoints;
-    inTTPoints = points;
+    inFmt = Mach1TranscodeFormats::FormatType::CustomPoints;
+    inCustomPoints = points;
 }
 
 void Mach1TranscodeCore::setOutputFormat(Mach1TranscodeFormats::FormatType outFmt)
@@ -156,16 +156,16 @@ void Mach1TranscodeCore::setOutputFormat(Mach1TranscodeFormats::FormatType outFm
 	this->outFmt = outFmt;
 }
 
-void Mach1TranscodeCore::setOutputFormatTTJson(std::string strJson)
+void Mach1TranscodeCore::setOutputFormatCustomPointsJson(std::string strJson)
 {
-	outFmt = Mach1TranscodeFormats::FormatType::TTPoints;
-	outTTPoints = parseTTJson(strJson);
+	outFmt = Mach1TranscodeFormats::FormatType::CustomPoints;
+	outCustomPoints = parseCustomPointsJson(strJson);
 }
 
-void Mach1TranscodeCore::setOutputFormatTTPoints(std::vector<Mach1Point3DCore> points)
+void Mach1TranscodeCore::setOutputFormatCustomPoints(std::vector<Mach1Point3DCore> points)
 {
-    outFmt = Mach1TranscodeFormats::FormatType::TTPoints;
-    outTTPoints = points;
+    outFmt = Mach1TranscodeFormats::FormatType::CustomPoints;
+    outCustomPoints = points;
 }
 
 void Mach1TranscodeCore::setCustomPointsSamplerCallback(Mach1Point3D *(*callback)(long long, int &))
@@ -365,16 +365,16 @@ void Mach1TranscodeCore::processConversion(Mach1TranscodeFormats::FormatType inF
     int outChans = getNumChannels(outFmt, false);
     std::vector<std::vector<float>> currentFormatConversionMatrix;
 
-    if (inFmt == Mach1TranscodeFormats::FormatType::TTPoints && outFmt != Mach1TranscodeFormats::FormatType::TTPoints) {
-        currentFormatConversionMatrix = generateCoeffSetForPoints(inTTPoints, getPointsSet(outFmt));
+    if (inFmt == Mach1TranscodeFormats::FormatType::CustomPoints && outFmt != Mach1TranscodeFormats::FormatType::CustomPoints) {
+        currentFormatConversionMatrix = generateCoeffSetForPoints(inCustomPoints, getPointsSet(outFmt));
     }
-	else if (inFmt != Mach1TranscodeFormats::FormatType::TTPoints && outFmt == Mach1TranscodeFormats::FormatType::TTPoints) {
-		currentFormatConversionMatrix = generateCoeffSetForPoints(getPointsSet(inFmt), outTTPoints);
+	else if (inFmt != Mach1TranscodeFormats::FormatType::CustomPoints && outFmt == Mach1TranscodeFormats::FormatType::CustomPoints) {
+		currentFormatConversionMatrix = generateCoeffSetForPoints(getPointsSet(inFmt), outCustomPoints);
 	}
-	else if (inFmt == Mach1TranscodeFormats::FormatType::TTPoints && outFmt == Mach1TranscodeFormats::FormatType::TTPoints) {
-		currentFormatConversionMatrix = generateCoeffSetForPoints(inTTPoints, outTTPoints);
+	else if (inFmt == Mach1TranscodeFormats::FormatType::CustomPoints && outFmt == Mach1TranscodeFormats::FormatType::CustomPoints) {
+		currentFormatConversionMatrix = generateCoeffSetForPoints(inCustomPoints, outCustomPoints);
 	}
-	else if (inFmt != Mach1TranscodeFormats::FormatType::TTPoints && outFmt != Mach1TranscodeFormats::FormatType::TTPoints) {
+	else if (inFmt != Mach1TranscodeFormats::FormatType::CustomPoints && outFmt != Mach1TranscodeFormats::FormatType::CustomPoints) {
         currentFormatConversionMatrix = ((SpatialSoundMatrix*)Mach1TranscodeConstants::FormatMatrix.at(std::make_pair(inFmt, outFmt)))->getData();
     }
     
@@ -399,17 +399,17 @@ void Mach1TranscodeCore::processConversion(Mach1TranscodeFormats::FormatType inF
             ins[channel] = 0;
 
 
-		if(inFmt == Mach1TranscodeFormats::FormatType::TTPoints && customPointsSamplerCallback != nullptr) {
+		if(inFmt == Mach1TranscodeFormats::FormatType::CustomPoints && customPointsSamplerCallback != nullptr) {
 			// updates the points
-			inTTPoints.clear();
+			inCustomPoints.clear();
 
 			int cnt = 0;
 			Mach1Point3D* points = customPointsSamplerCallback(sample, cnt);
 			for (int i = 0; i < cnt; i++) {
-				inTTPoints.push_back(*(Mach1Point3DCore*)&points[i]);
+				inCustomPoints.push_back(*(Mach1Point3DCore*)&points[i]);
 			}
 
-			currentFormatConversionMatrix = generateCoeffSetForPoints(inTTPoints, outTTPoints);
+			currentFormatConversionMatrix = generateCoeffSetForPoints(inCustomPoints, outCustomPoints);
 		}
 		
         for (int outChannel = 0; outChannel < outChans; outChannel++)
@@ -431,8 +431,8 @@ void Mach1TranscodeCore::processConversion(Mach1TranscodeFormats::FormatType inF
 
 int Mach1TranscodeCore::getNumChannels(Mach1TranscodeFormats::FormatType fmt, bool isInput)
 {
-	if (fmt == Mach1TranscodeFormats::FormatType::TTPoints) {
-		return isInput ? inTTPoints.size() : outTTPoints.size();
+	if (fmt == Mach1TranscodeFormats::FormatType::CustomPoints) {
+		return isInput ? inCustomPoints.size() : outCustomPoints.size();
 	}
     return Mach1TranscodeConstants::FormatChannels.at(fmt);
 }
@@ -469,16 +469,16 @@ void Mach1TranscodeCore::getMatrixConversion(float* matrix)
 		int outChans = getNumChannels(outFmt, false);
 		std::vector<std::vector<float>> currentFormatConversionMatrix;
 
-		if (inFmt == Mach1TranscodeFormats::FormatType::TTPoints && outFmt != Mach1TranscodeFormats::FormatType::TTPoints) {
-			currentFormatConversionMatrix = generateCoeffSetForPoints(inTTPoints, getPointsSet(outFmt));
+		if (inFmt == Mach1TranscodeFormats::FormatType::CustomPoints && outFmt != Mach1TranscodeFormats::FormatType::CustomPoints) {
+			currentFormatConversionMatrix = generateCoeffSetForPoints(inCustomPoints, getPointsSet(outFmt));
 		}
-		else if (inFmt != Mach1TranscodeFormats::FormatType::TTPoints && outFmt == Mach1TranscodeFormats::FormatType::TTPoints) {
-			currentFormatConversionMatrix = generateCoeffSetForPoints(getPointsSet(inFmt), outTTPoints);
+		else if (inFmt != Mach1TranscodeFormats::FormatType::CustomPoints && outFmt == Mach1TranscodeFormats::FormatType::CustomPoints) {
+			currentFormatConversionMatrix = generateCoeffSetForPoints(getPointsSet(inFmt), outCustomPoints);
 		}
-		else if (inFmt == Mach1TranscodeFormats::FormatType::TTPoints && outFmt == Mach1TranscodeFormats::FormatType::TTPoints) {
-			currentFormatConversionMatrix = generateCoeffSetForPoints(inTTPoints, outTTPoints);
+		else if (inFmt == Mach1TranscodeFormats::FormatType::CustomPoints && outFmt == Mach1TranscodeFormats::FormatType::CustomPoints) {
+			currentFormatConversionMatrix = generateCoeffSetForPoints(inCustomPoints, outCustomPoints);
 		}
-		else if (inFmt != Mach1TranscodeFormats::FormatType::TTPoints && outFmt != Mach1TranscodeFormats::FormatType::TTPoints) {
+		else if (inFmt != Mach1TranscodeFormats::FormatType::CustomPoints && outFmt != Mach1TranscodeFormats::FormatType::CustomPoints) {
 			currentFormatConversionMatrix = ((SpatialSoundMatrix*)Mach1TranscodeConstants::FormatMatrix.at(std::make_pair(inFmt, outFmt)))->getData();
 		}
 

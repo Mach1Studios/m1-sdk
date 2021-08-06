@@ -1932,7 +1932,7 @@ namespace Mach1TranscodeFormats {
 		NineOneFour,
 		NineOneSix,
 		MarcoSixteen,
-		TTPoints,
+		CustomPoints,
         ACNSN3DmaxRE1oa,
         ACNSN3DmaxRE2oa,
         ACNSN3DmaxRE3oa,
@@ -1994,7 +1994,7 @@ namespace Mach1TranscodeConstants {
 		{ Mach1TranscodeFormats::NineOneFour, "NineOneFour" },
 		{ Mach1TranscodeFormats::NineOneSix, "NineOneSix" },
 		{ Mach1TranscodeFormats::MarcoSixteen, "MarcoSixteen" },
-		{ Mach1TranscodeFormats::TTPoints, "TTPoints" },
+		{ Mach1TranscodeFormats::CustomPoints, "CustomPoints" },
         { Mach1TranscodeFormats::ACNSN3DmaxRE1oa, "ACNSN3DmaxRE1oa" },
         { Mach1TranscodeFormats::ACNSN3DmaxRE2oa, "ACNSN3DmaxRE2oa" },
         { Mach1TranscodeFormats::ACNSN3DmaxRE3oa, "ACNSN3DmaxRE3oa" },
@@ -2234,19 +2234,19 @@ namespace Mach1TranscodeConstants {
         {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE6oa, Mach1TranscodeFormats::M1SpatialExtendedPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE6oa2M1SpatialExtendedPlus},
         {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE7oa, Mach1TranscodeFormats::M1SpatialExtendedPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE7oa2M1SpatialExtendedPlus},
         
-		{ std::make_pair(Mach1TranscodeFormats::TTPoints, Mach1TranscodeFormats::M1Horizon), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::TTPoints, Mach1TranscodeFormats::M1Spatial), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::TTPoints, Mach1TranscodeFormats::M1SpatialPlus), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::TTPoints, Mach1TranscodeFormats::M1SpatialPlusPlus), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::TTPoints, Mach1TranscodeFormats::M1SpatialExtended), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::TTPoints, Mach1TranscodeFormats::M1SpatialExtendedPlus), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::CustomPoints, Mach1TranscodeFormats::M1Horizon), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::CustomPoints, Mach1TranscodeFormats::M1Spatial), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::CustomPoints, Mach1TranscodeFormats::M1SpatialPlus), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::CustomPoints, Mach1TranscodeFormats::M1SpatialPlusPlus), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::CustomPoints, Mach1TranscodeFormats::M1SpatialExtended), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::CustomPoints, Mach1TranscodeFormats::M1SpatialExtendedPlus), NULL },
 
-		{ std::make_pair(Mach1TranscodeFormats::M1Horizon, Mach1TranscodeFormats::TTPoints), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::M1Spatial, Mach1TranscodeFormats::TTPoints), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::M1SpatialPlus, Mach1TranscodeFormats::TTPoints), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::M1SpatialPlusPlus, Mach1TranscodeFormats::TTPoints), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::M1SpatialExtended, Mach1TranscodeFormats::TTPoints), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::M1SpatialExtendedPlus, Mach1TranscodeFormats::TTPoints), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::M1Horizon, Mach1TranscodeFormats::CustomPoints), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::M1Spatial, Mach1TranscodeFormats::CustomPoints), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::M1SpatialPlus, Mach1TranscodeFormats::CustomPoints), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::M1SpatialPlusPlus, Mach1TranscodeFormats::CustomPoints), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::M1SpatialExtended, Mach1TranscodeFormats::CustomPoints), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::M1SpatialExtendedPlus, Mach1TranscodeFormats::CustomPoints), NULL },
 	};
 };
 
@@ -2261,8 +2261,8 @@ private:
 	Mach1TranscodeFormats::FormatType inFmt;
 	Mach1TranscodeFormats::FormatType outFmt;
 
-	std::vector<Mach1Point3DCore> inTTPoints;
-	std::vector<Mach1Point3DCore> outTTPoints;
+	std::vector<Mach1Point3DCore> inCustomPoints;
+	std::vector<Mach1Point3DCore> outCustomPoints;
 
 	float *buffers[Mach1TranscodeConstants::MAXCHANS];
 	int bufferSize;
@@ -2302,12 +2302,12 @@ public:
 
 	void setInputFormat(Mach1TranscodeFormats::FormatType inFmt);
 
-	void setInputFormatTTJson(std::string inJson);
-	void setInputFormatTTPoints(std::vector<Mach1Point3DCore> points);
+	void setInputFormatCustomPointsJson(std::string inJson);
+	void setInputFormatCustomPoints(std::vector<Mach1Point3DCore> points);
 
 	void setOutputFormat(Mach1TranscodeFormats::FormatType outFmt);
-	void setOutputFormatTTJson(std::string outJson);
-	void setOutputFormatTTPoints(std::vector<Mach1Point3DCore> points);
+	void setOutputFormatCustomPointsJson(std::string outJson);
+	void setOutputFormatCustomPoints(std::vector<Mach1Point3DCore> points);
 
 	void setCustomPointsSamplerCallback(Mach1Point3D* (*callback) (long long, int&));
 

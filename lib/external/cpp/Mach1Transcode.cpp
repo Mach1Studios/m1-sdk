@@ -145,10 +145,10 @@ void Mach1Transcode::setInputFormat(Mach1TranscodeFormatType inFmt)
     ///     View the current list of Mach1Transcode preset formats here: https://dev.mach1.tech/#formats-supported
 }
 
-void Mach1Transcode::setInputFormatTTPoints(std::vector<Mach1Point3D> points)
+void Mach1Transcode::setInputFormatCustomPoints(std::vector<Mach1Point3D> points)
 {
-	Mach1TranscodeCAPI_setInputFormatTTPoints(M1obj, points.data(), points.size());
-    /// Sets the input format for transcoding from TT directly
+	Mach1TranscodeCAPI_setInputFormatCustomPoints(M1obj, points.data(), points.size());
+    /// Sets the input format for transcoding from CustomPoints directly
     ///
     /// Remarks:
     ///     View the JSON spec for describing a format here: https://dev.mach1.tech/#json-descriptions
@@ -163,19 +163,19 @@ void Mach1Transcode::setOutputFormat(Mach1TranscodeFormatType outFmt)
     ///     View the current list of Mach1Transcode preset formats here: https://dev.mach1.tech/#formats-supported
 }
 
-void Mach1Transcode::setOutputFormatTTJson(std::string strJson)
+void Mach1Transcode::setOutputFormatCustomPointsJson(std::string strJson)
 {
-	Mach1TranscodeCAPI_setOutputFormatTTJson(M1obj, (char*)strJson.c_str());
+	Mach1TranscodeCAPI_setOutputFormatCustomPointsJson(M1obj, (char*)strJson.c_str());
     /// Sets the output format for transcoding from an external JSON source
     ///
     /// Remarks:
     ///     View the JSON spec for describing a format here: https://dev.mach1.tech/#json-descriptions
 }
 
-void Mach1Transcode::setOutputFormatTTPoints(std::vector<Mach1Point3D> points)
+void Mach1Transcode::setOutputFormatCustomPoints(std::vector<Mach1Point3D> points)
 {
-	Mach1TranscodeCAPI_setInputFormatTTPoints(M1obj, points.data(), points.size());
-    /// Sets the output format for transcoding from TT directly
+	Mach1TranscodeCAPI_setInputFormatCustomPoints(M1obj, points.data(), points.size());
+    /// Sets the output format for transcoding from CustomPoints directly
     ///
     /// Remarks:
     ///     View the JSON spec for describing a format here: https://dev.mach1.tech/#json-descriptions

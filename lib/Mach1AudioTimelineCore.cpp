@@ -46,7 +46,6 @@ void Mach1AudioTimelineCore::parseADM(char* inXml)
 
 	audioObjects.clear();
 	
-	
 	for (auto it = audioTracks.begin(); it != audioTracks.end(); it++) {
 
 		int c = -1;
@@ -73,7 +72,6 @@ void Mach1AudioTimelineCore::parseADM(char* inXml)
 			audioObjects[c].points.push_back(p);
 		}
 	}
-
 }
 
 void Mach1AudioTimelineCore::parseAtmos(char* inDotAtmos, char* inDotAtmosDotMetadata)

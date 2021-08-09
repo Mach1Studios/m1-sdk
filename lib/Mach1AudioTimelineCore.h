@@ -19,7 +19,7 @@
 #include "atmos/ADMParser.h"
 #include "yaml/Yaml.hpp"
 
-class Mach1AudioObjectCore {
+struct Mach1AudioObjectCore {
 public:
 	std::string name;
 	std::vector<Mach1KeyPoint> points;

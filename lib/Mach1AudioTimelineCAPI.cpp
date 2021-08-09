@@ -70,3 +70,13 @@ M1_API void* Mach1AudioTimelineCAPI_getAudioObject(void * M1obj, int n)
 {
 	return (void*)&(((Mach1AudioTimelineCore*)M1obj)->getAudioObjects()->operator[](n));
 }
+
+M1_API void Mach1AudioTimelineCAPI_parseADM(void * M1obj, char * inXml)
+{
+	((Mach1AudioTimelineCore*)M1obj)->parseADM(inXml);
+}
+
+M1_API void Mach1AudioTimelineCAPI_parseAtmos(void * M1obj, char * inDotAtmos, char * inDotAtmosDotMetadata)
+{
+	((Mach1AudioTimelineCore*)M1obj)->parseAtmos(inDotAtmos, inDotAtmosDotMetadata);
+}

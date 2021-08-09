@@ -47,6 +47,10 @@ extern "C" {
 	M1_API int Mach1AudioTimelineCAPI_getAudioObjectCount(void* M1obj);
 	M1_API void* Mach1AudioTimelineCAPI_getAudioObject(void* M1obj, int n);
 
+	M1_API void Mach1AudioTimelineCAPI_parseADM(void* M1obj, char* inXml);
+	M1_API void Mach1AudioTimelineCAPI_parseAtmos(void* M1obj, char* inDotAtmos, char* inDotAtmosDotMetadata);
+	
+
 #ifdef __cplusplus
 }
 #endif

@@ -3,6 +3,9 @@
 
 #pragma once
 
+#ifndef Mach1Point3DCore_h
+#define Mach1Point3DCore_h
+
 #include <vector>
 #include <cmath>
 #include <chrono>
@@ -52,3 +55,5 @@ bool operator==(const Mach1Point3DCore& p1, const Mach1Point3DCore& p2) {
 bool operator!=(const Mach1Point3DCore& p1, const Mach1Point3DCore& p2) { 
 	return !(p1 == p2); 
 }
+
+#endif

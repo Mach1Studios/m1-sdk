@@ -69,11 +69,12 @@ std::vector<Mach1AudioObject> Mach1AudioTimeline::getAudioObjects()
 
 void Mach1AudioTimeline::parseADM(char * inXml)
 {
-
+	Mach1AudioTimelineCAPI_parseADM(M1obj, inXml);
 }
 
 void Mach1AudioTimeline::parseAtmos(char * inDotAtmos, char * inDotAtmosDotMetadata)
 {
+	Mach1AudioTimelineCAPI_parseAtmos(M1obj, inDotAtmos, inDotAtmosDotMetadata);
 }
 
 

@@ -71,7 +71,7 @@ float Mach1Transcode::processNormalization(std::vector< std::vector<float> >& bu
 	for (int i = 0; i < bufs.size(); i++) {
 		b[i] = bufs[i].data();
 	}
-	float peak = Mach1TranscodeCAPI_processNormalization(M1obj, b, bufs[0].size());
+	float peak = Mach1TranscodeCAPI_processNormalization(M1obj, b, (int)bufs[0].size());
 	delete[] b;
 
 	return peak;
@@ -85,7 +85,7 @@ void Mach1Transcode::processMasterGain(std::vector< std::vector<float> >& bufs, 
 	for (int i = 0; i < bufs.size(); i++) {
 		b[i] = bufs[i].data();
 	}
-	Mach1TranscodeCAPI_processMasterGain(M1obj, b, bufs[0].size(), masterGain);
+	Mach1TranscodeCAPI_processMasterGain(M1obj, b, (int)bufs[0].size(), masterGain);
 	delete[] b;
 }
 
@@ -101,7 +101,7 @@ float Mach1Transcode::level2db(float level)
 
 void Mach1Transcode::setLFESub(std::vector<int> subChannelIndices, int sampleRate)
 {
-	Mach1TranscodeCAPI_setLFESub(M1obj, subChannelIndices.data(), subChannelIndices.size(), sampleRate);
+	Mach1TranscodeCAPI_setLFESub(M1obj, subChannelIndices.data(), (int)subChannelIndices.size(), sampleRate);
     /// Applys a low pass filter (LPF) to each indicated channel index of the input format and soundfield
     ///
     /// - Parameters: 
@@ -147,7 +147,7 @@ void Mach1Transcode::setInputFormat(Mach1TranscodeFormatType inFmt)
 
 void Mach1Transcode::setInputFormatCustomPoints(std::vector<Mach1Point3D> points)
 {
-	Mach1TranscodeCAPI_setInputFormatCustomPoints(M1obj, points.data(), points.size());
+	Mach1TranscodeCAPI_setInputFormatCustomPoints(M1obj, points.data(), (int)points.size());
     /// Sets the input format for transcoding from CustomPoints directly
     ///
     /// Remarks:
@@ -174,7 +174,7 @@ void Mach1Transcode::setOutputFormatCustomPointsJson(std::string strJson)
 
 void Mach1Transcode::setOutputFormatCustomPoints(std::vector<Mach1Point3D> points)
 {
-	Mach1TranscodeCAPI_setInputFormatCustomPoints(M1obj, points.data(), points.size());
+	Mach1TranscodeCAPI_setInputFormatCustomPoints(M1obj, points.data(), (int)points.size());
     /// Sets the output format for transcoding from CustomPoints directly
     ///
     /// Remarks:
@@ -237,7 +237,7 @@ void Mach1Transcode::processConversion(std::vector< std::vector<float> >& inBufs
 		bOut[i] = outBufs[i].data();
 	}
 
-	Mach1TranscodeCAPI_processConversion(M1obj, bIn, bOut, inBufs[0].size());
+	Mach1TranscodeCAPI_processConversion(M1obj, bIn, bOut, (int)inBufs[0].size());
 
 	delete[] bIn;
 	delete[] bOut;

@@ -31,7 +31,7 @@ void Mach1AudioObject::setName(std::string name)
 
 void Mach1AudioObject::setKeyPoints(std::vector<Mach1KeyPoint> points)
 {
-	Mach1AudioObjectCAPI_setKeyPoints(M1obj, points.data(), points.size());
+	Mach1AudioObjectCAPI_setKeyPoints(M1obj, points.data(), (int)points.size());
 }
 
 Mach1AudioTimeline::Mach1AudioTimeline()

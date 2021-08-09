@@ -432,7 +432,7 @@ void Mach1TranscodeCore::processConversion(Mach1TranscodeFormats::FormatType inF
 int Mach1TranscodeCore::getNumChannels(Mach1TranscodeFormats::FormatType fmt, bool isInput)
 {
 	if (fmt == Mach1TranscodeFormats::FormatType::CustomPoints) {
-		return isInput ? inCustomPoints.size() : outCustomPoints.size();
+		return isInput ? (int)inCustomPoints.size() : (int)outCustomPoints.size();
 	}
     return Mach1TranscodeConstants::FormatChannels.at(fmt);
 }

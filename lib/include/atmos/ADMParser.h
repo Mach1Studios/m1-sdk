@@ -174,7 +174,7 @@ public:
 			z = 0;
 		}
 
-		KeyPoint(long sample, float x, float y, float z) {
+		KeyPoint(long long sample, float x, float y, float z) {
 			this->sample = sample;
 			this->x = x;
 			this->y = y;
@@ -313,7 +313,7 @@ public:
 									point.x = block.x;
 									point.y = block.z;
 									point.z = block.y;
-									point.sample = block.rtime * audioTracksSamplerates[audioObject.audioTracks[i]];
+									point.sample = (long long)(block.rtime * audioTracksSamplerates[audioObject.audioTracks[i]]);
 									audioTracks[audioObject.audioTracks[i]].push_back(point);
 								}
 							}

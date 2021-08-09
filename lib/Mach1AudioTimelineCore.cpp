@@ -22,7 +22,7 @@ void ConvertRCtoXYRaw(float r, float d, float& x, float& y)
 	else {
 		float sign = d / abs_d;
 		float rotation_radian = r * PI / 180;
-		float center = abs_d * sqrt(2);
+		float center = abs_d * sqrtf(2);
 		float ratio_x_center = sin(rotation_radian);
 		float ratio_y_center = cos(rotation_radian);
 		x_tmp = sign * ratio_x_center * center;
@@ -60,7 +60,7 @@ void Mach1AudioTimelineCore::parseADM(char* inXml)
 			Mach1AudioObjectCore audioObject;
 			audioObject.name = it->first;
 			audioObjects.push_back(audioObject);
-			c = audioObjects.size() - 1;
+			c = (int)audioObjects.size() - 1;
 		}
 
 		for (int i = 0; i < it->second.size(); i++) {
@@ -164,13 +164,13 @@ void Mach1AudioTimelineCore::parseAtmos(char* inDotAtmos, char* inDotAtmosDotMet
 			std::cout << (*it).first << ": " << (*it).second.As<string>() << std::endl;
 
 			if (!(*it).second["pos"].IsNone()) {
-				long p = (*it).second["samplePos"].As<long long>(); // 1.0 * (*it).second["samplePos"].As<int>() / objectmetadata["sampleRate"].As<int>();
+				long long p = (*it).second["samplePos"].As<long long>(); // 1.0 * (*it).second["samplePos"].As<int>() / objectmetadata["sampleRate"].As<int>();
 				float x = ((*it).second["pos"][0].As<float>());
 				float y = ((*it).second["pos"][1].As<float>());
 				float z = ((*it).second["pos"][2].As<float>());
 
 				float Rotation = atan2(x, y) * 180 / PI;
-				float Diverge = 100 * sqrt(x * x + y * y) / sqrt(2.0);
+				float Diverge = 100 * sqrtf(x * x + y * y) / sqrtf(2.0);
 
 				Mach1Point3DCore a(x, y, z);
 				Mach1Point3DCore b(x, y, 0.0);

@@ -134,7 +134,7 @@ M1_API void Mach1TranscodeCAPI_getMatrixConversion(void * M1obj, float *matrix)
 M1_API Mach1TranscodeFormatType * Mach1TranscodeCAPI_getFormatConversionPath(void* M1obj, int* count)
 {
 	std::vector<Mach1TranscodeFormats::FormatType>& formatsPath = ((Mach1TranscodeCore*)M1obj)->getFormatConversionPath();
-	*count = formatsPath.size();
+	*count = (int)formatsPath.size();
 	return (Mach1TranscodeFormatType*)formatsPath.data();
 }
 

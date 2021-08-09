@@ -432,14 +432,14 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.0000f,  0.0000f,  0.0000f,  0.0000f,  0.0000f,  0.0000f,  0.0000f,  0.0000f },
 		{ -0.1976f,  0.1976f,  0.1976f, -0.1976f, -0.1976f,  0.1976f,  0.1976f, -0.1976f } });
 	const SpatialSoundMatrix ACNSN3D2M1Spatial(std::vector<std::vector<float>> // TODO: Check into this
-	{ 	{ 0.125000,  0.216602,  0.216316,  0.216602 },    // Top Front Left
- 		{ 0.125000, -0.216602,  0.216316,  0.216602 },    // Top Front Right
- 		{ 0.125000,  0.216602,  0.216316, -0.216602 },    // Top Back Left
- 		{ 0.125000, -0.216602,  0.216316, -0.216602 },    // Top Back Right
- 		{ 0.125000,  0.216602, -0.216316,  0.216602 },    // Bottom Front Left
-		{ 0.125000, -0.216602, -0.216316,  0.216602 },    // Bottom Front Right
- 		{ 0.125000,  0.216602, -0.216316, -0.216602 },    // Bottom Back Left
- 		{ 0.125000, -0.216602, -0.216316, -0.216602 } }); // Bottom Back Right
+	{ 	{ 0.125000f,  0.216602f,  0.216316f,  0.216602f },    // Top Front Left
+ 		{ 0.125000f, -0.216602f,  0.216316f,  0.216602f },    // Top Front Right
+ 		{ 0.125000f,  0.216602f,  0.216316f, -0.216602f },    // Top Back Left
+ 		{ 0.125000f, -0.216602f,  0.216316f, -0.216602f },    // Top Back Right
+ 		{ 0.125000f,  0.216602f, -0.216316f,  0.216602f },    // Bottom Front Left
+		{ 0.125000f, -0.216602f, -0.216316f,  0.216602f },    // Bottom Front Right
+ 		{ 0.125000f,  0.216602f, -0.216316f, -0.216602f },    // Bottom Back Left
+ 		{ 0.125000f, -0.216602f, -0.216316f, -0.216602f } }); // Bottom Back Right
 	const SpatialSoundMatrix ACNSN3DO2A2M1Spatial(std::vector<std::vector<float>>
 	{   { 0.3727f,  0.2795f,  0.3953f,  0.2795f,  0.0807f,  0.1141f,  0.0466f,  0.1141f,  0.0000f},
 		{ 0.3727f,  0.2795f,  0.3953f, -0.2795f, -0.0807f,  0.1141f,  0.0466f, -0.1141f, -0.0000f },
@@ -477,23 +477,23 @@ namespace Mach1TranscodeConstantsInternal {
 	//        { 1.465809f, -1.693316f, -1.693316f, -1.691083f, 0, 6.561077f, 6.552435f, 6.552435f },
 	//        { 1.465809f, 1.693316f, -1.693316f, -1.691083f, 0, -6.561077f, -6.552435f, 6.552435f } });
 	const SpatialSoundMatrix ACNSN3DYorkBasic1oa2M1Spatial(std::vector<std::vector<float>>
-	{ 	{ 0.125000,  0.216602,  0.216316,  0.216602 },    // Top Front Left
- 		{ 0.125000, -0.216602,  0.216316,  0.216602 },    // Top Front Right
- 		{ 0.125000,  0.216602,  0.216316, -0.216602 },    // Top Back Left
- 		{ 0.125000, -0.216602,  0.216316, -0.216602 },    // Top Back Right
- 		{ 0.125000,  0.216602, -0.216316,  0.216602 },    // Bottom Front Left
-		{ 0.125000, -0.216602, -0.216316,  0.216602 },    // Bottom Front Right
- 		{ 0.125000,  0.216602, -0.216316, -0.216602 },    // Bottom Back Left
- 		{ 0.125000, -0.216602, -0.216316, -0.216602 } }); // Bottom Back Right
+	{ 	{ 0.125000f,  0.216602f,  0.216316f,  0.216602f },    // Top Front Left
+ 		{ 0.125000f, -0.216602f,  0.216316f,  0.216602f },    // Top Front Right
+ 		{ 0.125000f,  0.216602f,  0.216316f, -0.216602f },    // Top Back Left
+ 		{ 0.125000f, -0.216602f,  0.216316f, -0.216602f },    // Top Back Right
+ 		{ 0.125000f,  0.216602f, -0.216316f,  0.216602f },    // Bottom Front Left
+		{ 0.125000f, -0.216602f, -0.216316f,  0.216602f },    // Bottom Front Right
+ 		{ 0.125000f,  0.216602f, -0.216316f, -0.216602f },    // Bottom Back Left
+ 		{ 0.125000f, -0.216602f, -0.216316f, -0.216602f } }); // Bottom Back Right
 	const SpatialSoundMatrix ACNSN3DYorkmaxRE1oa2M1Spatial(std::vector<std::vector<float>>
-	{ 	{ 0.183013,  0.183093,  0.182852,  0.183093 },    // Top Front Left
- 		{ 0.183013, -0.183093,  0.182852,  0.183093 },    // Top Front Right
- 		{ 0.183013,  0.183093,  0.182852, -0.183093 },    // Top Back Left
- 		{ 0.183013, -0.183093,  0.182852, -0.183093 },    // Top Back Right
- 		{ 0.183013,  0.183093, -0.182852,  0.183093 },    // Bottom Front Left
- 		{ 0.183013, -0.183093, -0.182852,  0.183093 },    // Bottom Front Right
- 		{ 0.183013,  0.183093, -0.182852, -0.183093 },    // Bottom Back Left
- 		{ 0.183013, -0.183093, -0.182852, -0.183093 } }); // Bottom Back Right
+	{ 	{ 0.183013f, 0.183093f,  0.182852f,  0.183093f },    // Top Front Left
+ 		{ 0.183013f, -0.183093f,  0.182852f,  0.183093f },    // Top Front Right
+ 		{ 0.183013f, 0.183093f,  0.182852f, -0.183093f },    // Top Back Left
+ 		{ 0.183013f, -0.183093f,  0.182852f, -0.183093f },    // Top Back Right
+ 		{ 0.183013f, 0.183093f, -0.182852f,  0.183093f },    // Bottom Front Left
+ 		{ 0.183013f, -0.183093f, -0.182852f,  0.183093f },    // Bottom Front Right
+ 		{ 0.183013f, 0.183093f, -0.182852f, -0.183093f },    // Bottom Back Left
+ 		{ 0.183013f, -0.183093f, -0.182852f, -0.183093f } }); // Bottom Back Right
 	const SpatialSoundMatrix ACNSN3DmaxRE1oa2M1Spatial(std::vector<std::vector<float>>
 	{ 	{ 0.1195696368813515f, 0.1008485481142998f, 0.1008353978395462f, 0.1008441597223282f },
 		{ 0.2335921078920364f, -0.09768784791231155f, 0.1874370872974396f, 0.1874081641435623f },

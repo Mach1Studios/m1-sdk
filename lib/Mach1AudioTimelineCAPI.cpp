@@ -25,7 +25,7 @@ M1_API const char* Mach1AudioObjectCAPI_getName(void * M1obj)
 
 M1_API int Mach1AudioObjectCAPI_getKeyPointsCount(void * M1obj)
 {
-	return ((Mach1AudioObjectCore*)M1obj)->points.size();
+	return (int)((Mach1AudioObjectCore*)M1obj)->points.size();
 }
 
 M1_API Mach1KeyPoint Mach1AudioObjectCAPI_getKeyPoint(void * M1obj, int n)
@@ -63,7 +63,7 @@ M1_API void Mach1AudioTimelineCAPI_delete(void * M1obj)
 
 M1_API int Mach1AudioTimelineCAPI_getAudioObjectCount(void * M1obj)
 {
-	return ((Mach1AudioTimelineCore*)M1obj)->getAudioObjects()->size();
+	return (int)((Mach1AudioTimelineCore*)M1obj)->getAudioObjects()->size();
 }
 
 M1_API void* Mach1AudioTimelineCAPI_getAudioObject(void * M1obj, int n)

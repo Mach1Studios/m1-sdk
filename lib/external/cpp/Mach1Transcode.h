@@ -36,8 +36,6 @@ public:
 	std::vector<float> getAvgSamplesDiff();
 
 	void setInputFormat(Mach1TranscodeFormatType inFmt);
-	void setInputFormatADM(std::string inXml, Mach1TranscodeProcessSettings processSettings);
-	void setInputFormatAtmos(std::string inDotAtmos, std::string inDotAtmosDotMetadata, Mach1TranscodeProcessSettings processSettings);
 	void setInputFormatCustomPointsJson(std::string inJson);
 	void setInputFormatCustomPoints(std::vector<Mach1Point3D> points);
 

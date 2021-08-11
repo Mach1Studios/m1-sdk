@@ -145,6 +145,12 @@ void Mach1Transcode::setInputFormat(Mach1TranscodeFormatType inFmt)
     ///     View the current list of Mach1Transcode preset formats here: https://dev.mach1.tech/#formats-supported
 }
 
+
+void Mach1Transcode::setInputFormatCustomPointsJson(std::string inJson)
+{
+	Mach1TranscodeCAPI_setInputFormatCustomPointsJson(M1obj, (char*)inJson.c_str());
+}
+
 void Mach1Transcode::setInputFormatCustomPoints(std::vector<Mach1Point3D> points)
 {
 	Mach1TranscodeCAPI_setInputFormatCustomPoints(M1obj, points.data(), (int)points.size());

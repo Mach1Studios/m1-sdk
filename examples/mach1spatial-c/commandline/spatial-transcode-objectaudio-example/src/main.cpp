@@ -100,7 +100,7 @@ void printFileInfo(SndfileHandle file)
 
 int main(int argc, char* argv[])
 {
-	Mach1AudioTimeline m1AudioTimeline;
+	Mach1AudioTimeline m1audioTimeline;
 
 	Mach1Transcode m1transcode;
 	m1transcode.setCustomPointsSamplerCallback(callbackForGenerateMach1Point3D);
@@ -180,12 +180,12 @@ int main(int argc, char* argv[])
 		inFmtStr = pStr;
 
 		if (strcmp(inFmtStr, "ADM") == 0) {
-			m1AudioTimeline.parseADM(infilename);
+			m1audioTimeline.parseADM(infilename);
 		}
 		else if(strcmp(inFmtStr, "Atmos") == 0) {
 			char* pStr = getCmdOption(argv, argv + argc, "-in-file-meta");
 			if (pStr && (strlen(pStr) > 0)) {
-				m1AudioTimeline.parseAtmos(infilename, pStr);
+				m1audioTimeline.parseAtmos(infilename, pStr);
 			}
 			else {
 				cerr << "Please specify an input meta file" << std::endl;
@@ -303,6 +303,16 @@ int main(int argc, char* argv[])
 	// -- setup 
 	m1transcode.setInputFormat(Mach1TranscodeFormatType::Mach1TranscodeFormatCustomPoints);
 	m1transcode.setOutputFormat(outFmt);
+
+	// first init of TT points	
+	std::vector<Mach1AudioObject> audioObjects = m1audioTimeline.getAudioObjects();
+	std::vector<Mach1Point3D> points;
+	for (int i = 0; i < audioObjects.size(); i++) {
+		Mach1KeyPoint keypoint = audioObjects[i].getKeyPoints()[0];
+		points.push_back(keypoint.point);
+	}
+	m1transcode.setInputFormatCustomPoints(points);
+
 	// -- output file(s) --------------------------------------
 
 	channels = m1transcode.getOutputNumChannels();

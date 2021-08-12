@@ -30,11 +30,21 @@
 #include "sndfile.hh"
 #include "CmdOption.h"
 
-std::vector<Mach1Point3D> points;
+std::vector<Mach1AudioObject> audioObjects;
+
 Mach1Point3D* callbackForGenerateMach1Point3D(long long sample, int& n)
 {
-	if (sample == 0) {
-
+	std::vector<Mach1Point3D> points;
+	points.resize(audioObjects.size());
+	
+	for (int i = 0; i < audioObjects.size(); i++) {
+		std::vector<Mach1KeyPoint> keypoints = audioObjects[i].getKeyPoints();
+		for (int j = 0; j < keypoints.size(); j++) {
+			if (keypoints[j].sample >= sample) {
+				points[i] = push_back(keypoints[j].point);
+				continue;
+			}
+		}
 	}
 
 	n = points.size();
@@ -305,7 +315,7 @@ int main(int argc, char* argv[])
 	m1transcode.setOutputFormat(outFmt);
 
 	// first init of TT points	
-	std::vector<Mach1AudioObject> audioObjects = m1audioTimeline.getAudioObjects();
+	audioObjects = m1audioTimeline.getAudioObjects();
 	std::vector<Mach1Point3D> points;
 	for (int i = 0; i < audioObjects.size(); i++) {
 		Mach1KeyPoint keypoint = audioObjects[i].getKeyPoints()[0];

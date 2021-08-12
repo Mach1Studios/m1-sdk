@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\..\include\cpp\M1DSP\M1DSPUtilities.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\lib\external\cpp\Mach1Decode.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\lib\external\cpp\Mach1Encode.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\lib\external\cpp\Mach1Transcode.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\lib\external\cpp\Mach1AudioTimeline.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\include\cpp\M1DSP\M1DSPDynamics.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\include\cpp\M1DSP\M1DSPFilters.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\lib\include\xml\pugixml.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\lib\include\yaml\Yaml.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\lib\Mach1DecodeCAPI.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\lib\Mach1DecodeCore.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\lib\Mach1DecodePositionalCAPI.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\lib\Mach1DecodePositionalCore.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\lib\Mach1EncodeCAPI.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\lib\Mach1EncodeCore.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\lib\Mach1GenerateCoeffs.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\lib\Mach1Point3DCore.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\lib\Mach1Point4DCore.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\lib\Mach1TranscodeCAPI.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\lib\Mach1TranscodeCore.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\lib\Mach1AudioTimelineCAPI.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\lib\Mach1AudioTimelineCore.cpp" />
+    <ClCompile Include="..\..\src\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\..\include\cpp\M1DSP\M1DSPUtilities.h" />
+    <ClInclude Include="..\..\..\..\..\..\lib\external\cpp\Mach1Decode.h" />
+    <ClInclude Include="..\..\..\..\..\..\lib\external\cpp\Mach1Encode.h" />
+    <ClInclude Include="..\..\..\..\..\..\lib\external\cpp\Mach1Transcode.h" />
+	<ClCompile Include="..\..\..\..\..\..\lib\external\cpp\Mach1AudioTimeline.h" />
+    <ClInclude Include="..\..\..\..\..\..\include\M1DSP\M1DSPDynamics.h" />
+    <ClInclude Include="..\..\..\..\..\..\include\M1DSP\M1DSPFilters.h" />
+    <ClInclude Include="..\..\..\..\..\..\lib\Mach1DecodeCAPI.h" />
+    <ClInclude Include="..\..\..\..\..\..\lib\Mach1DecodeCore.h" />
+    <ClInclude Include="..\..\..\..\..\..\lib\Mach1DecodePositionalCAPI.h" />
+    <ClInclude Include="..\..\..\..\..\..\lib\Mach1DecodePositionalCore.h" />
+    <ClInclude Include="..\..\..\..\..\..\lib\Mach1EncodeCAPI.h" />
+    <ClInclude Include="..\..\..\..\..\..\lib\Mach1EncodeCore.h" />
+    <ClInclude Include="..\..\..\..\..\..\lib\Mach1GenerateCoeffs.h" />
+    <ClInclude Include="..\..\..\..\..\..\lib\Mach1Point3D.h" />
+    <ClInclude Include="..\..\..\..\..\..\lib\Mach1Point3DCore.h" />
+    <ClInclude Include="..\..\..\..\..\..\lib\Mach1Point4D.h" />
+    <ClInclude Include="..\..\..\..\..\..\lib\Mach1Point4DCore.h" />
+    <ClInclude Include="..\..\..\..\..\..\lib\Mach1TranscodeCAPI.h" />
+    <ClInclude Include="..\..\..\..\..\..\lib\Mach1TranscodeCore.h" />
+    <ClCompile Include="..\..\..\..\..\..\lib\Mach1AudioTimelineCAPI.h" />
+    <ClCompile Include="..\..\..\..\..\..\lib\Mach1AudioTimelineCore.h" />
+    <ClCompile Include="..\..\..\..\..\..\lib\include\xml\pugixml.hpp" />
+    <ClCompile Include="..\..\..\..\..\..\lib\include\yaml\Yaml.hpp" />
+    <ClInclude Include="..\..\src\CmdOption.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{A23267E7-114B-4540-A3FF-8DD55019CA1A}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>winprj</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);../../src ;../../src\libsndfile\include;D:\Developer\Crossplatform\M1\m1-sdk\include\cpp;../../../../../../include\cpp\M1DSP;./src\rtaudio\include;../../../../../../lib\include;../../../../../../include\cpp\</IncludePath>
+    <SourcePath>../../../../../../include\cpp\M1DSP;$(VC_SourcePath);../../src;../../../../../../include\cpp;../../src\rtaudio\include</SourcePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);__WINDOWS_ASIO__;__WINDOWS_WASAPI__;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);sndfile.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../src\libsndfile\lib;../../../../../../lib\_builds\vs-15-2017-win64\static\Debug</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

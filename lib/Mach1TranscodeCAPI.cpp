@@ -4,7 +4,6 @@
 #include "Mach1TranscodeCore.h"
 #include "Mach1TranscodeCAPI.h"
 #include "Mach1Point3DCore.h"
-#include "external\cpp\Mach1TranscodeCAPI.h"
 
 void* Mach1TranscodeCAPI_create()
 {

@@ -13,12 +13,3 @@
 [submodule "examples/mach1spatial-nodejs/mach1spatial-decode"]
 	path = examples/mach1spatial-nodejs/mach1spatial-decode
 	url = git@github.com:Mach1Studios/NodeJS-Mach1Decode.git
-	active = true
-[submodule "examples/mach1spatial-nodejs/mach1spatial-encode"]
-	path = examples/mach1spatial-nodejs/mach1spatial-encode
-	url = git@github.com:Mach1Studios/NodeJS-Mach1Encode.git
-	active = true
-[submodule "examples/mach1spatial-nodejs/mach1spatial-transcode"]
-	path = examples/mach1spatial-nodejs/mach1spatial-transcode
-	url = git@github.com:Mach1Studios/NodeJS-Mach1Transcode.git
-	active = true

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A439579D26C5D34C001E96CB /* Mach1AudioTimeline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A439579C26C5D34C001E96CB /* Mach1AudioTimeline.cpp */; };
 		A45C55862624AACB0008FF4D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A45C55822624AACB0008FF4D /* main.cpp */; };
 		A45C558B2624AADA0008FF4D /* Mach1Transcode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A45C55882624AADA0008FF4D /* Mach1Transcode.cpp */; };
 		A45C560E2624BB500008FF4D /* libMach1TranscodeCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A45C55F62624B12F0008FF4D /* libMach1TranscodeCAPI.a */; };
@@ -28,6 +29,9 @@
 
 /* Begin PBXFileReference section */
 		A41FB94321CAB28400F2CBD4 /* spatial-transcode-objectaudio-example */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "spatial-transcode-objectaudio-example"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A439579B26C5D347001E96CB /* Mach1AudioTimeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1AudioTimeline.h; path = ../../../../../include/cpp/Mach1AudioTimeline.h; sourceTree = "<group>"; };
+		A439579C26C5D34C001E96CB /* Mach1AudioTimeline.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mach1AudioTimeline.cpp; path = ../../../../../include/cpp/Mach1AudioTimeline.cpp; sourceTree = "<group>"; };
+		A439579E26C5D355001E96CB /* Mach1AudioTimelineCAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1AudioTimelineCAPI.h; path = ../../../../../include/cpp/Mach1AudioTimelineCAPI.h; sourceTree = "<group>"; };
 		A45C55802624AACB0008FF4D /* CmdOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CmdOption.h; sourceTree = "<group>"; };
 		A45C55822624AACB0008FF4D /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		A45C55882624AADA0008FF4D /* Mach1Transcode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mach1Transcode.cpp; path = ../../../../../include/cpp/Mach1Transcode.cpp; sourceTree = "<group>"; };
@@ -91,6 +95,9 @@
 				A45C55892624AADA0008FF4D /* Mach1Transcode.h */,
 				A45C55882624AADA0008FF4D /* Mach1Transcode.cpp */,
 				A45C558A2624AADA0008FF4D /* Mach1TranscodeCAPI.h */,
+				A439579B26C5D347001E96CB /* Mach1AudioTimeline.h */,
+				A439579C26C5D34C001E96CB /* Mach1AudioTimeline.cpp */,
+				A439579E26C5D355001E96CB /* Mach1AudioTimelineCAPI.h */,
 				A45C56492624DD3D0008FF4D /* M1DSP */,
 			);
 			path = src;
@@ -174,6 +181,7 @@
 			files = (
 				A45C55862624AACB0008FF4D /* main.cpp in Sources */,
 				A45C564C2624DD3D0008FF4D /* M1DSPUtilities.cpp in Sources */,
+				A439579D26C5D34C001E96CB /* Mach1AudioTimeline.cpp in Sources */,
 				A45C558B2624AADA0008FF4D /* Mach1Transcode.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -63,7 +63,7 @@ M1_API void Mach1AudioTimelineCAPI_delete(void * M1obj)
 
 M1_API int Mach1AudioTimelineCAPI_getAudioObjectCount(void * M1obj)
 {
-	return (int)((Mach1AudioTimelineCore*)M1obj)->getAudioObjects()->size();
+	return  (int)((Mach1AudioTimelineCore*)M1obj)->getAudioObjects()->size();
 }
 
 M1_API void* Mach1AudioTimelineCAPI_getAudioObject(void * M1obj, int n)

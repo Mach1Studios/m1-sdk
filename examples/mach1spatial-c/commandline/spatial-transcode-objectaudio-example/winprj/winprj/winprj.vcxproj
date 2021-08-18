@@ -19,13 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\include\cpp\M1DSP\M1DSPUtilities.cpp" />
     <ClCompile Include="..\..\..\..\..\..\lib\external\cpp\Mach1Decode.cpp" />
     <ClCompile Include="..\..\..\..\..\..\lib\external\cpp\Mach1Encode.cpp" />
     <ClCompile Include="..\..\..\..\..\..\lib\external\cpp\Mach1Transcode.cpp" />
     <ClCompile Include="..\..\..\..\..\..\lib\external\cpp\Mach1AudioTimeline.cpp" />
     <ClCompile Include="..\..\..\..\..\..\include\cpp\M1DSP\M1DSPDynamics.cpp" />
     <ClCompile Include="..\..\..\..\..\..\include\cpp\M1DSP\M1DSPFilters.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\include\cpp\M1DSP\M1DSPUtilities.cpp" />
     <ClCompile Include="..\..\..\..\..\..\lib\include\xml\pugixml.cpp" />
     <ClCompile Include="..\..\..\..\..\..\lib\include\yaml\Yaml.cpp" />
     <ClCompile Include="..\..\..\..\..\..\lib\Mach1DecodeCAPI.cpp" />
@@ -44,13 +44,13 @@
     <ClCompile Include="..\..\src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\..\include\cpp\M1DSP\M1DSPUtilities.h" />
     <ClInclude Include="..\..\..\..\..\..\lib\external\cpp\Mach1Decode.h" />
     <ClInclude Include="..\..\..\..\..\..\lib\external\cpp\Mach1Encode.h" />
     <ClInclude Include="..\..\..\..\..\..\lib\external\cpp\Mach1Transcode.h" />
-	<ClCompile Include="..\..\..\..\..\..\lib\external\cpp\Mach1AudioTimeline.h" />
+    <ClInclude Include="..\..\..\..\..\..\lib\external\cpp\Mach1AudioTimeline.h" />
     <ClInclude Include="..\..\..\..\..\..\include\M1DSP\M1DSPDynamics.h" />
     <ClInclude Include="..\..\..\..\..\..\include\M1DSP\M1DSPFilters.h" />
+    <ClInclude Include="..\..\..\..\..\..\include\cpp\M1DSP\M1DSPUtilities.h" />
     <ClInclude Include="..\..\..\..\..\..\lib\Mach1DecodeCAPI.h" />
     <ClInclude Include="..\..\..\..\..\..\lib\Mach1DecodeCore.h" />
     <ClInclude Include="..\..\..\..\..\..\lib\Mach1DecodePositionalCAPI.h" />
@@ -64,10 +64,10 @@
     <ClInclude Include="..\..\..\..\..\..\lib\Mach1Point4DCore.h" />
     <ClInclude Include="..\..\..\..\..\..\lib\Mach1TranscodeCAPI.h" />
     <ClInclude Include="..\..\..\..\..\..\lib\Mach1TranscodeCore.h" />
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1AudioTimelineCAPI.h" />
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1AudioTimelineCore.h" />
-    <ClCompile Include="..\..\..\..\..\..\lib\include\xml\pugixml.hpp" />
-    <ClCompile Include="..\..\..\..\..\..\lib\include\yaml\Yaml.hpp" />
+    <ClInclude Include="..\..\..\..\..\..\lib\Mach1AudioTimelineCAPI.h" />
+    <ClInclude Include="..\..\..\..\..\..\lib\Mach1AudioTimelineCore.h" />
+    <ClInclude Include="..\..\..\..\..\..\lib\include\xml\pugixml.hpp" />
+    <ClInclude Include="..\..\..\..\..\..\lib\include\yaml\Yaml.hpp" />
     <ClInclude Include="..\..\src\CmdOption.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -127,8 +127,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);../../src ;../../src\libsndfile\include;D:\Developer\Crossplatform\M1\m1-sdk\include\cpp;../../../../../../include\cpp\M1DSP;./src\rtaudio\include;../../../../../../lib\include;../../../../../../include\cpp\</IncludePath>
-    <SourcePath>../../../../../../include\cpp\M1DSP;$(VC_SourcePath);../../src;../../../../../../include\cpp;../../src\rtaudio\include</SourcePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);../../src ;../../src\libsndfile\include;../../../../../../include\cpp;../../../../../../lib;../../../../../../lib/include;../../../../../../include\cpp\M1DSP;./src\rtaudio\include;</IncludePath>
+    <SourcePath>$(VC_SourcePath);../../src;../../src\rtaudio\include</SourcePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -161,6 +161,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);__WINDOWS_ASIO__;__WINDOWS_WASAPI__;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -39,9 +39,11 @@ Mach1Point3D* callbackForGenerateMach1Point3D(long long sample, int& n)
 	
 	for (int i = 0; i < audioObjects.size(); i++) {
 		std::vector<Mach1KeyPoint> keypoints = audioObjects[i].getKeyPoints();
+
+		points[i] = keypoints[0].point;
 		for (int j = 0; j < keypoints.size(); j++) {
 			if (keypoints[j].sample >= sample) {
-				points[i] = push_back(keypoints[j].point);
+				points[i] = keypoints[j].point;
 				continue;
 			}
 		}
@@ -121,7 +123,6 @@ int main(int argc, char* argv[])
 	char* infolder = NULL;
 	char* infilename = NULL;
 	char* inFmtStr = NULL;
-	Mach1TranscodeFormatType inFmt;
 	char* outfilename = NULL;
 	std::string md_outfilename = "";
 	char* outFmtStr = NULL;

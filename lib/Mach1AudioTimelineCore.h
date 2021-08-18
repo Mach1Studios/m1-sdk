@@ -27,6 +27,10 @@ public:
 
 class Mach1AudioTimelineCore {
 	std::vector<Mach1AudioObjectCore> audioObjects;
+
+	float clamp(float n, float lower, float upper);
+	void ConvertRCtoXYRaw(float r, float d, float& x, float& y);
+
 public:
 
 	std::vector<Mach1AudioObjectCore>* getAudioObjects();

@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include "Mach1Point3D.h"
 
-#if defined(Mach1DecodeCore_h) || defined(Mach1EncodeCore_h) ||  defined(Mach1PositionalCore_h) || defined(Mach1TranscodeCore_h)
+#if defined(Mach1DecodeCore_h) || defined(Mach1EncodeCore_h) ||  defined(Mach1PositionalCore_h) || defined(Mach1TranscodeCore_h) || defined(Mach1AudioTimelineCore_h)
 #ifndef M1_API
 		#if defined(_WINDOWS) || defined(WIN32)
 				#define M1_API __declspec(dllexport)

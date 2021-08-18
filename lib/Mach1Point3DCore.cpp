@@ -7,7 +7,7 @@ Mach1Point3DCore::Mach1Point3DCore() {
 	x = 0;
 	y = 0;
 	z = 0;
-}
+} 
 
 Mach1Point3DCore::Mach1Point3DCore(float X, float Y, float Z) {
 	x = X;

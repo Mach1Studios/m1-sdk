@@ -5,11 +5,11 @@
 #include "Mach1GenerateCoeffs.h"
 #include "yaml/yaml.hpp"
 
-float clamp(float n, float lower, float upper) {
+float Mach1AudioTimelineCore::clamp(float n, float lower, float upper) {
 	return std::max(lower, std::min(n, upper));
 }
 
-void ConvertRCtoXYRaw(float r, float d, float& x, float& y)
+void Mach1AudioTimelineCore::ConvertRCtoXYRaw(float r, float d, float& x, float& y)
 {
 	float abs_d = fabs(d);
 	float x_tmp;

@@ -130,6 +130,8 @@ private:
 	milliseconds ms;
 	long timeLastCalculation;
 
+	float clamp(float n, float lower, float upper);
+
 public:
 	M1EncodeCore();
 	~M1EncodeCore();

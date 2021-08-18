@@ -66,11 +66,41 @@
     <ClCompile Include="..\..\..\..\..\..\lib\external\cpp\Mach1Decode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\include\M1DSP\M1DSPFilters.cpp">
-      <Filter>Source Files\M1DSP</Filter>
+    <ClCompile Include="..\..\..\..\..\..\lib\external\cpp\Mach1AudioTimeline.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\include\M1DSP\M1DSPDynamics.cpp">
-      <Filter>Source Files\M1DSP</Filter>
+    <ClCompile Include="..\..\..\..\..\..\include\cpp\M1DSP\M1DSPDynamics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\include\cpp\M1DSP\M1DSPFilters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\lib\include\xml\pugixml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\lib\include\yaml\Yaml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\lib\Mach1AudioTimelineCAPI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\lib\Mach1AudioTimelineCore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\lib\external\cpp\Mach1AudioTimeline.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\lib\Mach1AudioTimelineCAPI.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\lib\Mach1AudioTimelineCore.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\lib\include\xml\pugixml.hpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\lib\include\yaml\Yaml.hpp">
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -128,11 +158,11 @@
     <ClInclude Include="..\..\..\..\..\..\lib\external\cpp\Mach1Transcode.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\lib\include\M1DSP\M1DSPFilters.h">
-      <Filter>Source Files\M1DSP</Filter>
+    <ClInclude Include="..\..\..\..\..\..\include\M1DSP\M1DSPDynamics.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\lib\include\M1DSP\M1DSPDynamics.h">
-      <Filter>Source Files\M1DSP</Filter>
+    <ClInclude Include="..\..\..\..\..\..\include\M1DSP\M1DSPFilters.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

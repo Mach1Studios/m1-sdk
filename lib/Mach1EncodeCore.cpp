@@ -20,7 +20,7 @@ Mach1EncodeCore normalizes all input ranges to an unsigned "0 to 1" range for Az
 #include <map>
 #include <vector>
 
-float clamp(float n, float lower, float upper) {
+float M1EncodeCore::clamp(float n, float lower, float upper) {
 	return std::max(lower, std::min(n, upper));
 }
 

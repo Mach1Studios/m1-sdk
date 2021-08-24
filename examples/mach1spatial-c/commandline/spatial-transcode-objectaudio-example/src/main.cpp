@@ -31,28 +31,28 @@
 #include "CmdOption.h"
 
 std::vector<Mach1AudioObject> audioObjects;
+std::vector<Mach1Point3D> keypoints;
 
-Mach1Point3D* callbackForGenerateMach1Point3D(long long sample, int& n)
+Mach1Point3D* callbackPointsSampler(long long sample, int& n)
 {
-	std::vector<Mach1Point3D> points;
-	points.resize(audioObjects.size());
+	keypoints.resize(audioObjects.size());
 	
 	for (int i = 0; i < audioObjects.size(); i++) {
-		std::vector<Mach1KeyPoint> keypoints = audioObjects[i].getKeyPoints();
+		std::vector<Mach1KeyPoint> kp = audioObjects[i].getKeyPoints();
 
-		points[i] = keypoints[0].point;
-		for (int j = 0; j < keypoints.size(); j++) {
-			if (keypoints[j].sample >= sample) {
-				points[i] = keypoints[j].point;
+		keypoints[i] = kp[0].point;
+		for (int j = 0; j < kp.size(); j++) {
+			if (kp[j].sample >= sample) {
+				keypoints[i] = kp[j].point;
 				continue;
 			}
 		}
 	}
 
-	n = points.size();
-	return points.data();
+	n = keypoints.size();
+	return keypoints.data();
 }
-
+ 
 using namespace std;
 
 vector<string> &split(const string &s, char delim, vector<string> &elems) {
@@ -115,7 +115,7 @@ int main(int argc, char* argv[])
 	Mach1AudioTimeline m1audioTimeline;
 
 	Mach1Transcode m1transcode;
-	m1transcode.setCustomPointsSamplerCallback(callbackForGenerateMach1Point3D);
+	m1transcode.setCustomPointsSamplerCallback(callbackPointsSampler);
 
 	// locals for cmd line parameters
 	bool fileOut = false;
@@ -281,7 +281,12 @@ int main(int argc, char* argv[])
 	// determine number of input files
 	SndfileHandle *infile[Mach1TranscodeMAXCHANS];
 	vector<string> fNames;
-	split(infilename, ' ', fNames);
+	
+	for (int i = 0; i < audioObjects.size(); i++) {
+		std::string filename = std::string (infolder)  + "/" + audioObjects[i].getName() + ".wav";
+		fNames.push_back(filename);
+	}
+
 	size_t numInFiles = fNames.size();
 	for (int i = 0; i < numInFiles; i++)
 	{
@@ -414,49 +419,70 @@ int main(int argc, char* argv[])
 	}
 	cout << std::endl;
 
+	// get start samples for all objects (ADM format)
+	std::vector<long long> startSampleForAudioObject;
+	for (int i = 0; i < audioObjects.size(); i++) {
+		startSampleForAudioObject.push_back(audioObjects[i].getKeyPoints()[0].sample);
+	}
 
 	for (int i = 0; i <= numBlocks; i++)
 	{
 		// read next buffer from each infile
-		sf_count_t samplesRead;
 		sf_count_t firstBuf = 0;
+		float(*inBuf)[Mach1TranscodeMAXCHANS][BUFFERLEN] = (float(*)[Mach1TranscodeMAXCHANS][BUFFERLEN])&(inBuffers[0][0]);
+
 		for (int file = 0; file < numInFiles; file++)
 		{
 			sf_count_t thisChannels = infile[file]->channels();
-			sf_count_t framesRead = infile[file]->read(fileBuffer, thisChannels*BUFFERLEN);
-			samplesRead = framesRead / thisChannels;
-			// demultiplex into process buffers
-			float *ptrFileBuffer = fileBuffer;
-			float(*inBuf)[Mach1TranscodeMAXCHANS][BUFFERLEN] = (float(*)[Mach1TranscodeMAXCHANS][BUFFERLEN])&(inBuffers[0][0]);
-			for (int j = 0; j < samplesRead; j++)
-				for (int k = 0; k < thisChannels; k++)
-					(*inBuf)[firstBuf + k][j] = *ptrFileBuffer++;
+
+			// first fill buffer with zeros
+			for (int j = 0; j < BUFFERLEN; j++)
+				for (int k = 0; k < thisChannels; k++) {
+					(*inBuf)[firstBuf + k][j] = 0;
+				}
+
+			if (totalSamples + BUFFERLEN >= startSampleForAudioObject[file]) {
+				sf_count_t framesToRead = thisChannels * BUFFERLEN;
+				sf_count_t offset = 0;
+
+				if (startSampleForAudioObject[file] + BUFFERLEN < totalSamples) {
+					offset = startSampleForAudioObject[file] - totalSamples;
+					framesToRead = BUFFERLEN + totalSamples - startSampleForAudioObject[file];
+				}
+
+				sf_count_t framesReaded = infile[file]->read(fileBuffer, framesToRead);
+				sf_count_t samplesRead = framesReaded / thisChannels;
+				// demultiplex into process buffers
+				float *ptrFileBuffer = fileBuffer;
+				for (int j = 0; j < samplesRead; j++)
+					for (int k = 0; k < thisChannels; k++) {
+							(*inBuf)[firstBuf + k][offset + j] = *ptrFileBuffer++;
+					}
+
+			}
 			firstBuf += thisChannels;
 		}
-		totalSamples += samplesRead;
+		totalSamples += BUFFERLEN;
 
 		/*
 		 `processConversion()` is called after `processConversionPath() has been called and set at least once!
 		 */
-		m1transcode.processConversion(inPtrs, outPtrs, (int)samplesRead);
+		m1transcode.processConversion(inPtrs, outPtrs, (int)BUFFERLEN);
 
-
-
-
-		m1transcode.processMasterGain(outPtrs, (int)samplesRead, masterGain);
+		m1transcode.processMasterGain(outPtrs, (int)BUFFERLEN, masterGain);
 
 		// multiplex to output channels with master gain
 		float *ptrFileBuffer = fileBuffer;
 		float(*outBuf)[Mach1TranscodeMAXCHANS][BUFFERLEN] = (float(*)[Mach1TranscodeMAXCHANS][BUFFERLEN])&(outBuffers[0][0]);
 		for (int file = 0; file < numOutFiles; file++)
-			for (int j = 0; j < samplesRead; j++)
+			for (int j = 0; j < BUFFERLEN; j++)
 				for (int k = 0; k < actualOutFileChannels; k++)
 					*ptrFileBuffer++ = (*outBuf)[(file*actualOutFileChannels) + k][j];
 
 		// write to outfile
 		for (int j = 0; j < numOutFiles; j++)
 		{
-			outfiles[j].write(fileBuffer + (j*actualOutFileChannels*samplesRead), actualOutFileChannels*samplesRead);
+			outfiles[j].write(fileBuffer + (j*actualOutFileChannels*BUFFERLEN), actualOutFileChannels*BUFFERLEN);
 		}
 
 	}

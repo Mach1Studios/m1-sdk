@@ -161,6 +161,8 @@ int main(int argc, char* argv[])
 	{
 		spatialDownmixerMode = true;
 		corrThreshold = atof(pStr);
+
+		m1transcode.setSpatialDownmixer(corrThreshold);
 	}
 	if (spatialDownmixerMode && (corrThreshold < 0.0 || corrThreshold > 1.0))
 	{
@@ -361,10 +363,10 @@ int main(int argc, char* argv[])
 			// being higher than threshold
 			if (spatialDownmixerMode && outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatM1Spatial)
 			{
-                m1transcode.setSpatialDownmixer(corrThreshold);
-
 				if (m1transcode.getSpatialDownmixerPossibility())
 				{
+					vector<float> avgSamples = m1transcode.getAvgSamplesDiff();
+
 					// reinitialize inputs and outputs
 					outFmt = Mach1TranscodeFormatType::Mach1TranscodeFormatM1Horizon;
 					m1transcode.setOutputFormat(outFmt);
@@ -375,7 +377,8 @@ int main(int argc, char* argv[])
 					numOutFiles = channels / actualOutFileChannels;
 
 					printf("Spatial Downmix:    ");
-                    printf("%s", m1transcode.getFormatName(outFmt).c_str());
+                    printf("%s\r\n", m1transcode.getFormatName(outFmt).c_str());
+                    printf("Top/Bottom Soundfield Differences:\r\n%f %f %f %f\r\n", avgSamples[0], avgSamples[1], avgSamples[2], avgSamples[3], avgSamples[4], avgSamples[5], avgSamples[6], avgSamples[7] );
                     printf("\r\n");
 				}
 			}

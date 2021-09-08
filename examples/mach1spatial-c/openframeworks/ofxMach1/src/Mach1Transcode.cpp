@@ -63,7 +63,7 @@ void Mach1Transcode::processMasterGain(float** bufs, int numSamples, float maste
 }
 #endif
 
-float Mach1Transcode::processNormalization(std::vector<std::vector<float>>& bufs)
+float Mach1Transcode::processNormalization(std::vector< std::vector<float> >& bufs)
 {
 	if (bufs.size() == 0) return 0;
 
@@ -71,13 +71,13 @@ float Mach1Transcode::processNormalization(std::vector<std::vector<float>>& bufs
 	for (int i = 0; i < bufs.size(); i++) {
 		b[i] = bufs[i].data();
 	}
-	float peak = Mach1TranscodeCAPI_processNormalization(M1obj, b, bufs[0].size());
+	float peak = Mach1TranscodeCAPI_processNormalization(M1obj, b, (int)bufs[0].size());
 	delete[] b;
 
 	return peak;
 }
 
-void Mach1Transcode::processMasterGain(std::vector<std::vector<float>>& bufs, float masterGain)
+void Mach1Transcode::processMasterGain(std::vector< std::vector<float> >& bufs, float masterGain)
 {
 	if (bufs.size() == 0) return;
 
@@ -85,7 +85,7 @@ void Mach1Transcode::processMasterGain(std::vector<std::vector<float>>& bufs, fl
 	for (int i = 0; i < bufs.size(); i++) {
 		b[i] = bufs[i].data();
 	}
-	Mach1TranscodeCAPI_processMasterGain(M1obj, b, bufs[0].size(), masterGain);
+	Mach1TranscodeCAPI_processMasterGain(M1obj, b, (int)bufs[0].size(), masterGain);
 	delete[] b;
 }
 
@@ -101,7 +101,7 @@ float Mach1Transcode::level2db(float level)
 
 void Mach1Transcode::setLFESub(std::vector<int> subChannelIndices, int sampleRate)
 {
-	Mach1TranscodeCAPI_setLFESub(M1obj, subChannelIndices.data(), subChannelIndices.size(), sampleRate);
+	Mach1TranscodeCAPI_setLFESub(M1obj, subChannelIndices.data(), (int)subChannelIndices.size(), sampleRate);
     /// Applys a low pass filter (LPF) to each indicated channel index of the input format and soundfield
     ///
     /// - Parameters: 
@@ -130,6 +130,12 @@ bool Mach1Transcode::getSpatialDownmixerPossibility()
     ///     - when true; transcodings that are set to ouput to `Mach1Spatial` will process an additional conversion to `Mach1Horizon` 
 }
 
+std::vector<float> Mach1Transcode::getAvgSamplesDiff()
+{
+	float* avg = Mach1TranscodeCAPI_getAvgSamplesDiff(M1obj);
+	return std::vector<float>(avg, avg +4);
+}
+
 void Mach1Transcode::setInputFormat(Mach1TranscodeFormatType inFmt)
 {
 	Mach1TranscodeCAPI_setInputFormat(M1obj, inFmt);
@@ -139,25 +145,16 @@ void Mach1Transcode::setInputFormat(Mach1TranscodeFormatType inFmt)
     ///     View the current list of Mach1Transcode preset formats here: https://dev.mach1.tech/#formats-supported
 }
 
-void Mach1Transcode::setInputFormatADM(std::string inXml)
+
+void Mach1Transcode::setInputFormatCustomPointsJson(std::string inJson)
 {
-	Mach1TranscodeCAPI_setInputFormatADM(M1obj, (char*)inXml.c_str());
-    /// Sets the input format for transcoding from the parsed ADM metadata within the audiofile
+	Mach1TranscodeCAPI_setInputFormatCustomPointsJson(M1obj, (char*)inJson.c_str());
 }
 
-void Mach1Transcode::setInputFormatTTJson(std::string strJson)
+void Mach1Transcode::setInputFormatCustomPoints(std::vector<Mach1Point3D> points)
 {
-	Mach1TranscodeCAPI_setInputFormatTTJson(M1obj, (char*)strJson.c_str());
-    /// Sets the input format for transcoding from an external JSON source
-    ///
-    /// Remarks:
-    ///     View the JSON spec for describing a format here: https://dev.mach1.tech/#json-descriptions
-}
-
-void Mach1Transcode::setInputFormatTTPoints(std::vector<Mach1Point3D> points)
-{
-	Mach1TranscodeCAPI_setInputFormatTTPoints(M1obj, points.data(), points.size());
-    /// Sets the input format for transcoding from TT directly
+	Mach1TranscodeCAPI_setInputFormatCustomPoints(M1obj, points.data(), (int)points.size());
+    /// Sets the input format for transcoding from CustomPoints directly
     ///
     /// Remarks:
     ///     View the JSON spec for describing a format here: https://dev.mach1.tech/#json-descriptions
@@ -172,39 +169,45 @@ void Mach1Transcode::setOutputFormat(Mach1TranscodeFormatType outFmt)
     ///     View the current list of Mach1Transcode preset formats here: https://dev.mach1.tech/#formats-supported
 }
 
-void Mach1Transcode::setOutputFormatTTJson(std::string strJson)
+void Mach1Transcode::setOutputFormatCustomPointsJson(std::string strJson)
 {
-	Mach1TranscodeCAPI_setOutputFormatTTJson(M1obj, (char*)strJson.c_str());
+	Mach1TranscodeCAPI_setOutputFormatCustomPointsJson(M1obj, (char*)strJson.c_str());
     /// Sets the output format for transcoding from an external JSON source
     ///
     /// Remarks:
     ///     View the JSON spec for describing a format here: https://dev.mach1.tech/#json-descriptions
 }
 
-void Mach1Transcode::setOutputFormatTTPoints(std::vector<Mach1Point3D> points)
+void Mach1Transcode::setOutputFormatCustomPoints(std::vector<Mach1Point3D> points)
 {
-	Mach1TranscodeCAPI_setInputFormatTTPoints(M1obj, points.data(), points.size());
-    /// Sets the output format for transcoding from TT directly
+	Mach1TranscodeCAPI_setInputFormatCustomPoints(M1obj, points.data(), (int)points.size());
+    /// Sets the output format for transcoding from CustomPoints directly
     ///
     /// Remarks:
     ///     View the JSON spec for describing a format here: https://dev.mach1.tech/#json-descriptions
+}
+
+void Mach1Transcode::setCustomPointsSamplerCallback(Mach1Point3D *(*callback)(long long, int &))
+{
+	Mach1TranscodeCAPI_setCustomPointsSamplerCallback(M1obj, callback);
 }
 
 bool Mach1Transcode::processConversionPath()
 {
 	return Mach1TranscodeCAPI_processConversionPath(M1obj);
     /// Use this function to control when to call for calculating the format transcoding calculations
+    /// Returns true if successful, false when no conversion path is found (used for error handling)
     ///
     /// Remarks:
     ///     Needs to be called before `processConversion()` is called.
 }
 
-std::vector<std::vector<float>> Mach1Transcode::getMatrixConversion()
+std::vector< std::vector<float> > Mach1Transcode::getMatrixConversion()
 {
 	float* matrix = new float[getInputNumChannels() * getOutputNumChannels()];
 	Mach1TranscodeCAPI_getMatrixConversion(M1obj, matrix);
 
-	std::vector<std::vector<float>> vec;
+	std::vector< std::vector<float> > vec;
 	vec.resize(getOutputNumChannels());
 	for (size_t i = 0; i < vec.size(); i++)
 	{
@@ -227,7 +230,7 @@ void Mach1Transcode::processConversion(float** inBufs, float** outBufs, int numS
 }
 #endif
 
-void Mach1Transcode::processConversion(std::vector<std::vector<float>>& inBufs, std::vector<std::vector<float>>& outBufs)
+void Mach1Transcode::processConversion(std::vector< std::vector<float> >& inBufs, std::vector< std::vector<float> >& outBufs)
 {
 	if (inBufs.size() == 0 || outBufs.size() == 0) return;
 	
@@ -240,7 +243,7 @@ void Mach1Transcode::processConversion(std::vector<std::vector<float>>& inBufs, 
 		bOut[i] = outBufs[i].data();
 	}
 
-	Mach1TranscodeCAPI_processConversion(M1obj, bIn, bOut, inBufs[0].size());
+	Mach1TranscodeCAPI_processConversion(M1obj, bIn, bOut, (int)inBufs[0].size());
 
 	delete[] bIn;
 	delete[] bOut;

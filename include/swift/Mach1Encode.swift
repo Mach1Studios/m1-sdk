@@ -19,9 +19,15 @@ public class Mach1Encode {
         var array = Array(repeating: SCNVector3(x: 0, y: 0, z: 0), count: Int(Mach1EncodeCAPI_getPointsCount(M1obj)))
         let pointsPtr = unsafeBitCast( Mach1EncodeCAPI_getPoints(M1obj), to: UnsafeMutablePointer<Float>?.self)
         for i in 0..<array.count {
+#if os(macOS)
             array[i].x = CGFloat((pointsPtr! + 3 * i + 0).pointee)
             array[i].y = CGFloat((pointsPtr! + 3 * i + 1).pointee)
             array[i].z = CGFloat((pointsPtr! + 3 * i + 2).pointee)
+#elseif os(iOS)
+            array[i].x = (pointsPtr! + 3 * i + 0).pointee
+            array[i].y = (pointsPtr! + 3 * i + 1).pointee
+            array[i].z = (pointsPtr! + 3 * i + 2).pointee
+#endif
         }
         return array
         /// Retruns the control center reference point's normalized coordinate location (XYZ) 

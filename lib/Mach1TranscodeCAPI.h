@@ -86,6 +86,7 @@ enum Mach1TranscodeFormatType {
 	Mach1TranscodeFormatACNSN3DmaxRE5oa,
 	Mach1TranscodeFormatACNSN3DmaxRE6oa,
 	Mach1TranscodeFormatACNSN3DmaxRE7oa,
+	Mach1TranscodeFormatDolbyAtmosSevenOneTwo
 };
 
 struct Mach1TranscodeProcessSettings {

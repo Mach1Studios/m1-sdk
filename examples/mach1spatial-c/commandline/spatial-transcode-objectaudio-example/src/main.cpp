@@ -123,10 +123,12 @@ int main(int argc, char* argv[])
 
 	// locals for cmd line parameters
 	bool fileOut = false;
+	bool useAudioTimeline = false; // adm, atmos formats
 	float masterGain = 1.0f; // in level, not dB
 	char* infolder = NULL;
 	char* infilename = NULL;
 	char* inFmtStr = NULL;
+	Mach1TranscodeFormatType inFmt;
 	char* outfilename = NULL;
 	std::string md_outfilename = "";
 	char* outFmtStr = NULL;
@@ -164,18 +166,6 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 
-	// input folder
-	pStr = getCmdOption(argv, argv + argc, "-in-folder");
-	if (pStr && (strlen(pStr) > 0))
-	{
-		infolder = pStr;
-	}
-	else
-	{
-		cerr << "Please specify an input folder for audio files" << std::endl;
-		return -1;
-	}
-
 	// input file name 
 	pStr = getCmdOption(argv, argv + argc, "-in-file");
 	if (pStr && (strlen(pStr) > 0))
@@ -195,27 +185,48 @@ int main(int argc, char* argv[])
 		inFmtStr = pStr;
 
 		if (strcmp(inFmtStr, "ADM") == 0) {
+			m1transcode.setInputFormat(Mach1TranscodeFormatType::Mach1TranscodeFormatCustomPoints);
 			m1audioTimeline.parseADM(infilename);
+			useAudioTimeline = true;
 		}
-		else if(strcmp(inFmtStr, "Atmos") == 0) {
+		else if (strcmp(inFmtStr, "Atmos") == 0) {
 			char* pStr = getCmdOption(argv, argv + argc, "-in-file-meta");
 			if (pStr && (strlen(pStr) > 0)) {
+				m1transcode.setInputFormat(Mach1TranscodeFormatType::Mach1TranscodeFormatCustomPoints);
 				m1audioTimeline.parseAtmos(infilename, pStr);
+				useAudioTimeline = true;
 			}
 			else {
 				cerr << "Please specify an input meta file" << std::endl;
 				return -1;
 			}
 		}
-		else {
-			cout << "Please select a valid input format" << std::endl;
-			return -1;
+		else
+		{
+			bool foundInFmt = false;
+			inFmt = m1transcode.getFormatFromString(inFmtStr);
+			if (inFmt != Mach1TranscodeFormatType::Mach1TranscodeFormatEmpty) {
+				foundInFmt = true;
+			}
 		}
 	}
-	else
-	{
-		cerr << "Please specify an input format" << std::endl;
+	else {
+		cout << "Please select a valid input format" << std::endl;
 		return -1;
+	}
+
+	// input folder
+	if (useAudioTimeline) {
+		pStr = getCmdOption(argv, argv + argc, "-in-folder");
+		if (pStr && (strlen(pStr) > 0))
+		{
+			infolder = pStr;
+		}
+		else
+		{
+			cerr << "Please specify an input folder for audio files" << std::endl;
+			return -1;
+		}
 	}
 
 	// output file name and format
@@ -265,6 +276,66 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
+	pStr = getCmdOption(argv, argv + argc, "-out-file-chans");
+	if (pStr != NULL)
+		outFileChans = atoi(pStr);
+	else
+		outFileChans = 0;
+	if (!((outFileChans == 0) || (outFileChans == 1) || (outFileChans == 2)))
+	{
+		cout << "Please select 0, 1, or 2, zero meaning a single, multichannel output file" << std::endl;
+		return -1;
+	}
+	cout << std::endl;
+
+	//=================================================================
+	// initialize inputs, outputs and components
+	//
+
+	// -- input file ---------------------------------------
+	// determine number of input files
+	SndfileHandle *infile[Mach1TranscodeMAXCHANS];
+	vector<string> fNames;
+	
+	if (useAudioTimeline) {
+		for (int i = 0; i < audioObjects.size(); i++) {
+			std::string filename = std::string(infolder) + "/" + audioObjects[i].getName() + ".wav";
+			fNames.push_back(filename);
+		}
+	}
+	else {
+		fNames.push_back(infilename);
+	}
+
+	size_t numInFiles = fNames.size();
+	for (int i = 0; i < numInFiles; i++)
+	{
+		infile[i] = new SndfileHandle(fNames[i].c_str());
+		if (infile[i] && (infile[i]->error() == 0))
+		{
+			// print input file stats
+			cout << "Input File:         " << fNames[i] << std::endl;
+			printFileInfo(*infile[i]);
+			sampleRate = (long)infile[i]->samplerate();
+			//            int inChannels = 0;
+			//            for (int i = 0; i < numInFiles; i++)
+			//                inChannels += infile[i]->channels();
+			//            parseFile(*infile[i], inChannels);
+		}
+		else
+		{
+			cerr << "Error: opening in-file: " << fNames[i] << std::endl;
+			return -1;
+		}
+	}
+
+	cout << "Master Gain:        " << m1transcode.level2db(masterGain) << "dB" << std::endl;
+    cout << std::endl;
+
+	for (int i = 0; i < numInFiles; i++) {
+		infile[i]->seek(0, 0); // rewind input
+	}
+	
 	// Dolby output
 	if (outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatDolbyAtmosSevenOneTwo) {
 		// bedInstances, objects
@@ -310,7 +381,7 @@ int main(int argc, char* argv[])
 		// metadata
 		{
 			Yaml::Node nodeRoot;
-			nodeRoot["sampleRate"] = "48000";
+			nodeRoot["sampleRate"] = to_string(sampleRate);
 
 			Yaml::Node nodeEvents;
 			nodeEvents["ID"] = "3";
@@ -328,77 +399,22 @@ int main(int argc, char* argv[])
 
 			Yaml::Serialize(nodeRoot, (string(outfilename) + ".atmos.metadata").c_str());
 		}
-
-	}
-
-
-	pStr = getCmdOption(argv, argv + argc, "-out-file-chans");
-	if (pStr != NULL)
-		outFileChans = atoi(pStr);
-	else
-		outFileChans = 0;
-	if (!((outFileChans == 0) || (outFileChans == 1) || (outFileChans == 2)))
-	{
-		cout << "Please select 0, 1, or 2, zero meaning a single, multichannel output file" << std::endl;
-		return -1;
-	}
-	cout << std::endl;
-
-	//=================================================================
-	// initialize inputs, outputs and components
-	//
-
-	// -- input file ---------------------------------------
-	// determine number of input files
-	SndfileHandle *infile[Mach1TranscodeMAXCHANS];
-	vector<string> fNames;
-	
-	for (int i = 0; i < audioObjects.size(); i++) {
-		std::string filename = std::string (infolder)  + "/" + audioObjects[i].getName() + ".wav";
-		fNames.push_back(filename);
-	}
-
-	size_t numInFiles = fNames.size();
-	for (int i = 0; i < numInFiles; i++)
-	{
-		infile[i] = new SndfileHandle(fNames[i].c_str());
-		if (infile[i] && (infile[i]->error() == 0))
-		{
-			// print input file stats
-			cout << "Input File:         " << fNames[i] << std::endl;
-			printFileInfo(*infile[i]);
-			sampleRate = (long)infile[i]->samplerate();
-			//            int inChannels = 0;
-			//            for (int i = 0; i < numInFiles; i++)
-			//                inChannels += infile[i]->channels();
-			//            parseFile(*infile[i], inChannels);
-		}
-		else
-		{
-			cerr << "Error: opening in-file: " << fNames[i] << std::endl;
-			return -1;
-		}
-	}
-
-	cout << "Master Gain:        " << m1transcode.level2db(masterGain) << "dB" << std::endl;
-    cout << std::endl;
-
-	for (int i = 0; i < numInFiles; i++) {
-		infile[i]->seek(0, 0); // rewind input
 	}
 
 	// -- setup 
-	m1transcode.setInputFormat(Mach1TranscodeFormatType::Mach1TranscodeFormatCustomPoints);
+	m1transcode.setInputFormat(inFmt);
 	m1transcode.setOutputFormat(outFmt);
 
 	// first init of TT points	
-	audioObjects = m1audioTimeline.getAudioObjects();
-	std::vector<Mach1Point3D> points;
-	for (int i = 0; i < audioObjects.size(); i++) {
-		Mach1KeyPoint keypoint = audioObjects[i].getKeyPoints()[0];
-		points.push_back(keypoint.point);
+	if (useAudioTimeline) {
+		audioObjects = m1audioTimeline.getAudioObjects();
+		std::vector<Mach1Point3D> points;
+		for (int i = 0; i < audioObjects.size(); i++) {
+			Mach1KeyPoint keypoint = audioObjects[i].getKeyPoints()[0];
+			points.push_back(keypoint.point);
+		}
+		m1transcode.setInputFormatCustomPoints(points);
 	}
-	m1transcode.setInputFormatCustomPoints(points);
 
 	// -- output file(s) --------------------------------------
 
@@ -512,13 +528,18 @@ int main(int argc, char* argv[])
 					(*inBuf)[firstBuf + k][j] = 0;
 				}
 
-			if (totalSamples + BUFFERLEN >= startSampleForAudioObject[file]) {
+			int startSample = 0;
+			if (useAudioTimeline) {
+				startSample = startSampleForAudioObject[file];
+			}
+			if (totalSamples + BUFFERLEN >= startSample) {
 				sf_count_t framesToRead = thisChannels * BUFFERLEN;
-				sf_count_t offset = 0;
 
-				if (startSampleForAudioObject[file] + BUFFERLEN < totalSamples) {
-					offset = startSampleForAudioObject[file] - totalSamples;
-					framesToRead = BUFFERLEN + totalSamples - startSampleForAudioObject[file];
+				// cut samples if the beginning of the offset does not match with the beginning of the buffer
+				sf_count_t offset = 0;
+				if (startSample + BUFFERLEN < totalSamples && totalSamples < startSample) {
+					offset = startSample - totalSamples;
+					framesToRead = BUFFERLEN + totalSamples - startSample;
 				}
 
 				sf_count_t framesReaded = infile[file]->read(fileBuffer, framesToRead);

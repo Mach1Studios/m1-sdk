@@ -29,6 +29,7 @@
 
 #include "sndfile.hh"
 #include "CmdOption.h"
+#include "yaml/yaml.hpp"
 
 std::vector<Mach1AudioObject> audioObjects;
 std::vector<Mach1Point3D> keypoints;
@@ -112,6 +113,9 @@ void printFileInfo(SndfileHandle file)
 
 int main(int argc, char* argv[])
 {
+
+	
+
 	Mach1AudioTimeline m1audioTimeline;
 
 	Mach1Transcode m1transcode;
@@ -260,6 +264,73 @@ int main(int argc, char* argv[])
 		cout << "Please select a valid output format" << std::endl;
 		return -1;
 	}
+
+	// Dolby output
+	if (outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatDolbyAtmosSevenOneTwo) {
+		// bedInstances, objects
+		{
+			Yaml::Node nodeRoot;
+			nodeRoot["version"] = "0.5.1";
+
+			Yaml::Node nodePresentations;
+
+			nodePresentations["type"] = "home";
+			nodePresentations["simplified"] = "false";
+			nodePresentations["metadata"] = string(outfilename) + ".atmos.metadata";
+			nodePresentations["audio"] = string(outfilename) + ".atmos.audio";
+			nodePresentations["offset"] = "0";
+			nodePresentations["fps"] = "30";
+			nodePresentations["scNumberOfElements"] = "14"; // ?
+			nodePresentations["scBedConfiguration"].PushBack();
+			nodePresentations["scBedConfiguration"][0] = "3"; // ?
+			nodePresentations["creationTool"] = "Mach1Transcoder";
+			nodePresentations["creationToolVersion"] = "1.0.0";
+			nodePresentations["downmixType_5to2"] = "LoRo_Stereo";
+			nodePresentations["51-to-20_LsRs90degPhaseShift"] = "false";
+			nodePresentations["warpMode"] = "LoRo";
+
+			Yaml::Node nodeBedInstancesChannels;
+			vector<string> namesChannels = { "L","R","C","LFE","Lss","Rss","Lrs","Rrs","Lts","Rts" };
+			for (int i = 0; i < 10; i++)
+			{
+				nodeBedInstancesChannels.PushBack();
+				nodeBedInstancesChannels[i]["channel"] = namesChannels[i];
+				nodeBedInstancesChannels[i]["ID"] = to_string(i);
+			}
+			nodePresentations["bedInstances"].PushBack();
+			nodePresentations["bedInstances"][0]["channels"] = nodeBedInstancesChannels;
+			nodePresentations["objects"].PushBack();
+
+			nodeRoot["presentations"].PushBack();
+			nodeRoot["presentations"][0] = nodePresentations;
+
+			Yaml::Serialize(nodeRoot, (string(outfilename) + ".atmos").c_str());
+		}
+
+		// metadata
+		{
+			Yaml::Node nodeRoot;
+			nodeRoot["sampleRate"] = "48000";
+
+			Yaml::Node nodeEvents;
+			nodeEvents["ID"] = "3";
+			nodeEvents["samplePos"] = "0";
+			nodeEvents["active"] = "true";
+			nodeEvents["importance"] = "1";
+			nodeEvents["gain"] = "0";
+			nodeEvents["rampLength"] = "0";
+			nodeEvents["trimBypass"] = "false";
+			nodeEvents["headTrackMode"] = "undefined";
+			nodeEvents["binauralRenderMode"] = "off";
+
+			nodeRoot["events"].PushBack();
+			nodeRoot["events"][0] = nodeEvents;
+
+			Yaml::Serialize(nodeRoot, (string(outfilename) + ".atmos.metadata").c_str());
+		}
+
+	}
+
 
 	pStr = getCmdOption(argv, argv + argc, "-out-file-chans");
 	if (pStr != NULL)
@@ -486,6 +557,9 @@ int main(int argc, char* argv[])
 		}
 
 	}
+
+
+	
 
 	// print time played
 	cout << "Length (sec):     " << (float)totalSamples / (float)sampleRate << std::endl;

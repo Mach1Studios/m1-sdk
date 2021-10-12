@@ -3,6 +3,9 @@
 
 #pragma once
 
+#ifndef Mach1Point3DCore_h
+#define Mach1Point3DCore_h
+
 #include <vector>
 #include <cmath>
 #include <chrono>
@@ -34,7 +37,6 @@ public:
 	float length() const;
 	float operator[] (int index);
 
-
 	Mach1Point3DCore& rotate(float angle, const Mach1Point3DCore& axis);
 	Mach1Point3DCore& normalize();
 	Mach1Point3DCore getNormalized() const;
@@ -43,3 +45,8 @@ public:
 	static float dot(const Mach1Point3DCore & vec1, const Mach1Point3DCore & vec2);
 	static float distance(const Mach1Point3DCore & vec1, const Mach1Point3DCore & vec2);
 };
+
+bool operator==(const Mach1Point3DCore& p1, const Mach1Point3DCore& p2);
+bool operator!=(const Mach1Point3DCore& p1, const Mach1Point3DCore& p2);
+
+#endif

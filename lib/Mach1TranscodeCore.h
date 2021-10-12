@@ -16,6 +16,7 @@
 #include "M1DSP/M1DSPFilters.h"
 #include "M1DSP/M1DSPUtilities.h"
 #include "Mach1Point3DCore.h"
+#include "Mach1Point3D.h"
 
 class SpatialSoundMatrix {
 	std::vector<std::vector<float>> data;
@@ -431,14 +432,14 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.0000f,  0.0000f,  0.0000f,  0.0000f,  0.0000f,  0.0000f,  0.0000f,  0.0000f },
 		{ -0.1976f,  0.1976f,  0.1976f, -0.1976f, -0.1976f,  0.1976f,  0.1976f, -0.1976f } });
 	const SpatialSoundMatrix ACNSN3D2M1Spatial(std::vector<std::vector<float>> // TODO: Check into this
-	{ 	{ 0.125000,  0.216602,  0.216316,  0.216602 },    // Top Front Left
- 		{ 0.125000, -0.216602,  0.216316,  0.216602 },    // Top Front Right
- 		{ 0.125000,  0.216602,  0.216316, -0.216602 },    // Top Back Left
- 		{ 0.125000, -0.216602,  0.216316, -0.216602 },    // Top Back Right
- 		{ 0.125000,  0.216602, -0.216316,  0.216602 },    // Bottom Front Left
-		{ 0.125000, -0.216602, -0.216316,  0.216602 },    // Bottom Front Right
- 		{ 0.125000,  0.216602, -0.216316, -0.216602 },    // Bottom Back Left
- 		{ 0.125000, -0.216602, -0.216316, -0.216602 } }); // Bottom Back Right
+	{ 	{ 0.125000f,  0.216602f,  0.216316f,  0.216602f },    // Top Front Left
+ 		{ 0.125000f, -0.216602f,  0.216316f,  0.216602f },    // Top Front Right
+ 		{ 0.125000f,  0.216602f,  0.216316f, -0.216602f },    // Top Back Left
+ 		{ 0.125000f, -0.216602f,  0.216316f, -0.216602f },    // Top Back Right
+ 		{ 0.125000f,  0.216602f, -0.216316f,  0.216602f },    // Bottom Front Left
+		{ 0.125000f, -0.216602f, -0.216316f,  0.216602f },    // Bottom Front Right
+ 		{ 0.125000f,  0.216602f, -0.216316f, -0.216602f },    // Bottom Back Left
+ 		{ 0.125000f, -0.216602f, -0.216316f, -0.216602f } }); // Bottom Back Right
 	const SpatialSoundMatrix ACNSN3DO2A2M1Spatial(std::vector<std::vector<float>>
 	{   { 0.3727f,  0.2795f,  0.3953f,  0.2795f,  0.0807f,  0.1141f,  0.0466f,  0.1141f,  0.0000f},
 		{ 0.3727f,  0.2795f,  0.3953f, -0.2795f, -0.0807f,  0.1141f,  0.0466f, -0.1141f, -0.0000f },
@@ -476,23 +477,23 @@ namespace Mach1TranscodeConstantsInternal {
 	//        { 1.465809f, -1.693316f, -1.693316f, -1.691083f, 0, 6.561077f, 6.552435f, 6.552435f },
 	//        { 1.465809f, 1.693316f, -1.693316f, -1.691083f, 0, -6.561077f, -6.552435f, 6.552435f } });
 	const SpatialSoundMatrix ACNSN3DYorkBasic1oa2M1Spatial(std::vector<std::vector<float>>
-	{ 	{ 0.125000,  0.216602,  0.216316,  0.216602 },    // Top Front Left
- 		{ 0.125000, -0.216602,  0.216316,  0.216602 },    // Top Front Right
- 		{ 0.125000,  0.216602,  0.216316, -0.216602 },    // Top Back Left
- 		{ 0.125000, -0.216602,  0.216316, -0.216602 },    // Top Back Right
- 		{ 0.125000,  0.216602, -0.216316,  0.216602 },    // Bottom Front Left
-		{ 0.125000, -0.216602, -0.216316,  0.216602 },    // Bottom Front Right
- 		{ 0.125000,  0.216602, -0.216316, -0.216602 },    // Bottom Back Left
- 		{ 0.125000, -0.216602, -0.216316, -0.216602 } }); // Bottom Back Right
+	{ 	{ 0.125000f,  0.216602f,  0.216316f,  0.216602f },    // Top Front Left
+ 		{ 0.125000f, -0.216602f,  0.216316f,  0.216602f },    // Top Front Right
+ 		{ 0.125000f,  0.216602f,  0.216316f, -0.216602f },    // Top Back Left
+ 		{ 0.125000f, -0.216602f,  0.216316f, -0.216602f },    // Top Back Right
+ 		{ 0.125000f,  0.216602f, -0.216316f,  0.216602f },    // Bottom Front Left
+		{ 0.125000f, -0.216602f, -0.216316f,  0.216602f },    // Bottom Front Right
+ 		{ 0.125000f,  0.216602f, -0.216316f, -0.216602f },    // Bottom Back Left
+ 		{ 0.125000f, -0.216602f, -0.216316f, -0.216602f } }); // Bottom Back Right
 	const SpatialSoundMatrix ACNSN3DYorkmaxRE1oa2M1Spatial(std::vector<std::vector<float>>
-	{ 	{ 0.183013,  0.183093,  0.182852,  0.183093 },    // Top Front Left
- 		{ 0.183013, -0.183093,  0.182852,  0.183093 },    // Top Front Right
- 		{ 0.183013,  0.183093,  0.182852, -0.183093 },    // Top Back Left
- 		{ 0.183013, -0.183093,  0.182852, -0.183093 },    // Top Back Right
- 		{ 0.183013,  0.183093, -0.182852,  0.183093 },    // Bottom Front Left
- 		{ 0.183013, -0.183093, -0.182852,  0.183093 },    // Bottom Front Right
- 		{ 0.183013,  0.183093, -0.182852, -0.183093 },    // Bottom Back Left
- 		{ 0.183013, -0.183093, -0.182852, -0.183093 } }); // Bottom Back Right
+	{ 	{ 0.183013f, 0.183093f,  0.182852f,  0.183093f },    // Top Front Left
+ 		{ 0.183013f, -0.183093f,  0.182852f,  0.183093f },    // Top Front Right
+ 		{ 0.183013f, 0.183093f,  0.182852f, -0.183093f },    // Top Back Left
+ 		{ 0.183013f, -0.183093f,  0.182852f, -0.183093f },    // Top Back Right
+ 		{ 0.183013f, 0.183093f, -0.182852f,  0.183093f },    // Bottom Front Left
+ 		{ 0.183013f, -0.183093f, -0.182852f,  0.183093f },    // Bottom Front Right
+ 		{ 0.183013f, 0.183093f, -0.182852f, -0.183093f },    // Bottom Back Left
+ 		{ 0.183013f, -0.183093f, -0.182852f, -0.183093f } }); // Bottom Back Right
 	const SpatialSoundMatrix ACNSN3DmaxRE1oa2M1Spatial(std::vector<std::vector<float>>
 	{ 	{ 0.1195696368813515f, 0.1008485481142998f, 0.1008353978395462f, 0.1008441597223282f },
 		{ 0.2335921078920364f, -0.09768784791231155f, 0.1874370872974396f, 0.1874081641435623f },
@@ -985,7 +986,8 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.09043721109628677f, 0.1273235678672791f, -0.04334623739123344f, -0.00001031442388921278f, -0.00001540699486213271f, -0.06379064172506332f, -0.03371414914727211f, 1.444323629584687e-6f, -0.1042966768145561f, -0.07070480287075043f, 1.475611810519695e-7f, -0.01325382199138403f, 0.01895674504339695f, 2.846204779416439e-6f, 0.05346521362662315f, 0.00001256798350368626f, 3.147746838294552e-6f, 0.03864208608865738f, 4.0201753108704e-6f, 0.001561218057759106f, 0.003648018231615424f, 2.545306642787182e-6f, -0.004487264901399612f, 1.425987420589081e-6f, 0.03586954995989799f, 0.007251861970871687f, 3.14937210532662e-6f, -0.0111993569880724f, -1.650402481345736e-8f, 0.006967480294406414f, 0.006178883835673332f, -4.380300651973812e-6f, 0.0106104789301753f, -8.87245789726876e-7f, -0.02390478737652302f, 7.341184300457826e-6f, 0.00001277120736631332f, -0.01183751039206982f, 3.014502681253362e-6f, 0.01293729804456234f, 2.715327127589262e-7f, 0.005736253224313259f, -0.004338835831731558f, 6.307524927251507e-6f, -0.008830505423247814f, 2.047720272457809e-6f, 0.01054011099040508f, -4.497870122577297e-6f, 0.01080898102372885f },
 		{ 0.09124121814966202f, 2.226090600743191e-6f, 0.137644499540329f, -3.287718755018432e-6f, -2.010353455261793e-6f, 3.501518449411378e-6f, 0.1327184438705444f, -5.24911501997849e-6f, 2.489491635060403e-6f, -8.12246526038507e-7f, -3.374745347173302e-6f, 3.468594059086172e-6f, 0.09633371978998184f, -5.234381205809768e-6f, 3.59352679879521e-6f, -1.95220445675659e-6f, 5.692476861440809e-6f, -1.466835101382458e-6f, -3.267313786636805e-6f, 2.823276645358419e-6f, 0.04853520542383194f, -3.935099357477156e-6f, 2.105716475853114e-6f, -3.45504236065608e-6f, -3.482129386611632e-6f, 3.502331992422114e-6f, 0.00001137581602961291f, -1.592697913110896e-6f, -1.636767251511628e-6f, 2.835216719176969e-6f, 0.007769985590130091f, -2.938990064649261e-6f, -1.62733692832262e-6f, -3.367754970895476e-6f, -6.566288448084379e-6f, -8.017656227821135e-7f, -6.408528179235873e-7f, 7.54375105316285e-6f, 0.00001367886579828337f, -1.111030883294006e-6f, 2.951045132704166e-7f, 4.117001935810549e-6f, -0.01505700871348381f, -3.174460516675026e-6f, -5.250303274806356e-6f, -1.107552975554427e-6f, -7.053825356706511e-6f, -1.83707425094326e-6f, 1.435061562915507e-7f },
 		{ 0.09123684465885162f, 0.00001039616836351342f, -0.1376400738954544f, 1.236486127709213e-6f, -6.386455311258032e-7f, -0.00001391430396324722f, 0.1327178329229355f, -2.458160452079028e-6f, -5.781013442174299e-6f, 4.394060226786678e-8f, 1.368477342111873e-6f, 7.641499905730598e-6f, -0.09633685648441315f, 3.390878191567026e-6f, 9.118114576267544e-6f, 3.009878810189548e-6f, -2.307870772710885e-6f, -1.738735448952866e-7f, -2.062091198240523e-6f, 4.376885954116005e-6f, 0.0485384464263916f, -3.731876404344803e-6f, -7.36032097847783e-6f, -5.305032573232893e-6f, -3.014005869772518e-6f, 1.996067112486344e-6f, 4.839205757889431e-6f, 4.568975953134213e-7f, 2.595615796963102e-6f, -0.00001294901721848873f, -0.007769231218844652f, 3.413793365325546e-6f, 5.940755727351643e-7f, 5.25217274116585e-6f, 6.080013463360956e-6f, -4.311684449476161e-7f, -2.980820681841578e-6f, -4.191451353108278e-6f, -6.322135050140787e-6f, -8.883487225830322e-7f, -2.952971726699616e-6f, 0.00001099533801607322f, -0.01506291422992945f, -2.653476713021519e-6f, 7.045754955470329e-6f, -2.199993105023168e-6f, -7.542188541265205e-6f, 9.36619073854672e-7f, 3.477809400465048e-7f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE7oa2M1SpatialExtendedPlus(std::vector<std::vector<float>>
+	const SpatialSoundMatrix 
+		ACNSN3DmaxRE7oa2M1SpatialExtendedPlus(std::vector<std::vector<float>>
 	{ 	{ 0.08903221040964127f, 0.08863614499568939f, 0.04266951233148575f, 0.08863115310668945f, 0.1026791259646416f, 0.04440837725996971f, -0.03319330886006355f, 0.04439767450094223f, -1.853188905442948e-6f, 0.04922056198120117f, 0.05263573676347733f, -0.009220312349498272f, -0.0186588242650032f, -0.009239025413990021f, -7.353599357884377e-6f, -0.04922004044055939f, 4.769682959704369e-7f, 0.0269018616527319f, 0.004421197809278965f, -0.001081611844711006f, 0.003599911229684949f, -0.00109114998485893f, -0.000018387618183624f, -0.02690557204186916f, -0.03531134501099586f, -0.005047118756920099f, 3.037319174836739e-6f, 0.007797057274729013f, 0.01044654101133347f, 0.004854790400713682f, -0.00607884768396616f, 0.004857145715504885f, -8.407090717810206e-6f, -0.007815217599272728f, -0.02354055270552635f, -0.00504503957927227f, 0.01064424868673086f, -0.008239070884883404f, 6.370383687226422e-8f, 0.009005878120660782f, 0.008695499040186405f, -0.003987150732427835f, -0.00427637854591012f, -0.003991975449025631f, 2.183237484132405e-6f, -0.009011742658913136f, -0.01039490662515163f, -0.008248184807598591f, 3.555310513547738e-6f, 0.01229647919535637f, -0.003468655282631516f, -0.004234101623296738f, 4.393032668303931e-6f, 0.006259618327021599f, -0.0001767510257195681f, -0.0007891423883847892f, 0.001319683738984168f, -0.0008007053402252495f, -3.663305051304633e-6f, -0.006258710753172636f, -0.009512970224022865f, -0.004251427017152309f, -6.451332865253789e-6f, -0.01229135319590569f },
 		{ 0.07076192647218704f, -0.0608203262090683f, 0.04319673404097557f, 0.0774214044213295f, -0.08121016621589661f, -0.04522629454731941f, -0.01731441356241703f, 0.04521356150507927f, 0.02228595875203609f, -0.06146911531686783f, -0.05422653257846832f, -0.007577079813927412f, -0.01959351822733879f, -0.002362148370593786f, -0.0001142767941928469f, -0.02181621827185154f, -0.02775364555418491f, -0.02803238295018673f, -0.01445519924163818f, 0.002098510973155499f, -0.004527787212282419f, -0.002100589219480753f, -0.01006581820547581f, -0.02863903529942036f, -0.03632953390479088f, -0.003311865497380495f, 0.000996910035610199f, -0.00388689897954464f, -0.008885878138244152f, 0.001225390238687396f, -0.005244900472462177f, 0.0022123740054667f, 0.00009708334255265072f, -0.0176580622792244f, -0.02586851827800274f, -0.02819781936705112f, 0.004945236258208752f, 0.0111442431807518f, 0.007471349090337753f, -0.008096831850707531f, -0.006262065377086401f, 0.003278855932876468f, -0.002875806298106909f, -0.003274796763435006f, 0.001980345230549574f, -0.007611964829266071f, -0.01076493132859468f, -0.008665008470416069f, -0.01390644442290068f, 0.002842728979885578f, 0.005464241839945316f, 0.006676371674984694f, -0.0006887978524900973f, -0.006063687149435282f, -0.0006920692976564169f, 0.001462658052332699f, 0.0008779111667536199f, -0.0008733359281904995f, -0.00005704222712665796f, -0.005333353765308857f, -0.007957880385220051f, 0.00009532283729640767f, 0.002537725027650595f, -0.004748532548546791f },
 		{ 0.0890486091375351f, 0.08864352107048035f, 0.04267733171582222f, -0.0886477455496788f, -0.1026896387338638f, 0.04440596327185631f, -0.03318864107131958f, -0.0444028303027153f, 5.524895641428884e-6f, 0.0492280013859272f, -0.05263271927833557f, -0.009222958236932755f, -0.01864772103726864f, 0.009231027215719223f, -3.415752416913165e-6f, 0.04922081902623177f, -1.194979859064915e-6f, 0.02689896523952484f, -0.004417522810399532f, -0.00108097423799336f, 0.00360183441080153f, 0.001077788299880922f, -9.267574569093995e-6f, 0.02690199576318264f, -0.03531580790877342f, -0.005053224042057991f, -1.128850954046356e-6f, 0.007791070267558098f, -0.01044859830290079f, 0.004851064644753933f, -0.006078100297600031f, -0.00485625397413969f, 3.707129735630588e-6f, 0.007803195621818304f, -0.02353695407509804f, 0.005047590937465429f, -0.01063503045588732f, -0.008238485082983971f, 4.894429821433732e-6f, 0.009007399901747704f, -0.00869144219905138f, -0.003990053199231625f, -0.004263909533619881f, 0.003995471633970737f, 4.28979274147423e-6f, 0.009002250619232655f, -0.01037783734500408f, 0.008245277218520641f, 7.602884579682723e-6f, 0.01229065656661987f, 0.003465404035523534f, -0.00423348555341363f, -1.010973960546835e-6f, 0.006257439963519573f, 0.0001824181235861033f, -0.0007885137456469238f, 0.001334239379502833f, 0.0007928695413284004f, -5.684660209226422e-6f, 0.006252192426472902f, -0.009503814391791821f, 0.004233329556882381f, -6.566405318153556e-6f, 0.01228003576397896f },
@@ -1907,10 +1909,41 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0, 0, oor4, 0, 0 }, //bottom 45
 		{ 0, 0, 0, 0, 0, 0, 0, oor4 }, //bottom 135
 		{ 0, 0, 0, 0, 0, 0, oor4, 0 } }); //bottom -135
+
+	const SpatialSoundMatrix M1Spatial2DolbyAtmosSevenOneTwo(std::vector<std::vector<float>> //BLANK
+		//1  2  3  4  5  6  7  8
+	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//L
+		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },//R
+		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },//C
+		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },//LFE
+		{ r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0 },//Lss
+		{ 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4 },//Rss
+		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },//Lsr
+		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },//Rsr
+		{ 0.375016481f, 0.124983519f, 0.375016481f, 0.124983519f, 0, 0, 0, 0 },//Lts
+		{ 0.124983519f, 0.375016481f, 0.124983519f, 0.375016481f, 0, 0, 0, 0 } });//Rts
+
+	const SpatialSoundMatrix M1SpatialS2DolbyAtmosSevenOneTwo(std::vector<std::vector<float>>
+		//1  2  3  4  5  6  7  8  9  10
+	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },//L
+		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },//R
+		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, 0, 0 },//C
+		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 },//LFE
+		{ r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0, 0, 0 },//Lss
+		{ 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0, 0 },//Rss
+		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//Lsr
+		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },//Rsr
+		{ 0.375016481f, 0.124983519f, 0.375016481f, 0.124983519f, 0, 0, 0, 0, 0, 0 },//Lts
+		{ 0.124983519f, 0.375016481f, 0.124983519f, 0.375016481f, 0, 0, 0, 0, 0, 0 } });//Rts
+};
+
+struct ProcessSettings {
+	bool processObjectBed = true;
+	bool processChannelBed = true;
+	bool enableBinauralRendering = true;
 };
 
 namespace Mach1TranscodeFormats {
-
 	enum FormatType {
 		Empty = (int) 0,
 		FuMa,
@@ -1959,15 +1992,15 @@ namespace Mach1TranscodeFormats {
 		NineOneFour,
 		NineOneSix,
 		MarcoSixteen,
-		TTPoints,
-        ACNSN3DmaxRE1oa,
-        ACNSN3DmaxRE2oa,
-        ACNSN3DmaxRE3oa,
-        ACNSN3DmaxRE4oa,
-        ACNSN3DmaxRE5oa,
-        ACNSN3DmaxRE6oa,
-        ACNSN3DmaxRE7oa,
-        SevenOneTwoDolbyAtmosDefault,
+		CustomPoints,
+    ACNSN3DmaxRE1oa,
+    ACNSN3DmaxRE2oa,
+    ACNSN3DmaxRE3oa,
+    ACNSN3DmaxRE4oa,
+    ACNSN3DmaxRE5oa,
+    ACNSN3DmaxRE6oa,
+		ACNSN3DmaxRE7oa,
+		DolbyAtmosSevenOneTwo
 	};
 };
 
@@ -2022,15 +2055,15 @@ namespace Mach1TranscodeConstants {
 		{ Mach1TranscodeFormats::NineOneFour, "NineOneFour" },
 		{ Mach1TranscodeFormats::NineOneSix, "NineOneSix" },
 		{ Mach1TranscodeFormats::MarcoSixteen, "MarcoSixteen" },
-		{ Mach1TranscodeFormats::TTPoints, "TTPoints" },
-        { Mach1TranscodeFormats::ACNSN3DmaxRE1oa, "ACNSN3DmaxRE1oa" },
-        { Mach1TranscodeFormats::ACNSN3DmaxRE2oa, "ACNSN3DmaxRE2oa" },
-        { Mach1TranscodeFormats::ACNSN3DmaxRE3oa, "ACNSN3DmaxRE3oa" },
-        { Mach1TranscodeFormats::ACNSN3DmaxRE4oa, "ACNSN3DmaxRE4oa" },
-        { Mach1TranscodeFormats::ACNSN3DmaxRE5oa, "ACNSN3DmaxRE5oa" },
-        { Mach1TranscodeFormats::ACNSN3DmaxRE6oa, "ACNSN3DmaxRE6oa" },
-        { Mach1TranscodeFormats::ACNSN3DmaxRE7oa, "ACNSN3DmaxRE7oa" },
-        { Mach1TranscodeFormats::SevenOneTwoDolbyAtmosDefault, "SevenOneTwoDolbyAtmosDefault" },
+		{ Mach1TranscodeFormats::CustomPoints, "CustomPoints" },
+    { Mach1TranscodeFormats::ACNSN3DmaxRE1oa, "ACNSN3DmaxRE1oa" },
+    { Mach1TranscodeFormats::ACNSN3DmaxRE2oa, "ACNSN3DmaxRE2oa" },
+    { Mach1TranscodeFormats::ACNSN3DmaxRE3oa, "ACNSN3DmaxRE3oa" },
+    { Mach1TranscodeFormats::ACNSN3DmaxRE4oa, "ACNSN3DmaxRE4oa" },
+    { Mach1TranscodeFormats::ACNSN3DmaxRE5oa, "ACNSN3DmaxRE5oa" },
+    { Mach1TranscodeFormats::ACNSN3DmaxRE6oa, "ACNSN3DmaxRE6oa" },
+		{ Mach1TranscodeFormats::ACNSN3DmaxRE7oa, "ACNSN3DmaxRE7oa" },
+		{ Mach1TranscodeFormats::DolbyAtmosSevenOneTwo, "DolbyAtmosSevenOneTwo" },
 	};
 
 	const std::map<Mach1TranscodeFormats::FormatType, int> FormatChannels = {
@@ -2081,14 +2114,14 @@ namespace Mach1TranscodeConstants {
 		{ Mach1TranscodeFormats::NineOneFour, 14 },
 		{ Mach1TranscodeFormats::NineOneSix, 16 },
 		{ Mach1TranscodeFormats::MarcoSixteen, 16 },
-        { Mach1TranscodeFormats::ACNSN3DmaxRE1oa, 4 },
-        { Mach1TranscodeFormats::ACNSN3DmaxRE2oa, 9 },
-        { Mach1TranscodeFormats::ACNSN3DmaxRE3oa, 16 },
-        { Mach1TranscodeFormats::ACNSN3DmaxRE4oa, 25 },
-        { Mach1TranscodeFormats::ACNSN3DmaxRE5oa, 36 },
-        { Mach1TranscodeFormats::ACNSN3DmaxRE6oa, 49 },
-        { Mach1TranscodeFormats::ACNSN3DmaxRE7oa, 64 },
-        { Mach1TranscodeFormats::SevenOneTwoDolbyAtmosDefault, 10 },
+    { Mach1TranscodeFormats::ACNSN3DmaxRE1oa, 4 },
+    { Mach1TranscodeFormats::ACNSN3DmaxRE2oa, 9 },
+    { Mach1TranscodeFormats::ACNSN3DmaxRE3oa, 16 },
+    { Mach1TranscodeFormats::ACNSN3DmaxRE4oa, 25 },
+    { Mach1TranscodeFormats::ACNSN3DmaxRE5oa, 36 },
+    { Mach1TranscodeFormats::ACNSN3DmaxRE6oa, 49 },
+		{ Mach1TranscodeFormats::ACNSN3DmaxRE7oa, 64 },
+		{ Mach1TranscodeFormats::DolbyAtmosSevenOneTwo, 10 },
 	};
 
 	const int MAXCHANS = 64;
@@ -2231,55 +2264,57 @@ namespace Mach1TranscodeConstants {
 		{std::make_pair(Mach1TranscodeFormats::M1Spatial, Mach1TranscodeFormats::NineOneSix), &Mach1TranscodeConstantsInternal::M1Spatial2NineOneSix},
 		{std::make_pair(Mach1TranscodeFormats::M1SpatialS, Mach1TranscodeFormats::NineOneSix), &Mach1TranscodeConstantsInternal::M1SpatialS2NineOneSix},
 		{std::make_pair(Mach1TranscodeFormats::M1Spatial, Mach1TranscodeFormats::MarcoSixteen), &Mach1TranscodeConstantsInternal::M1Spatial2MarcoSixteen},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE1oa, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE1oa2M1Spatial},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE2oa, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE2oa2M1Spatial},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE3oa, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE3oa2M1Spatial},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE4oa, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE4oa2M1Spatial},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE5oa, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE5oa2M1Spatial},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE6oa, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE6oa2M1Spatial},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE7oa, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE7oa2M1Spatial},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE1oa, Mach1TranscodeFormats::M1SpatialPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE1oa2M1SpatialPlus},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE2oa, Mach1TranscodeFormats::M1SpatialPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE2oa2M1SpatialPlus},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE3oa, Mach1TranscodeFormats::M1SpatialPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE3oa2M1SpatialPlus},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE4oa, Mach1TranscodeFormats::M1SpatialPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE4oa2M1SpatialPlus},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE5oa, Mach1TranscodeFormats::M1SpatialPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE5oa2M1SpatialPlus},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE6oa, Mach1TranscodeFormats::M1SpatialPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE6oa2M1SpatialPlus},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE7oa, Mach1TranscodeFormats::M1SpatialPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE7oa2M1SpatialPlus},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE1oa, Mach1TranscodeFormats::M1SpatialPlusPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE1oa2M1SpatialPlusPlus},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE2oa, Mach1TranscodeFormats::M1SpatialPlusPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE2oa2M1SpatialPlusPlus},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE3oa, Mach1TranscodeFormats::M1SpatialPlusPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE3oa2M1SpatialPlusPlus},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE4oa, Mach1TranscodeFormats::M1SpatialPlusPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE4oa2M1SpatialPlusPlus},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE5oa, Mach1TranscodeFormats::M1SpatialPlusPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE5oa2M1SpatialPlusPlus},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE6oa, Mach1TranscodeFormats::M1SpatialPlusPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE6oa2M1SpatialPlusPlus},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE7oa, Mach1TranscodeFormats::M1SpatialPlusPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE7oa2M1SpatialPlusPlus},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE1oa, Mach1TranscodeFormats::M1SpatialExtended), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE1oa2M1SpatialExtended},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE2oa, Mach1TranscodeFormats::M1SpatialExtended), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE2oa2M1SpatialExtended},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE3oa, Mach1TranscodeFormats::M1SpatialExtended), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE3oa2M1SpatialExtended},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE4oa, Mach1TranscodeFormats::M1SpatialExtended), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE4oa2M1SpatialExtended},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE5oa, Mach1TranscodeFormats::M1SpatialExtended), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE5oa2M1SpatialExtended},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE6oa, Mach1TranscodeFormats::M1SpatialExtended), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE6oa2M1SpatialExtended},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE7oa, Mach1TranscodeFormats::M1SpatialExtended), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE7oa2M1SpatialExtended},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE1oa, Mach1TranscodeFormats::M1SpatialExtendedPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE1oa2M1SpatialExtendedPlus},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE2oa, Mach1TranscodeFormats::M1SpatialExtendedPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE2oa2M1SpatialExtendedPlus},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE3oa, Mach1TranscodeFormats::M1SpatialExtendedPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE3oa2M1SpatialExtendedPlus},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE4oa, Mach1TranscodeFormats::M1SpatialExtendedPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE4oa2M1SpatialExtendedPlus},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE5oa, Mach1TranscodeFormats::M1SpatialExtendedPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE5oa2M1SpatialExtendedPlus},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE6oa, Mach1TranscodeFormats::M1SpatialExtendedPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE6oa2M1SpatialExtendedPlus},
-        {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE7oa, Mach1TranscodeFormats::M1SpatialExtendedPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE7oa2M1SpatialExtendedPlus},
+		{std::make_pair(Mach1TranscodeFormats::M1Spatial, Mach1TranscodeFormats::DolbyAtmosSevenOneTwo), &Mach1TranscodeConstantsInternal::M1Spatial2DolbyAtmosSevenOneTwo},
+		{std::make_pair(Mach1TranscodeFormats::M1SpatialS, Mach1TranscodeFormats::DolbyAtmosSevenOneTwo), &Mach1TranscodeConstantsInternal::M1SpatialS2DolbyAtmosSevenOneTwo},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE1oa, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE1oa2M1Spatial},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE2oa, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE2oa2M1Spatial},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE3oa, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE3oa2M1Spatial},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE4oa, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE4oa2M1Spatial},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE5oa, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE5oa2M1Spatial},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE6oa, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE6oa2M1Spatial},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE7oa, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE7oa2M1Spatial},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE1oa, Mach1TranscodeFormats::M1SpatialPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE1oa2M1SpatialPlus},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE2oa, Mach1TranscodeFormats::M1SpatialPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE2oa2M1SpatialPlus},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE3oa, Mach1TranscodeFormats::M1SpatialPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE3oa2M1SpatialPlus},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE4oa, Mach1TranscodeFormats::M1SpatialPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE4oa2M1SpatialPlus},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE5oa, Mach1TranscodeFormats::M1SpatialPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE5oa2M1SpatialPlus},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE6oa, Mach1TranscodeFormats::M1SpatialPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE6oa2M1SpatialPlus},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE7oa, Mach1TranscodeFormats::M1SpatialPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE7oa2M1SpatialPlus},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE1oa, Mach1TranscodeFormats::M1SpatialPlusPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE1oa2M1SpatialPlusPlus},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE2oa, Mach1TranscodeFormats::M1SpatialPlusPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE2oa2M1SpatialPlusPlus},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE3oa, Mach1TranscodeFormats::M1SpatialPlusPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE3oa2M1SpatialPlusPlus},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE4oa, Mach1TranscodeFormats::M1SpatialPlusPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE4oa2M1SpatialPlusPlus},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE5oa, Mach1TranscodeFormats::M1SpatialPlusPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE5oa2M1SpatialPlusPlus},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE6oa, Mach1TranscodeFormats::M1SpatialPlusPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE6oa2M1SpatialPlusPlus},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE7oa, Mach1TranscodeFormats::M1SpatialPlusPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE7oa2M1SpatialPlusPlus},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE1oa, Mach1TranscodeFormats::M1SpatialExtended), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE1oa2M1SpatialExtended},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE2oa, Mach1TranscodeFormats::M1SpatialExtended), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE2oa2M1SpatialExtended},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE3oa, Mach1TranscodeFormats::M1SpatialExtended), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE3oa2M1SpatialExtended},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE4oa, Mach1TranscodeFormats::M1SpatialExtended), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE4oa2M1SpatialExtended},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE5oa, Mach1TranscodeFormats::M1SpatialExtended), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE5oa2M1SpatialExtended},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE6oa, Mach1TranscodeFormats::M1SpatialExtended), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE6oa2M1SpatialExtended},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE7oa, Mach1TranscodeFormats::M1SpatialExtended), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE7oa2M1SpatialExtended},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE1oa, Mach1TranscodeFormats::M1SpatialExtendedPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE1oa2M1SpatialExtendedPlus},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE2oa, Mach1TranscodeFormats::M1SpatialExtendedPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE2oa2M1SpatialExtendedPlus},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE3oa, Mach1TranscodeFormats::M1SpatialExtendedPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE3oa2M1SpatialExtendedPlus},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE4oa, Mach1TranscodeFormats::M1SpatialExtendedPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE4oa2M1SpatialExtendedPlus},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE5oa, Mach1TranscodeFormats::M1SpatialExtendedPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE5oa2M1SpatialExtendedPlus},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE6oa, Mach1TranscodeFormats::M1SpatialExtendedPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE6oa2M1SpatialExtendedPlus},
+    {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE7oa, Mach1TranscodeFormats::M1SpatialExtendedPlus), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE7oa2M1SpatialExtendedPlus},
         
-		{ std::make_pair(Mach1TranscodeFormats::TTPoints, Mach1TranscodeFormats::M1Horizon), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::TTPoints, Mach1TranscodeFormats::M1Spatial), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::TTPoints, Mach1TranscodeFormats::M1SpatialPlus), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::TTPoints, Mach1TranscodeFormats::M1SpatialPlusPlus), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::TTPoints, Mach1TranscodeFormats::M1SpatialExtended), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::TTPoints, Mach1TranscodeFormats::M1SpatialExtendedPlus), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::CustomPoints, Mach1TranscodeFormats::M1Horizon), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::CustomPoints, Mach1TranscodeFormats::M1Spatial), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::CustomPoints, Mach1TranscodeFormats::M1SpatialPlus), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::CustomPoints, Mach1TranscodeFormats::M1SpatialPlusPlus), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::CustomPoints, Mach1TranscodeFormats::M1SpatialExtended), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::CustomPoints, Mach1TranscodeFormats::M1SpatialExtendedPlus), NULL },
 
-		{ std::make_pair(Mach1TranscodeFormats::M1Horizon, Mach1TranscodeFormats::TTPoints), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::M1Spatial, Mach1TranscodeFormats::TTPoints), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::M1SpatialPlus, Mach1TranscodeFormats::TTPoints), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::M1SpatialPlusPlus, Mach1TranscodeFormats::TTPoints), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::M1SpatialExtended, Mach1TranscodeFormats::TTPoints), NULL },
-		{ std::make_pair(Mach1TranscodeFormats::M1SpatialExtendedPlus, Mach1TranscodeFormats::TTPoints), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::M1Horizon, Mach1TranscodeFormats::CustomPoints), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::M1Spatial, Mach1TranscodeFormats::CustomPoints), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::M1SpatialPlus, Mach1TranscodeFormats::CustomPoints), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::M1SpatialPlusPlus, Mach1TranscodeFormats::CustomPoints), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::M1SpatialExtended, Mach1TranscodeFormats::CustomPoints), NULL },
+		{ std::make_pair(Mach1TranscodeFormats::M1SpatialExtendedPlus, Mach1TranscodeFormats::CustomPoints), NULL },
 	};
 };
 
@@ -2294,14 +2329,14 @@ private:
 	Mach1TranscodeFormats::FormatType inFmt;
 	Mach1TranscodeFormats::FormatType outFmt;
 
-	std::vector<Mach1Point3DCore> inTTPoints;
-	std::vector<Mach1Point3DCore> outTTPoints;
+	std::vector<Mach1Point3DCore> inCustomPoints;
+	std::vector<Mach1Point3DCore> outCustomPoints;
 
 	float *buffers[Mach1TranscodeConstants::MAXCHANS];
 	int bufferSize;
 
 	std::vector<Mach1TranscodeFormats::FormatType> formatConversionPath;
-	
+
 	M1DSP::Utilities::CSpatialDownmixChecker spatialDownmixChecker;
 
 	std::vector<M1DSP::Filters::CFilterSimpleLP> lpFilters;
@@ -2309,6 +2344,8 @@ private:
 
 	void processConversion(Mach1TranscodeFormats::FormatType inFmt, float** inBufs, Mach1TranscodeFormats::FormatType outFmt, float** outBufs, int numSamples);
 	int getNumChannels(Mach1TranscodeFormats::FormatType fmt, bool isInput);
+
+	Mach1Point3D* (*customPointsSamplerCallback) (long long, int&) = nullptr;
 
 public:
 
@@ -2329,16 +2366,18 @@ public:
 	void setLFESub(std::vector<int> subChannelIndices, int sampleRate);
 	void setSpatialDownmixer(float corrThreshold = 0.1);
 	bool getSpatialDownmixerPossibility();
-	const std::vector<float>& getAvgSamplesDiff();
+	const std::vector<float> getAvgSamplesDiff();
 
 	void setInputFormat(Mach1TranscodeFormats::FormatType inFmt);
-	void setInputFormatADM(std::string inXml );
-	void setInputFormatTTJson(std::string inJson);
-	void setInputFormatTTPoints(std::vector<Mach1Point3DCore> points);
+
+	void setInputFormatCustomPointsJson(std::string inJson);
+	void setInputFormatCustomPoints(std::vector<Mach1Point3DCore> points);
 
 	void setOutputFormat(Mach1TranscodeFormats::FormatType outFmt);
-	void setOutputFormatTTJson(std::string outJson);
-	void setOutputFormatTTPoints(std::vector<Mach1Point3DCore> points);
+	void setOutputFormatCustomPointsJson(std::string outJson);
+	void setOutputFormatCustomPoints(std::vector<Mach1Point3DCore> points);
+
+	void setCustomPointsSamplerCallback(Mach1Point3D* (*callback) (long long, int&));
 
 	bool processConversionPath();
 	void getMatrixConversion(float* matrix);

@@ -36,13 +36,14 @@ public:
 	std::vector<float> getAvgSamplesDiff();
 
 	void setInputFormat(Mach1TranscodeFormatType inFmt);
-	void setInputFormatADM(std::string inXml);
-	void setInputFormatTTJson(std::string inJson);
-	void setInputFormatTTPoints(std::vector<Mach1Point3D> points);
+	void setInputFormatCustomPointsJson(std::string inJson);
+	void setInputFormatCustomPoints(std::vector<Mach1Point3D> points);
 
 	void setOutputFormat(Mach1TranscodeFormatType outFmt);
-	void setOutputFormatTTJson(std::string outJson);
-	void setOutputFormatTTPoints(std::vector<Mach1Point3D> points);
+	void setOutputFormatCustomPointsJson(std::string outJson);
+	void setOutputFormatCustomPoints(std::vector<Mach1Point3D> points);
+
+	void setCustomPointsSamplerCallback(Mach1Point3D *(*callback)(long long, int &));
 
 	bool processConversionPath();
 	std::vector< std::vector<float> > getMatrixConversion();

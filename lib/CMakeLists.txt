@@ -15,14 +15,14 @@ set(Mach1SpatialLibraries_VERSION ${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1
 set(ENCODE_VERSION "1.4.0.0")
 set(DECODE_VERSION "1.3.0.0")
 set(DECODEPOSITIONAL_VERSION "1.3.0.0")
-set(TRANSCODE_VERSION "1.4.0.0")
+set(TRANSCODE_VERSION "1.4.1.0")
 
 set(Mach1AdditionalInclude "./include")
 
 set(Mach1EncodeCAPIsrc "./Mach1EncodeCAPI.cpp" "./Mach1EncodeCore.cpp" "./Mach1Point3DCore.cpp")
 set(Mach1DecodeCAPIsrc "./Mach1DecodeCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")
 set(Mach1DecodePositionalCAPIsrc "./Mach1DecodePositionalCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1DecodePositionalCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")
-set(Mach1TranscodeCAPIsrc "./Mach1TranscodeCore.cpp" "./Mach1TranscodeCAPI.cpp" "./Mach1Point3DCore.cpp" "./Mach1GenerateCoeffs.cpp" "${Mach1AdditionalInclude}/M1DSP/M1DSPFilters.cpp" "${Mach1AdditionalInclude}/M1DSP/M1DSPDynamics.cpp" "${Mach1AdditionalInclude}/M1DSP/M1DSPUtilities.cpp" "${Mach1AdditionalInclude}/xml/tinyxml2.cpp" "${Mach1AdditionalInclude}/yaml/Yaml.cpp")
+set(Mach1TranscodeCAPIsrc "./Mach1TranscodeCore.cpp" "./Mach1TranscodeCAPI.cpp" "./Mach1Point3DCore.cpp" "./Mach1GenerateCoeffs.cpp" "${Mach1AdditionalInclude}/M1DSP/M1DSPFilters.cpp" "${Mach1AdditionalInclude}/M1DSP/M1DSPDynamics.cpp" "${Mach1AdditionalInclude}/M1DSP/M1DSPUtilities.cpp" "${Mach1AdditionalInclude}/xml/pugixml.cpp" "${Mach1AdditionalInclude}/yaml/Yaml.cpp" "./Mach1AudioTimelineCore.cpp" "./Mach1AudioTimelineCAPI.cpp")
 
 set(Mach1DecodeMINCAPIsrc "./Mach1DecodeMINCAPI.cpp" "./Mach1DecodeMINCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")
 

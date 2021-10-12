@@ -7,7 +7,7 @@ Mach1Point3DCore::Mach1Point3DCore() {
 	x = 0;
 	y = 0;
 	z = 0;
-}
+} 
 
 Mach1Point3DCore::Mach1Point3DCore(float X, float Y, float Z) {
 	x = X;
@@ -131,3 +131,10 @@ float Mach1Point3DCore::distance(const Mach1Point3DCore & vec1, const Mach1Point
 	return sqrt(powf(vec1.x - vec2.x, 2) + powf(vec1.y - vec2.y, 2) + powf(vec1.z - vec2.z, 2));
 }
 
+bool operator==(const Mach1Point3DCore& p1, const Mach1Point3DCore& p2) {
+	return (p1.x == p2.x && p1.y == p2.y && p1.z == p2.z);
+}
+
+bool operator!=(const Mach1Point3DCore& p1, const Mach1Point3DCore& p2) {
+	return !(p1 == p2);
+}

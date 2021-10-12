@@ -209,7 +209,7 @@ void Mach1Encode::setAzimuthRadians(float azimuthRadians)
 	/// Sets the point(s) azimuth rotation of the vector space
 	///
 	/// - Parameters:
-	///     - value range: -PI/2 -> PI/2
+	///     - value range: -PI -> PI 
 }
 
 void Mach1Encode::setDiverge(float divergeFromMinus1To1)

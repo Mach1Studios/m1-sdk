@@ -1879,17 +1879,29 @@ namespace Mach1TranscodeConstantsInternal {
 
 	const SpatialSoundMatrix M1Spatial2DolbyAtmosSevenOneTwo(std::vector<std::vector<float>> //BLANK
 		//1  2  3  4  5  6  7  8
-	{   { 1, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 1, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, 1, 0, 0, 0, 0, 0 },
-		{ 0, 0, 0, 1, 0, 0, 0, 0 },
-		{ 0, 0, 0, 0, 1, 0, 0, 0 },
-		{ 0, 0, 0, 0, 0, 1, 0, 0 },
-		{ 0, 0, 0, 0, 0, 0, 1, 0 },
-		{ 0, 0, 0, 0, 0, 0, 0, 1 },
-		{ 1, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 1, 0, 0, 0, 0, 0, 0 } });
+	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//L
+		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },//R
+		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },//C
+		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },//LFE
+		{ r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0 },//Lss
+		{ 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4 },//Rss
+		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },//Lsr
+		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },//Rsr
+		{ 0.375016481f, 0.124983519f, 0.375016481f, 0.124983519f, 0, 0, 0, 0 },//Lts
+		{ 0.124983519f, 0.375016481f, 0.124983519f, 0.375016481f, 0, 0, 0, 0 } });//Rts
 
+	const SpatialSoundMatrix M1SpatialS2DolbyAtmosSevenOneTwo(std::vector<std::vector<float>>
+		//1  2  3  4  5  6  7  8  9  10
+	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },//L
+		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },//R
+		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, 0, 0 },//C
+		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 },//LFE
+		{ r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0, 0, 0 },//Lss
+		{ 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0, 0 },//Rss
+		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//Lsr
+		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },//Rsr
+		{ 0.375016481f, 0.124983519f, 0.375016481f, 0.124983519f, 0, 0, 0, 0, 0, 0 },//Lts
+		{ 0.124983519f, 0.375016481f, 0.124983519f, 0.375016481f, 0, 0, 0, 0, 0, 0 } });//Rts
 };
 
 struct ProcessSettings {
@@ -2216,6 +2228,8 @@ namespace Mach1TranscodeConstants {
 		{std::make_pair(Mach1TranscodeFormats::M1Spatial, Mach1TranscodeFormats::NineOneSix), &Mach1TranscodeConstantsInternal::M1Spatial2NineOneSix},
 		{std::make_pair(Mach1TranscodeFormats::M1SpatialS, Mach1TranscodeFormats::NineOneSix), &Mach1TranscodeConstantsInternal::M1SpatialS2NineOneSix},
 		{std::make_pair(Mach1TranscodeFormats::M1Spatial, Mach1TranscodeFormats::MarcoSixteen), &Mach1TranscodeConstantsInternal::M1Spatial2MarcoSixteen},
+		{std::make_pair(Mach1TranscodeFormats::M1Spatial, Mach1TranscodeFormats::DolbyAtmosSevenOneTwo), &Mach1TranscodeConstantsInternal::M1Spatial2DolbyAtmosSevenOneTwo},
+		{std::make_pair(Mach1TranscodeFormats::M1SpatialS, Mach1TranscodeFormats::DolbyAtmosSevenOneTwo), &Mach1TranscodeConstantsInternal::M1SpatialS2DolbyAtmosSevenOneTwo},
         {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE1oa, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE1oa2M1Spatial},
         {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE2oa, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE2oa2M1Spatial},
         {std::make_pair(Mach1TranscodeFormats::ACNSN3DmaxRE3oa, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::ACNSN3DmaxRE3oa2M1Spatial},
@@ -2265,8 +2279,6 @@ namespace Mach1TranscodeConstants {
 		{ std::make_pair(Mach1TranscodeFormats::M1SpatialPlusPlus, Mach1TranscodeFormats::CustomPoints), NULL },
 		{ std::make_pair(Mach1TranscodeFormats::M1SpatialExtended, Mach1TranscodeFormats::CustomPoints), NULL },
 		{ std::make_pair(Mach1TranscodeFormats::M1SpatialExtendedPlus, Mach1TranscodeFormats::CustomPoints), NULL },
-
-		{ std::make_pair(Mach1TranscodeFormats::M1Spatial, Mach1TranscodeFormats::DolbyAtmosSevenOneTwo), &Mach1TranscodeConstantsInternal::M1Spatial2DolbyAtmosSevenOneTwo },
 	};
 };
 

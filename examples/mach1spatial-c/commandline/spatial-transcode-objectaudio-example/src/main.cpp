@@ -30,6 +30,9 @@
 #include "sndfile.hh"
 #include "CmdOption.h"
 #include "yaml/yaml.hpp"
+#include "xml/pugixml.hpp"
+#include "bw64/bw64.hpp"
+#include "chunks.h"
 
 std::vector<Mach1AudioObject> audioObjects;
 std::vector<Mach1Point3D> keypoints;
@@ -111,11 +114,72 @@ void printFileInfo(SndfileHandle file)
 // ---------------------------------------------------------
 #define BUFFERLEN 512
 
+class SndFileWriter {
+	std::unique_ptr<bw64::Bw64Writer> outBw64;
+	SndfileHandle outSnd;
+	int channels;
+	
+	enum SNDFILETYPE {
+		SNDFILETYPE_BW64,
+		SNDFILETYPE_SND
+	} type;
+
+public:
+	void open(std::string outfilestr, int sampleRate, int channels, int format) {
+		outSnd = SndfileHandle(outfilestr, SFM_WRITE, format, channels, (int)sampleRate);
+		this->channels = channels;
+		type = SNDFILETYPE_SND;
+	}
+
+	void open(std::string outfilestr, int channels, bw64::ChnaChunk chnaChunkAdm, bw64::AxmlChunk axmlChunkAdm) {
+		outBw64 = bw64::writeFile(outfilestr, channels, 48000u, 24u, std::make_shared<bw64::ChnaChunk>(chnaChunkAdm), std::make_shared<bw64::AxmlChunk>(axmlChunkAdm));
+		this->channels = channels;
+		type = SNDFILETYPE_BW64;
+	}
+
+	bool isOpened() {
+		if (type == SNDFILETYPE_SND) {
+			return outSnd.error() == 0;
+		}
+		else {
+			return true;
+		}
+	}
+
+	void setClip() {
+		if (type == SNDFILETYPE_SND) {
+			outSnd.command(SFC_SET_CLIPPING, NULL, SF_TRUE);
+		}
+	}
+
+	void printInfo() {
+		if (type == SNDFILETYPE_SND) {
+			printFileInfo(outSnd);
+		}
+	}
+
+	void setString(int str_type, const char* str) {
+		if (type == SNDFILETYPE_SND) {
+			outSnd.setString(str_type, str);
+		}
+	}
+
+	void write(float* buf, int frames) {
+		if (type == SNDFILETYPE_SND) {
+			outSnd.write(buf, frames*channels);
+		}
+		else {
+			outBw64->write(buf, frames);
+			outBw64->framesWritten();
+		}
+	}
+
+};
+
+
 int main(int argc, char* argv[])
 {
-
-	
-
+	 
 	Mach1AudioTimeline m1audioTimeline;
 
 	Mach1Transcode m1transcode;
@@ -336,71 +400,7 @@ int main(int argc, char* argv[])
 		infile[i]->seek(0, 0); // rewind input
 	}
 	
-	// Dolby output
-	if (outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatDolbyAtmosSevenOneTwo) {
-		// bedInstances, objects
-		{
-			Yaml::Node nodeRoot;
-			nodeRoot["version"] = "0.5.1";
-
-			Yaml::Node nodePresentations;
-
-			nodePresentations["type"] = "home";
-			nodePresentations["simplified"] = "false";
-			nodePresentations["metadata"] = string(outfilename) + ".atmos.metadata";
-			nodePresentations["audio"] = string(outfilename) + ".atmos.audio";
-			nodePresentations["offset"] = "0";
-			nodePresentations["fps"] = "30";
-			nodePresentations["scNumberOfElements"] = "14"; // ?
-			nodePresentations["scBedConfiguration"].PushBack();
-			nodePresentations["scBedConfiguration"][0] = "3"; // ?
-			nodePresentations["creationTool"] = "Mach1Transcoder";
-			nodePresentations["creationToolVersion"] = "1.0.0";
-			nodePresentations["downmixType_5to2"] = "LoRo_Stereo";
-			nodePresentations["51-to-20_LsRs90degPhaseShift"] = "false";
-			nodePresentations["warpMode"] = "LoRo";
-
-			Yaml::Node nodeBedInstancesChannels;
-			vector<string> namesChannels = { "L","R","C","LFE","Lss","Rss","Lrs","Rrs","Lts","Rts" };
-			for (int i = 0; i < 10; i++)
-			{
-				nodeBedInstancesChannels.PushBack();
-				nodeBedInstancesChannels[i]["channel"] = namesChannels[i];
-				nodeBedInstancesChannels[i]["ID"] = to_string(i);
-			}
-			nodePresentations["bedInstances"].PushBack();
-			nodePresentations["bedInstances"][0]["channels"] = nodeBedInstancesChannels;
-			nodePresentations["objects"].PushBack();
-
-			nodeRoot["presentations"].PushBack();
-			nodeRoot["presentations"][0] = nodePresentations;
-
-			Yaml::Serialize(nodeRoot, (string(outfilename) + ".atmos").c_str());
-		}
-
-		// metadata
-		{
-			Yaml::Node nodeRoot;
-			nodeRoot["sampleRate"] = to_string(sampleRate);
-
-			Yaml::Node nodeEvents;
-			nodeEvents["ID"] = "3";
-			nodeEvents["samplePos"] = "0";
-			nodeEvents["active"] = "true";
-			nodeEvents["importance"] = "1";
-			nodeEvents["gain"] = "0";
-			nodeEvents["rampLength"] = "0";
-			nodeEvents["trimBypass"] = "false";
-			nodeEvents["headTrackMode"] = "undefined";
-			nodeEvents["binauralRenderMode"] = "off";
-
-			nodeRoot["events"].PushBack();
-			nodeRoot["events"][0] = nodeEvents;
-
-			Yaml::Serialize(nodeRoot, (string(outfilename) + ".atmos.metadata").c_str());
-		}
-	}
-
+	
 	// -- setup 
 	m1transcode.setInputFormat(inFmt);
 	m1transcode.setOutputFormat(outFmt);
@@ -419,7 +419,7 @@ int main(int argc, char* argv[])
 	// -- output file(s) --------------------------------------
 
 	channels = m1transcode.getOutputNumChannels();
-	SndfileHandle outfiles[Mach1TranscodeMAXCHANS];
+	SndFileWriter outfiles[Mach1TranscodeMAXCHANS];
 	int actualOutFileChannels = outFileChans == 0 ? channels : outFileChans;
 
 	if (actualOutFileChannels == 0) {
@@ -480,14 +480,22 @@ int main(int argc, char* argv[])
 			sprintf(outfilestr, "%s_%0d.wav", outfilename, i);
 		else
 			strcpy(outfilestr, outfilename);
-		outfiles[i] = SndfileHandle(outfilestr, SFM_WRITE, format, actualOutFileChannels, (int)sampleRate);
-		if (outfiles[i] && (outfiles[i].error() == 0))
+		
+
+		if (outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatDolbyAtmosSevenOneTwo) {
+			outfiles[i].open(outfilestr, actualOutFileChannels, chnaChunkAdm, axmlChunkAdm);
+		}
+		else {
+			outfiles[i].open(outfilestr, (int)sampleRate, actualOutFileChannels, format);
+		}
+
+		if (outfiles[i].isOpened())
 		{
 			// set clipping mode
-			outfiles[i].command(SFC_SET_CLIPPING, NULL, SF_TRUE);
+			outfiles[i].setClip();
 			// output file stats
 			cout << "Output File:        " << outfilestr << std::endl;
-			printFileInfo(outfiles[i]);
+			outfiles[i].printInfo();
 		}
 		else
 		{

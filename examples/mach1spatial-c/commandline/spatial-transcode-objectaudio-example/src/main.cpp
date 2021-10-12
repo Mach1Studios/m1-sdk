@@ -582,7 +582,7 @@ int main(int argc, char* argv[])
 		// write to outfile
 		for (int j = 0; j < numOutFiles; j++)
 		{
-			outfiles[j].write(fileBuffer + (j*actualOutFileChannels*BUFFERLEN), actualOutFileChannels*BUFFERLEN);
+			outfiles[j].write(fileBuffer + (j*actualOutFileChannels*BUFFERLEN), BUFFERLEN);
 		}
 
 	}

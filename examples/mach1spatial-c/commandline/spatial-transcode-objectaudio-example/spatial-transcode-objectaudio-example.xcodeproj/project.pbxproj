@@ -324,7 +324,7 @@
 				);
 				MARKETING_VERSION = "";
 				OTHER_LDFLAGS = "\"$(PROJECT_DIR)/../../../../binaries/xcode/lib/libMach1TranscodeCAPI.a\"";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.transcode-audio";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.transcode-obj-example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -351,7 +351,7 @@
 				);
 				MARKETING_VERSION = "";
 				OTHER_LDFLAGS = "\"$(PROJECT_DIR)/../../../../binaries/xcode/lib/libMach1TranscodeCAPI.a\"";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.transcode-audio";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mach1.transcode-obj-example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

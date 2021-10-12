@@ -37,8 +37,7 @@
 std::vector<Mach1AudioObject> audioObjects;
 std::vector<Mach1Point3D> keypoints;
 
-Mach1Point3D* callbackPointsSampler(long long sample, int& n)
-{
+Mach1Point3D* callbackPointsSampler(long long sample, int& n) {
 	keypoints.resize(audioObjects.size());
 	
 	for (int i = 0; i < audioObjects.size(); i++) {
@@ -68,8 +67,7 @@ vector<string> &split(const string &s, char delim, vector<string> &elems) {
 	return elems;
 }
 
-string convertToString(char* a, int size)
-{
+string convertToString(char* a, int size) {
 	int i;
 	string s = "";
 	for (i = 0; i < size; i++) {
@@ -78,8 +76,7 @@ string convertToString(char* a, int size)
 	return s;
 }
 
-void printHelp()
-{
+void printHelp() {
 	cout << "spatial-transcode-objectaudio-example -- light command line example conversion tool" << std::endl;
     cout << "note: for a complete transcoding tool use `m1-transcode` from the `binaries/executables` directory" << std::endl;
 	cout << std::endl;
@@ -99,8 +96,7 @@ void printHelp()
 }
 
 
-void printFileInfo(SndfileHandle file)
-{
+void printFileInfo(SndfileHandle file) {
 	cout << "Sample Rate:        " << file.samplerate() << std::endl;
 	int format = file.format() & 0xffff;
     if (format == SF_FORMAT_PCM_16) cout << "Bit Depth:          16" << std::endl;
@@ -140,8 +136,7 @@ public:
 	bool isOpened() {
 		if (type == SNDFILETYPE_SND) {
 			return outSnd.error() == 0;
-		}
-		else {
+		} else {
 			return true;
 		}
 	}
@@ -167,8 +162,7 @@ public:
 	void write(float* buf, int frames) {
 		if (type == SNDFILETYPE_SND) {
 			outSnd.write(buf, frames*channels);
-		}
-		else {
+		} else {
 			outBw64->write(buf, frames);
 			outBw64->framesWritten();
 		}
@@ -179,9 +173,7 @@ public:
 
 int main(int argc, char* argv[])
 {
-	 
 	Mach1AudioTimeline m1audioTimeline;
-
 	Mach1Transcode m1transcode;
 	m1transcode.setCustomPointsSamplerCallback(callbackPointsSampler);
 
@@ -211,8 +203,7 @@ int main(int argc, char* argv[])
 	float *inPtrs[Mach1TranscodeMAXCHANS];
 	float outBuffers[Mach1TranscodeMAXCHANS][BUFFERLEN];
 	float *outPtrs[Mach1TranscodeMAXCHANS];
-	for (int i = 0; i < Mach1TranscodeMAXCHANS; i++)
-	{
+	for (int i = 0; i < Mach1TranscodeMAXCHANS; i++) {
 		inPtrs[i] = inBuffers[i];
 		outPtrs[i] = outBuffers[i];
 	}
@@ -225,56 +216,47 @@ int main(int argc, char* argv[])
 		|| cmdOptionExists(argv, argv + argc, "-help")
 		|| cmdOptionExists(argv, argv + argc, "--help")
 		|| argc == 1)
-	{
+    {
 		printHelp();
 		return 0;
 	}
 
 	// input file name 
 	pStr = getCmdOption(argv, argv + argc, "-in-file");
-	if (pStr && (strlen(pStr) > 0))
-	{
+	if (pStr && (strlen(pStr) > 0)) {
 		infilename = pStr;
-	}
-	else
-	{
+	} else {
 		cerr << "Please specify an input file" << std::endl;
 		return -1;
 	}
 
 	// input format
 	pStr = getCmdOption(argv, argv + argc, "-in-fmt");
-	if (pStr && (strlen(pStr) > 0))
-	{
+	if (pStr && (strlen(pStr) > 0)) {
 		inFmtStr = pStr;
 
 		if (strcmp(inFmtStr, "ADM") == 0) {
 			m1transcode.setInputFormat(Mach1TranscodeFormatType::Mach1TranscodeFormatCustomPoints);
 			m1audioTimeline.parseADM(infilename);
 			useAudioTimeline = true;
-		}
-		else if (strcmp(inFmtStr, "Atmos") == 0) {
+		} else if (strcmp(inFmtStr, "Atmos") == 0) {
 			char* pStr = getCmdOption(argv, argv + argc, "-in-file-meta");
 			if (pStr && (strlen(pStr) > 0)) {
 				m1transcode.setInputFormat(Mach1TranscodeFormatType::Mach1TranscodeFormatCustomPoints);
 				m1audioTimeline.parseAtmos(infilename, pStr);
 				useAudioTimeline = true;
-			}
-			else {
+			} else {
 				cerr << "Please specify an input meta file" << std::endl;
 				return -1;
 			}
-		}
-		else
-		{
+		} else {
 			bool foundInFmt = false;
 			inFmt = m1transcode.getFormatFromString(inFmtStr);
 			if (inFmt != Mach1TranscodeFormatType::Mach1TranscodeFormatEmpty) {
 				foundInFmt = true;
 			}
 		}
-	}
-	else {
+	} else {
 		cout << "Please select a valid input format" << std::endl;
 		return -1;
 	}
@@ -282,12 +264,9 @@ int main(int argc, char* argv[])
 	// input folder
 	if (useAudioTimeline) {
 		pStr = getCmdOption(argv, argv + argc, "-in-folder");
-		if (pStr && (strlen(pStr) > 0))
-		{
+		if (pStr && (strlen(pStr) > 0)) {
 			infolder = pStr;
-		}
-		else
-		{
+		} else {
 			cerr << "Please specify an input folder for audio files" << std::endl;
 			return -1;
 		}
@@ -295,8 +274,7 @@ int main(int argc, char* argv[])
 
 	// output file name and format
 	pStr = getCmdOption(argv, argv + argc, "-out-file");
-	if (pStr && (strlen(pStr) > 0))
-	{
+	if (pStr && (strlen(pStr) > 0)) {
 		fileOut = true;
 		outfilename = pStr;
 		std::string FileExt = ".txt";
@@ -315,8 +293,7 @@ int main(int argc, char* argv[])
 		md_outfilename += FileExt;
 	}
 	pStr = getCmdOption(argv, argv + argc, "-out-fmt");
-	if (pStr && (strlen(pStr) > 0))
-	{
+	if (pStr && (strlen(pStr) > 0)) {
 		outFmtStr = pStr;
 		if (strcmp(outFmtStr, "TTPoints") == 0) {
 			pStr = getCmdOption(argv, argv + argc, "-out-json");
@@ -334,8 +311,7 @@ int main(int argc, char* argv[])
 	outFmt = m1transcode.getFormatFromString(outFmtStr);
 	if (outFmt != Mach1TranscodeFormatType::Mach1TranscodeFormatEmpty) {
 		foundOutFmt = true;
-	}
-	else {
+	} else {
 		cout << "Please select a valid output format" << std::endl;
 		return -1;
 	}
@@ -345,8 +321,7 @@ int main(int argc, char* argv[])
 		outFileChans = atoi(pStr);
 	else
 		outFileChans = 0;
-	if (!((outFileChans == 0) || (outFileChans == 1) || (outFileChans == 2)))
-	{
+	if (!((outFileChans == 0) || (outFileChans == 1) || (outFileChans == 2))) {
 		cout << "Please select 0, 1, or 2, zero meaning a single, multichannel output file" << std::endl;
 		return -1;
 	}
@@ -366,17 +341,14 @@ int main(int argc, char* argv[])
 			std::string filename = std::string(infolder) + "/" + audioObjects[i].getName() + ".wav";
 			fNames.push_back(filename);
 		}
-	}
-	else {
+	} else {
 		fNames.push_back(infilename);
 	}
 
 	size_t numInFiles = fNames.size();
-	for (int i = 0; i < numInFiles; i++)
-	{
+	for (int i = 0; i < numInFiles; i++) {
 		infile[i] = new SndfileHandle(fNames[i].c_str());
-		if (infile[i] && (infile[i]->error() == 0))
-		{
+		if (infile[i] && (infile[i]->error() == 0)) {
 			// print input file stats
 			cout << "Input File:         " << fNames[i] << std::endl;
 			printFileInfo(*infile[i]);
@@ -385,9 +357,7 @@ int main(int argc, char* argv[])
 			//            for (int i = 0; i < numInFiles; i++)
 			//                inChannels += infile[i]->channels();
 			//            parseFile(*infile[i], inChannels);
-		}
-		else
-		{
+		} else {
 			cerr << "Error: opening in-file: " << fNames[i] << std::endl;
 			return -1;
 		}
@@ -399,7 +369,6 @@ int main(int argc, char* argv[])
 	for (int i = 0; i < numInFiles; i++) {
 		infile[i]->seek(0, 0); // rewind input
 	}
-	
 	
 	// -- setup 
 	m1transcode.setInputFormat(inFmt);
@@ -429,8 +398,7 @@ int main(int argc, char* argv[])
 
 	int numOutFiles = channels / actualOutFileChannels;
 
-	for (int i = 0; i < Mach1TranscodeMAXCHANS; i++)
-	{
+	for (int i = 0; i < Mach1TranscodeMAXCHANS; i++) {
 		memset(inBuffers[i], 0, sizeof(inBuffers[i]));
 		memset(outBuffers[i], 0, sizeof(outBuffers[i]));
 	}
@@ -441,8 +409,7 @@ int main(int argc, char* argv[])
 	if (!m1transcode.processConversionPath()) {
 		printf("Can't found conversion between formats!");
 		return -1;
-	}
-	else {
+	} else {
         std::vector<Mach1TranscodeFormatType> formatsConvertionPath = m1transcode.getFormatConversionPath();
 		printf("Conversion Path:    ");
 		for (int k = 0; k < formatsConvertionPath.size(); k++) {
@@ -467,8 +434,7 @@ int main(int argc, char* argv[])
 	float peak = 0.0f;
 
 	// init outfiles
-	for (int i = 0; i < numOutFiles; i++)
-	{
+	for (int i = 0; i < numOutFiles; i++) {
 		//TODO: expand this out to other output types and better handling from printFileInfo()
 		int format = SF_FORMAT_WAV | SF_FORMAT_PCM_16;
 		int inputFormat = infile[0]->format() & 0xffff;
@@ -476,29 +442,25 @@ int main(int argc, char* argv[])
 		if (inputFormat == SF_FORMAT_PCM_24) format = SF_FORMAT_WAV | SF_FORMAT_PCM_24;
 		if (inputFormat == SF_FORMAT_FLOAT)  format = SF_FORMAT_WAV | SF_FORMAT_FLOAT;
 		char outfilestr[1024];
-		if (numOutFiles > 1)
+        if (numOutFiles > 1) {
 			sprintf(outfilestr, "%s_%0d.wav", outfilename, i);
-		else
+        } else {
 			strcpy(outfilestr, outfilename);
-		
+        }
 
 		if (outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatDolbyAtmosSevenOneTwo) {
 			outfiles[i].open(outfilestr, actualOutFileChannels, chnaChunkAdm, axmlChunkAdm);
-		}
-		else {
+		} else {
 			outfiles[i].open(outfilestr, (int)sampleRate, actualOutFileChannels, format);
 		}
 
-		if (outfiles[i].isOpened())
-		{
+		if (outfiles[i].isOpened()) {
 			// set clipping mode
 			outfiles[i].setClip();
 			// output file stats
 			cout << "Output File:        " << outfilestr << std::endl;
 			outfiles[i].printInfo();
-		}
-		else
-		{
+		} else {
 			cerr << "Error: opening out-file: " << outfilestr << std::endl;
 			return -1;
 		}
@@ -520,14 +482,12 @@ int main(int argc, char* argv[])
 		startSampleForAudioObject.push_back(audioObjects[i].getKeyPoints()[0].sample);
 	}
 
-	for (int i = 0; i <= numBlocks; i++)
-	{
+	for (int i = 0; i <= numBlocks; i++) {
 		// read next buffer from each infile
 		sf_count_t firstBuf = 0;
 		float(*inBuf)[Mach1TranscodeMAXCHANS][BUFFERLEN] = (float(*)[Mach1TranscodeMAXCHANS][BUFFERLEN])&(inBuffers[0][0]);
 
-		for (int file = 0; file < numInFiles; file++)
-		{
+		for (int file = 0; file < numInFiles; file++) {
 			sf_count_t thisChannels = infile[file]->channels();
 
 			// first fill buffer with zeros
@@ -558,7 +518,6 @@ int main(int argc, char* argv[])
 					for (int k = 0; k < thisChannels; k++) {
 							(*inBuf)[firstBuf + k][offset + j] = *ptrFileBuffer++;
 					}
-
 			}
 			firstBuf += thisChannels;
 		}
@@ -568,7 +527,6 @@ int main(int argc, char* argv[])
 		 `processConversion()` is called after `processConversionPath() has been called and set at least once!
 		 */
 		m1transcode.processConversion(inPtrs, outPtrs, (int)BUFFERLEN);
-
 		m1transcode.processMasterGain(outPtrs, (int)BUFFERLEN, masterGain);
 
 		// multiplex to output channels with master gain
@@ -580,18 +538,11 @@ int main(int argc, char* argv[])
 					*ptrFileBuffer++ = (*outBuf)[(file*actualOutFileChannels) + k][j];
 
 		// write to outfile
-		for (int j = 0; j < numOutFiles; j++)
-		{
+		for (int j = 0; j < numOutFiles; j++) {
 			outfiles[j].write(fileBuffer + (j*actualOutFileChannels*BUFFERLEN), BUFFERLEN);
 		}
-
 	}
-
-
-	
-
 	// print time played
 	cout << "Length (sec):     " << (float)totalSamples / (float)sampleRate << std::endl;
-
 	return 0;
 }

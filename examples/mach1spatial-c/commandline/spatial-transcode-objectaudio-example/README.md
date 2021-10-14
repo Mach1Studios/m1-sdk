@@ -6,8 +6,12 @@ This is a stripped down transcoding commmandline example, please reference or li
 #### Setup
  - install homebrew: https://brew.sh/
  - `brew install libsndfile` _(project is currently linked to 1.0.31)_
+ - `brew tap irt-open-source/homebrew-nga`
+ - `brew install libbw64`
  - Open each xcode project
 
 #### Example Arguement
 `-in-fmt M1Spatial -in-file "m1-spatial-8ch.wav" -out-fmt DolbyAtmosSevenOneTwo -out-file "output-DolbyAtmosConfigured-ADM-BWF.wav" -out-file-chans 0`
 
+#### TODO
+ - Bitdepth and samplerate matches input audiofile _(currently hardset to 48k 24bit)_

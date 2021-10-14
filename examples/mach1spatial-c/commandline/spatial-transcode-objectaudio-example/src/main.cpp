@@ -121,13 +121,12 @@ audiofileInfo printFileInfo(SndfileHandle file) {
 }
 
 std::string getTimecode(const char* admString, float duration) {
+    // Used to find duration in time of input file
+    // to correctly edit the ADM metadata and add the appropriate
+    // `end` and `duration` times.
     std::string s(admString);
-    std::string hhString("HHhoursHH");
-    std::string mmString("MMminutesMM");
-    std::string ssString("SSsecondsSS");
-    size_t posHrs = s.find(hhString);
-    size_t posMin = s.find(mmString);
-    size_t posSec = s.find(ssString);
+    std::string searchString("hh:mm:ss.fffff");
+    size_t pos = s.find(searchString);
     
     int seconds, minutes, hours;
     std::string hoursString, minutesString, secondsString;
@@ -138,14 +137,25 @@ std::string getTimecode(const char* admString, float duration) {
     if ((int)hours < 100) {
         hoursString = (int(hours) < 10) ? "0" + std::to_string(int(hours)) : std::to_string(int(hours));
     } else {
-        // file too long?
+        // file duration too long?
+        // TODO: handle case for when input is over 99 hours
     }
     minutesString = (int(minutes%60) < 10) ? "0" + std::to_string(int(minutes%60)) : std::to_string(int(minutes%60));
     secondsString = (int((seconds+1)%60) < 10) ? "0" + std::to_string(int((seconds+1)%60)) : std::to_string(int((seconds+1)%60));
-    s.replace(posHrs, hhString.length(), hoursString);
-    s.replace(posMin, mmString.length(), minutesString);
-    s.replace(posSec, ssString.length(), secondsString);
     
+    std::vector<size_t> positions;    
+    // Repeat till end is reached
+    while(pos != std::string::npos){
+        // Add position to the vector
+        positions.push_back(pos);
+        // Get the next occurrence from the current position
+        pos = s.find(searchString, pos + searchString.size());
+    }
+
+    for (size_t pos : positions){
+        s.replace(pos, searchString.length(), hoursString+":"+minutesString+":"+secondsString+".00000");
+    }
+
     cout << "Detected Duration:  " << duration << std::endl;
     cout << "Duration Timecode:  " << hoursString << ":" << minutesString << ":" << secondsString << ".00000" << std::endl;
     
@@ -496,7 +506,6 @@ int main(int argc, char* argv[])
 		if (outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatDolbyAtmosSevenOneTwo) {
             std::string axmlChunkAdmCorrectedString = getTimecode(axmlChunkAdmString, inputInfo.duration).c_str();
             bw64::AxmlChunk axmlChunkAdmCorrected(axmlChunkAdmCorrectedString);
-            std::cout << axmlChunkAdmString << std::endl;
 			outfiles[i].open(outfilestr, actualOutFileChannels, chnaChunkAdm, axmlChunkAdmCorrected);
 		} else {
 			outfiles[i].open(outfilestr, (int)sampleRate, actualOutFileChannels, format);

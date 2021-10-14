@@ -120,7 +120,7 @@ audiofileInfo printFileInfo(SndfileHandle file) {
     return inputFileInfo;
 }
 
-void getTimecode(const char* admString, float duration) {
+std::string getTimecode(const char* admString, float duration) {
     std::string s(admString);
     std::string hhString("HHhoursHH");
     std::string mmString("MMminutesMM");
@@ -148,6 +148,8 @@ void getTimecode(const char* admString, float duration) {
     
     cout << "Detected Duration:  " << duration << std::endl;
     cout << "Duration Timecode:  " << hoursString << ":" << minutesString << ":" << secondsString << ".00000" << std::endl;
+    
+    return s;
 }
 
 // ---------------------------------------------------------
@@ -492,8 +494,10 @@ int main(int argc, char* argv[])
         }
 
 		if (outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatDolbyAtmosSevenOneTwo) {
-            getTimecode(axmlChunkAdmString, inputInfo.duration);
-			outfiles[i].open(outfilestr, actualOutFileChannels, chnaChunkAdm, axmlChunkAdm);
+            std::string axmlChunkAdmCorrectedString = getTimecode(axmlChunkAdmString, inputInfo.duration).c_str();
+            bw64::AxmlChunk axmlChunkAdmCorrected(axmlChunkAdmCorrectedString);
+            std::cout << axmlChunkAdmString << std::endl;
+			outfiles[i].open(outfilestr, actualOutFileChannels, chnaChunkAdm, axmlChunkAdmCorrected);
 		} else {
 			outfiles[i].open(outfilestr, (int)sampleRate, actualOutFileChannels, format);
 		}

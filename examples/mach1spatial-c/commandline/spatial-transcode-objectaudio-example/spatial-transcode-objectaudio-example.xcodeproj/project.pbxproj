@@ -315,6 +315,7 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(PROJECT_DIR)/../../../../m1-sdk/lib/include\"",
 					/usr/local/Cellar/libsndfile/1.0.31/include,
+					/usr/local/Cellar/libbw64/0.10.0/include,
 				);
 				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
 				INFOPLIST_FILE = "$(PROJECT_DIR)/src/Info.plist";
@@ -342,6 +343,7 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(PROJECT_DIR)/../../../../m1-sdk/lib/include\"",
 					/usr/local/Cellar/libsndfile/1.0.31/include,
+					/usr/local/Cellar/libbw64/0.10.0/include,
 				);
 				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
 				INFOPLIST_FILE = "$(PROJECT_DIR)/src/Info.plist";

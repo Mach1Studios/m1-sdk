@@ -1877,16 +1877,16 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0, 0, 0, 0, oor4 }, //bottom 135
 		{ 0, 0, 0, 0, 0, 0, oor4, 0 } }); //bottom -135
 
-	const SpatialSoundMatrix M1Spatial2DolbyAtmosSevenOneTwo(std::vector<std::vector<float>> //BLANK
+	const SpatialSoundMatrix M1Spatial2DolbyAtmosSevenOneTwo(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
-	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//L
-		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },//R
-		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },//C
-		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },//LFE
-		{ r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0 },//Lss
-		{ 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4 },//Rss
-		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },//Lsr
-		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },//Rsr
+	{   { r2o2*r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//L
+		{ 0, r2o2*r2o2, 0, 0, 0, r2o2, 0, 0 },//R
+		{ 0, 0, 0, 0, 0, 0, 0, 0 },//C
+		{ 0, 0, 0, 0, 0, 0, 0, 0 },//LFE
+		{ 0, 0, 0, 0, 0, 0, 0, 0 },//Lss
+		{ 0, 0, 0, 0, 0, 0, 0, 0 },//Rss
+		{ 0, 0, r2o2*r2o2, 0, 0, 0, r2o2, 0 },//Lsr
+		{ 0, 0, 0, r2o2*r2o2, 0, 0, 0, r2o2 },//Rsr
 		{ 0.375016481f, 0.124983519f, 0.375016481f, 0.124983519f, 0, 0, 0, 0 },//Lts
 		{ 0.124983519f, 0.375016481f, 0.124983519f, 0.375016481f, 0, 0, 0, 0 } });//Rts
 
@@ -1894,8 +1894,8 @@ namespace Mach1TranscodeConstantsInternal {
 		//1  2  3  4  5  6  7  8  9  10
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },//L
 		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },//R
-		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, 0, 0 },//C
-		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 },//LFE
+		{ 0, 0, 0, 0, 0, 0, 0, 0, r2o2, r2o2 },//C passed from stereo input
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },//LFE
 		{ r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0, 0, 0 },//Lss
 		{ 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0, 0 },//Rss
 		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//Lsr

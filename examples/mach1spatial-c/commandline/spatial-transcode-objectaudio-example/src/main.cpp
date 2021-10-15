@@ -95,16 +95,71 @@ void printHelp() {
 	cout << std::endl;
 }
 
+struct audiofileInfo {
+    int format;
+    int sampleRate;
+    int numberOfChannels;
+    float duration;
+};
 
-void printFileInfo(SndfileHandle file) {
+audiofileInfo printFileInfo(SndfileHandle file) {
+    audiofileInfo inputFileInfo;
 	cout << "Sample Rate:        " << file.samplerate() << std::endl;
+    inputFileInfo.sampleRate = file.samplerate();
 	int format = file.format() & 0xffff;
     if (format == SF_FORMAT_PCM_16) cout << "Bit Depth:          16" << std::endl;
 	if (format == SF_FORMAT_PCM_24) cout << "Bit Depth:          24" << std::endl;
 	if (format == SF_FORMAT_FLOAT)  cout << "Bit Depth:          32" << std::endl;
+    inputFileInfo.format = format;
 	cout << "Channels:           " << file.channels() << std::endl;
-	//cout << "Length (sec):     " << (float)file.frames() / (float)file.samplerate() << std::endl;
+    inputFileInfo.numberOfChannels = file.channels();
+	cout << "Length (sec):     " << (float)file.frames() / (float)file.samplerate() << std::endl;
+    inputFileInfo.duration = (float)file.frames() / (float)file.samplerate();
 	cout << std::endl;
+    
+    return inputFileInfo;
+}
+
+std::string getTimecode(const char* admString, float duration) {
+    // Used to find duration in time of input file
+    // to correctly edit the ADM metadata and add the appropriate
+    // `end` and `duration` times.
+    std::string s(admString);
+    std::string searchString("hh:mm:ss.fffff");
+    size_t pos = s.find(searchString);
+    
+    int seconds, minutes, hours;
+    std::string hoursString, minutesString, secondsString;
+    seconds = duration;
+    minutes = seconds / 60;
+    hours = minutes / 60;
+    
+    if ((int)hours < 100) {
+        hoursString = (int(hours) < 10) ? "0" + std::to_string(int(hours)) : std::to_string(int(hours));
+    } else {
+        // file duration too long?
+        // TODO: handle case for when input is over 99 hours
+    }
+    minutesString = (int(minutes%60) < 10) ? "0" + std::to_string(int(minutes%60)) : std::to_string(int(minutes%60));
+    secondsString = (int((seconds+1)%60) < 10) ? "0" + std::to_string(int((seconds+1)%60)) : std::to_string(int((seconds+1)%60));
+    
+    std::vector<size_t> positions;    
+    // Repeat till end is reached
+    while(pos != std::string::npos){
+        // Add position to the vector
+        positions.push_back(pos);
+        // Get the next occurrence from the current position
+        pos = s.find(searchString, pos + searchString.size());
+    }
+
+    for (size_t pos : positions){
+        s.replace(pos, searchString.length(), hoursString+":"+minutesString+":"+secondsString+".00000");
+    }
+
+    cout << "Detected Duration:  " << duration << std::endl;
+    cout << "Duration Timecode:  " << hoursString << ":" << minutesString << ":" << secondsString << ".00000" << std::endl;
+    
+    return s;
 }
 
 // ---------------------------------------------------------
@@ -128,6 +183,7 @@ public:
 	}
 
 	void open(std::string outfilestr, int channels, bw64::ChnaChunk chnaChunkAdm, bw64::AxmlChunk axmlChunkAdm) {
+        // TODO: make variable of samplerate and bitdepth based on input
 		outBw64 = bw64::writeFile(outfilestr, channels, 48000u, 24u, std::make_shared<bw64::ChnaChunk>(chnaChunkAdm), std::make_shared<bw64::AxmlChunk>(axmlChunkAdm));
 		this->channels = channels;
 		type = SNDFILETYPE_BW64;
@@ -167,9 +223,7 @@ public:
 			outBw64->framesWritten();
 		}
 	}
-
 };
-
 
 int main(int argc, char* argv[])
 {
@@ -335,6 +389,7 @@ int main(int argc, char* argv[])
 	// determine number of input files
 	SndfileHandle *infile[Mach1TranscodeMAXCHANS];
 	vector<string> fNames;
+    audiofileInfo inputInfo;
 	
 	if (useAudioTimeline) {
 		for (int i = 0; i < audioObjects.size(); i++) {
@@ -351,7 +406,7 @@ int main(int argc, char* argv[])
 		if (infile[i] && (infile[i]->error() == 0)) {
 			// print input file stats
 			cout << "Input File:         " << fNames[i] << std::endl;
-			printFileInfo(*infile[i]);
+			inputInfo = printFileInfo(*infile[i]);
 			sampleRate = (long)infile[i]->samplerate();
 			//            int inChannels = 0;
 			//            for (int i = 0; i < numInFiles; i++)
@@ -449,7 +504,9 @@ int main(int argc, char* argv[])
         }
 
 		if (outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatDolbyAtmosSevenOneTwo) {
-			outfiles[i].open(outfilestr, actualOutFileChannels, chnaChunkAdm, axmlChunkAdm);
+            std::string axmlChunkAdmCorrectedString = getTimecode(axmlChunkAdmString, inputInfo.duration).c_str();
+            bw64::AxmlChunk axmlChunkAdmCorrected(axmlChunkAdmCorrectedString);
+			outfiles[i].open(outfilestr, actualOutFileChannels, chnaChunkAdm, axmlChunkAdmCorrected);
 		} else {
 			outfiles[i].open(outfilestr, (int)sampleRate, actualOutFileChannels, format);
 		}
@@ -532,10 +589,13 @@ int main(int argc, char* argv[])
 		// multiplex to output channels with master gain
 		float *ptrFileBuffer = fileBuffer;
 		float(*outBuf)[Mach1TranscodeMAXCHANS][BUFFERLEN] = (float(*)[Mach1TranscodeMAXCHANS][BUFFERLEN])&(outBuffers[0][0]);
-		for (int file = 0; file < numOutFiles; file++)
-			for (int j = 0; j < BUFFERLEN; j++)
-				for (int k = 0; k < actualOutFileChannels; k++)
+        for (int file = 0; file < numOutFiles; file++) {
+            for (int j = 0; j < BUFFERLEN; j++) {
+                for (int k = 0; k < actualOutFileChannels; k++) {
 					*ptrFileBuffer++ = (*outBuf)[(file*actualOutFileChannels) + k][j];
+                }
+            }
+        }
 
 		// write to outfile
 		for (int j = 0; j < numOutFiles; j++) {

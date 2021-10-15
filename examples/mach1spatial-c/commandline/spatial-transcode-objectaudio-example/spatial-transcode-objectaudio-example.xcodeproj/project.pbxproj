@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A42254B3271734B2006422AA /* spatial-transcode-objectaudio-example in CopyFiles */ = {isa = PBXBuildFile; fileRef = A41FB94321CAB28400F2CBD4 /* spatial-transcode-objectaudio-example */; };
 		A439579D26C5D34C001E96CB /* Mach1AudioTimeline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A439579C26C5D34C001E96CB /* Mach1AudioTimeline.cpp */; };
 		A45C55862624AACB0008FF4D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A45C55822624AACB0008FF4D /* main.cpp */; };
 		A45C558B2624AADA0008FF4D /* Mach1Transcode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A45C55882624AADA0008FF4D /* Mach1Transcode.cpp */; };
@@ -22,6 +23,7 @@
 			dstPath = /usr/local/bin;
 			dstSubfolderSpec = 0;
 			files = (
+				A42254B3271734B2006422AA /* spatial-transcode-objectaudio-example in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,6 +315,7 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(PROJECT_DIR)/../../../../m1-sdk/lib/include\"",
 					/usr/local/Cellar/libsndfile/1.0.31/include,
+					/usr/local/Cellar/libbw64/0.10.0/include,
 				);
 				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
 				INFOPLIST_FILE = "$(PROJECT_DIR)/src/Info.plist";
@@ -340,6 +343,7 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(PROJECT_DIR)/../../../../m1-sdk/lib/include\"",
 					/usr/local/Cellar/libsndfile/1.0.31/include,
+					/usr/local/Cellar/libbw64/0.10.0/include,
 				);
 				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
 				INFOPLIST_FILE = "$(PROJECT_DIR)/src/Info.plist";

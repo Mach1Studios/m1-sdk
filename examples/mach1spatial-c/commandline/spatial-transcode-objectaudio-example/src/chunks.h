@@ -19,14 +19,14 @@ const char* axmlChunkAdmString = R"(<?xml version="1.0" encoding="UTF-8"?>
 	<coreMetadata>
 		<format>
 			<audioFormatExtended >
-				<audioProgramme audioProgrammeID="APR_1001" audioProgrammeName="Atmos_Master" start="00:00:00.00000" end="00:00:31.12533">
+				<audioProgramme audioProgrammeID="APR_1001" audioProgrammeName="Atmos_Master" start="00:00:00.00000" end="hh:mm:ss.fffff">
 					<audioContentIDRef>ACO_1001</audioContentIDRef>
 				</audioProgramme>
 				<audioContent audioContentID="ACO_1001" audioContentName="Atmos_Master_Content">
 					<audioObjectIDRef>AO_1001</audioObjectIDRef>
 					<dialogue mixedContentKind="0">2</dialogue>
 				</audioContent>
-				<audioObject audioObjectID="AO_1001" audioObjectName="Atmos_Bed_1" start="00:00:00.00000" duration="00:00:31.12533">
+				<audioObject audioObjectID="AO_1001" audioObjectName="Atmos_Bed_1" start="00:00:00.00000" duration="hh:mm:ss.fffff">
 					<audioPackFormatIDRef>AP_00011001</audioPackFormatIDRef>
 					<audioTrackUIDRef>ATU_00000001</audioTrackUIDRef>
 					<audioTrackUIDRef>ATU_00000002</audioTrackUIDRef>

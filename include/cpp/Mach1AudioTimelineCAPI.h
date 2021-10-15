@@ -6,7 +6,7 @@
 #include "Mach1Point3D.h"
 #include "Mach1KeyPoint.h"
 
-#if defined(Mach1DecodeCore_h) || defined(Mach1EncodeCore_h) || defined(Mach1PositionalCore_h) || defined(Mach1AudioTimelineCore_h)
+#if defined(Mach1DecodeCore_h) || defined(Mach1EncodeCore_h) ||  defined(Mach1PositionalCore_h) || defined(Mach1TranscodeCore_h) || defined(Mach1AudioTimelineCore_h)
 #ifndef M1_API
         #if defined(_WINDOWS) || defined(WIN32)
             #define M1_API __declspec(dllexport)
@@ -24,8 +24,8 @@
     #endif
 #endif
 
-#ifndef Mach1AudioTimeline_h
-#define Mach1AudioTimeline_h
+#ifndef Mach1AudioTimelineCAPI_h
+#define Mach1AudioTimelineCAPI_h
 
 #ifdef __cplusplus
 extern "C" {

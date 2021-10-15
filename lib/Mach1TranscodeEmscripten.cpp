@@ -56,7 +56,7 @@ EMSCRIPTEN_BINDINGS(Mach1Transcode) {
         .value("Mach1TranscodeFormatNineOneFour", Mach1TranscodeFormatNineOneFour)
         .value("Mach1TranscodeFormatNineOneSix", Mach1TranscodeFormatNineOneSix)
         .value("Mach1TranscodeFormatMarcoSixteen", Mach1TranscodeFormatMarcoSixteen)
-        .value("Mach1TranscodeFormatTTPoints", Mach1TranscodeFormatTTPoints)
+        .value("Mach1TranscodeFormatCustomPoints", Mach1TranscodeFormatCustomPoints)
         .value("Mach1TranscodeFormatACNSN3DmaxRE1oa", Mach1TranscodeFormatACNSN3DmaxRE1oa)
         .value("Mach1TranscodeFormatACNSN3DmaxRE2oa", Mach1TranscodeFormatACNSN3DmaxRE2oa)
         .value("Mach1TranscodeFormatACNSN3DmaxRE3oa", Mach1TranscodeFormatACNSN3DmaxRE3oa)
@@ -64,6 +64,7 @@ EMSCRIPTEN_BINDINGS(Mach1Transcode) {
         .value("Mach1TranscodeFormatACNSN3DmaxRE5oa", Mach1TranscodeFormatACNSN3DmaxRE5oa)
         .value("Mach1TranscodeFormatACNSN3DmaxRE6oa", Mach1TranscodeFormatACNSN3DmaxRE6oa)
         .value("Mach1TranscodeFormatACNSN3DmaxRE7oa", Mach1TranscodeFormatACNSN3DmaxRE7oa)
+        .value("Mach1TranscodeFormatDolbyAtmosSevenOneTwo", Mach1TranscodeFormatDolbyAtmosSevenOneTwo)
         ;
 
 	register_vector<float>("VectorFloat");
@@ -96,13 +97,12 @@ EMSCRIPTEN_BINDINGS(Mach1Transcode) {
         .function("getSpatialDownmixerPossibility", &Mach1Transcode::getSpatialDownmixerPossibility)
 
 		.function("setInputFormat", &Mach1Transcode::setInputFormat)
-        .function("setInputFormatADM", &Mach1Transcode::setInputFormatADM)
-        .function("setInputFormatTTJson", &Mach1Transcode::setInputFormatTTJson)
-        .function("setInputFormatTTPoints", &Mach1Transcode::setInputFormatTTPoints)
+        .function("setInputFormatCustomPointsJson", &Mach1Transcode::setInputFormatCustomPointsJson)
+        .function("setInputFormatCustomPoints", &Mach1Transcode::setInputFormatCustomPoints)
 
         .function("setOutputFormat", &Mach1Transcode::setOutputFormat)
-        .function("setOutputFormatTTJson", &Mach1Transcode::setOutputFormatTTJson)
-        .function("setOutputFormatTTPoints", &Mach1Transcode::setOutputFormatTTPoints)
+        .function("setOutputFormatCustomPointsJson", &Mach1Transcode::setOutputFormatCustomPointsJson)
+        .function("setOutputFormatCustomPoints", &Mach1Transcode::setOutputFormatCustomPoints)
 
         .function("processConversionPath", &Mach1Transcode::processConversionPath)
         .function("getMatrixConversion", &Mach1Transcode::getMatrixConversion)

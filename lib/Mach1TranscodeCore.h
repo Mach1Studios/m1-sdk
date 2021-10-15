@@ -1256,16 +1256,6 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o4, r2o2, 0, r2o4, 0, 0, r2o8, 0, 0 },
 		{ 0, 0, 0, r2o4, 0, r2o2, 0, r2o8, 0, 0 },
 		{ 0, 0, 0, 0, r2o4, 0, r2o2, r2o8, 0, 0 } });
-	const SpatialSoundMatrix SevenOneTwoDolbyAtmosDefault2M1Spatial(std::vector<std::vector<float>>
-		//L, R, C, LFE, Lss, Rss, Lrs, Rrs, Lts, Rts
-	{	{ r2o2, 0, r2o4, r2o8, 0, 0, 0, 0, 0.3750f, 0.1250f },
-		{ 0, r2o2, r2o4, r2o8, 0, r2o4, 0, 0, 0.1250f, 0.3750f },
-		{ 0, 0, 0, r2o8, r2o4, 0, r2o2, 0, 0.3750f, 0.1250f },
-		{ 0, 0, 0, r2o8, 0, r2o4, 0, r2o2, 0.1250f, 0.3750f },
-		{ r2o2, 0, r2o4, r2o8, r2o4, 0, 0, 0, 0, 0 },
-		{ 0, r2o2, r2o4, r2o8, 0, r2o4, 0, 0, 0, 0 },
-		{ 0, 0, 0, r2o8, r2o4, 0, r2o2, 0, 0, 0 },
-		{ 0, 0, 0, r2o8, 0, r2o4, 0, r2o2, 0, 0 } });
 	const SpatialSoundMatrix SevenZeroTwo2M1Spatial(std::vector<std::vector<float>>
 		//L, C, R, Lss, Rss, Lsr, Rsr, Lts, Rts
 	{   { r2o2, r2o4, 0, r2o4, 0, 0, 0, 0.3750f, 0.1250f },
@@ -1557,7 +1547,6 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2 }, //R
 		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 }, //Ls
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 } }); //Rs
-
 	const SpatialSoundMatrix M1Spatial2SevenOneTwo(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//L
@@ -1570,18 +1559,6 @@ namespace Mach1TranscodeConstantsInternal {
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },//LFE
 		{ r2o2, 0, r2o2, 0, 0, 0, 0, 0 },//Lts
 		{ 0, r2o2, 0, r2o2, 0, 0, 0, 0 } });//Rts
-	const SpatialSoundMatrix M1Spatial2SevenOneTwoDolbyAtmosDefault(std::vector<std::vector<float>>
-		//1  2  3  4  5  6  7  8
-	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//L
-		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },//R
-		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },//C
-		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },//LFE
-		{ r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0 },//Lss
-		{ 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4 },//Rss
-		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },//Lsr
-		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },//Rsr
-		{ 0.375016481f, 0.124983519f, 0.375016481f, 0.124983519f, 0, 0, 0, 0 },//Lts
-		{ 0.124983519f, 0.375016481f, 0.124983519f, 0.375016481f, 0, 0, 0, 0 } });//Rts
 	const SpatialSoundMatrix M1SpatialS2SevenOneTwo(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8  9  10
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },//L
@@ -1594,18 +1571,6 @@ namespace Mach1TranscodeConstantsInternal {
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 },//LFE
 		{ r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0, 0 },//Lts
 		{ 0, r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0 } });//Rts
-	const SpatialSoundMatrix M1SpatialS2SevenOneTwoDolbyAtmosDefault(std::vector<std::vector<float>>
-		//1  2  3  4  5  6  7  8  9  10
-	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },//L
-		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },//R
-		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, 0, 0 },//C
-		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 },//LFE
-		{ r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0, 0, 0 },//Lss
-		{ 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0, 0 },//Rss
-		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//Lsr
-		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },//Rsr
-		{ 0.375016481f, 0.124983519f, 0.375016481f, 0.124983519f, 0, 0, 0, 0, 0, 0 },//Lts
-		{ 0.124983519f, 0.375016481f, 0.124983519f, 0.375016481f, 0, 0, 0, 0, 0, 0 } });//Rts
 	const SpatialSoundMatrix M1Spatial2SevenZeroTwo(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//L
@@ -2200,7 +2165,6 @@ namespace Mach1TranscodeConstants {
 		{std::make_pair(Mach1TranscodeFormats::SevenOneSDDS, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::SevenOneSDDS2M1Spatial},
 		{std::make_pair(Mach1TranscodeFormats::SevenZeroSDDS, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::SevenZeroSDDS2M1Spatial},
 		{std::make_pair(Mach1TranscodeFormats::SevenOneTwo, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::SevenOneTwo2M1Spatial},
-		{std::make_pair(Mach1TranscodeFormats::SevenOneTwoDolbyAtmosDefault, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::SevenOneTwoDolbyAtmosDefault2M1Spatial},
 		{std::make_pair(Mach1TranscodeFormats::SevenZeroTwo, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::SevenZeroTwo2M1Spatial},
 		{std::make_pair(Mach1TranscodeFormats::NineOne, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::NineOne2M1Spatial},
 		{std::make_pair(Mach1TranscodeFormats::NineZero, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::NineZero2M1Spatial},
@@ -2239,8 +2203,6 @@ namespace Mach1TranscodeConstants {
 		{std::make_pair(Mach1TranscodeFormats::M1SpatialS, Mach1TranscodeFormats::SevenZeroSDDS), &Mach1TranscodeConstantsInternal::M1SpatialS2SevenZeroSDDS},
 		{std::make_pair(Mach1TranscodeFormats::M1Spatial, Mach1TranscodeFormats::SevenOneTwo), &Mach1TranscodeConstantsInternal::M1Spatial2SevenOneTwo},
 		{std::make_pair(Mach1TranscodeFormats::M1SpatialS, Mach1TranscodeFormats::SevenOneTwo), &Mach1TranscodeConstantsInternal::M1SpatialS2SevenOneTwo},
-		{std::make_pair(Mach1TranscodeFormats::M1Spatial, Mach1TranscodeFormats::SevenOneTwoDolbyAtmosDefault), &Mach1TranscodeConstantsInternal::M1Spatial2SevenOneTwoDolbyAtmosDefault},
-		{std::make_pair(Mach1TranscodeFormats::M1SpatialS, Mach1TranscodeFormats::SevenOneTwoDolbyAtmosDefault), &Mach1TranscodeConstantsInternal::M1SpatialS2SevenOneTwoDolbyAtmosDefault},
 		{std::make_pair(Mach1TranscodeFormats::M1Spatial, Mach1TranscodeFormats::SevenZeroTwo), &Mach1TranscodeConstantsInternal::M1Spatial2SevenZeroTwo},
 		{std::make_pair(Mach1TranscodeFormats::M1SpatialS, Mach1TranscodeFormats::SevenZeroTwo), &Mach1TranscodeConstantsInternal::M1SpatialS2SevenZeroTwo},
 		{std::make_pair(Mach1TranscodeFormats::M1Spatial, Mach1TranscodeFormats::NineOne), &Mach1TranscodeConstantsInternal::M1Spatial2NineOne},

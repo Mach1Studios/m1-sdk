@@ -29,7 +29,7 @@
 
 #include "sndfile.hh"
 #include "CmdOption.h"
-#include "yaml/yaml.hpp"
+#include "yaml/Yaml.hpp"
 #include "xml/pugixml.hpp"
 #include "bw64/bw64.hpp"
 #include "chunks.h"
@@ -80,7 +80,7 @@ void printHelp() {
 	cout << "spatial-transcode-objectaudio-example -- light command line example conversion tool" << std::endl;
     cout << "note: for a complete transcoding tool use `m1-transcode` from the `binaries/executables` directory" << std::endl;
 	cout << std::endl;
-	cout << "usage: fmtconv -in-file test_s8.wav -in-fmt ADM -out-file test_b.wav -out-fmt M1Spatial" << std::endl;
+	cout << "usage: fmtconv -in-file test_s8.wav -in-fmt M1Spatial -out-file test_b.wav -out-fmt DolbyAtmosSevenOneTwo" << std::endl;
 	cout << std::endl;
 	cout << "  -help                    - list command line options" << std::endl;
 	cout << "  -in-folder <folder>      - input folder: folder for audio files" << std::endl;
@@ -571,10 +571,11 @@ int main(int argc, char* argv[])
 				sf_count_t samplesRead = framesReaded / thisChannels;
 				// demultiplex into process buffers
 				float *ptrFileBuffer = fileBuffer;
-				for (int j = 0; j < samplesRead; j++)
+                for (int j = 0; j < samplesRead; j++) {
 					for (int k = 0; k < thisChannels; k++) {
 							(*inBuf)[firstBuf + k][offset + j] = *ptrFileBuffer++;
 					}
+                }
 			}
 			firstBuf += thisChannels;
 		}

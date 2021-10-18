@@ -1,5 +1,5 @@
 MACH1 SPATIAL SDK
-Royalty Free License Version 2.0
+Royalty Free License Version 2.1
 MACH1 SPATIAL SDK Royalty Free License 
 
 ------------
@@ -74,7 +74,9 @@ AND/OR	- Display "Spatial Audio Powered by Mach1™"
 AND		- Display "Spatial Audio Powered by Mach1™"
 
 	iv.	Application must have mention of Mach1 when using the Mach1Transcode API with the following:
-		- "Spatial Audio Software provided under license from Mach1™"
+		- Display "Spatial Audio Powered by Mach1™"
+
+MACH1 grants DEVELOPER/its Affiliates a non-exclusive, worldwide, royalty-free, irrevocable right to use the Trademarks solely for the purposes specified above. The Trademarks may be modified in size and file format if technically required to incorporate them into the respective products. The use of the Trademarks for any other purposes shall be subject to prior written approval of MACH1. MACH1 shall retain all right, tile and interest in and to the Trademarks.
 
 8.	SUPPORT AND UPGRADES:  This Agreement does not entitle you to any support for the SDK, unless you enter into a separate agreement with us in writing signed by both parties. Any such support provided by us shall be subject to the terms and disclaimers of this Agreement. 
 

@@ -297,8 +297,10 @@ deploy-windows:
 	xcopy _install\vs-15-2017\lib ..\examples\mach1spatial-c\openframeworks\ofxMach1\libs\libmach1\lib\vs\x86 /Y
 	xcopy _install\vs-15-2017-win64\lib ..\examples\mach1spatial-c\openframeworks\ofxMach1\libs\libmach1\lib\vs\x64 /Y
 
-build-linux: FORCE
+test-linux: FORCE
 	cd tests && sh ./_build_on_linux_for_linux.sh
+
+build-linux: FORCE
 	~/git/polly/bin/polly --clear --install --config Release --toolchain gcc
 
 deploy-linux: build-linux

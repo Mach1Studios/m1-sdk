@@ -301,17 +301,13 @@ build-linux: FORCE
 	cd tests && sh ./_build_on_linux_for_linux.sh
 	~/git/polly/bin/polly --clear --install --config Release --toolchain gcc
 
-deploy-linux:
+deploy-linux: build-linux
 	yes | cp -rf "_install/gcc/lib/libMach1DecodeCAPI.a" "../binaries/linux/lib/libMach1DecodeCAPI.a"
 	yes | cp -rf "_install/gcc/lib/libMach1EncodeCAPI.a" "../binaries/linux/lib/libMach1EncodeCAPI.a"
 	yes | cp -rf "_install/gcc/lib/libMach1TranscodeCAPI.a" "../binaries/linux/lib/libMach1TranscodeCAPI.a"
 	yes | cp -rf "_install/gcc/lib/libMach1DecodePositionalCAPI.a" "../binaries/linux/lib/libMach1DecodePositionalCAPI.a"
 
-build-linux-arm: FORCE
-	cd tests && sh ./_build_on_linux_for_linux.sh
-	~/git/polly/bin/polly --clear --install --config Release --toolchain gcc
-
-deploy-linux-arm:
+deploy-linux-arm: build-linux
 	yes | cp -rf "_install/gcc/lib/libMach1DecodeCAPI.a" "../binaries/linux-arm/lib/libMach1DecodeCAPI.a"
 	yes | cp -rf "_install/gcc/lib/libMach1EncodeCAPI.a" "../binaries/linux-arm/lib/libMach1EncodeCAPI.a"
 	yes | cp -rf "_install/gcc/lib/libMach1TranscodeCAPI.a" "../binaries/linux-arm/lib/libMach1TranscodeCAPI.a"

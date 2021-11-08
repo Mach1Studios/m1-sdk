@@ -774,28 +774,26 @@ void Mach1DecodeCore::convertAnglesToMach1(Mach1PlatformType platformType, float
 		break;
 
 	case Mach1PlatformiOS:
-        std::swap(*P, *Y);
-        *Y = -*Y;
-        *P = -*P;
-        *R = *R;
+    *Y = -*Y;
+    *P = *P;
+    *R = *R;
 		break;
 
 	case Mach1PlatformUnity:
 		std::swap(*P, *Y);
-		*Y = *Y;                   // Y in Unity
+		*Y = *Y;             // Y in Unity
 		*P = *P;             // X in Unity
-		*R = *R;                    // Z in Unity
+		*R = *R;             // Z in Unity
 		break;
 
 	case Mach1PlatformUE:
 		*Y = -*Y;
 		std::swap(*Y, *P);
 		std::swap(*P, *R);
-
 		std::swap(*P, *Y);
-		*Y = *Y;                   // Y in Unity
-		*P = *P;             // X in Unity
-		*R = *R;                    // Z in Unity
+		*Y = *Y;
+		*P = *P;
+		*R = *R;
 		break;
 
 	case Mach1PlatformOfEasyCam:
@@ -805,7 +803,7 @@ void Mach1DecodeCore::convertAnglesToMach1(Mach1PlatformType platformType, float
 		break;
 
 	case Mach1PlatformAndroid:
-        std::swap(*P, *Y);
+		std::swap(*P, *Y);
 		*Y = -*Y;
 		*P = -*P;
 		*R = *R;
@@ -820,49 +818,48 @@ void Mach1DecodeCore::convertAnglesToPlatform(Mach1PlatformType platformType, fl
 {
 	 switch (platformType) {
 	 case Mach1PlatformDefault:
-		 *Y = *Y;
-		 *P = *P;
-		 *R = *R;
-		 break;
+		*Y = *Y;
+		*P = *P;
+		*R = *R;
+		break;
 
 	 case Mach1PlatformiOS:
-        *Y = -*Y;
-        *P = -*P;
-        *R = *R;
-        std::swap(*P, *Y);
-  	    break;
+		*Y = -*Y;
+		*P = *P;
+		*R = *R;
+		break;
 
 	 case Mach1PlatformUnity:
-		 *Y = *Y;                   // Y in Unity
-		 *P = *P;             // X in Unity
-		 *R = *R;                    // Z in Unity
-		 std::swap(*P, *Y);
-		 break;
+		*Y = *Y;                   // Y in Unity
+		*P = *P;             // X in Unity
+		*R = *R;                    // Z in Unity
+		std::swap(*P, *Y);
+		break;
 
 	 case Mach1PlatformUE:
-		 *Y = *Y;                    // Y in UE
-		 *P = (*P > 360 ? *P - 360 : *P);   // Z in UE
-		 *R = *R;                    // X in UE
-		 std::swap(*R, *Y);
-		 break;
+		*Y = *Y;                    // Y in UE
+		*P = (*P > 360 ? *P - 360 : *P);   // Z in UE
+		*R = *R;                    // X in UE
+		std::swap(*R, *Y);
+		break;
 
 	 case Mach1PlatformOfEasyCam:
-		 *Y = *Y;
-		 *P = -*P;
-		 *R = -*R;
-		 break;
+		*Y = *Y;
+		*P = -*P;
+		*R = -*R;
+		break;
 
 	 case Mach1PlatformAndroid:
-		 *Y = -*Y;
-		 *P = -*P;
-		 *R = *R;
-		 std::swap(*P, *Y);
-		 break;
+		*Y = -*Y;
+		*P = -*P;
+		*R = *R;
+		std::swap(*P, *Y);
+		break;
 
-	 default:
-		 break;
-	 }
- }
+	default:
+		break;
+	}
+}
 
 Mach1Point3DCore Mach1DecodeCore::getCurrentAngle() {
 	Mach1Point3DCore angle(currentYaw, currentPitch, currentRoll);

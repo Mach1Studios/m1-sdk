@@ -89,11 +89,13 @@ enum Mach1TranscodeFormatType {
 	Mach1TranscodeFormatDolbyAtmosSevenOneTwo
 };
 
+/* TODO: Implement process settings for object-audio format conversions
 struct Mach1TranscodeProcessSettings {
     bool processObjectBed = true;
     bool processChannelBed = true;
     bool enableBinauralRendering = true;
 };
+*/
 
 #ifdef __cplusplus
 extern "C" {

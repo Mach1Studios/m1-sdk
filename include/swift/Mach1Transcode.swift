@@ -104,24 +104,18 @@ public class Mach1Transcode {
         ///     View the current list of Mach1Transcode preset formats here: https://dev.mach1.tech/#formats-supported
     }
     
-    public func setInputFormatADM(inXml : String) {
-        let pointer = UnsafeMutablePointer<Int8>(mutating: (inXml as NSString).utf8String)
-        Mach1TranscodeCAPI_setInputFormatADM(M1obj, pointer)
-        /// Sets the input format for transcoding from the parsed ADM metadata within the audiofile
-    }
-    
-    public func setInputFormatTTJson(strJson : String) {
-        let pointer = UnsafeMutablePointer<Int8>(mutating: (strJson as NSString).utf8String)
-        Mach1TranscodeCAPI_setInputFormatTTJson(M1obj, pointer)
+    public func setInputFormatCustomPointsJson(inJson : String) {
+        let pointer = UnsafeMutablePointer<Int8>(mutating: (inJson as NSString).utf8String)
+        Mach1TranscodeCAPI_setInputFormatCustomPointsJson(M1obj, pointer)
         /// Sets the input format for transcoding from an external JSON source
         ///
         /// Remarks:
         ///     View the JSON spec for describing a format here: https://dev.mach1.tech/#json-descriptions
     }
     
-    public func setInputFormatTTPoints(points : [Mach1Point3D]) {
+    public func setInputFormatCustomPoints(points : [Mach1Point3D]) {
         let pointer = UnsafeMutablePointer<Mach1Point3D>(mutating: points)
-        Mach1TranscodeCAPI_setInputFormatTTPoints(M1obj, pointer, CInt(points.count));
+        Mach1TranscodeCAPI_setInputFormatCustomPoints(M1obj, pointer, CInt(points.count));
         /// Sets the output format for transcoding from TT directly
         ///
         /// Remarks:
@@ -136,22 +130,26 @@ public class Mach1Transcode {
         ///     View the current list of Mach1Transcode preset formats here: https://dev.mach1.tech/#formats-supported
     }
     
-    public func setOutputFormatTTJson (strJson : String) {
+    public func setOutputFormatCustomPointsJson (strJson : String) {
         let pointer = UnsafeMutablePointer<Int8>(mutating: (strJson as NSString).utf8String)
-        Mach1TranscodeCAPI_setOutputFormatTTJson(M1obj, pointer)
+        Mach1TranscodeCAPI_setOutputFormatCustomPointsJson(M1obj, pointer)
         /// Sets the output format for transcoding from an external JSON source
         ///
         /// Remarks:
         ///     View the JSON spec for describing a format here: https://dev.mach1.tech/#json-descriptions
     }
     
-    public func setOutputFormatTTPoints(points : [Mach1Point3D]) {
+    public func setOutputFormatCustomPoints(points : [Mach1Point3D]) {
         let pointer = UnsafeMutablePointer<Mach1Point3D>(mutating: points)
-        Mach1TranscodeCAPI_setOutputFormatTTPoints(M1obj, pointer, CInt(points.count));
+        Mach1TranscodeCAPI_setOutputFormatCustomPoints(M1obj, pointer, CInt(points.count));
         /// Sets the output format for transcoding from TT directly
         ///
         /// Remarks:
         ///     View the JSON spec for describing a format here: https://dev.mach1.tech/#json-descriptions
+    }
+
+    public func setCustomPointsSamplerCallback() {
+
     }
     
     public func processConversionPath() -> Bool {

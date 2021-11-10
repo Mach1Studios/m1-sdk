@@ -1314,6 +1314,16 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o4, r2o2, 0, 0, r2o8, 0, 0, 0, 0 },
 		{ 0, r2o20, 0, r2o2, 0, r2o8, 0, 0, 0, 0 },
 		{ 0, r2o20, 0, 0, r2o2, r2o8, 0, 0, 0, 0 } });
+	const SpatialSoundMatrix FiveOneFourSMPTE2M1Spatial(std::vector<std::vector<float>>
+		//L  R  C  LFE Ls Rs FLts FRts BLts BRts
+	{   { r2o2, 0, r2o4, r2o8, 0, 0, 0.7280f, 0.1250f, 0.1250f, 0.0210f },
+		{ 0, r2o2, r2o4, r2o8, 0, 0, 0.1250f, 0.7280f, 0.0210f, 0.1250f },
+		{ 0, 0, r2o20, r2o8, r2o2, 0, 0.1250f, 0.0210f, 0.7280f, 0.1250f },
+		{ 0, 0, r2o20, r2o8, 0, r2o2, 0.0210f, 0.1250f, 0.1250f, 0.7280f },
+		{ r2o2, 0, r2o4, r2o8, 0, 0, 0, 0, 0, 0 },
+		{ 0, r2o2, r2o4, r2o8, 0, 0, 0, 0, 0, 0 },
+		{ 0, 0, r2o20, r2o8, r2o2, 0, 0, 0, 0, 0 },
+		{ 0, 0, r2o20, r2o8, 0, r2o2, 0, 0, 0, 0 } });
 	const SpatialSoundMatrix FiveZeroFour2M1Spatial(std::vector<std::vector<float>>
 		//L  C  R  Ls Rs FLts FRts BLts BRts
 	{   { r2o2, r2o4, 0, 0, 0, 0.7280f, 0.1250f, 0.1250f, 0.0210f },
@@ -1689,19 +1699,44 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
 		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
-		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
+		{ 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0.7280f, 0.1250f, 0.1250f, 0.0210f, 0, 0, 0, 0 },//FLts
 		{ 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0 },//FRts
 		{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0 },//BLts
 		{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0 } });//BRts
 	const SpatialSoundMatrix M1SpatialS2FiveOneFour(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
-	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
+	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
 		{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
-		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
+		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
 		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
-		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 },
+		{ 0, 0, 0, 0, 0, 0, 0, 0, r2o4, r2o4 },
+		{ 0.7280f, 0.1250f, 0.1250f, 0.0210f, 0, 0, 0, 0, 0, 0 },//FLts
+		{ 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0, 0, 0 },//FRts
+		{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0, 0, 0 },//BLts
+		{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0, 0, 0 } });//BRts
+
+	const SpatialSoundMatrix M1Spatial2FiveOneFourSMPTE(std::vector<std::vector<float>>
+		//1  2  3  4  5  6  7  8
+	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
+		{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },
+		{ 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
+		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
+		{ 0.7280f, 0.1250f, 0.1250f, 0.0210f, 0, 0, 0, 0 },//FLts
+		{ 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0 },//FRts
+		{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0 },//BLts
+		{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0 } });//BRts
+	const SpatialSoundMatrix M1SpatialS2FiveOneFourSMPTE(std::vector<std::vector<float>>
+		//1  2  3  4  5  6  7  8
+	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
+		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
+		{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0, 0, 0, 0, r2o4, r2o4 },
+		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
+		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
 		{ 0.7280f, 0.1250f, 0.1250f, 0.0210f, 0, 0, 0, 0, 0, 0 },//FLts
 		{ 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0, 0, 0 },//FRts
 		{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0, 0, 0 },//BLts
@@ -1965,13 +2000,13 @@ namespace Mach1TranscodeFormats {
 		ACNSN3DmaxRE5oa,
 		ACNSN3DmaxRE6oa,
 		ACNSN3DmaxRE7oa,
-		DolbyAtmosSevenOneTwo
+		DolbyAtmosSevenOneTwo,
+		FiveOneFourSMPTE
 	};
 };
 
 
 namespace Mach1TranscodeConstants {
-
 	const std::map<Mach1TranscodeFormats::FormatType, const char*> FormatNames = {
 		{ Mach1TranscodeFormats::Empty, "None" },
 		{ Mach1TranscodeFormats::FuMa, "FuMa" },
@@ -2012,6 +2047,7 @@ namespace Mach1TranscodeConstants {
 		{ Mach1TranscodeFormats::FiveOneTwo, "FiveOneTwo" },
 		{ Mach1TranscodeFormats::FiveZeroTwo, "FiveZeroTwo" },
 		{ Mach1TranscodeFormats::FiveOneFour, "FiveOneFour" },
+		{ Mach1TranscodeFormats::FiveOneFourSMPTE, "FiveOneFourSMPTE" },
 		{ Mach1TranscodeFormats::FiveZeroFour, "FiveZeroFour" },
 		{ Mach1TranscodeFormats::SevenOneFour, "SevenOneFour" },
 		{ Mach1TranscodeFormats::SevenZeroFour, "SevenZeroFour" },
@@ -2071,6 +2107,7 @@ namespace Mach1TranscodeConstants {
 		{ Mach1TranscodeFormats::FiveOneTwo, 8 },
 		{ Mach1TranscodeFormats::FiveZeroTwo, 7 },
 		{ Mach1TranscodeFormats::FiveOneFour, 10 },
+		{ Mach1TranscodeFormats::FiveOneFourSMPTE, 10 },
 		{ Mach1TranscodeFormats::FiveZeroFour, 9 },
 		{ Mach1TranscodeFormats::SevenOneFour, 12 },
 		{ Mach1TranscodeFormats::SevenZeroFour, 11 },
@@ -2090,7 +2127,7 @@ namespace Mach1TranscodeConstants {
 	};
 
 	const int MAXCHANS = 64;
-	const int NUMFMTS = 84;
+	const int NUMFMTS = 85;
 
 	const std::map<std::pair<Mach1TranscodeFormats::FormatType, Mach1TranscodeFormats::FormatType>, const SpatialSoundMatrix*> FormatMatrix = {
 		{std::make_pair(Mach1TranscodeFormats::FuMa, Mach1TranscodeFormats::ACNSN3D), &Mach1TranscodeConstantsInternal::FuMa2ACNSN3D},
@@ -2171,6 +2208,7 @@ namespace Mach1TranscodeConstants {
 		{std::make_pair(Mach1TranscodeFormats::FiveOneTwo, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::FiveOneTwo2M1Spatial},
 		{std::make_pair(Mach1TranscodeFormats::FiveZeroTwo, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::FiveZeroTwo2M1Spatial},
 		{std::make_pair(Mach1TranscodeFormats::FiveOneFour, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::FiveOneFour2M1Spatial},
+		{std::make_pair(Mach1TranscodeFormats::FiveOneFourSMPTE, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::FiveOneFourSMPTE2M1Spatial},
 		{std::make_pair(Mach1TranscodeFormats::FiveZeroFour, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::FiveZeroFour2M1Spatial},
 		{std::make_pair(Mach1TranscodeFormats::SevenOneFour, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::SevenOneFour2M1Spatial},
 		{std::make_pair(Mach1TranscodeFormats::SevenZeroFour, Mach1TranscodeFormats::M1Spatial), &Mach1TranscodeConstantsInternal::SevenZeroFour2M1Spatial},
@@ -2215,6 +2253,8 @@ namespace Mach1TranscodeConstants {
 		{std::make_pair(Mach1TranscodeFormats::M1SpatialS, Mach1TranscodeFormats::FiveZeroTwo), &Mach1TranscodeConstantsInternal::M1SpatialS2FiveZeroTwo},
 		{std::make_pair(Mach1TranscodeFormats::M1Spatial, Mach1TranscodeFormats::FiveOneFour), &Mach1TranscodeConstantsInternal::M1Spatial2FiveOneFour},
 		{std::make_pair(Mach1TranscodeFormats::M1SpatialS, Mach1TranscodeFormats::FiveOneFour), &Mach1TranscodeConstantsInternal::M1SpatialS2FiveOneFour},
+		{std::make_pair(Mach1TranscodeFormats::M1Spatial, Mach1TranscodeFormats::FiveOneFourSMPTE), &Mach1TranscodeConstantsInternal::M1Spatial2FiveOneFourSMPTE},
+		{std::make_pair(Mach1TranscodeFormats::M1SpatialS, Mach1TranscodeFormats::FiveOneFourSMPTE), &Mach1TranscodeConstantsInternal::M1SpatialS2FiveOneFourSMPTE},
 		{std::make_pair(Mach1TranscodeFormats::M1Spatial, Mach1TranscodeFormats::FiveZeroFour), &Mach1TranscodeConstantsInternal::M1Spatial2FiveZeroFour},
 		{std::make_pair(Mach1TranscodeFormats::M1SpatialS, Mach1TranscodeFormats::FiveZeroFour), &Mach1TranscodeConstantsInternal::M1SpatialS2FiveZeroFour},
 		{std::make_pair(Mach1TranscodeFormats::M1Spatial, Mach1TranscodeFormats::SevenOneFour), &Mach1TranscodeConstantsInternal::M1Spatial2SevenOneFour},

@@ -112,11 +112,11 @@ grab-ios:
 	yes | cp -rf "../binaries/ios/lib/libMach1TranscodeCAPI.a" "_install/ios/lib/libMach1TranscodeCAPI.a"
 
 build-ios: FORCE
-	polly --clear --install --config Release --toolchain ios-12-1-dep-9-3 --ios-multiarch --ios-combined
-	yes | cp -rf "../binaries/ios/lib/libMach1DecodeCAPI.a" "_install/ios/lib/libMach1DecodeCAPI.a"
-	yes | cp -rf "../binaries/ios/lib/libMach1EncodeCAPI.a" "_install/ios/lib/libMach1EncodeCAPI.a"
-	yes | cp -rf "../binaries/ios/lib/libMach1DecodePositionalCAPI.a" "_install/ios/lib/libMach1DecodePositionalCAPI.a"
-	yes | cp -rf "../binaries/ios/lib/libMach1TranscodeCAPI.a" "_install/ios/lib/libMach1TranscodeCAPI.a"
+	polly --clear --install --config Release --toolchain ios-10-3-dep-9-0-bitcode --ios-multiarch --ios-combined
+	yes | cp -rf "_install/ios/ios-10-3-dep-9-0-bitcode/libMach1DecodeCAPI.a" "../binaries/ios/lib/libMach1DecodeCAPI.a"
+	yes | cp -rf "_install/ios/ios-10-3-dep-9-0-bitcode/libMach1EncodeCAPI.a" "../binaries/ios/lib/libMach1EncodeCAPI.a"
+	yes | cp -rf "_install/ios/ios-10-3-dep-9-0-bitcode/libMach1DecodePositionalCAPI.a" "../binaries/ios/lib/libMach1DecodePositionalCAPI.a"
+	yes | cp -rf "_install/ios/ios-10-3-dep-9-0-bitcode/libMach1TranscodeCAPI.a" "../binaries/ios/lib/libMach1TranscodeCAPI.a"
 	yes | cp -rf "../binaries/ios/lib/libMach1DecodeCAPI.a" "../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/ios/libMach1DecodeCAPI.a"
 	yes | cp -rf "../binaries/ios/lib/libMach1EncodeCAPI.a" "../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/ios/libMach1EncodeCAPI.a"
 	yes | cp -rf "../binaries/ios/lib/libMach1TranscodeCAPI.a" "../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/ios/libMach1TranscodeCAPI.a"

@@ -122,6 +122,12 @@ public class Mach1Decode {
         /// Returns the current elapsed time in milliseconds (ms) since Mach1Decode object's creation
     }
     
+    public func getCurrentAngle() -> Mach1Point3D {
+        let heading = Mach1DecodeCAPI_getCurrentAngle(M1obj)
+        return heading
+        /// Returns the current orientation heading as a 3D vector angle after platform & filterspeed processing.
+    }
+
     public func getLog() -> String {
         let str = String(cString: UnsafePointer(Mach1DecodeCAPI_getLog(M1obj)))
         return str

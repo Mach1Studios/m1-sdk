@@ -86,14 +86,17 @@ enum Mach1TranscodeFormatType {
 	Mach1TranscodeFormatACNSN3DmaxRE5oa,
 	Mach1TranscodeFormatACNSN3DmaxRE6oa,
 	Mach1TranscodeFormatACNSN3DmaxRE7oa,
-	Mach1TranscodeFormatDolbyAtmosSevenOneTwo
+	Mach1TranscodeFormatDolbyAtmosSevenOneTwo,
+	Mach1TranscodeFormatFiveOneFourSMPTE
 };
 
+/* TODO: Implement process settings for object-audio format conversions
 struct Mach1TranscodeProcessSettings {
     bool processObjectBed = true;
     bool processChannelBed = true;
     bool enableBinauralRendering = true;
 };
+*/
 
 #ifdef __cplusplus
 extern "C" {

@@ -13,7 +13,7 @@ pull:
 	git pull --recurse-submodules
 
 setup:
-	$(EMSDK_PATH)/emsdk_env.sh
+	source $(EMSDK_PATH)/emsdk_env.sh
 
 clear:
 	rm -rf _install/*

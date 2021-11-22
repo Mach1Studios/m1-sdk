@@ -336,7 +336,7 @@ deploy-linux-arm: build-linux
 deploy-release: deploy-dev
 	#replace all binaries in github release 
 	echo "### Copying all successful bins to /Binaries \###"
-	yes | cp -rf "_install/" "../../m1-sdk-release/binaries/"
+	yes | cp -rf "../binaries/" "../../m1-sdk-release/binaries/"
 	echo "### Move and replace bins \###"
 	echo "### Replacing Xcode/macOS \###"
 	yes | cp -rf "../binaries/xcode/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/osx/libMach1DecodeCAPI.a"

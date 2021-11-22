@@ -35,7 +35,9 @@ enum Mach1PlatformType {
 	Mach1PlatformUE,
 	Mach1PlatformOfEasyCam,
 	Mach1PlatformAndroid,
-	Mach1PlatformiOS
+	Mach1PlatformiOSTableTop_ZVertical,
+	Mach1PlatformiOSPortraitHandheld_YVertical,
+	Mach1PlatformiOSPortrait_YawOnly
 };
 
 enum Mach1DecodeAlgoType {

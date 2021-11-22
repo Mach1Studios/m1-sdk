@@ -25,6 +25,9 @@ public class Mach1Decode {
         ///     - Mach1PlatformOfEasyCam = 3
         ///     - Mach1PlatformAndroid = 4
         ///     - Mach1PlatformiOS = 5
+        ///     - Mach1PlatformiOSTableTop_ZVertical = 6
+        ///     - Mach1PlatformiOSPortraitHandheld_YVertical = 7
+        ///     - Mach1PlatformiOSPortrait_YawOnly = 8
     }
     
     public func setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoType) {

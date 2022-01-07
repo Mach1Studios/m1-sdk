@@ -375,7 +375,7 @@ void Mach1TranscodeCore::processConversion(Mach1TranscodeFormats::FormatType inF
 		currentFormatConversionMatrix = generateCoeffSetForPoints(inCustomPoints, outCustomPoints);
 	}
 	else if (inFmt != Mach1TranscodeFormats::FormatType::CustomPoints && outFmt != Mach1TranscodeFormats::FormatType::CustomPoints) {
-        currentFormatConversionMatrix = ((SpatialSoundMatrix*)Mach1TranscodeConstants::FormatMatrix.at(std::make_pair(inFmt, outFmt)))->getData();
+        currentFormatConversionMatrix = ((Mach1SpatialSoundMatrix*)Mach1TranscodeConstants::FormatMatrix.at(std::make_pair(inFmt, outFmt)))->getData();
     }
     
     // copy pointers to local
@@ -479,7 +479,7 @@ void Mach1TranscodeCore::getMatrixConversion(float* matrix)
 			currentFormatConversionMatrix = generateCoeffSetForPoints(inCustomPoints, outCustomPoints);
 		}
 		else if (inFmt != Mach1TranscodeFormats::FormatType::CustomPoints && outFmt != Mach1TranscodeFormats::FormatType::CustomPoints) {
-			currentFormatConversionMatrix = ((SpatialSoundMatrix*)Mach1TranscodeConstants::FormatMatrix.at(std::make_pair(inFmt, outFmt)))->getData();
+			currentFormatConversionMatrix = ((Mach1SpatialSoundMatrix*)Mach1TranscodeConstants::FormatMatrix.at(std::make_pair(inFmt, outFmt)))->getData();
 		}
 
 		std::memset(mCurrent, 0, mSize);

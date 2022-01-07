@@ -17,21 +17,7 @@
 #include "M1DSP/M1DSPUtilities.h"
 #include "Mach1Point3DCore.h"
 #include "Mach1Point3D.h"
-
-class SpatialSoundMatrix {
-	std::vector<std::vector<float>> data;
-
-public:
-	SpatialSoundMatrix(std::vector<std::vector<float>> data)
-	{
-		this->data = data;
-	}
-
-	std::vector<std::vector<float>>& getData()
-	{
-		return data;
-	}
-};
+#include "Mach1TranscodeFormats.h"
 
 namespace Mach1TranscodeConstantsInternal {
 	const float r2 = (float)sqrt(2.0);
@@ -54,12 +40,12 @@ namespace Mach1TranscodeConstantsInternal {
 	//const float oo8 = (float)1.0f / 8.0f;
 
 
-	const SpatialSoundMatrix FuMa2ACNSN3D(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix FuMa2ACNSN3D(std::vector<std::vector<float>>
 	{   { r2, 0, 0, 0 },  //W
 		{ 0, 0, 1, 0 },   //Y
 		{ 0, 0, 0, 1 },   //Z
 		{ 0, 1, 0, 0 } }); //X
-	const SpatialSoundMatrix FuMaO2A2ACNSN3DO2A(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix FuMaO2A2ACNSN3DO2A(std::vector<std::vector<float>>
 	{   { r2, 0, 0, 0, 0, 0, 0, 0, 0 },    //W
 		{ 0, 0, 1, 0, 0, 0, 0, 0, 0 },     //X
 		{ 0, 0, 0, 1, 0, 0, 0, 0, 0 },     //Y
@@ -69,7 +55,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0, 1, 0, 0, 0, 0 },     //
 		{ 0, 0, 0, 0, 0, r3o2, 0, 0, 0 },  //
 		{ 0, 0, 0, 0, 0, 0, 0, r3o2, 0 } });//
-	const SpatialSoundMatrix FuMaO3A2ACNSN3DO3A(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix FuMaO3A2ACNSN3DO3A(std::vector<std::vector<float>>
 	{   { r2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },            //W
 		{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },             //X
 		{ 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },             //Y
@@ -87,12 +73,12 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.745356f, 0, 0, 0 },     //
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.790569f, 0 } });   //
 	// -- ACN/SN3D ---
-	const SpatialSoundMatrix ACNSN3D2FuMa(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3D2FuMa(std::vector<std::vector<float>>
 	{   { oor2, 0, 0, 0 }, //W
 		{ 0, 0, 0, 1 },    //X
 		{ 0, 1, 0, 0 },    //Y
 		{ 0, 0, 1, 0 } });  //Z
-	const SpatialSoundMatrix ACNSN3DO2A2FuMaO2A(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DO2A2FuMaO2A(std::vector<std::vector<float>>
 	{   { oor2, 0, 0, 0, 0, 0, 0, 0, 0 },  //W Fuma Output
 		{ 0, 0, 0, 1, 0, 0, 0, 0, 0 },     //X
 		{ 0, 1, 0, 0, 0, 0, 0, 0, 0 },     //Y
@@ -102,7 +88,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0, 0, 1.154701f, 0, 0, 0 },     //
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 1.154701f },     //
 		{ 0, 0, 0, 0, 1.154701f, 0, 0, 0, 0 } });   //
-	const SpatialSoundMatrix ACNSN3DO3A2FuMaO3A(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DO3A2FuMaO3A(std::vector<std::vector<float>>
 	{   { oor2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  //W Fuma Output
 		{ 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },     //X
 		{ 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },     //Y
@@ -121,17 +107,17 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.264911f, 0, 0, 0, 0, 0, 0 } });   //
 
 	// --- From M1Horizon ---
-	const SpatialSoundMatrix M1Horizon2FuMa(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Horizon2FuMa(std::vector<std::vector<float>>
 	{   { oor2, oor2, oor2, oor2 },
 		{ oor2, -oor2, oor2, -oor2 },
 		{ oor2, oor2, -oor2, -oor2 },
 		{ 0, 0, 0, 0 } });
-	const SpatialSoundMatrix M1Horizon2ACNSN3D(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Horizon2ACNSN3D(std::vector<std::vector<float>>
 	{   { 1, 1, 1, 1 },
 		{ oor2, -oor2, -oor2, oor2 },
 		{ 0, 0, 0, 0 },
 		{ oor2, oor2, -oor2, -oor2 } });
-	const SpatialSoundMatrix M1Horizon2ACNSN3DO2A(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Horizon2ACNSN3DO2A(std::vector<std::vector<float>>
 	{   {  1.0000f, 1.0000f, 1.0000f, 1.0000f},
 		{ 0.7071f,  0.7071f, -0.7071f, -0.7071f },
 		{ 0.0000f,  0.0000f,  0.0000f,  0.0000f },
@@ -141,7 +127,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ -0.5000f, -0.5000f, -0.5000f, -0.5000f },
 		{ 0.0000f,  -0.0000f,  -0.0000f,  0.0000f },
 		{ 0.0000f, -0.0000f,  0.0000f, -0.0000f } });
-	const SpatialSoundMatrix M1Horizon2ACNSN3DO3A(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Horizon2ACNSN3DO3A(std::vector<std::vector<float>>
 	{   {  1.0000f, 1.0000f, 1.0000f, 1.0000f},
 		{ 0.7071f,  0.7071f, -0.7071f, -0.7071f },
 		{ 0.0000f,  0.0000f,  0.0000f,  0.0000f },
@@ -158,27 +144,27 @@ namespace Mach1TranscodeConstantsInternal {
 		{ -0.4330f,  0.4330f,  0.4330f, -0.4330f },
 		{ 0.0000f,  -0.0000f,  0.0000f,  -0.0000f },
 		{ -0.5590f,  0.5590f,  0.5590f, -0.5590f } });
-	const SpatialSoundMatrix ACNSN3D2M1Horizon(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3D2M1Horizon(std::vector<std::vector<float>>
 	{   {  0.5000f, 0.3536f, 0.0000f, 0.3536f},
 		{ 0.5000f,  0.3536f,  0.0000f, -0.3536f },
 		{ 0.5000f, -0.3536f,  0.0000f, -0.3536f },
 		{ 0.5000f, -0.3536f,  0.0000f,  0.3536f } });
-	const SpatialSoundMatrix ACNSN3DO2A2M1Horizon(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DO2A2M1Horizon(std::vector<std::vector<float>>
 	{   {  0.3727f, 0.3953f, 0.0000f, 0.3953f, 0.1614f, 0.0000f, -0.0932f, 0.0000f, 0.0000f},
 		{ 0.3727f,  0.3953f,  0.0000f, -0.3953f, -0.1614f,  0.0000f, -0.0932f,  -0.0000f, -0.0000f },
 		{ 0.3727f, -0.3953f,  0.0000f, -0.3953f,  0.1614f,  -0.0000f, -0.0932f,  -0.0000f,  0.0000f },
 		{ 0.3727f, -0.3953f,  0.0000f,  0.3953f, -0.1614f,  -0.0000f, -0.0932f,  0.0000f, -0.0000f } });
-	const SpatialSoundMatrix ACNSN3DO3A2M1Horizon(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DO3A2M1Horizon(std::vector<std::vector<float>>
 	{   {  0.3123f, 0.3975f, 0.0000f, 0.3975f, 0.2705f, 0.0000f, -0.1562f, 0.0000f, 0.0000f, 0.0349f, 0.0000f, -0.0270f, -0.0000f, -0.0270f, 0.0000f, -0.0349f},
 		{ 0.3123f,  0.3975f,  0.0000f, -0.3975f, -0.2705f,  0.0000f, -0.1562f,  -0.0000f, -0.0000f,  0.0349f,  -0.0000f, -0.0270f,  -0.0000f,  0.0270f,  -0.0000f,  0.0349f },
 		{ 0.3123f, -0.3975f,  0.0000f, -0.3975f,  0.2705f,  -0.0000f, -0.1562f,  -0.0000f,  0.0000f, -0.0349f,  0.0000f,  0.0270f,  -0.0000f,  0.0270f,  0.0000f,  0.0349f },
 		{ 0.3123f, -0.3975f,  0.0000f,  0.3975f, -0.2705f,  -0.0000f, -0.1562f,  0.0000f, -0.0000f, -0.0349f,  -0.0000f,  0.0270f,  -0.0000f, -0.0270f,  -0.0000f, -0.0349f } });
-	const SpatialSoundMatrix M1Horizon2M1Horizon(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Horizon2M1Horizon(std::vector<std::vector<float>>
 	{   { 1, 0, 0, 0 },
 		{ 0, 1, 0, 0 },
 		{ 0, 0, 1, 0 },
 		{ 0, 0, 0, 1 } });
-	const SpatialSoundMatrix M1Horizon2M1HorizonPairs(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Horizon2M1HorizonPairs(std::vector<std::vector<float>>
 	{   { 1, 0, 0, 0 },
 		{ 0, 1, 0, 0 },
 		{ 0, 1, 0, 0 },
@@ -187,7 +173,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 1, 0 },
 		{ 0, 0, 1, 0 },
 		{ 1, 0, 0, 0 } });
-	const SpatialSoundMatrix M1Horizon2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Horizon2M1Spatial(std::vector<std::vector<float>>
 	{   { oor2, 0, 0, 0 },
 		{ 0, oor2, 0, 0 },
 		{ 0, 0, oor2, 0 },
@@ -196,7 +182,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, oor2, 0, 0 },
 		{ 0, 0, oor2, 0 },
 		{ 0, 0, 0, oor2 } });
-	const SpatialSoundMatrix M1Horizon2M1SpatialPairs(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Horizon2M1SpatialPairs(std::vector<std::vector<float>>
 	{   { 0.5f, 0, 0, 0 },
 		{ 0, 0.5f, 0, 0 },
 		{ 0, 0, 0.5f, 0 },
@@ -213,41 +199,41 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0.5f, 0 },
 		{ 0, 0.5f, 0, 0 },
 		{ 0, 0, 0, 0.5f } });
-	const SpatialSoundMatrix M1Horizon2FiveOh(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Horizon2FiveOh(std::vector<std::vector<float>>
 	{   { 1, 0, 0, 0 },
 		{ r2o4, r2o4, r2o4, r2o4 },
 		{ 0, 1, 0, 0 },
 		{ 0, 0, 1, 0 },
 		{ 0, 0, 0, 1 } });
-	const SpatialSoundMatrix M1Horizon2FiveOneFilm(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Horizon2FiveOneFilm(std::vector<std::vector<float>>
 	{   { 1, 0, 0, 0 },
 		{ r2o4, r2o4, r2o4, r2o4 },
 		{ 0, 1, 0, 0 },
 		{ 0, 0, 1, 0 },
 		{ 0, 0, 0, 1 },
 		{ r2o8, r2o8, r2o8, r2o8 } });
-	const SpatialSoundMatrix M1Horizon2FiveOneFilm_Cinema(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Horizon2FiveOneFilm_Cinema(std::vector<std::vector<float>>
 	{   { 1, 0, 0, 0 },
 		{ r2o2, r2o2, 0, 0 },
 		{ 0, 1, 0, 0 },
 		{ 0, 0, 1, 0 },
 		{ 0, 0, 0, 1 },
 		{ r2o8, r2o8, r2o8, r2o8 } });
-	const SpatialSoundMatrix M1Horizon2FiveOneSmpte(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Horizon2FiveOneSmpte(std::vector<std::vector<float>>
 	{   { 1, 0, 0, 0 },
 		{ 0, 1, 0, 0 },
 		{ r2o2, r2o2, 0, 0 },
 		{ r2o8, r2o8, r2o8, r2o8 },
 		{ 0, 0, 1, 0 },
 		{ 0, 0, 0, 1 } });
-	const SpatialSoundMatrix M1Horizon2FiveOneDts(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Horizon2FiveOneDts(std::vector<std::vector<float>>
 	{   { 1, 0, 0, 0 },
 		{ 0, 1, 0, 0 },
 		{ 0, 0, 1, 0 },
 		{ 0, 0, 0, 1 },
 		{ r2o2, r2o2, 0, 0 },
 		{ r2o8, r2o8, r2o8, r2o8 } });
-	const SpatialSoundMatrix M1Horizon2SixOh(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Horizon2SixOh(std::vector<std::vector<float>>
 	{   { 0, 0, 0, 0 },
 		{ 0, 0, 0, 0 },
 		{ 0, 0, 0, 0 },
@@ -256,56 +242,56 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0 } });
 
 	// --- Surround To M1Horizon ---
-	const SpatialSoundMatrix FiveOh2M1Horizon(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix FiveOh2M1Horizon(std::vector<std::vector<float>>
 		//L, C, R, Ls, Rs
 	{   { 1, r2o4, 0, 0, 0 },
 		{ 0, r2o4, 1, 0, 0 },
 		{ 0, r2o4, 0, 1, 0 },
 		{ 0, r2o4, 0, 0, 1 } });
-	const SpatialSoundMatrix FiveOneFilm2M1Horizon(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix FiveOneFilm2M1Horizon(std::vector<std::vector<float>>
 		//L, C, R, Ls, Rs, LFE
 	{   { 1, r2o4, 0, 0, 0, r2o8 },
 		{ 0, r2o4, 1, 0, 0, r2o8 },
 		{ 0, r2o4, 0, 1, 0, r2o8 },
 		{ 0, r2o4, 0, 0, 1, r2o8 } });
-	const SpatialSoundMatrix FiveOneFilm_Cinema2M1Horizon(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix FiveOneFilm_Cinema2M1Horizon(std::vector<std::vector<float>>
 	{   { 1, r2o4, 0, 0, 0, r2o8 },
 		{ 0, r2o4, 1, 0, 0, r2o8 },
 		{ 0, r2o20, 0, 1, 0, r2o8 },
 		{ 0, r2o20, 0, 0, 1, r2o8 } });
-	const SpatialSoundMatrix FiveOneSmpte2M1Horizon(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix FiveOneSmpte2M1Horizon(std::vector<std::vector<float>>
 	{   { 1, 0, r2o4, r2o8, 0, 0 },
 		{ 0, 1, r2o4, r2o8, 0, 0 },
 		{ 0, 0, r2o4, r2o8, 1, 0 },
 		{ 0, 0, r2o4, r2o8, 0, 1 } });
-	const SpatialSoundMatrix FiveOneDts2M1Horizon(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix FiveOneDts2M1Horizon(std::vector<std::vector<float>>
 	{   { 1, 0, 0, 0, r2o4, r2o8 },
 		{ 0, 1, 0, 0, r2o4, r2o8 },
 		{ 0, 0, 1, 0, r2o4, r2o8 },
 		{ 0, 0, 0, 1, r2o4, r2o8 } });
-	const SpatialSoundMatrix SixOh2M1Horizon(std::vector<std::vector<float>> // ?
+	const Mach1SpatialSoundMatrix SixOh2M1Horizon(std::vector<std::vector<float>> // ?
 	{   { 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0 } });
 
 	// --- M1Horizon ( std::vector<std::vector<float>>M1Horizon) + Stereo ( std::vector<std::vector<float>>S) ---
-	const SpatialSoundMatrix M1HorizonS2FuMa(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1HorizonS2FuMa(std::vector<std::vector<float>>
 	{   { oor2, oor2, oor2, oor2, oor2, oor2 },
 		{ oor2, -oor2, oor2, -oor2, 0, 0 },
 		{ oor2, oor2, -oor2, -oor2, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0 } });
-	const SpatialSoundMatrix M1HorizonS2ACNSN3D(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1HorizonS2ACNSN3D(std::vector<std::vector<float>>
 	{   { 1, 1, 1, 1, 1, 1 },
 		{ oor2, -oor2, -oor2, oor2, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0 },
 		{ oor2, oor2, -oor2, -oor2, 0, 0 } });
-	const SpatialSoundMatrix M1HorizonS2M1Horizon(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1HorizonS2M1Horizon(std::vector<std::vector<float>>
 	{   { 1, 0, 0, 0, 0.25f, 0.25f },
 		{ 0, 1, 0, 0, 0.25f, 0.25f },
 		{ 0, 0, 1, 0, 0.25f, 0.25f },
 		{ 1, 0, 0, 0, 0.25f, 0.25f } });
-	const SpatialSoundMatrix M1HorizonS2M1HorizonPairs(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1HorizonS2M1HorizonPairs(std::vector<std::vector<float>>
 	{   { 1, 0, 0, 0, 1, 0 },
 		{ 0, 1, 0, 0, 0, 1 },
 		{ 0, 1, 0, 0, 1, 0 },
@@ -314,7 +300,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 1, 0, 0, 1 },
 		{ 0, 0, 1, 0, 1, 0 },
 		{ 1, 0, 0, 0, 0, 1 } });
-	const SpatialSoundMatrix M1HorizonS2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1HorizonS2M1Spatial(std::vector<std::vector<float>>
 	{   { 0.5f, 0, 0, 0, 0.125f, 0.125f },
 		{ 0, 0.5f, 0, 0, 0.125f, 0.125f },
 		{ 0, 0, 0.5f, 0, 0.125f, 0.125f },
@@ -323,7 +309,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0.5f, 0, 0, 0.125f, 0.125f },
 		{ 0, 0, 0.5f, 0, 0.125f, 0.125f },
 		{ 0, 0, 0, 0.5f, 0.125f, 0.125f } });
-	const SpatialSoundMatrix M1HorizonS2M1SpatialPairs(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1HorizonS2M1SpatialPairs(std::vector<std::vector<float>>
 	{   { 0.5f, 0, 0, 0, 1, 0 },
 		{ 0, 0.5f, 0, 0, 0, 1 },
 		{ 0, 0, 0.5f, 0, 1, 0 },
@@ -347,7 +333,7 @@ namespace Mach1TranscodeConstantsInternal {
 	//  { 0, 0, 0, 0 } });
 
 	// --- M1Spatial ( std::vector<std::vector<float>>M1Spatial) ---
-	const SpatialSoundMatrix M1Spatial2M1Spatial(std::vector<std::vector<float>> // requested for conversions of number of files
+	const Mach1SpatialSoundMatrix M1Spatial2M1Spatial(std::vector<std::vector<float>> // requested for conversions of number of files
 	{   { 1, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 1, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 1, 0, 0, 0, 0, 0 },
@@ -356,12 +342,12 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0, 0, 1, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 1, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 1 } });
-	const SpatialSoundMatrix M1Spatial2FuMa(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2FuMa(std::vector<std::vector<float>>
 	{   { oor2, oor2, oor2, oor2, oor2, oor2, oor2, oor2 },
 		{ 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f },
 		{ 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f },
 		{ oor2, oor2, oor2, oor2, -oor2, -oor2, -oor2, -oor2 } });
-	const SpatialSoundMatrix M1Spatial2FuMaO2A(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2FuMaO2A(std::vector<std::vector<float>>
 	{   { oor2, oor2, oor2, oor2, oor2, oor2, oor2, oor2 }, //W
 		{ 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f }, //X
 		{ 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f }, //Y
@@ -371,7 +357,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0, 0, 0, 0, 0 }, //T
 		{ 0, 0, 0, 0, 0, 0, 0, 0 }, //U
 		{ 0, 0, 0, 0, 0, 0, 0, 0 } }); //V
-	const SpatialSoundMatrix M1Spatial2TBE(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2TBE(std::vector<std::vector<float>>
 	{   { 0.488603f, 0.488603f, 0.488603f, 0.488603f, 0.488603f, 0.488603f, 0.488603f, 0.488603f },
 		{ -0.281971f, 0.281971f, -0.281971f, 0.281971f, -0.281971f, 0.281971f, -0.281971f, 0.281971f },
 		{ 0.281971f, 0.281971f, -0.281971f, -0.281971f, 0.281971f, 0.281971f, -0.281971f, -0.281971f },
@@ -387,7 +373,7 @@ namespace Mach1TranscodeConstantsInternal {
 	//        { r3or2, r3or2, r3or2, r3or2, -r3or2, -r3or2, -r3or2, -r3or2 }, // r3or2 = 1.2247f
 	//        { r3o2, r3o2, -r3o2, -r3o2, r3o2, r3o2, -r3o2, -r3o2 } });
 	//nFOA
-	const SpatialSoundMatrix M1Spatial2ACNSN3D(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2ACNSN3D(std::vector<std::vector<float>>
 	{   {  1.0000f, 1.0000f, 1.0000f, 1.0000f, 1.0000f, 1.0000f, 1.0000f, 1.0000f},
 		{ 0.5000f, -0.5000f,  0.5000f, -0.5000f,  0.5000f, -0.5000f, -0.5000f,  0.5000f },
 		{ 0.7071f,  0.7071f,  0.7071f,  0.7071f, -0.7071f, -0.7071f, -0.7071f, -0.7071f },
@@ -404,7 +390,7 @@ namespace Mach1TranscodeConstantsInternal {
 	//        {  0.6124f, -0.6124f, -0.6124f,  0.6124f, -0.6124f,  0.6124f,  0.6124f, -0.6124f},
 	//        {  0.0000f, -0.0000f,  0.0000f, -0.0000f,  0.0000f, -0.0000f,  0.0000f, -0.0000f} });
 	//nSOA
-	const SpatialSoundMatrix M1Spatial2ACNSN3DO2A(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2ACNSN3DO2A(std::vector<std::vector<float>>
 	{   { 1.0000f,  1.0000f,  1.0000f,  1.0000f,  1.0000f,  1.0000f,  1.0000f,  1.0000f},
 		{ 0.5000f, -0.5000f,  0.5000f, -0.5000f,  0.5000f, -0.5000f, -0.5000f,  0.5000f },
 		{ 0.7071f,  0.7071f,  0.7071f,  0.7071f, -0.7071f, -0.7071f, -0.7071f, -0.7071f },
@@ -414,7 +400,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.2500f,  0.2500f,  0.2500f,  0.2500f,  0.2500f,  0.2500f,  0.2500f,  0.2500f },
 		{ 0.6124f, -0.6124f, -0.6124f,  0.6124f, -0.6124f,  0.6124f,  0.6124f, -0.6124f },
 		{ 0.0000f,  0.0000f,  0.0000f,  0.0000f,  0.0000f,  0.0000f,  0.0000f,  0.0000f } });
-	const SpatialSoundMatrix M1Spatial2ACNSN3DO3A(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2ACNSN3DO3A(std::vector<std::vector<float>>
 	{   { 1.0000f,  1.0000f,  1.0000f,  1.0000f,  1.0000f,  1.0000f,  1.0000f,  1.0000f},
 		{ 0.5000f, -0.5000f,  0.5000f, -0.5000f,  0.5000f, -0.5000f,  0.5000f, -0.5000f },
 		{ 0.7071f,  0.7071f,  0.7071f,  0.7071f, -0.7071f, -0.7071f, -0.7071f, -0.7071f },
@@ -431,7 +417,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.4593f, -0.4593f, -0.4593f,  0.4593f,  0.4593f, -0.4593f, -0.4593f,  0.4593f },
 		{ 0.0000f,  0.0000f,  0.0000f,  0.0000f,  0.0000f,  0.0000f,  0.0000f,  0.0000f },
 		{ -0.1976f,  0.1976f,  0.1976f, -0.1976f, -0.1976f,  0.1976f,  0.1976f, -0.1976f } });
-	const SpatialSoundMatrix ACNSN3D2M1Spatial(std::vector<std::vector<float>> // TODO: Check into this
+	const Mach1SpatialSoundMatrix ACNSN3D2M1Spatial(std::vector<std::vector<float>> // TODO: Check into this
 	{ 	{ 0.125000f,  0.216602f,  0.216316f,  0.216602f },    // Top Front Left
 		{ 0.125000f, -0.216602f,  0.216316f,  0.216602f },    // Top Front Right
 		{ 0.125000f,  0.216602f,  0.216316f, -0.216602f },    // Top Back Left
@@ -440,7 +426,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.125000f, -0.216602f, -0.216316f,  0.216602f },    // Bottom Front Right
 		{ 0.125000f,  0.216602f, -0.216316f, -0.216602f },    // Bottom Back Left
 		{ 0.125000f, -0.216602f, -0.216316f, -0.216602f } }); // Bottom Back Right
-	const SpatialSoundMatrix ACNSN3DO2A2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DO2A2M1Spatial(std::vector<std::vector<float>>
 	{   { 0.3727f,  0.2795f,  0.3953f,  0.2795f,  0.0807f,  0.1141f,  0.0466f,  0.1141f,  0.0000f},
 		{ 0.3727f,  0.2795f,  0.3953f, -0.2795f, -0.0807f,  0.1141f,  0.0466f, -0.1141f, -0.0000f },
 		{ 0.3727f, -0.2795f,  0.3953f, -0.2795f,  0.0807f, -0.1141f,  0.0466f, -0.1141f,  0.0000f },
@@ -449,7 +435,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.3727f,  0.2795f, -0.3953f, -0.2795f, -0.0807f, -0.1141f,  0.0466f,  0.1141f, -0.0000f },
 		{ 0.3727f, -0.2795f, -0.3953f, -0.2795f,  0.0807f,  0.1141f,  0.0466f,  0.1141f,  0.0000f },
 		{ 0.3727f, -0.2795f, -0.3953f,  0.2795f, -0.0807f,  0.1141f,  0.0466f, -0.1141f, -0.0000f } });
-	const SpatialSoundMatrix ACNSN3DO3A2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DO3A2M1Spatial(std::vector<std::vector<float>>
 	{   { 0.3123f,  0.2811f,  0.3975f,  0.2811f,  0.1352f,  0.1913f,  0.0781f,  0.1913f,  0.0000f,  0.0123f,  0.0428f,  0.0287f, -0.0110f,  0.0287f,  0.0000f, -0.0123f},
 		{ 0.3123f,  0.2811f,  0.3975f, -0.2811f, -0.1352f,  0.1913f,  0.0781f, -0.1913f, -0.0000f,  0.0123f, -0.0428f,  0.0287f, -0.0110f, -0.0287f, -0.0000f,  0.0123f },
 		{ 0.3123f, -0.2811f,  0.3975f, -0.2811f,  0.1352f, -0.1913f,  0.0781f, -0.1913f,  0.0000f, -0.0123f,  0.0428f, -0.0287f, -0.0110f, -0.0287f,  0.0000f,  0.0123f },
@@ -458,7 +444,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.3123f,  0.2811f, -0.3975f, -0.2811f, -0.1352f, -0.1913f,  0.0781f,  0.1913f, -0.0000f,  0.0123f,  0.0428f,  0.0287f,  0.0110f, -0.0287f,  0.0000f,  0.0123f },
 		{ 0.3123f, -0.2811f, -0.3975f, -0.2811f,  0.1352f,  0.1913f,  0.0781f,  0.1913f,  0.0000f, -0.0123f, -0.0428f, -0.0287f,  0.0110f, -0.0287f, -0.0000f,  0.0123f },
 		{ 0.3123f, -0.2811f, -0.3975f,  0.2811f, -0.1352f,  0.1913f,  0.0781f, -0.1913f, -0.0000f, -0.0123f,  0.0428f, -0.0287f,  0.0110f,  0.0287f,  0.0000f, -0.0123f } });
-	const SpatialSoundMatrix TBE2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix TBE2M1Spatial(std::vector<std::vector<float>>
 	{   { 0.682217f, -0.590557f, 0.590557f, 0.591337f, 0, -0.152414f, -0.152615f, 0.152615f },
 		{ 0.682217f, 0.590557f, 0.590557f, 0.591337f, 0, 0.152414f, 0.152615f, 0.152615f },
 		{ 0.682217f, -0.590557f, -0.590557f, 0.591337f, 0, 0.152414f, -0.152615f, -0.152615f },
@@ -476,7 +462,7 @@ namespace Mach1TranscodeConstantsInternal {
 	//        { 1.465809f, 1.693316f, 1.693316f, -1.691083f, 0, 6.561077f, -6.552435f, -6.552435f },
 	//        { 1.465809f, -1.693316f, -1.693316f, -1.691083f, 0, 6.561077f, 6.552435f, 6.552435f },
 	//        { 1.465809f, 1.693316f, -1.693316f, -1.691083f, 0, -6.561077f, -6.552435f, 6.552435f } });
-	const SpatialSoundMatrix ACNSN3DYorkBasic1oa2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DYorkBasic1oa2M1Spatial(std::vector<std::vector<float>>
 	{ 	{ 0.125000f,  0.216602f,  0.216316f,  0.216602f },    // Top Front Left
 		{ 0.125000f, -0.216602f,  0.216316f,  0.216602f },    // Top Front Right
 		{ 0.125000f,  0.216602f,  0.216316f, -0.216602f },    // Top Back Left
@@ -485,7 +471,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.125000f, -0.216602f, -0.216316f,  0.216602f },    // Bottom Front Right
 		{ 0.125000f,  0.216602f, -0.216316f, -0.216602f },    // Bottom Back Left
 		{ 0.125000f, -0.216602f, -0.216316f, -0.216602f } }); // Bottom Back Right
-	const SpatialSoundMatrix ACNSN3DYorkmaxRE1oa2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DYorkmaxRE1oa2M1Spatial(std::vector<std::vector<float>>
 	{ 	{ 0.183013f, 0.183093f,  0.182852f,  0.183093f },    // Top Front Left
 		{ 0.183013f, -0.183093f,  0.182852f,  0.183093f },    // Top Front Right
 		{ 0.183013f, 0.183093f,  0.182852f, -0.183093f },    // Top Back Left
@@ -494,7 +480,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.183013f, -0.183093f, -0.182852f,  0.183093f },    // Bottom Front Right
 		{ 0.183013f, 0.183093f, -0.182852f, -0.183093f },    // Bottom Back Left
 		{ 0.183013f, -0.183093f, -0.182852f, -0.183093f } }); // Bottom Back Right
-	const SpatialSoundMatrix ACNSN3DmaxRE1oa2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE1oa2M1Spatial(std::vector<std::vector<float>>
 	{ 	{ 0.1195696368813515f, 0.1008485481142998f, 0.1008353978395462f, 0.1008441597223282f },
 		{ 0.2335921078920364f, -0.09768784791231155f, 0.1874370872974396f, 0.1874081641435623f },
 		{ 0.2335949540138245f, 0.1874101459980011f, 0.1874414682388306f, -0.09768243134021759f },
@@ -503,7 +489,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.2336007952690125f, -0.1874084323644638f, -0.187450110912323f, 0.09767483919858932f },
 		{ 0.2335984259843826f, 0.09767667949199677f, -0.1874499171972275f, -0.1874141097068787f },
 		{ 0.1195692494511604f, -0.1008481085300446f, -0.1008350774645805f, -0.1008405983448029f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE2oa2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE2oa2M1Spatial(std::vector<std::vector<float>>
 	{ 	{ 0.1090826615691185f, 0.0920034795999527f, 0.09199140965938568f, 0.09199952334165573f, 0.08290118724107742f, 0.08289731293916702f, -0.00001070611233444652f, 0.08288697898387909f, 3.903339347743895e-6f },
 		{ 0.2131048589944839f, -0.08912000060081482f, 0.1709974855184555f, 0.1709710955619812f, -0.07774148136377335f, -0.07773252576589584f, 0.04100454598665237f, 0.077737957239151f, 0.07099374383687973f },
 		{ 0.2131073176860809f, 0.1709731072187424f, 0.1710015088319778f, -0.0891149714589119f, -0.07774622738361359f, 0.0777338519692421f, 0.04101236909627914f, -0.07773105800151825f, -0.07100926339626312f },
@@ -512,7 +498,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.2131125181913376f, -0.1709719151258469f, -0.1710094660520554f, 0.08910810947418213f, -0.07773729413747787f, 0.07773707062005997f, 0.04100704938173294f, -0.07772628217935562f, -0.0710013285279274f },
 		{ 0.2131107449531555f, 0.08910980075597763f, -0.1710091829299927f, -0.1709767132997513f, -0.07773732393980026f, -0.07772751897573471f, 0.04100724682211876f, 0.07774553447961807f, 0.07100650668144226f },
 		{ 0.1090824156999588f, -0.09200303256511688f, -0.09199123084545135f, -0.09199622273445129f, 0.08289729803800583f, 0.08288894593715668f, -7.042106517474167e-6f, 0.08288923650979996f, -8.28424163046293e-6f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE3oa2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE3oa2M1Spatial(std::vector<std::vector<float>>
 	{ 	{ 0.1037704199552536f, 0.08752302825450897f, 0.08751161396503448f, 0.08751921355724335f, 0.07886399328708649f, 0.07886024564504623f, -0.00001018568582367152f, 0.07885054498910904f, 3.712062607519329e-6f, 0.03032228536903858f, 0.05934694409370422f, 0.02347852103412151f, -0.03834974765777588f, 0.02346921153366566f, 1.872788573109574e-7f, -0.03031168505549431f },
 		{ 0.2027266472578049f, -0.08477995544672012f, 0.1626702845096588f, 0.1626451760530472f, -0.07395549863576889f, -0.07394702732563019f, 0.03900770470499992f, 0.07395213842391968f, 0.06753638386726379f, -0.02680866234004498f, -0.04886670410633087f, -0.02075505442917347f, 0.02680177241563797f, -0.0179197620600462f, -0.001901504583656788f, 0.02003007009625435f },
 		{ 0.202729120850563f, 0.1626468896865845f, 0.1626740694046021f, -0.08477526158094406f, -0.07395999133586884f, 0.07394827902317047f, 0.03901511430740356f, -0.07394556701183319f, -0.06755108386278152f, -0.02003270015120506f, -0.04886821284890175f, -0.01791944168508053f, 0.02680086717009544f, -0.02076159417629242f, 0.001893583917990327f, 0.02681469358503819f },
@@ -521,7 +507,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.202734187245369f, -0.1626453995704651f, -0.1626815795898438f, 0.08476867526769638f, -0.07395152002573013f, 0.07395141571760178f, 0.03901006653904915f, -0.07394117116928101f, -0.06754383444786072f, 0.02003160305321217f, 0.04886731505393982f, 0.01792382448911667f, -0.02678968198597431f, 0.02075854688882828f, -0.001904906122945249f, -0.026809087023139f },
 		{ 0.2027321308851242f, 0.08477026969194412f, -0.1626814156770706f, -0.1626503318548203f, -0.07395152002573013f, -0.07394217699766159f, 0.03901023417711258f, 0.0739593580365181f, 0.0675484910607338f, 0.02680993638932705f, 0.0488603487610817f, 0.02076553925871849f, -0.02679237350821495f, 0.01792062446475029f, 0.001895589288324118f, -0.02003329060971737f },
 		{ 0.1037700846791267f, -0.08752264827489853f, -0.0875113308429718f, -0.08751612156629562f, 0.07886018604040146f, 0.07885236293077469f, -6.698903689539293e-6f, 0.07885263860225677f, -7.879614713601768e-6f, -0.03030674904584885f, -0.05934557318687439f, -0.02347057498991489f, 0.03834228217601776f, -0.02347610704600811f, 8.135682492138585e-7f, 0.03031627088785172f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE4oa2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE4oa2M1Spatial(std::vector<std::vector<float>>
 	{ 	{ 0.09970320761203766f, 0.08409279584884644f, 0.08408163487911224f, 0.08408891409635544f, 0.07577300816774368f, 0.07576949894428253f, -9.786022928892635e-6f, 0.07576004415750504f, 3.567830390238669e-6f, 0.02913382649421692f, 0.05702095106244087f, 0.02255832962691784f, -0.03684668987989426f, 0.0225493535399437f, 1.791552648455763e-7f, -0.02912365272641182f, 2.734581812546821e-6f, 0.01137635391205549f, 0.01215455215424299f, -0.004304197151213884f, -0.02557667531073093f, -0.004303851164877415f, -2.170558445868664e-6f, -0.0113661028444767f, -0.02162027172744274f },
 		{ 0.1947810798883438f, -0.08145710825920105f, 0.1562943458557129f, 0.1562703251838684f, -0.07105692476034164f, -0.07104877382516861f, 0.03747889399528503f, 0.07105365395545959f, 0.0648893341422081f, -0.0257579367607832f, -0.04695140570402145f, -0.01994160935282707f, 0.02575126849114895f, -0.01721741072833538f, -0.001826979801990092f, 0.01924501173198223f, 0.002624619984999299f, -0.003184627974405885f, -0.004391957074403763f, 0.004018110688775778f, 0.02609131671488285f, -0.00401957705616951f, -0.02202524617314339f, -0.01061379257589579f, 0.005420136731117964f },
 		{ 0.1947831213474274f, 0.156272292137146f, 0.1562981754541397f, -0.08145248144865036f, -0.07106125354766846f, 0.07104998826980591f, 0.03748602420091629f, -0.07104729861021042f, -0.06490352004766464f, -0.01924756728112698f, -0.04695279151201248f, -0.0172171276062727f, 0.02575043775141239f, -0.01994785293936729f, 0.001819366938434541f, 0.02576367370784283f, -0.00262772710993886f, 0.01061519607901573f, -0.004397611599415541f, -0.00402321619912982f, 0.02608190290629864f, 0.004018302541226149f, 0.02201575599610806f, 0.003175792284309864f, 0.005414819810539484f },
@@ -530,7 +516,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.1947882920503616f, -0.1562707722187042f, -0.1563054621219635f, 0.0814463347196579f, -0.07105303555727005f, 0.07105295360088348f, 0.03748114034533501f, -0.07104319334030151f, -0.0648963525891304f, 0.01924647390842438f, 0.04695196449756622f, 0.01722133718430996f, -0.02573971822857857f, 0.01994496583938599f, -0.001830245484597981f, -0.02575834654271603f, -0.002620087470859289f, 0.01062561478465796f, -0.004400589969009161f, -0.004025812260806561f, 0.02608503401279449f, 0.004016882739961147f, 0.02202232368290424f, 0.003179017920047045f, 0.005412637256085873f },
 		{ 0.1947865337133408f, 0.08144782483577728f, -0.1563052982091904f, -0.1562753915786743f, -0.07105304300785065f, -0.07104401290416718f, 0.03748122975230217f, 0.07106061279773712f, 0.06490101665258408f, 0.02575916424393654f, 0.04694525524973869f, 0.01995166391134262f, -0.02574232034385204f, 0.01721825264394283f, 0.001821296638809144f, -0.01924812979996204f, 0.00262911175377667f, -0.003172620432451367f, -0.004400142002850771f, 0.004015490878373384f, 0.02608367428183556f, -0.004020859487354755f, -0.02202271297574043f, -0.01060971431434155f, 0.005404055584222078f },
 		{ 0.09970302879810333f, -0.08409221470355988f, -0.08408146351575851f, -0.08408594131469727f, 0.07576944679021835f, 0.07576186954975128f, -6.43711837255978e-6f, 0.07576202601194382f, -7.570415164082078e-6f, -0.02911888994276524f, -0.05701957643032074f, -0.0225506629794836f, 0.03683948889374733f, -0.02255599573254585f, 7.81079677381058e-7f, 0.02912803366780281f, -1.280878791476425e-6f, 0.01136820297688246f, 0.01216035336256027f, -0.004304945468902588f, -0.02556860446929932f, -0.004303512629121542f, 3.248566599722835e-6f, -0.01137031894177198f, -0.02161155268549919f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE5oa2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE5oa2M1Spatial(std::vector<std::vector<float>>
 	{ 	{ 0.09913473576307297f, 0.08361311256885529f, 0.08360214531421661f, 0.08360951393842697f, 0.07534091174602509f, 0.07533739507198334f, -9.729755220178049e-6f, 0.07532799988985062f, 3.547369715306559e-6f, 0.02896768972277641f, 0.05669571459293365f, 0.0224296934902668f, -0.03663656488060951f, 0.02242074720561504f, 1.781506711040493e-7f, -0.02895755879580975f, 2.71978660748573e-6f, 0.01131148915737867f, 0.012085254304111f, -0.004279652610421181f, -0.0254308320581913f, -0.004279312677681446f, -2.157360086130211e-6f, -0.01130127999931574f, -0.02149698324501514f, -0.008432642556726933f, 4.470917701837607e-6f, -0.007317919749766588f, -1.679591832726146e-6f, -0.005340180359780788f, -0.01231778785586357f, -0.005334007553756237f, 2.346880819459329e-6f, 0.00732435705140233f, 0.001105387462303042f, -0.00842803530395031f },
 		{ 0.1936705112457275f, -0.08099259436130524f, 0.1554031670093536f, 0.1553791761398315f, -0.07065175473690033f, -0.07064361870288849f, 0.03726508840918541f, 0.07064855098724365f, 0.06451938301324844f, -0.02561103738844395f, -0.04668372869491577f, -0.01982787810266018f, 0.02560446597635746f, -0.01711923629045486f, -0.001816565054468811f, 0.01913526095449924f, 0.002609663875773549f, -0.0031664720736444f, -0.004366910085082054f, 0.00399519968777895f, 0.02594255283474922f, -0.003996646497398615f, -0.0218996312469244f, -0.01055326499044895f, 0.005389235448092222f, 0.01033944636583328f, 0.007246219553053379f, 0.01048492733389139f, 0.00419218186289072f, 0.005845342297106981f, 0.00200111954472959f, -0.0003239081997890025f, 0.001525396248325706f, -0.0009843090083450079f, -0.0004921129439026117f, 0.002360679907724261f },
 		{ 0.1936727464199066f, 0.1553810089826584f, 0.1554068177938461f, -0.08098802715539932f, -0.07065606862306595f, 0.07064482569694519f, 0.03727219998836517f, -0.07064228504896164f, -0.06453349441289902f, -0.01913778856396675f, -0.04668515548110008f, -0.01711896248161793f, 0.0256036426872015f, -0.01983409374952316f, 0.001808991655707359f, 0.02561678364872932f, -0.002612747251987457f, 0.01055466569960117f, -0.004372532945126295f, -0.004000279121100903f, 0.02593311853706837f, 0.003995392937213182f, 0.02189023047685623f, 0.00315769063308835f, 0.005383942276239395f, 0.002360503887757659f, -0.007260405458509922f, 0.0009765172726474702f, 0.004192997701466084f, -0.000326082285027951f, 0.001998030114918947f, 0.005851489491760731f, -0.00152919115498662f, -0.01049352902919054f, -0.0004949368303641677f, 0.01034507341682911f },
@@ -539,7 +525,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.1936774849891663f, -0.1553799360990524f, -0.1554140597581863f, 0.0809817910194397f, -0.0706479474902153f, 0.07064774632453918f, 0.03726736456155777f, -0.07063794136047363f, -0.0645262822508812f, 0.01913673803210258f, 0.04668429121375084f, 0.01712313108146191f, -0.02559292688965797f, 0.01983119919896126f, -0.001819810597226024f, -0.0256115086376667f, -0.002605149289593101f, 0.0105650182813406f, -0.004375504329800606f, -0.004002860281616449f, 0.0259363129734993f, 0.003993980586528778f, 0.0218967329710722f, 0.003160886466503143f, 0.005381768103688955f, -0.00235694763250649f, 0.007250241003930569f, -0.0009755429346114397f, -0.004190138075500727f, 0.0003160519408993423f, -0.002001245971769094f, -0.005844746250659227f, 0.001525204512290657f, 0.01048038620501757f, 0.0005066600278951228f, -0.01033200696110725f },
 		{ 0.1936758607625961f, 0.08098332583904266f, -0.1554137915372849f, -0.155384287238121f, -0.07064797729253769f, -0.07063906639814377f, 0.0372675433754921f, 0.07065543532371521f, 0.06453098356723785f, 0.02561228349804878f, 0.0466776043176651f, 0.0198378898203373f, -0.02559554390609264f, 0.01712006144225597f, 0.001810911111533642f, -0.01913838647305965f, 0.002614117693156004f, -0.003154528792947531f, -0.004375054966658354f, 0.003992586396634579f, 0.02593493834137917f, -0.00399792892858386f, -0.02189714461565018f, -0.01054920814931393f, 0.005373244173824787f, -0.01034272089600563f, -0.00726094376295805f, -0.01048994995653629f, -0.004191190004348755f, -0.005853439681231976f, -0.001996880397200584f, 0.0003202520019840449f, -0.001528418390080333f, 0.0009618229232728481f, 0.0005102434661239386f, -0.002356514800339937f },
 		{ 0.09913451224565506f, -0.08361271023750305f, -0.08360198140144348f, -0.08360651880502701f, 0.07533738017082214f, 0.07532979547977448f, -6.399893209163565e-6f, 0.07533005625009537f, -7.52875075704651e-6f, -0.02895288728177547f, -0.05669452622532845f, -0.02242208831012249f, 0.03662943840026855f, -0.0224273819476366f, 7.744274057586154e-7f, 0.02896199189126492f, -1.272228473681025e-6f, 0.01130338571965694f, 0.0120910108089447f, -0.004280393943190575f, -0.02542278915643692f, -0.004278974607586861f, 3.229088861189666e-6f, -0.01130548119544983f, -0.02148831263184547f, 0.008424106985330582f, -5.921702950217878e-7f, 0.007315653841942549f, 9.035942980517575e-7f, 0.005335936788469553f, 0.01230965461581945f, 0.005339319352060556f, -1.045985413838935e-6f, -0.007311847060918808f, -0.001110764686018229f, 0.008429447188973427f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE6oa2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE6oa2M1Spatial(std::vector<std::vector<float>>
 	{ 	{ 0.104055218398571f, 0.08776325732469559f, 0.08775180578231812f, 0.08775945007801056f, 0.07908053696155548f, 0.07907674461603165f, -0.00001021269872580888f, 0.07906689494848251f, 3.724600446730619e-6f, 0.03040545992553234f, 0.05950988456606865f, 0.02354297041893005f, -0.03845497965812683f, 0.02353360690176487f, 1.871514143658715e-7f, -0.03039485029876232f, 2.853338855857146e-6f, 0.01187292672693729f, 0.01268510241061449f, -0.004492070060223341f, -0.0266930740326643f, -0.004491710104048252f, -2.264444674437982e-6f, -0.01186221186071634f, -0.02256396412849426f, -0.008851191028952599f, 4.692272796091856e-6f, -0.007681148592382669f, -1.761428620739025e-6f, -0.005605232901871204f, -0.0129291657358408f, -0.005598756019026041f, 2.464337285346119e-6f, 0.007687894627451897f, 0.001160255982540548f, -0.008846358396112919f, -0.007233289070427418f, 0.002831992693245411f, 2.308546299900627e-6f, -0.005874078720808029f, 0.004497393034398556f, -0.005465983413159847f, -0.005319870077073574f, -0.005464895162731409f, 4.428814918355783e-6f, 0.005882727913558483f, 0.01409177295863628f, 0.002829737029969692f, 6.020859018462943e-6f },
 		{ 0.203282967209816f, -0.08501271158456802f, 0.1631167978048325f, 0.1630914807319641f, -0.07415863871574402f, -0.07414992153644562f, 0.03911476209759712f, 0.07415516674518585f, 0.06772172451019287f, -0.0268822368234396f, -0.04900093749165535f, -0.02081200666725636f, 0.02687536925077438f, -0.01796895451843739f, -0.001906728721223772f, 0.02008503302931786f, 0.002739192685112357f, -0.003323635086417198f, -0.004583665635436773f, 0.004193499218672514f, 0.02723017521202564f, -0.00419502193108201f, -0.02298656664788723f, -0.01107707154005766f, 0.00565672991797328f, 0.0108526237308979f, 0.007605880498886108f, 0.01100532244890928f, 0.004400260280817747f, 0.006135479081422091f, 0.002100444864481688f, -0.0003399825072847307f, 0.001601103460416198f, -0.001033162581734359f, -0.0005165391485206783f, 0.002477838424965739f, 0.008366743102669716f, 0.003511058865115047f, 0.001616288558579981f, 0.003844423918053508f, 0.00204804353415966f, 0.007052384316921234f, -0.003140095854178071f, -0.007055019494146109f, -0.0006864070310257375f, 0.008931226097047329f, 0.006268794648349285f, 0.005220806691795588f, -0.001025310019031167f },
 		{ 0.2032853215932846f, 0.163093164563179f, 0.1631208211183548f, -0.08500786870718002f, -0.0741630420088768f, 0.07415136694908142f, 0.03912220895290375f, -0.0741485208272934f, -0.06773656606674194f, -0.02008770033717155f, -0.0490022711455822f, -0.01796862110495567f, 0.02687445282936096f, -0.02081857062876225f, 0.001898780115880072f, 0.02688825689256191f, -0.002742426935583353f, 0.01107852440327406f, -0.004589562304317951f, -0.004198845475912094f, 0.02722035720944405f, 0.00419370224699378f, 0.02297677099704742f, 0.003314415225759149f, 0.005651171784847975f, 0.002477665198966861f, -0.007620769087225199f, 0.001024988829158247f, 0.004401118494570255f, -0.0003422664885874838f, 0.002097202464938164f, 0.006141925696283579f, -0.001605093129910529f, -0.0110143581405282f, -0.0005194961559027433f, 0.01085851993411779f, 0.00837385281920433f, 0.005218624137341976f, -0.001634950167499483f, -0.008935017511248589f, 0.002052630763500929f, -0.007049889303743839f, -0.003141482593491673f, 0.007050261832773685f, 0.0006841669674031436f, -0.003849389730021358f, 0.006274886894971132f, 0.003507200861349702f, 0.001022253185510635f },
@@ -548,7 +534,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.2032904624938965f, -0.1630917489528656f, -0.1631281226873398f, 0.08500126749277115f, -0.0741545632481575f, 0.07415433973073959f, 0.03911709785461426f, -0.0741441398859024f, -0.06772910803556442f, 0.02008657343685627f, 0.04900140687823296f, 0.0179730299860239f, -0.02686320804059505f, 0.02081556618213654f, -0.001910133636556566f, -0.0268827062100172f, -0.002734457841143012f, 0.01108941622078419f, -0.004592683631926775f, -0.004201537929475307f, 0.02722364664077759f, 0.004192216321825981f, 0.02298357523977757f, 0.003317777998745441f, 0.005648885853588581f, -0.002473937347531319f, 0.007610096130520105f, -0.001023968681693077f, -0.004398113116621971f, 0.0003317444934509695f, -0.00210057757794857f, -0.006134850438684225f, 0.001600912190042436f, 0.01100058015435934f, 0.0005318098119460046f, -0.01084485463798046f, 0.008365457877516747f, 0.005217851139605045f, -0.001616622670553625f, -0.008930028416216373f, 0.002053582109510899f, -0.007046202197670937f, -0.003145016031339765f, 0.007046606857329607f, 0.000684710219502449f, -0.003835448995232582f, 0.006278758868575096f, 0.003498202189803123f, 0.001022902084514499f },
 		{ 0.2032885104417801f, 0.08500286191701889f, -0.1631277352571487f, -0.163096696138382f, -0.0741545781493187f, -0.07414507865905762f, 0.03911731764674187f, 0.07416238635778427f, 0.06773390620946884f, 0.02688354440033436f, 0.04899432510137558f, 0.02082254737615585f, -0.02686595916748047f, 0.01796980574727058f, 0.001900794333778322f, -0.0200883112847805f, 0.002743865363299847f, -0.003311102744191885f, -0.00459220539778471f, 0.004190761595964432f, 0.02722221426665783f, -0.004196359775960445f, -0.02298401109874249f, -0.01107282098382711f, 0.005639940965920687f, -0.01085607055574656f, -0.007621339522302151f, -0.01101064309477806f, -0.004399220459163189f, -0.006143969018012285f, -0.002096004085615277f, 0.0003361412964295596f, -0.001604279153980315f, 0.001009564264677465f, 0.0005355664761736989f, -0.002473480068147182f, 0.008363486267626286f, 0.00350663554854691f, 0.001634495332837105f, 0.00384847167879343f, 0.002053285483270884f, 0.007049876730889082f, -0.003137359162792563f, -0.007057240232825279f, -0.0006828114856034517f, 0.00894490722566843f, 0.006274648476392031f, 0.005211708601564169f, -0.001021114992909133f },
 		{ 0.1040549799799919f, -0.08776282519102097f, -0.08775153756141663f, -0.08775623142719269f, 0.07907667011022568f, 0.07906880229711533f, -6.718187250953633e-6f, 0.07906897366046906f, -7.90168451203499e-6f, -0.03038991242647171f, -0.05950848385691643f, -0.02353500016033649f, 0.03844751417636871f, -0.0235405471175909f, 8.142680485434539e-7f, 0.0303994994610548f, -1.335789193035453e-6f, 0.01186441257596016f, 0.01269113924354315f, -0.004492853302508593f, -0.02668463997542858f, -0.004491355270147324f, 3.390645588297048e-6f, -0.011866619810462f, -0.02255488745868206f, 0.008842234499752522f, -6.226551363397448e-7f, 0.007678766269236803f, 9.484052725383663e-7f, 0.005600784439593554f, 0.01292065437883139f, 0.005604334641247988f, -1.098017150980013e-6f, -0.007674763910472393f, -0.001165896654129028f, 0.008847843855619431f, -0.007231875322759151f, 0.002837180159986019f, -9.735917046782561e-6f, -0.005875276401638985f, 0.004489359445869923f, -0.005461863707751036f, -0.005315814632922411f, -0.005464264191687107f, -2.154788035113597e-6f, 0.005871939472854137f, 0.0140831284224987f, 0.002829762874171138f, -3.568871079551172e-6f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE7oa2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE7oa2M1Spatial(std::vector<std::vector<float>>
 	{ 	{ 0.1078695729374886f, 0.09098037332296371f, 0.09096850454807281f, 0.09097640961408615f, 0.08197928220033646f, 0.08197538554668427f, -0.00001058804173226235f, 0.08196530491113663f, 3.858696800307371e-6f, 0.03152007982134819f, 0.0616912730038166f, 0.02440597116947174f, -0.03986464068293571f, 0.02439629472792149f, 1.94676758269452e-7f, -0.03150906041264534f, 2.957833203254268e-6f, 0.0123081486672163f, 0.01315008848905563f, -0.004656735341995955f, -0.02767156809568405f, -0.004656361881643534f, -2.34730691772711e-6f, -0.01229703053832054f, -0.02339109219610691f, -0.009175639599561691f, 4.866742074227659e-6f, -0.007962713018059731f, -1.825963863666402e-6f, -0.005810711532831192f, -0.01340312603861094f, -0.005803992040455341f, 2.554173079261091e-6f, 0.007969708181917667f, 0.001202785526402295f, -0.009170630946755409f, -0.007498444523662329f, 0.002935805357992649f, 2.395110641373321e-6f, -0.006089402362704277f, 0.0046622552908957f, -0.005666349083185196f, -0.00551487784832716f, -0.005665217991918325f, 4.590540811477695e-6f, 0.006098370067775249f, 0.01460833661258221f, 0.002933464013040066f, 6.245420991035644e-6f, -0.003166921902447939f, 0.003314293222501874f, 0.00447017652913928f, 1.818996679503471e-6f, -0.00004757375063491054f, 0.003603179706260562f, -0.004381540697067976f, 0.00176537164952606f, -0.004384711850434542f, -3.108755436187494e-6f, 0.00005557185431825928f, 0.006788143888115883f, 0.004467329941689968f, -3.550331030055531e-6f, 0.003174983896315098f },
 		{ 0.2107347697019577f,   -0.0881289467215538f,   0.1690960973501205f,   0.1690699905157089f,   -0.07687689363956451f,   -0.07686808705329895f,   0.04054858908057213f,   0.07687339931726456f,   0.07020421326160431f,   -0.02786766178905964f,   -0.05079704150557518f,   -0.02157492376863956f,   0.02786049991846085f,   -0.01862762868404388f,   -0.001976618077605963f,   0.02082129940390587f,   0.002839599037542939f,   -0.003445475827902555f,   -0.004751685075461864f,   0.004347224719822407f,   0.02822840586304665f,   -0.004348804242908955f,   -0.02382924593985081f,   -0.01148311048746109f,   0.005864073988050222f,   0.01125045027583838f,   0.007884686812758446f,   0.01140874531120062f,   0.004561559297144413f,   0.00636038463562727f,   0.002177430083975196f,   -0.0003524498024489731f,   0.001659800414927304f,   -0.001071037375368178f,   -0.0005354750319384038f,   0.002568674273788929f,   0.008673430420458317f,   0.003639755304902792f,   0.001675534062087536f,   0.003985351882874966f,   0.002123116515576839f,   0.007310911547392607f,   -0.00325519684702158f,   -0.007313629612326622f,   -0.0007115639746189117f,   0.00925862044095993f,   0.006498586852103472f,   0.005412182305008173f,   -0.001062891096808016f,   0.00366617925465107f,   0.001036921050399542f,   -0.003256266238167882f,   -0.004045797511935234f,   0.0006342517444863915f,   0.004571577534079552f,   0.004402717109769583f,   -0.005600301548838615f,   0.002705481834709644f,   -0.0006464864709414542f,   -0.0000775355365476571f,   0.0009000096470117569f,   0.004373177886009216f,   0.002728485036641359f,   -0.003671730868518353f },
 		{ 0.2107373476028442f,   0.1690717786550522f,   0.1691000461578369f,   -0.08812405914068222f,   -0.07688156515359879f,   0.07686939090490341f,   0.04055629298090935f,   -0.07686657458543777f,   -0.0702194944024086f,   -0.02082403376698494f,   -0.05079860985279083f,   -0.01862729713320732f,   0.02785955742001534f,   -0.02158172056078911f,   0.001968384487554431f,   0.0278739295899868f,   -0.002842954592779279f,   0.01148464251309633f,   -0.004757801070809364f,   -0.00435275211930275f,   0.02821815386414528f,   0.00434742821380496f,   0.02381896413862705f,   0.00343591277487576f,   0.005858324468135834f,   0.002568493131548166f,   -0.007900123484432697f,   0.00106256059370935f,   0.004562451038509607f,   -0.0003548057575244457f,   0.002174077788367867f,   0.006367062218487263f,   -0.001663927920162678f,   -0.01141813863068819f,   -0.0005385443801060319f,   0.01125657372176647f,   0.008680812083184719f,   0.005409920588135719f,   -0.001694883452728391f,   -0.009262554347515106f,   0.002127871382981539f,   -0.007308310363441706f,   -0.00325663760304451f,   0.00730870570987463f,   0.0007092460873536766f,   -0.003990491386502981f,   0.00650491751730442f,   0.003635769011452794f,   0.001059725182130933f,   0.003661169204860926f,   0.001036515808664262f,   0.00438536936417222f,   0.004031080286949873f,   0.00006230255530681461f,   0.004566862713545561f,   0.002707479987293482f,   -0.005602108314633369f,   0.004401864018291235f,   0.0006581429042853415f,   -0.0006385663873516023f,   0.0008819725480861962f,   -0.003253876464441419f,   -0.002704503713175654f,   -0.003663633484393358f },
@@ -557,7 +543,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.2107426226139069f,   -0.1690702438354492f,   -0.1691078394651413f,   0.08811721205711365f,   -0.07687275856733322f,   0.07687265425920486f,   0.04055104777216911f,   -0.07686199992895126f,   -0.07021195441484451f,   0.02082289196550846f,   0.05079767853021622f,   0.01863185316324234f,   -0.02784793078899384f,   0.02157855406403542f,   -0.00198015384376049f,   -0.02786810137331486f,   -0.002834695624187589f,   0.0114959217607975f,   -0.004761027172207832f,   -0.004355556331574917f,   0.02822157554328442f,   0.004345892928540707f,   0.02382608503103256f,   0.003439394058659673f,   0.005855960305780172f,   -0.002564627211540937f,   0.007889064960181713f,   -0.001061499235220253f,   -0.004559328779578209f,   0.0003439031133893877f,   -0.00217757816426456f,   -0.006359738297760487f,   0.001659596222452819f,   0.01140382792800665f,   0.0005513028590939939f,   -0.0112423887476325f,   0.008672106079757214f,   0.005409125704318285f,   -0.001675884006544948f,   -0.009257366880774498f,   0.002128852996975183f,   -0.00730449054390192f,   -0.003260302823036909f,   0.007304918486624956f,   0.0007098131463862956f,   -0.003976048901677132f,   0.006508913356810808f,   0.003626426914706826f,   0.001060398877598345f,   -0.003658422967419028f,   -0.001031191204674542f,   -0.004392453469336033f,   -0.00404689135029912f,   -0.00007582349644508213f,   -0.004574581980705261f,   -0.002702518831938505f,   0.005595623981207609f,   -0.004401165060698986f,   -0.000649093184620142f,   0.0006318163359537721f,   -0.0008876840001903474f,   0.003266196697950363f,   0.002721372991800308f,   0.003660087008029222f },
 		{ 0.2107404768466949f,   0.08811887353658676f,   -0.1691076755523682f,   -0.1690753549337387f,   -0.07687275856733322f,   -0.07686304301023483f,   0.04055121913552284f,   0.07688090205192566f,   0.07021679729223251f,   0.02786898612976074f,   0.05079043656587601f,   0.02158582210540771f,   -0.02785072848200798f,   0.01862852647900581f,   0.001970469020307064f,   -0.02082464657723904f,   0.002844445873051882f,   -0.003432477824389935f,   -0.00476054148748517f,   0.004344382788985968f,   0.0282200500369072f,   -0.004350194241851568f,   -0.02382650412619114f,   -0.0114787220954895f,   0.005846682004630566f,   -0.01125402189791203f,   -0.007900701835751534f,   -0.01141421962529421f,   -0.004560474772006273f,   -0.006369184702634811f,   -0.002172828884795308f,   0.0003484641492832452f,   -0.001663085189647973f,   0.001046568271704018f,   0.0005551983485929668f,   -0.002564148977398872f,   0.008670068345963955f,   0.003635175060480833f,   0.001694406499154866f,   0.003989549819380045f,   0.002128552179783583f,   0.007308298256248236f,   -0.003252362832427025f,   -0.007315941620618105f,   -0.0007078394410200417f,   0.009272795170545578f,   0.006504647899419069f,   0.005402749869972467f,   -0.001058545778505504f,   -0.003652511863037944f,   -0.001031416119076312f,   0.003255966585129499f,   0.004021910484880209f,   -0.0006305415299721062f,   -0.004568939562886953f,   -0.004397681914269924f,   0.005592777393758297f,   -0.002703712554648519f,   0.0006565912626683712f,   0.00006628801202168688f,   -0.0008789493585936725f,   -0.004389587324112654f,   -0.00270600663498044f,   0.003660358255729079f },
 		{ 0.1078692227602005f,   -0.09097997099161148f,   -0.09096821397542953f,   -0.09097319841384888f,   0.08197532594203949f,   0.08196719735860825f,   -6.963524356251583e-6f,   0.08196748048067093f,   -8.190875632863026e-6f,   -0.03150393068790436f,   -0.06168984994292259f,   -0.02439771220088005f,   0.03985688462853432f,   -0.02440346218645573f,   8.457059266220313e-7f,   0.03151382878422737f,   -1.385181690238824e-6f,   0.01229932997375727f,   0.01315635908395052f,   -0.004657547920942307f,   -0.0276628490537405f,   -0.004655990283936262f,   3.515673370202421e-6f,   -0.01230160426348448f,   -0.0233816746622324f,   0.009166369214653969f,   -6.458218422267237e-7f,   0.007960235700011253f,   9.84881580734509e-7f,   0.005806089844554663f,   0.01339426822960377f,   0.005809777416288853f,   -1.134133640334767e-6f,   -0.007956104353070259f,   -0.001208635047078133f,   0.009172180667519569f,   -0.007496977690607309f,   0.002941184211522341f,   -0.00001009510469884844f,   -0.006090640556067228f,   0.004653929732739925f,   -0.005662079900503159f,   -0.005510670598596334f,   -0.005664566997438669f,   -2.235760121038766e-6f,   0.006087187677621841f,   0.01459936611354351f,   0.002933500800281763f,   -3.69984400094836e-6f,   0.003168181050568819f,   -0.003316950052976608f,   -0.00445543834939599f,   8.490900654578581e-6f,   0.00005298406176734716f,   -0.003596568945795298f,   0.004384323488920927f,   -0.001763655687682331f,   0.004379241727292538f,   3.169892806909047e-6f,   -0.00005385044642025605f,   -0.006784311961382627f,   -0.004471007734537125f,   6.810926606704015e-6f,   -0.003172114957123995f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE1oa2M1SpatialPlus(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE1oa2M1SpatialPlus(std::vector<std::vector<float>>
 	{ 	{ 0.1556891947984695f, 0.1328849494457245f, 0.1256327331066132f, 0.1328780949115753f },
 		{ 0.2234787791967392f, -0.1310095191001892f, 0.2304509878158569f, 0.1310046166181564f },
 		{ 0.2234732508659363f, 0.1309983879327774f, 0.2304602116346359f, -0.1309962570667267f },
@@ -570,7 +556,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.1032658889889717f, -0.1600608229637146f, -2.496708930266323e-6f, 0.00001049181264534127f },
 		{ 0.1032713353633881f, 2.246817984996596e-6f, -0.0000159625087690074f, -0.1600678712129593f },
 		{ 0.1032658815383911f, 0.1600602269172668f, -1.840674315189972e-7f, -0.0000143574634421384f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE2oa2M1SpatialPlus(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE2oa2M1SpatialPlus(std::vector<std::vector<float>>
 	{ 	{ 0.1239809915423393f, 0.1058211401104927f, 0.1000459343194962f, 0.1058157086372375f, 0.0946979895234108f, 0.09074236452579498f, -0.007523950655013323f, 0.09072864055633545f, 3.770887360587949e-6f },
 		{ 0.1779643893241882f, -0.1043277606368065f, 0.1835163682699203f, 0.1043239086866379f, -0.09202074259519577f, -0.08805813640356064f, 0.07756032794713974f, 0.08805910497903824f, -7.457458195858635e-6f },
 		{ 0.1779599040746689f, 0.104318842291832f, 0.1835240870714188f, -0.1043171584606171f, -0.09202152490615845f, 0.0880628228187561f, 0.07756955176591873f, -0.08806153386831284f, -2.891118356274092e-6f },
@@ -583,7 +569,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.08223440498113632f, -0.1274624317884445f, -1.989591964957071e-6f, 8.355024874617811e-6f, -0.00001299382711295038f, 2.245287760160863e-6f, -0.06530115753412247f, 5.601919838227332e-6f, -0.1130973622202873f },
 		{ 0.08223872631788254f, 1.789393536455464e-6f, -0.00001271130622626515f, -0.127467930316925f, -9.517927423985384e-7f, 6.660454801021842e-6f, -0.065301313996315f, 0.0000186563738679979f, 0.1131010800600052f },
 		{ 0.08223436772823334f, 0.1274618804454803f, -1.468912387281307e-7f, -0.00001143397912528599f, -0.00001688930751697626f, -1.222431365022203e-7f, -0.0652954950928688f, 5.108691766508855e-6f, -0.1130993142724037f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE3oa2M1SpatialPlus(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE3oa2M1SpatialPlus(std::vector<std::vector<float>>
 	{ 	{ 0.1115800142288208f, 0.09523656964302063f, 0.09003902971744537f, 0.09523165971040726f, 0.08522596210241318f, 0.08166597038507462f, -0.006771381944417953f, 0.08165381848812103f, 3.391926156837144e-6f, 0.03110784478485584f, 0.05979746580123901f, 0.01893067546188831f, -0.04350152239203453f, 0.0189198013395071f, -1.958721895789495e-6f, -0.03109685704112053f },
 		{ 0.1601637601852417f, -0.09389247745275497f, 0.1651606261730194f, 0.09388896077871323f, -0.08281663805246353f, -0.0792502760887146f, 0.06980247050523758f, 0.07925108075141907f, -6.712667527608573e-6f, -0.03052004426717758f, -0.05465134605765343f, -0.01611286215484142f, 0.01828116551041603f, 0.01611864194273949f, -5.567288098973222e-6f, -0.03052210621535778f },
 		{ 0.1601597964763641f, 0.09388449788093567f, 0.1651672422885895f, -0.0938829779624939f, -0.08281717449426651f, 0.07925447076559067f, 0.06981079280376434f, -0.07925327867269516f, -2.602344011393143e-6f, 0.03052681125700474f, -0.05466354265809059f, 0.01611780561506748f, 0.01827384158968925f, -0.01611979492008686f, -5.400736881711055e-6f, 0.0305208582431078f },
@@ -596,7 +582,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.07400905340909958f, -0.1147130951285362f, -1.789352495507046e-6f, 7.519318842241773e-6f, -0.00001169281767943176f, 2.019355179072591e-6f, -0.05876951664686203f, 5.042016255174531e-6f, -0.1017850041389465f, 0.07563110440969467f, -8.205295671359636e-6f, 0.05859245359897614f, 3.374039351911051e-6f, 3.173370828335464e-7f, -2.477433326930623e-6f, -0.00001050839455274399f },
 		{ 0.07401295751333237f, 1.61025934630743e-6f, -0.00001144008092524018f, -0.1147181540727615f, -8.562597031414043e-7f, 5.993861577735515e-6f, -0.058769591152668f, 0.0000167907292052405f, 0.1017884314060211f, -2.386558662692551e-6f, -0.00001081457685359055f, 1.441023982806655e-6f, 0.00001162096305051818f, 0.05858978629112244f, -6.682244475086918e-6f, -0.07563303411006927f },
 		{ 0.07400905340909958f, 0.1147126629948616f, -1.319182558745524e-7f, -0.00001028977021633182f, -0.00001519973739050329f, -1.09632502187651e-7f, -0.05876441299915314f, 4.597844963427633e-6f, -0.1017866358160973f, -0.07563655078411102f, 8.059281753958203e-6f, -0.05858404561877251f, 2.027460794806757e-7f, 2.312519427505322e-6f, -1.769547850472009e-7f, 0.00001110714401875157f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE4oa2M1SpatialPlus(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE4oa2M1SpatialPlus(std::vector<std::vector<float>>
 	{ 	{ 0.1057236194610596f, 0.09023802727460861f, 0.08531320840120316f, 0.090233214199543f, 0.08075282722711563f, 0.07737970352172852f, -0.006415979471057653f, 0.07736806571483612f, 3.215905962861143e-6f, 0.02947511896491051f, 0.05665894970297813f, 0.01793708465993404f, -0.04121829941868782f, 0.0179267656058073f, -1.857166807894828e-6f, -0.0294647105038166f, 1.969260438272613e-6f, 0.008600141853094101f, 0.007593210320919752f, -0.007851048372685909f, -0.02376552484929562f, -0.007848768495023251f, -4.479828930925578e-6f, -0.008591692894697189f, -0.01920380815863609f },
 		{ 0.1517572402954102f, -0.08896447718143463f, 0.156491830945015f, 0.08896108716726303f, -0.0784699022769928f, -0.07509075105190277f, 0.06613879650831223f, 0.07509151846170425f, -6.359241979225772e-6f, -0.02891818434000015f, -0.05178285017609596f, -0.01526715233922005f, 0.01732165925204754f, 0.01527262665331364f, -5.273503575153882e-6f, -0.02892011776566505f, -5.309599600877846e-6f, -0.007330695167183876f, -0.0004680049314629287f, 0.01008839905261993f, 0.01315899286419153f, -0.01008626539260149f, -1.609319383533148e-6f, -0.007331970147788525f, -0.02021408453583717f },
 		{ 0.1517535448074341f, 0.08895686268806458f, 0.1564981937408447f, -0.08895538747310638f, -0.07847043126821518f, 0.07509472221136093f, 0.06614663451910019f, -0.07509361207485199f, -2.466642172294087e-6f, 0.02892457693815231f, -0.05179432407021523f, 0.0152718173339963f, 0.01731470972299576f, -0.01527371164411306f, -5.117648925079266e-6f, 0.02891889028251171f, -3.238194722143817e-6f, 0.007335913367569447f, -0.0004753193643409759f, -0.01009740401059389f, 0.01315117999911308f, 0.01009264588356018f, -5.084305030322867e-6f, 0.007328169420361519f, -0.02022421546280384f },
@@ -609,7 +595,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.07012456655502319f, -0.1086922064423561f, -1.696881440693687e-6f, 7.124638159439201e-6f, -0.00001107959360524546f, 1.913760115712648e-6f, -0.05568495765328407f, 4.777024514623918e-6f, -0.09644249826669693f, 0.07166140526533127f, -7.774728146614507e-6f, 0.0555170439183712f, 3.197756541339913e-6f, 3.009636486694944e-7f, -2.346716655665659e-6f, -9.956535905075725e-6f, 4.881785571342334e-6f, 7.510100658691954e-6f, -4.08159576181788e-6f, -2.845867811629432e-6f, 0.0205184780061245f, -6.830051461292896e-6f, 0.03359971195459366f, -4.818658908334328e-6f, 0.04272694140672684f },
 		{ 0.07012826204299927f, 1.525900302112859e-6f, -0.00001084021732822293f, -0.1086969822645187f, -8.131662525556749e-7f, 5.67961160413688e-6f, -0.05568499863147736f, 0.00001590922147443052f, 0.09644588083028793f, -2.261481540699606e-6f, -0.00001024660650728038f, 1.365279331366764e-6f, 0.00001101108955481322f, 0.05551463738083839f, -6.330775704554981e-6f, -0.07166332006454468f, 5.757269718742464e-6f, 0.00001076486023521284f, -2.854761987691745e-6f, -2.805323447319097e-6f, 0.02051344886422157f, -6.501916686829645e-6f, -0.03359848633408546f, -6.837836735940073e-6f, 0.04272744059562683f },
 		{ 0.0701245591044426f, 0.1086917966604233f, -1.248388628027897e-7f, -9.749989658303093e-6f, -0.00001440200412616832f, -1.031938268170052e-7f, -0.05568006634712219f, 4.356472345534712e-6f, -0.09644433856010437f, -0.07166662812232971f, 7.635419933649246e-6f, -0.05550918728113174f, 1.921865049325788e-7f, 2.19156322600611e-6f, -1.667674069949499e-7f, 0.00001052529569278704f, 4.307497647459968e-7f, -1.080650235962821e-7f, -2.960296967557952e-7f, 1.308987265247197e-7f, 0.02050867676734924f, -1.671271434133814e-6f, 0.03359835222363472f, -7.843162165954709e-6f, 0.04273393005132675f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE5oa2M1SpatialPlus(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE5oa2M1SpatialPlus(std::vector<std::vector<float>>
 	{ 	{ 0.1040550172328949f, 0.08881377428770065f, 0.08396674692630768f, 0.08880921453237534f, 0.07947831600904465f, 0.07615843415260315f, -0.006314716301858425f, 0.07614691555500031f, 3.164837835356593e-6f, 0.02900988794863224f, 0.05576472729444504f, 0.01765398681163788f, -0.04056776314973831f, 0.01764384470880032f, -1.826785705816292e-6f, -0.02899966575205326f, 1.938697096193209e-6f, 0.00846441462635994f, 0.007473370991647243f, -0.007727148476988077f, -0.02339046075940132f, -0.007724900264292955f, -4.406837433634792e-6f, -0.008456098847091198f, -0.01890074089169502f, -0.006061991211026907f, 3.117341975666932e-6f, -0.01012964174151421f, -0.001394283026456833f, -0.004966221284121275f, -0.009015706367790699f, -0.004956978838890791f, 2.945796268249978e-6f, 0.01013234909623861f, 0.006470435298979282f, -0.00605351896956563f },
 		{ 0.1493623107671738f, -0.08756040781736374f, 0.1540219932794571f, 0.08755718171596527f, -0.07723135501146317f, -0.07390560954809189f, 0.06509498506784439f, 0.07390642166137695f, -6.258910161704989e-6f, -0.02846178226172924f, -0.05096565186977386f, -0.01502623409032822f, 0.01704828813672066f, 0.01503159292042255f, -5.193033302930417e-6f, -0.02846372127532959f, -5.227058409218444e-6f, -0.007214989978820086f, -0.0004606165748555213f, 0.009929178282618523f, 0.0129513218998909f, -0.009927098639309406f, -1.582139702804852e-6f, -0.007216256111860275f, -0.01989507861435413f, 0.005964485928416252f, -6.809550086472882e-6f, 0.01209703646600246f, 0.009421594440937042f, 0.006170241627842188f, 0.006254085339605808f, -0.006173522211611271f, -2.065566604869673e-6f, 0.01209548767656088f, 0.004050806164741516f, -0.005968590267002583f },
 		{ 0.1493585407733917f, 0.08755292743444443f, 0.1540284603834152f, -0.08755151182413101f, -0.0772320032119751f, 0.07390954345464706f, 0.06510272622108459f, -0.07390846312046051f, -2.426463424853864e-6f, 0.02846807986497879f, -0.0509769394993782f, 0.01503079570829868f, 0.01704145595431328f, -0.01503266114741564f, -5.037417395215016e-6f, 0.02846249006688595f, -3.18649972541607e-6f, 0.007220136467367411f, -0.0004678178229369223f, -0.009938041679561138f, 0.01294362731277943f, 0.009933370165526867f, -5.005654656997649e-6f, 0.007212528493255377f, -0.01990501955151558f, -0.005972644779831171f, -4.978998276783386e-6f, -0.0120975449681282f, 0.009424494579434395f, -0.006177943199872971f, 0.006258515175431967f, 0.00617423839867115f, -1.976624162125518e-6f, -0.0121041452512145f, 0.004050259944051504f, 0.005971907638013363f },
@@ -622,7 +608,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.06901784986257553f, -0.1069769263267517f, -1.669828748163127e-6f, 7.012221885815961e-6f, -0.00001090548448701156f, 1.884429593701498e-6f, -0.05480608716607094f, 4.70159056931152e-6f, -0.0949205756187439f, 0.07053050398826599f, -7.652358362975065e-6f, 0.05464091524481773f, 3.146632479911204e-6f, 2.956354023808672e-7f, -2.310472154931631e-6f, -9.799795407161582e-6f, 4.805639946425799e-6f, 7.391925009869738e-6f, -4.017442279291572e-6f, -2.798299874484655e-6f, 0.02019464410841465f, -6.722518719470827e-6f, 0.03306944295763969f, -4.742650617117761e-6f, 0.04205264151096344f, -0.01661164127290249f, -3.173661752953194e-6f, -0.01624543592333794f, 9.850423339230474e-6f, -0.009687514044344425f, -1.06161371604685e-6f, -2.271054654556792e-6f, -2.227035906798847e-7f, -7.801142601238098e-6f, 9.73802525550127e-6f, -1.05629908375704e-6f },
 		{ 0.06902148574590683f, 1.501805741099815e-6f, -0.00001066837103280704f, -0.1069815382361412f, -7.988224979271763e-7f, 5.590000000665896e-6f, -0.05480621755123138f, 0.00001565795901115052f, 0.09492369741201401f, -2.227846380264964e-6f, -0.0000100849747468601f, 1.343866529168736e-6f, 0.00001083697316062171f, 0.05463844910264015f, -6.231056431715842e-6f, -0.07053226232528687f, 5.666820470651146e-6f, 0.00001059490750776604f, -2.810629666782916e-6f, -2.760945562840789e-6f, 0.02018971368670464f, -6.399349331331905e-6f, -0.0330682098865509f, -6.730551376676885e-6f, 0.04205310717225075f, -7.119464498828165e-6f, -6.88924228597898e-6f, 1.302258965552028e-6f, 1.034381739373202e-6f, -2.063796955553698e-6f, 1.021025695990829e-6f, -0.009680676274001598f, -2.121470743077225e-6f, 0.01624834910035133f, 0.00001546313978906255f, -0.01661056652665138f },
 		{ 0.06901782751083374f, 0.1069764643907547f, -1.232831721154071e-7f, -9.596333256922662e-6f, -0.0000141748914757045f, -1.025964593281969e-7f, -0.0548013336956501f, 4.287632691557519e-6f, -0.09492222219705582f, -0.07053560018539429f, 7.514487606385956e-6f, -0.05463317781686783f, 1.897372357007043e-7f, 2.156641585315811e-6f, -1.648446072977094e-7f, 0.00001035725290421396f, 4.241638009716553e-7f, -1.078648779184732e-7f, -2.90925186163804e-7f, 1.281203623193505e-7f, 0.02018501237034798f, -1.644021381252969e-6f, 0.03306811302900314f, -7.718056622252334e-6f, 0.04205945506691933f, 0.01661617495119572f, -5.132875230628997e-6f, 0.01625375635921955f, 6.355982407058036e-8f, 0.009677417576313019f, -8.083881084530731e-7f, 3.449973291935748e-6f, 6.562721637237701e-7f, 2.433436748106033e-6f, -8.848610946188273e-7f, 9.80140521278372e-6f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE6oa2M1SpatialPlus(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE6oa2M1SpatialPlus(std::vector<std::vector<float>>
 	{ 	{ 0.1043581292033195f, 0.0890725702047348f, 0.0842113196849823f, 0.08906783163547516f, 0.07970985770225525f, 0.07638031989336014f, -0.006333119235932827f, 0.07636884599924088f, 3.174520770699019e-6f, 0.02909440547227859f, 0.05592721328139305f, 0.01770542189478874f, -0.04068596288561821f, 0.01769524626433849f, -1.832246766753087e-6f, -0.02908413857221603f, 1.943401684911805e-6f, 0.008489075116813183f, 0.007495135068893433f, -0.007749654352664948f, -0.02345859445631504f, -0.007747401483356953f, -4.423207883519353e-6f, -0.008480725809931755f, -0.0189557708799839f, -0.006079646293073893f, 3.127851186945918e-6f, -0.0101591432467103f, -0.001398344407789409f, -0.004980687983334064f, -0.009041981771588326f, -0.004971424583345652f, 2.954316414616187e-6f, 0.01016186736524105f, 0.006489285733550787f, -0.006071159616112709f, -0.003831392386928201f, 0.005664785858243704f, -6.038770834493334e-7f, -0.004978353157639503f, 0.006053379271179438f, -0.00401833513751626f, -0.003434747690334916f, -0.004017271567136049f, 6.606978786294349e-6f, 0.004985018633306026f, 0.01690443232655525f, 0.005666158627718687f, 9.508639777777717e-6f },
 		{ 0.1497974395751953f, -0.08781545609235764f, 0.1544709801673889f, 0.08781220018863678f, -0.07745654881000519f, -0.07412097603082657f, 0.06528459489345551f, 0.07412171363830566f, -6.277628017414827e-6f, -0.02854468114674091f, -0.05111411958932877f, -0.01506998762488365f, 0.0170979555696249f, 0.01507538929581642f, -5.206124569667736e-6f, -0.02854663878679276f, -5.242227416601963e-6f, -0.007236015982925892f, -0.0004619603860192001f, 0.009958100505173206f, 0.01298904791474342f, -0.009956010617315769f, -1.589498879184248e-6f, -0.007237271871417761f, -0.0199530478566885f, 0.005981854628771544f, -6.832104645582149e-6f, 0.01213227398693562f, 0.009449051693081856f, 0.006188214756548405f, 0.006272309459745884f, -0.006191508378833532f, -2.069739139187732e-6f, 0.01213072706013918f, 0.004062605556100607f, -0.005985975731164217f, 0.003696312662214041f, -0.005872478242963552f, -9.391696039529052e-6f, 0.007408116478472948f, 0.001461369218304753f, 0.004100996069610119f, -0.00335842533968389f, -0.004104013554751873f, -3.645569393029291e-7f, 0.007398924790322781f, 0.01298328395932913f, 0.005878879688680172f, -1.255475694961206e-6f },
 		{ 0.1497936397790909f, 0.08780799061059952f, 0.1544772386550903f, -0.08780649304389954f, -0.07745698839426041f, 0.07412493228912354f, 0.06529241800308228f, -0.07412376999855042f, -2.432383325867704e-6f, 0.0285510215908289f, -0.05112544074654579f, 0.01507458928972483f, 0.01709111034870148f, -0.01507646217942238f, -5.052126198279439e-6f, 0.02854541689157486f, -3.195665158273187e-6f, 0.007241165265440941f, -0.0004691803187597543f, -0.009966989979147911f, 0.01298134308308363f, 0.009962319396436214f, -5.020539447286865e-6f, 0.007233529351651669f, -0.01996300742030144f, -0.005990045610815287f, -4.993115908291657e-6f, -0.01213281322270632f, 0.00945196021348238f, -0.006195937748998404f, 0.006276740692555904f, 0.006192228756844997f, -1.981294644792797e-6f, -0.01213940139859915f, 0.004062057938426733f, 0.005989311262965202f, 0.003702867077663541f, 0.005881512071937323f, -5.482328560901806e-6f, -0.007405685726553202f, 0.001463820226490498f, -0.004094283562153578f, -0.003355457913130522f, 0.004096209537237883f, 2.662315864654374e-6f, -0.007407794706523418f, 0.01298517268151045f, -0.005882111843675375f, 4.010861175629543e-6f },
@@ -635,7 +621,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.06921892613172531f, -0.1072884872555733f, -1.674312557042867e-6f, 7.032686426100554e-6f, -0.00001093616447178647f, 1.889418967948586e-6f, -0.05496577546000481f, 4.715182967629516e-6f, -0.09519705921411514f, 0.07073598355054855f, -7.674629159737378e-6f, 0.05480005592107773f, 3.156452294206247e-6f, 2.96558226864363e-7f, -2.317513917660108e-6f, -9.827528629102744e-6f, 4.81858842249494e-6f, 7.412438208120875e-6f, -4.029576757602626e-6f, -2.807485998346237e-6f, 0.02025347948074341f, -6.741718152625253e-6f, 0.03316579759120941f, -4.755774625664344e-6f, 0.04217515885829926f, -0.01666001789271832f, -3.183391982020112e-6f, -0.016292754560709f, 9.878436685539782e-6f, -0.009715743362903595f, -1.06615243566921e-6f, -2.278174861203297e-6f, -2.240843883782873e-7f, -7.824558451829944e-6f, 9.769272764970083e-6f, -1.060103727468231e-6f, 4.671858732763212e-6f, -7.63274965720484e-6f, 9.15073360374663e-6f, -3.176934626480943e-7f, 2.676714530025492e-6f, -1.412222786711936e-6f, 0.003088024910539389f, 4.709268068836536e-6f, 0.0007815288845449686f, 8.417166100116447e-6f, -0.005881209392100573f, -0.0000109930724647711f, 0.001169835682958364f },
 		{ 0.06922256946563721f, 1.506009198237734e-6f, -0.00001069994232238969f, -0.1072931066155434f, -8.007489213923691e-7f, 5.606252670986578e-6f, -0.05496583133935928f, 0.00001570430686115287f, 0.09520027041435242f, -2.233772647741716e-6f, -0.00001011423501040554f, 1.34787660499569e-6f, 0.00001086916472559096f, 0.05479763075709343f, -6.249531907087658e-6f, -0.07073777168989182f, 5.683021754521178e-6f, 0.00001062512092175893f, -2.81809866464755e-6f, -2.768768354144413e-6f, 0.02024850621819496f, -6.418186330847675e-6f, -0.03316454216837883f, -6.751420187356416e-6f, 0.04217560961842537f, -7.139034551073564e-6f, -6.908944669703487e-6f, 1.306835429204511e-6f, 1.037547008309048e-6f, -2.06991285267577e-6f, 1.023926415655296e-6f, -0.009708870202302933f, -2.127030256815488e-6f, 0.0162956602871418f, 0.00001550894194224384f, -0.01665895991027355f, 5.348104878066806e-6f, 1.084251039173978e-6f, 3.550391056705848e-6f, 3.614514525906998e-6f, 1.262246428268554e-6f, -1.044657324200671e-6f, 0.003094557672739029f, -6.830358415754745e-6f, -0.0007835332071408629f, 3.707184532686369e-6f, -0.005888116080313921f, -0.00001552277717564721f, -0.001172686577774584f },
 		{ 0.0692189559340477f, 0.1072881892323494f, -1.229237511779502e-7f, -9.624000995245297e-6f, -0.00001421581237082137f, -1.021434741232952e-7f, -0.05496098846197128f, 4.300505679566413e-6f, -0.09519865363836288f, -0.07074105739593506f, 7.536874818470096e-6f, -0.05479232221841812f, 1.897592909472223e-7f, 2.162899590985035e-6f, -1.647459697551312e-7f, 0.00001038687332766131f, 4.23780250002892e-7f, -1.075591598009851e-7f, -2.920880888268584e-7f, 1.277809644761874e-7f, 0.0202438198029995f, -1.648539409870864e-6f, 0.03316444158554077f, -7.741592526144814e-6f, 0.04218200966715813f, 0.01666458696126938f, -5.148324362380663e-6f, 0.016301104798913f, 6.370610350359129e-8f, 0.009705616161227226f, -8.108207794066402e-7f, 3.460449988779146e-6f, 6.583480285371479e-7f, 2.440197704345337e-6f, -8.874130230651645e-7f, 9.829673217609525e-6f, 0.00001462506952520926f, -2.811430931615178e-6f, 3.279518807630666e-7f, 1.896019966807216e-6f, 6.652757747360738e-6f, -1.474999749007111e-6f, 0.003095325315371156f, -1.962883970918483e-6f, 0.0007820130558684468f, -2.963360657304293e-6f, -0.005895482376217842f, 1.419451677975303e-6f, 0.001171067240647972f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE7oa2M1SpatialPlus(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE7oa2M1SpatialPlus(std::vector<std::vector<float>>
 	{ 	{ 0.1091873198747635f, 0.09319434314966202f, 0.08810824900865555f, 0.09318953007459641f, 0.08339840173721313f, 0.07991474121809006f, -0.006626178044825792f, 0.07990285754203796f, 3.319190454931231e-6f, 0.03044077567756176f, 0.05851518362760544f, 0.01852473057806492f, -0.04256868362426758f, 0.01851408928632736f, -1.916719384098542e-6f, -0.03043002262711525f, 2.032950987995719e-6f, 0.008881902322173119f, 0.007841970771551132f, -0.008108276873826981f, -0.02454413659870625f, -0.008105910383164883f, -4.624468601832632e-6f, -0.008873162791132927f, -0.01983296312391758f, -0.006360977422446012f, 3.273814400017727e-6f, -0.01062926929444075f, -0.001463051768951118f, -0.005211168900132179f, -0.009460395202040672f, -0.005201476160436869f, 3.090938889727113e-6f, 0.01063208840787411f, 0.006789573933929205f, -0.006352101918309927f, -0.00400869082659483f, 0.005926923826336861f, -6.294536660789163e-7f, -0.005208725109696388f, 0.006333500146865845f, -0.004204281605780125f, -0.003593689296394587f, -0.00420316169038415f, 6.914073765074136e-6f, 0.005215697456151247f, 0.01768664084374905f, 0.005928355269134045f, 9.947572834789753e-6f, -0.001047983067110181f, 0.005122359376400709f, 0.005589342210441828f, -9.699516567707178e-7f, 0.00246478570625186f, 0.004159113392233849f, -0.003371885744854808f, 0.0023132951464504f, -0.003377442248165607f, -2.706290615606122e-6f, -0.00245684920810163f, 0.005360893439501524f, 0.005591852124780416f, -8.942928957367258e-7f, 0.001059666858054698f },
 		{ 0.1567292511463165f, -0.09187906980514526f, 0.1616189628839493f, 0.09187563508749008f, -0.08104073256254196f, -0.07755085080862045f, 0.06830564141273499f, 0.07755164057016373f, -6.568722710653674e-6f, -0.02986557967960835f, -0.05347941443324089f, -0.01576734147965908f, 0.01788914762437344f, 0.01577299647033215f, -5.447904641187051e-6f, -0.02986759878695011f, -5.483319000632036e-6f, -0.007570861838757992f, -0.0004833331622648984f, 0.01041891425848007f, 0.01359014585614204f, -0.01041672844439745f, -1.660789166635368e-6f, -0.007572174072265625f, -0.02087634429335594f, 0.006258670706301928f, -7.142037702578818e-6f, 0.01269369386136532f, 0.009886289946734905f, 0.006474579684436321f, 0.006562552880495787f, -0.006478028371930122f, -2.165620571759064e-6f, 0.01269208081066608f, 0.004250603727996349f, -0.006262979004532099f, 0.003867357736453414f, -0.006144225131720304f, -9.826286259340122e-6f, 0.00775092002004385f, 0.001528996042907238f, 0.004290768411010504f, -0.00351383606903255f, -0.004293924197554588f, -3.783245290378545e-7f, 0.00774130504578352f, 0.01358409691601992f, 0.006150916684418917f, -1.311830374106648e-6f, 0.001006322680041194f, -0.005480604246258736f, -0.005977477412670851f, -7.055089099594625e-6f, 0.00005417675856733695f, 0.001808624714612961f, 0.002583323046565056f, -0.005020029377192259f, -0.002585626905784011f, 6.71526686346624e-6f, 0.00004411842382978648f, 0.000310658710077405f, 0.005984003655612469f, 0.00001319357943430077f, 0.0009992195991799235f },
 		{ 0.1567253768444061f, 0.09187126159667969f, 0.1616254448890686f, -0.0918697789311409f, -0.08104126155376434f, 0.07755495607852936f, 0.06831379234790802f, -0.07755378633737564f, -2.546539917602786e-6f, 0.02987220138311386f, -0.05349135026335716f, 0.01577217876911163f, 0.0178819801658392f, -0.01577412709593773f, -5.284924554871395e-6f, 0.02986637689173222f, -3.342358922964195e-6f, 0.007576254196465015f, -0.0004908922128379345f, -0.01042821258306503f, 0.01358204055577517f, 0.01042331289499998f, -5.25314226251794e-6f, 0.007568268105387688f, -0.02088678628206253f, -0.006267241667956114f, -5.221102128416533e-6f, -0.012694226577878f, 0.00988934189081192f, -0.006482651457190514f, 0.006567182019352913f, 0.006478767842054367f, -2.072890538329375e-6f, -0.01270115654915571f, 0.004250033292919397f, 0.00626646401360631f, 0.003874221816658974f, 0.006153678987175226f, -5.737763331126189e-6f, -0.007748396135866642f, 0.001531558344140649f, -0.004283746238797903f, -0.003510730108246207f, 0.004285760689526796f, 2.785854348985595e-6f, -0.007750597782433033f, 0.01358603592962027f, -0.006154309492558241f, 4.199254362902138e-6f, -0.001002131379209459f, -0.005486598238348961f, 0.005989718716591597f, -1.349719696008833e-6f, -0.00005174031321075745f, 0.001806200365535915f, -0.002574665937572718f, -0.005026907194405794f, 0.002582959597930312f, 4.339676252129721e-6f, -0.00005258678356767632f, 0.0002961783902719617f, -0.005985982250422239f, 7.937865120766219e-6f, -0.001004203339107335f },
@@ -648,7 +634,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.07242202013731003f, -0.1122532188892365f, -1.750982050907623e-6f, 7.358076345553854e-6f, -0.00001144207908509998f,    1.976052772079129e-6f, -0.05750927701592445f, 4.933896434522467e-6f, -0.0996023491024971f, 0.07400929182767868f, -8.029343916859943e-6f, 0.05733601003885269f, 3.301687229395611e-6f, 3.105321866314625e-7f, -2.424307695036987e-6f, -0.00001028305450745393f, 5.041516033088556e-6f, 7.75686748966109e-6f, -4.215428816678468e-6f, -2.936508508355473e-6f, 0.02119070291519165f, -7.053127774270251e-6f, 0.03470052033662796f, -4.975724095857004e-6f, 0.04412677884101868f, -0.01743096113204956f, -3.330800382173038e-6f, -0.01704670488834381f, 0.00001033402531902539f, -0.01016533281654119f, -1.114849624173075e-6f, -2.38303391597583e-6f, -2.344203693382951e-7f, -8.186072591342963e-6f, 0.00001022074229695136f, -1.109535787691129e-6f, 4.889837782684481e-6f, -7.987367098394316e-6f, 9.574255273037124e-6f, -3.324478541344433e-7f, 2.800052925522323e-6f, -1.476939587519155e-6f, 0.003230920992791653f, 4.927666395815322e-6f, 0.0008176933042705059f, 8.806295227259398e-6f, -0.006153362803161144f, -0.00001149885702034226f, 0.001223969738930464f, -0.01031826250255108f, 0.00001364670879411278f, 0.001323449658229947f, -5.307160336087691e-6f, -0.004161681514233351f, -5.231954673945438e-6f, -0.009685352444648743f, -4.741360498883296e-6f, -9.499761972620036e-7f, -1.274603960155218e-6f, 8.144527896547515e-7f, 8.493514656038315e-7f, 7.507264854211826e-6f, -2.15121622204606e-6f, 4.7079925025173e-6f },
 		{ 0.07242584228515625f, 1.575729356773081e-6f, -0.00001119476291933097f, -0.1122581660747528f, -8.378982556678238e-7f, 5.865330876986263e-6f, -0.05750935152173042f, 0.00001643067298573442f, 0.09960570931434631f, -2.335381850571139e-6f, -0.00001058267116604839f, 1.410123104506056e-6f, 0.00001137176604970591f, 0.05733340233564377f, -6.53895176583319e-6f, -0.0740111768245697f, 5.946644250798272e-6f, 0.00001111744131776504f, -2.948873088826076e-6f, -2.897351578212692e-6f, 0.02118552476167679f, -6.715767995046917e-6f, -0.0346992164850235f, -7.062639269861393e-6f, 0.04412727057933807f, -7.469873253285186e-6f, -7.228515187307494e-6f, 1.367136292174109e-6f, 1.085095846065087e-6f, -2.165469823012245e-6f, 1.070596226782072e-6f, -0.01015814300626516f, -2.224555146312923e-6f, 0.01704972982406616f, 0.00001622624404262751f, -0.01742984354496002f, 5.595310994976899e-6f, 1.134224135057593e-6f, 3.714665808729478e-6f, 3.781638497457607e-6f, 1.320961246165098e-6f, -1.092898060051084e-6f, 0.00323775876313448f, -7.146005373215303e-6f, -0.0008197913994081318f, 3.878449206240475e-6f, -0.006160586606711149f, -0.0000162409087351989f, -0.00122695229947567f, -1.036754383676453e-6f, 3.947811819671188e-6f, -9.033596143126488e-6f, -8.411883754888549e-6f, 2.803009465424111e-6f, 3.106693384324899e-6f, 3.104019086208609e-8f, -6.510272669402184e-6f, -0.009692288003861904f, 5.08794391862466e-6f, 0.004157242830842733f, 1.938986088134698e-6f, 0.001331702689640224f, 8.087970854830928e-6f, 0.01032287441194057f },
 		{ 0.07242202013731003f, 0.1122527942061424f, -1.290894289240896e-7f, -0.00001006911952572409f, -0.00001487379813625012f, -1.072815720704057e-7f, -0.05750428512692451f, 4.499250280787237e-6f, -0.09960395097732544f, -0.07401461899280548f, 7.886460480222013e-6f, -0.05732778459787369f, 1.983984390108162e-7f, 2.26293036575953e-6f, -1.731602168320023e-7f, 0.00001086896554625127f, 4.428983402249287e-7f, -1.123361883514917e-7f, -3.05385185583873e-7f, 1.356991390366602e-7f, 0.02118060179054737f, -1.725211632219725e-6f, 0.03469912335276604f, -8.097384124994278e-6f, 0.04413396492600441f, 0.01743572019040585f, -5.388015779317357e-6f, 0.0170554481446743f, 6.80182594692269e-8f, 0.0101547297090292f, -8.480598694404762e-7f, 3.619930112108705e-6f, 6.889962378409109e-7f, 2.553549848016701e-6f, -9.277117101191834e-7f, 0.00001028457336360589f, 0.00001530123881821055f, -2.9427164918161e-6f, 3.432301696193463e-7f, 1.985384415092994e-6f, 6.960193331906339e-6f, -1.542949689792295e-6f, 0.003238559700548649f, -2.05430228561454e-6f, 0.0008182013407349586f, -3.100203230133047e-6f, -0.006168288178741932f, 1.484947574681428e-6f, 0.001225258107297122f, 0.01032574847340584f, -1.648816464694391e-6f, -0.001336165238171816f, -4.940974122291664e-6f, 0.004153945483267307f, -4.013757461507339e-6f, 0.009688973426818848f, 1.435667854821077e-6f, -3.767067482840503e-6f, 1.826068569243944e-6f, -6.411249614757253e-6f, -3.843383183266269e-6f, 6.421681064239237e-6f, 5.064596734882798e-6f, -0.00001212179449794348f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE1oa2M1SpatialPlusPlus(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE1oa2M1SpatialPlusPlus(std::vector<std::vector<float>>
 	{ 	{ 0.1740504056215286f, 0.1454484164714813f, 0.1454360038042068f, 0.1454381048679352f },
 		{ 0.1740599125623703f, -0.1454587131738663f, 0.1454375386238098f, 0.1454393714666367f },
 		{ 0.1740521788597107f, 0.1454368084669113f, 0.1454451531171799f, -0.1454467177391052f },
@@ -663,7 +649,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.110623300075531f, 0.1714640855789185f, -1.971817482626648e-7f, -0.00001538039578008465f },
 		{ 0.1106512919068336f, 2.276185114169493e-6f, 0.1715049296617508f, 0.00001089338184101507f },
 		{ 0.1106635332107544f, -1.590445094734605e-6f, -0.1715175956487656f, -9.547882655169815e-6f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE2oa2M1SpatialPlusPlus(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE2oa2M1SpatialPlusPlus(std::vector<std::vector<float>>
 	{ 	{ 0.1353169828653336f, 0.1130799502134323f, 0.1130703687667847f, 0.1130720302462578f, 0.09944275766611099f, 0.09944993257522583f, -6.963390660530422e-6f, 0.09943215548992157f, 3.292821702416404e-6f },
 		{ 0.1353243440389633f, -0.1130881980061531f, 0.1130716428160667f, 0.1130731031298637f, -0.0994388610124588f, -0.09944786876440048f, -0.00001414019516232656f, 0.09943227469921112f, -4.812605311599327e-6f },
 		{ 0.1353183090686798f, 0.1130712032318115f, 0.1130775138735771f, -0.113078884780407f, -0.09943783283233643f, 0.09944144636392593f, -5.223235348239541e-6f, -0.099454365670681f, 1.137773892878613e-6f },
@@ -678,7 +664,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.08600495010614395f, 0.1333062201738358f, -1.53626459109546e-7f, -0.00001195824643218657f, -0.00001766371133271605f, -1.278481818189903e-7f, -0.06828940659761429f, 5.342933491192525e-6f, -0.1182851120829582f },
 		{ 0.08602681010961533f, 1.769322125255712e-6f, 0.133337989449501f, 8.469328349747229e-6f, -5.968364803266013e-6f, 2.135496515620616e-6f, 0.1366097927093506f, 0.00001289306510443566f, -4.758333489007782e-6f },
 		{ 0.08603624999523163f, -1.23570089272107e-6f, -0.1333477348089218f, -7.42221300242818e-6f, -5.665064691129373e-6f, 2.119528062394238e-6f, 0.1366102397441864f, 0.00001129728934756713f, 8.386981562580331e-7f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE3oa2M1SpatialPlusPlus(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE3oa2M1SpatialPlusPlus(std::vector<std::vector<float>>
 	{ 	{ 0.1163520961999893f, 0.09723177552223206f, 0.09722346812486649f, 0.0972248837351799f, 0.08550571650266647f, 0.08551190793514252f, -5.987603344692616e-6f, 0.08549671620130539f, 2.831357505783672e-6f, 0.03089912049472332f, 0.06052185595035553f, 0.02393532171845436f, -0.03908555582165718f, 0.02392185665667057f, -2.917880919994786e-6f, -0.03088823519647121f },
 		{ 0.1163584589958191f, -0.09723865240812302f, 0.09722449630498886f, 0.09722572565078735f, -0.08550238609313965f, -0.08551014959812164f, -0.0000121566363304737f, 0.08549675345420837f, -4.139249085710617e-6f, -0.03089128993451595f, -0.06051497533917427f, -0.02392758801579475f, -0.03908756002783775f, 0.02392198890447617f, -1.084547534446756e-6f, -0.0308869332075119f },
 		{ 0.1163532882928848f, 0.09722401201725006f, 0.09722959250211716f, -0.09723063558340073f, -0.08550155162811279f, 0.08550459146499634f, -4.489272214414086e-6f, -0.08551570028066635f, 9.776408660400193e-7f, 0.03089295327663422f, -0.06052451580762863f, 0.02392538264393806f, -0.03909417241811752f, -0.0239372979849577f, 1.027696839628334e-6f, 0.03089385852217674f },
@@ -693,7 +679,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.07395130395889282f, 0.1146231591701508f, -1.318153266538502e-7f, -0.00001028174119710457f, -0.00001518787757959217f, -1.095469528422655e-7f, -0.05871855840086937f, 4.59425746157649e-6f, -0.1017072126269341f, -0.07557752728462219f, 8.052992598095443e-6f, -0.05853833258152008f, 2.025878700351313e-7f, 2.310714990017004e-6f, -1.76816712382788e-7f, 0.00001109847744373837f },
 		{ 0.0739700123667717f, 1.521621925348882e-6f, 0.1146504580974579f, 7.282188562385272e-6f, -5.130489171278896e-6f, 1.838234425122209e-6f, 0.1174637749791145f, 0.00001108583091991022f, -4.091627943125786e-6f, 2.255651452287566e-6f, -9.076790774997789e-6f, 5.189133389649214e-7f, 0.09560728073120117f, 9.204472007695585e-6f, -7.245264896482695e-6f, -5.974703071842669e-6f },
 		{ 0.07397819310426712f, -1.063207037077518e-6f, -0.1146589294075966f, -6.382726496667601e-6f, -4.870734755968442e-6f, 1.821236764953937e-6f, 0.1174640581011772f, 9.716251952340826e-6f, 7.212201467154955e-7f, -3.317426944704494e-6f, 7.473173354810569e-6f, -1.834639306252939e-6f, -0.09559832513332367f, -7.979798283486161e-6f, -9.930797659762902e-7f, -1.537386197014712e-6f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE4oa2M1SpatialPlusPlus(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE4oa2M1SpatialPlusPlus(std::vector<std::vector<float>>
 	{ 	{ 0.1084248349070549f, 0.09060724824666977f, 0.09059947729110718f, 0.09060075879096985f, 0.07968007773160934f, 0.07968581467866898f, -5.578981017606566e-6f, 0.07967165112495422f, 2.638342493810342e-6f, 0.02879389375448227f, 0.05639835447072983f, 0.0223045889288187f, -0.03642257302999496f, 0.02229201979935169f, -2.720584916460211e-6f, -0.02878378145396709f, 1.284650124944164e-6f, 0.008024447597563267f, 0.00857726763933897f, -0.00303781358525157f, -0.02222935110330582f, -0.003036503912881017f, -5.280884124658769e-6f, -0.008016370236873627f, -0.01878205128014088f },
 		{ 0.1084307953715324f, -0.09061364084482193f, 0.09060044586658478f, 0.09060148149728775f, -0.07967693358659744f, -0.07968417555093765f, -0.00001132822217186913f, 0.07967168837785721f, -3.856027433357667e-6f, -0.02878663502633572f, -0.05639196932315826f, -0.02229734882712364f, -0.03642446547746658f, 0.02229214645922184f, -1.010301730275387e-6f, -0.0287825483828783f, -2.714899665079429e-6f, -0.008026072755455971f, -0.008570254780352116f, 0.003034160239621997f, -0.02222993597388268f, -0.00303432927466929f, 2.637175612107967e-6f, -0.008015046827495098f, -0.01877583377063274f },
 		{ 0.1084257662296295f, 0.09059999138116837f, 0.0906052440404892f, -0.09060619026422501f, -0.07967619597911835f, 0.07967893779277802f, -4.182093562121736e-6f, -0.07968942075967789f, 9.101614750761655e-7f, 0.02878810651600361f, -0.0564008541405201f, 0.02229532599449158f, -0.03643063083291054f, -0.02230639941990376f, 9.584889539837604e-7f, 0.02878902666270733f, -1.292068077418662e-6f, 0.008021853864192963f, -0.008574743755161762f, -0.003043199190869927f, -0.022236043587327f, 0.003036374459043145f, 1.435323952136969e-6f, 0.008027283474802971f, -0.01878518611192703f },
@@ -708,7 +694,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.06891283392906189f, 0.1068136394023895f, -1.226816834787314e-7f, -9.581513950251974e-6f, -0.000014153142728901f, -1.014106771890511e-7f, -0.05471793562173843f, 4.281193923816318e-6f, -0.09477781504392624f, -0.07042825222015381f, 7.503482720494503e-6f, -0.05455000698566437f, 1.88865584505038e-7f, 2.153693685613689e-6f, -1.638857298758012e-7f, 0.0000103434222182841f, 4.233065453718154e-7f, -1.061976959704225e-7f, -2.909144143359299e-7f, 1.286368416231198e-7f, 0.02015429362654686f, -1.642392476242094e-6f, 0.03301778435707092f, -7.707634722464718e-6f, 0.04199550300836563f },
 		{ 0.06893032789230347f, 1.419156546944578e-6f, 0.1068391352891922f, 6.786206085962476e-6f, -4.781754341820488e-6f, 1.714162181087886e-6f, 0.109460711479187f, 0.00001032963336911052f, -3.812842805928085e-6f, 2.101960490108468e-6f, -8.458229785901494e-6f, 4.853033601648349e-7f, 0.08909334987401962f, 8.580472240282688e-6f, -6.751752152922563e-6f, -5.567704647546634e-6f, -2.308536522832583e-6f, 4.011249984614551e-6f, -8.772330147621688e-6f, -1.494189973527682e-6f, 0.05706625804305077f, 2.491811756044626e-6f, -7.063300472509582e-6f, -0.00001153409448306775f, -0.001680210698395967f },
 		{ 0.06893794983625412f, -9.902639703796012e-7f, -0.1068469882011414f, -5.946924375166418e-6f, -4.538293069344945e-6f, 1.697031734693155e-6f, 0.1094609722495079f, 9.05198794498574e-6f, 6.722439138684422e-7f, -3.091427743129316e-6f, 6.96362076268997e-6f, -1.711179493213422e-6f, -0.08908511698246002f, -7.435081442963565e-6f, -9.255036275135353e-7f, -1.432598196515755e-6f, 3.379170493644779e-6f, 6.688785560982069e-6f, -5.108385721541708e-6f, 7.935881853882165e-7f, 0.05705519020557404f, 1.822622607505764e-6f, 4.101621868812799e-7f, 3.414603952478501e-6f, -0.001686360454186797f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE5oa2M1SpatialPlusPlus(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE5oa2M1SpatialPlusPlus(std::vector<std::vector<float>>
 	{ 	{ 0.1086656898260117f, 0.09080833941698074f, 0.09080064296722412f, 0.09080197662115097f, 0.07985705137252808f, 0.0798628106713295f, -5.591919034486637e-6f, 0.07984854280948639f, 2.644285359565401e-6f, 0.02885783091187477f, 0.05652362853288651f, 0.02235410176217556f, -0.03650346025824547f, 0.02234152145683765f, -2.727111905187485e-6f, -0.0288476999849081f, 1.289278884542e-6f, 0.008042276836931705f, 0.008596322499215603f, -0.003044561482965946f, -0.02227875590324402f, -0.003043248085305095f, -5.291224624670576e-6f, -0.008034173399209976f, -0.0188237801194191f, -0.006083788815885782f, 1.535609158054285e-6f, -0.01087835337966681f, -1.862859903667413e-6f, -0.001266393228434026f, -0.0105593204498291f, -0.001256430987268686f, 2.566342345744488e-6f, 0.01088071335107088f, 0.006737943738698959f, -0.006073922850191593f },
 		{ 0.1086715906858444f, -0.09081496298313141f, 0.0908016636967659f, 0.09080284088850021f, -0.07985392212867737f, -0.07986115664243698f, -0.00001135521961259656f, 0.07984863221645355f, -3.864740847348003e-6f, -0.02885055728256702f, -0.05651720985770226f, -0.02234688773751259f, -0.03650536015629768f, 0.02234165370464325f, -1.013868427435227e-6f, -0.0288465078920126f, -2.720662678257213e-6f, -0.008043897338211536f, -0.008589292876422405f, 0.003040897892788053f, -0.02227931842207909f, -0.003041064133867621f, 2.64137588601443e-6f, -0.008032855577766895f, -0.01881754770874977f, 0.006072420626878738f, -1.126657934946707e-6f, 0.01087328605353832f, 1.456724021409173e-7f, 0.001259032869711518f, -0.01056753192096949f, -0.001256011892110109f, -5.765330435281157e-9f, 0.01088784541934729f, 0.006726614665240049f, -0.006073794327676296f },
 		{ 0.108666755259037f, 0.09080131351947784f, 0.09080637991428375f, -0.0908074826002121f, -0.07985309511423111f, 0.07985600084066391f, -4.194495431875112e-6f, -0.07986637949943542f, 9.136841185863886e-7f, 0.0288520772010088f, -0.05652614682912827f, 0.02234483323991299f, -0.03651156648993492f, -0.0223559457808733f, 9.61547925726336e-7f, 0.02885295450687408f, -1.295430365644279e-6f, 0.008039669133722782f, -0.008593792095780373f, -0.003049965249374509f, -0.0222854558378458f, 0.003043117001652718f, 1.438991034774517e-6f, 0.00804513692855835f, -0.01882690191268921f, -0.006079383194446564f, -7.169393256845069e-7f, -0.01088507007807493f, 4.884752797806868e-6f, -0.001260772347450256f, -0.01056146249175072f, 0.001262175617739558f, 1.847159296630707e-6f, -0.01087493449449539f, 0.006727234926074743f, 0.006080186925828457f },
@@ -723,7 +709,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.0690658837556839f, 0.1070509552955627f, -1.233690198887416e-7f, -9.603015314496588e-6f, -0.00001418476222170284f, -1.026679044002776e-7f, -0.05483949556946754f, 4.29061856266344e-6f, -0.09498831629753113f, -0.07058471441268921f, 7.519720384152606e-6f, -0.05467122048139572f, 1.898693682278463e-7f, 2.158143388442113e-6f, -1.649594025820988e-7f, 0.00001036446519719902f, 4.24459159376056e-7f, -1.079399893910704e-7f, -2.911277761086239e-7f, 1.282095780652526e-7f, 0.02019906789064407f, -1.645166207708826e-6f, 0.03309113904833794f, -7.72343082644511e-6f, 0.04208874329924583f, 0.01662774570286274f, -5.136449544806965e-6f, 0.01626507565379143f, 6.360408377759086e-8f, 0.009684156626462936f, -8.089510856734705e-7f, 3.452375722190482e-6f, 6.567291279679921e-7f, 2.435131136735436e-6f, -8.854772772792785e-7f, 9.808230061025824e-6f },
 		{ 0.06908343732357025f, 1.420846047039959e-6f, 0.1070764660835266f, 6.801255494792713e-6f, -4.792867912328802e-6f, 1.714900690785726e-6f, 0.1097038760781288f, 0.00001035371678881347f, -3.821158315986395e-6f, 2.106631427523098e-6f, -8.477929441141896e-6f, 4.878548338638211e-7f, 0.0892912745475769f, 8.599344255344477e-6f, -6.767395007045707e-6f, -5.580222477874486e-6f, -2.313522372787702e-6f, 4.019885182060534e-6f, -8.790007086645346e-6f, -1.49600884924439e-6f, 0.05719301104545593f, 2.498404683137778e-6f, -7.078246198943816e-6f, -0.00001155945392383728f, -0.001683943904936314f, -1.386632533240117e-7f, -5.289181444823043e-6f, 4.59931061413954e-6f, -4.585243004839867e-6f, -2.615970970509807e-6f, 0.02484113350510597f, -4.016197635792196e-6f, -3.90593231713865e-6f, -0.00001537699063192122f, -0.004093954339623451f, -2.088641394948354e-6f },
 		{ 0.06909101456403732f, -9.923239758791169e-7f, -0.107084296643734f, -5.960374437563587e-6f, -4.54930432169931e-6f, 1.702077383924916e-6f, 0.1097042337059975f, 9.072236025531311e-6f, 6.735127158208343e-7f, -3.098115257671452e-6f, 6.979481895541539e-6f, -1.714747099867964e-6f, -0.08928294479846954f, -7.45152055969811e-6f, -9.270985401599319e-7f, -1.43571708122181e-6f, 3.386666776350467e-6f, 6.703980034217238e-6f, -5.115995463711442e-6f, 7.959968684190244e-7f, 0.0571819581091404f, 1.826349603106792e-6f, 4.128961847982282e-7f, 3.42286011800752e-6f, -0.001690106466412544f, -3.908128576313175e-7f, -7.458786967617925e-6f, -9.385950761497952e-6f, -8.533891673323524e-7f, 7.98262306034303e-7f, -0.02483548410236835f, 4.356481895229081e-6f, 7.386614697679761e-7f, -5.376073659135727e-6f, 0.00410661892965436f, 9.744587714521913e-7f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE6oa2M1SpatialPlusPlus(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE6oa2M1SpatialPlusPlus(std::vector<std::vector<float>>
 	{ 	{ 0.1089166849851608f, 0.09101826697587967f, 0.0910104364156723f, 0.09101171791553497f, 0.08004156500101089f, 0.08004734665155411f, -5.604797479463741e-6f, 0.08003303408622742f, 2.651993781910278e-6f, 0.02892453968524933f, 0.05665422603487968f, 0.02240575477480888f, -0.03658782318234444f, 0.02239315025508404f, -2.73317323262745e-6f, -0.02891434170305729f, 1.290115960728144e-6f, 0.008060858584940434f, 0.008616185747087002f, -0.003051597392186522f, -0.02233020588755608f, -0.003050280502066016f, -5.305771082930733e-6f, -0.008052736520767212f, -0.01886725798249245f, -0.006097842007875443f, 1.539227127977938e-6f, -0.01090347953140736f, -1.865601348072232e-6f, -0.001269320142455399f, -0.01058372668921947f, -0.001259333919733763f, 2.572042149040499e-6f, 0.01090585812926292f, 0.006753508932888508f, -0.006087957881391048f, -0.003839921206235886f, 0.005625293590128422f, -3.187601578247268e-6f, -0.006009293254464865f, 0.007522067055106163f, -0.00188954034820199f, -0.006588649470359087f, -0.001886953017674387f, 6.9565567173413e-6f, 0.006015659309923649f, 0.01744772680103779f, 0.005630178842693567f, 9.954036613635253e-6f },
 		{ 0.1089226603507996f, -0.09102479368448257f, 0.09101146459579468f, 0.09101255983114243f, -0.08003851026296616f, -0.08004572242498398f, -0.00001138012976298342f, 0.08003314584493637f, -3.874715730489697e-6f, -0.0289172101765871f, -0.05664787441492081f, -0.02239851281046867f, -0.03658973425626755f, 0.02239330112934113f, -1.01630280369136e-6f, -0.02891314402222633f, -2.728863591983099e-6f, -0.008062480017542839f, -0.008609132841229439f, 0.00304792751558125f, -0.02233078144490719f, -0.003048091195523739f, 2.64711115960381e-6f, -0.008051406592130661f, -0.01886103115975857f, 0.006086443550884724f, -1.129802512878086e-6f, 0.0108984112739563f, 1.46296940783941e-7f, 0.001261936267837882f, -0.01059193722903728f, -0.001258917152881622f, -6.646385664055288e-9f, 0.01091300137341022f, 0.006742153316736221f, -0.006087829824537039f, 0.003831424517557025f, -0.00561233889311552f, -9.773203828444821e-7f, 0.006012650206685066f, -0.007529705297201872f, 0.001896211295388639f, -0.0065934918820858f, -0.001889581792056561f, -1.665120976213075e-6f, 0.006018049549311399f, 0.01743877492845058f, 0.005625342018902302f, -2.824604734996683e-6f },
 		{ 0.1089178174734116f, 0.09101101756095886f, 0.09101618826389313f, -0.09101726859807968f, -0.08003762364387512f, 0.08004052937030792f, -4.200200692139333e-6f, -0.08005087822675705f, 9.125974429480266e-7f, 0.02891873382031918f, -0.05665675923228264f, 0.02239646762609482f, -0.0365959070622921f, -0.02240758389234543f, 9.620348464522976e-7f, 0.02891962416470051f, -1.298366214541602e-6f, 0.008058249019086361f, -0.008613648824393749f, -0.003057008143514395f, -0.0223369412124157f, 0.003050150815397501f, 1.441136305402324e-6f, 0.008063716813921928f, -0.01887041330337524f, -0.006093422416597605f, -7.203791483334498e-7f, -0.01091022230684757f, 4.893511231784942e-6f, -0.001263685408048332f, -0.01058586128056049f, 0.00126509228721261f, 1.851500655902782e-6f, -0.01090006995946169f, 0.006742782425135374f, 0.00609423965215683f, 0.003837451105937362f, 0.005624767858535051f, 7.600925187034591e-7f, -0.006018816959112883f, -0.007527092471718788f, -0.001881736097857356f, -0.006589653436094522f, 0.001891683205030859f, 1.858120299402799e-6f, -0.006006436888128519f, 0.01744202338159084f, -0.005621589720249176f, 2.50411790148064e-6f },
@@ -738,7 +724,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.06922552734613419f, 0.107298381626606f, -1.229354325005261e-7f, -9.624915037420578e-6f, -0.0000142171638799482f, -1.021531730316383e-7f, -0.05496621131896973f, 4.300914042687509e-6f, -0.09520769864320755f, -0.07074777781963348f, 7.537591045547742e-6f, -0.05479753017425537f, 1.897773245218559e-7f, 2.163105136787635e-6f, -1.647616301170274e-7f, 0.00001038786012941273f, 4.238204951434454e-7f, -1.075693774055253e-7f, -2.921158284152625e-7f, 1.277931005461141e-7f, 0.02024574391543865f, -1.648696070333244e-6f, 0.03316759318113327f, -7.742328307358548e-6f, 0.04218601807951927f, 0.01666617020964622f, -5.148813215782866e-6f, 0.01630265265703201f, 6.371215732769997e-8f, 0.00970653910189867f, -8.108978022391966e-7f, 3.460778543740162e-6f, 6.584105562978948e-7f, 2.440429398120614e-6f, -8.874973786987539e-7f, 9.830607268668246e-6f, 0.00001462645923311356f, -2.811697868310148e-6f, 3.279830309566023e-7f, 1.896200046758167e-6f, 6.65338984617847e-6f, -1.475139924878022e-6f, 0.003095619380474091f, -1.963070644706022e-6f, 0.0007820873870514333f, -2.963642145914491e-6f, -0.005896042101085186f, 1.419586624251679e-6f, 0.001171178533695638f },
 		{ 0.06924306601285934f, 1.424137053618324e-6f, 0.1073238924145699f, 6.817409939685604e-6f, -4.803113824891625e-6f, 1.721143576105533e-6f, 0.1099573522806168f, 0.00001037672609527363f, -3.83010728910449e-6f, 2.111351932398975e-6f, -8.497472663293593e-6f, 4.858943043473118e-7f, 0.08949750661849976f, 8.61837270349497e-6f, -6.782911896152655e-6f, -5.592907200480113e-6f, -2.318874066986609e-6f, 4.02860905523994e-6f, -8.810517101665027e-6f, -1.499017798778368e-6f, 0.05732518434524536f, 2.501409426258761e-6f, -7.094788543327013e-6f, -0.00001158624763775151f, -0.001687834621407092f, -1.389822301689492e-7f, -5.301819328451529e-6f, 4.610575160768349e-6f, -4.594894562615082e-6f, -2.620864734126371e-6f, 0.02489855326712132f, -4.028995590488194e-6f, -3.911723524652189e-6f, -0.00001541201527288649f, -0.004103415179997683f, -2.093354169119266e-6f, 8.374541380362643e-7f, -6.585723895113915e-7f, -7.920239113445859e-6f, 2.981218358399929e-6f, 2.345344000787009e-6f, -1.725178776723624e-6f, 0.0007938903290778399f, -6.932294581929455e-6f, 1.321793888564571e-6f, -0.00001424877882527653f, -0.006742516066879034f, -4.686888587457361e-6f, 2.490911583663546e-6f },
 		{ 0.06925069540739059f, -9.949030754796695e-7f, -0.1073317229747772f, -5.973483439447591e-6f, -4.559512490232009e-6f, 1.706374973764468e-6f, 0.1099576503038406f, 9.093903827306349e-6f, 6.747501970494341e-7f, -3.105615860476973e-6f, 6.996612682996783e-6f, -1.718975681797019e-6f, -0.08948920667171478f, -7.469848696928238e-6f, -9.287751367992314e-7f, -1.439052994101075e-6f, 3.394490477148793e-6f, 6.719032626278931e-6f, -5.128243174112868e-6f, 7.957983143569436e-7f, 0.05731403082609177f, 1.82823680461297e-6f, 4.127855675051251e-7f, 3.430292963457759e-6f, -0.001694013015367091f, -3.917471929071326e-7f, -7.476059636246646e-6f, -9.407747711520642e-6f, -8.546406320419919e-7f, 8.004100209291209e-7f, -0.02489286288619041f, 4.365032509667799e-6f, 7.383367801594432e-7f, -5.388467798184138e-6f, 0.004116107244044542f, 9.767169331098557e-7f, 1.555221956550668e-6f, 6.977949169595377e-7f, 0.00001054613858286757f, 9.20880393096013e-6f, 7.293142516573425e-6f, -2.33926584769506e-6f, 0.0007981738308444619f, -7.339873718592571e-6f, -1.75837760707509e-6f, 6.06234289080021e-6f, -0.006758547388017178f, -2.264752993141883e-6f, -3.509628186293412e-6f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE7oa2M1SpatialPlusPlus(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE7oa2M1SpatialPlusPlus(std::vector<std::vector<float>>
 	{ 	{ 0.1139601692557335f, 0.09523291140794754f, 0.0952247828245163f, 0.09522616118192673f, 0.08374791592359543f, 0.08375398069620132f, -5.864512331754668e-6f, 0.08373910188674927f, 2.773151436485932e-6f, 0.03026390634477139f, 0.05927766487002373f, 0.02344326674938202f, -0.03828204795718193f, 0.02343007922172546f, -2.857896106434055e-6f, -0.03025324456393719f, 1.350780848952127e-6f, 0.008434121496975422f, 0.009015150368213654f, -0.003192901611328125f, -0.02336423099040985f, -0.003191523486748338f, -5.550396963371895e-6f, -0.008425617590546608f, -0.01974093168973923f, -0.00638021482154727f, 1.612455776012212e-6f, -0.01140838116407394f, -1.95071697817184e-6f, -0.001328095095232129f, -0.01107380725443363f, -0.001317647285759449f, 2.691688450795482e-6f, 0.0114108407869935f, 0.007066229823976755f, -0.006369865499436855f, -0.00401772977784276f, 0.005885777529329062f, -3.330391564304591e-6f, -0.006287561729550362f, 0.007870388217270374f, -0.001977033680304885f, -0.006893746089190245f, -0.001974328421056271f, 7.279734745679889e-6f, 0.006294222082942724f, 0.01825562492012978f, 0.005890884436666965f, 0.00001041156610881444f, -0.001036862609907985f, 0.005098690278828144f, 0.005532216280698776f, -4.235349479131401e-6f, 0.001211988157592714f, 0.005543776322156191f, -0.00285425828769803f, -0.001291451277211308f, -0.002858681604266167f, -1.81230836915347e-6f, -0.001203986583277583f, 0.00630200607702136f, 0.005540885031223297f, 3.13810261332037e-7f, 0.001048151520080864f },
 		{ 0.1139663979411125f, -0.09523965418338776f, 0.09522578120231628f, 0.09522698819637299f, -0.08374465256929398f, -0.08375225961208344f, -0.00001190672355733113f, 0.08373913913965225f, -4.05415585191804e-6f, -0.03025623597204685f, -0.05927092581987381f, -0.0234356913715601f, -0.03828401118516922f, 0.02343020774424076f, -1.062251726580143e-6f, -0.03025196865200996f, -2.851211547749699e-6f, -0.008435820229351521f, -0.009007788263261318f, 0.003189061302691698f, -0.02336482144892216f, -0.003189234528690577f, 2.770152377706836e-6f, -0.008424228057265282f, -0.01973438635468483f, 0.006368281785398722f, -1.181869151878345e-6f, 0.01140306890010834f, 1.521770229828689e-7f, 0.001320373849011958f, -0.01108241081237793f, -0.00131721084471792f, -5.673737035749582e-9f, 0.01141833979636431f, 0.007054351735860109f, -0.006369729992002249f, 0.004008840303868055f, -0.005872217938303947f, -1.021435537040816e-6f, 0.006291065365076065f, -0.007878375239670277f, 0.001984017435461283f, -0.006898802239447832f, -0.001977079082280397f, -1.737278580549173e-6f, 0.006296723149716854f, 0.01824628002941608f, 0.005885831080377102f, -2.953477860501152e-6f, 0.00104340526740998f, -0.005091349594295025f, -0.005522395018488169f, 2.207109673690866e-6f, -0.001206491491757333f, -0.005548733286559582f, 0.002862036461010575f, -0.001283812103793025f, -0.002857836429029703f, 2.629916707519442e-6f, -0.001208450412377715f, 0.006305432412773371f, 0.005539968144148588f, 9.000753379950766e-6f, 0.001036542234942317f },
 		{ 0.1139613315463066f, 0.09522531181573868f, 0.09523077309131622f, -0.0952318012714386f, -0.08374384045600891f, 0.08374681323766708f, -4.396983058541082e-6f, -0.08375769853591919f, 9.575428521202412e-7f, 0.03025786392390728f, -0.05928026884794235f, 0.02343353256583214f, -0.03829048573970795f, -0.02344520203769207f, 1.006569732453499e-6f, 0.03025875240564346f, -1.357146629743511e-6f, 0.008431383408606052f, -0.009012513794004917f, -0.0031985635869205f, -0.0233712662011385f, 0.003191386815160513f, 1.510452875663759e-6f, 0.008437120355665684f, -0.01974421553313732f, -0.006375593598932028f, -7.483507147298951e-7f, -0.01141542568802834f, 5.119563866173849e-6f, -0.0013222002889961f, -0.01107604615390301f, 0.001323672477155924f, 1.937588649525424e-6f, -0.0114047946408391f, 0.007055009715259075f, 0.006376436445862055f, 0.004015153273940086f, 0.005885228049010038f, 7.888551181167713e-7f, -0.006297523155808449f, -0.007875633426010609f, -0.001968869939446449f, -0.006894791498780251f, 0.001979278400540352f, 1.94552012544591e-6f, -0.006284573115408421f, 0.01824969425797462f, -0.00588190695270896f, 2.625229853947531e-6f, -0.001037883688695729f, -0.005098530557006598f, 0.005541444290429354f, 5.390215392253594e-6f, 0.001206568093039095f, -0.005552724469453096f, -0.002848841482773423f, -0.001291041728109121f, 0.002862685592845082f, -8.620054927632737e-7f, 0.00121265253983438f, 0.006291966419667006f, -0.005531249102205038f, 3.890785137627972e-6f, -0.001041369629092515f },
@@ -753,7 +739,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.07243103533983231f, 0.1122667714953423f, -1.291055014007725e-7f, -0.00001007037280942313f, -0.00001487564986746293f, -1.072949231684106e-7f, -0.05751144140958786f, 4.499810074776178e-6f, -0.09961634874343872f, -0.07402382791042328f, 7.887441825005226e-6f, -0.05733491852879524f, 1.984231374763112e-7f, 2.263212081743404e-6f, -1.731817746986053e-7f, 0.00001087031796487281f, 4.429534783412237e-7f, -1.123501718325315e-7f, -3.054231854093814e-7f, 1.357160215320619e-7f, 0.02118323929607868f, -1.725426386656181e-6f, 0.03470344468951225f, -8.098391845123842e-6f, 0.04413945972919464f, 0.01743789203464985f, -5.388686531659914e-6f, 0.01705757156014442f, 6.802672913863717e-8f, 0.01015599351376295f, -8.481654276693007e-7f, 3.620380766733433e-6f, 6.890820145599719e-7f, 2.55386771641497e-6f, -9.278271591028897e-7f, 0.00001028585393214598f, 0.00001530314330011606f, -2.943082790807239e-6f, 3.432728874486202e-7f, 1.985631570278201e-6f, 6.961059625609778e-6f, -1.543141706861206e-6f, 0.003238962730392814f, -2.054558080999414e-6f, 0.0008183031459338963f, -3.10058931063395e-6f, -0.006169056054204702f, 1.485132429479563e-6f, 0.001225410611368716f, 0.01032703369855881f, -1.649021669436479e-6f, -0.001336331595666707f, -4.941588940710062e-6f, 0.004154462367296219f, -4.014257228845963e-6f, 0.009690179489552975f, 1.435846570529975e-6f, -3.767536327359267e-6f, 1.826295942919387e-6f, -6.412047696358059e-6f, -3.843861577479402e-6f, 6.422480510082096e-6f, 5.065227014711127e-6f, -0.00001212330334965372f },
 		{ 0.07244935631752014f, 1.490340991949779e-6f, 0.1122935116291046f, 7.132483460736694e-6f, -5.025018253945746e-6f, 1.800444465516193e-6f, 0.1150489896535873f, 0.00001085793155652937f, -4.007513325632317e-6f, 2.209280410170322e-6f, -8.890192475519143e-6f, 5.082457050775702e-7f, 0.09364181011915207f, 9.015249816002324e-6f, -7.096319222910097e-6f, -5.851876721862936e-6f, -2.426284254397615e-6f, 4.215816716168774e-6f, -9.217775186698418e-6f, -1.564807689646841e-6f, 0.05997958406805992f, 2.618558028189e-6f, -7.423901479342021e-6f, -0.00001212259667227045f, -0.001765990629792213f, -1.454547486900992e-7f, -5.547053660848178e-6f, 4.823458311875584e-6f, -4.808445737580769e-6f, -2.740579702731338e-6f, 0.02605148404836655f, -4.213517968310043e-6f, -4.096859356650384e-6f, -0.00001612693085917272f, -0.004293422214686871f, -2.190379291278077e-6f, 8.762038419263263e-7f, -6.890952022331476e-7f, -8.286505362775642e-6f, 3.119475877610967e-6f, 2.45435262513638e-6f, -1.80087477019697e-6f, 0.0008306492236442864f, -7.251574061228894e-6f, 1.38481163958204e-6f, -0.00001490714021201711f, -0.007054723799228668f, -4.904008619632805e-6f, 2.606299858598504e-6f, -1.987315414453406e-7f, 2.335507815587334e-6f, -1.836548449318798e-6f, -8.894494385458529e-6f, -3.167635895806598e-7f, 8.51790355227422e-6f, 8.545329137632507e-7f, -0.01185955293476582f, -5.118542048876407e-6f, 5.90910258324584e-6f, -8.207686732930597e-6f, -0.008897218853235245f, -7.023505986580858e-6f, 6.731681423843838e-6f, 3.404684889574128e-7f },
 		{ 0.07245737314224243f, -1.041349946717673e-6f, -0.112301804125309f, -6.251512786548119e-6f, -4.770603936776752e-6f, 1.783796392373915e-6f, 0.11504927277565f, 9.516508725937456e-6f, 7.063935640871932e-7f, -3.249228257118375e-6f, 7.319541964534437e-6f, -1.796923356778279e-6f, -0.09363304823637009f, -7.815751814632677e-6f, -9.726643384055933e-7f, -1.505781028754427e-6f, 3.551811232682667e-6f, 7.030337201285874e-6f, -5.367987341742264e-6f, 8.311351393786026e-7f, 0.05996799096465111f, 1.915040229505394e-6f, 4.328435920797347e-7f, 3.589012294469285e-6f, -0.001772454939782619f, -4.098717170109012e-7f, -7.82182723924052e-6f, -9.842552572081331e-6f, -8.96042706699518e-7f, 8.360398169315886e-7f, -0.02604554034769535f, 4.567821633827407e-6f, 7.755356250527257e-7f, -5.638533366436604e-6f, 0.004306703805923462f, 1.022113906401501e-6f, 1.627231995371403e-6f, 7.300660058717767e-7f, 0.00001103479735320434f, 9.633229637984186e-6f, 7.628543698956491e-6f, -2.446972530378844e-6f, 0.0008351318538188934f, -7.681474016862921e-6f, -1.840473714764812e-6f, 6.344661414914299e-6f, -0.007071500644087791f, -2.368872628721874e-6f, -3.67217603525205e-6f, -2.963925567200931e-7f, -3.71041642210912e-6f, -6.11197492617066e-7f, -0.000010737653610704f, -5.623183824354783e-6f, -0.00001000691645458573f, 3.135431825285195e-6f, 0.01184735354036093f, 5.813029019918758e-6f, 1.828927565838967e-6f, -4.546604031929746e-6f, 0.008910328149795532f, 3.543309276210493e-6f, 9.646944818086922e-6f, -1.740553670970257e-6f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE1oa2M1SpatialExtended(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE1oa2M1SpatialExtended(std::vector<std::vector<float>>
 	{ 	{ 0.1323064565658569f, 0.1294058114290237f, 0.05260853469371796f, 0.1410672664642334f },
 		{ 0.1462895423173904f, -0.08447154611349106f, 0.1160938888788223f, 0.1510040909051895f },
 		{ 0.1323267072439194f, 0.1294009238481522f, 0.05260484293103218f, -0.1410985291004181f },
@@ -770,7 +756,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.1617601662874222f, -0.1632827669382095f, -0.1463161706924438f, -0.01868112944066525f },
 		{ 0.083871029317379f, 0.01869596913456917f, -0.02938681282103062f, -0.127933606505394f },
 		{ 0.2508613467216492f, 0.2035901248455048f, -0.2324820905923843f, -0.00002997417868755292f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE2oa2M1SpatialExtended(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE2oa2M1SpatialExtended(std::vector<std::vector<float>>
 	{ 	{ 0.1019874215126038f, 0.09975146502256393f, 0.04055292159318924f, 0.1087406203150749f, 0.1200718656182289f, 0.0383356586098671f, -0.05383136123418808f, 0.05260111391544342f, 0.006754067726433277f },
 		{ 0.1127662286162376f, -0.06511423736810684f, 0.0894901379942894f, 0.1164002567529678f, -0.09269250929355621f, -0.038646150380373f, 0.007861773483455181f, 0.09320015460252762f, 0.03638333454728127f },
 		{ 0.1020031049847603f, 0.09974770247936249f, 0.04055002331733704f, -0.1087648943066597f, -0.1200665831565857f, 0.03831415995955467f, -0.05384862795472145f, -0.05260613188147545f, 0.006770530249923468f },
@@ -787,7 +773,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.1246915385127068f, -0.1258652657270432f, -0.1127866581082344f, -0.01440018881112337f, 0.0273368488997221f, 0.0893746092915535f, 0.042620949447155f, 4.200180228508543e-6f, -0.1028774008154869f },
 		{ 0.06465133279561996f, 0.01441164780408144f, -0.02265259064733982f, -0.0986165776848793f, -0.02734889835119247f, 4.441047167347278e-6f, -0.04353782162070274f, 0.04179651290178299f, 0.08736851811408997f },
 		{ 0.1933747828006744f, 0.1569360047578812f, -0.1792071759700775f, -0.00002310501258762088f, -0.00001842426900111604f, -0.08270122855901718f, 0.08122355490922928f, 0.00001734156285237987f, -0.1245437636971474f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE3oa2M1SpatialExtended(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE3oa2M1SpatialExtended(std::vector<std::vector<float>>
 	{ 	{ 0.09226075559854507f, 0.090238057076931f, 0.03668530657887459f, 0.09836988896131516f, 0.1086204126477242f, 0.03467947617173195f, -0.04869740083813667f, 0.04758447781205177f, 0.006109923589974642f, 0.05392263829708099f, 0.04722052812576294f, -0.02751294709742069f, -0.03099604323506355f, -0.01584666036069393f, 0.0114677594974637f, -0.04916467145085335f },
 		{ 0.1020115241408348f, -0.05890421941876411f, 0.08095530420541763f, 0.1052990928292274f, -0.08385239541530609f, -0.03496039658784866f, 0.007111990824341774f, 0.08431145548820496f, 0.03291340917348862f, -0.06658833473920822f, -0.04727394506335258f, 0.009137662127614021f, -0.01101226918399334f, 0.03617395088076591f, 0.01648874767124653f, -0.0212568286806345f },
 		{ 0.09227486699819565f, 0.09023465216159821f, 0.03668273240327835f, -0.09839168936014175f, -0.1086156666278839f, 0.03466011583805084f, -0.04871303215622902f, -0.04758906364440918f, 0.006124821491539478f, 0.05391859635710716f, -0.04718974605202675f, -0.02752805314958096f, -0.03100992366671562f, 0.01585294678807259f, 0.01147988252341747f, 0.04915932938456535f },
@@ -804,7 +790,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.1127995923161507f, -0.1138613447546959f, -0.1020300909876823f, -0.01302684005349874f, 0.02472967468202114f, 0.08085084706544876f, 0.03855618834495544f, 3.80136702915479e-6f, -0.09306589514017105f, 0.06354736536741257f, 0.0001020499912556261f, -0.01609894447028637f, -0.02929226867854595f, 0.007792154792696238f, 0.06649269163608551f, 0.03111041523516178f },
 		{ 0.05848546326160431f, 0.0130371879786253f, -0.02049219235777855f, -0.08921144902706146f, -0.02474060468375683f, 4.017914307041792e-6f, -0.03938553854823112f, 0.03781032934784889f, 0.0790361613035202f, 0.03111220337450504f, -0.0001228469045599923f, -0.007790451869368553f, 0.02707350626587868f, 0.03189955279231071f, -0.03802163898944855f, -0.05994101613759995f },
 		{ 0.1749321818351746f, 0.1419687122106552f, -0.1621158421039581f, -0.00002090177804348059f, -0.00001666624484641943f, -0.07481396198272705f, 0.07347710430622101f, 0.00001568771040183492f, -0.1126658990979195f, -0.0744093582034111f, -1.612947812645871e-6f, -0.008560183458030224f, -0.05852343142032623f, -6.997208856773796e-6f, 0.05487698689103127f, 0.00001098530901799677f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE4oa2M1SpatialExtended(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE4oa2M1SpatialExtended(std::vector<std::vector<float>>
 	{	{ 0.09091005474328995f, 0.08891709893941879f, 0.03614823147654533f, 0.09692966192960739f, 0.1070301905274391f, 0.03417180851101875f, -0.04798446968197823f, 0.0468878298997879f, 0.006020478438585997f, 0.05313318222761154f, 0.04652921110391617f, -0.02711019106209278f, -0.03054226189851761f, -0.01561467163264751f, 0.01129987929016352f, -0.0484449490904808f, 0.0008862929535098374f, 0.02766020037233829f, -0.01098562590777874f, -0.01609379984438419f, -0.001935580628924072f, -0.01147323101758957f, 0.01326426770538092f, -0.01761617697775364f, -0.03628444671630859f },
 		{ 0.1005181968212128f, -0.05804184079170227f, 0.07977012544870377f, 0.1037575006484985f, -0.08262468874454498f, -0.03444857522845268f, 0.007007868029177189f, 0.08307714015245438f, 0.03243155777454376f, -0.06561344116926193f, -0.04658181592822075f, 0.009003900922834873f, -0.01085103489458561f, 0.03564437106251717f, 0.01624736003577709f, -0.02094562537968159f, -0.0307561568915844f, -0.02693421021103859f, 0.001813203562051058f, 0.01668517291545868f, -0.01028298027813435f, 0.02872876822948456f, 0.0111367991194129f, -0.02483698539435863f, -0.0384071059525013f },
 		{ 0.090923972427845f, 0.08891365677118301f, 0.03614570572972298f, -0.09695140272378922f, -0.1070255562663078f, 0.03415269777178764f, -0.04799990728497505f, -0.04689233750104904f, 0.006035154219716787f, 0.0531291551887989f, -0.0464988686144352f, -0.02712506800889969f, -0.0305559691041708f, 0.01562086585909128f, 0.01131182257086039f, 0.04843964800238609f, -0.0008823907701298594f, 0.02763408608734608f, 0.01101541146636009f, -0.01609405875205994f, -0.001954104984179139f, 0.01148933917284012f, 0.01327366475015879f, 0.01760244369506836f, -0.03628840297460556f },
@@ -821,7 +807,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.1111483797430992f, -0.1121945008635521f, -0.1005363911390305f, -0.01283612847328186f, 0.02436764910817146f, 0.07966721057891846f, 0.0379917100071907f, 3.745327376236673e-6f, -0.09170335531234741f, 0.06261705607175827f, 0.0001005551675916649f, -0.01586325094103813f, -0.02886343374848366f, 0.00767807848751545f, 0.06551925092935562f, 0.03065499663352966f, -0.03034046106040478f, -0.03954079002141953f, -0.01099261455237865f, 0.007587363943457603f, 0.03313815966248512f, -8.731350135349203e-6f, -0.0248616449534893f, 0.0004468673723749816f, 0.03892156481742859f },
 		{ 0.05762925371527672f, 0.01284632924944162f, -0.02019219659268856f, -0.0879054069519043f, -0.02437840588390827f, 3.9590013329871e-6f, -0.03880894556641579f, 0.03725679591298103f, 0.07787910103797913f, 0.03065672889351845f, -0.0001210487898788415f, -0.007676410488784313f, 0.02667712792754173f, 0.03143257647752762f, -0.03746500238776207f, -0.05906349420547485f, -0.03032909892499447f, 0.0004764613113366067f, 0.01099216099828482f, 3.491855068205041e-6f, 0.00381550076417625f, -0.02927708253264427f, -0.01294210832566023f, 0.03186735138297081f, 0.03770488500595093f },
 		{ 0.1723712384700775f, 0.1398903131484985f, -0.1597424745559692f, -0.00002059500729956198f, -0.00001642285496927798f, -0.07371865212917328f, 0.07240144908428192f, 0.00001545621671539266f, -0.1110163331031799f, -0.07332012802362442f, -1.591357658980996e-6f, -0.00843486562371254f, -0.05766661837697029f, -6.892423243698431e-6f, 0.05407366156578064f, 0.00001082512881112052f, 4.797955170943169e-6f, 0.03512954711914062f, 9.178302207146771e-6f, -0.003179788822308183f, 0.04169980436563492f, 1.693561216598027e-6f, 0.001974077662453055f, 7.994505722308531e-6f, 0.03559727966785431f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE5oa2M1SpatialExtended(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE5oa2M1SpatialExtended(std::vector<std::vector<float>>
 	{ 	{ 0.08965358883142471f, 0.08768804371356964f, 0.03564866259694099f, 0.09559009224176407f, 0.10555100440979f, 0.03369954228401184f, -0.04732127487659454f, 0.04623980820178986f, 0.005937266163527966f, 0.05239887163043022f, 0.04588614404201508f, -0.02673547901213169f, -0.0301201306283474f, -0.01539885997772217f, 0.01114370487630367f, -0.04777540639042854f, 0.0008740458870306611f, 0.02727788314223289f, -0.01083378680050373f, -0.01587135158479214f, -0.001908826292492449f, -0.01131466031074524f, 0.01308094337582588f, -0.01737270876765251f, -0.03578293323516846f, -0.005063636694103479f, 0.002134009031578898f, 0.005247096531093121f, -0.006169538479298353f, -0.003830958856269717f, -0.006380714476108551f, -0.007949313148856163f, 0.009957463480532169f, 0.008619730360805988f, -0.01982087828218937f, -0.004936307203024626f },
 		{ 0.09912886470556259f, -0.05723965913057327f, 0.07866766303777695f, 0.1023234203457832f, -0.08148276060819626f, -0.03397248685359955f, 0.006911011412739754f, 0.08192901313304901f, 0.03198332339525223f, -0.06470661610364914f, -0.04593802243471146f, 0.008879464119672775f, -0.01070106495171785f, 0.03515172749757767f, 0.01602279581129551f, -0.02065613865852356f, -0.03033101558685303f, -0.02656191401183605f, 0.001788136665709317f, 0.01645457744598389f, -0.01014085672795773f, 0.0283316969871521f, 0.01098288130015135f, -0.02449371851980686f, -0.03787626326084137f, -0.003915890585631132f, 0.0001011218919302337f, 0.0016934375744313f, 0.00880911573767662f, 0.009094399400055408f, -0.02041218616068363f, 0.0182803850620985f, 0.02236006036400795f, -0.009477668441832066f, -0.02481964603066444f, -0.02966725453734398f },
 		{ 0.08966737985610962f, 0.08768473565578461f, 0.03564611449837685f, -0.09561143815517426f, -0.1055463552474976f, 0.03368064388632774f, -0.04733645543456078f, -0.04624422267079353f, 0.005951737519353628f, 0.05239485576748848f, -0.04585618898272514f, -0.02675018645823002f, -0.03013362735509872f, 0.01540497131645679f, 0.01115548331290483f, 0.04777015745639801f, -0.0008701932965777814f, 0.02725216187536716f, 0.01086316350847483f, -0.01587161980569363f, -0.001927097211591899f, 0.0113305514678359f, 0.01309020724147558f, 0.01735916174948215f, -0.03578687086701393f, -0.005071027204394341f, -0.002122579142451286f, 0.005215231794863939f, 0.006178232841193676f, -0.00382645707577467f, -0.006385404150933027f, 0.007986509241163731f, 0.009955169633030891f, -0.008640032261610031f, -0.01981577277183533f, 0.004944076761603355f },
@@ -838,7 +824,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.1096119955182076f, -0.1106437817215919f, -0.09914682805538177f, -0.01265870500355959f, 0.02403087168931961f, 0.07856611162424088f, 0.03746659308671951f, 3.692232212415547e-6f, -0.0904359444975853f, 0.06175163760781288f, 0.00009916120325215161f, -0.01564399711787701f, -0.02846448682248592f, 0.007571959402412176f, 0.06461365520954132f, 0.03023131191730499f, -0.02992118336260319f, -0.03899428248405457f, -0.01084069162607193f, 0.007482503075152636f, 0.03268018364906311f, -8.611499652033672e-6f, -0.02451799996197224f, 0.0004406890657264739f, 0.03838365525007248f, -0.01802288368344307f, -0.001064039417542517f, 0.009341227822005749f, -0.0001005158264888451f, -0.008043744601309299f, -0.01881669089198112f, -0.002618254628032446f, 0.01972035691142082f, -0.01049091573804617f, -0.02591540478169918f, -0.02401923947036266f },
 		{ 0.05683273822069168f, 0.01266877818852663f, -0.01991310343146324f, -0.08669039607048035f, -0.02404146455228329f, 3.903970082319574e-6f, -0.03827258571982384f, 0.03674186021089554f, 0.07680262625217438f, 0.03023301623761654f, -0.0001193752177641727f, -0.007570307236164808f, 0.02630843594670296f, 0.03099813498556614f, -0.03694718331098557f, -0.05824717134237289f, -0.02990989573299885f, 0.0004698755219578743f, 0.01084024365991354f, 3.443651166890049e-6f, 0.00376276602037251f, -0.0288724172860384f, -0.01276322919875383f, 0.03142689540982246f, 0.03718375414609909f, 0.02399782091379166f, -0.001096850726753473f, -0.01049834862351418f, 0.00009852991934167221f, 0.002607272705063224f, -0.009968583472073078f, 0.008535908535122871f, 0.01791335269808769f, 0.001368784578517079f, -0.02295520156621933f, -0.01860225014388561f },
 		{ 0.1699890345335007f, 0.137956976890564f, -0.1575347930192947f, -0.00002031081385212019f, -0.00001619613431103062f, -0.07269977033138275f, 0.07140080630779266f, 0.00001524436538602458f, -0.1094820946455002f, -0.07230664789676666f, -1.56837245413044e-6f, -0.008318286389112473f, -0.05686963722109795f, -6.797934020141838e-6f, 0.05332627147436142f, 0.00001067463290382875f, 4.731886747322278e-6f, 0.03464401513338089f, 9.054475412995089e-6f, -0.003135846229270101f, 0.04112349450588226f, 1.669911739554664e-6f, 0.001946792588569224f, 7.881935744080693e-6f, 0.03510528057813644f, 0.006648893002420664f, -7.041037974886422e-8f, -0.001757547492161393f, -7.830679351172876e-6f, 0.01007664948701859f, 0.003338708775117993f, 8.216071364586242e-6f, 0.0008851101156324148f, -0.00001101817997550825f, -0.0181376077234745f, 6.845183179393644e-6f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE6oa2M1SpatialExtended(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE6oa2M1SpatialExtended(std::vector<std::vector<float>>
 	{ 	{ 0.0879255011677742f, 0.08599783480167389f, 0.03496147692203522f, 0.09374760091304779f, 0.1035163551568985f, 0.03304992616176605f, -0.04640914872288704f, 0.04534853622317314f, 0.005822822917252779f, 0.05138888955116272f, 0.04500167816877365f, -0.02622016333043575f, -0.02953954786062241f, -0.01510204188525677f, 0.01092889718711376f, -0.04685449227690697f, 0.0008571957005187869f, 0.02675209566950798f, -0.01062496472150087f, -0.01556541956961155f, -0.001872037537395954f, -0.01109657064080238f, 0.01282878965139389f, -0.01703783497214317f, -0.03509321063756943f, -0.004966023843735456f, 0.0020928755402565f, 0.005145963281393051f, -0.006050615571439266f, -0.003757113590836525f, -0.006257722154259682f, -0.007796095684170723f, 0.009765538387000561f, 0.008453569374978542f, -0.01943881437182426f, -0.004841157700866461f, 0.01114242896437645f, -0.007678844965994358f, 0.003442956600338221f, 0.004921638872474432f, -0.006166921928524971f, -0.006579116452485323f, 0.001344922347925603f, -0.0163061898201704f, 0.002771577099338174f, 0.008828041143715382f, -0.002009558025747538f, -0.007448329590260983f, 0.0001788145018508658f },
 		{ 0.09721807390451431f, -0.05613637715578079f, 0.07715130597352982f, 0.1003511920571327f, -0.07991214096546173f, -0.03331766277551651f, 0.006777806207537651f, 0.08034973591566086f, 0.03136679902672768f, -0.06345930695533752f, -0.04505253955721855f, 0.008708306588232517f, -0.01049479190260172f, 0.03447417542338371f, 0.01571394875645638f, -0.0202579814940691f, -0.02974635921418667f, -0.02604994364082813f, 0.001753672491759062f, 0.01613739505410194f, -0.009945391677320004f, 0.02778556942939758f, 0.01077118515968323f, -0.02402156032621861f, -0.03714616969227791f, -0.003840406192466617f, 0.000099174227216281f, 0.001660798792727292f, 0.00863931979984045f, 0.008919106796383858f, -0.02001873217523098f, 0.01792802475392818f, 0.02192907221615314f, -0.009294970892369747f, -0.02434120886027813f, -0.02909541875123978f, 0.005201405845582485f, 0.01088898628950119f, 0.006386807654052973f, -0.001269842148758471f, 0.008205980993807316f, 0.00424245884642005f, -0.01823192276060581f, -0.002758766990154982f, 0.01902038790285587f, 0.002675473922863603f, -0.00657061068341136f, -0.007325861603021622f, -0.01437258347868919f },
 		{ 0.08793898671865463f, 0.08599460870027542f, 0.03495906665921211f, -0.09376855939626694f, -0.1035118997097015f, 0.03303144127130508f, -0.04642403498291969f, -0.04535283148288727f, 0.005837016273289919f, 0.05138494074344635f, -0.04497230425477028f, -0.02623451314866543f, -0.02955279126763344f, 0.01510802563279867f, 0.01094044465571642f, 0.04684941098093987f, -0.0008534188382327557f, 0.02672685869038105f, 0.0106537751853466f, -0.01556566264480352f, -0.00188995199277997f, 0.01111214235424995f, 0.01283789146691561f, 0.01702454686164856f, -0.03509704396128654f, -0.004973282106220722f, -0.002081664279103279f, 0.005114702507853508f, 0.00605913856998086f, -0.003752700285986066f, -0.006262325216084719f, 0.007832580246031284f, 0.00976327620446682f, -0.008473489433526993f, -0.01943379454314709f, 0.004848770797252655f, -0.01113198604434729f, -0.007679712492972612f, -0.003426580922678113f, 0.004907744470983744f, 0.006163251120597124f, -0.006572348531335592f, 0.001368760596960783f, 0.0163352694362402f, 0.002746648387983441f, -0.008835877291858196f, -0.001991437049582601f, 0.0074567343108356f, 0.0001771681709215045f },
@@ -855,7 +841,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.1074992641806602f, -0.1085111126303673f, -0.09723571687936783f, -0.01241471897810698f, 0.02356764674186707f, 0.07705184072256088f, 0.03674443066120148f, 3.622335498221219e-6f, -0.088692806661129f, 0.06056130677461624f, 0.00009725238487590104f, -0.01534245721995831f, -0.02791582606732845f, 0.007426005322486162f, 0.06336826086044312f, 0.02964857593178749f, -0.02934440411627293f, -0.03824261575937271f, -0.01063174474984407f, 0.007338273338973522f, 0.03205026686191559f, -8.445546882285271e-6f, -0.02404540032148361f, 0.0004321979358792305f, 0.03764376044273376f, -0.01767546683549881f, -0.001043527736328542f, 0.009161169640719891f, -0.00009857619443209842f, -0.007888698019087315f, -0.01845399104058743f, -0.002567787189036608f, 0.01934022828936577f, -0.01028870139271021f, -0.02541588805615902f, -0.02355627715587616f, 0.01469860039651394f, 0.01230794657021761f, 0.007898158393800259f, -0.002391989808529615f, 0.002094588475301862f, -0.001971784746274352f, 0.0102821346372366f, 6.490285159088671e-6f, -0.01572662405669689f, -0.0003562952333595604f, 0.008047895506024361f, -0.001854702830314636f, -0.005075668916106224f },
 		{ 0.05573726445436478f, 0.01242457516491413f, -0.01952929049730301f, -0.08501943945884705f, -0.02357804961502552f, 3.829126399068628e-6f, -0.03753484413027763f, 0.03603364154696465f, 0.07532226294279099f, 0.02965023927390575f, -0.0001170739487861283f, -0.007424390874803066f, 0.02580132335424423f, 0.03040060587227345f, -0.0362350195646286f, -0.05712444335222244f, -0.02933337725698948f, 0.0004608192830346525f, 0.01063129398971796f, 3.377441998964059e-6f, 0.003690232755616307f, -0.02831588685512543f, -0.0125172222033143f, 0.03082112595438957f, 0.03646701201796532f, 0.02353527583181858f, -0.001075708772987127f, -0.01029599830508232f, 0.00009663073433330283f, 0.002557014347985387f, -0.009776431135833263f, 0.008371373638510704f, 0.01756806112825871f, 0.00134239939507097f, -0.02251272276043892f, -0.01824367232620716f, -0.01467840746045113f, 0.001884770230390131f, 0.007928471080958843f, -0.0003446566988714039f, -0.002073666080832481f, -7.755729711789172e-6f, 0.01051104348152876f, 0.001093612634576857f, -0.01206596568226814f, -0.00831861887127161f, 0.003130890196189284f, 0.01375768892467022f, 0.005449643358588219f },
 		{ 0.16671222448349f, 0.1352977305650711f, -0.1544981300830841f, -0.00001992014949792065f, -0.00001588312443345785f, -0.07129853963851929f, 0.07002448290586472f, 0.00001495527976658195f, -0.1073718443512917f, -0.07091295719146729f, -1.536557419967721e-6f, -0.008157939650118351f, -0.05577344819903374f, -6.667613433819497e-6f, 0.05229836329817772f, 0.0000104694599940558f, 4.638873178919312e-6f, 0.03397617116570473f, 8.874923878465779e-6f, -0.003075396874919534f, 0.04033084213733673f, 1.637843524804339e-6f, 0.001909267972223461f, 7.728443961241283e-6f, 0.03442862629890442f, 0.006520734168589115f, -6.807280072962385e-8f, -0.001723667490296066f, -7.67856454331195e-6f, 0.009882428683340549f, 0.003274353919550776f, 8.060203072091099e-6f, 0.0008680535829626024f, -0.00001080155834642937f, -0.017787991091609f, 6.714132268825779e-6f, 0.00001559835254738573f, -0.009657759219408035f, 8.669388989801519e-6f, 0.001121102133765817f, 8.545560376660433e-6f, 0.005529219750314951f, -0.02000831998884678f, -0.00001208936100738356f, 0.00368339940905571f, 0.00001349256035609869f, -0.0007582995458506048f, -1.974935457838001e-6f, 0.01156480517238379f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE7oa2M1SpatialExtended(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE7oa2M1SpatialExtended(std::vector<std::vector<float>>
 	{ 	{ 0.08674480766057968f, 0.08484304696321487f, 0.03449202328920364f, 0.09248870611190796f, 0.1021263897418976f, 0.03260611370205879f, -0.04578595608472824f, 0.04473957046866417f, 0.005744632799178362f, 0.05069879442453384f, 0.04439738020300865f, -0.02586804516613483f, -0.02914290130138397f, -0.0148992445319891f, 0.01078214310109615f, -0.04622529074549675f, 0.0008456851937808096f, 0.02639287896454334f, -0.01048230100423098f, -0.01535642705857754f, -0.001846900093369186f, -0.01094756368547678f, 0.01265652943402529f, -0.01680905744433403f, -0.03462196514010429f, -0.004899345804005861f, 0.002064770320430398f, 0.005076858215034008f, -0.005969369318336248f, -0.003706664079800248f, -0.006173694040626287f, -0.007691402919590473f, 0.009634391404688358f, 0.008340057916939259f, -0.01917779073119164f, -0.004776150919497013f, 0.01099280454218388f, -0.007575728464871645f, 0.003396719926968217f, 0.004855548031628132f, -0.006084113847464323f, -0.006490767933428288f, 0.001326862839050591f, -0.01608722656965256f, 0.002734359120950103f, 0.008709501475095749f, -0.001982570393010974f, -0.00734831765294075f, 0.0001764079643180594f, 0.01275522820651531f, -0.003902957076206803f, -0.00244875974021852f, 0.004287812393158674f, 0.0007870795088820159f, -0.01093490608036518f, 0.001786752371117473f, 0.01054293941706419f, -0.007750330492854118f, -0.004714678972959518f, 0.00842664111405611f, 0.001343689626082778f, -0.00223470525816083f, 0.0004409331013448536f, -0.01260805130004883f },
 		{ 0.09591261297464371f, -0.05538254603743553f, 0.07611527293920517f, 0.0990036353468895f, -0.07883916050195694f, -0.03287023678421974f, 0.006686790380626917f, 0.07927077263593674f, 0.03094563446938992f, -0.06260725110769272f, -0.04444760456681252f, 0.008591353893280029f, -0.01035388465970755f, 0.03401124104857445f, 0.01550294458866119f, -0.01998595893383026f, -0.02934693917632103f, -0.02570013143122196f, 0.001730124466121197f, 0.01592070050537586f, -0.009811841882765293f, 0.02741245925426483f, 0.01062654796987772f, -0.02369901910424232f, -0.03664736822247505f, -0.003788840025663376f, 0.00009783995483303443f, 0.001638497225940228f, 0.008523319847881794f, 0.008799335919320583f, -0.01974992826581001f, 0.01768730208277702f, 0.02163461782038212f, -0.009170159697532654f, -0.02401439286768436f, -0.0287046991288662f, 0.005131561309099197f, 0.01074275560677052f, 0.006301052402704954f, -0.001252791145816445f, 0.008095788769423962f, 0.004185495898127556f, -0.01798707246780396f, -0.002721724566072226f, 0.01876499131321907f, 0.002639550715684891f, -0.006482388358563185f, -0.007227485999464989f, -0.01417957805097103f, 0.002933222567662597f, 0.00563944922760129f, 0.005371252540498972f, -0.002502611838281155f, 0.001135543920099735f, 0.00803813710808754f, -0.002293938538059592f, -0.008279072120785713f, -0.009337860159575939f, 0.008942394517362118f, 0.003947594668716192f, -0.002519258065149188f, 0.003231162438169122f, 0.003539810189977288f, -0.004822042770683765f },
 		{ 0.0867580845952034f, 0.0848398432135582f, 0.03448960185050964f, -0.0925092026591301f, -0.1021219193935394f, 0.03258790820837021f, -0.04580065235495567f, -0.04474388062953949f, 0.005758640356361866f, 0.05069499462842941f, -0.0443684384226799f, -0.02588224783539772f, -0.02915595099329948f, 0.01490515470504761f, 0.0107935406267643f, 0.04622026905417442f, -0.0008419582736678421f, 0.02636796981096268f, 0.01051070168614388f, -0.01535666827112436f, -0.001864573336206377f, 0.01096292398869991f, 0.01266549713909626f, 0.0167959313839674f, -0.03462575748562813f, -0.004906497895717621f, -0.002053711097687483f, 0.005046025849878788f, 0.005977779161185026f, -0.003702309681102633f, -0.006178234238177538f, 0.007727399002760649f, 0.009632169269025326f, -0.008359708823263645f, -0.01917283609509468f, 0.004783663898706436f, -0.01098250318318605f, -0.007576585747301579f, -0.003380565671250224f, 0.004841841757297516f, 0.006080487743020058f, -0.006484095007181168f, 0.001350380247458816f, 0.01611591689288616f, 0.002709764754399657f, -0.008717232383787632f, -0.001964694820344448f, 0.007356597576290369f, 0.0001747869391692802f, 0.01274927891790867f, 0.0039012401830405f, -0.002449474763125181f, -0.00427698390558362f, 0.0007872768910601735f, 0.01092253439128399f, 0.001790842623449862f, 0.01057559251785278f, 0.007745754905045033f, -0.004744140896946192f, -0.008419409394264221f, 0.00135022692847997f, 0.002233050763607025f, 0.0004263921291567385f, 0.01259878184646368f },
@@ -872,7 +858,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.1060557067394257f, -0.1070539802312851f, -0.0959300771355629f, -0.0122480122372508f, 0.02325117588043213f, 0.07601705938577652f, 0.03625104948878288f, 3.574096808733884e-6f, -0.08750181645154953f, 0.0597480982542038f, 0.00009594878065399826f, -0.01513644680380821f, -0.02754098735749722f, 0.007326289545744658f, 0.06251733005046844f, 0.02925043553113937f, -0.02895035035908222f, -0.03772912174463272f, -0.0104889739304781f, 0.007239739410579205f, 0.03161986544728279f, -8.330615855811629e-6f, -0.02372252009809017f, 0.0004263934679329395f, 0.03713830932974815f, -0.01743813045322895f, -0.0010295151732862f, 0.00903815496712923f, -0.00009725266136229038f, -0.007782783359289169f, -0.01820619031786919f, -0.002533304272219539f, 0.01908052898943424f, -0.01015052665024996f, -0.02507460303604603f, -0.02323994040489197f, 0.0145012317225337f, 0.01214268524199724f, 0.007792096585035324f, -0.00235987058840692f, 0.002066460670903325f, -0.001945311902090907f, 0.01014405768364668f, 6.402236067515332e-6f, -0.01551543921232224f, -0.0003515113785397261f, 0.007939831353724003f, -0.001829797402024269f, -0.005007511004805565f, -0.001502445433288813f, 0.00266138045117259f, -0.0002974739181809127f, 0.000716491776984185f, -0.002104783896356821f, 0.00005484593930304982f, 0.002294072881340981f, -0.007046105805784464f, -0.0004381737380754203f, 0.007216666825115681f, 0.0005334547022357583f, -0.003839821321889758f, 0.004998105112463236f, 0.005301820114254951f, 0.005593784153461456f },
 		{ 0.05498882383108139f, 0.01225774176418781f, -0.01926703751087189f, -0.0838778167963028f, -0.02326145209372044f, 3.777697656914825e-6f, -0.03703081607818604f, 0.03554978221654892f, 0.07431086897850037f, 0.02925211563706398f, -0.0001155023273895495f, -0.007324688602238894f, 0.02545487694442272f, 0.02999239414930344f, -0.03574845939874649f, -0.05635735765099525f, -0.02893948741257191f, 0.0004546308482531458f, 0.01048853434622288f, 3.331896323288674e-6f, 0.003640685230493546f, -0.02793567627668381f, -0.01234912779182196f, 0.03040726482868195f, 0.03597734123468399f, 0.02321922592818737f, -0.001061264192685485f, -0.01015774067491293f, 0.00009533328557154164f, 0.002522679045796394f, -0.009645163081586361f, 0.008258957415819168f, 0.01733215339481831f, 0.001324375043623149f, -0.02221041917800903f, -0.0179987009614706f, -0.01448130700737238f, 0.001859462936408818f, 0.007822014391422272f, -0.0003400284331291914f, -0.002045820001512766f, -7.651384294149466e-6f, 0.01036990340799093f, 0.001078928005881608f, -0.01190394908189774f, -0.008206920698285103f, 0.003088845871388912f, 0.0135729443281889f, 0.005376465618610382f, 0.00558038055896759f, -0.002677690936252475f, -0.005053008906543255f, 0.0006817959365434945f, 0.0005206915084272623f, -0.0000484594602312427f, 0.000448804727056995f, -0.00670966412872076f, -0.01166518311947584f, 0.005980285815894604f, 0.009272096678614616f, 0.002448108978569508f, -0.00272325798869133f, -0.006222903728485107f, 0.001113799982704222f },
 		{ 0.1644736081361771f, 0.1334809213876724f, -0.1524235159158707f, -0.00001965213414223399f, -0.00001566982973599806f, -0.07034110277891159f, 0.06908416748046875f, 0.00001474979762861039f, -0.105930007994175f, -0.06996069103479385f, -1.516515339972102e-6f, -0.008048400282859802f, -0.05502452328801155f, -6.578870852536056e-6f, 0.05159608647227287f, 0.00001032853651850019f, 4.578261268761707e-6f, 0.0335199385881424f, 8.760563105170149e-6f, -0.003034100169315934f, 0.03978926315903664f, 1.615037035662681e-6f, 0.001883631921373308f, 7.62531635700725e-6f, 0.03396637365221977f, 0.006433166563510895f, -6.96869690841595e-8f, -0.001700522843748331f, -7.57421730668284e-6f, 0.009749719873070717f, 0.003230388509109616f, 7.950393410283141e-6f, 0.0008563981391489506f, -0.00001066113509295974f, -0.01754913106560707f, 6.620413842028938e-6f, 0.0000153910877997987f, -0.009528067894279957f, 8.551076462026685e-6f, 0.001106049632653594f, 8.427010470768437e-6f, 0.00545497564598918f, -0.01973962783813477f, -0.00001192464515042957f, 0.003633941058069468f, 0.00001331090425082948f, -0.0007481193169951439f, -1.948071712831734e-6f, 0.01140952203422785f, 0.01817054487764835f, -9.886972293315921e-6f, 0.00161920057144016f, -4.170078227616614e-6f, 0.003084286814555526f, 2.243003791591036e-7f, -0.002095977310091257f, 0.0166846364736557f, 6.074562861613231e-6f, -0.01338537037372589f, -0.00001230495126947062f, 0.004852020181715488f, -9.59346471063327e-6f, 0.002796268090605736f, -0.00001196861921926029f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE1oa2M1SpatialExtendedPlus(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE1oa2M1SpatialExtendedPlus(std::vector<std::vector<float>>
 	{ 	{ 0.1543445736169815f, 0.1536579579114914f, 0.07397106289863586f, 0.1536493003368378f },
 		{ 0.1226715445518494f, -0.1054369732737541f, 0.0748850479722023f, 0.1342162936925888f },
 		{ 0.1543729901313782f, 0.1536707431077957f, 0.07398462295532227f, -0.1536780595779419f },
@@ -891,7 +877,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.1543568223714828f, 0.2173136919736862f, -0.07398261874914169f, -0.00001760451414156705f },
 		{ 0.1557289808988571f, 3.797723138632136e-6f, 0.2349293678998947f, -5.613022040051874e-6f },
 		{ 0.1557216644287109f, 0.0000177425863512326f, -0.2349217981100082f, 2.110388322762446e-6f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE2oa2M1SpatialExtendedPlus(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE2oa2M1SpatialExtendedPlus(std::vector<std::vector<float>>
 	{ 	{ 0.1204220280051231f, 0.1198862940073013f, 0.05771342292428017f, 0.1198796257376671f, 0.1388804614543915f, 0.06006532162427902f, -0.04489617794752121f, 0.06005085632205009f, -2.506646524125244e-6f },
 		{ 0.09571028500795364f, -0.08226357400417328f, 0.05842651054263115f, 0.104717493057251f, -0.1098421216011047f, -0.06117160990834236f, -0.02341890335083008f, 0.06115434691309929f, 0.03014325723052025f },
 		{ 0.1204443350434303f, 0.1198962703347206f, 0.05772393941879272f, -0.119902141392231f, -0.1388945281505585f, 0.06006203219294548f, -0.04488982260227203f, -0.06005778908729553f, 7.475184247596189e-6f },
@@ -910,7 +896,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.1204315945506096f, 0.1695516854524612f, -0.05772237107157707f, -0.00001373473423882388f, -0.00002051797127933241f, -0.08494732528924942f, -0.04489573463797569f, 1.923313902807422e-6f, -0.1388876587152481f },
 		{ 0.1215021312236786f, 2.96528583021427e-6f, 0.1832955479621887f, -4.379216534289299e-6f, -2.676979192983708e-6f, 4.662113042286364e-6f, 0.1767356991767883f, -6.991695954638999e-6f, 3.31479100168508e-6f },
 		{ 0.1214964091777802f, 0.00001384541064908262f, -0.1832894682884216f, 1.644471694817184e-6f, -8.505094797328638e-7f, -0.00001853186040534638f, 0.176735058426857f, -3.276082452430273e-6f, -7.698287845414598e-6f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE3oa2M1SpatialExtendedPlus(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE3oa2M1SpatialExtendedPlus(std::vector<std::vector<float>>
 	{ 	{ 0.1001116633415222f, 0.09966630488634109f, 0.0479794405400753f, 0.09966069459915161f, 0.115456834435463f, 0.04993469268083572f, -0.03732398897409439f, 0.04992265999317169f, -2.083805384245352e-6f, 0.05534572154283524f, 0.05918589234352112f, -0.01036771666258574f, -0.02098078653216362f, -0.0103887589648366f, -8.268704732472543e-6f, -0.05534513667225838f },
 		{ 0.07956776022911072f, -0.06838899850845337f, 0.04857227206230164f, 0.08705596625804901f, -0.09131621569395065f, -0.0508543960750103f, -0.01946907490491867f, 0.05084007978439331f, 0.0250592939555645f, -0.06911852210760117f, -0.06097465008497238f, -0.008519995026290417f, -0.02203179709613323f, -0.002656101481989026f, -0.0001284977479372174f, -0.02453109808266163f },
 		{ 0.100130096077919f, 0.09967459738254547f, 0.04798823222517967f, -0.09967935085296631f, -0.1154686585068703f, 0.04993198066949844f, -0.03731874004006386f, -0.0499284565448761f, 6.212430889718235e-6f, 0.05535408854484558f, -0.05918249860405922f, -0.01037069223821163f, -0.02096830308437347f, 0.01037976518273354f, -3.840819317701971e-6f, 0.05534601211547852f },
@@ -929,7 +915,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.1001196056604385f, 0.1409549713134766f, -0.04798693582415581f, -0.00001141871780419024f, -0.00001705619615677278f, -0.07062005251646042f, -0.03732367232441902f, 1.598656808710075e-6f, -0.1154628545045853f, -0.07827457040548325f, 1.636379209912775e-7f, -0.01467279624193907f, 0.02098628878593445f, 3.151129249090445e-6f, 0.05918930843472481f, 0.0000139136254801997f },
 		{ 0.1010096296668053f, 2.463296141286264e-6f, 0.1523809283971786f, -3.640743216237752e-6f, -2.225374601039221e-6f, 3.877367362292716e-6f, 0.1469275653362274f, -5.811565188196255e-6f, 2.755728701231419e-6f, -8.997960208034783e-7f, -3.735739028343232e-6f, 3.83325186703587e-6f, 0.1066471934318542f, -5.794017852167599e-6f, 3.977376309194369e-6f, -2.161433712899452e-6f },
 		{ 0.1010048761963844f, 0.00001150827574747382f, -0.1523760110139847f, 1.368849439131736e-6f, -7.077595114424184e-7f, -0.00001540111406939104f, 0.1469267159700394f, -2.721237024161383e-6f, -6.39999325358076e-6f, 4.859042945781766e-8f, 1.511972641310422e-6f, 8.462298865197226e-6f, -0.1066507697105408f, 3.756223577511264e-6f, 0.00001009457719192142f, 3.331963171149255e-6f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE4oa2M1SpatialExtendedPlus(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE4oa2M1SpatialExtendedPlus(std::vector<std::vector<float>>
 	{ 	{ 0.08738252520561218f, 0.08699388802051544f, 0.04187885671854019f, 0.08698887377977371f, 0.1007765606045723f, 0.04358552768826485f, -0.03257829323410988f, 0.04357501864433289f, -1.818693590394105e-6f, 0.04830848053097725f, 0.0516604445874691f, -0.009049459360539913f, -0.01831306703388691f, -0.009067831560969353f, -7.218002792797051e-6f, -0.04830810055136681f, 4.681984080434631e-7f, 0.02640340849757195f, 0.004339279141277075f, -0.001061571063473821f, 0.003533207811415195f, -0.001070931670255959f, -0.00001804655585146975f, -0.0264070387929678f, -0.03465708345174789f },
 		{ 0.06945080310106277f, -0.0596933513879776f, 0.04239636287093163f, 0.07598673552274704f, -0.0797053724527359f, -0.04438835382461548f, -0.01699359528720379f, 0.04437576606869698f, 0.02187302336096764f, -0.06033012643456459f, -0.05322176218032837f, -0.007436679676175117f, -0.01923046819865704f, -0.002318378305062652f, -0.0001121597597375512f, -0.02141197957098484f, -0.02723941765725613f, -0.02751296758651733f, -0.01418735645711422f, 0.002059628954157233f, -0.004443889483809471f, -0.002061667386442423f, -0.009879310615360737f, -0.02810839749872684f, -0.03565638512372971f },
 		{ 0.08739857375621796f, 0.08700105547904968f, 0.04188654944300652f, -0.08700524270534515f, -0.1007868349552155f, 0.04358312115073204f, -0.03257367387413979f, -0.0435800738632679f, 5.424114078778075e-6f, 0.04831576719880104f, -0.05165740102529526f, -0.009052054025232792f, -0.018302196636796f, 0.009059973061084747f, -3.353150077600731e-6f, 0.04830878600478172f, -1.177024614662514e-6f, 0.02640052512288094f, -0.004335671197623014f, -0.00106094463262707f, 0.003535093972459435f, 0.00105781527236104f, -9.096017492993269e-6f, 0.0264035202562809f, -0.03466145694255829f },
@@ -948,7 +934,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.08738945424556732f, 0.1230327412486076f, -0.04188542068004608f, -9.966360266844276e-6f, -0.00001488794077886268f, -0.06164074316620827f, -0.03257794678211212f, 1.395438289364392e-6f, -0.1007817834615707f, -0.06832203269004822f, 1.417475061771256e-7f, -0.01280716434121132f, 0.01831789873540401f, 2.75149432127364e-6f, 0.05166346207261086f, 0.0000121458087960491f, 3.043174729100429e-6f, 0.03733981400728226f, 3.886729246005416e-6f, 0.001508606364950538f, 0.003525076899677515f, 2.45934893428057e-6f, -0.004336036276072264f, 1.377387775391981e-6f, 0.03466068953275681f },
 		{ 0.08816632628440857f, 2.151466787836398e-6f, 0.1330056339502335f, -3.178387714797282e-6f, -1.942497647178243e-6f, 3.382080649316777e-6f, 0.1282457858324051f, -5.073385636933381e-6f, 2.405420900686295e-6f, -7.850256338315376e-7f, -3.261062374804169e-6f, 3.354183945702971e-6f, 0.09308715909719467f, -5.055337169324048e-6f, 3.471845275271335e-6f, -1.886479822132969e-6f, 5.500751285580918e-6f, -1.417709313500382e-6f, -3.155527565468219e-6f, 2.726164893829264e-6f, 0.04689950868487358f, -3.801208777076681e-6f, 2.033483042396256e-6f, -3.339524482726119e-6f, -3.36494849761948e-6f },
 		{ 0.08816211670637131f, 0.00001004615478450432f, -0.1330014169216156f, 1.193827870338282e-6f, -6.176289844006533e-7f, -0.00001344211523246486f, 0.1282452046871185f, -2.37652670875832e-6f, -5.587289251707261e-6f, 4.25981276919174e-8f, 1.322033085671137e-6f, 7.383601769106463e-6f, -0.09309030324220657f, 3.278217491242685e-6f, 8.812028681859374e-6f, 2.908303258664091e-6f, -2.230034397143754e-6f, -1.678422734130436e-7f, -1.992021680052858e-6f, 4.226685177854961e-6f, 0.04690270125865936f, -3.60797525900125e-6f, -7.113163519534282e-6f, -5.126287760504056e-6f, -2.912210447902908e-6f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE5oa2M1SpatialExtendedPlus(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE5oa2M1SpatialExtendedPlus(std::vector<std::vector<float>>
 	{ 	{ 0.08564291149377823f, 0.08526190370321274f, 0.04104519635438919f, 0.08525716513395309f, 0.09877036511898041f, 0.04271784052252769f, -0.03192970156669617f, 0.04270755127072334f, -1.782701360752981e-6f, 0.0473468080163002f, 0.05063198879361153f, -0.00886931736022234f, -0.01794850453734398f, -0.008887311443686485f, -7.073686447256478e-6f, -0.04734640195965767f, 4.602798924224771e-7f, 0.02587773464620113f, 0.00425289012491703f, -0.001040436211042106f, 0.003462865715846419f, -0.001049612765200436f, -0.00001768609035934787f, -0.02588128298521042f, -0.03396711498498917f, -0.004854983650147915f, 2.922965222751372e-6f, 0.007500234059989452f, 0.01004886720329523f, 0.004669978283345699f, -0.005847432650625706f, 0.004672245122492313f, -8.086547495622654e-6f, -0.007517694029957056f, -0.02264440432190895f, -0.004852981772273779f },
 		{ 0.06806817650794983f, -0.05850500985980034f, 0.04155233502388f, 0.07447400689125061f, -0.07811859250068665f, -0.04350462183356285f, -0.01665528304874897f, 0.04349234327673912f, 0.02143757604062557f, -0.05912913382053375f, -0.05216221883893013f, -0.007288636174052954f, -0.01884761825203896f, -0.002272226614877582f, -0.0001099266519304365f, -0.02098570764064789f, -0.02669711410999298f, -0.02696521021425724f, -0.01390492264181376f, 0.002018623752519488f, -0.004355419892817736f, -0.002020623302087188f, -0.009682626463472843f, -0.02754881419241428f, -0.03494653105735779f, -0.003185787936672568f, 0.0009589583496563137f, -0.0037389334756881f, -0.008547618053853512f, 0.001178742619231343f, -0.005045231897383928f, 0.002128149615600705f, 0.0000933861592784524f, -0.01698584109544754f, -0.02488375641405582f, -0.02712437696754932f },
 		{ 0.08565878123044968f, 0.08526899665594101f, 0.0410526730120182f, -0.08527316898107529f, -0.09878036379814148f, 0.04271550104022026f, -0.03192517906427383f, -0.04271248355507851f, 5.316274382494157e-6f, 0.04735392332077026f, -0.05062902346253395f, -0.008871851488947868f, -0.01793782971799374f, 0.008879613131284714f, -3.28591454490379e-6f, 0.04734707623720169f, -1.151219180428598e-6f, 0.02587497420608997f, -0.004249353893101215f, -0.001039822353050113f, 0.003464722540229559f, 0.001036757952533662f, -8.914831596484873e-6f, 0.02587788924574852f, -0.03397144004702568f, -0.004860857035964727f, -1.087378677766537e-6f, 0.007494477089494467f, -0.01005084160715342f, 0.004666395485401154f, -0.005846710875630379f, -0.004671382717788219f, 3.566417944966815e-6f, 0.0075061428360641f, -0.02264094352722168f, 0.004855437204241753f },
@@ -967,7 +953,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.08564971387386322f, 0.1205834224820137f, -0.04105155915021896f, -9.768002200871706e-6f, -0.00001459217037336202f, -0.0604136660695076f, -0.0319293849170208f, 1.367841264254821e-6f, -0.0987754762172699f, -0.06696184724569321f, 1.390056496575198e-7f, -0.01255220826715231f, 0.01795320585370064f, 2.695640432648361e-6f, 0.05063492432236671f, 0.00001190313651022734f, 2.981603302032454e-6f, 0.03659647330641747f, 3.808561359619489e-6f, 0.001478572259657085f, 0.003454900113865733f, 2.411002469671075e-6f, -0.00424971804022789f, 1.350849515802111e-6f, 0.0339706689119339f, 0.006867965683341026f, 2.982309524668381e-6f, -0.01060648169368505f, -1.516361791686904e-8f, 0.006598636507987976f, 0.005851793102920055f, -4.149110736761941e-6f, 0.01004877407103777f, -8.394852102355799e-7f, -0.02263934165239334f, 6.952946478122612e-6f },
 		{ 0.08641107380390167f, 2.108881062667933e-6f, 0.1303579062223434f, -3.114453875241452e-6f, -1.903840143313573e-6f, 3.315647063573124e-6f, 0.1256926208734512f, -4.972422630089568e-6f, 2.357445282541448e-6f, -7.694139299019298e-7f, -3.196900706825545e-6f, 3.286254241174902e-6f, 0.0912340059876442f, -4.955749318469316e-6f, 3.402861466383911e-6f, -1.848840497586934e-6f, 5.391384547692724e-6f, -1.389838985232927e-6f, -3.090482323386823e-6f, 2.672187747521093e-6f, 0.04596583172678947f, -3.729565150933922e-6f, 1.996635774048627e-6f, -3.272657750130747e-6f, -3.297687044323538e-6f, 3.316915353934746e-6f, 0.00001077404158422723f, -1.508269747318991e-6f, -1.551275204292324e-6f, 2.688853555810056e-6f, 0.007358667440712452f, -2.784680646072957e-6f, -1.540471544103639e-6f, -3.18855950354191e-6f, -6.218407179403584e-6f, -7.593320674459392e-7f },
 		{ 0.08640700578689575f, 9.846714419836644e-6f, -0.1303535848855972f, 1.169531401501445e-6f, -6.048736054253823e-7f, -0.00001317966962233186f, 0.1256921589374542f, -2.329916242160834e-6f, -5.474943009176059e-6f, 4.140679621400523e-8f, 1.294792582484661e-6f, 7.239341357490048e-6f, -0.09123700857162476f, 3.216470076949918e-6f, 8.636776328785345e-6f, 2.850527835107641e-6f, -2.185358198403264e-6f, -1.652168890586836e-7f, -1.952296543095144e-6f, 4.142492343817139e-6f, 0.04596895352005959f, -3.53435575561889e-6f, -6.970552021812182e-6f, -5.024752226745477e-6f, -2.854466174539994e-6f, 1.890401335913339e-6f, 4.583060217555612e-6f, 4.325118254655536e-7f, 2.453805336699588e-6f, -0.00001226310814672615f, -0.007357946131378412f, 3.233958750570309e-6f, 5.612635050056269e-7f, 4.974577677785419e-6f, 5.758040970249567e-6f, -4.084936904291681e-7f } });
-	const SpatialSoundMatrix ACNSN3DmaxRE6oa2M1SpatialExtendedPlus(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix ACNSN3DmaxRE6oa2M1SpatialExtendedPlus(std::vector<std::vector<float>>
 	{ 	{ 0.09043017774820328f, 0.09002779424190521f, 0.04333945736289024f, 0.09002278000116348f, 0.1042912676930428f, 0.04510562494397163f, -0.03371447697281837f, 0.04509476944804192f, -1.882960077637108e-6f, 0.0499933622777462f, 0.05346222966909409f, -0.009365078993141651f, -0.0189517717808485f, -0.009384088218212128f, -7.46907471693703e-6f, -0.04999290406703949f, 4.848179173677636e-7f, 0.02732426673173904f, 0.004490618593990803f, -0.001098594046197832f, 0.003656429937109351f, -0.001108281896449625f, -0.00001867568244051654f, -0.0273280180990696f, -0.03586576506495476f, -0.005126358009874821f, 3.085531034230371e-6f, 0.007919474504888058f, 0.01061056368052959f, 0.004931018687784672f, -0.006174291018396616f, 0.0049334024079144f, -8.539284863218199e-6f, -0.007937920279800892f, -0.02391013503074646f, -0.005124247632920742f, 0.01081136986613274f, -0.008368438109755516f, 6.459586643359216e-8f, 0.009147276170551777f, 0.008832026273012161f, -0.004049757029861212f, -0.004343522246927023f, -0.004054660443216562f, 2.216846951341722e-6f, -0.009153234772384167f, -0.01055813394486904f, -0.008377687074244022f, 3.614693014242221e-6f },
 		{ 0.07187292724847794f, -0.06177525222301483f, 0.04387498646974564f, 0.07863690704107285f, -0.08248520642518997f, -0.04593640565872192f, -0.01758625358343124f, 0.04592343792319298f, 0.02263588272035122f, -0.06243421882390976f, -0.05507795512676239f, -0.007696047425270081f, -0.01990114897489548f, -0.002399237360805273f, -0.000116071525553707f, -0.02215875498950481f, -0.02818938717246056f, -0.02847252041101456f, -0.01468216814100742f, 0.002131459303200245f, -0.004598876927047968f, -0.00213357200846076f, -0.01022385992109776f, -0.02908868715167046f, -0.03689994663000107f, -0.003363861003890634f, 0.001012562657706439f, -0.003947923425585032f, -0.0090253921225667f, 0.001244630198925734f, -0.005327246617525816f, 0.002247107913717628f, 0.00009860748832579702f, -0.01793530024588108f, -0.02627466060221195f, -0.02864055708050728f, 0.005022882949560881f, 0.01131920516490936f, 0.007588645443320274f, -0.008223951794207096f, -0.006360392551869154f, 0.0033303361851722f, -0.00292095635086298f, -0.003326214617118239f, 0.002011438366025686f, -0.007731475401669741f, -0.01093394588679075f, -0.008801055140793324f, -0.01412479486316442f },
 		{ 0.09044679999351501f, 0.09003528952598572f, 0.04334738850593567f, -0.09003975242376328f, -0.1043019220232964f, 0.04510316252708435f, -0.03370970860123634f, -0.04509997367858887f, 5.612990207737312e-6f, 0.05000089854001999f, -0.05345902219414711f, -0.009367762133479118f, -0.018940519541502f, 0.009375963360071182f, -3.469845978543162e-6f, 0.04999364539980888f, -1.216660848513129e-6f, 0.02732129767537117f, -0.00448688305914402f, -0.001097944565117359f, 0.003658384084701538f, 0.001094708102755249f, -9.412628060090356e-6f, 0.02732439711689949f, -0.03587030991911888f, -0.005132566671818495f, -1.148540718531876e-6f, 0.007913398556411266f, -0.01061265263706446f, 0.004927237052470446f, -0.006173530127853155f, -0.004932490643113852f, 3.766005420402507e-6f, 0.007925713434815407f, -0.02390652149915695f, 0.005126845557242632f, -0.0108020156621933f, -0.008367836475372314f, 4.97113114761305e-6f, 0.009148822166025639f, -0.008827908895909786f, -0.004052700940519571f, -0.004330857656896114f, 0.004058202262967825f, 4.35674337495584e-6f, 0.009143590927124023f, -0.01054076757282019f, 0.00837473850697279f, 7.72344628785504e-6f },
@@ -986,7 +972,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.09043721109628677f, 0.1273235678672791f, -0.04334623739123344f, -0.00001031442388921278f, -0.00001540699486213271f, -0.06379064172506332f, -0.03371414914727211f, 1.444323629584687e-6f, -0.1042966768145561f, -0.07070480287075043f, 1.475611810519695e-7f, -0.01325382199138403f, 0.01895674504339695f, 2.846204779416439e-6f, 0.05346521362662315f, 0.00001256798350368626f, 3.147746838294552e-6f, 0.03864208608865738f, 4.0201753108704e-6f, 0.001561218057759106f, 0.003648018231615424f, 2.545306642787182e-6f, -0.004487264901399612f, 1.425987420589081e-6f, 0.03586954995989799f, 0.007251861970871687f, 3.14937210532662e-6f, -0.0111993569880724f, -1.650402481345736e-8f, 0.006967480294406414f, 0.006178883835673332f, -4.380300651973812e-6f, 0.0106104789301753f, -8.87245789726876e-7f, -0.02390478737652302f, 7.341184300457826e-6f, 0.00001277120736631332f, -0.01183751039206982f, 3.014502681253362e-6f, 0.01293729804456234f, 2.715327127589262e-7f, 0.005736253224313259f, -0.004338835831731558f, 6.307524927251507e-6f, -0.008830505423247814f, 2.047720272457809e-6f, 0.01054011099040508f, -4.497870122577297e-6f, 0.01080898102372885f },
 		{ 0.09124121814966202f, 2.226090600743191e-6f, 0.137644499540329f, -3.287718755018432e-6f, -2.010353455261793e-6f, 3.501518449411378e-6f, 0.1327184438705444f, -5.24911501997849e-6f, 2.489491635060403e-6f, -8.12246526038507e-7f, -3.374745347173302e-6f, 3.468594059086172e-6f, 0.09633371978998184f, -5.234381205809768e-6f, 3.59352679879521e-6f, -1.95220445675659e-6f, 5.692476861440809e-6f, -1.466835101382458e-6f, -3.267313786636805e-6f, 2.823276645358419e-6f, 0.04853520542383194f, -3.935099357477156e-6f, 2.105716475853114e-6f, -3.45504236065608e-6f, -3.482129386611632e-6f, 3.502331992422114e-6f, 0.00001137581602961291f, -1.592697913110896e-6f, -1.636767251511628e-6f, 2.835216719176969e-6f, 0.007769985590130091f, -2.938990064649261e-6f, -1.62733692832262e-6f, -3.367754970895476e-6f, -6.566288448084379e-6f, -8.017656227821135e-7f, -6.408528179235873e-7f, 7.54375105316285e-6f, 0.00001367886579828337f, -1.111030883294006e-6f, 2.951045132704166e-7f, 4.117001935810549e-6f, -0.01505700871348381f, -3.174460516675026e-6f, -5.250303274806356e-6f, -1.107552975554427e-6f, -7.053825356706511e-6f, -1.83707425094326e-6f, 1.435061562915507e-7f },
 		{ 0.09123684465885162f, 0.00001039616836351342f, -0.1376400738954544f, 1.236486127709213e-6f, -6.386455311258032e-7f, -0.00001391430396324722f, 0.1327178329229355f, -2.458160452079028e-6f, -5.781013442174299e-6f, 4.394060226786678e-8f, 1.368477342111873e-6f, 7.641499905730598e-6f, -0.09633685648441315f, 3.390878191567026e-6f, 9.118114576267544e-6f, 3.009878810189548e-6f, -2.307870772710885e-6f, -1.738735448952866e-7f, -2.062091198240523e-6f, 4.376885954116005e-6f, 0.0485384464263916f, -3.731876404344803e-6f, -7.36032097847783e-6f, -5.305032573232893e-6f, -3.014005869772518e-6f, 1.996067112486344e-6f, 4.839205757889431e-6f, 4.568975953134213e-7f, 2.595615796963102e-6f, -0.00001294901721848873f, -0.007769231218844652f, 3.413793365325546e-6f, 5.940755727351643e-7f, 5.25217274116585e-6f, 6.080013463360956e-6f, -4.311684449476161e-7f, -2.980820681841578e-6f, -4.191451353108278e-6f, -6.322135050140787e-6f, -8.883487225830322e-7f, -2.952971726699616e-6f, 0.00001099533801607322f, -0.01506291422992945f, -2.653476713021519e-6f, 7.045754955470329e-6f, -2.199993105023168e-6f, -7.542188541265205e-6f, 9.36619073854672e-7f, 3.477809400465048e-7f } });
-	const SpatialSoundMatrix 
+	const Mach1SpatialSoundMatrix 
 		ACNSN3DmaxRE7oa2M1SpatialExtendedPlus(std::vector<std::vector<float>>
 	{ 	{ 0.08903221040964127f, 0.08863614499568939f, 0.04266951233148575f, 0.08863115310668945f, 0.1026791259646416f, 0.04440837725996971f, -0.03319330886006355f, 0.04439767450094223f, -1.853188905442948e-6f, 0.04922056198120117f, 0.05263573676347733f, -0.009220312349498272f, -0.0186588242650032f, -0.009239025413990021f, -7.353599357884377e-6f, -0.04922004044055939f, 4.769682959704369e-7f, 0.0269018616527319f, 0.004421197809278965f, -0.001081611844711006f, 0.003599911229684949f, -0.00109114998485893f, -0.000018387618183624f, -0.02690557204186916f, -0.03531134501099586f, -0.005047118756920099f, 3.037319174836739e-6f, 0.007797057274729013f, 0.01044654101133347f, 0.004854790400713682f, -0.00607884768396616f, 0.004857145715504885f, -8.407090717810206e-6f, -0.007815217599272728f, -0.02354055270552635f, -0.00504503957927227f, 0.01064424868673086f, -0.008239070884883404f, 6.370383687226422e-8f, 0.009005878120660782f, 0.008695499040186405f, -0.003987150732427835f, -0.00427637854591012f, -0.003991975449025631f, 2.183237484132405e-6f, -0.009011742658913136f, -0.01039490662515163f, -0.008248184807598591f, 3.555310513547738e-6f, 0.01229647919535637f, -0.003468655282631516f, -0.004234101623296738f, 4.393032668303931e-6f, 0.006259618327021599f, -0.0001767510257195681f, -0.0007891423883847892f, 0.001319683738984168f, -0.0008007053402252495f, -3.663305051304633e-6f, -0.006258710753172636f, -0.009512970224022865f, -0.004251427017152309f, -6.451332865253789e-6f, -0.01229135319590569f },
 		{ 0.07076192647218704f, -0.0608203262090683f, 0.04319673404097557f, 0.0774214044213295f, -0.08121016621589661f, -0.04522629454731941f, -0.01731441356241703f, 0.04521356150507927f, 0.02228595875203609f, -0.06146911531686783f, -0.05422653257846832f, -0.007577079813927412f, -0.01959351822733879f, -0.002362148370593786f, -0.0001142767941928469f, -0.02181621827185154f, -0.02775364555418491f, -0.02803238295018673f, -0.01445519924163818f, 0.002098510973155499f, -0.004527787212282419f, -0.002100589219480753f, -0.01006581820547581f, -0.02863903529942036f, -0.03632953390479088f, -0.003311865497380495f, 0.000996910035610199f, -0.00388689897954464f, -0.008885878138244152f, 0.001225390238687396f, -0.005244900472462177f, 0.0022123740054667f, 0.00009708334255265072f, -0.0176580622792244f, -0.02586851827800274f, -0.02819781936705112f, 0.004945236258208752f, 0.0111442431807518f, 0.007471349090337753f, -0.008096831850707531f, -0.006262065377086401f, 0.003278855932876468f, -0.002875806298106909f, -0.003274796763435006f, 0.001980345230549574f, -0.007611964829266071f, -0.01076493132859468f, -0.008665008470416069f, -0.01390644442290068f, 0.002842728979885578f, 0.005464241839945316f, 0.006676371674984694f, -0.0006887978524900973f, -0.006063687149435282f, -0.0006920692976564169f, 0.001462658052332699f, 0.0008779111667536199f, -0.0008733359281904995f, -0.00005704222712665796f, -0.005333353765308857f, -0.007957880385220051f, 0.00009532283729640767f, 0.002537725027650595f, -0.004748532548546791f },
@@ -1006,12 +992,12 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.08903928101062775f, 0.1253553479909897f, -0.0426761768758297f, -0.0000101549976534443f, -0.00001516857173555763f, -0.06280446797609329f, -0.03319302573800087f, 1.421732008566323e-6f, -0.1026844754815102f, -0.06961185485124588f, 1.455279630135919e-7f, -0.01304894406348467f, 0.01866371743381023f, 2.802391009026906e-6f, 0.05263877287507057f, 0.00001237379183294252f, 3.100265530520119e-6f, 0.03804472088813782f, 3.959240075346315e-6f, 0.001537087839096785f, 0.003591623390093446f, 2.506136070223874e-6f, -0.004417900461703539f, 1.402491193402966e-6f, 0.03531507030129433f, 0.007139763329178095f, 3.101766651525395e-6f, -0.01102623809129f, -1.514126246604519e-8f, 0.006859777495265007f, 0.006083372049033642f, -4.312757482693996e-6f, 0.01044645812362432f, -8.731663001526613e-7f, -0.02353527955710888f, 7.226886737043969e-6f, 0.00001257433814316755f, -0.01165452133864164f, 2.966487045341637e-6f, 0.01273730583488941f, 2.683884190446406e-7f, 0.005647577345371246f, -0.004271768964827061f, 6.210222181834979e-6f, -0.008694001473486423f, 2.014127630900475e-6f, 0.01037716865539551f, -4.428368811204564e-6f, 0.01064190547913313f, 0.01738550513982773f, -4.374552645458607e-6f, 0.005987801589071751f, 2.55585769082245e-6f, -0.008853328414261341f, 5.27493921254063e-6f, -0.00112050271127373f, -0.001320459763519466f, -9.453760867472738e-6f, -0.0001802868355298415f, -3.380057250979007e-6f, -0.009506651200354099f, -4.117934622627217e-6f, 0.003468600800260901f, -0.00001008355138765182f },
 		{ 0.08983080089092255f, 2.190680788771715e-6f, 0.1355167925357819f, -3.237818873458309e-6f, -1.979090257009375e-6f, 3.448255483817775e-6f, 0.1306669563055038f, -5.168393727217335e-6f, 2.450749661875307e-6f, -8.002147637853341e-7f, -3.322301381558646e-6f, 3.409022383493721e-6f, 0.09484445303678513f, -5.152789071871666e-6f, 3.537196562319878e-6f, -1.922225919770426e-6f, 5.604797934211092e-6f, -1.444859663024545e-6f, -3.213340960428468e-6f, 2.776881729005254e-6f, 0.04778491705656052f, -3.875065431202529e-6f, 2.073723408102524e-6f, -3.401574076633551e-6f, -3.428307081776438e-6f, 3.448113375270623e-6f, 0.00001120015622291248f, -1.56692692598881e-6f, -1.612699747965962e-6f, 2.795925865939353e-6f, 0.00764987850561738f, -2.892352540584398e-6f, -1.600274572410854e-6f, -3.315139565529535e-6f, -6.464525995397707e-6f, -7.891825930528285e-7f, -6.309617788247124e-7f, 7.427179298247211e-6f, 0.00001346890348941088f, -1.092714455808164e-6f, 2.919352937169606e-7f, 4.050800271215849e-6f, -0.01482425909489393f, -3.125629746136838e-6f, -5.167919425730361e-6f, -1.091788249141246e-6f, -6.944770120753674e-6f, -1.807988041946373e-6f, 1.412151107160753e-7f, -3.087141067226185e-7f, -1.464566594222561e-6f, 9.948047591024078e-6f, 9.34724994294811e-6f, -5.730465773012838e-7f, 9.300598549089045e-7f, 5.792482170363655e-6f, -0.01876210235059261f, -4.027438080811407e-6f, -5.970679012534674e-6f, 2.231681037301314e-6f, -3.307963197585195e-6f, -2.60295792031684e-6f, 1.294467608659033e-7f, 1.040316988110135e-6f },
 		{ 0.08982657641172409f, 0.00001023464392346796f, -0.1355124264955521f, 1.217357635141525e-6f, -6.294310992416285e-7f, -0.00001369665915262885f, 0.1306662112474442f, -2.420075361442287e-6f, -5.691700152965495e-6f, 4.321288216146968e-8f, 1.344641304967809e-6f, 7.525768523919396e-6f, -0.09484763443470001f, 3.340519015182508e-6f, 8.977401193988044e-6f, 2.963211727546877e-6f, -2.272149004056701e-6f, -1.710091623863264e-7f, -2.030624955295934e-6f, 4.303323294152506e-6f, 0.04778820648789406f, -3.677633003462688e-6f, -7.250447197293397e-6f, -5.223319021752104e-6f, -2.967440877910121e-6f, 1.965192495845258e-6f, 4.764709956361912e-6f, 4.504767900925799e-7f, 2.550131966927438e-6f, -0.00001274881833523978f, -0.007649133447557688f, 3.360619757586392e-6f, 5.833942395838676e-7f, 5.171371867618291e-6f, 5.985792540741386e-6f, -4.245554805493157e-7f, -2.934760686912341e-6f, -4.126391559111653e-6f, -6.223943728400627e-6f, -8.743227226659656e-7f, -2.908131818912807e-6f, 0.00001082838389265817f, -0.01483008544892073f, -2.612390744616278e-6f, 6.937958914932096e-6f, -2.166125568692223e-6f, -7.426938736898592e-6f, 9.221395771419338e-7f, 3.424371470828191e-7f, 1.56156636421656e-6f, 6.910697265993804e-6f, 5.222077106736833e-6f, 5.252549271972384e-6f, 1.266684648726368e-6f, 3.168425564581412e-6f, 7.380770625786681e-7f, 0.01876998692750931f, 1.815343352973287e-6f, -0.00001019757110043429f, -2.065721901090001e-6f, 5.826906999573112e-6f, -1.271650489798049e-6f, -8.676690299580514e-7f, -1.697000357125944e-6f } });
-	const SpatialSoundMatrix M1Spatial2M1Horizon(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2M1Horizon(std::vector<std::vector<float>>
 	{   { oor2, 0, 0, 0, oor2, 0, 0, 0 },
 		{ 0, oor2, 0, 0, 0, oor2, 0, 0 },
 		{ 0, 0, oor2, 0, 0, 0, oor2, 0 },
 		{ 0, 0, 0, oor2, 0, 0, 0, oor2 } });
-	const SpatialSoundMatrix M1Spatial2M1HorizonPairs(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2M1HorizonPairs(std::vector<std::vector<float>>
 	{   { oor2, 0, 0, 0, oor2, 0, 0, 0 }, //000L
 		{ 0, oor2, 0, 0, 0, oor2, 0, 0 }, //000R
 		{ 0, oor2, 0, 0, 0, oor2, 0, 0 }, //090L
@@ -1020,7 +1006,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, oor2, 0, 0, 0, oor2, 0 }, //180R
 		{ 0, 0, oor2, 0, 0, 0, oor2, 0 }, //270L
 		{ oor2, 0, 0, 0, oor2, 0, 0, 0 } }); //270R
-	const SpatialSoundMatrix M1Spatial2M1SpatialFaces(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2M1SpatialFaces(std::vector<std::vector<float>>
 		//Fc, Lc, Bc, Rc, Tc, Bc
 	{   { r2o3, r2o3, 0, 0, r2o3, r2o3, 0, 0 },
 		{ r2o3, 0, r2o3, 0, r2o3, 0, r2o3, 0 },
@@ -1028,7 +1014,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o3, 0, r2o3, 0, r2o3, 0, r2o3 },
 		{ r2o3, r2o3, r2o3, r2o3, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, r2o3, r2o3, r2o3, r2o3 } });
-	const SpatialSoundMatrix M1Spatial2M1SpatialPairs(std::vector<std::vector<float>> //TODO: fix this
+	const Mach1SpatialSoundMatrix M1Spatial2M1SpatialPairs(std::vector<std::vector<float>> //TODO: fix this
 	{   { 1, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 1, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 1, 0, 0, 0, 0, 0 },
@@ -1047,22 +1033,22 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0, 0, 0, 0, 1 } });
 
 	// --- M1Spatial + Stereo ( std::vector<std::vector<float>>S) ---
-	const SpatialSoundMatrix M1SpatialS2FuMa(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2FuMa(std::vector<std::vector<float>>
 	{   { oor2, oor2, oor2, oor2, oor2, oor2, oor2, oor2, 1, 1 },
 		{ 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f, 0, 0 },
 		{ 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0, 0 },
 		{ oor2, oor2, oor2, oor2, -oor2, -oor2, -oor2, -oor2, 0, 0 } });
-	const SpatialSoundMatrix M1SpatialS2ACNSN3D(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2ACNSN3D(std::vector<std::vector<float>>
 	{   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 		{ 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0.5f, -0.5f, 0, 0 },
 		{ oor2, oor2, oor2, oor2, -oor2, -oor2, -oor2, -oor2, 0, 0 },
 		{ 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f, 0, 0 } });
-	const SpatialSoundMatrix M1SpatialS2M1Horizon(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2M1Horizon(std::vector<std::vector<float>>
 	{   { 0.5f, 0, 0, 0, 0.5f, 0, 0, 0, 0.25f, 0.25f },
 		{ 0, 0.5f, 0, 0, 0, 0.5f, 0, 0, 0.25f, 0.25f },
 		{ 0, 0, 0.5f, 0, 0, 0, 0.5f, 0, 0.25f, 0.25f },
 		{ 0, 0, 0, 0.5f, 0, 0, 0, 0.5f, 0.25f, 0.25f } });
-	const SpatialSoundMatrix M1SpatialS2M1HorizonPairs(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2M1HorizonPairs(std::vector<std::vector<float>>
 	{   { 0.5f, 0, 0, 0, 0.5f, 0, 0, 0, 1, 0 },
 		{ 0, 0.5f, 0, 0, 0, 0.5f, 0, 0, 0, 1 },
 		{ 0, 0.5f, 0, 0, 0, 0.5f, 0, 0, 1, 0 },
@@ -1071,7 +1057,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0.5f, 0, 0, 0, 0.5f, 0, 0, 1 },
 		{ 0, 0, 0.5f, 0, 0, 0, 0.5f, 0, 1, 0 },
 		{ 0.5f, 0, 0, 0, 0.5f, 0, 0, 0, 0, 1 } });
-	const SpatialSoundMatrix M1SpatialS2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2M1Spatial(std::vector<std::vector<float>>
 	{   { 1, 0, 0, 0, 0, 0, 0, 0, 0.125f, 0.125f },
 		{ 0, 1, 0, 0, 0, 0, 0, 0, 0.125f, 0.125f },
 		{ 0, 0, 1, 0, 0, 0, 0, 0, 0.125f, 0.125f },
@@ -1080,7 +1066,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0, 0, 1, 0, 0, 0.125f, 0.125f },
 		{ 0, 0, 0, 0, 0, 0, 1, 0, 0.125f, 0.125f },
 		{ 0, 0, 0, 0, 0, 0, 0, 1, 0.125f, 0.125f } });
-	const SpatialSoundMatrix M1SpatialS2M1SpatialPairs(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2M1SpatialPairs(std::vector<std::vector<float>>
 	{   { 1, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
 		{ 0, 1, 0, 0, 0, 0, 0, 0, 0, 1 },
 		{ 0, 0, 1, 0, 0, 0, 0, 0, 1, 0 },
@@ -1100,7 +1086,7 @@ namespace Mach1TranscodeConstantsInternal {
 	});
 
 	// --- Surround to M1Spatial ---;
-	const SpatialSoundMatrix Mono2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix Mono2M1Spatial(std::vector<std::vector<float>>
 	{   { r2o8 },
 		{ r2o8 },
 		{ r2o8 },
@@ -1109,7 +1095,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ r2o8 },
 		{ r2o8 },
 		{ r2o8 } });
-	const SpatialSoundMatrix Stereo2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix Stereo2M1Spatial(std::vector<std::vector<float>>
 	{   { r2o2, 0 },
 		{ 0, r2o2 },
 		{ r2o2, 0 },
@@ -1118,7 +1104,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o2 },
 		{ r2o2, 0 },
 		{ 0, r2o2 } });
-	const SpatialSoundMatrix Stereo_Cinema2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix Stereo_Cinema2M1Spatial(std::vector<std::vector<float>>
 		//fix ratio between front and back
 	{   { r2o2, 0 },
 		{ 0, r2o2 },
@@ -1128,7 +1114,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o2 },
 		{ r2o20, 0 },
 		{ 0, r2o20 } });
-	const SpatialSoundMatrix LCR2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix LCR2M1Spatial(std::vector<std::vector<float>>
 	{   { r2o2, r2o8, 0 },
 		{ 0, r2o8, r2o2 },
 		{ r2o8, r2o8, 0 },
@@ -1137,7 +1123,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o8, r2o2 },
 		{ r2o8, r2o8, 0 },
 		{ 0, r2o8, r2o8 }, });
-	const SpatialSoundMatrix FiveOh2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix FiveOh2M1Spatial(std::vector<std::vector<float>>
 		//L, C , R, Ls, Rs
 	{   { r2o2, r2o8, 0, 0, 0 },
 		{ 0, r2o8, r2o2, 0, 0 },
@@ -1147,7 +1133,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o8, r2o2, 0, 0 },
 		{ 0, r2o8, 0, r2o2, 0 },
 		{ 0, r2o8, 0, 0, r2o2 } });
-	const SpatialSoundMatrix FiveOneFilm2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix FiveOneFilm2M1Spatial(std::vector<std::vector<float>>
 		//L, C, R, Ls, Rs, LFE
 	{   { r2o2, r2o8, 0, 0, 0, r2o8 },
 		{ 0, r2o8, r2o2, 0, 0, r2o8 },
@@ -1157,7 +1143,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o8, r2o2, 0, 0, r2o8 },
 		{ 0, r2o8, 0, r2o2, 0, r2o8 },
 		{ 0, r2o8, 0, 0, r2o2, r2o8 } });
-	const SpatialSoundMatrix FiveOneFilm_Cinema2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix FiveOneFilm_Cinema2M1Spatial(std::vector<std::vector<float>>
 		//L, C, R, Ls, Rs, LFE
 	{   { r2o2, r2o4, 0, 0, 0, r2o8 },
 		{ 0, r2o4, r2o2, 0, 0, r2o8 },
@@ -1167,7 +1153,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o4, r2o2, 0, 0, r2o8 },
 		{ 0, r2o20, 0, r2o2, 0, r2o8 },
 		{ 0, r2o20, 0, 0, r2o2, r2o8 } });
-	const SpatialSoundMatrix FiveOneSmpte2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix FiveOneSmpte2M1Spatial(std::vector<std::vector<float>>
 		//L, R, C, LFE, Ls, Rs
 	{   { r2o2, 0, r2o8, r2o8, 0, 0 },
 		{ 0, r2o2, r2o8, r2o8, 0, 0 },
@@ -1177,7 +1163,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o2, r2o8, r2o8, 0, 0 },
 		{ 0, 0, r2o8, r2o8, r2o2, 0 },
 		{ 0, 0, r2o8, r2o8, 0, r2o2 } });
-	const SpatialSoundMatrix FiveOneDts2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix FiveOneDts2M1Spatial(std::vector<std::vector<float>>
 		//L, R, Ls, Rs, C, LFE
 	{   { r2o2, 0, 0, 0, r2o8, r2o8 },
 		{ 0, r2o2, 0, 0, r2o8, r2o8 },
@@ -1187,7 +1173,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o2, 0, 0, r2o8, r2o8 },
 		{ 0, 0, r2o2, 0, r2o8, r2o8 },
 		{ 0, 0, 0, r2o2, r2o8, r2o8 } });
-	const SpatialSoundMatrix SixOh2M1Spatial(std::vector<std::vector<float>> //BLANK
+	const Mach1SpatialSoundMatrix SixOh2M1Spatial(std::vector<std::vector<float>> //BLANK
 	{   { 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0 },
@@ -1196,7 +1182,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0 } });
-	const SpatialSoundMatrix SevenOnePt2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix SevenOnePt2M1Spatial(std::vector<std::vector<float>>
 		//L, C, R, Lss, Rss, Lsr, Rsr, LFE
 	{   { r2o2, r2o8, 0, r2o4, 0, 0, 0, r2o8 },
 		{ 0, r2o8, r2o2, 0, r2o4, 0, 0, r2o8 },
@@ -1206,7 +1192,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o8, r2o2, 0, r2o4, 0, 0, r2o8 },
 		{ 0, r2o8, 0, r2o4, 0, r2o2, 0, r2o8 },
 		{ 0, r2o8, 0, 0, r2o4, 0, r2o2, r2o8 } });
-	const SpatialSoundMatrix SevenOnePt_Cinema2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix SevenOnePt_Cinema2M1Spatial(std::vector<std::vector<float>>
 		//L, C, R, Lss, Rss, Lsr, Rsr, LFE ( std::vector<std::vector<float>>with front facing
 	{   { r2o2, r2o4, 0, r2o4, 0, 0, 0, r2o8 },
 		{ 0, r2o4, r2o2, 0, r2o4, 0, 0, r2o8 },
@@ -1216,7 +1202,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o4, r2o2, 0, r2o4, 0, 0, r2o8 },
 		{ 0, 0, 0, r2o4, 0, r2o2, 0, r2o8 },
 		{ 0, 0, 0, 0, r2o4, 0, r2o2, r2o8 } });
-	const SpatialSoundMatrix SevenZero_Cinema2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix SevenZero_Cinema2M1Spatial(std::vector<std::vector<float>>
 		//L, C, R, Lss, Rss, Lsr, Rsr ( std::vector<std::vector<float>>with front facing
 	{   { r2o2, r2o4, 0, r2o4, 0, 0, 0 },
 		{ 0, r2o4, r2o2, 0, r2o4, 0, 0 },
@@ -1226,7 +1212,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o4, r2o2, 0, r2o4, 0, 0 },
 		{ 0, 0, 0, r2o4, 0, r2o2, 0 },
 		{ 0, 0, 0, 0, r2o4, 0, r2o2 } });
-	const SpatialSoundMatrix SevenOneSDDS2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix SevenOneSDDS2M1Spatial(std::vector<std::vector<float>>
 		//L, Lc, C, Rc, R, Ls, Rs, LFE
 	{   { r2o2, r2o4, r2o8, 0, 0, 0, 0, r2o8 },
 		{ 0, 0, r2o8, r2o4, r2o2, 0, 0, r2o8 },
@@ -1236,7 +1222,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, r2o8, r2o4, r2o2, 0, 0, r2o8 },
 		{ 0, 0, r2o8, 0, 0, r2o2, 0, r2o8 },
 		{ 0, 0, r2o8, 0, 0, 0, r2o2, r2o8 } });
-	const SpatialSoundMatrix SevenZeroSDDS2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix SevenZeroSDDS2M1Spatial(std::vector<std::vector<float>>
 		//L, Lc, C, Rc, R, Ls, Rs
 	{   { r2o2, r2o4, r2o8, 0, 0, 0, 0 },
 		{ 0, 0, r2o8, r2o4, r2o2, 0, 0 },
@@ -1246,7 +1232,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, r2o8, r2o4, r2o2, 0, 0 },
 		{ 0, 0, r2o8, 0, 0, r2o2, 0 },
 		{ 0, 0, r2o8, 0, 0, 0, r2o2 } });
-	const SpatialSoundMatrix SevenOneTwo2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix SevenOneTwo2M1Spatial(std::vector<std::vector<float>>
 		//L, C, R, Lss, Rss, Lsr, Rsr, LFE, Lts, Rts
 	{   { r2o2, r2o4, 0, r2o4, 0, 0, 0, r2o8, 0.3750f, 0.1250f },
 		{ 0, r2o4, r2o2, 0, r2o4, 0, 0, r2o8, 0.1250f, 0.3750f },
@@ -1256,7 +1242,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o4, r2o2, 0, r2o4, 0, 0, r2o8, 0, 0 },
 		{ 0, 0, 0, r2o4, 0, r2o2, 0, r2o8, 0, 0 },
 		{ 0, 0, 0, 0, r2o4, 0, r2o2, r2o8, 0, 0 } });
-	const SpatialSoundMatrix SevenZeroTwo2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix SevenZeroTwo2M1Spatial(std::vector<std::vector<float>>
 		//L, C, R, Lss, Rss, Lsr, Rsr, Lts, Rts
 	{   { r2o2, r2o4, 0, r2o4, 0, 0, 0, 0.3750f, 0.1250f },
 		{ 0, r2o4, r2o2, 0, r2o4, 0, 0, 0.1250f, 0.3750f },
@@ -1266,7 +1252,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o4, r2o2, 0, r2o4, 0, 0, 0, 0 },
 		{ 0, 0, 0, r2o4, 0, r2o2, 0, 0, 0 },
 		{ 0, 0, 0, 0, r2o4, 0, r2o2, 0, 0 } });
-	const SpatialSoundMatrix NineOne2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix NineOne2M1Spatial(std::vector<std::vector<float>>
 	{   { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -1275,7 +1261,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } });
-	const SpatialSoundMatrix NineZero2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix NineZero2M1Spatial(std::vector<std::vector<float>>
 	{   { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -1284,7 +1270,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0 } });
-	const SpatialSoundMatrix FiveOneTwo2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix FiveOneTwo2M1Spatial(std::vector<std::vector<float>>
 		//L  C  R  Ls Rs LFE Lts Rts
 	{   { r2o2, r2o4, 0, 0, 0, r2o8, 0.3750f, 0.1250f },
 		{ 0, r2o4, r2o2, 0, 0, r2o8, 0.1250f, 0.3750f },
@@ -1294,7 +1280,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o4, r2o2, 0, 0, r2o8, 0, 0 },
 		{ 0, r2o20, 0, r2o2, 0, r2o8, 0, 0 },
 		{ 0, r2o20, 0, 0, r2o2, r2o8, 0, 0 } });
-	const SpatialSoundMatrix FiveZeroTwo2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix FiveZeroTwo2M1Spatial(std::vector<std::vector<float>>
 		//L  C  R  Ls Rs Lts Rts
 	{   { r2o2, r2o4, 0, 0, 0, 0.3750f, 0.1250f },
 		{ 0, r2o4, r2o2, 0, 0, 0.1250f, 0.3750f },
@@ -1304,7 +1290,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o4, r2o2, 0, 0, 0, 0 },
 		{ 0, r2o20, 0, r2o2, 0, 0, 0 },
 		{ 0, r2o20, 0, 0, r2o2, 0, 0 } });
-	const SpatialSoundMatrix FiveOneFour2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix FiveOneFour2M1Spatial(std::vector<std::vector<float>>
 		//L  C  R  Ls Rs LFE FLts FRts BLts BRts
 	{   { r2o2, r2o4, 0, 0, 0, r2o8, 0.7280f, 0.1250f, 0.1250f, 0.0210f },
 		{ 0, r2o4, r2o2, 0, 0, r2o8, 0.1250f, 0.7280f, 0.0210f, 0.1250f },
@@ -1314,7 +1300,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o4, r2o2, 0, 0, r2o8, 0, 0, 0, 0 },
 		{ 0, r2o20, 0, r2o2, 0, r2o8, 0, 0, 0, 0 },
 		{ 0, r2o20, 0, 0, r2o2, r2o8, 0, 0, 0, 0 } });
-	const SpatialSoundMatrix FiveOneFourSMPTE2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix FiveOneFourSMPTE2M1Spatial(std::vector<std::vector<float>>
 		//L  R  C  LFE Ls Rs FLts FRts BLts BRts
 	{   { r2o2, 0, r2o4, r2o8, 0, 0, 0.7280f, 0.1250f, 0.1250f, 0.0210f },
 		{ 0, r2o2, r2o4, r2o8, 0, 0, 0.1250f, 0.7280f, 0.0210f, 0.1250f },
@@ -1324,7 +1310,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o2, r2o4, r2o8, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, r2o20, r2o8, r2o2, 0, 0, 0, 0, 0 },
 		{ 0, 0, r2o20, r2o8, 0, r2o2, 0, 0, 0, 0 } });
-	const SpatialSoundMatrix FiveZeroFour2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix FiveZeroFour2M1Spatial(std::vector<std::vector<float>>
 		//L  C  R  Ls Rs FLts FRts BLts BRts
 	{   { r2o2, r2o4, 0, 0, 0, 0.7280f, 0.1250f, 0.1250f, 0.0210f },
 		{ 0, r2o4, r2o2, 0, 0, 0.1250f, 0.7280f, 0.0210f, 0.1250f },
@@ -1334,7 +1320,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o4, r2o2, 0, 0, 0, 0, 0, 0 },
 		{ 0, r2o20, 0, r2o2, 0, 0, 0, 0, 0 },
 		{ 0, r2o20, 0, 0, r2o2, 0, 0, 0, 0 } });
-	const SpatialSoundMatrix SevenOneFour2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix SevenOneFour2M1Spatial(std::vector<std::vector<float>>
 		//L, C, R, Lss, Rss, Lsr, Rsr, LFE, FLts, FRts, BLts, BRts
 	{   { r2o2, r2o4, 0, r2o4, 0, 0, 0, r2o8, 0.7280f, 0.1250f, 0.1250f, 0.0210f },
 		{ 0, r2o4, r2o2, 0, r2o4, 0, 0, r2o8, 0.1250f, 0.7280f, 0.0210f, 0.1250f },
@@ -1344,7 +1330,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o4, r2o2, 0, r2o4, 0, 0, r2o8, 0, 0, 0, 0 },
 		{ 0, 0, 0, r2o4, 0, r2o2, 0, r2o8, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, r2o4, 0, r2o2, r2o8, 0, 0, 0, 0 } });
-	const SpatialSoundMatrix SevenZeroFour2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix SevenZeroFour2M1Spatial(std::vector<std::vector<float>>
 		//L, C, R, Lss, Rss, Lsr, Rsr, FLts, FRts, BLts, BRts
 	{   { r2o2, r2o4, 0, r2o4, 0, 0, 0, 0.7280f, 0.1250f, 0.1250f, 0.0210f },
 		{ 0, r2o4, r2o2, 0, r2o4, 0, 0, 0.1250f, 0.7280f, 0.0210f, 0.1250f },
@@ -1355,15 +1341,15 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, r2o4, 0, r2o2, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, r2o4, 0, r2o2, 0, 0, 0, 0 } });
 
-	const SpatialSoundMatrix NineOneFour2M1Spatial(std::vector<std::vector<float>> // ?
+	const Mach1SpatialSoundMatrix NineOneFour2M1Spatial(std::vector<std::vector<float>> // ?
 	{
 		{}
 	});
-	const SpatialSoundMatrix NineOneSix2M1Spatial(std::vector<std::vector<float>> // ?
+	const Mach1SpatialSoundMatrix NineOneSix2M1Spatial(std::vector<std::vector<float>> // ?
 	{
 		{ }
 	});
-	const SpatialSoundMatrix M1SpatialFaces2M1Spatial(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialFaces2M1Spatial(std::vector<std::vector<float>>
 		// FC, LC, BC, RC, TC, BC
 	{   { r2o4, r2o4, 0, 0, r2o4, 0 },
 		{ r2o4, 0, 0, r2o4, r2o4, 0 },
@@ -1376,41 +1362,41 @@ namespace Mach1TranscodeConstantsInternal {
 
 	// --- M1Spatial && M1Spatial+Stereo to Surround ---;
 	//TODO: fix front to rear ratio
-	const SpatialSoundMatrix M1Spatial2Stereo(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2Stereo(std::vector<std::vector<float>>
 	{   { r2o8, 0, r2o8, 0, r2o8, 0, r2o8, 0 },
 		{ 0, r2o8, 0, r2o8, 0, r2o8, 0, r2o8 } });
-	const SpatialSoundMatrix M1SpatialS2Stereo(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2Stereo(std::vector<std::vector<float>>
 	{   { r2o8, 0, r2o8, 0, r2o8, 0, r2o8, 0, 1, 0 },
 		{ 0, r2o8, 0, r2o8, 0, r2o8, 0, r2o8, 0, 1 } });
 
-	const SpatialSoundMatrix M1Spatial2Stereo_Cinema(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2Stereo_Cinema(std::vector<std::vector<float>>
 	{   { r2o8, 0, r2o8, 0, r2o8, 0, r2o8, 0 },
 		{ 0, r2o8, 0, r2o8, 0, r2o8, 0, r2o8 } });
-	const SpatialSoundMatrix M1SpatialS2Stereo_Cinema(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2Stereo_Cinema(std::vector<std::vector<float>>
 	{   { r2o8, 0, r2o8, 0, r2o8, 0, r2o8, 0, 1, 0 },
 		{ 0, r2o8, 0, r2o8, 0, r2o8, 0, r2o8, 0, 1 } });
 
-	const SpatialSoundMatrix M1Spatial2FiveOh(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2FiveOh(std::vector<std::vector<float>>
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
 		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
 		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 } });
-	const SpatialSoundMatrix M1SpatialS2FiveOh(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2FiveOh(std::vector<std::vector<float>>
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, 0, 0 },
 		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
 		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 } });
 
-	const SpatialSoundMatrix M1Spatial2FiveOneFilm(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2FiveOneFilm(std::vector<std::vector<float>>
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
 		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
 		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } });
-	const SpatialSoundMatrix M1SpatialS2FiveOneFilm(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2FiveOneFilm(std::vector<std::vector<float>>
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, 0, 0 },
 		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
@@ -1418,14 +1404,14 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 } });
 
-	const SpatialSoundMatrix M1Spatial2FiveOneFilm_Cinema(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2FiveOneFilm_Cinema(std::vector<std::vector<float>>
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 		{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },
 		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
 		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } });
-	const SpatialSoundMatrix M1SpatialS2FiveOneFilm_Cinema(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2FiveOneFilm_Cinema(std::vector<std::vector<float>>
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
 		{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },
 		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
@@ -1433,14 +1419,14 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 } });
 
-	const SpatialSoundMatrix M1Spatial2FiveOneSmpte(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2FiveOneSmpte(std::vector<std::vector<float>>
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
 		{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
 		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 } });
-	const SpatialSoundMatrix M1SpatialS2FiveOneSmpte(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2FiveOneSmpte(std::vector<std::vector<float>>
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
 		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
 		{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
@@ -1448,14 +1434,14 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 } });
 
-	const SpatialSoundMatrix M1Spatial2FiveOneDts(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2FiveOneDts(std::vector<std::vector<float>>
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
 		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
 		{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } });
-	const SpatialSoundMatrix M1SpatialS2FiveOneDts(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2FiveOneDts(std::vector<std::vector<float>>
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
 		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
 		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
@@ -1463,7 +1449,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 } });
 
-	const SpatialSoundMatrix M1Spatial2SevenOnePt(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2SevenOnePt(std::vector<std::vector<float>>
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
 		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
@@ -1472,7 +1458,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } });
-	const SpatialSoundMatrix M1SpatialS2SevenOnePt(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2SevenOnePt(std::vector<std::vector<float>>
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, 0, 0 },
 		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
@@ -1482,7 +1468,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 } });
 
-	const SpatialSoundMatrix M1Spatial2SevenOnePt_Cinema(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2SevenOnePt_Cinema(std::vector<std::vector<float>>
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 		{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },
 		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
@@ -1491,7 +1477,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } });
-	const SpatialSoundMatrix M1SpatialS2SevenOnePt_Cinema(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2SevenOnePt_Cinema(std::vector<std::vector<float>>
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
 		{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
 		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
@@ -1501,7 +1487,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 } });
 
-	const SpatialSoundMatrix M1Spatial2SevenZero_Cinema(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2SevenZero_Cinema(std::vector<std::vector<float>>
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 		{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },
 		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
@@ -1509,7 +1495,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4 },
 		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 } });
-	const SpatialSoundMatrix M1SpatialS2SevenZero_Cinema(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2SevenZero_Cinema(std::vector<std::vector<float>>
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
 		{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
 		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
@@ -1518,7 +1504,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 } });
 
-	const SpatialSoundMatrix M1Spatial2SevenOneSDDS(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2SevenOneSDDS(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 }, //L
 		{ 0.375f, 0.125f, 0, 0, 0.375f, 0.125f, 0, 0 }, //Lc
@@ -1528,7 +1514,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 }, //Ls
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 }, //Rs
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } }); //LFE
-	const SpatialSoundMatrix M1SpatialS2SevenOneSDDS(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2SevenOneSDDS(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0 }, //L
 		{ 0.375f, 0.125f, 0, 0, 0.375f, 0.125f, 0, 0, r2o2, 0 }, //Lc
@@ -1539,7 +1525,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 }, //Rs
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 } }); //LFE
 
-	const SpatialSoundMatrix M1Spatial2SevenZeroSDDS(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2SevenZeroSDDS(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 }, //L
 		{ 0.375f, 0.125f, 0, 0, 0.375f, 0.125f, 0, 0 }, //Lc
@@ -1548,7 +1534,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 }, //R
 		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 }, //Ls
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 } }); //Rs
-	const SpatialSoundMatrix M1SpatialS2SevenZeroSDDS(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2SevenZeroSDDS(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8  9  10
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0 }, //L
 		{ 0.375f, 0.125f, 0, 0, 0.375f, 0.125f, 0, 0, r2o2, 0 }, //Lc
@@ -1557,7 +1543,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2 }, //R
 		{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 }, //Ls
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 } }); //Rs
-	const SpatialSoundMatrix M1Spatial2SevenOneTwo(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2SevenOneTwo(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//L
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },//C
@@ -1569,7 +1555,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },//LFE
 		{ r2o2, 0, r2o2, 0, 0, 0, 0, 0 },//Lts
 		{ 0, r2o2, 0, r2o2, 0, 0, 0, 0 } });//Rts
-	const SpatialSoundMatrix M1SpatialS2SevenOneTwo(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2SevenOneTwo(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8  9  10
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },//L
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, 0, 0 },//C
@@ -1581,7 +1567,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 },//LFE
 		{ r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0, 0 },//Lts
 		{ 0, r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0 } });//Rts
-	const SpatialSoundMatrix M1Spatial2SevenZeroTwo(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2SevenZeroTwo(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//L
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },//C
@@ -1592,7 +1578,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },//Rsr
 		{ r2o2, 0, r2o2, 0, 0, 0, 0, 0 },//Lts
 		{ 0, r2o2, 0, r2o2, 0, 0, 0, 0 } });//Rts
-	const SpatialSoundMatrix M1SpatialS2SevenZeroTwo(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2SevenZeroTwo(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8  9  10
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },//L
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, 0, 0 },//C
@@ -1604,7 +1590,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0, 0 },//Lts
 		{ 0, r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0 } });//Rts
 
-	const SpatialSoundMatrix M1Spatial2NineOne(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2NineOne(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -1616,7 +1602,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0 } });
-	const SpatialSoundMatrix M1SpatialS2NineOne(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2NineOne(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8  9  10
 	{   { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -1629,7 +1615,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } });
 
-	const SpatialSoundMatrix M1Spatial2NineZero(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2NineZero(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -1640,7 +1626,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0 } });
-	const SpatialSoundMatrix M1SpatialS2NineZero(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2NineZero(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8  9  10
 	{   { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -1652,7 +1638,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } });
 
-	const SpatialSoundMatrix M1Spatial2FiveOneTwo(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2FiveOneTwo(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 		{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },
@@ -1662,7 +1648,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
 		{ r2o2, 0, r2o2, 0, 0, 0, 0, 0 },//Lts
 		{ 0, r2o2, 0, r2o2, 0, 0, 0, 0 } });//Rts
-	const SpatialSoundMatrix M1SpatialS2FiveOneTwo(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2FiveOneTwo(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
 		{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
@@ -1673,7 +1659,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0, 0 },//Lts
 		{ 0, r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0 } });//Rts
 
-	const SpatialSoundMatrix M1Spatial2FiveZeroTwo(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2FiveZeroTwo(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 		{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },
@@ -1682,7 +1668,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
 		{ r2o2, 0, r2o2, 0, 0, 0, 0, 0 },//Lts
 		{ 0, r2o2, 0, r2o2, 0, 0, 0, 0 } });//Rts
-	const SpatialSoundMatrix M1SpatialS2FiveZeroTwo(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2FiveZeroTwo(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
 		{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
@@ -1692,7 +1678,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0, 0 },//Lts
 		{ 0, r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0 } });//Rts
 
-	const SpatialSoundMatrix M1Spatial2FiveOneFour(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2FiveOneFour(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 		{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },
@@ -1704,7 +1690,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0 },//FRts
 		{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0 },//BLts
 		{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0 } });//BRts
-	const SpatialSoundMatrix M1SpatialS2FiveOneFour(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2FiveOneFour(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
 		{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
@@ -1717,7 +1703,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0, 0, 0 },//BLts
 		{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0, 0, 0 } });//BRts
 
-	const SpatialSoundMatrix M1Spatial2FiveOneFourSMPTE(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2FiveOneFourSMPTE(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
@@ -1729,7 +1715,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0 },//FRts
 		{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0 },//BLts
 		{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0 } });//BRts
-	const SpatialSoundMatrix M1SpatialS2FiveOneFourSMPTE(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2FiveOneFourSMPTE(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
 		{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
@@ -1742,7 +1728,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0, 0, 0 },//BLts
 		{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0, 0, 0 } });//BRts
 
-	const SpatialSoundMatrix M1Spatial2FiveZeroFour(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2FiveZeroFour(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 		{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },
@@ -1753,7 +1739,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0 },//FRts
 		{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0 },//BLts
 		{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0 } });//BRts
-	const SpatialSoundMatrix M1SpatialS2FiveZeroFour(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2FiveZeroFour(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
 		{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
@@ -1765,7 +1751,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0, 0, 0 },//BLts
 		{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0, 0, 0 } });//BRts
 
-	const SpatialSoundMatrix M1Spatial2SevenOneFour(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2SevenOneFour(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//L
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },//C
@@ -1779,7 +1765,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0 },//FRts
 		{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0 },//BLts
 		{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0 } });//BRts
-	const SpatialSoundMatrix M1SpatialS2SevenOneFour(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2SevenOneFour(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },//L
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, 0, 0 },//C
@@ -1794,7 +1780,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0, 0, 0 },//BLts
 		{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0, 0, 0 } });//BRts
 
-	const SpatialSoundMatrix M1Spatial2SevenZeroFour(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2SevenZeroFour(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//L
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },//C
@@ -1807,7 +1793,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0 },//FRts
 		{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0 },//BLts
 		{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0 } });//BRts
-	const SpatialSoundMatrix M1SpatialS2SevenZeroFour(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2SevenZeroFour(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },//L
 		{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, 0, 0 },//C
@@ -1821,7 +1807,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0, 0, 0 },//BLts
 		{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0, 0, 0 } });//BRts
 
-	const SpatialSoundMatrix M1Spatial2NineOneFour(std::vector<std::vector<float>> // ?
+	const Mach1SpatialSoundMatrix M1Spatial2NineOneFour(std::vector<std::vector<float>> // ?
 		//1  2  3  4  5  6  7  8
 	{   { 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -1837,7 +1823,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0 } });
-	const SpatialSoundMatrix M1SpatialS2NineOneFour(std::vector<std::vector<float>> // ?
+	const Mach1SpatialSoundMatrix M1SpatialS2NineOneFour(std::vector<std::vector<float>> // ?
 		//1  2  3  4  5  6  7  8
 	{   { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -1854,7 +1840,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } });
 
-	const SpatialSoundMatrix M1Spatial2NineOneSix(std::vector<std::vector<float>> // ?
+	const Mach1SpatialSoundMatrix M1Spatial2NineOneSix(std::vector<std::vector<float>> // ?
 		//1  2  3  4  5  6  7  8
 	{   { 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -1872,7 +1858,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0 } });
-	const SpatialSoundMatrix M1SpatialS2NineOneSix(std::vector<std::vector<float>> // ?
+	const Mach1SpatialSoundMatrix M1SpatialS2NineOneSix(std::vector<std::vector<float>> // ?
 		//1  2  3  4  5  6  7  8
 	{   { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -1891,7 +1877,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } });
 
-	const SpatialSoundMatrix M1Spatial2MarcoSixteen(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2MarcoSixteen(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { oor8, 0, 0, 0, oor8, 0, 0, 0 }, //mid -45
 		{ oor16, oor16, 0, 0, oor16, oor16, 0, 0 }, //mid 0
@@ -1910,7 +1896,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0, 0, 0, 0, 0, 0, 0, oor4 }, //bottom 135
 		{ 0, 0, 0, 0, 0, 0, oor4, 0 } }); //bottom -135
 
-	const SpatialSoundMatrix M1Spatial2DolbyAtmosSevenOneTwo(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1Spatial2DolbyAtmosSevenOneTwo(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8
 	{   { r2o2*r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//L
 		{ 0, r2o2*r2o2, 0, 0, 0, r2o2, 0, 0 },//R
@@ -1923,7 +1909,7 @@ namespace Mach1TranscodeConstantsInternal {
 		{ 0.0236619f, 0.0078859f, 0.0236619f, 0.0078859f, 0, 0, 0, 0 },//Lts
 		{ 0.0078859f, 0.0236619f, 0.0078859f, 0.0236619f, 0, 0, 0, 0 } });//Rts
 
-	const SpatialSoundMatrix M1SpatialS2DolbyAtmosSevenOneTwo(std::vector<std::vector<float>>
+	const Mach1SpatialSoundMatrix M1SpatialS2DolbyAtmosSevenOneTwo(std::vector<std::vector<float>>
 		//1  2  3  4  5  6  7  8  9  10
 	{   { r2o2*r2o2, 0, 0, 0, r2o2, 0, 0, 0, 0, 0 },//L
 		{ 0, r2o2*r2o2, 0, 0, 0, r2o2, 0, 0, 0, 0 },//R
@@ -1943,193 +1929,11 @@ struct ProcessSettings {
 	bool enableBinauralRendering = true;
 };
 
-namespace Mach1TranscodeFormats {
-	enum FormatType {
-		Empty = (int) 0,
-		FuMa,
-		ACNSN3D,
-		M1Horizon,
-		M1HorizonS,
-		M1HorizonPairs,
-		M1Spatial,
-		M1SpatialS,
-		M1SpatialPairs,
-		M1SpatialPlus,
-		M1SpatialPlusPlus,
-		M1SpatialExtended,
-		M1SpatialExtendedPlus,
-		Mono,
-		Stereo,
-		LCR,
-		FiveOh,
-		FiveOneFilm,
-		FiveOneFilm_Cinema,
-		FiveOneSmpte,
-		FiveOneDts,
-		SixOh,
-		SevenOnePt,
-		SevenOnePt_Cinema,
-		ACNSN3DO2A,
-		FuMaO2A,
-		TBE,
-		ACNSN3DO3A,
-		FuMaO3A,
-		SevenOneSDDS,
-		SevenZeroSDDS,
-		SevenOneTwo,
-		SevenZeroTwo,
-		NineOne,
-		NineZero,
-		Stereo_Cinema,
-		FiveOneTwo,
-		FiveZeroTwo,
-		FiveOneFour,
-		FiveZeroFour,
-		SevenOneFour,
-		SevenZeroFour,
-		SevenZero_Cinema,
-		M1SpatialFaces,
-		NineOneFour,
-		NineOneSix,
-		MarcoSixteen,
-		CustomPoints,
-		ACNSN3DmaxRE1oa,
-		ACNSN3DmaxRE2oa,
-		ACNSN3DmaxRE3oa,
-		ACNSN3DmaxRE4oa,
-		ACNSN3DmaxRE5oa,
-		ACNSN3DmaxRE6oa,
-		ACNSN3DmaxRE7oa,
-		DolbyAtmosSevenOneTwo,
-		FiveOneFourSMPTE
-	};
-};
-
 
 namespace Mach1TranscodeConstants {
-	const std::map<Mach1TranscodeFormats::FormatType, const char*> FormatNames = {
-		{ Mach1TranscodeFormats::Empty, "None" },
-		{ Mach1TranscodeFormats::FuMa, "FuMa" },
-		{ Mach1TranscodeFormats::ACNSN3D, "ACNSN3D" },
-		{ Mach1TranscodeFormats::M1Horizon, "M1Horizon" },
-		{ Mach1TranscodeFormats::M1HorizonS, "M1Horizon+S" },
-		{ Mach1TranscodeFormats::M1HorizonPairs, "M1HorizonPairs" },
-		{ Mach1TranscodeFormats::M1Spatial, "M1Spatial" },
-		{ Mach1TranscodeFormats::M1SpatialS, "M1Spatial+S" },
-		{ Mach1TranscodeFormats::M1SpatialPairs, "M1SpatialPairs" },
-		{ Mach1TranscodeFormats::M1SpatialPlus, "M1SpatialPlus" },
-		{ Mach1TranscodeFormats::M1SpatialPlusPlus, "M1SpatialPlusPlus" },
-		{ Mach1TranscodeFormats::M1SpatialExtended, "M1SpatialExtended" },
-		{ Mach1TranscodeFormats::M1SpatialExtendedPlus, "M1SpatialExtendedPlus" },
-		{ Mach1TranscodeFormats::Mono, "Mono" },
-		{ Mach1TranscodeFormats::Stereo, "Stereo" },
-		{ Mach1TranscodeFormats::LCR, "LCR" },
-		{ Mach1TranscodeFormats::FiveOh, "FiveOh" },
-		{ Mach1TranscodeFormats::FiveOneFilm, "FiveOneFilm" },
-		{ Mach1TranscodeFormats::FiveOneFilm_Cinema, "FiveOneFilm_Cinema" },
-		{ Mach1TranscodeFormats::FiveOneSmpte, "FiveOneSmpte" },
-		{ Mach1TranscodeFormats::FiveOneDts, "FiveOneDts" },
-		{ Mach1TranscodeFormats::SixOh, "SixOh" },
-		{ Mach1TranscodeFormats::SevenOnePt, "SevenOnePt" },
-		{ Mach1TranscodeFormats::SevenOnePt_Cinema, "SevenOnePt_Cinema" },
-		{ Mach1TranscodeFormats::ACNSN3DO2A, "ACNSN3DO2A" },
-		{ Mach1TranscodeFormats::FuMaO2A, "FuMaO2A" },
-		{ Mach1TranscodeFormats::TBE, "TBE" },
-		{ Mach1TranscodeFormats::ACNSN3DO3A, "ACNSN3DO3A" },
-		{ Mach1TranscodeFormats::FuMaO3A, "FuMaO3A" },
-		{ Mach1TranscodeFormats::SevenOneSDDS, "SevenOneSDDS" },
-		{ Mach1TranscodeFormats::SevenZeroSDDS, "SevenZeroSDDS" },
-		{ Mach1TranscodeFormats::SevenOneTwo, "SevenOneTwo" },
-		{ Mach1TranscodeFormats::SevenZeroTwo, "SevenZeroTwo" },
-		{ Mach1TranscodeFormats::NineOne, "NineOne" },
-		{ Mach1TranscodeFormats::NineZero, "NineZero" },
-		{ Mach1TranscodeFormats::Stereo_Cinema, "Stereo_Cinema" },
-		{ Mach1TranscodeFormats::FiveOneTwo, "FiveOneTwo" },
-		{ Mach1TranscodeFormats::FiveZeroTwo, "FiveZeroTwo" },
-		{ Mach1TranscodeFormats::FiveOneFour, "FiveOneFour" },
-		{ Mach1TranscodeFormats::FiveOneFourSMPTE, "FiveOneFourSMPTE" },
-		{ Mach1TranscodeFormats::FiveZeroFour, "FiveZeroFour" },
-		{ Mach1TranscodeFormats::SevenOneFour, "SevenOneFour" },
-		{ Mach1TranscodeFormats::SevenZeroFour, "SevenZeroFour" },
-		{ Mach1TranscodeFormats::SevenZero_Cinema, "SevenZero_Cinema" },
-		{ Mach1TranscodeFormats::M1SpatialFaces, "M1SpatialFaces" },
-		{ Mach1TranscodeFormats::NineOneFour, "NineOneFour" },
-		{ Mach1TranscodeFormats::NineOneSix, "NineOneSix" },
-		{ Mach1TranscodeFormats::MarcoSixteen, "MarcoSixteen" },
-		{ Mach1TranscodeFormats::CustomPoints, "CustomPoints" },
-		{ Mach1TranscodeFormats::ACNSN3DmaxRE1oa, "ACNSN3DmaxRE1oa" },
-		{ Mach1TranscodeFormats::ACNSN3DmaxRE2oa, "ACNSN3DmaxRE2oa" },
-		{ Mach1TranscodeFormats::ACNSN3DmaxRE3oa, "ACNSN3DmaxRE3oa" },
-		{ Mach1TranscodeFormats::ACNSN3DmaxRE4oa, "ACNSN3DmaxRE4oa" },
-		{ Mach1TranscodeFormats::ACNSN3DmaxRE5oa, "ACNSN3DmaxRE5oa" },
-		{ Mach1TranscodeFormats::ACNSN3DmaxRE6oa, "ACNSN3DmaxRE6oa" },
-		{ Mach1TranscodeFormats::ACNSN3DmaxRE7oa, "ACNSN3DmaxRE7oa" },
-		{ Mach1TranscodeFormats::DolbyAtmosSevenOneTwo, "DolbyAtmosSevenOneTwo" },
-	};
-
-	const std::map<Mach1TranscodeFormats::FormatType, int> FormatChannels = {
-		{ Mach1TranscodeFormats::Empty, 0 },
-		{ Mach1TranscodeFormats::FuMa, 4 },
-		{ Mach1TranscodeFormats::ACNSN3D, 4 },
-		{ Mach1TranscodeFormats::M1Horizon, 4 },
-		{ Mach1TranscodeFormats::M1HorizonS, 6 },
-		{ Mach1TranscodeFormats::M1HorizonPairs, 8 },
-		{ Mach1TranscodeFormats::M1Spatial, 8 },
-		{ Mach1TranscodeFormats::M1SpatialS, 10 },
-		{ Mach1TranscodeFormats::M1SpatialPairs, 16 },
-		{ Mach1TranscodeFormats::M1SpatialPlus, 12 },
-		{ Mach1TranscodeFormats::M1SpatialPlusPlus, 14 },
-		{ Mach1TranscodeFormats::M1SpatialExtended, 16 },
-		{ Mach1TranscodeFormats::M1SpatialExtendedPlus, 18 },
-		{ Mach1TranscodeFormats::Mono, 1 },
-		{ Mach1TranscodeFormats::Stereo, 2 },
-		{ Mach1TranscodeFormats::LCR, 3 },
-		{ Mach1TranscodeFormats::FiveOh, 5 },
-		{ Mach1TranscodeFormats::FiveOneFilm, 6 },
-		{ Mach1TranscodeFormats::FiveOneFilm_Cinema, 6 },
-		{ Mach1TranscodeFormats::FiveOneSmpte, 6 },
-		{ Mach1TranscodeFormats::FiveOneDts, 6 },
-		{ Mach1TranscodeFormats::SixOh, 6 },
-		{ Mach1TranscodeFormats::SevenOnePt, 8 },
-		{ Mach1TranscodeFormats::SevenOnePt_Cinema, 8 },
-		{ Mach1TranscodeFormats::ACNSN3DO2A, 9 },
-		{ Mach1TranscodeFormats::FuMaO2A, 9 },
-		{ Mach1TranscodeFormats::TBE, 8 },
-		{ Mach1TranscodeFormats::ACNSN3DO3A, 16 },
-		{ Mach1TranscodeFormats::FuMaO3A, 16 },
-		{ Mach1TranscodeFormats::SevenOneSDDS, 8 },
-		{ Mach1TranscodeFormats::SevenZeroSDDS, 7 },
-		{ Mach1TranscodeFormats::SevenOneTwo, 10 },
-		{ Mach1TranscodeFormats::SevenZeroTwo, 9 },
-		{ Mach1TranscodeFormats::NineOne, 10 },
-		{ Mach1TranscodeFormats::NineZero, 9 },
-		{ Mach1TranscodeFormats::Stereo_Cinema, 2 },
-		{ Mach1TranscodeFormats::FiveOneTwo, 8 },
-		{ Mach1TranscodeFormats::FiveZeroTwo, 7 },
-		{ Mach1TranscodeFormats::FiveOneFour, 10 },
-		{ Mach1TranscodeFormats::FiveOneFourSMPTE, 10 },
-		{ Mach1TranscodeFormats::FiveZeroFour, 9 },
-		{ Mach1TranscodeFormats::SevenOneFour, 12 },
-		{ Mach1TranscodeFormats::SevenZeroFour, 11 },
-		{ Mach1TranscodeFormats::SevenZero_Cinema, 7 },
-		{ Mach1TranscodeFormats::M1SpatialFaces, 6 },
-		{ Mach1TranscodeFormats::NineOneFour, 14 },
-		{ Mach1TranscodeFormats::NineOneSix, 16 },
-		{ Mach1TranscodeFormats::MarcoSixteen, 16 },
-		{ Mach1TranscodeFormats::ACNSN3DmaxRE1oa, 4 },
-		{ Mach1TranscodeFormats::ACNSN3DmaxRE2oa, 9 },
-		{ Mach1TranscodeFormats::ACNSN3DmaxRE3oa, 16 },
-		{ Mach1TranscodeFormats::ACNSN3DmaxRE4oa, 25 },
-		{ Mach1TranscodeFormats::ACNSN3DmaxRE5oa, 36 },
-		{ Mach1TranscodeFormats::ACNSN3DmaxRE6oa, 49 },
-		{ Mach1TranscodeFormats::ACNSN3DmaxRE7oa, 64 },
-		{ Mach1TranscodeFormats::DolbyAtmosSevenOneTwo, 10 },
-	};
-
-	const int MAXCHANS = 64;
 	const int NUMFMTS = 85;
 
-	const std::map<std::pair<Mach1TranscodeFormats::FormatType, Mach1TranscodeFormats::FormatType>, const SpatialSoundMatrix*> FormatMatrix = {
+	const std::map<std::pair<Mach1TranscodeFormats::FormatType, Mach1TranscodeFormats::FormatType>, const Mach1SpatialSoundMatrix*> FormatMatrix = {
 		{std::make_pair(Mach1TranscodeFormats::FuMa, Mach1TranscodeFormats::ACNSN3D), &Mach1TranscodeConstantsInternal::FuMa2ACNSN3D},
 		{std::make_pair(Mach1TranscodeFormats::FuMaO2A, Mach1TranscodeFormats::ACNSN3DO2A), &Mach1TranscodeConstantsInternal::FuMaO2A2ACNSN3DO2A},
 		{std::make_pair(Mach1TranscodeFormats::FuMaO3A, Mach1TranscodeFormats::ACNSN3DO3A), &Mach1TranscodeConstantsInternal::FuMaO3A2ACNSN3DO3A},

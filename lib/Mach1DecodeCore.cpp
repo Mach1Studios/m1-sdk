@@ -794,9 +794,9 @@ void Mach1DecodeCore::convertAnglesToMach1(Mach1PlatformType platformType, float
 		*P = *P;
 		*R = *R;
 		if(*R < 0 && *Y < 0){
-			*Y = 360 - (-1 * (*Y + *R))
+			*Y = 360 - (-1 * (*Y + *R));
 		} else {
-			*Y = *Y + *R
+			*Y = *Y + *R;
 		}
 		break;
 

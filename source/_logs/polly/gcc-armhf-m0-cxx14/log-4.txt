@@ -1,0 +1,54 @@
+Execute command: [
+  `which`
+  `cmake`
+]
+[/Volumes/git/m1-sdk/lib]> "which" "cmake"
+/usr/local/bin/cmake
+Execute command: [
+  `cmake`
+  `--version`
+]
+[/Volumes/git/m1-sdk/lib]> "cmake" "--version"
+cmake version 3.20.0
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+Execute command: [
+  `cmake`
+  `-H.`
+  `-B/Volumes/git/m1-sdk/lib/_builds/gcc-armhf-m0-cxx14-Release`
+  `-DCMAKE_BUILD_TYPE=Release`
+  `-GUnix Makefiles`
+  `-DCMAKE_TOOLCHAIN_FILE=/Volumes/git/polly/gcc-armhf-m0-cxx14.cmake`
+  `-DCMAKE_INSTALL_PREFIX=/Volumes/git/m1-sdk/lib/_install/gcc-armhf-m0-cxx14`
+]
+[/Volumes/git/m1-sdk/lib]> "cmake" "-H." "-B/Volumes/git/m1-sdk/lib/_builds/gcc-armhf-m0-cxx14-Release" "-DCMAKE_BUILD_TYPE=Release" "-GUnix Makefiles" "-DCMAKE_TOOLCHAIN_FILE=/Volumes/git/polly/gcc-armhf-m0-cxx14.cmake" "-DCMAKE_INSTALL_PREFIX=/Volumes/git/m1-sdk/lib/_install/gcc-armhf-m0-cxx14"
+-- [polly] Used toolchain: Linux / gcc / armhf / c++14 support / cortex-m0
+-- The C compiler identification is unknown
+-- The CXX compiler identification is unknown
+CMake Error at CMakeLists.txt:2 (project):
+  The CMAKE_C_COMPILER:
+
+    /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/arm-none-eabi-gcc
+
+  is not a full path to an existing compiler tool.
+
+  Tell CMake where to find the compiler by setting either the environment
+  variable "CC" or the CMake cache entry CMAKE_C_COMPILER to the full path to
+  the compiler, or to the compiler name if it is in the PATH.
+
+
+CMake Error at CMakeLists.txt:2 (project):
+  The CMAKE_CXX_COMPILER:
+
+    /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/arm-none-eabi-g++
+
+  is not a full path to an existing compiler tool.
+
+  Tell CMake where to find the compiler by setting either the environment
+  variable "CXX" or the CMake cache entry CMAKE_CXX_COMPILER to the full path
+  to the compiler, or to the compiler name if it is in the PATH.
+
+
+-- Configuring incomplete, errors occurred!
+See also "/Volumes/git/m1-sdk/lib/_builds/gcc-armhf-m0-cxx14-Release/CMakeFiles/CMakeOutput.log".
+See also "/Volumes/git/m1-sdk/lib/_builds/gcc-armhf-m0-cxx14-Release/CMakeFiles/CMakeError.log".

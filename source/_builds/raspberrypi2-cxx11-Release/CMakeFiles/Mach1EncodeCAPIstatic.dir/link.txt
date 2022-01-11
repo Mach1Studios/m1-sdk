@@ -1,0 +1,2 @@
+/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-gcc-ar qc static/libMach1EncodeCAPI.a CMakeFiles/Mach1EncodeCAPIstatic.dir/Mach1EncodeCAPI.cpp.o CMakeFiles/Mach1EncodeCAPIstatic.dir/Mach1EncodeCore.cpp.o CMakeFiles/Mach1EncodeCAPIstatic.dir/Mach1Point3DCore.cpp.o
+/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-ranlib static/libMach1EncodeCAPI.a

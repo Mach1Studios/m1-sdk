@@ -1,0 +1,1 @@
+"cmake" "-H." "-B/Volumes/git/m1-sdk/lib/_builds/xcode" "-GXcode" "-DCMAKE_TOOLCHAIN_FILE=/Volumes/git/polly/xcode.cmake" "-DCMAKE_INSTALL_PREFIX=/Volumes/git/m1-sdk/lib/_install/xcode"

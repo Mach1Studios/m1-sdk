@@ -1,0 +1,16 @@
+/Volumes/git/m1-sdk/lib/_builds/xcode/CMakeFiles/Mach1TranscodeCAPIbundle.dir
+/Volumes/git/m1-sdk/lib/_builds/xcode/CMakeFiles/Mach1DecodeCAPIbundle.dir
+/Volumes/git/m1-sdk/lib/_builds/xcode/CMakeFiles/Mach1TranscodeCAPIshared.dir
+/Volumes/git/m1-sdk/lib/_builds/xcode/CMakeFiles/Mach1EncodeCAPIshared.dir
+/Volumes/git/m1-sdk/lib/_builds/xcode/CMakeFiles/Mach1DecodePositionalCAPIshared.dir
+/Volumes/git/m1-sdk/lib/_builds/xcode/CMakeFiles/Mach1DecodeCAPIshared.dir
+/Volumes/git/m1-sdk/lib/_builds/xcode/CMakeFiles/Mach1EncodeCAPIbundle.dir
+/Volumes/git/m1-sdk/lib/_builds/xcode/CMakeFiles/Mach1DecodeCAPIstatic.dir
+/Volumes/git/m1-sdk/lib/_builds/xcode/CMakeFiles/Mach1DecodeMINCAPIstatic.dir
+/Volumes/git/m1-sdk/lib/_builds/xcode/CMakeFiles/install.dir
+/Volumes/git/m1-sdk/lib/_builds/xcode/CMakeFiles/Mach1TranscodeCAPIstatic.dir
+/Volumes/git/m1-sdk/lib/_builds/xcode/CMakeFiles/Mach1EncodeCAPIstatic.dir
+/Volumes/git/m1-sdk/lib/_builds/xcode/CMakeFiles/Mach1DecodePositionalCAPIbundle.dir
+/Volumes/git/m1-sdk/lib/_builds/xcode/CMakeFiles/Mach1DecodePositionalCAPIstatic.dir
+/Volumes/git/m1-sdk/lib/_builds/xcode/CMakeFiles/ALL_BUILD.dir
+/Volumes/git/m1-sdk/lib/_builds/xcode/CMakeFiles/ZERO_CHECK.dir

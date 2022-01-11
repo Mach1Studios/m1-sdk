@@ -1,0 +1,471 @@
+The target system is: Linux -  - armv7-a
+The host system is: Darwin - 20.6.0 - x86_64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-gcc 
+Build flags: -munaligned-access;-mlittle-endian;-mfloat-abi=hard;-mfpu=neon-vfpv4;-mcpu=cortex-a7;--sysroot=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+
+The C compiler identification is GNU, found in "/Volumes/git/m1-sdk/lib/_builds/raspberrypi2-cxx11-Release/CMakeFiles/3.21.4/CompilerIdC/a.out"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-g++ 
+Build flags: -munaligned-access;-mlittle-endian;-mfloat-abi=hard;-mfpu=neon-vfpv4;-mcpu=cortex-a7;--sysroot=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot;-std=c++11
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+
+The CXX compiler identification is GNU, found in "/Volumes/git/m1-sdk/lib/_builds/raspberrypi2-cxx11-Release/CMakeFiles/3.21.4/CompilerIdCXX/a.out"
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /Volumes/git/m1-sdk/lib/_builds/raspberrypi2-cxx11-Release/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make -f Makefile cmTC_82834/fast && /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_82834.dir/build.make CMakeFiles/cmTC_82834.dir/build
+Building C object CMakeFiles/cmTC_82834.dir/CMakeCCompilerABI.c.o
+/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-gcc   -munaligned-access -mlittle-endian -mfloat-abi=hard -mfpu=neon-vfpv4 -mcpu=cortex-a7 --sysroot=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot    -v -o CMakeFiles/cmTC_82834.dir/CMakeCCompilerABI.c.o -c /usr/local/Cellar/cmake/3.21.4/share/cmake/Modules/CMakeCCompilerABI.c
+Using built-in specs.
+COLLECT_GCC=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-gcc
+Target: arm-unknown-linux-gnueabihf
+Configured with: /Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/src/gcc-4.9.2/configure --build=x86_64-build_apple-darwin13.3.0 --host=x86_64-build_apple-darwin13.3.0 --target=arm-unknown-linux-gnueabihf --prefix=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf --with-sysroot=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot --enable-languages=c,c++ --with-cpu=cortex-a7 --with-fpu=neon-vfpv4 --with-float=hard --with-pkgversion='crosstool-NG 1.21.0' --enable-__cxa_atexit --disable-libmudflap --disable-libgomp --disable-libssp --disable-libquadmath --disable-libquadmath-support --disable-libsanitizer --with-gmp=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-mpfr=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-mpc=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-isl=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-cloog=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-libelf=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --enable-threads=posix --enable-target-optspace --disable-nls --disable-multilib --with-local-prefix=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot --enable-c99 --enable-long-long
+Thread model: posix
+gcc version 4.9.2 (crosstool-NG 1.21.0) 
+COLLECT_GCC_OPTIONS='-munaligned-access' '-mlittle-endian' '-mfloat-abi=hard' '-mfpu=neon-vfpv4' '-mcpu=cortex-a7' '-v' '-o' 'CMakeFiles/cmTC_82834.dir/CMakeCCompilerABI.c.o' '-c' '-mtls-dialect=gnu'
+ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/cc1 -quiet -v -iprefix /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/ -isysroot /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot /usr/local/Cellar/cmake/3.21.4/share/cmake/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -munaligned-access -mlittle-endian -mfloat-abi=hard -mfpu=neon-vfpv4 -mcpu=cortex-a7 -mtls-dialect=gnu -auxbase-strip CMakeFiles/cmTC_82834.dir/CMakeCCompilerABI.c.o -version -o /var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//ccsE3mdR.s
+GNU C (crosstool-NG 1.21.0) version 4.9.2 (arm-unknown-linux-gnueabihf)
+	compiled by GNU C version 4.9.3, GMP version 6.0.0, MPFR version 3.1.2, MPC version 1.0.2
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring duplicate directory "/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/../../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include"
+ignoring nonexistent directory "/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/include"
+ignoring duplicate directory "/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/../../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include-fixed"
+ignoring duplicate directory "/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/../../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include
+ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include-fixed
+ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include
+ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/include
+End of search list.
+GNU C (crosstool-NG 1.21.0) version 4.9.2 (arm-unknown-linux-gnueabihf)
+	compiled by GNU C version 4.9.3, GMP version 6.0.0, MPFR version 3.1.2, MPC version 1.0.2
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 6023a1bfb34c97770f1e4e5f0d47f4ca
+COLLECT_GCC_OPTIONS='-munaligned-access' '-mlittle-endian' '-mfloat-abi=hard' '-mfpu=neon-vfpv4' '-mcpu=cortex-a7' '-v' '-o' 'CMakeFiles/cmTC_82834.dir/CMakeCCompilerABI.c.o' '-c' '-mtls-dialect=gnu'
+ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/bin/as -v -EL -mcpu=cortex-a7 -mfloat-abi=hard -mfpu=neon-vfpv4 -meabi=5 -o CMakeFiles/cmTC_82834.dir/CMakeCCompilerABI.c.o /var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//ccsE3mdR.s
+GNU assembler version 2.25 (arm-unknown-linux-gnueabihf) using BFD version (crosstool-NG 1.21.0) 2.25
+COMPILER_PATH=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/bin/
+LIBRARY_PATH=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/lib/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/lib/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/
+COLLECT_GCC_OPTIONS='-munaligned-access' '-mlittle-endian' '-mfloat-abi=hard' '-mfpu=neon-vfpv4' '-mcpu=cortex-a7' '-v' '-o' 'CMakeFiles/cmTC_82834.dir/CMakeCCompilerABI.c.o' '-c' '-mtls-dialect=gnu'
+Linking C executable cmTC_82834
+/usr/local/Cellar/cmake/3.21.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_82834.dir/link.txt --verbose=1
+/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-gcc -munaligned-access -mlittle-endian -mfloat-abi=hard -mfpu=neon-vfpv4 -mcpu=cortex-a7 --sysroot=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot  -L/usr/local/opt/libffi/lib -v CMakeFiles/cmTC_82834.dir/CMakeCCompilerABI.c.o -o cmTC_82834 
+Using built-in specs.
+COLLECT_GCC=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-gcc
+COLLECT_LTO_WRAPPER=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/lto-wrapper
+Target: arm-unknown-linux-gnueabihf
+Configured with: /Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/src/gcc-4.9.2/configure --build=x86_64-build_apple-darwin13.3.0 --host=x86_64-build_apple-darwin13.3.0 --target=arm-unknown-linux-gnueabihf --prefix=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf --with-sysroot=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot --enable-languages=c,c++ --with-cpu=cortex-a7 --with-fpu=neon-vfpv4 --with-float=hard --with-pkgversion='crosstool-NG 1.21.0' --enable-__cxa_atexit --disable-libmudflap --disable-libgomp --disable-libssp --disable-libquadmath --disable-libquadmath-support --disable-libsanitizer --with-gmp=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-mpfr=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-mpc=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-isl=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-cloog=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-libelf=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --enable-threads=posix --enable-target-optspace --disable-nls --disable-multilib --with-local-prefix=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot --enable-c99 --enable-long-long
+Thread model: posix
+gcc version 4.9.2 (crosstool-NG 1.21.0) 
+COMPILER_PATH=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/bin/
+LIBRARY_PATH=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/lib/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/lib/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/
+COLLECT_GCC_OPTIONS='-munaligned-access' '-mlittle-endian' '-mfloat-abi=hard' '-mfpu=neon-vfpv4' '-mcpu=cortex-a7' '-L/usr/local/opt/libffi/lib' '-v' '-o' 'cmTC_82834' '-mtls-dialect=gnu'
+ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/collect2 -plugin /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/liblto_plugin.so -plugin-opt=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/lto-wrapper -plugin-opt=-fresolution=/var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//ccRlWl88.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot --eh-frame-hdr -dynamic-linker /lib/ld-linux-armhf.so.3 -X -EL -m armelf_linux_eabi -o cmTC_82834 /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crt1.o /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crti.o /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtbegin.o -L/usr/local/opt/libffi/lib -L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2 -L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc -L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/lib -L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/lib -L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib CMakeFiles/cmTC_82834.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtend.o /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crtn.o
+
+
+
+Parsed C implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include]
+    add: [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include-fixed]
+    add: [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include]
+    add: [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/include]
+  end of search list found
+  collapse include dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include]
+  collapse include dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include-fixed] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include-fixed]
+  collapse include dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/include]
+  collapse include dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/include] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/include]
+  implicit include dirs: [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include-fixed;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/include;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/include]
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(arm-unknown-linux-gnueabihf-ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /Volumes/git/m1-sdk/lib/_builds/raspberrypi2-cxx11-Release/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):/usr/bin/make -f Makefile cmTC_82834/fast && /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_82834.dir/build.make CMakeFiles/cmTC_82834.dir/build]
+  ignore line: [Building C object CMakeFiles/cmTC_82834.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-gcc   -munaligned-access -mlittle-endian -mfloat-abi=hard -mfpu=neon-vfpv4 -mcpu=cortex-a7 --sysroot=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot    -v -o CMakeFiles/cmTC_82834.dir/CMakeCCompilerABI.c.o -c /usr/local/Cellar/cmake/3.21.4/share/cmake/Modules/CMakeCCompilerABI.c]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-gcc]
+  ignore line: [Target: arm-unknown-linux-gnueabihf]
+  ignore line: [Configured with: /Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/src/gcc-4.9.2/configure --build=x86_64-build_apple-darwin13.3.0 --host=x86_64-build_apple-darwin13.3.0 --target=arm-unknown-linux-gnueabihf --prefix=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf --with-sysroot=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot --enable-languages=c c++ --with-cpu=cortex-a7 --with-fpu=neon-vfpv4 --with-float=hard --with-pkgversion='crosstool-NG 1.21.0' --enable-__cxa_atexit --disable-libmudflap --disable-libgomp --disable-libssp --disable-libquadmath --disable-libquadmath-support --disable-libsanitizer --with-gmp=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-mpfr=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-mpc=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-isl=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-cloog=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-libelf=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --enable-threads=posix --enable-target-optspace --disable-nls --disable-multilib --with-local-prefix=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot --enable-c99 --enable-long-long]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 4.9.2 (crosstool-NG 1.21.0) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-munaligned-access' '-mlittle-endian' '-mfloat-abi=hard' '-mfpu=neon-vfpv4' '-mcpu=cortex-a7' '-v' '-o' 'CMakeFiles/cmTC_82834.dir/CMakeCCompilerABI.c.o' '-c' '-mtls-dialect=gnu']
+  ignore line: [ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/cc1 -quiet -v -iprefix /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/ -isysroot /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot /usr/local/Cellar/cmake/3.21.4/share/cmake/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -munaligned-access -mlittle-endian -mfloat-abi=hard -mfpu=neon-vfpv4 -mcpu=cortex-a7 -mtls-dialect=gnu -auxbase-strip CMakeFiles/cmTC_82834.dir/CMakeCCompilerABI.c.o -version -o /var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//ccsE3mdR.s]
+  ignore line: [GNU C (crosstool-NG 1.21.0) version 4.9.2 (arm-unknown-linux-gnueabihf)]
+  ignore line: [	compiled by GNU C version 4.9.3  GMP version 6.0.0  MPFR version 3.1.2  MPC version 1.0.2]
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring duplicate directory "/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/../../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include"]
+  ignore line: [ignoring nonexistent directory "/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/include"]
+  ignore line: [ignoring duplicate directory "/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/../../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include-fixed"]
+  ignore line: [ignoring duplicate directory "/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/../../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include]
+  ignore line: [ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include-fixed]
+  ignore line: [ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include]
+  ignore line: [ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C (crosstool-NG 1.21.0) version 4.9.2 (arm-unknown-linux-gnueabihf)]
+  ignore line: [	compiled by GNU C version 4.9.3  GMP version 6.0.0  MPFR version 3.1.2  MPC version 1.0.2]
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: 6023a1bfb34c97770f1e4e5f0d47f4ca]
+  ignore line: [COLLECT_GCC_OPTIONS='-munaligned-access' '-mlittle-endian' '-mfloat-abi=hard' '-mfpu=neon-vfpv4' '-mcpu=cortex-a7' '-v' '-o' 'CMakeFiles/cmTC_82834.dir/CMakeCCompilerABI.c.o' '-c' '-mtls-dialect=gnu']
+  ignore line: [ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/bin/as -v -EL -mcpu=cortex-a7 -mfloat-abi=hard -mfpu=neon-vfpv4 -meabi=5 -o CMakeFiles/cmTC_82834.dir/CMakeCCompilerABI.c.o /var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//ccsE3mdR.s]
+  ignore line: [GNU assembler version 2.25 (arm-unknown-linux-gnueabihf) using BFD version (crosstool-NG 1.21.0) 2.25]
+  ignore line: [COMPILER_PATH=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/bin/]
+  ignore line: [LIBRARY_PATH=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/lib/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/lib/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-munaligned-access' '-mlittle-endian' '-mfloat-abi=hard' '-mfpu=neon-vfpv4' '-mcpu=cortex-a7' '-v' '-o' 'CMakeFiles/cmTC_82834.dir/CMakeCCompilerABI.c.o' '-c' '-mtls-dialect=gnu']
+  ignore line: [Linking C executable cmTC_82834]
+  ignore line: [/usr/local/Cellar/cmake/3.21.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_82834.dir/link.txt --verbose=1]
+  ignore line: [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-gcc -munaligned-access -mlittle-endian -mfloat-abi=hard -mfpu=neon-vfpv4 -mcpu=cortex-a7 --sysroot=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot  -L/usr/local/opt/libffi/lib -v CMakeFiles/cmTC_82834.dir/CMakeCCompilerABI.c.o -o cmTC_82834 ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-gcc]
+  ignore line: [COLLECT_LTO_WRAPPER=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/lto-wrapper]
+  ignore line: [Target: arm-unknown-linux-gnueabihf]
+  ignore line: [Configured with: /Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/src/gcc-4.9.2/configure --build=x86_64-build_apple-darwin13.3.0 --host=x86_64-build_apple-darwin13.3.0 --target=arm-unknown-linux-gnueabihf --prefix=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf --with-sysroot=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot --enable-languages=c c++ --with-cpu=cortex-a7 --with-fpu=neon-vfpv4 --with-float=hard --with-pkgversion='crosstool-NG 1.21.0' --enable-__cxa_atexit --disable-libmudflap --disable-libgomp --disable-libssp --disable-libquadmath --disable-libquadmath-support --disable-libsanitizer --with-gmp=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-mpfr=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-mpc=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-isl=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-cloog=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-libelf=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --enable-threads=posix --enable-target-optspace --disable-nls --disable-multilib --with-local-prefix=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot --enable-c99 --enable-long-long]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 4.9.2 (crosstool-NG 1.21.0) ]
+  ignore line: [COMPILER_PATH=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/bin/]
+  ignore line: [LIBRARY_PATH=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/lib/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/lib/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-munaligned-access' '-mlittle-endian' '-mfloat-abi=hard' '-mfpu=neon-vfpv4' '-mcpu=cortex-a7' '-L/usr/local/opt/libffi/lib' '-v' '-o' 'cmTC_82834' '-mtls-dialect=gnu']
+  link line: [ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/collect2 -plugin /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/liblto_plugin.so -plugin-opt=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/lto-wrapper -plugin-opt=-fresolution=/var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//ccRlWl88.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot --eh-frame-hdr -dynamic-linker /lib/ld-linux-armhf.so.3 -X -EL -m armelf_linux_eabi -o cmTC_82834 /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crt1.o /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crti.o /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtbegin.o -L/usr/local/opt/libffi/lib -L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2 -L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc -L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/lib -L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/lib -L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib CMakeFiles/cmTC_82834.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtend.o /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crtn.o]
+    arg [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/collect2] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/liblto_plugin.so] ==> ignore
+    arg [-plugin-opt=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/lto-wrapper] ==> ignore
+    arg [-plugin-opt=-fresolution=/var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//ccRlWl88.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [--sysroot=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/lib/ld-linux-armhf.so.3] ==> ignore
+    arg [-X] ==> ignore
+    arg [-EL] ==> ignore
+    arg [-m] ==> ignore
+    arg [armelf_linux_eabi] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_82834] ==> ignore
+    arg [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crt1.o] ==> obj [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crt1.o]
+    arg [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crti.o] ==> obj [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crti.o]
+    arg [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtbegin.o] ==> obj [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtbegin.o]
+    arg [-L/usr/local/opt/libffi/lib] ==> dir [/usr/local/opt/libffi/lib]
+    arg [-L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2] ==> dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2]
+    arg [-L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc] ==> dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc]
+    arg [-L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/lib] ==> dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/lib]
+    arg [-L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/lib] ==> dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/lib]
+    arg [-L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib] ==> dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib]
+    arg [CMakeFiles/cmTC_82834.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [-lgcc] ==> lib [gcc]
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--no-as-needed] ==> ignore
+    arg [-lc] ==> lib [c]
+    arg [-lgcc] ==> lib [gcc]
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--no-as-needed] ==> ignore
+    arg [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtend.o] ==> obj [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtend.o]
+    arg [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crtn.o] ==> obj [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crtn.o]
+  collapse obj [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtbegin.o] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtbegin.o]
+  collapse obj [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtend.o] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtend.o]
+  collapse library dir [/usr/local/opt/libffi/lib] ==> [/usr/local/opt/libffi/lib]
+  collapse library dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc/arm-unknown-linux-gnueabihf/4.9.2]
+  collapse library dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc]
+  collapse library dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/lib] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/lib]
+  collapse library dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/lib] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/lib]
+  collapse library dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib]
+  implicit libs: [gcc;gcc_s;c;gcc;gcc_s]
+  implicit objs: [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crt1.o;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crti.o;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtbegin.o;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtend.o;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crtn.o]
+  implicit dirs: [/usr/local/opt/libffi/lib;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc/arm-unknown-linux-gnueabihf/4.9.2;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/lib;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/lib;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib]
+  implicit fwks: []
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: /Volumes/git/m1-sdk/lib/_builds/raspberrypi2-cxx11-Release/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make -f Makefile cmTC_670bb/fast && /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_670bb.dir/build.make CMakeFiles/cmTC_670bb.dir/build
+Building CXX object CMakeFiles/cmTC_670bb.dir/CMakeCXXCompilerABI.cpp.o
+/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-g++   -munaligned-access -mlittle-endian -mfloat-abi=hard -mfpu=neon-vfpv4 -mcpu=cortex-a7 --sysroot=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot -std=c++11    -v -std=c++11 -o CMakeFiles/cmTC_670bb.dir/CMakeCXXCompilerABI.cpp.o -c /usr/local/Cellar/cmake/3.21.4/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+Using built-in specs.
+COLLECT_GCC=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-g++
+Target: arm-unknown-linux-gnueabihf
+Configured with: /Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/src/gcc-4.9.2/configure --build=x86_64-build_apple-darwin13.3.0 --host=x86_64-build_apple-darwin13.3.0 --target=arm-unknown-linux-gnueabihf --prefix=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf --with-sysroot=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot --enable-languages=c,c++ --with-cpu=cortex-a7 --with-fpu=neon-vfpv4 --with-float=hard --with-pkgversion='crosstool-NG 1.21.0' --enable-__cxa_atexit --disable-libmudflap --disable-libgomp --disable-libssp --disable-libquadmath --disable-libquadmath-support --disable-libsanitizer --with-gmp=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-mpfr=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-mpc=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-isl=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-cloog=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-libelf=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --enable-threads=posix --enable-target-optspace --disable-nls --disable-multilib --with-local-prefix=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot --enable-c99 --enable-long-long
+Thread model: posix
+gcc version 4.9.2 (crosstool-NG 1.21.0) 
+COLLECT_GCC_OPTIONS='-munaligned-access' '-mlittle-endian' '-mfloat-abi=hard' '-mfpu=neon-vfpv4' '-mcpu=cortex-a7' '-std=c++11' '-v' '-std=c++11' '-o' 'CMakeFiles/cmTC_670bb.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtls-dialect=gnu'
+ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/cc1plus -quiet -v -iprefix /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/ -isysroot /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot -D_GNU_SOURCE /usr/local/Cellar/cmake/3.21.4/share/cmake/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -munaligned-access -mlittle-endian -mfloat-abi=hard -mfpu=neon-vfpv4 -mcpu=cortex-a7 -mtls-dialect=gnu -auxbase-strip CMakeFiles/cmTC_670bb.dir/CMakeCXXCompilerABI.cpp.o -std=c++11 -std=c++11 -version -o /var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//ccxs1Knk.s
+GNU C++ (crosstool-NG 1.21.0) version 4.9.2 (arm-unknown-linux-gnueabihf)
+	compiled by GNU C version 4.9.3, GMP version 6.0.0, MPFR version 3.1.2, MPC version 1.0.2
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring duplicate directory "/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/../../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include/c++/4.9.2"
+ignoring duplicate directory "/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/../../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include/c++/4.9.2/arm-unknown-linux-gnueabihf"
+ignoring duplicate directory "/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/../../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include/c++/4.9.2/backward"
+ignoring duplicate directory "/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/../../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include"
+ignoring nonexistent directory "/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/include"
+ignoring duplicate directory "/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/../../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include-fixed"
+ignoring duplicate directory "/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/../../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include/c++/4.9.2
+ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include/c++/4.9.2/arm-unknown-linux-gnueabihf
+ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include/c++/4.9.2/backward
+ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include
+ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include-fixed
+ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include
+ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/include
+End of search list.
+GNU C++ (crosstool-NG 1.21.0) version 4.9.2 (arm-unknown-linux-gnueabihf)
+	compiled by GNU C version 4.9.3, GMP version 6.0.0, MPFR version 3.1.2, MPC version 1.0.2
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 594e5622680a68ce54ad89b29b74ed01
+COLLECT_GCC_OPTIONS='-munaligned-access' '-mlittle-endian' '-mfloat-abi=hard' '-mfpu=neon-vfpv4' '-mcpu=cortex-a7' '-std=c++11' '-v' '-std=c++11' '-o' 'CMakeFiles/cmTC_670bb.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtls-dialect=gnu'
+ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/bin/as -v -EL -mcpu=cortex-a7 -mfloat-abi=hard -mfpu=neon-vfpv4 -meabi=5 -o CMakeFiles/cmTC_670bb.dir/CMakeCXXCompilerABI.cpp.o /var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//ccxs1Knk.s
+GNU assembler version 2.25 (arm-unknown-linux-gnueabihf) using BFD version (crosstool-NG 1.21.0) 2.25
+COMPILER_PATH=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/bin/
+LIBRARY_PATH=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/lib/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/lib/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/
+COLLECT_GCC_OPTIONS='-munaligned-access' '-mlittle-endian' '-mfloat-abi=hard' '-mfpu=neon-vfpv4' '-mcpu=cortex-a7' '-std=c++11' '-v' '-std=c++11' '-o' 'CMakeFiles/cmTC_670bb.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtls-dialect=gnu'
+Linking CXX executable cmTC_670bb
+/usr/local/Cellar/cmake/3.21.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_670bb.dir/link.txt --verbose=1
+/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-g++ -munaligned-access -mlittle-endian -mfloat-abi=hard -mfpu=neon-vfpv4 -mcpu=cortex-a7 --sysroot=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot -std=c++11  -L/usr/local/opt/libffi/lib -v CMakeFiles/cmTC_670bb.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_670bb 
+Using built-in specs.
+COLLECT_GCC=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-g++
+COLLECT_LTO_WRAPPER=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/lto-wrapper
+Target: arm-unknown-linux-gnueabihf
+Configured with: /Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/src/gcc-4.9.2/configure --build=x86_64-build_apple-darwin13.3.0 --host=x86_64-build_apple-darwin13.3.0 --target=arm-unknown-linux-gnueabihf --prefix=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf --with-sysroot=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot --enable-languages=c,c++ --with-cpu=cortex-a7 --with-fpu=neon-vfpv4 --with-float=hard --with-pkgversion='crosstool-NG 1.21.0' --enable-__cxa_atexit --disable-libmudflap --disable-libgomp --disable-libssp --disable-libquadmath --disable-libquadmath-support --disable-libsanitizer --with-gmp=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-mpfr=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-mpc=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-isl=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-cloog=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-libelf=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --enable-threads=posix --enable-target-optspace --disable-nls --disable-multilib --with-local-prefix=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot --enable-c99 --enable-long-long
+Thread model: posix
+gcc version 4.9.2 (crosstool-NG 1.21.0) 
+COMPILER_PATH=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/bin/
+LIBRARY_PATH=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/lib/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/lib/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/
+COLLECT_GCC_OPTIONS='-munaligned-access' '-mlittle-endian' '-mfloat-abi=hard' '-mfpu=neon-vfpv4' '-mcpu=cortex-a7' '-std=c++11' '-L/usr/local/opt/libffi/lib' '-v' '-o' 'cmTC_670bb' '-shared-libgcc' '-mtls-dialect=gnu'
+ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/collect2 -plugin /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/liblto_plugin.so -plugin-opt=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/lto-wrapper -plugin-opt=-fresolution=/var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//ccUpPOA0.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot --eh-frame-hdr -dynamic-linker /lib/ld-linux-armhf.so.3 -X -EL -m armelf_linux_eabi -o cmTC_670bb /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crt1.o /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crti.o /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtbegin.o -L/usr/local/opt/libffi/lib -L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2 -L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc -L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/lib -L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/lib -L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib CMakeFiles/cmTC_670bb.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtend.o /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crtn.o
+
+
+
+Parsed CXX implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include/c++/4.9.2]
+    add: [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include/c++/4.9.2/arm-unknown-linux-gnueabihf]
+    add: [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include/c++/4.9.2/backward]
+    add: [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include]
+    add: [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include-fixed]
+    add: [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include]
+    add: [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/include]
+  end of search list found
+  collapse include dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include/c++/4.9.2] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/include/c++/4.9.2]
+  collapse include dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include/c++/4.9.2/arm-unknown-linux-gnueabihf] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/include/c++/4.9.2/arm-unknown-linux-gnueabihf]
+  collapse include dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include/c++/4.9.2/backward] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/include/c++/4.9.2/backward]
+  collapse include dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include]
+  collapse include dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include-fixed] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include-fixed]
+  collapse include dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/include]
+  collapse include dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/include] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/include]
+  implicit include dirs: [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/include/c++/4.9.2;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/include/c++/4.9.2/arm-unknown-linux-gnueabihf;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/include/c++/4.9.2/backward;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include-fixed;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/include;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/include]
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(arm-unknown-linux-gnueabihf-ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /Volumes/git/m1-sdk/lib/_builds/raspberrypi2-cxx11-Release/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):/usr/bin/make -f Makefile cmTC_670bb/fast && /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_670bb.dir/build.make CMakeFiles/cmTC_670bb.dir/build]
+  ignore line: [Building CXX object CMakeFiles/cmTC_670bb.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-g++   -munaligned-access -mlittle-endian -mfloat-abi=hard -mfpu=neon-vfpv4 -mcpu=cortex-a7 --sysroot=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot -std=c++11    -v -std=c++11 -o CMakeFiles/cmTC_670bb.dir/CMakeCXXCompilerABI.cpp.o -c /usr/local/Cellar/cmake/3.21.4/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-g++]
+  ignore line: [Target: arm-unknown-linux-gnueabihf]
+  ignore line: [Configured with: /Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/src/gcc-4.9.2/configure --build=x86_64-build_apple-darwin13.3.0 --host=x86_64-build_apple-darwin13.3.0 --target=arm-unknown-linux-gnueabihf --prefix=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf --with-sysroot=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot --enable-languages=c c++ --with-cpu=cortex-a7 --with-fpu=neon-vfpv4 --with-float=hard --with-pkgversion='crosstool-NG 1.21.0' --enable-__cxa_atexit --disable-libmudflap --disable-libgomp --disable-libssp --disable-libquadmath --disable-libquadmath-support --disable-libsanitizer --with-gmp=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-mpfr=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-mpc=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-isl=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-cloog=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-libelf=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --enable-threads=posix --enable-target-optspace --disable-nls --disable-multilib --with-local-prefix=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot --enable-c99 --enable-long-long]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 4.9.2 (crosstool-NG 1.21.0) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-munaligned-access' '-mlittle-endian' '-mfloat-abi=hard' '-mfpu=neon-vfpv4' '-mcpu=cortex-a7' '-std=c++11' '-v' '-std=c++11' '-o' 'CMakeFiles/cmTC_670bb.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtls-dialect=gnu']
+  ignore line: [ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/cc1plus -quiet -v -iprefix /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/ -isysroot /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot -D_GNU_SOURCE /usr/local/Cellar/cmake/3.21.4/share/cmake/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -munaligned-access -mlittle-endian -mfloat-abi=hard -mfpu=neon-vfpv4 -mcpu=cortex-a7 -mtls-dialect=gnu -auxbase-strip CMakeFiles/cmTC_670bb.dir/CMakeCXXCompilerABI.cpp.o -std=c++11 -std=c++11 -version -o /var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//ccxs1Knk.s]
+  ignore line: [GNU C++ (crosstool-NG 1.21.0) version 4.9.2 (arm-unknown-linux-gnueabihf)]
+  ignore line: [	compiled by GNU C version 4.9.3  GMP version 6.0.0  MPFR version 3.1.2  MPC version 1.0.2]
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring duplicate directory "/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/../../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include/c++/4.9.2"]
+  ignore line: [ignoring duplicate directory "/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/../../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include/c++/4.9.2/arm-unknown-linux-gnueabihf"]
+  ignore line: [ignoring duplicate directory "/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/../../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include/c++/4.9.2/backward"]
+  ignore line: [ignoring duplicate directory "/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/../../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include"]
+  ignore line: [ignoring nonexistent directory "/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/include"]
+  ignore line: [ignoring duplicate directory "/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/../../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include-fixed"]
+  ignore line: [ignoring duplicate directory "/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/../../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include/c++/4.9.2]
+  ignore line: [ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include/c++/4.9.2/arm-unknown-linux-gnueabihf]
+  ignore line: [ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include/c++/4.9.2/backward]
+  ignore line: [ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include]
+  ignore line: [ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/include-fixed]
+  ignore line: [ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/include]
+  ignore line: [ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C++ (crosstool-NG 1.21.0) version 4.9.2 (arm-unknown-linux-gnueabihf)]
+  ignore line: [	compiled by GNU C version 4.9.3  GMP version 6.0.0  MPFR version 3.1.2  MPC version 1.0.2]
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: 594e5622680a68ce54ad89b29b74ed01]
+  ignore line: [COLLECT_GCC_OPTIONS='-munaligned-access' '-mlittle-endian' '-mfloat-abi=hard' '-mfpu=neon-vfpv4' '-mcpu=cortex-a7' '-std=c++11' '-v' '-std=c++11' '-o' 'CMakeFiles/cmTC_670bb.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtls-dialect=gnu']
+  ignore line: [ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/bin/as -v -EL -mcpu=cortex-a7 -mfloat-abi=hard -mfpu=neon-vfpv4 -meabi=5 -o CMakeFiles/cmTC_670bb.dir/CMakeCXXCompilerABI.cpp.o /var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//ccxs1Knk.s]
+  ignore line: [GNU assembler version 2.25 (arm-unknown-linux-gnueabihf) using BFD version (crosstool-NG 1.21.0) 2.25]
+  ignore line: [COMPILER_PATH=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/bin/]
+  ignore line: [LIBRARY_PATH=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/lib/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/lib/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-munaligned-access' '-mlittle-endian' '-mfloat-abi=hard' '-mfpu=neon-vfpv4' '-mcpu=cortex-a7' '-std=c++11' '-v' '-std=c++11' '-o' 'CMakeFiles/cmTC_670bb.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtls-dialect=gnu']
+  ignore line: [Linking CXX executable cmTC_670bb]
+  ignore line: [/usr/local/Cellar/cmake/3.21.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_670bb.dir/link.txt --verbose=1]
+  ignore line: [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-g++ -munaligned-access -mlittle-endian -mfloat-abi=hard -mfpu=neon-vfpv4 -mcpu=cortex-a7 --sysroot=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot -std=c++11  -L/usr/local/opt/libffi/lib -v CMakeFiles/cmTC_670bb.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_670bb ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-g++]
+  ignore line: [COLLECT_LTO_WRAPPER=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/lto-wrapper]
+  ignore line: [Target: arm-unknown-linux-gnueabihf]
+  ignore line: [Configured with: /Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/src/gcc-4.9.2/configure --build=x86_64-build_apple-darwin13.3.0 --host=x86_64-build_apple-darwin13.3.0 --target=arm-unknown-linux-gnueabihf --prefix=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf --with-sysroot=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot --enable-languages=c c++ --with-cpu=cortex-a7 --with-fpu=neon-vfpv4 --with-float=hard --with-pkgversion='crosstool-NG 1.21.0' --enable-__cxa_atexit --disable-libmudflap --disable-libgomp --disable-libssp --disable-libquadmath --disable-libquadmath-support --disable-libsanitizer --with-gmp=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-mpfr=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-mpc=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-isl=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-cloog=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --with-libelf=/Volumes/Crosstool-NG/crosstool-ng-1.12.0-bin/bin/.build/arm-unknown-linux-gnueabihf/buildtools --enable-threads=posix --enable-target-optspace --disable-nls --disable-multilib --with-local-prefix=/Volumes/RaspberryPiCrossCompiler/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot --enable-c99 --enable-long-long]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 4.9.2 (crosstool-NG 1.21.0) ]
+  ignore line: [COMPILER_PATH=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/bin/]
+  ignore line: [LIBRARY_PATH=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/lib/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/lib/:/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-munaligned-access' '-mlittle-endian' '-mfloat-abi=hard' '-mfpu=neon-vfpv4' '-mcpu=cortex-a7' '-std=c++11' '-L/usr/local/opt/libffi/lib' '-v' '-o' 'cmTC_670bb' '-shared-libgcc' '-mtls-dialect=gnu']
+  link line: [ /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/collect2 -plugin /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/liblto_plugin.so -plugin-opt=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/lto-wrapper -plugin-opt=-fresolution=/var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//ccUpPOA0.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot --eh-frame-hdr -dynamic-linker /lib/ld-linux-armhf.so.3 -X -EL -m armelf_linux_eabi -o cmTC_670bb /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crt1.o /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crti.o /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtbegin.o -L/usr/local/opt/libffi/lib -L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2 -L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc -L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/lib -L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/lib -L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib CMakeFiles/cmTC_670bb.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtend.o /Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crtn.o]
+    arg [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/collect2] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/liblto_plugin.so] ==> ignore
+    arg [-plugin-opt=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../libexec/gcc/arm-unknown-linux-gnueabihf/4.9.2/lto-wrapper] ==> ignore
+    arg [-plugin-opt=-fresolution=/var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//ccUpPOA0.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [--sysroot=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/lib/ld-linux-armhf.so.3] ==> ignore
+    arg [-X] ==> ignore
+    arg [-EL] ==> ignore
+    arg [-m] ==> ignore
+    arg [armelf_linux_eabi] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_670bb] ==> ignore
+    arg [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crt1.o] ==> obj [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crt1.o]
+    arg [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crti.o] ==> obj [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crti.o]
+    arg [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtbegin.o] ==> obj [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtbegin.o]
+    arg [-L/usr/local/opt/libffi/lib] ==> dir [/usr/local/opt/libffi/lib]
+    arg [-L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2] ==> dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2]
+    arg [-L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc] ==> dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc]
+    arg [-L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/lib] ==> dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/lib]
+    arg [-L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/lib] ==> dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/lib]
+    arg [-L/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib] ==> dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib]
+    arg [CMakeFiles/cmTC_670bb.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [-lstdc++] ==> lib [stdc++]
+    arg [-lm] ==> lib [m]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lc] ==> lib [c]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtend.o] ==> obj [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtend.o]
+    arg [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crtn.o] ==> obj [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crtn.o]
+  collapse obj [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtbegin.o] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtbegin.o]
+  collapse obj [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtend.o] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtend.o]
+  collapse library dir [/usr/local/opt/libffi/lib] ==> [/usr/local/opt/libffi/lib]
+  collapse library dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc/arm-unknown-linux-gnueabihf/4.9.2]
+  collapse library dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc]
+  collapse library dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/../lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/../../../../arm-unknown-linux-gnueabihf/lib] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/lib]
+  collapse library dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/lib] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/lib]
+  collapse library dir [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib] ==> [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib]
+  implicit libs: [stdc++;m;gcc_s;gcc;c;gcc_s;gcc]
+  implicit objs: [/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crt1.o;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crti.o;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtbegin.o;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc/arm-unknown-linux-gnueabihf/4.9.2/crtend.o;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib/crtn.o]
+  implicit dirs: [/usr/local/opt/libffi/lib;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc/arm-unknown-linux-gnueabihf/4.9.2;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/lib/gcc;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/lib;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/lib;/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot/usr/lib]
+  implicit fwks: []
+
+
+
+
+Detecting CXX [-std=c++14] compiler features compiled with the following output:
+Change Dir: /Volumes/git/m1-sdk/lib/_builds/raspberrypi2-cxx11-Release/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make -f Makefile cmTC_1e2f5/fast && /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_1e2f5.dir/build.make CMakeFiles/cmTC_1e2f5.dir/build
+Building CXX object CMakeFiles/cmTC_1e2f5.dir/feature_tests.cxx.o
+/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-g++   -munaligned-access -mlittle-endian -mfloat-abi=hard -mfpu=neon-vfpv4 -mcpu=cortex-a7 --sysroot=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot -std=c++11    -std=c++14 -std=c++11 -o CMakeFiles/cmTC_1e2f5.dir/feature_tests.cxx.o -c /Volumes/git/m1-sdk/lib/_builds/raspberrypi2-cxx11-Release/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_1e2f5
+/usr/local/Cellar/cmake/3.21.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1e2f5.dir/link.txt --verbose=1
+/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/arm-unknown-linux-gnueabihf-g++ -munaligned-access -mlittle-endian -mfloat-abi=hard -mfpu=neon-vfpv4 -mcpu=cortex-a7 --sysroot=/Volumes/git/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot -std=c++11  -L/usr/local/opt/libffi/lib  CMakeFiles/cmTC_1e2f5.dir/feature_tests.cxx.o -o cmTC_1e2f5 
+
+
+
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+    Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:0cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:0cxx_binary_literals
+    Feature record: CXX_FEATURE:0cxx_contextual_conversions
+    Feature record: CXX_FEATURE:0cxx_decltype_auto
+    Feature record: CXX_FEATURE:0cxx_digit_separators
+    Feature record: CXX_FEATURE:0cxx_generic_lambdas
+    Feature record: CXX_FEATURE:0cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:0cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:0cxx_return_type_deduction
+    Feature record: CXX_FEATURE:0cxx_variable_templates

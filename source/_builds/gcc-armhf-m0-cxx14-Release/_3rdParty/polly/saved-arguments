@@ -1,0 +1,1 @@
+"cmake" "-H." "-B/Volumes/git/m1-sdk/lib/_builds/gcc-armhf-m0-cxx14-Release" "-DCMAKE_BUILD_TYPE=Release" "-GUnix Makefiles" "-DCMAKE_TOOLCHAIN_FILE=/Volumes/git/polly/gcc-armhf-m0-cxx14.cmake" "-DCMAKE_INSTALL_PREFIX=/Volumes/git/m1-sdk/lib/_install/gcc-armhf-m0-cxx14"

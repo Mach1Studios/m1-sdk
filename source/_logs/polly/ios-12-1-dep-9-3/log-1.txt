@@ -1,0 +1,38 @@
+Execute command: [
+  `which`
+  `cmake`
+]
+[/Volumes/git/m1-sdk/lib]> "which" "cmake"
+/usr/local/bin/cmake
+Execute command: [
+  `cmake`
+  `--version`
+]
+[/Volumes/git/m1-sdk/lib]> "cmake" "--version"
+cmake version 3.21.4
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+Execute command: [
+  `cmake`
+  `-H.`
+  `-B/Volumes/git/m1-sdk/lib/_builds/ios-12-1-dep-9-3`
+  `-GXcode`
+  `-DCMAKE_TOOLCHAIN_FILE=/Volumes/git/polly/ios-12-1-dep-9-3.cmake`
+  `-DCMAKE_XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH=NO`
+  `-DCMAKE_IOS_INSTALL_COMBINED=YES`
+  `-DCMAKE_INSTALL_PREFIX=/Volumes/git/m1-sdk/lib/_install/ios-12-1-dep-9-3`
+]
+[/Volumes/git/m1-sdk/lib]> "cmake" "-H." "-B/Volumes/git/m1-sdk/lib/_builds/ios-12-1-dep-9-3" "-GXcode" "-DCMAKE_TOOLCHAIN_FILE=/Volumes/git/polly/ios-12-1-dep-9-3.cmake" "-DCMAKE_XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH=NO" "-DCMAKE_IOS_INSTALL_COMBINED=YES" "-DCMAKE_INSTALL_PREFIX=/Volumes/git/m1-sdk/lib/_install/ios-12-1-dep-9-3"
+-- [polly] Used toolchain: iOS 12.1 / Deployment 9.3 / Universal (iphoneos + iphonesimulator) / clang / bitcode / c++14 support
+
+iOS version `12.1` not found (64)
+
+CMake Error at /Volumes/git/polly/utilities/polly_fatal_error.cmake:10 (message):
+Call Stack (most recent call first):
+  /Volumes/git/polly/os/iphone.cmake:63 (polly_fatal_error)
+  /Volumes/git/polly/ios-12-1-dep-9-3.cmake:40 (include)
+  /usr/local/Cellar/cmake/3.21.4/share/cmake/Modules/CMakeDetermineSystem.cmake:124 (include)
+  CMakeLists.txt:2 (project)
+
+
+-- Configuring incomplete, errors occurred!

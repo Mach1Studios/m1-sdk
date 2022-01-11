@@ -386,3 +386,5 @@ freeline_project_description.json
 #except *.dll
 !**/libs/**
 !**/libs/*/*.dll
+!**/source/**
+!**/source/*/*.dll

@@ -1,0 +1,11 @@
+/Volumes/git/m1-sdk/lib/_builds/raspberrypi3-cxx11-Release/CMakeFiles/install/strip.dir
+/Volumes/git/m1-sdk/lib/_builds/raspberrypi3-cxx11-Release/CMakeFiles/install.dir
+/Volumes/git/m1-sdk/lib/_builds/raspberrypi3-cxx11-Release/CMakeFiles/list_install_components.dir
+/Volumes/git/m1-sdk/lib/_builds/raspberrypi3-cxx11-Release/CMakeFiles/rebuild_cache.dir
+/Volumes/git/m1-sdk/lib/_builds/raspberrypi3-cxx11-Release/CMakeFiles/Mach1DecodeMINCAPIstatic.dir
+/Volumes/git/m1-sdk/lib/_builds/raspberrypi3-cxx11-Release/CMakeFiles/Mach1TranscodeCAPIstatic.dir
+/Volumes/git/m1-sdk/lib/_builds/raspberrypi3-cxx11-Release/CMakeFiles/Mach1EncodeCAPIstatic.dir
+/Volumes/git/m1-sdk/lib/_builds/raspberrypi3-cxx11-Release/CMakeFiles/install/local.dir
+/Volumes/git/m1-sdk/lib/_builds/raspberrypi3-cxx11-Release/CMakeFiles/Mach1DecodePositionalCAPIstatic.dir
+/Volumes/git/m1-sdk/lib/_builds/raspberrypi3-cxx11-Release/CMakeFiles/edit_cache.dir
+/Volumes/git/m1-sdk/lib/_builds/raspberrypi3-cxx11-Release/CMakeFiles/Mach1DecodeCAPIstatic.dir

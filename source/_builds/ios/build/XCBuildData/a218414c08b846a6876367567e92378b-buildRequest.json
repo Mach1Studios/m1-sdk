@@ -1,0 +1,110 @@
+{
+  "_buildCommand2" : {
+    "command" : "prepareForIndexing",
+    "enableIndexBuildArena" : false,
+    "targets" : null
+  },
+  "buildCommand" : "build",
+  "configuredTargets" : [
+    {
+      "guid" : "d98745e42c07c5beb86510f84a6881e2b12cc3f0a3474cae117d63606f270fc5"
+    },
+    {
+      "guid" : "d98745e42c07c5beb86510f84a6881e2e6c2a67949f041aa076a55d5b6999467"
+    },
+    {
+      "guid" : "d98745e42c07c5beb86510f84a6881e2023b91b118566e47047c70777ddc65a3"
+    },
+    {
+      "guid" : "d98745e42c07c5beb86510f84a6881e2f717f250dba052fdbda1e16e91816515"
+    },
+    {
+      "guid" : "d98745e42c07c5beb86510f84a6881e2e6780b5655d161837edcdc8a22ea5135"
+    },
+    {
+      "guid" : "d98745e42c07c5beb86510f84a6881e2c9adf48c9019920ec59756b081a0a3ee"
+    },
+    {
+      "guid" : "d98745e42c07c5beb86510f84a6881e20a4a6f98c96ef7db5bb9244ce72c3b27"
+    },
+    {
+      "guid" : "d98745e42c07c5beb86510f84a6881e2d3256a037af9aa59b5eaf7d8891730aa"
+    },
+    {
+      "guid" : "d98745e42c07c5beb86510f84a6881e2968add6b74867a943f42c4db7f10ef15"
+    },
+    {
+      "guid" : "d98745e42c07c5beb86510f84a6881e2b8643462f355800fd23ea4c3d7920c61"
+    },
+    {
+      "guid" : "d98745e42c07c5beb86510f84a6881e2b51dab80d3319b5b407b31deb88ceadb"
+    },
+    {
+      "guid" : "d98745e42c07c5beb86510f84a6881e273f86656d58d7bf27ff3598ca3be2e2c"
+    },
+    {
+      "guid" : "d98745e42c07c5beb86510f84a6881e2f584964ad2a336eff3b774dc945da26e"
+    },
+    {
+      "guid" : "d98745e42c07c5beb86510f84a6881e2c08cba0d63340e10139ff95f2825b000"
+    },
+    {
+      "guid" : "d98745e42c07c5beb86510f84a6881e24c3c45f5a245a42c9c3eb468e487a6f3"
+    },
+    {
+      "guid" : "d98745e42c07c5beb86510f84a6881e20cb8521cadd48673b1aae64b09cfb23e"
+    }
+  ],
+  "containerPath" : "/Volumes/git/m1-sdk/lib/_builds/ios/Mach1SpatialLibraries.xcodeproj",
+  "continueBuildingAfterErrors" : true,
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "build",
+    "activeArchitecture" : "arm64e",
+    "activeRunDestination" : {
+      "disableOnlyActiveArch" : true,
+      "platform" : "iphoneos",
+      "sdk" : "iphoneos15.0",
+      "sdkVariant" : "iphoneos",
+      "supportedArchitectures" : [
+        "armv4t",
+        "armv5",
+        "armv6",
+        "armv7",
+        "armv7f",
+        "armv7s",
+        "armv7k",
+        "arm64",
+        "arm64e"
+      ],
+      "targetArchitecture" : "arm64e"
+    },
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "",
+      "buildProductsPath" : "",
+      "derivedDataPath" : "/Users/dylanmarcus/Library/Developer/Xcode/DerivedData",
+      "indexDataStoreFolderPath" : "/Users/dylanmarcus/Library/Developer/Xcode/DerivedData/Mach1SpatialLibraries-altkjbyrcckjofbbtuwlpslggsir/Index/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Users/dylanmarcus/Library/Developer/Xcode/DerivedData/Mach1SpatialLibraries-altkjbyrcckjofbbtuwlpslggsir/Index/PrecompiledHeaders",
+      "pchPath" : ""
+    },
+    "configurationName" : "Debug",
+    "overrides" : {
+      "synthesized" : {
+        "table" : {
+          "ENABLE_PREVIEWS" : "NO"
+        }
+      }
+    }
+  },
+  "qos" : "default",
+  "schemeCommand" : "launch",
+  "schemeCommand2" : "launch",
+  "shouldCollectMetrics" : false,
+  "showNonLoggedProgress" : true,
+  "useDryRun" : true,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}

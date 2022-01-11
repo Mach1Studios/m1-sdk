@@ -1,0 +1,1 @@
+"cmake" "-H." "-B/Volumes/git/m1-sdk/lib/_builds/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx-Release" "-DCMAKE_BUILD_TYPE=Release" "-GUnix Makefiles" "-DCMAKE_TOOLCHAIN_FILE=/Volumes/git/polly/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx.cmake" "-DCMAKE_INSTALL_PREFIX=/Volumes/git/m1-sdk/lib/_install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx"

@@ -1,0 +1,801 @@
+Execute command: [
+  `which`
+  `cmake`
+]
+[/Volumes/git/m1-sdk/lib]> "which" "cmake"
+/usr/local/bin/cmake
+Execute command: [
+  `cmake`
+  `--version`
+]
+[/Volumes/git/m1-sdk/lib]> "cmake" "--version"
+cmake version 3.19.3
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+Execute command: [
+  `cmake`
+  `-H.`
+  `-B/Volumes/git/m1-sdk/lib/_builds/android-ndk-r16b-api-21-x86-clang-libcxx-Release`
+  `-DCMAKE_BUILD_TYPE=Release`
+  `-GUnix Makefiles`
+  `-DCMAKE_TOOLCHAIN_FILE=/Volumes/git/polly/android-ndk-r16b-api-21-x86-clang-libcxx.cmake`
+  `-DCMAKE_INSTALL_PREFIX=/Volumes/git/m1-sdk/lib/_install/android-ndk-r16b-api-21-x86-clang-libcxx`
+]
+[/Volumes/git/m1-sdk/lib]> "cmake" "-H." "-B/Volumes/git/m1-sdk/lib/_builds/android-ndk-r16b-api-21-x86-clang-libcxx-Release" "-DCMAKE_BUILD_TYPE=Release" "-GUnix Makefiles" "-DCMAKE_TOOLCHAIN_FILE=/Volumes/git/polly/android-ndk-r16b-api-21-x86-clang-libcxx.cmake" "-DCMAKE_INSTALL_PREFIX=/Volumes/git/m1-sdk/lib/_install/android-ndk-r16b-api-21-x86-clang-libcxx"
+-- [polly] Used toolchain: Android NDK r16b / API 21 / x86 / Clang / c++11 support / libc++ static
+-- Android: Targeting API '21' with architecture 'x86', ABI 'x86', and processor 'i686'
+-- Android: Selected unified Clang toolchain
+-- The C compiler identification is Clang 9.0.8
+-- The CXX compiler identification is Clang 9.0.8
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /Users/dylanmarcus/SDKs/Android/ndk/21.0.6113669/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /Users/dylanmarcus/SDKs/Android/ndk/21.0.6113669/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Volumes/git/m1-sdk/lib/_builds/android-ndk-r16b-api-21-x86-clang-libcxx-Release
+Execute command: [
+  `cmake`
+  `--build`
+  `/Volumes/git/m1-sdk/lib/_builds/android-ndk-r16b-api-21-x86-clang-libcxx-Release`
+  `--config`
+  `Release`
+  `--target`
+  `install`
+  `--`
+]
+[/Volumes/git/m1-sdk/lib]> "cmake" "--build" "/Volumes/git/m1-sdk/lib/_builds/android-ndk-r16b-api-21-x86-clang-libcxx-Release" "--config" "Release" "--target" "install" "--"
+Scanning dependencies of target Mach1TranscodeCAPIshared
+[  2%] Building CXX object CMakeFiles/Mach1TranscodeCAPIshared.dir/Mach1TranscodeCore.cpp.o
+In file included from /Volumes/git/m1-sdk/lib/Mach1TranscodeCore.cpp:4:
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1920:35: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::Empty, "None" },
+                                                ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1921:34: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FuMa, "FuMa" },
+                                               ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1922:37: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::ACNSN3D, "ACNSN3D" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1923:39: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1Horizon, "M1Horizon" },
+                                                    ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1924:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1HorizonS, "M1Horizon+S" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1925:44: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1HorizonPairs, "M1HorizonPairs" },
+                                                         ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1926:39: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1Spatial, "M1Spatial" },
+                                                    ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1927:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialS, "M1Spatial+S" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1928:44: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialPairs, "M1SpatialPairs" },
+                                                         ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1929:43: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialPlus, "M1SpatialPlus" },
+                                                        ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1930:47: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialPlusPlus, "M1SpatialPlusPlus" },
+                                                            ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1931:47: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialExtended, "M1SpatialExtended" },
+                                                            ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1932:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialExtendedPlus, "M1SpatialExtendedPlus" },
+                                                                ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1933:34: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::Mono, "Mono" },
+                                               ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1934:36: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::Stereo, "Stereo" },
+                                                 ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1935:33: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::LCR, "LCR" },
+                                              ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1936:36: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOh, "FiveOh" },
+                                                 ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1937:41: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneFilm, "FiveOneFilm" },
+                                                      ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1938:48: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneFilm_Cinema, "FiveOneFilm_Cinema" },
+                                                             ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1939:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneSmpte, "FiveOneSmpte" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1940:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneDts, "FiveOneDts" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1941:35: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SixOh, "SixOh" },
+                                                ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1942:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenOnePt, "SevenOnePt" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1943:47: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenOnePt_Cinema, "SevenOnePt_Cinema" },
+                                                            ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1944:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::ACNSN3DO2A, "ACNSN3DO2A" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1945:37: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FuMaO2A, "FuMaO2A" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1946:33: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::TBE, "TBE" },
+                                              ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1947:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::ACNSN3DO3A, "ACNSN3DO3A" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1948:37: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FuMaO3A, "FuMaO3A" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1949:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenOneSDDS, "SevenOneSDDS" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1950:43: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenZeroSDDS, "SevenZeroSDDS" },
+                                                        ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1951:41: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenOneTwo, "SevenOneTwo" },
+                                                      ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1952:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenZeroTwo, "SevenZeroTwo" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1953:37: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::NineOne, "NineOne" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1954:38: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::NineZero, "NineZero" },
+                                                   ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1955:43: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::Stereo_Cinema, "Stereo_Cinema" },
+                                                        ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1956:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneTwo, "FiveOneTwo" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1957:41: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveZeroTwo, "FiveZeroTwo" },
+                                                      ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1958:41: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneFour, "FiveOneFour" },
+                                                      ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1959:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveZeroFour, "FiveZeroFour" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1960:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenOneFour, "SevenOneFour" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1961:43: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenZeroFour, "SevenZeroFour" },
+                                                        ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1962:46: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenZero_Cinema, "SevenZero_Cinema" },
+                                                           ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1963:44: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialFaces, "M1SpatialFaces" },
+                                                         ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1964:41: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::NineOneFour, "NineOneFour" },
+                                                      ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1965:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::NineOneSix, "NineOneSix" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1966:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::MarcoSixteen, "MarcoSixteen" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1967:38: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::TTPoints, "TTPoints" },
+                                                   ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1968:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE1oa, "ACNSN3DmaxRE1oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1969:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE2oa, "ACNSN3DmaxRE2oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1970:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE3oa, "ACNSN3DmaxRE3oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1971:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE4oa, "ACNSN3DmaxRE4oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1972:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE5oa, "ACNSN3DmaxRE5oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1973:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE6oa, "ACNSN3DmaxRE6oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1974:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE7oa, "ACNSN3DmaxRE7oa" }
+                                                  ^
+55 warnings generated.
+[  4%] Building CXX object CMakeFiles/Mach1TranscodeCAPIshared.dir/Mach1TranscodeCAPI.cpp.o
+In file included from /Volumes/git/m1-sdk/lib/Mach1TranscodeCAPI.cpp:4:
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1920:35: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::Empty, "None" },
+                                                ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1921:34: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FuMa, "FuMa" },
+                                               ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1922:37: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::ACNSN3D, "ACNSN3D" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1923:39: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1Horizon, "M1Horizon" },
+                                                    ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1924:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1HorizonS, "M1Horizon+S" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1925:44: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1HorizonPairs, "M1HorizonPairs" },
+                                                         ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1926:39: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1Spatial, "M1Spatial" },
+                                                    ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1927:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialS, "M1Spatial+S" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1928:44: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialPairs, "M1SpatialPairs" },
+                                                         ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1929:43: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialPlus, "M1SpatialPlus" },
+                                                        ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1930:47: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialPlusPlus, "M1SpatialPlusPlus" },
+                                                            ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1931:47: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialExtended, "M1SpatialExtended" },
+                                                            ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1932:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialExtendedPlus, "M1SpatialExtendedPlus" },
+                                                                ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1933:34: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::Mono, "Mono" },
+                                               ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1934:36: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::Stereo, "Stereo" },
+                                                 ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1935:33: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::LCR, "LCR" },
+                                              ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1936:36: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOh, "FiveOh" },
+                                                 ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1937:41: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneFilm, "FiveOneFilm" },
+                                                      ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1938:48: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneFilm_Cinema, "FiveOneFilm_Cinema" },
+                                                             ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1939:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneSmpte, "FiveOneSmpte" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1940:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneDts, "FiveOneDts" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1941:35: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SixOh, "SixOh" },
+                                                ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1942:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenOnePt, "SevenOnePt" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1943:47: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenOnePt_Cinema, "SevenOnePt_Cinema" },
+                                                            ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1944:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::ACNSN3DO2A, "ACNSN3DO2A" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1945:37: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FuMaO2A, "FuMaO2A" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1946:33: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::TBE, "TBE" },
+                                              ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1947:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::ACNSN3DO3A, "ACNSN3DO3A" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1948:37: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FuMaO3A, "FuMaO3A" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1949:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenOneSDDS, "SevenOneSDDS" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1950:43: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenZeroSDDS, "SevenZeroSDDS" },
+                                                        ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1951:41: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenOneTwo, "SevenOneTwo" },
+                                                      ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1952:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenZeroTwo, "SevenZeroTwo" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1953:37: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::NineOne, "NineOne" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1954:38: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::NineZero, "NineZero" },
+                                                   ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1955:43: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::Stereo_Cinema, "Stereo_Cinema" },
+                                                        ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1956:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneTwo, "FiveOneTwo" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1957:41: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveZeroTwo, "FiveZeroTwo" },
+                                                      ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1958:41: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneFour, "FiveOneFour" },
+                                                      ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1959:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveZeroFour, "FiveZeroFour" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1960:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenOneFour, "SevenOneFour" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1961:43: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenZeroFour, "SevenZeroFour" },
+                                                        ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1962:46: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenZero_Cinema, "SevenZero_Cinema" },
+                                                           ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1963:44: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialFaces, "M1SpatialFaces" },
+                                                         ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1964:41: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::NineOneFour, "NineOneFour" },
+                                                      ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1965:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::NineOneSix, "NineOneSix" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1966:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::MarcoSixteen, "MarcoSixteen" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1967:38: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::TTPoints, "TTPoints" },
+                                                   ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1968:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE1oa, "ACNSN3DmaxRE1oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1969:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE2oa, "ACNSN3DmaxRE2oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1970:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE3oa, "ACNSN3DmaxRE3oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1971:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE4oa, "ACNSN3DmaxRE4oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1972:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE5oa, "ACNSN3DmaxRE5oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1973:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE6oa, "ACNSN3DmaxRE6oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1974:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE7oa, "ACNSN3DmaxRE7oa" }
+                                                  ^
+55 warnings generated.
+[  6%] Building CXX object CMakeFiles/Mach1TranscodeCAPIshared.dir/Mach1Point3DCore.cpp.o
+[  8%] Building CXX object CMakeFiles/Mach1TranscodeCAPIshared.dir/Mach1GenerateCoeffs.cpp.o
+[ 10%] Building CXX object CMakeFiles/Mach1TranscodeCAPIshared.dir/include/M1DSP/M1DSPFilters.cpp.o
+[ 13%] Building CXX object CMakeFiles/Mach1TranscodeCAPIshared.dir/include/M1DSP/M1DSPDynamics.cpp.o
+[ 15%] Building CXX object CMakeFiles/Mach1TranscodeCAPIshared.dir/include/M1DSP/M1DSPUtilities.cpp.o
+[ 17%] Linking CXX shared library libMach1TranscodeCAPI.so
+[ 17%] Built target Mach1TranscodeCAPIshared
+Scanning dependencies of target Mach1EncodeCAPIshared
+[ 19%] Building CXX object CMakeFiles/Mach1EncodeCAPIshared.dir/Mach1EncodeCAPI.cpp.o
+[ 21%] Building CXX object CMakeFiles/Mach1EncodeCAPIshared.dir/Mach1EncodeCore.cpp.o
+[ 23%] Building CXX object CMakeFiles/Mach1EncodeCAPIshared.dir/Mach1Point3DCore.cpp.o
+[ 26%] Linking CXX shared library libMach1EncodeCAPI.so
+[ 26%] Built target Mach1EncodeCAPIshared
+Scanning dependencies of target Mach1DecodePositionalCAPIshared
+[ 28%] Building CXX object CMakeFiles/Mach1DecodePositionalCAPIshared.dir/Mach1DecodePositionalCAPI.cpp.o
+[ 30%] Building CXX object CMakeFiles/Mach1DecodePositionalCAPIshared.dir/Mach1DecodeCore.cpp.o
+[ 32%] Building CXX object CMakeFiles/Mach1DecodePositionalCAPIshared.dir/Mach1DecodePositionalCore.cpp.o
+/Volumes/git/m1-sdk/lib/Mach1DecodePositionalCore.cpp:233:30: warning: assigning field to itself [-Wself-assign-field]
+        this->muteWhenOutsideObject = muteWhenOutsideObject;
+                                    ^
+1 warning generated.
+[ 34%] Building CXX object CMakeFiles/Mach1DecodePositionalCAPIshared.dir/Mach1Point3DCore.cpp.o
+[ 36%] Building CXX object CMakeFiles/Mach1DecodePositionalCAPIshared.dir/Mach1Point4DCore.cpp.o
+[ 39%] Linking CXX shared library libMach1DecodePositionalCAPI.so
+[ 39%] Built target Mach1DecodePositionalCAPIshared
+Scanning dependencies of target Mach1DecodeCAPIshared
+[ 41%] Building CXX object CMakeFiles/Mach1DecodeCAPIshared.dir/Mach1DecodeCAPI.cpp.o
+[ 43%] Building CXX object CMakeFiles/Mach1DecodeCAPIshared.dir/Mach1DecodeCore.cpp.o
+[ 45%] Building CXX object CMakeFiles/Mach1DecodeCAPIshared.dir/Mach1Point3DCore.cpp.o
+[ 47%] Building CXX object CMakeFiles/Mach1DecodeCAPIshared.dir/Mach1Point4DCore.cpp.o
+[ 50%] Linking CXX shared library libMach1DecodeCAPI.so
+[ 50%] Built target Mach1DecodeCAPIshared
+Scanning dependencies of target Mach1TranscodeCAPIstatic
+[ 52%] Building CXX object CMakeFiles/Mach1TranscodeCAPIstatic.dir/Mach1TranscodeCore.cpp.o
+In file included from /Volumes/git/m1-sdk/lib/Mach1TranscodeCore.cpp:4:
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1920:35: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::Empty, "None" },
+                                                ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1921:34: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FuMa, "FuMa" },
+                                               ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1922:37: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::ACNSN3D, "ACNSN3D" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1923:39: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1Horizon, "M1Horizon" },
+                                                    ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1924:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1HorizonS, "M1Horizon+S" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1925:44: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1HorizonPairs, "M1HorizonPairs" },
+                                                         ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1926:39: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1Spatial, "M1Spatial" },
+                                                    ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1927:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialS, "M1Spatial+S" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1928:44: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialPairs, "M1SpatialPairs" },
+                                                         ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1929:43: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialPlus, "M1SpatialPlus" },
+                                                        ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1930:47: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialPlusPlus, "M1SpatialPlusPlus" },
+                                                            ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1931:47: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialExtended, "M1SpatialExtended" },
+                                                            ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1932:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialExtendedPlus, "M1SpatialExtendedPlus" },
+                                                                ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1933:34: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::Mono, "Mono" },
+                                               ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1934:36: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::Stereo, "Stereo" },
+                                                 ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1935:33: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::LCR, "LCR" },
+                                              ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1936:36: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOh, "FiveOh" },
+                                                 ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1937:41: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneFilm, "FiveOneFilm" },
+                                                      ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1938:48: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneFilm_Cinema, "FiveOneFilm_Cinema" },
+                                                             ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1939:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneSmpte, "FiveOneSmpte" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1940:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneDts, "FiveOneDts" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1941:35: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SixOh, "SixOh" },
+                                                ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1942:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenOnePt, "SevenOnePt" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1943:47: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenOnePt_Cinema, "SevenOnePt_Cinema" },
+                                                            ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1944:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::ACNSN3DO2A, "ACNSN3DO2A" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1945:37: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FuMaO2A, "FuMaO2A" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1946:33: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::TBE, "TBE" },
+                                              ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1947:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::ACNSN3DO3A, "ACNSN3DO3A" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1948:37: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FuMaO3A, "FuMaO3A" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1949:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenOneSDDS, "SevenOneSDDS" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1950:43: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenZeroSDDS, "SevenZeroSDDS" },
+                                                        ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1951:41: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenOneTwo, "SevenOneTwo" },
+                                                      ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1952:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenZeroTwo, "SevenZeroTwo" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1953:37: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::NineOne, "NineOne" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1954:38: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::NineZero, "NineZero" },
+                                                   ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1955:43: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::Stereo_Cinema, "Stereo_Cinema" },
+                                                        ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1956:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneTwo, "FiveOneTwo" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1957:41: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveZeroTwo, "FiveZeroTwo" },
+                                                      ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1958:41: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneFour, "FiveOneFour" },
+                                                      ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1959:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveZeroFour, "FiveZeroFour" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1960:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenOneFour, "SevenOneFour" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1961:43: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenZeroFour, "SevenZeroFour" },
+                                                        ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1962:46: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenZero_Cinema, "SevenZero_Cinema" },
+                                                           ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1963:44: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialFaces, "M1SpatialFaces" },
+                                                         ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1964:41: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::NineOneFour, "NineOneFour" },
+                                                      ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1965:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::NineOneSix, "NineOneSix" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1966:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::MarcoSixteen, "MarcoSixteen" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1967:38: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::TTPoints, "TTPoints" },
+                                                   ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1968:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE1oa, "ACNSN3DmaxRE1oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1969:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE2oa, "ACNSN3DmaxRE2oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1970:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE3oa, "ACNSN3DmaxRE3oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1971:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE4oa, "ACNSN3DmaxRE4oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1972:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE5oa, "ACNSN3DmaxRE5oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1973:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE6oa, "ACNSN3DmaxRE6oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1974:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE7oa, "ACNSN3DmaxRE7oa" }
+                                                  ^
+55 warnings generated.
+[ 54%] Building CXX object CMakeFiles/Mach1TranscodeCAPIstatic.dir/Mach1TranscodeCAPI.cpp.o
+In file included from /Volumes/git/m1-sdk/lib/Mach1TranscodeCAPI.cpp:4:
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1920:35: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::Empty, "None" },
+                                                ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1921:34: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FuMa, "FuMa" },
+                                               ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1922:37: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::ACNSN3D, "ACNSN3D" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1923:39: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1Horizon, "M1Horizon" },
+                                                    ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1924:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1HorizonS, "M1Horizon+S" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1925:44: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1HorizonPairs, "M1HorizonPairs" },
+                                                         ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1926:39: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1Spatial, "M1Spatial" },
+                                                    ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1927:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialS, "M1Spatial+S" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1928:44: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialPairs, "M1SpatialPairs" },
+                                                         ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1929:43: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialPlus, "M1SpatialPlus" },
+                                                        ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1930:47: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialPlusPlus, "M1SpatialPlusPlus" },
+                                                            ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1931:47: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialExtended, "M1SpatialExtended" },
+                                                            ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1932:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialExtendedPlus, "M1SpatialExtendedPlus" },
+                                                                ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1933:34: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::Mono, "Mono" },
+                                               ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1934:36: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::Stereo, "Stereo" },
+                                                 ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1935:33: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::LCR, "LCR" },
+                                              ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1936:36: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOh, "FiveOh" },
+                                                 ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1937:41: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneFilm, "FiveOneFilm" },
+                                                      ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1938:48: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneFilm_Cinema, "FiveOneFilm_Cinema" },
+                                                             ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1939:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneSmpte, "FiveOneSmpte" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1940:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneDts, "FiveOneDts" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1941:35: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SixOh, "SixOh" },
+                                                ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1942:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenOnePt, "SevenOnePt" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1943:47: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenOnePt_Cinema, "SevenOnePt_Cinema" },
+                                                            ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1944:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::ACNSN3DO2A, "ACNSN3DO2A" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1945:37: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FuMaO2A, "FuMaO2A" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1946:33: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::TBE, "TBE" },
+                                              ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1947:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::ACNSN3DO3A, "ACNSN3DO3A" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1948:37: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FuMaO3A, "FuMaO3A" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1949:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenOneSDDS, "SevenOneSDDS" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1950:43: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenZeroSDDS, "SevenZeroSDDS" },
+                                                        ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1951:41: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenOneTwo, "SevenOneTwo" },
+                                                      ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1952:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenZeroTwo, "SevenZeroTwo" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1953:37: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::NineOne, "NineOne" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1954:38: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::NineZero, "NineZero" },
+                                                   ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1955:43: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::Stereo_Cinema, "Stereo_Cinema" },
+                                                        ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1956:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneTwo, "FiveOneTwo" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1957:41: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveZeroTwo, "FiveZeroTwo" },
+                                                      ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1958:41: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveOneFour, "FiveOneFour" },
+                                                      ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1959:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::FiveZeroFour, "FiveZeroFour" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1960:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenOneFour, "SevenOneFour" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1961:43: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenZeroFour, "SevenZeroFour" },
+                                                        ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1962:46: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::SevenZero_Cinema, "SevenZero_Cinema" },
+                                                           ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1963:44: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::M1SpatialFaces, "M1SpatialFaces" },
+                                                         ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1964:41: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::NineOneFour, "NineOneFour" },
+                                                      ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1965:40: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::NineOneSix, "NineOneSix" },
+                                                     ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1966:42: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::MarcoSixteen, "MarcoSixteen" },
+                                                       ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1967:38: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+                { Mach1TranscodeFormats::TTPoints, "TTPoints" },
+                                                   ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1968:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE1oa, "ACNSN3DmaxRE1oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1969:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE2oa, "ACNSN3DmaxRE2oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1970:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE3oa, "ACNSN3DmaxRE3oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1971:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE4oa, "ACNSN3DmaxRE4oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1972:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE5oa, "ACNSN3DmaxRE5oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1973:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE6oa, "ACNSN3DmaxRE6oa" },
+                                                  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1974:51: warning: ISO C++11 does not allow conversion from string literal to 'char *const' [-Wwritable-strings]
+        { Mach1TranscodeFormats::ACNSN3DmaxRE7oa, "ACNSN3DmaxRE7oa" }
+                                                  ^
+55 warnings generated.
+[ 56%] Building CXX object CMakeFiles/Mach1TranscodeCAPIstatic.dir/Mach1Point3DCore.cpp.o
+[ 58%] Building CXX object CMakeFiles/Mach1TranscodeCAPIstatic.dir/Mach1GenerateCoeffs.cpp.o
+[ 60%] Building CXX object CMakeFiles/Mach1TranscodeCAPIstatic.dir/include/M1DSP/M1DSPFilters.cpp.o
+[ 63%] Building CXX object CMakeFiles/Mach1TranscodeCAPIstatic.dir/include/M1DSP/M1DSPDynamics.cpp.o
+[ 65%] Building CXX object CMakeFiles/Mach1TranscodeCAPIstatic.dir/include/M1DSP/M1DSPUtilities.cpp.o
+[ 67%] Linking CXX static library static/libMach1TranscodeCAPI.a
+[ 67%] Built target Mach1TranscodeCAPIstatic
+Scanning dependencies of target Mach1EncodeCAPIstatic
+[ 69%] Building CXX object CMakeFiles/Mach1EncodeCAPIstatic.dir/Mach1EncodeCAPI.cpp.o
+[ 71%] Building CXX object CMakeFiles/Mach1EncodeCAPIstatic.dir/Mach1EncodeCore.cpp.o
+[ 73%] Building CXX object CMakeFiles/Mach1EncodeCAPIstatic.dir/Mach1Point3DCore.cpp.o
+[ 76%] Linking CXX static library static/libMach1EncodeCAPI.a
+[ 76%] Built target Mach1EncodeCAPIstatic
+Scanning dependencies of target Mach1DecodePositionalCAPIstatic
+[ 78%] Building CXX object CMakeFiles/Mach1DecodePositionalCAPIstatic.dir/Mach1DecodePositionalCAPI.cpp.o
+[ 80%] Building CXX object CMakeFiles/Mach1DecodePositionalCAPIstatic.dir/Mach1DecodeCore.cpp.o
+[ 82%] Building CXX object CMakeFiles/Mach1DecodePositionalCAPIstatic.dir/Mach1DecodePositionalCore.cpp.o
+/Volumes/git/m1-sdk/lib/Mach1DecodePositionalCore.cpp:233:30: warning: assigning field to itself [-Wself-assign-field]
+        this->muteWhenOutsideObject = muteWhenOutsideObject;
+                                    ^
+1 warning generated.
+[ 84%] Building CXX object CMakeFiles/Mach1DecodePositionalCAPIstatic.dir/Mach1Point3DCore.cpp.o
+[ 86%] Building CXX object CMakeFiles/Mach1DecodePositionalCAPIstatic.dir/Mach1Point4DCore.cpp.o
+[ 89%] Linking CXX static library static/libMach1DecodePositionalCAPI.a
+[ 89%] Built target Mach1DecodePositionalCAPIstatic
+Scanning dependencies of target Mach1DecodeCAPIstatic
+[ 91%] Building CXX object CMakeFiles/Mach1DecodeCAPIstatic.dir/Mach1DecodeCAPI.cpp.o
+[ 93%] Building CXX object CMakeFiles/Mach1DecodeCAPIstatic.dir/Mach1DecodeCore.cpp.o
+[ 95%] Building CXX object CMakeFiles/Mach1DecodeCAPIstatic.dir/Mach1Point3DCore.cpp.o
+[ 97%] Building CXX object CMakeFiles/Mach1DecodeCAPIstatic.dir/Mach1Point4DCore.cpp.o
+[100%] Linking CXX static library static/libMach1DecodeCAPI.a
+[100%] Built target Mach1DecodeCAPIstatic
+Install the project...
+-- Install configuration: "Release"
+-- Installing: /Volumes/git/m1-sdk/lib/_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1DecodeCAPI.a
+-- Installing: /Volumes/git/m1-sdk/lib/_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1DecodePositionalCAPI.a
+-- Installing: /Volumes/git/m1-sdk/lib/_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1EncodeCAPI.a
+-- Installing: /Volumes/git/m1-sdk/lib/_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1TranscodeCAPI.a
+-- Installing: /Volumes/git/m1-sdk/lib/_install/android-ndk-r16b-api-21-x86-clang-libcxx/libUnity/libMach1DecodeCAPI.so
+-- Installing: /Volumes/git/m1-sdk/lib/_install/android-ndk-r16b-api-21-x86-clang-libcxx/libUnity/libMach1DecodePositionalCAPI.so
+-- Installing: /Volumes/git/m1-sdk/lib/_install/android-ndk-r16b-api-21-x86-clang-libcxx/libUnity/libMach1EncodeCAPI.so
+-- Installing: /Volumes/git/m1-sdk/lib/_install/android-ndk-r16b-api-21-x86-clang-libcxx/libUnity/libMach1TranscodeCAPI.so

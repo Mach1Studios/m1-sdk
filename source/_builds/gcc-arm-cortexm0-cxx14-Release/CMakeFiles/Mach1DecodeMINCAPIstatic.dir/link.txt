@@ -1,0 +1,2 @@
+/usr/local/bin/arm-none-eabi-gcc-ar qc static/libMach1Decode-minifiedCAPI.a CMakeFiles/Mach1DecodeMINCAPIstatic.dir/Mach1DecodeMINCAPI.cpp.obj CMakeFiles/Mach1DecodeMINCAPIstatic.dir/Mach1DecodeMINCore.cpp.obj CMakeFiles/Mach1DecodeMINCAPIstatic.dir/Mach1Point3DCore.cpp.obj CMakeFiles/Mach1DecodeMINCAPIstatic.dir/Mach1Point4DCore.cpp.obj
+/usr/local/bin/arm-none-eabi-ranlib static/libMach1Decode-minifiedCAPI.a

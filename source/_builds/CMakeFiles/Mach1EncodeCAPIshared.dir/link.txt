@@ -1,0 +1,2 @@
+/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-ar qc libMach1EncodeCAPI.a CMakeFiles/Mach1EncodeCAPIshared.dir/Mach1EncodeCAPI.cpp.obj CMakeFiles/Mach1EncodeCAPIshared.dir/Mach1EncodeCore.cpp.obj CMakeFiles/Mach1EncodeCAPIshared.dir/Mach1Point3DCore.cpp.obj
+/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-ranlib libMach1EncodeCAPI.a

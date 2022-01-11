@@ -1,0 +1,2 @@
+/usr/local/bin/arm-none-eabi-gcc-ar qc static/libMach1DecodeCAPI.a CMakeFiles/Mach1DecodeCAPIstatic.dir/Mach1DecodeCAPI.cpp.obj CMakeFiles/Mach1DecodeCAPIstatic.dir/Mach1DecodeCore.cpp.obj CMakeFiles/Mach1DecodeCAPIstatic.dir/Mach1Point3DCore.cpp.obj CMakeFiles/Mach1DecodeCAPIstatic.dir/Mach1Point4DCore.cpp.obj
+/usr/local/bin/arm-none-eabi-ranlib static/libMach1DecodeCAPI.a

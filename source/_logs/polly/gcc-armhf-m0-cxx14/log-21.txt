@@ -1,0 +1,67 @@
+Execute command: [
+  `which`
+  `cmake`
+]
+[/Volumes/git/m1-sdk/lib]> "which" "cmake"
+/usr/local/bin/cmake
+Execute command: [
+  `cmake`
+  `--version`
+]
+[/Volumes/git/m1-sdk/lib]> "cmake" "--version"
+cmake version 3.20.0
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+Execute command: [
+  `cmake`
+  `-H.`
+  `-B/Volumes/git/m1-sdk/lib/_builds/gcc-armhf-m0-cxx14-Release`
+  `-DCMAKE_BUILD_TYPE=Release`
+  `-GUnix Makefiles`
+  `-DCMAKE_TOOLCHAIN_FILE=/Volumes/git/polly/gcc-armhf-m0-cxx14.cmake`
+  `-DCMAKE_INSTALL_PREFIX=/Volumes/git/m1-sdk/lib/_install/gcc-armhf-m0-cxx14`
+]
+[/Volumes/git/m1-sdk/lib]> "cmake" "-H." "-B/Volumes/git/m1-sdk/lib/_builds/gcc-armhf-m0-cxx14-Release" "-DCMAKE_BUILD_TYPE=Release" "-GUnix Makefiles" "-DCMAKE_TOOLCHAIN_FILE=/Volumes/git/polly/gcc-armhf-m0-cxx14.cmake" "-DCMAKE_INSTALL_PREFIX=/Volumes/git/m1-sdk/lib/_install/gcc-armhf-m0-cxx14"
+-- [polly] Used toolchain: Linux / gcc / armhf / c++14 support / cortex-m0
+-- The C compiler identification is GNU 10.2.1
+-- The CXX compiler identification is GNU 10.2.1
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/local/bin/arm-none-eabi-gcc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/local/bin/arm-none-eabi-g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Volumes/git/m1-sdk/lib/_builds/gcc-armhf-m0-cxx14-Release
+Execute command: [
+  `cmake`
+  `--build`
+  `/Volumes/git/m1-sdk/lib/_builds/gcc-armhf-m0-cxx14-Release`
+  `--config`
+  `Release`
+  `--target`
+  `install`
+  `--`
+]
+[/Volumes/git/m1-sdk/lib]> "cmake" "--build" "/Volumes/git/m1-sdk/lib/_builds/gcc-armhf-m0-cxx14-Release" "--config" "Release" "--target" "install" "--"
+[  4%] Building CXX object CMakeFiles/Mach1EncodeCAPIstatic.dir/Mach1EncodeCAPI.cpp.obj
+/Volumes/git/m1-sdk/lib/Mach1EncodeCAPI.cpp: In function 'void* Mach1EncodeCAPI_getResultingVolumesDecoded(void*, Mach1DecodeAlgoType, float*)':
+/Volumes/git/m1-sdk/lib/Mach1EncodeCAPI.cpp:202:129: warning: 'void M1EncodeCore::getResultingVolumesDecoded(Mach1DecodeAlgoType, float*, float*)' is deprecated [-Wdeprecated-declarations]
+  202 |  ((M1EncodeCore*)M1obj)->getResultingVolumesDecoded(decodeType, decodeResult, ((M1EncodeCore*)M1obj)->arr_ResultingCoeffsDecoded);
+      |                                                                                                                                 ^
+In file included from /Volumes/git/m1-sdk/lib/Mach1EncodeCAPI.cpp:4:
+/Volumes/git/m1-sdk/lib/Mach1EncodeCore.h:144:7: note: declared here
+  144 |  void getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, float *decodeResult, float *result);
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+[  8%] Building CXX object CMakeFiles/Mach1EncodeCAPIstatic.dir/Mach1EncodeCore.cpp.obj
+[ 13%] Building CXX object CMakeFiles/Mach1EncodeCAPIstatic.dir/Mach1Point3DCore.cpp.obj
+[ 17%] Linking CXX static library libMach1EncodeCAPI.a
+/usr/local/Caskroom/gcc-arm-embedded/10-2020-q4-major/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/bin/ar terminated with signal 9 [Killed: 9]
+make[2]: *** [libMach1EncodeCAPI.a] Error 1
+make[1]: *** [CMakeFiles/Mach1EncodeCAPIstatic.dir/all] Error 2
+make: *** [all] Error 2

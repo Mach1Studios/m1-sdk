@@ -1,0 +1,207 @@
+Execute command: [
+  `which`
+  `cmake`
+]
+[/Volumes/git/m1-sdk/lib]> "which" "cmake"
+/usr/local/bin/cmake
+Execute command: [
+  `cmake`
+  `--version`
+]
+[/Volumes/git/m1-sdk/lib]> "cmake" "--version"
+cmake version 3.20.0
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+Execute command: [
+  `cmake`
+  `-H.`
+  `-B/Volumes/git/m1-sdk/lib/_builds/gcc-armhf-neon-vfpv4-Release`
+  `-DCMAKE_BUILD_TYPE=Release`
+  `-GUnix Makefiles`
+  `-DCMAKE_TOOLCHAIN_FILE=/Volumes/git/polly/gcc-armhf-neon-vfpv4.cmake`
+  `-DCMAKE_INSTALL_PREFIX=/Volumes/git/m1-sdk/lib/_install/gcc-armhf-neon-vfpv4`
+]
+[/Volumes/git/m1-sdk/lib]> "cmake" "-H." "-B/Volumes/git/m1-sdk/lib/_builds/gcc-armhf-neon-vfpv4-Release" "-DCMAKE_BUILD_TYPE=Release" "-GUnix Makefiles" "-DCMAKE_TOOLCHAIN_FILE=/Volumes/git/polly/gcc-armhf-neon-vfpv4.cmake" "-DCMAKE_INSTALL_PREFIX=/Volumes/git/m1-sdk/lib/_install/gcc-armhf-neon-vfpv4"
+-- [polly] Used toolchain: Linux / gcc / armhf / c++11 support / neon-vfpv4
+-- The C compiler identification is GNU 8.3.0
+-- The CXX compiler identification is GNU 8.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /Users/dylanmarcus/SDKs/arm-mac-linux-gnueabihf/bin/arm-mac-linux-gnueabihf-gcc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /Users/dylanmarcus/SDKs/arm-mac-linux-gnueabihf/bin/arm-mac-linux-gnueabihf-g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Volumes/git/m1-sdk/lib/_builds/gcc-armhf-neon-vfpv4-Release
+Execute command: [
+  `cmake`
+  `--build`
+  `/Volumes/git/m1-sdk/lib/_builds/gcc-armhf-neon-vfpv4-Release`
+  `--config`
+  `Release`
+  `--target`
+  `install`
+  `--`
+]
+[/Volumes/git/m1-sdk/lib]> "cmake" "--build" "/Volumes/git/m1-sdk/lib/_builds/gcc-armhf-neon-vfpv4-Release" "--config" "Release" "--target" "install" "--"
+[  3%] Building CXX object CMakeFiles/Mach1DecodeMINCAPIstatic.dir/Mach1DecodeMINCAPI.cpp.o
+[  7%] Building CXX object CMakeFiles/Mach1DecodeMINCAPIstatic.dir/Mach1DecodeMINCore.cpp.o
+[ 10%] Building CXX object CMakeFiles/Mach1DecodeMINCAPIstatic.dir/Mach1Point3DCore.cpp.o
+[ 14%] Building CXX object CMakeFiles/Mach1DecodeMINCAPIstatic.dir/Mach1Point4DCore.cpp.o
+[ 17%] Linking CXX static library libMach1Decode-minifiedCAPI.a
+[ 17%] Built target Mach1DecodeMINCAPIstatic
+[ 21%] Building CXX object CMakeFiles/Mach1TranscodeCAPIstatic.dir/Mach1TranscodeCore.cpp.o
+In file included from /Volumes/git/m1-sdk/lib/Mach1TranscodeCore.cpp:4:
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+  };
+  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+[ 25%] Building CXX object CMakeFiles/Mach1TranscodeCAPIstatic.dir/Mach1TranscodeCAPI.cpp.o
+In file included from /Volumes/git/m1-sdk/lib/Mach1TranscodeCAPI.cpp:4:
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+  };
+  ^
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+/Volumes/git/m1-sdk/lib/Mach1TranscodeCore.h:1980:2: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+[ 28%] Building CXX object CMakeFiles/Mach1TranscodeCAPIstatic.dir/Mach1Point3DCore.cpp.o
+[ 32%] Building CXX object CMakeFiles/Mach1TranscodeCAPIstatic.dir/Mach1GenerateCoeffs.cpp.o
+[ 35%] Building CXX object CMakeFiles/Mach1TranscodeCAPIstatic.dir/include/M1DSP/M1DSPFilters.cpp.o
+[ 39%] Building CXX object CMakeFiles/Mach1TranscodeCAPIstatic.dir/include/M1DSP/M1DSPDynamics.cpp.o
+[ 42%] Building CXX object CMakeFiles/Mach1TranscodeCAPIstatic.dir/include/M1DSP/M1DSPUtilities.cpp.o
+[ 46%] Linking CXX static library libMach1TranscodeCAPI.a
+[ 46%] Built target Mach1TranscodeCAPIstatic
+[ 50%] Building CXX object CMakeFiles/Mach1EncodeCAPIstatic.dir/Mach1EncodeCAPI.cpp.o
+[ 53%] Building CXX object CMakeFiles/Mach1EncodeCAPIstatic.dir/Mach1EncodeCore.cpp.o
+[ 57%] Building CXX object CMakeFiles/Mach1EncodeCAPIstatic.dir/Mach1Point3DCore.cpp.o
+[ 60%] Linking CXX static library libMach1EncodeCAPI.a
+[ 60%] Built target Mach1EncodeCAPIstatic
+[ 64%] Building CXX object CMakeFiles/Mach1DecodePositionalCAPIstatic.dir/Mach1DecodePositionalCAPI.cpp.o
+[ 67%] Building CXX object CMakeFiles/Mach1DecodePositionalCAPIstatic.dir/Mach1DecodeCore.cpp.o
+[ 71%] Building CXX object CMakeFiles/Mach1DecodePositionalCAPIstatic.dir/Mach1DecodePositionalCore.cpp.o
+[ 75%] Building CXX object CMakeFiles/Mach1DecodePositionalCAPIstatic.dir/Mach1Point3DCore.cpp.o
+[ 78%] Building CXX object CMakeFiles/Mach1DecodePositionalCAPIstatic.dir/Mach1Point4DCore.cpp.o
+[ 82%] Linking CXX static library libMach1DecodePositionalCAPI.a
+[ 82%] Built target Mach1DecodePositionalCAPIstatic
+[ 85%] Building CXX object CMakeFiles/Mach1DecodeCAPIstatic.dir/Mach1DecodeCAPI.cpp.o
+[ 89%] Building CXX object CMakeFiles/Mach1DecodeCAPIstatic.dir/Mach1DecodeCore.cpp.o
+[ 92%] Building CXX object CMakeFiles/Mach1DecodeCAPIstatic.dir/Mach1Point3DCore.cpp.o
+[ 96%] Building CXX object CMakeFiles/Mach1DecodeCAPIstatic.dir/Mach1Point4DCore.cpp.o
+[100%] Linking CXX static library libMach1DecodeCAPI.a
+[100%] Built target Mach1DecodeCAPIstatic
+Install the project...
+-- Install configuration: "Release"
+-- Installing: /Volumes/git/m1-sdk/lib/_install/gcc-armhf-neon-vfpv4/lib/libMach1DecodeCAPI.a
+-- Installing: /Volumes/git/m1-sdk/lib/_install/gcc-armhf-neon-vfpv4/lib/libMach1DecodePositionalCAPI.a
+-- Installing: /Volumes/git/m1-sdk/lib/_install/gcc-armhf-neon-vfpv4/lib/libMach1EncodeCAPI.a
+-- Installing: /Volumes/git/m1-sdk/lib/_install/gcc-armhf-neon-vfpv4/lib/libMach1TranscodeCAPI.a
+-- Installing: /Volumes/git/m1-sdk/lib/_install/gcc-armhf-neon-vfpv4/lib/libMach1Decode-minifiedCAPI.a

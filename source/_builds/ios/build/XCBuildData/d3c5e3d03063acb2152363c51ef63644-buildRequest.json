@@ -1,0 +1,65 @@
+{
+  "_buildCommand2" : {
+    "command" : "build",
+    "skipDependencies" : false,
+    "style" : "buildOnly"
+  },
+  "buildCommand" : "build",
+  "configuredTargets" : [
+    {
+      "guid" : "d98745e42c07c5beb86510f84a6881e2b12cc3f0a3474cae117d63606f270fc5"
+    }
+  ],
+  "containerPath" : "/Volumes/git/m1-sdk/lib/_builds/ios/Mach1SpatialLibraries.xcodeproj",
+  "continueBuildingAfterErrors" : false,
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "build",
+    "activeArchitecture" : "arm64e",
+    "activeRunDestination" : {
+      "disableOnlyActiveArch" : true,
+      "platform" : "iphoneos",
+      "sdk" : "iphoneos15.0",
+      "sdkVariant" : "iphoneos",
+      "supportedArchitectures" : [
+        "armv4t",
+        "armv5",
+        "armv6",
+        "armv7",
+        "armv7f",
+        "armv7s",
+        "armv7k",
+        "arm64",
+        "arm64e"
+      ],
+      "targetArchitecture" : "arm64e"
+    },
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "",
+      "buildProductsPath" : "",
+      "derivedDataPath" : "/Users/dylanmarcus/Library/Developer/Xcode/DerivedData",
+      "indexDataStoreFolderPath" : "/Users/dylanmarcus/Library/Developer/Xcode/DerivedData/Mach1SpatialLibraries-altkjbyrcckjofbbtuwlpslggsir/Index/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Users/dylanmarcus/Library/Developer/Xcode/DerivedData/Mach1SpatialLibraries-altkjbyrcckjofbbtuwlpslggsir/Index/PrecompiledHeaders",
+      "pchPath" : ""
+    },
+    "configurationName" : "Debug",
+    "overrides" : {
+      "synthesized" : {
+        "table" : {
+          "ENABLE_PREVIEWS" : "NO"
+        }
+      }
+    }
+  },
+  "qos" : "default",
+  "schemeCommand" : "launch",
+  "schemeCommand2" : "launch",
+  "shouldCollectMetrics" : false,
+  "showNonLoggedProgress" : true,
+  "useDryRun" : false,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}

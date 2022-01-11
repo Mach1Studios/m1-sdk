@@ -1,0 +1,2 @@
+/usr/local/bin/arm-none-eabi-gcc-ar qc libMach1DecodePositionalCAPI.a CMakeFiles/Mach1DecodePositionalCAPIstatic.dir/Mach1DecodePositionalCAPI.cpp.obj CMakeFiles/Mach1DecodePositionalCAPIstatic.dir/Mach1DecodeCore.cpp.obj CMakeFiles/Mach1DecodePositionalCAPIstatic.dir/Mach1DecodePositionalCore.cpp.obj CMakeFiles/Mach1DecodePositionalCAPIstatic.dir/Mach1Point3DCore.cpp.obj CMakeFiles/Mach1DecodePositionalCAPIstatic.dir/Mach1Point4DCore.cpp.obj
+/usr/local/bin/arm-none-eabi-ranlib libMach1DecodePositionalCAPI.a

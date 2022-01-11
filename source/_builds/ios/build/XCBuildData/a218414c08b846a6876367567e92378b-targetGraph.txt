@@ -1,0 +1,45 @@
+Target dependency graph (16 targets)
+ZERO_CHECK in Mach1SpatialLibraries, no dependencies
+Mach1DecodePositionalCAPIframework in Mach1SpatialLibraries, depends on:
+ZERO_CHECK in Mach1SpatialLibraries (explicit)
+Mach1TranscodeCAPIshared in Mach1SpatialLibraries, depends on:
+ZERO_CHECK in Mach1SpatialLibraries (explicit)
+Mach1EncodeCAPIframework in Mach1SpatialLibraries, depends on:
+ZERO_CHECK in Mach1SpatialLibraries (explicit)
+Mach1EncodeCAPIshared in Mach1SpatialLibraries, depends on:
+ZERO_CHECK in Mach1SpatialLibraries (explicit)
+Mach1TranscodeCAPIframework in Mach1SpatialLibraries, depends on:
+ZERO_CHECK in Mach1SpatialLibraries (explicit)
+Mach1DecodePositionalCAPIshared in Mach1SpatialLibraries, depends on:
+ZERO_CHECK in Mach1SpatialLibraries (explicit)
+Mach1DecodeCAPIshared in Mach1SpatialLibraries, depends on:
+ZERO_CHECK in Mach1SpatialLibraries (explicit)
+Mach1DecodeCAPIstatic in Mach1SpatialLibraries, depends on:
+ZERO_CHECK in Mach1SpatialLibraries (explicit)
+Mach1DecodeMINCAPIstatic in Mach1SpatialLibraries, depends on:
+ZERO_CHECK in Mach1SpatialLibraries (explicit)
+Mach1TranscodeCAPIstatic in Mach1SpatialLibraries, depends on:
+ZERO_CHECK in Mach1SpatialLibraries (explicit)
+Mach1EncodeCAPIstatic in Mach1SpatialLibraries, depends on:
+ZERO_CHECK in Mach1SpatialLibraries (explicit)
+Mach1DecodeCAPIframework in Mach1SpatialLibraries, depends on:
+ZERO_CHECK in Mach1SpatialLibraries (explicit)
+Mach1DecodePositionalCAPIstatic in Mach1SpatialLibraries, depends on:
+ZERO_CHECK in Mach1SpatialLibraries (explicit)
+ALL_BUILD in Mach1SpatialLibraries, depends on:
+Mach1DecodePositionalCAPIframework in Mach1SpatialLibraries (explicit)
+ZERO_CHECK in Mach1SpatialLibraries (explicit)
+Mach1TranscodeCAPIshared in Mach1SpatialLibraries (explicit)
+Mach1EncodeCAPIframework in Mach1SpatialLibraries (explicit)
+Mach1EncodeCAPIshared in Mach1SpatialLibraries (explicit)
+Mach1TranscodeCAPIframework in Mach1SpatialLibraries (explicit)
+Mach1DecodePositionalCAPIshared in Mach1SpatialLibraries (explicit)
+Mach1DecodeCAPIshared in Mach1SpatialLibraries (explicit)
+Mach1DecodeCAPIstatic in Mach1SpatialLibraries (explicit)
+Mach1DecodeMINCAPIstatic in Mach1SpatialLibraries (explicit)
+Mach1TranscodeCAPIstatic in Mach1SpatialLibraries (explicit)
+Mach1EncodeCAPIstatic in Mach1SpatialLibraries (explicit)
+Mach1DecodeCAPIframework in Mach1SpatialLibraries (explicit)
+Mach1DecodePositionalCAPIstatic in Mach1SpatialLibraries (explicit)
+install in Mach1SpatialLibraries, depends on:
+ALL_BUILD in Mach1SpatialLibraries (explicit)

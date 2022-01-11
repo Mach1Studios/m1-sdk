@@ -1,0 +1,17 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/Mach1DecodeCAPIshared.dir/Mach1DecodeCAPI.cpp.obj"
+  "CMakeFiles/Mach1DecodeCAPIshared.dir/Mach1DecodeCAPI.cpp.obj.d"
+  "CMakeFiles/Mach1DecodeCAPIshared.dir/Mach1DecodeCore.cpp.obj"
+  "CMakeFiles/Mach1DecodeCAPIshared.dir/Mach1DecodeCore.cpp.obj.d"
+  "CMakeFiles/Mach1DecodeCAPIshared.dir/Mach1Point3DCore.cpp.obj"
+  "CMakeFiles/Mach1DecodeCAPIshared.dir/Mach1Point3DCore.cpp.obj.d"
+  "CMakeFiles/Mach1DecodeCAPIshared.dir/Mach1Point4DCore.cpp.obj"
+  "CMakeFiles/Mach1DecodeCAPIshared.dir/Mach1Point4DCore.cpp.obj.d"
+  "libMach1DecodeCAPI.a"
+  "libMach1DecodeCAPI.pdb"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/Mach1DecodeCAPIshared.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

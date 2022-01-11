@@ -1,0 +1,61 @@
+Execute command: [
+  `which`
+  `cmake`
+]
+[/Volumes/git/m1-sdk/lib]> "which" "cmake"
+/usr/local/bin/cmake
+Execute command: [
+  `cmake`
+  `--version`
+]
+[/Volumes/git/m1-sdk/lib]> "cmake" "--version"
+cmake version 3.20.0
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+Execute command: [
+  `cmake`
+  `-H.`
+  `-B/Volumes/git/m1-sdk/lib/_builds/gcc-armhf-neon-vfpv4-Release`
+  `-DCMAKE_BUILD_TYPE=Release`
+  `-GUnix Makefiles`
+  `-DCMAKE_TOOLCHAIN_FILE=/Volumes/git/polly/gcc-armhf-neon-vfpv4.cmake`
+  `-DCMAKE_INSTALL_PREFIX=/Volumes/git/m1-sdk/lib/_install/gcc-armhf-neon-vfpv4`
+]
+[/Volumes/git/m1-sdk/lib]> "cmake" "-H." "-B/Volumes/git/m1-sdk/lib/_builds/gcc-armhf-neon-vfpv4-Release" "-DCMAKE_BUILD_TYPE=Release" "-GUnix Makefiles" "-DCMAKE_TOOLCHAIN_FILE=/Volumes/git/polly/gcc-armhf-neon-vfpv4.cmake" "-DCMAKE_INSTALL_PREFIX=/Volumes/git/m1-sdk/lib/_install/gcc-armhf-neon-vfpv4"
+-- [polly] Used toolchain: Linux / gcc / armhf / c++11 support / neon-vfpv4
+-- The C compiler identification is GNU 8.3.0
+-- The CXX compiler identification is GNU 8.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - failed
+-- Check for working C compiler: /Users/dylanmarcus/SDKs/arm-mac-linux-gnueabihf/bin/arm-mac-linux-gnueabihf-gcc
+-- Check for working C compiler: /Users/dylanmarcus/SDKs/arm-mac-linux-gnueabihf/bin/arm-mac-linux-gnueabihf-gcc - works
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /Users/dylanmarcus/SDKs/arm-mac-linux-gnueabihf/bin/arm-mac-linux-gnueabihf-g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Volumes/git/m1-sdk/lib/_builds/gcc-armhf-neon-vfpv4-Release
+Execute command: [
+  `cmake`
+  `--build`
+  `/Volumes/git/m1-sdk/lib/_builds/gcc-armhf-neon-vfpv4-Release`
+  `--config`
+  `Release`
+  `--target`
+  `install`
+  `--`
+]
+[/Volumes/git/m1-sdk/lib]> "cmake" "--build" "/Volumes/git/m1-sdk/lib/_builds/gcc-armhf-neon-vfpv4-Release" "--config" "Release" "--target" "install" "--"
+[  3%] Building CXX object CMakeFiles/Mach1DecodeMINCAPIstatic.dir/Mach1DecodeMINCAPI.cpp.o
+[  7%] Building CXX object CMakeFiles/Mach1DecodeMINCAPIstatic.dir/Mach1DecodeMINCore.cpp.o
+[ 10%] Building CXX object CMakeFiles/Mach1DecodeMINCAPIstatic.dir/Mach1Point3DCore.cpp.o
+[ 14%] Building CXX object CMakeFiles/Mach1DecodeMINCAPIstatic.dir/Mach1Point4DCore.cpp.o
+[ 17%] Linking CXX static library libMach1Decode-minifiedCAPI.a
+Error running link command: Subprocess killed
+make[3]: *** [libMach1Decode-minifiedCAPI.a] Error 1
+make[2]: *** [CMakeFiles/Mach1DecodeMINCAPIstatic.dir/all] Error 2
+make[1]: *** [all] Error 2

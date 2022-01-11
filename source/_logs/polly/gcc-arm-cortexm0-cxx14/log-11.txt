@@ -1,0 +1,80 @@
+Execute command: [
+  `which`
+  `cmake`
+]
+[/Volumes/git/m1-sdk/lib]> "which" "cmake"
+/usr/local/bin/cmake
+Execute command: [
+  `cmake`
+  `--version`
+]
+[/Volumes/git/m1-sdk/lib]> "cmake" "--version"
+cmake version 3.20.0
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+Execute command: [
+  `cmake`
+  `-H.`
+  `-B/Volumes/git/m1-sdk/lib/_builds/gcc-arm-cortexm0-cxx14-Release`
+  `-DCMAKE_BUILD_TYPE=Release`
+  `-GUnix Makefiles`
+  `-DCMAKE_TOOLCHAIN_FILE=/Volumes/git/polly/gcc-arm-cortexm0-cxx14.cmake`
+  `-DCMAKE_INSTALL_PREFIX=/Volumes/git/m1-sdk/lib/_install/gcc-arm-cortexm0-cxx14`
+]
+[/Volumes/git/m1-sdk/lib]> "cmake" "-H." "-B/Volumes/git/m1-sdk/lib/_builds/gcc-arm-cortexm0-cxx14-Release" "-DCMAKE_BUILD_TYPE=Release" "-GUnix Makefiles" "-DCMAKE_TOOLCHAIN_FILE=/Volumes/git/polly/gcc-arm-cortexm0-cxx14.cmake" "-DCMAKE_INSTALL_PREFIX=/Volumes/git/m1-sdk/lib/_install/gcc-arm-cortexm0-cxx14"
+-- [polly] Used toolchain: Linux / gcc / armhf / c++14 support / cortex-m0
+-- The C compiler identification is GNU 10.2.1
+-- The CXX compiler identification is GNU 10.2.1
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/local/bin/arm-none-eabi-gcc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/local/bin/arm-none-eabi-g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Volumes/git/m1-sdk/lib/_builds/gcc-arm-cortexm0-cxx14-Release
+Execute command: [
+  `cmake`
+  `--build`
+  `/Volumes/git/m1-sdk/lib/_builds/gcc-arm-cortexm0-cxx14-Release`
+  `--config`
+  `Release`
+  `--target`
+  `install`
+  `--`
+]
+[/Volumes/git/m1-sdk/lib]> "cmake" "--build" "/Volumes/git/m1-sdk/lib/_builds/gcc-arm-cortexm0-cxx14-Release" "--config" "Release" "--target" "install" "--"
+[  3%] Building CXX object CMakeFiles/Mach1DecodeMINCAPIstatic.dir/Mach1DecodeMINCAPI.cpp.obj
+[  7%] Building CXX object CMakeFiles/Mach1DecodeMINCAPIstatic.dir/Mach1DecodeMINCore.cpp.obj
+/Volumes/git/m1-sdk/lib/Mach1DecodeMINCore.cpp:233:6: error: no declaration matches 'void Mach1DecodeCore::spatialAlgoSample(float, float, float, float*)'
+  233 | void Mach1DecodeCore::spatialAlgoSample(float Yaw, float Pitch, float Roll, float * result) {
+      |      ^~~~~~~~~~~~~~~
+/Volumes/git/m1-sdk/lib/Mach1DecodeMINCore.cpp:233:6: note: no functions named 'void Mach1DecodeCore::spatialAlgoSample(float, float, float, float*)'
+In file included from /Volumes/git/m1-sdk/lib/Mach1DecodeMINCore.cpp:22:
+/Volumes/git/m1-sdk/lib/Mach1DecodeMINCore.h:39:7: note: 'class Mach1DecodeCore' defined here
+   39 | class Mach1DecodeCore {
+      |       ^~~~~~~~~~~~~~~
+/Volumes/git/m1-sdk/lib/Mach1DecodeMINCore.cpp:258:20: error: no declaration matches 'std::vector<float> Mach1DecodeCore::spatialAlgoSample(float, float, float)'
+  258 | std::vector<float> Mach1DecodeCore::spatialAlgoSample(float Yaw, float Pitch, float Roll) {
+      |                    ^~~~~~~~~~~~~~~
+/Volumes/git/m1-sdk/lib/Mach1DecodeMINCore.cpp:258:20: note: no functions named 'std::vector<float> Mach1DecodeCore::spatialAlgoSample(float, float, float)'
+In file included from /Volumes/git/m1-sdk/lib/Mach1DecodeMINCore.cpp:22:
+/Volumes/git/m1-sdk/lib/Mach1DecodeMINCore.h:39:7: note: 'class Mach1DecodeCore' defined here
+   39 | class Mach1DecodeCore {
+      |       ^~~~~~~~~~~~~~~
+/Volumes/git/m1-sdk/lib/Mach1DecodeMINCore.cpp: In member function 'std::vector<float> Mach1DecodeCore::spatialAlgo(float, float, float, int, int)':
+/Volumes/git/m1-sdk/lib/Mach1DecodeMINCore.cpp:645:41: error: 'spatialAlgoSample' is not a member of 'Mach1DecodeCore'
+  645 |  return processSample(&Mach1DecodeCore::spatialAlgoSample, Yaw, Pitch, Roll, bufferSize, sampleIndex);
+      |                                         ^~~~~~~~~~~~~~~~~
+/Volumes/git/m1-sdk/lib/Mach1DecodeMINCore.cpp: In member function 'void Mach1DecodeCore::spatialAlgo(float, float, float, float*, int, int)':
+/Volumes/git/m1-sdk/lib/Mach1DecodeMINCore.cpp:649:37: error: 'spatialAlgoSample' is not a member of 'Mach1DecodeCore'
+  649 |     processSample(&Mach1DecodeCore::spatialAlgoSample, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+      |                                     ^~~~~~~~~~~~~~~~~
+make[3]: *** [CMakeFiles/Mach1DecodeMINCAPIstatic.dir/Mach1DecodeMINCore.cpp.obj] Error 1
+make[2]: *** [CMakeFiles/Mach1DecodeMINCAPIstatic.dir/all] Error 2
+make[1]: *** [all] Error 2

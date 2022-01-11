@@ -1,0 +1,9 @@
+/Volumes/git/m1-sdk/lib/_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1DecodeCAPI.a
+/Volumes/git/m1-sdk/lib/_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1DecodePositionalCAPI.a
+/Volumes/git/m1-sdk/lib/_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1EncodeCAPI.a
+/Volumes/git/m1-sdk/lib/_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1TranscodeCAPI.a
+/Volumes/git/m1-sdk/lib/_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib/libMach1Decode-minifiedCAPI.a
+/Volumes/git/m1-sdk/lib/_install/android-ndk-r16b-api-21-x86-clang-libcxx/libUnity/libMach1DecodeCAPI.so
+/Volumes/git/m1-sdk/lib/_install/android-ndk-r16b-api-21-x86-clang-libcxx/libUnity/libMach1DecodePositionalCAPI.so
+/Volumes/git/m1-sdk/lib/_install/android-ndk-r16b-api-21-x86-clang-libcxx/libUnity/libMach1EncodeCAPI.so
+/Volumes/git/m1-sdk/lib/_install/android-ndk-r16b-api-21-x86-clang-libcxx/libUnity/libMach1TranscodeCAPI.so

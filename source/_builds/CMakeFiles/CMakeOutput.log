@@ -1,0 +1,456 @@
+The target system is: Generic -  - arm
+The host system is: Darwin - 19.5.0 - x86_64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-gcc 
+Build flags: 
+Id flags: -c 
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+
+The C compiler identification is GNU, found in "/Volumes/git/m1-sdk/lib/_builds/CMakeFiles/3.20.0/CompilerIdC/CMakeCCompilerId.o"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-g++ 
+Build flags: 
+Id flags: -c 
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.o"
+
+The CXX compiler identification is GNU, found in "/Volumes/git/m1-sdk/lib/_builds/CMakeFiles/3.20.0/CompilerIdCXX/CMakeCXXCompilerId.o"
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-gcc 
+Build flags: 
+Id flags: -c 
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+
+The C compiler identification is GNU, found in "/Volumes/git/m1-sdk/lib/_builds/CMakeFiles/3.20.0/CompilerIdC/CMakeCCompilerId.o"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-g++ 
+Build flags: 
+Id flags: -c 
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.o"
+
+The CXX compiler identification is GNU, found in "/Volumes/git/m1-sdk/lib/_builds/CMakeFiles/3.20.0/CompilerIdCXX/CMakeCXXCompilerId.o"
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-gcc 
+Build flags: 
+Id flags: -c 
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+
+The C compiler identification is GNU, found in "/Volumes/git/m1-sdk/lib/_builds/CMakeFiles/3.20.0/CompilerIdC/CMakeCCompilerId.o"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-g++ 
+Build flags: 
+Id flags: -c 
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.o"
+
+The CXX compiler identification is GNU, found in "/Volumes/git/m1-sdk/lib/_builds/CMakeFiles/3.20.0/CompilerIdCXX/CMakeCXXCompilerId.o"
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-gcc 
+Build flags: 
+Id flags: -c 
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+
+The C compiler identification is GNU, found in "/Volumes/git/m1-sdk/lib/_builds/CMakeFiles/3.20.0/CompilerIdC/CMakeCCompilerId.o"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-g++ 
+Build flags: 
+Id flags: -c 
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.o"
+
+The CXX compiler identification is GNU, found in "/Volumes/git/m1-sdk/lib/_builds/CMakeFiles/3.20.0/CompilerIdCXX/CMakeCXXCompilerId.o"
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /Volumes/git/m1-sdk/lib/_builds/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make -f Makefile cmTC_a94e3/fast && /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_a94e3.dir/build.make CMakeFiles/cmTC_a94e3.dir/build
+Building C object CMakeFiles/cmTC_a94e3.dir/CMakeCCompilerABI.c.obj
+/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-gcc   -v -o CMakeFiles/cmTC_a94e3.dir/CMakeCCompilerABI.c.obj -c /usr/local/Cellar/cmake/3.20.0/share/cmake/Modules/CMakeCCompilerABI.c
+Using built-in specs.
+COLLECT_GCC=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-gcc
+Target: arm-none-eabi
+Configured with: /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/src/gcc/configure --target=arm-none-eabi --prefix=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native --libexecdir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib --infodir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/info --mandir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/man --htmldir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/html --pdfdir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/pdf --enable-languages=c,c++ --enable-plugins --disable-decimal-float --disable-libffi --disable-libgomp --disable-libmudflap --disable-libquadmath --disable-libssp --disable-libstdcxx-pch --disable-nls --disable-shared --disable-threads --disable-tls --with-gnu-as --with-gnu-ld --with-newlib --with-headers=yes --with-python-dir=share/gcc-arm-none-eabi --with-sysroot=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi --build=x86_64-apple-darwin10 --host=x86_64-apple-darwin10 --with-gmp=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-mpfr=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-mpc=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-isl=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-libelf=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-host-libstdcxx='-static-libgcc -Wl,-lstdc++ -lm' --with-pkgversion='GNU Arm Embedded Toolchain 10-2021-q2-preview' --with-multilib-list=rmprofile
+Thread model: single
+Supported LTO compression algorithms: zlib zstd
+gcc version 10.2.1 20201103 (release) (GNU Arm Embedded Toolchain 10-2021-q2-preview) 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a94e3.dir/CMakeCCompilerABI.c.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t'
+ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/cc1 -quiet -v -D__USES_INITFINI__ /usr/local/Cellar/cmake/3.20.0/share/cmake/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mcpu=arm7tdmi -mfloat-abi=soft -marm -march=armv4t -auxbase-strip CMakeFiles/cmTC_a94e3.dir/CMakeCCompilerABI.c.obj -version -o /var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//cc2Ga9HV.s
+GNU C17 (GNU Arm Embedded Toolchain 10-2021-q2-preview) version 10.2.1 20201103 (release) (arm-none-eabi)
+	compiled by GNU C version Apple LLVM 12.0.0 (clang-1200.0.32.29), GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring nonexistent directory "/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/usr/local/include"
+ignoring nonexistent directory "/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/usr/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include
+ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include-fixed
+ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include
+End of search list.
+GNU C17 (GNU Arm Embedded Toolchain 10-2021-q2-preview) version 10.2.1 20201103 (release) (arm-none-eabi)
+	compiled by GNU C version Apple LLVM 12.0.0 (clang-1200.0.32.29), GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 91d528727a2f36d57bcd7a5b7c1ff71d
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a94e3.dir/CMakeCCompilerABI.c.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t'
+ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/bin/as -v -march=armv4t -mfloat-abi=soft -meabi=5 -o CMakeFiles/cmTC_a94e3.dir/CMakeCCompilerABI.c.obj /var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//cc2Ga9HV.s
+GNU assembler version 2.35.1 (arm-none-eabi) using BFD version (GNU Arm Embedded Toolchain 10-2021-q2-preview) 2.35.1.20201028
+COMPILER_PATH=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/bin/
+LIBRARY_PATH=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib/
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a94e3.dir/CMakeCCompilerABI.c.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t'
+Linking C executable cmTC_a94e3
+/usr/local/Cellar/cmake/3.20.0/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a94e3.dir/link.txt --verbose=1
+/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-gcc --specs=nosys.specs -v CMakeFiles/cmTC_a94e3.dir/CMakeCCompilerABI.c.obj -o cmTC_a94e3 
+Using built-in specs.
+Reading specs from /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/nosys.specs
+rename spec link_gcc_c_sequence to nosys_link_gcc_c_sequence
+COLLECT_GCC=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-gcc
+COLLECT_LTO_WRAPPER=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/lto-wrapper
+Target: arm-none-eabi
+Configured with: /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/src/gcc/configure --target=arm-none-eabi --prefix=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native --libexecdir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib --infodir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/info --mandir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/man --htmldir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/html --pdfdir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/pdf --enable-languages=c,c++ --enable-plugins --disable-decimal-float --disable-libffi --disable-libgomp --disable-libmudflap --disable-libquadmath --disable-libssp --disable-libstdcxx-pch --disable-nls --disable-shared --disable-threads --disable-tls --with-gnu-as --with-gnu-ld --with-newlib --with-headers=yes --with-python-dir=share/gcc-arm-none-eabi --with-sysroot=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi --build=x86_64-apple-darwin10 --host=x86_64-apple-darwin10 --with-gmp=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-mpfr=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-mpc=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-isl=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-libelf=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-host-libstdcxx='-static-libgcc -Wl,-lstdc++ -lm' --with-pkgversion='GNU Arm Embedded Toolchain 10-2021-q2-preview' --with-multilib-list=rmprofile
+Thread model: single
+Supported LTO compression algorithms: zlib zstd
+gcc version 10.2.1 20201103 (release) (GNU Arm Embedded Toolchain 10-2021-q2-preview) 
+COMPILER_PATH=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/bin/
+LIBRARY_PATH=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib/
+COLLECT_GCC_OPTIONS='-specs=nosys.specs' '-v' '-o' 'cmTC_a94e3' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t'
+ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/collect2 -plugin /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/liblto_plugin.so -plugin-opt=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/lto-wrapper -plugin-opt=-fresolution=/var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//cc5f5wmj.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lnosys --sysroot=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi -X -o cmTC_a94e3 /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crti.o /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crtbegin.o /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/crt0.o -L/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1 -L/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib -L/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib CMakeFiles/cmTC_a94e3.dir/CMakeCCompilerABI.c.obj --start-group -lgcc -lc --end-group --start-group -lgcc -lc -lnosys --end-group /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crtend.o /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crtn.o
+COLLECT_GCC_OPTIONS='-specs=nosys.specs' '-v' '-o' 'cmTC_a94e3' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t'
+
+
+
+Parsed C implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include]
+    add: [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include-fixed]
+    add: [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include]
+  end of search list found
+  collapse include dir [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include] ==> [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include]
+  collapse include dir [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include-fixed] ==> [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include-fixed]
+  collapse include dir [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include] ==> [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/include]
+  implicit include dirs: [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include;/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include-fixed;/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/include]
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(arm-none-eabi-ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /Volumes/git/m1-sdk/lib/_builds/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):/usr/bin/make -f Makefile cmTC_a94e3/fast && /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_a94e3.dir/build.make CMakeFiles/cmTC_a94e3.dir/build]
+  ignore line: [Building C object CMakeFiles/cmTC_a94e3.dir/CMakeCCompilerABI.c.obj]
+  ignore line: [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-gcc   -v -o CMakeFiles/cmTC_a94e3.dir/CMakeCCompilerABI.c.obj -c /usr/local/Cellar/cmake/3.20.0/share/cmake/Modules/CMakeCCompilerABI.c]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-gcc]
+  ignore line: [Target: arm-none-eabi]
+  ignore line: [Configured with: /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/src/gcc/configure --target=arm-none-eabi --prefix=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native --libexecdir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib --infodir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/info --mandir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/man --htmldir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/html --pdfdir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/pdf --enable-languages=c,c++ --enable-plugins --disable-decimal-float --disable-libffi --disable-libgomp --disable-libmudflap --disable-libquadmath --disable-libssp --disable-libstdcxx-pch --disable-nls --disable-shared --disable-threads --disable-tls --with-gnu-as --with-gnu-ld --with-newlib --with-headers=yes --with-python-dir=share/gcc-arm-none-eabi --with-sysroot=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi --build=x86_64-apple-darwin10 --host=x86_64-apple-darwin10 --with-gmp=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-mpfr=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-mpc=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-isl=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-libelf=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-host-libstdcxx='-static-libgcc -Wl,-lstdc++ -lm' --with-pkgversion='GNU Arm Embedded Toolchain 10-2021-q2-preview' --with-multilib-list=rmprofile]
+  ignore line: [Thread model: single]
+  ignore line: [Supported LTO compression algorithms: zlib zstd]
+  ignore line: [gcc version 10.2.1 20201103 (release) (GNU Arm Embedded Toolchain 10-2021-q2-preview) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a94e3.dir/CMakeCCompilerABI.c.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t']
+  ignore line: [ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/cc1 -quiet -v -D__USES_INITFINI__ /usr/local/Cellar/cmake/3.20.0/share/cmake/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mcpu=arm7tdmi -mfloat-abi=soft -marm -march=armv4t -auxbase-strip CMakeFiles/cmTC_a94e3.dir/CMakeCCompilerABI.c.obj -version -o /var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//cc2Ga9HV.s]
+  ignore line: [GNU C17 (GNU Arm Embedded Toolchain 10-2021-q2-preview) version 10.2.1 20201103 (release) (arm-none-eabi)]
+  ignore line: [	compiled by GNU C version Apple LLVM 12.0.0 (clang-1200.0.32.29)  GMP version 6.1.0  MPFR version 3.1.4  MPC version 1.0.3  isl version isl-0.18-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring nonexistent directory "/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/usr/local/include"]
+  ignore line: [ignoring nonexistent directory "/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/usr/include"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include]
+  ignore line: [ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include-fixed]
+  ignore line: [ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C17 (GNU Arm Embedded Toolchain 10-2021-q2-preview) version 10.2.1 20201103 (release) (arm-none-eabi)]
+  ignore line: [	compiled by GNU C version Apple LLVM 12.0.0 (clang-1200.0.32.29)  GMP version 6.1.0  MPFR version 3.1.4  MPC version 1.0.3  isl version isl-0.18-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: 91d528727a2f36d57bcd7a5b7c1ff71d]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a94e3.dir/CMakeCCompilerABI.c.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t']
+  ignore line: [ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/bin/as -v -march=armv4t -mfloat-abi=soft -meabi=5 -o CMakeFiles/cmTC_a94e3.dir/CMakeCCompilerABI.c.obj /var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//cc2Ga9HV.s]
+  ignore line: [GNU assembler version 2.35.1 (arm-none-eabi) using BFD version (GNU Arm Embedded Toolchain 10-2021-q2-preview) 2.35.1.20201028]
+  ignore line: [COMPILER_PATH=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/bin/]
+  ignore line: [LIBRARY_PATH=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a94e3.dir/CMakeCCompilerABI.c.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t']
+  ignore line: [Linking C executable cmTC_a94e3]
+  ignore line: [/usr/local/Cellar/cmake/3.20.0/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a94e3.dir/link.txt --verbose=1]
+  ignore line: [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-gcc --specs=nosys.specs -v CMakeFiles/cmTC_a94e3.dir/CMakeCCompilerABI.c.obj -o cmTC_a94e3 ]
+  ignore line: [Using built-in specs.]
+  ignore line: [Reading specs from /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/nosys.specs]
+  ignore line: [rename spec link_gcc_c_sequence to nosys_link_gcc_c_sequence]
+  ignore line: [COLLECT_GCC=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-gcc]
+  ignore line: [COLLECT_LTO_WRAPPER=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/lto-wrapper]
+  ignore line: [Target: arm-none-eabi]
+  ignore line: [Configured with: /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/src/gcc/configure --target=arm-none-eabi --prefix=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native --libexecdir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib --infodir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/info --mandir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/man --htmldir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/html --pdfdir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/pdf --enable-languages=c,c++ --enable-plugins --disable-decimal-float --disable-libffi --disable-libgomp --disable-libmudflap --disable-libquadmath --disable-libssp --disable-libstdcxx-pch --disable-nls --disable-shared --disable-threads --disable-tls --with-gnu-as --with-gnu-ld --with-newlib --with-headers=yes --with-python-dir=share/gcc-arm-none-eabi --with-sysroot=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi --build=x86_64-apple-darwin10 --host=x86_64-apple-darwin10 --with-gmp=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-mpfr=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-mpc=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-isl=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-libelf=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-host-libstdcxx='-static-libgcc -Wl,-lstdc++ -lm' --with-pkgversion='GNU Arm Embedded Toolchain 10-2021-q2-preview' --with-multilib-list=rmprofile]
+  ignore line: [Thread model: single]
+  ignore line: [Supported LTO compression algorithms: zlib zstd]
+  ignore line: [gcc version 10.2.1 20201103 (release) (GNU Arm Embedded Toolchain 10-2021-q2-preview) ]
+  ignore line: [COMPILER_PATH=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/bin/]
+  ignore line: [LIBRARY_PATH=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-specs=nosys.specs' '-v' '-o' 'cmTC_a94e3' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t']
+  link line: [ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/collect2 -plugin /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/liblto_plugin.so -plugin-opt=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/lto-wrapper -plugin-opt=-fresolution=/var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//cc5f5wmj.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lnosys --sysroot=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi -X -o cmTC_a94e3 /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crti.o /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crtbegin.o /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/crt0.o -L/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1 -L/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib -L/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib CMakeFiles/cmTC_a94e3.dir/CMakeCCompilerABI.c.obj --start-group -lgcc -lc --end-group --start-group -lgcc -lc -lnosys --end-group /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crtend.o /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crtn.o]
+    arg [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/collect2] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/liblto_plugin.so] ==> ignore
+    arg [-plugin-opt=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/lto-wrapper] ==> ignore
+    arg [-plugin-opt=-fresolution=/var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//cc5f5wmj.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lnosys] ==> ignore
+    arg [--sysroot=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi] ==> ignore
+    arg [-X] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_a94e3] ==> ignore
+    arg [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crti.o] ==> ignore
+    arg [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crtbegin.o] ==> ignore
+    arg [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/crt0.o] ==> ignore
+    arg [-L/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1] ==> dir [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1]
+    arg [-L/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib] ==> dir [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib]
+    arg [-L/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib] ==> dir [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib]
+    arg [CMakeFiles/cmTC_a94e3.dir/CMakeCCompilerABI.c.obj] ==> ignore
+    arg [--start-group] ==> ignore
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lc] ==> lib [c]
+    arg [--end-group] ==> ignore
+    arg [--start-group] ==> ignore
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lc] ==> lib [c]
+    arg [-lnosys] ==> lib [nosys]
+    arg [--end-group] ==> ignore
+    arg [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crtend.o] ==> ignore
+    arg [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crtn.o] ==> ignore
+  collapse library dir [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1] ==> [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1]
+  collapse library dir [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib] ==> [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib]
+  collapse library dir [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib] ==> [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib]
+  implicit libs: [gcc;c;gcc;c;nosys]
+  implicit dirs: [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1;/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib]
+  implicit fwks: []
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: /Volumes/git/m1-sdk/lib/_builds/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make -f Makefile cmTC_2e9e7/fast && /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_2e9e7.dir/build.make CMakeFiles/cmTC_2e9e7.dir/build
+Building CXX object CMakeFiles/cmTC_2e9e7.dir/CMakeCXXCompilerABI.cpp.obj
+/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-g++   -v -std=c++14 -o CMakeFiles/cmTC_2e9e7.dir/CMakeCXXCompilerABI.cpp.obj -c /usr/local/Cellar/cmake/3.20.0/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+Using built-in specs.
+COLLECT_GCC=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-g++
+Target: arm-none-eabi
+Configured with: /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/src/gcc/configure --target=arm-none-eabi --prefix=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native --libexecdir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib --infodir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/info --mandir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/man --htmldir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/html --pdfdir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/pdf --enable-languages=c,c++ --enable-plugins --disable-decimal-float --disable-libffi --disable-libgomp --disable-libmudflap --disable-libquadmath --disable-libssp --disable-libstdcxx-pch --disable-nls --disable-shared --disable-threads --disable-tls --with-gnu-as --with-gnu-ld --with-newlib --with-headers=yes --with-python-dir=share/gcc-arm-none-eabi --with-sysroot=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi --build=x86_64-apple-darwin10 --host=x86_64-apple-darwin10 --with-gmp=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-mpfr=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-mpc=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-isl=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-libelf=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-host-libstdcxx='-static-libgcc -Wl,-lstdc++ -lm' --with-pkgversion='GNU Arm Embedded Toolchain 10-2021-q2-preview' --with-multilib-list=rmprofile
+Thread model: single
+Supported LTO compression algorithms: zlib zstd
+gcc version 10.2.1 20201103 (release) (GNU Arm Embedded Toolchain 10-2021-q2-preview) 
+COLLECT_GCC_OPTIONS='-v' '-std=c++14' '-o' 'CMakeFiles/cmTC_2e9e7.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t'
+ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/cc1plus -quiet -v -D__USES_INITFINI__ /usr/local/Cellar/cmake/3.20.0/share/cmake/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mcpu=arm7tdmi -mfloat-abi=soft -marm -march=armv4t -auxbase-strip CMakeFiles/cmTC_2e9e7.dir/CMakeCXXCompilerABI.cpp.obj -std=c++14 -version -o /var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//ccuQGjS4.s
+GNU C++14 (GNU Arm Embedded Toolchain 10-2021-q2-preview) version 10.2.1 20201103 (release) (arm-none-eabi)
+	compiled by GNU C version Apple LLVM 12.0.0 (clang-1200.0.32.29), GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring nonexistent directory "/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/usr/local/include"
+ignoring nonexistent directory "/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/usr/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1
+ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1/arm-none-eabi
+ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1/backward
+ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include
+ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include-fixed
+ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include
+End of search list.
+GNU C++14 (GNU Arm Embedded Toolchain 10-2021-q2-preview) version 10.2.1 20201103 (release) (arm-none-eabi)
+	compiled by GNU C version Apple LLVM 12.0.0 (clang-1200.0.32.29), GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 2633b25f0a2c38451f8f2927e916597f
+COLLECT_GCC_OPTIONS='-v' '-std=c++14' '-o' 'CMakeFiles/cmTC_2e9e7.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t'
+ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/bin/as -v -march=armv4t -mfloat-abi=soft -meabi=5 -o CMakeFiles/cmTC_2e9e7.dir/CMakeCXXCompilerABI.cpp.obj /var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//ccuQGjS4.s
+GNU assembler version 2.35.1 (arm-none-eabi) using BFD version (GNU Arm Embedded Toolchain 10-2021-q2-preview) 2.35.1.20201028
+COMPILER_PATH=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/bin/
+LIBRARY_PATH=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib/
+COLLECT_GCC_OPTIONS='-v' '-std=c++14' '-o' 'CMakeFiles/cmTC_2e9e7.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t'
+Linking CXX executable cmTC_2e9e7
+/usr/local/Cellar/cmake/3.20.0/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2e9e7.dir/link.txt --verbose=1
+/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-g++ --specs=nosys.specs -v CMakeFiles/cmTC_2e9e7.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_2e9e7 
+Using built-in specs.
+Reading specs from /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/nosys.specs
+rename spec link_gcc_c_sequence to nosys_link_gcc_c_sequence
+COLLECT_GCC=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-g++
+COLLECT_LTO_WRAPPER=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/lto-wrapper
+Target: arm-none-eabi
+Configured with: /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/src/gcc/configure --target=arm-none-eabi --prefix=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native --libexecdir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib --infodir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/info --mandir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/man --htmldir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/html --pdfdir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/pdf --enable-languages=c,c++ --enable-plugins --disable-decimal-float --disable-libffi --disable-libgomp --disable-libmudflap --disable-libquadmath --disable-libssp --disable-libstdcxx-pch --disable-nls --disable-shared --disable-threads --disable-tls --with-gnu-as --with-gnu-ld --with-newlib --with-headers=yes --with-python-dir=share/gcc-arm-none-eabi --with-sysroot=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi --build=x86_64-apple-darwin10 --host=x86_64-apple-darwin10 --with-gmp=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-mpfr=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-mpc=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-isl=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-libelf=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-host-libstdcxx='-static-libgcc -Wl,-lstdc++ -lm' --with-pkgversion='GNU Arm Embedded Toolchain 10-2021-q2-preview' --with-multilib-list=rmprofile
+Thread model: single
+Supported LTO compression algorithms: zlib zstd
+gcc version 10.2.1 20201103 (release) (GNU Arm Embedded Toolchain 10-2021-q2-preview) 
+COMPILER_PATH=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/bin/
+LIBRARY_PATH=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib/
+COLLECT_GCC_OPTIONS='-specs=nosys.specs' '-v' '-o' 'cmTC_2e9e7' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t'
+ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/collect2 -plugin /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/liblto_plugin.so -plugin-opt=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/lto-wrapper -plugin-opt=-fresolution=/var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//ccO1HuX9.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lnosys --sysroot=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi -X -o cmTC_2e9e7 /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crti.o /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crtbegin.o /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/crt0.o -L/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1 -L/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib -L/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib CMakeFiles/cmTC_2e9e7.dir/CMakeCXXCompilerABI.cpp.obj -lstdc++ -lm --start-group -lgcc -lc --end-group --start-group -lgcc -lc -lnosys --end-group /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crtend.o /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crtn.o
+COLLECT_GCC_OPTIONS='-specs=nosys.specs' '-v' '-o' 'cmTC_2e9e7' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t'
+
+
+
+Parsed CXX implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1]
+    add: [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1/arm-none-eabi]
+    add: [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1/backward]
+    add: [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include]
+    add: [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include-fixed]
+    add: [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include]
+  end of search list found
+  collapse include dir [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1] ==> [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/include/c++/10.2.1]
+  collapse include dir [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1/arm-none-eabi] ==> [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/include/c++/10.2.1/arm-none-eabi]
+  collapse include dir [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1/backward] ==> [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/include/c++/10.2.1/backward]
+  collapse include dir [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include] ==> [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include]
+  collapse include dir [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include-fixed] ==> [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include-fixed]
+  collapse include dir [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include] ==> [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/include]
+  implicit include dirs: [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/include/c++/10.2.1;/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/include/c++/10.2.1/arm-none-eabi;/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/include/c++/10.2.1/backward;/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include;/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include-fixed;/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/include]
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(arm-none-eabi-ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /Volumes/git/m1-sdk/lib/_builds/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):/usr/bin/make -f Makefile cmTC_2e9e7/fast && /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_2e9e7.dir/build.make CMakeFiles/cmTC_2e9e7.dir/build]
+  ignore line: [Building CXX object CMakeFiles/cmTC_2e9e7.dir/CMakeCXXCompilerABI.cpp.obj]
+  ignore line: [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-g++   -v -std=c++14 -o CMakeFiles/cmTC_2e9e7.dir/CMakeCXXCompilerABI.cpp.obj -c /usr/local/Cellar/cmake/3.20.0/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-g++]
+  ignore line: [Target: arm-none-eabi]
+  ignore line: [Configured with: /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/src/gcc/configure --target=arm-none-eabi --prefix=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native --libexecdir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib --infodir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/info --mandir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/man --htmldir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/html --pdfdir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/pdf --enable-languages=c,c++ --enable-plugins --disable-decimal-float --disable-libffi --disable-libgomp --disable-libmudflap --disable-libquadmath --disable-libssp --disable-libstdcxx-pch --disable-nls --disable-shared --disable-threads --disable-tls --with-gnu-as --with-gnu-ld --with-newlib --with-headers=yes --with-python-dir=share/gcc-arm-none-eabi --with-sysroot=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi --build=x86_64-apple-darwin10 --host=x86_64-apple-darwin10 --with-gmp=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-mpfr=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-mpc=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-isl=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-libelf=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-host-libstdcxx='-static-libgcc -Wl,-lstdc++ -lm' --with-pkgversion='GNU Arm Embedded Toolchain 10-2021-q2-preview' --with-multilib-list=rmprofile]
+  ignore line: [Thread model: single]
+  ignore line: [Supported LTO compression algorithms: zlib zstd]
+  ignore line: [gcc version 10.2.1 20201103 (release) (GNU Arm Embedded Toolchain 10-2021-q2-preview) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-std=c++14' '-o' 'CMakeFiles/cmTC_2e9e7.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t']
+  ignore line: [ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/cc1plus -quiet -v -D__USES_INITFINI__ /usr/local/Cellar/cmake/3.20.0/share/cmake/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mcpu=arm7tdmi -mfloat-abi=soft -marm -march=armv4t -auxbase-strip CMakeFiles/cmTC_2e9e7.dir/CMakeCXXCompilerABI.cpp.obj -std=c++14 -version -o /var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//ccuQGjS4.s]
+  ignore line: [GNU C++14 (GNU Arm Embedded Toolchain 10-2021-q2-preview) version 10.2.1 20201103 (release) (arm-none-eabi)]
+  ignore line: [	compiled by GNU C version Apple LLVM 12.0.0 (clang-1200.0.32.29)  GMP version 6.1.0  MPFR version 3.1.4  MPC version 1.0.3  isl version isl-0.18-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring nonexistent directory "/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/usr/local/include"]
+  ignore line: [ignoring nonexistent directory "/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/usr/include"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1]
+  ignore line: [ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1/arm-none-eabi]
+  ignore line: [ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1/backward]
+  ignore line: [ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include]
+  ignore line: [ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/include-fixed]
+  ignore line: [ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C++14 (GNU Arm Embedded Toolchain 10-2021-q2-preview) version 10.2.1 20201103 (release) (arm-none-eabi)]
+  ignore line: [	compiled by GNU C version Apple LLVM 12.0.0 (clang-1200.0.32.29)  GMP version 6.1.0  MPFR version 3.1.4  MPC version 1.0.3  isl version isl-0.18-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: 2633b25f0a2c38451f8f2927e916597f]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-std=c++14' '-o' 'CMakeFiles/cmTC_2e9e7.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t']
+  ignore line: [ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/bin/as -v -march=armv4t -mfloat-abi=soft -meabi=5 -o CMakeFiles/cmTC_2e9e7.dir/CMakeCXXCompilerABI.cpp.obj /var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//ccuQGjS4.s]
+  ignore line: [GNU assembler version 2.35.1 (arm-none-eabi) using BFD version (GNU Arm Embedded Toolchain 10-2021-q2-preview) 2.35.1.20201028]
+  ignore line: [COMPILER_PATH=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/bin/]
+  ignore line: [LIBRARY_PATH=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-std=c++14' '-o' 'CMakeFiles/cmTC_2e9e7.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t']
+  ignore line: [Linking CXX executable cmTC_2e9e7]
+  ignore line: [/usr/local/Cellar/cmake/3.20.0/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2e9e7.dir/link.txt --verbose=1]
+  ignore line: [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-g++ --specs=nosys.specs -v CMakeFiles/cmTC_2e9e7.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_2e9e7 ]
+  ignore line: [Using built-in specs.]
+  ignore line: [Reading specs from /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/nosys.specs]
+  ignore line: [rename spec link_gcc_c_sequence to nosys_link_gcc_c_sequence]
+  ignore line: [COLLECT_GCC=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/bin/arm-none-eabi-g++]
+  ignore line: [COLLECT_LTO_WRAPPER=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/lto-wrapper]
+  ignore line: [Target: arm-none-eabi]
+  ignore line: [Configured with: /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/src/gcc/configure --target=arm-none-eabi --prefix=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native --libexecdir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib --infodir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/info --mandir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/man --htmldir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/html --pdfdir=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/share/doc/gcc-arm-none-eabi/pdf --enable-languages=c,c++ --enable-plugins --disable-decimal-float --disable-libffi --disable-libgomp --disable-libmudflap --disable-libquadmath --disable-libssp --disable-libstdcxx-pch --disable-nls --disable-shared --disable-threads --disable-tls --with-gnu-as --with-gnu-ld --with-newlib --with-headers=yes --with-python-dir=share/gcc-arm-none-eabi --with-sysroot=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi --build=x86_64-apple-darwin10 --host=x86_64-apple-darwin10 --with-gmp=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-mpfr=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-mpc=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-isl=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-libelf=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/build-native/host-libs/usr --with-host-libstdcxx='-static-libgcc -Wl,-lstdc++ -lm' --with-pkgversion='GNU Arm Embedded Toolchain 10-2021-q2-preview' --with-multilib-list=rmprofile]
+  ignore line: [Thread model: single]
+  ignore line: [Supported LTO compression algorithms: zlib zstd]
+  ignore line: [gcc version 10.2.1 20201103 (release) (GNU Arm Embedded Toolchain 10-2021-q2-preview) ]
+  ignore line: [COMPILER_PATH=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/bin/]
+  ignore line: [LIBRARY_PATH=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/:/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-specs=nosys.specs' '-v' '-o' 'cmTC_2e9e7' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t']
+  link line: [ /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/collect2 -plugin /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/liblto_plugin.so -plugin-opt=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/lto-wrapper -plugin-opt=-fresolution=/var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//ccO1HuX9.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lnosys --sysroot=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi -X -o cmTC_2e9e7 /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crti.o /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crtbegin.o /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/crt0.o -L/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1 -L/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib -L/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib CMakeFiles/cmTC_2e9e7.dir/CMakeCXXCompilerABI.cpp.obj -lstdc++ -lm --start-group -lgcc -lc --end-group --start-group -lgcc -lc -lnosys --end-group /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crtend.o /Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crtn.o]
+    arg [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/collect2] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/liblto_plugin.so] ==> ignore
+    arg [-plugin-opt=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/lto-wrapper] ==> ignore
+    arg [-plugin-opt=-fresolution=/var/folders/mh/hql7qhd159s799mvhvhxr17h0000gn/T//ccO1HuX9.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lnosys] ==> ignore
+    arg [--sysroot=/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi] ==> ignore
+    arg [-X] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_2e9e7] ==> ignore
+    arg [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crti.o] ==> ignore
+    arg [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crtbegin.o] ==> ignore
+    arg [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/crt0.o] ==> ignore
+    arg [-L/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1] ==> dir [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1]
+    arg [-L/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib] ==> dir [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib]
+    arg [-L/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib] ==> dir [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib]
+    arg [CMakeFiles/cmTC_2e9e7.dir/CMakeCXXCompilerABI.cpp.obj] ==> ignore
+    arg [-lstdc++] ==> lib [stdc++]
+    arg [-lm] ==> lib [m]
+    arg [--start-group] ==> ignore
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lc] ==> lib [c]
+    arg [--end-group] ==> ignore
+    arg [--start-group] ==> ignore
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lc] ==> lib [c]
+    arg [-lnosys] ==> lib [nosys]
+    arg [--end-group] ==> ignore
+    arg [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crtend.o] ==> ignore
+    arg [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/crtn.o] ==> ignore
+  collapse library dir [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1] ==> [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1]
+  collapse library dir [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib] ==> [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib]
+  collapse library dir [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib] ==> [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib]
+  implicit libs: [stdc++;m;gcc;c;gcc;c;nosys]
+  implicit dirs: [/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/lib/gcc/arm-none-eabi/10.2.1;/Users/dylanmarcus/SDKs/gcc-arm-none-eabi-10-2020-q4-major/install-native/arm-none-eabi/lib]
+  implicit fwks: []
+
+

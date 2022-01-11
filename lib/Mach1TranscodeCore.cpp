@@ -16,8 +16,8 @@
 
 Mach1TranscodeCore::Mach1TranscodeCore()
 {
-	inFmt = Mach1TranscodeFormats::FormatType::Empty;
-	outFmt = Mach1TranscodeFormats::FormatType::Empty;
+	inFmt = -1;
+	outFmt = -1;
 
 	bufferSize = 4096;
 	for (int i = 0; i < Mach1TranscodeConstants::MAXCHANS; i++)  {
@@ -42,18 +42,21 @@ int Mach1TranscodeCore::getOutputNumChannels()
     return getNumChannels(outFmt, false);
 }
 
-Mach1TranscodeFormats::FormatType Mach1TranscodeCore::getFormatFromString(char* str) {
-	for (auto it = Mach1TranscodeConstants::FormatNames.begin(); it != Mach1TranscodeConstants::FormatNames.end(); ++it) {
-		if (std::strcmp(str, it->second) == 0) {
-			return it->first;
+int Mach1TranscodeCore::getFormatFromString(char* str) {
+	for (auto it = Mach1TranscodeConstants::formats.begin(); it != Mach1TranscodeConstants::formats.end(); ++it) {
+		if (std::strcmp(str, it->name.data()) == 0) {
+			return it - Mach1TranscodeConstants::formats.begin();
 		}
 	}
-	return Mach1TranscodeFormats::Empty;
+	return -1;
 }
 
-const char* Mach1TranscodeCore::getFormatName(void * M1obj, Mach1TranscodeFormats::FormatType fmt)
+const char* Mach1TranscodeCore::getFormatName(int fmt)
 {
-	return Mach1TranscodeConstants::FormatNames.at(fmt);
+	if (fmt < Mach1TranscodeConstants::formats.size()) {
+		return Mach1TranscodeConstants::formats[fmt].name.data();
+	}
+	return "";
 }
 
 float Mach1TranscodeCore::processNormalization(float** bufs, int numSamples) {
@@ -73,7 +76,7 @@ float Mach1TranscodeCore::processNormalization(float** bufs, int numSamples) {
 
 void Mach1TranscodeCore::processMasterGain(float** bufs, int numSamples, float masterGain) {
 	if (masterGain == 1.0) return;
-	if (outFmt == Mach1TranscodeFormats::FormatType::Empty) return;
+	if (outFmt == -1) return;
 
 	int nChannels = getOutputNumChannels();
 	for (int i = 0; i < nChannels; i++) {
@@ -106,7 +109,7 @@ const std::vector<float> Mach1TranscodeCore::getAvgSamplesDiff() {
 	return spatialDownmixChecker.getAvgSamplesDiff();
 }
 
-void Mach1TranscodeCore::setInputFormat(Mach1TranscodeFormats::FormatType inFmt)
+void Mach1TranscodeCore::setInputFormat(int inFmt)
 {
 	this->inFmt = inFmt;
 }
@@ -141,30 +144,30 @@ std::vector<Mach1Point3DCore> parseCustomPointsJson(std::string srtJson)
 
 void Mach1TranscodeCore::setInputFormatCustomPointsJson(std::string strJson)
 {
-	inFmt = Mach1TranscodeFormats::FormatType::CustomPoints;
+	inFmt = getFormatFromString("CustomPoints");
 	inCustomPoints = parseCustomPointsJson(strJson);
 }
 
 void Mach1TranscodeCore::setInputFormatCustomPoints(std::vector<Mach1Point3DCore> points)
 {
-    inFmt = Mach1TranscodeFormats::FormatType::CustomPoints;
+    inFmt = getFormatFromString("CustomPoints");
     inCustomPoints = points;
 }
 
-void Mach1TranscodeCore::setOutputFormat(Mach1TranscodeFormats::FormatType outFmt)
+void Mach1TranscodeCore::setOutputFormat(int outFmt)
 {
 	this->outFmt = outFmt;
 }
 
 void Mach1TranscodeCore::setOutputFormatCustomPointsJson(std::string strJson)
 {
-	outFmt = Mach1TranscodeFormats::FormatType::CustomPoints;
+	outFmt = getFormatFromString("CustomPoints");
 	outCustomPoints = parseCustomPointsJson(strJson);
 }
 
 void Mach1TranscodeCore::setOutputFormatCustomPoints(std::vector<Mach1Point3DCore> points)
 {
-    outFmt = Mach1TranscodeFormats::FormatType::CustomPoints;
+    outFmt = getFormatFromString("CustomPoints");
     outCustomPoints = points;
 }
 
@@ -178,7 +181,7 @@ bool Mach1TranscodeCore::processConversionPath()
     // compute tree of pathes from inFmt to all others
     struct Node {
 		int prev;
-		Mach1TranscodeFormats::FormatType fmt;
+		int fmt;
         bool processed;
     };
     
@@ -191,10 +194,9 @@ bool Mach1TranscodeCore::processConversionPath()
     
     for (int i = 0; i < tree.size(); i++) {
         if (tree[i].processed == false) {
-			Mach1TranscodeFormats::FormatType fmt = tree[i].fmt;
-            for (int j = 0; j < Mach1TranscodeConstants::NUMFMTS; j++) {
-
-                if (Mach1TranscodeConstants::FormatMatrix.find(std::make_pair(fmt, (Mach1TranscodeFormats::FormatType)j)) != Mach1TranscodeConstants::FormatMatrix.end()) {
+			int fmt = tree[i].fmt;
+            for (int j = 0; j < Mach1TranscodeConstants::formats.size(); j++) {
+                if (findMatrix(fmt, j) >= 0) {
                     
                     // check if this format already exist on that path
                     int k = i;
@@ -211,7 +213,7 @@ bool Mach1TranscodeCore::processConversionPath()
                     
                     if (exist == false) {
                         Node node;
-                        node.fmt = (Mach1TranscodeFormats::FormatType)j;
+                        node.fmt = (int)j;
                         node.prev = i;
                         node.processed = false;
                         tree.push_back(node);
@@ -224,7 +226,7 @@ bool Mach1TranscodeCore::processConversionPath()
     }
     
     // find shortest path first
-    std::vector<Mach1TranscodeFormats::FormatType> intermediateFormatsList;
+    std::vector<int> intermediateFormatsList;
     intermediateFormatsList.reserve(100);
     for (int i = 0; i < tree.size(); i++) {
         if (tree[i].fmt == outFmt) {
@@ -245,7 +247,7 @@ bool Mach1TranscodeCore::processConversionPath()
 	}
 }
 
-std::vector<Mach1Point3DCore> getPointsSet(Mach1TranscodeFormats::FormatType fmt) {
+std::vector<Mach1Point3DCore> Mach1TranscodeCore::getPointsSet(int fmt) {
 	// M1 horizon plane points
 	static std::vector<Mach1Point3DCore> m1HorizonDef = { {-1, 1, 0},
 												{1, 1, 0},
@@ -343,13 +345,13 @@ std::vector<Mach1Point3DCore> getPointsSet(Mach1TranscodeFormats::FormatType fmt
 												{1 / 0.707f, 0, 0},
 												{-1 / 0.707f, 0, 0} };
 
-	static std::map<Mach1TranscodeFormats::FormatType, std::vector<Mach1Point3DCore>> standards = {
-		{Mach1TranscodeFormats::FormatType::M1Horizon, m1HorizonDef},
-		{Mach1TranscodeFormats::FormatType::M1Spatial, m1SpatialDef},
-		{Mach1TranscodeFormats::FormatType::M1SpatialPlus, m1SpatialPlusDef},
-		{Mach1TranscodeFormats::FormatType::M1SpatialPlusPlus, m1SpatialPlusPlusDef},
-		{Mach1TranscodeFormats::FormatType::M1SpatialExtended, m1SpatialExtendedDef},
-		{Mach1TranscodeFormats::FormatType::M1SpatialExtendedPlus, m1SpatialExtendedPlusDef},
+	static std::map<int, std::vector<Mach1Point3DCore>> standards = {
+		{getFormatFromString("M1Horizon"), m1HorizonDef},
+		{getFormatFromString("M1Spatial"), m1SpatialDef},
+		{getFormatFromString("M1SpatialPlus"), m1SpatialPlusDef},
+		{getFormatFromString("M1SpatialPlusPlus"), m1SpatialPlusPlusDef},
+		{getFormatFromString("M1SpatialExtended"), m1SpatialExtendedDef},
+		{getFormatFromString("M1SpatialExtendedPlus"), m1SpatialExtendedPlusDef},
 	};
 
 	std::vector<Mach1Point3DCore> vec;
@@ -359,23 +361,35 @@ std::vector<Mach1Point3DCore> getPointsSet(Mach1TranscodeFormats::FormatType fmt
 	return vec;
 }
 
-void Mach1TranscodeCore::processConversion(Mach1TranscodeFormats::FormatType inFmt, float** inBufs, Mach1TranscodeFormats::FormatType outFmt, float** outBufs, int numSamples)
+int Mach1TranscodeCore::findMatrix(int inFmt, int outFmt)
+{
+	const char* inFmtName = getFormatName(inFmt);
+	const char* outFmtName = getFormatName(outFmt);
+	for (int i = 0; i < Mach1TranscodeConstants::matrices.size(); i++) {
+		if (Mach1TranscodeConstants::matrices[i].formatFrom == inFmtName && Mach1TranscodeConstants::matrices[i].formatTo == outFmtName) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+void Mach1TranscodeCore::processConversion(int inFmt, float** inBufs, int outFmt, float** outBufs, int numSamples)
 {
     int inChans = getNumChannels(inFmt, true);
     int outChans = getNumChannels(outFmt, false);
     std::vector<std::vector<float>> currentFormatConversionMatrix;
 
-    if (inFmt == Mach1TranscodeFormats::FormatType::CustomPoints && outFmt != Mach1TranscodeFormats::FormatType::CustomPoints) {
+    if (inFmt == getFormatFromString("CustomPoints") && outFmt != getFormatFromString("CustomPoints")) {
         currentFormatConversionMatrix = generateCoeffSetForPoints(inCustomPoints, getPointsSet(outFmt));
     }
-	else if (inFmt != Mach1TranscodeFormats::FormatType::CustomPoints && outFmt == Mach1TranscodeFormats::FormatType::CustomPoints) {
+	else if (inFmt != getFormatFromString("CustomPoints") && outFmt == getFormatFromString("CustomPoints")) {
 		currentFormatConversionMatrix = generateCoeffSetForPoints(getPointsSet(inFmt), outCustomPoints);
 	}
-	else if (inFmt == Mach1TranscodeFormats::FormatType::CustomPoints && outFmt == Mach1TranscodeFormats::FormatType::CustomPoints) {
+	else if (inFmt == getFormatFromString("CustomPoints") && outFmt == getFormatFromString("CustomPoints")) {
 		currentFormatConversionMatrix = generateCoeffSetForPoints(inCustomPoints, outCustomPoints);
 	}
-	else if (inFmt != Mach1TranscodeFormats::FormatType::CustomPoints && outFmt != Mach1TranscodeFormats::FormatType::CustomPoints) {
-        currentFormatConversionMatrix = ((Mach1SpatialSoundMatrix*)Mach1TranscodeConstants::FormatMatrix.at(std::make_pair(inFmt, outFmt)))->getData();
+	else if (inFmt != getFormatFromString("CustomPoints") && outFmt != getFormatFromString("CustomPoints")) {
+        currentFormatConversionMatrix = Mach1TranscodeConstants::matrices[findMatrix(inFmt, outFmt)].data;
     }
     
     // copy pointers to local
@@ -399,7 +413,7 @@ void Mach1TranscodeCore::processConversion(Mach1TranscodeFormats::FormatType inF
             ins[channel] = 0;
 
 
-		if(inFmt == Mach1TranscodeFormats::FormatType::CustomPoints && customPointsSamplerCallback != nullptr) {
+		if(inFmt == getFormatFromString("CustomPoints") && customPointsSamplerCallback != nullptr) {
 			// updates the points
 			inCustomPoints.clear();
 
@@ -429,12 +443,12 @@ void Mach1TranscodeCore::processConversion(Mach1TranscodeFormats::FormatType inF
  
 }
 
-int Mach1TranscodeCore::getNumChannels(Mach1TranscodeFormats::FormatType fmt, bool isInput)
+int Mach1TranscodeCore::getNumChannels(int fmt, bool isInput)
 {
-	if (fmt == Mach1TranscodeFormats::FormatType::CustomPoints) {
+	if (fmt == getFormatFromString("CustomPoints")) {
 		return isInput ? (int)inCustomPoints.size() : (int)outCustomPoints.size();
 	}
-    return Mach1TranscodeConstants::FormatChannels.at(fmt);
+    return Mach1TranscodeConstants::formats[fmt].channels;
 }
 
 float Mach1TranscodeCore::db2level(float db)
@@ -462,24 +476,24 @@ void Mach1TranscodeCore::getMatrixConversion(float* matrix)
 	std::memset(mRes, 0, mSize);
 
 	for (int k = 0; k < formatConversionPath.size() - 1; k++) {
-		Mach1TranscodeFormats::FormatType inFmt = formatConversionPath[k];
-		Mach1TranscodeFormats::FormatType outFmt = formatConversionPath[k + 1];
+		int inFmt = formatConversionPath[k];
+		int outFmt = formatConversionPath[k + 1];
 
 		int inChans = getNumChannels(inFmt, true);
 		int outChans = getNumChannels(outFmt, false);
 		std::vector<std::vector<float>> currentFormatConversionMatrix;
 
-		if (inFmt == Mach1TranscodeFormats::FormatType::CustomPoints && outFmt != Mach1TranscodeFormats::FormatType::CustomPoints) {
+		if (inFmt == getFormatFromString("CustomPoints") && outFmt != getFormatFromString("CustomPoints")) {
 			currentFormatConversionMatrix = generateCoeffSetForPoints(inCustomPoints, getPointsSet(outFmt));
 		}
-		else if (inFmt != Mach1TranscodeFormats::FormatType::CustomPoints && outFmt == Mach1TranscodeFormats::FormatType::CustomPoints) {
+		else if (inFmt != getFormatFromString("CustomPoints") && outFmt == getFormatFromString("CustomPoints")) {
 			currentFormatConversionMatrix = generateCoeffSetForPoints(getPointsSet(inFmt), outCustomPoints);
 		}
-		else if (inFmt == Mach1TranscodeFormats::FormatType::CustomPoints && outFmt == Mach1TranscodeFormats::FormatType::CustomPoints) {
+		else if (inFmt == getFormatFromString("CustomPoints") && outFmt == getFormatFromString("CustomPoints")) {
 			currentFormatConversionMatrix = generateCoeffSetForPoints(inCustomPoints, outCustomPoints);
 		}
-		else if (inFmt != Mach1TranscodeFormats::FormatType::CustomPoints && outFmt != Mach1TranscodeFormats::FormatType::CustomPoints) {
-			currentFormatConversionMatrix = ((Mach1SpatialSoundMatrix*)Mach1TranscodeConstants::FormatMatrix.at(std::make_pair(inFmt, outFmt)))->getData();
+		else if (inFmt != getFormatFromString("CustomPoints") && outFmt != getFormatFromString("CustomPoints")) {
+			currentFormatConversionMatrix = Mach1TranscodeConstants::matrices[findMatrix(inFmt, outFmt)].data;
 		}
 
 		std::memset(mCurrent, 0, mSize);
@@ -573,11 +587,11 @@ void Mach1TranscodeCore::processConversion(float ** inBufs, float ** outBufs, in
 	}
 
 	// spatial downmix check
-	if (outFmt == Mach1TranscodeFormats::FormatType::M1Spatial) {
+	if (outFmt == getFormatFromString("M1Spatial")) {
 		spatialDownmixChecker.ProcessBuffer(outBufs, numSamples);
 	}
 }
 
-std::vector<Mach1TranscodeFormats::FormatType>& Mach1TranscodeCore::getFormatConversionPath() {
+std::vector<int>& Mach1TranscodeCore::getFormatConversionPath() {
 	return formatConversionPath;
 }

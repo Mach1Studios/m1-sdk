@@ -28,14 +28,14 @@ M1_API int Mach1TranscodeCAPI_getOutputNumChannels(void* M1obj)
 	return ((Mach1TranscodeCore*)M1obj)->getOutputNumChannels();
 }
 
-M1_API Mach1TranscodeFormatType Mach1TranscodeCAPI_getFormatFromString(void* M1obj, char* str)
+M1_API int Mach1TranscodeCAPI_getFormatFromString(void* M1obj, char* str)
 {
-	return (Mach1TranscodeFormatType)((Mach1TranscodeCore*)M1obj)->getFormatFromString(str);
+	return (int)((Mach1TranscodeCore*)M1obj)->getFormatFromString(str);
 }
 
-M1_API const char* Mach1TranscodeCAPI_getFormatName(void* M1obj, Mach1TranscodeFormatType fmt)
+M1_API const char* Mach1TranscodeCAPI_getFormatName(void* M1obj, int fmt)
 {
-	return ((Mach1TranscodeCore*)M1obj)->getFormatName(M1obj, (Mach1TranscodeFormats::FormatType)fmt);
+	return ((Mach1TranscodeCore*)M1obj)->getFormatName((int)fmt);
 }
 
 M1_API float Mach1TranscodeCAPI_processNormalization(void* M1obj, float** bufs, int numSamples)
@@ -80,9 +80,9 @@ M1_API float* Mach1TranscodeCAPI_getAvgSamplesDiff(void* M1obj)
 	return (float*)avgSamplesDiff.data();
 }
 
-M1_API void Mach1TranscodeCAPI_setInputFormat(void* M1obj, Mach1TranscodeFormatType inFmt)
+M1_API void Mach1TranscodeCAPI_setInputFormat(void* M1obj, int inFmt)
 {
-	((Mach1TranscodeCore*)M1obj)->setInputFormat((Mach1TranscodeFormats::FormatType)inFmt);
+	((Mach1TranscodeCore*)M1obj)->setInputFormat((int)inFmt);
 }
 
 M1_API void Mach1TranscodeCAPI_setInputFormatCustomPointsJson(void* M1obj, char* strJson)
@@ -95,9 +95,9 @@ M1_API void Mach1TranscodeCAPI_setInputFormatCustomPoints(void* M1obj, Mach1Poin
 	((Mach1TranscodeCore*)M1obj)->setInputFormatCustomPoints(std::vector< Mach1Point3DCore>((Mach1Point3DCore*)points, (Mach1Point3DCore*)points + count));
 }
 
-M1_API void Mach1TranscodeCAPI_setOutputFormat(void* M1obj, Mach1TranscodeFormatType outFmt)
+M1_API void Mach1TranscodeCAPI_setOutputFormat(void* M1obj, int outFmt)
 {
-	((Mach1TranscodeCore*)M1obj)->setOutputFormat((Mach1TranscodeFormats::FormatType)outFmt);
+	((Mach1TranscodeCore*)M1obj)->setOutputFormat((int)outFmt);
 }
 
 M1_API void Mach1TranscodeCAPI_setOutputFormatCustomPointsJson(void* M1obj, char* strJson)
@@ -130,11 +130,11 @@ M1_API void Mach1TranscodeCAPI_getMatrixConversion(void * M1obj, float *matrix)
 	((Mach1TranscodeCore*)M1obj)->getMatrixConversion(matrix);
 }
 
-M1_API Mach1TranscodeFormatType * Mach1TranscodeCAPI_getFormatConversionPath(void* M1obj, int* count)
+M1_API int * Mach1TranscodeCAPI_getFormatConversionPath(void* M1obj, int* count)
 {
-	std::vector<Mach1TranscodeFormats::FormatType>& formatsPath = ((Mach1TranscodeCore*)M1obj)->getFormatConversionPath();
+	std::vector<int>& formatsPath = ((Mach1TranscodeCore*)M1obj)->getFormatConversionPath();
 	*count = (int)formatsPath.size();
-	return (Mach1TranscodeFormatType*)formatsPath.data();
+	return (int*)formatsPath.data();
 }
 
 

@@ -17,7 +17,10 @@
 #include "M1DSP/M1DSPUtilities.h"
 #include "Mach1Point3DCore.h"
 #include "Mach1Point3D.h"
-#include "Mach1TranscodeFormats.h"
+#include "Mach1TranscodeConstants.h"
+#include "Mach1TranscodeVectorBasedFormats.h"
+#include "Mach1TranscodeSurroundFormats.h"
+#include "Mach1TranscodeAmbisonicFormats.h"
 
 struct ProcessSettings {
 	bool processObjectBed = true;

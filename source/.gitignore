@@ -1,0 +1,7 @@
+# Mach1 #
+.dirstamp
+.deps/
+.libs/
+_builds/
+_logs/
+_install/

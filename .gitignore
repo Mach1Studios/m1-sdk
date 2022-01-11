@@ -1,8 +1,15 @@
 # Mach1 #
 */[Aa]rchive/
+*.dirstamp
+*/.deps/
+*/.libs/
 */_builds/
 */_logs/
 */_install/
+# xcode specific
+*xcshareddata*
+*.xcworkspacedata
+*.xcconfig
 
 # AudioFiles (please use download-audiofiles.sh where applicable)
 *.wav
@@ -291,7 +298,7 @@ paket-files/
 # ============ #
 # OS generated #
 # ============ #
-.DS_Store*
+*.DS_Store*
 ._*
 .Spotlight-V100
 .Trashes

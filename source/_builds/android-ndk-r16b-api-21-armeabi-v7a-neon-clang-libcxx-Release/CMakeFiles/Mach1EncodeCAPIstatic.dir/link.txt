@@ -1,2 +1,0 @@
-/Users/dylanmarcus/SDKs/Android/ndk/21.0.6113669/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar qc static/libMach1EncodeCAPI.a CMakeFiles/Mach1EncodeCAPIstatic.dir/Mach1EncodeCAPI.cpp.o CMakeFiles/Mach1EncodeCAPIstatic.dir/Mach1EncodeCore.cpp.o CMakeFiles/Mach1EncodeCAPIstatic.dir/Mach1Point3DCore.cpp.o
-/Users/dylanmarcus/SDKs/Android/ndk/21.0.6113669/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib static/libMach1EncodeCAPI.a

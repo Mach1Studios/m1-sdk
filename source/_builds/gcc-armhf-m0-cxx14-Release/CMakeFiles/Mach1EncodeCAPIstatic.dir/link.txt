@@ -1,2 +1,0 @@
-/usr/local/bin/arm-none-eabi-gcc-ar qc libMach1EncodeCAPI.a CMakeFiles/Mach1EncodeCAPIstatic.dir/Mach1EncodeCAPI.cpp.obj CMakeFiles/Mach1EncodeCAPIstatic.dir/Mach1EncodeCore.cpp.obj CMakeFiles/Mach1EncodeCAPIstatic.dir/Mach1Point3DCore.cpp.obj
-/usr/local/bin/arm-none-eabi-ranlib libMach1EncodeCAPI.a

@@ -1,5 +1,0 @@
-/Volumes/git/m1-sdk/lib/_install/raspberrypi3-cxx11/lib/libMach1DecodeCAPI.a
-/Volumes/git/m1-sdk/lib/_install/raspberrypi3-cxx11/lib/libMach1DecodePositionalCAPI.a
-/Volumes/git/m1-sdk/lib/_install/raspberrypi3-cxx11/lib/libMach1EncodeCAPI.a
-/Volumes/git/m1-sdk/lib/_install/raspberrypi3-cxx11/lib/libMach1TranscodeCAPI.a
-/Volumes/git/m1-sdk/lib/_install/raspberrypi3-cxx11/lib/libMach1Decode-minifiedCAPI.a

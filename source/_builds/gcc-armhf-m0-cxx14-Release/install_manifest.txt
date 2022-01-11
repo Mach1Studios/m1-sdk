@@ -1,4 +1,0 @@
-/Volumes/git/m1-sdk/lib/_install/gcc-armhf-m0-cxx14/lib/libMach1DecodeCAPI.a
-/Volumes/git/m1-sdk/lib/_install/gcc-armhf-m0-cxx14/lib/libMach1DecodePositionalCAPI.a
-/Volumes/git/m1-sdk/lib/_install/gcc-armhf-m0-cxx14/lib/libMach1EncodeCAPI.a
-/Volumes/git/m1-sdk/lib/_install/gcc-armhf-m0-cxx14/lib/libMach1TranscodeCAPI.a

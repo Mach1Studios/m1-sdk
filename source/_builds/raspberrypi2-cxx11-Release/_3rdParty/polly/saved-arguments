@@ -1,1 +1,0 @@
-"cmake" "-H." "-B/Volumes/git/m1-sdk/lib/_builds/raspberrypi2-cxx11-Release" "-DCMAKE_BUILD_TYPE=Release" "-GUnix Makefiles" "-DCMAKE_TOOLCHAIN_FILE=/Volumes/git/polly/raspberrypi2-cxx11.cmake" "-DCMAKE_INSTALL_PREFIX=/Volumes/git/m1-sdk/lib/_install/raspberrypi2-cxx11"

@@ -1,1 +1,0 @@
-"cmake" "-H." "-B/Volumes/git/m1-sdk/lib/_builds/gcc-arm-cortexm0-cxx14-Release" "-DCMAKE_BUILD_TYPE=Release" "-GUnix Makefiles" "-DCMAKE_TOOLCHAIN_FILE=/Volumes/git/polly/gcc-arm-cortexm0-cxx14.cmake" "-DCMAKE_INSTALL_PREFIX=/Volumes/git/m1-sdk/lib/_install/gcc-arm-cortexm0-cxx14"

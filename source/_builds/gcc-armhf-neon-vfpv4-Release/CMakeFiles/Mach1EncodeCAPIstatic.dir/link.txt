@@ -1,2 +1,0 @@
-/Users/dylanmarcus/SDKs/arm-mac-linux-gnueabihf/bin/arm-mac-linux-gnueabihf-gcc-ar qc libMach1EncodeCAPI.a CMakeFiles/Mach1EncodeCAPIstatic.dir/Mach1EncodeCAPI.cpp.o CMakeFiles/Mach1EncodeCAPIstatic.dir/Mach1EncodeCore.cpp.o CMakeFiles/Mach1EncodeCAPIstatic.dir/Mach1Point3DCore.cpp.o
-/Users/dylanmarcus/SDKs/arm-mac-linux-gnueabihf/bin/arm-mac-linux-gnueabihf-ranlib libMach1EncodeCAPI.a

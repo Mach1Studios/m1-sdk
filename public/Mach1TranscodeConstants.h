@@ -45,6 +45,13 @@ namespace Mach1TranscodeConstants {
 	const float oo8 = (float)1.0f / 8.0f;
 
 	const int MAXCHANS = 64;
+
+	const std::vector<Mach1FormatInfo> formats = {
+		{ "CustomPoints", 0 },
+		{ "M1Spatial", 8 },
+	};
+
+	std::vector<Mach1SpatialSoundMatrix> matrices;
 };
 
 #endif

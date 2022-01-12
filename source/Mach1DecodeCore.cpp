@@ -844,10 +844,31 @@ void Mach1DecodeCore::convertAnglesToPlatform(Mach1PlatformType platformType, fl
 		*R = *R;
 		break;
 
-	 case Mach1PlatformiOS:
+	case Mach1PlatformiOS:
 		*Y = -*Y;
 		*P = *P;
 		*R = *R;
+		break;
+
+	case Mach1PlatformiOSTableTop_ZVertical:
+		*Y = -*Y;
+		*P = *P;
+		*R = *R;
+		break;
+
+	case Mach1PlatformiOSPortraitHandheld_YVertical:
+		// TODO: add this!
+		break;
+
+	case Mach1PlatformiOSPortrait_YawOnly:
+		*Y = -*Y;
+		*P = *P;
+		*R = *R;
+		if(*R < 0 && *Y < 0){
+			*Y = 360 - (-1 * (*Y + *R));
+		} else {
+			*Y = *Y + *R;
+		}
 		break;
 
 	 case Mach1PlatformUnity:

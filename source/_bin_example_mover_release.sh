@@ -5,11 +5,21 @@ echo "### Change Dir ###"
 cd "/Volumes/git/m1-sdk/lib"
 
 echo "### Copying all successful bins to /Binaries ###"
-yes | cp -rf "_install/" "../../m1-sdk-release/binaries/"
-yes | cp -rf "external/" "../../m1-sdk-release/include/"
-mkdir -p "../include/cpp/M1DSP"
-yes | cp -rf "include/M1DSP/M1DSPUtilities.h" "../include/cpp/M1DSP/M1DSPUtilities.h"
-yes | cp -rf "include/M1DSP/M1DSPUtilities.cpp" "../include/cpp/M1DSP/M1DSPUtilities.cpp"
+yes | cp -rf "_install/" "../../m1-sdk-release/mach1spatial-libs/"
+yes | cp -rf "external/cpp/" "../../m1-sdk-release/mach1spatial-libs/arm-chipsets/beaglebone/include"
+yes | cp -rf "external/cpp/" "../../m1-sdk-release/mach1spatial-libs/arm-chipsets/gcc-arm-cortexm0-cxx14/include"
+yes | cp -rf "external/cpp/" "../../m1-sdk-release/mach1spatial-libs/arm-chipsets/gcc-armhf-neon-vfpv4/include"
+yes | cp -rf "external/cpp/" "../../m1-sdk-release/mach1spatial-libs/arm-chipsets/arm-chipsets/linux-arm/include"
+yes | cp -rf "external/cpp/" "../../m1-sdk-release/mach1spatial-libs/arm-chipsets/raspberrypi2-cxx11/include"
+yes | cp -rf "external/cpp/" "../../m1-sdk-release/mach1spatial-libs/arm-chipsets/raspberrypi3-cxx11/include"
+yes | cp -rf "external/cpp/" "../../m1-sdk-release/mach1spatial-libs/linux/include"
+yes | cp -rf "external/cpp/" "../../m1-sdk-release/mach1spatial-libs/xcode/include"
+yes | cp -rf "external/java/" "../../m1-sdk-release/mach1spatial-libs/android-arm64-v8a/include"
+yes | cp -rf "external/java/" "../../m1-sdk-release/mach1spatial-libs/android-armeabi-v7a/include"
+yes | cp -rf "external/java/" "../../m1-sdk-release/mach1spatial-libs/android-x86/include"
+yes | cp -rf "external/java/" "../../m1-sdk-release/mach1spatial-libs/android-x86_64/include"
+yes | cp -rf "external/js/" "../../m1-sdk-release/mach1spatial-libs/web"
+yes | cp -rf "external/swift/" "../../m1-sdk-release/mach1spatial-libs/ios/include"
 
 echo "### Move and replace bins ###"
 echo "### Replacing Xcode/macOS ###"
@@ -61,6 +71,6 @@ yes | cp -rf "external/js/Mach1Transcode.js" "../../m1-sdk-release/examples/mach
 yes | cp -rf "external/js/Mach1Transcode.wasm" "../../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-transcode/lib/Mach1Transcode.wasm"
 
 echo "### DELETE all libUnity dirs"
-cd ../../m1-sdk-release/binaries
+cd ../../m1-sdk-release/mach1spatial-libs
 find . -type d -name 'libUnity' -print0 | xargs -0 rm -rf
 find . -type d -name 'libBundle' -print0 | xargs -0 rm -rf

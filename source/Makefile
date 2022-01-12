@@ -1,6 +1,7 @@
 # Mach1 Spatial SDK
 
-EMSDK_PATH=/Volumes/git/emsdk
+# local paths are in this file
+include ~/m1-globallocal.mk
 
 # getting OS type
 ifeq ($(OS),Windows_NT)
@@ -20,15 +21,15 @@ clear:
 
 test: clear
 ifeq ($(detected_OS),Darwin)
-	cd tests && polly --clear --install --config Release --toolchain xcode
+	cd tests && $(POLLY_BIN_PATH) --clear --install --config Release --toolchain xcode
 	./tests/_install/xcode/bin/Mach1EncodeTest
 	./tests/_install/xcode/bin/Mach1DecodeTest
 	./tests/_install/xcode/bin/Mach1DecodePositionalTest
 	./tests/_install/xcode/bin/Mach1SpatialTests
 else ifeq ($(detected_OS),Windows)
-	cd tests && python ../../../polly/bin/polly.py --clear --install --config Release --toolchain vs-15-2017-win64
+	cd tests && python $(POLLY_PY_PATH) --clear --install --config Release --toolchain vs-15-2017-win64
 else
-	cd tests && ~/git/polly/bin/polly --clear --install --config Release --toolchain gcc
+	cd tests && $(POLLY_BIN_PATH) --clear --install --config Release --toolchain gcc
 	./tests/_install/gcc/bin/Mach1EncodeTest
 	./tests/_install/gcc/bin/Mach1DecodeTest
 	./tests/_install/gcc/bin/Mach1DecodePositionalTest
@@ -50,7 +51,7 @@ else
 	g++ -o builds/spatial-transcode-example ../examples/mach1spatial-c/commandline/spatial-transcode-example/spatial-transcode-example/main.cpp ../include/cpp/Mach1Transcode.cpp -I../include/cpp -L_install/gcc/lib -lstdc++ -lMach1TranscodeCAPI
 endif
 
-build-all: clear test includes-dev includes-release build build-web grab-ios build-android build-rpi build-cortexm0 deploy-dev deploy-release
+build-all: clear test includes-dev includes-release build build-web build-android build-rpi build-cortexm0 deploy-dev deploy-release
 	echo "REMINDER: Build FAT iOS lib first!"
 
 build-ci-mac: clear test includes-dev includes-release build build-web deploy-dev deploy-release
@@ -61,7 +62,7 @@ build-ci-win: clear test includes-dev includes-release build deploy-dev deploy-r
 
 build: FORCE
 ifeq ($(detected_OS),Darwin)
-	polly --clear --install --config Release --toolchain xcode
+	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain xcode
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/lib/libMach1DecodeCAPI.a"
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/lib/libMach1DecodePositionalCAPI.a"
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/lib/libMach1EncodeCAPI.a"
@@ -69,10 +70,10 @@ ifeq ($(detected_OS),Darwin)
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/libBundle/libMach1DecodePositionalCAPI.bundle"
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/libBundle/libMach1EncodeCAPI.bundle"
 else ifeq ($(detected_OS),Windows)
-	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-15-2017
-	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-15-2017-win64
+	python $(POLLY_PY_PATH) --clear --install --config Release --toolchain vs-15-2017
+	python $(POLLY_PY_PATH) --clear --install --config Release --toolchain vs-15-2017-win64
 else
-	~/git/polly/bin/polly --clear --install --config Release --toolchain gcc
+	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain gcc
 endif
 
 includes-dev: 
@@ -110,7 +111,7 @@ includes-release:
 	yes | cp -rf "external/swift/" "../../m1-sdk-release/mach1spatial-libs/ios/include"
 
 build-mac:
-	polly --clear --install --config Release --toolchain xcode
+	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain xcode
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/lib/libMach1DecodeCAPI.a"
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/lib/libMach1DecodePositionalCAPI.a"
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/lib/libMach1EncodeCAPI.a"
@@ -127,7 +128,7 @@ build-mac:
 	open _builds/xcode/Mach1SpatialLibraries.xcodeproj
 
 build-ios: FORCE
-	polly --clear --install --config Release --toolchain ios-10-3-dep-9-0-bitcode --ios-multiarch --ios-combined
+	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain ios-10-3-dep-9-0-bitcode --ios-multiarch --ios-combined
 	yes | cp -rf "_install/ios/ios-10-3-dep-9-0-bitcode/libMach1DecodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1DecodeCAPI.a"
 	yes | cp -rf "_install/ios/ios-10-3-dep-9-0-bitcode/libMach1EncodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1EncodeCAPI.a"
 	yes | cp -rf "_install/ios/ios-10-3-dep-9-0-bitcode/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/ios/lib/libMach1DecodePositionalCAPI.a"
@@ -139,7 +140,7 @@ build-ios: FORCE
 	yes | cp -rf external/swift/* "../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Classes/"
 
 build-ios-dev: FORCE
-	polly --clear --install --config Release --toolchain ios --ios-multiarch --ios-combined
+	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain ios --ios-multiarch --ios-combined
 	yes | cp -rf "_install/ios/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1DecodeCAPI.a"
 	yes | cp -rf "_install/ios/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1EncodeCAPI.a"
 	yes | cp -rf "_install/ios/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/ios/lib/libMach1DecodePositionalCAPI.a"
@@ -151,8 +152,8 @@ build-ios-dev: FORCE
 	yes | cp -rf external/swift/* "../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Classes/"
 
 build-rpi:
-	polly --clear --install --config Release --toolchain raspberrypi2-cxx11
-	polly --clear --install --config Release --toolchain raspberrypi3-cxx11
+	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain raspberrypi2-cxx11
+	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain raspberrypi3-cxx11
 	find _install/ -type d -name "libUnity" -exec rm -rf {} +
 	yes | cp -rf "_install/raspberrypi2-cxx11/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/arm-chipsets/raspberrypi2-cxx11/lib/libMach1DecodeCAPI.a"
 	yes | cp -rf "_install/raspberrypi2-cxx11/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/arm-chipsets/raspberrypi2-cxx11/lib/libMach1EncodeCAPI.a"
@@ -168,7 +169,7 @@ build-rpi:
 build-beaglebone:
 	echo "[NOTE] Ensure to change polly toolchain to use c++14 instead of default c++11"
 ifeq ($(detected_OS),Linux)
-	~/git/polly/bin/polly --clear --install --config Release --toolchain gcc
+	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain gcc
 	yes | cp -rf "_install/gcc/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/arm-chipsets/beaglebone/lib/libMach1DecodeCAPI.a"
 	yes | cp -rf "_install/gcc/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/arm-chipsets/beaglebone/lib/libMach1EncodeCAPI.a"
 	yes | cp -rf "_install/gcc/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/arm-chipsets/beaglebone/lib/libMach1TranscodeCAPI.a"
@@ -180,7 +181,7 @@ ifeq ($(detected_OS),Linux)
 	yes | cp -rf "_install/gcc/lib/libMach1DecodePositionalCAPI.a" "/usr/local/lib/libMach1DecodePositionalCAPI.a"
 	yes | cp -rf "_install/gcc/lib/libMach1Decode-minifiedCAPI.a" "/usr/local/lib/libMach1Decode-minifiedCAPI.a"
 else
-	polly --clear --install --config Release --toolchain linux-gcc-armhf
+	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain linux-gcc-armhf
 	yes | cp -rf "_install/linux-gcc-armhf/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/arm-chipsets/beaglebone/lib/libMach1DecodeCAPI.a"
 	yes | cp -rf "_install/linux-gcc-armhf/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/arm-chipsets/beaglebone/lib/libMach1EncodeCAPI.a"
 	yes | cp -rf "_install/linux-gcc-armhf/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/arm-chipsets/beaglebone/lib/libMach1TranscodeCAPI.a"
@@ -189,7 +190,7 @@ else
 endif
 
 build-cortexm0:
-	polly --clear --install --config Release --toolchain gcc-arm-cortexm0-cxx14
+	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain gcc-arm-cortexm0-cxx14
 	yes | cp -rf "_install/gcc-arm-cortexm0-cxx14/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/arm-chipsets/gcc-arm-cortexm0-cxx14/lib/libMach1DecodeCAPI.a"
 	yes | cp -rf "_install/gcc-arm-cortexm0-cxx14/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/arm-chipsets/gcc-arm-cortexm0-cxx14/lib/libMach1EncodeCAPI.a"
 	yes | cp -rf "_install/gcc-arm-cortexm0-cxx14/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/arm-chipsets/gcc-arm-cortexm0-cxx14/lib/libMach1TranscodeCAPI.a"
@@ -197,7 +198,7 @@ build-cortexm0:
 	yes | cp -rf "_install/gcc-arm-cortexm0-cxx14/lib/libMach1Decode-minifiedCAPI.a" "../mach1spatial-libs/arm-chipsets/gcc-arm-cortexm0-cxx14/lib/libMach1Decode-minifiedCAPI.a"
 
 build-armhfneonvfpv4:
-	polly --clear --install --config Release --toolchain gcc-armhf-neon-vfpv4
+	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain gcc-armhf-neon-vfpv4
 	yes | cp -rf "_install/gcc-armhf-neon-vfpv4/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/arm-chipsets/gcc-armhf-neon-vfpv4/lib/libMach1DecodeCAPI.a"
 	yes | cp -rf "_install/gcc-armhf-neon-vfpv4/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/arm-chipsets/gcc-armhf-neon-vfpv4/lib/libMach1EncodeCAPI.a"
 	yes | cp -rf "_install/gcc-armhf-neon-vfpv4/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/arm-chipsets/gcc-armhf-neon-vfpv4/lib/libMach1TranscodeCAPI.a"
@@ -229,10 +230,10 @@ build-web: setup
 	yes | cp -rf "external/js/Mach1Decode.wasm" "../examples/mach1spatial-web/m1-web-spatialaudioplayer/js/Mach1Decode.wasm"
 
 build-android:
-	python ../../polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
-	python ../../polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx
-	python ../../polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r16b-api-21-x86-clang-libcxx
-	python ../../polly/bin/polly.py --clear --install --config Release --toolchain android-ndk-r16b-api-21-x86-64-clang-libcxx
+	python $(POLLY_PY_PATH) --clear --install --config Release --toolchain android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
+	python $(POLLY_PY_PATH) --clear --install --config Release --toolchain android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx
+	python $(POLLY_PY_PATH) --clear --install --config Release --toolchain android-ndk-r16b-api-21-x86-clang-libcxx
+	python $(POLLY_PY_PATH) --clear --install --config Release --toolchain android-ndk-r16b-api-21-x86-64-clang-libcxx
 ifeq ($(detected_OS),Darwin)
 	yes | mv _install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx _install/android-armeabi-v7a
 	yes | mv _install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx _install/android-arm64-v8a
@@ -334,7 +335,7 @@ test-linux: FORCE
 	cd tests && sh ./_build_on_linux_for_linux.sh
 
 build-linux: FORCE
-	~/git/polly/bin/polly --clear --install --config Release --toolchain gcc
+	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain gcc
 
 deploy-linux: build-linux
 	yes | cp -rf "_install/gcc/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/linux/lib/libMach1DecodeCAPI.a"

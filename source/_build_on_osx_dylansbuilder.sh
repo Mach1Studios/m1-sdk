@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #build all binaries and codesign them for use
-if [[ $PWD/ = */m1-sdk/lib/ ]]
+if [[ $PWD/ = */m1-sdk/source/ ]]
 then 
 	echo $PWD
 else

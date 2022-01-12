@@ -1,6 +1,6 @@
 #!/bin/bash
 
-M1SDK_PATH="/Volumes/git/m1-sdk/lib"
+M1SDK_PATH="/Volumes/git/m1-sdk/source"
 
 if [ -d $M1SDK_PATH ] 
 then
@@ -20,10 +20,10 @@ select yn in "Yes" "No"; do
     case $yn in
         Yes ) 
             mkdir -p "_install/ios/lib/"
-			yes | cp -rf "../binaries/ios/lib/libMach1DecodeCAPI.a" "_install/ios/lib/libMach1DecodeCAPI.a"
-			yes | cp -rf "../binaries/ios/lib/libMach1EncodeCAPI.a" "_install/ios/lib/libMach1EncodeCAPI.a"
-			yes | cp -rf "../binaries/ios/lib/libMach1DecodePositionalCAPI.a" "_install/ios/lib/libMach1DecodePositionalCAPI.a"
-            yes | cp -rf "../binaries/ios/lib/libMach1TranscodeCAPI.a" "_install/ios/lib/libMach1TranscodeCAPI.a"; break;;
+			yes | cp -rf "../mach1spatial-libs/ios/lib/libMach1DecodeCAPI.a" "_install/ios/lib/libMach1DecodeCAPI.a"
+			yes | cp -rf "../mach1spatial-libs/ios/lib/libMach1EncodeCAPI.a" "_install/ios/lib/libMach1EncodeCAPI.a"
+			yes | cp -rf "../mach1spatial-libs/ios/lib/libMach1DecodePositionalCAPI.a" "_install/ios/lib/libMach1DecodePositionalCAPI.a"
+            yes | cp -rf "../mach1spatial-libs/ios/lib/libMach1TranscodeCAPI.a" "_install/ios/lib/libMach1TranscodeCAPI.a"; break;;
         No ) break;;
     esac
 done
@@ -39,32 +39,45 @@ select yn in "Yes" "No"; do
             rm -rf _install/android-ndk-r16b-api-21-x86-clang-libcxx
             rm -rf _install/android-ndk-r16b-api-21-x86-64-clang-libcxx
             mkdir -p "_install/android-armeabi-v7a/lib/"
-            yes | cp -rf "../binaries/android-armeabi-v7a/lib/libMach1DecodeCAPI.a" "_install/android-armeabi-v7a/lib/libMach1DecodeCAPI.a"
-            yes | cp -rf "../binaries/android-armeabi-v7a/lib/libMach1EncodeCAPI.a" "_install/android-armeabi-v7a/lib/libMach1EncodeCAPI.a"
-            yes | cp -rf "../binaries/android-armeabi-v7a/lib/libMach1TranscodeCAPI.a" "_install/android-armeabi-v7a/lib/libMach1TranscodeCAPI.a"
-            yes | cp -rf "../binaries/android-armeabi-v7a/lib/libMach1DecodePositionalCAPI.a" "_install/android-armeabi-v7a/lib/libMach1DecodePositionalCAPI.a"
+            yes | cp -rf "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1DecodeCAPI.a" "_install/android-armeabi-v7a/lib/libMach1DecodeCAPI.a"
+            yes | cp -rf "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1EncodeCAPI.a" "_install/android-armeabi-v7a/lib/libMach1EncodeCAPI.a"
+            yes | cp -rf "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1TranscodeCAPI.a" "_install/android-armeabi-v7a/lib/libMach1TranscodeCAPI.a"
+            yes | cp -rf "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1DecodePositionalCAPI.a" "_install/android-armeabi-v7a/lib/libMach1DecodePositionalCAPI.a"
             mkdir -p "_install/android-arm64-v8a/lib/"
-            yes | cp -rf "../binaries/android-arm64-v8a/lib/libMach1DecodeCAPI.a" "_install/android-arm64-v8a/lib/libMach1DecodeCAPI.a"
-            yes | cp -rf "../binaries/android-arm64-v8a/lib/libMach1EncodeCAPI.a" "_install/android-arm64-v8a/lib/libMach1EncodeCAPI.a"
-            yes | cp -rf "../binaries/android-arm64-v8a/lib/libMach1TranscodeCAPI.a" "_install/android-arm64-v8a/lib/libMach1TranscodeCAPI.a"
-            yes | cp -rf "../binaries/android-arm64-v8a/lib/libMach1DecodePositionalCAPI.a" "_install/android-arm64-v8a/lib/libMach1DecodePositionalCAPI.a"
+            yes | cp -rf "../mach1spatial-libs/android-arm64-v8a/lib/libMach1DecodeCAPI.a" "_install/android-arm64-v8a/lib/libMach1DecodeCAPI.a"
+            yes | cp -rf "../mach1spatial-libs/android-arm64-v8a/lib/libMach1EncodeCAPI.a" "_install/android-arm64-v8a/lib/libMach1EncodeCAPI.a"
+            yes | cp -rf "../mach1spatial-libs/android-arm64-v8a/lib/libMach1TranscodeCAPI.a" "_install/android-arm64-v8a/lib/libMach1TranscodeCAPI.a"
+            yes | cp -rf "../mach1spatial-libs/android-arm64-v8a/lib/libMach1DecodePositionalCAPI.a" "_install/android-arm64-v8a/lib/libMach1DecodePositionalCAPI.a"
             mkdir -p "_install/android-x86/lib/"
-            yes | cp -rf "../binaries/android-x86/lib/libMach1DecodeCAPI.a" "_install/android-x86/lib/libMach1DecodeCAPI.a"
-            yes | cp -rf "../binaries/android-x86/lib/libMach1EncodeCAPI.a" "_install/android-x86/lib/libMach1EncodeCAPI.a"
-            yes | cp -rf "../binaries/android-x86/lib/libMach1TranscodeCAPI.a" "_install/android-x86/lib/libMach1TranscodeCAPI.a"
-            yes | cp -rf "../binaries/android-x86/lib/libMach1DecodePositionalCAPI.a" "_install/android-x86/lib/libMach1DecodePositionalCAPI.a"
+            yes | cp -rf "../mach1spatial-libs/android-x86/lib/libMach1DecodeCAPI.a" "_install/android-x86/lib/libMach1DecodeCAPI.a"
+            yes | cp -rf "../mach1spatial-libs/android-x86/lib/libMach1EncodeCAPI.a" "_install/android-x86/lib/libMach1EncodeCAPI.a"
+            yes | cp -rf "../mach1spatial-libs/android-x86/lib/libMach1TranscodeCAPI.a" "_install/android-x86/lib/libMach1TranscodeCAPI.a"
+            yes | cp -rf "../mach1spatial-libs/android-x86/lib/libMach1DecodePositionalCAPI.a" "_install/android-x86/lib/libMach1DecodePositionalCAPI.a"
             mkdir -p "_install/android-x86_64/lib/"
-            yes | cp -rf "../binaries/android-x86_64/lib/libMach1DecodeCAPI.a" "_install/android-x86_64/lib/libMach1DecodeCAPI.a"
-            yes | cp -rf "../binaries/android-x86_64/lib/libMach1EncodeCAPI.a" "_install/android-x86_64/lib/libMach1EncodeCAPI.a"
-            yes | cp -rf "../binaries/android-x86_64/lib/libMach1TranscodeCAPI.a" "_install/android-x86_64/lib/libMach1TranscodeCAPI.a"
-            yes | cp -rf "../binaries/android-x86_64/lib/libMach1DecodePositionalCAPI.a" "_install/android-x86_64/lib/libMach1DecodePositionalCAPI.a"; break;;
+            yes | cp -rf "../mach1spatial-libs/android-x86_64/lib/libMach1DecodeCAPI.a" "_install/android-x86_64/lib/libMach1DecodeCAPI.a"
+            yes | cp -rf "../mach1spatial-libs/android-x86_64/lib/libMach1EncodeCAPI.a" "_install/android-x86_64/lib/libMach1EncodeCAPI.a"
+            yes | cp -rf "../mach1spatial-libs/android-x86_64/lib/libMach1TranscodeCAPI.a" "_install/android-x86_64/lib/libMach1TranscodeCAPI.a"
+            yes | cp -rf "../mach1spatial-libs/android-x86_64/lib/libMach1DecodePositionalCAPI.a" "_install/android-x86_64/lib/libMach1DecodePositionalCAPI.a"; break;;
         No ) break;;
     esac
 done
 
 echo "### Copying all successful bins to /Binaries ###"
-yes | cp -rf "_install/" "../binaries/"
-yes | cp -rf "external/" "../include/"
+yes | cp -rf "_install/" "../mach1spatial-libs/"
+yes | cp -rf "external/cpp/" "../mach1spatial-libs/arm-chipsets/beaglebone/include"
+yes | cp -rf "external/cpp/" "../mach1spatial-libs/arm-chipsets/gcc-arm-cortexm0-cxx14/include"
+yes | cp -rf "external/cpp/" "../mach1spatial-libs/arm-chipsets/gcc-armhf-neon-vfpv4/include"
+yes | cp -rf "external/cpp/" "../mach1spatial-libs/arm-chipsets/arm-chipsets/linux-arm/include"
+yes | cp -rf "external/cpp/" "../mach1spatial-libs/arm-chipsets/raspberrypi2-cxx11/include"
+yes | cp -rf "external/cpp/" "../mach1spatial-libs/arm-chipsets/raspberrypi3-cxx11/include"
+yes | cp -rf "external/cpp/" "../mach1spatial-libs/linux/include"
+yes | cp -rf "external/cpp/" "../mach1spatial-libs/xcode/include"
+yes | cp -rf "external/java/" "../mach1spatial-libs/android-arm64-v8a/include"
+yes | cp -rf "external/java/" "../mach1spatial-libs/android-armeabi-v7a/include"
+yes | cp -rf "external/java/" "../mach1spatial-libs/android-x86/include"
+yes | cp -rf "external/java/" "../mach1spatial-libs/android-x86_64/include"
+yes | cp -rf "external/js/" "../mach1spatial-libs/web"
+yes | cp -rf "external/swift/" "../mach1spatial-libs/ios/include"
 
 echo "### Move and replace bins ###"
 echo "### Replacing Xcode/macOS ###"
@@ -216,7 +229,7 @@ yes | cp -rf "external/js/Mach1Transcode.js" "../examples/mach1spatial-nodejs/ma
 yes | cp -rf "external/js/Mach1Transcode.wasm" "../examples/mach1spatial-nodejs/mach1spatial-transcode/lib/Mach1Transcode.wasm"
 
 echo "### DELETE all libUnity dirs"
-cd ../binaries
+cd ../mach1spatial-libs
 find . -type d -name 'libUnity' -print0 | xargs -0 rm -rf
 find . -type d -name 'libBundle' -print0 | xargs -0 rm -rf
 

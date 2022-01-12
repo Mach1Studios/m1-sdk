@@ -6,7 +6,7 @@
 #include <map>
 
 float mapFloat(float input, float inMin, float inMax, float outMin, float outMax){
-    return (input - inMin) / (inMax - inMin) * (outMax - outMin) + outMin;
+	return (input - inMin) / (inMax - inMin) * (outMax - outMin) + outMin;
 }
 
 void test_results(void)
@@ -18,6 +18,9 @@ void test_results(void)
 		{ Mach1PlatformOfEasyCam , "OFEasyCam" },
 		{ Mach1PlatformAndroid , "Android" },
 		{ Mach1PlatformiOS , "iOS" },
+		{ Mach1PlatformiOSTableTop_ZVertical , "iOS_ZVertical" },
+		{ Mach1PlatformiOSPortraitHandheld_YVertical , "iOS_YVertical" },
+		{ Mach1PlatformiOSPortrait_YawOnly , "iOS_YawOnly" },
 	};
 
 	std::map<Mach1DecodeAlgoType, std::string> outputModeNames = {

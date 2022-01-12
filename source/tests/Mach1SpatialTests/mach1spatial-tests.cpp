@@ -53,12 +53,15 @@ std::map<InputType, std::string> inputTypeNames = {
 };
 
 std::map<Mach1PlatformType, std::string> platformModeNames = {
-		{ Mach1PlatformDefault , "Default" },
-		{ Mach1PlatformUnity , "Unity" },
-		{ Mach1PlatformUE , "UE" },
-		{ Mach1PlatformOfEasyCam , "OFEasyCam" },
-		{ Mach1PlatformAndroid , "Android" },
-		{ Mach1PlatformiOS , "iOS" },
+	{ Mach1PlatformDefault , "Default" },
+	{ Mach1PlatformUnity , "Unity" },
+	{ Mach1PlatformUE , "UE" },
+	{ Mach1PlatformOfEasyCam , "OFEasyCam" },
+	{ Mach1PlatformAndroid , "Android" },
+	{ Mach1PlatformiOS , "iOS" },
+	{ Mach1PlatformiOSTableTop_ZVertical , "iOS_ZVertical" },
+	{ Mach1PlatformiOSPortraitHandheld_YVertical , "iOS_YVertical" },
+	{ Mach1PlatformiOSPortrait_YawOnly , "iOS_YawOnly" },
 };
 
 std::map<Mach1DecodeAlgoType, std::string> decodeOutputModeNames = {
@@ -249,7 +252,7 @@ void test_results(void)
 	}
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-    getchar();
+	getchar();
 #endif
 }
 

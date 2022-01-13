@@ -58,7 +58,6 @@ std::map<Mach1PlatformType, std::string> platformModeNames = {
 	{ Mach1PlatformUE , "UE" },
 	{ Mach1PlatformOfEasyCam , "OFEasyCam" },
 	{ Mach1PlatformAndroid , "Android" },
-	{ Mach1PlatformiOS , "iOS" },
 	{ Mach1PlatformiOSTableTop_ZVertical , "iOS_ZVertical" },
 	{ Mach1PlatformiOSPortraitHandheld_YVertical , "iOS_YVertical" },
 	{ Mach1PlatformiOSPortrait_YawOnly , "iOS_YawOnly" },

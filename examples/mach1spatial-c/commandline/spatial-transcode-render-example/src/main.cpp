@@ -190,7 +190,7 @@ int main(int argc, char* argv[])
             {
                 std::ifstream file(pStr);
                 std::string strJson((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-				m1transcode.setInputFormatTTJson((char*)strJson.c_str());
+				m1transcode.setInputFormatCustomPointsJson((char*)strJson.c_str());
 			}
 		}
 	}
@@ -236,7 +236,7 @@ int main(int argc, char* argv[])
 			{
                 std::ifstream file(pStr);
                 std::string strJson((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-				m1transcode.setOutputFormatTTJson((char*)strJson.c_str());
+				m1transcode.setOutputFormatCustomPointsJson((char*)strJson.c_str());
 			}
 		}
 	}

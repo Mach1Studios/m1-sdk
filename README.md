@@ -21,7 +21,7 @@
 - The most current version of the MACH1 SPATIAL SDK ROYALTY FREE LICENSE will be posted at www.mach1.tech/license. If the Current Version has a more recent effective date than this document, then this document is replaced by the Currnt Version and by clicking on the appropriate button below, or by downloading, installing, activating or using any of the SDK, or any other update method Mach1 may choose, you agree to be bound by the Current Version. You may not use an old version of any SDK if you have not agreed to the Current Version.
  - IF YOU DO NOT AGREE TO THE TERMS OF THIS AGREEMENT, WE WILL NOT LICENSE THE MACH1 SPATIAL SDK TO YOU AND YOU MUST DISCONTINUE THE INSTALLATION OR DOWNLOAD PROCESS OR CEASE USE OF THE MACH1 SPATIAL SDK.
 
-By downloading and/or using the Mach1 Spatial SDK, including use of any of the contents within the [binaries/](binaries),
+By downloading and/or using the Mach1 Spatial SDK, including use of any of the contents within the [mach1spatial-libs/](mach1spatial-libs),
 you agree to and acknowledge the terms of use set forth by the [Mach1 Spatial SDK License](https://www.mach1.tech/license).
 If you do not agree to the terms set forth by the [Mach1 Spatial SDK License](https://www.mach1.tech/license) you are not
 permitted to use, link, compile and/or distribute any of the contents of this repository.
@@ -46,14 +46,8 @@ Please view the [license/](license) directory for more information and proper at
 
 ### [INCLUDED](#included) ###
 
-#### API Binaries built for following Platforms
-* Android r11c - r16b: arm64-v8a
-* Android r11c - r16b: armeabi
-* Android r11c - r16b: armeabi-v7a
-* Android r11c - r16b: mips
-* Android r11c - r16b: mips64
-* Android r11c - r16b: x86
-* Android r11c - r16b: x86-64
+#### API binary libs prebuilt for following Platforms
+* Android (libs in multiple archs, jitpack)
 * iOS (cocoapod, lib, frameworks)
 * macOS (xcode)
 * Linux (x86 & ARM)
@@ -62,12 +56,12 @@ Please view the [license/](license) directory for more information and proper at
 * Unix/linux: _m1-transcode executable_
 * RaspberryPi2
 * RaspberryPi3
+* Various embedded ARM chipsets
 
 #### Includes
-* C
-* C++
+* C/C++
 * C#
-* Java/jni
+* Java
 * js/web
 * Swift/Obj-C
 * Python (in progress)
@@ -83,6 +77,7 @@ Please view the [license/](license) directory for more information and proper at
 	* _.unitypackage for Mach1Decode/Mach1DecodePositional and experiemental DSPGraph implementation of Mach1Encode_
 * iOS Examples
 	* _Mach1Decode example_
+	* _Mach1Transcode example_
 	* _Mach1Encode & live Mach1Decode example_
 	* _Mach1DecodePositional example_
 * Android Examples
@@ -90,6 +85,7 @@ Please view the [license/](license) directory for more information and proper at
 	* _Mach1Encode & live Mach1Decode example_
 * Web Examples
 	* _Mach1Decode example_
+	* [_Facetracking WebPlayer example_](https://github.com/Mach1Studios/m1-web-spatialaudioplayer)
 	* _Mach1Encode & live Mach1Decode example_
 	* _Mach1Encode Recorder example_
 * OpenFrameworks Examples in C++
@@ -97,13 +93,17 @@ Please view the [license/](license) directory for more information and proper at
 	* _Mach1Encode example_
 	* _Mach1Decode audio player example_
 * CommandLine Examples
-	* _Mach1Decode example(macOS)(win)_
-	* _Mach1DecodePositional example (macOS)_
-	* _Mach1Encode example (macOS)_
+	* [_Mach1Decode example_](https://github.com/Mach1Studios/m1-sdk/tree/master/examples/mach1spatial-c/commandline/spatial-decode-example)
+	* [_Mach1Transcode example_](https://github.com/Mach1Studios/m1-sdk/tree/master/examples/mach1spatial-c/commandline/spatial-transcode-example)
+	* [_Mach1Transcode Audioplayer example_](https://github.com/Mach1Studios/m1-sdk/tree/master/examples/mach1spatial-c/commandline/spatial-transcode-audioplayer)
+	* [_Mach1Transcode Render example_](https://github.com/Mach1Studios/m1-sdk/tree/master/examples/mach1spatial-c/commandline/spatial-transcode-render-example)
+	* [_Mach1Transcode ObjectAudio example_](https://github.com/Mach1Studios/m1-sdk/tree/master/examples/mach1spatial-c/commandline/spatial-transcode-objectaudio-example)
+	* [_Mach1DecodePositional example_](https://github.com/Mach1Studios/m1-sdk/tree/master/examples/mach1spatial-c/commandline/spatial-decodepositional-example)
+	* [_Mach1Encode example_](https://github.com/Mach1Studios/m1-sdk/tree/master/examples/mach1spatial-c/commandline/spatial-encode-example)
 
 ### DOCUMENTATION ###
 
-open or load `docs/index.html` into your preferred browser to run through all the API documentation.
+open or load [`docs/index.html`](https://github.com/Mach1Studios/m1-sdk/tree/master/docs) into your preferred browser to run through all the API documentation or visit our [hosted documentation](https://dev.mach1.tech)
 
 ### [CONTACT](#contact) ###
 

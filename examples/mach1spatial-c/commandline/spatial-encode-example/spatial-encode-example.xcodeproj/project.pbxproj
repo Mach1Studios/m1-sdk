@@ -29,10 +29,10 @@
 /* Begin PBXFileReference section */
 		A43388C2236B8D57002ADB19 /* spatial-encode-example */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "spatial-encode-example"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A43388C5236B8D57002ADB19 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		A43388CC236B95E7002ADB19 /* Mach1Encode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Mach1Encode.h; path = ../../../../include/cpp/Mach1Encode.h; sourceTree = "<group>"; };
-		A43388CD236B95E7002ADB19 /* Mach1Point3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Mach1Point3D.h; path = ../../../../include/cpp/Mach1Point3D.h; sourceTree = "<group>"; };
-		A43388CE236B95E7002ADB19 /* Mach1Encode.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Mach1Encode.cpp; path = ../../../../include/cpp/Mach1Encode.cpp; sourceTree = "<group>"; };
-		A43388CF236B95E7002ADB19 /* Mach1EncodeCAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Mach1EncodeCAPI.h; path = ../../../../include/cpp/Mach1EncodeCAPI.h; sourceTree = "<group>"; };
+		A43388CC236B95E7002ADB19 /* Mach1Encode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Mach1Encode.h; path = ../../../../mach1spatial-libs/xcode/include/Mach1Encode.h; sourceTree = "<group>"; };
+		A43388CD236B95E7002ADB19 /* Mach1Point3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Mach1Point3D.h; path = ../../../../mach1spatial-libs/xcode/include/Mach1Point3D.h; sourceTree = "<group>"; };
+		A43388CE236B95E7002ADB19 /* Mach1Encode.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Mach1Encode.cpp; path = ../../../../mach1spatial-libs/xcode/include/Mach1Encode.cpp; sourceTree = "<group>"; };
+		A43388CF236B95E7002ADB19 /* Mach1EncodeCAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Mach1EncodeCAPI.h; path = ../../../../mach1spatial-libs/xcode/include/Mach1EncodeCAPI.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -256,9 +256,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../../include/cpp\"";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../binaries/xcode/lib\"";
-				OTHER_LDFLAGS = "\"$(SRCROOT)/../../../../binaries/xcode/lib/libMach1EncodeCAPI.a\"";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../../mach1spatial-libs/xcode/include\"";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../mach1spatial-libs/xcode/lib\"";
+				OTHER_LDFLAGS = "\"$(SRCROOT)/../../../../mach1spatial-libs/xcode/lib/libMach1EncodeCAPI.a\"";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -267,9 +267,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../../include/cpp\"";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../binaries/xcode/lib\"";
-				OTHER_LDFLAGS = "\"$(SRCROOT)/../../../../binaries/xcode/lib/libMach1EncodeCAPI.a\"";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../../mach1spatial-libs/xcode/include\"";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../mach1spatial-libs/xcode/lib\"";
+				OTHER_LDFLAGS = "\"$(SRCROOT)/../../../../mach1spatial-libs/xcode/lib/libMach1EncodeCAPI.a\"";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

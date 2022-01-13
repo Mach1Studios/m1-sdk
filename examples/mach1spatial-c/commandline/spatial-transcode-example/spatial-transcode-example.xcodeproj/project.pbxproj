@@ -26,10 +26,10 @@
 /* Begin PBXFileReference section */
 		A4B1219824991070009AA0F8 /* spatial-transcode-example */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "spatial-transcode-example"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4B1219B24991070009AA0F8 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		A4B121A2249910EE009AA0F8 /* Mach1Point3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1Point3D.h; path = ../../../../include/cpp/Mach1Point3D.h; sourceTree = "<group>"; };
-		A4B121A3249910EE009AA0F8 /* Mach1Transcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1Transcode.h; path = ../../../../include/cpp/Mach1Transcode.h; sourceTree = "<group>"; };
-		A4B121A4249910EE009AA0F8 /* Mach1TranscodeCAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1TranscodeCAPI.h; path = ../../../../include/cpp/Mach1TranscodeCAPI.h; sourceTree = "<group>"; };
-		A4B121A5249910EE009AA0F8 /* Mach1Transcode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mach1Transcode.cpp; path = ../../../../include/cpp/Mach1Transcode.cpp; sourceTree = "<group>"; };
+		A4B121A2249910EE009AA0F8 /* Mach1Point3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1Point3D.h; path = ../../../../mach1spatial-libs/xcode/include/Mach1Point3D.h; sourceTree = "<group>"; };
+		A4B121A3249910EE009AA0F8 /* Mach1Transcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1Transcode.h; path = ../../../../mach1spatial-libs/xcode/include/Mach1Transcode.h; sourceTree = "<group>"; };
+		A4B121A4249910EE009AA0F8 /* Mach1TranscodeCAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1TranscodeCAPI.h; path = ../../../../mach1spatial-libs/xcode/include/Mach1TranscodeCAPI.h; sourceTree = "<group>"; };
+		A4B121A5249910EE009AA0F8 /* Mach1Transcode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mach1Transcode.cpp; path = ../../../../mach1spatial-libs/xcode/include/Mach1Transcode.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -249,9 +249,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../../include/cpp\"";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../binaries/xcode/lib\"";
-				OTHER_LDFLAGS = "\"$(SRCROOT)/../../../../binaries/xcode/lib/libMach1TranscodeCAPI.a\"";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../../mach1spatial-libs/xcode/include\"";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../mach1spatial-libs/xcode/lib\"";
+				OTHER_LDFLAGS = "\"$(SRCROOT)/../../../../mach1spatial-libs/xcode/lib/libMach1TranscodeCAPI.a\"";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -260,9 +260,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../../include/cpp\"";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../binaries/xcode/lib\"";
-				OTHER_LDFLAGS = "\"$(SRCROOT)/../../../../binaries/xcode/lib/libMach1TranscodeCAPI.a\"";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../../mach1spatial-libs/xcode/include\"";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../../mach1spatial-libs/xcode/lib\"";
+				OTHER_LDFLAGS = "\"$(SRCROOT)/../../../../mach1spatial-libs/xcode/lib/libMach1TranscodeCAPI.a\"";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

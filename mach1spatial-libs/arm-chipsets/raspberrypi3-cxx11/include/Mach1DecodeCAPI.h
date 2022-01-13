@@ -35,7 +35,9 @@ enum Mach1PlatformType {
 	Mach1PlatformUE,
 	Mach1PlatformOfEasyCam,
 	Mach1PlatformAndroid,
-	Mach1PlatformiOS
+	Mach1PlatformiOSTableTop_ZVertical,
+	Mach1PlatformiOSPortraitHandheld_YVertical,
+	Mach1PlatformiOSPortrait_YawOnly
 };
 
 enum Mach1DecodeAlgoType {
@@ -71,10 +73,10 @@ extern "C" {
 	M1_API void Mach1DecodeCAPI_endBuffer(void* M1obj);
   
 	M1_API int Mach1DecodeCAPI_getFormatChannelCount(void* M1obj);
-	M1_API void Mach1DecodeCAPI_setRotation(void* M1obj, Mach1Point3D newRotationFromMinusOnetoOne);
-	M1_API void Mach1DecodeCAPI_setRotationDegrees(void* M1obj, Mach1Point3D newRotationDegrees);
-	M1_API void Mach1DecodeCAPI_setRotationRadians(void* M1obj, Mach1Point3D newRotationRadians);
-	M1_API void Mach1DecodeCAPI_setRotationQuat(void* M1obj, Mach1Point4D newRotationQuat);
+	M1_API void Mach1DecodeCAPI_setRotation(void* M1obj, struct Mach1Point3D newRotationFromMinusOnetoOne);
+	M1_API void Mach1DecodeCAPI_setRotationDegrees(void* M1obj, struct Mach1Point3D newRotationDegrees);
+	M1_API void Mach1DecodeCAPI_setRotationRadians(void* M1obj, struct Mach1Point3D newRotationRadians);
+	M1_API void Mach1DecodeCAPI_setRotationQuat(void* M1obj, struct Mach1Point4D newRotationQuat);
 
 	M1_API long Mach1DecodeCAPI_getCurrentTime(void* M1obj);
 	M1_API long Mach1DecodeCAPI_getLastCalculationTime(void* M1obj);

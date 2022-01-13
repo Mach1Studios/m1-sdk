@@ -78,7 +78,7 @@ string convertToString(char* a, int size) {
 
 void printHelp() {
 	cout << "spatial-transcode-objectaudio-example -- light command line example conversion tool" << std::endl;
-    cout << "note: for a complete transcoding tool use `m1-transcode` from the `binaries/executables` directory" << std::endl;
+    cout << "note: for a complete transcoding tool use `m1-transcode` from the `executables` directory" << std::endl;
 	cout << std::endl;
 	cout << "usage: fmtconv -in-file test_s8.wav -in-fmt M1Spatial -out-file test_b.wav -out-fmt DolbyAtmosSevenOneTwo" << std::endl;
 	cout << std::endl;

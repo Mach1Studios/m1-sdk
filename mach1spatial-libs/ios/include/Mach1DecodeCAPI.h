@@ -7,7 +7,7 @@
 #include "Mach1Point4D.h"
 #include <stdbool.h>
 
-#if defined(Mach1DecodeCore_h) || defined(Mach1EncodeCore_h) ||  defined(Mach1PositionalCore_h)
+#if defined(Mach1DecodeCore_h) || defined(Mach1EncodeCore_h) ||  defined(Mach1PositionalCore_h) || defined(Mach1TranscodeCore_h) || defined(Mach1AudioTimelineCore_h)
 #ifndef M1_API
         #if defined(_WINDOWS) || defined(WIN32)
                 #define M1_API __declspec(dllexport)
@@ -30,13 +30,28 @@
 #define Mach1DecodeCAPI_h
 
 enum Mach1PlatformType {
-	Mach1PlatformDefault = 0, Mach1PlatformUnity, Mach1PlatformUE, Mach1PlatformOfEasyCam, Mach1PlatformAndroid, Mach1PlatformiOS
+	Mach1PlatformDefault = (int) 0,
+	Mach1PlatformUnity,
+	Mach1PlatformUE,
+	Mach1PlatformOfEasyCam,
+	Mach1PlatformAndroid,
+	Mach1PlatformiOS,
+	Mach1PlatformiOSTableTop_ZVertical,
+	Mach1PlatformiOSPortraitHandheld_YVertical,
+	Mach1PlatformiOSPortrait_YawOnly
 };
 
 enum Mach1DecodeAlgoType {
-	Mach1DecodeAlgoSpatial = 0, Mach1DecodeAlgoAltSpatial, Mach1DecodeAlgoHorizon, Mach1DecodeAlgoHorizonPairs, Mach1DecodeAlgoSpatialPairs, Mach1DecodeAlgoSpatialPlus, Mach1DecodeAlgoSpatialPlusPlus, Mach1DecodeAlgoSpatialExt, Mach1DecodeAlgoSpatialExtPlus
+	Mach1DecodeAlgoSpatial = (int) 0,
+	Mach1DecodeAlgoAltSpatial,
+	Mach1DecodeAlgoHorizon,
+	Mach1DecodeAlgoHorizonPairs,
+	Mach1DecodeAlgoSpatialPairs,
+	Mach1DecodeAlgoSpatialPlus,
+	Mach1DecodeAlgoSpatialPlusPlus,
+	Mach1DecodeAlgoSpatialExt,
+	Mach1DecodeAlgoSpatialExtPlus
 };
-
 
 #ifdef __cplusplus
 extern "C" {

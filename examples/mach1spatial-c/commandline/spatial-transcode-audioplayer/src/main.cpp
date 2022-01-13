@@ -102,7 +102,7 @@ std::string convertToString(char* a, int size)
 void printHelp()
 {
 	std::cout << "spatial-transcode-audio -- light command line example conversion tool" << std::endl;
-    std::cout << "note: for a complete transcoding tool use `m1-transcode` from the `binaries/executables` directory" << std::endl;
+    std::cout << "note: for a complete transcoding tool use `m1-transcode` from the `executables` directory" << std::endl;
     std::cout << std::endl;
     std::cout << "usage: -in-file test_FiveOneFilm.wav -in-fmt FiveOneFilm_Cinema -out-file test_b.wav -out-fmt M1Spatial -out-file-chans 0 -yaw 90.0 -pitch 15.0 -roll 0.0" << std::endl;
     std::cout << std::endl;

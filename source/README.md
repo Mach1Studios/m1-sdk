@@ -1,17 +1,19 @@
 # README #
 
 
-### Mach1Decode POLLY BUILD ###
+### Mach1Spatial libs build process ###
 
-To build Mach1Decode Library, install Polly (https://github.com/ruslo/polly).
+- To build libs, install Polly (https://github.com/ruslo/polly).
+- Fill out the `m1-globallocal.mk` file and move it to `~/m1-globallocal.mk` for proper path variables
+- run commands from `makefile` or run `make build-all` from this directory to test everything 
 
 ## Recipes ##
 
-* Mac OS build (xcode):
+* Mac OS build (xcode) Example:
 
 `polly  --clear --install --config Release --toolchain xcode`
 
-* Android build (NDK r16b):
+* Android build (NDK r16b) Example:
 
 set env var ANDROID_NDK_r16b to ndk path
 
@@ -24,7 +26,7 @@ set env var ANDROID_NDK_r16b to ndk path
 `polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips`
 `polly --clear --install --config Release --toolchain android-ndk-r11c-api-21-mips64`
 
-* Windows (VS2015)
+* Windows (VS2015) Example
 
 `polly.bat --clear --install --config Release --toolchain vs-14-2015`
 `polly.bat --clear --install --config Release --toolchain vs-14-2015-win64`

@@ -155,7 +155,6 @@ build-ios-dev: FORCE
 build-rpi:
 	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain raspberrypi2-cxx11
 	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain raspberrypi3-cxx11
-	find _install/ -type d -name "libUnity" -exec rm -rf {} +
 	yes | cp -rf "_install/raspberrypi2-cxx11/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/arm-chipsets/raspberrypi2-cxx11/lib/libMach1DecodeCAPI.a"
 	yes | cp -rf "_install/raspberrypi2-cxx11/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/arm-chipsets/raspberrypi2-cxx11/lib/libMach1EncodeCAPI.a"
 	yes | cp -rf "_install/raspberrypi2-cxx11/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/arm-chipsets/raspberrypi2-cxx11/lib/libMach1TranscodeCAPI.a"
@@ -289,12 +288,6 @@ ifeq ($(detected_OS),Darwin)
 	yes | cp -rf "_install/android-x86_64/libUnity/libMach1EncodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/x86_64/libMach1EncodeCAPI.so"
 	yes | cp -rf "_install/android-x86_64/libUnity/libMach1TranscodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/x86_64/libMach1TranscodeCAPI.so"
 	yes | cp -rf "_install/android-x86_64/libUnity/libMach1DecodePositionalCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/x86_64/libMach1DecodePositionalCAPI.so"
-	# cleanup
-	rm -rf _install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx
-	rm -rf _install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
-	rm -rf _install/android-ndk-r16b-api-21-x86-clang-libcxx
-	rm -rf _install/android-ndk-r16b-api-21-x86-64-clang-libcxx
-	find _install/ -type d -name "libUnity" -exec rm -rf {} +
 else ifeq ($(detected_OS),Windows)
 	# copy over android from pull
 	xcopy _install\android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx\lib ..\mach1spatial-libs\android-arm64-v8a\lib /Y
@@ -311,11 +304,12 @@ else ifeq ($(detected_OS),Windows)
 	mkdir ..\mach1spatial-libs\android-armeabi-v7a
 	mkdir ..\mach1spatial-libs\android-x86
 	mkdir ..\mach1spatial-libs\android-x86_64
+endif
+	# cleanup
 	rm -rf _install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx
 	rm -rf _install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
 	rm -rf _install/android-ndk-r16b-api-21-x86-clang-libcxx
 	rm -rf _install/android-ndk-r16b-api-21-x86-64-clang-libcxx
-endif
 
 deploy-windows:
 	# copy over windows libs
@@ -532,11 +526,7 @@ deploy-dev:
 	yes | cp -rf "../mach1spatial-libs/android-arm64-v8a/libUnity/libMach1TranscodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/arm64-v8a/libMach1TranscodeCAPI.so"
 	yes | cp -rf "../mach1spatial-libs/android-arm64-v8a/libUnity/libMach1DecodePositionalCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/arm64-v8a/libMach1DecodePositionalCAPI.so"
 	echo "### Copying ofxMach1 to dev local \###"
-	yes | cp -rf "../examples/mach1spatial-c/openframeworks/ofxMach1" "../../openFrameworks/addons/"
-	yes | cp -rf "../examples/mach1spatial-c/openframeworks/ofxMach1" "../../openFrameworks-git/addons/"
-	yes | cp -rf "../examples/mach1spatial-c/openframeworks/ofxMach1" "../../of_v0.9.8_osx_release/addons/"
-	yes | cp -rf "../examples/mach1spatial-c/openframeworks/ofxMach1" "../../of_v0.10.1_osx_release/addons/"
-	yes | cp -rf "../examples/mach1spatial-c/openframeworks/ofxMach1" "../../of_v0.11.0_osx_release/addons/"
+	yes | cp -rf "../examples/mach1spatial-c/openframeworks/ofxMach1" "$(OF_PATH)/addons/"
 	echo "### DELETE all libUnity dirs \###"
 	cd ../mach1spatial-libs && find . -type d -name 'libUnity' -print0 | xargs -0 rm -rf
 	cd ../mach1spatial-libs && find . -type d -name 'libBundle' -print0 | xargs -0 rm -rf

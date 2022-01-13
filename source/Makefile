@@ -17,7 +17,8 @@ setup:
 	source $(EMSDK_PATH)/emsdk_env.sh
 
 clear:
-	rm -rf _install/*
+	rm -rf _install
+	rm -rf _builds
 
 test: clear
 ifeq ($(detected_OS),Darwin)

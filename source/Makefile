@@ -94,21 +94,21 @@ includes-dev:
 	yes | cp -rf "external/swift/" "../mach1spatial-libs/ios/include"
 
 includes-release: 
-	#yes | cp -rf "external/c#" "../../m1-sdk-release/mach1spatial-libs/c#"
-	yes | cp -rf "external/cpp/" "../../m1-sdk-release/mach1spatial-libs/arm-chipsets/beaglebone/include"
-	yes | cp -rf "external/cpp/" "../../m1-sdk-release/mach1spatial-libs/arm-chipsets/gcc-arm-cortexm0-cxx14/include"
-	yes | cp -rf "external/cpp/" "../../m1-sdk-release/mach1spatial-libs/arm-chipsets/gcc-armhf-neon-vfpv4/include"
-	yes | cp -rf "external/cpp/" "../../m1-sdk-release/mach1spatial-libs/arm-chipsets/linux-arm/include"
-	yes | cp -rf "external/cpp/" "../../m1-sdk-release/mach1spatial-libs/arm-chipsets/raspberrypi2-cxx11/include"
-	yes | cp -rf "external/cpp/" "../../m1-sdk-release/mach1spatial-libs/arm-chipsets/raspberrypi3-cxx11/include"
-	yes | cp -rf "external/cpp/" "../../m1-sdk-release/mach1spatial-libs/linux/include"
-	yes | cp -rf "external/cpp/" "../../m1-sdk-release/mach1spatial-libs/xcode/include"
-	yes | cp -rf "external/java/" "../../m1-sdk-release/mach1spatial-libs/android-arm64-v8a/include"
-	yes | cp -rf "external/java/" "../../m1-sdk-release/mach1spatial-libs/android-armeabi-v7a/include"
-	yes | cp -rf "external/java/" "../../m1-sdk-release/mach1spatial-libs/android-x86/include"
-	yes | cp -rf "external/java/" "../../m1-sdk-release/mach1spatial-libs/android-x86_64/include"
-	yes | cp -rf "external/js/" "../../m1-sdk-release/mach1spatial-libs/web"
-	yes | cp -rf "external/swift/" "../../m1-sdk-release/mach1spatial-libs/ios/include"
+	#yes | cp -rf "external/c#" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/c#"
+	yes | cp -rf "external/cpp/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/arm-chipsets/beaglebone/include"
+	yes | cp -rf "external/cpp/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/arm-chipsets/gcc-arm-cortexm0-cxx14/include"
+	yes | cp -rf "external/cpp/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/arm-chipsets/gcc-armhf-neon-vfpv4/include"
+	yes | cp -rf "external/cpp/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/arm-chipsets/linux-arm/include"
+	yes | cp -rf "external/cpp/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/arm-chipsets/raspberrypi2-cxx11/include"
+	yes | cp -rf "external/cpp/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/arm-chipsets/raspberrypi3-cxx11/include"
+	yes | cp -rf "external/cpp/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/linux/include"
+	yes | cp -rf "external/cpp/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/xcode/include"
+	yes | cp -rf "external/java/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/android-arm64-v8a/include"
+	yes | cp -rf "external/java/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/android-armeabi-v7a/include"
+	yes | cp -rf "external/java/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/android-x86/include"
+	yes | cp -rf "external/java/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/android-x86_64/include"
+	yes | cp -rf "external/js/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/web"
+	yes | cp -rf "external/swift/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/ios/include"
 
 build-mac:
 	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain xcode
@@ -209,7 +209,7 @@ build-web:
 	source $(EMSDK_PATH)/emsdk_env.sh && emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1DecodeModule'" -s ALLOW_TABLE_GROWTH=1 --pre-js Mach1DecodeEmscripten.js -o external/js/Mach1Decode.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodeEmscripten.cpp
 	source $(EMSDK_PATH)/emsdk_env.sh && emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1DecodePositionalModule'" -s ALLOW_TABLE_GROWTH=1 -Iinclude/ --pre-js Mach1DecodePositionalEmscripten.js -o external/js/Mach1DecodePositional.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodePositionalCore.cpp Mach1DecodePositionalCAPI.cpp Mach1DecodePositionalEmscripten.cpp
 	source $(EMSDK_PATH)/emsdk_env.sh && emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1EncodeModule'" -s ALLOW_TABLE_GROWTH=1 --pre-js Mach1EncodeEmscripten.js -o external/js/Mach1Encode.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1EncodeCore.cpp Mach1EncodeCAPI.cpp Mach1EncodeEmscripten.cpp
-	source $(EMSDK_PATH)/emsdk_env.sh && emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1TranscodeModule'" -s ALLOW_TABLE_GROWTH=1 --pre-js Mach1TranscodeEmscripten.js -o external/js/Mach1Transcode.js -Iinclude Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1TranscodeCore.cpp Mach1TranscodeCAPI.cpp Mach1TranscodeEmscripten.cpp Mach1GenerateCoeffs.cpp include/M1DSP/M1DSPUtilities.cpp include/M1DSP/M1DSPFilters.cpp ../public/Mach1TranscodeConstants.h
+	source $(EMSDK_PATH)/emsdk_env.sh && emcc -O3 --closure 0 --memory-init-file 0 --bind -s MODULARIZE=1 -s "EXPORT_NAME='Mach1TranscodeModule'" -s ALLOW_TABLE_GROWTH=1 --pre-js Mach1TranscodeEmscripten.js -o external/js/Mach1Transcode.js -Iinclude Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1TranscodeCore.cpp Mach1TranscodeCAPI.cpp Mach1TranscodeEmscripten.cpp Mach1GenerateCoeffs.cpp include/M1DSP/M1DSPUtilities.cpp include/M1DSP/M1DSPFilters.cpp
 	yes | cp -rf "external/js/Mach1Decode.js" "../examples/mach1spatial-nodejs/mach1spatial-decode/lib/Mach1Decode.js"
 	yes | cp -rf "external/js/Mach1Decode.wasm" "../examples/mach1spatial-nodejs/mach1spatial-decode/lib/Mach1Decode.wasm"
 	yes | cp -rf "external/js/Mach1DecodePositional.js" "../examples/mach1spatial-nodejs/mach1spatial-decode/lib/Mach1DecodePositional.js"
@@ -296,20 +296,20 @@ ifeq ($(detected_OS),Darwin)
 	find _install/ -type d -name "libUnity" -exec rm -rf {} +
 else ifeq ($(detected_OS),Windows)
 	# copy over android from pull
-	xcopy _install\android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx\lib ..\binaries\android-arm64-v8a\lib /Y
-	xcopy _install\android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx\lib ..\binaries\android-armeabi-v7a\lib /Y
-	xcopy _install\android-ndk-r16b-api-21-x86-clang-libcxx\lib ..\binaries\android-x86\lib /Y
-	xcopy _install\android-ndk-r16b-api-21-x86-64-clang-libcxx\lib ..\binaries\android-x86_64\lib /Y
-	xcopy _install\android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx\libUnity ..\binaries\android-arm64-v8a\libUnity /Y
-	xcopy _install\android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx\libUnity ..\binaries\android-armeabi-v7a\libUnity /Y
-	xcopy _install\android-ndk-r16b-api-21-x86-clang-libcxx\libUnity ..\binaries\android-x86\libUnity /Y
-	xcopy _install\android-ndk-r16b-api-21-x86-64-clang-libcxx\libUnity ..\binaries\android-x86_64\libUnity /Y
+	xcopy _install\android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx\lib ..\mach1spatial-libs\android-arm64-v8a\lib /Y
+	xcopy _install\android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx\lib ..\mach1spatial-libs\android-armeabi-v7a\lib /Y
+	xcopy _install\android-ndk-r16b-api-21-x86-clang-libcxx\lib ..\mach1spatial-libs\android-x86\lib /Y
+	xcopy _install\android-ndk-r16b-api-21-x86-64-clang-libcxx\lib ..\mach1spatial-libs\android-x86_64\lib /Y
+	xcopy _install\android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx\libUnity ..\mach1spatial-libs\android-arm64-v8a\libUnity /Y
+	xcopy _install\android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx\libUnity ..\mach1spatial-libs\android-armeabi-v7a\libUnity /Y
+	xcopy _install\android-ndk-r16b-api-21-x86-clang-libcxx\libUnity ..\mach1spatial-libs\android-x86\libUnity /Y
+	xcopy _install\android-ndk-r16b-api-21-x86-64-clang-libcxx\libUnity ..\mach1spatial-libs\android-x86_64\libUnity /Y
 	del /f /s /q _android 1>nul
 	rmdir /s /q _android
-	mkdir ..\binaries\android-arm64-v8a
-	mkdir ..\binaries\android-armeabi-v7a
-	mkdir ..\binaries\android-x86
-	mkdir ..\binaries\android-x86_64
+	mkdir ..\mach1spatial-libs\android-arm64-v8a
+	mkdir ..\mach1spatial-libs\android-armeabi-v7a
+	mkdir ..\mach1spatial-libs\android-x86
+	mkdir ..\mach1spatial-libs\android-x86_64
 	rm -rf _install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx
 	rm -rf _install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
 	rm -rf _install/android-ndk-r16b-api-21-x86-clang-libcxx
@@ -318,8 +318,8 @@ endif
 
 deploy-windows:
 	# copy over windows libs
-	xcopy _install\vs-15-2017\lib ..\binaries\windows-x86 /Y
-	xcopy _install\vs-15-2017-win64\lib ..\binaries\windows-x86_64 /Y
+	xcopy _install\vs-15-2017\lib ..\mach1spatial-libs\windows-x86 /Y
+	xcopy _install\vs-15-2017-win64\lib ..\mach1spatial-libs\windows-x86_64 /Y
 	xcopy _install\vs-15-2017\libUnity ..\examples\mach1spatial-c\Unity\Unity-Mach1SpatialAPI\M1UnityDecodeTest\Assets\Mach1\Plugins\Windows\x86 /Y
 	xcopy _install\vs-15-2017-win64\libUnity ..\examples\mach1spatial-c\Unity\Unity-Mach1SpatialAPI\M1UnityDecodeTest\Assets\Mach1\Plugins\Windows\x86_64 /Y
 	xcopy _install\vs-15-2017\libUnity ..\examples\mach1spatial-c\Unity\Unity-Mach1SpatialAPI\M1DSPGraph\Assets\Mach1\Plugins\Windows\x86 /Y
@@ -350,51 +350,51 @@ deploy-linux-arm: build-linux
 	yes | cp -rf "_install/gcc/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/arm-chipsets/linux-arm/lib/libMach1DecodePositionalCAPI.a"
 
 deploy-release: deploy-dev
-	#replace all binaries in github release 
-	echo "### Copying all successful bins to /Binaries \###"
-	yes | cp -rf "../mach1spatial-libs/" "../../m1-sdk-release/mach1spatial-libs/"
+	#replace all mach1spatial-libs in github release 
+	echo "### Copying all successful bins to /mach1spatial-libs \###"
+	yes | cp -rf "../mach1spatial-libs/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/"
 	echo "### Move and replace bins \###"
 	echo "### Replacing Xcode/macOS \###"
-	yes | cp -rf "../mach1spatial-libs/xcode/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/osx/libMach1DecodeCAPI.a"
-	yes | cp -rf "../mach1spatial-libs/xcode/lib/libMach1EncodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/osx/libMach1EncodeCAPI.a"
-	yes | cp -rf "../mach1spatial-libs/xcode/lib/libMach1TranscodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/osx/libMach1TranscodeCAPI.a"
-	yes | cp -rf "../mach1spatial-libs/xcode/lib/libMach1DecodePositionalCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/osx/libMach1DecodePositionalCAPI.a"
+	yes | cp -rf "../mach1spatial-libs/xcode/lib/libMach1DecodeCAPI.a" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/osx/libMach1DecodeCAPI.a"
+	yes | cp -rf "../mach1spatial-libs/xcode/lib/libMach1EncodeCAPI.a" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/osx/libMach1EncodeCAPI.a"
+	yes | cp -rf "../mach1spatial-libs/xcode/lib/libMach1TranscodeCAPI.a" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/osx/libMach1TranscodeCAPI.a"
+	yes | cp -rf "../mach1spatial-libs/xcode/lib/libMach1DecodePositionalCAPI.a" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/osx/libMach1DecodePositionalCAPI.a"
 	echo "### Moving iOS \###"
-	yes | cp -rf "../mach1spatial-libs/ios/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/ios/libMach1DecodeCAPI.a"
-	yes | cp -rf "../mach1spatial-libs/ios/lib/libMach1EncodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/ios/libMach1EncodeCAPI.a"
-	yes | cp -rf "../mach1spatial-libs/ios/lib/libMach1TranscodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/ios/libMach1TranscodeCAPI.a"
-	yes | cp -rf "../mach1spatial-libs/ios/lib/libMach1DecodePositionalCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/ios/libMach1DecodePositionalCAPI.a"
+	yes | cp -rf "../mach1spatial-libs/ios/lib/libMach1DecodeCAPI.a" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/ios/libMach1DecodeCAPI.a"
+	yes | cp -rf "../mach1spatial-libs/ios/lib/libMach1EncodeCAPI.a" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/ios/libMach1EncodeCAPI.a"
+	yes | cp -rf "../mach1spatial-libs/ios/lib/libMach1TranscodeCAPI.a" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/ios/libMach1TranscodeCAPI.a"
+	yes | cp -rf "../mach1spatial-libs/ios/lib/libMach1DecodePositionalCAPI.a" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/ios/libMach1DecodePositionalCAPI.a"
 	echo "### Replacing Android \###"
-	yes | cp -rf "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/armeabi-v7a/libMach1DecodeCAPI.a"
-	yes | cp -rf "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1EncodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/armeabi-v7a/libMach1EncodeCAPI.a"
-	yes | cp -rf "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1TranscodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/armeabi-v7a/libMach1TranscodeCAPI.a"
-	yes | cp -rf "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1DecodePositionalCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/armeabi-v7a/libMach1DecodePositionalCAPI.a"
-	yes | cp -rf "../mach1spatial-libs/android-x86/lib/libMach1DecodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/x86/libMach1DecodeCAPI.a"
-	yes | cp -rf "../mach1spatial-libs/android-x86/lib/libMach1EncodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/x86/libMach1EncodeCAPI.a"
-	yes | cp -rf "../mach1spatial-libs/android-x86/lib/libMach1TranscodeCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/x86/libMach1TranscodeCAPI.a"
-	yes | cp -rf "../mach1spatial-libs/android-x86/lib/libMach1DecodePositionalCAPI.a" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/x86/libMach1DecodePositionalCAPI.a"
+	yes | cp -rf "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1DecodeCAPI.a" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/armeabi-v7a/libMach1DecodeCAPI.a"
+	yes | cp -rf "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1EncodeCAPI.a" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/armeabi-v7a/libMach1EncodeCAPI.a"
+	yes | cp -rf "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1TranscodeCAPI.a" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/armeabi-v7a/libMach1TranscodeCAPI.a"
+	yes | cp -rf "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1DecodePositionalCAPI.a" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/armeabi-v7a/libMach1DecodePositionalCAPI.a"
+	yes | cp -rf "../mach1spatial-libs/android-x86/lib/libMach1DecodeCAPI.a" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/x86/libMach1DecodeCAPI.a"
+	yes | cp -rf "../mach1spatial-libs/android-x86/lib/libMach1EncodeCAPI.a" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/x86/libMach1EncodeCAPI.a"
+	yes | cp -rf "../mach1spatial-libs/android-x86/lib/libMach1TranscodeCAPI.a" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/x86/libMach1TranscodeCAPI.a"
+	yes | cp -rf "../mach1spatial-libs/android-x86/lib/libMach1DecodePositionalCAPI.a" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/x86/libMach1DecodePositionalCAPI.a"
 	echo "### Copying for ofxMach1 \###"
-	yes | cp -rf "external/cpp/Mach1Decode.h" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Decode.h"
-	yes | cp -rf "external/cpp/Mach1Decode.cpp" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Decode.cpp"
-	yes | cp -rf "external/cpp/Mach1DecodeCAPI.h" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include/Mach1DecodeCAPI.h"
-	yes | cp -rf "external/cpp/Mach1DecodePositional.h" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1DecodePositional.h"
-	yes | cp -rf "external/cpp/Mach1DecodePositional.cpp" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1DecodePositional.cpp"
-	yes | cp -rf "external/cpp/Mach1DecodePositionalCAPI.h" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include/Mach1DecodePositionalCAPI.h"
-	yes | cp -rf "external/cpp/Mach1Encode.h" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Encode.h"
-	yes | cp -rf "external/cpp/Mach1Encode.cpp" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Encode.cpp"
-	yes | cp -rf "external/cpp/Mach1EncodeCAPI.h" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include/Mach1EncodeCAPI.h"
-	yes | cp -rf "external/cpp/Mach1Transcode.h" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Transcode.h"
-	yes | cp -rf "external/cpp/Mach1Transcode.cpp" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Transcode.cpp"
-	yes | cp -rf "external/cpp/Mach1TranscodeCAPI.h" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include/Mach1TranscodeCAPI.h"
-	yes | cp -rf "external/cpp/Mach1Point3D.h" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include/Mach1Point3D.h"
-	yes | cp -rf "external/cpp/Mach1Point4D.h" "../../m1-sdk-release/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include/Mach1Point4D.h"
+	yes | cp -rf "external/cpp/Mach1Decode.h" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Decode.h"
+	yes | cp -rf "external/cpp/Mach1Decode.cpp" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Decode.cpp"
+	yes | cp -rf "external/cpp/Mach1DecodeCAPI.h" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include/Mach1DecodeCAPI.h"
+	yes | cp -rf "external/cpp/Mach1DecodePositional.h" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1DecodePositional.h"
+	yes | cp -rf "external/cpp/Mach1DecodePositional.cpp" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1DecodePositional.cpp"
+	yes | cp -rf "external/cpp/Mach1DecodePositionalCAPI.h" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include/Mach1DecodePositionalCAPI.h"
+	yes | cp -rf "external/cpp/Mach1Encode.h" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Encode.h"
+	yes | cp -rf "external/cpp/Mach1Encode.cpp" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Encode.cpp"
+	yes | cp -rf "external/cpp/Mach1EncodeCAPI.h" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include/Mach1EncodeCAPI.h"
+	yes | cp -rf "external/cpp/Mach1Transcode.h" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Transcode.h"
+	yes | cp -rf "external/cpp/Mach1Transcode.cpp" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/src/Mach1Transcode.cpp"
+	yes | cp -rf "external/cpp/Mach1TranscodeCAPI.h" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include/Mach1TranscodeCAPI.h"
+	yes | cp -rf "external/cpp/Mach1Point3D.h" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include/Mach1Point3D.h"
+	yes | cp -rf "external/cpp/Mach1Point4D.h" "$(M1SDK_RELEASE_PATH)/examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include/Mach1Point4D.h"
 	echo "### DELETE all libUnity dirs"
-	cd ../../m1-sdk-release/binaries && find . -type d -name 'libUnity' -print0 | xargs -0 rm -rf
-	cd ../../m1-sdk-release/binaries && find . -type d -name 'libBundle' -print0 | xargs -0 rm -rf
+	cd $(M1SDK_RELEASE_PATH)/mach1spatial-libs && find . -type d -name 'libUnity' -print0 | xargs -0 rm -rf
+	cd $(M1SDK_RELEASE_PATH)/mach1spatial-libs && find . -type d -name 'libBundle' -print0 | xargs -0 rm -rf
 
 deploy-dev:
 	# general copy over
-	echo "### Copying all successful bins to /Binaries \###"
+	echo "### Copying all successful bins to /mach1spatial-libs \###"
 	yes | cp -rf "_install/" "../mach1spatial-libs/"
 	# copy over mac libs
 	echo "### Move and replace bins \###"
@@ -537,8 +537,8 @@ deploy-dev:
 	yes | cp -rf "../examples/mach1spatial-c/openframeworks/ofxMach1" "../../of_v0.10.1_osx_release/addons/"
 	yes | cp -rf "../examples/mach1spatial-c/openframeworks/ofxMach1" "../../of_v0.11.0_osx_release/addons/"
 	echo "### DELETE all libUnity dirs \###"
-	cd ../binaries && find . -type d -name 'libUnity' -print0 | xargs -0 rm -rf
-	cd ../binaries && find . -type d -name 'libBundle' -print0 | xargs -0 rm -rf
+	cd ../mach1spatial-libs && find . -type d -name 'libUnity' -print0 | xargs -0 rm -rf
+	cd ../mach1spatial-libs && find . -type d -name 'libBundle' -print0 | xargs -0 rm -rf
 	echo "### NUMBERS OF SUCCESSFUL BUILDS:"
 	cd ../source/_logs/polly/ && grep -rl "Installing:" "$(M1SDK_PATH)/source/_logs/polly" | wc -l
 	echo "### ERRORS CAUGHT:"

@@ -110,7 +110,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\libs\pthread\lib\Win32;../../../../binaries\windows-x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\libs\pthread\lib\Win32;../../../../mach1spatial-libs\windows-x86</AdditionalLibraryDirectories>
       <AdditionalDependencies>Mach1DecodePositionalCAPI.lib;pthreadVC2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -130,7 +130,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\libs\pthread\lib\x64;../../../../binaries\windows-x86_64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\libs\pthread\lib\x64;../../../../mach1spatial-libs\windows-x86_64</AdditionalLibraryDirectories>
       <AdditionalDependencies>Mach1DecodePositionalCAPI.lib;pthreadVC2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -154,7 +154,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\libs\pthread\lib\Win32;../../../../binaries\windows-x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\libs\pthread\lib\Win32;../../../../mach1spatial-libs\windows-x86</AdditionalLibraryDirectories>
       <AdditionalDependencies>Mach1DecodePositionalCAPI.lib;pthreadVC2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -177,7 +177,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\libs\pthread\lib\x64;../../../../binaries\windows-x86_64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\libs\pthread\lib\x64;../../../../mach1spatial-libs\windows-x86_64</AdditionalLibraryDirectories>
       <AdditionalDependencies>Mach1DecodePositionalCAPI.lib;pthreadVC2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

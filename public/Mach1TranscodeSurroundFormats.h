@@ -6,12 +6,12 @@
 
 #pragma once
 
+#include "Mach1TranscodeConstants.h"
+
 namespace Mach1TranscodeConstants {
 
-	extern std::vector<Mach1SpatialSoundMatrix> matrices;
-	
-	// --- M1Horizon to surround ---
-	matrices.push_back(
+	const std::vector<Mach1SpatialSoundMatrix> matricesSurround = {
+		// --- M1Horizon to surround ---
 		{
 			"M1Horizon", "FiveOh",
 			{   { 1, 0, 0, 0 },
@@ -19,9 +19,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 1, 0, 0 },
 				{ 0, 0, 1, 0 },
 				{ 0, 0, 0, 1 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Horizon", "FiveOneFilm",
 			{   { 1, 0, 0, 0 },
@@ -30,9 +28,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 1, 0 },
 				{ 0, 0, 0, 1 },
 				{ r2o8, r2o8, r2o8, r2o8 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Horizon", "FiveOneFilm_Cinema",
 			{   { 1, 0, 0, 0 },
@@ -41,9 +37,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 1, 0 },
 				{ 0, 0, 0, 1 },
 				{ r2o8, r2o8, r2o8, r2o8 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Horizon", "FiveOneSmpte",
 			{   { 1, 0, 0, 0 },
@@ -52,9 +46,7 @@ namespace Mach1TranscodeConstants {
 				{ r2o8, r2o8, r2o8, r2o8 },
 				{ 0, 0, 1, 0 },
 				{ 0, 0, 0, 1 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Horizon", "FiveOneDts",
 			{   { 1, 0, 0, 0 },
@@ -63,9 +55,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, 1 },
 				{ r2o2, r2o2, 0, 0 },
 				{ r2o8, r2o8, r2o8, r2o8 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Horizon", "SixOh",
 			{   { 0, 0, 0, 0 },
@@ -74,10 +64,8 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, 0 },
 				{ 0, 0, 0, 0 },
 				{ 0, 0, 0, 0 } }
-		}
-	);
-	// --- Surround To M1Horizon ---
-	matrices.push_back(
+		},	// --- Surround To M1Horizon ---
+
 		{
 			"FiveOh", "M1Horizon",
 			//L, C, R, Ls, Rs
@@ -85,9 +73,7 @@ namespace Mach1TranscodeConstants {
 			{ 0, r2o4, 1, 0, 0 },
 			{ 0, r2o4, 0, 1, 0 },
 			{ 0, r2o4, 0, 0, 1 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"FiveOneFilm", "M1Horizon",
 			//L, C, R, Ls, Rs, LFE
@@ -95,46 +81,36 @@ namespace Mach1TranscodeConstants {
 			{ 0, r2o4, 1, 0, 0, r2o8 },
 			{ 0, r2o4, 0, 1, 0, r2o8 },
 			{ 0, r2o4, 0, 0, 1, r2o8 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"FiveOneFilm_Cinema", "M1Horizon",
 			{   { 1, r2o4, 0, 0, 0, r2o8 },
 				{ 0, r2o4, 1, 0, 0, r2o8 },
 				{ 0, r2o20, 0, 1, 0, r2o8 },
 				{ 0, r2o20, 0, 0, 1, r2o8 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"FiveOneSmpte", "M1Horizon",
 			{   { 1, 0, r2o4, r2o8, 0, 0 },
 				{ 0, 1, r2o4, r2o8, 0, 0 },
 				{ 0, 0, r2o4, r2o8, 1, 0 },
 				{ 0, 0, r2o4, r2o8, 0, 1 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"FiveOneDts", "M1Horizon",
 			{   { 1, 0, 0, 0, r2o4, r2o8 },
 				{ 0, 1, 0, 0, r2o4, r2o8 },
 				{ 0, 0, 1, 0, r2o4, r2o8 },
 				{ 0, 0, 0, 1, r2o4, r2o8 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"SixOh", "M1Horizon", // ?
 			{   { 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0 } }
-		}
-	);
-	// --- Surround to M1Spatial ---;
-	matrices.push_back(
+		},	// --- Surround to M1Spatial ---;
+
 		{
 			"Mono", "M1Spatial",
 			{   { r2o8 },
@@ -145,9 +121,7 @@ namespace Mach1TranscodeConstants {
 				{ r2o8 },
 				{ r2o8 },
 				{ r2o8 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"Stereo", "M1Spatial",
 			{   { r2o2, 0 },
@@ -158,9 +132,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, r2o2 },
 				{ r2o2, 0 },
 				{ 0, r2o2 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"Stereo_Cinema", "M1Spatial",
 			//fix ratio between front and back
@@ -172,9 +144,7 @@ namespace Mach1TranscodeConstants {
 			{ 0, r2o2 },
 			{ r2o20, 0 },
 			{ 0, r2o20 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"LCR", "M1Spatial",
 			{   { r2o2, r2o8, 0 },
@@ -185,39 +155,33 @@ namespace Mach1TranscodeConstants {
 				{ 0, r2o8, r2o2 },
 				{ r2o8, r2o8, 0 },
 				{ 0, r2o8, r2o8 }, }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"FiveOh", "M1Spatial",
-				//L, C , R, Ls, Rs
-			{   { r2o2, r2o8, 0, 0, 0 },
-				{ 0, r2o8, r2o2, 0, 0 },
-				{ 0, r2o8, 0, r2o2, 0 },
-				{ 0, r2o8, 0, 0, r2o2 },
-				{ r2o2, r2o8, 0, 0, 0 },
-				{ 0, r2o8, r2o2, 0, 0 },
-				{ 0, r2o8, 0, r2o2, 0 },
-				{ 0, r2o8, 0, 0, r2o2 } }
-		}
-	);
-	matrices.push_back(
+			//L, C , R, Ls, Rs
+		{   { r2o2, r2o8, 0, 0, 0 },
+			{ 0, r2o8, r2o2, 0, 0 },
+			{ 0, r2o8, 0, r2o2, 0 },
+			{ 0, r2o8, 0, 0, r2o2 },
+			{ r2o2, r2o8, 0, 0, 0 },
+			{ 0, r2o8, r2o2, 0, 0 },
+			{ 0, r2o8, 0, r2o2, 0 },
+			{ 0, r2o8, 0, 0, r2o2 } }
+		},
 		{
 			"FiveOneFilm", "M1Spatial",
-				//L, C, R, Ls, Rs, LFE
-			{   { r2o2, r2o8, 0, 0, 0, r2o8 },
-				{ 0, r2o8, r2o2, 0, 0, r2o8 },
-				{ 0, r2o8, 0, r2o2, 0, r2o8 },
-				{ 0, r2o8, 0, 0, r2o2, r2o8 },
-				{ r2o2, r2o8, 0, 0, 0, r2o8 },
-				{ 0, r2o8, r2o2, 0, 0, r2o8 },
-				{ 0, r2o8, 0, r2o2, 0, r2o8 },
-				{ 0, r2o8, 0, 0, r2o2, r2o8 } }
-		}
-	);
-	matrices.push_back(
-		{
-			"FiveOneFilm_Cinema", "M1Spatial",
+			//L, C, R, Ls, Rs, LFE
+		{   { r2o2, r2o8, 0, 0, 0, r2o8 },
+			{ 0, r2o8, r2o2, 0, 0, r2o8 },
+			{ 0, r2o8, 0, r2o2, 0, r2o8 },
+			{ 0, r2o8, 0, 0, r2o2, r2o8 },
+			{ r2o2, r2o8, 0, 0, 0, r2o8 },
+			{ 0, r2o8, r2o2, 0, 0, r2o8 },
+			{ 0, r2o8, 0, r2o2, 0, r2o8 },
+			{ 0, r2o8, 0, 0, r2o2, r2o8 } }
+			},
+			{
+				"FiveOneFilm_Cinema", "M1Spatial",
 				//L, C, R, Ls, Rs, LFE
 			{   { r2o2, r2o4, 0, 0, 0, r2o8 },
 				{ 0, r2o4, r2o2, 0, 0, r2o8 },
@@ -227,37 +191,31 @@ namespace Mach1TranscodeConstants {
 				{ 0, r2o4, r2o2, 0, 0, r2o8 },
 				{ 0, r2o20, 0, r2o2, 0, r2o8 },
 				{ 0, r2o20, 0, 0, r2o2, r2o8 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"FiveOneSmpte", "M1Spatial",
-				//L, R, C, LFE, Ls, Rs
-			{   { r2o2, 0, r2o8, r2o8, 0, 0 },
-				{ 0, r2o2, r2o8, r2o8, 0, 0 },
-				{ 0, 0, r2o8, r2o8, r2o2, 0 },
-				{ 0, 0, r2o8, r2o8, 0, r2o2 },
-				{ r2o2, 0, r2o8, r2o8, 0, 0 },
-				{ 0, r2o2, r2o8, r2o8, 0, 0 },
-				{ 0, 0, r2o8, r2o8, r2o2, 0 },
-				{ 0, 0, r2o8, r2o8, 0, r2o2 } }
-		}
-	);
-	matrices.push_back(
+			//L, R, C, LFE, Ls, Rs
+		{   { r2o2, 0, r2o8, r2o8, 0, 0 },
+			{ 0, r2o2, r2o8, r2o8, 0, 0 },
+			{ 0, 0, r2o8, r2o8, r2o2, 0 },
+			{ 0, 0, r2o8, r2o8, 0, r2o2 },
+			{ r2o2, 0, r2o8, r2o8, 0, 0 },
+			{ 0, r2o2, r2o8, r2o8, 0, 0 },
+			{ 0, 0, r2o8, r2o8, r2o2, 0 },
+			{ 0, 0, r2o8, r2o8, 0, r2o2 } }
+		},
 		{
 			"FiveOneDts", "M1Spatial",
-				//L, R, Ls, Rs, C, LFE
-			{   { r2o2, 0, 0, 0, r2o8, r2o8 },
-				{ 0, r2o2, 0, 0, r2o8, r2o8 },
-				{ 0, 0, r2o2, 0, r2o8, r2o8 },
-				{ 0, 0, 0, r2o2, r2o8, r2o8 },
-				{ r2o2, 0, 0, 0, r2o8, r2o8 },
-				{ 0, r2o2, 0, 0, r2o8, r2o8 },
-				{ 0, 0, r2o2, 0, r2o8, r2o8 },
-				{ 0, 0, 0, r2o2, r2o8, r2o8 } }
-		}
-	);
-	matrices.push_back(
+			//L, R, Ls, Rs, C, LFE
+		{   { r2o2, 0, 0, 0, r2o8, r2o8 },
+			{ 0, r2o2, 0, 0, r2o8, r2o8 },
+			{ 0, 0, r2o2, 0, r2o8, r2o8 },
+			{ 0, 0, 0, r2o2, r2o8, r2o8 },
+			{ r2o2, 0, 0, 0, r2o8, r2o8 },
+			{ 0, r2o2, 0, 0, r2o8, r2o8 },
+			{ 0, 0, r2o2, 0, r2o8, r2o8 },
+			{ 0, 0, 0, r2o2, r2o8, r2o8 } }
+		},
 		{
 			"SixOh", "M1Spatial", //BLANK
 			{   { 0, 0, 0, 0, 0, 0 },
@@ -268,107 +226,91 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"SevenOnePt", "M1Spatial",
-				//L, C, R, Lss, Rss, Lsr, Rsr, LFE
-			{   { r2o2, r2o8, 0, r2o4, 0, 0, 0, r2o8 },
-				{ 0, r2o8, r2o2, 0, r2o4, 0, 0, r2o8 },
-				{ 0, r2o8, 0, r2o4, 0, r2o2, 0, r2o8 },
-				{ 0, r2o8, 0, 0, r2o4, 0, r2o2, r2o8 },
-				{ r2o2, r2o8, 0, r2o4, 0, 0, 0, r2o8 },
-				{ 0, r2o8, r2o2, 0, r2o4, 0, 0, r2o8 },
-				{ 0, r2o8, 0, r2o4, 0, r2o2, 0, r2o8 },
-				{ 0, r2o8, 0, 0, r2o4, 0, r2o2, r2o8 } }
-		}
-	);
-	matrices.push_back(
+			//L, C, R, Lss, Rss, Lsr, Rsr, LFE
+		{   { r2o2, r2o8, 0, r2o4, 0, 0, 0, r2o8 },
+			{ 0, r2o8, r2o2, 0, r2o4, 0, 0, r2o8 },
+			{ 0, r2o8, 0, r2o4, 0, r2o2, 0, r2o8 },
+			{ 0, r2o8, 0, 0, r2o4, 0, r2o2, r2o8 },
+			{ r2o2, r2o8, 0, r2o4, 0, 0, 0, r2o8 },
+			{ 0, r2o8, r2o2, 0, r2o4, 0, 0, r2o8 },
+			{ 0, r2o8, 0, r2o4, 0, r2o2, 0, r2o8 },
+			{ 0, r2o8, 0, 0, r2o4, 0, r2o2, r2o8 } }
+		},
 		{
 			"SevenOnePt_Cinema", "M1Spatial",
-				//L, C, R, Lss, Rss, Lsr, Rsr, LFE ( std::vector<std::vector<float>>with front facing
-			{   { r2o2, r2o4, 0, r2o4, 0, 0, 0, r2o8 },
-				{ 0, r2o4, r2o2, 0, r2o4, 0, 0, r2o8 },
-				{ 0, 0, 0, r2o4, 0, r2o2, 0, r2o8 },
-				{ 0, 0, 0, 0, r2o4, 0, r2o2, r2o8 },
-				{ r2o2, r2o4, 0, r2o4, 0, 0, 0, r2o8 },
-				{ 0, r2o4, r2o2, 0, r2o4, 0, 0, r2o8 },
-				{ 0, 0, 0, r2o4, 0, r2o2, 0, r2o8 },
-				{ 0, 0, 0, 0, r2o4, 0, r2o2, r2o8 } }
-		}
-	);
-	matrices.push_back(
+			//L, C, R, Lss, Rss, Lsr, Rsr, LFE ( std::vector<std::vector<float>>with front facing
+		{   { r2o2, r2o4, 0, r2o4, 0, 0, 0, r2o8 },
+			{ 0, r2o4, r2o2, 0, r2o4, 0, 0, r2o8 },
+			{ 0, 0, 0, r2o4, 0, r2o2, 0, r2o8 },
+			{ 0, 0, 0, 0, r2o4, 0, r2o2, r2o8 },
+			{ r2o2, r2o4, 0, r2o4, 0, 0, 0, r2o8 },
+			{ 0, r2o4, r2o2, 0, r2o4, 0, 0, r2o8 },
+			{ 0, 0, 0, r2o4, 0, r2o2, 0, r2o8 },
+			{ 0, 0, 0, 0, r2o4, 0, r2o2, r2o8 } }
+		},
 		{
 			"SevenZero_Cinema", "M1Spatial",
-				//L, C, R, Lss, Rss, Lsr, Rsr ( std::vector<std::vector<float>>with front facing
-			{   { r2o2, r2o4, 0, r2o4, 0, 0, 0 },
-				{ 0, r2o4, r2o2, 0, r2o4, 0, 0 },
-				{ 0, 0, 0, r2o4, 0, r2o2, 0 },
-				{ 0, 0, 0, 0, r2o4, 0, r2o2 },
-				{ r2o2, r2o4, 0, r2o4, 0, 0, 0 },
-				{ 0, r2o4, r2o2, 0, r2o4, 0, 0 },
-				{ 0, 0, 0, r2o4, 0, r2o2, 0 },
-				{ 0, 0, 0, 0, r2o4, 0, r2o2 } }
-		}
-	);
-	matrices.push_back(
+			//L, C, R, Lss, Rss, Lsr, Rsr ( std::vector<std::vector<float>>with front facing
+		{   { r2o2, r2o4, 0, r2o4, 0, 0, 0 },
+			{ 0, r2o4, r2o2, 0, r2o4, 0, 0 },
+			{ 0, 0, 0, r2o4, 0, r2o2, 0 },
+			{ 0, 0, 0, 0, r2o4, 0, r2o2 },
+			{ r2o2, r2o4, 0, r2o4, 0, 0, 0 },
+			{ 0, r2o4, r2o2, 0, r2o4, 0, 0 },
+			{ 0, 0, 0, r2o4, 0, r2o2, 0 },
+			{ 0, 0, 0, 0, r2o4, 0, r2o2 } }
+		},
 		{
 			"SevenOneSDDS", "M1Spatial",
-				//L, Lc, C, Rc, R, Ls, Rs, LFE
-			{   { r2o2, r2o4, r2o8, 0, 0, 0, 0, r2o8 },
-				{ 0, 0, r2o8, r2o4, r2o2, 0, 0, r2o8 },
-				{ 0, 0, r2o8, 0, 0, r2o2, 0, r2o8 },
-				{ 0, 0, r2o8, 0, 0, 0, r2o2, r2o8 },
-				{ r2o2, r2o4, r2o8, 0, 0, 0, 0, r2o8 },
-				{ 0, 0, r2o8, r2o4, r2o2, 0, 0, r2o8 },
-				{ 0, 0, r2o8, 0, 0, r2o2, 0, r2o8 },
-				{ 0, 0, r2o8, 0, 0, 0, r2o2, r2o8 } }
-		}
-	);
-	matrices.push_back(
+			//L, Lc, C, Rc, R, Ls, Rs, LFE
+		{   { r2o2, r2o4, r2o8, 0, 0, 0, 0, r2o8 },
+			{ 0, 0, r2o8, r2o4, r2o2, 0, 0, r2o8 },
+			{ 0, 0, r2o8, 0, 0, r2o2, 0, r2o8 },
+			{ 0, 0, r2o8, 0, 0, 0, r2o2, r2o8 },
+			{ r2o2, r2o4, r2o8, 0, 0, 0, 0, r2o8 },
+			{ 0, 0, r2o8, r2o4, r2o2, 0, 0, r2o8 },
+			{ 0, 0, r2o8, 0, 0, r2o2, 0, r2o8 },
+			{ 0, 0, r2o8, 0, 0, 0, r2o2, r2o8 } }
+		},
 		{
 			"SevenZeroSDDS", "M1Spatial",
-				//L, Lc, C, Rc, R, Ls, Rs
-			{   { r2o2, r2o4, r2o8, 0, 0, 0, 0 },
-				{ 0, 0, r2o8, r2o4, r2o2, 0, 0 },
-				{ 0, 0, r2o8, 0, 0, r2o2, 0 },
-				{ 0, 0, r2o8, 0, 0, 0, r2o2 },
-				{ r2o2, r2o4, r2o8, 0, 0, 0, 0 },
-				{ 0, 0, r2o8, r2o4, r2o2, 0, 0 },
-				{ 0, 0, r2o8, 0, 0, r2o2, 0 },
-				{ 0, 0, r2o8, 0, 0, 0, r2o2 } }
-		}
-	);
-	matrices.push_back(
+			//L, Lc, C, Rc, R, Ls, Rs
+		{   { r2o2, r2o4, r2o8, 0, 0, 0, 0 },
+			{ 0, 0, r2o8, r2o4, r2o2, 0, 0 },
+			{ 0, 0, r2o8, 0, 0, r2o2, 0 },
+			{ 0, 0, r2o8, 0, 0, 0, r2o2 },
+			{ r2o2, r2o4, r2o8, 0, 0, 0, 0 },
+			{ 0, 0, r2o8, r2o4, r2o2, 0, 0 },
+			{ 0, 0, r2o8, 0, 0, r2o2, 0 },
+			{ 0, 0, r2o8, 0, 0, 0, r2o2 } }
+		},
 		{
 			"SevenOneTwo", "M1Spatial",
-				//L, C, R, Lss, Rss, Lsr, Rsr, LFE, Lts, Rts
-			{   { r2o2, r2o4, 0, r2o4, 0, 0, 0, r2o8, 0.3750f, 0.1250f },
-				{ 0, r2o4, r2o2, 0, r2o4, 0, 0, r2o8, 0.1250f, 0.3750f },
-				{ 0, 0, 0, r2o4, 0, r2o2, 0, r2o8, 0.3750f, 0.1250f },
-				{ 0, 0, 0, 0, r2o4, 0, r2o2, r2o8, 0.1250f, 0.3750f },
-				{ r2o2, r2o4, 0, r2o4, 0, 0, 0, r2o8, 0, 0 },
-				{ 0, r2o4, r2o2, 0, r2o4, 0, 0, r2o8, 0, 0 },
-				{ 0, 0, 0, r2o4, 0, r2o2, 0, r2o8, 0, 0 },
-				{ 0, 0, 0, 0, r2o4, 0, r2o2, r2o8, 0, 0 } }
-			}
-	);
-	matrices.push_back(
+			//L, C, R, Lss, Rss, Lsr, Rsr, LFE, Lts, Rts
+		{   { r2o2, r2o4, 0, r2o4, 0, 0, 0, r2o8, 0.3750f, 0.1250f },
+			{ 0, r2o4, r2o2, 0, r2o4, 0, 0, r2o8, 0.1250f, 0.3750f },
+			{ 0, 0, 0, r2o4, 0, r2o2, 0, r2o8, 0.3750f, 0.1250f },
+			{ 0, 0, 0, 0, r2o4, 0, r2o2, r2o8, 0.1250f, 0.3750f },
+			{ r2o2, r2o4, 0, r2o4, 0, 0, 0, r2o8, 0, 0 },
+			{ 0, r2o4, r2o2, 0, r2o4, 0, 0, r2o8, 0, 0 },
+			{ 0, 0, 0, r2o4, 0, r2o2, 0, r2o8, 0, 0 },
+			{ 0, 0, 0, 0, r2o4, 0, r2o2, r2o8, 0, 0 } }
+		},
 		{
 			"SevenZeroTwo", "M1Spatial",
-				//L, C, R, Lss, Rss, Lsr, Rsr, Lts, Rts
-			{   { r2o2, r2o4, 0, r2o4, 0, 0, 0, 0.3750f, 0.1250f },
-				{ 0, r2o4, r2o2, 0, r2o4, 0, 0, 0.1250f, 0.3750f },
-				{ 0, 0, 0, r2o4, 0, r2o2, 0, 0.3750f, 0.1250f },
-				{ 0, 0, 0, 0, r2o4, 0, r2o2, 0.1250f, 0.3750f },
-				{ r2o2, r2o4, 0, r2o4, 0, 0, 0, 0, 0 },
-				{ 0, r2o4, r2o2, 0, r2o4, 0, 0, 0, 0 },
-				{ 0, 0, 0, r2o4, 0, r2o2, 0, 0, 0 },
-				{ 0, 0, 0, 0, r2o4, 0, r2o2, 0, 0 } }
-		}
-	);
-	matrices.push_back(
+			//L, C, R, Lss, Rss, Lsr, Rsr, Lts, Rts
+		{   { r2o2, r2o4, 0, r2o4, 0, 0, 0, 0.3750f, 0.1250f },
+			{ 0, r2o4, r2o2, 0, r2o4, 0, 0, 0.1250f, 0.3750f },
+			{ 0, 0, 0, r2o4, 0, r2o2, 0, 0.3750f, 0.1250f },
+			{ 0, 0, 0, 0, r2o4, 0, r2o2, 0.1250f, 0.3750f },
+			{ r2o2, r2o4, 0, r2o4, 0, 0, 0, 0, 0 },
+			{ 0, r2o4, r2o2, 0, r2o4, 0, 0, 0, 0 },
+			{ 0, 0, 0, r2o4, 0, r2o2, 0, 0, 0 },
+			{ 0, 0, 0, 0, r2o4, 0, r2o2, 0, 0 } }
+		},
 		{
 			"NineOne", "M1Spatial",
 			{   { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -379,9 +321,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"NineZero", "M1Spatial",
 			{   { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -392,9 +332,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"FiveOneTwo", "M1Spatial",
 			//L  C  R  Ls Rs LFE Lts Rts
@@ -406,9 +344,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, r2o4, r2o2, 0, 0, r2o8, 0, 0 },
 				{ 0, r2o20, 0, r2o2, 0, r2o8, 0, 0 },
 				{ 0, r2o20, 0, 0, r2o2, r2o8, 0, 0 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"FiveZeroTwo", "M1Spatial",
 			//L  C  R  Ls Rs Lts Rts
@@ -420,9 +356,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, r2o4, r2o2, 0, 0, 0, 0 },
 				{ 0, r2o20, 0, r2o2, 0, 0, 0 },
 				{ 0, r2o20, 0, 0, r2o2, 0, 0 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"FiveOneFour", "M1Spatial",
 			//L  C  R  Ls Rs LFE FLts FRts BLts BRts
@@ -434,9 +368,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, r2o4, r2o2, 0, 0, r2o8, 0, 0, 0, 0 },
 				{ 0, r2o20, 0, r2o2, 0, r2o8, 0, 0, 0, 0 },
 				{ 0, r2o20, 0, 0, r2o2, r2o8, 0, 0, 0, 0 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"FiveOneFourSMPTE", "M1Spatial",
 			//L  R  C  LFE Ls Rs FLts FRts BLts BRts
@@ -448,9 +380,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, r2o2, r2o4, r2o8, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, r2o20, r2o8, r2o2, 0, 0, 0, 0, 0 },
 				{ 0, 0, r2o20, r2o8, 0, r2o2, 0, 0, 0, 0 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"FiveZeroFour", "M1Spatial",
 			//L  C  R  Ls Rs FLts FRts BLts BRts
@@ -462,9 +392,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, r2o4, r2o2, 0, 0, 0, 0, 0, 0 },
 				{ 0, r2o20, 0, r2o2, 0, 0, 0, 0, 0 },
 				{ 0, r2o20, 0, 0, r2o2, 0, 0, 0, 0 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"SevenOneFour", "M1Spatial",
 			//L, C, R, Lss, Rss, Lsr, Rsr, LFE, FLts, FRts, BLts, BRts
@@ -476,9 +404,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, r2o4, r2o2, 0, r2o4, 0, 0, r2o8, 0, 0, 0, 0 },
 				{ 0, 0, 0, r2o4, 0, r2o2, 0, r2o8, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, r2o4, 0, r2o2, r2o8, 0, 0, 0, 0 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"SevenZeroFour", "M1Spatial",
 			//L, C, R, Lss, Rss, Lsr, Rsr, FLts, FRts, BLts, BRts
@@ -490,25 +416,19 @@ namespace Mach1TranscodeConstants {
 				{ 0, r2o4, r2o2, 0, r2o4, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, r2o4, 0, r2o2, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, r2o4, 0, r2o2, 0, 0, 0, 0 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"NineOneFour", "M1Spatial", // ?
 		{
 				{}
 			}
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"NineOneSix", "M1Spatial", // ?
 		{
 				{ }
 			}
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialFaces", "M1Spatial",
 			// FC, LC, BC, RC, TC, BC
@@ -520,39 +440,29 @@ namespace Mach1TranscodeConstants {
 			{ r2o4, 0, 0, r2o4, 0, r2o4 },
 			{ 0, r2o4, r2o4, 0, 0, r2o4 },
 			{ 0, 0, r2o4, r2o4, 0, r2o4 } }
-		}
-	);
-	// --- M1Spatial && M1Spatial+Stereo to Surround ---;
-	//TODO: fix front to rear ratio
-	matrices.push_back(
+		},	// --- M1Spatial && M1Spatial+Stereo to Surround ---;
+		//TODO: fix front to rear ratio
+
 		{
 			"M1Spatial", "Stereo",
 			{   { r2o8, 0, r2o8, 0, r2o8, 0, r2o8, 0 },
 				{ 0, r2o8, 0, r2o8, 0, r2o8, 0, r2o8 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "Stereo",
 			{   { r2o8, 0, r2o8, 0, r2o8, 0, r2o8, 0, 1, 0 },
 				{ 0, r2o8, 0, r2o8, 0, r2o8, 0, r2o8, 0, 1 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "Stereo_Cinema",
 			{   { r2o8, 0, r2o8, 0, r2o8, 0, r2o8, 0 },
 				{ 0, r2o8, 0, r2o8, 0, r2o8, 0, r2o8 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "Stereo_Cinema",
 			{   { r2o8, 0, r2o8, 0, r2o8, 0, r2o8, 0, 1, 0 },
 				{ 0, r2o8, 0, r2o8, 0, r2o8, 0, r2o8, 0, 1 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "FiveOh",
 			{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
@@ -560,9 +470,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
 				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "FiveOh",
 			{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
@@ -570,9 +478,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
 				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "FiveOneFilm",
 			{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
@@ -581,9 +487,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "FiveOneFilm",
 			{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
@@ -592,9 +496,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "FiveOneFilm_Cinema",
 			{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
@@ -603,9 +505,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "FiveOneFilm_Cinema",
 			{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
@@ -614,9 +514,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "FiveOneSmpte",
 			{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
@@ -625,9 +523,7 @@ namespace Mach1TranscodeConstants {
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
 				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "FiveOneSmpte",
 			{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
@@ -636,9 +532,7 @@ namespace Mach1TranscodeConstants {
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 },
 				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "FiveOneDts",
 			{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
@@ -647,9 +541,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
 				{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "FiveOneDts",
 			{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
@@ -658,9 +550,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
 				{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "SevenOnePt",
 			{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
@@ -671,9 +561,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "SevenOnePt",
 			{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
@@ -684,9 +572,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "SevenOnePt_Cinema",
 			{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
@@ -697,9 +583,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "SevenOnePt_Cinema",
 			{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
@@ -710,9 +594,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "SevenZero_Cinema",
 			{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
@@ -722,9 +604,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4 },
 				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "SevenZero_Cinema",
 			{   { r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
@@ -734,9 +614,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0, 0 },
 				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "SevenOneSDDS",
 			//1  2  3  4  5  6  7  8
@@ -748,9 +626,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 }, //Ls
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 }, //Rs
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 } } //LFE
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "SevenOneSDDS",
 			//1  2  3  4  5  6  7  8
@@ -762,9 +638,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 }, //Ls
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 }, //Rs
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 } } //LFE
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "SevenZeroSDDS",
 			//1  2  3  4  5  6  7  8
@@ -775,9 +649,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 }, //R
 				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 }, //Ls
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 } } //Rs
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "SevenZeroSDDS",
 			//1  2  3  4  5  6  7  8  9  10
@@ -788,9 +660,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2 }, //R
 				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 }, //Ls
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 } } //Rs
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "SevenOneTwo",
 			//1  2  3  4  5  6  7  8
@@ -804,9 +674,7 @@ namespace Mach1TranscodeConstants {
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },//LFE
 				{ r2o2, 0, r2o2, 0, 0, 0, 0, 0 },//Lts
 				{ 0, r2o2, 0, r2o2, 0, 0, 0, 0 } }//Rts
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "SevenOneTwo",
 			//1  2  3  4  5  6  7  8  9  10
@@ -820,9 +688,7 @@ namespace Mach1TranscodeConstants {
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 },//LFE
 				{ r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0, 0 },//Lts
 				{ 0, r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0 } }//Rts
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "SevenZeroTwo",
 			//1  2  3  4  5  6  7  8
@@ -835,9 +701,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },//Rsr
 				{ r2o2, 0, r2o2, 0, 0, 0, 0, 0 },//Lts
 				{ 0, r2o2, 0, r2o2, 0, 0, 0, 0 } }//Rts
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "SevenZeroTwo",
 			//1  2  3  4  5  6  7  8  9  10
@@ -850,9 +714,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },//Rsr
 				{ r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0, 0 },//Lts
 				{ 0, r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0 } }//Rts
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "NineOne",
 			//1  2  3  4  5  6  7  8
@@ -866,9 +728,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "NineOne",
 			//1  2  3  4  5  6  7  8  9  10
@@ -882,9 +742,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "NineZero",
 			//1  2  3  4  5  6  7  8
@@ -897,9 +755,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "NineZero",
 			//1  2  3  4  5  6  7  8  9  10
@@ -912,9 +768,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "FiveOneTwo",
 			//1  2  3  4  5  6  7  8
@@ -926,9 +780,7 @@ namespace Mach1TranscodeConstants {
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },
 				{ r2o2, 0, r2o2, 0, 0, 0, 0, 0 },//Lts
 				{ 0, r2o2, 0, r2o2, 0, 0, 0, 0 } }//Rts
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "FiveOneTwo",
 			//1  2  3  4  5  6  7  8
@@ -940,9 +792,7 @@ namespace Mach1TranscodeConstants {
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 },
 				{ r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0, 0 },//Lts
 				{ 0, r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0 } }//Rts
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "FiveZeroTwo",
 			//1  2  3  4  5  6  7  8
@@ -953,9 +803,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
 				{ r2o2, 0, r2o2, 0, 0, 0, 0, 0 },//Lts
 				{ 0, r2o2, 0, r2o2, 0, 0, 0, 0 } }//Rts
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "FiveZeroTwo",
 			//1  2  3  4  5  6  7  8
@@ -966,9 +814,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
 				{ r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0, 0 },//Lts
 				{ 0, r2o2, 0, r2o2, 0, 0, 0, 0, 0, 0 } }//Rts
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "FiveOneFour",
 			//1  2  3  4  5  6  7  8
@@ -982,9 +828,7 @@ namespace Mach1TranscodeConstants {
 				{ 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0 },//FRts
 				{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0 },//BLts
 				{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0 } }//BRts
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "FiveOneFour",
 			//1  2  3  4  5  6  7  8
@@ -998,9 +842,7 @@ namespace Mach1TranscodeConstants {
 				{ 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0, 0, 0 },//FRts
 				{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0, 0, 0 },//BLts
 				{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0, 0, 0 } }//BRts
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "FiveOneFourSMPTE",
 			//1  2  3  4  5  6  7  8
@@ -1014,9 +856,7 @@ namespace Mach1TranscodeConstants {
 				{ 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0 },//FRts
 				{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0 },//BLts
 				{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0 } }//BRts
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "FiveOneFourSMPTE",
 			//1  2  3  4  5  6  7  8
@@ -1030,9 +870,7 @@ namespace Mach1TranscodeConstants {
 				{ 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0, 0, 0 },//FRts
 				{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0, 0, 0 },//BLts
 				{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0, 0, 0 } }//BRts
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "FiveZeroFour",
 			//1  2  3  4  5  6  7  8
@@ -1045,9 +883,7 @@ namespace Mach1TranscodeConstants {
 			{ 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0 },//FRts
 			{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0 },//BLts
 			{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0 } }//BRts
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "FiveZeroFour",
 			//1  2  3  4  5  6  7  8
@@ -1060,9 +896,7 @@ namespace Mach1TranscodeConstants {
 				{ 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0, 0, 0 },//FRts
 				{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0, 0, 0 },//BLts
 				{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0, 0, 0 } }//BRts
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "SevenOneFour",
 			//1  2  3  4  5  6  7  8
@@ -1078,9 +912,7 @@ namespace Mach1TranscodeConstants {
 				{ 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0 },//FRts
 				{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0 },//BLts
 				{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0 } }//BRts
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "SevenOneFour",
 			//1  2  3  4  5  6  7  8
@@ -1096,9 +928,7 @@ namespace Mach1TranscodeConstants {
 				{ 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0, 0, 0 },//FRts
 				{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0, 0, 0 },//BLts
 				{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0, 0, 0 } }//BRts
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "SevenZeroFour",
 			//1  2  3  4  5  6  7  8
@@ -1113,9 +943,7 @@ namespace Mach1TranscodeConstants {
 				{ 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0 },//FRts
 				{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0 },//BLts
 				{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0 } }//BRts
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "SevenZeroFour",
 			//1  2  3  4  5  6  7  8
@@ -1130,9 +958,7 @@ namespace Mach1TranscodeConstants {
 				{ 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0, 0, 0 },//FRts
 				{ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0, 0, 0 },//BLts
 				{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0, 0, 0 } }//BRts
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "NineOneFour", // ?
 				//1  2  3  4  5  6  7  8
@@ -1150,9 +976,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "NineOneFour", // ?
 				//1  2  3  4  5  6  7  8
@@ -1170,9 +994,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "NineOneSix", // ?
 				//1  2  3  4  5  6  7  8
@@ -1192,9 +1014,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "NineOneSix", // ?
 				//1  2  3  4  5  6  7  8
@@ -1214,9 +1034,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1Spatial", "DolbyAtmosSevenOneTwo",
 			//1  2  3  4  5  6  7  8
@@ -1230,9 +1048,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, r2o2 * r2o2, 0, 0, 0, r2o2 },//Rsr
 				{ 0.0236619f, 0.0078859f, 0.0236619f, 0.0078859f, 0, 0, 0, 0 },//Lts
 				{ 0.0078859f, 0.0236619f, 0.0078859f, 0.0236619f, 0, 0, 0, 0 } }//Rts
-		}
-	);
-	matrices.push_back(
+		},
 		{
 			"M1SpatialS", "DolbyAtmosSevenOneTwo",
 			//1  2  3  4  5  6  7  8  9  10
@@ -1247,5 +1063,5 @@ namespace Mach1TranscodeConstants {
 				{ 0.0236619f, 0.0078859f, 0.0236619f, 0.0078859f, 0, 0, 0, 0, 0, 0 },//Lts
 				{ 0.0078859f, 0.0236619f, 0.0078859f, 0.0236619f, 0, 0, 0, 0, 0, 0 } }//Rts
 		}
-	);
+	};
 };

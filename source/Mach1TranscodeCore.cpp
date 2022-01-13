@@ -3,6 +3,9 @@
 
 #include "Mach1TranscodeCore.h"
 #include "Mach1GenerateCoeffs.h"
+#include "Mach1TranscodeVectorFormats.h"
+#include "Mach1TranscodeSurroundFormats.h"
+#include "Mach1TranscodeAmbisonicFormats.h"
 #include <string.h> 
 #include <cstring>
 #include "json/json.h"
@@ -23,6 +26,10 @@ Mach1TranscodeCore::Mach1TranscodeCore()
 	for (int i = 0; i < Mach1TranscodeConstants::MAXCHANS; i++)  {
 		buffers[i] = new float[bufferSize];
 	}
+
+	matrices.insert(matrices.end(), Mach1TranscodeConstants::matricesAmbisonic.begin(), Mach1TranscodeConstants::matricesAmbisonic.end());
+	matrices.insert(matrices.end(), Mach1TranscodeConstants::matricesSurround.begin(), Mach1TranscodeConstants::matricesSurround.end());
+	matrices.insert(matrices.end(), Mach1TranscodeConstants::matricesVector.begin(), Mach1TranscodeConstants::matricesVector.end());
 }
 
 Mach1TranscodeCore::~Mach1TranscodeCore()
@@ -365,8 +372,8 @@ int Mach1TranscodeCore::findMatrix(int inFmt, int outFmt)
 {
 	const char* inFmtName = getFormatName(inFmt);
 	const char* outFmtName = getFormatName(outFmt);
-	for (int i = 0; i < Mach1TranscodeConstants::matrices.size(); i++) {
-		if (Mach1TranscodeConstants::matrices[i].formatFrom == inFmtName && Mach1TranscodeConstants::matrices[i].formatTo == outFmtName) {
+	for (int i = 0; i < matrices.size(); i++) {
+		if (matrices[i].formatFrom == inFmtName && matrices[i].formatTo == outFmtName) {
 			return i;
 		}
 	}
@@ -389,7 +396,7 @@ void Mach1TranscodeCore::processConversion(int inFmt, float** inBufs, int outFmt
 		currentFormatConversionMatrix = generateCoeffSetForPoints(inCustomPoints, outCustomPoints);
 	}
 	else if (inFmt != getFormatFromString("CustomPoints") && outFmt != getFormatFromString("CustomPoints")) {
-        currentFormatConversionMatrix = Mach1TranscodeConstants::matrices[findMatrix(inFmt, outFmt)].data;
+        currentFormatConversionMatrix = matrices[findMatrix(inFmt, outFmt)].data;
     }
     
     // copy pointers to local
@@ -493,7 +500,7 @@ void Mach1TranscodeCore::getMatrixConversion(float* matrix)
 			currentFormatConversionMatrix = generateCoeffSetForPoints(inCustomPoints, outCustomPoints);
 		}
 		else if (inFmt != getFormatFromString("CustomPoints") && outFmt != getFormatFromString("CustomPoints")) {
-			currentFormatConversionMatrix = Mach1TranscodeConstants::matrices[findMatrix(inFmt, outFmt)].data;
+			currentFormatConversionMatrix = matrices[findMatrix(inFmt, outFmt)].data;
 		}
 
 		std::memset(mCurrent, 0, mSize);

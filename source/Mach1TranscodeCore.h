@@ -19,9 +19,6 @@
 #include "Mach1Point3D.h"
 
 #include "Mach1TranscodeConstants.h"
-#include "Mach1TranscodeVectorFormats.h"
-#include "Mach1TranscodeSurroundFormats.h"
-#include "Mach1TranscodeAmbisonicFormats.h"
 
 struct ProcessSettings {
 	bool processObjectBed = true;
@@ -40,6 +37,8 @@ class Mach1TranscodeCore
 private:
 	int inFmt;
 	int outFmt;
+
+	std::vector<Mach1SpatialSoundMatrix> matrices;
 
 	std::vector<Mach1Point3DCore> inCustomPoints;
 	std::vector<Mach1Point3DCore> outCustomPoints;

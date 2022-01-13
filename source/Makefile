@@ -63,12 +63,12 @@ build-ci-win: clear test includes-dev includes-release build deploy-dev deploy-r
 build: FORCE
 ifeq ($(detected_OS),Darwin)
 	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain xcode
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/lib/libMach1DecodeCAPI.a"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/lib/libMach1DecodePositionalCAPI.a"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/lib/libMach1EncodeCAPI.a"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/libBundle/libMach1DecodeCAPI.bundle"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/libBundle/libMach1DecodePositionalCAPI.bundle"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/libBundle/libMach1EncodeCAPI.bundle"
+	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/lib/libMach1DecodeCAPI.a"
+	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/lib/libMach1DecodePositionalCAPI.a"
+	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/lib/libMach1EncodeCAPI.a"
+	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/libBundle/libMach1DecodeCAPI.bundle"
+	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/libBundle/libMach1DecodePositionalCAPI.bundle"
+	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/libBundle/libMach1EncodeCAPI.bundle"
 else ifeq ($(detected_OS),Windows)
 	python $(POLLY_PY_PATH) --clear --install --config Release --toolchain vs-15-2017
 	python $(POLLY_PY_PATH) --clear --install --config Release --toolchain vs-15-2017-win64
@@ -112,12 +112,12 @@ includes-release:
 
 build-mac:
 	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain xcode
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/lib/libMach1DecodeCAPI.a"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/lib/libMach1DecodePositionalCAPI.a"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/lib/libMach1EncodeCAPI.a"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/libBundle/libMach1DecodeCAPI.bundle"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/libBundle/libMach1DecodePositionalCAPI.bundle"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "/Volumes/git/m1-sdk/lib/_install/xcode/libBundle/libMach1EncodeCAPI.bundle"
+	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/lib/libMach1DecodeCAPI.a"
+	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/lib/libMach1DecodePositionalCAPI.a"
+	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/lib/libMach1EncodeCAPI.a"
+	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/libBundle/libMach1DecodeCAPI.bundle"
+	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/libBundle/libMach1DecodePositionalCAPI.bundle"
+	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/libBundle/libMach1EncodeCAPI.bundle"
 	yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1DecodeCAPI.a"
 	yes | cp -rf "_install/xcode/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1EncodeCAPI.a"
 	yes | cp -rf "_install/xcode/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1TranscodeCAPI.a"
@@ -540,12 +540,12 @@ deploy-dev:
 	cd ../binaries && find . -type d -name 'libUnity' -print0 | xargs -0 rm -rf
 	cd ../binaries && find . -type d -name 'libBundle' -print0 | xargs -0 rm -rf
 	echo "### NUMBERS OF SUCCESSFUL BUILDS:"
-	cd ../lib/_logs/polly/ && grep -rl "Installing:" "/Volumes/git/m1-sdk/lib/_logs/polly" | wc -l
+	cd ../source/_logs/polly/ && grep -rl "Installing:" "$(M1SDK_PATH)/source/_logs/polly" | wc -l
 	echo "### ERRORS CAUGHT:"
-	cd ../lib/_logs/polly/ && grep -rl "error" "/Volumes/git/m1-sdk/lib/_logs/polly" | wc -l
-	cd ../lib/_logs/polly/ && grep -rl "Error" "/Volumes/git/m1-sdk/lib/_logs/polly" | wc -l
-	cd ../lib/_logs/polly/ && grep -rl "failed" "/Volumes/git/m1-sdk/lib/_logs/polly" | wc -l
-	cd ../lib/_logs/polly/ && grep -rl "FAILED" "/Volumes/git/m1-sdk/lib/_logs/polly" | wc -l
+	cd ../source/_logs/polly/ && grep -rl "error" "$(M1SDK_PATH)/source/_logs/polly" | wc -l
+	cd ../source/_logs/polly/ && grep -rl "Error" "$(M1SDK_PATH)/source/_logs/polly" | wc -l
+	cd ../source/_logs/polly/ && grep -rl "failed" "$(M1SDK_PATH)/source/_logs/polly" | wc -l
+	cd ../source/_logs/polly/ && grep -rl "FAILED" "$(M1SDK_PATH)/source/_logs/polly" | wc -l
 
 # place anything you need all commands to run here
 FORCE:

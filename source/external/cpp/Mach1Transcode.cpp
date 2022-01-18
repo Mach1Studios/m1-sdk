@@ -31,7 +31,7 @@ int Mach1Transcode::getOutputNumChannels()
     ///     - integer of number of output channels
 }
 
-Mach1TranscodeFormatType Mach1Transcode::getFormatFromString(std::string str)
+int Mach1Transcode::getFormatFromString(std::string str)
 {
 	return Mach1TranscodeCAPI_getFormatFromString(M1obj, (char*)str.c_str());
 	/// Returns the enum for indicated format's string name
@@ -42,7 +42,7 @@ Mach1TranscodeFormatType Mach1Transcode::getFormatFromString(std::string str)
 	///		- format from enum
 }
 
-std::string Mach1Transcode::getFormatName(Mach1TranscodeFormatType fmt) {
+std::string Mach1Transcode::getFormatName(int fmt) {
 	return std::string(Mach1TranscodeCAPI_getFormatName(M1obj, fmt));
 }
 #ifndef  __EMSCRIPTEN__ 
@@ -136,7 +136,7 @@ std::vector<float> Mach1Transcode::getAvgSamplesDiff()
 	return std::vector<float>(avg, avg +4);
 }
 
-void Mach1Transcode::setInputFormat(Mach1TranscodeFormatType inFmt)
+void Mach1Transcode::setInputFormat(int inFmt)
 {
 	Mach1TranscodeCAPI_setInputFormat(M1obj, inFmt);
     /// Sets the input format for transcoding from the preset Mach1Transcode options
@@ -160,7 +160,7 @@ void Mach1Transcode::setInputFormatCustomPoints(std::vector<Mach1Point3D> points
     ///     View the JSON spec for describing a format here: https://dev.mach1.tech/#json-descriptions
 }
 
-void Mach1Transcode::setOutputFormat(Mach1TranscodeFormatType outFmt)
+void Mach1Transcode::setOutputFormat(int outFmt)
 {
 	Mach1TranscodeCAPI_setOutputFormat(M1obj, outFmt);
     /// Sets the output format for transcoding from the preset Mach1Transcode options
@@ -249,14 +249,14 @@ void Mach1Transcode::processConversion(std::vector< std::vector<float> >& inBufs
 	delete[] bOut;
 }
 
-std::vector<Mach1TranscodeFormatType> Mach1Transcode::getFormatConversionPath()
+std::vector<int> Mach1Transcode::getFormatConversionPath()
 {
 	int count = 0;
-	Mach1TranscodeFormatType* arr = Mach1TranscodeCAPI_getFormatConversionPath(M1obj, &count);
+	int* arr = Mach1TranscodeCAPI_getFormatConversionPath(M1obj, &count);
 
-	std::vector<Mach1TranscodeFormatType> vec(arr, arr + count);
+	std::vector<int> vec(arr, arr + count);
 	return vec;
-    /// Returns the shortest found conversion path to get from input format X to output format Y, both set by `Mach1Transcode::setInputFormat(Mach1TranscodeFormatType inFmt)` and `Mach1Transcode::setOutputFormat(Mach1TranscodeFormatType outFmt)`
+    /// Returns the shortest found conversion path to get from input format X to output format Y, both set by `Mach1Transcode::setInputFormat(int inFmt)` and `Mach1Transcode::setOutputFormat(int outFmt)`
     ///
     /// Remarks:
     ///     Majority of format instances will use Mach1Spatial as the middle format for non-Mach1-format -> non-Mach1-format transcodings. This is due to Mach1 Spatial being a platonic solid format, ideal for safe calculations without loss

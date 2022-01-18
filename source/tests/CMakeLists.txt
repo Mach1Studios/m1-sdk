@@ -13,7 +13,6 @@ message("CMAKE_SYSTEM_PROCESSOR: ${CMAKE_SYSTEM_PROCESSOR}")
 message("CMAKE_CROSSCOMPILING: ${CMAKE_CROSSCOMPILING}")
 
 # Mach1Encode
-
 set(Mach1EncodeCAPIsrc "../Mach1EncodeCAPI.cpp" "../Mach1EncodeCore.cpp" "../external/cpp/Mach1Encode.cpp" "../Mach1Point3DCore.cpp")
 set(Mach1EncodeCAPIinclude "../" "../external/cpp")
 
@@ -56,3 +55,14 @@ target_include_directories(Mach1SpatialTests PRIVATE "./include" ${Mach1CAPIincl
 
 install(TARGETS Mach1SpatialTests DESTINATION bin)
 install(CODE "execute_process(COMMAND ${CMAKE_INSTALL_PREFIX}/bin/Mach1SpatialTests)" )
+
+# Mach1TranscodeTests
+
+set(Mach1TranscodeCAPIsrc "../Mach1TranscodeCAPI.cpp" "../Mach1TranscodeCore.cpp" "../Mach1GenerateCoeffs.cpp" "../include/M1DSP/M1DSPFilters.cpp" "../include/M1DSP/M1DSPUtilities.cpp" "../Mach1Point3DCore.cpp" "../Mach1Point4DCore.cpp" "../external/cpp/Mach1Transcode.cpp")
+set(Mach1CAPIinclude "../" "../external/cpp" "../include" "../../public")
+
+add_executable(Mach1TranscodeTests "./Mach1TranscodeTests/mach1transcode-tests.cpp" ${Mach1TranscodeCAPIsrc})
+target_include_directories(Mach1TranscodeTests PRIVATE "./include" ${Mach1CAPIinclude})
+
+install(TARGETS Mach1TranscodeTests DESTINATION bin)
+install(CODE "execute_process(COMMAND ${CMAKE_INSTALL_PREFIX}/bin/Mach1TranscodeTests)" )

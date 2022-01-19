@@ -27,6 +27,7 @@ ifeq ($(detected_OS),Darwin)
 	./tests/_install/xcode/bin/Mach1DecodeTest
 	./tests/_install/xcode/bin/Mach1DecodePositionalTest
 	./tests/_install/xcode/bin/Mach1SpatialTests
+	./tests/_install/xcode/bin/Mach1TranscodeTests
 else ifeq ($(detected_OS),Windows)
 	cd tests && python $(POLLY_PY_PATH) --clear --install --config Release --toolchain vs-15-2017-win64
 else
@@ -35,6 +36,7 @@ else
 	./tests/_install/gcc/bin/Mach1DecodeTest
 	./tests/_install/gcc/bin/Mach1DecodePositionalTest
 	./tests/_install/gcc/bin/Mach1SpatialTests
+	./tests/_install/gcc/bin/Mach1TranscodeTests
 endif
 
 test-linking:

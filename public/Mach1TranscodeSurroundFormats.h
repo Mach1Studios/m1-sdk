@@ -3,6 +3,10 @@
 //
 // References: 
 //
+// TODO: 10.2, 12.2, 11.1, 22.2
+// - 10.2/12.2: https://en.wikipedia.org/wiki/10.2_surround_sound
+// - 22.2: https://en.wikipedia.org/wiki/22.2_surround_sound
+// FL, FR, FC, LFE1, BL, BR, FLc, FRc, BC, LFE2, SiL (side left), SiR, TpFL, TpFR, TpFC, TpC, TpBL, TpBR, TpSiL, TpSiR, TpBC, BtFC, BtFL, BtFR
 
 #pragma once
 

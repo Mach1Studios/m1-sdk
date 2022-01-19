@@ -6,67 +6,24 @@
 #include <math.h>
 #include <map>
 
-/*
-const std::vector<std::string> formats = {
-	"CustomPoints"
-	"Empty"
-	"FuMa"
-	"ACNSN3D"
-	"M1Horizon"
-	"M1HorizonS"
-	"M1HorizonPairs"
-	"M1Spatial"
-	"M1SpatialS"
-	"M1SpatialPairs"
-	"M1SpatialPlus"
-	"M1SpatialPlusPlus"
-	"M1SpatialExtended"
-	"M1SpatialExtendedPlus"
-	"Mono"
-	"Stereo"
-	"LCR"
-	"FiveOh"
-	"FiveOneFilm"
-	"FiveOneFilm_Cinema"
-	"FiveOneSmpte"
-	"FiveOneDts"
-	"SixOh"
-	"SevenOnePt"
-	"SevenOnePt_Cinema"
-	"ACNSN3DO2A"
-	"FuMaO2A"
-	"TBE"
-	"ACNSN3DO3A"
-	"FuMaO3A"
-	"SevenOneSDDS"
-	"SevenZeroSDDS"
-	"SevenOneTwo"
-	"SevenZeroTwo"
-	"NineOne"
-	"NineZero"
-	"Stereo_Cinema"
-	"FiveOneTwo"
-	"FiveZeroTwo"
-	"FiveOneFour"
-	"FiveOneFourSMPTE"
-	"FiveZeroFour"
-	"SevenOneFour"
-	"SevenZeroFour"
-	"SevenZero_Cinema"
-	"M1SpatialFaces"
-	"NineOneFour"
-	"NineOneSix"
-	"MarcoSixteen"
-	"ACNSN3DmaxRE1oa"
-	"ACNSN3DmaxRE2oa"
-	"ACNSN3DmaxRE3oa"
-	"ACNSN3DmaxRE4oa"
-	"ACNSN3DmaxRE5oa"
-	"ACNSN3DmaxRE6oa"
-	"ACNSN3DmaxRE7oa"
-	"DolbyAtmosSevenOneTwo"
-};
-*/
+const float r2 = (float)sqrt(2.0);
+const float r3 = (float)sqrt(3.0);
+const float oor2 = (float)(1.0 / sqrt(2.0));
+const float oor3 = (float)(1.0 / sqrt(3.0));
+const float oor4 = (float)(1.0 / sqrt(4.0));
+const float oor8 = (float)(1.0 / sqrt(8.0));
+const float oor16 = (float)(1.0 / sqrt(16.0));
+const float oo2r2 = (float)(1.0 / (2.0 * sqrt(2.0)));
+const float r3or2 = (float)(sqrt(3.0) / sqrt(2.0));
+const float r3o2 = (float)sqrt(3.0) / 2.0f;
+const float r2o2 = (float)sqrt(2.0) / 2.0f;
+const float r2o3 = (float)sqrt(2.0) / 3.0f;
+const float r2o4 = (float)sqrt(2.0) / 4.0f;
+const float r2o6 = (float)sqrt(2.0) / 6.0f;
+const float r2o8 = (float)sqrt(2.0) / 8.0f;
+const float r2o12 = (float)sqrt(2.0) / 12.0f;
+const float r2o20 = (float)sqrt(2.0) / 20.0f;
+const float oo8 = (float)1.0f / 8.0f;
 
 void test_results(void)
 {
@@ -86,25 +43,40 @@ void test_results(void)
 	};
 
 	std::vector<CASE> cases = {
+		{
+			"Basic Check",
+			{
+				"M1Spatial",
+				"M1Horizon"
+			},
+			{
 				{
-					"Test 1",
-					{
-						"ACNSN3D",
-						"M1Spatial"
-					},
-					{
-						{
-							{ 0.125000000, 0.216601998, 0.216316000, 0.216601998, },
-							{ 0.125000000, -0.216601998, 0.216316000, 0.216601998, },
-							{ 0.125000000, 0.216601998, 0.216316000, -0.216601998, },
-							{ 0.125000000, -0.216601998, 0.216316000, -0.216601998, },
-							{ 0.125000000, 0.216601998, -0.216316000, 0.216601998, },
-							{ 0.125000000, -0.216601998, -0.216316000, 0.216601998, },
-							{ 0.125000000, 0.216601998, -0.216316000, -0.216601998, },
-							{ 0.125000000, -0.216601998, -0.216316000, -0.216601998 }
-						}
-					}
+					{ oor2, 0, 0, 0, oor2, 0, 0, 0 },
+					{ 0, oor2, 0, 0, 0, oor2, 0, 0 },
+					{ 0, 0, oor2, 0, 0, 0, oor2, 0 },
+					{ 0, 0, 0, oor2, 0, 0, 0, oor2 }
 				}
+			}
+		},
+		{
+			"Basic Check 2",
+			{
+				"ACNSN3DmaxRE1oa", 
+				"M1Spatial"
+			},
+			{ 	
+				{
+					{ 0.1195696368813515f, 0.1008485481142998f, 0.1008353978395462f, 0.1008441597223282f },
+					{ 0.2335921078920364f, -0.09768784791231155f, 0.1874370872974396f, 0.1874081641435623f },
+					{ 0.2335949540138245f, 0.1874101459980011f, 0.1874414682388306f, -0.09768243134021759f },
+					{ 0.2335852235555649f, -0.1874117404222488f, 0.09766875952482224f, -0.1874225586652756f },
+					{ 0.2335794866085052f, 0.1874110400676727f, -0.09767947345972061f, 0.187408521771431f },
+					{ 0.2336007952690125f, -0.1874084323644638f, -0.187450110912323f, 0.09767483919858932f },
+					{ 0.2335984259843826f, 0.09767667949199677f, -0.1874499171972275f, -0.1874141097068787f },
+					{ 0.1195692494511604f, -0.1008481085300446f, -0.1008350774645805f, -0.1008405983448029f }
+				}
+			}
+		}
 	};
 
 	std::cout << std::endl;

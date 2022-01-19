@@ -105,7 +105,6 @@ namespace Mach1TranscodeConstants {
 		{ "ACNSN3DmaxRE7oa", 64 },
 		{ "DolbyAtmosSevenOneTwo", 10 },
 	};
-
 };
 
 #endif

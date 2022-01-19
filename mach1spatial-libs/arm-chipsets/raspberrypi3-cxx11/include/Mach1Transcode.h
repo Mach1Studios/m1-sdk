@@ -17,8 +17,8 @@ public:
 
 	int getInputNumChannels();
 	int getOutputNumChannels();
-	Mach1TranscodeFormatType getFormatFromString(std::string str);
-	std::string getFormatName(Mach1TranscodeFormatType fmt);
+	int getFormatFromString(std::string str);
+	std::string getFormatName(int fmt);
 
 #ifndef  __EMSCRIPTEN__ 
 	float processNormalization(float** bufs, int numSamples);
@@ -35,11 +35,11 @@ public:
 	bool getSpatialDownmixerPossibility();
 	std::vector<float> getAvgSamplesDiff();
 
-	void setInputFormat(Mach1TranscodeFormatType inFmt);
+	void setInputFormat(int inFmt);
 	void setInputFormatCustomPointsJson(std::string inJson);
 	void setInputFormatCustomPoints(std::vector<Mach1Point3D> points);
 
-	void setOutputFormat(Mach1TranscodeFormatType outFmt);
+	void setOutputFormat(int outFmt);
 	void setOutputFormatCustomPointsJson(std::string outJson);
 	void setOutputFormatCustomPoints(std::vector<Mach1Point3D> points);
 
@@ -52,5 +52,5 @@ public:
 #endif
 	void processConversion(std::vector< std::vector<float> >& inBufs, std::vector< std::vector<float> >& outBufs);
 
-	std::vector<Mach1TranscodeFormatType> getFormatConversionPath();
+	std::vector<int> getFormatConversionPath();
 };

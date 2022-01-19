@@ -31,15 +31,15 @@
 
 /* Begin PBXFileReference section */
 		A41FB94321CAB28400F2CBD4 /* spatial-transcode-objectaudio-example */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "spatial-transcode-objectaudio-example"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A439579B26C5D347001E96CB /* Mach1AudioTimeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1AudioTimeline.h; path = ../../../../../mach1spatial-libs/xcode/include/Mach1AudioTimeline.h; sourceTree = "<group>"; };
-		A439579C26C5D34C001E96CB /* Mach1AudioTimeline.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mach1AudioTimeline.cpp; path = ../../../../../mach1spatial-libs/xcode/include/Mach1AudioTimeline.cpp; sourceTree = "<group>"; };
-		A439579E26C5D355001E96CB /* Mach1AudioTimelineCAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1AudioTimelineCAPI.h; path = ../../../../../mach1spatial-libs/xcode/include/Mach1AudioTimelineCAPI.h; sourceTree = "<group>"; };
+		A439579B26C5D347001E96CB /* Mach1AudioTimeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1AudioTimeline.h; path = "../../../../../mach1spatial-libs/xcode/include/Mach1AudioTimeline.h"; sourceTree = "<group>"; };
+		A439579C26C5D34C001E96CB /* Mach1AudioTimeline.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mach1AudioTimeline.cpp; path = "../../../../../mach1spatial-libs/xcode/include/Mach1AudioTimeline.cpp"; sourceTree = "<group>"; };
+		A439579E26C5D355001E96CB /* Mach1AudioTimelineCAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1AudioTimelineCAPI.h; path = "../../../../../mach1spatial-libs/xcode/include/Mach1AudioTimelineCAPI.h"; sourceTree = "<group>"; };
 		A45C55802624AACB0008FF4D /* CmdOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CmdOption.h; sourceTree = "<group>"; };
 		A45C55822624AACB0008FF4D /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		A45C55882624AADA0008FF4D /* Mach1Transcode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mach1Transcode.cpp; path = ../../../../../mach1spatial-libs/xcode/include/Mach1Transcode.cpp; sourceTree = "<group>"; };
-		A45C55892624AADA0008FF4D /* Mach1Transcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1Transcode.h; path = ../../../../../mach1spatial-libs/xcode/include/Mach1Transcode.h; sourceTree = "<group>"; };
-		A45C558A2624AADA0008FF4D /* Mach1TranscodeCAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1TranscodeCAPI.h; path = ../../../../../mach1spatial-libs/xcode/include/Mach1TranscodeCAPI.h; sourceTree = "<group>"; };
-		A45C55F62624B12F0008FF4D /* libMach1TranscodeCAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMach1TranscodeCAPI.a; path = ../../../../mach1spatial-libs/xcode/lib/libMach1TranscodeCAPI.a; sourceTree = "<group>"; };
+		A45C55882624AADA0008FF4D /* Mach1Transcode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mach1Transcode.cpp; path = "../../../../../mach1spatial-libs/xcode/include/Mach1Transcode.cpp"; sourceTree = "<group>"; };
+		A45C55892624AADA0008FF4D /* Mach1Transcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1Transcode.h; path = "../../../../../mach1spatial-libs/xcode/include/Mach1Transcode.h"; sourceTree = "<group>"; };
+		A45C558A2624AADA0008FF4D /* Mach1TranscodeCAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1TranscodeCAPI.h; path = "../../../../../mach1spatial-libs/xcode/include/Mach1TranscodeCAPI.h"; sourceTree = "<group>"; };
+		A45C55F62624B12F0008FF4D /* libMach1TranscodeCAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMach1TranscodeCAPI.a; path = "../../../../mach1spatial-libs/xcode/lib/libMach1TranscodeCAPI.a"; sourceTree = "<group>"; };
 		A45C562E2624C5B20008FF4D /* sndfile.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sndfile.hh; sourceTree = "<group>"; };
 		A45C562F2624C5B20008FF4D /* sndfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sndfile.h; sourceTree = "<group>"; };
 		A45C563D2624C6910008FF4D /* libsndfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsndfile.a; path = ../../../../../../../usr/local/Cellar/libsndfile/1.0.31/lib/libsndfile.a; sourceTree = "<group>"; };
@@ -122,7 +122,7 @@
 				A45C564B2624DD3D0008FF4D /* M1DSPUtilities.cpp */,
 			);
 			name = M1DSP;
-			path = ../../../../../mach1spatial-libs/xcode/include/M1DSP;
+			path = "../../../../../mach1spatial-libs/xcode/include/M1DSP";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

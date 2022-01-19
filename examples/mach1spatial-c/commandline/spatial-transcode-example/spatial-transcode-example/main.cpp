@@ -69,8 +69,8 @@ static pthread_t thread;
 static bool done = false;
 Mach1Transcode m1Transcode;
 static std::vector< std::vector<float> > m1Coeffs; //2D array, [input channel][input channel's coeff]
-Mach1TranscodeFormatType inputMode;
-Mach1TranscodeFormatType outputMode;
+int inputMode;
+int outputMode;
 std::string inputName;
 std::string outputName;
 
@@ -102,8 +102,8 @@ int main(int argc, const char * argv[]) {
     ts.tv_nsec = (long)1e7;
     
     printf("Setting up\n");
-    inputMode = Mach1TranscodeFormatACNSN3DmaxRE3oa;
-    outputMode = Mach1TranscodeFormatM1Spatial;
+    inputMode = m1Transcode.getFormatFromString("ACNSN3DmaxRE3oa");
+    outputMode = m1Transcode.getFormatFromString("M1Spatial");
     inputName = "ACNSN3D-3OA";
     outputName = "MACH1 SPATIAL";
     done = false;
@@ -155,28 +155,28 @@ static void* decode(void* v)
         printf("\b");
         switch (c) {
             case 'i':
-                if(inputMode==Mach1TranscodeFormatACNSN3DmaxRE3oa){
-                    inputMode=Mach1TranscodeFormatFiveOneFilm;
+                if(inputMode==m1Transcode.getFormatFromString("ACNSN3DmaxRE3oa")){
+                    inputMode=m1Transcode.getFormatFromString("FiveOneFilm");
                     inputName="FiveOneFilm";
-                }else if(inputMode==Mach1TranscodeFormatFiveOneFilm){
-                    inputMode=Mach1TranscodeFormatSevenOneFour;
+                }else if(inputMode==m1Transcode.getFormatFromString("FiveOneFilm")){
+                    inputMode=m1Transcode.getFormatFromString("SevenOneFour");
                     inputName="SevenOneFour";
-                }else if(inputMode==Mach1TranscodeFormatSevenOneFour){
-                    inputMode=Mach1TranscodeFormatACNSN3DmaxRE3oa;
+                }else if(inputMode==m1Transcode.getFormatFromString("SevenOneFour")){
+                    inputMode=m1Transcode.getFormatFromString("ACNSN3DmaxRE3oa");
                     inputName="ACNSN3D-3OA";
                 }else{
                     printf("Input out of scope.");
                 }
                 break;
             case 'o':
-                if(outputMode==Mach1TranscodeFormatM1Spatial){
-                    outputMode=Mach1TranscodeFormatFiveOneFour;
+                if(outputMode==m1Transcode.getFormatFromString("M1Spatial")){
+                    outputMode=m1Transcode.getFormatFromString("FiveOneFour");
                     outputName="FiveOneFour";
-                }else if(outputMode==Mach1TranscodeFormatFiveOneFour){
-                    outputMode=Mach1TranscodeFormatTBE;
+                }else if(outputMode==m1Transcode.getFormatFromString("FiveOneFour")){
+                    outputMode=m1Transcode.getFormatFromString("TBE");
                     outputName="TBE-2OAHybrid";
-                }else if(outputMode==Mach1TranscodeFormatTBE){
-                    outputMode=Mach1TranscodeFormatM1Spatial;
+                }else if(outputMode==m1Transcode.getFormatFromString("TBE")){
+                    outputMode=m1Transcode.getFormatFromString("M1Spatial");
                     outputName="MACH1 SPATIAL";
                 }else{
                     printf("Input out of scope.");

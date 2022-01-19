@@ -238,11 +238,11 @@ int main(int argc, char* argv[])
 	char* infolder = NULL;
 	char* infilename = NULL;
 	char* inFmtStr = NULL;
-	Mach1TranscodeFormatType inFmt;
+	int inFmt;
 	char* outfilename = NULL;
 	std::string md_outfilename = "";
 	char* outFmtStr = NULL;
-	Mach1TranscodeFormatType outFmt;
+	int outFmt;
 	int outFileChans;
 	int channels;
 
@@ -290,13 +290,13 @@ int main(int argc, char* argv[])
 		inFmtStr = pStr;
 
 		if (strcmp(inFmtStr, "ADM") == 0) {
-			m1transcode.setInputFormat(Mach1TranscodeFormatType::Mach1TranscodeFormatCustomPoints);
+			m1transcode.setInputFormat(m1transcode.getFormatFromString("CustomPoints"));
 			m1audioTimeline.parseADM(infilename);
 			useAudioTimeline = true;
 		} else if (strcmp(inFmtStr, "Atmos") == 0) {
 			char* pStr = getCmdOption(argv, argv + argc, "-in-file-meta");
 			if (pStr && (strlen(pStr) > 0)) {
-				m1transcode.setInputFormat(Mach1TranscodeFormatType::Mach1TranscodeFormatCustomPoints);
+				m1transcode.setInputFormat(m1transcode.getFormatFromString("CustomPoints"));
 				m1audioTimeline.parseAtmos(infilename, pStr);
 				useAudioTimeline = true;
 			} else {
@@ -306,7 +306,7 @@ int main(int argc, char* argv[])
 		} else {
 			bool foundInFmt = false;
 			inFmt = m1transcode.getFormatFromString(inFmtStr);
-			if (inFmt != Mach1TranscodeFormatType::Mach1TranscodeFormatEmpty) {
+			if (inFmt < 1) { // if format int is 0 or -1 (making it invalid)
 				foundInFmt = true;
 			}
 		}
@@ -363,7 +363,7 @@ int main(int argc, char* argv[])
 	// check output formats
 	bool foundOutFmt = false;
 	outFmt = m1transcode.getFormatFromString(outFmtStr);
-	if (outFmt != Mach1TranscodeFormatType::Mach1TranscodeFormatEmpty) {
+	if (outFmt < 1) { // if format int is 0 or -1 (making it invalid)
 		foundOutFmt = true;
 	} else {
 		cout << "Please select a valid output format" << std::endl;
@@ -465,7 +465,7 @@ int main(int argc, char* argv[])
 		printf("Can't found conversion between formats!");
 		return -1;
 	} else {
-        std::vector<Mach1TranscodeFormatType> formatsConvertionPath = m1transcode.getFormatConversionPath();
+        std::vector<int> formatsConvertionPath = m1transcode.getFormatConversionPath();
 		printf("Conversion Path:    ");
 		for (int k = 0; k < formatsConvertionPath.size(); k++) {
             printf("%s", m1transcode.getFormatName(formatsConvertionPath[k]).c_str());
@@ -503,7 +503,7 @@ int main(int argc, char* argv[])
 			strcpy(outfilestr, outfilename);
         }
 
-		if (outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatDolbyAtmosSevenOneTwo) {
+		if (outFmt == m1transcode.getFormatFromString("DolbyAtmosSevenOneTwo")) {
             std::string axmlChunkAdmCorrectedString = getTimecode(axmlChunkAdmString, inputInfo.duration).c_str();
             bw64::AxmlChunk axmlChunkAdmCorrected(axmlChunkAdmCorrectedString);
 			outfiles[i].open(outfilestr, actualOutFileChannels, chnaChunkAdm, axmlChunkAdmCorrected);
@@ -521,13 +521,13 @@ int main(int argc, char* argv[])
 			cerr << "Error: opening out-file: " << outfilestr << std::endl;
 			return -1;
 		}
-		if (outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatM1Spatial) {
+		if (outFmt == m1transcode.getFormatFromString("M1Spatial")) {
 			outfiles[i].setString(0x05, "mach1spatial-8");
 		}
-		else if (outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatM1Horizon) {
+		else if (outFmt == m1transcode.getFormatFromString("M1Horizon")) {
 			outfiles[i].setString(0x05, "mach1horizon-4");
 		}
-		else if (outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatM1HorizonPairs) {
+		else if (outFmt == m1transcode.getFormatFromString("M1HorizonPairs")) {
 			outfiles[i].setString(0x05, "mach1horizon-8");
 		}
 	}

@@ -13,20 +13,20 @@
 #include <map>
 #include <string>
 
-enum Mach1FormatChannelType {
-	Mach1FormatChannelDiscrete = (int)0,
-	Mach1FormatChannelLFE,
-	Mach1FormatChannelC
+enum Mach1ChannelType {
+	Mach1ChannelTypeDiscrete = (int)0,
+	Mach1ChannelTypeLFE,
+	Mach1ChannelTypeC
 };
 
-struct Mach1FormatChannel {
+struct Mach1ChannelDescription {
 	int index;
-	Mach1FormatChannelType type;
+	Mach1ChannelType type;
 };
 
 struct Mach1FormatInfo {
 	std::string name;
-	int channelCount;
+	int numChannels;
 	std::vector<Mach1FormatChannel> channelTypes;
 };
 

@@ -13,9 +13,21 @@
 #include <map>
 #include <string>
 
+enum Mach1FormatChannelType {
+	Mach1FormatChannelDiscrete = (int)0,
+	Mach1FormatChannelLFE,
+	Mach1FormatChannelC
+};
+
+struct Mach1FormatChannel {
+	int index;
+	Mach1FormatChannelType type;
+};
+
 struct Mach1FormatInfo {
 	std::string name;
-	int channels;
+	int channelsCount;
+	std::vector<Mach1FormatChannel> channelTypes;
 };
 
 struct Mach1SpatialSoundMatrix {

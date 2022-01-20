@@ -99,7 +99,7 @@ void test_results(void)
 		int counter = 0;
 
 		for (size_t i = 0; i < matrix.size(); i++) {
-			for (size_t j = 0; j < matrix[j].size(); j++) {
+			for (size_t j = 0; j < matrix[i].size(); j++) {
 				bool check = fabs(test.output.matrix[i][j] - matrix[i][j]) < 0.1;
 				if (check == false) {
 					TEST_CHECK_(check, "%s | Error with index [%d, %d]", test.name.c_str(), i, j);

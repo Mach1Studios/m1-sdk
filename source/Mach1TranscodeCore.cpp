@@ -455,7 +455,7 @@ int Mach1TranscodeCore::getNumChannels(int fmt, bool isInput)
 	if (fmt == getFormatFromString("CustomPoints")) {
 		return isInput ? (int)inCustomPoints.size() : (int)outCustomPoints.size();
 	}
-    return Mach1TranscodeConstants::formats[fmt].channelsCount;
+    return Mach1TranscodeConstants::formats[fmt].channelCount;
 }
 
 float Mach1TranscodeCore::db2level(float db)

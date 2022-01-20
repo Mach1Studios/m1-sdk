@@ -26,11 +26,11 @@ struct Mach1FormatChannel {
 
 struct Mach1FormatInfo {
 	std::string name;
-	int channelsCount;
+	int channelCount;
 	std::vector<Mach1FormatChannel> channelTypes;
 };
 
-struct Mach1SpatialSoundMatrix {
+struct Mach1TranscodeMatrix {
 	std::string formatFrom;
 	std::string formatTo;
 	std::vector<std::vector<float>> data;

@@ -346,7 +346,7 @@ int main(int argc, char* argv[])
 
 	bool foundInFmt = false;
 	inFmt = m1transcode.getFormatFromString(inFmtStr);
-    if (inFmt < 1) { // if format int is 0 or -1 (making it invalid)
+    if (inFmt > 1) { // if format int is 0 or -1 (making it invalid)
 		foundInFmt = true;
 	} else {
         std::cerr << "Please select a valid input format" << std::endl;

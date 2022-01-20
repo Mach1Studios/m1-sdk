@@ -85,7 +85,7 @@ void printHelp() {
 	cout << "  -help                    - list command line options" << std::endl;
 	cout << "  -in-folder <folder>      - input folder: folder for audio files" << std::endl;
 	cout << "  -in-file <filename>      - input file: put quotes around sets of files" << std::endl;
-	cout << "  -in-file-meta <filename> - input mera file: only for Atmos" << std::endl;
+	cout << "  -in-file-meta <filename> - input meta file: only for Atmos" << std::endl;
 	cout << "  -in-fmt   <fmt>          - input format: see supported formats below" << std::endl;
     cout << "  -in-json  <json>         - input json: for input custom json Mach1Transcode templates" << std::endl;
 	cout << "  -out-file <filename>     - output file. full name for single file or name stem for file sets" << std::endl;
@@ -306,7 +306,7 @@ int main(int argc, char* argv[])
 		} else {
 			bool foundInFmt = false;
 			inFmt = m1transcode.getFormatFromString(inFmtStr);
-			if (inFmt < 1) { // if format int is 0 or -1 (making it invalid)
+			if (inFmt > 1) { // if format int is 0 or -1 (making it invalid)
 				foundInFmt = true;
 			}
 		}
@@ -363,7 +363,7 @@ int main(int argc, char* argv[])
 	// check output formats
 	bool foundOutFmt = false;
 	outFmt = m1transcode.getFormatFromString(outFmtStr);
-	if (outFmt < 1) { // if format int is 0 or -1 (making it invalid)
+	if (outFmt > 1) { // if format int is 0 or -1 (making it invalid)
 		foundOutFmt = true;
 	} else {
 		cout << "Please select a valid output format" << std::endl;

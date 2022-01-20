@@ -32,7 +32,7 @@ private:
 	int inFmt;
 	int outFmt;
 
-	std::vector<Mach1SpatialSoundMatrix> matrices;
+	std::vector<Mach1TranscodeMatrix> matrices;
 
 	std::vector<Mach1Point3DCore> inCustomPoints;
 	std::vector<Mach1Point3DCore> outCustomPoints;

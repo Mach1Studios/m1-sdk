@@ -14,7 +14,7 @@
 
 namespace Mach1TranscodeConstants {
 
-	const std::vector<Mach1SpatialSoundMatrix> matricesSurround = {
+	const std::vector<Mach1TranscodeMatrix> matricesSurround = {
 		// --- M1Horizon to surround ---
 		{
 			"M1Horizon", "FiveOh",

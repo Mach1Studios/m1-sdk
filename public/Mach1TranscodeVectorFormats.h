@@ -10,7 +10,7 @@
 
 namespace Mach1TranscodeConstants {
 
-	const std::vector<Mach1SpatialSoundMatrix> matricesVector = {
+	const std::vector<Mach1TranscodeMatrix> matricesVector = {
 		{
 			"M1Horizon", "M1Horizon",
 			{ { 1, 0, 0, 0 },

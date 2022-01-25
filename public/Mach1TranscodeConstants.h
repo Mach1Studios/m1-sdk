@@ -27,7 +27,7 @@ struct Mach1ChannelDescription {
 struct Mach1FormatInfo {
 	std::string name;
 	int numChannels;
-	std::vector<Mach1FormatChannel> channelTypes;
+	std::vector<Mach1ChannelDescription> channelTypes;
 };
 
 struct Mach1TranscodeMatrix {
@@ -116,6 +116,7 @@ namespace Mach1TranscodeConstants {
 		{ "ACNSN3DmaxRE6oa", 49 },
 		{ "ACNSN3DmaxRE7oa", 64 },
 		{ "DolbyAtmosSevenOneTwo", 10 },
+        { "DolbyAtmosSevenOneTwo_Cinema", 10 },
 	};
 };
 

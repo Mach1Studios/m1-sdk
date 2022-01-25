@@ -8,12 +8,25 @@
 
 #include "Mach1TranscodeConstants.h"
 
+/*
+ * Description of matrices
+ * - Inputs are columns
+ * - Outputs are rows
+ *
+ *    I1   I2   I3   I4
+ *    ↓    ↓    ↓    ↓
+ *  | I1 | I2 | I3 | I4 | -> O1
+ *  | I1 | I2 | I3 | I4 | -> O2
+ *  | I1 | I2 | I3 | I4 | -> O3
+ *
+ */
+
 namespace Mach1TranscodeConstants {
 
 	const std::vector<Mach1TranscodeMatrix> matricesVector = {
 		{
 			"M1Horizon", "M1Horizon",
-			{ { 1, 0, 0, 0 },
+			{   { 1, 0, 0, 0 },
 				{ 0, 1, 0, 0 },
 				{ 0, 0, 1, 0 },
 				{ 0, 0, 0, 1 } }
@@ -243,6 +256,19 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, 0, 0, oor4, 0, 0 }, //bottom 45
 				{ 0, 0, 0, 0, 0, 0, 0, oor4 }, //bottom 135
 				{ 0, 0, 0, 0, 0, 0, oor4, 0 } } //bottom -135
-		}
+		},
+        // --- M1Spatial Faces ---
+        {
+            "M1SpatialFaces", "M1Spatial",
+            // FC, LC, BC, RC, TC, BC
+        {   { r2o4, r2o4, 0, 0, r2o4, 0 },
+            { r2o4, 0, 0, r2o4, r2o4, 0 },
+            { 0, r2o4, r2o4, 0, r2o4, 0 },
+            { 0, 0, r2o4, r2o4, r2o4, 0 },
+            { r2o4, r2o4, 0, 0, 0, r2o4 },
+            { r2o4, 0, 0, r2o4, 0, r2o4 },
+            { 0, r2o4, r2o4, 0, 0, r2o4 },
+            { 0, 0, r2o4, r2o4, 0, r2o4 } }
+        }
 	};
 };

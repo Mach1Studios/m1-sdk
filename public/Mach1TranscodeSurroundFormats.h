@@ -1,8 +1,6 @@
 //  Mach1 Spatial SDK
 //  Copyright © 2017-2022 Mach1. All rights reserved.
 //
-// References: 
-//
 // TODO: 10.2, 12.2, 11.1, 22.2
 // - 10.2/12.2: https://en.wikipedia.org/wiki/10.2_surround_sound
 // - 22.2: https://en.wikipedia.org/wiki/22.2_surround_sound
@@ -12,10 +10,23 @@
 
 #include "Mach1TranscodeConstants.h"
 
+/*
+ * Description of matrices
+ * - Inputs are columns
+ * - Outputs are rows
+ *
+ *    I1   I2   I3   I4
+ *    ↓    ↓    ↓    ↓
+ *  | I1 | I2 | I3 | I4 | -> O1
+ *  | I1 | I2 | I3 | I4 | -> O2
+ *  | I1 | I2 | I3 | I4 | -> O3
+ *
+ */
+
 namespace Mach1TranscodeConstants {
 
 	const std::vector<Mach1TranscodeMatrix> matricesSurround = {
-		// --- M1Horizon to surround ---
+		// --- M1Horizon to surround --- //
 		{
 			"M1Horizon", "FiveOh",
 			{   { 1, 0, 0, 0 },
@@ -68,23 +79,23 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, 0 },
 				{ 0, 0, 0, 0 },
 				{ 0, 0, 0, 0 } }
-		},	// --- Surround To M1Horizon ---
-
+		},
+        // --- Surround To M1Horizon --- //
 		{
 			"FiveOh", "M1Horizon",
-			//L, C, R, Ls, Rs
-		{   { 1, r2o4, 0, 0, 0 },
-			{ 0, r2o4, 1, 0, 0 },
-			{ 0, r2o4, 0, 1, 0 },
-			{ 0, r2o4, 0, 0, 1 } }
+                //L, C, R, Ls, Rs
+            {   { 1, r2o4, 0, 0, 0 },
+                { 0, r2o4, 1, 0, 0 },
+                { 0, r2o4, 0, 1, 0 },
+                { 0, r2o4, 0, 0, 1 } }
 		},
 		{
 			"FiveOneFilm", "M1Horizon",
-			//L, C, R, Ls, Rs, LFE
-		{   { 1, r2o4, 0, 0, 0, r2o8 },
-			{ 0, r2o4, 1, 0, 0, r2o8 },
-			{ 0, r2o4, 0, 1, 0, r2o8 },
-			{ 0, r2o4, 0, 0, 1, r2o8 } }
+                //L, C, R, Ls, Rs, LFE
+            {   { 1, r2o4, 0, 0, 0, r2o8 },
+                { 0, r2o4, 1, 0, 0, r2o8 },
+                { 0, r2o4, 0, 1, 0, r2o8 },
+                { 0, r2o4, 0, 0, 1, r2o8 } }
 		},
 		{
 			"FiveOneFilm_Cinema", "M1Horizon",
@@ -113,8 +124,8 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0 } }
-		},	// --- Surround to M1Spatial ---;
-
+		},
+        // --- Surround to M1Spatial --- //
 		{
 			"Mono", "M1Spatial",
 			{   { r2o8 },
@@ -140,14 +151,14 @@ namespace Mach1TranscodeConstants {
 		{
 			"Stereo_Cinema", "M1Spatial",
 			//fix ratio between front and back
-		{   { r2o2, 0 },
-			{ 0, r2o2 },
-			{ r2o20, 0 },
-			{ 0, r2o20 },
-			{ r2o2, 0 },
-			{ 0, r2o2 },
-			{ r2o20, 0 },
-			{ 0, r2o20 } }
+            {   { r2o2, 0 },
+                { 0, r2o2 },
+                { r2o20, 0 },
+                { 0, r2o20 },
+                { r2o2, 0 },
+                { 0, r2o2 },
+                { r2o20, 0 },
+                { 0, r2o20 } }
 		},
 		{
 			"LCR", "M1Spatial",
@@ -185,16 +196,16 @@ namespace Mach1TranscodeConstants {
 			{ 0, r2o8, 0, 0, r2o2, r2o8 } }
 			},
 			{
-				"FiveOneFilm_Cinema", "M1Spatial",
-				//L, C, R, Ls, Rs, LFE
-			{   { r2o2, r2o4, 0, 0, 0, r2o8 },
-				{ 0, r2o4, r2o2, 0, 0, r2o8 },
-				{ 0, r2o20, 0, r2o2, 0, r2o8 },
-				{ 0, r2o20, 0, 0, r2o2, r2o8 },
-				{ r2o2, r2o4, 0, 0, 0, r2o8 },
-				{ 0, r2o4, r2o2, 0, 0, r2o8 },
-				{ 0, r2o20, 0, r2o2, 0, r2o8 },
-				{ 0, r2o20, 0, 0, r2o2, r2o8 } }
+            "FiveOneFilm_Cinema", "M1Spatial",
+            //L, C, R, Ls, Rs, LFE
+        {   { r2o2, r2o4, 0, 0, 0, r2o8 },
+            { 0, r2o4, r2o2, 0, 0, r2o8 },
+            { 0, r2o20, 0, r2o2, 0, r2o8 },
+            { 0, r2o20, 0, 0, r2o2, r2o8 },
+            { r2o2, r2o4, 0, 0, 0, r2o8 },
+            { 0, r2o4, r2o2, 0, 0, r2o8 },
+            { 0, r2o20, 0, r2o2, 0, r2o8 },
+            { 0, r2o20, 0, 0, r2o2, r2o8 } }
 		},
 		{
 			"FiveOneSmpte", "M1Spatial",
@@ -245,7 +256,7 @@ namespace Mach1TranscodeConstants {
 		},
 		{
 			"SevenOnePt_Cinema", "M1Spatial",
-			//L, C, R, Lss, Rss, Lsr, Rsr, LFE ( std::vector<std::vector<float>>with front facing
+			//L, C, R, Lss, Rss, Lsr, Rsr, LFE with front facing
 		{   { r2o2, r2o4, 0, r2o4, 0, 0, 0, r2o8 },
 			{ 0, r2o4, r2o2, 0, r2o4, 0, 0, r2o8 },
 			{ 0, 0, 0, r2o4, 0, r2o2, 0, r2o8 },
@@ -257,7 +268,7 @@ namespace Mach1TranscodeConstants {
 		},
 		{
 			"SevenZero_Cinema", "M1Spatial",
-			//L, C, R, Lss, Rss, Lsr, Rsr ( std::vector<std::vector<float>>with front facing
+			//L, C, R, Lss, Rss, Lsr, Rsr with front facing
 		{   { r2o2, r2o4, 0, r2o4, 0, 0, 0 },
 			{ 0, r2o4, r2o2, 0, r2o4, 0, 0 },
 			{ 0, 0, 0, r2o4, 0, r2o2, 0 },
@@ -433,20 +444,45 @@ namespace Mach1TranscodeConstants {
 				{ }
 			}
 		},
-		{
-			"M1SpatialFaces", "M1Spatial",
-			// FC, LC, BC, RC, TC, BC
-		{   { r2o4, r2o4, 0, 0, r2o4, 0 },
-			{ r2o4, 0, 0, r2o4, r2o4, 0 },
-			{ 0, r2o4, r2o4, 0, r2o4, 0 },
-			{ 0, 0, r2o4, r2o4, r2o4, 0 },
-			{ r2o4, r2o4, 0, 0, 0, r2o4 },
-			{ r2o4, 0, 0, r2o4, 0, r2o4 },
-			{ 0, r2o4, r2o4, 0, 0, r2o4 },
-			{ 0, 0, r2o4, r2o4, 0, r2o4 } }
-		},	// --- M1Spatial && M1Spatial+Stereo to Surround ---;
-		//TODO: fix front to rear ratio
-
+        {
+            "DolbyAtmosSevenOneTwo", "M1Spatial",
+                //L, R, C, LFE, Lss, Rss, Lrs, Rrs, Ltm, Rtm
+            {   { r2o2, 0, r2o8, 0, 0, 0, 0, 0, 0.0236619f, 0.0078859f },    // -> TFL (ch1)
+                { 0, r2o2, r2o8, 0, 0, 0, 0, 0, 0.0078859f, 0.0236619f },    // -> TFR (ch2)
+                { 0, 0, r2o8, 0, 0, 0, r2o2, 0, 0.0236619f, 0.0078859f },    // -> TBL (ch3)
+                { 0, 0, r2o8, 0, 0, 0, 0, r2o2, 0.0078859f, 0.0236619f },    // -> TBR (ch4)
+                { r2o2, r2o8, 0, 0, 0, 0, 0, 0, 0, 0 },                      // -> BFL (ch5)
+                { 0, r2o2, r2o8, 0, 0, 0, 0, 0, 0, 0 },                      // -> BFR (ch6)
+                { 0, 0, r2o8, 0, 0, 0, r2o2, 0, 0, 0 },                      // -> BBL (ch7)
+                { 0, 0, r2o8, 0, 0, 0, 0, r2o2, 0, 0 } }                     // -> BBR (ch8)
+        },
+        {
+            "DolbyAtmosSevenOneTwo_Cinema", "M1Spatial",
+                //L, R, C, LFE, Lss, Rss, Lrs, Rrs, Ltm, Rtm
+            {   { r2o2, 0, r2o4, 0, 0, 0, 0, 0, 0.0236619f, 0.0078859f },    // -> TFL (ch1)
+                { 0, r2o2, r2o4, 0, 0, 0, 0, 0, 0.0078859f, 0.0236619f },    // -> TFR (ch2)
+                { 0, 0, 0, 0, 0, 0, r2o2, 0, 0.0236619f, 0.0078859f },       // -> TBL (ch3)
+                { 0, 0, 0, 0, 0, 0, 0, r2o2, 0.0078859f, 0.0236619f },       // -> TBR (ch4)
+                { r2o2, r2o4, 0, 0, 0, 0, 0, 0, 0, 0 },                      // -> BFL (ch5)
+                { 0, r2o2, r2o4, 0, 0, 0, 0, 0, 0, 0 },                      // -> BFR (ch6)
+                { 0, 0, 0, 0, 0, 0, r2o2, 0, 0, 0 },                         // -> BBL (ch7)
+                { 0, 0, 0, 0, 0, 0, 0, r2o2, 0, 0 } }                        // -> BBR (ch8)
+        },
+        {
+            "DolbyAtmosSevenOneTwo", "M1SpatialS",
+                //L, R, C, LFE, Lss, Rss, Lrs, Rrs, Ltm, Rtm
+            {   { r2o4, 0, 0, 0, 0, 0, 0, 0, 0.0236619f, 0.0078859f },    // -> TFL (ch1)
+                { 0, r2o4, 0, 0, 0, 0, 0, 0, 0.0078859f, 0.0236619f },    // -> TFR (ch2)
+                { 0, 0, 0, 0, 0, 0, r2o2, 0, 0.0236619f, 0.0078859f },    // -> TBL (ch3)
+                { 0, 0, 0, 0, 0, 0, 0, r2o2, 0.0078859f, 0.0236619f },    // -> TBR (ch4)
+                { r2o4, 0, 0, 0, 0, 0, 0, 0, 0, 0 },                      // -> BFL (ch5)
+                { 0, r2o4, 0, 0, 0, 0, 0, 0, 0, 0 },                      // -> BFR (ch6)
+                { 0, 0, 0, 0, 0, 0, r2o2, 0, 0, 0 },                      // -> BBL (ch7)
+                { 0, 0, 0, 0, 0, 0, 0, r2o2, 0, 0 },                      // -> BBR (ch8)
+                { r2o2, 0, r2o2, r2o4, 0, 0, 0, 0, 0, 0 },                // -> StereoL (ch9)
+                { 0, r2o2, r2o2, r2o4, 0, 0, 0, 0, 0, 0 } }               // -> StereoR (ch10)
+        },
+        // --- M1Spatial && M1Spatial+Stereo to Surround ---;
 		{
 			"M1Spatial", "Stereo",
 			{   { r2o8, 0, r2o8, 0, r2o8, 0, r2o8, 0 },

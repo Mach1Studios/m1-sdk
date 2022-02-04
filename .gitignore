@@ -1,11 +1,15 @@
 # Mach1 #
 */[Aa]rchive/
+*.dirstamp
+*/.deps/
+*/.libs/
 */_builds/
 */_logs/
 */_install/
-
-# Mach1 Release #
-utility/
+# xcode specific
+*xcshareddata*
+*.xcworkspacedata
+*.xcconfig
 
 # AudioFiles (please use download-audiofiles.sh where applicable)
 *.wav
@@ -20,6 +24,7 @@ utility/
 # Xcode generated #
 *.xcscmblueprint
 *.xcuserdatad
+DerivedData
 
 # Unity generated #
 # =============== #
@@ -57,8 +62,6 @@ OculusVR Dev
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-x64/
-x86/
 bld/
 [Bb]in/
 [Oo]bj/
@@ -295,7 +298,7 @@ paket-files/
 # ============ #
 # OS generated #
 # ============ #
-.DS_Store*
+*.DS_Store*
 ._*
 .Spotlight-V100
 .Trashes
@@ -383,5 +386,12 @@ google-services.json
 freeline.py
 freeline/
 freeline_project_description.json
-examples/mach1spatial-c/Unity/
-examples/mach1spatial-c/Unreal Engine/
+
+# exсlude of lib
+!**/ofxMach1/**
+
+#except *.dll
+!**/libs/**
+!**/libs/*/*.dll
+!**/source/**
+!**/source/*/*.dll

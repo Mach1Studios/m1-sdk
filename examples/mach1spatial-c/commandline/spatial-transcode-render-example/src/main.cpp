@@ -343,7 +343,7 @@ int main(int argc, char* argv[])
 		printf("\r\n");
 	}
 
-	vector<vector<float>> matrix = m1transcode.getMatrixConversion();
+	vector< vector<float> > matrix = m1transcode.getMatrixConversion();
 
 	//=================================================================
 	//  main sound loop

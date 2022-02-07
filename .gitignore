@@ -7,6 +7,11 @@
 **/_logs/
 **/_install/
 
+# CMAKE #
+**/CMakeFiles
+**/CMakeCache*
+**/cmake_install*
+
 # SWIG #
 **/*.cxx
 

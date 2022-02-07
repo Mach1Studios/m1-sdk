@@ -19,14 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\include\cpp\Mach1DecodePositional.cpp" />
-    <ClCompile Include="spatial-decodepositional-example\main.cpp" />
+    <ClCompile Include="..\..\..\..\mach1spatial-libs\windows-x86\include\Mach1DecodePositional.cpp" />
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\include\cpp\Mach1DecodePositional.h" />
-    <ClInclude Include="..\..\..\..\include\cpp\Mach1DecodePositionalCAPI.h" />
-    <ClInclude Include="..\..\..\..\include\cpp\Mach1Point3D.h" />
-    <ClInclude Include="..\..\..\..\include\cpp\Mach1Point4D.h" />
+    <ClInclude Include="..\..\..\..\mach1spatial-libs\windows-x86\include\Mach1DecodePositional.h" />
+    <ClInclude Include="..\..\..\..\mach1spatial-libs\windows-x86\include\Mach1DecodePositionalCAPI.h" />
+    <ClInclude Include="..\..\..\..\mach1spatial-libs\windows-x86\include\Mach1Point3D.h" />
+    <ClInclude Include="..\..\..\..\mach1spatial-libs\windows-x86\include\Mach1Point4D.h" />
     <ClInclude Include="..\libs\pthread\pthread.h" />
     <ClInclude Include="spatial-decodepositional-example\sched.h" />
   </ItemGroup>
@@ -104,7 +104,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>../../../../lib\external\cpp;spatial-decodepositional-example;..\libs\pthread\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../../mach1spatial-libs/windows-x86/include;spatial-decodepositional-example;..\libs\pthread\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -124,7 +124,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>../../../../lib\external\cpp;spatial-decodepositional-example;..\libs\pthread\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../../mach1spatial-libs/windows-x86/include;spatial-decodepositional-example;..\libs\pthread\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -146,7 +146,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>../../../../lib\external\cpp;spatial-decodepositional-example;..\libs\pthread\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../../mach1spatial-libs/windows-x86/include;spatial-decodepositional-example;..\libs\pthread\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -170,7 +170,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../../../lib\external\cpp;spatial-decodepositional-example;..\libs\pthread\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../../mach1spatial-libs/windows-x86/include;spatial-decodepositional-example;..\libs\pthread\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A43388C6236B8D57002ADB19 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A43388C5236B8D57002ADB19 /* main.cpp */; };
 		A43388D0236B95E7002ADB19 /* Mach1Encode.h in Sources */ = {isa = PBXBuildFile; fileRef = A43388CC236B95E7002ADB19 /* Mach1Encode.h */; };
 		A43388D1236B95E7002ADB19 /* Mach1Point3D.h in Sources */ = {isa = PBXBuildFile; fileRef = A43388CD236B95E7002ADB19 /* Mach1Point3D.h */; };
 		A43388D2236B95E7002ADB19 /* Mach1Encode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A43388CE236B95E7002ADB19 /* Mach1Encode.cpp */; };
 		A43388D3236B95E7002ADB19 /* Mach1EncodeCAPI.h in Sources */ = {isa = PBXBuildFile; fileRef = A43388CF236B95E7002ADB19 /* Mach1EncodeCAPI.h */; };
+		A498DA2827B1CF8D00D84CE5 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A498DA2727B1CF8D00D84CE5 /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,11 +28,11 @@
 
 /* Begin PBXFileReference section */
 		A43388C2236B8D57002ADB19 /* spatial-encode-example */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "spatial-encode-example"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A43388C5236B8D57002ADB19 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		A43388CC236B95E7002ADB19 /* Mach1Encode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Mach1Encode.h; path = ../../../../mach1spatial-libs/xcode/include/Mach1Encode.h; sourceTree = "<group>"; };
-		A43388CD236B95E7002ADB19 /* Mach1Point3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Mach1Point3D.h; path = ../../../../mach1spatial-libs/xcode/include/Mach1Point3D.h; sourceTree = "<group>"; };
-		A43388CE236B95E7002ADB19 /* Mach1Encode.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Mach1Encode.cpp; path = ../../../../mach1spatial-libs/xcode/include/Mach1Encode.cpp; sourceTree = "<group>"; };
-		A43388CF236B95E7002ADB19 /* Mach1EncodeCAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Mach1EncodeCAPI.h; path = ../../../../mach1spatial-libs/xcode/include/Mach1EncodeCAPI.h; sourceTree = "<group>"; };
+		A43388CC236B95E7002ADB19 /* Mach1Encode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Mach1Encode.h; path = "../../../../mach1spatial-libs/xcode/include/Mach1Encode.h"; sourceTree = "<group>"; };
+		A43388CD236B95E7002ADB19 /* Mach1Point3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Mach1Point3D.h; path = "../../../../mach1spatial-libs/xcode/include/Mach1Point3D.h"; sourceTree = "<group>"; };
+		A43388CE236B95E7002ADB19 /* Mach1Encode.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Mach1Encode.cpp; path = "../../../../mach1spatial-libs/xcode/include/Mach1Encode.cpp"; sourceTree = "<group>"; };
+		A43388CF236B95E7002ADB19 /* Mach1EncodeCAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Mach1EncodeCAPI.h; path = "../../../../mach1spatial-libs/xcode/include/Mach1EncodeCAPI.h"; sourceTree = "<group>"; };
+		A498DA2727B1CF8D00D84CE5 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,11 +49,11 @@
 		A43388B9236B8D57002ADB19 = {
 			isa = PBXGroup;
 			children = (
+				A498DA2727B1CF8D00D84CE5 /* main.cpp */,
 				A43388CE236B95E7002ADB19 /* Mach1Encode.cpp */,
 				A43388CC236B95E7002ADB19 /* Mach1Encode.h */,
 				A43388CF236B95E7002ADB19 /* Mach1EncodeCAPI.h */,
 				A43388CD236B95E7002ADB19 /* Mach1Point3D.h */,
-				A43388C4236B8D57002ADB19 /* spatial-encode-example */,
 				A43388C3236B8D57002ADB19 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -64,14 +64,6 @@
 				A43388C2236B8D57002ADB19 /* spatial-encode-example */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		A43388C4236B8D57002ADB19 /* spatial-encode-example */ = {
-			isa = PBXGroup;
-			children = (
-				A43388C5236B8D57002ADB19 /* main.cpp */,
-			);
-			path = "spatial-encode-example";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -133,8 +125,8 @@
 				A43388D0236B95E7002ADB19 /* Mach1Encode.h in Sources */,
 				A43388D1236B95E7002ADB19 /* Mach1Point3D.h in Sources */,
 				A43388D2236B95E7002ADB19 /* Mach1Encode.cpp in Sources */,
+				A498DA2827B1CF8D00D84CE5 /* main.cpp in Sources */,
 				A43388D3236B95E7002ADB19 /* Mach1EncodeCAPI.h in Sources */,
-				A43388C6236B8D57002ADB19 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

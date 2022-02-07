@@ -158,7 +158,7 @@ Mach1Transcode m1transcode;
 int inFmt;
 int outFmt;
 float corrThreshold = 0.1; // 10% difference in signal or less will auto downmix
-std::vector<std::vector<float>> conversionMatrix;
+std::vector< std::vector<float> > conversionMatrix;
 std::vector<float> transcodeToDecodeCoeffs;
 
 // Mach1Decode variables & objects
@@ -191,9 +191,9 @@ static void updateMach1Transcode();
 static std::thread* threadUpdateMach1DecodeOrientation = nullptr;
 static bool done = false;
 
-std::vector<std::vector<float>> inputBuffers;
-std::vector<std::vector<float>> transcodedBuffers;
-std::vector<std::vector<float>> outputBuffers;
+std::vector< std::vector<float> > inputBuffers;
+std::vector< std::vector<float> > transcodedBuffers;
+std::vector <std::vector<float> > outputBuffers;
 
 // RtAudio playback reader.
 int rtAudioPlayback( void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,

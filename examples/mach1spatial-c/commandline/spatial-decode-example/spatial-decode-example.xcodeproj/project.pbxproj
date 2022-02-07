@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A433887E236B4B52002ADB19 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A433887D236B4B52002ADB19 /* main.cpp */; };
 		A43BB6DF279098CB00CA732F /* Mach1Decode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A43BB6DA279098CA00CA732F /* Mach1Decode.cpp */; };
 		A43BB6E32790990800CA732F /* libMach1DecodeCAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A43BB6E22790990800CA732F /* libMach1DecodeCAPI.a */; };
+		A498DA2227B1CC3F00D84CE5 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A498DA2127B1CC3F00D84CE5 /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,13 +26,13 @@
 
 /* Begin PBXFileReference section */
 		A433887A236B4B52002ADB19 /* spatial-decode-example */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "spatial-decode-example"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A433887D236B4B52002ADB19 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		A43BB6DA279098CA00CA732F /* Mach1Decode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mach1Decode.cpp; path = "../../../../mach1spatial-libs/xcode/include/Mach1Decode.cpp"; sourceTree = "<group>"; };
 		A43BB6DB279098CB00CA732F /* Mach1Decode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1Decode.h; path = "../../../../mach1spatial-libs/xcode/include/Mach1Decode.h"; sourceTree = "<group>"; };
 		A43BB6DC279098CB00CA732F /* Mach1Point4D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1Point4D.h; path = "../../../../mach1spatial-libs/xcode/include/Mach1Point4D.h"; sourceTree = "<group>"; };
 		A43BB6DD279098CB00CA732F /* Mach1Point3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1Point3D.h; path = "../../../../mach1spatial-libs/xcode/include/Mach1Point3D.h"; sourceTree = "<group>"; };
 		A43BB6DE279098CB00CA732F /* Mach1DecodeCAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mach1DecodeCAPI.h; path = "../../../../mach1spatial-libs/xcode/include/Mach1DecodeCAPI.h"; sourceTree = "<group>"; };
 		A43BB6E22790990800CA732F /* libMach1DecodeCAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMach1DecodeCAPI.a; path = "../../../../mach1spatial-libs/xcode/lib/libMach1DecodeCAPI.a"; sourceTree = "<group>"; };
+		A498DA2127B1CC3F00D84CE5 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,12 +50,12 @@
 		A4338871236B4B52002ADB19 = {
 			isa = PBXGroup;
 			children = (
+				A498DA2127B1CC3F00D84CE5 /* main.cpp */,
 				A43BB6DE279098CB00CA732F /* Mach1DecodeCAPI.h */,
 				A43BB6DD279098CB00CA732F /* Mach1Point3D.h */,
 				A43BB6DA279098CA00CA732F /* Mach1Decode.cpp */,
 				A43BB6DB279098CB00CA732F /* Mach1Decode.h */,
 				A43BB6DC279098CB00CA732F /* Mach1Point4D.h */,
-				A433887C236B4B52002ADB19 /* spatial-decode-example */,
 				A433887B236B4B52002ADB19 /* Products */,
 				A4338886236B53D3002ADB19 /* Frameworks */,
 			);
@@ -67,14 +67,6 @@
 				A433887A236B4B52002ADB19 /* spatial-decode-example */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		A433887C236B4B52002ADB19 /* spatial-decode-example */ = {
-			isa = PBXGroup;
-			children = (
-				A433887D236B4B52002ADB19 /* main.cpp */,
-			);
-			path = "spatial-decode-example";
 			sourceTree = "<group>";
 		};
 		A4338886236B53D3002ADB19 /* Frameworks */ = {
@@ -141,8 +133,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A498DA2227B1CC3F00D84CE5 /* main.cpp in Sources */,
 				A43BB6DF279098CB00CA732F /* Mach1Decode.cpp in Sources */,
-				A433887E236B4B52002ADB19 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

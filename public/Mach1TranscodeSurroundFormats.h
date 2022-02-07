@@ -1446,7 +1446,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, 0, oor4, 0, 0, 0 }, //bottom -45
 				{ 0, 0, 0, 0, 0, oor4, 0, 0 }, //bottom 45
 				{ 0, 0, 0, 0, 0, 0, 0, oor4 }, //bottom 135
-				{ 0, 0, 0, 0, 0, 0, oor4, 0 } } //bottom -135
+				{ 0, 0, 0, 0, 0, 0, oor4, 0 }, //bottom -135
 			}
 		},
 		{

@@ -388,6 +388,7 @@ deploy-release: deploy-dev
 	echo "### DELETE all libUnity dirs"
 	cd $(M1SDK_RELEASE_PATH)/mach1spatial-libs && find . -type d -name 'libUnity' -print0 | xargs -0 rm -rf
 	cd $(M1SDK_RELEASE_PATH)/mach1spatial-libs && find . -type d -name 'libBundle' -print0 | xargs -0 rm -rf
+	yes | cp -rf ../public $(M1SDK_RELEASE_PATH)/public
 
 deploy-dev:
 	# general copy over

@@ -235,14 +235,14 @@ namespace Mach1TranscodeConstants {
 			"5.1.2_C", "M1Spatial",
 			//L  C  R  Ls Rs LFE Lts Rts
 			{
-				{ r2o2, r2o4, 0, 0, 0, r2o8, 0.3750f, 0.1250f },
-				{ 0, r2o4, r2o2, 0, 0, r2o8, 0.1250f, 0.3750f },
-				{ 0, r2o20, 0, r2o2, 0, r2o8, 0.3750f, 0.1250f },
-				{ 0, r2o20, 0, 0, r2o2, r2o8, 0.1250f, 0.3750f },
-				{ r2o2, r2o4, 0, 0, 0, r2o8, 0, 0 },
-				{ 0, r2o4, r2o2, 0, 0, r2o8, 0, 0 },
-				{ 0, r2o20, 0, r2o2, 0, r2o8, 0, 0 },
-				{ 0, r2o20, 0, 0, r2o2, r2o8, 0, 0 } 
+				{ r2o2, r2o4, 0, 0, 0, r2o8, 0.3750f, 0.1250f },	// -> TFL (ch1)
+				{ 0, r2o4, r2o2, 0, 0, r2o8, 0.1250f, 0.3750f },	// -> TFR (ch2)
+				{ 0, r2o20, 0, r2o2, 0, r2o8, 0.3750f, 0.1250f },	// -> TBL (ch3)
+				{ 0, r2o20, 0, 0, r2o2, r2o8, 0.1250f, 0.3750f },	// -> TBR (ch4)
+				{ r2o2, r2o4, 0, 0, 0, r2o8, 0, 0 },				// -> BFL (ch5)
+				{ 0, r2o4, r2o2, 0, 0, r2o8, 0, 0 },				// -> BFR (ch6)
+				{ 0, r2o20, 0, r2o2, 0, r2o8, 0, 0 },				// -> BBL (ch7)
+				{ 0, r2o20, 0, 0, r2o2, r2o8, 0, 0 } 				// -> BBR (ch8)
 			}
 		},
 		{
@@ -674,7 +674,7 @@ namespace Mach1TranscodeConstants {
 		// -> 6.x.x
 		{
 			"M1Horizon", "6.0_M",
-			// L, C, R, Ls, Rs, Cs
+			// FL, FR, BL, BR
 			{   
 				{ 1, 0, 0, 0 },
 				{ r2o4, r2o4, r2o4, r2o4 },
@@ -682,6 +682,18 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 1, 0 },
 				{ 0, 0, 0, 1 },
 				{ 0, 0, r2o2, r2o2 }, // -> Cs
+			}
+		},
+		{
+			"M1Spatial", "6.0_M",
+			// TFL, TFR, BFL, BFR, BFL, BFR, BBL, BBR
+			{   
+				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0 }, 					// -> L
+				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 }, // -> C
+				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 }, 					// -> R
+				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 }, 					// -> Ls
+				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 }, 					// -> Rs
+				{ 0, 0, r2o4, r2o4, 0, 0, r2o4, r2o4 }, 			// -> Cs
 			}
 		},
 		// --- 7.x.x Configurations --- //
@@ -743,7 +755,7 @@ namespace Mach1TranscodeConstants {
 			}
 		},
 		{
-			"7.0_M_SMPTE", "M1Spatial",
+			"7.0_M_SDDS", "M1Spatial",
 			//L, Lc, C, Rc, R, Ls, Rs
 			{
 				{ r2o2, r2o4, r2o8, 0, 0, 0, 0 },
@@ -757,7 +769,21 @@ namespace Mach1TranscodeConstants {
 			}
 		},
 		{
-			"7.1_M_SMPTE", "M1Spatial",
+			"7.0_C_SDDS", "M1Spatial",
+			//L, Lc, C, Rc, R, Ls, Rs
+			{
+				{ r2o2, r2o4, r2o4, 0, 0, 0, 0 },
+				{ 0, 0, r2o4, r2o4, r2o2, 0, 0 },
+				{ 0, 0, 0, 0, 0, r2o2, 0 },
+				{ 0, 0, 0, 0, 0, 0, r2o2 },
+				{ r2o2, r2o4, r2o4, 0, 0, 0, 0 },
+				{ 0, 0, r2o4, r2o4, r2o2, 0, 0 },
+				{ 0, 0, 0, 0, 0, r2o2, 0 },
+				{ 0, 0, 0, 0, 0, 0, r2o2 } 
+			}
+		},
+		{
+			"7.1_M_SDDS", "M1Spatial",
 			//L, Lc, C, Rc, R, Ls, Rs, LFE
 			{
 				{ r2o2, r2o4, r2o8, 0, 0, 0, 0, r2o8 },
@@ -768,6 +794,20 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, r2o8, r2o4, r2o2, 0, 0, r2o8 },
 				{ 0, 0, r2o8, 0, 0, r2o2, 0, r2o8 },
 				{ 0, 0, r2o8, 0, 0, 0, r2o2, r2o8 } 
+			}
+		},
+		{
+			"7.1_C_SDDS", "M1Spatial",
+			//L, Lc, C, Rc, R, Ls, Rs, LFE
+			{
+				{ r2o2, r2o4, r2o4, 0, 0, 0, 0, r2o8 },
+				{ 0, 0, r2o4, r2o4, r2o2, 0, 0, r2o8 },
+				{ 0, 0, 0, 0, 0, r2o2, 0, r2o8 },
+				{ 0, 0, 0, 0, 0, 0, r2o2, r2o8 },
+				{ r2o2, r2o4, r2o4, 0, 0, 0, 0, r2o8 },
+				{ 0, 0, r2o4, r2o4, r2o2, 0, 0, r2o8 },
+				{ 0, 0, 0, 0, 0, r2o2, 0, r2o8 },
+				{ 0, 0, 0, 0, 0, 0, r2o2, r2o8 } 
 			}
 		},
 		{
@@ -829,7 +869,7 @@ namespace Mach1TranscodeConstants {
             }
         },
 		{
-			"7.0.4", "M1Spatial",
+			"7.0.4_C", "M1Spatial",
 			//L, C, R, Lss, Rss, Lsr, Rsr, FLts, FRts, BLts, BRts
 			{
 				{ r2o2, r2o4, 0, r2o4, 0, 0, 0, 0.7280f, 0.1250f, 0.1250f, 0.0210f },
@@ -843,7 +883,7 @@ namespace Mach1TranscodeConstants {
 			}
 		},
 		{
-			"7.1.4", "M1Spatial",
+			"7.1.4_C", "M1Spatial",
 			//L, C, R, Lss, Rss, Lsr, Rsr, LFE, FLts, FRts, BLts, BRts
 			{
 				{ r2o2, r2o4, 0, r2o4, 0, 0, 0, r2o8, 0.7280f, 0.1250f, 0.1250f, 0.0210f },
@@ -934,7 +974,7 @@ namespace Mach1TranscodeConstants {
 			}
 		},
 		{
-			"M1Spatial", "7.0_C_SMPTE",
+			"M1Spatial", "7.0_C_SDDS",
 			//1  2  3  4  5  6  7  8
 			{
 				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0 }, //L
@@ -947,7 +987,7 @@ namespace Mach1TranscodeConstants {
 			}
 		},
 		{
-			"M1SpatialS", "7.0_C_SMPTE",
+			"M1SpatialS", "7.0_C_SDDS",
 			//1  2  3  4  5  6  7  8  9  10
 			{
 				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0 }, //L
@@ -960,7 +1000,7 @@ namespace Mach1TranscodeConstants {
 			}
 		},
 		{
-			"M1Spatial", "7.1_C_SMPTE",
+			"M1Spatial", "7.1_C_SDDS",
 			//1  2  3  4  5  6  7  8
 			{
 				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0 }, //L
@@ -974,7 +1014,7 @@ namespace Mach1TranscodeConstants {
 			}
 		},
 		{
-			"M1SpatialS", "7.1_C_SMPTE",
+			"M1SpatialS", "7.1_C_SMDDS",
 			//1  2  3  4  5  6  7  8
 			{
 				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0 }, //L
@@ -1206,6 +1246,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, r2o8, r2o8 },
 			}
 		},
+/*
 		{
 			"9.0_M", "M1Spatial",
 			// TODO: Determine channel order
@@ -1234,6 +1275,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } 
 			}
 		},
+*/
 		{
 			"9.1.4_M", "M1Spatial",
 			// TODO: Determine channel order
@@ -1276,6 +1318,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, r2o8, 0, r2o8, 0, r2o8, 0, r2o8, 0, 1 } 
 			}
 		},
+/*
 		{
 			"M1Spatial", "9.0_M",
 			// TODO: Determine channel order
@@ -1382,6 +1425,28 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } 
+			}
+		},
+*/
+		{
+			"M1Spatial", "16.0_M",
+			{
+				{ oor8, 0, 0, 0, oor8, 0, 0, 0 }, //mid -45
+				{ oor16, oor16, 0, 0, oor16, oor16, 0, 0 }, //mid 0
+				{ 0, oor8, 0, 0, 0, oor8, 0, 0 }, //mid 45
+				{ 0, oor16, 0, oor16, 0, oor16, 0, oor16 }, //mid 90
+				{ 0, 0, 0, oor8, 0, 0, 0, oor8 }, //mid 135
+				{ 0, 0, oor16, oor16, 0, 0, oor16, oor16 }, //mid 180
+				{ 0, 0, oor8, 0, 0, 0, oor8, 0 }, //mid -135
+				{ oor16, 0, oor16, 0, oor16, 0, oor16, 0 }, //mid -90
+				{ oor4, 0, 0, 0, 0, 0, 0, 0 }, //top -45
+				{ 0, oor4, 0, 0, 0, 0, 0, 0 }, //top 45
+				{ 0, 0, 0, oor4, 0, 0, 0, 0 }, //top 135
+				{ 0, 0, oor4, 0, 0, 0, 0, 0 }, //top -135
+				{ 0, 0, 0, 0, oor4, 0, 0, 0 }, //bottom -45
+				{ 0, 0, 0, 0, 0, oor4, 0, 0 }, //bottom 45
+				{ 0, 0, 0, 0, 0, 0, 0, oor4 }, //bottom 135
+				{ 0, 0, 0, 0, 0, 0, oor4, 0 } } //bottom -135
 			}
 		},
 		{

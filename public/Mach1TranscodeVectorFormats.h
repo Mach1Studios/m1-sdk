@@ -237,26 +237,6 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, 0, 0, 0, 0, 1, 0, 1 },
 			}
 		},
-		{
-			"M1Spatial", "MarcoSixteen",
-			//1  2  3  4  5  6  7  8
-			{   { oor8, 0, 0, 0, oor8, 0, 0, 0 }, //mid -45
-				{ oor16, oor16, 0, 0, oor16, oor16, 0, 0 }, //mid 0
-				{ 0, oor8, 0, 0, 0, oor8, 0, 0 }, //mid 45
-				{ 0, oor16, 0, oor16, 0, oor16, 0, oor16 }, //mid 90
-				{ 0, 0, 0, oor8, 0, 0, 0, oor8 }, //mid 135
-				{ 0, 0, oor16, oor16, 0, 0, oor16, oor16 }, //mid 180
-				{ 0, 0, oor8, 0, 0, 0, oor8, 0 }, //mid -135
-				{ oor16, 0, oor16, 0, oor16, 0, oor16, 0 }, //mid -90
-				{ oor4, 0, 0, 0, 0, 0, 0, 0 }, //top -45
-				{ 0, oor4, 0, 0, 0, 0, 0, 0 }, //top 45
-				{ 0, 0, 0, oor4, 0, 0, 0, 0 }, //top 135
-				{ 0, 0, oor4, 0, 0, 0, 0, 0 }, //top -135
-				{ 0, 0, 0, 0, oor4, 0, 0, 0 }, //bottom -45
-				{ 0, 0, 0, 0, 0, oor4, 0, 0 }, //bottom 45
-				{ 0, 0, 0, 0, 0, 0, 0, oor4 }, //bottom 135
-				{ 0, 0, 0, 0, 0, 0, oor4, 0 } } //bottom -135
-		},
         // --- M1Spatial Faces ---
         {
             "M1SpatialFaces", "M1Spatial",

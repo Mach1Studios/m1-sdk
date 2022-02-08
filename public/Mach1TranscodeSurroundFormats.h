@@ -1,10 +1,13 @@
 //  Mach1 Spatial SDK
 //  Copyright © 2017-2022 Mach1. All rights reserved.
 //
-// TODO: 10.2, 12.2, 11.1, 22.2
-// - 10.2/12.2: https://en.wikipedia.org/wiki/10.2_surround_sound
-// - 22.2: https://en.wikipedia.org/wiki/22.2_surround_sound
-// FL, FR, FC, LFE1, BL, BR, FLc, FRc, BC, LFE2, SiL (side left), SiR, TpFL, TpFR, TpFC, TpC, TpBL, TpBR, TpSiL, TpSiR, TpBC, BtFC, BtFL, BtFR
+// TODO: 
+// - 5.0.6/Auro-11: FL, FC, FR, Ls, Rs, TFL, TFC, TFR, TBL, TBR, Above
+// - 7.0.6/Auro-13: FL, FC, FR, Lss, Rss, Lsr, Rsr, TFL, TFC, TFR, TBL, TBR, Above
+// - 8.0.2/THX-10.0: 30degL, C, 30degR, 60degL, 60degR, Ls, BC, Rs, TLs, TRs
+// - 10.0.2/THX-12.0: 30degL, C, 30degR, 60degL, 60degR, Ls, BC, Rs, TLs, TRs, 90degL, 90degR
+// - 22.2: https://en.wikipedia.org/wiki/22.2_surround_sound | FL, FR, FC, LFE1, BL, BR, FLc, FRc, BC, LFE2, SiL (side left), SiR, TpFL, TpFR, TpFC, TpC, TpBL, TpBR, TpSiL, TpSiR, TpBC, BtFC, BtFL, BtFR
+//
 
 #pragma once
 
@@ -25,14 +28,14 @@
 
 /*
  * Multichannel Format/Configuration Naming Conventions:
- * - M or Music        = `Music Mix` (Channels are spaced out evenly throughout the horizontal soundfield)
- * - C or Cinema       = `Cinema Mix` (Channels are more focused on the front)
- * - S or SideSurround = `Side Surround Mix` (Surround channels are oriented more to the sides instead of rear (+-110 azimuth instead of +-135))
+ * - M or Music			= `Music Mix` (Channels are spaced out evenly throughout the horizontal soundfield)
+ * - C or Cinema		= `Cinema Mix` (Channels are more focused on the front)
+ * - S or SideSurround 	= `Side Surround Mix` (Surround channels are oriented more to the sides instead of rear (+-110 azimuth instead of +-135))
  *
  * Channel Order Variants:
- * - Default / Film / C|24 	= L, C, R, Ls, Rs, LFE ...
- * - SMPTE          		= L, R, C, LFE, Ls, Rs ...
- * - Dts           			= L, R, Ls, Rs, C, LFE ...
+ * - Default / Film / C|24  = L, C, R, Ls, Rs, LFE ...
+ * - SMPTE					= L, R, C, LFE, Ls, Rs ...
+ * - Dts					= L, R, Ls, Rs, C, LFE ...
  *
  */
 
@@ -44,47 +47,47 @@ namespace Mach1TranscodeConstants {
 		// -> M1Horizon & Quad_M
 		{
 			"5.0_M", "M1Horizon",
-                //L, C, R, Ls, Rs
-            {   
-            	{ 1, r2o4, 0, 0, 0 },
-                { 0, r2o4, 1, 0, 0 },
-                { 0, r2o4, 0, 1, 0 },
-                { 0, r2o4, 0, 0, 1 }, 
-            }
+				//L, C, R, Ls, Rs
+			{
+				{ 1, r2o4, 0, 0, 0 },
+				{ 0, r2o4, 1, 0, 0 },
+				{ 0, r2o4, 0, 1, 0 },
+				{ 0, r2o4, 0, 0, 1 }, 
+			}
 		},
 		{
 			"5.0_C", "M1Horizon",
-                //L, C, R, Ls, Rs
-            {   
-            	{ 1, r2o4, 0, 0, 0 },
-                { 0, r2o4, 1, 0, 0 },
-                { 0, r2o20, 0, 1, 0 },
-                { 0, r2o20, 0, 0, 1 }, 
-            }
+				//L, C, R, Ls, Rs
+			{
+				{ 1, r2o4, 0, 0, 0 },
+				{ 0, r2o4, 1, 0, 0 },
+				{ 0, r2o20, 0, 1, 0 },
+				{ 0, r2o20, 0, 0, 1 }, 
+			}
 		},
 		{
 			"5.0_S", "M1Horizon",
-                //L, C, R, Ls, Rs
-            {   
-            	{ 1, r2o4, 0, 0.258155, 0 },
-                { 0, r2o4, 1, 0, 0.258155 },
-                { 0, r2o20, 0, 0.741845, 0 },
-                { 0, r2o20, 0, 0, 0.741845 }, 
-            }
+				//L, C, R, Ls, Rs
+			{
+				{ 1, r2o4, 0, 0.258155, 0 },
+				{ 0, r2o4, 1, 0, 0.258155 },
+				{ 0, r2o20, 0, 0.741845, 0 },
+				{ 0, r2o20, 0, 0, 0.741845 }, 
+			}
 		},
 		{
 			"5.1_M", "M1Horizon",
-                //L, C, R, Ls, Rs, LFE
-            {   
-            	{ 1, r2o4, 0, 0, 0, r2o8 },
-                { 0, r2o4, 1, 0, 0, r2o8 },
-                { 0, r2o4, 0, 1, 0, r2o8 },
-                { 0, r2o4, 0, 0, 1, r2o8 },
-            }
+				//L, C, R, Ls, Rs, LFE
+			{
+				{ 1, r2o4, 0, 0, 0, r2o8 },
+				{ 0, r2o4, 1, 0, 0, r2o8 },
+				{ 0, r2o4, 0, 1, 0, r2o8 },
+				{ 0, r2o4, 0, 0, 1, r2o8 },
+			}
 		},
 		{
 			"5.1_S", "M1Horizon",
-			{   
+			{
 				{ 1, r2o4, 0, r2o2, 0, r2o8 },
 				{ 0, r2o4, 1, 0, r2o2, r2o8 },
 				{ 0, r2o20, 0, r2o2, 0, r2o8 },
@@ -93,7 +96,7 @@ namespace Mach1TranscodeConstants {
 		},
 		{
 			"5.1_C", "M1Horizon",
-			{   
+			{
 				{ 1, r2o4, 0, 0, 0, r2o8 },
 				{ 0, r2o4, 1, 0, 0, r2o8 },
 				{ 0, r2o20, 0, 1, 0, r2o8 },
@@ -102,7 +105,7 @@ namespace Mach1TranscodeConstants {
 		},
 		{
 			"5.1_M_SMPTE", "M1Horizon",
-			{   
+			{
 				{ 1, 0, r2o4, r2o8, 0, 0 },
 				{ 0, 1, r2o4, r2o8, 0, 0 },
 				{ 0, 0, r2o4, r2o8, 1, 0 },
@@ -111,7 +114,7 @@ namespace Mach1TranscodeConstants {
 		},
 		{
 			"5.1_M_Dts", "M1Horizon",
-			{   
+			{
 				{ 1, 0, 0, 0, r2o4, r2o8 },
 				{ 0, 1, 0, 0, r2o4, r2o8 },
 				{ 0, 0, 1, 0, r2o4, r2o8 },
@@ -122,7 +125,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"5.0_M", "M1Spatial",
 			//L, C , R, Ls, Rs
-			{   
+			{
 				{ r2o2, r2o8, 0, 0, 0 },
 				{ 0, r2o8, r2o2, 0, 0 },
 				{ 0, r2o8, 0, r2o2, 0 },
@@ -136,7 +139,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"5.0_C", "M1Spatial",
 			//L, C , R, Ls, Rs
-			{   
+			{
 				{ r2o2, r2o4, 0, 0, 0 },
 				{ 0, r2o4, r2o2, 0, 0 },
 				{ 0, r2o20, 0, r2o2, 0 },
@@ -150,7 +153,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"5.0_S", "M1Spatial",
 			//L, C , R, Ls, Rs
-			{   
+			{
 				{ r2o2, r2o4, 0, 0.129078, 0 },
 				{ 0, r2o4, r2o2, 0, 0.129078 },
 				{ 0, r2o20, 0, 0.370922, 0 },
@@ -164,7 +167,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"5.1_M", "M1Spatial",
 			//L, C, R, Ls, Rs, LFE
-			{   
+			{
 				{ r2o2, r2o8, 0, 0, 0, r2o8 },
 				{ 0, r2o8, r2o2, 0, 0, r2o8 },
 				{ 0, r2o8, 0, r2o2, 0, r2o8 },
@@ -176,23 +179,23 @@ namespace Mach1TranscodeConstants {
 			}
 		},
 		{
-            "5.1_C", "M1Spatial",
-            //L, C, R, Ls, Rs, LFE
-	        {   
-	        	{ r2o2, r2o4, 0, 0, 0, r2o8 },
-	            { 0, r2o4, r2o2, 0, 0, r2o8 },
-	            { 0, r2o20, 0, r2o2, 0, r2o8 },
-	            { 0, r2o20, 0, 0, r2o2, r2o8 },
-	            { r2o2, r2o4, 0, 0, 0, r2o8 },
-	            { 0, r2o4, r2o2, 0, 0, r2o8 },
-	            { 0, r2o20, 0, r2o2, 0, r2o8 },
-	            { 0, r2o20, 0, 0, r2o2, r2o8 } 
-	        }
+			"5.1_C", "M1Spatial",
+			//L, C, R, Ls, Rs, LFE
+			{
+				{ r2o2, r2o4, 0, 0, 0, r2o8 },
+				{ 0, r2o4, r2o2, 0, 0, r2o8 },
+				{ 0, r2o20, 0, r2o2, 0, r2o8 },
+				{ 0, r2o20, 0, 0, r2o2, r2o8 },
+				{ r2o2, r2o4, 0, 0, 0, r2o8 },
+				{ 0, r2o4, r2o2, 0, 0, r2o8 },
+				{ 0, r2o20, 0, r2o2, 0, r2o8 },
+				{ 0, r2o20, 0, 0, r2o2, r2o8 } 
+			}
 		},
 		{
 			"5.1_S", "M1Spatial",
 			//L, C , R, Ls, Rs, LFE
-			{   
+			{
 				{ r2o2, r2o4, 0, 0.129078, 0, r2o8 },
 				{ 0, r2o4, r2o2, 0, 0.129078, r2o8 },
 				{ 0, r2o20, 0, 0.370922, 0, r2o8 },
@@ -206,7 +209,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"5.1_M_SMPTE", "M1Spatial",
 			//L, R, C, LFE, Ls, Rs
-			{   
+			{
 				{ r2o2, 0, r2o8, r2o8, 0, 0 },
 				{ 0, r2o2, r2o8, r2o8, 0, 0 },
 				{ 0, 0, r2o8, r2o8, r2o2, 0 },
@@ -261,6 +264,7 @@ namespace Mach1TranscodeConstants {
 		},
 		{
 			"5.0.4_C", "M1Spatial",
+			//Equivelent to `Auro 9`
 			//L  C  R  Ls Rs FLts FRts BLts BRts
 			{
 				{ r2o2, r2o4, 0, 0, 0, 0.7280f, 0.1250f, 0.1250f, 0.0210f },
@@ -271,6 +275,22 @@ namespace Mach1TranscodeConstants {
 				{ 0, r2o4, r2o2, 0, 0, 0, 0, 0, 0 },
 				{ 0, r2o20, 0, r2o2, 0, 0, 0, 0, 0 },
 				{ 0, r2o20, 0, 0, r2o2, 0, 0, 0, 0 } 
+			}
+		},
+		{
+			"5.0.5_C", "M1Spatial",
+			// `5.0.5_C` is equivelent to `Auro 10`
+			//FL  FC  FR  Ls Rs TFL TFR TBL TBR Above
+			// TODO: normalize spread from bottom to top for FL,FC,FR,Ls,Rs
+			{
+				{ r2o2, r2o4, 0, 0, 0, 1, 0, 0, 0, r2o4 },	// -> TFL
+				{ 0, r2o4, r2o2, 0, 0, 0, 1, 0, 0, r2o4 },	// -> TFR
+				{ 0, 0, 0, r2o2, 0, 0, 0, 1, 0, r2o4 },		// -> TBL
+				{ 0, 0, 0, 0, r2o2, 0, 0, 0, 1, r2o4 },		// -> TBR
+				{ r2o2, r2o4, 0, 0, 0, 0, 0, 0, 0, 0 },		// -> BFL
+				{ 0, r2o4, r2o2, 0, 0, 0, 0, 0, 0, 0 },		// -> BFR
+				{ 0, 0, 0, r2o2, 0, 0, 0, 0, 0, 0 },		// -> BBL
+				{ 0, 0, 0, 0, r2o2, 0, 0, 0, 0, 0 },		// -> BBR
 			}
 		},
 		{
@@ -304,7 +324,7 @@ namespace Mach1TranscodeConstants {
 		// -> 5.x.x
 		{
 			"M1Horizon", "5.0_M",
-			{   
+			{
 				{ 1, 0, 0, 0 },
 				{ r2o4, r2o4, r2o4, r2o4 },
 				{ 0, 1, 0, 0 },
@@ -314,7 +334,7 @@ namespace Mach1TranscodeConstants {
 		},
 		{
 			"M1Horizon", "5.0_C",
-			{   
+			{
 				{ 1, 0, 0, 0 },
 				{ r2o2, r2o2, 0, 0 },
 				{ 0, 1, 0, 0 },
@@ -325,7 +345,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"M1Horizon", "5.0_S",
 			// FL, FR, BL, BR
-			{   
+			{
 				{ 1, 0, 0, 0 }, 				// -> L
 				{ r2o2, r2o2, 0, 0 },			// -> C
 				{ 0, 1, 0, 0 },					// -> R
@@ -335,7 +355,7 @@ namespace Mach1TranscodeConstants {
 		},
 		{
 			"M1Horizon", "5.1_M",
-			{   
+			{
 				{ 1, 0, 0, 0 },
 				{ r2o4, r2o4, r2o4, r2o4 },
 				{ 0, 1, 0, 0 },
@@ -346,7 +366,7 @@ namespace Mach1TranscodeConstants {
 		},
 		{
 			"M1Horizon", "5.1_C",
-			{   
+			{
 				{ 1, 0, 0, 0 },
 				{ r2o2, r2o2, 0, 0 },
 				{ 0, 1, 0, 0 },
@@ -357,7 +377,7 @@ namespace Mach1TranscodeConstants {
 		},
 		{
 			"M1Horizon", "5.1_S",
-			{   
+			{
 				{ 1, 0, 0, 0 },
 				{ r2o2, r2o2, 0, 0 },
 				{ 0, 1, 0, 0 },
@@ -368,7 +388,7 @@ namespace Mach1TranscodeConstants {
 		},
 		{
 			"M1Horizon", "5.1_M_SMPTE",
-			{   
+			{
 				{ 1, 0, 0, 0 },
 				{ 0, 1, 0, 0 },
 				{ r2o2, r2o2, 0, 0 },
@@ -379,7 +399,7 @@ namespace Mach1TranscodeConstants {
 		},
 		{
 			"M1Horizon", "5.1_M_Dts",
-			{   
+			{
 				{ 1, 0, 0, 0 },
 				{ 0, 1, 0, 0 },
 				{ 0, 0, 1, 0 },
@@ -499,7 +519,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"M1Spatial", "5.0.2_C",
 			//1  2  3  4  5  6  7  8
-			{   
+			{
 				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 				{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },
 				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
@@ -512,7 +532,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"M1SpatialS", "5.0.2_C",
 			//1  2  3  4  5  6  7  8
-			{   
+			{
 				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
 				{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
 				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
@@ -525,7 +545,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"M1Spatial", "5.1.2_C",
 			//1  2  3  4  5  6  7  8
-			{   
+			{
 				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 				{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },
 				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
@@ -539,7 +559,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"M1SpatialS", "5.1.2_C",
 			//1  2  3  4  5  6  7  8
-			{   
+			{
 				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
 				{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
 				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
@@ -553,7 +573,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"M1Spatial", "5.0.4_C",
 			//1  2  3  4  5  6  7  8
-			{   
+			{
 				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 				{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },
 				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
@@ -568,7 +588,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"M1SpatialS", "5.0.4_C",
 			//1  2  3  4  5  6  7  8
-			{   
+			{
 				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },
 				{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
 				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },
@@ -581,9 +601,27 @@ namespace Mach1TranscodeConstants {
 			}
 		},
 		{
+			"M1Spatial", "5.0.5_C",
+			// `5.0.5_C` is equivelent to `Auro 10`
+			//1  2  3  4  5  6  7  8
+			// TODO: normalize spread from bottom to top for FL,FC,FR,Ls,Rs
+			{
+				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0 },		// -> FL
+				{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },	// -> FC
+				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },		// -> FR
+				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 },		// -> Ls
+				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 },		// -> Rs
+				{ 1, 0, 0, 0, 0, 0, 0, 0 },				// -> TFL
+				{ 0, 1, 0, 0, 0, 0, 0, 0 },				// -> TFR
+				{ 0, 0, 1, 0, 0, 0, 0, 0 },				// -> TBL
+				{ 0, 0, 0, 1, 0, 0, 0, 0 },				// -> TBR
+				{ r2o4, r2o4, r2o4, r2o4, 0, 0, 0, 0 },	// -> Above
+			}
+		},
+		{
 			"M1Spatial", "5.1.4_C",
 			//1  2  3  4  5  6  7  8
-			{   
+			{
 				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 				{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },
 				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
@@ -599,7 +637,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"M1SpatialS", "5.1.4_C",
 			//1  2  3  4  5  6  7  8
-			{   
+			{
 				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
 				{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
 				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
@@ -615,7 +653,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"M1Spatial", "5.1.4_C_SMPTE",
 			//1  2  3  4  5  6  7  8
-			{   
+			{
 				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
 				{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },
@@ -631,7 +669,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"M1SpatialS", "5.1.4_C_SMPTE",
 			//1  2  3  4  5  6  7  8
-			{   
+			{
 				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0 },
 				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2 },
 				{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },
@@ -644,16 +682,16 @@ namespace Mach1TranscodeConstants {
 				{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0, 0, 0 },//BRts
 			}
 		},
-        // --- 6.x.x Configurations --- //
-        // -> M1Horizon / Quad_M
+		// --- 6.x.x Configurations --- //
+		// -> M1Horizon / Quad_M
 		{
 			"6.0_M", "M1Horizon",
 			// L, C, R, Ls, Rs, Cs
-			{   
-            	{ 1, r2o4, 0, 0, 0, 0 }, 	// -> FL
-                { 0, r2o4, 1, 0, 0, 0 }, 	// -> FR
-                { 0, r2o4, 0, 1, 0, r2o2 }, // -> BL
-                { 0, r2o4, 0, 0, 1, r2o2 }, // -> BR
+			{
+				{ 1, r2o4, 0, 0, 0, 0 }, 	// -> FL
+				{ 0, r2o4, 1, 0, 0, 0 }, 	// -> FR
+				{ 0, r2o4, 0, 1, 0, r2o2 }, // -> BL
+				{ 0, r2o4, 0, 0, 1, r2o2 }, // -> BR
 			}
 		},
 		// -> M1Spatial
@@ -675,7 +713,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"M1Horizon", "6.0_M",
 			// FL, FR, BL, BR
-			{   
+			{
 				{ 1, 0, 0, 0 },
 				{ r2o4, r2o4, r2o4, r2o4 },
 				{ 0, 1, 0, 0 },
@@ -687,7 +725,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"M1Spatial", "6.0_M",
 			// TFL, TFR, BFL, BFR, BFL, BFR, BBL, BBR
-			{   
+			{
 				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0 }, 					// -> L
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 }, // -> C
 				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 }, 					// -> R
@@ -727,34 +765,6 @@ namespace Mach1TranscodeConstants {
 			}
 		},
 		{
-			"7.1_M", "M1Spatial",
-			//L, C, R, Lss, Rss, Lsr, Rsr, LFE
-			{
-				{ r2o2, r2o8, 0, r2o4, 0, 0, 0, r2o8 },
-				{ 0, r2o8, r2o2, 0, r2o4, 0, 0, r2o8 },
-				{ 0, r2o8, 0, r2o4, 0, r2o2, 0, r2o8 },
-				{ 0, r2o8, 0, 0, r2o4, 0, r2o2, r2o8 },
-				{ r2o2, r2o8, 0, r2o4, 0, 0, 0, r2o8 },
-				{ 0, r2o8, r2o2, 0, r2o4, 0, 0, r2o8 },
-				{ 0, r2o8, 0, r2o4, 0, r2o2, 0, r2o8 },
-				{ 0, r2o8, 0, 0, r2o4, 0, r2o2, r2o8 } 
-			}
-		},
-		{
-			"7.1_C", "M1Spatial",
-			//L, C, R, Lss, Rss, Lsr, Rsr, LFE with front facing
-			{
-				{ r2o2, r2o4, 0, r2o4, 0, 0, 0, r2o8 },
-				{ 0, r2o4, r2o2, 0, r2o4, 0, 0, r2o8 },
-				{ 0, 0, 0, r2o4, 0, r2o2, 0, r2o8 },
-				{ 0, 0, 0, 0, r2o4, 0, r2o2, r2o8 },
-				{ r2o2, r2o4, 0, r2o4, 0, 0, 0, r2o8 },
-				{ 0, r2o4, r2o2, 0, r2o4, 0, 0, r2o8 },
-				{ 0, 0, 0, r2o4, 0, r2o2, 0, r2o8 },
-				{ 0, 0, 0, 0, r2o4, 0, r2o2, r2o8 } 
-			}
-		},
-		{
 			"7.0_M_SDDS", "M1Spatial",
 			//L, Lc, C, Rc, R, Ls, Rs
 			{
@@ -780,6 +790,48 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, r2o4, r2o4, r2o2, 0, 0 },
 				{ 0, 0, 0, 0, 0, r2o2, 0 },
 				{ 0, 0, 0, 0, 0, 0, r2o2 } 
+			}
+		},
+		{
+			"7.0_C_3D", "M1Spatial",
+			//TFL TFR CF TBC BFC BFL BFR
+			{
+				{ 1, 0, r2o4, 0, 0, 0, 0 },	
+				{ 0, 1, r2o4, 0, 0, 0, 0 },
+				{ 0, 0, 0, r2o2, 0, 0, 0 },
+				{ 0, 0, 0, r2o2, 0, 0, 0 },
+				{ 0, 0, r2o4, 0, r2o2, 1, 0 },
+				{ 0, 0, r2o4, 0, r2o2, 0, 1 },
+				{ 0, 0, 0, 0, 0, 0, 0 },
+				{ 0, 0, 0, 0, 0, 0, 0 } 
+			}
+		},
+		{
+			"7.1_M", "M1Spatial",
+			//L, C, R, Lss, Rss, Lsr, Rsr, LFE
+			{
+				{ r2o2, r2o8, 0, r2o4, 0, 0, 0, r2o8 },
+				{ 0, r2o8, r2o2, 0, r2o4, 0, 0, r2o8 },
+				{ 0, r2o8, 0, r2o4, 0, r2o2, 0, r2o8 },
+				{ 0, r2o8, 0, 0, r2o4, 0, r2o2, r2o8 },
+				{ r2o2, r2o8, 0, r2o4, 0, 0, 0, r2o8 },
+				{ 0, r2o8, r2o2, 0, r2o4, 0, 0, r2o8 },
+				{ 0, r2o8, 0, r2o4, 0, r2o2, 0, r2o8 },
+				{ 0, r2o8, 0, 0, r2o4, 0, r2o2, r2o8 } 
+			}
+		},
+		{
+			"7.1_C", "M1Spatial",
+			//L, C, R, Lss, Rss, Lsr, Rsr, LFE with front facing
+			{
+				{ r2o2, r2o4, 0, r2o4, 0, 0, 0, r2o8 },
+				{ 0, r2o4, r2o2, 0, r2o4, 0, 0, r2o8 },
+				{ 0, 0, 0, r2o4, 0, r2o2, 0, r2o8 },
+				{ 0, 0, 0, 0, r2o4, 0, r2o2, r2o8 },
+				{ r2o2, r2o4, 0, r2o4, 0, 0, 0, r2o8 },
+				{ 0, r2o4, r2o2, 0, r2o4, 0, 0, r2o8 },
+				{ 0, 0, 0, r2o4, 0, r2o2, 0, r2o8 },
+				{ 0, 0, 0, 0, r2o4, 0, r2o2, r2o8 } 
 			}
 		},
 		{
@@ -814,60 +866,60 @@ namespace Mach1TranscodeConstants {
 			"7.0.2_C", "M1Spatial",
 			//L, C, R, Lss, Rss, Lsr, Rsr, Lts, Rts
 			{
-            	{ r2o2, 0, r2o4, 0, 0, 0, 0, 0.0236619f, 0.0078859f },    // -> TFL (ch1)
-                { 0, r2o2, r2o4, 0, 0, 0, 0, 0.0078859f, 0.0236619f },    // -> TFR (ch2)
-                { 0, 0, 0, 0, 0, r2o2, 0, 0.0236619f, 0.0078859f },       // -> TBL (ch3)
-                { 0, 0, 0, 0, 0, 0, r2o2, 0.0078859f, 0.0236619f },       // -> TBR (ch4)
-                { r2o2, 0, r2o4, 0, 0, 0, 0, 0, 0 },                      // -> BFL (ch5)
-                { 0, r2o2, r2o4, 0, 0, 0, 0, 0, 0 },                      // -> BFR (ch6)
-                { 0, 0, 0, 0, 0, r2o2, 0, 0, 0 },                         // -> BBL (ch7)
-                { 0, 0, 0, 0, 0, 0, r2o2, 0, 0 },                         // -> BBR (ch8)
+				{ r2o2, 0, r2o4, 0, 0, 0, 0, 0.0236619f, 0.0078859f },    // -> TFL (ch1)
+				{ 0, r2o2, r2o4, 0, 0, 0, 0, 0.0078859f, 0.0236619f },    // -> TFR (ch2)
+				{ 0, 0, 0, 0, 0, r2o2, 0, 0.0236619f, 0.0078859f },       // -> TBL (ch3)
+				{ 0, 0, 0, 0, 0, 0, r2o2, 0.0078859f, 0.0236619f },       // -> TBR (ch4)
+				{ r2o2, 0, r2o4, 0, 0, 0, 0, 0, 0 },                      // -> BFL (ch5)
+				{ 0, r2o2, r2o4, 0, 0, 0, 0, 0, 0 },                      // -> BFR (ch6)
+				{ 0, 0, 0, 0, 0, r2o2, 0, 0, 0 },                         // -> BBL (ch7)
+				{ 0, 0, 0, 0, 0, 0, r2o2, 0, 0 },                         // -> BBR (ch8)
 			}
 		},
-        {
-            "7.1.2_M", "M1Spatial",
-                //L, R, C, LFE, Lss, Rss, Lrs, Rrs, Ltm, Rtm
-            {   
-            	{ r2o2, 0, r2o8, 0, 0, 0, 0, 0, 0.0236619f, 0.0078859f },    // -> TFL (ch1)
-                { 0, r2o2, r2o8, 0, 0, 0, 0, 0, 0.0078859f, 0.0236619f },    // -> TFR (ch2)
-                { 0, 0, r2o8, 0, 0, 0, r2o2, 0, 0.0236619f, 0.0078859f },    // -> TBL (ch3)
-                { 0, 0, r2o8, 0, 0, 0, 0, r2o2, 0.0078859f, 0.0236619f },    // -> TBR (ch4)
-                { r2o2, 0, r2o8, 0, 0, 0, 0, 0, 0, 0 },                      // -> BFL (ch5)
-                { 0, r2o2, r2o8, 0, 0, 0, 0, 0, 0, 0 },                      // -> BFR (ch6)
-                { 0, 0, r2o8, 0, 0, 0, r2o2, 0, 0, 0 },                      // -> BBL (ch7)
-                { 0, 0, r2o8, 0, 0, 0, 0, r2o2, 0, 0 }, 				     // -> BBR (ch8)
-            }
-        },
-        {
-            "7.1.2_C", "M1Spatial",
-                //L, R, C, LFE, Lss, Rss, Lrs, Rrs, Ltm, Rtm
-            {   
-            	{ r2o2, 0, r2o4, 0, 0, 0, 0, 0, 0.0236619f, 0.0078859f },    // -> TFL (ch1)
-                { 0, r2o2, r2o4, 0, 0, 0, 0, 0, 0.0078859f, 0.0236619f },    // -> TFR (ch2)
-                { 0, 0, 0, 0, 0, 0, r2o2, 0, 0.0236619f, 0.0078859f },       // -> TBL (ch3)
-                { 0, 0, 0, 0, 0, 0, 0, r2o2, 0.0078859f, 0.0236619f },       // -> TBR (ch4)
-                { r2o2, 0, r2o4, 0, 0, 0, 0, 0, 0, 0 },                      // -> BFL (ch5)
-                { 0, r2o2, r2o4, 0, 0, 0, 0, 0, 0, 0 },                      // -> BFR (ch6)
-                { 0, 0, 0, 0, 0, 0, r2o2, 0, 0, 0 },                         // -> BBL (ch7)
-                { 0, 0, 0, 0, 0, 0, 0, r2o2, 0, 0 },                         // -> BBR (ch8)
-            }
-        },
-        {
-            "7.1.2_C", "M1SpatialS",
-                //L, R, C, LFE, Lss, Rss, Lrs, Rrs, Ltm, Rtm
-            {   
-            	{ r2o4, 0, 0, 0, 0, 0, 0, 0, 0.0236619f, 0.0078859f },    // -> TFL (ch1)
-                { 0, r2o4, 0, 0, 0, 0, 0, 0, 0.0078859f, 0.0236619f },    // -> TFR (ch2)
-                { 0, 0, 0, 0, 0, 0, r2o2, 0, 0.0236619f, 0.0078859f },    // -> TBL (ch3)
-                { 0, 0, 0, 0, 0, 0, 0, r2o2, 0.0078859f, 0.0236619f },    // -> TBR (ch4)
-                { r2o4, 0, 0, 0, 0, 0, 0, 0, 0, 0 },                      // -> BFL (ch5)
-                { 0, r2o4, 0, 0, 0, 0, 0, 0, 0, 0 },                      // -> BFR (ch6)
-                { 0, 0, 0, 0, 0, 0, r2o2, 0, 0, 0 },                      // -> BBL (ch7)
-                { 0, 0, 0, 0, 0, 0, 0, r2o2, 0, 0 },                      // -> BBR (ch8)
-                { r2o2, 0, r2o2, r2o4, 0, 0, 0, 0, 0, 0 },                // -> StereoL (ch9)
-                { 0, r2o2, r2o2, r2o4, 0, 0, 0, 0, 0, 0 },                // -> StereoR (ch10)
-            }
-        },
+		{
+			"7.1.2_M", "M1Spatial",
+				//L, R, C, LFE, Lss, Rss, Lrs, Rrs, Ltm, Rtm
+			{
+				{ r2o2, 0, r2o8, 0, 0, 0, 0, 0, 0.0236619f, 0.0078859f },    // -> TFL (ch1)
+				{ 0, r2o2, r2o8, 0, 0, 0, 0, 0, 0.0078859f, 0.0236619f },    // -> TFR (ch2)
+				{ 0, 0, r2o8, 0, 0, 0, r2o2, 0, 0.0236619f, 0.0078859f },    // -> TBL (ch3)
+				{ 0, 0, r2o8, 0, 0, 0, 0, r2o2, 0.0078859f, 0.0236619f },    // -> TBR (ch4)
+				{ r2o2, 0, r2o8, 0, 0, 0, 0, 0, 0, 0 },                      // -> BFL (ch5)
+				{ 0, r2o2, r2o8, 0, 0, 0, 0, 0, 0, 0 },                      // -> BFR (ch6)
+				{ 0, 0, r2o8, 0, 0, 0, r2o2, 0, 0, 0 },                      // -> BBL (ch7)
+				{ 0, 0, r2o8, 0, 0, 0, 0, r2o2, 0, 0 }, 				     // -> BBR (ch8)
+			}
+		},
+		{
+			"7.1.2_C", "M1Spatial",
+				//L, R, C, LFE, Lss, Rss, Lrs, Rrs, Ltm, Rtm
+			{
+				{ r2o2, 0, r2o4, 0, 0, 0, 0, 0, 0.0236619f, 0.0078859f },    // -> TFL (ch1)
+				{ 0, r2o2, r2o4, 0, 0, 0, 0, 0, 0.0078859f, 0.0236619f },    // -> TFR (ch2)
+				{ 0, 0, 0, 0, 0, 0, r2o2, 0, 0.0236619f, 0.0078859f },       // -> TBL (ch3)
+				{ 0, 0, 0, 0, 0, 0, 0, r2o2, 0.0078859f, 0.0236619f },       // -> TBR (ch4)
+				{ r2o2, 0, r2o4, 0, 0, 0, 0, 0, 0, 0 },                      // -> BFL (ch5)
+				{ 0, r2o2, r2o4, 0, 0, 0, 0, 0, 0, 0 },                      // -> BFR (ch6)
+				{ 0, 0, 0, 0, 0, 0, r2o2, 0, 0, 0 },                         // -> BBL (ch7)
+				{ 0, 0, 0, 0, 0, 0, 0, r2o2, 0, 0 },                         // -> BBR (ch8)
+			}
+		},
+		{
+			"7.1.2_C", "M1SpatialS",
+				//L, R, C, LFE, Lss, Rss, Lrs, Rrs, Ltm, Rtm
+			{
+				{ r2o4, 0, 0, 0, 0, 0, 0, 0, 0.0236619f, 0.0078859f },    // -> TFL (ch1)
+				{ 0, r2o4, 0, 0, 0, 0, 0, 0, 0.0078859f, 0.0236619f },    // -> TFR (ch2)
+				{ 0, 0, 0, 0, 0, 0, r2o2, 0, 0.0236619f, 0.0078859f },    // -> TBL (ch3)
+				{ 0, 0, 0, 0, 0, 0, 0, r2o2, 0.0078859f, 0.0236619f },    // -> TBR (ch4)
+				{ r2o4, 0, 0, 0, 0, 0, 0, 0, 0, 0 },                      // -> BFL (ch5)
+				{ 0, r2o4, 0, 0, 0, 0, 0, 0, 0, 0 },                      // -> BFR (ch6)
+				{ 0, 0, 0, 0, 0, 0, r2o2, 0, 0, 0 },                      // -> BBL (ch7)
+				{ 0, 0, 0, 0, 0, 0, 0, r2o2, 0, 0 },                      // -> BBR (ch8)
+				{ r2o2, 0, r2o2, r2o4, 0, 0, 0, 0, 0, 0 },                // -> StereoL (ch9)
+				{ 0, r2o2, r2o2, r2o4, 0, 0, 0, 0, 0, 0 },                // -> StereoR (ch10)
+			}
+		},
 		{
 			"7.0.4_C", "M1Spatial",
 			//L, C, R, Lss, Rss, Lsr, Rsr, FLts, FRts, BLts, BRts
@@ -922,6 +974,58 @@ namespace Mach1TranscodeConstants {
 			}
 		},
 		{
+			"M1Spatial", "7.0_C_SDDS",
+			//1  2  3  4  5  6  7  8
+			{
+				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0 }, //L
+				{ 0.375f, 0.125f, 0, 0, 0.375f, 0.125f, 0, 0 }, //Lc
+				{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 }, //C
+				{ 0.125f, 0.375f, 0, 0, 0.125f, 0.375f, 0, 0 }, //Rc
+				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 }, //R
+				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 }, //Ls
+				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 }, //Rs
+			}
+		},
+		{
+			"M1SpatialS", "7.0_C_SDDS",
+			//1  2  3  4  5  6  7  8  9  10
+			{
+				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0 }, //L
+				{ 0.375f, 0.125f, 0, 0, 0.375f, 0.125f, 0, 0, r2o2, 0 }, //Lc
+				{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 }, //C
+				{ 0.125f, 0.375f, 0, 0, 0.125f, 0.375f, 0, 0, 0, r2o2 }, //Rc
+				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2 }, //R
+				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 }, //Ls
+				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 }, //Rs 
+			}
+		},
+		{
+			"M1Spatial", "7.0_C_3D",
+			//1  2  3  4  5  6  7  8
+			{
+				{ 1, 0, 0, 0, 0, 0, 0, 0 }, 			// -> TFL
+				{ 0, 1, 0, 0, 0, 0, 0, 0 }, 			// -> TFR
+				{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 }, // -> CF
+				{ 0, 0, r2o2, r2o2, 0, 0, 0, 0 }, 		// -> TBC
+				{ 0, 0, 0, 0, r2o2, r2o2, 0, 0 }, 		// -> BFC
+				{ 0, 0, 0, 0, 0, 0, 1, 0 }, 			// -> BFL
+				{ 0, 0, 0, 0, 0, 0, 0, 1 }, 			// -> BFR
+			}
+		},
+		{
+			"M1SpatialS", "7.0_C_3D",
+			//1  2  3  4  5  6  7  8  9  10
+			{
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 0 }, 				// -> TFL
+				{ 0, 1, 0, 0, 0, 0, 0, 0, 0, 1 }, 				// -> TFR
+				{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 },	// -> CF
+				{ 0, 0, r2o2, r2o2, 0, 0, 0, 0, 0, 0 }, 		// -> TBC
+				{ 0, 0, 0, 0, r2o2, r2o2, 0, 0, 0, 0 }, 		// -> BFC
+				{ 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 }, 				// -> BFL
+				{ 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 }, 				// -> BFR
+			}
+		},
+		{
 			"M1Spatial", "7.1_M",
 			{
 				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
@@ -971,32 +1075,6 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 },
 				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 },
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o2, r2o2 } 
-			}
-		},
-		{
-			"M1Spatial", "7.0_C_SDDS",
-			//1  2  3  4  5  6  7  8
-			{
-				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0 }, //L
-				{ 0.375f, 0.125f, 0, 0, 0.375f, 0.125f, 0, 0 }, //Lc
-				{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 }, //C
-				{ 0.125f, 0.375f, 0, 0, 0.125f, 0.375f, 0, 0 }, //Rc
-				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 }, //R
-				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0 }, //Ls
-				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2 }, //Rs
-			}
-		},
-		{
-			"M1SpatialS", "7.0_C_SDDS",
-			//1  2  3  4  5  6  7  8  9  10
-			{
-				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0 }, //L
-				{ 0.375f, 0.125f, 0, 0, 0.375f, 0.125f, 0, 0, r2o2, 0 }, //Lc
-				{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0, 0, 0 }, //C
-				{ 0.125f, 0.375f, 0, 0, 0.125f, 0.375f, 0, 0, 0, r2o2 }, //Rc
-				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, r2o2 }, //R
-				{ 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0 }, //Ls
-				{ 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0, 0 }, //Rs 
 			}
 		},
 		{
@@ -1092,7 +1170,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"M1Spatial", "7.1.2_C",
 			//1  2  3  4  5  6  7  8
-			{   
+			{
 				{ r2o4, 0, 0, 0, r2o2, 0, 0, 0 },//L
 				{ 0, r2o4, 0, 0, 0, r2o2, 0, 0 },//R
 				{ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 },//C
@@ -1108,7 +1186,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"M1SpatialS", "7.1.2_C",
 			//1  2  3  4  5  6  7  8  9  10
-			{   
+			{
 				{ r2o4, 0, 0, 0, r2o2, 0, 0, 0, r2o2, 0 },//L
 				{ 0, r2o4, 0, 0, 0, r2o2, 0, 0, 0, r2o2 },//R
 				{ 0, 0, 0, 0, 0, 0, 0, 0, r2o2, r2o2 },//C
@@ -1124,7 +1202,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"M1Spatial", "7.0.4_M",
 			//1  2  3  4  5  6  7  8
-			{   
+			{
 				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//L
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },//C
 				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },//R
@@ -1141,7 +1219,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"M1SpatialS", "7.0.4_M",
 			//1  2  3  4  5  6  7  8
-			{   
+			{
 				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },//L
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, 0, 0 },//C
 				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },//R
@@ -1158,7 +1236,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"M1Spatial", "7.1.4_M",
 			//1  2  3  4  5  6  7  8
-			{   
+			{
 				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//L
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 },//C
 				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },//R
@@ -1176,7 +1254,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"M1SpatialS", "7.1.4_M",
 			//1  2  3  4  5  6  7  8
-			{   
+			{
 				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1, 0 },//L
 				{ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, 0, 0 },//C
 				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0, 0, 1 },//R
@@ -1191,11 +1269,11 @@ namespace Mach1TranscodeConstants {
 				{ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0, 0, 0 },//BRts
 			}
 		},
-        // --- Other Surround Based Multichannel Configurations --- //
-        // -> M1Horizon & M1Spatial
+		// --- Other Surround Based Multichannel Configurations --- //
+		// -> M1Horizon & M1Spatial
 		{
 			"1.0", "M1Spatial",
-			{   
+			{
 				{ r2o8 },
 				{ r2o8 },
 				{ r2o8 },
@@ -1208,7 +1286,7 @@ namespace Mach1TranscodeConstants {
 		},
 		{
 			"2.0_M", "M1Spatial",
-			{   
+			{
 				{ r2o2, 0 },
 				{ 0, r2o2 },
 				{ r2o2, 0 },
@@ -1222,20 +1300,20 @@ namespace Mach1TranscodeConstants {
 		{
 			"2.0_C", "M1Spatial",
 			//fix ratio between front and back
-	        {   
-	        	{ r2o2, 0 },
-	            { 0, r2o2 },
-	            { r2o20, 0 },
-	            { 0, r2o20 },
-	            { r2o2, 0 },
-	            { 0, r2o2 },
-	            { r2o20, 0 },
-	            { 0, r2o20 },
-	        }
+			{
+				{ r2o2, 0 },
+				{ 0, r2o2 },
+				{ r2o20, 0 },
+				{ 0, r2o20 },
+				{ r2o2, 0 },
+				{ 0, r2o2 },
+				{ r2o20, 0 },
+				{ 0, r2o20 },
+			}
 		},
 		{
 			"3.0_LCR", "M1Spatial",
-			{   
+			{
 				{ r2o2, r2o8, 0 },
 				{ 0, r2o8, r2o2 },
 				{ r2o8, r2o8, 0 },
@@ -1250,7 +1328,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"9.0_M", "M1Spatial",
 			// TODO: Determine channel order
-			{   
+			{
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -1264,7 +1342,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"9.1_M", "M1Spatial",
 			// TODO: Determine channel order
-			{   
+			{
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -1279,8 +1357,15 @@ namespace Mach1TranscodeConstants {
 		{
 			"9.1.4_M", "M1Spatial",
 			// TODO: Determine channel order
-		{
-				{}
+			{
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
 			}
 		},
 		// -> Other Surround
@@ -1339,7 +1424,7 @@ namespace Mach1TranscodeConstants {
 			"M1SpatialS", "9.0_M",
 			// TODO: Determine channel order
 			//1  2  3  4  5  6  7  8  9  10
-			{   
+			{
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -1389,7 +1474,7 @@ namespace Mach1TranscodeConstants {
 			"M1Spatial", "9.1.4_M",
 			// TODO: Determine channel order
 				//1  2  3  4  5  6  7  8
-			{   
+			{
 				{ 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -1410,7 +1495,7 @@ namespace Mach1TranscodeConstants {
 			"M1SpatialS", "9.1.4_M",
 			// TODO: Determine channel order
 				//1  2  3  4  5  6  7  8 SL SR
-			{   
+			{
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -1428,6 +1513,28 @@ namespace Mach1TranscodeConstants {
 			}
 		},
 */
+		{
+			"M1Horizon", "Octahedron_M",
+			{
+				{1, 0, 0, 0 }, // -> FL
+				{0, 1, 0, 0 }, // -> FR
+				{0, 0, 1, 0 }, // -> BL
+				{0, 0, 0, 1 }, // -> BR
+				{r2o4. r2o4. r2o4. r2o4 }, // -> Above
+				{r2o4. r2o4. r2o4. r2o4 }, // -> Below
+			}
+		},
+		{
+			"M1Spatial", "Octahedron_M",
+			{
+				{r2o2, 0, 0, 0, r2o2, 0, 0, 0 }, // -> FL
+				{0, r2o2, 0, 0, 0, r2o2, 0, 0 }, // -> FR
+				{0, 0, r2o2, 0, 0, 0, r2o2, 0 }, // -> BL
+				{0, 0, 0, r2o2, 0, 0, 0, r2o2 }, // -> BR
+				{r2o4. r2o4. r2o4. r2o4, 0, 0, 0, 0 }, // -> Above
+				{0. 0. 0. 0, r2o4. r2o4. r2o4. r2o4 }, // -> Below
+			}
+		},
 		{
 			"M1Spatial", "16.0_M",
 			{
@@ -1452,7 +1559,7 @@ namespace Mach1TranscodeConstants {
 		{
 			"M1Spatial", "22.0_M",
 			// TODO: Determine channel order
-			{   
+			{
 				{ r2o2, 0, 0, 0, r2o2, 0, 0, 0 },//L
 				{ 0, 0, 0, 0, 0, 0, 0, 0 },//C
 				{ 0, r2o2, 0, 0, 0, r2o2, 0, 0 },//R

@@ -153,6 +153,8 @@ namespace Mach1TranscodeConstants {
 		{ "FuMaO2A", 9 },
 		{ "ACNSN3DO3A", 16 },
 		{ "FuMaO3A", 16 },
+		{ "ACNSN3DYorkBasic1oa", 4 },
+		{ "ACNSN3DYorkmaxRE1oa", 4 },
 		{ "ACNSN3DmaxRE1oa", 4 },
 		{ "ACNSN3DmaxRE2oa", 9 },
 		{ "ACNSN3DmaxRE3oa", 16 },

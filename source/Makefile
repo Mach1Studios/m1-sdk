@@ -131,17 +131,16 @@ build-mac:
 	open _builds/xcode/Mach1SpatialLibraries.xcodeproj
 
 build-ios: FORCE
-	$(POLLY_BIN_PATH) --clear
 	mkdir -p _builds/ios-10-3-dep-9-0-bitcode/Release-iphoneos # adding this for some weird bug on older macos
-	$(POLLY_BIN_PATH) --install --config Release --toolchain ios-10-3-dep-9-0-bitcode --ios-multiarch --ios-combined
-	yes | cp -rf "_install/ios/ios-10-3-dep-9-0-bitcode/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1DecodeCAPI.a"
-	yes | cp -rf "_install/ios/ios-10-3-dep-9-0-bitcode/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1EncodeCAPI.a"
-	yes | cp -rf "_install/ios/ios-10-3-dep-9-0-bitcode/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/ios/lib/libMach1DecodePositionalCAPI.a"
-	yes | cp -rf "_install/ios/ios-10-3-dep-9-0-bitcode/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1TranscodeCAPI.a"
-	yes | cp -rf "_install/ios/ios-10-3-dep-9-0-bitcode/Frameworks/libMach1DecodeCAPI.framework" "../mach1spatial-libs/ios/Frameworks/libMach1DecodeCAPI.framework"
-	yes | cp -rf "_install/ios/ios-10-3-dep-9-0-bitcode/Frameworks/libMach1EncodeCAPI.framework" "../mach1spatial-libs/ios/FrameworksFrameworks/libMach1EncodeCAPI.framework"
-	yes | cp -rf "_install/ios/ios-10-3-dep-9-0-bitcode/Frameworks/libMach1DecodePositionalCAPI.framework" "../mach1spatial-libs/ios/Frameworks/libMach1DecodePositionalCAPI.framework"
-	yes | cp -rf "_install/ios/ios-10-3-dep-9-0-bitcode/Frameworks/libMach1TranscodeCAPI.framework" "../mach1spatial-libs/ios/Frameworks/libMach1TranscodeCAPI.framework"
+	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain ios-10-3-dep-9-0-bitcode --ios-multiarch --ios-combined
+	yes | cp -rf "_install/ios-10-3-dep-9-0-bitcode/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1DecodeCAPI.a"
+	yes | cp -rf "_install/ios-10-3-dep-9-0-bitcode/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1EncodeCAPI.a"
+	yes | cp -rf "_install/ios-10-3-dep-9-0-bitcode/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/ios/lib/libMach1DecodePositionalCAPI.a"
+	yes | cp -rf "_install/ios-10-3-dep-9-0-bitcode/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1TranscodeCAPI.a"
+	yes | cp -rf "_install/ios-10-3-dep-9-0-bitcode/Frameworks/libMach1DecodeCAPI.framework" "../mach1spatial-libs/ios/Frameworks/libMach1DecodeCAPI.framework"
+	yes | cp -rf "_install/ios-10-3-dep-9-0-bitcode/Frameworks/libMach1EncodeCAPI.framework" "../mach1spatial-libs/ios/FrameworksFrameworks/libMach1EncodeCAPI.framework"
+	yes | cp -rf "_install/ios-10-3-dep-9-0-bitcode/Frameworks/libMach1DecodePositionalCAPI.framework" "../mach1spatial-libs/ios/Frameworks/libMach1DecodePositionalCAPI.framework"
+	yes | cp -rf "_install/ios-10-3-dep-9-0-bitcode/Frameworks/libMach1TranscodeCAPI.framework" "../mach1spatial-libs/ios/Frameworks/libMach1TranscodeCAPI.framework"
 	yes | cp -rf "../mach1spatial-libs/ios/lib/libMach1DecodeCAPI.a" "../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/ios/libMach1DecodeCAPI.a"
 	yes | cp -rf "../mach1spatial-libs/ios/lib/libMach1EncodeCAPI.a" "../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/ios/libMach1EncodeCAPI.a"
 	yes | cp -rf "../mach1spatial-libs/ios/lib/libMach1TranscodeCAPI.a" "../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/ios/libMach1TranscodeCAPI.a"

@@ -7,15 +7,15 @@ if(APPLE)
 	set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED "NO")
 endif()
 
-set(Mach1SpatialLibraries_VERSION_MAJOR 1)
-set(Mach1SpatialLibraries_VERSION_MINOR 4)
+set(Mach1SpatialLibraries_VERSION_MAJOR 2)
+set(Mach1SpatialLibraries_VERSION_MINOR 0)
 set(Mach1SpatialLibraries_VERSION ${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR})
 
 # SET API VERSIONS
-set(ENCODE_VERSION "1.4.0.0")
-set(DECODE_VERSION "1.3.0.1")
-set(DECODEPOSITIONAL_VERSION "1.3.0.0")
-set(TRANSCODE_VERSION "1.4.1.3")
+set(ENCODE_VERSION "2.0.0.0")
+set(DECODE_VERSION "2.0.0.0")
+set(DECODEPOSITIONAL_VERSION "2.0.0.0")
+set(TRANSCODE_VERSION "2.0.0.0")
 
 set(Mach1AdditionalInclude "./include")
 set(Mach1TranscodeAdditionalInclude "../public")

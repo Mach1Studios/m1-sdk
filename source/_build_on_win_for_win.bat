@@ -9,14 +9,14 @@ python ../../polly/bin/polly.py --clear --install --config Release --toolchain v
 
 cd %~dp0
 
-xcopy _install\vs-14-2015\lib ..\binaries\vs-14-2015\x86 /Y  /I
-xcopy _install\vs-14-2015-win64\lib ..\binaries\vs-14-2015\x86_64 /Y  /I
+xcopy _install\vs-14-2015\lib ..\mach1spatial-libs\vs-14-2015\x86 /Y  /I
+xcopy _install\vs-14-2015-win64\lib ..\mach1spatial-libs\vs-14-2015\x86_64 /Y  /I
 
-xcopy _install\vs-15-2017\lib ..\binaries\vs-15-2017\x86 /Y  /I
-xcopy _install\vs-15-2017-win64\lib ..\binaries\vs-15-2017\x86_64 /Y  /I
+xcopy _install\vs-15-2017\lib ..\mach1spatial-libs\vs-15-2017\x86 /Y  /I
+xcopy _install\vs-15-2017-win64\lib ..\mach1spatial-libs\vs-15-2017\x86_64 /Y  /I
 
-xcopy _install\vs-16-2019\lib ..\binaries\windows-x86 /Y  /I
-xcopy _install\vs-16-2019-win64\lib ..\binaries\windows-x86_64 /Y  /I
+xcopy _install\vs-16-2019\lib ..\mach1spatial-libs\windows-x86 /Y  /I
+xcopy _install\vs-16-2019-win64\lib ..\mach1spatial-libs\windows-x86_64 /Y  /I
 
 xcopy _install\vs-16-2019\libUnity ..\examples\mach1spatial-c\Unity\Unity-Mach1SpatialAPI\M1UnityDecodeTest\Assets\Mach1\Plugins\Windows\x86 /Y  /I
 xcopy _install\vs-16-2019-win64\libUnity ..\examples\mach1spatial-c\Unity\Unity-Mach1SpatialAPI\M1UnityDecodeTest\Assets\Mach1\Plugins\Windows\x86_64 /Y  /I

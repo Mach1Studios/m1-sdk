@@ -12,10 +12,10 @@ python ../../polly/bin/polly.py --clear --install --config Release --toolchain a
 del /f /s /q _android 1>nul
 rmdir /s /q _android
 
-mkdir ..\binaries\android-arm64-v8a
-mkdir ..\binaries\android-armeabi-v7a
-mkdir ..\binaries\android-x86
-mkdir ..\binaries\android-x86_64
+mkdir ..\mach1spatial-libs\android-arm64-v8a
+mkdir ..\mach1spatial-libs\android-armeabi-v7a
+mkdir ..\mach1spatial-libs\android-x86
+mkdir ..\mach1spatial-libs\android-x86_64
 
 rem TODO: make single parent android dir and reference that via the following:
 rem mkdir arm64-v8a
@@ -28,14 +28,14 @@ rem mkdir x86_64
 
 cd %~dp0
 
-xcopy _install\android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx\lib ..\binaries\android-arm64-v8a\lib /Y  /I
-xcopy _install\android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx\lib ..\binaries\android-armeabi-v7a\lib /Y  /I
-xcopy _install\android-ndk-r16b-api-21-x86-clang-libcxx\lib ..\binaries\android-x86\lib /Y  /I
-xcopy _install\android-ndk-r16b-api-21-x86-64-clang-libcxx\lib ..\binaries\android-x86_64\lib /Y  /I
+xcopy _install\android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx\lib ..\mach1spatial-libs\android-arm64-v8a\lib /Y  /I
+xcopy _install\android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx\lib ..\mach1spatial-libs\android-armeabi-v7a\lib /Y  /I
+xcopy _install\android-ndk-r16b-api-21-x86-clang-libcxx\lib ..\mach1spatial-libs\android-x86\lib /Y  /I
+xcopy _install\android-ndk-r16b-api-21-x86-64-clang-libcxx\lib ..\mach1spatial-libs\android-x86_64\lib /Y  /I
 
-xcopy _install\android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx\libUnity ..\binaries\android-arm64-v8a\libUnity /Y  /I
-xcopy _install\android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx\libUnity ..\binaries\android-armeabi-v7a\libUnity /Y  /I
-xcopy _install\android-ndk-r16b-api-21-x86-clang-libcxx\libUnity ..\binaries\android-x86\libUnity /Y  /I
-xcopy _install\android-ndk-r16b-api-21-x86-64-clang-libcxx\libUnity ..\binaries\android-x86_64\libUnity /Y  /I
+xcopy _install\android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx\libUnity ..\mach1spatial-libs\android-arm64-v8a\libUnity /Y  /I
+xcopy _install\android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx\libUnity ..\mach1spatial-libs\android-armeabi-v7a\libUnity /Y  /I
+xcopy _install\android-ndk-r16b-api-21-x86-clang-libcxx\libUnity ..\mach1spatial-libs\android-x86\libUnity /Y  /I
+xcopy _install\android-ndk-r16b-api-21-x86-64-clang-libcxx\libUnity ..\mach1spatial-libs\android-x86_64\libUnity /Y  /I
 
 pause

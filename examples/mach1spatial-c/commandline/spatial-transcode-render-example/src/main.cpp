@@ -55,7 +55,7 @@ string convertToString(char* a, int size)
 void printHelp()
 {
 	cout << "spatial-transcode-audio -- light command line example conversion tool" << std::endl;
-    cout << "note: for a complete transcoding tool use `m1-transcode` from the `binaries/executables` directory" << std::endl;
+    cout << "note: for a complete transcoding tool use `m1-transcode` from the `executables` directory" << std::endl;
 	cout << std::endl;
 	cout << "usage: fmtconv -in-file test_s8.wav -in-fmt M1Spatial -out-file test_b.wav -out-fmt ACNSN3D -out-file-chans 0" << std::endl;
 	cout << std::endl;
@@ -101,11 +101,11 @@ int main(int argc, char* argv[])
 	bool normalize = false;
 	char* infilename = NULL;
 	char* inFmtStr = NULL;
-	Mach1TranscodeFormatType inFmt;
+	int inFmt;
 	char* outfilename = NULL;
 	std::string md_outfilename = "";
 	char* outFmtStr = NULL;
-	Mach1TranscodeFormatType outFmt;
+	int outFmt;
 	int outFileChans;
 	int channels;
 	bool spatialDownmixerMode = false;
@@ -190,14 +190,14 @@ int main(int argc, char* argv[])
             {
                 std::ifstream file(pStr);
                 std::string strJson((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-				m1transcode.setInputFormatTTJson((char*)strJson.c_str());
+				m1transcode.setInputFormatCustomPointsJson((char*)strJson.c_str());
 			}
 		}
 	}
 
 	bool foundInFmt = false;
 	inFmt = m1transcode.getFormatFromString(inFmtStr);
-	if (inFmt != Mach1TranscodeFormatType::Mach1TranscodeFormatEmpty) {
+    if (inFmt > 1) { // if format int is 0 or -1 (making it invalid)
 		foundInFmt = true;
 	}
 	else {
@@ -236,14 +236,14 @@ int main(int argc, char* argv[])
 			{
                 std::ifstream file(pStr);
                 std::string strJson((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-				m1transcode.setOutputFormatTTJson((char*)strJson.c_str());
+				m1transcode.setOutputFormatCustomPointsJson((char*)strJson.c_str());
 			}
 		}
 	}
 
 	bool foundOutFmt = false;
 	outFmt = m1transcode.getFormatFromString(outFmtStr);
-	if (outFmt != Mach1TranscodeFormatType::Mach1TranscodeFormatEmpty) {
+    if (outFmt > 1) { // if format int is 0 or -1 (making it invalid)
 		foundOutFmt = true;
 	}
 	else {
@@ -332,7 +332,7 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 	else {
-        std::vector<Mach1TranscodeFormatType> formatsConvertionPath = m1transcode.getFormatConversionPath();
+        std::vector<int> formatsConvertionPath = m1transcode.getFormatConversionPath();
 		printf("Conversion Path:    ");
 		for (int k = 0; k < formatsConvertionPath.size(); k++) {
             printf("%s", m1transcode.getFormatName(formatsConvertionPath[k]).c_str());
@@ -343,7 +343,7 @@ int main(int argc, char* argv[])
 		printf("\r\n");
 	}
 
-	vector<vector<float>> matrix = m1transcode.getMatrixConversion();
+	vector< vector<float> > matrix = m1transcode.getMatrixConversion();
 
 	//=================================================================
 	//  main sound loop
@@ -361,14 +361,14 @@ int main(int argc, char* argv[])
 			// Mach1 Spatial Downmixer
 			// Triggered due to correlation of top vs bottom
 			// being higher than threshold
-			if (spatialDownmixerMode && outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatM1Spatial)
+			if (spatialDownmixerMode && outFmt == m1transcode.getFormatFromString("M1Spatial"))
 			{
 				if (m1transcode.getSpatialDownmixerPossibility())
 				{
 					vector<float> avgSamples = m1transcode.getAvgSamplesDiff();
 
 					// reinitialize inputs and outputs
-					outFmt = Mach1TranscodeFormatType::Mach1TranscodeFormatM1Horizon;
+					outFmt = m1transcode.getFormatFromString("M1Horizon");
 					m1transcode.setOutputFormat(outFmt);
 					m1transcode.processConversionPath();
 
@@ -424,13 +424,13 @@ int main(int argc, char* argv[])
 					cerr << "Error: opening out-file: " << outfilestr << std::endl;
 					return -1;
 				}
-				if (outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatM1Spatial) {
+				if (outFmt == m1transcode.getFormatFromString("M1Spatial")) {
 					outfiles[i].setString(0x05, "mach1spatial-8");
 				}
-				else if (outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatM1Horizon) {
+				else if (outFmt == m1transcode.getFormatFromString("M1Horizon")) {
 					outfiles[i].setString(0x05, "mach1horizon-4");
 				}
-				else if (outFmt == Mach1TranscodeFormatType::Mach1TranscodeFormatM1HorizonPairs) {
+				else if (outFmt == m1transcode.getFormatFromString("M1HorizonPairs")) {
 					outfiles[i].setString(0x05, "mach1horizon-8");
 				}
 			}

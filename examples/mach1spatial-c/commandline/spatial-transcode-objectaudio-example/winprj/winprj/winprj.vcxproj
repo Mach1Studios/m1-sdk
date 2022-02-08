@@ -19,55 +19,41 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\lib\external\cpp\Mach1Decode.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\lib\external\cpp\Mach1Encode.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\lib\external\cpp\Mach1Transcode.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\lib\external\cpp\Mach1AudioTimeline.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\include\cpp\M1DSP\M1DSPDynamics.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\include\cpp\M1DSP\M1DSPFilters.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\include\cpp\M1DSP\M1DSPUtilities.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\lib\include\xml\pugixml.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\lib\include\yaml\Yaml.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1DecodeCAPI.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1DecodeCore.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1DecodePositionalCAPI.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1DecodePositionalCore.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1EncodeCAPI.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1EncodeCore.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1GenerateCoeffs.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1Point3DCore.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1Point4DCore.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1TranscodeCAPI.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1TranscodeCore.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1AudioTimelineCAPI.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1AudioTimelineCore.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1Decode.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1Encode.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1Transcode.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1AudioTimeline.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\M1DSP\M1DSPDynamics.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\M1DSP\M1DSPFilters.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\M1DSP\M1DSPUtilities.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\includeinclude\xml\pugixml.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\includeinclude\yaml\Yaml.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\includeMach1DecodeCAPI.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\includeMach1DecodePositionalCAPI.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\includeMach1EncodeCAPI.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\includeMach1GenerateCoeffs.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\includeMach1TranscodeCAPI.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\includeMach1AudioTimelineCAPI.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\..\lib\external\cpp\Mach1Decode.h" />
-    <ClInclude Include="..\..\..\..\..\..\lib\external\cpp\Mach1Encode.h" />
-    <ClInclude Include="..\..\..\..\..\..\lib\external\cpp\Mach1Transcode.h" />
-    <ClInclude Include="..\..\..\..\..\..\lib\external\cpp\Mach1AudioTimeline.h" />
-    <ClInclude Include="..\..\..\..\..\..\include\M1DSP\M1DSPDynamics.h" />
-    <ClInclude Include="..\..\..\..\..\..\include\M1DSP\M1DSPFilters.h" />
-    <ClInclude Include="..\..\..\..\..\..\include\cpp\M1DSP\M1DSPUtilities.h" />
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1DecodeCAPI.h" />
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1DecodeCore.h" />
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1DecodePositionalCAPI.h" />
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1DecodePositionalCore.h" />
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1EncodeCAPI.h" />
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1EncodeCore.h" />
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1GenerateCoeffs.h" />
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1Point3D.h" />
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1Point3DCore.h" />
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1Point4D.h" />
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1Point4DCore.h" />
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1TranscodeCAPI.h" />
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1TranscodeCore.h" />
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1AudioTimelineCAPI.h" />
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1AudioTimelineCore.h" />
-    <ClInclude Include="..\..\..\..\..\..\lib\include\xml\pugixml.hpp" />
-    <ClInclude Include="..\..\..\..\..\..\lib\include\yaml\Yaml.hpp" />
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1Decode.h" />
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1Encode.h" />
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1Transcode.h" />
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1AudioTimeline.h" />
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\M1DSP\M1DSPDynamics.h" />
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\M1DSP\M1DSPFilters.h" />
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\M1DSP\M1DSPUtilities.h" />
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\includeMach1DecodeCAPI.h" />
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\includeMach1DecodePositionalCAPI.h" />
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\includeMach1EncodeCAPI.h" />
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\includeMach1GenerateCoeffs.h" />
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\includeMach1Point3D.h" />
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\includeMach1Point4D.h" />
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\includeMach1TranscodeCAPI.h" />
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\includeMach1AudioTimelineCAPI.h" />
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\includeinclude\xml\pugixml.hpp" />
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\includeinclude\yaml\Yaml.hpp" />
     <ClInclude Include="..\..\src\CmdOption.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -127,7 +113,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);../../src ;../../src\libsndfile\include;../../../../../../include\cpp;../../../../../../lib;../../../../../../lib/include;../../../../../../include\cpp\M1DSP;./src\rtaudio\include;</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);../../src ;../../src\libsndfile\include;../../../../../../mach1spatial-libs\windows-x86_64\include;../../../../../../mach1spatial-libs\windows-x86_64\include\M1DSP;./src\rtaudio\include;</IncludePath>
     <SourcePath>$(VC_SourcePath);../../src;../../src\rtaudio\include</SourcePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;</LibraryPath>
   </PropertyGroup>

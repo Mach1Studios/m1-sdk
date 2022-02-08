@@ -102,9 +102,9 @@ std::string convertToString(char* a, int size)
 void printHelp()
 {
 	std::cout << "spatial-transcode-audio -- light command line example conversion tool" << std::endl;
-    std::cout << "note: for a complete transcoding tool use `m1-transcode` from the `binaries/executables` directory" << std::endl;
+    std::cout << "note: for a complete transcoding tool use `m1-transcode` from the `executables` directory" << std::endl;
     std::cout << std::endl;
-    std::cout << "usage: -in-file test_FiveOneFilm.wav -in-fmt FiveOneFilm_Cinema -out-file test_b.wav -out-fmt M1Spatial -out-file-chans 0 -yaw 90.0 -pitch 15.0 -roll 0.0" << std::endl;
+    std::cout << "usage: -in-file test_FiveOneFilm.wav -in-fmt 5.1_C -out-file test_b.wav -out-fmt M1Spatial -out-file-chans 0 -yaw 90.0 -pitch 15.0 -roll 0.0" << std::endl;
     std::cout << std::endl;
     std::cout << "  -help                 - list command line options" << std::endl;
     std::cout << "  -in-file  <filename>  - input file: put quotes around sets of files" << std::endl;
@@ -155,10 +155,10 @@ float *outPtrs[Mach1TranscodeMAXCHANS];
 
 // Mach1Transcode variables & objects
 Mach1Transcode m1transcode;
-Mach1TranscodeFormatType inFmt;
-Mach1TranscodeFormatType outFmt;
+int inFmt;
+int outFmt;
 float corrThreshold = 0.1; // 10% difference in signal or less will auto downmix
-std::vector<std::vector<float>> conversionMatrix;
+std::vector< std::vector<float> > conversionMatrix;
 std::vector<float> transcodeToDecodeCoeffs;
 
 // Mach1Decode variables & objects
@@ -346,14 +346,14 @@ int main(int argc, char* argv[])
 
 	bool foundInFmt = false;
 	inFmt = m1transcode.getFormatFromString(inFmtStr);
-	if (inFmt != Mach1TranscodeFormatType::Mach1TranscodeFormatEmpty) {
+    if (inFmt > 1) { // if format int is 0 or -1 (making it invalid)
 		foundInFmt = true;
 	} else {
         std::cerr << "Please select a valid input format" << std::endl;
 		return -1;
 	}
 
-    outFmt = Mach1TranscodeFormatType::Mach1TranscodeFormatM1Spatial;
+    outFmt = m1transcode.getFormatFromString("M1Spatial");
 
 	//=================================================================
 	// initialize inputs, outputs and components
@@ -413,7 +413,7 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 	else {
-        std::vector<Mach1TranscodeFormatType> formatsConvertionPath = m1transcode.getFormatConversionPath();
+        std::vector<int> formatsConvertionPath = m1transcode.getFormatConversionPath();
 		printf("Conversion Path:    ");
 		for (int k = 0; k < formatsConvertionPath.size(); k++) {
             printf("%s", m1transcode.getFormatName(formatsConvertionPath[k]).c_str());

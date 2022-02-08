@@ -54,7 +54,7 @@ else
 	g++ -o builds/spatial-transcode-example ../examples/mach1spatial-c/commandline/spatial-transcode-example/spatial-transcode-example/main.cpp ../include/cpp/Mach1Transcode.cpp -I../include/cpp -L_install/gcc/lib -lstdc++ -lMach1TranscodeCAPI
 endif
 
-build-all: clear test includes-dev includes-release build build-web build-android build-rpi build-cortexm0 deploy-dev deploy-release
+build-all: clear test copy-public includes-dev includes-release build build-web build-android build-rpi build-cortexm0 deploy-dev deploy-release
 	echo "REMINDER: Build FAT iOS lib first!"
 
 build-ci-mac: clear test includes-dev includes-release build build-web deploy-dev deploy-release
@@ -78,6 +78,9 @@ else ifeq ($(detected_OS),Windows)
 else
 	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain gcc
 endif
+
+copy-public:
+	yes | cp -rf ../public $(M1SDK_RELEASE_PATH)/
 
 includes-dev: 
 	#yes | cp -rf "external/c#" "../mach1spatial-libs/c#"
@@ -393,7 +396,6 @@ deploy-release: deploy-dev
 	echo "### DELETE all libUnity dirs"
 	cd $(M1SDK_RELEASE_PATH)/mach1spatial-libs && find . -type d -name 'libUnity' -print0 | xargs -0 rm -rf
 	cd $(M1SDK_RELEASE_PATH)/mach1spatial-libs && find . -type d -name 'libBundle' -print0 | xargs -0 rm -rf
-	yes | cp -rf ../public $(M1SDK_RELEASE_PATH)/public
 
 deploy-dev:
 	# general copy over

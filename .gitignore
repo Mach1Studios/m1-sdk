@@ -1,8 +1,28 @@
 # Mach1 #
-*/[Aa]rchive/
-*/_builds/
-*/_logs/
-*/_install/
+**/[Aa]rchive/
+.dirstamp
+**/.deps/
+**/.libs/
+**/_builds/
+**/_logs/
+**/_install/
+
+# CMAKE #
+**/CMakeFiles
+**/CMakeCache*
+**/cmake_install*
+
+# SWIG #
+**/*.cxx
+
+# xcode specific
+*xcshareddata*
+*.xcworkspacedata
+*.xcconfig
+.DS_Store
+._.DS_Store
+**/.DS_Store
+**/._.DS_Store
 
 # AudioFiles (please use download-audiofiles.sh where applicable)
 *.wav
@@ -288,16 +308,6 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
-# ============ #
-# OS generated #
-# ============ #
-.DS_Store*
-._*
-.Spotlight-V100
-.Trashes
-Icon?
-ehthumbs.db
-[Tt]humbs.db
 
 lang/cs/Proposals/
 lang/cs/Resources/
@@ -329,7 +339,6 @@ lang/cs/Proposals/M1 Test Application Plan 1.1-1.x.docx
 # ============ #
 # OS generated #
 # ============ #
-.DS_Store*
 ._*
 .Spotlight-V100
 .Trashes
@@ -386,3 +395,5 @@ freeline_project_description.json
 #except *.dll
 !**/libs/**
 !**/libs/*/*.dll
+!**/source/**
+!**/source/*/*.dll

@@ -4,7 +4,7 @@
 This is another transcoding commmandline example that passes resulting buffers to a Mach1Decode enabled audio mixer via RtAudio, this is written more verbosely to make it easier to see a full design.
 `Input Buffer` -> `Transcode the buffer` -> `Decode the buffer`
 
-_Please reference or link/use the full feature Mach1 Transcode commandline tool located at [m1-sdk/binaries/executables/](https://github.com/Mach1Studios/m1-sdk/tree/master/binaries/executables)_
+_Please reference or link/use the full feature Mach1 Transcode commandline tool located at [m1-sdk/executables/](https://github.com/Mach1Studios/m1-sdk/tree/master/executables)_
 
 ## Setup
  - install homebrew: https://brew.sh/

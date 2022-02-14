@@ -1519,8 +1519,8 @@ namespace Mach1TranscodeConstants {
 				{0, 1, 0, 0 }, // -> FR
 				{0, 0, 1, 0 }, // -> BL
 				{0, 0, 0, 1 }, // -> BR
-				{r2o4. r2o4. r2o4. r2o4 }, // -> Above
-				{r2o4. r2o4. r2o4. r2o4 }, // -> Below
+				{r2o4, r2o4, r2o4, r2o4 }, // -> Above
+				{r2o4, r2o4, r2o4, r2o4 }, // -> Below
 			}
 		},
 		{
@@ -1530,8 +1530,8 @@ namespace Mach1TranscodeConstants {
 				{0, r2o2, 0, 0, 0, r2o2, 0, 0 }, // -> FR
 				{0, 0, r2o2, 0, 0, 0, r2o2, 0 }, // -> BL
 				{0, 0, 0, r2o2, 0, 0, 0, r2o2 }, // -> BR
-				{r2o4. r2o4. r2o4. r2o4, 0, 0, 0, 0 }, // -> Above
-				{0. 0. 0. 0, r2o4. r2o4. r2o4. r2o4 }, // -> Below
+				{r2o4, r2o4, r2o4, r2o4, 0, 0, 0, 0 }, // -> Above
+				{0, 0, 0, 0, r2o4, r2o4, r2o4, r2o4 }, // -> Below
 			}
 		},
 		{

@@ -117,21 +117,36 @@ includes-release:
 	yes | cp -rf "external/swift/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/ios/include"
 
 build-mac:
+	mkdir -p "../mach1spatial-libs/xcode/lib"
 	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain xcode
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/lib/libMach1DecodeCAPI.a"
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/lib/libMach1DecodePositionalCAPI.a"
+	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/lib/libMach1TranscodeCAPI.a"
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/lib/libMach1EncodeCAPI.a"
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/libBundle/libMach1DecodeCAPI.bundle"
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/libBundle/libMach1DecodePositionalCAPI.bundle"
+	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/libBundle/libMach1TranscodeCAPI.bundle"
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/libBundle/libMach1EncodeCAPI.bundle"
 	yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1DecodeCAPI.a"
 	yes | cp -rf "_install/xcode/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1EncodeCAPI.a"
 	yes | cp -rf "_install/xcode/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1TranscodeCAPI.a"
 	yes | cp -rf "_install/xcode/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1DecodePositionalCAPI.a"
-	yes | cp -rf "_install/xcode/lib/libMach1Decode-minifiedCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1Decode-minifiedCAPI.a"
-	echo "[NOTE] To compile for Universal Binary follow instructions below:"
-	cat  ./macOS-UB-readme.md
-	open _builds/xcode/Mach1SpatialLibraries.xcodeproj
+	#yes | cp -rf "_install/xcode/lib/libMach1Decode-minifiedCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1Decode-minifiedCAPI.a"
+	#echo "[NOTE] To compile for Universal Binary follow instructions below:"
+	#cat  ./macOS-UB-readme.md
+	#open _builds/xcode/Mach1SpatialLibraries.xcodeproj
+
+build-mac-10-13:
+	mkdir -p "../mach1spatial-libs/osx-10-13/lib"
+	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain osx-10-13
+	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/osx-10-13/lib/libMach1DecodeCAPI.a"
+	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/osx-10-13/lib/libMach1DecodePositionalCAPI.a"
+	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/osx-10-13/lib/libMach1TranscodeCAPI.a"
+	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/osx-10-13/lib/libMach1EncodeCAPI.a"
+	yes | cp -rf "_install/osx-10-13/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/osx-10-13/lib/libMach1DecodeCAPI.a"
+	yes | cp -rf "_install/osx-10-13/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/osx-10-13/lib/libMach1EncodeCAPI.a"
+	yes | cp -rf "_install/osx-10-13/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/osx-10-13/lib/libMach1TranscodeCAPI.a"
+	yes | cp -rf "_install/osx-10-13/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/osx-10-13/lib/libMach1DecodePositionalCAPI.a"	
 
 build-ios: FORCE
 	mkdir -p _builds/ios-10-3-dep-9-0-bitcode/Release-iphoneos # adding this for some weird bug on older macos

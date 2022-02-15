@@ -46,7 +46,7 @@ extern "C" {
 
 	M1_API int Mach1TranscodeCAPI_getInputNumChannels(void* M1obj);
 	M1_API int Mach1TranscodeCAPI_getOutputNumChannels(void* M1obj);
-	M1_API int Mach1TranscodeCAPI_getFormatFromString(void* M1obj, char* str);
+	M1_API int Mach1TranscodeCAPI_getFormatFromString(void* M1obj, const char* str);
 	M1_API const char* Mach1TranscodeCAPI_getFormatName(void* M1obj, int fmt);
 
 	M1_API float Mach1TranscodeCAPI_processNormalization(void* M1obj, float** bufs, int numSamples);

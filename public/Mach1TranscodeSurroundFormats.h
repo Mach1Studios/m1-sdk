@@ -189,6 +189,7 @@ namespace Mach1TranscodeConstants {
 				{ 0, r2o20, 0, 0, 0.370922 } 
 			}
 		},
+		{
 			"5.0_R", "M1Spatial",
 			//L, C , R, Lsr, Rsr, LFE
 			{

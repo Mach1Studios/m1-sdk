@@ -31,6 +31,7 @@
  * - M or Music			= `Music Mix` (Channels are spaced out evenly throughout the horizontal soundfield)
  * - C or Cinema		= `Cinema Mix` (Channels are more focused on the front)
  * - S or SideSurround 	= `Side Surround Mix` (Surround channels are oriented more to the sides instead of rear (+-110 azimuth instead of +-135))
+ * - R or RearSurround 	= `Rear Surround Mix` (Surround channels are oriented more to the rears instead of sides (+-154 azimuth instead of +-135))
  *
  * Channel Order Variants:
  * - Default / Film / C|24  = L, C, R, Ls, Rs, LFE ...

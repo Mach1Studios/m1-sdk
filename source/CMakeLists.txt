@@ -7,6 +7,20 @@ if(APPLE)
 	set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED "NO")
 endif()
 
+if(WIN32)
+	set(CompilerFlags
+	        CMAKE_CXX_FLAGS
+	        CMAKE_CXX_FLAGS_DEBUG
+	        CMAKE_CXX_FLAGS_RELEASE
+	        CMAKE_C_FLAGS
+	        CMAKE_C_FLAGS_DEBUG
+	        CMAKE_C_FLAGS_RELEASE
+	        )
+	foreach(CompilerFlag ${CompilerFlags})
+	  string(REPLACE "/MD" "/MT" ${CompilerFlag} "${${CompilerFlag}}")
+	endforeach()
+endif()
+
 set(Mach1SpatialLibraries_VERSION_MAJOR 2)
 set(Mach1SpatialLibraries_VERSION_MINOR 0)
 set(Mach1SpatialLibraries_VERSION ${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR})

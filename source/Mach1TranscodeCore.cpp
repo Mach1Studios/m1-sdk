@@ -49,7 +49,7 @@ int Mach1TranscodeCore::getOutputNumChannels()
     return getNumChannels(outFmt, false);
 }
 
-int Mach1TranscodeCore::getFormatFromString(char* str) {
+int Mach1TranscodeCore::getFormatFromString(const char* str) {
 	for (auto it = Mach1TranscodeConstants::formats.begin(); it != Mach1TranscodeConstants::formats.end(); ++it) {
 		if (std::strcmp(str, it->name.data()) == 0) {
 			return it - Mach1TranscodeConstants::formats.begin();

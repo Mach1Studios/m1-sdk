@@ -61,7 +61,7 @@ public:
 
 	int getInputNumChannels();
 	int getOutputNumChannels();
-	int getFormatFromString(char* str);
+	int getFormatFromString(const char* str);
 	const char* getFormatName(int fmt);
 
 	float processNormalization(float** bufs, int numSamples);

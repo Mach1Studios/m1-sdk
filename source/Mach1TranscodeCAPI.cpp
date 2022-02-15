@@ -28,7 +28,7 @@ M1_API int Mach1TranscodeCAPI_getOutputNumChannels(void* M1obj)
 	return ((Mach1TranscodeCore*)M1obj)->getOutputNumChannels();
 }
 
-M1_API int Mach1TranscodeCAPI_getFormatFromString(void* M1obj, char* str)
+M1_API int Mach1TranscodeCAPI_getFormatFromString(void* M1obj, const char* str)
 {
 	return (int)((Mach1TranscodeCore*)M1obj)->getFormatFromString(str);
 }

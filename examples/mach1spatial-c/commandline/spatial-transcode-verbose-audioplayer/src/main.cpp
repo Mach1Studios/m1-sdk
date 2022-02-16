@@ -361,16 +361,30 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	bool foundInFmt = false;
-	inFmt = m1transcode.getFormatFromString(inFmtStr);
+    bool foundInFmt = false;
+    inFmt = m1transcode.getFormatFromString(inFmtStr);
     if (inFmt > 1) { // if format int is 0 or -1 (making it invalid)
-		foundInFmt = true;
-	} else {
+        foundInFmt = true;
+    }
+    else {
         std::cerr << "Please select a valid input format" << std::endl;
-		return -1;
-	}
+        return -1;
+    }
 
-    outFmt = m1transcode.getFormatFromString("M1Spatial");
+    pStr = getCmdOption(argv, argv + argc, "-out-fmt");
+    if (pStr && (strlen(pStr) > 0)) {
+        outFmtStr = pStr;
+    }
+
+    bool foundOutFmt = false;
+    outFmt = m1transcode.getFormatFromString(outFmtStr);
+    if (outFmt > 1) { // if format int is 0 or -1 (making it invalid)
+        foundOutFmt = true;
+    }
+    else {
+        std::cerr << "Please select a valid out format" << std::endl;
+        return -1;
+    }
 
 	//=================================================================
 	// initialize inputs, outputs and components

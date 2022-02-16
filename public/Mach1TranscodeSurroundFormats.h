@@ -41,7 +41,7 @@
 
 namespace Mach1TranscodeConstants {
 
-	const std::vector<Mach1TranscodeMatrix> matricesSurround = {
+	std::vector<Mach1TranscodeMatrix> matricesSurround = {
 
 		// --- 5.x.x Configurations --- //
 		// -> M1Horizon & Quad_M

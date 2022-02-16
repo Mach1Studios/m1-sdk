@@ -23,7 +23,7 @@
 
 namespace Mach1TranscodeConstants {
 
-	const std::vector<Mach1TranscodeMatrix> matricesVector = {
+	std::vector<Mach1TranscodeMatrix> matricesVector = {
 		
 		{
 			"M1Horizon", "M1Horizon",

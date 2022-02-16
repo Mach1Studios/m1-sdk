@@ -33,7 +33,7 @@ struct Mach1FormatInfo {
 struct Mach1TranscodeMatrix {
 	std::string formatFrom;
 	std::string formatTo;
-	std::vector<std::vector<float>> data;
+	std::vector< std::vector<float> > data;
 };
 
 namespace Mach1TranscodeConstants {
@@ -92,7 +92,6 @@ namespace Mach1TranscodeConstants {
 		{ "5.1_C_Dts", 6 },
 		{ "5.1_S_Dts", 6 },
 		{ "5.1_R_Dts", 6 },
-		{ "Octahedron_M", 6 },
 		{ "5.0.2_M", 7 },
 		{ "5.0.2_C", 7 },
 		{ "5.0.2_S", 7 },
@@ -107,6 +106,7 @@ namespace Mach1TranscodeConstants {
 		{ "5.1.4_S", 10 },
 		{ "5.0.5_C", 10 },
 		{ "5.0.6_C", 11 },
+		{ "Octahedron_M", 6 },
 		{ "6.0_M", 6 },
 		{ "7.0_M", 7 },
 		{ "7.0_C", 7 },

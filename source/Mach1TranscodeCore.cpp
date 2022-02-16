@@ -244,7 +244,7 @@ bool Mach1TranscodeCore::processConversionPath()
         }
     }
     
-	if (intermediateFormatsList.size() < 2) {
+	if (intermediateFormatsList.size() < 2 && inFmt != outFmt) {
 		formatConversionPath.clear();
 		return false;
 	}
@@ -536,6 +536,13 @@ void Mach1TranscodeCore::getMatrixConversion(float* matrix)
 	for (size_t i = 0; i < outChans; i++) {
 		for (size_t j = 0; j < inChans; j++) {
 			matrix[i *  inChans + j] = mRes[i][j];
+		}
+	}
+
+	// make identity matrix if the formats are equal
+	if (inFmt == outFmt) {
+		for (size_t i = 0; i < inChans; i++) {
+			matrix[i * inChans + i] = 1;
 		}
 	}
 

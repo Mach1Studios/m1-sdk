@@ -111,9 +111,6 @@ void printHelp()
     std::cout << "  -in-fmt   <fmt>       - input format: see supported formats below" << std::endl;
     std::cout << "  -in-json  <json>      - input json: for input custom json Mach1Transcode templates" << std::endl;
     std::cout << "  -out-file <filename>  - output file. full name for single file or name stem for file sets" << std::endl;
-    std::cout << "  -out-fmt  <fmt>       - output format: see supported formats below" << std::endl;
-    std::cout << "  -out-json  <json>     - output json: for output custom json Mach1Transcode templates" << std::endl;
-    std::cout << "  -out-file-chans <#>   - output file channels: 1, 2 or 0 (0 = multichannel)" << std::endl;
     std::cout << "  -normalize            - two pass normalize absolute peak to zero dBFS" << std::endl;
     std::cout << "  -master-gain <#>      - final output gain in dB like -3 or 2.3" << std::endl;
     std::cout << "  -spatial-downmix <#>  - compare top vs. bottom of the input soundfield, if difference is less than the set threshold (float) output format will be Mach1 Horizon" << std::endl;
@@ -371,20 +368,7 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    pStr = getCmdOption(argv, argv + argc, "-out-fmt");
-    if (pStr && (strlen(pStr) > 0)) {
-        outFmtStr = pStr;
-    }
-
-    bool foundOutFmt = false;
-    outFmt = m1transcode.getFormatFromString(outFmtStr);
-    if (outFmt > 1) { // if format int is 0 or -1 (making it invalid)
-        foundOutFmt = true;
-    }
-    else {
-        std::cerr << "Please select a valid out format" << std::endl;
-        return -1;
-    }
+    outFmt = m1transcode.getFormatFromString("M1Spatial");
 
 	//=================================================================
 	// initialize inputs, outputs and components

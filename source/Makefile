@@ -65,13 +65,24 @@ build-ci-win: clear test includes-dev includes-release build deploy-dev deploy-r
 
 build: FORCE
 ifeq ($(detected_OS),Darwin)
+	mkdir -p "../mach1spatial-libs/xcode/lib"
 	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain xcode
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/lib/libMach1DecodeCAPI.a"
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/lib/libMach1DecodePositionalCAPI.a"
+	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/lib/libMach1TranscodeCAPI.a"
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/lib/libMach1EncodeCAPI.a"
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/libBundle/libMach1DecodeCAPI.bundle"
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/libBundle/libMach1DecodePositionalCAPI.bundle"
+	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/libBundle/libMach1TranscodeCAPI.bundle"
 	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/libBundle/libMach1EncodeCAPI.bundle"
+	yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1DecodeCAPI.a"
+	yes | cp -rf "_install/xcode/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1EncodeCAPI.a"
+	yes | cp -rf "_install/xcode/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1TranscodeCAPI.a"
+	yes | cp -rf "_install/xcode/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1DecodePositionalCAPI.a"
+	#yes | cp -rf "_install/xcode/lib/libMach1Decode-minifiedCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1Decode-minifiedCAPI.a"
+	#echo "[NOTE] To compile for Universal Binary follow instructions below:"
+	#cat  ./macOS-UB-readme.md
+	#open _builds/xcode/Mach1SpatialLibraries.xcodeproj
 else ifeq ($(detected_OS),Windows)
 	python $(POLLY_PY_PATH) --clear --install --config Release --toolchain vs-15-2017
 	python $(POLLY_PY_PATH) --clear --install --config Release --toolchain vs-15-2017-win64
@@ -92,6 +103,10 @@ includes-dev:
 	yes | cp -rf "external/cpp/" "../mach1spatial-libs/arm-chipsets/raspberrypi3-cxx11/include"
 	yes | cp -rf "external/cpp/" "../mach1spatial-libs/linux/include"
 	yes | cp -rf "external/cpp/" "../mach1spatial-libs/xcode/include"
+	yes | cp -rf "external/cpp/" "../mach1spatial-libs/osx-10-13/include"
+	yes | cp -rf "external/cpp/" "../mach1spatial-libs/vs-15-2017/include"
+	yes | cp -rf "external/cpp/" "../mach1spatial-libs/windows-x86/include"
+	yes | cp -rf "external/cpp/" "../mach1spatial-libs/windows-x86_64/include"
 	yes | cp -rf "external/java/" "../mach1spatial-libs/android-arm64-v8a/include"
 	yes | cp -rf "external/java/" "../mach1spatial-libs/android-armeabi-v7a/include"
 	yes | cp -rf "external/java/" "../mach1spatial-libs/android-x86/include"
@@ -109,32 +124,16 @@ includes-release:
 	yes | cp -rf "external/cpp/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/arm-chipsets/raspberrypi3-cxx11/include"
 	yes | cp -rf "external/cpp/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/linux/include"
 	yes | cp -rf "external/cpp/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/xcode/include"
+	yes | cp -rf "external/cpp/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/osx-10-13/include"
+	yes | cp -rf "external/cpp/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/vs-15-2017/include"
+	yes | cp -rf "external/cpp/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/windows-x86/include"
+	yes | cp -rf "external/cpp/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/windows-x86_64/include"
 	yes | cp -rf "external/java/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/android-arm64-v8a/include"
 	yes | cp -rf "external/java/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/android-armeabi-v7a/include"
 	yes | cp -rf "external/java/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/android-x86/include"
 	yes | cp -rf "external/java/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/android-x86_64/include"
 	yes | cp -rf "external/js/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/web"
 	yes | cp -rf "external/swift/" "$(M1SDK_RELEASE_PATH)/mach1spatial-libs/ios/include"
-
-build-mac:
-	mkdir -p "../mach1spatial-libs/xcode/lib"
-	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain xcode
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/lib/libMach1DecodeCAPI.a"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/lib/libMach1DecodePositionalCAPI.a"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/lib/libMach1TranscodeCAPI.a"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/lib/libMach1EncodeCAPI.a"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/libBundle/libMach1DecodeCAPI.bundle"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/libBundle/libMach1DecodePositionalCAPI.bundle"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/libBundle/libMach1TranscodeCAPI.bundle"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/libBundle/libMach1EncodeCAPI.bundle"
-	yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1DecodeCAPI.a"
-	yes | cp -rf "_install/xcode/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1EncodeCAPI.a"
-	yes | cp -rf "_install/xcode/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1TranscodeCAPI.a"
-	yes | cp -rf "_install/xcode/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1DecodePositionalCAPI.a"
-	#yes | cp -rf "_install/xcode/lib/libMach1Decode-minifiedCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1Decode-minifiedCAPI.a"
-	#echo "[NOTE] To compile for Universal Binary follow instructions below:"
-	#cat  ./macOS-UB-readme.md
-	#open _builds/xcode/Mach1SpatialLibraries.xcodeproj
 
 build-mac-10-13:
 	mkdir -p "../mach1spatial-libs/osx-10-13/lib"

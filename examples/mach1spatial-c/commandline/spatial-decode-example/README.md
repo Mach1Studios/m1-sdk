@@ -1,5 +1,11 @@
 # Mach1Decode C++ Example
 
+## CMake Setup
+ - `mkdir build`
+ - `cd build`
+ - `cmake ../`
+ - `cmake --build .`
+
 ### IDE Project Files
  - `spatial-decode-example.xcodeproj` Xcode project file
  - `spatial-decode-example.vcxproj` Visual Studio project file

@@ -406,6 +406,7 @@ int main(int argc, char* argv[])
 	// -- Mach1Transcode setup
 	m1transcode.setInputFormat(inFmt);
 	m1transcode.setOutputFormat(outFmt);
+	m1transcode.getFormatConversionPath();
     
     // -- Mach1Decode setup
     m1Decode.setPlatformType(Mach1PlatformDefault);

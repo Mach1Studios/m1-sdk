@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.19.3)
 project(spatial-transcode-example)
+set(CMAKE_CXX_STANDARD 11)
+
 set(MACH1SPATIAL_LIBS_PATH "../../../../mach1spatial-libs")
 
 # collect and add source files

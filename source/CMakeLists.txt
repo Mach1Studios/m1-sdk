@@ -1,16 +1,11 @@
 cmake_minimum_required(VERSION 3.19.3)
 
-if(MSVC)
+if(MSVC OR WIN32)
 	# enable MSVC_RUNTIME_LIBRARY target property
 	# see https://cmake.org/cmake/help/latest/policy/CMP0091.html
 	if(POLICY CMP0091)
   		cmake_policy(SET CMP0091 NEW)
 	endif()
-    add_compile_options(
-        $<$<CONFIG:>:/MT>
-        $<$<CONFIG:Debug>:/MTd>
-        $<$<CONFIG:Release>:/MT>
-    )
 endif()
 
 project(Mach1SpatialLibraries)
@@ -81,6 +76,19 @@ set_target_properties(Mach1DecodeCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY 
 set_target_properties(Mach1DecodePositionalCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static)
 set_target_properties(Mach1TranscodeCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static)
 set_target_properties(Mach1DecodeMINCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static)
+
+if(MSVC OR WIN32)
+    add_compile_options(
+        $<$<CONFIG:>:/MT>
+        $<$<CONFIG:Debug>:/MTd>
+        $<$<CONFIG:Release>:/MT>
+    )
+    set_property(TARGET Mach1DecodeCAPIstatic PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
+    set_property(TARGET Mach1DecodePositionalCAPIstatic PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
+    set_property(TARGET Mach1EncodeCAPIstatic PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
+    set_property(TARGET Mach1TranscodeCAPIstatic PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
+    set_property(TARGET Mach1DecodeMINCAPIstatic PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
+endif()
 
 install(TARGETS Mach1DecodeCAPIstatic DESTINATION lib)
 install(TARGETS Mach1DecodePositionalCAPIstatic DESTINATION lib)

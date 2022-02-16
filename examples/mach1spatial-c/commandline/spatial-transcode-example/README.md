@@ -1,5 +1,11 @@
 # Mach1Transcode C++ Example
 
+## CMake Setup
+ - `mkdir build`
+ - `cd build`
+ - `cmake ../`
+ - `cmake --build .`
+
 ### IDE Project Files
  - `spatial-transcode-example.xcodeproj` Xcode project file
  - `spatial-transcode-example.vcxproj` Visual Studio project file

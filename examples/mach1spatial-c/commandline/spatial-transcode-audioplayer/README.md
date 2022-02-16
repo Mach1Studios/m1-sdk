@@ -11,6 +11,12 @@ _Please reference or link/use the full feature Mach1 Transcode commandline tool 
  - `brew install rt-audio` _(project is currently linked to 5.0.1_1)_
  - Open each xcode project
 
+## CMake Setup
+ - `mkdir build`
+ - `cd build`
+ - `cmake ../`
+ - `cmake --build .`
+
 ## Usage
 Example command:
-`./spatial-transcode-audioplayer -in-file "/path/to/input-fiveone.wav" -in-fmt FiveOneFilm_Cinema -out-file "/path/to/output-m1spatial.wav" -out-fmt M1Spatial -out-file-chans 0`
+`./spatial-transcode-audioplayer -in-file "/path/to/input-fiveone.wav" -in-fmt 5.1_C -out-file "/path/to/output-m1spatial.wav" -out-fmt M1Spatial -out-file-chans 0`

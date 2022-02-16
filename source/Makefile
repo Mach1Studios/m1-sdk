@@ -28,6 +28,10 @@ ifeq ($(detected_OS),Darwin)
 	./tests/_install/xcode/bin/Mach1DecodePositionalTest
 	./tests/_install/xcode/bin/Mach1SpatialTests
 	./tests/_install/xcode/bin/Mach1TranscodeTests
+	echo "### RENDER CHECK ####"
+	echo "### 5.1_C -> M1Spatial ###"
+	rm -rf tests/Mach1TranscodeRenderTest/build
+	cd tests/Mach1TranscodeRenderTest && mkdir build && cd build && cmake ../ && cmake --build . && ./spatial-transcode-render -in-file "../m1-debug-shortpt-fiveone.wav" -in-fmt 5.1_C -out-file "../m1-debug-shortpt-fiveone_m1spatial-out.wav" -out-fmt M1Spatial -out-file-chans 0
 else ifeq ($(detected_OS),Windows)
 	cd tests && python $(POLLY_PY_PATH) --clear --install --config Release --toolchain vs-15-2017-win64
 else
@@ -37,6 +41,10 @@ else
 	./tests/_install/gcc/bin/Mach1DecodePositionalTest
 	./tests/_install/gcc/bin/Mach1SpatialTests
 	./tests/_install/gcc/bin/Mach1TranscodeTests
+	echo "### RENDER CHECK ####"
+	echo "### 5.1_C -> M1Spatial ###"
+	rm -rf tests/Mach1TranscodeRenderTest/build
+	cd tests/Mach1TranscodeRenderTest && mkdir build && cd build && cmake ../ && cmake --build . && ./spatial-transcode-render -in-file "../m1-debug-shortpt-fiveone.wav" -in-fmt 5.1_C -out-file "../m1-debug-shortpt-fiveone_m1spatial-out.wav" -out-fmt M1Spatial -out-file-chans 0
 endif
 
 test-linking:

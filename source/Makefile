@@ -92,8 +92,14 @@ ifeq ($(detected_OS),Darwin)
 	#cat  ./macOS-UB-readme.md
 	#open _builds/xcode/Mach1SpatialLibraries.xcodeproj
 else ifeq ($(detected_OS),Windows)
-	python $(POLLY_PY_PATH) --clear --install --config Release --toolchain vs-15-2017
-	python $(POLLY_PY_PATH) --clear --install --config Release --toolchain vs-15-2017-win64
+	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-15-2017-mt
+	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-15-2017-win64-mt
+	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-16-2019-mt
+	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-16-2019-win64-mt
+	xcopy _install\vs-15-2017-mt\lib ..\mach1spatial-libs\vs-15-2017\x86 /Y  /I
+	xcopy _install\vs-15-2017-win64-mt\lib ..\mach1spatial-libs\vs-15-2017\x86_64 /Y  /I
+	xcopy _install\vs-16-2019-mt\lib ..\mach1spatial-libs\windows-x86 /Y  /I
+	xcopy _install\vs-16-2019-win64-mt\lib ..\mach1spatial-libs\windows-x86_64 /Y  /I
 else
 	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain gcc
 endif

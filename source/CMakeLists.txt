@@ -1,24 +1,25 @@
 cmake_minimum_required(VERSION 3.19.3)
+
+if(MSVC)
+	# enable MSVC_RUNTIME_LIBRARY target property
+	# see https://cmake.org/cmake/help/latest/policy/CMP0091.html
+	if(POLICY CMP0091)
+  		cmake_policy(SET CMP0091 NEW)
+	endif()
+    add_compile_options(
+        $<$<CONFIG:>:/MT>
+        $<$<CONFIG:Debug>:/MTd>
+        $<$<CONFIG:Release>:/MT>
+    )
+endif()
+
 project(Mach1SpatialLibraries)
+
 if(APPLE)
 	#set(CMAKE_OSX_SYSROOT macosx11.0)
 	#set(CMAKE_OSX_DEPLOYMENT_TARGET 10.14)
 	set(CMAKE_OSX_ARCHITECTURES "$(ARCHS_STANDARD)")
 	set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED "NO")
-endif()
-
-if(WIN32)
-	set(CompilerFlags
-	        CMAKE_CXX_FLAGS
-	        CMAKE_CXX_FLAGS_DEBUG
-	        CMAKE_CXX_FLAGS_RELEASE
-	        CMAKE_C_FLAGS
-	        CMAKE_C_FLAGS_DEBUG
-	        CMAKE_C_FLAGS_RELEASE
-	        )
-	foreach(CompilerFlag ${CompilerFlags})
-	  string(REPLACE "/MD" "/MT" ${CompilerFlag} "${${CompilerFlag}}")
-	endforeach()
 endif()
 
 set(Mach1SpatialLibraries_VERSION_MAJOR 2)
@@ -29,7 +30,7 @@ set(Mach1SpatialLibraries_VERSION ${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1
 set(ENCODE_VERSION "2.0.0.0")
 set(DECODE_VERSION "2.0.0.0")
 set(DECODEPOSITIONAL_VERSION "2.0.0.0")
-set(TRANSCODE_VERSION "2.0.0.1")
+set(TRANSCODE_VERSION "2.0.0.2")
 
 set(Mach1AdditionalInclude "./include")
 set(Mach1TranscodeAdditionalInclude "../public")

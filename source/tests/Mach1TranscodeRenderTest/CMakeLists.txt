@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.19.3)
 project(spatial-transcode-render)
+set(CMAKE_CXX_STANDARD 11)
+
 set(MACH1SPATIAL_SOURCE_PATH "../../")
 
 # Use pkg-config to get hints about paths
@@ -43,6 +45,12 @@ pkg_search_module(SndFile REQUIRED sndfile)
 set(SOURCES 
 	src/main.cpp
     ${MACH1SPATIAL_SOURCE_PATH}/Mach1TranscodeCore.cpp
+    ${MACH1SPATIAL_SOURCE_PATH}/Mach1Point3DCore.cpp
+    ${MACH1SPATIAL_SOURCE_PATH}/Mach1GenerateCoeffs.cpp
+    ${MACH1SPATIAL_SOURCE_PATH}/Mach1TranscodeCAPI.cpp
+    ${MACH1SPATIAL_SOURCE_PATH}/external/cpp/Mach1Transcode.cpp
+    ${MACH1SPATIAL_SOURCE_PATH}/include/M1DSP/M1DSPFilters.cpp
+    ${MACH1SPATIAL_SOURCE_PATH}/include/M1DSP/M1DSPUtilities.cpp
 	)
 
 # create the executable

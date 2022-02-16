@@ -24,7 +24,7 @@
 
 namespace Mach1TranscodeConstants {
 
-	const std::vector<Mach1TranscodeMatrix> matricesAmbisonic = {
+	std::vector<Mach1TranscodeMatrix> matricesAmbisonic = {
 		{
 			"FuMa", "ACNSN3D",
 			{   

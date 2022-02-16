@@ -352,7 +352,7 @@ std::vector<Mach1Point3DCore> Mach1TranscodeCore::getPointsSet(int fmt) {
 												{1 / 0.707f, 0, 0},
 												{-1 / 0.707f, 0, 0} };
 
-	static std::map<int, std::vector<Mach1Point3DCore>> standards = {
+	static std::map<int, std::vector <Mach1Point3DCore> > standards = {
 		{getFormatFromString("M1Horizon"), m1HorizonDef},
 		{getFormatFromString("M1Spatial"), m1SpatialDef},
 		{getFormatFromString("M1SpatialPlus"), m1SpatialPlusDef},
@@ -384,7 +384,7 @@ void Mach1TranscodeCore::processConversion(int inFmt, float** inBufs, int outFmt
 {
     int inChans = getNumChannels(inFmt, true);
     int outChans = getNumChannels(outFmt, false);
-    std::vector<std::vector<float>> currentFormatConversionMatrix;
+    std::vector< std::vector<float> > currentFormatConversionMatrix;
 
     if (inFmt == getFormatFromString("CustomPoints") && outFmt != getFormatFromString("CustomPoints")) {
         currentFormatConversionMatrix = generateCoeffSetForPoints(inCustomPoints, getPointsSet(outFmt));
@@ -488,7 +488,7 @@ void Mach1TranscodeCore::getMatrixConversion(float* matrix)
 
 		int inChans = getNumChannels(inFmt, true);
 		int outChans = getNumChannels(outFmt, false);
-		std::vector<std::vector<float>> currentFormatConversionMatrix;
+		std::vector< std::vector<float> > currentFormatConversionMatrix;
 
 		if (inFmt == getFormatFromString("CustomPoints") && outFmt != getFormatFromString("CustomPoints")) {
 			currentFormatConversionMatrix = generateCoeffSetForPoints(inCustomPoints, getPointsSet(outFmt));

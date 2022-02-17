@@ -24,7 +24,12 @@
 
 namespace Mach1TranscodeConstants {
 
-	std::vector<Mach1TranscodeMatrix> matricesAmbisonic = {
+    class MatricesAmbisonic
+    {
+    public:
+        static std::vector<Mach1TranscodeMatrix> getData() {
+            return
+              {
 		{
 			"FuMa", "ACNSN3D",
 			{   
@@ -1042,5 +1047,8 @@ namespace Mach1TranscodeConstants {
 				{ 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f, 0, 0 } 
 			}
 		},
+    };
+            
+        }
     };
 };

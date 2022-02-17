@@ -26,10 +26,19 @@ Mach1TranscodeCore::Mach1TranscodeCore()
 	for (int i = 0; i < Mach1TranscodeConstants::MAXCHANS; i++)  {
 		buffers[i] = new float[bufferSize];
 	}
-
-	matrices.insert(matrices.end(), Mach1TranscodeConstants::matricesAmbisonic.begin(), Mach1TranscodeConstants::matricesAmbisonic.end());
-	matrices.insert(matrices.end(), Mach1TranscodeConstants::matricesSurround.begin(), Mach1TranscodeConstants::matricesSurround.end());
-	matrices.insert(matrices.end(), Mach1TranscodeConstants::matricesVector.begin(), Mach1TranscodeConstants::matricesVector.end());
+    
+    {
+        std::vector<Mach1TranscodeMatrix> m = Mach1TranscodeConstants::MatricesAmbisonic::getData();
+        matrices.insert(matrices.end(), m.begin(), m.end());
+    }
+    {
+        std::vector<Mach1TranscodeMatrix> m = Mach1TranscodeConstants::MatricesSurround::getData();
+        matrices.insert(matrices.end(), m.begin(), m.end());
+    }
+    {
+        std::vector<Mach1TranscodeMatrix> m = Mach1TranscodeConstants::MatricesVector::getData();
+        matrices.insert(matrices.end(), m.begin(), m.end());
+    }
 }
 
 Mach1TranscodeCore::~Mach1TranscodeCore()

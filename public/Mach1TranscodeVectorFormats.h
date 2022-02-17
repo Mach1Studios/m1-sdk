@@ -23,8 +23,13 @@
 
 namespace Mach1TranscodeConstants {
 
-	std::vector<Mach1TranscodeMatrix> matricesVector = {
-		
+class MatricesVector
+{
+public:
+    static std::vector<Mach1TranscodeMatrix> getData() {
+        return
+          {
+
 		{
 			"M1Horizon", "M1Horizon",
 			{   
@@ -286,7 +291,10 @@ namespace Mach1TranscodeConstants {
 	            { r2o4, 0, 0, r2o4, 0, r2o4 },
 	            { 0, r2o4, r2o4, 0, 0, r2o4 },
 	            { 0, 0, r2o4, r2o4, 0, r2o4 } 
-	        }
-	    }
-	};
+            }
+        },
+    };
+            
+        }
+    };
 };

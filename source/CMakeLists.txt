@@ -10,6 +10,8 @@ endif()
 
 project(Mach1SpatialLibraries)
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
+
 if(APPLE)
 	#set(CMAKE_OSX_SYSROOT macosx11.0)
 	#set(CMAKE_OSX_DEPLOYMENT_TARGET 10.14)

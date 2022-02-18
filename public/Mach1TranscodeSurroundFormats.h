@@ -41,7 +41,12 @@
 
 namespace Mach1TranscodeConstants {
 
-	std::vector<Mach1TranscodeMatrix> matricesSurround = {
+class MatricesSurround
+{
+public:
+    static std::vector<Mach1TranscodeMatrix> getData() {
+        return
+          {
 
 		// --- 5.x.x Configurations --- //
 		// -> M1Horizon & Quad_M
@@ -1684,7 +1689,10 @@ namespace Mach1TranscodeConstants {
 				{ 0, 0, 0, 0, 1, 0, 0, 0 },//LowLeft
 				{ 0, 0, 0, 0, 0, 1, 0, 0 },//LowRight
 				{ 0, 0, 0, 0, r2o2, r2o2, 0, 0 },//LowCenter
-			}
-		}
-	};
+            }
+        },
+    };
+            
+        }
+    };
 };

@@ -104,6 +104,22 @@ else
 	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain gcc
 endif
 
+debug: FORCE
+ifeq ($(detected_OS),Darwin)
+	mkdir -p "../mach1spatial-libs/xcode/lib"
+	$(POLLY_BIN_PATH) --clear --install --config Debug --toolchain xcode
+	yes | cp -rf "_install/xcode/lib/libMach1DecodeCAPId.a" "../mach1spatial-libs/xcode/lib/libMach1DecodeCAPI.a"
+	yes | cp -rf "_install/xcode/lib/libMach1EncodeCAPId.a" "../mach1spatial-libs/xcode/lib/libMach1EncodeCAPI.a"
+	yes | cp -rf "_install/xcode/lib/libMach1TranscodeCAPId.a" "../mach1spatial-libs/xcode/lib/libMach1TranscodeCAPI.a"
+	yes | cp -rf "_install/xcode/lib/libMach1DecodePositionalCAPId.a" "../mach1spatial-libs/xcode/lib/libMach1DecodePositionalCAPI.a"
+	#yes | cp -rf "_install/xcode/lib/libMach1Decode-minifiedCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1Decode-minifiedCAPI.a"
+else ifeq ($(detected_OS),Windows)
+	python ../../polly/bin/polly.py --clear --install --config Debug --toolchain vs-15-2017
+	python ../../polly/bin/polly.py --clear --install --config Debug --toolchain vs-15-2017-win64
+else
+	$(POLLY_BIN_PATH) --clear --install --config Debug --toolchain gcc
+endif
+
 copy-public:
 	yes | cp -rf ../public $(M1SDK_RELEASE_PATH)/
 

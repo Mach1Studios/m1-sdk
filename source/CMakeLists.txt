@@ -78,16 +78,18 @@ set_target_properties(Mach1TranscodeCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTO
 set_target_properties(Mach1DecodeMINCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static)
 
 if(MSVC OR WIN32)
-    add_compile_options(
-        $<$<CONFIG:>:/MT>
-        $<$<CONFIG:Debug>:/MTd>
-        $<$<CONFIG:Release>:/MT>
-    )
-    set_property(TARGET Mach1DecodeCAPIstatic PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
-    set_property(TARGET Mach1DecodePositionalCAPIstatic PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
-    set_property(TARGET Mach1EncodeCAPIstatic PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
-    set_property(TARGET Mach1TranscodeCAPIstatic PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
-    set_property(TARGET Mach1DecodeMINCAPIstatic PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
+	if(COMPILE_MT)
+    	add_compile_options(
+        	$<$<CONFIG:>:/MT>
+        	$<$<CONFIG:Debug>:/MTd>
+        	$<$<CONFIG:Release>:/MT>
+    	)
+    	set_property(TARGET Mach1DecodeCAPIstatic PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
+    	set_property(TARGET Mach1DecodePositionalCAPIstatic PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
+    	set_property(TARGET Mach1EncodeCAPIstatic PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
+    	set_property(TARGET Mach1TranscodeCAPIstatic PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
+    	set_property(TARGET Mach1DecodeMINCAPIstatic PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
+	endif()
 endif()
 
 install(TARGETS Mach1DecodeCAPIstatic DESTINATION lib)
@@ -117,10 +119,10 @@ if (APPLE OR WIN32 OR ANDROID)
 		set_target_properties(Mach1DecodePositionalCAPIshared PROPERTIES VERSION ${DECODEPOSITIONAL_VERSION})
 		set_target_properties(Mach1TranscodeCAPIshared PROPERTIES VERSION ${TRANSCODE_VERSION})
 
-		install(TARGETS Mach1DecodeCAPIshared DESTINATION libUnity)
-		install(TARGETS Mach1DecodePositionalCAPIshared DESTINATION libUnity)
-		install(TARGETS Mach1EncodeCAPIshared DESTINATION libUnity)
-		install(TARGETS Mach1TranscodeCAPIshared DESTINATION libUnity)
+		install(TARGETS Mach1DecodeCAPIshared DESTINATION lib-shared)
+		install(TARGETS Mach1DecodePositionalCAPIshared DESTINATION lib-shared)
+		install(TARGETS Mach1EncodeCAPIshared DESTINATION lib-shared)
+		install(TARGETS Mach1TranscodeCAPIshared DESTINATION lib-shared)
 	endif()
 endif()
 

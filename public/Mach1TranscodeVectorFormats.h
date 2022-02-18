@@ -23,8 +23,32 @@
 
 namespace Mach1TranscodeConstants {
 
-	std::vector<Mach1TranscodeMatrix> matricesVector = {
-		
+class MatricesVector
+{
+public:
+    static std::vector<Mach1TranscodeMatrix> getData() {
+        const float r2 = (float)sqrt(2.0);
+        const float r3 = (float)sqrt(3.0);
+        const float oor2 = (float)(1.0 / sqrt(2.0));
+        const float oor3 = (float)(1.0 / sqrt(3.0));
+        const float oor4 = (float)(1.0 / sqrt(4.0));
+        const float oor8 = (float)(1.0 / sqrt(8.0));
+        const float oor16 = (float)(1.0 / sqrt(16.0));
+        const float oo2r2 = (float)(1.0 / (2.0 * sqrt(2.0)));
+        const float r3or2 = (float)(sqrt(3.0) / sqrt(2.0));
+        const float r3o2 = (float)sqrt(3.0) / 2.0f;
+        const float r2o2 = (float)sqrt(2.0) / 2.0f;
+        const float r2o3 = (float)sqrt(2.0) / 3.0f;
+        const float r2o4 = (float)sqrt(2.0) / 4.0f;
+        const float r2o6 = (float)sqrt(2.0) / 6.0f;
+        const float r2o8 = (float)sqrt(2.0) / 8.0f;
+        const float r2o12 = (float)sqrt(2.0) / 12.0f;
+        const float r2o20 = (float)sqrt(2.0) / 20.0f;
+        const float oo8 = (float)1.0f / 8.0f;
+
+        return
+          {
+
 		{
 			"M1Horizon", "M1Horizon",
 			{   
@@ -286,7 +310,10 @@ namespace Mach1TranscodeConstants {
 	            { r2o4, 0, 0, r2o4, 0, r2o4 },
 	            { 0, r2o4, r2o4, 0, 0, r2o4 },
 	            { 0, 0, r2o4, r2o4, 0, r2o4 } 
-	        }
-	    }
-	};
+            }
+        },
+    };
+            
+        }
+    };
 };

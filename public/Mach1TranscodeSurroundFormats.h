@@ -7,7 +7,7 @@
 // - 8.0.2/THX-10.0: 30degL, C, 30degR, 60degL, 60degR, Ls, BC, Rs, TLs, TRs
 // - 10.0.2/THX-12.0: 30degL, C, 30degR, 60degL, 60degR, Ls, BC, Rs, TLs, TRs, 90degL, 90degR
 // - 22.2: https://en.wikipedia.org/wiki/22.2_surround_sound | FL, FR, FC, LFE1, BL, BR, FLc, FRc, BC, LFE2, SiL (side left), SiR, TpFL, TpFR, TpFC, TpC, TpBL, TpBR, TpSiL, TpSiR, TpBC, BtFC, BtFL, BtFR
-//
+// - Add 7.0 and 7.1 -> M1Horizon conversions 
 
 #pragma once
 
@@ -32,6 +32,7 @@
  * - C or Cinema		= `Cinema Mix` (Channels are more focused on the front)
  * - S or SideSurround 	= `Side Surround Mix` (Surround channels are oriented more to the sides instead of rear (+-110 azimuth instead of +-135))
  * - R or RearSurround 	= `Rear Surround Mix` (Surround channels are oriented more to the rears instead of sides (+-154 azimuth instead of +-135))
+ * - SIM or Simulated	= `Simulated Room Mix` (Lessens the divergence of virtual speakers to quickly simulate hearing front/back soundfield within a real world listening environment)
  *
  * Channel Order Variants:
  * - Default / Film / C|24  = L, C, R, Ls, Rs, LFE ...
@@ -104,12 +105,25 @@ public:
 		{
 			"5.0_R", "M1Horizon",
 			{
-				// L, C, R, LFE, Ls, Rs
+				// L, C, R, Ls, Rs, LFE
 				// Rear channels ±154° azimuth
 				{ 1, r2o2, 0, 0, 0 },
 				{ 0, r2o2, 1, 0, 0 },
 				{ 0, 0, 0, 0.190025, 0.809975 },
 				{ 0, 0, 0, 0.809975 , 0.190025 }, 
+			}
+		},
+		{
+			"5.0_C_SIM", "M1Horizon",
+			//L, C, R, Ls, Rs, LFE with front facing
+			// Rear channels ±135° azimuth
+			//Channel Divergence = 70%
+			//Center Channel Divergence = 50%
+			{
+				{ 0.722500, 0.426777, 0.127500, 0.127500, 0.022500 },
+				{ 0.127500, 0.426777, 0.722500, 0.022500, 0.127500 },
+				{ 0.127500, 0.073223, 0.022500, 0.722500, 0.127500 },
+				{ 0.022500, 0.073223, 0.127500, 0.127500, 0.722500 }
 			}
 		},
 		{
@@ -145,7 +159,7 @@ public:
 		{
 			"5.1_R", "M1Horizon",
 			{
-				// L, C, R, LFE, Ls, Rs
+				// L, C, R, Ls, Rs, LFE
 				// Rear channels ±154° azimuth
 				{ 1, r2o2, 0, 0, 0, r2o8 },
 				{ 0, r2o2, 1, 0, 0, r2o8 },
@@ -169,6 +183,19 @@ public:
 				{ 0, 1, 0, 0, r2o4, r2o8 },
 				{ 0, 0, 1, 0, r2o4, r2o8 },
 				{ 0, 0, 0, 1, r2o4, r2o8 }, 
+			}
+		},
+		{
+			"5.1_C_SIM", "M1Horizon",
+			//L, C, R, Ls, Rs, LFE with front facing
+			// Rear channels ±135° azimuth
+			//Channel Divergence = 70%
+			//Center Channel Divergence = 50%
+			{
+				{ 0.722500, 0.426777, 0.127500, 0.127500, 0.022500, r2o8 },
+				{ 0.127500, 0.426777, 0.722500, 0.022500, 0.127500, r2o8 },
+				{ 0.127500, 0.073223, 0.022500, 0.722500, 0.127500, r2o8 },
+				{ 0.022500, 0.073223, 0.127500, 0.127500, 0.722500, r2o8 }
 			}
 		},
 		// -> M1Spatial
@@ -226,6 +253,23 @@ public:
 				{ 0, r2o4, r2o2, 0, 0, r2o8 },
 				{ 0, r2o20, 0, 0.095012, 0.404988 },
 				{ 0, r2o20, 0, 0.404988, 0.095012 } 
+			}
+		},
+		{
+			"5.0_C_SIM", "M1Spatial",
+			//L, C, R, Ls, Rs, LFE with front facing
+			// Rear channels ±135° azimuth
+			//Channel Divergence = 70%
+			//Center Channel Divergence = 50%
+			{
+				{ 0.361250, 0.213388, 0.063750, 0.063750, 0.011250 },
+				{ 0.063750, 0.213388, 0.361250, 0.011250, 0.063750 },
+				{ 0.063750, 0.036612, 0.011250, 0.361250, 0.063750 },
+				{ 0.011250, 0.036612, 0.063750, 0.063750, 0.361250 },
+				{ 0.361250, 0.213388, 0.063750, 0.063750, 0.011250 },
+				{ 0.063750, 0.213388, 0.361250, 0.011250, 0.063750 },
+				{ 0.063750, 0.036612, 0.011250, 0.361250, 0.063750 },
+				{ 0.011250, 0.036612, 0.063750, 0.063750, 0.361250 } 
 			}
 		},
 		{
@@ -310,6 +354,23 @@ public:
 				{ 0, r2o2, 0, 0, r2o8, r2o8 },
 				{ 0, 0, r2o2, 0, r2o8, r2o8 },
 				{ 0, 0, 0, r2o2, r2o8, r2o8 } 
+			}
+		},
+		{
+			"5.1_C_SIM", "M1Spatial",
+			//L, C, R, Ls, Rs, LFE with front facing
+			// Rear channels ±135° azimuth
+			//Channel Divergence = 70%
+			//Center Channel Divergence = 50%
+			{
+				{ 0.361250, 0.213388, 0.063750, 0.063750, 0.011250, r2o8 },
+				{ 0.063750, 0.213388, 0.361250, 0.011250, 0.063750, r2o8 },
+				{ 0.063750, 0.036612, 0.011250, 0.361250, 0.063750, r2o8 },
+				{ 0.011250, 0.036612, 0.063750, 0.063750, 0.361250, r2o8 },
+				{ 0.361250, 0.213388, 0.063750, 0.063750, 0.011250, r2o8 },
+				{ 0.063750, 0.213388, 0.361250, 0.011250, 0.063750, r2o8 },
+				{ 0.063750, 0.036612, 0.011250, 0.361250, 0.063750, r2o8 },
+				{ 0.011250, 0.036612, 0.063750, 0.063750, 0.361250, r2o8 } 
 			}
 		},
 		{
@@ -934,6 +995,22 @@ public:
 			}
 		},
 		{
+			"7.0_C_SIM", "M1Spatial",
+			//L, C, R, Lss, Rss, Lsr, Rsr with front facing
+			//Channel Divergence = 70%
+			//Center Channel Divergence = 50%
+			{
+				{ 0.361250, 0.213388, 0.063750, 0.248744, 0.001256, 0.063750, 0.011250 },
+				{ 0.063750, 0.213388, 0.361250, 0.001256, 0.248744, 0.011250, 0.063750 },
+				{ 0.063750, 0.036612, 0.011250, 0.248744, 0.001256, 0.361250, 0.063750 },
+				{ 0.011250, 0.036612, 0.063750, 0.001256, 0.248744, 0.063750, 0.361250 },
+				{ 0.361250, 0.213388, 0.063750, 0.248744, 0.001256, 0.063750, 0.011250 },
+				{ 0.063750, 0.213388, 0.361250, 0.001256, 0.248744, 0.011250, 0.063750 },
+				{ 0.063750, 0.036612, 0.011250, 0.248744, 0.001256, 0.361250, 0.063750 },
+				{ 0.011250, 0.036612, 0.063750, 0.001256, 0.248744, 0.063750, 0.361250 } 
+			}
+		},
+		{
 			"7.1_M", "M1Spatial",
 			//L, C, R, Lss, Rss, Lsr, Rsr, LFE
 			{
@@ -987,6 +1064,22 @@ public:
 				{ 0, 0, r2o4, r2o4, r2o2, 0, 0, r2o8 },
 				{ 0, 0, 0, 0, 0, r2o2, 0, r2o8 },
 				{ 0, 0, 0, 0, 0, 0, r2o2, r2o8 } 
+			}
+		},
+		{
+			"7.1_C_SIM", "M1Spatial",
+			//L, C, R, Lss, Rss, Lsr, Rsr, LFE with front facing
+			//Channel Divergence = 70%
+			//Center Channel Divergence = 50%
+			{
+				{ 0.361250, 0.213388, 0.063750, 0.248744, 0.001256, 0.063750, 0.011250, r2o8 },
+				{ 0.063750, 0.213388, 0.361250, 0.001256, 0.248744, 0.011250, 0.063750, r2o8 },
+				{ 0.063750, 0.036612, 0.011250, 0.248744, 0.001256, 0.361250, 0.063750, r2o8 },
+				{ 0.011250, 0.036612, 0.063750, 0.001256, 0.248744, 0.063750, 0.361250, r2o8 },
+				{ 0.361250, 0.213388, 0.063750, 0.248744, 0.001256, 0.063750, 0.011250, r2o8 },
+				{ 0.063750, 0.213388, 0.361250, 0.001256, 0.248744, 0.011250, 0.063750, r2o8 },
+				{ 0.063750, 0.036612, 0.011250, 0.248744, 0.001256, 0.361250, 0.063750, r2o8 },
+				{ 0.011250, 0.036612, 0.063750, 0.001256, 0.248744, 0.063750, 0.361250, r2o8 } 
 			}
 		},
 		{

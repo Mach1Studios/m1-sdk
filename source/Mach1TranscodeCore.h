@@ -49,6 +49,7 @@ private:
 
 	std::vector<Mach1Point3DCore> getPointsSet(int fmt);
 	int findMatrix(int inFmt, int outFmt);
+	std::vector<std::vector<float>> getCoeffs(int idxMatrix);
 	void processConversion(int inFmt, float** inBufs, int outFmt, float** outBufs, int numSamples);
 	int getNumChannels(int fmt, bool isInput);
 

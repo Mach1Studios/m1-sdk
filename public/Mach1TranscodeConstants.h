@@ -30,10 +30,43 @@ struct Mach1FormatInfo {
 	std::vector<Mach1ChannelDescription> channelTypes;
 };
 
+struct Mach1TranscodeChannelBase {
+	virtual ~Mach1TranscodeChannelBase() { }
+};
+
+struct Mach1TranscodeCoeffs : public Mach1TranscodeChannelBase {
+	std::vector<float> data;
+};
+
+struct Mach1TranscodePanner : public Mach1TranscodeChannelBase {
+	float X;
+	float Y;
+	float Z;
+};
+
+class Mach1TranscodeChannel {
+public:
+	static Mach1TranscodeCoeffs* Coeffs(std::vector<float> data)
+	{
+		Mach1TranscodeCoeffs* obj = new Mach1TranscodeCoeffs();
+		obj->data = data;
+		return obj;
+	}
+
+	static Mach1TranscodePanner* Panner(float X, float Y, float Z)
+	{
+		Mach1TranscodePanner* obj = new Mach1TranscodePanner();
+		obj->X = X;
+		obj->Y = Y;
+		obj->Z = Z;
+		return obj;
+	}
+};
+
 struct Mach1TranscodeMatrix {
 	std::string formatFrom;
 	std::string formatTo;
-	std::vector< std::vector<float> > data;
+	std::vector<Mach1TranscodeChannelBase*> channels;
 };
 
 namespace Mach1TranscodeConstants {

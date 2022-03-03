@@ -3,6 +3,7 @@
 
 #include "Mach1TranscodeCore.h"
 #include "Mach1GenerateCoeffs.h"
+#include "Mach1EncodeCore.h"
 #include "Mach1TranscodeVectorFormats.h"
 #include "Mach1TranscodeSurroundFormats.h"
 #include "Mach1TranscodeAmbisonicFormats.h"
@@ -381,6 +382,7 @@ int Mach1TranscodeCore::findMatrix(int inFmt, int outFmt)
 {
 	const char* inFmtName = getFormatName(inFmt);
 	const char* outFmtName = getFormatName(outFmt);
+
 	for (int i = 0; i < matrices.size(); i++) {
 		if (matrices[i].formatFrom == inFmtName && matrices[i].formatTo == outFmtName) {
 			return i;
@@ -388,6 +390,36 @@ int Mach1TranscodeCore::findMatrix(int inFmt, int outFmt)
 	}
 	return -1;
 }
+
+std::vector<std::vector<float>> Mach1TranscodeCore::getCoeffs(int idxMatrix)
+{
+	std::vector<std::vector<float>> coeffs;
+
+	if (idxMatrix >= 0) {
+		for (int i = 0; i < matrices[idxMatrix].channels.size(); i++)
+		{
+			Mach1TranscodeChannelBase* channel = matrices[idxMatrix].channels[i];
+			if (Mach1TranscodeCoeffs* c = dynamic_cast<Mach1TranscodeCoeffs*>(channel)) {
+				coeffs.push_back(c->data);
+			}
+			else if (Mach1TranscodePanner* p = dynamic_cast<Mach1TranscodePanner*>(channel)) {
+				/* panner logic */
+				/*
+				M1EncodeCore m1encode;
+				m1encode.setInputMode(M1EncodeCore::InputMode::INPUT_STEREO);
+				m1encode.setOutputMode(M1EncodeCore::OutputMode::OUTPUT_SPATIAL_8CH);
+				*/
+				coeffs.push_back({});
+			}
+			else {
+				coeffs.push_back({});
+			}
+		}
+	}
+
+	return coeffs;
+}
+
 
 void Mach1TranscodeCore::processConversion(int inFmt, float** inBufs, int outFmt, float** outBufs, int numSamples)
 {
@@ -405,7 +437,7 @@ void Mach1TranscodeCore::processConversion(int inFmt, float** inBufs, int outFmt
 		currentFormatConversionMatrix = generateCoeffSetForPoints(inCustomPoints, outCustomPoints);
 	}
 	else if (inFmt != getFormatFromString("CustomPoints") && outFmt != getFormatFromString("CustomPoints")) {
-        currentFormatConversionMatrix = matrices[findMatrix(inFmt, outFmt)].data;
+        currentFormatConversionMatrix = getCoeffs(findMatrix(inFmt, outFmt));
     }
     
     // copy pointers to local
@@ -509,7 +541,7 @@ void Mach1TranscodeCore::getMatrixConversion(float* matrix)
 			currentFormatConversionMatrix = generateCoeffSetForPoints(inCustomPoints, outCustomPoints);
 		}
 		else if (inFmt != getFormatFromString("CustomPoints") && outFmt != getFormatFromString("CustomPoints")) {
-			currentFormatConversionMatrix = matrices[findMatrix(inFmt, outFmt)].data;
+			currentFormatConversionMatrix = getCoeffs(findMatrix(inFmt, outFmt));
 		}
 
 		std::memset(mCurrent, 0, mSize);

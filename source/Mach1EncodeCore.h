@@ -105,6 +105,37 @@ public:
 		MODE_PERIPHONICLINEAR
 	};
 
+	struct InputModeName { InputMode mode; std::string name; };
+	std::vector<InputModeName> inputModeNames = {
+		 { INPUT_MONO, "Mono"},
+		 { INPUT_STEREO, "Stereo"},
+		 { INPUT_QUAD, "Quad"},
+		 { INPUT_LCRS, "Lcrs"},
+		 { INPUT_AFORMAT, "Aformat"},
+		 { INPUT_BFORMAT, "Bformat"},
+		 { INPUT_1OAACN, "1oaacn"},
+		 { INPUT_1OAFUMA, "1oafuma"},
+		 { INPUT_2OAACN, "2oaacn"},
+		 { INPUT_2OAFUMA, "2oafuma"},
+		 { INPUT_3OAACN, "3oaacn"},
+		 { INPUT_3OAFUMA, "3oafuma"},
+		 { INPUT_LCR, "Lcr"},
+		 { INPUT_FIVE_ZERO, "Zero"},
+		 { INPUT_FIVE_ONE_FILM, "OneFilm"},
+		 { INPUT_FIVE_ONE_DTS, "OneDTS"},
+		 { INPUT_FIVE_ONE_SMPTE, "OneSmpte"},
+	};
+
+	struct OutputModeName { OutputMode mode; std::string name; };
+	std::vector<OutputModeName> outputModeNames = {
+		 { OUTPUT_HORIZON_4CH, "Horizon4ch"},
+		 { OUTPUT_SPATIAL_8CH, "Spatial8ch"},
+		 { OUTPUT_SPATIALPLUS_12CH, "SpatialPlus12ch"},
+		 { OUTPUT_SPATIALPLUSPLUS_14CH, "SpatialPlusPlus14ch"},
+		 { OUTPUT_SPATIALEXT_16CH, "SpatialExt16ch"},
+		 { OUTPUT_SPATIALEXTPLUS_18CH, "SpatialExtPlus18ch"},
+	};
+
 	// arrays for CAPI
 	Mach1Point3DCore* arr_Points = nullptr;
 	float** arr_Gains = nullptr;

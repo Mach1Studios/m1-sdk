@@ -39,9 +39,9 @@ struct Mach1TranscodeCoeffs : public Mach1TranscodeChannelBase {
 };
 
 struct Mach1TranscodePanner : public Mach1TranscodeChannelBase {
-	float X;
-	float Y;
-	float Z;
+	float azimuth;
+	float elevation;
+	float diverge;
 };
 
 class Mach1TranscodeChannel {
@@ -53,12 +53,12 @@ public:
 		return obj;
 	}
 
-	static Mach1TranscodePanner* Panner(float X, float Y, float Z)
+	static Mach1TranscodePanner* Panner(float azimuthFromMinus180to180, float elevationFromMinus90to90, float divergeFromMinus1To1)
 	{
 		Mach1TranscodePanner* obj = new Mach1TranscodePanner();
-		obj->X = X;
-		obj->Y = Y;
-		obj->Z = Z;
+		obj->azimuth = azimuthFromMinus180to180;
+		obj->elevation = elevationFromMinus90to90;
+		obj->diverge = divergeFromMinus1To1;
 		return obj;
 	}
 };

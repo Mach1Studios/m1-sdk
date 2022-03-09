@@ -417,7 +417,13 @@ std::vector<std::vector<float>> Mach1TranscodeCore::getCoeffs(int idxMatrix)
 		}
 	}
 
-	return coeffs;
+	std::vector<std::vector<float>> coeffsFlipped(coeffs[0].size(), std::vector<float>(coeffs.size()));
+	for (size_t i = 0; i < coeffs.size(); i++) {
+		for (size_t j = 0; j < coeffs[0].size(); j++) {
+			coeffsFlipped[j][i] = coeffs[i][j];
+		}
+	}
+	return coeffsFlipped;
 }
 
 

@@ -403,16 +403,19 @@ std::vector<std::vector<float>> Mach1TranscodeCore::getCoeffs(int idxMatrix)
 				coeffs.push_back(c->data);
 			}
 			else if (Mach1TranscodePanner* p = dynamic_cast<Mach1TranscodePanner*>(channel)) {
-				/* panner logic */
-				/*
 				M1EncodeCore m1encode;
-				m1encode.setInputMode(M1EncodeCore::InputMode::INPUT_STEREO);
-				m1encode.setOutputMode(M1EncodeCore::OutputMode::OUTPUT_SPATIAL_8CH);
-				*/
-				coeffs.push_back({});
-			}
-			else {
-				coeffs.push_back({});
+
+				int inputMode = m1encode.getInputModeFromString(matrices[idxMatrix].formatFrom);
+				int outputMode = m1encode.getOutputModeFromString(matrices[idxMatrix].formatTo);
+
+				m1encode.setInputMode((M1EncodeCore::InputMode)inputMode);
+				m1encode.setOutputMode((M1EncodeCore::OutputMode)outputMode);
+				m1encode.setDiverge(p->diverge);
+				m1encode.setAzimuthDegrees(p->azimuth);
+				m1encode.setElevationDegrees(p->elevation);
+				m1encode.generatePointResults();
+				std::vector<std::vector<float>> gains = m1encode.resultingPoints.getGains();
+				coeffs.push_back(gains[i]);
 			}
 		}
 	}

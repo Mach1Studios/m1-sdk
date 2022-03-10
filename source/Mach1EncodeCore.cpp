@@ -222,6 +222,24 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 	result = getCoeffSetForStandardPointSet(x, y, z, pointsSet, outputMode == OUTPUT_HORIZON_4CH ? true : false);
 }
 
+int M1EncodeCore::getInputModeFromString(std::string name) {
+	for (int i = 0; i < inputModeNames.size(); i++) {
+		if (inputModeNames[i].name == name) {
+			return inputModeNames[i].mode;
+		}
+	}
+	return -1;
+}
+
+int M1EncodeCore::getOutputModeFromString(std::string name) {
+	for (int i = 0; i < outputModeNames.size(); i++) {
+		if (outputModeNames[i].name == name) {
+			return outputModeNames[i].mode;
+		}
+	}
+	return -1;
+}
+
 M1EncodeCore::M1EncodeCore() {
 	inputMode = InputMode::INPUT_MONO;
 	outputMode = OutputMode::OUTPUT_SPATIAL_8CH;

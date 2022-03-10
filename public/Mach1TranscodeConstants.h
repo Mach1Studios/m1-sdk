@@ -91,6 +91,8 @@ namespace Mach1TranscodeConstants {
 		{ "2.0_M", 2 },
 		{ "2.0_C", 2 },
 		{ "3.0_LCR", 3 },
+		{ "4.0_LCRS", 4 },
+		{ "4.0_AFormat", 4 },
 		{ "5.0_M", 5 },
 		{ "5.0_C", 5 },
 		{ "5.0_S", 5 },

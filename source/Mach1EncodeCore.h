@@ -107,23 +107,23 @@ public:
 
 	struct InputModeName { InputMode mode; std::string name; };
 	std::vector<InputModeName> inputModeNames = {
-		 { INPUT_MONO, ""},
-		 { INPUT_STEREO, ""},
-		 { INPUT_QUAD, ""},
-		 { INPUT_LCRS, ""},
-		 { INPUT_AFORMAT, ""},
-		 { INPUT_BFORMAT, ""},
-		 { INPUT_1OAACN, ""},
-		 { INPUT_1OAFUMA, ""},
-		 { INPUT_2OAACN, ""},
-		 { INPUT_2OAFUMA, "FuMaO2A"},
-		 { INPUT_3OAACN, ""},
-		 { INPUT_3OAFUMA, ""},
-		 { INPUT_LCR, ""},
+		 { INPUT_MONO, "1.0"},
+		 { INPUT_STEREO, "2.0_C"},
+		 { INPUT_LCR, "3.0_LCR"},
+		 { INPUT_QUAD, "M1Horizon"},
+		 { INPUT_LCRS, "4.0_LCRS"},
+		 { INPUT_AFORMAT, "4.0_AFormat"},
+		 { INPUT_BFORMAT, "ACNSN3D"},
 		 { INPUT_FIVE_ZERO, "5.0_C"},
 		 { INPUT_FIVE_ONE_FILM, "5.1_C"},
-		 { INPUT_FIVE_ONE_DTS, "5.1_M_Dts"},
-		 { INPUT_FIVE_ONE_SMPTE, "5.1_M_SMPTE"},
+		 { INPUT_FIVE_ONE_DTS, "5.1_C_Dts"},
+		 { INPUT_FIVE_ONE_SMPTE, "5.1_C_SMPTE"},
+		 { INPUT_1OAACN, "ACNSN3D"},
+		 { INPUT_1OAFUMA, "FuMa"},
+		 { INPUT_2OAACN, "ACNSN3DO2A"},
+		 { INPUT_2OAFUMA, "FuMaO2A"},
+		 { INPUT_3OAACN, "FuMaO3A"},
+		 { INPUT_3OAFUMA, "ACNSN3DO3A"},
 	};
 
 	struct OutputModeName { OutputMode mode; std::string name; };

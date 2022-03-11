@@ -3,9 +3,10 @@ echo "### REMINDER: Set alias for polly ###"
 ~/git/polly/bin/polly --clear --install --config Release --toolchain gcc
 
 echo "### RUN TESTS ###"
-_install/gcc/bin/Mach1EncodeTest
-_install/gcc/bin/Mach1DecodeTest
-_install/gcc/bin/Mach1DecodePositionalTest
+_install/gcc/bin/Mach1EncodeTests
+_install/gcc/bin/Mach1DecodeTests
+_install/gcc/bin/Mach1DecodePositionalTests
+_install/gcc/bin/Mach1TranscodeTests
 
 echo "### RUN LINKING TESTS ON CURRENT DEVICE ###"
 cd ../ && ~/git/polly/bin/polly --clear --install --config Release --toolchain gcc

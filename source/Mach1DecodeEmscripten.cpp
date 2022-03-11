@@ -1,7 +1,7 @@
 #include <emscripten/bind.h>
 
 #include "Mach1DecodeCAPI.h"
-#include "external/cpp/Mach1Decode.cpp"
+#include "include/cpp/Mach1Decode.cpp"
 
 using namespace emscripten;
 

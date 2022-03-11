@@ -4,6 +4,12 @@ set(CMAKE_CXX_STANDARD 11)
 
 set(MACH1SPATIAL_LIBS_PATH "../../../../mach1spatial-libs")
 
+if(APPLE)
+    set(MACH1SPATIAL_LIBS_UNIX_PATH ${MACH1SPATIAL_LIBS_PATH}/xcode)
+else()
+    set(MACH1SPATIAL_LIBS_UNIX_PATH ${MACH1SPATIAL_LIBS_PATH}/linux)
+endif()
+
 # Use pkg-config to get hints about paths
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
@@ -53,7 +59,7 @@ add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})
 # link libraries
 find_library(MACH1TRANSCODE_LIBRARY 
              NAMES Mach1TranscodeCAPI libMach1TranscodeCAPI libMach1TranscodeCAPI.a libMach1TranscodeCAPI.so Mach1TranscodeCAPI.lib
-             PATHS ${MACH1SPATIAL_LIBS_PATH}/xcode/lib ${MACH1SPATIAL_LIBS_PATH}/linux/lib ${MACH1SPATIAL_LIBS_PATH}/windows-x86 ${MACH1SPATIAL_LIBS_PATH}/windows-x86_64
+             PATHS ${MACH1SPATIAL_LIBS_UNIX_PATH}/lib ${MACH1SPATIAL_LIBS_PATH}/windows-x86 ${MACH1SPATIAL_LIBS_PATH}/windows-x86_64
 )
 
 # include headers

@@ -48,16 +48,16 @@ set(SOURCES
     ${MACH1SPATIAL_SOURCE_PATH}/Mach1Point3DCore.cpp
     ${MACH1SPATIAL_SOURCE_PATH}/Mach1GenerateCoeffs.cpp
     ${MACH1SPATIAL_SOURCE_PATH}/Mach1TranscodeCAPI.cpp
-    ${MACH1SPATIAL_SOURCE_PATH}/external/cpp/Mach1Transcode.cpp
-    ${MACH1SPATIAL_SOURCE_PATH}/include/M1DSP/M1DSPFilters.cpp
-    ${MACH1SPATIAL_SOURCE_PATH}/include/M1DSP/M1DSPUtilities.cpp
+    ${MACH1SPATIAL_SOURCE_PATH}/include/cpp/Mach1Transcode.cpp
+    ${MACH1SPATIAL_SOURCE_PATH}/deps/M1DSP/M1DSPFilters.cpp
+    ${MACH1SPATIAL_SOURCE_PATH}/deps/M1DSP/M1DSPUtilities.cpp
 	)
 
 # create the executable
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})
 
 # include headers
-set(MACH1SPATIAL_INCLUDES ${MACH1SPATIAL_SOURCE_PATH} ${MACH1SPATIAL_SOURCE_PATH}/external/cpp ${MACH1SPATIAL_SOURCE_PATH}/include ${MACH1SPATIAL_SOURCE_PATH}/../public)
+set(MACH1SPATIAL_INCLUDES ${MACH1SPATIAL_SOURCE_PATH} ${MACH1SPATIAL_SOURCE_PATH}/include/cpp ${MACH1SPATIAL_SOURCE_PATH}/deps ${MACH1SPATIAL_SOURCE_PATH}/../public)
 include_directories(${MACH1SPATIAL_INCLUDES})
 include_directories(${LIBSNDFILE_INCLUDE_DIRS})
 

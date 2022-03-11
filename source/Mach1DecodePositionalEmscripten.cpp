@@ -1,7 +1,7 @@
 #include <emscripten/bind.h>
 
 #include "Mach1DecodePositionalCAPI.h"
-#include "external/cpp/Mach1DecodePositional.cpp"
+#include "include/cpp/Mach1DecodePositional.cpp"
 
 using namespace emscripten;
 

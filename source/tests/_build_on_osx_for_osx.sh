@@ -2,9 +2,10 @@ echo "### BUILD macOS ###"
 polly --clear --install --config Release --toolchain xcode
 
 echo "### RUN TESTS ###"
-_install/xcode/bin/Mach1EncodeTest
-_install/xcode/bin/Mach1DecodeTest
-_install/xcode/bin/Mach1DecodePositionalTest
+_install/xcode/bin/Mach1EncodeTests
+_install/xcode/bin/Mach1DecodeTests
+_install/xcode/bin/Mach1DecodePositionalTests
+_install/xcode/bin/Mach1TranscodeTests
 
 echo "### RENDER CHECK ####"
 echo "### 5.1_C -> M1Spatial ###"

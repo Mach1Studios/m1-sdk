@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Switch to each submodule and prepare a tmp branch for pushing and merging safely
+cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI && git fetch && git checkout -b tmp
+cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI && git fetch && git checkout -b tmp
+cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI && git fetch && git checkout -b tmp
+cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI && git fetch && git checkout -b tmp
+# WEB submodules
+cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-web/m1-web-spatialaudioplayer && git fetch && git checkout -b tmp
+cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-nodejs/mach1spatial-decode && git fetch && git checkout -b tmp
+cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-nodejs/mach1spatial-encode && git fetch && git checkout -b tmp
+cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-nodejs/mach1spatial-transcode && git fetch && git checkout -b tmp
+# Setup tmp branch for root repo
+cd ${TRAVIS_BUILD_DIR} && git fetch && git checkout -b tmp

@@ -2,7 +2,7 @@
 
 #include "Mach1EncodeCAPI.h"
 #include "Mach1DecodeCAPI.h"
-#include "external/cpp/Mach1Encode.cpp"
+#include "include/cpp/Mach1Encode.cpp"
 
 using namespace emscripten;
 

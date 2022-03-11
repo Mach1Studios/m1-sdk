@@ -1,7 +1,7 @@
 #include <emscripten/bind.h>
 
 #include "Mach1TranscodeCAPI.h"
-#include "external/cpp/Mach1Transcode.cpp"
+#include "include/cpp/Mach1Transcode.cpp"
 
 using namespace emscripten;
 

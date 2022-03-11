@@ -17,6 +17,17 @@ These examples are for simple implementation and testing of returned results fro
  - spatial-transcode-audioplayer: commandline example of a stripped down audio [Mach1 Transcode tool](https://github.com/Mach1Studios/m1-sdk/tree/master/executables) that passes the audio to a Mach1Decode enabled spatial audio mixer via RtAudio for realtime playback
 
 ### Build Instructions
+
+#### Windows Dependency
+ - Install pthread win32 via vcpkg: `vcpkg install pthreadw32`
+ - Install pthread manually: https://sourceware.org/pthreads-win32/
+
+#### CMake Setup
+ - `mkdir build`
+ - `cd build`
+ - `cmake ../`
+ - `cmake --build .`
+
  - Open each xcode project file, run and input the appropriate key commands into the console
  - There is also a Makefile available for some of the [Coefficient Test Examples](Coefficient-Test-Examples) to easily test platform linking for the static libs supplied within this SDK
 

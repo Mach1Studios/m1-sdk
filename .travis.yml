@@ -1,62 +1,301 @@
-os:
-  - osx
-  - linux
-  - windows
-
 language: cpp
-
-compiler:
-  - gcc
+env:
+  global:
+    - secure: xq88wTHbDzhUaA8KEVVLtiETOccPOShPlWdcuJIvsGRKSSLI8hSDhGR0ZFWrvpx56t6lgrqVrEOUqIoLLDM06mltNBpe+218lKs3wKnNuxET8MrZ6m05oC6n0uavXIgnxbC8mChYqeZHd2mQ0riGfPsxue9GIKsiq27WZvuB+AdoYE4HvuOrRPYN63EeiAhx4BnY31GlEGbiEd0zFsDmTI8lL3boCZ/P4aK/SYdCV3BfJ0VkqT+UNo2HWnOBJAR1A63cu0gznmLNG2gv1Wd9gxntbPKXaa2Qc/HtIqOab4Jyl+TIzh5582s+oPgIgX8349/0n1o5dNmjWu64j02LwynV87+aflyK8P9kYCdnJosPjjktEM4L8kWOpVrH+0Go8VDdLf3Ar9C0f1urQ27g+fCIMRO7xPN7sceLP1c2L7LNUp2wx2ItTovJhcZa1cb6OmXbVURsjRCum8WYXpkJ08Tu34roPX45avLMh2JCf7dzJ3EoUhnd43/o+E+Eme4Nes0fYMAQEKK881C9uQljcuYmKuJ/uOTvStP68fOYvc1xnb3RT/OpHvaX6dX5QKrBZnk0fVWMcLtxfT3lvdtt5u73gWcdu+kzBXdEtwpGajeSXlPdhUOzDukccatQrQt97eybFdUC/9C04FLQ4OlBNpS+VFELaBkfJsNq0ThPQFo=
 
 branches:
   only: 
-    - develop
+    - feature/prep-ci
+    - release
+    - master
+
+git:
+  lfs_skip_smudge: true
+  depth: 5
 
 before_script:
   - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-  
-script:
-  - cd ${TRAVIS_BUILD_DIR}/lib
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make build-ci-linux; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then make build-ci-mac; fi
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then then make build-ci-win; fi 
-
-install:
-  # Info about OS
-  - uname -a
-  - export HOMEBREW_NO_AUTO_UPDATE=1
-  - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
-  - mkdir ${DEPS_DIR}
-
+  - eval "${MATRIX_EVAL}"
+  - cd ${TRAVIS_BUILD_DIR}/source && ./scripts/git-prepare-submodules.sh
+  - git config user.email "whatsup@mach1.tech"
+  - git config user.name "Mach1-Bot"
   # Install polly
-  - cd ${DEPS_DIR}
-  - git clone https://github.com/Mach1Studios/polly.git
-  - POLLY_SOURCE_DIR=${DEPS_DIR}/polly
-  - python3 "${POLLY_SOURCE_DIR}/bin/install-ci-dependencies.py"
-  - PATH=${DEPS_DIR}/polly/bin/polly:$PATH
-
-  # Install cmake on linux
-  - if [[ "`uname`" == "Linux" ]]; then cd ${DEPS_DIR}; fi
-  - if [[ "`uname`" == "Linux" ]]; then travis_retry wget --no-check-certificate https://github.com/Kitware/CMake/releases/download/v3.20.1/cmake-3.20.1-linux-x86_64.tar.gz; fi
-  # extract the binaries; the output here is quite lengthy,
-  # so we swallow it to not clutter up the travis console
-  - if [[ "`uname`" == "Linux" ]]; then tar -xvf cmake-3.20.1-linux-x86_64.tar.gz > /dev/null; fi
-  - if [[ "`uname`" == "Linux" ]]; thenmv cmake-3.20.1-linux-x86_64 cmake-install; fi
-  # add both the top-level directory and the bin directory from the archive
-  # to the system PATH. By adding it to the front of the path we hide the
-  # preinstalled CMake with our own.
-  - if [[ "`uname`" == "Linux" ]]; then PATH=${DEPS_DIR}/cmake-install:${DEPS_DIR}/cmake-install/bin:$PATH; fi
   - cd ${TRAVIS_BUILD_DIR}
+  - git clone https://github.com/Mach1Studios/polly.git
+  - POLLY_SOURCE_DIR=${TRAVIS_BUILD_DIR}/polly
+  - export POLLY_SOURCE_DIR=${TRAVIS_BUILD_DIR}/polly
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then python "${POLLY_SOURCE_DIR}/bin/install-ci-dependencies.py"; fi
+  - PATH=${TRAVIS_BUILD_DIR}/polly/bin/polly:$PATH
 
-  # Install Python 3 & cmake on macos
-  - if [[ "`uname`" == "Darwin" ]]; then travis_retry brew upgrade python || echo "Ignoring failure..."; fi
-  - if [[ "`uname`" == "Darwin" ]]; then travis_retry brew install python3; fi
-  - if [[ "`uname`" == "Darwin" ]]; then travis_retry brew install cmake; fi
+after_script:
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then cd ${TRAVIS_BUILD_DIR}/source && ./scripts/remove_signing_key.sh; fi
 
-  # Install Python package 'requests'
-  # 'easy_install3' is not installed by 'brew install python3' on OS X 10.9 Maverick
-  - if [[ "`uname`" == "Darwin" ]]; then pip3 install requests; fi
-  - if [[ "`uname`" == "Linux" ]]; then travis_retry pip3 install --user requests; fi
-  # fix broken clang link on Travis-CI
-  - if [[ "`uname`" == "Linux" ]]; then  mkdir clang-bin; ln -s /usr/local/clang-5.0.0/bin/clang++ clang-bin/clang++-5.0; fi
-  - if [[ "`uname`" == "Darwin" ]]; then mkdir clang-bin; ln -s /usr/bin/clang++ clang-bin/clang++-5.0; fi
+stages:
+  - name: libs
+  - name: deploy
+    if: branch = master
+  - name: exec
+    if: branch = master
+
+jobs:
+  include:
+    - stage: libs
+      name: Linux x86_64
+      os: linux
+      sudo: required
+      dist: bionic
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - build-essential
+            - g++-7
+            - libsndfile-dev
+            - librtaudio-dev
+            - libpthread-stubs0-dev
+            - rsync
+      env:
+        - MATRIX_EVAL="CC=gcc-7 CXX=g++-7"
+      before_install: 
+        - git lfs pull --include "m1-debug-shortpt-fiveone.wav"
+      install:
+        - cd ${TRAVIS_BUILD_DIR}
+        # Install cmake on linux
+        - wget --quiet --no-check-certificate https://github.com/Kitware/CMake/releases/download/v3.20.1/cmake-3.20.1-linux-x86_64.tar.gz
+        - tar -xf cmake-3.20.1-linux-x86_64.tar.gz > /dev/null
+        - mv cmake-3.20.1-linux-x86_64 cmake-install
+        - export PATH=${TRAVIS_BUILD_DIR}/cmake-install:${TRAVIS_BUILD_DIR}/cmake-install/bin:$PATH
+      script:
+        - cd ${TRAVIS_BUILD_DIR}/source
+        - ./scripts/linux_test.sh
+        - ./scripts/linux_build.sh
+      after_success:
+        - ./scripts/examples_linking_test.sh
+        - ./scripts/copy_includes_dev.sh
+        - ./scripts/git-unity-module.sh
+
+    - stage: libs
+      name: Linux ARM64
+      os: linux
+      sudo: required
+      arch: arm64
+      dist: bionic
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - build-essential
+            - libsndfile-dev
+            - librtaudio-dev
+            - libpthread-stubs0-dev
+            - rsync
+            - gcc-arm-linux-gnueabi
+            - gcc-arm-linux-gnueabihf
+            - lib32z1
+            - lib32ncurses5
+            - binutils
+            - binutils-source
+            - patch
+            - libssl-dev
+            - bc
+            - flex
+            - bison
+            - gawk
+            - libncurses5-dev
+            - gettext
+            - autoconf
+            - texinfo
+          update: true
+      env:
+        - CROSS_COMPILE=arm-none-eabi-
+        - CC=$(CROSS_COMPILE)gcc 
+        - CXX=$(CROSS_COMPILE)g++
+      before_install:
+        - git lfs pull --include "m1-debug-shortpt-fiveone.wav"
+      install:
+        - cd ${TRAVIS_BUILD_DIR}
+        # Install cmake on linux
+        - wget --quiet --no-check-certificate https://github.com/Kitware/CMake/releases/download/v3.20.1/cmake-3.20.1.tar.gz
+        - tar -xf cmake-3.20.1.tar.gz > /dev/null
+        - cd cmake-3.20.1
+        - ./bootstrap && make -s && sudo make -s install
+        - export PATH=/usr/local/bin:$PATH
+        - sudo apt remove binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi
+        - cd ${TRAVIS_BUILD_DIR}
+        - wget --quiet https://developer.arm.com/-/media/Files/downloads/gnu-rm/7-2018q2/gcc-arm-none-eabi-7-2018-q2-update-linux.tar.bz2
+        - tar -xf gcc-arm-none-eabi-7-2018-q2-update-linux.tar.bz2
+        - cd gcc-arm-none-eabi-7-2018-q2-update
+        - export PATH=${TRAVIS_BUILD_DIR}/gcc-arm-none-eabi-7-2018-q2-update/bin/:$PATH
+      script:
+        - cd ${TRAVIS_BUILD_DIR}/source
+        - ./scripts/linux_test.sh
+        - ./scripts/linux-arm_build.sh
+        - ./scripts/arm-cortexm0_build.sh
+        # - export CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
+        # - ./scripts/arm-hf_build.sh
+        # - ./scripts/arm-hf-neon-vfpv4_build.sh
+
+    - stage: libs
+      name: macOS 9.3 (iOS)
+      os: osx
+      sudo: required
+      osx_image: xcode9.3
+      env:
+        - HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+        - MACOSX_DEPLOYMENT_TARGET=10.9
+        - POLLY_IOS_DEVELOPMENT_TEAM="6ZETDT84RB"
+        - POLLY_IOS_BUNDLE_IDENTIFIER="com.mach1.lib"
+      before_install:
+          - if [ "$TRAVIS_OS_NAME" == "osx" ]; then cd ${TRAVIS_BUILD_DIR}/source/scripts && openssl aes-256-cbc -K $encrypted_b7b9d4064d90_key -iv $encrypted_b7b9d4064d90_iv -in certs/secrets.tar.enc -out certs/secrets.tar -d; fi
+          - if [ "$TRAVIS_OS_NAME" == "osx" ]; then cd ${TRAVIS_BUILD_DIR}/source && ./scripts/add_signing_key.sh; fi
+      script:
+        - cd ${TRAVIS_BUILD_DIR}/source
+        - ./scripts/macos_setup.sh
+        - ./scripts/macos-10-13_test.sh
+        - ./scripts/macos-10-13_build.sh
+        - ./scripts/ios_build.sh
+      after_success:
+        - cd ${TRAVIS_BUILD_DIR}/source
+        - ./scripts/examples_linking_test.sh
+        - ./scripts/git-pod-module.sh
+        - ./scripts/git-unity-module.sh
+        - ./scripts/git-ue-module.sh
+
+    - stage: libs
+      name: macOS 13.2
+      os: osx
+      addons:
+        homebrew:
+          packages:
+            - libsndfile
+            - rtaudio
+            - cmake
+            - gcc
+            - libpthread-stubs
+            - git-lfs
+            - rsync
+      env:
+        - MATRIX_EVAL="CC=gcc CXX=g++"
+      osx_image: xcode13.2
+      before_install:
+        - git lfs pull --include "m1-debug-shortpt-fiveone.wav"
+      install:
+        - cd ${TRAVIS_BUILD_DIR}
+        - git clone https://github.com/pretyman/raspberrypi2-mac-crosscompiler raspberrypi-tools
+        - export RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PATH=${TRAVIS_BUILD_DIR}/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/
+        - export RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PREFIX=arm-unknown-linux-gnueabihf
+        - export RASPBERRYPI_CROSS_COMPILE_SYSROOT=${TRAVIS_BUILD_DIR}/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot
+        - git clone https://github.com/emscripten-core/emsdk.git
+        - cd emsdk && git pull
+        - ./emsdk install latest
+        - ./emsdk activate latest
+        - source ./emsdk_env.sh
+        - git lfs install && git lfs pull
+      script:
+        - cd ${TRAVIS_BUILD_DIR}/source
+        - ./scripts/macos_test.sh
+        - ./scripts/macos_build.sh
+        - ./scripts/web_build.sh
+        - export CMAKE_C_COMPILER=$RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PATH/arm-unknown-linux-gnueabihf-gcc
+        - export CMAKE_CXX_COMPILER=$RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PATH/arm-unknown-linux-gnueabihf-g++
+        - ./scripts/rpi_build.sh
+      after_success:
+        - ./scripts/examples_linking_test.sh
+        - ./scripts/git-unity-module.sh
+        - ./scripts/git-ue-module.sh
+        - ./scripts/git-webplayer-module.sh
+        - ./scripts/git-node-decode-module.sh
+        # - ./scripts/git-node-encode-module.sh
+        - ./scripts/git-node-transcode-module.sh
+
+    - stage: libs
+      name: Android
+      os: linux
+      language: android
+      dist: trusty
+      sudo: true
+      android:
+        components:
+          - tools
+          - platform-tools
+          - build-tools-21.1.2
+          - android-21
+          - add-on
+          - extra
+      licenses:
+        - 'android-sdk-preview-license-.+'
+        - 'android-sdk-license-.+'
+      addons:
+        apt:
+          - build-essential
+          - libsndfile-dev
+          - librtaudio-dev
+          - rsync
+      env: 
+        - MATRIX_EVAL="CC=gcc-7 CXX=g++-7 ANDROID_NDK_r16b=${TRAVIS_BUILD_DIR}/android-ndk-r16b"
+      before_install:
+        - git lfs pull --include "m1-debug-shortpt-fiveone.wav"
+      install: 
+        - cd ${TRAVIS_BUILD_DIR}
+        # Install cmake on linux
+        - wget --quiet --no-check-certificate https://github.com/Kitware/CMake/releases/download/v3.20.1/cmake-3.20.1-linux-x86_64.tar.gz
+        - tar -xf cmake-3.20.1-linux-x86_64.tar.gz > /dev/null
+        - mv cmake-3.20.1-linux-x86_64 cmake-install
+        - export PATH=${TRAVIS_BUILD_DIR}/cmake-install:${TRAVIS_BUILD_DIR}/cmake-install/bin:$PATH
+        - echo y | sdkmanager 'ndk;21.1.6352462'
+        - echo y | sdkmanager "cmake;3.10.2.4988404"
+        - wget --quiet https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip
+        - unzip -qq android-ndk-r16b-linux-x86_64.zip
+        - export ANDROID_NDK_HOME=`pwd`/android-ndk-r16b
+        - export ANDROID_NDK_r16b=`pwd`/android-ndk-r16b
+        - export LOCAL_ANDROID_NDK_HOME="$ANDROID_NDK_HOME"
+        - export LOCAL_ANDROID_NDK_HOST_PLATFORM="linux-x86_64"
+        - export PATH=$PATH:${ANDROID_NDK_HOME}
+      script:
+        # Android Build on linux
+        - cd ${TRAVIS_BUILD_DIR}/source
+        - ./scripts/linux_test.sh
+        - ./scripts/android_build.sh
+      after_success:
+        - ./scripts/git-jitpack-module.sh
+        - ./scripts/git-unity-module.sh
+        - ./scripts/git-ue-module.sh
+
+    - stage: libs
+      name: Windows
+      os: windows
+      language: sh
+      env:
+        - VS15=true
+      before_install:
+        - git clone https://github.com/pyenv-win/pyenv-win.git $HOME/.pyenv
+        - export PATH="$HOME/.pyenv/pyenv-win/bin:$HOME/.pyenv/pyenv-win/shims:$PATH"
+        - pyenv install -q 3.7.1
+        - pyenv rehash
+        - pyenv local 3.7.1
+        - python --version
+        - pip install requests
+        - git lfs pull --include "m1-debug-shortpt-fiveone.wav"
+      install:
+        - cd ${TRAVIS_BUILD_DIR}/source
+        - choco install -y cmake
+        - choco install -y make
+        - choco install -y libsndfile
+        - choco install -y rsync
+        - export PATH="$(powershell -Command '("Process", "Machine" | % {[Environment]::GetEnvironmentVariable("PATH", $_) -Split ";" -Replace "\\$", ""} | Select -Unique | % { cygpath $_ }) -Join ":"')"
+      script:
+        # WINDOWS BUILDS
+        - cd ${TRAVIS_BUILD_DIR}/source
+        - ./scripts/winx86_test.sh
+        - ./scripts/winx86_build.sh
+      after_success:
+        - ./scripts/git-unity-module.sh
+        - ./scripts/git-ue-module.sh
+
+deploy:
+  provider: script
+  script: ./scripts/deploy.sh
+  on: 
+    branch: master

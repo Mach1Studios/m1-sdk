@@ -29,22 +29,19 @@ set(DECODE_VERSION "2.0.0.0")
 set(DECODEPOSITIONAL_VERSION "2.0.0.0")
 set(TRANSCODE_VERSION "2.0.0.2")
 
-set(Mach1AdditionalInclude "./include")
-set(Mach1TranscodeAdditionalInclude "../public")
+set(Mach1AdditionalIncludes "./deps")
+set(Mach1TranscodeAdditionalIncludes "../public")
 
 set(Mach1EncodeCAPIsrc "./Mach1EncodeCAPI.cpp" "./Mach1EncodeCore.cpp" "./Mach1Point3DCore.cpp")
 set(Mach1DecodeCAPIsrc "./Mach1DecodeCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")
 set(Mach1DecodePositionalCAPIsrc "./Mach1DecodePositionalCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1DecodePositionalCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")
-set(Mach1TranscodeCAPIsrc "./Mach1TranscodeCore.cpp" "./Mach1TranscodeCAPI.cpp" "./Mach1EncodeCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1GenerateCoeffs.cpp" "${Mach1AdditionalInclude}/M1DSP/M1DSPFilters.cpp" "${Mach1AdditionalInclude}/M1DSP/M1DSPDynamics.cpp" "${Mach1AdditionalInclude}/M1DSP/M1DSPUtilities.cpp" "${Mach1AdditionalInclude}/xml/pugixml.cpp" "${Mach1AdditionalInclude}/yaml/Yaml.cpp" "./Mach1AudioTimelineCore.cpp" "./Mach1AudioTimelineCAPI.cpp")
-
-set(Mach1DecodeMINCAPIsrc "./Mach1DecodeMINCAPI.cpp" "./Mach1DecodeMINCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")
+set(Mach1TranscodeCAPIsrc "./Mach1TranscodeCore.cpp" "./Mach1TranscodeCAPI.cpp" "./Mach1Point3DCore.cpp" "./Mach1GenerateCoeffs.cpp" "${Mach1AdditionalIncludes}/M1DSP/M1DSPFilters.cpp" "${Mach1AdditionalIncludes}/M1DSP/M1DSPDynamics.cpp" "${Mach1AdditionalIncludes}/M1DSP/M1DSPUtilities.cpp" "${Mach1AdditionalIncludes}/xml/pugixml.cpp" "${Mach1AdditionalIncludes}/yaml/Yaml.cpp" "./Mach1AudioTimelineCore.cpp" "./Mach1AudioTimelineCAPI.cpp")
 
 # STATIC
 add_library(Mach1DecodeCAPIstatic STATIC ${Mach1DecodeCAPIsrc})
 add_library(Mach1DecodePositionalCAPIstatic STATIC ${Mach1DecodePositionalCAPIsrc})
 add_library(Mach1EncodeCAPIstatic STATIC ${Mach1EncodeCAPIsrc})
 add_library(Mach1TranscodeCAPIstatic STATIC ${Mach1TranscodeCAPIsrc})
-add_library(Mach1DecodeMINCAPIstatic STATIC ${Mach1DecodeMINCAPIsrc})
 
 if(IOS)
 	set_target_properties(Mach1DecodeCAPIstatic PROPERTIES CMAKE_XCODE_ATTRIBUTE_BITCODE_GENERATION_MODE "bitcode")
@@ -62,22 +59,19 @@ set_target_properties(Mach1DecodeCAPIstatic PROPERTIES OUTPUT_NAME "Mach1DecodeC
 set_target_properties(Mach1DecodePositionalCAPIstatic PROPERTIES OUTPUT_NAME "Mach1DecodePositionalCAPI")
 set_target_properties(Mach1EncodeCAPIstatic PROPERTIES OUTPUT_NAME "Mach1EncodeCAPI")
 set_target_properties(Mach1TranscodeCAPIstatic PROPERTIES OUTPUT_NAME "Mach1TranscodeCAPI")
-set_target_properties(Mach1DecodeMINCAPIstatic PROPERTIES OUTPUT_NAME "Mach1Decode-minifiedCAPI")
 
-target_include_directories(Mach1DecodePositionalCAPIstatic PRIVATE ${Mach1AdditionalInclude})
-target_include_directories(Mach1TranscodeCAPIstatic PRIVATE ${Mach1AdditionalInclude} ${Mach1TranscodeAdditionalInclude})
+target_include_directories(Mach1DecodePositionalCAPIstatic PRIVATE ${Mach1AdditionalIncludes})
+target_include_directories(Mach1TranscodeCAPIstatic PRIVATE ${Mach1AdditionalIncludes} ${Mach1TranscodeAdditionalIncludes})
 
 set_target_properties(Mach1EncodeCAPIstatic PROPERTIES VERSION ${ENCODE_VERSION})
 set_target_properties(Mach1DecodeCAPIstatic PROPERTIES VERSION ${DECODE_VERSION})
 set_target_properties(Mach1DecodePositionalCAPIstatic PROPERTIES VERSION ${DECODEPOSITIONAL_VERSION})
 set_target_properties(Mach1TranscodeCAPIstatic PROPERTIES VERSION ${TRANSCODE_VERSION})
-set_target_properties(Mach1DecodeMINCAPIstatic PROPERTIES VERSION ${DECODE_VERSION})
 
 set_target_properties(Mach1EncodeCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static)
 set_target_properties(Mach1DecodeCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static)
 set_target_properties(Mach1DecodePositionalCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static)
 set_target_properties(Mach1TranscodeCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static)
-set_target_properties(Mach1DecodeMINCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static)
 
 if(MSVC OR WIN32)
 	if(COMPILE_MT)
@@ -90,18 +84,27 @@ if(MSVC OR WIN32)
     	set_property(TARGET Mach1DecodePositionalCAPIstatic PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
     	set_property(TARGET Mach1EncodeCAPIstatic PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
     	set_property(TARGET Mach1TranscodeCAPIstatic PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
-    	set_property(TARGET Mach1DecodeMINCAPIstatic PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
+    	#set_property(TARGET Mach1DecodeMINCAPIstatic PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
 	endif()
+endif()
+
+# MINIFIED MACH1DECODE for ARM/LINUX
+if(NOT APPLE OR NOT WIN32 OR NOT MSVC OR NOT ANDROID)
+	set(Mach1DecodeMINCAPIsrc "./Mach1DecodeMINCAPI.cpp" "./Mach1DecodeMINCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")
+	add_library(Mach1DecodeMINCAPIstatic STATIC ${Mach1DecodeMINCAPIsrc})
+	set_target_properties(Mach1DecodeMINCAPIstatic PROPERTIES OUTPUT_NAME "Mach1Decode-minifiedCAPI")
+	set_target_properties(Mach1DecodeMINCAPIstatic PROPERTIES VERSION ${DECODE_VERSION})
+	set_target_properties(Mach1DecodeMINCAPIstatic PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static)
+	install(TARGETS Mach1DecodeMINCAPIstatic DESTINATION lib)
 endif()
 
 install(TARGETS Mach1DecodeCAPIstatic DESTINATION lib)
 install(TARGETS Mach1DecodePositionalCAPIstatic DESTINATION lib)
 install(TARGETS Mach1EncodeCAPIstatic DESTINATION lib)
 install(TARGETS Mach1TranscodeCAPIstatic DESTINATION lib)
-install(TARGETS Mach1DecodeMINCAPIstatic DESTINATION lib)
 
-# UNITY
-if (APPLE OR WIN32 OR ANDROID)
+# UNITY / SHARED libs
+if (UNIX OR WIN32 OR ANDROID)
 	if(NOT IOS OR NOT TVOS OR NOT WATCHOS)
 		add_library(Mach1DecodeCAPIshared SHARED ${Mach1DecodeCAPIsrc})
 		add_library(Mach1DecodePositionalCAPIshared SHARED ${Mach1DecodePositionalCAPIsrc})
@@ -113,8 +116,8 @@ if (APPLE OR WIN32 OR ANDROID)
 		set_target_properties(Mach1EncodeCAPIshared PROPERTIES OUTPUT_NAME "Mach1EncodeCAPI")
 		set_target_properties(Mach1TranscodeCAPIshared PROPERTIES OUTPUT_NAME "Mach1TranscodeCAPI")
 
-		target_include_directories(Mach1DecodePositionalCAPIshared PRIVATE ${Mach1AdditionalInclude})
-		target_include_directories(Mach1TranscodeCAPIshared PRIVATE ${Mach1AdditionalInclude} ${Mach1TranscodeAdditionalInclude})
+		target_include_directories(Mach1DecodePositionalCAPIshared PRIVATE ${Mach1AdditionalIncludes})
+		target_include_directories(Mach1TranscodeCAPIshared PRIVATE ${Mach1AdditionalIncludes} ${Mach1TranscodeAdditionalIncludes})
 
 		set_target_properties(Mach1EncodeCAPIshared PROPERTIES VERSION ${ENCODE_VERSION})
 		set_target_properties(Mach1DecodeCAPIshared PROPERTIES VERSION ${DECODE_VERSION})
@@ -151,8 +154,8 @@ if(APPLE)
 		set_target_properties(Mach1EncodeCAPIbundle PROPERTIES SUFFIX ".bundle")
 		set_target_properties(Mach1TranscodeCAPIbundle PROPERTIES SUFFIX ".bundle")
 
-		target_include_directories(Mach1DecodePositionalCAPIbundle PRIVATE ${Mach1AdditionalInclude})
-		target_include_directories(Mach1TranscodeCAPIbundle PRIVATE ${Mach1AdditionalInclude} ${Mach1TranscodeAdditionalInclude})
+		target_include_directories(Mach1DecodePositionalCAPIbundle PRIVATE ${Mach1AdditionalIncludes})
+		target_include_directories(Mach1TranscodeCAPIbundle PRIVATE ${Mach1AdditionalIncludes} ${Mach1TranscodeAdditionalIncludes})
 
 		set_target_properties(Mach1EncodeCAPIbundle PROPERTIES VERSION ${ENCODE_VERSION})
 		set_target_properties(Mach1DecodeCAPIbundle PROPERTIES VERSION ${DECODE_VERSION})
@@ -193,8 +196,8 @@ if(IOS)
 	set_target_properties(Mach1EncodeCAPIframework PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static/)
 	set_target_properties(Mach1TranscodeCAPIframework PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static/)
 
-	target_include_directories(Mach1DecodePositionalCAPIframework PRIVATE ${Mach1AdditionalInclude})
-	target_include_directories(Mach1TranscodeCAPIframework PRIVATE ${Mach1AdditionalInclude} ${Mach1TranscodeAdditionalInclude})
+	target_include_directories(Mach1DecodePositionalCAPIframework PRIVATE ${Mach1AdditionalIncludes})
+	target_include_directories(Mach1TranscodeCAPIframework PRIVATE ${Mach1AdditionalIncludes} ${Mach1TranscodeAdditionalIncludes})
 
 	set_target_properties(Mach1EncodeCAPIframework PROPERTIES VERSION ${ENCODE_VERSION})
 	set_target_properties(Mach1DecodeCAPIframework PROPERTIES VERSION ${DECODE_VERSION})

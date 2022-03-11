@@ -297,4 +297,4 @@ deploy:
   provider: script
   script: ./scripts/deploy.sh
   on: 
-    branch: master
+    branch: release

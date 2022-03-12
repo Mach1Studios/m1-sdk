@@ -6,7 +6,6 @@ env:
 branches:
   only: 
     - release
-    - master
 
 git:
   lfs_skip_smudge: true

@@ -246,6 +246,15 @@ static void* decode(void* v)
         printf("Headlock Stereo Coeffs:\n");
         printf("%f %f\n", m1Coeffs[m1Decode.getFormatChannelCount()-2], m1Coeffs[m1Decode.getFormatChannelCount()-1]);
         printf("\n");
+        printf("Number of Active Coeffs:\n");
+        int activeCount = 0;
+        for (int i = 0; i < (m1Coeffs.size())-2; i++){
+            if (m1Coeffs[i] > 0.0) {
+                activeCount++;
+            }
+        }
+        printf("%i\n", activeCount);
+        printf("\n");
         printf("Elapsed time: %f Seconds\n", timeReturned);
         printf("\n");
         printf("SUM CHECK L: %f    L REM: %f\n", checkSumL, abs(checkSumL-1.0f));

@@ -6,14 +6,19 @@ rsync -c "_install/gcc/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/linux/lib
 rsync -c "_install/gcc/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/linux/lib/libMach1EncodeCAPI.a"
 rsync -c "_install/gcc/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/linux/lib/libMach1TranscodeCAPI.a"
 rsync -c "_install/gcc/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/linux/lib/libMach1DecodePositionalCAPI.a"
-# COPYING FOR OFXMACH1
-mkdir -p ../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/linux
-rsync -c "../mach1spatial-libs/linux/lib/libMach1DecodeCAPI.a" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/linux/libMach1DecodeCAPI.a"
-rsync -c "../mach1spatial-libs/linux/lib/libMach1EncodeCAPI.a" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/linux/libMach1EncodeCAPI.a"
-rsync -c "../mach1spatial-libs/linux/lib/libMach1TranscodeCAPI.a" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/linux/libMach1TranscodeCAPI.a"
-rsync -c "../mach1spatial-libs/linux/lib/libMach1DecodePositionalCAPI.a" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/linux/libMach1DecodePositionalCAPI.a"
-# COPYING FOR UNITY
-mkdir -p ../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Linux
-mkdir -p ../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Linux
-rsync -c "_install/gcc/lib-shared" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Linux/"
-rsync -c "_install/gcc/lib-shared" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Linux/"
+# Upload built libs
+aws s3 sync "_install/gcc/lib/libMach1DecodeCAPI.a" s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs/linux/lib/libMach1DecodeCAPI.a --cache-control no-cache --metadata-directive REPLACE --profile mach1
+aws s3 sync "_install/gcc/lib/libMach1EncodeCAPI.a" s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs/linux/lib/libMach1EncodeCAPI.a --cache-control no-cache --metadata-directive REPLACE --profile mach1
+aws s3 sync "_install/gcc/lib/libMach1TranscodeCAPI.a" s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs/linux/lib/libMach1TranscodeCAPI.a --cache-control no-cache --metadata-directive REPLACE --profile mach1
+aws s3 sync "_install/gcc/lib/libMach1DecodePositionalCAPI.a" s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs/linux/lib/libMach1DecodePositionalCAPI.a --cache-control no-cache --metadata-directive REPLACE --profile mach1
+# # COPYING FOR OFXMACH1
+# mkdir -p ../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/linux
+# rsync -c "../mach1spatial-libs/linux/lib/libMach1DecodeCAPI.a" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/linux/libMach1DecodeCAPI.a"
+# rsync -c "../mach1spatial-libs/linux/lib/libMach1EncodeCAPI.a" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/linux/libMach1EncodeCAPI.a"
+# rsync -c "../mach1spatial-libs/linux/lib/libMach1TranscodeCAPI.a" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/linux/libMach1TranscodeCAPI.a"
+# rsync -c "../mach1spatial-libs/linux/lib/libMach1DecodePositionalCAPI.a" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/linux/libMach1DecodePositionalCAPI.a"
+# # COPYING FOR UNITY
+# mkdir -p ../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Linux
+# mkdir -p ../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Linux
+# rsync -c "_install/gcc/lib-shared" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Linux/"
+# rsync -c "_install/gcc/lib-shared" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Linux/"

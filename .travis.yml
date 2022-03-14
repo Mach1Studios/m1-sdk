@@ -53,6 +53,7 @@ jobs:
             - librtaudio-dev
             - libpthread-stubs0-dev
             - rsync
+            - awscli
       env:
         - MATRIX_EVAL="CC=gcc-7 CXX=g++-7"
       before_install: 
@@ -70,8 +71,7 @@ jobs:
         - ./scripts/linux_build.sh
       after_success:
         - ./scripts/examples_linking_test.sh
-        - ./scripts/copy_includes_dev.sh
-        - ./scripts/git-unity-module.sh
+        # - ./scripts/git-unity-module.sh
 
     - stage: libs
       name: Linux ARM64
@@ -89,6 +89,7 @@ jobs:
             - librtaudio-dev
             - libpthread-stubs0-dev
             - rsync
+            - awscli
             - gcc-arm-linux-gnueabi
             - gcc-arm-linux-gnueabihf
             - lib32z1
@@ -148,18 +149,21 @@ jobs:
       before_install:
           - if [ "$TRAVIS_OS_NAME" == "osx" ]; then cd ${TRAVIS_BUILD_DIR}/source/scripts && openssl aes-256-cbc -K $encrypted_b7b9d4064d90_key -iv $encrypted_b7b9d4064d90_iv -in certs/secrets.tar.enc -out certs/secrets.tar -d; fi
           - if [ "$TRAVIS_OS_NAME" == "osx" ]; then cd ${TRAVIS_BUILD_DIR}/source && ./scripts/add_signing_key.sh; fi
-      script:
+      install: 
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/macos_setup.sh
+        - sudo python -m pip install awscli
+      script:
+        - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/macos-10-13_test.sh
         - ./scripts/macos-10-13_build.sh
         - ./scripts/ios_build.sh
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/examples_linking_test.sh
-        - ./scripts/git-pod-module.sh
-        - ./scripts/git-unity-module.sh
-        - ./scripts/git-ue-module.sh
+        # - ./scripts/git-pod-module.sh
+        # - ./scripts/git-unity-module.sh
+        # - ./scripts/git-ue-module.sh
 
     - stage: libs
       name: macOS 13.2
@@ -174,6 +178,7 @@ jobs:
             - libpthread-stubs
             - git-lfs
             - rsync
+            - awscli
       env:
         - MATRIX_EVAL="CC=gcc CXX=g++"
       osx_image: xcode13.2
@@ -201,12 +206,12 @@ jobs:
         - ./scripts/rpi_build.sh
       after_success:
         - ./scripts/examples_linking_test.sh
-        - ./scripts/git-unity-module.sh
-        - ./scripts/git-ue-module.sh
-        - ./scripts/git-webplayer-module.sh
-        - ./scripts/git-node-decode-module.sh
-        # - ./scripts/git-node-encode-module.sh
-        - ./scripts/git-node-transcode-module.sh
+        # - ./scripts/git-unity-module.sh
+        # - ./scripts/git-ue-module.sh
+        # - ./scripts/git-webplayer-module.sh
+        # - ./scripts/git-node-decode-module.sh
+        # # - ./scripts/git-node-encode-module.sh
+        # - ./scripts/git-node-transcode-module.sh
 
     - stage: libs
       name: Android
@@ -231,6 +236,7 @@ jobs:
           - libsndfile-dev
           - librtaudio-dev
           - rsync
+          - awscli
       env: 
         - MATRIX_EVAL="CC=gcc-7 CXX=g++-7 ANDROID_NDK_r16b=${TRAVIS_BUILD_DIR}/android-ndk-r16b"
       before_install:
@@ -257,9 +263,9 @@ jobs:
         - ./scripts/linux_test.sh
         - ./scripts/android_build.sh
       after_success:
-        - ./scripts/git-jitpack-module.sh
-        - ./scripts/git-unity-module.sh
-        - ./scripts/git-ue-module.sh
+        # - ./scripts/git-jitpack-module.sh
+        # - ./scripts/git-unity-module.sh
+        # - ./scripts/git-ue-module.sh
 
     - stage: libs
       name: Windows
@@ -282,6 +288,7 @@ jobs:
         - choco install -y make
         - choco install -y libsndfile
         - choco install -y rsync
+        - choco install -y awscli
         - export PATH="$(powershell -Command '("Process", "Machine" | % {[Environment]::GetEnvironmentVariable("PATH", $_) -Split ";" -Replace "\\$", ""} | Select -Unique | % { cygpath $_ }) -Join ":"')"
       script:
         # WINDOWS BUILDS
@@ -289,11 +296,173 @@ jobs:
         - ./scripts/winx86_test.sh
         - ./scripts/winx86_build.sh
       after_success:
-        - ./scripts/git-unity-module.sh
-        - ./scripts/git-ue-module.sh
+        # - ./scripts/git-unity-module.sh
+        # - ./scripts/git-ue-module.sh
 
-deploy:
-  provider: script
-  script: ./scripts/deploy.sh
-  on: 
-    branch: release
+    - stage: deploy
+      name: Aggregate & Deploy Libs
+      os: linux
+      sudo: required
+      dist: bionic
+      addons:
+        apt:
+          packages:
+            - rsync
+            - awscli
+          update: true
+      script:
+        - cd ${TRAVIS_BUILD_DIR}
+        - aws s3 cp s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs mach1spatial-libs_pulldown --recursive
+        - rsync -arv mach1spatial-libs_pulldown/ mach1spatial-libs
+      after_success:
+        - ./scripts/copy_includes_dev.sh
+
+    - stage: exec
+      name: m1-transcode Linux-x86_64
+      os: linux
+      sudo: required
+      dist: bionic
+      addons:
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - build-essential
+            - g++-7
+            - libsndfile-dev
+            - librtaudio-dev
+            - libpthread-stubs0-dev
+            - rsync
+            - awscli
+          update: true
+      script:
+        - cd ${TRAVIS_BUILD_DIR}
+        - git clone https://github.com/Mach1Studios/m1-transcodertools
+        - cd ${TRAVIS_BUILD_DIR}/m1-transcodertools
+        - mkdir bin && cd bin
+        - cmake ../
+        - cmake --build .
+
+    - stage: exec
+      name: m1-transcode Linux-ARM64
+      os: linux
+      sudo: required
+      arch: arm64
+      dist: bionic
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - build-essential
+            - libsndfile-dev
+            - librtaudio-dev
+            - libpthread-stubs0-dev
+            - rsync
+            - awscli
+            - gcc-arm-linux-gnueabi
+            - gcc-arm-linux-gnueabihf
+            - lib32z1
+            - lib32ncurses5
+            - binutils
+            - binutils-source
+            - patch
+            - libssl-dev
+            - bc
+            - flex
+            - bison
+            - gawk
+            - libncurses5-dev
+            - gettext
+            - autoconf
+            - texinfo
+          update: true
+      env:
+        - CROSS_COMPILE=arm-none-eabi-
+        - CC=$(CROSS_COMPILE)gcc 
+        - CXX=$(CROSS_COMPILE)g++
+      install:
+        - cd ${TRAVIS_BUILD_DIR}
+        # Install cmake on linux
+        - wget --quiet --no-check-certificate https://github.com/Kitware/CMake/releases/download/v3.20.1/cmake-3.20.1-linux-x86_64.tar.gz
+        - tar -xf cmake-3.20.1-linux-x86_64.tar.gz > /dev/null
+        - mv cmake-3.20.1-linux-x86_64 cmake-install
+        - export PATH=${TRAVIS_BUILD_DIR}/cmake-install:${TRAVIS_BUILD_DIR}/cmake-install/bin:$PATH
+      script:
+        - cd ${TRAVIS_BUILD_DIR}
+        - git clone https://github.com/Mach1Studios/m1-transcodertools
+        - cd ${TRAVIS_BUILD_DIR}/m1-transcodertools
+        - mkdir bin && cd bin
+        - cmake ../
+        - cmake --build .
+
+    - stage: exec
+      name: m1-transcode Windows
+      os: windows
+      language: sh
+      env:
+        - VS15=true
+      before_install:
+        - git clone https://github.com/pyenv-win/pyenv-win.git $HOME/.pyenv
+        - export PATH="$HOME/.pyenv/pyenv-win/bin:$HOME/.pyenv/pyenv-win/shims:$PATH"
+        - pyenv install -q 3.7.1
+        - pyenv rehash
+        - pyenv local 3.7.1
+        - python --version
+        - pip install requests
+        - git lfs pull --include "m1-debug-shortpt-fiveone.wav"
+      install:
+        - cd ${TRAVIS_BUILD_DIR}/source
+        - choco install -y cmake
+        - choco install -y make
+        - choco install -y libsndfile
+        - choco install -y rsync
+        - choco install -y awscli
+        - export PATH="$(powershell -Command '("Process", "Machine" | % {[Environment]::GetEnvironmentVariable("PATH", $_) -Split ";" -Replace "\\$", ""} | Select -Unique | % { cygpath $_ }) -Join ":"')"
+      script:
+        - cd ${TRAVIS_BUILD_DIR}
+        - git clone https://github.com/Mach1Studios/m1-transcodertools
+        - cd ${TRAVIS_BUILD_DIR}/m1-transcodertools
+        - mkdir bin && cd bin
+        - cmake ../
+        - cmake --build .
+
+    - stage: exec
+      name: m1-transcode macOS
+      os: osx
+      addons:
+        homebrew:
+          packages:
+            - libsndfile
+            - rtaudio
+            - cmake
+            - gcc
+            - libpthread-stubs
+            - git-lfs
+            - rsync
+            - awscli
+      env:
+        - MATRIX_EVAL="CC=gcc CXX=g++"
+      osx_image: xcode13.2
+      before_install:
+        - git lfs pull --include "m1-debug-shortpt-fiveone.wav"
+      install:
+        - cd ${TRAVIS_BUILD_DIR}
+        - git clone https://github.com/pretyman/raspberrypi2-mac-crosscompiler raspberrypi-tools
+        - export RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PATH=${TRAVIS_BUILD_DIR}/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/
+        - export RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PREFIX=arm-unknown-linux-gnueabihf
+        - export RASPBERRYPI_CROSS_COMPILE_SYSROOT=${TRAVIS_BUILD_DIR}/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot
+        - git clone https://github.com/emscripten-core/emsdk.git
+        - cd emsdk && git pull
+        - ./emsdk install latest
+        - ./emsdk activate latest
+        - source ./emsdk_env.sh
+        - git lfs install && git lfs pull
+      script:
+        - cd ${TRAVIS_BUILD_DIR}
+        - git clone https://github.com/Mach1Studios/m1-transcodertools
+        - cd ${TRAVIS_BUILD_DIR}/m1-transcodertools
+        - mkdir bin && cd bin
+        - cmake ../
+        - cmake --build .

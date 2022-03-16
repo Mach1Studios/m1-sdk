@@ -260,6 +260,30 @@ static void* decode(void* v)
         printf("SUM CHECK L: %f    L REM: %f\n", checkSumL, abs(checkSumL-1.0f));
         printf("SUM CHECK R: %f    R REM: %f\n", checkSumR, abs(checkSumR-1.0f));
         printf("\n");
+        printf("Decode Panned Coeffs:\n");
+        for (int i = 0; i < (m1Coeffs.size()-2)/2; i++){
+            bool panlaw = true;
+            float l = m1Coeffs[i * 2];
+            float r = m1Coeffs[i * 2 + 1];
+            float gain = 0;
+            float pan = 0;
+            if (l > r) {
+                pan = -(1 - r / l);
+                if (panlaw){
+                    gain = l*(sqrt(2)/2);
+                } else {
+                    gain = l;
+                }
+            } else {
+                pan = (1 - l / r);
+                if (panlaw){
+                    gain = r*(sqrt(2)/2);
+                } else {
+                    gain = r;
+                }
+            }
+            printf(" Output-%i: Gain: %f, Pan: %f\n", i, gain, pan);
+        }
     }
     printf("\n");
     printf("Exiting\n");

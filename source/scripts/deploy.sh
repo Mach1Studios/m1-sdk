@@ -4,6 +4,7 @@
 cd ${TRAVIS_BUILD_DIR}
 # add compiled library changes
 git add -u ${TRAVIS_BUILD_DIR}/mach1spatial-libs/*
+git add -u ${TRAVIS_BUILD_DIR}/executables/*
 # add updated submodules
 git add -u ${TRAVIS_BUILD_DIR}/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI
 git add -u ${TRAVIS_BUILD_DIR}/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI
@@ -22,10 +23,10 @@ git push https://mach1-bot:${GITHUB_API_KEY}@${GH_REF} HEAD:master
 cd ${TRAVIS_BUILD_DIR}/../
 git clone git@github.com:Mach1Studios/m1-sdk.git m1-sdk-release
 cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release
-git fetch && git checkout -b tmp
 rsync -c ${TRAVIS_BUILD_DIR}/mach1spatial-libs/* ${TRAVIS_BUILD_DIR}/../m1-sdk-release/mach1spatial-libs
 # add compiled library changes
 git add -u mach1spatial-libs/*
+git add -u executables/*
 # add updated submodules
 git add -u examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI
 git add -u examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI

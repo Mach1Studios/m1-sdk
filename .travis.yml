@@ -14,9 +14,6 @@ git:
 before_script:
   - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
   - eval "${MATRIX_EVAL}"
-  - cd ${TRAVIS_BUILD_DIR}/source && ./scripts/git-prepare-submodules.sh
-  - git config user.email "whatsup@mach1.tech"
-  - git config user.name "Mach1-Bot"
   # Install polly
   - cd ${TRAVIS_BUILD_DIR}
   - git clone https://github.com/Mach1Studios/polly.git
@@ -29,15 +26,12 @@ after_script:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then cd ${TRAVIS_BUILD_DIR}/source && ./scripts/remove_signing_key.sh; fi
 
 stages:
-  - name: libs
+  - name: compile
   - name: deploy
-    if: branch = master
-  - name: exec
-    if: branch = master
 
 jobs:
   include:
-    - stage: libs
+    - stage: compile
       name: Linux x86_64
       os: linux
       sudo: required
@@ -71,9 +65,8 @@ jobs:
         - ./scripts/linux_build.sh
       after_success:
         - ./scripts/examples_linking_test.sh
-        # - ./scripts/git-unity-module.sh
 
-    - stage: libs
+    - stage: compile
       name: Linux ARM64
       os: linux
       sudo: required
@@ -136,7 +129,31 @@ jobs:
         # - ./scripts/arm-hf_build.sh
         # - ./scripts/arm-hf-neon-vfpv4_build.sh
 
-    - stage: libs
+    - stage: compile
+      name: macOS 9.3 (macOS 10.13)
+      os: osx
+      sudo: required
+      osx_image: xcode9.3
+      env:
+        - HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+        - MACOSX_DEPLOYMENT_TARGET=10.9
+      before_install:
+          - if [ "$TRAVIS_OS_NAME" == "osx" ]; then cd ${TRAVIS_BUILD_DIR}/source/scripts && openssl aes-256-cbc -K $encrypted_b7b9d4064d90_key -iv $encrypted_b7b9d4064d90_iv -in certs/secrets.tar.enc -out certs/secrets.tar -d; fi
+          - if [ "$TRAVIS_OS_NAME" == "osx" ]; then cd ${TRAVIS_BUILD_DIR}/source && ./scripts/add_signing_key.sh; fi
+      install: 
+        - cd ${TRAVIS_BUILD_DIR}/source
+        - ./scripts/macos_setup.sh
+        - sudo pip install --upgrade pip
+        - sudo python -m pip install awscli --ignore-installed six
+      script:
+        - cd ${TRAVIS_BUILD_DIR}/source
+        - ./scripts/macos-10-13_test.sh
+        - ./scripts/macos-10-13_build.sh
+      after_success:
+        - cd ${TRAVIS_BUILD_DIR}/source
+        - ./scripts/examples_linking_test.sh
+
+    - stage: compile
       name: macOS 9.3 (iOS)
       os: osx
       sudo: required
@@ -152,21 +169,47 @@ jobs:
       install: 
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/macos_setup.sh
-        - sudo python -m pip install awscli
+        - sudo pip install --upgrade pip
+        - sudo python -m pip install awscli --ignore-installed six
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/macos-10-13_test.sh
-        - ./scripts/macos-10-13_build.sh
         - ./scripts/ios_build.sh
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/examples_linking_test.sh
-        # - ./scripts/git-pod-module.sh
-        # - ./scripts/git-unity-module.sh
-        # - ./scripts/git-ue-module.sh
 
-    - stage: libs
-      name: macOS 13.2
+    - stage: compile
+      name: macOS 13.2 (macOS)
+      os: osx
+      addons:
+        homebrew:
+          packages:
+            - libsndfile
+            - rtaudio
+            - cmake
+            - gcc
+            - libpthread-stubs
+            - git-lfs
+            - rsync
+            - awscli
+      env:
+        - MATRIX_EVAL="CC=gcc CXX=g++"
+      osx_image: xcode13.2
+      before_install:
+        - git lfs pull --include "m1-debug-shortpt-fiveone.wav"
+      install:
+        - cd ${TRAVIS_BUILD_DIR}
+        - git lfs install && git lfs pull
+      script:
+        - cd ${TRAVIS_BUILD_DIR}/source
+        - ./scripts/macos_test.sh
+        - ./scripts/macos_build.sh
+      after_success:
+        - ./scripts/examples_linking_test.sh
+
+    - stage: compile
+      name: macOS 13.2 (RPI)
       os: osx
       addons:
         homebrew:
@@ -190,6 +233,37 @@ jobs:
         - export RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PATH=${TRAVIS_BUILD_DIR}/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/
         - export RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PREFIX=arm-unknown-linux-gnueabihf
         - export RASPBERRYPI_CROSS_COMPILE_SYSROOT=${TRAVIS_BUILD_DIR}/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot
+        - git lfs install && git lfs pull
+      script:
+        - cd ${TRAVIS_BUILD_DIR}/source
+        - ./scripts/macos_test.sh
+        - export CMAKE_C_COMPILER=$RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PATH/arm-unknown-linux-gnueabihf-gcc
+        - export CMAKE_CXX_COMPILER=$RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PATH/arm-unknown-linux-gnueabihf-g++
+        - ./scripts/rpi_build.sh
+      after_success:
+        - ./scripts/examples_linking_test.sh
+
+    - stage: compile
+      name: macOS 13.2 (WASM/JS)
+      os: osx
+      addons:
+        homebrew:
+          packages:
+            - libsndfile
+            - rtaudio
+            - cmake
+            - gcc
+            - libpthread-stubs
+            - git-lfs
+            - rsync
+            - awscli
+      env:
+        - MATRIX_EVAL="CC=gcc CXX=g++"
+      osx_image: xcode13.2
+      before_install:
+        - git lfs pull --include "m1-debug-shortpt-fiveone.wav"
+      install:
+        - cd ${TRAVIS_BUILD_DIR}
         - git clone https://github.com/emscripten-core/emsdk.git
         - cd emsdk && git pull
         - ./emsdk install latest
@@ -199,21 +273,11 @@ jobs:
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/macos_test.sh
-        - ./scripts/macos_build.sh
         - ./scripts/web_build.sh
-        - export CMAKE_C_COMPILER=$RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PATH/arm-unknown-linux-gnueabihf-gcc
-        - export CMAKE_CXX_COMPILER=$RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PATH/arm-unknown-linux-gnueabihf-g++
-        - ./scripts/rpi_build.sh
       after_success:
         - ./scripts/examples_linking_test.sh
-        # - ./scripts/git-unity-module.sh
-        # - ./scripts/git-ue-module.sh
-        # - ./scripts/git-webplayer-module.sh
-        # - ./scripts/git-node-decode-module.sh
-        # # - ./scripts/git-node-encode-module.sh
-        # - ./scripts/git-node-transcode-module.sh
 
-    - stage: libs
+    - stage: compile
       name: Android
       os: linux
       language: android
@@ -236,7 +300,7 @@ jobs:
           - libsndfile-dev
           - librtaudio-dev
           - rsync
-          - awscli
+        update: true
       env: 
         - MATRIX_EVAL="CC=gcc-7 CXX=g++-7 ANDROID_NDK_r16b=${TRAVIS_BUILD_DIR}/android-ndk-r16b"
       before_install:
@@ -257,17 +321,16 @@ jobs:
         - export LOCAL_ANDROID_NDK_HOME="$ANDROID_NDK_HOME"
         - export LOCAL_ANDROID_NDK_HOST_PLATFORM="linux-x86_64"
         - export PATH=$PATH:${ANDROID_NDK_HOME}
+        - sudo apt-get update
+        - sudo apt-get install awscli
+
       script:
         # Android Build on linux
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/linux_test.sh
         - ./scripts/android_build.sh
-      after_success:
-        # - ./scripts/git-jitpack-module.sh
-        # - ./scripts/git-unity-module.sh
-        # - ./scripts/git-ue-module.sh
 
-    - stage: libs
+    - stage: compile
       name: Windows
       os: windows
       language: sh
@@ -295,29 +358,8 @@ jobs:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/winx86_test.sh
         - ./scripts/winx86_build.sh
-      after_success:
-        # - ./scripts/git-unity-module.sh
-        # - ./scripts/git-ue-module.sh
 
-    - stage: deploy
-      name: Aggregate & Deploy Libs
-      os: linux
-      sudo: required
-      dist: bionic
-      addons:
-        apt:
-          packages:
-            - rsync
-            - awscli
-          update: true
-      script:
-        - cd ${TRAVIS_BUILD_DIR}
-        - aws s3 cp s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs mach1spatial-libs_pulldown --recursive
-        - rsync -arv mach1spatial-libs_pulldown/ mach1spatial-libs
-      after_success:
-        - ./scripts/copy_includes_dev.sh
-
-    - stage: exec
+    - stage: compile
       name: m1-transcode Linux-x86_64
       os: linux
       sudo: required
@@ -335,16 +377,28 @@ jobs:
             - libpthread-stubs0-dev
             - rsync
             - awscli
+            - libboost-all-dev
           update: true
-      script:
+      install:
         - cd ${TRAVIS_BUILD_DIR}
-        - git clone https://github.com/Mach1Studios/m1-transcodertools
-        - cd ${TRAVIS_BUILD_DIR}/m1-transcodertools
-        - mkdir bin && cd bin
-        - cmake ../
+        # Install cmake on linux
+        - wget --quiet --no-check-certificate https://github.com/Kitware/CMake/releases/download/v3.20.1/cmake-3.20.1-linux-x86_64.tar.gz
+        - tar -xf cmake-3.20.1-linux-x86_64.tar.gz > /dev/null
+        - mv cmake-3.20.1-linux-x86_64 cmake-install
+        - export PATH=${TRAVIS_BUILD_DIR}/cmake-install:${TRAVIS_BUILD_DIR}/cmake-install/bin:$PATH
+      script:
+        - cd ${TRAVIS_BUILD_DIR}/../
+        - git clone git@github.com:Mach1Studios/m1-transcodertools.git
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
+        - ./setup.sh
+        - cmake .
         - cmake --build .
+      after_success:
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
+        - cp -f ./m1-transcode ${TRAVIS_BUILD_DIR}/executables/unix/m1-transcode
+        - aws s3 cp m1-transcode s3://${AWS_DEPLOY_BUCKET}/executables/linux-arm/m1-transcode --cache-control no-cache --metadata-directive REPLACE
 
-    - stage: exec
+    - stage: compile
       name: m1-transcode Linux-ARM64
       os: linux
       sudo: required
@@ -377,6 +431,7 @@ jobs:
             - gettext
             - autoconf
             - texinfo
+            - libboost-all-dev
           update: true
       env:
         - CROSS_COMPILE=arm-none-eabi-
@@ -385,19 +440,30 @@ jobs:
       install:
         - cd ${TRAVIS_BUILD_DIR}
         # Install cmake on linux
-        - wget --quiet --no-check-certificate https://github.com/Kitware/CMake/releases/download/v3.20.1/cmake-3.20.1-linux-x86_64.tar.gz
-        - tar -xf cmake-3.20.1-linux-x86_64.tar.gz > /dev/null
-        - mv cmake-3.20.1-linux-x86_64 cmake-install
-        - export PATH=${TRAVIS_BUILD_DIR}/cmake-install:${TRAVIS_BUILD_DIR}/cmake-install/bin:$PATH
-      script:
+        - wget --quiet --no-check-certificate https://github.com/Kitware/CMake/releases/download/v3.20.1/cmake-3.20.1.tar.gz
+        - tar -xf cmake-3.20.1.tar.gz > /dev/null
+        - cd cmake-3.20.1
+        - ./bootstrap && make -s && sudo make -s install
+        - export PATH=/usr/local/bin:$PATH
+        - sudo apt remove binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi
         - cd ${TRAVIS_BUILD_DIR}
-        - git clone https://github.com/Mach1Studios/m1-transcodertools
-        - cd ${TRAVIS_BUILD_DIR}/m1-transcodertools
-        - mkdir bin && cd bin
-        - cmake ../
+        - wget --quiet https://developer.arm.com/-/media/Files/downloads/gnu-rm/7-2018q2/gcc-arm-none-eabi-7-2018-q2-update-linux.tar.bz2
+        - tar -xf gcc-arm-none-eabi-7-2018-q2-update-linux.tar.bz2
+        - cd gcc-arm-none-eabi-7-2018-q2-update
+        - export PATH=${TRAVIS_BUILD_DIR}/gcc-arm-none-eabi-7-2018-q2-update/bin/:$PATH
+      script:
+        - cd ${TRAVIS_BUILD_DIR}/../
+        - git clone git@github.com:Mach1Studios/m1-transcodertools.git
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
+        - ./setup.sh
+        - cmake .
         - cmake --build .
+      after_success:
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
+        - cp -f ./m1-transcode ${TRAVIS_BUILD_DIR}/executables/linux-arm/m1-transcode
+        - aws s3 cp m1-transcode s3://${AWS_DEPLOY_BUCKET}/executables/linux-arm/m1-transcode --cache-control no-cache --metadata-directive REPLACE
 
-    - stage: exec
+    - stage: compile
       name: m1-transcode Windows
       os: windows
       language: sh
@@ -406,9 +472,10 @@ jobs:
       before_install:
         - git clone https://github.com/pyenv-win/pyenv-win.git $HOME/.pyenv
         - export PATH="$HOME/.pyenv/pyenv-win/bin:$HOME/.pyenv/pyenv-win/shims:$PATH"
-        - pyenv install -q 3.7.1
+        - pyenv install -q 3.7.2
         - pyenv rehash
-        - pyenv local 3.7.1
+        - pyenv local 3.7.2
+        - pyenv global 3.7.2
         - python --version
         - pip install requests
         - git lfs pull --include "m1-debug-shortpt-fiveone.wav"
@@ -419,16 +486,23 @@ jobs:
         - choco install -y libsndfile
         - choco install -y rsync
         - choco install -y awscli
+        - choco install -y boost-msvc-14.1
         - export PATH="$(powershell -Command '("Process", "Machine" | % {[Environment]::GetEnvironmentVariable("PATH", $_) -Split ";" -Replace "\\$", ""} | Select -Unique | % { cygpath $_ }) -Join ":"')"
       script:
-        - cd ${TRAVIS_BUILD_DIR}
-        - git clone https://github.com/Mach1Studios/m1-transcodertools
-        - cd ${TRAVIS_BUILD_DIR}/m1-transcodertools
-        - mkdir bin && cd bin
-        - cmake ../
-        - cmake --build .
+        - cd ${TRAVIS_BUILD_DIR}/../
+        - git clone git@github.com:Mach1Studios/m1-transcodertools.git
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
+        - ./setup.sh
+        - ${POLLY_SOURCE_DIR}/bin/polly.py --clear --install --config Release --toolchain vs-15-2017
+        - ${POLLY_SOURCE_DIR}/bin/polly.py --clear --install --config Release --toolchain vs-15-2017-win64
+      after_success:
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
+        - cp -f _install/vs-15-2017/bin/m1-transcode.exe ${TRAVIS_BUILD_DIR}/executables/windows-x86/m1-transcode.exe
+        - cp -f _install/vs-15-2017-win64/bin/m1-transcode.exe ${TRAVIS_BUILD_DIR}/executables/windows-x86_64/m1-transcode.exe
+        - aws s3 sync _install/vs-15-2017/bin/m1-transcode.exe s3://${AWS_DEPLOY_BUCKET}/executables/windows-x86/m1-transcode --cache-control no-cache --metadata-directive REPLACE
+        - aws s3 sync _install/vs-15-2017-win64/bin/m1-transcode.exe s3://${AWS_DEPLOY_BUCKET}/executables/windows-x86_64/m1-transcode --cache-control no-cache --metadata-directive REPLACE
 
-    - stage: exec
+    - stage: compile
       name: m1-transcode macOS
       os: osx
       addons:
@@ -442,27 +516,56 @@ jobs:
             - git-lfs
             - rsync
             - awscli
-      env:
-        - MATRIX_EVAL="CC=gcc CXX=g++"
       osx_image: xcode13.2
-      before_install:
-        - git lfs pull --include "m1-debug-shortpt-fiveone.wav"
       install:
-        - cd ${TRAVIS_BUILD_DIR}
-        - git clone https://github.com/pretyman/raspberrypi2-mac-crosscompiler raspberrypi-tools
-        - export RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PATH=${TRAVIS_BUILD_DIR}/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/
-        - export RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PREFIX=arm-unknown-linux-gnueabihf
-        - export RASPBERRYPI_CROSS_COMPILE_SYSROOT=${TRAVIS_BUILD_DIR}/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot
-        - git clone https://github.com/emscripten-core/emsdk.git
-        - cd emsdk && git pull
-        - ./emsdk install latest
-        - ./emsdk activate latest
-        - source ./emsdk_env.sh
-        - git lfs install && git lfs pull
+        - brew tap irt-open-source/homebrew-nga
+        - brew install libadm
+        - brew install libbw64
+      script:
+        - cd ${TRAVIS_BUILD_DIR}/../
+        - git clone git@github.com:Mach1Studios/m1-transcodertools.git
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
+        - ./setup.sh
+        - cmake .
+        - cmake --build .
+      after_success:
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
+        - cp -f ./m1-transcode ${TRAVIS_BUILD_DIR}/executables/unix/m1-transcode
+        - aws s3 cp m1-transcode s3://${AWS_DEPLOY_BUCKET}/executables/unix/m1-transcode --cache-control no-cache --metadata-directive REPLACE
+
+    - stage: deploy
+      name: Aggregate & Deploy Libs
+      os: linux
+      sudo: required
+      dist: bionic
+      addons:
+        apt:
+          packages:
+            - rsync
+            - awscli
+          update: true
+      install:
+        - cd ${TRAVIS_BUILD_DIR}/source && ./scripts/git-prepare-submodules.sh
+        - git config user.email "whatsup@mach1.tech"
+        - git config user.name "Mach1-Bot"
       script:
         - cd ${TRAVIS_BUILD_DIR}
-        - git clone https://github.com/Mach1Studios/m1-transcodertools
-        - cd ${TRAVIS_BUILD_DIR}/m1-transcodertools
-        - mkdir bin && cd bin
-        - cmake ../
-        - cmake --build .
+        - aws s3 cp s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs mach1spatial-libs_pulldown --recursive
+        - rsync -arv mach1spatial-libs_pulldown/ mach1spatial-libs
+        - rm -rf mach1spatial-libs_pulldown/
+        - aws s3 cp s3://${AWS_DEPLOY_BUCKET}/executables executables_pulldown --recursive
+        - rsync -arv executables_pulldown/ executables
+        - rm -rf executables_pulldown/
+      after_success:
+        - cd ${TRAVIS_BUILD_DIR}/source
+        - ./scripts/copy_includes_dev.sh
+        - ./scripts/copy_libs_to_examples.sh
+        - ./scripts/git-pod-module.sh
+        - ./scripts/git-jitpack-module.sh
+        - ./scripts/git-unity-module.sh
+        - ./scripts/git-ue-module.sh
+        - ./scripts/git-webplayer-module.sh
+        - ./scripts/git-node-decode-module.sh
+        # - ./scripts/git-node-encode-module.sh
+        - ./scripts/git-node-transcode-module.sh
+        - ./scripts/deploy.sh

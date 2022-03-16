@@ -37,6 +37,7 @@ set env var ANDROID_NDK_r16b to ndk path
 `xcodebuild -showsdks`
 2. to build full fat lib required for Pod, please build on xcode 8.3.1
 `/Volumes/git/polly/bin/polly.py --clear --install --config Release --toolchain ios-10-3-dep-9-0-bitcode --ios-multiarch --ios-combined`
+3. for travis-ci setup run `cd scripts && ./local-ios-setup.sh`
 
 If using iOS 11.0:
 Add:

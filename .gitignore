@@ -1,12 +1,3 @@
-# Mach1 #
-*/[Aa]rchive/
-*/_builds/
-*/_logs/
-*/_install/
-
-# Mach1 Release #
-utility/
-
 # AudioFiles (please use download-audiofiles.sh where applicable)
 *.wav
 *.aif
@@ -20,6 +11,7 @@ utility/
 # Xcode generated #
 *.xcscmblueprint
 *.xcuserdatad
+DerivedData
 
 # Unity generated #
 # =============== #
@@ -57,8 +49,6 @@ OculusVR Dev
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-x64/
-x86/
 bld/
 [Bb]in/
 [Oo]bj/
@@ -292,16 +282,6 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
-# ============ #
-# OS generated #
-# ============ #
-.DS_Store*
-._*
-.Spotlight-V100
-.Trashes
-Icon?
-ehthumbs.db
-[Tt]humbs.db
 
 lang/cs/Proposals/
 lang/cs/Resources/
@@ -333,7 +313,6 @@ lang/cs/Proposals/M1 Test Application Plan 1.1-1.x.docx
 # ============ #
 # OS generated #
 # ============ #
-.DS_Store*
 ._*
 .Spotlight-V100
 .Trashes
@@ -383,5 +362,38 @@ google-services.json
 freeline.py
 freeline/
 freeline_project_description.json
-examples/mach1spatial-c/Unity/
-examples/mach1spatial-c/Unreal Engine/
+
+# exсlude of lib
+!**/ofxMach1/**
+
+#except *.dll
+!**/mach1spatial-lib/**
+!**/mach1spatial-lib/*/*.dll
+!**/source/**
+!**/source/*/*.dll
+
+# Mach1 #
+**/[Aa]rchive/
+.dirstamp
+**/.deps/
+**/.libs/
+**/_builds/
+**/_logs/
+**/_install/
+
+# CMAKE #
+**/CMakeFiles
+**/CMakeCache*
+**/cmake_install*
+
+# SWIG #
+**/*.cxx
+
+# xcode specific
+*xcshareddata*
+*.xcworkspacedata
+*.xcconfig
+.DS_Store
+._.DS_Store
+**/.DS_Store
+**/._.DS_Store

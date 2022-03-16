@@ -102,18 +102,15 @@ std::string convertToString(char* a, int size)
 void printHelp()
 {
 	std::cout << "spatial-transcode-audio -- light command line example conversion tool" << std::endl;
-    std::cout << "note: for a complete transcoding tool use `m1-transcode` from the `binaries/executables` directory" << std::endl;
+    std::cout << "note: for a complete transcoding tool use `m1-transcode` from the `/executables` directory" << std::endl;
     std::cout << std::endl;
-    std::cout << "usage: -in-file test_FiveOneFilm.wav -in-fmt FiveOneFilm_Cinema -out-file test_b.wav -out-fmt M1Spatial -out-file-chans 0 -yaw 90.0 -pitch 15.0 -roll 0.0" << std::endl;
+    std::cout << "usage: -in-file test_FiveOneFilm.wav -in-fmt 5.1_C -out-file test_b.wav -out-fmt M1Spatial -out-file-chans 0 -yaw 90.0 -pitch 15.0 -roll 0.0" << std::endl;
     std::cout << std::endl;
     std::cout << "  -help                 - list command line options" << std::endl;
     std::cout << "  -in-file  <filename>  - input file: put quotes around sets of files" << std::endl;
     std::cout << "  -in-fmt   <fmt>       - input format: see supported formats below" << std::endl;
     std::cout << "  -in-json  <json>      - input json: for input custom json Mach1Transcode templates" << std::endl;
     std::cout << "  -out-file <filename>  - output file. full name for single file or name stem for file sets" << std::endl;
-    std::cout << "  -out-fmt  <fmt>       - output format: see supported formats below" << std::endl;
-    std::cout << "  -out-json  <json>     - output json: for output custom json Mach1Transcode templates" << std::endl;
-    std::cout << "  -out-file-chans <#>   - output file channels: 1, 2 or 0 (0 = multichannel)" << std::endl;
     std::cout << "  -normalize            - two pass normalize absolute peak to zero dBFS" << std::endl;
     std::cout << "  -master-gain <#>      - final output gain in dB like -3 or 2.3" << std::endl;
     std::cout << "  -spatial-downmix <#>  - compare top vs. bottom of the input soundfield, if difference is less than the set threshold (float) output format will be Mach1 Horizon" << std::endl;
@@ -155,10 +152,10 @@ float *outPtrs[Mach1TranscodeMAXCHANS];
 
 // Mach1Transcode variables & objects
 Mach1Transcode m1transcode;
-Mach1TranscodeFormatType inFmt;
-Mach1TranscodeFormatType outFmt;
+int inFmt;
+int outFmt;
 float corrThreshold = 0.1; // 10% difference in signal or less will auto downmix
-std::vector<std::vector<float>> conversionMatrix;
+std::vector< std::vector<float> > conversionMatrix;
 std::vector<float> transcodeToDecodeCoeffs;
 
 // Mach1Decode variables & objects
@@ -191,9 +188,9 @@ static void updateMach1Transcode();
 static std::thread* threadUpdateMach1DecodeOrientation = nullptr;
 static bool done = false;
 
-std::vector<std::vector<float>> inputBuffers;
-std::vector<std::vector<float>> transcodedBuffers;
-std::vector<std::vector<float>> outputBuffers;
+std::vector< std::vector<float> > inputBuffers;
+std::vector< std::vector<float> > transcodedBuffers;
+std::vector <std::vector<float> > outputBuffers;
 
 // RtAudio playback reader.
 int rtAudioPlayback( void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
@@ -361,16 +358,17 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	bool foundInFmt = false;
-	inFmt = m1transcode.getFormatFromString(inFmtStr);
-	if (inFmt != Mach1TranscodeFormatType::Mach1TranscodeFormatEmpty) {
-		foundInFmt = true;
-	} else {
+    bool foundInFmt = false;
+    inFmt = m1transcode.getFormatFromString(inFmtStr);
+    if (inFmt > 1) { // if format int is 0 or -1 (making it invalid)
+        foundInFmt = true;
+    }
+    else {
         std::cerr << "Please select a valid input format" << std::endl;
-		return -1;
-	}
+        return -1;
+    }
 
-    outFmt = Mach1TranscodeFormatType::Mach1TranscodeFormatM1Spatial;
+    outFmt = m1transcode.getFormatFromString("M1Spatial");
 
 	//=================================================================
 	// initialize inputs, outputs and components
@@ -412,7 +410,7 @@ int main(int argc, char* argv[])
     // -- Mach1Decode setup
     m1Decode.setPlatformType(Mach1PlatformDefault);
     m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial);
-    m1Decode.setFilterSpeed(1.0f);
+    m1Decode.setFilterSpeed(0.95f);
     orientation.x = yaw;
     orientation.y = pitch;
     orientation.z = roll;
@@ -430,7 +428,7 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 	else {
-        std::vector<Mach1TranscodeFormatType> formatsConvertionPath = m1transcode.getFormatConversionPath();
+        std::vector<int> formatsConvertionPath = m1transcode.getFormatConversionPath();
 		printf("Conversion Path:    ");
 		for (int k = 0; k < formatsConvertionPath.size(); k++) {
             printf("%s", m1transcode.getFormatName(formatsConvertionPath[k]).c_str());

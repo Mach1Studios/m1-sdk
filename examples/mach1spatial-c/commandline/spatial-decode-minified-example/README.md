@@ -3,6 +3,12 @@
 ## Description
 This example and the linked Mach1DecodeMinifiedCAPI.a are only for use on very small footprint CPUs, it has stripped out several protective features and has a limited usage design.
 
+## CMake Setup
+ - `mkdir build`
+ - `cd build`
+ - `cmake ../`
+ - `cmake --build .`
+
 ### IDE Project Files
  - `spatial-decode-example.xcodeproj` Xcode project file
 

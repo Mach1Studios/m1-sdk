@@ -4,7 +4,7 @@
 This is another transcoding commmandline example that passes resulting buffers to a Mach1Decode enabled audio mixer via RtAudio, this is written more verbosely to make it easier to see a full design.
 `Input Buffer` -> `Transcode the buffer` -> `Decode the buffer`
 
-_Please reference or link/use the full feature Mach1 Transcode commandline tool located at [m1-sdk/binaries/executables/](https://github.com/Mach1Studios/m1-sdk/tree/master/binaries/executables)_
+_Please reference or link/use the full feature Mach1 Transcode commandline tool located at [m1-sdk/executables/](https://github.com/Mach1Studios/m1-sdk/tree/master/executables)_
 
 ## Setup
  - install homebrew: https://brew.sh/
@@ -12,6 +12,12 @@ _Please reference or link/use the full feature Mach1 Transcode commandline tool 
  - `brew install rt-audio` _(project is currently linked to 5.0.1_1)_
  - Open each xcode project
 
+## CMake Setup
+ - `mkdir build`
+ - `cd build`
+ - `cmake ../`
+ - `cmake --build .`
+
 ## Usage
 Example command:
-`./spatial-transcode-verbose-audioplayer -in-file "/path/to/input-fiveone.wav" -in-fmt FiveOneFilm_Cinema -out-file "/path/to/output-m1spatial.wav" -out-fmt M1Spatial -out-file-chans 0`
+`./spatial-transcode-verbose-audioplayer -in-file "/path/to/input-fiveone.wav" -in-fmt 5.1_C -out-file "/path/to/output-m1spatial.wav" -out-fmt M1Spatial -out-file-chans 0`

@@ -5,7 +5,7 @@ env:
 
 branches:
   only: 
-    - release
+    - deploy
 
 git:
   lfs_skip_smudge: true

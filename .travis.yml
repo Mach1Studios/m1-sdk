@@ -19,7 +19,6 @@ before_script:
   - git clone https://github.com/Mach1Studios/polly.git
   - POLLY_SOURCE_DIR=${TRAVIS_BUILD_DIR}/polly
   - export POLLY_SOURCE_DIR=${TRAVIS_BUILD_DIR}/polly
-  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then python "${POLLY_SOURCE_DIR}/bin/install-ci-dependencies.py"; fi
   - PATH=${TRAVIS_BUILD_DIR}/polly/bin/polly:$PATH
 
 after_script:
@@ -474,25 +473,47 @@ jobs:
         - export PATH="$HOME/.pyenv/pyenv-win/bin:$HOME/.pyenv/pyenv-win/shims:$PATH"
         - pyenv install -q 3.7.2
         - pyenv rehash
-        - pyenv local 3.7.2
         - pyenv global 3.7.2
         - python --version
-        - pip install requests
+        - python -m pip install --upgrade pip
+        - python -m pip install requests
+        - git clone https://github.com/Microsoft/vcpkg.git ${TRAVIS_BUILD_DIR}/vcpkg
+        - cd ${TRAVIS_BUILD_DIR}
+        - ./vcpkg/bootstrap-vcpkg.bat
         - git lfs pull --include "m1-debug-shortpt-fiveone.wav"
       install:
         - cd ${TRAVIS_BUILD_DIR}/source
-        - choco install -y cmake
+        - choco uninstall -y cmake.install
+        - choco install -y cmake --version=3.20.2 --installargs 'ADD_CMAKE_TO_PATH=System'
         - choco install -y make
-        - choco install -y libsndfile
-        - choco install -y rsync
         - choco install -y awscli
         - choco install -y boost-msvc-14.1
+        - choco install -y pkgconfiglite
         - export PATH="$(powershell -Command '("Process", "Machine" | % {[Environment]::GetEnvironmentVariable("PATH", $_) -Split ";" -Replace "\\$", ""} | Select -Unique | % { cygpath $_ }) -Join ":"')"
       script:
         - cd ${TRAVIS_BUILD_DIR}/../
         - git clone git@github.com:Mach1Studios/m1-transcodertools.git
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
-        - ./setup.sh
+        - mkdir libs && cd libs
+        - git clone git@github.com:ebu/libadm.git
+        - cd libadm && mkdir build && cd build
+        - cmake ..
+        - cmake --build . --target install
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode/libs
+        - git clone git@github.com:irt-open-source/libbw64.git
+        - cd libbw64 && mkdir build && cd build
+        - cmake ..
+        - cmake --build . --target install
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode/libs
+        - git clone git@github.com:libsndfile/libsndfile.git
+        - cd libsndfile && mkdir build && cd build
+        - cmake .. -DENABLE_PACKAGE_CONFIG=ON -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake
+        - cmake --build . --target install -DENABLE_PACKAGE_CONFIG=ON -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
+        - ${TRAVIS_BUID_DIR}\vcpkg\vcpkg.exe install libvorbis:x64-windows-static libflac:x64-windows-static opus:x64-windows-static mp3lame:x86-windows-static mpg123:x86-windows-static libvorbis:x86-windows-static libflac:x86-windows-static opus:x86-windows-static mp3lame:x86-windows-static mpg123:x86-windows-static
+        # - ${TRAVIS_BUID_DIR}\vcpkg\vcpkg.exe install libsndfile
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
+        - aws s3 sync s3://${AWS_DEPLOY_BUCKET}/deps/libsndfile ./libs/libsndfile
         - ${POLLY_SOURCE_DIR}/bin/polly.py --clear --install --config Release --toolchain vs-15-2017
         - ${POLLY_SOURCE_DIR}/bin/polly.py --clear --install --config Release --toolchain vs-15-2017-win64
       after_success:
@@ -519,8 +540,7 @@ jobs:
       osx_image: xcode13.2
       install:
         - brew tap irt-open-source/homebrew-nga
-        - brew install libadm
-        - brew install libbw64
+        - brew install libadm libbw64
       script:
         - cd ${TRAVIS_BUILD_DIR}/../
         - git clone git@github.com:Mach1Studios/m1-transcodertools.git

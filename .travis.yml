@@ -48,6 +48,8 @@ jobs:
             - g++-7
       env:
         - MATRIX_EVAL="CC=gcc-7 CXX=g++-7"
+      git:
+        submodules: false
       install:
         - cd ${TRAVIS_BUILD_DIR}
         # Install cmake on linux

@@ -4,7 +4,8 @@ env:
     - secure: xq88wTHbDzhUaA8KEVVLtiETOccPOShPlWdcuJIvsGRKSSLI8hSDhGR0ZFWrvpx56t6lgrqVrEOUqIoLLDM06mltNBpe+218lKs3wKnNuxET8MrZ6m05oC6n0uavXIgnxbC8mChYqeZHd2mQ0riGfPsxue9GIKsiq27WZvuB+AdoYE4HvuOrRPYN63EeiAhx4BnY31GlEGbiEd0zFsDmTI8lL3boCZ/P4aK/SYdCV3BfJ0VkqT+UNo2HWnOBJAR1A63cu0gznmLNG2gv1Wd9gxntbPKXaa2Qc/HtIqOab4Jyl+TIzh5582s+oPgIgX8349/0n1o5dNmjWu64j02LwynV87+aflyK8P9kYCdnJosPjjktEM4L8kWOpVrH+0Go8VDdLf3Ar9C0f1urQ27g+fCIMRO7xPN7sceLP1c2L7LNUp2wx2ItTovJhcZa1cb6OmXbVURsjRCum8WYXpkJ08Tu34roPX45avLMh2JCf7dzJ3EoUhnd43/o+E+Eme4Nes0fYMAQEKK881C9uQljcuYmKuJ/uOTvStP68fOYvc1xnb3RT/OpHvaX6dX5QKrBZnk0fVWMcLtxfT3lvdtt5u73gWcdu+kzBXdEtwpGajeSXlPdhUOzDukccatQrQt97eybFdUC/9C04FLQ4OlBNpS+VFELaBkfJsNq0ThPQFo=
 
 branches:
-  only: 
+  only:
+    - develop
     - deploy
 
 git:
@@ -25,11 +26,39 @@ after_script:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then cd ${TRAVIS_BUILD_DIR}/source && ./scripts/remove_signing_key.sh; fi
 
 stages:
+  - name: test
   - name: compile
+    if: branch = deploy
   - name: deploy
+    if: branch = deploy
 
 jobs:
   include:
+    - stage: test
+      name: Test Compile Libs
+      os: linux
+      sudo: required
+      dist: bionic
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - build-essential
+            - g++-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 CXX=g++-7"
+      install:
+        - cd ${TRAVIS_BUILD_DIR}
+        # Install cmake on linux
+        - wget --quiet --no-check-certificate https://github.com/Kitware/CMake/releases/download/v3.20.1/cmake-3.20.1-linux-x86_64.tar.gz
+        - tar -xf cmake-3.20.1-linux-x86_64.tar.gz > /dev/null
+        - mv cmake-3.20.1-linux-x86_64 cmake-install
+        - export PATH=${TRAVIS_BUILD_DIR}/cmake-install:${TRAVIS_BUILD_DIR}/cmake-install/bin:$PATH
+      script:
+        - cd ${TRAVIS_BUILD_DIR}/source
+        - ./scripts/linux_simpletest.sh
+
     - stage: compile
       name: Linux x86_64
       os: linux
@@ -504,14 +533,14 @@ jobs:
         - cd libbw64 && mkdir build && cd build
         - cmake ..
         - cmake --build . --target install
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
+        - ${TRAVIS_BUID_DIR}\vcpkg\vcpkg.exe install libvorbis:x64-windows-static libflac:x64-windows-static opus:x64-windows-static mp3lame:x86-windows-static mpg123:x86-windows-static libvorbis:x86-windows-static libflac:x86-windows-static opus:x86-windows-static mp3lame:x86-windows-static mpg123:x86-windows-static
+        # - ${TRAVIS_BUID_DIR}\vcpkg\vcpkg.exe install libsndfile
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode/libs
         - git clone git@github.com:libsndfile/libsndfile.git
         - cd libsndfile && mkdir build && cd build
         - cmake .. -DENABLE_PACKAGE_CONFIG=ON -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake
         - cmake --build . --target install -DENABLE_PACKAGE_CONFIG=ON -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake
-        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
-        - ${TRAVIS_BUID_DIR}\vcpkg\vcpkg.exe install libvorbis:x64-windows-static libflac:x64-windows-static opus:x64-windows-static mp3lame:x86-windows-static mpg123:x86-windows-static libvorbis:x86-windows-static libflac:x86-windows-static opus:x86-windows-static mp3lame:x86-windows-static mpg123:x86-windows-static
-        # - ${TRAVIS_BUID_DIR}\vcpkg\vcpkg.exe install libsndfile
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
         - aws s3 sync s3://${AWS_DEPLOY_BUCKET}/deps/libsndfile ./libs/libsndfile
         - ${POLLY_SOURCE_DIR}/bin/polly.py --clear --install --config Release --toolchain vs-15-2017

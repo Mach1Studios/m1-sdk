@@ -58,7 +58,7 @@ install(CODE "execute_process(COMMAND ${CMAKE_INSTALL_PREFIX}/bin/Mach1SpatialTe
 
 # Mach1TranscodeTests
 
-set(Mach1TranscodeCAPIsrc "../Mach1TranscodeCAPI.cpp" "../Mach1TranscodeCore.cpp" "../Mach1GenerateCoeffs.cpp" "../include/M1DSP/M1DSPFilters.cpp" "../include/M1DSP/M1DSPUtilities.cpp" "../Mach1Point3DCore.cpp" "../Mach1Point4DCore.cpp" "../external/cpp/Mach1Transcode.cpp")
+set(Mach1TranscodeCAPIsrc "../Mach1TranscodeCAPI.cpp" "../Mach1TranscodeCore.cpp" "../Mach1EncodeCore.cpp" "../Mach1GenerateCoeffs.cpp" "../include/M1DSP/M1DSPFilters.cpp" "../include/M1DSP/M1DSPUtilities.cpp" "../Mach1Point3DCore.cpp" "../Mach1Point4DCore.cpp" "../external/cpp/Mach1Transcode.cpp")
 set(Mach1CAPIinclude "../" "../external/cpp" "../include" "../../public")
 
 add_executable(Mach1TranscodeTests "./Mach1TranscodeTests/mach1transcode-tests.cpp" ${Mach1TranscodeCAPIsrc})

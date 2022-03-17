@@ -395,7 +395,6 @@ jobs:
       sudo: required
       dist: bionic
       addons:
-      addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
@@ -409,6 +408,8 @@ jobs:
             - awscli
             - libboost-all-dev
           update: true
+      git:
+        submodules: false
       install:
         - cd ${TRAVIS_BUILD_DIR}
         # Install cmake on linux
@@ -467,6 +468,8 @@ jobs:
         - CROSS_COMPILE=arm-none-eabi-
         - CC=$(CROSS_COMPILE)gcc 
         - CXX=$(CROSS_COMPILE)g++
+      git:
+        submodules: false
       install:
         - cd ${TRAVIS_BUILD_DIR}
         # Install cmake on linux
@@ -499,6 +502,8 @@ jobs:
       language: sh
       env:
         - VS15=true
+      git:
+        submodules: false
       before_install:
         - git clone https://github.com/pyenv-win/pyenv-win.git $HOME/.pyenv
         - export PATH="$HOME/.pyenv/pyenv-win/bin:$HOME/.pyenv/pyenv-win/shims:$PATH"
@@ -563,6 +568,8 @@ jobs:
             - rsync
             - awscli
       osx_image: xcode13.2
+      git:
+        submodules: false
       install:
         - brew tap irt-open-source/homebrew-nga
         - brew install libadm libbw64

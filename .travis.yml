@@ -402,7 +402,6 @@ jobs:
             - build-essential
             - g++-7
             - libsndfile-dev
-            - librtaudio-dev
             - libpthread-stubs0-dev
             - rsync
             - awscli
@@ -442,16 +441,11 @@ jobs:
           packages:
             - build-essential
             - libsndfile-dev
-            - librtaudio-dev
             - libpthread-stubs0-dev
             - rsync
             - awscli
             - gcc-arm-linux-gnueabi
-            - gcc-arm-linux-gnueabihf
-            - lib32z1
-            - lib32ncurses5
             - binutils
-            - binutils-source
             - patch
             - libssl-dev
             - bc
@@ -563,7 +557,6 @@ jobs:
         homebrew:
           packages:
             - libsndfile
-            - rtaudio
             - cmake
             - gcc
             - libpthread-stubs

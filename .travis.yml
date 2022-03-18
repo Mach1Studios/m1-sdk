@@ -513,6 +513,9 @@ jobs:
         - python --version
         - python -m pip install --upgrade pip
         - python -m pip install requests
+        - git clone https://github.com/Microsoft/vcpkg.git ${TRAVIS_BUILD_DIR}/vcpkg
+        - cd ${TRAVIS_BUILD_DIR}
+        - ./vcpkg/bootstrap-vcpkg.bat
         - git lfs pull --include "m1-debug-shortpt-fiveone.wav"
       install:
         - cd ${TRAVIS_BUILD_DIR}/source

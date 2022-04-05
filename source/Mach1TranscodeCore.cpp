@@ -7,6 +7,7 @@
 #include "Mach1TranscodeVectorFormats.h"
 #include "Mach1TranscodeSurroundFormats.h"
 #include "Mach1TranscodeAmbisonicFormats.h"
+#include "Mach1TranscodeMicArrayFormats.h"
 #include <string.h> 
 #include <cstring>
 #include "json/json.h"
@@ -38,6 +39,10 @@ Mach1TranscodeCore::Mach1TranscodeCore()
     }
     {
         std::vector<Mach1TranscodeMatrix> m = Mach1TranscodeConstants::MatricesVector::getData();
+        matrices.insert(matrices.end(), m.begin(), m.end());
+    }
+    {
+        std::vector<Mach1TranscodeMatrix> m = Mach1TranscodeConstants::MatricesMicArray::getData();
         matrices.insert(matrices.end(), m.begin(), m.end());
     }
 }

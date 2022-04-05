@@ -36,22 +36,46 @@ public:
 		return
 		  {
 
+
+		// TetraMic: Left Front Up, Right Front Down, Left Back Down and Right Back Up
 		{
 			"M1Horizon", "AFormat",
 			{   
-				Mach1TranscodeChannel::Coeffs({ 1, 0, 0, 0 }),
-				Mach1TranscodeChannel::Coeffs({ 0, 1, 0, 0 }),
-				Mach1TranscodeChannel::Coeffs({ 0, 0, 1, 0 }),
-				Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 1 }),
+				Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0 }),
+				Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0 }),
+				Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0 }),
+				Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0 }),
 			}
 		},
 		{
 			"AFormat", "M1Horizon",
 			{   
-				Mach1TranscodeChannel::Coeffs({ 1, 0, 0, 0 }),
-				Mach1TranscodeChannel::Coeffs({ 0, 1, 0, 0 }),
-				Mach1TranscodeChannel::Coeffs({ 0, 0, 1, 0 }),
-				Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 1 }),
+				Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0 }),
+				Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0 }),
+				Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0 }),
+				Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0 }),
+			}
+		},
+		{
+			"M1Spatial", "AFormat",
+			{   
+				Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0, 0 }),
+				Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0, 0 }),
+				Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0, 0 }),
+				Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0, 0 }),
+			}
+		},
+		{
+			"AFormat", "M1Spatial",
+			{   
+				Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0 }),
+				Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0 }),
+				Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0 }),
+				Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0 }),
+				Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0 }),
+				Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0 }),
+				Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0 }),
+				Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0 }),
 			}
 		},
 	};

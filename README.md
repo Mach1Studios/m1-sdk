@@ -107,4 +107,4 @@ open or load [`docs/index.html`](https://github.com/Mach1Studios/m1-sdk/tree/mas
 ### [CONTACT](#contact) ###
 
 General:
-info@mach1.tech
+whatsup@mach1.tech

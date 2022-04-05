@@ -68,6 +68,7 @@ Mach1Decode m1Decode;
 Mach1DecodeAlgoType outputFormat;
 std::string outputName;
 static std::vector<float> m1Coeffs;
+static std::vector<float> m1PannedCoeffs;
 
 /*
 Orientation Euler
@@ -126,6 +127,7 @@ int main(int argc, const char * argv[]) {
         orientation.z = roll;
         m1Decode.setRotationDegrees(orientation);
         m1Coeffs = m1Decode.decodeCoeffs();
+        m1PannedCoeffs = m1Decode.decodePannedCoeffs();
         m1Decode.endBuffer();
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> elapsed = end - start;
@@ -260,6 +262,13 @@ static void* decode(void* v)
         printf("SUM CHECK L: %f    L REM: %f\n", checkSumL, abs(checkSumL-1.0f));
         printf("SUM CHECK R: %f    R REM: %f\n", checkSumR, abs(checkSumR-1.0f));
         printf("\n");
+        printf("Decode Panned Coeffs:\n");
+        for (int i = 0; i < (m1PannedCoeffs.size()-2)/2; i++){
+            // within each parent channel index of `m1PannedCoeffs` are two floats: [0]gain, [1]pan
+            // - The `gain` float is normalized from 0.0 -> 1.0
+            // - The `pan` float is normalized from -1.0 -> 1.0, from left -> right
+            printf(" Channel[%i] Gain: %f | Pan: %f\n", i, m1PannedCoeffs[i * 2], m1PannedCoeffs[i * 2 + 1]);
+        }
     }
     printf("\n");
     printf("Exiting\n");

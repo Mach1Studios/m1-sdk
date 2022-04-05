@@ -92,7 +92,7 @@ private:
 	void spatialAltAlgoSample(float Yaw, float Pitch, float Roll, float *result);
 	std::vector<float> spatialAltAlgoSample(float Yaw, float Pitch, float Roll);
 
-	void spatialMultichannelAlgo(Mach1Point3DCore* points, int countPoints, float Yaw, float Pitch, float Roll, float *result);
+	void spatialMultichannelAlgo(Mach1Point3DCore* channelPoints, int numChannelPoints, float Yaw, float Pitch, float Roll, float *result);
 
 	void spatialAlgoSample(float Yaw, float Pitch, float Roll, float *result);
 	std::vector<float> spatialAlgoSample(float Yaw, float Pitch, float Roll);
@@ -161,11 +161,13 @@ public:
 
     std::vector<float> decode(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
     std::vector<float> decodeCoeffs(int bufferSize = 0, int sampleIndex = 0);
+    std::vector<float> decodePannedCoeffs(int bufferSize = 0, int sampleIndex = 0, bool applyPanLaw = true);
 
     // Decode using the current algorithm type in a more efficient way
 
     void decode(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
 	void decodeCoeffs(float *result, int bufferSize = 0, int sampleIndex = 0);
+    void decodePannedCoeffs(float *result, int bufferSize = 0, int sampleIndex = 0, bool applyPanLaw = true);
 	void decodeCoeffsUsingTranscodeMatrix(void * M1obj, float * matrix, int channels, float * result, int bufferSize = 0, int sampleIndex = 0);
 
     // The following functions are deprecated as of now

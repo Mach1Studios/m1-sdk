@@ -54,6 +54,11 @@ void Mach1Decode::decodeCoeffs(float * result, int bufferSize, int sampleIndex)
 {
 	Mach1DecodeCAPI_decodeCoeffs(M1obj, result, bufferSize, sampleIndex);
 }
+
+void Mach1Decode::decodePannedCoeffs(float * result, int bufferSize, int sampleIndex, bool applyPanLaw)
+{
+	Mach1DecodeCAPI_decodePannedCoeffs(M1obj, result, bufferSize, sampleIndex, applyPanLaw);
+}
 #endif
 
 std::vector<float> Mach1Decode::decode(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
@@ -99,6 +104,33 @@ std::vector<float> Mach1Decode::decodeCoeffs(int bufferSize, int sampleIndex)
     /// - Parameters: 
     ///     - bufferSize: int for number of samples in a buffer, ideally supplied from your audioplayer/engine
     ///     - sampleIndex: int for current sample index array, ideally supplied from your audioplayer/engine
+}
+
+std::vector<float> Mach1Decode::decodePannedCoeffs(int bufferSize, int sampleIndex, bool applyPanLaw)
+{
+	std::vector<float> vec(getFormatChannelCount());
+
+	Mach1DecodeCAPI_decodePannedCoeffs(M1obj, vec.data(), bufferSize, sampleIndex, applyPanLaw);
+
+	return vec;
+    /// Call with current `setRotationDegrees` to return the resulting coefficient per channel along with an associated pan float
+    /// to apply to the audioplayer's volume and left/right panner per channel
+    ///
+    /// 2D Vector Structure: 
+    /// [0]{ gain, pan } // gain & pan for first channel
+    /// [1]{ gain, pan } // gain & pan for second channel
+    /// [2]{ gain, pan } // etc.
+    ///
+    /// Includes two modes of use:
+    /// + Update decode results via audio callback
+    ///   + *Use your audio player's buffersize and current sample index for sync callbacks*
+    /// + Update decode results via main loop (or any loop)
+    ///   + *Default null or 0 values to **bufferSize** or **sampleIndex** will use the second mode*
+    ///
+    /// - Parameters: 
+    ///     - bufferSize: int for number of samples in a buffer, ideally supplied from your audioplayer/engine
+    ///     - sampleIndex: int for current sample index array, ideally supplied from your audioplayer/engine
+    ///		- applyPanLaw: bool for control over panLaw application
 }
 
 std::vector<float> Mach1Decode::decodeCoeffsUsingTranscodeMatrix(std::vector< std::vector<float> > matrix, int channels, int bufferSize, int sampleIndex)

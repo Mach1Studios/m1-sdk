@@ -30,10 +30,43 @@ struct Mach1FormatInfo {
 	std::vector<Mach1ChannelDescription> channelTypes;
 };
 
+struct Mach1TranscodeChannelBase {
+	virtual ~Mach1TranscodeChannelBase() { }
+};
+
+struct Mach1TranscodeCoeffs : public Mach1TranscodeChannelBase {
+	std::vector<float> data;
+};
+
+struct Mach1TranscodePanner : public Mach1TranscodeChannelBase {
+	float azimuth;
+	float elevation;
+	float diverge;
+};
+
+class Mach1TranscodeChannel {
+public:
+	static Mach1TranscodeCoeffs* Coeffs(std::vector<float> data)
+	{
+		Mach1TranscodeCoeffs* obj = new Mach1TranscodeCoeffs();
+		obj->data = data;
+		return obj;
+	}
+
+	static Mach1TranscodePanner* Panner(float azimuthFromMinus180to180, float elevationFromMinus90to90, float divergeFromMinus1To1)
+	{
+		Mach1TranscodePanner* obj = new Mach1TranscodePanner();
+		obj->azimuth = azimuthFromMinus180to180;
+		obj->elevation = elevationFromMinus90to90;
+		obj->diverge = divergeFromMinus1To1;
+		return obj;
+	}
+};
+
 struct Mach1TranscodeMatrix {
 	std::string formatFrom;
 	std::string formatTo;
-	std::vector< std::vector<float> > data;
+	std::vector<Mach1TranscodeChannelBase*> channels;
 };
 
 namespace Mach1TranscodeConstants {
@@ -41,19 +74,26 @@ namespace Mach1TranscodeConstants {
 	const int MAXCHANS = 64;
 
 	const std::vector<Mach1FormatInfo> formats = {
+		/*
+		 * VECTOR (VVBP / SPS)
+		 */
 		{ "CustomPoints", 0 },
 		{ "Empty", 0 },
 		{ "M1Horizon", 4 },
 		{ "M1HorizonS", 6 },
 		{ "M1HorizonPairs", 8 },
-		{ "M1Spatial", 8 },
-		{ "M1SpatialS", 10 },
+		{ "M1Spatial", 8 }, 		// MACH1SPATIAL-8 (default)
+		{ "M1SpatialS", 10 }, 		// MACH1SPATIAL-8 (default)
 		{ "M1SpatialPairs", 16 },
-		{ "M1SpatialPlus", 12 },
-		{ "M1SpatialPlusPlus", 14 },
-		{ "M1SpatialExtended", 16 },
-		{ "M1SpatialExtendedPlus", 18 },
+		{ "M1Spatial-12", 12 }, 	// MACH1SPATIAL-12
+		{ "M1Spatial-14", 14 }, 	// MACH1SPATIAL-14
+		{ "M1Spatial-16", 16 },		// MACH1SPATIAL-16
+		{ "M1Spatial-18", 18 }, 	// MACH1SPATIAL-18
+		{ "M1Spatial-32", 18 }, 	// MACH1SPATIAL-32
 		{ "M1SpatialFaces", 6 },
+		/*
+		 * SURROUND
+		 */
 		{ "1.0", 1 },
 		{ "2.0_M", 2 },
 		{ "2.0_C", 2 },
@@ -144,6 +184,9 @@ namespace Mach1TranscodeConstants {
 		{ "10.0.2_C_THX", 12 },
 		{ "16.0_M", 16 },
 		{ "22.0_C", 22 },
+		/*
+		 * AMBISONIC
+		 */
 		{ "FuMa", 4 },
 		{ "ACNSN3D", 4 },
 		{ "TBE", 8 },
@@ -160,6 +203,12 @@ namespace Mach1TranscodeConstants {
 		{ "ACNSN3DmaxRE5oa", 36 },
 		{ "ACNSN3DmaxRE6oa", 49 },
 		{ "ACNSN3DmaxRE7oa", 64 },
+		/*
+		 * MIC ARRAY
+		 */
+		{ "A-Format", 4 },
+		{ "Tetrahedral", 8 },
+		{ "ORTF3D", 8 },
 	};
 };
 

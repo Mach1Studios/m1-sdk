@@ -358,10 +358,10 @@ public:
 		},
 		{
 			"5.1_C_SIM", "M1Spatial",
-			//L, C, R, Ls, Rs, LFE with front facing
+			// L, C, R, Ls, Rs, LFE with front facing
 			// Rear channels ±135° azimuth
-			//Channel Divergence = 70%
-			//Center Channel Divergence = 50%
+			// Channel Divergence = 70%
+			// Center Channel Divergence = 50%
 			{
 				Mach1TranscodeChannel::Coeffs({ 0.361250, 0.213388, 0.063750, 0.063750, 0.011250, r2o8 }),
 				Mach1TranscodeChannel::Coeffs({ 0.063750, 0.213388, 0.361250, 0.011250, 0.063750, r2o8 }),

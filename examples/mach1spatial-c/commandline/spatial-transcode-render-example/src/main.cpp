@@ -184,7 +184,7 @@ int main(int argc, char* argv[])
 	if (pStr && (strlen(pStr) > 0))
 	{
 		inFmtStr = pStr;
-		if (strcmp(inFmtStr, "TTPoints") == 0) {
+		if (strcmp(inFmtStr, "CustomPoints") == 0) {
 			pStr = getCmdOption(argv, argv + argc, "-in-json");
 			if (pStr && (strlen(pStr) > 0))
             {
@@ -230,7 +230,7 @@ int main(int argc, char* argv[])
 	if (pStr && (strlen(pStr) > 0))
 	{
 		outFmtStr = pStr;
-		if (strcmp(outFmtStr, "TTPoints") == 0) {
+		if (strcmp(outFmtStr, "CustomPoints") == 0) {
 			pStr = getCmdOption(argv, argv + argc, "-out-json");
 			if (pStr && (strlen(pStr) > 0))
 			{

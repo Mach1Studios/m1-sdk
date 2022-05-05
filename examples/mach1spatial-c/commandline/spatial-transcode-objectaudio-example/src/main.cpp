@@ -349,7 +349,7 @@ int main(int argc, char* argv[])
 	pStr = getCmdOption(argv, argv + argc, "-out-fmt");
 	if (pStr && (strlen(pStr) > 0)) {
 		outFmtStr = pStr;
-		if (strcmp(outFmtStr, "TTPoints") == 0) {
+		if (strcmp(outFmtStr, "CustomPoints") == 0) {
 			pStr = getCmdOption(argv, argv + argc, "-out-json");
 			if (pStr && (strlen(pStr) > 0))
 			{

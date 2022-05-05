@@ -36,7 +36,7 @@ make install
 - Install libsndfile: http://www.mega-nerd.com/libsndfile/#Download
 
 #### Example Arguement
-`-in-fmt M1Spatial -in-file "m1-spatial-8ch.wav" -out-fmt 7.1.2_C -out-file "output-DolbyAtmosConfigured-ADM-BWF.wav" -out-file-chans 0`
+`-in-fmt M1Spatial -in-file "m1-spatial-8ch.wav" -out-fmt 7.1.2_C -out-file "output-Atmos7_1_2-ADM-BWF.wav" -out-file-chans 0`
 
 #### TODO
  - Bitdepth and samplerate matches input audiofile _(currently hardset to 48k 24bit)_

@@ -80,7 +80,7 @@ void printHelp() {
 	cout << "spatial-transcode-objectaudio-example -- light command line example conversion tool" << std::endl;
     cout << "note: for a complete transcoding tool use `m1-transcode` from the `executables` directory" << std::endl;
 	cout << std::endl;
-	cout << "usage: fmtconv -in-file test_s8.wav -in-fmt M1Spatial -out-file test_b.wav -out-fmt DolbyAtmosSevenOneTwo" << std::endl;
+	cout << "usage: fmtconv -in-file test_s8.wav -in-fmt M1Spatial -out-file test_b.wav -out-fmt 7.1.2_C" << std::endl;
 	cout << std::endl;
 	cout << "  -help                    - list command line options" << std::endl;
 	cout << "  -in-folder <folder>      - input folder: folder for audio files" << std::endl;
@@ -503,7 +503,7 @@ int main(int argc, char* argv[])
 			strcpy(outfilestr, outfilename);
         }
 
-		if (outFmt == m1transcode.getFormatFromString("DolbyAtmosSevenOneTwo")) {
+		if (outFmt == m1transcode.getFormatFromString("7.1.2_C")) {
             std::string axmlChunkAdmCorrectedString = getTimecode(axmlChunkAdmString, inputInfo.duration).c_str();
             bw64::AxmlChunk axmlChunkAdmCorrected(axmlChunkAdmCorrectedString);
 			outfiles[i].open(outfilestr, actualOutFileChannels, chnaChunkAdm, axmlChunkAdmCorrected);

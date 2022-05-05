@@ -348,7 +348,7 @@ int main(int argc, char* argv[])
 	pStr = getCmdOption(argv, argv + argc, "-in-fmt");
 	if (pStr && (strlen(pStr) > 0)) {
 		inFmtStr = pStr;
-		if (strcmp(inFmtStr, "TTPoints") == 0) {
+		if (strcmp(inFmtStr, "CustomPoints") == 0) {
 			pStr = getCmdOption(argv, argv + argc, "-in-json");
 			if (pStr && (strlen(pStr) > 0)) {
                 std::ifstream file(pStr);

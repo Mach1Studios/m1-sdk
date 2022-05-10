@@ -320,7 +320,20 @@ namespace Mach1TranscodeConstants {
 				Mach1TranscodeChannel::Coeffs({ 0.125000f,  0.216602f, -0.216316f,  0.216602f }),    // Bottom Front Left
 				Mach1TranscodeChannel::Coeffs({ 0.125000f, -0.216602f, -0.216316f,  0.216602f }),    // Bottom Front Right
 				Mach1TranscodeChannel::Coeffs({ 0.125000f,  0.216602f, -0.216316f, -0.216602f }),    // Bottom Back Left
-				Mach1TranscodeChannel::Coeffs({ 0.125000f, -0.216602f, -0.216316f, -0.216602f }), 	  // Bottom Back Right
+				Mach1TranscodeChannel::Coeffs({ 0.125000f, -0.216602f, -0.216316f, -0.216602f }), 	 // Bottom Back Right
+			}
+		},
+		{
+			"FOA-Ambix", "M1Spatial", // HARPEX AMBIX
+			{ 	
+				Mach1TranscodeChannel::Coeffs({ 0.241212f,  0.262240f,  0.244400f,  0.244448f }),   // Top Front Left
+				Mach1TranscodeChannel::Coeffs({ 0.234280f, -0.238290f,  0.225039f,  0.225034f }),   // Top Front Right
+				Mach1TranscodeChannel::Coeffs({ 0.228078f,  0.299033f,  0.258890f, -0.227861f }),	// Top Back Left
+				Mach1TranscodeChannel::Coeffs({ 0.225828f, -0.297917f,  0.258975f, -0.225764f }),   // Top Back Right
+				Mach1TranscodeChannel::Coeffs({ 0.202019f,  0.242975f, -0.227895f,  0.258664f }),   // Bottom Front Left
+				Mach1TranscodeChannel::Coeffs({ 0.202019f, -0.236370f, -0.225791f,  0.258664f }),   // Bottom Front Right
+				Mach1TranscodeChannel::Coeffs({ 0.279869f,  0.299043f, -0.278425f, -0.278440f }),   // Bottom Back Left
+				Mach1TranscodeChannel::Coeffs({ 0.279869f, -0.290210f, -0.279763f, -0.279753f }),   // Bottom Back Right
 			}
 		},
 		{

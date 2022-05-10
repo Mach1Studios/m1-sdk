@@ -187,6 +187,8 @@ namespace Mach1TranscodeConstants {
 		/*
 		 * AMBISONIC
 		 */
+		{ "FOA-Ambix", 4 },
+		{ "FOA-FuMa", 4 },
 		{ "FuMa", 4 },
 		{ "ACNSN3D", 4 },
 		{ "TBE", 8 },
@@ -206,8 +208,10 @@ namespace Mach1TranscodeConstants {
 		/*
 		 * MIC ARRAY
 		 */
-		{ "A-Format", 4 },
-		{ "Tetrahedral", 8 },
+		{ "Ambeo", 4 },
+		{ "TetraMic", 4 },
+		{ "SPS-200", 4 },
+		{ "NT-SF1", 4 },
 		{ "ORTF3D", 8 },
 	};
 };

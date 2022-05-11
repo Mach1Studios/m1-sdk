@@ -46,16 +46,16 @@ Example:
 The surround matrices use additional naming nomenclature to help keep things organized and understandable, the nomenclature is described as such: 
 ```
 Multichannel Format/Configuration Naming Conventions:
- - M or Music		= `Music Mix` (Channels are spaced out evenly throughout the horizontal soundfield)
- - C or Cinema		= `Cinema Mix` (Channels are more focused on the front)
+ - M or Music			= `Music Mix` (Channels are spaced out evenly throughout the horizontal soundfield)
+ - C or Cinema			= `Cinema Mix` (Channels are more focused on the front)
  - S or SideSurround 	= `Side Surround Mix` (Surround channels are oriented more to the sides instead of rear (+-110 azimuth instead of +-135))
  - R or RearSurround 	= `Rear Surround Mix` (Surround channels are oriented more to the rears instead of sides (+-154 azimuth instead of +-135))
- - SIM or Simulated	= `Simulated Room Mix` (Lessens the divergence of virtual speakers to quickly simulate hearing front/back soundfield within a real world listening environment)
+ - SIM or Simulated		= `Simulated Room Mix` (Lessens the divergence of virtual speakers to quickly simulate hearing front/back soundfield within a real world listening environment)
 
 Channel Order Variants:
  - Default / Film / C|24  	= L, C, R, Ls, Rs, LFE ...
- - SMPTE			= L, R, C, LFE, Ls, Rs ...
- - Dts				= L, R, Ls, Rs, C, LFE ...
+ - SMPTE					= L, R, C, LFE, Ls, Rs ...
+ - Dts						= L, R, Ls, Rs, C, LFE ...
 ```
 
 ### [PROPOSED IMPROVEMENTS](#improvements) ###

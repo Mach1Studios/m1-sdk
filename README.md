@@ -75,6 +75,7 @@ Please view the [license/](license) directory for more information and proper at
 * Unity Package <a href="https://www.mach1.tech/download-spatialgameengine">Unity Package</a>
 	* _.unitypackage for Mach1Decode/Mach1DecodePositional and experiemental DSPGraph implementation of Mach1Encode_
 * iOS Examples
+	* [_Spatial Audio Player example_](https://github.com/Mach1Studios/Pod-Mach1SpatialAPI/tree/master/Examples/spatialaudioplayer-example)
 	* _Mach1Decode example_
 	* _Mach1Transcode example_
 	* _Mach1Encode & live Mach1Decode example_

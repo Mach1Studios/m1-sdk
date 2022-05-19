@@ -44,7 +44,8 @@ public:
 				Mach1TranscodeChannel::Coeffs({  0.005525f, -0.004715f, -0.219145f, -0.033720f }),  // Bottom Front Left
 				Mach1TranscodeChannel::Coeffs({ -0.317307f,  1.772778f, -0.182120f, -0.325000f }),  // Bottom Front Right
 				Mach1TranscodeChannel::Coeffs({ -0.311014f, -0.322439f,  1.787938f, -0.319770f }),  // Bottom Back Left
-				Mach1TranscodeChannel::Coeffs({ -0.037532f, -0.001391f, -0.223065f,  0.006200f }),	// Bottom Back Right			}
+				Mach1TranscodeChannel::Coeffs({ -0.037532f, -0.001391f, -0.223065f,  0.006200f }),	// Bottom Back Right
+			}
 		},
 		{
 			"SPS-200", "M1Spatial", // HARPEX AFORMAT AMBEO
@@ -56,7 +57,8 @@ public:
 				Mach1TranscodeChannel::Coeffs({  0.022792f,  0.000104f, -0.242130f, -0.332123f }),  // Bottom Front Left
 				Mach1TranscodeChannel::Coeffs({ -0.360383f,  1.700059f, -0.199532f, -0.196025f }),  // Bottom Front Right
 				Mach1TranscodeChannel::Coeffs({ -0.362318f, -0.364615f,  1.700795f, -0.198909f }),  // Bottom Back Left
-				Mach1TranscodeChannel::Coeffs({ -0.037654f, -0.005212f, -0.238480f, -0.216871f }),	// Bottom Back Right			}
+				Mach1TranscodeChannel::Coeffs({ -0.037654f, -0.005212f, -0.238480f, -0.216871f }),	// Bottom Back Right
+			}
 		},
 		{
 			"TetraMic", "M1Spatial", // HARPEX AFORMAT AMBEO
@@ -69,7 +71,8 @@ public:
 				Mach1TranscodeChannel::Coeffs({  0.033468f, -0.005087f, -0.339082f,  0.246269f }),  // Bottom Front Left
 				Mach1TranscodeChannel::Coeffs({ -0.518431f,  2.369203f, -0.280546f, -0.691866f }),  // Bottom Front Right
 				Mach1TranscodeChannel::Coeffs({ -0.523264f, -0.529685f,  2.352627f, -0.684801f }),  // Bottom Back Left
-				Mach1TranscodeChannel::Coeffs({ -0.087658f, -0.002606f, -0.334510f,  0.035837f }),	// Bottom Back Right			}
+				Mach1TranscodeChannel::Coeffs({ -0.087658f, -0.002606f, -0.334510f,  0.035837f }),	// Bottom Back Right
+			}
 		},
 		{
 			"NT-SF1", "M1Spatial", // HARPEX AFORMAT AMBEO
@@ -81,8 +84,9 @@ public:
 				Mach1TranscodeChannel::Coeffs({  0.022924f, -0.003148f, -0.217002f, -0.296904f }),  // Bottom Front Left
 				Mach1TranscodeChannel::Coeffs({ -0.321070f,  1.621596f, -0.178848f, -0.175521f }),  // Bottom Front Right
 				Mach1TranscodeChannel::Coeffs({ -0.324515f, -0.326690f,  1.622426f, -0.178372f }),  // Bottom Back Left
-				Mach1TranscodeChannel::Coeffs({ -0.031950f, -0.001212f, -0.213596f, -0.193075f }),	// Bottom Back Right			}
-		}
+				Mach1TranscodeChannel::Coeffs({ -0.031950f, -0.001212f, -0.213596f, -0.193075f }),	// Bottom Back Right
+			}
+		},
 	};
 			
 		}

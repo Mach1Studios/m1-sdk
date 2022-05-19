@@ -324,7 +324,7 @@ namespace Mach1TranscodeConstants {
 			}
 		},
 		{
-			"FOA-Ambix", "M1Spatial", // HARPEX AMBIX
+			"FOA-Ambix", "M1Spatial", // Ambix variation test
 			{ 	
 				Mach1TranscodeChannel::Coeffs({ 0.241212f,  0.262240f,  0.244400f,  0.244448f }),   // Top Front Left
 				Mach1TranscodeChannel::Coeffs({ 0.234280f, -0.238290f,  0.225039f,  0.225034f }),   // Top Front Right

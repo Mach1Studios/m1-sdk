@@ -1,6 +1,5 @@
 #!/bin/bash
 
-cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-nodejs/mach1spatial-transcode
 git add -u ${TRAVIS_BUILD_DIR}/examples/mach1spatial-nodejs/mach1spatial-transcode/*
 git commit -a -m "recompiled mach1spatial-libs"
 git rebase main

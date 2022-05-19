@@ -7,6 +7,7 @@ branches:
   only:
     - develop
     - deploy
+    - master
 
 git:
   lfs_skip_smudge: true
@@ -31,6 +32,8 @@ stages:
     if: branch = deploy
   - name: deploy
     if: branch = deploy
+  - name: release
+    if: branch = master
 
 jobs:
   include:
@@ -605,15 +608,50 @@ jobs:
         - rsync -arv executables_pulldown/ executables
         - rm -rf executables_pulldown/
       after_success:
-        - cd ${TRAVIS_BUILD_DIR}/source
-        - ./scripts/copy_includes_dev.sh
-        - ./scripts/copy_libs_to_examples.sh
-        - ./scripts/git-pod-module.sh
-        - ./scripts/git-jitpack-module.sh
-        - ./scripts/git-unity-module.sh
-        - ./scripts/git-ue-module.sh
-        - ./scripts/git-webplayer-module.sh
-        - ./scripts/git-node-decode-module.sh
-        # - ./scripts/git-node-encode-module.sh
-        - ./scripts/git-node-transcode-module.sh
-        - ./scripts/deploy.sh
+        - cd ${TRAVIS_BUILD_DIR}/source && ./scripts/copy_includes_dev.sh
+        - cd ${TRAVIS_BUILD_DIR}/source && ./scripts/copy_libs_to_examples.sh
+        - cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI && ${TRAVIS_BUILD_DIR}/source/scripts/git-pod-module.sh
+        - cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI && ${TRAVIS_BUILD_DIR}/source/scripts/git-jitpack-module.sh
+        - cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI && ${TRAVIS_BUILD_DIR}/source/scripts/git-unity-module.sh
+        - cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI && ${TRAVIS_BUILD_DIR}/source/scripts/git-ue-module.sh
+        - cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-web/m1-web-spatialaudioplayer && ${TRAVIS_BUILD_DIR}/source/scripts/git-webplayer-module.sh
+        - cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-nodejs/mach1spatial-decode && ${TRAVIS_BUILD_DIR}/source/scripts/git-node-decode-module.sh
+        # - cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-nodejs/mach1spatial-encode && ${TRAVIS_BUILD_DIR}/source/scripts/git-node-encode-module.sh
+        - cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-nodejs/mach1spatial-transcode && ${TRAVIS_BUILD_DIR}/source/scripts/git-node-transcode-module.sh
+        - cd ${TRAVIS_BUILD_DIR} && ./source/scripts/deploy.sh
+
+    - stage: release
+      name: Aggregate & Deploy Libs
+      os: linux
+      sudo: required
+      dist: bionic
+      addons:
+        apt:
+          packages:
+            - rsync
+            - awscli
+          update: true
+      install:
+        - cd ${TRAVIS_BUILD_DIR}/source && ./scripts/git-prepare-submodules.sh
+        - git config user.email "whatsup@mach1.tech"
+        - git config user.name "Mach1-Bot"
+        - cd ${TRAVIS_BUILD_DIR}/../
+        - git clone --recurse-submodules -j8 git@github.com:Mach1Studios/m1-sdk.git m1-sdk-release
+      script:
+        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release
+        - aws s3 cp s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs ${TRAVIS_BUILD_DIR}/../m1-sdk-release/mach1spatial-libs_pulldown --recursive
+        - rsync -arv ${TRAVIS_BUILD_DIR}/../m1-sdk-release/mach1spatial-libs_pulldown/ ${TRAVIS_BUILD_DIR}/../m1-sdk-release/mach1spatial-libs
+        - rm -rf ${TRAVIS_BUILD_DIR}/../m1-sdk-release/mach1spatial-libs_pulldown/
+        - aws s3 cp s3://${AWS_DEPLOY_BUCKET}/executables ${TRAVIS_BUILD_DIR}/../m1-sdk-release/executables_pulldown --recursive
+        - rsync -arv ${TRAVIS_BUILD_DIR}/../m1-sdk-release/executables_pulldown/ executables
+        - rm -rf ${TRAVIS_BUILD_DIR}/../m1-sdk-release/executables_pulldown/
+      after_success:
+        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/source && ./scripts/copy_includes_dev.sh
+        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/source && ./scripts/copy_libs_to_examples.sh
+        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI && ${TRAVIS_BUILD_DIR}/../m1-sdk-release/source/scripts/git-pod-module.sh
+        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI && ${TRAVIS_BUILD_DIR}/../m1-sdk-release/source/scripts/git-jitpack-module.sh
+        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-web/m1-web-spatialaudioplayer && ${TRAVIS_BUILD_DIR}/../m1-sdk-release/source/scripts/git-webplayer-module.sh
+        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-decode && ${TRAVIS_BUILD_DIR}/../m1-sdk-release/source/scripts/git-node-decode-module.sh
+        # - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-encode && ${TRAVIS_BUILD_DIR}/../m1-sdk-release/source/scripts/git-node-encode-module.sh
+        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-transcode && ${TRAVIS_BUILD_DIR}/../m1-sdk-release/source/scripts/git-node-transcode-module.sh
+        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release && ./source/scripts/deploy.sh

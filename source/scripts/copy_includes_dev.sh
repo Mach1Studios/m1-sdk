@@ -1,6 +1,5 @@
 #!/bin/bash
 
-cd ${TRAVIS_BUILD_DIR}/source
 cp -rf "include/cpp/" "../mach1spatial-libs/arm-chipsets/beaglebone/include"
 cp -rf "include/cpp/" "../mach1spatial-libs/arm-chipsets/gcc-arm-cortexm0-cxx14/include"
 cp -rf "include/cpp/" "../mach1spatial-libs/arm-chipsets/gcc-armhf-neon-vfpv4/include"

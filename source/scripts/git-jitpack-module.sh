@@ -1,6 +1,5 @@
 #!/bin/bash
 
-cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI
 git add -u ${TRAVIS_BUILD_DIR}/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/*
 git commit -a -m "recompiled mach1spatial-libs"
 git rebase master

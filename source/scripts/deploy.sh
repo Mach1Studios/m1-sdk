@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Git push main repo
-#cd ${TRAVIS_BUILD_DIR}
+# Git push repo, please call this from the root dir of the m1-sdk repo you want to push
+
 # add compiled library changes
 git add -u ./mach1spatial-libs/*
 git add -u ./executables/*

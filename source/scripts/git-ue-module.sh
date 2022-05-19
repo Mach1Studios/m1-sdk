@@ -1,8 +1,14 @@
 #!/bin/bash
 
-git add ${TRAVIS_BUILD_DIR}/examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI/*
-git commit -a -m "recompiled mach1spatial-libs"
-git rebase master
-git checkout master && git pull
-git merge tmp
-git push https://mach1-bot:${GITHUB_API_KEY}@${GH_REF_UE} HEAD:master
+if [[ "$PWD" == *UE-Mach1SpatialAPI ]]
+then
+	echo "Script called from correct path: $PWD"
+	git add ./*
+	git commit -a -m "recompiled mach1spatial-libs"
+	git rebase master
+	git checkout master && git pull
+	git merge tmp
+	git push https://mach1-bot:${GITHUB_API_KEY}@${GH_REF_UE} HEAD:master
+else
+	echo "ERROR: Script called from wrong directory: $PWD"
+fi

@@ -621,7 +621,7 @@ jobs:
         - cd ${TRAVIS_BUILD_DIR} && ./source/scripts/deploy.sh
 
     - stage: release
-      name: Aggregate & Deploy Libs
+      name: Aggregate & Release Libs on public repo
       os: linux
       sudo: required
       dist: bionic
@@ -632,7 +632,7 @@ jobs:
             - awscli
           update: true
       install:
-        - cd ${TRAVIS_BUILD_DIR}/source && ./scripts/git-prepare-submodules.sh
+        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/source && ./scripts/git-prepare-submodules.sh
         - git config user.email "whatsup@mach1.tech"
         - git config user.name "Mach1-Bot"
         - cd ${TRAVIS_BUILD_DIR}/../

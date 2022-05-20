@@ -19,3 +19,4 @@ git rebase master
 git checkout master && git pull
 git merge tmp
 git push https://mach1-bot:${GITHUB_API_KEY}@${GH_REF} HEAD:master
+git push

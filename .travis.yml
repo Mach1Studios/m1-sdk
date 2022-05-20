@@ -632,11 +632,20 @@ jobs:
             - awscli
           update: true
       install:
-        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/source && ./scripts/git-prepare-submodules.sh
         - git config user.email "whatsup@mach1.tech"
         - git config user.name "Mach1-Bot"
         - cd ${TRAVIS_BUILD_DIR}/../
         - git clone --recurse-submodules -j8 git@github.com:Mach1Studios/m1-sdk.git m1-sdk-release
+        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/
+        # Switch to each submodule and prepare a tmp branch for pushing and merging safely
+        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI && git fetch && git checkout -b tmp
+        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI && git fetch && git checkout -b tmp
+        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-web/m1-web-spatialaudioplayer && git fetch && git checkout -b tmp
+        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-decode && git fetch && git checkout -b tmp
+        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-encode && git fetch && git checkout -b tmp
+        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-transcode && git fetch && git checkout -b tmp
+        # Setup tmp branch for root repo
+        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/ && git fetch && git checkout -b tmp
       script:
         - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release
         - aws s3 cp s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs ${TRAVIS_BUILD_DIR}/../m1-sdk-release/mach1spatial-libs_pulldown --recursive
@@ -646,12 +655,14 @@ jobs:
         - rsync -arv ${TRAVIS_BUILD_DIR}/../m1-sdk-release/executables_pulldown/ executables
         - rm -rf ${TRAVIS_BUILD_DIR}/../m1-sdk-release/executables_pulldown/
       after_success:
-        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/source && ./scripts/copy_includes_dev.sh
-        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/source && ./scripts/copy_libs_to_examples.sh
-        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI && ${TRAVIS_BUILD_DIR}/../m1-sdk-release/source/scripts/git-pod-module.sh
-        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI && ${TRAVIS_BUILD_DIR}/../m1-sdk-release/source/scripts/git-jitpack-module.sh
-        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-web/m1-web-spatialaudioplayer && ${TRAVIS_BUILD_DIR}/../m1-sdk-release/source/scripts/git-webplayer-module.sh
-        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-decode && ${TRAVIS_BUILD_DIR}/../m1-sdk-release/source/scripts/git-node-decode-module.sh
-        # - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-encode && ${TRAVIS_BUILD_DIR}/../m1-sdk-release/source/scripts/git-node-encode-module.sh
-        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-transcode && ${TRAVIS_BUILD_DIR}/../m1-sdk-release/source/scripts/git-node-transcode-module.sh
-        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release && ./source/scripts/deploy.sh
+        - cd ${TRAVIS_BUILD_DIR}/source && ./scripts/copy_includes_dev.sh
+        - cd ${TRAVIS_BUILD_DIR}/source && ./scripts/copy_libs_to_examples.sh
+        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI && ${TRAVIS_BUILD_DIR}/source/scripts/git-pod-module.sh
+        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI && ${TRAVIS_BUILD_DIR}/source/scripts/git-jitpack-module.sh
+        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-web/m1-web-spatialaudioplayer && ${TRAVIS_BUILD_DIR}/source/scripts/git-webplayer-module.sh
+        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-decode && ${TRAVIS_BUILD_DIR}/source/scripts/git-node-decode-module.sh
+        # - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-encode && ${TRAVIS_BUILD_DIR}/source/scripts/git-node-encode-module.sh
+        # - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-transcode && ${TRAVIS_BUILD_DIR}/source/scripts/git-node-transcode-module.sh
+        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release && ${TRAVIS_BUILD_DIR}/source/scripts/deploy.sh
+        # removing master branch after pushed into release repo is completed for a future deploy without merge conflicts
+        - cd ${TRAVIS_BUILD_DIR} && $ git push origin --delete master

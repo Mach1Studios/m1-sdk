@@ -4,7 +4,7 @@
 /*
  This example is for reference for how Mach1Spatial Coefficients from Mach1Transcode API
  could be used on audio streams and buffers.
- 
+
  Order of Operations:
  1. Setup Input and Output formats (and paths)
  2. Call `processConversionPath()` to setup the conversion for processing
@@ -39,7 +39,7 @@ std::vector<Mach1Point3D> keypoints;
 
 Mach1Point3D* callbackPointsSampler(long long sample, int& n) {
 	keypoints.resize(audioObjects.size());
-	
+
 	for (int i = 0; i < audioObjects.size(); i++) {
 		std::vector<Mach1KeyPoint> kp = audioObjects[i].getKeyPoints();
 
@@ -55,7 +55,7 @@ Mach1Point3D* callbackPointsSampler(long long sample, int& n) {
 	n = keypoints.size();
 	return keypoints.data();
 }
- 
+
 using namespace std;
 
 vector<string> &split(const string &s, char delim, vector<string> &elems) {
@@ -123,7 +123,7 @@ audiofileInfo printFileInfo(SndfileHandle file) {
 	cout << "Length (sec):     " << (float)file.frames() / (float)file.samplerate() << std::endl;
 	inputFileInfo.duration = (float)file.frames() / (float)file.samplerate();
 	cout << std::endl;
-	
+
 	return inputFileInfo;
 }
 
@@ -134,13 +134,13 @@ std::string prepareAdmMetadata(const char* admString, float duration, int sample
 	std::string s(admString);
 	std::string searchDurationString("hh:mm:ss.fffff");
 	size_t pos = s.find(searchDurationString);
-	
+
 	int seconds, minutes, hours;
 	std::string hoursString, minutesString, secondsString;
 	seconds = duration;
 	minutes = seconds / 60;
 	hours = minutes / 60;
-	
+
 	if ((int)hours < 100) {
 		hoursString = (int(hours) < 10) ? "0" + std::to_string(int(hours)) : std::to_string(int(hours));
 	} else {
@@ -149,7 +149,7 @@ std::string prepareAdmMetadata(const char* admString, float duration, int sample
 	}
 	minutesString = (int(minutes%60) < 10) ? "0" + std::to_string(int(minutes%60)) : std::to_string(int(minutes%60));
 	secondsString = (int((seconds+1)%60) < 10) ? "0" + std::to_string(int((seconds+1)%60)) : std::to_string(int((seconds+1)%60));
-	
+
 	std::vector<size_t> positions;
 	// Repeat till end is reached
 	while(pos != std::string::npos){
@@ -165,7 +165,7 @@ std::string prepareAdmMetadata(const char* admString, float duration, int sample
 
 	cout << "Detected Duration:  " << duration << std::endl;
 	cout << "Duration Timecode:  " << hoursString << ":" << minutesString << ":" << secondsString << ".00000" << std::endl;
-	
+
 	// set metadata for samplerate
 	std::string searchSampleRateString("__SAMPLERATE__");
 	size_t srPos = s.find(searchSampleRateString);
@@ -182,7 +182,7 @@ std::string prepareAdmMetadata(const char* admString, float duration, int sample
 		s.replace(srPos, searchDurationString.length(), std::to_string(sampleRate));
 	}
 	cout << "Detected SampleRate:  " << std::to_string(sampleRate) << std::endl;
-	
+
 	// set metadata for bitdepth
 	std::string searchBitDepthString("__BITDEPTH__");
 	size_t bdPos = s.find(searchBitDepthString);
@@ -210,7 +210,7 @@ class SndFileWriter {
 	std::unique_ptr<bw64::Bw64Writer> outBw64;
 	SndfileHandle outSnd;
 	int channels;
-	
+
 	enum SNDFILETYPE {
 		SNDFILETYPE_BW64,
 		SNDFILETYPE_SND
@@ -223,12 +223,12 @@ public:
 		type = SNDFILETYPE_SND;
 	}
 
-	void open(std::string outfilestr, int channels, bw64::ChnaChunk chnaChunkAdm, bw64::AxmlChunk axmlChunkAdm) {
-		// TODO: make variable of samplerate and bitdepth based on input
-		outBw64 = bw64::writeFile(outfilestr, channels, 48000u, 24u, std::make_shared<bw64::ChnaChunk>(chnaChunkAdm), std::make_shared<bw64::AxmlChunk>(axmlChunkAdm));
-		this->channels = channels;
-		type = SNDFILETYPE_BW64;
-	}
+  void open(std::string outfilestr, int sampleRate, int channels, int format, bw64::ChnaChunk chnaChunkAdm, bw64::AxmlChunk axmlChunkAdm) {
+      // TODO: make variable of samplerate and bitdepth based on input
+      outBw64 = bw64::writeFile(outfilestr, channels, sampleRate, format, std::make_shared<bw64::ChnaChunk>(chnaChunkAdm), std::make_shared<bw64::AxmlChunk>(axmlChunkAdm));
+      this->channels = channels;
+      type = SNDFILETYPE_BW64;
+  }
 
 	bool isOpened() {
 		if (type == SNDFILETYPE_SND) {
@@ -286,8 +286,8 @@ int main(int argc, char* argv[])
 	int outFmt;
 	int outFileChans;
 	int channels;
-	bool writeMetadata = false; 
-	
+	bool writeMetadata = false;
+
 	sf_count_t totalSamples;
 	long sampleRate;
 
@@ -324,7 +324,7 @@ int main(int argc, char* argv[])
 		writeMetadata = true;
 	}
 
-	// input file name 
+	// input file name
 	pStr = getCmdOption(argv, argv + argc, "-in-file");
 	if (pStr && (strlen(pStr) > 0)) {
 		infilename = pStr;
@@ -439,7 +439,7 @@ int main(int argc, char* argv[])
 	SndfileHandle *infile[Mach1TranscodeMAXCHANS];
 	vector<string> fNames;
 	audiofileInfo inputInfo;
-	
+
 	if (useAudioTimeline) {
 		for (int i = 0; i < audioObjects.size(); i++) {
 			std::string filename = std::string(infolder) + "/" + audioObjects[i].getName() + ".wav";
@@ -473,12 +473,12 @@ int main(int argc, char* argv[])
 	for (int i = 0; i < numInFiles; i++) {
 		infile[i]->seek(0, 0); // rewind input
 	}
-	
-	// -- setup 
+
+	// -- setup
 	m1transcode.setInputFormat(inFmt);
 	m1transcode.setOutputFormat(outFmt);
 
-	// first init of TT points	
+	// first init of TT points
 	if (useAudioTimeline) {
 		audioObjects = m1audioTimeline.getAudioObjects();
 		std::vector<Mach1Point3D> points;
@@ -529,7 +529,7 @@ int main(int argc, char* argv[])
 
 	//=================================================================
 	//  main sound loop
-	// 
+	//
 	int inChannels = 0;
 	for (int i = 0; i < numInFiles; i++)
 		inChannels += infile[i]->channels();
@@ -556,13 +556,13 @@ int main(int argc, char* argv[])
 			// Setup empty metadata chunks
 			bw64::ChnaChunk chnaChunkAdm;
 			std::string axmlChunkAdmCorrectedString;
-			
+
 			if (outFmt == m1transcode.getFormatFromString("7.1.2_M")){
 				// setup `chna` metadata chunk
 				chnaChunkAdm = fillChnaChunkADMDesc(actualOutFileChannels);
 				if ((int)chnaChunkAdm.size() != actualOutFileChannels){
 					std::cout << "ERROR: Issue writing `chna` metadata chunk due to mismatching channel count" << std::endl;
-					return;
+					break;
 				}
 				// setup `axml` metadata chunk
 				axmlChunkAdmCorrectedString = prepareAdmMetadata(axml_7_1_2_ChunkAdmString, inputInfo.duration, inputInfo.sampleRate, inputInfo.format).c_str();
@@ -574,7 +574,7 @@ int main(int argc, char* argv[])
 				chnaChunkAdm = fillChnaChunkADMDesc(actualOutFileChannels);
 				if ((int)chnaChunkAdm.size() != actualOutFileChannels){
 					std::cout << "ERROR: Issue writing `chna` metadata chunk due to mismatching channel count" << std::endl;
-					return;
+					break;
 				}
 				// setup `axml` metadata chunk
 				axmlChunkAdmCorrectedString = prepareAdmMetadata(axml_7_1_2_ChunkAdmString, inputInfo.duration, inputInfo.sampleRate, inputInfo.format).c_str();
@@ -586,7 +586,7 @@ int main(int argc, char* argv[])
 				chnaChunkAdm = fillChnaChunkADMDesc(actualOutFileChannels);
 				if ((int)chnaChunkAdm.size() != actualOutFileChannels){
 					std::cout << "ERROR: Issue writing `chna` metadata chunk due to mismatching channel count" << std::endl;
-					return;
+					break;
 				}
 				// setup `axml` metadata chunk
 				axmlChunkAdmCorrectedString = prepareAdmMetadata(axml_5_1_4_ChunkAdmString, inputInfo.duration, inputInfo.sampleRate, inputInfo.format).c_str();
@@ -598,7 +598,7 @@ int main(int argc, char* argv[])
 				chnaChunkAdm = fillChnaChunkADMDesc(actualOutFileChannels);
 				if ((int)chnaChunkAdm.size() != actualOutFileChannels){
 					std::cout << "ERROR: Issue writing `chna` metadata chunk due to mismatching channel count" << std::endl;
-					return;
+					break;
 				}
 				// setup `axml` metadata chunk
 				axmlChunkAdmCorrectedString = prepareAdmMetadata(axml_5_1_4_ChunkAdmString, inputInfo.duration, inputInfo.sampleRate, inputInfo.format).c_str();
@@ -610,7 +610,7 @@ int main(int argc, char* argv[])
 				chnaChunkAdm = fillChnaChunkADMDesc(actualOutFileChannels);
 				if ((int)chnaChunkAdm.size() != actualOutFileChannels){
 					std::cout << "ERROR: Issue writing `chna` metadata chunk due to mismatching channel count" << std::endl;
-					return;
+					break;
 				}
 				// setup `axml` metadata chunk
 				axmlChunkAdmCorrectedString = prepareAdmMetadata(axml_7_1_4_ChunkAdmString, inputInfo.duration, inputInfo.sampleRate, inputInfo.format).c_str();
@@ -622,7 +622,7 @@ int main(int argc, char* argv[])
 				chnaChunkAdm = fillChnaChunkADMDesc(actualOutFileChannels);
 				if ((int)chnaChunkAdm.size() != actualOutFileChannels){
 					std::cout << "ERROR: Issue writing `chna` metadata chunk due to mismatching channel count" << std::endl;
-					return;
+					break;
 				}
 				// setup `axml` metadata chunk
 				axmlChunkAdmCorrectedString = prepareAdmMetadata(axml_7_1_4_ChunkAdmString, inputInfo.duration, inputInfo.sampleRate, inputInfo.format).c_str();

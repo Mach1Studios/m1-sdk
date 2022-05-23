@@ -10,7 +10,7 @@ bw64::ChnaChunk fillChnaChunkADMDesc(int numberOfChannels) {
         std::ostringstream ss;
         ss << std::hex << i+1;
         std::string i_hex = ss.str();
-    
+
         uint16_t trackIndex = i+1;
         std::string uid = "ATU_0000000"+i_hex;
         std::string trackRef = "AT_0001100"+i_hex+"_01";
@@ -228,7 +228,8 @@ const char* axml_5_1_4_ChunkAdmString = R"(<?xml version="1.0" encoding="UTF-8"?
                 <audioTrackFormat audioTrackFormatID="AT_0001100a_01" audioTrackFormatName="PCM_TopSurroundRight" formatDefinition="PCM" formatLabel="0001">
                     <audioStreamFormatIDRef>AS_0001100a</audioStreamFormatIDRef>
                 </audioTrackFormat>
-                <audioTrackUID UID="ATU_00000001" bitDepth="__BITDEPTH__" sampleRate="__SAMPLERATE__">
+)"
+R"(             <audioTrackUID UID="ATU_00000001" bitDepth="__BITDEPTH__" sampleRate="__SAMPLERATE__">
                     <audioTrackFormatIDRef>AT_00011001_01</audioTrackFormatIDRef>
                     <audioPackFormatIDRef>AP_00011001</audioPackFormatIDRef>
                 </audioTrackUID>
@@ -736,7 +737,8 @@ const char* axml_7_1_4_ChunkAdmString = R"(<?xml version="1.0" encoding="UTF-8"?
                     <audioPackFormatIDRef>AP_00011001</audioPackFormatIDRef>
                     <audioTrackFormatIDRef>AT_0001100c_01</audioTrackFormatIDRef>
                 </audioStreamFormat>
-                <audioTrackFormat audioTrackFormatID="AT_00011001_01" audioTrackFormatName="PCM_RoomCentricLeft" formatDefinition="PCM" formatLabel="0001">
+)"
+R"(             <audioTrackFormat audioTrackFormatID="AT_00011001_01" audioTrackFormatName="PCM_RoomCentricLeft" formatDefinition="PCM" formatLabel="0001">
                     <audioStreamFormatIDRef>AS_00011001</audioStreamFormatIDRef>
                 </audioTrackFormat>
                 <audioTrackFormat audioTrackFormatID="AT_00011002_01" audioTrackFormatName="PCM_RoomCentricRight" formatDefinition="PCM" formatLabel="0001">

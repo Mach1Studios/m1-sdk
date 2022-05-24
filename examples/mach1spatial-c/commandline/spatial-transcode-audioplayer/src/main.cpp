@@ -4,10 +4,10 @@
 /*
  This example is for reference for how Mach1Spatial Coefficients from Mach1Transcode API
  could be used on audio streams and buffers.
- 
+
  Usage: Set starting orientation with `-yaw` `-pitch` `-roll` flags in command or use `w`/`a`/`s`/`d`
  during playback to update the orientation.
- 
+
  Order of Operations:
  1. Setup Input and Output formats (and paths)
  2. Call `processConversionPath()` to setup the conversion for processing
@@ -16,7 +16,7 @@
  */
 
 
-/* 
+/*
 for windows, add these definitions to the project settings:
 __WINDOWS_ASIO__;__WINDOWS_WASAPI__;_CRT_SECURE_NO_WARNINGS
 */
@@ -50,7 +50,7 @@ __WINDOWS_ASIO__;__WINDOWS_WASAPI__;_CRT_SECURE_NO_WARNINGS
 
 #include "Mach1Transcode.h"
 #include "Mach1Decode.h"
-#include "M1DSPUtilities.h"
+#include "M1DSP/M1DSPUtilities.h"
 #include "sndfile.hh"
 #include "CmdOption.h"
 #include "rtaudio/RtAudio.h"
@@ -257,7 +257,7 @@ int main(int argc, char* argv[])
 		inPtrs[i] = inBuffers[i];
 		outPtrs[i] = outBuffers[i];
 	}
-    
+
     // create thread for reading key command updates for Mach1Decode
 	threadUpdateMach1DecodeOrientation = new std::thread(updateMach1DecodeOrientation);
 	threadUpdateMach1DecodeOrientation->detach();
@@ -396,7 +396,7 @@ int main(int argc, char* argv[])
     orientation.y = pitch;
     orientation.z = roll;
     m1Decode.setRotationDegrees(orientation);
-    
+
 	for (int i = 0; i < Mach1TranscodeMAXCHANS; i++) {
 		memset(inBuffers[i], 0, sizeof(inBuffers[i]));
 	}
@@ -419,14 +419,14 @@ int main(int argc, char* argv[])
 		}
 		printf("\r\n");
 	}
-    
+
     // Return matrix of coeffs for conversion for further customization or tweaking
     conversionMatrix = m1transcode.getMatrixConversion();
 
 	//=================================================================
 	//  main sound loop
-	// 
-	
+	//
+
     for (int i = 0; i < numInFiles; i++) {
 		inChannels += infile[i]->channels();
     }
@@ -434,7 +434,7 @@ int main(int argc, char* argv[])
 	totalSamplesRead = 0;
 
 	updateMach1Transcode();
-    
+
     // Starting playback
 	double *data = (double *)calloc(parameters.nChannels, sizeof(double));
     try {
@@ -446,13 +446,13 @@ int main(int argc, char* argv[])
         e.printMessage();
         exit( 0 );
     }
-    
+
 	while (!done) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 
     if ( dac.isStreamOpen() ) dac.closeStream();
-    
+
     return 0;
 }
 
@@ -494,7 +494,7 @@ static void updateMach1DecodeOrientation()
     char c;
     printf("Enter a command:\n");
     while (1) {
-        
+
 #ifdef _WIN32
         c = _getch();
 #else
@@ -502,7 +502,7 @@ static void updateMach1DecodeOrientation()
 #endif
 
         if (c == 'q') return;
-        
+
         // delete entered character
         printf("\b");
         switch (c) {
@@ -527,7 +527,7 @@ static void updateMach1DecodeOrientation()
             default:
                 printf("Input not recognized.\n");
         }
-        
+
         // check that the values are in proper range
         if (yaw < 0.0) yaw = 360.0;
         else if (yaw > 360.0) yaw = 0.0;
@@ -535,16 +535,16 @@ static void updateMach1DecodeOrientation()
         else if (pitch > 90.0) pitch = 90.0;
         if (roll < -90.0) roll = -90.0;
         else if (roll > 90.0) roll = 90.0;
-        
+
         orientation.x = yaw;
         orientation.y = pitch;
         orientation.z = roll;
-        
+
         m1Decode.beginBuffer();
         m1Decode.setRotationDegrees(orientation);
         m1Coeffs = m1Decode.decodeCoeffs();
         m1Decode.endBuffer();
-        
+
 		updateMach1Transcode();
 
         // Mach1DecodeCAPI Log:

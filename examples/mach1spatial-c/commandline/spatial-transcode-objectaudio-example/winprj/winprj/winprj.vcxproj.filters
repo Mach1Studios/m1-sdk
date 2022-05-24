@@ -21,147 +21,81 @@
     <ClCompile Include="..\..\src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\include\cpp\M1DSP\M1DSPUtilities.cpp">
-      <Filter>Source Files\M1DSP</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1DecodePositionalCAPI.cpp">
+    <ClCompile Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1Decode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1DecodePositionalCore.cpp">
+    <ClCompile Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1Encode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1EncodeCAPI.cpp">
+    <ClCompile Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1Transcode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1EncodeCore.cpp">
+    <ClCompile Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1AudioTimeline.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1GenerateCoeffs.cpp">
+    <ClCompile Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\M1DSP\M1DSPDynamics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1Point3DCore.cpp">
+    <ClCompile Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\M1DSP\M1DSPFilters.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1Point4DCore.cpp">
+    <ClCompile Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\M1DSP\M1DSPUtilities.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1TranscodeCAPI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1DecodeCAPI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1DecodeCore.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1TranscodeCore.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\external\cpp\Mach1Encode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\external\cpp\Mach1Transcode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\external\cpp\Mach1Decode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\external\cpp\Mach1AudioTimeline.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\include\cpp\M1DSP\M1DSPDynamics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\include\cpp\M1DSP\M1DSPFilters.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\include\xml\pugixml.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\include\yaml\Yaml.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1AudioTimelineCAPI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1AudioTimelineCore.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\external\cpp\Mach1AudioTimeline.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1AudioTimelineCAPI.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\Mach1AudioTimelineCore.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\include\xml\pugixml.hpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\lib\include\yaml\Yaml.hpp">
-      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\CmdOption.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\include\cpp\M1DSP\M1DSPUtilities.h">
-      <Filter>Source Files\M1DSP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1DecodeCAPI.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1DecodeCore.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1DecodePositionalCAPI.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1DecodePositionalCore.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1EncodeCAPI.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1EncodeCore.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1GenerateCoeffs.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1Point3D.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1Point3DCore.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1Point4D.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1Point4DCore.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1TranscodeCAPI.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\lib\Mach1TranscodeCore.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\lib\external\cpp\Mach1Decode.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\lib\external\cpp\Mach1Encode.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\lib\external\cpp\Mach1Transcode.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\include\M1DSP\M1DSPDynamics.h">
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1Decode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\include\M1DSP\M1DSPFilters.h">
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1Encode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1Transcode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1AudioTimeline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\M1DSP\M1DSPDynamics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\M1DSP\M1DSPFilters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\M1DSP\M1DSPUtilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1DecodeCAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1DecodePositionalCAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1EncodeCAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1GenerateCoeffs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1Point3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1Point4D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1TranscodeCAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\Mach1AudioTimelineCAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\xml\pugixml.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\mach1spatial-libs\windows-x86_64\include\yaml\Yaml.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

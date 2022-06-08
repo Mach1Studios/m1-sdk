@@ -86,8 +86,8 @@ if(WIN32 OR MSVC)
   target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${MACH1TRANSCODE_LIBRARY})
 else()
 	find_library(MACH1TRANSCODE_LIBRARY
-		           NAMES Mach1TranscodeCAPI libMach1TranscodeCAPI libMach1TranscodeCAPI.a libMach1TranscodeCAPI.so
-		           PATH ${MACH1SPATIAL_LIBS_PATH}/lib
+		           NAMES Mach1TranscodeCAPI libMach1TranscodeCAPI
+		           HINTS ${MACH1SPATIAL_LIBS_PATH}/lib
 	)
   target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${MACH1TRANSCODE_LIBRARY})
 endif()

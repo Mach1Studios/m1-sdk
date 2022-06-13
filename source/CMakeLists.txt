@@ -27,7 +27,7 @@ set(Mach1SpatialLibraries_VERSION ${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1
 set(ENCODE_VERSION "2.0.0.0")
 set(DECODE_VERSION "2.0.1.0")
 set(DECODEPOSITIONAL_VERSION "2.0.0.0")
-set(TRANSCODE_VERSION "2.1.0.0")
+set(TRANSCODE_VERSION "2.2.0.0")
 
 set(Mach1AdditionalIncludes "./deps")
 set(Mach1TranscodeAdditionalIncludes "../public")

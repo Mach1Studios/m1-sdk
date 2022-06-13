@@ -107,33 +107,33 @@ public:
 
 	struct InputModeName { InputMode mode; std::string name; };
 	std::vector<InputModeName> inputModeNames = {
-		 { INPUT_MONO, "Mono"},
-		 { INPUT_STEREO, "Stereo"},
-		 { INPUT_QUAD, "Quad"},
-		 { INPUT_LCRS, "Lcrs"},
-		 { INPUT_AFORMAT, "Aformat"},
-		 { INPUT_BFORMAT, "Bformat"},
-		 { INPUT_1OAACN, "1oaacn"},
-		 { INPUT_1OAFUMA, "1oafuma"},
-		 { INPUT_2OAACN, "2oaacn"},
-		 { INPUT_2OAFUMA, "2oafuma"},
-		 { INPUT_3OAACN, "3oaacn"},
-		 { INPUT_3OAFUMA, "3oafuma"},
-		 { INPUT_LCR, "Lcr"},
-		 { INPUT_FIVE_ZERO, "Zero"},
-		 { INPUT_FIVE_ONE_FILM, "OneFilm"},
-		 { INPUT_FIVE_ONE_DTS, "OneDTS"},
-		 { INPUT_FIVE_ONE_SMPTE, "OneSmpte"},
+		 { INPUT_MONO, "1.0"},
+		 { INPUT_STEREO, "2.0_C"},
+		 { INPUT_LCR, "3.0_LCR"},
+		 { INPUT_QUAD, "M1Horizon"},
+		 { INPUT_LCRS, "4.0_LCRS"},
+		 { INPUT_AFORMAT, "4.0_AFormat"},
+		 { INPUT_BFORMAT, "ACNSN3D"},
+		 { INPUT_FIVE_ZERO, "5.0_C"},
+		 { INPUT_FIVE_ONE_FILM, "5.1_C"},
+		 { INPUT_FIVE_ONE_DTS, "5.1_C_Dts"},
+		 { INPUT_FIVE_ONE_SMPTE, "5.1_C_SMPTE"},
+		 { INPUT_1OAACN, "ACNSN3D"},
+		 { INPUT_1OAFUMA, "FuMa"},
+		 { INPUT_2OAACN, "ACNSN3DO2A"},
+		 { INPUT_2OAFUMA, "FuMaO2A"},
+		 { INPUT_3OAACN, "FuMaO3A"},
+		 { INPUT_3OAFUMA, "ACNSN3DO3A"},
 	};
 
 	struct OutputModeName { OutputMode mode; std::string name; };
 	std::vector<OutputModeName> outputModeNames = {
-		 { OUTPUT_HORIZON_4CH, "Horizon4ch"},
-		 { OUTPUT_SPATIAL_8CH, "Spatial8ch"},
-		 { OUTPUT_SPATIALPLUS_12CH, "SpatialPlus12ch"},
-		 { OUTPUT_SPATIALPLUSPLUS_14CH, "SpatialPlusPlus14ch"},
-		 { OUTPUT_SPATIALEXT_16CH, "SpatialExt16ch"},
-		 { OUTPUT_SPATIALEXTPLUS_18CH, "SpatialExtPlus18ch"},
+		 { OUTPUT_HORIZON_4CH, "M1Horizon"},
+		 { OUTPUT_SPATIAL_8CH, "M1Spatial"},
+		 { OUTPUT_SPATIALPLUS_12CH, "M1SpatialPlus"},
+		 { OUTPUT_SPATIALPLUSPLUS_14CH, "M1SpatialPlusPlus"},
+		 { OUTPUT_SPATIALEXT_16CH, "M1SpatialExtended"},
+		 { OUTPUT_SPATIALEXTPLUS_18CH, "M1SpatialExtendedPlus"},
 	};
 
 	// arrays for CAPI
@@ -180,6 +180,9 @@ public:
 	OutputMode getOutputMode();
 	int getInputChannelsCount();
 	int getOutputChannelsCount();
+
+	int getInputModeFromString(std::string name);
+	int getOutputModeFromString(std::string name);
 
 	void setInputMode(InputMode inputMode);
 	void setOutputMode(OutputMode outputMode);

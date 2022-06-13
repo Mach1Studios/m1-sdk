@@ -11,15 +11,14 @@
 
 /*
  * Description of matrices
- * - Inputs are columns
- * - Outputs are rows
+ * - Inputs are rows
+ * - Outputs are columns
  *
- *    I1   I2   I3   I4
- *    ↓    ↓    ↓    ↓
- *  | I1 | I2 | I3 | I4 | -> O1
- *  | I1 | I2 | I3 | I4 | -> O2
- *  | I1 | I2 | I3 | I4 | -> O3
- *
+ *  I1 -> | I1 | I2 | I3 | I4 |
+ *  I2 -> | I1 | I2 | I3 | I4 |
+ *  I3 -> | I1 | I2 | I3 | I4 |
+ *			↓    ↓    ↓    ↓ 
+ *			O1   O2   O3   O4
  */
 
 namespace Mach1TranscodeConstants {
@@ -30,14 +29,7 @@ namespace Mach1TranscodeConstants {
 		static std::vector<Mach1TranscodeMatrix> getData() {
 			const float r2 = (float)sqrt(2.0);
 			const float oor2 = (float)(1.0 / sqrt(2.0));
-			const float oor4 = (float)(1.0 / sqrt(4.0));
-			const float oor8 = (float)(1.0 / sqrt(8.0));
 			const float r3o2 = (float)sqrt(3.0) / 2.0f;
-			const float r2o2 = (float)sqrt(2.0) / 2.0f;
-			const float r2o4 = (float)sqrt(2.0) / 4.0f;
-			const float r2o6 = (float)sqrt(2.0) / 6.0f;
-			const float r2o8 = (float)sqrt(2.0) / 8.0f;
-
 			return
 			  {
 		{

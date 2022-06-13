@@ -45,6 +45,7 @@ pkg_search_module(SndFile REQUIRED sndfile)
 set(SOURCES 
 	src/main.cpp
     ${MACH1SPATIAL_SOURCE_PATH}/Mach1TranscodeCore.cpp
+    ${MACH1SPATIAL_SOURCE_PATH}/Mach1EncodeCore.cpp
     ${MACH1SPATIAL_SOURCE_PATH}/Mach1Point3DCore.cpp
     ${MACH1SPATIAL_SOURCE_PATH}/Mach1GenerateCoeffs.cpp
     ${MACH1SPATIAL_SOURCE_PATH}/Mach1TranscodeCAPI.cpp

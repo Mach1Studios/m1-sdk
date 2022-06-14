@@ -434,7 +434,6 @@ std::vector<std::vector<float>> Mach1TranscodeCore::getCoeffs(int idxMatrix)
 	return coeffsFlipped;
 }
 
-
 void Mach1TranscodeCore::processConversion(int inFmt, float** inBufs, int outFmt, float** outBufs, int numSamples)
 {
     int inChans = getNumChannels(inFmt, true);

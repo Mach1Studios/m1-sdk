@@ -1402,6 +1402,23 @@ namespace Mach1TranscodeConstants {
 					}
 				},
 				{
+					"M1Spatial", "7.0.4_C",
+					//1  2  3  4  5  6  7  8
+					{
+						Mach1TranscodeChannel::Coeffs({ r2o2, 0, 0, 0, r2o2, 0, 0, 0 }),//L
+						Mach1TranscodeChannel::Coeffs({ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 }),//C
+						Mach1TranscodeChannel::Coeffs({ 0, r2o2, 0, 0, 0, r2o2, 0, 0 }),//R
+						Mach1TranscodeChannel::Coeffs({ r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0 }),//Lss
+						Mach1TranscodeChannel::Coeffs({ 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4 }),//Rss
+						Mach1TranscodeChannel::Coeffs({ 0, 0, r2o2, 0, 0, 0, r2o2, 0 }),//Lsr
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, r2o2, 0, 0, 0, r2o2 }),//Rsr
+						Mach1TranscodeChannel::Coeffs({ 0.7280f, 0.1250f, 0.1250f, 0.0210f, 0, 0, 0, 0 }),//FLts
+						Mach1TranscodeChannel::Coeffs({ 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0 }),//FRts
+						Mach1TranscodeChannel::Coeffs({ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0 }),//BLts
+						Mach1TranscodeChannel::Coeffs({ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0 }),//BRts
+					}
+				},
+				{
 					"M1Spatial", "7.0.4_M",
 					//1  2  3  4  5  6  7  8
 					{
@@ -1433,6 +1450,24 @@ namespace Mach1TranscodeConstants {
 						Mach1TranscodeChannel::Coeffs({ 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0, 0, 0 }),//FRts
 						Mach1TranscodeChannel::Coeffs({ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0, 0, 0 }),//BLts
 						Mach1TranscodeChannel::Coeffs({ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0, 0, 0 }),//BRts
+					}
+				},
+				{
+					"M1Spatial", "7.1.4_C",
+					//1  2  3  4  5  6  7  8
+					{
+						Mach1TranscodeChannel::Coeffs({ r2o2, 0, 0, 0, r2o2, 0, 0, 0 }),//L
+						Mach1TranscodeChannel::Coeffs({ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 }),//C
+						Mach1TranscodeChannel::Coeffs({ 0, r2o2, 0, 0, 0, r2o2, 0, 0 }),//R
+						Mach1TranscodeChannel::Coeffs({ r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0 }),//Lss
+						Mach1TranscodeChannel::Coeffs({ 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4 }),//Rss
+						Mach1TranscodeChannel::Coeffs({ 0, 0, r2o2, 0, 0, 0, r2o2, 0 }),//Lsr
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, r2o2, 0, 0, 0, r2o2 }),//Rsr
+						Mach1TranscodeChannel::Coeffs({ r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8, r2o8 }),//LFE
+						Mach1TranscodeChannel::Coeffs({ 0.7280f, 0.1250f, 0.1250f, 0.0210f, 0, 0, 0, 0 }),//FLts
+						Mach1TranscodeChannel::Coeffs({ 0.1250f, 0.7280f, 0.0210f, 0.1250f, 0, 0, 0, 0 }),//FRts
+						Mach1TranscodeChannel::Coeffs({ 0.1250f, 0.0210f, 0.7280f, 0.1250f, 0, 0, 0, 0 }),//BLts
+						Mach1TranscodeChannel::Coeffs({ 0.0210f, 0.1250f, 0.1250f, 0.7280f, 0, 0, 0, 0 }),//BRts
 					}
 				},
 				{

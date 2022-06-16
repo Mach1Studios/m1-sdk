@@ -418,6 +418,7 @@ std::vector<std::vector<float>> Mach1TranscodeCore::getCoeffs(int idxMatrix)
 				m1encode.setDiverge(p->diverge);
 				m1encode.setAzimuthDegrees(p->azimuth);
 				m1encode.setElevationDegrees(p->elevation);
+				m1encode.setOutputGain(p->gain);
 				m1encode.generatePointResults();
 				std::vector<std::vector<float>> gains = m1encode.resultingPoints.getGains();
 				coeffs.push_back(gains[i]);

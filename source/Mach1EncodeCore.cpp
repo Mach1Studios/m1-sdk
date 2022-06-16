@@ -661,12 +661,15 @@ void M1EncodeCore::generatePointResults() {
 		// Generating gains
 		std::vector<float> gains;
 		if (outputMode == OUTPUT_HORIZON_4CH) {
-			processGainsChannels(resultingPoints.ppoints[i].z, resultingPoints.ppoints[i].x, 1, gains);
+			// force ppoints to center of soundfield's elevation
+			processGainsChannels(resultingPoints.ppoints[i].z, resultingPoints.ppoints[i].x, 0, gains);
 		} else {
+			// process 3d ppoints
 			processGainsChannels(resultingPoints.ppoints[i].z, resultingPoints.ppoints[i].x, resultingPoints.ppoints[i].y, gains);
 		}
+		// applying output gain to gains and assigning to the current index channel
 		for (int j = 0; j < getOutputChannelsCount(); j++) {
-			resultingPoints.gains[i][j] = gains[j];
+			resultingPoints.gains[i][j] = gains[j] * outputGainLinear;
 		}
 	}
 	timeLastCalculation = getCurrentTime() - tStart;
@@ -884,6 +887,10 @@ void M1EncodeCore::setPannerMode(PannerMode pannerMode){
 
 void M1EncodeCore::setFrontSurroundPerspective(bool frontSurroundPerspective){
 	this->frontSurroundPerspective = frontSurroundPerspective;
+}
+
+void M1EncodeCore::setOutputGain(float outputGainLinearMultipler){
+		this->outputGainLinear = outputGainLinearMultipler;
 }
 
 void M1EncodeCore::setOrbitRotation(float orbitRotationFromMinusOnetoOne) {

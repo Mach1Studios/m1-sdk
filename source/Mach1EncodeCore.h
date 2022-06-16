@@ -74,10 +74,6 @@ public:
 		INPUT_QUAD, 
 		INPUT_LCRS, 
 		INPUT_AFORMAT, 
-		#if __cplusplus > 201402L
-		[[deprecated("INPUT_BFORMAT is not specific enough, please use either: INPUT_FOAACN or INPUT_FOAFUMA")]]
-		#endif
-		INPUT_BFORMAT, 
 		INPUT_1OAACN, 
 		INPUT_1OAFUMA,
 		INPUT_2OAACN, 
@@ -171,10 +167,6 @@ public:
 	M1EncodeCorePointResults resultingPoints;
 
 	void getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, float *decodeResult, float *result);
-#if __cplusplus > 201103L
-	[[deprecated]]
-#endif	
-	void getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, float *decodeResult, float *result);
 
 	InputMode getInputMode();
 	OutputMode getOutputMode();
@@ -196,6 +188,7 @@ public:
 	void setIsotropicEncode(bool isotropicEncode);
 	void setPannerMode(PannerMode pannerMode);
 	void setFrontSurroundPerspective(bool frontSurroundPerspective);
+	void setOutputGain(float outputGainLinearMultipler);
 
 	void setOrbitRotation(float orbitRotationFromMinusOnetoOne);
 	void setOrbitRotationDegrees(float orbitRotationDegrees);

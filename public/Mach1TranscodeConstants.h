@@ -30,6 +30,11 @@ struct Mach1FormatInfo {
 	std::vector<Mach1ChannelDescription> channelTypes;
 };
 
+struct Mach1GainCoeff {
+	float gain;
+	bool isDecibel = false;
+};
+
 struct Mach1TranscodeChannelBase {
 	virtual ~Mach1TranscodeChannelBase() { }
 };
@@ -42,6 +47,7 @@ struct Mach1TranscodePanner : public Mach1TranscodeChannelBase {
 	float azimuth;
 	float elevation;
 	float diverge;
+	Mach1GainCoeff outputGain = {1.0f, false}; // can be used to apply pan-law concepts
 };
 
 class Mach1TranscodeChannel {
@@ -53,12 +59,13 @@ public:
 		return obj;
 	}
 
-	static Mach1TranscodePanner* Panner(float azimuthFromMinus180to180, float elevationFromMinus90to90, float divergeFromMinus1To1)
+	static Mach1TranscodePanner* Panner(float azimuthFromMinus180to180, float elevationFromMinus90to90, float divergeFromMinus1To1, Mach1GainCoeff outputGain)
 	{
 		Mach1TranscodePanner* obj = new Mach1TranscodePanner();
 		obj->azimuth = azimuthFromMinus180to180;
 		obj->elevation = elevationFromMinus90to90;
 		obj->diverge = divergeFromMinus1To1;
+		obj->gain = outputGain;
 		return obj;
 	}
 };

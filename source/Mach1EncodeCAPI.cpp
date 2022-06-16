@@ -171,36 +171,14 @@ void Mach1EncodeCAPI_setFrontSurroundPerspective(void* M1obj, bool frontSurround
 	((M1EncodeCore*)M1obj)->setFrontSurroundPerspective(frontSurroundPerspective);
 }
 
+void Mach1EncodeCAPI_setOutputGain(void* M1obj, float outputGainMultipler, bool isDecibel) {
+	if (isDecibel) {
+		((M1EncodeCore*)M1obj)->setOutputGain(std::powf(10.0f, outputGainMultipler/20.0f))
+	} else {
+		((M1EncodeCore*)M1obj)->setOutputGain(outputGainMultipler);
+	}
+}
+
 long Mach1EncodeCAPI_getLastCalculationTime(void* M1obj) {
 	return ((M1EncodeCore*)M1obj)->getLastCalculationTime();
 }
-
-/* DEPRECATED START*/
-void Mach1EncodeCAPI_setRotation(void* M1obj, float rotationDegrees) {
-	((M1EncodeCore*)M1obj)->setAzimuthDegrees(rotationDegrees);
-}
-
-void Mach1EncodeCAPI_setPitch(void* M1obj, float pitchFromMinus90to90) {
-	((M1EncodeCore*)M1obj)->setElevationDegrees(pitchFromMinus90to90);
-}
-
-void Mach1EncodeCAPI_setStereoRotate(void* M1obj, float sRotateDegrees) {
-	((M1EncodeCore*)M1obj)->setOrbitRotationDegrees(sRotateDegrees);
-}
-
-void Mach1EncodeCAPI_setIsotropicEncode(void* M1obj, bool isotropicEncode) {
-	((M1EncodeCore*)M1obj)->setIsotropicEncode(isotropicEncode);
-}
-
-void* Mach1EncodeCAPI_getResultingVolumesDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float * decodeResult)
-{
-	// clear
-	for (int i = 0; i < MAX_CHANNELS_COUNT; i++) {
-		((M1EncodeCore*)M1obj)->arr_ResultingCoeffsDecoded[i] = 0;
-	}
-	
-	((M1EncodeCore*)M1obj)->getResultingVolumesDecoded(decodeType, decodeResult, ((M1EncodeCore*)M1obj)->arr_ResultingCoeffsDecoded);
-
-	return ((M1EncodeCore*)M1obj)->arr_ResultingCoeffsDecoded;
-}
-/* DEPRECATED END */

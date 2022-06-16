@@ -31,6 +31,19 @@ public:
 
 		return {
 				{
+					"1.0", "M1Spatial",
+					{
+						Mach1TranscodeChannel::Panner({0}, {0}, {1}, {-6, true}),
+					}
+				},
+				{
+					"2.0", "M1Spatial",
+					{
+						Mach1TranscodeChannel::Panner({-45}, {0}, {1}),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.5f, 0, 0, 0, 0.5f, 0, 0 })
+					}
+				},
+				{
 					"Ambeo", "M1Spatial",
 					{
 						Mach1TranscodeChannel::Coeffs({ 1.70710599f, -0.001728f, 0.000685f, -0.31546f, 0.005525f, -0.317307f, -0.311014f, -0.037532f }),

@@ -13,7 +13,6 @@ void test_results(void)
 		{ Mach1EncodeInputModeQuad , "QUAD" },
 		{ Mach1EncodeInputModeLCRS , "LCRS" },
 		{ Mach1EncodeInputModeAFormat , "AFORMAT" },
-		{ Mach1EncodeInputModeBFormat , "1OA-ACN-DEPRE" },
 		{ Mach1EncodeInputModeBFOAACN , "1OA-ACN" },
 		{ Mach1EncodeInputModeBFOAFUMA , "1OA-FUMA" },
 		{ Mach1EncodeInputModeB2OAACN , "2OA-ACN" },
@@ -625,8 +624,6 @@ Input Data Checks
 		m1Encode.setInputMode(test.input.inputMode);
 		m1Encode.setOutputMode(test.input.outputMode);
 
-		m1Encode.setIsotropicEncode(test.input.isotropicEncode);
-
 		if (test.input.inputType == signedDegrees || test.input.inputType == unsignedDegrees){
 			m1Encode.setAzimuthDegrees(test.input.azimuth);
 		} else if (test.input.inputType == signedRadians || test.input.inputType == unsignedRadians){
@@ -635,8 +632,6 @@ Input Data Checks
 			m1Encode.setAzimuth(test.input.azimuth);
 		} else if (test.input.inputType == quaternion) {
 			// case for quat
-		} else {
-			m1Encode.setRotation(test.input.azimuth);
 		}
 
 		m1Encode.setDiverge(test.input.diverge);
@@ -649,8 +644,6 @@ Input Data Checks
 			m1Encode.setElevation(test.input.elevation);
 		} else if (test.input.inputType == quaternion) {
 			// case for quat
-		} else {
-			m1Encode.setPitch(test.input.elevation);
 		}
 
 		m1Encode.setAutoOrbit(test.input.autoOrbit);
@@ -663,8 +656,6 @@ Input Data Checks
 			m1Encode.setOrbitRotation(test.input.stereoRotate);
 		} else if (test.input.inputType == quaternion) {
 			// case for quat
-		} else {
-			m1Encode.setStereoRotate(test.input.stereoRotate);
 		}
 
 		m1Encode.generatePointResults();

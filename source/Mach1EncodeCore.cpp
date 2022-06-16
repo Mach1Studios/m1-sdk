@@ -248,7 +248,6 @@ M1EncodeCore::M1EncodeCore() {
 	azimuth = 0;
 	diverge = 0;
 	elevation = 0;
-	isotropicEncode = true;
 	frontSurroundPerspective = true; // default set surround formats to be front first person perspective
 
 	orbitRotation = 0;
@@ -298,7 +297,7 @@ M1EncodeCore::~M1EncodeCore() {
 void M1EncodeCore::generatePointResults() {
 	long tStart = getCurrentTime();
 
-	if (!isotropicEncode){
+	if (pannerMode != MODE_ISOTROPICLINEAR || pannerMode != MODE_ISOTROPICEQUALPOWER){
 		pannerMode = MODE_PERIPHONICLINEAR;
 	}
 
@@ -418,7 +417,7 @@ void M1EncodeCore::generatePointResults() {
 			}
 		}
 
-	} else if (inputMode == INPUT_BFORMAT || inputMode == INPUT_1OAACN) { // duplicate?
+	} else if (inputMode == INPUT_1OAACN) { // duplicate?
 
 		resultingPoints.pointsCount = 7;
 
@@ -669,7 +668,7 @@ void M1EncodeCore::generatePointResults() {
 		}
 		// applying output gain to gains and assigning to the current index channel
 		for (int j = 0; j < getOutputChannelsCount(); j++) {
-			resultingPoints.gains[i][j] = gains[j] * outputGainLinear;
+			resultingPoints.gains[i][j] = gains[j] * outputGainLinearMultipler;
 		}
 	}
 	timeLastCalculation = getCurrentTime() - tStart;
@@ -730,62 +729,6 @@ void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, flo
     }
 }
 
-[[deprecated]]
-void M1EncodeCore::getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, float* decodeResult, float* result)
-{
-
-	// TODO: check on these numbers
-
-	int decodeResultSize = 0;
-	switch (decodeType)
-	{
-	case Mach1DecodeAlgoSpatial:
-		decodeResultSize = 16;
-		break;
-	case Mach1DecodeAlgoAltSpatial:
-		decodeResultSize = 16;
-		break;
-	case Mach1DecodeAlgoHorizon:
-		decodeResultSize = 8;
-		break;
-	case Mach1DecodeAlgoHorizonPairs:
-		decodeResultSize = 8;
-		break;
-	case Mach1DecodeAlgoSpatialPairs:
-		decodeResultSize = 16;
-		break;
-	case Mach1DecodeAlgoSpatialPlus:
-		decodeResultSize = 12;
-		break;
-	case Mach1DecodeAlgoSpatialPlusPlus:
-		decodeResultSize = 14;
-		break;
-    case Mach1DecodeAlgoSpatialExt:
-        decodeResultSize = 16;
-        break;
-    case Mach1DecodeAlgoSpatialExtPlus:
-        decodeResultSize = 18;
-        break;
-	default:
-		break;
-	}
-
-	// clear
-	for (int i = 0; i < decodeResultSize; i++) result[i] = 0;
-
-	// decode - 8, 16
-	if (getOutputChannelsCount() * 2 != decodeResultSize) {
-        std::cout << "[MACH1] Warning: The Mach1EncodeOutputModeType in use is not suitable for the Mach1DecodeAlgoType selected" << std::endl;
-	}
-
-	for (int j = 0; j < resultingPoints.pointsCount; j++) {
-		for (int i = 0; i < getOutputChannelsCount(); i++) {
-			result[j * 2 + 0] += decodeResult[i * 2 + 0] * resultingPoints.gains[j][i]; // left
-			result[j * 2 + 1] += decodeResult[i * 2 + 1] * resultingPoints.gains[j][i]; // right
-		}
-	}
-}
-
 M1EncodeCore::InputMode M1EncodeCore::getInputMode() {
 	return inputMode;
 }
@@ -801,7 +744,6 @@ int M1EncodeCore::getInputChannelsCount() {
 		case INPUT_QUAD: return 4;
 		case INPUT_LCRS: return 4;
 		case INPUT_AFORMAT: return 4;
-		case INPUT_BFORMAT: return 4;
 		case INPUT_1OAACN: return 4;
 		case INPUT_1OAFUMA: return 4;
 		case INPUT_2OAACN: return 9;
@@ -877,10 +819,6 @@ void M1EncodeCore::setElevationRadians(float elevationFromMinusHalfPItoHalfPI) {
 	this->elevation = elevationFromMinusHalfPItoHalfPI / (PI / 2);
 }
 
-void M1EncodeCore::setIsotropicEncode(bool isotropicEncode){
-	this->isotropicEncode = isotropicEncode;
-}
-
 void M1EncodeCore::setPannerMode(PannerMode pannerMode){
 	this->pannerMode = pannerMode;
 }
@@ -889,8 +827,12 @@ void M1EncodeCore::setFrontSurroundPerspective(bool frontSurroundPerspective){
 	this->frontSurroundPerspective = frontSurroundPerspective;
 }
 
-void M1EncodeCore::setOutputGain(float outputGainLinearMultipler){
-		this->outputGainLinear = outputGainLinearMultipler;
+void M1EncodeCore::setOutputGain(float outputGainMultipler, bool isDecibel){
+	if (isDecibel) {
+		this->outputGainLinearMultipler = std::powf(10.0f, outputGainMultipler/20.0f);
+	} else {
+		this->outputGainLinearMultipler = outputGainMultipler;
+	}
 }
 
 void M1EncodeCore::setOrbitRotation(float orbitRotationFromMinusOnetoOne) {

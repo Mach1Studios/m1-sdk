@@ -13,7 +13,6 @@ std::map<Mach1EncodeInputModeType, std::string> encodeInputModeNames = {
 		{ Mach1EncodeInputModeQuad , "QUAD" },
 		{ Mach1EncodeInputModeLCRS , "LCRS" },
 		{ Mach1EncodeInputModeAFormat , "AFORMAT" },
-		{ Mach1EncodeInputModeBFormat , "1OA-ACN-DEPRE" },
 		{ Mach1EncodeInputModeBFOAACN , "1OA-ACN" },
 		{ Mach1EncodeInputModeBFOAFUMA , "1OA-FUMA" },
 		{ Mach1EncodeInputModeB2OAACN , "2OA-ACN" },
@@ -85,8 +84,8 @@ void test_results(void)
 		float diverge;
 		float elevation;
 		bool autoOrbit;
-		float stereoSpread;
-		float stereoRotate;
+		float orbitSpread;
+		float orbitRotation;
 		InputType inputType;
 
 		Mach1PlatformType platformMode;
@@ -132,8 +131,6 @@ void test_results(void)
 		m1Encode.setInputMode(test.input.encodeInputMode);
 		m1Encode.setOutputMode(test.input.encodeOutputMode);
 
-		m1Encode.setIsotropicEncode(test.input.isotropicEncode);
-
 		if (test.input.inputType == signedDegrees || test.input.inputType == unsignedDegrees) {
 			m1Encode.setAzimuthDegrees(test.input.azimuth);
 		}
@@ -145,9 +142,6 @@ void test_results(void)
 		}
 		else if (test.input.inputType == quaternion) {
 			// case for quat
-		}
-		else {
-			m1Encode.setRotation(test.input.azimuth);
 		}
 
 		m1Encode.setDiverge(test.input.diverge);
@@ -164,26 +158,20 @@ void test_results(void)
 		else if (test.input.inputType == quaternion) {
 			// case for quat
 		}
-		else {
-			m1Encode.setPitch(test.input.elevation);
-		}
 
 		m1Encode.setAutoOrbit(test.input.autoOrbit);
-		m1Encode.setStereoSpread(test.input.stereoSpread);
+		m1Encode.setStereoSpread(test.input.orbitSpread);
 		if (test.input.inputType == signedDegrees || test.input.inputType == unsignedDegrees) {
-			m1Encode.setOrbitRotationDegrees(test.input.stereoRotate);
+			m1Encode.setOrbitRotationDegrees(test.input.orbitRotation);
 		}
 		else if (test.input.inputType == signedRadians || test.input.inputType == unsignedRadians) {
-			m1Encode.setOrbitRotationRadians(test.input.stereoRotate);
+			m1Encode.setOrbitRotationRadians(test.input.orbitRotation);
 		}
 		else if (test.input.inputType == signedNormalized || test.input.inputType == unsignedNormalized) {
-			m1Encode.setOrbitRotation(test.input.stereoRotate);
+			m1Encode.setOrbitRotation(test.input.orbitRotation);
 		}
 		else if (test.input.inputType == quaternion) {
 			// case for quat
-		}
-		else {
-			m1Encode.setStereoRotate(test.input.stereoRotate);
 		}
 
 		m1Encode.generatePointResults();

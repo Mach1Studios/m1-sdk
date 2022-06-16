@@ -31,8 +31,13 @@ struct Mach1FormatInfo {
 };
 
 struct Mach1GainCoeff {
-	float gain;
-	bool isDecibel = false;
+    Mach1GainCoeff(float _gain = 1.0f, bool _isDecibel = false)
+    {
+        gain = _gain;
+        isDecibel = _isDecibel;
+    }
+    float gain;
+    bool isDecibel;
 };
 
 struct Mach1TranscodeChannelBase {
@@ -47,7 +52,7 @@ struct Mach1TranscodePanner : public Mach1TranscodeChannelBase {
 	float azimuth;
 	float elevation;
 	float diverge;
-	Mach1GainCoeff outputGain = {1.0f, false}; // can be used to apply pan-law concepts
+	Mach1GainCoeff outputGain; // can be used to apply pan-law concepts
 };
 
 class Mach1TranscodeChannel {
@@ -59,13 +64,23 @@ public:
 		return obj;
 	}
 
-	static Mach1TranscodePanner* Panner(float azimuthFromMinus180to180, float elevationFromMinus90to90, float divergeFromMinus1To1, Mach1GainCoeff outputGain)
+	static Mach1TranscodePanner* Panner(float azimuthFromMinus180to180, float elevationFromMinus90to90, float divergeFromMinus1To1, const Mach1GainCoeff & outputGain)
 	{
 		Mach1TranscodePanner* obj = new Mach1TranscodePanner();
 		obj->azimuth = azimuthFromMinus180to180;
 		obj->elevation = elevationFromMinus90to90;
 		obj->diverge = divergeFromMinus1To1;
-		obj->gain = outputGain;
+		obj->outputGain = outputGain;
+		return obj;
+	}
+	static Mach1TranscodePanner* Panner(float azimuthFromMinus180to180, float elevationFromMinus90to90, float divergeFromMinus1To1)
+	{
+		Mach1TranscodePanner* obj = new Mach1TranscodePanner();
+		Mach1GainCoeff default_gain = {1.0f, false};
+		obj->azimuth = azimuthFromMinus180to180;
+		obj->elevation = elevationFromMinus90to90;
+		obj->diverge = divergeFromMinus1To1;
+		obj->outputGain = default_gain;
 		return obj;
 	}
 };

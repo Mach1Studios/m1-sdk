@@ -109,7 +109,6 @@ public:
 		 { INPUT_QUAD, "M1Horizon"},
 		 { INPUT_LCRS, "4.0_LCRS"},
 		 { INPUT_AFORMAT, "4.0_AFormat"},
-		 { INPUT_BFORMAT, "ACNSN3D"},
 		 { INPUT_FIVE_ZERO, "5.0_C"},
 		 { INPUT_FIVE_ONE_FILM, "5.1_C"},
 		 { INPUT_FIVE_ONE_DTS, "5.1_C_Dts"},
@@ -147,8 +146,8 @@ private:
 	float azimuth, diverge, elevation;
 	float orbitRotation, sSpread;
 	bool autoOrbit;
-	bool isotropicEncode; // deprecated
-	bool frontSurroundPerspective; 
+	bool frontSurroundPerspective;
+	float outputGainLinearMultipler;
 
 	float getCoeffForStandardPoint(float x, float y, float z, Mach1Point3DCore point, bool ignoreZ);
 	std::vector<float> getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<Mach1Point3DCore>& pointSet, bool ignoreZ);
@@ -188,7 +187,7 @@ public:
 	void setIsotropicEncode(bool isotropicEncode);
 	void setPannerMode(PannerMode pannerMode);
 	void setFrontSurroundPerspective(bool frontSurroundPerspective);
-	void setOutputGain(float outputGainLinearMultipler);
+	void setOutputGain(float outputGainMultipler, bool isDecibel);
 
 	void setOrbitRotation(float orbitRotationFromMinusOnetoOne);
 	void setOrbitRotationDegrees(float orbitRotationDegrees);

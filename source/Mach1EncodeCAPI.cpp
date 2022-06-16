@@ -172,11 +172,7 @@ void Mach1EncodeCAPI_setFrontSurroundPerspective(void* M1obj, bool frontSurround
 }
 
 void Mach1EncodeCAPI_setOutputGain(void* M1obj, float outputGainMultipler, bool isDecibel) {
-	if (isDecibel) {
-		((M1EncodeCore*)M1obj)->setOutputGain(std::powf(10.0f, outputGainMultipler/20.0f))
-	} else {
-		((M1EncodeCore*)M1obj)->setOutputGain(outputGainMultipler);
-	}
+	((M1EncodeCore*)M1obj)->setOutputGain(outputGainMultipler, isDecibel);
 }
 
 long Mach1EncodeCAPI_getLastCalculationTime(void* M1obj) {

@@ -89,10 +89,11 @@ public:
 	enum OutputMode { 
 		OUTPUT_HORIZON_4CH = (int) 0, 
 		OUTPUT_SPATIAL_8CH,
-		OUTPUT_SPATIALPLUS_12CH,
-		OUTPUT_SPATIALPLUSPLUS_14CH,
-		OUTPUT_SPATIALEXT_16CH,
-		OUTPUT_SPATIALEXTPLUS_18CH
+		OUTPUT_SPATIAL_12CH,
+		OUTPUT_SPATIAL_14CH,
+		OUTPUT_SPATIAL_16CH,
+		OUTPUT_SPATIAL_18CH,
+		OUTPUT_SPATIAL_24CH
 	};
 
 	enum PannerMode {
@@ -123,12 +124,12 @@ public:
 
 	struct OutputModeName { OutputMode mode; std::string name; };
 	std::vector<OutputModeName> outputModeNames = {
-		 { OUTPUT_HORIZON_4CH, "M1Horizon"},
-		 { OUTPUT_SPATIAL_8CH, "M1Spatial"},
-		 { OUTPUT_SPATIALPLUS_12CH, "M1SpatialPlus"},
-		 { OUTPUT_SPATIALPLUSPLUS_14CH, "M1SpatialPlusPlus"},
-		 { OUTPUT_SPATIALEXT_16CH, "M1SpatialExtended"},
-		 { OUTPUT_SPATIALEXTPLUS_18CH, "M1SpatialExtendedPlus"},
+		 { OUTPUT_HORIZON_4CH, "M1Horizon-4"},
+		 { OUTPUT_SPATIAL_8CH, "M1Spatial-8"},
+		 { OUTPUT_SPATIAL_12CH, "M1Spatial-12"},
+		 { OUTPUT_SPATIAL_14CH, "M1Spatial-14"},
+		 { OUTPUT_SPATIAL_16CH, "M1Spatial-16"},
+		 { OUTPUT_SPATIAL_18CH, "M1Spatial-18"},
 	};
 
 	// arrays for CAPI

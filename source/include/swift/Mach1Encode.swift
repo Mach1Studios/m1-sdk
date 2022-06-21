@@ -175,12 +175,13 @@ public class Mach1Encode {
         /// Sets the output spatial format, Mach1Spatial or Mach1Horizon
         ///
         /// - Parameters:
-        ///     - Mach1Horizon (4ch) [Yaw]
-        ///     - Mach1Spatial (8ch) [Yaw, Pitch, Roll]
-        ///     - Mach1SpatialPlus (12ch) [Yaw, Pitch, Roll]
-        ///     - Mach1SpatialPlusPlus (14ch) [Yaw, Pitch, Roll]
-        ///     - Mach1SpatialExt (16ch) [Yaw, Pitch, Roll]
-        ///     - Mach1SpatialExtPlus (18ch) [Yaw, Pitch, Roll]
+        ///     - Mach1Horizon_4 (4ch) [Yaw]
+        ///     - Mach1Spatial_8 (8ch) [Yaw, Pitch, Roll]
+        ///     - Mach1Spatial_12 (12ch) [Yaw, Pitch, Roll]
+        ///     - Mach1Spatial_14 (14ch) [Yaw, Pitch, Roll]
+        ///     - Mach1Spatial_16 (16ch) [Yaw, Pitch, Roll]
+        ///     - Mach1Spatial_18 (18ch) [Yaw, Pitch, Roll]
+        ///     - Mach1Spatial_24 (24ch) [Yaw, Pitch, Roll]
     }
 
     public func setAzimuth(azimuthFromMinus1To1: Float) {

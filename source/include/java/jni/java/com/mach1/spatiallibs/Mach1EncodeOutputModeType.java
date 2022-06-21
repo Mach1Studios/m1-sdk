@@ -9,12 +9,13 @@
 package com.mach1.spatiallibs;
 
 public final class Mach1EncodeOutputModeType {
-  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Horizon = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Horizon", Mach1EncodeModuleJNI.Mach1EncodeOutputModeM1Horizon_get());
-  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial");
-  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1SpatialPlus = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1SpatialPlus");
-  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1SpatialPlusPlus = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1SpatialPlusPlus");
-  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1SpatialExt = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1SpatialExt");
-  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1SpatialExtPlus = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1SpatialExtPlus");
+  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Horizon_4 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Horizon_4", Mach1EncodeModuleJNI.Mach1EncodeOutputModeM1Horizon_get());
+  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_8 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_8");
+  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_12 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_12");
+  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_14 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_14");
+  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_16 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_16");
+  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_18 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_18");
+  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_24 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_24");
 
   public final int swigValue() {
     return swigValue;

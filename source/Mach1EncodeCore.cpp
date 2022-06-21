@@ -3,12 +3,12 @@
 
 /*
 Internal Orientation Implementation:
-  -  Azimuth[+] = rotate right 0-1 [Range: 0->360 | -180->180]
-  -  Azimuth[-] = rotate left 0-1 [Range: 0->360 | -180->180]
-  -  Elevation[+] = rotate up 0-1 [Range: -90->90]
-  -  Elevation[-] = rotate down 0-1 [Range: -90->90]
-  -  OrbitRotation[+] = rotate right 0-1 [Range: 0->360 | -180->180]
-  -  OrbitRotation[-] = rotate left 0-1 [Range: 0->360 | -180->180]
+	-  Azimuth[+] = rotate right 0-1 [Range: 0->360 | -180->180]
+	-  Azimuth[-] = rotate left 0-1 [Range: 0->360 | -180->180]
+	-  Elevation[+] = rotate up 0-1 [Range: -90->90]
+	-  Elevation[-] = rotate down 0-1 [Range: -90->90]
+	-  OrbitRotation[+] = rotate right 0-1 [Range: 0->360 | -180->180]
+	-  OrbitRotation[-] = rotate left 0-1 [Range: 0->360 | -180->180]
 
 Mach1EncodeCore normalizes all input ranges to an unsigned "0 to 1" range for Azimuth, Elevation and OrbitRotation.
  */
@@ -103,14 +103,14 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 	*/
 
 	// M1 horizon plane points
-	static std::vector<Mach1Point3DCore> m1HorizonDef = { 
+	static std::vector<Mach1Point3DCore> m1Horizon_4_Def = { 
 												{-1, 1, 0},
 												{1, 1, 0},
 												{-1, -1, 0},
 												{1, -1, 0} };
 
 	// M1 spatial cube points
-	static std::vector<Mach1Point3DCore> m1SpatialDef = { 
+	static std::vector<Mach1Point3DCore> m1Spatial_8_Def = { 
 												{-1, 1, 1},
 												{1, 1, 1},
 												{-1, -1, 1},
@@ -122,7 +122,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 												{1, -1, -1} };
 
 	// M1 spatial+ cube points
-	static std::vector<Mach1Point3DCore> m1SpatialPlusDef = { 
+	static std::vector<Mach1Point3DCore> m1Spatial_12_Def = { 
 												{-1, 1, 1},
 												{1, 1, 1},
 												{-1, -1, 1},
@@ -139,7 +139,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 												{-1 / 0.707, 0, 0} };
 
 	// M1 spatial++ cube points
-	static std::vector<Mach1Point3DCore> m1SpatialPlusPlusDef = { 
+	static std::vector<Mach1Point3DCore> m1Spatial_14_Def = { 
 												{-1, 1, 1},
 												{1, 1, 1},
 												{-1, -1, 1},
@@ -159,7 +159,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 												{-1 / 0.707, 0, 0} };
 
 	// M1 spatial extended cube points
-	static std::vector<Mach1Point3DCore> m1SpatialExtendedDef = { 
+	static std::vector<Mach1Point3DCore> m1Spatial_16_Def = { 
 												{-1, 1, 1},
 												{1, 1, 1},
 												{-1, -1, 1},
@@ -181,7 +181,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 												{-1 / 0.707, 0, -1} };
 
 	// M1 spatial extended+ cube points
-	static std::vector<Mach1Point3DCore> m1SpatialExtendedPlusDef = { 
+	static std::vector<Mach1Point3DCore> m1Spatial_18_Def = { 
 												{-1, 1, 1},
 												{1, 1, 1},
 												{-1, -1, 1},
@@ -205,13 +205,40 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 												{1 / 0.707, 0, 0},
 												{-1 / 0.707, 0, 0} };
 
+static std::vector<Mach1Point3DCore> m1Spatial_24_Def = {
+											{-1, 1, 1},
+											{1, 1, 1},
+											{-1, -1, 1},
+											{1, -1, 1},
+
+											{-1, 1, -1},
+											{1, 1, -1},
+											{-1, -1, -1},
+											{1, -1, -1},
+
+											{0, 1 / 0.707, 1},
+											{1 / 0.707, 0, 1},
+											{0, -1 / 0.707, 1},
+											{-1 / 0.707, 0, 1},
+
+											{0, 1 / 0.707, -1},
+											{1 / 0.707, 0, -1},
+											{0, -1 / 0.707, -1},
+											{-1 / 0.707, 0, -1},
+
+											{0, 1 / 0.707, 0},
+											{1 / 0.707, 0, 0},
+											{0, -1 / 0.707, 0},
+											{-1 / 0.707, 0, 0} };
+
 	static std::map<OutputMode, std::vector<Mach1Point3DCore>> standards = {
-		{OUTPUT_HORIZON_4CH, m1HorizonDef},
-		{OUTPUT_SPATIAL_8CH, m1SpatialDef},
-		{OUTPUT_SPATIALPLUS_12CH, m1SpatialPlusDef},
-		{OUTPUT_SPATIALPLUSPLUS_14CH, m1SpatialPlusPlusDef},
-		{OUTPUT_SPATIALEXT_16CH, m1SpatialExtendedDef},
-		{OUTPUT_SPATIALEXTPLUS_18CH, m1SpatialExtendedPlusDef},
+		{OUTPUT_HORIZON_4CH, m1Horizon_4_Def},
+		{OUTPUT_SPATIAL_8CH, m1Spatial_8_Def},
+		{OUTPUT_SPATIAL_12CH, m1Spatial_12_Def},
+		{OUTPUT_SPATIAL_14CH, m1Spatial_14_Def},
+		{OUTPUT_SPATIAL_16CH, m1Spatial_16_Def},
+		{OUTPUT_SPATIAL_18CH, m1Spatial_18_Def},
+		{OUTPUT_SPATIAL_24CH, m1Spatial_24_Def},
 	};
 
 	std::vector<Mach1Point3DCore> pointsSet;
@@ -677,56 +704,56 @@ void M1EncodeCore::generatePointResults() {
 
 void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, float* decodeResult, float* result)
 {
-    // clear
-    for (int i = 0; i < resultingPoints.pointsCount * 2; i++) result[i] = 0;
+		// clear
+		for (int i = 0; i < resultingPoints.pointsCount * 2; i++) result[i] = 0;
 
-    // TODO: check on these numbers
+		// TODO: check on these numbers
 
-    int decodeResultSize = 0;
-    switch (decodeType)
-    {
-    case Mach1DecodeAlgoSpatial:
-        decodeResultSize = 16;
-        break;
-    case Mach1DecodeAlgoAltSpatial:
-        decodeResultSize = 16;
-        break;
-    case Mach1DecodeAlgoHorizon:
-        decodeResultSize = 8;
-        break;
-    case Mach1DecodeAlgoHorizonPairs:
-        decodeResultSize = 8;
-        break;
-    case Mach1DecodeAlgoSpatialPairs:
-        decodeResultSize = 16;
-        break;
-    case Mach1DecodeAlgoSpatialPlus:
-        decodeResultSize = 12;
-        break;
-    case Mach1DecodeAlgoSpatialPlusPlus:
-        decodeResultSize = 14;
-        break;
-    case Mach1DecodeAlgoSpatialExt:
-        decodeResultSize = 16;
-        break;
-    case Mach1DecodeAlgoSpatialExtPlus:
-        decodeResultSize = 18;
-        break;
-    default:
-        break;
-    }
+		int decodeResultSize = 0;
+		switch (decodeType)
+		{
+		case Mach1DecodeAlgoSpatial:
+				decodeResultSize = 16;
+				break;
+		case Mach1DecodeAlgoAltSpatial:
+				decodeResultSize = 16;
+				break;
+		case Mach1DecodeAlgoHorizon:
+				decodeResultSize = 8;
+				break;
+		case Mach1DecodeAlgoHorizonPairs:
+				decodeResultSize = 8;
+				break;
+		case Mach1DecodeAlgoSpatialPairs:
+				decodeResultSize = 16;
+				break;
+		case Mach1DecodeAlgoSpatialPlus:
+				decodeResultSize = 12;
+				break;
+		case Mach1DecodeAlgoSpatialPlusPlus:
+				decodeResultSize = 14;
+				break;
+		case Mach1DecodeAlgoSpatialExt:
+				decodeResultSize = 16;
+				break;
+		case Mach1DecodeAlgoSpatialExtPlus:
+				decodeResultSize = 18;
+				break;
+		default:
+				break;
+		}
 
-    // decode - 8, 16
-    if (getOutputChannelsCount() * 2 != decodeResultSize) {
-        std::cout << "[MACH1] Warning: The Mach1EncodeOutputModeType in use is not suitable for the Mach1DecodeAlgoType selected" << std::endl;
-    }
+		// decode - 8, 16
+		if (getOutputChannelsCount() * 2 != decodeResultSize) {
+				std::cout << "[MACH1] Warning: The Mach1EncodeOutputModeType in use is not suitable for the Mach1DecodeAlgoType selected" << std::endl;
+		}
 
-    for (int j = 0; j < resultingPoints.pointsCount; j++) {
-        for (int i = 0; i < getOutputChannelsCount(); i++) {
-            result[j * 2 + 0] += decodeResult[i * 2 + 0] * resultingPoints.gains[j][i]; // left
-            result[j * 2 + 1] += decodeResult[i * 2 + 1] * resultingPoints.gains[j][i]; // right
-        }
-    }
+		for (int j = 0; j < resultingPoints.pointsCount; j++) {
+				for (int i = 0; i < getOutputChannelsCount(); i++) {
+						result[j * 2 + 0] += decodeResult[i * 2 + 0] * resultingPoints.gains[j][i]; // left
+						result[j * 2 + 1] += decodeResult[i * 2 + 1] * resultingPoints.gains[j][i]; // right
+				}
+		}
 }
 
 M1EncodeCore::InputMode M1EncodeCore::getInputMode() {
@@ -763,10 +790,11 @@ int M1EncodeCore::getOutputChannelsCount() {
 	switch (outputMode) {
 		case OUTPUT_HORIZON_4CH: return 4;
 		case OUTPUT_SPATIAL_8CH: return 8;
-		case OUTPUT_SPATIALPLUS_12CH: return 12;
-		case OUTPUT_SPATIALPLUSPLUS_14CH: return 14;
-		case OUTPUT_SPATIALEXT_16CH: return 16;
-		case OUTPUT_SPATIALEXTPLUS_18CH: return 18;
+		case OUTPUT_SPATIAL_12CH: return 12;
+		case OUTPUT_SPATIAL_14CH: return 14;
+		case OUTPUT_SPATIAL_16CH: return 16;
+		case OUTPUT_SPATIAL_18CH: return 18;
+		case OUTPUT_SPATIAL_24CH: return 24;
 	}
 	return 0;
 }

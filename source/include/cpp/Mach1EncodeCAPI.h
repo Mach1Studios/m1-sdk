@@ -48,14 +48,14 @@ enum Mach1EncodeInputModeType {
 };
 
 enum Mach1EncodeOutputModeType {
-	Mach1EncodeOutputModeM1Horizon = (int) 0, 
-	Mach1EncodeOutputModeM1Spatial,
-	Mach1EncodeOutputModeM1SpatialPlus,
-	Mach1EncodeOutputModeM1SpatialPlusPlus,
-	Mach1EncodeOutputModeM1SpatialExt,
-	Mach1EncodeOutputModeM1SpatialExtPlus
+	Mach1EncodeOutputModeM1Horizon_4 = (int) 0, 
+	Mach1EncodeOutputModeM1Spatial_8,
+	Mach1EncodeOutputModeM1Spatial_12,
+	Mach1EncodeOutputModeM1Spatial_14,
+	Mach1EncodeOutputModeM1Spatial_16,
+	Mach1EncodeOutputModeM1Spatial_18,
+	Mach1EncodeOutputModeM1Spatial_24
 };
-
 enum Mach1EncodePannerMode {
 	Mach1EncodePannerModeIsotropicLinear = (int) 0,
 	Mach1EncodePannerModeIsotropicEqualPower,

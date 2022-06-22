@@ -5,6 +5,6 @@ namespace Mach1
 {
     public enum Mach1DecodeAlgoType : int
     {
-        Mach1DecodeAlgoSpatial = 0, Mach1DecodeAlgoAltSpatial, Mach1DecodeAlgoHorizon, Mach1DecodeAlgoHorizonPairs, Mach1DecodeAlgoSpatialPairs
+        Mach1DecodeAlgoSpatial_8 = 0, Mach1DecodeAlgoSpatialAlt_8, Mach1DecodeAlgoHorizon_4, Mach1DecodeAlgoHorizonPairs, Mach1DecodeAlgoSpatialPairs, Mach1DecodeAlgoSpatial_12, Mach1DecodeAlgoSpatial_14, Mach1DecodeAlgoSpatial_16, Mach1DecodeAlgoSpatial_18, Mach1DecodeAlgoSpatial_24
     };
 }

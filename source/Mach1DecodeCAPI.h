@@ -42,15 +42,16 @@ enum Mach1PlatformType {
 };
 
 enum Mach1DecodeAlgoType {
-	Mach1DecodeAlgoSpatial = (int) 0,
-	Mach1DecodeAlgoAltSpatial,
-	Mach1DecodeAlgoHorizon,
+	Mach1DecodeAlgoHorizon_4 = (int) 0,
+	Mach1DecodeAlgoSpatial_8,
+	Mach1DecodeAlgoSpatialAlt_8,
 	Mach1DecodeAlgoHorizonPairs,
 	Mach1DecodeAlgoSpatialPairs,
-	Mach1DecodeAlgoSpatialPlus,
-	Mach1DecodeAlgoSpatialPlusPlus,
-	Mach1DecodeAlgoSpatialExt,
-	Mach1DecodeAlgoSpatialExtPlus
+	Mach1DecodeAlgoSpatial_12,
+	Mach1DecodeAlgoSpatial_14,
+	Mach1DecodeAlgoSpatial_16,
+	Mach1DecodeAlgoSpatial_18,
+	Mach1DecodeAlgoSpatial_24
 };
 
 #ifdef __cplusplus

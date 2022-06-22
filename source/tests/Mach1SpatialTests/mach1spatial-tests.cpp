@@ -23,12 +23,13 @@ std::map<Mach1EncodeInputModeType, std::string> encodeInputModeNames = {
 };
 
 std::map<Mach1EncodeOutputModeType, std::string> encodeOutputModeNames = {
-		{ Mach1EncodeOutputModeM1Horizon , "MACH1HORIZON" },
-		{ Mach1EncodeOutputModeM1Spatial , "MACH1SPATIAL" },
-		{ Mach1EncodeOutputModeM1SpatialPlus , "MACH1SPATIAL+" },
-		{ Mach1EncodeOutputModeM1SpatialPlusPlus , "MACH1SPATIAL++" },
-		{ Mach1EncodeOutputModeM1SpatialExt , "MACH1SPATIALEXT" },
-		{ Mach1EncodeOutputModeM1SpatialExtPlus , "MACH1SPATIALEXT+" },
+		{ Mach1EncodeOutputModeM1Horizon_4 , "MACH1HORIZON-4" },
+		{ Mach1EncodeOutputModeM1Spatial_8 , "MACH1SPATIAL-8" },
+		{ Mach1EncodeOutputModeM1Spatial_12 , "MACH1SPATIAL-12" },
+		{ Mach1EncodeOutputModeM1Spatial_14 , "MACH1SPATIAL-14" },
+		{ Mach1EncodeOutputModeM1Spatial_16 , "MACH1SPATIAL-16" },
+		{ Mach1EncodeOutputModeM1Spatial_18 , "MACH1SPATIAL-18" },
+		{ Mach1EncodeOutputModeM1Spatial_24 , "MACH1SPATIAL-24" },
 };
 
 enum InputType {
@@ -62,17 +63,19 @@ std::map<Mach1PlatformType, std::string> platformModeNames = {
 	{ Mach1PlatformiOSPortrait_YawOnly , "iOS_YawOnly" },
 };
 
-std::map<Mach1DecodeAlgoType, std::string> decodeOutputModeNames = {
-	{ Mach1DecodeAlgoSpatial , "Spatial - 8Ch" },
-	{ Mach1DecodeAlgoAltSpatial , "Spatial Alt - 8Ch" },
-	{ Mach1DecodeAlgoHorizon , "Horizon - 4Ch" },
+std::map<Mach1DecodeAlgoType, std::string> outputModeNames = {
+	{ Mach1DecodeAlgoSpatial_8 , "Spatial - 8Ch" },
+	{ Mach1DecodeAlgoSpatialAlt_8 , "Spatial Alt - 8Ch" },
+	{ Mach1DecodeAlgoHorizon_4 , "Horizon - 4Ch" },
 	{ Mach1DecodeAlgoHorizonPairs , "Horizon Pairs - 8Ch" },
 	{ Mach1DecodeAlgoSpatialPairs , "Spatial Pairs - 16Ch" },
-	{ Mach1DecodeAlgoSpatialPlus , "Spatial Plus - 12Ch" },
-	{ Mach1DecodeAlgoSpatialPlusPlus , "Spatial Plus Plus - 14Ch" },
-	// { Mach1DecodeAlgoSpatialExt , "Spatial Ext - 16Ch" },
-	// { Mach1DecodeAlgoSpatialExtPlus , "Spatial Ext Plus - 18Ch" },
+	{ Mach1DecodeAlgoSpatial_12 , "Spatial - 12Ch" },
+	{ Mach1DecodeAlgoSpatial_14 , "Spatial - 14Ch" },
+	// { Mach1DecodeAlgoSpatial_16 , "Spatial - 16Ch" },
+	// { Mach1DecodeAlgoSpatial_18 , "Spatial - 18Ch" },
+	// { Mach1DecodeAlgoSpatial_24 , "Spatial - 24Ch" },
 };
+
 
 void test_results(void)
 {

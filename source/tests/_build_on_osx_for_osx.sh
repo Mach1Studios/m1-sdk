@@ -1,11 +1,7 @@
 echo "### BUILD macOS ###"
-polly --clear --install --config Release --toolchain xcode
-
-echo "### RUN TESTS ###"
-_install/xcode/bin/Mach1EncodeTests
-_install/xcode/bin/Mach1DecodeTests
-_install/xcode/bin/Mach1DecodePositionalTests
-_install/xcode/bin/Mach1TranscodeTests
+mkdir build && cd build
+cmake .. -G Xcode
+cmake --build .
 
 echo "### RENDER CHECK ####"
 echo "### 5.1_C -> M1Spatial ###"

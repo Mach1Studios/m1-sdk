@@ -712,34 +712,37 @@ void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, flo
 		int decodeResultSize = 0;
 		switch (decodeType)
 		{
-		case Mach1DecodeAlgoSpatial:
+            case Mach1DecodeAlgoSpatial_8:
 				decodeResultSize = 16;
 				break;
-		case Mach1DecodeAlgoAltSpatial:
+            case Mach1DecodeAlgoSpatialAlt_8:
 				decodeResultSize = 16;
 				break;
-		case Mach1DecodeAlgoHorizon:
+            case Mach1DecodeAlgoHorizon_4:
 				decodeResultSize = 8;
 				break;
-		case Mach1DecodeAlgoHorizonPairs:
+            case Mach1DecodeAlgoHorizonPairs:
 				decodeResultSize = 8;
 				break;
-		case Mach1DecodeAlgoSpatialPairs:
+            case Mach1DecodeAlgoSpatialPairs:
 				decodeResultSize = 16;
 				break;
-		case Mach1DecodeAlgoSpatialPlus:
-				decodeResultSize = 12;
+            case Mach1DecodeAlgoSpatial_12:
+				decodeResultSize = 24;
 				break;
-		case Mach1DecodeAlgoSpatialPlusPlus:
-				decodeResultSize = 14;
+            case Mach1DecodeAlgoSpatial_14:
+				decodeResultSize = 28;
 				break;
-		case Mach1DecodeAlgoSpatialExt:
-				decodeResultSize = 16;
+            case Mach1DecodeAlgoSpatial_16:
+				decodeResultSize = 32;
 				break;
-		case Mach1DecodeAlgoSpatialExtPlus:
-				decodeResultSize = 18;
+            case Mach1DecodeAlgoSpatial_18:
+				decodeResultSize = 36;
 				break;
-		default:
+            case Mach1DecodeAlgoSpatial_24:
+                decodeResultSize = 48;
+                break;
+            default:
 				break;
 		}
 

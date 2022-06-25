@@ -1,15 +1,10 @@
 echo "### BUILD Linux ###"
-echo "### REMINDER: Set alias for polly ###"
-~/git/polly/bin/polly --clear --install --config Release --toolchain gcc
-
-echo "### RUN TESTS ###"
-_install/gcc/bin/Mach1EncodeTests
-_install/gcc/bin/Mach1DecodeTests
-_install/gcc/bin/Mach1DecodePositionalTests
-_install/gcc/bin/Mach1TranscodeTests
+mkdir build && cd build
+cmake ..
+cmake --build .
 
 echo "### RUN LINKING TESTS ON CURRENT DEVICE ###"
-cd ../ && ~/git/polly/bin/polly --clear --install --config Release --toolchain gcc
+cd ../
 g++ -o spatial-decode-exmple -I../include/cpp -L_install/gcc/lib -lpthread -lMach1DecodeCAPI ../examples/mach1spatial-c/commandline/spatial-decode-example/spatial-decode-example/main.cpp 
 g++ -o spatial-encode-exmple -I../include/cpp -L_install/gcc/lib -lpthread -lMach1EncodeCAPI ../examples/mach1spatial-c/commandline/spatial-encode-example/spatial-encode-example/main.cpp 
 g++ -o spatial-decodepositional-exmple -I../include/cpp -L_install/gcc/lib -lpthread -lMach1DecodeCAPI -lMach1DecodePositionalCAPI ../examples/mach1spatial-c/commandline/spatial-decodepositional-example/spatial-decodepositional-example/main.cpp 

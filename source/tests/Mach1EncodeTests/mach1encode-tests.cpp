@@ -27,13 +27,13 @@ void test_results(void)
 	};
 
 	std::map<Mach1EncodeOutputModeType, std::string> outputModeNames = {
-		{ Mach1EncodeOutputModeM1Horizon_4_4 , "MACH1HORIZON-4" },
-		{ Mach1EncodeOutputModeM1Spatial_8_8 , "MACH1SPATIAL-8" },
-		{ Mach1EncodeOutputModeM1Spatial_8_12 , "MACH1SPATIAL-12" },
-		{ Mach1EncodeOutputModeM1Spatial_8_14 , "MACH1SPATIAL-14" },
-		{ Mach1EncodeOutputModeM1Spatial_8_16 , "MACH1SPATIAL-16" },
-		{ Mach1EncodeOutputModeM1Spatial_8_18 , "MACH1SPATIAL-18" },
-		{ Mach1EncodeOutputModeM1Spatial_8_24 , "MACH1SPATIAL-24" },
+		{ Mach1EncodeOutputModeM1Horizon_4 , "MACH1HORIZON-4" },
+		{ Mach1EncodeOutputModeM1Spatial_8 , "MACH1SPATIAL-8" },
+		{ Mach1EncodeOutputModeM1Spatial_12 , "MACH1SPATIAL-12" },
+		{ Mach1EncodeOutputModeM1Spatial_14 , "MACH1SPATIAL-14" },
+		{ Mach1EncodeOutputModeM1Spatial_16 , "MACH1SPATIAL-16" },
+		{ Mach1EncodeOutputModeM1Spatial_18 , "MACH1SPATIAL-18" },
+		{ Mach1EncodeOutputModeM1Spatial_24 , "MACH1SPATIAL-24" },
 	};
 
 	enum InputType { 

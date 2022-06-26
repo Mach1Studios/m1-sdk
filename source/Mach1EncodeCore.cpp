@@ -324,7 +324,7 @@ M1EncodeCore::~M1EncodeCore() {
 void M1EncodeCore::generatePointResults() {
 	long tStart = getCurrentTime();
 
-	if (pannerMode != MODE_ISOTROPICLINEAR || pannerMode != MODE_ISOTROPICEQUALPOWER){
+	if (pannerMode != MODE_ISOTROPICLINEAR && pannerMode != MODE_ISOTROPICEQUALPOWER){
 		pannerMode = MODE_PERIPHONICLINEAR;
 	}
 

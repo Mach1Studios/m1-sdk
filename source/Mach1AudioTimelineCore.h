@@ -16,7 +16,7 @@
 #include "Mach1Point3DCore.h"
 #include "Mach1KeyPoint.h"
 
-#include "atmos/ADMParser.h"
+#include "adm/ADMParser.h"
 #include "yaml/Yaml.hpp"
 
 struct Mach1AudioObjectCore {

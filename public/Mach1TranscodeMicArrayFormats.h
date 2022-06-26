@@ -33,13 +33,13 @@ public:
 				{
 					"1.0", "M1Spatial",
 					{
-						Mach1TranscodeChannel::Panner({0}, {0}, {1}, {-6, true}),
+                        Mach1TranscodeChannel::Panner(0, 0, 1, {-6, true}),
 					}
 				},
 				{
 					"2.0", "M1Spatial",
 					{
-						Mach1TranscodeChannel::Panner({-45}, {0}, {1}),
+                        Mach1TranscodeChannel::Panner(-45, 0, 1),
 						Mach1TranscodeChannel::Coeffs({ 0, 0.5f, 0, 0, 0, 0.5f, 0, 0 })
 					}
 				},

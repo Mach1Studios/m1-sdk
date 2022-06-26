@@ -93,7 +93,7 @@ public:
 		OUTPUT_SPATIAL_14CH,
 		OUTPUT_SPATIAL_16CH,
 		OUTPUT_SPATIAL_18CH,
-		OUTPUT_SPATIAL_24CH
+		OUTPUT_SPATIAL_20CH
 	};
 
 	enum PannerMode {
@@ -130,6 +130,7 @@ public:
 		 { OUTPUT_SPATIAL_14CH, "M1Spatial-14"},
 		 { OUTPUT_SPATIAL_16CH, "M1Spatial-16"},
 		 { OUTPUT_SPATIAL_18CH, "M1Spatial-18"},
+		 { OUTPUT_SPATIAL_20CH, "M1Spatial-20"},
 	};
 
 	// arrays for CAPI

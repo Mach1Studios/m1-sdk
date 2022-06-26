@@ -205,7 +205,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 												{1 / 0.707, 0, 0},
 												{-1 / 0.707, 0, 0} };
 
-static std::vector<Mach1Point3DCore> m1Spatial_24_Def = {
+static std::vector<Mach1Point3DCore> m1Spatial_20_Def = {
 											{-1, 1, 1},
 											{1, 1, 1},
 											{-1, -1, 1},
@@ -238,7 +238,7 @@ static std::vector<Mach1Point3DCore> m1Spatial_24_Def = {
 		{OUTPUT_SPATIAL_14CH, m1Spatial_14_Def},
 		{OUTPUT_SPATIAL_16CH, m1Spatial_16_Def},
 		{OUTPUT_SPATIAL_18CH, m1Spatial_18_Def},
-		{OUTPUT_SPATIAL_24CH, m1Spatial_24_Def},
+		{OUTPUT_SPATIAL_20CH, m1Spatial_20_Def},
 	};
 
 	std::vector<Mach1Point3DCore> pointsSet;
@@ -739,8 +739,8 @@ void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, flo
             case Mach1DecodeAlgoSpatial_18:
 				decodeResultSize = 36;
 				break;
-            case Mach1DecodeAlgoSpatial_24:
-                decodeResultSize = 48;
+            case Mach1DecodeAlgoSpatial_20:
+                decodeResultSize = 40;
                 break;
             default:
 				break;
@@ -797,7 +797,7 @@ int M1EncodeCore::getOutputChannelsCount() {
 		case OUTPUT_SPATIAL_14CH: return 14;
 		case OUTPUT_SPATIAL_16CH: return 16;
 		case OUTPUT_SPATIAL_18CH: return 18;
-		case OUTPUT_SPATIAL_24CH: return 24;
+		case OUTPUT_SPATIAL_20CH: return 20;
 	}
 	return 0;
 }

@@ -178,7 +178,7 @@ Mach1DecodePositionalCore::Mach1DecodePositionalCore()
 	ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 	timeLastCalculation = 0;
 
-	setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial);
+    setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial_8);
 }
 
 void Mach1DecodePositionalCore::setDecodeAlgoType(Mach1DecodeAlgoType type)
@@ -528,7 +528,7 @@ int test()
 {
 	Mach1DecodePositionalCore m1Positional;
 
-	m1Positional.setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial);
+    m1Positional.setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial_8);
 	Mach1PlatformType platfrom = Mach1PlatformType::Mach1PlatformUE; // Mach1PlatformUnity Mach1PlatformUE
 
 	m1Positional.setPlatformType(platfrom);

@@ -3,6 +3,8 @@ _logs/
 _install/
 build/
 *.build/
+Debug
+static
 
 # CMAKE
 CMakeLists.txt.user

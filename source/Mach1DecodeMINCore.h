@@ -76,8 +76,8 @@ private:
 
 	void spatialMultichannelAlgo(Mach1Point3DCore* points, int countPoints, float Yaw, float Pitch, float Roll, float *result);
 
-	void spatialAlgoSample(float Yaw, float Pitch, float Roll, float *result);
-	std::vector<float> spatialAlgoSample(float Yaw, float Pitch, float Roll);
+	void spatialAlgoSample_8(float Yaw, float Pitch, float Roll, float *result);
+	std::vector<float> spatialAlgoSample_8(float Yaw, float Pitch, float Roll);
 
 	Mach1Point3DCore rotation;
 
@@ -130,9 +130,8 @@ public:
     //  R = Roll in degrees
     //
     
-    std::vector<float> horizonAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-
-    void horizonAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
+    std::vector<float> horizonAlgo_4(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
+    void horizonAlgo_4(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
 
     // ------------------------------------------------------------------
     
@@ -145,9 +144,8 @@ public:
     //  R = Roll in degrees
     //
     
-    std::vector<float> spatialAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-    
-    void spatialAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
+    std::vector<float> spatialAlgo_8(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
+    void spatialAlgo_8(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
     
 };
 

@@ -9,14 +9,22 @@ Module['onRuntimeInitialized'] = function() {
             "Mach1PlatformOfEasyCam": (Module).Mach1PlatformType.Mach1PlatformOfEasyCam,
             "Mach1PlatformAndroid": (Module).Mach1PlatformType.Mach1PlatformAndroid,
             "Mach1PlatformiOS": (Module).Mach1PlatformType.Mach1PlatformiOS,
+            "Mach1PlatformiOSTableTop_ZVertical": (Module).Mach1PlatformiOSTableTop_ZVertical,
+            "Mach1PlatformiOSPortraitHandheld_YVertical": (Module).Mach1PlatformiOSPortraitHandheld_YVertical,
+            "Mach1PlatformiOSPortrait_YawOnly": (Module).Mach1PlatformiOSPortrait_YawOnly,
         };
 
         this.Mach1DecodeAlgoType = {
-            "Mach1DecodeAlgoSpatial": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial,
-            "Mach1DecodeAlgoAltSpatial": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoAltSpatial,
-            "Mach1DecodeAlgoHorizon": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoHorizon,
+            "Mach1DecodeAlgoSpatial_8": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_8,
+            "Mach1DecodeAlgoSpatialAlt_8": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatialAlt_8,
+            "Mach1DecodeAlgoHorizon_4": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoHorizon_4,
             "Mach1DecodeAlgoHorizonPairs": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoHorizonPairs,
             "Mach1DecodeAlgoSpatialPairs": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatialPairs,
+            "Mach1DecodeAlgoSpatial_12": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_12,
+            "Mach1DecodeAlgoSpatial_14": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_14,
+            "Mach1DecodeAlgoSpatial_16": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_16,
+            "Mach1DecodeAlgoSpatial_18": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_18,
+            "Mach1DecodeAlgoSpatial_20": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_20,
         };
 
         this.delete = function() {

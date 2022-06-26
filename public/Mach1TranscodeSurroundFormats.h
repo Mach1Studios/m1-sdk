@@ -44,7 +44,6 @@ namespace Mach1TranscodeConstants {
 	public:
 		static std::vector<Mach1TranscodeMatrix> getData() {
 			const float oor4 = (float)(1.0 / sqrt(4.0));
-			const float oor8 = (float)(1.0 / sqrt(8.0));
 			const float oor16 = (float)(1.0 / sqrt(16.0));
 			const float r2o2 = (float)sqrt(2.0) / 2.0f;
 			const float r2o4 = (float)sqrt(2.0) / 4.0f;

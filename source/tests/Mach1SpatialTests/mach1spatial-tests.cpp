@@ -64,7 +64,7 @@ std::map<Mach1PlatformType, std::string> platformModeNames = {
 	{ Mach1PlatformiOSPortrait_YawOnly , "iOS_YawOnly" },
 };
 
-std::map<Mach1DecodeAlgoType, std::string> outputModeNames = {
+std::map<Mach1DecodeAlgoType, std::string> decodeModeNames = {
 	{ Mach1DecodeAlgoSpatial_8 , "Spatial - 8Ch" },
 	{ Mach1DecodeAlgoSpatialAlt_8 , "Spatial Alt - 8Ch" },
 	{ Mach1DecodeAlgoHorizon_4 , "Horizon - 4Ch" },
@@ -94,7 +94,7 @@ void test_results(void)
 		InputType inputType;
 
 		Mach1PlatformType platformMode;
-		Mach1DecodeAlgoType decodeOutputMode;
+		Mach1DecodeAlgoType decodeMode;
 		float yaw;
 		float pitch;
 		float roll;
@@ -187,7 +187,7 @@ void test_results(void)
 		Mach1Decode m1Decode;
 
 		m1Decode.setPlatformType(test.input.platformMode);
-		m1Decode.setDecodeAlgoType(test.input.decodeOutputMode);
+		m1Decode.setDecodeAlgoType(test.input.decodeMode);
 		m1Decode.setFilterSpeed(test.input.filterSpeed);
 
 		m1Decode.setRotationDegrees(Mach1Point3D{ test.input.yaw, test.input.pitch, test.input.roll });
@@ -199,7 +199,7 @@ void test_results(void)
 		std::cout
 			<< "testing " << test.name << ": "
 			<< encodeInputModeNames[test.input.encodeInputMode] << " > " << encodeOutputModeNames[test.input.encodeOutputMode] << " with " << inputTypeNames[test.input.inputType] << " , "
-			<< platformModeNames[test.input.platformMode] << " > " << decodeOutputModeNames[test.input.decodeOutputMode];
+			<< platformModeNames[test.input.platformMode] << " > " << decodeModeNames[test.input.decodeMode];
 
 		int counter = 0;
 

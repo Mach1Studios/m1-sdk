@@ -398,7 +398,6 @@ jobs:
         - cd ${TRAVIS_BUILD_DIR}/../
         - git clone git@github.com:Mach1Studios/m1-transcodertools.git
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
-        - ./setup.sh
         - cmake .
         - cmake --build .
       after_success:
@@ -456,7 +455,6 @@ jobs:
         - cd ${TRAVIS_BUILD_DIR}/../
         - git clone git@github.com:Mach1Studios/m1-transcodertools.git
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
-        - ./setup.sh
         - cmake .
         - cmake --build .
       after_success:
@@ -550,7 +548,6 @@ jobs:
         - cd ${TRAVIS_BUILD_DIR}/../
         - git clone git@github.com:Mach1Studios/m1-transcodertools.git
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
-        - ./setup.sh
         - cmake .
         - cmake --build .
       after_success:

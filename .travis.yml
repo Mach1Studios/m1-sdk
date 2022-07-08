@@ -26,7 +26,7 @@ stages:
   - name: compile
     if: branch = deploy OR travis-test
   - name: deploy
-    if: branch = deploy OR travis-test
+    if: branch = deploy
   - name: release
     if: branch = master
 

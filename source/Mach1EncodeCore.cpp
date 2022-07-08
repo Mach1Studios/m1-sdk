@@ -860,7 +860,7 @@ void M1EncodeCore::setFrontSurroundPerspective(bool frontSurroundPerspective){
 
 void M1EncodeCore::setOutputGain(float outputGainMultipler, bool isDecibel){
 	if (isDecibel) {
-		this->outputGainLinearMultipler = std::powf(10.0f, outputGainMultipler/20.0f);
+		this->outputGainLinearMultipler = std::pow(10.0f, outputGainMultipler/20.0f);
 	} else {
 		this->outputGainLinearMultipler = outputGainMultipler;
 	}

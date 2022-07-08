@@ -24,9 +24,9 @@ after_script:
 stages:
   - name: test
   - name: compile
-    if: branch = deploy
+    if: branch = deploy OR travis-test
   - name: deploy
-    if: branch = deploy
+    if: branch = deploy OR travis-test
   - name: release
     if: branch = master
 

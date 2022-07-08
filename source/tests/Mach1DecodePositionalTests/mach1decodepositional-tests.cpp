@@ -23,15 +23,17 @@ void test_results(void)
 	};
 
 	std::map<Mach1DecodeAlgoType, std::string> outputModeNames = {
-		{ Mach1DecodeAlgoSpatial , "Spatial - 8Ch" },
-		{ Mach1DecodeAlgoAltSpatial , "Spatial Alt - 8Ch" },
-		{ Mach1DecodeAlgoHorizon , "Horizon - 4Ch" },
+		{ Mach1DecodeAlgoSpatial_8 , "Spatial - 8Ch" },
+		{ Mach1DecodeAlgoSpatialAlt_8 , "Spatial Alt - 8Ch" },
+		{ Mach1DecodeAlgoHorizon_4 , "Horizon - 4Ch" },
 		{ Mach1DecodeAlgoHorizonPairs , "Horizon Pairs - 8Ch" },
 		{ Mach1DecodeAlgoSpatialPairs , "Spatial Pairs - 16Ch" },
-		{ Mach1DecodeAlgoSpatialPlus , "Spatial Plus - 12Ch" },
-		{ Mach1DecodeAlgoSpatialPlusPlus , "Spatial Plus Plus - 14Ch" },
-		// { Mach1DecodeAlgoSpatialExt , "Spatial Ext - 16Ch" },
-		// { Mach1DecodeAlgoSpatialExtPlus , "Spatial Ext Plus - 18Ch" },
+		{ Mach1DecodeAlgoSpatial_12 , "Spatial - 12Ch" },
+		{ Mach1DecodeAlgoSpatial_14 , "Spatial - 14Ch" },
+		// { Mach1DecodeAlgoSpatial_16 , "Spatial - 16Ch" },
+		// { Mach1DecodeAlgoSpatial_18 , "Spatial - 18Ch" },
+		// { Mach1DecodeAlgoSpatial_24 , "Spatial - 24Ch" },
+		// { Mach1DecodeAlgoSpatial_32 , "Spatial - 32Ch" },
 	};
 
 	struct INPUT_DATA {

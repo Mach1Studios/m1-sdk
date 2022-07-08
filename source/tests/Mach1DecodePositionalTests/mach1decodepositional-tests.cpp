@@ -30,10 +30,10 @@ void test_results(void)
 		{ Mach1DecodeAlgoSpatialPairs , "Spatial Pairs - 16Ch" },
 		{ Mach1DecodeAlgoSpatial_12 , "Spatial - 12Ch" },
 		{ Mach1DecodeAlgoSpatial_14 , "Spatial - 14Ch" },
-		// { Mach1DecodeAlgoSpatial_16 , "Spatial - 16Ch" },
-		// { Mach1DecodeAlgoSpatial_18 , "Spatial - 18Ch" },
-		// { Mach1DecodeAlgoSpatial_24 , "Spatial - 24Ch" },
-		// { Mach1DecodeAlgoSpatial_32 , "Spatial - 32Ch" },
+		{ Mach1DecodeAlgoSpatial_16 , "Spatial - 16Ch" },
+		{ Mach1DecodeAlgoSpatial_18 , "Spatial - 18Ch" },
+		{ Mach1DecodeAlgoSpatial_24 , "Spatial - 24Ch" },
+		{ Mach1DecodeAlgoSpatial_32 , "Spatial - 32Ch" },
 	};
 
 	struct INPUT_DATA {
@@ -81,7 +81,7 @@ void test_results(void)
 		 */
 		{
 			"case: POSITIONAL | 0 Yaw",
-			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 
+			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8, 
 				0.0, 0.0, 0.0, //listener pos
 				0.0, 0.0, 0.0, //listener rot
 				0.0, 0.0, 5.0, //m1 pos

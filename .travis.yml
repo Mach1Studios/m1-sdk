@@ -5,6 +5,7 @@ env:
 
 branches:
   only:
+    - travis-test
     - develop
     - deploy
     - master

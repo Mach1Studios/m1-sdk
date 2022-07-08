@@ -2,23 +2,38 @@
 # Setup
 #----------------
 
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.1.0)
 project(Mach1SpatialLibraries)
-set(CMAKE_CXX_STANDARD 11)
+
+if(DEFINED CXX_VERSION STREQUAL 14)
+	set(CMAKE_CXX_STANDARD 14)
+	message("SETUP: CXX=14")
+elseif(DEFINED CXX_VERSION STREQUAL 17)
+	set(CMAKE_CXX_STANDARD 17)
+	message("SETUP: CXX=17")
+else()
+	set(CMAKE_CXX_STANDARD 11)
+	message("SETUP: CXX=11")
+endif()
 
 if(DEFINED BUILD_MACOS_BUNDLE)
 	set(BUILD_MACOS_BUNDLE 1)
-	message("SETTING: Building .bundle libs")
+	message("SETUP: Building .bundle libs")
 endif()
 
 if(DEFINED BUILD_SHARED_LIBS)
 	set(BUILD_MACOS_BUNDLE 1)
-	message("SETTING: Building shared libs")
+	message("SETUP: Building shared libs")
 endif()
 
 if(DEFINED BUILD_MINIFIED_DECODE)
 	set(BUILD_MINIFIED_DECODE 1)
-	message("SETTING: Building minified decode API")
+	message("SETUP: Building minified decode API")
+endif()
+
+if(DEFINED COMPILE_MT)
+	set(COMPILE_MT 1)
+	message("SETUP: Building /MT static libs for windows target")
 endif()
 
 if(NOT CMAKE_BUILD_TYPE)

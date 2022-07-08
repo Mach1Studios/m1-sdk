@@ -1,7 +1,8 @@
 #!/bin/bash
 
 cd ${TRAVIS_BUILD_DIR}/source
-${POLLY_SOURCE_DIR}/bin/polly.py --clear --install --config Release --toolchain gcc
+cmake . -B_builds/gcc -DCMAKE_INSTALL_PREFIX=`pwd`/_install/gcc
+cmake --build _builds/gcc --config Release --target install
 rsync -c "_install/gcc/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/linux/lib/libMach1DecodeCAPI.a"
 rsync -c "_install/gcc/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/linux/lib/libMach1EncodeCAPI.a"
 rsync -c "_install/gcc/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/linux/lib/libMach1TranscodeCAPI.a"

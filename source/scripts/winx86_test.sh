@@ -3,9 +3,10 @@
 cd ${TRAVIS_BUILD_DIR}/source/tests
 
 echo "WIN: TESTS"
-${POLLY_SOURCE_DIR}/bin/polly.py --clear --install --config Release --toolchain vs-15-2017
+cmake . -B_builds/vs-15-2017 -G "Visual Studio 15 2017" -A x64 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/vs-15-2017
+cmake --build _builds/vs-15-2017 --config Release --target install
 
-echo "RUN POLLY TESTS"
+echo "RUN TESTS"
 echo " " | _install/vs-15-2017/bin/Mach1EncodeTests.exe
 echo " " | _install/vs-15-2017/bin/Mach1DecodeTests.exe
 echo " " | _install/vs-15-2017/bin/Mach1DecodePositionalTests.exe

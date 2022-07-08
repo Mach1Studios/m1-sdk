@@ -3,9 +3,10 @@
 cd ${TRAVIS_BUILD_DIR}/source/tests
 
 echo "LINUX: TESTS"
-${POLLY_SOURCE_DIR}/bin/polly.py --clear --install --config Release --toolchain gcc
+cmake . -B_builds/gcc -DCMAKE_INSTALL_PREFIX=`pwd`/_install/gcc
+cmake --build _builds/gcc --config Release --target install
 
-echo "RUN POLLY TESTS"
+echo "RUN TESTS"
 _install/gcc/bin/Mach1EncodeTests
 _install/gcc/bin/Mach1DecodeTests
 _install/gcc/bin/Mach1DecodePositionalTests

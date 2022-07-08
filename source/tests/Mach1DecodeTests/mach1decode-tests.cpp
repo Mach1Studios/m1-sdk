@@ -29,7 +29,7 @@ void test_results(void)
 		{ Mach1DecodeAlgoSpatial_16 , "Spatial - 16Ch" },
 		{ Mach1DecodeAlgoSpatial_18 , "Spatial - 18Ch" },
 		{ Mach1DecodeAlgoSpatial_24 , "Spatial - 24Ch" },
-		{ Mach1DecodeAlgoSpatial_32 , "Spatial - 32Ch" },
+		// { Mach1DecodeAlgoSpatial_32 , "Spatial - 32Ch" },
 	};
 	
 	enum InputType {

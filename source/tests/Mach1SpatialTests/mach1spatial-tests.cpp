@@ -72,9 +72,10 @@ std::map<Mach1DecodeAlgoType, std::string> outputModeNames = {
 	{ Mach1DecodeAlgoSpatialPairs , "Spatial Pairs - 16Ch" },
 	{ Mach1DecodeAlgoSpatial_12 , "Spatial - 12Ch" },
 	{ Mach1DecodeAlgoSpatial_14 , "Spatial - 14Ch" },
-	// { Mach1DecodeAlgoSpatial_16 , "Spatial - 16Ch" },
-	// { Mach1DecodeAlgoSpatial_18 , "Spatial - 18Ch" },
-	// { Mach1DecodeAlgoSpatial_24 , "Spatial - 24Ch" },
+	{ Mach1DecodeAlgoSpatial_16 , "Spatial - 16Ch" },
+	{ Mach1DecodeAlgoSpatial_18 , "Spatial - 18Ch" },
+	{ Mach1DecodeAlgoSpatial_24 , "Spatial - 24Ch" },
+	// { Mach1DecodeAlgoSpatial_32 , "Spatial - 32Ch" },
 };
 
 
@@ -116,8 +117,8 @@ void test_results(void)
 				{
 					"Test 1 - Right channel prior",
 					{
-						Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, 90.0, 0.5, 0.0, true, 0.0, 0.0, unsignedDegrees,
-						Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.0, 0.0, 1.0,
+						Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial_8, true, 90.0, 0.5, 0.0, true, 0.0, 0.0, unsignedDegrees,
+						Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8, 0.0, 0.0, 0.0, 1.0,
 						{ 1.0 }
 					},
 					{

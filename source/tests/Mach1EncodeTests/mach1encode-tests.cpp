@@ -34,7 +34,7 @@ void test_results(void)
 		{ Mach1EncodeOutputModeM1Spatial_16 , "MACH1SPATIAL-16" },
 		{ Mach1EncodeOutputModeM1Spatial_18 , "MACH1SPATIAL-18" },
 		{ Mach1EncodeOutputModeM1Spatial_24 , "MACH1SPATIAL-24" },
-		{ Mach1EncodeOutputModeM1Spatial_32 , "MACH1SPATIAL-32" },
+		// { Mach1EncodeOutputModeM1Spatial_32 , "MACH1SPATIAL-32" },
 	};
 
 	enum InputType { 

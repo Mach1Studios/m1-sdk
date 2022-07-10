@@ -56,6 +56,9 @@ jobs:
         - MATRIX_EVAL="CC=gcc-7 CXX=g++-7"
       git:
         submodules: false
+      before_install:
+        - cd ${TRAVIS_BUILD_DIR}
+        - ./check_changed.sh ./source ; RETURN_CODE=$? ; if [ $RETURN_CODE -eq 137 ]; then travis_terminate 0; elif [ $RETURN_CODE -ne 0 ]; then travis_terminate $RETURN_CODE; fi
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/linux_simpletest.sh

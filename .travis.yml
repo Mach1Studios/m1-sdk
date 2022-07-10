@@ -12,7 +12,7 @@ branches:
 
 git:
   lfs_skip_smudge: true
-  depth: 5
+  depth: 2
 
 before_script:
   - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
@@ -32,6 +32,13 @@ stages:
 
 jobs:
   include:
+
+# ---------------------------------
+#
+# Test: libs 
+#
+# ---------------------------------
+
     - stage: test
       name: Test Compile Libs
       os: linux
@@ -53,6 +60,12 @@ jobs:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/linux_simpletest.sh
 
+# ---------------------------------
+#
+# Compile: libs 
+#
+# ---------------------------------
+
     - stage: compile
       name: Linux x86_64
       os: linux
@@ -73,11 +86,8 @@ jobs:
             - cmake
       env:
         - MATRIX_EVAL="CC=gcc-7 CXX=g++-7"
-      before_install: 
-        - git lfs pull --include "m1-debug-shortpt-fiveone.wav"
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
-        - ./scripts/linux_test.sh
         - ./scripts/linux_build.sh
       after_success:
         - ./scripts/examples_linking_test.sh
@@ -121,8 +131,6 @@ jobs:
         - CROSS_COMPILE=arm-none-eabi-
         - CC=$(CROSS_COMPILE)gcc 
         - CXX=$(CROSS_COMPILE)g++
-      before_install:
-        - git lfs pull --include "m1-debug-shortpt-fiveone.wav"
       install:
         - export PATH=/usr/local/bin:$PATH
         - sudo apt remove binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi
@@ -133,7 +141,6 @@ jobs:
         - export PATH=${TRAVIS_BUILD_DIR}/gcc-arm-none-eabi-7-2018-q2-update/bin/:$PATH
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
-        - ./scripts/linux_test.sh
         - ./scripts/linux-arm_build.sh
         - ./scripts/arm-cortexm0_build.sh
         # - export CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
@@ -148,9 +155,6 @@ jobs:
       env:
         - HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
         - MACOSX_DEPLOYMENT_TARGET=10.9
-      before_install:
-          - if [ "$TRAVIS_OS_NAME" == "osx" ]; then cd ${TRAVIS_BUILD_DIR}/source/scripts && openssl aes-256-cbc -K $encrypted_b7b9d4064d90_key -iv $encrypted_b7b9d4064d90_iv -in certs/secrets.tar.enc -out certs/secrets.tar -d; fi
-          - if [ "$TRAVIS_OS_NAME" == "osx" ]; then cd ${TRAVIS_BUILD_DIR}/source && ./scripts/add_signing_key.sh; fi
       install: 
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/macos_setup.sh
@@ -158,7 +162,6 @@ jobs:
         - sudo python -m pip install awscli --ignore-installed six
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
-        - ./scripts/macos-10-13_test.sh
         - ./scripts/macos-10-13_build.sh
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/source
@@ -184,7 +187,6 @@ jobs:
         - sudo python -m pip install awscli --ignore-installed six
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
-        - ./scripts/macos-10-13_test.sh
         - ./scripts/ios_build.sh
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/source
@@ -201,20 +203,13 @@ jobs:
             - cmake
             - gcc
             - libpthread-stubs
-            - git-lfs
             - rsync
             - awscli
       env:
         - MATRIX_EVAL="CC=gcc CXX=g++"
       osx_image: xcode13.2
-      before_install:
-        - git lfs pull --include "m1-debug-shortpt-fiveone.wav"
-      install:
-        - cd ${TRAVIS_BUILD_DIR}
-        - git lfs install && git lfs pull
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
-        - ./scripts/macos_test.sh
         - ./scripts/macos_build.sh
       after_success:
         - ./scripts/examples_linking_test.sh
@@ -230,14 +225,11 @@ jobs:
             - cmake
             - gcc
             - libpthread-stubs
-            - git-lfs
             - rsync
             - awscli
       env:
         - MATRIX_EVAL="CC=gcc CXX=g++"
       osx_image: xcode13.2
-      before_install:
-        - git lfs pull --include "m1-debug-shortpt-fiveone.wav"
         # Install polly
         - cd ${TRAVIS_BUILD_DIR}
         - git clone https://github.com/Mach1Studios/polly.git
@@ -253,7 +245,6 @@ jobs:
         - git lfs install && git lfs pull
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
-        - ./scripts/macos_test.sh
         - export CMAKE_C_COMPILER=$RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PATH/arm-unknown-linux-gnueabihf-gcc
         - export CMAKE_CXX_COMPILER=$RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PATH/arm-unknown-linux-gnueabihf-g++
         - ./scripts/rpi_build.sh
@@ -271,14 +262,11 @@ jobs:
             - cmake
             - gcc
             - libpthread-stubs
-            - git-lfs
             - rsync
             - awscli
       env:
         - MATRIX_EVAL="CC=gcc CXX=g++"
       osx_image: xcode13.2
-      before_install:
-        - git lfs pull --include "m1-debug-shortpt-fiveone.wav"
       install:
         - cd ${TRAVIS_BUILD_DIR}
         - git clone https://github.com/emscripten-core/emsdk.git
@@ -286,10 +274,8 @@ jobs:
         - ./emsdk install latest
         - ./emsdk activate latest
         - source ./emsdk_env.sh
-        - git lfs install && git lfs pull
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
-        - ./scripts/macos_test.sh
         - ./scripts/web_build.sh
       after_success:
         - ./scripts/examples_linking_test.sh
@@ -321,8 +307,6 @@ jobs:
         update: true
       env: 
         - MATRIX_EVAL="CC=gcc-7 CXX=g++-7 ANDROID_NDK_r16b=${TRAVIS_BUILD_DIR}/android-ndk-r16b"
-      before_install:
-        - git lfs pull --include "m1-debug-shortpt-fiveone.wav"
       install: 
         - cd ${TRAVIS_BUILD_DIR}
         - echo y | sdkmanager 'ndk;21.1.6352462'
@@ -339,7 +323,6 @@ jobs:
       script:
         # Android Build on linux
         - cd ${TRAVIS_BUILD_DIR}/source
-        - ./scripts/linux_test.sh
         - ./scripts/android_build.sh
 
     - stage: compile
@@ -370,6 +353,12 @@ jobs:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/winx86_test.sh
         - ./scripts/winx86_build.sh
+
+# ---------------------------------
+#
+# Compile: m1-transcode 
+#
+# ---------------------------------
 
     - stage: compile
       name: m1-transcode Linux-x86_64
@@ -556,6 +545,12 @@ jobs:
         - cp -f ./m1-transcode ${TRAVIS_BUILD_DIR}/executables/unix/m1-transcode
         - aws s3 cp m1-transcode s3://${AWS_DEPLOY_BUCKET}/executables/unix/m1-transcode --cache-control no-cache --metadata-directive REPLACE
 
+# ---------------------------------
+#
+# Deploy 
+#
+# ---------------------------------
+
     - stage: deploy
       name: Aggregate & Deploy Libs
       os: linux
@@ -591,6 +586,12 @@ jobs:
         # - cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-nodejs/mach1spatial-encode && ${TRAVIS_BUILD_DIR}/source/scripts/git-node-encode-module.sh
         - cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-nodejs/mach1spatial-transcode && ${TRAVIS_BUILD_DIR}/source/scripts/git-node-transcode-module.sh
         - cd ${TRAVIS_BUILD_DIR} && ./source/scripts/deploy.sh
+
+# ---------------------------------
+#
+# Release 
+#
+# ---------------------------------
 
     - stage: release
       name: Aggregate & Release Libs on public repo

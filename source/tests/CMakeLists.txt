@@ -2,14 +2,9 @@
 # Setup
 #----------------
 
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.1.0)
 project(Mach1SpatialSDK_Tests)
 set(CMAKE_CXX_STANDARD 11)
-
-if(NOT CMAKE_BUILD_TYPE)
-   set(CMAKE_BUILD_TYPE "Release")
-   message(STATUS "Build type not specified: default is Release")
-endif()
 
 message(STATUS "CMAKE_VERSION=${CMAKE_VERSION}")
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
@@ -73,11 +68,11 @@ add_executable(Mach1SpatialTests "./Mach1SpatialTests/mach1spatial-tests.cpp" ${
 #----------------
 
 # include headers
-set(Mach1EncodeCAPIinclude "../" "../include/cpp")
-set(Mach1DecodeCAPIinclude "../" "../include/cpp")
-set(Mach1DecodePositionalCAPIinclude "../" "../include/cpp" "../deps")
-set(Mach1TranscodeCAPIinclude "../" "../include/cpp" "../deps" "../../public")
 set(Mach1CAPIinclude "../" "../include/cpp" "../deps")
+set(Mach1EncodeCAPIinclude ${Mach1CAPIinclude})
+set(Mach1DecodeCAPIinclude ${Mach1CAPIinclude})
+set(Mach1DecodePositionalCAPIinclude ${Mach1CAPIinclude} "../deps")
+set(Mach1TranscodeCAPIinclude ${Mach1CAPIinclude} "../deps" "../../public")
 
 target_include_directories(Mach1EncodeTests PRIVATE "./include" ${Mach1EncodeCAPIinclude})
 target_include_directories(Mach1DecodeTests PRIVATE "./include" ${Mach1DecodeCAPIinclude})

@@ -3,7 +3,7 @@
 cd ${TRAVIS_BUILD_DIR}/source/tests
 
 echo "MACOS: TESTS"
-cmake . -B_builds/osx-10-13 -GXcode -DCMAKE_INSTALL_PREFIX=`pwd`/_install/osx-10-13
+cmake . -B_builds/osx-10-13 -GXcode -DCMAKE_OSX_DEPLOYMENT_TARGET="10.13" -DCMAKE_INSTALL_PREFIX=`pwd`/_install/osx-10-13
 cmake --build _builds/osx-10-13 --config Release --target install
 
 echo "RUN TESTS"

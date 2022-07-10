@@ -1,7 +1,12 @@
 echo "### BUILD macOS ###"
-mkdir build && cd build
-cmake .. -G Xcode
-cmake --build .
+cmake . -B_builds/xcode -GXcode -DCMAKE_INSTALL_PREFIX=`pwd`/_install/xcode
+cmake --build _builds/xcode --target install
+
+_install/xcode/bin/Mach1EncodeTests
+_install/xcode/bin/Mach1DecodeTests
+_install/xcode/bin/Mach1DecodePositionalTests
+_install/xcode/bin/Mach1TranscodeTests
+_install/xcode/bin/Mach1SpatialTests
 
 echo "### RENDER CHECK ####"
 echo "### 5.1_C -> M1Spatial ###"

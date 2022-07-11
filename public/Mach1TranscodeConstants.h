@@ -111,7 +111,8 @@ namespace Mach1TranscodeConstants {
 		{ "M1Spatial-14", 14 }, 	// MACH1SPATIAL-14
 		{ "M1Spatial-16", 16 },		// MACH1SPATIAL-16
 		{ "M1Spatial-18", 18 }, 	// MACH1SPATIAL-18
-		{ "M1Spatial-32", 18 }, 	// MACH1SPATIAL-32
+		{ "M1Spatial-20", 20 }, 	// MACH1SPATIAL-20
+		{ "M1Spatial-32", 32 }, 	// MACH1SPATIAL-32
 		{ "M1SpatialFaces", 6 },
 		/*
 		 * SURROUND

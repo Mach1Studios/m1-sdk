@@ -367,6 +367,41 @@ std::vector<Mach1Point3DCore> Mach1TranscodeCore::getPointsSet(int fmt) {
 												{1 / 0.707f, 0, 0},
 												{-1 / 0.707f, 0, 0} };
 
+	// M1 spatial extended+ cube points
+	static std::vector<Mach1Point3DCore> m1Spatial32Def = {
+												{0.00000, 1.32048, 0.50689},
+												{-0.74953, 1.19950, 0.00000},
+												{0.00000, 1.32048, -0.50689},
+												{0.74953, 1.19950, 0.00000},
+												{0.00000, 0.74953, 1.19950},
+												{-0.81928, 0.81928, 0.81128},
+												{-1.32048, 0.50689, 0.00000},
+												{-0.81928, 0.81928, -0.81128},
+												{0.00000, 0.74953, -1.19950},
+												{0.81928, 0.81928, -0.81128},
+												{1.32048, 0.50689, 0.00000},
+												{0.81928, 0.81928, 0.81128},
+												{-0.50681, -0.00885, 1.32048},
+												{-1.19950, -0.00000, 0.74953},
+												{-1.21240, -0.00000, -0.72848},
+												{-0.50681, 0.00885, -1.32048},
+												{0.00000, -1.32048, 0.50689},
+												{0.74953, -1.19950, 0.00000},
+												{0.00000, -1.32048, -0.50689},
+												{-0.74953, -1.19950, 0.00000},
+												{0.00000, -0.74953, 1.19950},
+												{0.81928, -0.81928, 0.81128},
+												{1.32048, -0.50689, 0.00000},
+												{0.81928, -0.81928, -0.81128},
+												{0.00000, -0.74953, -1.19950},
+												{-0.81928, -0.81928, -0.81128},
+												{-1.32048, -0.50689, 0.00000},
+												{-0.81928, -0.81928, 0.81128},
+												{0.50681, -0.00885, 1.32048},
+												{1.19950, 0.00000, 0.74953},
+												{1.19950, 0.00000, -0.74953},
+												{0.50681, 0.00885, -1.32048} };
+
 	static std::map<int, std::vector <Mach1Point3DCore> > standards = {
 		{getFormatFromString("M1Horizon"), m1HorizonDef},
 		{getFormatFromString("M1Spatial"), m1SpatialDef},
@@ -374,6 +409,7 @@ std::vector<Mach1Point3DCore> Mach1TranscodeCore::getPointsSet(int fmt) {
 		{getFormatFromString("M1SpatialPlusPlus"), m1SpatialPlusPlusDef},
 		{getFormatFromString("M1SpatialExtended"), m1SpatialExtendedDef},
 		{getFormatFromString("M1SpatialExtendedPlus"), m1SpatialExtendedPlusDef},
+		{getFormatFromString("M1Spatial_32"), m1Spatial32Def},
 	};
 
 	std::vector<Mach1Point3DCore> vec;

@@ -205,31 +205,65 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 												{1 / 0.707, 0, 0},
 												{-1 / 0.707, 0, 0} };
 
-static std::vector<Mach1Point3DCore> m1Spatial_20_Def = {
-											{-1, 1, 1},
-											{1, 1, 1},
-											{-1, -1, 1},
-											{1, -1, 1},
+	static std::vector<Mach1Point3DCore> m1Spatial_20_Def = {
+												{-1, 1, 1},
+												{1, 1, 1},
+												{-1, -1, 1},
+												{1, -1, 1},
 
-											{-1, 1, -1},
-											{1, 1, -1},
-											{-1, -1, -1},
-											{1, -1, -1},
+												{-1, 1, -1},
+												{1, 1, -1},
+												{-1, -1, -1},
+												{1, -1, -1},
 
-											{0, 1 / 0.707, 1},
-											{1 / 0.707, 0, 1},
-											{0, -1 / 0.707, 1},
-											{-1 / 0.707, 0, 1},
+												{0, 1 / 0.707, 1},
+												{1 / 0.707, 0, 1},
+												{0, -1 / 0.707, 1},
+												{-1 / 0.707, 0, 1},
 
-											{0, 1 / 0.707, -1},
-											{1 / 0.707, 0, -1},
-											{0, -1 / 0.707, -1},
-											{-1 / 0.707, 0, -1},
+												{0, 1 / 0.707, -1},
+												{1 / 0.707, 0, -1},
+												{0, -1 / 0.707, -1},
+												{-1 / 0.707, 0, -1},
 
-											{0, 1 / 0.707, 0},
-											{1 / 0.707, 0, 0},
-											{0, -1 / 0.707, 0},
-											{-1 / 0.707, 0, 0} };
+												{0, 1 / 0.707, 0},
+												{1 / 0.707, 0, 0},
+												{0, -1 / 0.707, 0},
+												{-1 / 0.707, 0, 0} };
+
+	static std::vector<Mach1Point3DCore> m1Spatial_32_Def = {
+												{0.00000, 1.32048, 0.50689},
+												{-0.74953, 1.19950, 0.00000},
+												{0.00000, 1.32048, -0.50689},
+												{0.74953, 1.19950, 0.00000},
+												{0.00000, 0.74953, 1.19950},
+												{-0.81928, 0.81928, 0.81128},
+												{-1.32048, 0.50689, 0.00000},
+												{-0.81928, 0.81928, -0.81128},
+												{0.00000, 0.74953, -1.19950},
+												{0.81928, 0.81928, -0.81128},
+												{1.32048, 0.50689, 0.00000},
+												{0.81928, 0.81928, 0.81128},
+												{-0.50681, -0.00885, 1.32048},
+												{-1.19950, -0.00000, 0.74953},
+												{-1.21240, -0.00000, -0.72848},
+												{-0.50681, 0.00885, -1.32048},
+												{0.00000, -1.32048, 0.50689},
+												{0.74953, -1.19950, 0.00000},
+												{0.00000, -1.32048, -0.50689},
+												{-0.74953, -1.19950, 0.00000},
+												{0.00000, -0.74953, 1.19950},
+												{0.81928, -0.81928, 0.81128},
+												{1.32048, -0.50689, 0.00000},
+												{0.81928, -0.81928, -0.81128},
+												{0.00000, -0.74953, -1.19950},
+												{-0.81928, -0.81928, -0.81128},
+												{-1.32048, -0.50689, 0.00000},
+												{-0.81928, -0.81928, 0.81128},
+												{0.50681, -0.00885, 1.32048},
+												{1.19950, 0.00000, 0.74953},
+												{1.19950, 0.00000, -0.74953},
+												{0.50681, 0.00885, -1.32048} };
 
 	static std::map<OutputMode, std::vector<Mach1Point3DCore>> standards = {
 		{OUTPUT_HORIZON_4CH, m1Horizon_4_Def},
@@ -239,6 +273,7 @@ static std::vector<Mach1Point3DCore> m1Spatial_20_Def = {
 		{OUTPUT_SPATIAL_16CH, m1Spatial_16_Def},
 		{OUTPUT_SPATIAL_18CH, m1Spatial_18_Def},
 		{OUTPUT_SPATIAL_20CH, m1Spatial_20_Def},
+		{OUTPUT_SPATIAL_32CH, m1Spatial_32_Def},
 	};
 
 	std::vector<Mach1Point3DCore> pointsSet;
@@ -739,10 +774,13 @@ void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, flo
             case Mach1DecodeAlgoSpatial_18:
 				decodeResultSize = 36;
 				break;
-            case Mach1DecodeAlgoSpatial_20:
-                decodeResultSize = 40;
-                break;
-            default:
+			case Mach1DecodeAlgoSpatial_20:
+				decodeResultSize = 40;
+				break;
+			case Mach1DecodeAlgoSpatial_32:
+				decodeResultSize = 64;
+				break;
+			default:
 				break;
 		}
 
@@ -798,6 +836,7 @@ int M1EncodeCore::getOutputChannelsCount() {
 		case OUTPUT_SPATIAL_16CH: return 16;
 		case OUTPUT_SPATIAL_18CH: return 18;
 		case OUTPUT_SPATIAL_20CH: return 20;
+		case OUTPUT_SPATIAL_32CH: return 32;
 	}
 	return 0;
 }

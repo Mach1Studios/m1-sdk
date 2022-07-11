@@ -109,8 +109,11 @@ private:
 	void spatialAlgoSample_18(float Yaw, float Pitch, float Roll, float *result);
 	std::vector<float> spatialAlgoSample_18(float Yaw, float Pitch, float Roll);
 
-    void spatialAlgoSample_20(float Yaw, float Pitch, float Roll, float *result);
-    std::vector<float> spatialAlgoSample_20(float Yaw, float Pitch, float Roll);
+	void spatialAlgoSample_20(float Yaw, float Pitch, float Roll, float *result);
+	std::vector<float> spatialAlgoSample_20(float Yaw, float Pitch, float Roll);
+
+	void spatialAlgoSample_32(float Yaw, float Pitch, float Roll, float *result);
+	std::vector<float> spatialAlgoSample_32(float Yaw, float Pitch, float Roll);
 
 	// log
 	std::vector<std::string> strLog;
@@ -249,12 +252,17 @@ public:
     std::vector<float> spatialAlgo_18(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
     void spatialAlgo_18(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
 
-    // ------------------------------------------------------------------
+	// ------------------------------------------------------------------
 
-    std::vector<float> spatialAlgo_20(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-    void spatialAlgo_20(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
+	std::vector<float> spatialAlgo_20(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
+	void spatialAlgo_20(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
 
-    // ------------------------------------------------------------------
+	// ------------------------------------------------------------------
+
+	std::vector<float> spatialAlgo_32(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
+	void spatialAlgo_32(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
+
+	// ------------------------------------------------------------------
 
 	//
     //  Eight channel audio format.

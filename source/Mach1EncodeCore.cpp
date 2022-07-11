@@ -319,6 +319,8 @@ M1EncodeCore::M1EncodeCore() {
 	ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 	timeLastCalculation = 0;
 
+	outputGainLinearMultipler = 1.0;
+
 	// init additional arrays
 	arr_Points = new Mach1Point3DCore[MAX_POINTS_COUNT];
 

@@ -29,8 +29,8 @@ std::map<Mach1EncodeOutputModeType, std::string> encodeOutputModeNames = {
 		{ Mach1EncodeOutputModeM1Spatial_14 , "MACH1SPATIAL-14" },
 		{ Mach1EncodeOutputModeM1Spatial_16 , "MACH1SPATIAL-16" },
 		{ Mach1EncodeOutputModeM1Spatial_18 , "MACH1SPATIAL-18" },
-		{ Mach1EncodeOutputModeM1Spatial_24 , "MACH1SPATIAL-24" },
-		// { Mach1EncodeOutputModeM1Spatial_32 , "MACH1SPATIAL-32" },
+		{ Mach1EncodeOutputModeM1Spatial_20 , "MACH1SPATIAL-20" },
+		{ Mach1EncodeOutputModeM1Spatial_32 , "MACH1SPATIAL-32" },
 };
 
 enum InputType {
@@ -74,8 +74,8 @@ std::map<Mach1DecodeAlgoType, std::string> decodeModeNames = {
 	{ Mach1DecodeAlgoSpatial_14 , "Spatial - 14Ch" },
 	{ Mach1DecodeAlgoSpatial_16 , "Spatial - 16Ch" },
 	{ Mach1DecodeAlgoSpatial_18 , "Spatial - 18Ch" },
-	{ Mach1DecodeAlgoSpatial_24 , "Spatial - 24Ch" },
-	// { Mach1DecodeAlgoSpatial_32 , "Spatial - 32Ch" },
+	{ Mach1DecodeAlgoSpatial_20 , "Spatial - 20Ch" },
+	{ Mach1DecodeAlgoSpatial_32 , "Spatial - 32Ch" },
 };
 
 

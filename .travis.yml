@@ -57,7 +57,7 @@ jobs:
         submodules: false
       before_install:
         - cd ${TRAVIS_BUILD_DIR}
-        - ./source/scripts/check_changed.sh ./source ; RETURN_CODE=$? ; if [ $RETURN_CODE -eq 137 ]; then travis_terminate 0; elif [ $RETURN_CODE -ne 0 ]; then travis_terminate $RETURN_CODE; fi
+        - ./source/scripts/check-changes.sh ./source ; RETURN_CODE=$? ; if [ $RETURN_CODE -eq 137 ]; then travis_terminate 0; elif [ $RETURN_CODE -ne 0 ]; then travis_terminate $RETURN_CODE; fi
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/linux_simpletest.sh
@@ -388,7 +388,7 @@ jobs:
       git:
         submodules: false
       before_install:
-        - ./source/scripts/check_changed.sh ../public ; RETURN_CODE=$? ; if [ $RETURN_CODE -eq 137 ]; then travis_terminate 0; elif [ $RETURN_CODE -ne 0 ]; then travis_terminate $RETURN_CODE; fi
+        - ./source/scripts/check-changes.sh ../public ; RETURN_CODE=$? ; if [ $RETURN_CODE -eq 137 ]; then travis_terminate 0; elif [ $RETURN_CODE -ne 0 ]; then travis_terminate $RETURN_CODE; fi
       script:
         - cd ${TRAVIS_BUILD_DIR}/../
         - git clone git@github.com:Mach1Studios/m1-transcodertools.git
@@ -438,7 +438,7 @@ jobs:
       git:
         submodules: false
       before_install: 
-        - ./source/scripts/check_changed.sh ../public ; RETURN_CODE=$? ; if [ $RETURN_CODE -eq 137 ]; then travis_terminate 0; elif [ $RETURN_CODE -ne 0 ]; then travis_terminate $RETURN_CODE; fi
+        - ./source/scripts/check-changes.sh ../public ; RETURN_CODE=$? ; if [ $RETURN_CODE -eq 137 ]; then travis_terminate 0; elif [ $RETURN_CODE -ne 0 ]; then travis_terminate $RETURN_CODE; fi
       install:
         - sudo apt remove binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi
         - cd ${TRAVIS_BUILD_DIR}
@@ -466,7 +466,7 @@ jobs:
       git:
         submodules: false
       before_install:
-        - ./source/scripts/check_changed.sh ../public ; RETURN_CODE=$? ; if [ $RETURN_CODE -eq 137 ]; then travis_terminate 0; elif [ $RETURN_CODE -ne 0 ]; then travis_terminate $RETURN_CODE; fi
+        - ./source/scripts/check-changes.sh ../public ; RETURN_CODE=$? ; if [ $RETURN_CODE -eq 137 ]; then travis_terminate 0; elif [ $RETURN_CODE -ne 0 ]; then travis_terminate $RETURN_CODE; fi
         - git clone https://github.com/pyenv-win/pyenv-win.git $HOME/.pyenv
         - export PATH="$HOME/.pyenv/pyenv-win/bin:$HOME/.pyenv/pyenv-win/shims:$PATH"
         - pyenv install -q 3.7.2
@@ -535,7 +535,7 @@ jobs:
       git:
         submodules: false
       before_install:
-        - ./source/scripts/check_changed.sh ../public ; RETURN_CODE=$? ; if [ $RETURN_CODE -eq 137 ]; then travis_terminate 0; elif [ $RETURN_CODE -ne 0 ]; then travis_terminate $RETURN_CODE; fi
+        - ./source/scripts/check-changes.sh ../public ; RETURN_CODE=$? ; if [ $RETURN_CODE -eq 137 ]; then travis_terminate 0; elif [ $RETURN_CODE -ne 0 ]; then travis_terminate $RETURN_CODE; fi
       install:
         - brew tap irt-open-source/homebrew-nga
         - brew install libadm libbw64

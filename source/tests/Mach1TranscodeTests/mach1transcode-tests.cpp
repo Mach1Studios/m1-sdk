@@ -84,19 +84,6 @@ void test_results(void)
 				}
 			}
 		},
-		{
-			"case: TRANSCODE | 2.0 -> M1SPATIAL-8 | Panner Check #2",
-			{
-				"2.0",
-				"M1Spatial"
-			},
-			{
-				{
-					{ 0.5f, 0, 0, 0, 0.5f, 0, 0, 0 },
-					{ 0, 0.5f, 0, 0, 0, 0.5f, 0, 0 },
-				}
-			}
-		},
 	};
 
 	std::cout << std::endl;

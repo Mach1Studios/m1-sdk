@@ -1,3 +1,6 @@
+echo "### CLEANING OLD TESTS ###"
+rm -rf ./_install
+
 echo "### BUILD Linux ###"
 cmake . -B_builds/gcc -DCMAKE_INSTALL_PREFIX=`pwd`/_install/gcc
 cmake --build _builds/gcc --target install

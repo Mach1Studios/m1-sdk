@@ -1,3 +1,6 @@
+echo "### CLEANING OLD TESTS ###"
+rm -rf ./_install
+
 echo "### BUILD macOS ###"
 cmake . -B_builds/xcode -GXcode -DCMAKE_INSTALL_PREFIX=`pwd`/_install/xcode
 cmake --build _builds/xcode --target install

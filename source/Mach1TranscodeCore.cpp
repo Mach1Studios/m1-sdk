@@ -271,13 +271,13 @@ bool Mach1TranscodeCore::processConversionPath()
 
 std::vector<Mach1Point3DCore> Mach1TranscodeCore::getPointsSet(int fmt) {
 	// M1 horizon plane points
-	static std::vector<Mach1Point3DCore> m1HorizonDef = { {-1, 1, 0},
+	static std::vector<Mach1Point3DCore> m1Spatial_4_Def = { {-1, 1, 0},
 												{1, 1, 0},
 												{-1, -1, 0},
 												{1, -1, 0} };
 
 	// M1 spatial cube points
-	static std::vector<Mach1Point3DCore> m1SpatialDef = { {-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1Spatial_8_Def = { {-1, 1, 1},
 												{1, 1, 1},
 												{-1, -1, 1},
 												{1, -1, 1},
@@ -288,7 +288,7 @@ std::vector<Mach1Point3DCore> Mach1TranscodeCore::getPointsSet(int fmt) {
 												{1, -1, -1} };
 
 	// M1 spatial+ cube points
-	static std::vector<Mach1Point3DCore> m1SpatialPlusDef = { {-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1Spatial_12_Def = { {-1, 1, 1},
 												{1, 1, 1},
 												{-1, -1, 1},
 												{1, -1, 1},
@@ -304,7 +304,7 @@ std::vector<Mach1Point3DCore> Mach1TranscodeCore::getPointsSet(int fmt) {
 												{-1 / 0.707f, 0, 0} };
 
 	// M1 spatial++ cube points
-	static std::vector<Mach1Point3DCore> m1SpatialPlusPlusDef = { {-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1Spatial_14_Def = { {-1, 1, 1},
 												{1, 1, 1},
 												{-1, -1, 1},
 												{1, -1, 1},
@@ -323,7 +323,7 @@ std::vector<Mach1Point3DCore> Mach1TranscodeCore::getPointsSet(int fmt) {
 												{-1 / 0.707f, 0, 0} };
 
 	// M1 spatial extended cube points
-	static std::vector<Mach1Point3DCore> m1SpatialExtendedDef = { {-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1Spatial_16_Def = { {-1, 1, 1},
 												{1, 1, 1},
 												{-1, -1, 1},
 												{1, -1, 1},
@@ -344,7 +344,7 @@ std::vector<Mach1Point3DCore> Mach1TranscodeCore::getPointsSet(int fmt) {
 												{-1 / 0.707f, 0, -1} };
 
 	// M1 spatial extended+ cube points
-	static std::vector<Mach1Point3DCore> m1SpatialExtendedPlusDef = { {-1, 1, 1},
+	static std::vector<Mach1Point3DCore> m1Spatial_18_Def = { {-1, 1, 1},
 												{1, 1, 1},
 												{-1, -1, 1},
 												{1, -1, 1},
@@ -367,8 +367,7 @@ std::vector<Mach1Point3DCore> Mach1TranscodeCore::getPointsSet(int fmt) {
 												{1 / 0.707f, 0, 0},
 												{-1 / 0.707f, 0, 0} };
 
-	// M1 spatial extended+ cube points
-	static std::vector<Mach1Point3DCore> m1Spatial32Def = {
+	static std::vector<Mach1Point3DCore> m1Spatial_32_Def = {
 												{0.00000, 1.32048, 0.50689},
 												{-0.74953, 1.19950, 0.00000},
 												{0.00000, 1.32048, -0.50689},
@@ -402,14 +401,16 @@ std::vector<Mach1Point3DCore> Mach1TranscodeCore::getPointsSet(int fmt) {
 												{1.19950, 0.00000, -0.74953},
 												{0.50681, 0.00885, -1.32048} };
 
-	static std::map<int, std::vector <Mach1Point3DCore> > standards = {
-		{getFormatFromString("M1Horizon"), m1HorizonDef},
-		{getFormatFromString("M1Spatial"), m1SpatialDef},
-		{getFormatFromString("M1SpatialPlus"), m1SpatialPlusDef},
-		{getFormatFromString("M1SpatialPlusPlus"), m1SpatialPlusPlusDef},
-		{getFormatFromString("M1SpatialExtended"), m1SpatialExtendedDef},
-		{getFormatFromString("M1SpatialExtendedPlus"), m1SpatialExtendedPlusDef},
-		{getFormatFromString("M1Spatial_32"), m1Spatial32Def},
+	static std::map< int, std::vector <Mach1Point3DCore> > standards = {
+		{getFormatFromString("M1Horizon"), m1Spatial_4_Def},
+		{getFormatFromString("M1Spatial-4"), m1Spatial_4_Def},
+		{getFormatFromString("M1Spatial"), m1Spatial_8_Def},
+		{getFormatFromString("M1Spatial-8"), m1Spatial_8_Def},
+		{getFormatFromString("M1Spatial-12"), m1Spatial_12_Def},
+		{getFormatFromString("M1Spatial-14"), m1Spatial_14_Def},
+		{getFormatFromString("M1Spatial-16"), m1Spatial_16_Def},
+		{getFormatFromString("M1Spatial-18"), m1Spatial_18_Def},
+		{getFormatFromString("M1Spatial-32"), m1Spatial_32_Def},
 	};
 
 	std::vector<Mach1Point3DCore> vec;
@@ -692,7 +693,7 @@ void Mach1TranscodeCore::processConversion(float ** inBufs, float ** outBufs, in
 	}
 
 	// spatial downmix check
-	if (outFmt == getFormatFromString("M1Spatial")) {
+	if (outFmt == getFormatFromString("M1Spatial") || outFmt == getFormatFromString("M1Spatial-8")) {
 		spatialDownmixChecker.ProcessBuffer(outBufs, numSamples);
 	}
 }

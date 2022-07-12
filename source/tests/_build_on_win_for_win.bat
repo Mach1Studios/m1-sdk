@@ -1,3 +1,6 @@
+echo "### CLEANING OLD TESTS ###"
+rm -rf ./_install
+
 echo "### BUILD WIN ###"
 cmake . -B_builds/windows-x86_64 -G "Visual Studio 15 2017" -A x64 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/windows-x86_64
 cmake --build _builds/windows-x86_64 --target install

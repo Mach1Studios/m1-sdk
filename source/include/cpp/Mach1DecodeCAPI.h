@@ -50,7 +50,8 @@ enum Mach1DecodeAlgoType {
 	Mach1DecodeAlgoSpatial_14,
 	Mach1DecodeAlgoSpatial_16,
 	Mach1DecodeAlgoSpatial_18,
-	Mach1DecodeAlgoSpatial_24
+	Mach1DecodeAlgoSpatial_20,
+    Mach1DecodeAlgoSpatial_32
 };
 
 #ifdef __cplusplus

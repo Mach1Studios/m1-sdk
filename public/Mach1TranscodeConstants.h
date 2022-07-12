@@ -101,8 +101,8 @@ namespace Mach1TranscodeConstants {
 		 */
 		{ "CustomPoints", 0 },
 		{ "Empty", 0 },
-		{ "M1Horizon", 4 },
-		{ "M1HorizonS", 6 },
+		{ "M1Horizon", 4 },			// MACH1SPATIAL-4
+		{ "M1HorizonS", 6 },		// MACH1SPATIAL-4
 		{ "M1HorizonPairs", 8 },
 		{ "M1Spatial", 8 }, 		// MACH1SPATIAL-8 (default)
 		{ "M1SpatialS", 10 }, 		// MACH1SPATIAL-8 (default)

@@ -6,25 +6,6 @@
 #include <math.h>
 #include <map>
 
-const float r2 = (float)sqrt(2.0);
-const float r3 = (float)sqrt(3.0);
-const float oor2 = (float)(1.0 / sqrt(2.0));
-const float oor3 = (float)(1.0 / sqrt(3.0));
-const float oor4 = (float)(1.0 / sqrt(4.0));
-const float oor8 = (float)(1.0 / sqrt(8.0));
-const float oor16 = (float)(1.0 / sqrt(16.0));
-const float oo2r2 = (float)(1.0 / (2.0 * sqrt(2.0)));
-const float r3or2 = (float)(sqrt(3.0) / sqrt(2.0));
-const float r3o2 = (float)sqrt(3.0) / 2.0f;
-const float r2o2 = (float)sqrt(2.0) / 2.0f;
-const float r2o3 = (float)sqrt(2.0) / 3.0f;
-const float r2o4 = (float)sqrt(2.0) / 4.0f;
-const float r2o6 = (float)sqrt(2.0) / 6.0f;
-const float r2o8 = (float)sqrt(2.0) / 8.0f;
-const float r2o12 = (float)sqrt(2.0) / 12.0f;
-const float r2o20 = (float)sqrt(2.0) / 20.0f;
-const float oo8 = (float)1.0f / 8.0f;
-
 void test_results(void)
 {
 	struct INPUT_DATA {
@@ -44,26 +25,26 @@ void test_results(void)
 
 	std::vector<CASE> cases = {
 		{
-			"Basic Check",
+			"case: TRANSCODE | M1SPATIAL-8 -> M1SPATIAL-4 | Basic Check #1",
 			{
 				"M1Spatial",
 				"M1Horizon"
 			},
 			{
 				{
-					{ oor2, 0, 0, 0 },
-					{ 0, oor2, 0, 0 },
-					{ 0, 0, oor2, 0 },
-					{ 0, 0, 0, oor2 },
-					{ oor2, 0, 0, 0 },
-					{ 0, oor2, 0, 0 },
-					{ 0, 0, oor2, 0 },
-					{ 0, 0, 0, oor2 },
+					{ 0.70710678f, 0, 0, 0 },
+					{ 0, 0.70710678f, 0, 0 },
+					{ 0, 0, 0.70710678f, 0 },
+					{ 0, 0, 0, 0.70710678f },
+					{ 0.70710678f, 0, 0, 0 },
+					{ 0, 0.70710678f, 0, 0 },
+					{ 0, 0, 0.70710678f, 0 },
+					{ 0, 0, 0, 0.70710678f },
 				}
 			}
 		},
 		{
-			"Basic Check 2",
+			"case: TRANSCODE | ACNSN3DmaxRE1oa -> M1SPATIAL-8 | Basic Check #2",
 			{
 				"ACNSN3DmaxRE1oa", 
 				"M1Spatial"
@@ -77,20 +58,34 @@ void test_results(void)
 				}
 			}
 		},
+/* TODO: ADD THIS TEST WHEN ::Panner() mode is made
 		{
-			"Panner Check: panned forward with -6dB",
+			"case: TRANSCODE | 1.0 -> M1SPATIAL-8 | Panner Check: panned forward with -6dB",
 			{
 				"1.0",
 				"M1Spatial"
 			},
 			{
 				{
-					{ 0.1252968f, 0.1252968f, 0, 0, 0.1252968f, 0.1252968f, 0, 0 },
+					{ 0.1f, 0.1f, 0.0, 0.0, 0.1f, 0.1f, 0.0, 0.0 },
+				}
+			}
+		},
+*/
+		{
+			"case: TRANSCODE | 1.0 -> M1SPATIAL-8 | Panner Check #1",
+			{
+				"1.0",
+				"M1Spatial"
+			},
+			{
+				{
+					{ 0.17677669f, 0.17677669f, 0.17677669f, 0.17677669f, 0.17677669f, 0.17677669f, 0.17677669f, 0.17677669f },
 				}
 			}
 		},
 		{
-			"Panner Check 2",
+			"case: TRANSCODE | 2.0 -> M1SPATIAL-8 | Panner Check #2",
 			{
 				"2.0",
 				"M1Spatial"
@@ -125,7 +120,8 @@ void test_results(void)
 
 		for (size_t i = 0; i < matrix.size(); i++) {
 			for (size_t j = 0; j < matrix[i].size(); j++) {
-				bool check = fabs(test.output.matrix[i][j] - matrix[i][j]) < 0.1;
+				// TODO: Finalize the index [i] x [j] relationship after we finish the design for the coeffsFlipped() function
+				bool check = fabs(test.output.matrix[j][i] - matrix[i][j]) < 0.1;
 				if (check == false) {
 					TEST_CHECK_(check, "%s | Error with index [%d, %d]", test.name.c_str(), i, j);
 					std::cout << "index: [" << i << " , " << j << "]: " << matrix[i][j] << ", should be: " << test.output.matrix[i][j];

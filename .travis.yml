@@ -30,15 +30,14 @@ stages:
   - name: release
     if: branch = master
 
-jobs:
-  include:
-
 # ---------------------------------
 #
 # Test: libs 
 #
 # ---------------------------------
 
+jobs:
+  include:
     - stage: test
       name: Test Compile Libs
       os: linux
@@ -215,6 +214,7 @@ jobs:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/macos_build.sh
       after_success:
+        - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/examples_linking_test.sh
 
     - stage: compile
@@ -233,6 +233,7 @@ jobs:
       env:
         - MATRIX_EVAL="CC=gcc CXX=g++"
       osx_image: xcode13.2
+      before_install:
         # Install polly
         - cd ${TRAVIS_BUILD_DIR}
         - git clone https://github.com/Mach1Studios/polly.git
@@ -252,6 +253,7 @@ jobs:
         - export CMAKE_CXX_COMPILER=$RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PATH/arm-unknown-linux-gnueabihf-g++
         - ./scripts/rpi_build.sh
       after_success:
+        - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/examples_linking_test.sh
 
     - stage: compile
@@ -281,6 +283,7 @@ jobs:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/web_build.sh
       after_success:
+        - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/examples_linking_test.sh
 
     - stage: compile

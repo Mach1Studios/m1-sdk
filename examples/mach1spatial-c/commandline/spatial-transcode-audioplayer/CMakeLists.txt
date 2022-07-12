@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.19.3)
+cmake_minimum_required(VERSION 3.1.0)
 project(spatial-transcode-audioplayer)
 
 set(MACH1SPATIAL_SDK_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../../")

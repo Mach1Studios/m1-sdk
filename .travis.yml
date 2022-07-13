@@ -214,8 +214,6 @@ jobs:
     - stage: compile
       name: Linux x86_64 (RPI)
       os: linux
-      env: 
-        - RPI_TOOLS=${HOME}/rpi/tools
       sudo: required
       dist: bionic
       addons:
@@ -231,7 +229,7 @@ jobs:
             - cmake
             - qemu-user-static
       env:
-        - MATRIX_EVAL="CC=gcc-7 CXX=g++-7"
+        - RPI_TOOLS=${HOME}/rpi/tools
       install:
         - mkdir -p ~/rpi/
         - cd ~/rpi

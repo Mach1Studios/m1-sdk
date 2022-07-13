@@ -228,6 +228,7 @@ jobs:
             - awscli
             - cmake
             - qemu-user-static
+            - gcc-multilib
       env:
         - RPI_TOOLS=${HOME}/rpi/tools
       install:
@@ -363,17 +364,19 @@ jobs:
             - rsync
             - awscli
             - libboost-all-dev
-            - cmake
           update: true
       git:
         submodules: false
-      script:
+      install:
         - cd ${TRAVIS_BUILD_DIR}/../
         - git clone git@github.com:Mach1Studios/m1-transcode.git
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
+        - ./scripts/setup_cmake.sh
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - mkdir libs && cd libs
         - git clone --depth 1 git@github.com:ebu/libadm.git
         - git clone --depth 1 git@github.com:irt-open-source/libbw64.git
+      script:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - cmake .
         - cmake --build . --config Release
@@ -428,13 +431,15 @@ jobs:
         - tar -xf gcc-arm-none-eabi-7-2018-q2-update-linux.tar.bz2
         - cd gcc-arm-none-eabi-7-2018-q2-update
         - export PATH=${TRAVIS_BUILD_DIR}/gcc-arm-none-eabi-7-2018-q2-update/bin/:$PATH
-      script:
         - cd ${TRAVIS_BUILD_DIR}/../
         - git clone git@github.com:Mach1Studios/m1-transcode.git
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
+        - ./scripts/setup_cmake.sh
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - mkdir libs && cd libs
         - git clone --depth 1 git@github.com:ebu/libadm.git
         - git clone --depth 1 git@github.com:irt-open-source/libbw64.git
+      script:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - cmake .
         - cmake --build . --config Release
@@ -467,17 +472,17 @@ jobs:
         - choco install -y pkgconfiglite
         - choco install -y opus-tools
         - export PATH="$(powershell -Command '("Process", "Machine" | % {[Environment]::GetEnvironmentVariable("PATH", $_) -Split ";" -Replace "\\$", ""} | Select -Unique | % { cygpath $_ }) -Join ":"')"
-      script:
         - cd ${TRAVIS_BUILD_DIR}/../
         - git clone git@github.com:Mach1Studios/m1-transcode.git
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - mkdir libs && cd libs
-        - git clone git@github.com:ebu/libadm.git
-        - git clone git@github.com:irt-open-source/libbw64.git
+        - git clone --depth 1 git@github.com:ebu/libadm.git
+        - git clone --depth 1 git@github.com:irt-open-source/libbw64.git
         - git clone git@github.com:libsndfile/libsndfile.git
         - cd libsndfile && mkdir build && cd build
         - cmake .. -DENABLE_PACKAGE_CONFIG=ON -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake
         - cmake --build . --target install -DENABLE_PACKAGE_CONFIG=ON -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake
+      script:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - aws s3 sync s3://${AWS_DEPLOY_BUCKET}/deps/libsndfile ./libs/libsndfile
         - cmake . -B_builds/vs-15-2017 -G "Visual Studio 15 2017" -A Win32 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/vs-15-2017
@@ -498,14 +503,14 @@ jobs:
         homebrew:
           packages:
             - libsndfile
-            - cmake
-            - gcc
+            - opus-tools
+            - mpg123
             - libpthread-stubs
+            - gcc
+            - cmake
             - git-lfs
             - rsync
             - awscli
-            - opus-tools
-            - mpg123
       osx_image: xcode13.2
       git:
         submodules: false

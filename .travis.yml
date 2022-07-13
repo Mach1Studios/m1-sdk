@@ -212,19 +212,23 @@ jobs:
         - ./scripts/examples_linking_test.sh
 
     - stage: compile
-      name: macOS 13.2 (RPI)
-      os: osx
+      name: Linux x86_64 (RPI)
+      os: linux
+      sudo: required
+      dist: bionic
       addons:
-        homebrew:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
           packages:
-            - cmake
-            - gcc
-            - libpthread-stubs
+            - build-essential
+            - g++-7
+            - libpthread-stubs0-dev
             - rsync
             - awscli
+            - cmake
       env:
-        - MATRIX_EVAL="CC=gcc CXX=g++"
-      osx_image: xcode13.2
+        - MATRIX_EVAL="CC=gcc-7 CXX=g++-7"
       before_install:
         # Install polly
         - cd ${TRAVIS_BUILD_DIR}
@@ -248,21 +252,23 @@ jobs:
         - ./scripts/examples_linking_test.sh
 
     - stage: compile
-      name: macOS 13.2 (WASM/JS)
-      os: osx
+      name: Linux x86_64 (WASM/JS)
+      os: linux
+      sudo: required
+      dist: bionic
       addons:
-        homebrew:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
           packages:
-            - libsndfile
-            - rtaudio
-            - cmake
-            - gcc
-            - libpthread-stubs
+            - build-essential
+            - g++-7
+            - libpthread-stubs0-dev
             - rsync
             - awscli
+            - cmake
       env:
-        - MATRIX_EVAL="CC=gcc CXX=g++"
-      osx_image: xcode13.2
+        - MATRIX_EVAL="CC=gcc-7 CXX=g++-7"
       install:
         - cd ${TRAVIS_BUILD_DIR}
         - git clone https://github.com/emscripten-core/emsdk.git
@@ -273,9 +279,6 @@ jobs:
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/web_build.sh
-      after_success:
-        - cd ${TRAVIS_BUILD_DIR}/source
-        - ./scripts/examples_linking_test.sh
 
     - stage: compile
       name: Android
@@ -370,7 +373,7 @@ jobs:
             - awscli
             - libboost-all-dev
             - cmake
-            - opus-tools
+            - libopus-dev
           update: true
       git:
         submodules: false
@@ -415,7 +418,7 @@ jobs:
             - texinfo
             - libboost-all-dev
             - cmake
-            - opus-tools
+            - libopus-dev
           update: true
       env:
         - CROSS_COMPILE=arm-none-eabi-
@@ -447,6 +450,7 @@ jobs:
       language: sh
       env:
         - VS15=true
+        - VCPKG_PATH=${TRAVIS_BUILD_DIR}/vcpkg
       git:
         submodules: false
       before_install:
@@ -502,6 +506,7 @@ jobs:
             - rsync
             - awscli
             - opus-tools
+            - mpg123
       osx_image: xcode13.2
       git:
         submodules: false

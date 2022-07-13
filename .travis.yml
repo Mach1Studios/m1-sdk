@@ -228,7 +228,6 @@ jobs:
             - awscli
             - cmake
             - qemu-user-static
-            - gcc-multilib
       env:
         - RPI_TOOLS=${HOME}/rpi/tools
       install:
@@ -349,7 +348,7 @@ jobs:
       name: m1-transcode Linux-x86_64
       os: linux
       sudo: required
-      dist: bionic
+      dist: focal
       addons:
         apt:
           sources:
@@ -364,14 +363,13 @@ jobs:
             - rsync
             - awscli
             - libboost-all-dev
+            - cmake
           update: true
       git:
         submodules: false
       install:
         - cd ${TRAVIS_BUILD_DIR}/../
         - git clone git@github.com:Mach1Studios/m1-transcode.git
-        - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
-        - ./scripts/setup_cmake.sh
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - mkdir libs && cd libs
         - git clone --depth 1 git@github.com:ebu/libadm.git
@@ -390,7 +388,7 @@ jobs:
       os: linux
       sudo: required
       arch: arm64
-      dist: bionic
+      dist: focal
       addons:
         apt:
           sources:
@@ -433,8 +431,6 @@ jobs:
         - export PATH=${TRAVIS_BUILD_DIR}/gcc-arm-none-eabi-7-2018-q2-update/bin/:$PATH
         - cd ${TRAVIS_BUILD_DIR}/../
         - git clone git@github.com:Mach1Studios/m1-transcode.git
-        - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
-        - ./scripts/setup_cmake.sh
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - mkdir libs && cd libs
         - git clone --depth 1 git@github.com:ebu/libadm.git
@@ -485,10 +481,10 @@ jobs:
       script:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - aws s3 sync s3://${AWS_DEPLOY_BUCKET}/deps/libsndfile ./libs/libsndfile
-        - cmake . -B_builds/vs-15-2017 -G "Visual Studio 15 2017" -A Win32 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/vs-15-2017
-        - cmake --build _builds/vs-15-2017 --config Release --target install -- /nologo /verbosity:minimal
-        - cmake . -B_builds/vs-15-2017-win64 -G "Visual Studio 15 2017" -A x64 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/vs-15-2017-win64
-        - cmake --build _builds/vs-15-2017-win64 --config Release --target install -- /nologo /verbosity:minimal
+        - cmake . -B_builds/vs-15-2017 -G "Visual Studio 15 2017" -A Win32 -DCMAKE_INSTALL_PREFIX=_install/vs-15-2017
+        - cmake --build _builds/vs-15-2017 --config Release --target install -- /nologo /verbosity:quiet /clp:ErrorsOnly
+        - cmake . -B_builds/vs-15-2017-win64 -G "Visual Studio 15 2017" -A x64 -DCMAKE_INSTALL_PREFIX=_install/vs-15-2017-win64
+        - cmake --build _builds/vs-15-2017-win64 --config Release --target install -- /nologo /verbosity:quiet /clp:ErrorsOnly
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - cp -f _install/vs-15-2017/build/m1-transcode.exe ${TRAVIS_BUILD_DIR}/executables/windows-x86/m1-transcode.exe

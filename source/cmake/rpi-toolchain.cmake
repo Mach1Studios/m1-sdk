@@ -18,7 +18,7 @@ if("$ENV{RPI_TOOLS}" STREQUAL "")
 else()
 	set(SYSROOT_PATH "$ENV{RPI_TOOLS}/")
 endif()
-set(TOOLCHAIN_PATH "arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/")
+set(TOOLCHAIN_PATH "arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf")
 set(TOOLCHAIN_HOST "arm-linux-gnueabihf")
 
 message(STATUS "Using sysroot path: ${SYSROOT_PATH}")
@@ -45,7 +45,7 @@ endif()
 SET(CMAKE_C_COMPILER ${SYSROOT_PATH}${TOOLCHAIN_PATH}/bin/${TOOLCHAIN_CC})
 SET(CMAKE_CXX_COMPILER ${SYSROOT_PATH}${TOOLCHAIN_PATH}/bin/${TOOLCHAIN_CXX})
 # Define the sysroot path for the RaspberryPi distribution in our tools folder 
-SET(CMAKE_FIND_ROOT_PATH ${SYSROOT_PATH}${TOOLCHAIN_PATH}/arm-linux-gnueabihf/debug-root/)
+SET(CMAKE_FIND_ROOT_PATH ${SYSROOT_PATH}${TOOLCHAIN_PATH}/arm-linux-gnueabihf/sysroot)
 
 SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --sysroot=${CMAKE_FIND_ROOT_PATH}")
 SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} --sysroot=${CMAKE_FIND_ROOT_PATH}")

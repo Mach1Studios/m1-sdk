@@ -370,6 +370,7 @@ jobs:
             - awscli
             - libboost-all-dev
             - cmake
+            - opus-tools
           update: true
       git:
         submodules: false
@@ -378,7 +379,7 @@ jobs:
         - git clone git@github.com:Mach1Studios/m1-transcode.git
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - cmake .
-        - cmake --build .
+        - cmake --build . --config Release
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - cp -f ./m1-transcode ${TRAVIS_BUILD_DIR}/executables/unix/m1-transcode
@@ -414,6 +415,7 @@ jobs:
             - texinfo
             - libboost-all-dev
             - cmake
+            - opus-tools
           update: true
       env:
         - CROSS_COMPILE=arm-none-eabi-
@@ -433,7 +435,7 @@ jobs:
         - git clone git@github.com:Mach1Studios/m1-transcode.git
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - cmake .
-        - cmake --build .
+        - cmake --build . --config Release
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - cp -f ./m1-transcode ${TRAVIS_BUILD_DIR}/executables/linux-arm/m1-transcode
@@ -448,14 +450,6 @@ jobs:
       git:
         submodules: false
       before_install:
-        - git clone https://github.com/pyenv-win/pyenv-win.git $HOME/.pyenv
-        - export PATH="$HOME/.pyenv/pyenv-win/bin:$HOME/.pyenv/pyenv-win/shims:$PATH"
-        - pyenv install -q 3.7.2
-        - pyenv rehash
-        - pyenv global 3.7.2
-        - python --version
-        - python -m pip install --upgrade pip
-        - python -m pip install requests
         - git clone https://github.com/Microsoft/vcpkg.git ${TRAVIS_BUILD_DIR}/vcpkg
         - cd ${TRAVIS_BUILD_DIR}
         - ./vcpkg/bootstrap-vcpkg.bat
@@ -468,6 +462,7 @@ jobs:
         - choco install -y awscli
         - choco install -y boost-msvc-14.1
         - choco install -y pkgconfiglite
+        - choco install -y opus-tools
         - export PATH="$(powershell -Command '("Process", "Machine" | % {[Environment]::GetEnvironmentVariable("PATH", $_) -Split ";" -Replace "\\$", ""} | Select -Unique | % { cygpath $_ }) -Join ":"')"
       script:
         - cd ${TRAVIS_BUILD_DIR}/../
@@ -475,29 +470,23 @@ jobs:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - mkdir libs && cd libs
         - git clone git@github.com:ebu/libadm.git
-        - cd libadm && mkdir build && cd build
-        - cmake ..
-        - cmake --build . --target install
-        - cd ${TRAVIS_BUILD_DIR}/../m1-transcode/libs
         - git clone git@github.com:irt-open-source/libbw64.git
-        - cd libbw64 && mkdir build && cd build
-        - cmake ..
-        - cmake --build . --target install
-        - cd ${TRAVIS_BUILD_DIR}/../m1-transcode/libs
         - git clone git@github.com:libsndfile/libsndfile.git
         - cd libsndfile && mkdir build && cd build
         - cmake .. -DENABLE_PACKAGE_CONFIG=ON -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake
         - cmake --build . --target install -DENABLE_PACKAGE_CONFIG=ON -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - aws s3 sync s3://${AWS_DEPLOY_BUCKET}/deps/libsndfile ./libs/libsndfile
-        - ${POLLY_SOURCE_DIR}/bin/polly.py --clear --install --config Release --toolchain vs-15-2017
-        - ${POLLY_SOURCE_DIR}/bin/polly.py --clear --install --config Release --toolchain vs-15-2017-win64
+        - cmake . -B_builds/vs-15-2017 -G "Visual Studio 15 2017" -A Win32 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/vs-15-2017
+        - cmake --build _builds/vs-15-2017 --config Release --target install -- /nologo /verbosity:minimal
+        - cmake . -B_builds/vs-15-2017-win64 -G "Visual Studio 15 2017" -A x64 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/vs-15-2017-win64
+        - cmake --build _builds/vs-15-2017-win64 --config Release --target install -- /nologo /verbosity:minimal
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
-        - cp -f _install/vs-15-2017/bin/m1-transcode.exe ${TRAVIS_BUILD_DIR}/executables/windows-x86/m1-transcode.exe
-        - cp -f _install/vs-15-2017-win64/bin/m1-transcode.exe ${TRAVIS_BUILD_DIR}/executables/windows-x86_64/m1-transcode.exe
-        - aws s3 sync _install/vs-15-2017/bin/m1-transcode.exe s3://${AWS_DEPLOY_BUCKET}/executables/windows-x86/m1-transcode --cache-control no-cache --metadata-directive REPLACE
-        - aws s3 sync _install/vs-15-2017-win64/bin/m1-transcode.exe s3://${AWS_DEPLOY_BUCKET}/executables/windows-x86_64/m1-transcode --cache-control no-cache --metadata-directive REPLACE
+        - cp -f _install/vs-15-2017/build/m1-transcode.exe ${TRAVIS_BUILD_DIR}/executables/windows-x86/m1-transcode.exe
+        - cp -f _install/vs-15-2017-win64/build/m1-transcode.exe ${TRAVIS_BUILD_DIR}/executables/windows-x86_64/m1-transcode.exe
+        - aws s3 sync _install/vs-15-2017/build/m1-transcode.exe s3://${AWS_DEPLOY_BUCKET}/executables/windows-x86/m1-transcode --cache-control no-cache --metadata-directive REPLACE
+        - aws s3 sync _install/vs-15-2017-win64/build/m1-transcode.exe s3://${AWS_DEPLOY_BUCKET}/executables/windows-x86_64/m1-transcode --cache-control no-cache --metadata-directive REPLACE
 
     - stage: compile
       name: m1-transcode macOS
@@ -512,6 +501,7 @@ jobs:
             - git-lfs
             - rsync
             - awscli
+            - opus-tools
       osx_image: xcode13.2
       git:
         submodules: false
@@ -523,7 +513,7 @@ jobs:
         - git clone git@github.com:Mach1Studios/m1-transcode.git
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - cmake .
-        - cmake --build .
+        - cmake --build . --config Release
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - chmod +x ./m1-transcode

@@ -80,8 +80,6 @@ jobs:
           packages:
             - build-essential
             - g++-7
-            - libsndfile-dev
-            - librtaudio-dev
             - libpthread-stubs0-dev
             - rsync
             - awscli
@@ -106,8 +104,6 @@ jobs:
             - ubuntu-toolchain-r-test
           packages:
             - build-essential
-            - libsndfile-dev
-            - librtaudio-dev
             - libpthread-stubs0-dev
             - rsync
             - awscli
@@ -152,6 +148,13 @@ jobs:
     - stage: compile
       name: macOS 9.3 (macOS 10.13)
       os: osx
+      addons:
+        homebrew:
+          packages:
+            - cmake
+            - libpthread-stubs
+            - rsync
+            - awscli
       sudo: required
       osx_image: xcode9.3
       env:
@@ -159,9 +162,6 @@ jobs:
         - MACOSX_DEPLOYMENT_TARGET=10.9
       install: 
         - cd ${TRAVIS_BUILD_DIR}/source
-        - ./scripts/macos_setup.sh
-        - sudo pip install --upgrade pip
-        - sudo python -m pip install awscli --ignore-installed six
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/macos-10-13_build.sh
@@ -172,6 +172,13 @@ jobs:
     - stage: compile
       name: macOS 9.3 (iOS)
       os: osx
+      addons:
+        homebrew:
+          packages:
+            - cmake
+            - libpthread-stubs
+            - rsync
+            - awscli
       sudo: required
       osx_image: xcode9.3
       env:
@@ -184,9 +191,6 @@ jobs:
           - if [ "$TRAVIS_OS_NAME" == "osx" ]; then cd ${TRAVIS_BUILD_DIR}/source && ./scripts/add_signing_key.sh; fi
       install: 
         - cd ${TRAVIS_BUILD_DIR}/source
-        - ./scripts/macos_setup.sh
-        - sudo pip install --upgrade pip
-        - sudo python -m pip install awscli --ignore-installed six
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/ios_build.sh
@@ -200,8 +204,6 @@ jobs:
       addons:
         homebrew:
           packages:
-            - libsndfile
-            - rtaudio
             - cmake
             - gcc
             - libpthread-stubs
@@ -223,8 +225,6 @@ jobs:
       addons:
         homebrew:
           packages:
-            - libsndfile
-            - rtaudio
             - cmake
             - gcc
             - libpthread-stubs
@@ -246,7 +246,6 @@ jobs:
         - export RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PATH=${TRAVIS_BUILD_DIR}/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/
         - export RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PREFIX=arm-unknown-linux-gnueabihf
         - export RASPBERRYPI_CROSS_COMPILE_SYSROOT=${TRAVIS_BUILD_DIR}/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot
-        - git lfs install && git lfs pull
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
         - export CMAKE_C_COMPILER=$RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PATH/arm-unknown-linux-gnueabihf-gcc
@@ -306,10 +305,9 @@ jobs:
       addons:
         apt:
           - build-essential
-          - libsndfile-dev
-          - librtaudio-dev
           - rsync
           - cmake
+          - awscli
         update: true
       env: 
         - MATRIX_EVAL="CC=gcc-7 CXX=g++-7 ANDROID_NDK_r16b=${TRAVIS_BUILD_DIR}/android-ndk-r16b"
@@ -324,8 +322,6 @@ jobs:
         - export LOCAL_ANDROID_NDK_HOME="$ANDROID_NDK_HOME"
         - export LOCAL_ANDROID_NDK_HOST_PLATFORM="linux-x86_64"
         - export PATH=$PATH:${ANDROID_NDK_HOME}
-        - sudo apt-get update
-        - sudo apt-get install awscli
       script:
         # Android Build on linux
         - cd ${TRAVIS_BUILD_DIR}/source
@@ -350,7 +346,6 @@ jobs:
         - cd ${TRAVIS_BUILD_DIR}/source
         - choco install -y cmake
         - choco install -y make
-        - choco install -y libsndfile
         - choco install -y rsync
         - choco install -y awscli
         - export PATH="$(powershell -Command '("Process", "Machine" | % {[Environment]::GetEnvironmentVariable("PATH", $_) -Split ";" -Replace "\\$", ""} | Select -Unique | % { cygpath $_ }) -Join ":"')"

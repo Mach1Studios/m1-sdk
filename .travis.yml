@@ -214,6 +214,8 @@ jobs:
     - stage: compile
       name: Linux x86_64 (RPI)
       os: linux
+      env: 
+        - RPI_TOOLS=${HOME}/rpi/tools
       sudo: required
       dist: bionic
       addons:
@@ -227,29 +229,21 @@ jobs:
             - rsync
             - awscli
             - cmake
+            - qemu-user-static
       env:
         - MATRIX_EVAL="CC=gcc-7 CXX=g++-7"
-      before_install:
-        # Install polly
-        - cd ${TRAVIS_BUILD_DIR}
-        - git clone https://github.com/Mach1Studios/polly.git
-        - POLLY_SOURCE_DIR=${TRAVIS_BUILD_DIR}/polly
-        - export POLLY_SOURCE_DIR=${TRAVIS_BUILD_DIR}/polly
-        - PATH=${TRAVIS_BUILD_DIR}/polly/bin/polly:$PATH
       install:
-        - cd ${TRAVIS_BUILD_DIR}
-        - git clone https://github.com/pretyman/raspberrypi2-mac-crosscompiler raspberrypi-tools
-        - export RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PATH=${TRAVIS_BUILD_DIR}/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/bin/
-        - export RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PREFIX=arm-unknown-linux-gnueabihf
-        - export RASPBERRYPI_CROSS_COMPILE_SYSROOT=${TRAVIS_BUILD_DIR}/raspberrypi-tools/x-tools/arm-unknown-linux-gnueabihf/arm-unknown-linux-gnueabihf/sysroot
+        - mkdir -p ~/rpi/
+        - cd ~/rpi
+        - git clone https://github.com/raspberrypi/tools.git
+        - 
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
         - export CMAKE_C_COMPILER=$RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PATH/arm-unknown-linux-gnueabihf-gcc
         - export CMAKE_CXX_COMPILER=$RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PATH/arm-unknown-linux-gnueabihf-g++
         - ./scripts/rpi_build.sh
       after_success:
-        - cd ${TRAVIS_BUILD_DIR}/source
-        - ./scripts/examples_linking_test.sh
+        # TODO: Setup RPI testing
 
     - stage: compile
       name: Linux x86_64 (WASM/JS)
@@ -368,18 +362,23 @@ jobs:
             - build-essential
             - g++-7
             - libsndfile-dev
+            - libopus-dev
+            - libmpg123-dev
             - libpthread-stubs0-dev
             - rsync
             - awscli
             - libboost-all-dev
             - cmake
-            - libopus-dev
           update: true
       git:
         submodules: false
       script:
         - cd ${TRAVIS_BUILD_DIR}/../
         - git clone git@github.com:Mach1Studios/m1-transcode.git
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
+        - mkdir libs && cd libs
+        - git clone --depth 1 git@github.com:ebu/libadm.git
+        - git clone --depth 1 git@github.com:irt-open-source/libbw64.git
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - cmake .
         - cmake --build . --config Release
@@ -401,6 +400,8 @@ jobs:
           packages:
             - build-essential
             - libsndfile-dev
+            - libopus-dev
+            - libmpg123-dev
             - libpthread-stubs0-dev
             - rsync
             - awscli
@@ -418,7 +419,6 @@ jobs:
             - texinfo
             - libboost-all-dev
             - cmake
-            - libopus-dev
           update: true
       env:
         - CROSS_COMPILE=arm-none-eabi-
@@ -436,6 +436,10 @@ jobs:
       script:
         - cd ${TRAVIS_BUILD_DIR}/../
         - git clone git@github.com:Mach1Studios/m1-transcode.git
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
+        - mkdir libs && cd libs
+        - git clone --depth 1 git@github.com:ebu/libadm.git
+        - git clone --depth 1 git@github.com:irt-open-source/libbw64.git
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - cmake .
         - cmake --build . --config Release
@@ -516,6 +520,10 @@ jobs:
       script:
         - cd ${TRAVIS_BUILD_DIR}/../
         - git clone git@github.com:Mach1Studios/m1-transcode.git
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
+        - mkdir libs && cd libs
+        - git clone --depth 1 git@github.com:ebu/libadm.git
+        - git clone --depth 1 git@github.com:irt-open-source/libbw64.git
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - cmake .
         - cmake --build . --config Release

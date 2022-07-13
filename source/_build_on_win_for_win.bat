@@ -25,6 +25,7 @@ xcopy _install\vs-15-2017\lib-shared ..\examples\mach1spatial-c\Unity\Unity-Mach
 xcopy _install\vs-15-2017\lib "..\examples\mach1spatial-c\Unreal Engine\UE-Mach1SpatialAPI\Mach1DecodePlugin\SourcePlugin\Mach1DecodePlugin\ThirdParty\Mach1\bin\Win32" /Y  /I
 xcopy _install\vs-15-2017\lib-shared "..\examples\mach1spatial-c\Unreal Engine\UE-Mach1SpatialAPI\Mach1DecodePlugin\SourcePlugin\Mach1DecodePlugin\ThirdParty\Mach1\bin\Win32" /Y  /I
 xcopy _install\vs-15-2017\lib ..\examples\mach1spatial-c\openframeworks\ofxMach1\libs\libmach1\lib\vs\x86 /Y  /I
+xcopy _install\vs-15-2017\lib ..\..\openframeworks\addons\ofxMach1\libs\libmach1\lib\vs\x86 /Y  /I
 
 python ../../polly/bin/polly.py --clear --install --config Debug --toolchain vs-15-2017
 xcopy _install\vs-15-2017\lib ..\mach1spatial-libs\vs-15-2017-x86\lib\Static\MD\Debug\*.lib /Y  /I
@@ -39,6 +40,7 @@ xcopy _install\vs-15-2017-win64\lib-shared ..\examples\mach1spatial-c\Unity\Unit
 xcopy _install\vs-15-2017-win64\lib "..\examples\mach1spatial-c\Unreal Engine\UE-Mach1SpatialAPI\Mach1DecodePlugin\SourcePlugin\Mach1DecodePlugin\ThirdParty\Mach1\bin\Win64" /Y  /I
 xcopy _install\vs-15-2017-win64\lib-shared "..\examples\mach1spatial-c\Unreal Engine\UE-Mach1SpatialAPI\Mach1DecodePlugin\SourcePlugin\Mach1DecodePlugin\ThirdParty\Mach1\bin\Win64" /Y  /I
 xcopy _install\vs-15-2017-win64\lib ..\examples\mach1spatial-c\openframeworks\ofxMach1\libs\libmach1\lib\vs\x64 /Y  /I
+xcopy _install\vs-15-2017-win64\lib ..\..\openframeworks\addons\ofxMach1\libs\libmach1\lib\vs\x64 /Y  /I
 
 python ../../polly/bin/polly.py --clear --install --config Debug --toolchain vs-15-2017-win64
 xcopy _install\vs-15-2017-win64\lib ..\mach1spatial-libs\vs-15-2017-x86_64\lib\Static\MD\Debug\*.lib /Y  /I

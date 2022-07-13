@@ -236,11 +236,8 @@ jobs:
         - mkdir -p ~/rpi/
         - cd ~/rpi
         - git clone https://github.com/raspberrypi/tools.git
-        - 
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
-        - export CMAKE_C_COMPILER=$RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PATH/arm-unknown-linux-gnueabihf-gcc
-        - export CMAKE_CXX_COMPILER=$RASPBERRYPI_CROSS_COMPILE_TOOLCHAIN_PATH/arm-unknown-linux-gnueabihf-g++
         - ./scripts/rpi_build.sh
       after_success:
         # TODO: Setup RPI testing

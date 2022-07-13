@@ -13,6 +13,7 @@
 #include <stddef.h>
 #include <vector>
 #include <map>
+#include <cstring>
 #include "Mach1Point3DCore.h"
 #include "Mach1KeyPoint.h"
 

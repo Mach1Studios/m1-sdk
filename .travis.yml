@@ -148,13 +148,6 @@ jobs:
     - stage: compile
       name: macOS 9.3 (macOS 10.13)
       os: osx
-      addons:
-        homebrew:
-          packages:
-            - cmake
-            - libpthread-stubs
-            - rsync
-            - awscli
       sudo: required
       osx_image: xcode9.3
       env:
@@ -162,6 +155,9 @@ jobs:
         - MACOSX_DEPLOYMENT_TARGET=10.9
       install: 
         - cd ${TRAVIS_BUILD_DIR}/source
+        - ./scripts/macos_setup.sh
+        - sudo pip install --upgrade pip
+        - sudo python -m pip install awscli --ignore-installed six
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/macos-10-13_build.sh
@@ -172,13 +168,6 @@ jobs:
     - stage: compile
       name: macOS 9.3 (iOS)
       os: osx
-      addons:
-        homebrew:
-          packages:
-            - cmake
-            - libpthread-stubs
-            - rsync
-            - awscli
       sudo: required
       osx_image: xcode9.3
       env:
@@ -191,6 +180,9 @@ jobs:
           - if [ "$TRAVIS_OS_NAME" == "osx" ]; then cd ${TRAVIS_BUILD_DIR}/source && ./scripts/add_signing_key.sh; fi
       install: 
         - cd ${TRAVIS_BUILD_DIR}/source
+        - ./scripts/macos_setup.sh
+        - sudo pip install --upgrade pip
+        - sudo python -m pip install awscli --ignore-installed six
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/ios_build.sh
@@ -352,7 +344,6 @@ jobs:
       script:
         # WINDOWS BUILDS
         - cd ${TRAVIS_BUILD_DIR}/source
-        - ./scripts/win_test.sh
         - ./scripts/win_build.sh
 
 # ---------------------------------
@@ -384,12 +375,12 @@ jobs:
         submodules: false
       script:
         - cd ${TRAVIS_BUILD_DIR}/../
-        - git clone git@github.com:Mach1Studios/m1-transcodertools.git
-        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
+        - git clone git@github.com:Mach1Studios/m1-transcode.git
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - cmake .
         - cmake --build .
       after_success:
-        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - cp -f ./m1-transcode ${TRAVIS_BUILD_DIR}/executables/unix/m1-transcode
         - aws s3 cp m1-transcode s3://${AWS_DEPLOY_BUCKET}/executables/linux-arm/m1-transcode --cache-control no-cache --metadata-directive REPLACE
 
@@ -439,12 +430,12 @@ jobs:
         - export PATH=${TRAVIS_BUILD_DIR}/gcc-arm-none-eabi-7-2018-q2-update/bin/:$PATH
       script:
         - cd ${TRAVIS_BUILD_DIR}/../
-        - git clone git@github.com:Mach1Studios/m1-transcodertools.git
-        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
+        - git clone git@github.com:Mach1Studios/m1-transcode.git
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - cmake .
         - cmake --build .
       after_success:
-        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - cp -f ./m1-transcode ${TRAVIS_BUILD_DIR}/executables/linux-arm/m1-transcode
         - aws s3 cp m1-transcode s3://${AWS_DEPLOY_BUCKET}/executables/linux-arm/m1-transcode --cache-control no-cache --metadata-directive REPLACE
 
@@ -480,29 +471,29 @@ jobs:
         - export PATH="$(powershell -Command '("Process", "Machine" | % {[Environment]::GetEnvironmentVariable("PATH", $_) -Split ";" -Replace "\\$", ""} | Select -Unique | % { cygpath $_ }) -Join ":"')"
       script:
         - cd ${TRAVIS_BUILD_DIR}/../
-        - git clone git@github.com:Mach1Studios/m1-transcodertools.git
-        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
+        - git clone git@github.com:Mach1Studios/m1-transcode.git
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - mkdir libs && cd libs
         - git clone git@github.com:ebu/libadm.git
         - cd libadm && mkdir build && cd build
         - cmake ..
         - cmake --build . --target install
-        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode/libs
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcode/libs
         - git clone git@github.com:irt-open-source/libbw64.git
         - cd libbw64 && mkdir build && cd build
         - cmake ..
         - cmake --build . --target install
-        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode/libs
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcode/libs
         - git clone git@github.com:libsndfile/libsndfile.git
         - cd libsndfile && mkdir build && cd build
         - cmake .. -DENABLE_PACKAGE_CONFIG=ON -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake
         - cmake --build . --target install -DENABLE_PACKAGE_CONFIG=ON -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake
-        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - aws s3 sync s3://${AWS_DEPLOY_BUCKET}/deps/libsndfile ./libs/libsndfile
         - ${POLLY_SOURCE_DIR}/bin/polly.py --clear --install --config Release --toolchain vs-15-2017
         - ${POLLY_SOURCE_DIR}/bin/polly.py --clear --install --config Release --toolchain vs-15-2017-win64
       after_success:
-        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - cp -f _install/vs-15-2017/bin/m1-transcode.exe ${TRAVIS_BUILD_DIR}/executables/windows-x86/m1-transcode.exe
         - cp -f _install/vs-15-2017-win64/bin/m1-transcode.exe ${TRAVIS_BUILD_DIR}/executables/windows-x86_64/m1-transcode.exe
         - aws s3 sync _install/vs-15-2017/bin/m1-transcode.exe s3://${AWS_DEPLOY_BUCKET}/executables/windows-x86/m1-transcode --cache-control no-cache --metadata-directive REPLACE
@@ -529,12 +520,12 @@ jobs:
         - brew install libadm libbw64
       script:
         - cd ${TRAVIS_BUILD_DIR}/../
-        - git clone git@github.com:Mach1Studios/m1-transcodertools.git
-        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
+        - git clone git@github.com:Mach1Studios/m1-transcode.git
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - cmake .
         - cmake --build .
       after_success:
-        - cd ${TRAVIS_BUILD_DIR}/../m1-transcodertools/m1-transcode
+        - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - chmod +x ./m1-transcode
         - cp -f ./m1-transcode ${TRAVIS_BUILD_DIR}/executables/unix/m1-transcode
         - aws s3 cp m1-transcode s3://${AWS_DEPLOY_BUCKET}/executables/unix/m1-transcode --cache-control no-cache --metadata-directive REPLACE

@@ -43,3 +43,6 @@ set env var ANDROID_NDK_r16b to ndk path
 `cmake --build _builds/ios-11-3-dep-9-0-device-bitcode --config Release --target install`
 
 3. for travis-ci setup run `cd scripts && ./local-ios-setup.sh`
+
+## TODO ##
+- PR Merge for [../public](public) triggers a CD action/job for recompiling Mach1Transcode API/exec and upping the version

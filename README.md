@@ -52,7 +52,6 @@ Please view the [license/](license) directory for more information and proper at
 * Linux (x86 & ARM)
 * Windows-x86 (Visual Studio)
 * Windows-x86-64 (Visual Studio)
-* Unix/linux: _m1-transcode executable_
 * RaspberryPi2
 * RaspberryPi3
 * Various embedded ARM chipsets
@@ -66,10 +65,7 @@ Please view the [license/](license) directory for more information and proper at
 * Python (in progress)
 * Golang (in progress)
 
-#### Debug Tools
-* Simple Audio Debug Examples
-
-#### Implementation 
+#### Implementation Examples
 * Unreal Engine Plugin <a href="https://www.mach1.tech/download-spatialgameengine">Unreal Engine Plugin</a>
 	* _UE Plugin for Mach1Decode/Mach1DecodePositional_
 * Unity Package <a href="https://www.mach1.tech/download-spatialgameengine">Unity Package</a>

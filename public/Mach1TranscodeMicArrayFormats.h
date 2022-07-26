@@ -25,10 +25,6 @@ namespace Mach1TranscodeConstants {
 class MatricesMicArray {
 public:
 	static std::vector<Mach1TranscodeMatrix> getData() {
-		const float r2o2 = (float)sqrt(2.0) / 2.0f;
-		const float r2o4 = (float)sqrt(2.0) / 4.0f;
-		const float r2o8 = (float)sqrt(2.0) / 8.0f;
-
 		return {
 				{
 					"1.0", "M1Spatial",

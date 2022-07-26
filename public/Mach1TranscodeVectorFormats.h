@@ -24,9 +24,6 @@ namespace Mach1TranscodeConstants {
 	class MatricesVector {
 	public:
 		static std::vector<Mach1TranscodeMatrix> getData() {
-			const float oor2 = (float)(1.0 / sqrt(2.0));
-			const float r2o3 = (float)sqrt(2.0) / 3.0f;
-			const float r2o4 = (float)sqrt(2.0) / 4.0f;
 			return {
 				{
 					"M1Horizon", "M1Horizon",
@@ -58,10 +55,10 @@ namespace Mach1TranscodeConstants {
 				{
 					"M1Horizon", "M1Spatial",
 					{
-						Mach1TranscodeChannel::Coeffs({ oor2, 0, 0, 0, oor2, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, oor2, 0, 0, 0, oor2, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, oor2, 0, 0, 0, oor2, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, oor2, 0, 0, 0, oor2 }),
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0, 0, 0, 0.707106f, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.707106f, 0, 0, 0, 0.707106f, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0.707106f, 0, 0, 0, 0.707106f, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0.707106f, 0, 0, 0, 0.707106f }),
 					}
 				},
 				{
@@ -133,40 +130,40 @@ namespace Mach1TranscodeConstants {
 				{
 					"M1Spatial", "M1Horizon",
 					{
-						Mach1TranscodeChannel::Coeffs({ oor2, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, oor2, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, oor2, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, oor2 }),
-						Mach1TranscodeChannel::Coeffs({ oor2, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, oor2, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, oor2, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, oor2 }),
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.707106f, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0.707106f, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0.707106f }),
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.707106f, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0.707106f, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0.707106f }),
 					}
 				},
 				{
 					"M1Spatial", "M1HorizonPairs",
 					{
-						Mach1TranscodeChannel::Coeffs({ oor2, 0, 0, 0, 0, 0, 0, oor2 }),
-						Mach1TranscodeChannel::Coeffs({ 0, oor2, oor2, 0, 0, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, oor2, oor2, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, oor2, oor2, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ oor2, 0, 0, 0, 0, 0, 0, oor2 }),
-						Mach1TranscodeChannel::Coeffs({ 0, oor2, oor2, 0, 0, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, oor2, oor2, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, oor2, oor2, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0, 0, 0, 0, 0, 0, 0.707106f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.707106f, 0.707106f, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0.707106f, 0.707106f, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0.707106f, 0.707106f, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0, 0, 0, 0, 0, 0, 0.707106f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.707106f, 0.707106f, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0.707106f, 0.707106f, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0.707106f, 0.707106f, 0, 0, 0 }),
 					}
 				},
 				{
 					"M1Spatial", "M1SpatialFaces",
 					{
-						Mach1TranscodeChannel::Coeffs({ r2o3, r2o3, 0, 0, r2o3, 0 }),
-						Mach1TranscodeChannel::Coeffs({ r2o3, 0, 0, r2o3, r2o3, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, r2o3, r2o3, 0, r2o3, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, r2o3, r2o3, r2o3, 0 }),
-						Mach1TranscodeChannel::Coeffs({ r2o3, r2o3, 0, 0, 0, r2o3 }),
-						Mach1TranscodeChannel::Coeffs({ r2o3, 0, 0, r2o3, 0, r2o3 }),
-						Mach1TranscodeChannel::Coeffs({ 0, r2o3, r2o3, 0, 0, r2o3 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, r2o3, r2o3, 0, r2o3 }),
+						Mach1TranscodeChannel::Coeffs({ 0.471404f, 0.471404f, 0, 0, 0.471404f, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0.471404f, 0, 0, 0.471404f, 0.471404f, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.471404f, 0.471404f, 0, 0.471404f, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0.471404f, 0.471404f, 0.471404f, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0.471404f, 0.471404f, 0, 0, 0, 0.471404f }),
+						Mach1TranscodeChannel::Coeffs({ 0.471404f, 0, 0, 0.471404f, 0, 0.471404f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.471404f, 0.471404f, 0, 0, 0.471404f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0.471404f, 0.471404f, 0, 0.471404f }),
 					}
 				},
 				{
@@ -245,12 +242,12 @@ namespace Mach1TranscodeConstants {
 				{
 					"M1SpatialFaces", "M1Spatial",
 					{
-						Mach1TranscodeChannel::Coeffs({ r2o4, r2o4, 0, 0, r2o4, r2o4, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ r2o4, 0, r2o4, 0, r2o4, 0, r2o4, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, r2o4, r2o4, 0, 0, r2o4, r2o4 }),
-						Mach1TranscodeChannel::Coeffs({ 0, r2o4, 0, r2o4, 0, r2o4, 0, r2o4 }),
-						Mach1TranscodeChannel::Coeffs({ r2o4, r2o4, r2o4, r2o4, 0, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, r2o4, r2o4, r2o4, r2o4 }),
+						Mach1TranscodeChannel::Coeffs({ 0.353553f, 0.353553f, 0, 0, 0.353553f, 0.353553f, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0.353553f, 0, 0.353553f, 0, 0.353553f, 0, 0.353553f, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0.353553f, 0.353553f, 0, 0, 0.353553f, 0.353553f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.353553f, 0, 0.353553f, 0, 0.353553f, 0, 0.353553f }),
+						Mach1TranscodeChannel::Coeffs({ 0.353553f, 0.353553f, 0.353553f, 0.353553f, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0.353553f, 0.353553f, 0.353553f, 0.353553f }),
 					}
 				},			
 			};

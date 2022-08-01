@@ -21,13 +21,13 @@ std::vector<Mach1Point3D> Mach1Encode::getPoints()
 	for (int i = 0; i < vec.size(); i++) vec[i] = arr[i];
 
 	return vec;
-    /// Retruns the control center reference point's normalized coordinate location (XYZ) 
-    /// within the vector panning space
-    ///
-    /// - Parameters:
-    ///     - X: front-back (0.0 (back) -> 1.0 (front))
-    ///     - Y: up-down (0.0 (down) -> 1.0 (up))
-    ///     - Z: left-right (0.0 (left) -> 1.0 (right))
+	/// Retruns the control center reference point's normalized coordinate location (XYZ) 
+	/// within the vector panning space
+	///
+	/// - Parameters:
+	///     - X: front-back (0.0 (back) -> 1.0 (front))
+	///     - Y: up-down (0.0 (down) -> 1.0 (up))
+	///     - Z: left-right (0.0 (left) -> 1.0 (right))
 }
 
 std::vector< std::vector<float> > Mach1Encode::getGains()
@@ -45,13 +45,13 @@ std::vector< std::vector<float> > Mach1Encode::getGains()
 	}
 
 	return vec;
-    /// Returns an array per input channel, resulting in an array of array results
-    /// each internal array (per input channel) is a list of the needed coefficients to
-    /// encode to a Mach1 VVBP/SPS format (depending on the selected `setOutputMode`)
-    ///
-    /// - Returns:
-    ///     - 1st dimension of array is the number of input channels/points
-    ///     - 2nd dimension of array is the resulting coefficient gains to be applied for encode
+	/// Returns an array per input channel, resulting in an array of array results
+	/// each internal array (per input channel) is a list of the needed coefficients to
+	/// encode to a Mach1 VVBP/SPS format (depending on the selected `setOutputMode`)
+	///
+	/// - Returns:
+	///     - 1st dimension of array is the number of input channels/points
+	///     - 2nd dimension of array is the resulting coefficient gains to be applied for encode
 }
 
 std::vector<std::string> Mach1Encode::getPointsNames()
@@ -65,7 +65,7 @@ std::vector<std::string> Mach1Encode::getPointsNames()
 	}
 
 	return vec;
-    /// Return the string name for each input channel/point
+	/// Return the string name for each input channel/point
 }
 
 std::vector<float> Mach1Encode::getGainsForInputChannelNamed(std::string pointName)
@@ -79,24 +79,24 @@ std::vector<float> Mach1Encode::getGainsForInputChannelNamed(std::string pointNa
 	}
 
 	return vec;
-    /// Returns array of gain coefficients for specificed input channel/point
+	/// Returns array of gain coefficients for specificed input channel/point
 }
 
 void Mach1Encode::generatePointResults()
 {
 	Mach1EncodeCAPI_generatePointResults(M1obj);
-    /// Function for controlling the update of all calculations of a Mach1Encode instance
-    ///
-    /// - Remark: Call when an update to Mach1 vector calculations is desired
+	/// Function for controlling the update of all calculations of a Mach1Encode instance
+	///
+	/// - Remark: Call when an update to Mach1 vector calculations is desired
 }
 
 int Mach1Encode::getPointsCount()
 {
 	return Mach1EncodeCAPI_getPointsCount(M1obj);
-    /// Returns the number of input channels/points that Mach1Encode instance has
-    ///
-    /// - Returns:
-    ///     - integer of number of input channels/points
+	/// Returns the number of input channels/points that Mach1Encode instance has
+	///
+	/// - Returns:
+	///     - integer of number of input channels/points
 }
 
 std::vector<float> Mach1Encode::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, std::vector<float>& decodeResult)
@@ -110,12 +110,12 @@ std::vector<float> Mach1Encode::getResultingCoeffsDecoded(Mach1DecodeAlgoType de
 	}
 
 	return vec;
-    /// A shorthand function for encoding->decoding audio object handling,
-    /// useful preview UX so that a full input->mach1spatial_multichannel->stereo
-    /// rendeering to disk isnt required and instead designs that stack decode results 
-    /// live can more easily be created
-    ///
-    /// - Remark: Each input audio channel results a direct decode instead of the encode coefficients
+	/// A shorthand function for encoding->decoding audio object handling,
+	/// useful preview UX so that a full input->mach1spatial_multichannel->stereo
+	/// rendeering to disk isnt required and instead designs that stack decode results 
+	/// live can more easily be created
+	///
+	/// - Remark: Each input audio channel results a direct decode instead of the encode coefficients
 }
 
 Mach1EncodeInputModeType Mach1Encode::getInputMode()
@@ -130,20 +130,20 @@ Mach1EncodeOutputModeType Mach1Encode::getOutputMode()
 
 int Mach1Encode::getInputChannelsCount()
 {
-    return Mach1EncodeCAPI_getInputChannelsCount(M1obj);
-    /// Returns the number of input channels/points that Mach1Encode instance has
-    ///
-    /// - Returns:
-    ///     - integer of number of input channels/points
+	return Mach1EncodeCAPI_getInputChannelsCount(M1obj);
+	/// Returns the number of input channels/points that Mach1Encode instance has
+	///
+	/// - Returns:
+	///     - integer of number of input channels/points
 }
 
 int Mach1Encode::getOutputChannelsCount()
 {
-    return Mach1EncodeCAPI_getOutputChannelsCount(M1obj);
-    /// Returns the number of output channels/points that Mach1Encode instance has
-    ///
-    /// - Returns:
-    ///     - integer of number of output channels/points
+	return Mach1EncodeCAPI_getOutputChannelsCount(M1obj);
+	/// Returns the number of output channels/points that Mach1Encode instance has
+	///
+	/// - Returns:
+	///     - integer of number of output channels/points
 }
 
 void Mach1Encode::setInputMode(Mach1EncodeInputModeType inputMode)
@@ -177,12 +177,13 @@ void Mach1Encode::setOutputMode(Mach1EncodeOutputModeType outputMode)
 	/// Sets the output spatial format, Mach1Spatial or Mach1Horizon
 	///
 	/// - Parameters:
-	///     - Mach1Horizon (4ch) [Yaw]
-	///     - Mach1Spatial (8ch) [Yaw, Pitch, Roll]
-	///     - Mach1SpatialPlus (12ch) [Yaw, Pitch, Roll]
-	///     - Mach1SpatialPlusPlus (14ch) [Yaw, Pitch, Roll]
-	///     - Mach1SpatialExt (16ch) [Yaw, Pitch, Roll]
-	///     - Mach1SpatialExtPlus (18ch) [Yaw, Pitch, Roll]
+	///     - Mach1Horizon_4 (4ch) [Yaw]
+	///     - Mach1Spatial_8 (8ch) [Yaw, Pitch, Roll]
+	///     - Mach1Spatial_12 (12ch) [Yaw, Pitch, Roll]
+	///     - Mach1Spatial_14 (14ch) [Yaw, Pitch, Roll]
+	///     - Mach1Spatial_16 (16ch) [Yaw, Pitch, Roll]
+	///     - Mach1Spatial_18 (18ch) [Yaw, Pitch, Roll]
+	///     - Mach1Spatial_24 (24ch) [Yaw, Pitch, Roll]
 }
 
 void Mach1Encode::setAzimuth(float azimuthFromMinus1To1)
@@ -270,6 +271,15 @@ void Mach1Encode::setFrontSurroundPerspective(bool frontSurroundPerspective)
 	/// Remark: Default is true
 }
 
+void Mach1Encode::setOutputGain(float outputGainMultipler, bool isDecibel)
+{
+	Mach1EncodeCAPI_setOutputGain(M1obj, outputGainMultipler, isDecibel);
+	/// Applies an additional gain multiplier to all output channels equally
+	/// Can be calculated with a linear amplitude multiplier or a decibel multiplier
+	///
+	/// Remark: Default is passthrough (1.0, false)
+}
+
 void Mach1Encode::setOrbitRotation(float orbitRotationFromMinusOnetoOne)
 {
 	Mach1EncodeCAPI_setOrbitRotation(M1obj, orbitRotationFromMinusOnetoOne);
@@ -314,61 +324,3 @@ void Mach1Encode::setAutoOrbit(bool autoOrbit)
 	///
 	/// Remark: Default is true
 }
-
-/* DEPRECATED START*/
-std::vector<float> Mach1Encode::getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, std::vector<float>& decodeResult)
-{
-	std::vector<float> vec(Mach1EncodeCAPI_getPointsCount(M1obj) * 2);
-
-	float* arr = (float*)Mach1EncodeCAPI_getResultingVolumesDecoded(M1obj, decodeType, decodeResult.data());
-
-	for (int i = 0; i < vec.size(); i++) {
-		vec[i] = arr[i];
-	}
-
-	return vec;
-    /// A shorthand function for encoding->decoding audio object handling,
-    /// useful preview UX so that a full input->mach1spatial_multichannel->stereo
-    /// rendeering to disk isnt required and instead designs that stack decode results 
-    /// live can more easily be created
-    ///
-    /// - Remark: Each input audio channel results a direct decode instead of the encode coefficients
-}
-
-void Mach1Encode::setRotation(float rotationDegrees)
-{
-	/// Sets the point(s) azimuth rotation of the vector space
-	///
-	/// - Parameters:
-	///     - value range: 0 -> 360
-	setAzimuthDegrees(rotationDegrees);
-}
-
-void Mach1Encode::setPitch(float pitchFromMinus90to90)
-{
-	Mach1EncodeCAPI_setPitch(M1obj, pitchFromMinus90to90);
-	/// Sets the point(s) up/down the vector space
-	///
-	/// - Parameters:
-	///     - value range: -90->90
-}
-
-void Mach1Encode::setStereoRotate(float sRotateDegrees)
-{
-	Mach1EncodeCAPI_setStereoRotate(M1obj, sRotateDegrees);
-	/// Sets the two stereo points around the axis of the center point between them
-	///
-	/// - Parameters:
-	///     - value range: -180.0->180.0
-}
-
-void Mach1Encode::setIsotropicEncode(bool isotropicEncode)
-{
-	Mach1EncodeCAPI_setIsotropicEncode(M1obj, isotropicEncode);
-	/// Sets both stereo points rotate in relation to the
-	/// center point between them so that they always triangulate
-	/// toward center of the cuboid
-	///
-	/// Remark: Default is true
-}
-/* DEPRECATED END */

@@ -25,10 +25,6 @@ public:
 	void generatePointResults();
 	int getPointsCount();
 
-#if __cplusplus > 201103L
-	[[deprecated("getResultingVolumesDecoded is deprecated, please use getResultingCoeffsDecoded instead")]]
-#endif
-	std::vector<float> getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, std::vector<float>& decodeResult);
 	std::vector<float> getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, std::vector<float>& decodeResult);
 
 	Mach1EncodeInputModeType getInputMode();
@@ -45,33 +41,18 @@ public:
 	void setInputMode(Mach1EncodeInputModeType inputMode);
 	void setOutputMode(Mach1EncodeOutputModeType outputMode);
 
-#if __cplusplus > 201103L
-	[[deprecated("setRotation is deprecated due to ambiguity of use, please use setAzimuth0to1, setAzimuthDegrees or setAzimuthRadians instead")]]
-#endif
-	void setRotation(float rotationDegrees);
 	void setAzimuth(float azimuthFromMinus1To1);
 	void setAzimuthDegrees(float azimuthDegrees);
 	void setAzimuthRadians(float azimuthRadians);
 
-#if __cplusplus > 201103L
-	[[deprecated("setPitch is deprecated due to ambiguity of use, please use setElevation0to1, setStereoRotationDegrees or setStereoRotationRadians instead")]]
-#endif
-	void setPitch(float pitchFromMinus90to90);
 	void setElevation(float elevationFromMinus1to1);
 	void setElevationDegrees(float elevationFromMinus90to90);
 	void setElevationRadians(float elevationFromMinusHalfPItoHalfPI);
 
 	void setPannerMode(enum Mach1EncodePannerMode pannerMode);
-#if __cplusplus > 201103L
-	[[deprecated("setIsotropicEncode is deprecated, please use setPannerMode instead")]]
-#endif
-	void setIsotropicEncode(bool isotropicEncode);
 	void setFrontSurroundPerspective(bool frontSurroundPerspective);
+	void setOutputGain(float outputGainMultipler, bool isDecibel);
 
-#if __cplusplus > 201103L
-	[[deprecated("setStereoRotate is deprecated due to ambiguity of use, please use setOrbitRotation0to1, setOrbitRotationDegrees or setOrbitRotationRadians instead")]]
-#endif
-	void setStereoRotate(float sRotateDegrees);
 	void setOrbitRotation(float orbitRotationFromMinusOnetoOne);
 	void setOrbitRotationDegrees(float orbitRotationDegrees);
 	void setOrbitRotationRadians(float orbitRotationRadians);

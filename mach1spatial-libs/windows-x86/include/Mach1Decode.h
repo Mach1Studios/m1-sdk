@@ -53,7 +53,6 @@ public:
 	std::string getLog();
 #endif
 
-
     Mach1Point3D getCurrentAngle();
 };
 

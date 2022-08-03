@@ -655,6 +655,11 @@ void Mach1TranscodeCore::getMatrixConversion(float* matrix)
 	*/
 }
 
+// TODO: add a helper function to transpose any matrix
+// Mach1TranscodeMatrix Mach1TranscodeCore::transposeMatrixConversion(Mach1TranscodeMatrix &matrix)
+// {
+// }
+
 void Mach1TranscodeCore::processConversion(float ** inBufs, float ** outBufs, int numSamples)
 {
 	// reinit internal buffer

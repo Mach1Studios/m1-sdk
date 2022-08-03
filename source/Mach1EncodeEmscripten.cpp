@@ -13,7 +13,6 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
         .value("Mach1EncodeInputModeQuad", Mach1EncodeInputModeQuad)
         .value("Mach1EncodeInputModeLCRS", Mach1EncodeInputModeLCRS)
         .value("Mach1EncodeInputModeAFormat", Mach1EncodeInputModeAFormat)
-        .value("Mach1EncodeInputModeBFormat", Mach1EncodeInputModeBFormat)
         .value("Mach1EncodeInputModeBFOAACN", Mach1EncodeInputModeBFOAACN)
         .value("Mach1EncodeInputModeBFOAFUMA", Mach1EncodeInputModeBFOAFUMA)
         .value("Mach1EncodeInputModeB2OAACN", Mach1EncodeInputModeB2OAACN)
@@ -21,23 +20,41 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
         .value("Mach1EncodeInputModeB3OAACN", Mach1EncodeInputModeB3OAACN)
         .value("Mach1EncodeInputModeB3OAFUMA", Mach1EncodeInputModeB3OAFUMA)
         .value("Mach1EncodeInputModeLCR", Mach1EncodeInputModeLCR)
+        .value("Mach1EncodeInputMode5dot0", Mach1EncodeInputMode5dot0)
+        .value("Mach1EncodeInputMode5dot1Film", Mach1EncodeInputMode5dot1Film)
+        .value("Mach1EncodeInputMode5dot1DTS", Mach1EncodeInputMode5dot1DTS)
+        .value("Mach1EncodeInputMode5dot1SMTPE", Mach1EncodeInputMode5dot1SMTPE)
         ;
 		
     enum_<Mach1EncodeOutputModeType>("Mach1EncodeOutputModeType")
-        .value("Mach1EncodeOutputModeM1Horizon", Mach1EncodeOutputModeM1Horizon)
-        .value("Mach1EncodeOutputModeM1Spatial", Mach1EncodeOutputModeM1Spatial)
-        .value("Mach1EncodeOutputModeM1SpatialPlus", Mach1EncodeOutputModeM1SpatialPlus)
-        .value("Mach1EncodeOutputModeM1SpatialPlusPlus", Mach1EncodeOutputModeM1SpatialPlusPlus)
-        .value("Mach1EncodeOutputModeM1SpatialExt", Mach1EncodeOutputModeM1SpatialExt)
-        .value("Mach1EncodeOutputModeM1SpatialExtPlus", Mach1EncodeOutputModeM1SpatialExtPlus)
+        .value("Mach1EncodeOutputModeM1Horizon_4", Mach1EncodeOutputModeM1Horizon_4)
+        .value("Mach1EncodeOutputModeM1Spatial_8", Mach1EncodeOutputModeM1Spatial_8)
+        .value("Mach1EncodeOutputModeM1Spatial_12", Mach1EncodeOutputModeM1Spatial_12)
+        .value("Mach1EncodeOutputModeM1Spatial_14", Mach1EncodeOutputModeM1Spatial_14)
+        .value("Mach1EncodeOutputModeM1Spatial_16", Mach1EncodeOutputModeM1Spatial_16)
+        .value("Mach1EncodeOutputModeM1Spatial_18", Mach1EncodeOutputModeM1Spatial_18)
+        .value("Mach1EncodeOutputModeM1Spatial_20", Mach1EncodeOutputModeM1Spatial_20)
+        .value("Mach1EncodeOutputModeM1Spatial_32", Mach1EncodeOutputModeM1Spatial_32)
+        ;
+
+	enum_<Mach1EncodePannerMode>("Mach1EncodePannerMode")
+        .value("Mach1EncodePannerModeIsotropicLinear", Mach1EncodePannerModeIsotropicLinear)
+        .value("Mach1EncodePannerModeIsotropicEqualPower", Mach1EncodePannerModeIsotropicEqualPower)
+        .value("Mach1EncodePannerModePeriphonicLinear", Mach1EncodePannerModePeriphonicLinear)
         ;
 
 	enum_<Mach1DecodeAlgoType>("Mach1DecodeAlgoType")
-        .value("Mach1DecodeAlgoSpatial", Mach1DecodeAlgoSpatial)
-        .value("Mach1DecodeAlgoAltSpatial", Mach1DecodeAlgoAltSpatial)
-        .value("Mach1DecodeAlgoHorizon", Mach1DecodeAlgoHorizon)
+        .value("Mach1DecodeAlgoSpatial_8", Mach1DecodeAlgoSpatial_8)
+        .value("Mach1DecodeAlgoSpatialAlt_8", Mach1DecodeAlgoSpatialAlt_8)
+        .value("Mach1DecodeAlgoHorizon_4", Mach1DecodeAlgoHorizon_4)
         .value("Mach1DecodeAlgoHorizonPairs", Mach1DecodeAlgoHorizonPairs)
         .value("Mach1DecodeAlgoSpatialPairs", Mach1DecodeAlgoSpatialPairs)
+        .value("Mach1DecodeAlgoSpatial_12", Mach1DecodeAlgoSpatial_12)
+        .value("Mach1DecodeAlgoSpatial_14", Mach1DecodeAlgoSpatial_14)
+        .value("Mach1DecodeAlgoSpatial_16", Mach1DecodeAlgoSpatial_16)
+        .value("Mach1DecodeAlgoSpatial_18", Mach1DecodeAlgoSpatial_18)
+        .value("Mach1DecodeAlgoSpatial_20", Mach1DecodeAlgoSpatial_20)
+        .value("Mach1DecodeAlgoSpatial_32", Mach1DecodeAlgoSpatial_32)
         ;
 
 	register_vector<float>("VectorFloat");
@@ -62,25 +79,22 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
 		.function("getPointsCount", &Mach1Encode::getPointsCount)
 
 		.function("getResultingCoeffsDecoded", &Mach1Encode::getResultingCoeffsDecoded)
-		.function("getResultingVolumesDecoded", &Mach1Encode::getResultingVolumesDecoded)
 
 		.function("setInputMode", &Mach1Encode::setInputMode)
 		.function("setOutputMode", &Mach1Encode::setOutputMode)
 
-		.function("setRotation", &Mach1Encode::setRotation)
         .function("setAzimuth", &Mach1Encode::setAzimuth)
         .function("setAzimuthDegrees", &Mach1Encode::setAzimuthDegrees)
         .function("setAzimuthRadians", &Mach1Encode::setAzimuthRadians)
 
 		.function("setDiverge", &Mach1Encode::setDiverge)
 
-        .function("setPitch", &Mach1Encode::setPitch)
         .function("setElevation", &Mach1Encode::setElevation)
         .function("setElevationDegrees", &Mach1Encode::setElevationDegrees)
         .function("setElevationRadians", &Mach1Encode::setElevationRadians)
-        .function("setIsotropicEncode", &Mach1Encode::setIsotropicEncode)
 
-        .function("setStereoRotate", &Mach1Encode::setStereoRotate)
+        .function("setPannerMode", &Mach1Encode::setPannerMode)
+
         .function("setOrbitRotation", &Mach1Encode::setOrbitRotation)
         .function("setOrbitRotationDegrees", &Mach1Encode::setOrbitRotationDegrees)
         .function("setOrbitRotationRadians", &Mach1Encode::setOrbitRotationRadians)

@@ -8,30 +8,48 @@ Module['onRuntimeInitialized'] = function() {
             "Mach1EncodeInputModeQuad": (Module).Mach1EncodeInputModeType.Mach1EncodeInputModeQuad,
             "Mach1EncodeInputModeLCRS": (Module).Mach1EncodeInputModeType.Mach1EncodeInputModeLCRS,
             "Mach1EncodeInputModeAFormat": (Module).Mach1EncodeInputModeType.Mach1EncodeInputModeAFormat,
-            "Mach1EncodeInputModeBFormat": (Module).Mach1EncodeInputModeType.Mach1EncodeInputModeBFormat,
             "Mach1EncodeInputModeBFOAACN": (Module).Mach1EncodeInputModeType.Mach1EncodeInputModeBFOAACN,
             "Mach1EncodeInputModeBFOAFUMA": (Module).Mach1EncodeInputModeType.Mach1EncodeInputModeBFOAFUMA,
             "Mach1EncodeInputModeB2OAACN": (Module).Mach1EncodeInputModeType.Mach1EncodeInputModeB2OAACN,
             "Mach1EncodeInputModeB2OAFUMA": (Module).Mach1EncodeInputModeType.Mach1EncodeInputModeB2OAFUMA,
             "Mach1EncodeInputModeB3OAACN": (Module).Mach1EncodeInputModeType.Mach1EncodeInputModeB3OAACN,
             "Mach1EncodeInputModeB3OAFUMA": (Module).Mach1EncodeInputModeType.Mach1EncodeInputModeB3OAFUMA,
+            "Mach1EncodeInputModeLCR": (Module).Mach1EncodeInputModeType.Mach1EncodeInputModeLCR,
+            "Mach1EncodeInputMode5dot0": (Module).Mach1EncodeInputModeType.Mach1EncodeInputMode5dot0,
+            "Mach1EncodeInputMode5dot1Film": (Module).Mach1EncodeInputModeType.Mach1EncodeInputMode5dot1Film,
+            "Mach1EncodeInputMode5dot1DTS": (Module).Mach1EncodeInputModeType.Mach1EncodeInputMode5dot1DTS,
+            "Mach1EncodeInputMode5dot1SMTPE": (Module).Mach1EncodeInputModeType.Mach1EncodeInputMode5dot1SMTPE,
         };
 
         this.Mach1EncodeOutputModeType = {
-            "Mach1EncodeOutputModeM1Horizon": (Module).Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Horizon,
-            "Mach1EncodeOutputModeM1Spatial": (Module).Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial,
-            "Mach1EncodeOutputModeM1SpatialPlus": (Module).Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1SpatialPlus,
-            "Mach1EncodeOutputModeM1SpatialPlusPlus": (Module).Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1SpatialPlusPlus,
-            "Mach1EncodeOutputModeM1SpatialExt": (Module).Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1SpatialExt,
-            "Mach1EncodeOutputModeM1SpatialExtPlus": (Module).Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1SpatialExtPlus,
+            "Mach1EncodeOutputModeM1Horizon_4": (Module).Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Horizon_4,
+            "Mach1EncodeOutputModeM1Spatial_8": (Module).Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_8,
+            "Mach1EncodeOutputModeM1Spatial_12": (Module).Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_12,
+            "Mach1EncodeOutputModeM1Spatial_14": (Module).Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_14,
+            "Mach1EncodeOutputModeM1Spatial_16": (Module).Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_16,
+            "Mach1EncodeOutputModeM1Spatial_18": (Module).Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_18,
+            "Mach1EncodeOutputModeM1Spatial_20": (Module).Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_20,
+            "Mach1EncodeOutputModeM1Spatial_32": (Module).Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_32,
+        };
+
+        this.Mach1EncodePannerMode = {
+            "Mach1EncodePannerModeIsotropicLinear": (Module).Mach1EncodePannerMode.Mach1EncodePannerModeIsotropicLinear,
+            "Mach1EncodePannerModeIsotropicEqualPower": (Module).Mach1EncodePannerMode.Mach1EncodePannerModeIsotropicEqualPower,
+            "Mach1EncodePannerModePeriphonicLinear": (Module).Mach1EncodePannerMode.Mach1EncodePannerModePeriphonicLinear,
         };
 
         this.Mach1DecodeAlgoType = {
-            "Mach1DecodeAlgoSpatial": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial,
-            "Mach1DecodeAlgoAltSpatial": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoAltSpatial,
-            "Mach1DecodeAlgoHorizon": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoHorizon,
+            "Mach1DecodeAlgoSpatial_8": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_8,
+            "Mach1DecodeAlgoSpatialAlt_8": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatialAlt_8,
+            "Mach1DecodeAlgoHorizon_4": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoHorizon_4,
             "Mach1DecodeAlgoHorizonPairs": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoHorizonPairs,
             "Mach1DecodeAlgoSpatialPairs": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatialPairs,
+            "Mach1DecodeAlgoSpatial_12": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_12,
+            "Mach1DecodeAlgoSpatial_14": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_14,
+            "Mach1DecodeAlgoSpatial_16": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_16,
+            "Mach1DecodeAlgoSpatial_18": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_18,
+            "Mach1DecodeAlgoSpatial_20": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_20,
+            "Mach1DecodeAlgoSpatial_32": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_32,
         };
 
         this.delete = function() {
@@ -173,12 +191,6 @@ Module['onRuntimeInitialized'] = function() {
             }
         };
 
-        this.setRotation = function(rotation) {
-            if (this._m1obj) {
-                this._m1obj.setAzimuthDegrees(rotation);
-            }
-        };
-
         this.setAzimuth = function(azimuth) {
             if (this._m1obj) {
                 this._m1obj.setAzimuth(azimuth);
@@ -203,12 +215,6 @@ Module['onRuntimeInitialized'] = function() {
             }
         };
 
-        this.setPitch = function(pitch) {
-            if (this._m1obj) {
-                this._m1obj.setElevationDegrees(pitch);
-            }
-        };
-
         this.setElevation = function(elevation) {
             if (this._m1obj) {
                 this._m1obj.setElevation(elevation);
@@ -227,15 +233,15 @@ Module['onRuntimeInitialized'] = function() {
             }
         };
 
-        this.setIsotropicEncode = function(isotropicEncode) {
+        this.setPannerMode = function(mode) {
             if (this._m1obj) {
-                this._m1obj.setIsotropicEncode(isotropicEncode);
+                this._m1obj.setPannerMode(mode);
             }
         };
 
-        this.setStereoRotate = function(stereoRotate) {
+        this.setIsotropicEncode = function(isotropicEncode) {
             if (this._m1obj) {
-                this._m1obj.setOrbitRotationDegrees(stereoRotate);
+                this._m1obj.setIsotropicEncode(isotropicEncode);
             }
         };
 

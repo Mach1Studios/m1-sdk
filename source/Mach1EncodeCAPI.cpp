@@ -143,6 +143,10 @@ void Mach1EncodeCAPI_setElevationRadians(void* M1obj, float elevationFromMinusHa
 	((M1EncodeCore*)M1obj)->setElevationRadians(elevationFromMinusHalfPItoHalfPI);
 }
 
+void Mach1EncodeCAPI_setAutoOrbit(void* M1obj, bool autoOrbit) {
+	((M1EncodeCore*)M1obj)->setAutoOrbit(autoOrbit);
+}
+
 void Mach1EncodeCAPI_setOrbitRotation(void* M1obj, float orbitRotationFromMinusOnetoOne) {
 	((M1EncodeCore*)M1obj)->setOrbitRotation(orbitRotationFromMinusOnetoOne);
 }
@@ -157,10 +161,6 @@ void Mach1EncodeCAPI_setOrbitRotationRadians(void* M1obj, float orbitRotationRad
 
 void Mach1EncodeCAPI_setStereoSpread(void* M1obj, float sSpreadFrom0to1) {
 	((M1EncodeCore*)M1obj)->setStereoSpread(sSpreadFrom0to1);
-}
-
-void Mach1EncodeCAPI_setAutoOrbit(void* M1obj, bool autoOrbit) {
-	((M1EncodeCore*)M1obj)->setAutoOrbit(autoOrbit);
 }
 
 void Mach1EncodeCAPI_setPannerMode(void* M1obj, enum Mach1EncodePannerMode pannerMode) {

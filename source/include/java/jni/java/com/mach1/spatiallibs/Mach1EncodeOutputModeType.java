@@ -9,8 +9,8 @@
 package com.mach1.spatiallibs;
 
 public final class Mach1EncodeOutputModeType {
-  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Horizon_4 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Horizon_4", Mach1EncodeModuleJNI.Mach1EncodeOutputModeM1Horizon_get());
-  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_8 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_8");
+  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_8 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_8", Mach1EncodeModuleJNI.Mach1EncodeOutputModeM1Spatial_8_get());
+  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Horizon_4 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Horizon_4");
   public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_12 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_12");
   public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_14 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_14");
   public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_16 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_16");

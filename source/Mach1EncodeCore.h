@@ -38,11 +38,11 @@ using namespace std::chrono;
 #endif
 
 #ifndef MAX_CHANNELS_COUNT
-#define MAX_CHANNELS_COUNT 20 // 18 + 2
+#define MAX_CHANNELS_COUNT 64
 #endif
 
 #ifndef MAX_POINTS_COUNT
-#define MAX_POINTS_COUNT 8
+#define MAX_POINTS_COUNT 16
 #endif
 
 
@@ -71,24 +71,24 @@ public:
 	enum InputMode { 
 		INPUT_MONO = (int) 0, 
 		INPUT_STEREO,
+		INPUT_LCR,
 		INPUT_QUAD, 
 		INPUT_LCRS, 
-		INPUT_AFORMAT, 
+		INPUT_AFORMAT,
+		INPUT_FIVE_ZERO, /// (Using Mach1Transcode is recommended instead)
+		INPUT_FIVE_ONE_FILM, /// (Using Mach1Transcode is recommended instead)
+		INPUT_FIVE_ONE_DTS, /// (Using Mach1Transcode is recommended instead)
+		INPUT_FIVE_ONE_SMPTE, /// (Using Mach1Transcode is recommended instead) 
 		INPUT_1OAACN, 
 		INPUT_1OAFUMA,
 		INPUT_2OAACN, 
 		INPUT_2OAFUMA,
 		INPUT_3OAACN, 
-		INPUT_3OAFUMA,
-		INPUT_LCR,
-		INPUT_FIVE_ZERO, /// (Using Mach1Transcode is recommended instead)
-		INPUT_FIVE_ONE_FILM, /// (Using Mach1Transcode is recommended instead)
-		INPUT_FIVE_ONE_DTS, /// (Using Mach1Transcode is recommended instead)
-		INPUT_FIVE_ONE_SMPTE /// (Using Mach1Transcode is recommended instead)
+		INPUT_3OAFUMA
 	};
 	enum OutputMode { 
-		OUTPUT_HORIZON_4CH = (int) 0, 
-		OUTPUT_SPATIAL_8CH,
+		OUTPUT_SPATIAL_8CH = (int) 0, 
+		OUTPUT_HORIZON_4CH,
 		OUTPUT_SPATIAL_12CH,
 		OUTPUT_SPATIAL_14CH,
 		OUTPUT_SPATIAL_16CH,
@@ -108,7 +108,7 @@ public:
 		 { INPUT_MONO, "1.0"},
 		 { INPUT_STEREO, "2.0_C"},
 		 { INPUT_LCR, "3.0_LCR"},
-		 { INPUT_QUAD, "M1Horizon"},
+		 { INPUT_QUAD, "4.0_Quad"},
 		 { INPUT_LCRS, "4.0_LCRS"},
 		 { INPUT_AFORMAT, "4.0_AFormat"},
 		 { INPUT_FIVE_ZERO, "5.0_C"},
@@ -125,8 +125,8 @@ public:
 
 	struct OutputModeName { OutputMode mode; std::string name; };
 	std::vector<OutputModeName> outputModeNames = {
-		 { OUTPUT_HORIZON_4CH, "M1Horizon-4"},
 		 { OUTPUT_SPATIAL_8CH, "M1Spatial-8"},
+		 { OUTPUT_HORIZON_4CH, "M1Horizon-4"},
 		 { OUTPUT_SPATIAL_12CH, "M1Spatial-12"},
 		 { OUTPUT_SPATIAL_14CH, "M1Spatial-14"},
 		 { OUTPUT_SPATIAL_16CH, "M1Spatial-16"},
@@ -193,11 +193,11 @@ public:
 	void setFrontSurroundPerspective(bool frontSurroundPerspective);
 	void setOutputGain(float outputGainMultipler, bool isDecibel);
 
+	void setAutoOrbit(bool autoOrbit);
 	void setOrbitRotation(float orbitRotationFromMinusOnetoOne);
 	void setOrbitRotationDegrees(float orbitRotationDegrees);
 	void setOrbitRotationRadians(float orbitRotationRadians);
 	void setStereoSpread(float sSpreadFrom0to1);
-	void setAutoOrbit(bool autoOrbit);
 
 	long getCurrentTime();
 	long getLastCalculationTime();

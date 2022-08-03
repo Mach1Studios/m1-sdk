@@ -13,13 +13,22 @@ EMSCRIPTEN_BINDINGS(Mach1DecodePositional) {
         .value("Mach1PlatformOfEasyCam", Mach1PlatformOfEasyCam)
         .value("Mach1PlatformAndroid", Mach1PlatformAndroid)
         .value("Mach1PlatformiOS", Mach1PlatformiOS)
+        .value("Mach1PlatformiOSTableTop_ZVertical", Mach1PlatformiOSTableTop_ZVertical)
+        .value("Mach1PlatformiOSPortraitHandheld_YVertical", Mach1PlatformiOSPortraitHandheld_YVertical)
+        .value("Mach1PlatformiOSPortrait_YawOnly", Mach1PlatformiOSPortrait_YawOnly)
         ;
+
     enum_<Mach1DecodeAlgoType>("Mach1DecodeAlgoType")
-        .value("Mach1DecodeAlgoSpatial", Mach1DecodeAlgoSpatial)
-        .value("Mach1DecodeAlgoAltSpatial", Mach1DecodeAlgoAltSpatial)
-        .value("Mach1DecodeAlgoHorizon", Mach1DecodeAlgoHorizon)
+        .value("Mach1DecodeAlgoSpatial_8", Mach1DecodeAlgoSpatial_8)
+        .value("Mach1DecodeAlgoSpatialAlt_8", Mach1DecodeAlgoSpatialAlt_8)
+        .value("Mach1DecodeAlgoHorizon_4", Mach1DecodeAlgoHorizon_4)
         .value("Mach1DecodeAlgoHorizonPairs", Mach1DecodeAlgoHorizonPairs)
         .value("Mach1DecodeAlgoSpatialPairs", Mach1DecodeAlgoSpatialPairs)
+        .value("Mach1DecodeAlgoSpatial_12", Mach1DecodeAlgoSpatial_12)
+        .value("Mach1DecodeAlgoSpatial_14", Mach1DecodeAlgoSpatial_14)
+        .value("Mach1DecodeAlgoSpatial_16", Mach1DecodeAlgoSpatial_16)
+        .value("Mach1DecodeAlgoSpatial_18", Mach1DecodeAlgoSpatial_18)
+        .value("Mach1DecodeAlgoSpatial_20", Mach1DecodeAlgoSpatial_20)
         ;
 
 	register_vector<float>("VectorFloat");
@@ -62,19 +71,9 @@ EMSCRIPTEN_BINDINGS(Mach1DecodePositional) {
         .function("getCurrentAngle", &Mach1DecodePositional::getCurrentAngle)
         .function("getCoefficientsRotation", &Mach1DecodePositional::getCoefficientsRotation)
         .function("setFilterSpeed", &Mach1DecodePositional::setFilterSpeed)
-        .function("setUseFalloff", &Mach1DecodePositional::setUseFalloff)
-        .function("setFalloffCurve", &Mach1DecodePositional::setFalloffCurve)
-        .function("setUseClosestPointRotationMuteInside", &Mach1DecodePositional::setUseClosestPointRotationMuteInside)
-        .function("setCameraPosition", &Mach1DecodePositional::setCameraPosition)
-        .function("setCameraRotation", &Mach1DecodePositional::setCameraRotation)
-        .function("setCameraRotationQuat", &Mach1DecodePositional::setCameraRotationQuat)
-        .function("getVolumesWalls", &Mach1DecodePositional::getVolumesWalls)
-        .function("getVolumeRotation", &Mach1DecodePositional::getVolumeRotation)
         .function("setUseBlendMode", &Mach1DecodePositional::setUseBlendMode)
         .function("setIgnoreTopBottom", &Mach1DecodePositional::setIgnoreTopBottom)
-        .function("setFalloffCurveBlendMode", &Mach1DecodePositional::setFalloffCurveBlendMode)
         .function("setAttenuationCurveBlendMode", &Mach1DecodePositional::setAttenuationCurveBlendMode)
-        .function("getVolumesRoom", &Mach1DecodePositional::getVolumesRoom)
         .function("getCoefficientsInterior", &Mach1DecodePositional::getCoefficientsInterior)
         ;
 }

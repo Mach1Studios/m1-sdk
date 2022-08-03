@@ -31,25 +31,25 @@
 enum Mach1EncodeInputModeType {
 	Mach1EncodeInputModeMono = (int) 0, 
 	Mach1EncodeInputModeStereo, 
+	Mach1EncodeInputModeLCR,
 	Mach1EncodeInputModeQuad, 
 	Mach1EncodeInputModeLCRS, 
 	Mach1EncodeInputModeAFormat, 
+	Mach1EncodeInputMode5dot0,
+	Mach1EncodeInputMode5dot1Film,
+	Mach1EncodeInputMode5dot1DTS,
+	Mach1EncodeInputMode5dot1SMTPE,
 	Mach1EncodeInputModeBFOAACN, 
 	Mach1EncodeInputModeBFOAFUMA,
 	Mach1EncodeInputModeB2OAACN, 
 	Mach1EncodeInputModeB2OAFUMA,
 	Mach1EncodeInputModeB3OAACN, 
-	Mach1EncodeInputModeB3OAFUMA,
-	Mach1EncodeInputModeLCR,
-	Mach1EncodeInputMode5dot0,
-	Mach1EncodeInputMode5dot1Film,
-	Mach1EncodeInputMode5dot1DTS,
-	Mach1EncodeInputMode5dot1SMTPE
+	Mach1EncodeInputModeB3OAFUMA
 };
 
 enum Mach1EncodeOutputModeType {
-	Mach1EncodeOutputModeM1Horizon_4 = (int) 0, 
-	Mach1EncodeOutputModeM1Spatial_8,
+	Mach1EncodeOutputModeM1Spatial_8 = (int) 0, 
+	Mach1EncodeOutputModeM1Horizon_4,
 	Mach1EncodeOutputModeM1Spatial_12,
 	Mach1EncodeOutputModeM1Spatial_14,
 	Mach1EncodeOutputModeM1Spatial_16,
@@ -102,12 +102,11 @@ extern "C" {
 	M1_API void Mach1EncodeCAPI_setFrontSurroundPerspective(void* M1obj, bool frontSurroundPerspective);
 	M1_API void Mach1EncodeCAPI_setOutputGain(void* M1obj, float outputGainMultipler, bool isDecibel);
 
+	M1_API void Mach1EncodeCAPI_setAutoOrbit(void* M1obj, bool autoOrbit);
 	M1_API void Mach1EncodeCAPI_setOrbitRotation(void* M1obj, float orbitRotationFromMinusOnetoOne);
 	M1_API void Mach1EncodeCAPI_setOrbitRotationDegrees(void* M1obj, float orbitRotationDegrees);
 	M1_API void Mach1EncodeCAPI_setOrbitRotationRadians(void* M1obj, float orbitRotationRadians);
-
 	M1_API void Mach1EncodeCAPI_setStereoSpread(void* M1obj, float sSpreadFrom0to1);
-	M1_API void Mach1EncodeCAPI_setAutoOrbit(void* M1obj, bool autoOrbit);
 
 	M1_API long Mach1EncodeCAPI_getLastCalculationTime(void* M1obj);
 

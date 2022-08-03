@@ -266,8 +266,8 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 												{0.50681, 0.00885, -1.32048} };
 
 	static std::map<OutputMode, std::vector<Mach1Point3DCore>> standards = {
-		{OUTPUT_HORIZON_4CH, m1Horizon_4_Def},
 		{OUTPUT_SPATIAL_8CH, m1Spatial_8_Def},
+		{OUTPUT_HORIZON_4CH, m1Horizon_4_Def},
 		{OUTPUT_SPATIAL_12CH, m1Spatial_12_Def},
 		{OUTPUT_SPATIAL_14CH, m1Spatial_14_Def},
 		{OUTPUT_SPATIAL_16CH, m1Spatial_16_Def},
@@ -811,28 +811,28 @@ int M1EncodeCore::getInputChannelsCount() {
 	switch (inputMode) {
 		case INPUT_MONO: return 1;
 		case INPUT_STEREO: return 2;
+		case INPUT_LCR: return 3;
 		case INPUT_QUAD: return 4;
 		case INPUT_LCRS: return 4;
 		case INPUT_AFORMAT: return 4;
+		case INPUT_FIVE_ZERO: return 5;
+		case INPUT_FIVE_ONE_FILM: return 6;
+		case INPUT_FIVE_ONE_DTS: return 6; 
+		case INPUT_FIVE_ONE_SMPTE: return 6;
 		case INPUT_1OAACN: return 4;
 		case INPUT_1OAFUMA: return 4;
 		case INPUT_2OAACN: return 9;
 		case INPUT_2OAFUMA: return 9;
 		case INPUT_3OAACN: return 16;
 		case INPUT_3OAFUMA: return 16;
-		case INPUT_LCR: return 3;
-		case INPUT_FIVE_ZERO: return 5;
-		case INPUT_FIVE_ONE_FILM: return 6;
-		case INPUT_FIVE_ONE_DTS: return 6; 
-		case INPUT_FIVE_ONE_SMPTE: return 6;
 	}
 	return 0;
 }
 
 int M1EncodeCore::getOutputChannelsCount() {
 	switch (outputMode) {
-		case OUTPUT_HORIZON_4CH: return 4;
 		case OUTPUT_SPATIAL_8CH: return 8;
+		case OUTPUT_HORIZON_4CH: return 4;
 		case OUTPUT_SPATIAL_12CH: return 12;
 		case OUTPUT_SPATIAL_14CH: return 14;
 		case OUTPUT_SPATIAL_16CH: return 16;
@@ -907,6 +907,10 @@ void M1EncodeCore::setOutputGain(float outputGainMultipler, bool isDecibel){
 	}
 }
 
+void M1EncodeCore::setAutoOrbit(bool autoOrbit) {
+	this->autoOrbit = autoOrbit;
+}
+
 void M1EncodeCore::setOrbitRotation(float orbitRotationFromMinusOnetoOne) {
 	this->orbitRotation = orbitRotationFromMinusOnetoOne;
 }
@@ -930,10 +934,6 @@ void M1EncodeCore::setOrbitRotationRadians(float orbitRotationRadians) {
 void M1EncodeCore::setStereoSpread(float sSpreadFrom0to1) {
 	sSpreadFrom0to1 = clamp(sSpreadFrom0to1, -1, 1);
 	this->sSpread = sSpreadFrom0to1;
-}
-
-void M1EncodeCore::setAutoOrbit(bool autoOrbit) {
-	this->autoOrbit = autoOrbit;
 }
 
 long M1EncodeCore::getCurrentTime()

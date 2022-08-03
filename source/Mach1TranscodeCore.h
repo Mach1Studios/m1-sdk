@@ -77,7 +77,6 @@ public:
 	const std::vector<float> getAvgSamplesDiff();
 
 	void setInputFormat(int inFmt);
-
 	void setInputFormatCustomPointsJson(std::string inJson);
 	void setInputFormatCustomPoints(std::vector<Mach1Point3DCore> points);
 

@@ -8,4 +8,4 @@ source ${TRAVIS_BUILD_DIR}/emsdk/emsdk_env.sh && emcc -O3 --minify 0 --closure 0
 # COPYING FOR WASM
 rsync -c include/js/* ../mach1spatial-libs/web
 # Upload built libs
-aws s3 sync include/js/ s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs/web --exclude "*-minifiedCAPI*" --cache-control no-cache --metadata-directive REPLACE
+aws s3 sync include/js/ s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs/web --exclude "*-minifiedCAPI*" --exclude "*.debug.wasm" --cache-control no-cache --metadata-directive REPLACE

@@ -95,6 +95,11 @@ public class Mach1Decode {
     return Mach1DecodeModuleJNI.Mach1DecodeCAPI_getFormatChannelCount(M1obj);
   }
 
+  public int getFormatCoeffCount()
+  {
+    return Mach1DecodeModuleJNI.Mach1DecodeCAPI_getFormatCoeffCount(M1obj);
+  }
+
   public int getDecodeAlgoType()
   {
     return Mach1DecodeModuleJNI.Mach1DecodeCAPI_getDecodeAlgoType(M1obj);

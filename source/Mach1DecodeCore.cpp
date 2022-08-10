@@ -1145,6 +1145,23 @@ Mach1PlatformType Mach1DecodeCore::getPlatformType()
 
 int Mach1DecodeCore::getFormatChannelCount() {
 	switch (algorithmType) {
+		case Mach1DecodeAlgoSpatial_8: return  8;
+		case Mach1DecodeAlgoSpatialAlt_8: return 8;
+		case Mach1DecodeAlgoHorizon_4: return 4;
+		case Mach1DecodeAlgoHorizonPairs: return 4;
+		case Mach1DecodeAlgoSpatialPairs: return 4;
+		case Mach1DecodeAlgoSpatial_12: return 12;
+		case Mach1DecodeAlgoSpatial_14: return 14;
+		case Mach1DecodeAlgoSpatial_16: return 16;
+		case Mach1DecodeAlgoSpatial_18: return 18;
+		case Mach1DecodeAlgoSpatial_20: return 20;
+		case Mach1DecodeAlgoSpatial_32: return 32;
+	}
+	return 0;
+}
+
+int Mach1DecodeCore::getFormatCoeffCount() {
+	switch (algorithmType) {
 		case Mach1DecodeAlgoSpatial_8: return  (8 * 2) + 2;
 		case Mach1DecodeAlgoSpatialAlt_8: return (8 * 2) + 2;
 		case Mach1DecodeAlgoHorizon_4: return (4 * 2) + 2;

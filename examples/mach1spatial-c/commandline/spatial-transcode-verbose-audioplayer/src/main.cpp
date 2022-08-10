@@ -576,7 +576,7 @@ static void updateMach1DecodeOrientation()
             printf(" %iR: %f\n", i, m1Coeffs[i * 2 + 1]);
         }
         printf("Headlock Stereo Coeffs:\n");
-        printf("%f %f\n", m1Coeffs[m1Decode.getFormatChannelCount()-2], m1Coeffs[m1Decode.getFormatChannelCount()-1]);
+        printf("%f %f\n", m1Coeffs[m1Decode.getFormatCoeffCount()-2], m1Coeffs[m1Decode.getFormatCoeffCount()-1]);
         printf("\n");
     }
     printf("\n");

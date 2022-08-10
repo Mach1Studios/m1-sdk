@@ -52,6 +52,12 @@ public class Mach1Decode {
         /// Returns the number of channels for format to be decoded
     }
 
+    public func getFormatCoeffCount() -> Int {
+        let count = Mach1DecodeCAPI_getFormatCoeffCount(M1obj)
+        return Int(count)
+        /// Returns the number of coeffs for verbose spatial mixer (getFormatChannelCount() * 2 + 2) for format to be decoded
+    }
+
     public func setRotation(newRotationFromMinusOnetoOne: Mach1Point3D) {
         Mach1DecodeCAPI_setRotation(M1obj, newRotationFromMinusOnetoOne)
         /// Set current buffer/sample intended decoding orientation YPR.
@@ -159,7 +165,7 @@ public class Mach1Decode {
     }
 
     public func decodeCoeffs(bufferSize: Int = 0, sampleIndex: Int = 0) -> [Float] {
-        var array: [Float] = Array(repeating: 0.0, count: getFormatChannelCount())
+        var array: [Float] = Array(repeating: 0.0, count: getFormatCoeffCount())
         Mach1DecodeCAPI_decodeCoeffs(M1obj, &array, CInt(bufferSize), CInt(sampleIndex))
         return array
         /// Call with current `setRotationDegrees` to return the resulting coefficients

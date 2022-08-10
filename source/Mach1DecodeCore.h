@@ -139,6 +139,7 @@ public:
 	Mach1PlatformType getPlatformType();
 
 	int getFormatChannelCount();
+    int getFormatCoeffCount();
 
 	void setRotation(Mach1Point3DCore newRotationFromMinusOnetoOne);
 	void setRotationDegrees(Mach1Point3DCore newRotationDegrees);

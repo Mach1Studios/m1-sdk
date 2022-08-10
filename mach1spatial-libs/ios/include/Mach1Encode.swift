@@ -153,21 +153,20 @@ public class Mach1Encode {
         /// - Parameters:
         ///     - Mach1EncodeInputModeMono
         ///     - Mach1EncodeInputModeStereo
+        ///     - Mach1EncodeInputModeLCR
         ///     - Mach1EncodeInputModeQuad
         ///     - Mach1EncodeInputModeLCRS
         ///     - Mach1EncodeInputModeAFormat
-        ///     - Mach1EncodeInputModeBFormat
+        ///     - Mach1EncodeInputMode5dot0
+        ///     - Mach1EncodeInputMode5dot1Film
+        ///     - Mach1EncodeInputMode5dot1DTS
+        ///     - Mach1EncodeInputMode5dot1SMTPE
         ///     - Mach1EncodeInputModeBFOAACN
         ///     - Mach1EncodeInputModeBFOAFUM
         ///     - Mach1EncodeInputModeB2OAACN
         ///     - Mach1EncodeInputModeB2OAFUMA
         ///     - Mach1EncodeInputModeB3OAACN, 
         ///     - Mach1EncodeInputModeB3OAFUMA
-        ///     - Mach1EncodeInputModeLCR
-        ///     - Mach1EncodeInputMode5dot0
-        ///     - Mach1EncodeInputMode5dot1Film
-        ///     - Mach1EncodeInputMode5dot1DTS
-        ///     - Mach1EncodeInputMode5dot1SMTPE
     }
 
     public func setOutputMode(outputMode: Mach1EncodeOutputModeType) {
@@ -175,8 +174,8 @@ public class Mach1Encode {
         /// Sets the output spatial format, Mach1Spatial or Mach1Horizon
         ///
         /// - Parameters:
-        ///     - Mach1Horizon_4 (4ch) [Yaw]
         ///     - Mach1Spatial_8 (8ch) [Yaw, Pitch, Roll]
+        ///     - Mach1Horizon_4 (4ch) [Yaw]
         ///     - Mach1Spatial_12 (12ch) [Yaw, Pitch, Roll]
         ///     - Mach1Spatial_14 (14ch) [Yaw, Pitch, Roll]
         ///     - Mach1Spatial_16 (16ch) [Yaw, Pitch, Roll]

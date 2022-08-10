@@ -64,7 +64,7 @@ void Mach1Decode::decodePannedCoeffs(float * result, int bufferSize, int sampleI
 
 std::vector<float> Mach1Decode::decode(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
 {
-	std::vector<float> vec(getFormatChannelCount());
+	std::vector<float> vec(getFormatCoeffCount());
 
 	Mach1DecodeCAPI_decode(M1obj, Yaw, Pitch, Roll, vec.data(), bufferSize, sampleIndex);
 
@@ -88,7 +88,7 @@ std::vector<float> Mach1Decode::decode(float Yaw, float Pitch, float Roll, int b
 
 std::vector<float> Mach1Decode::decodeCoeffs(int bufferSize, int sampleIndex)
 {
-	std::vector<float> vec(getFormatChannelCount());
+	std::vector<float> vec(getFormatCoeffCount());
 
 	Mach1DecodeCAPI_decodeCoeffs(M1obj, vec.data(), bufferSize, sampleIndex);
 
@@ -109,7 +109,7 @@ std::vector<float> Mach1Decode::decodeCoeffs(int bufferSize, int sampleIndex)
 
 std::vector<float> Mach1Decode::decodePannedCoeffs(int bufferSize, int sampleIndex, bool applyPanLaw)
 {
-	std::vector<float> vec(getFormatChannelCount());
+	std::vector<float> vec(getFormatCoeffCount());
 
 	Mach1DecodeCAPI_decodePannedCoeffs(M1obj, vec.data(), bufferSize, sampleIndex, applyPanLaw);
 
@@ -139,7 +139,7 @@ std::vector<float> Mach1Decode::decodeCoeffsUsingTranscodeMatrix(std::vector< st
 	std::vector<float> vec(2 * channels);
 
 	int inChans = channels;
-	int outChans = (getFormatChannelCount() - 1) / 2;
+	int outChans = getFormatChannelCount();
 
 	float* m = new float[inChans * outChans];
 	for (int i = 0; i < outChans; i++) {
@@ -157,6 +157,11 @@ std::vector<float> Mach1Decode::decodeCoeffsUsingTranscodeMatrix(std::vector< st
 int Mach1Decode::getFormatChannelCount()
 {
 	return Mach1DecodeCAPI_getFormatChannelCount(M1obj);
+}
+
+int Mach1Decode::getFormatCoeffCount()
+{
+	return Mach1DecodeCAPI_getFormatCoeffCount(M1obj);
 }
 
 void Mach1Decode::setRotation(Mach1Point3D newRotationFromMinusOnetoOne)

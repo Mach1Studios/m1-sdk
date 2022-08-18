@@ -10,15 +10,14 @@
 
 /*
  * Description of matrices
- * - Inputs are columns
- * - Outputs are rows
+ * - Inputs are rows
+ * - Outputs are columns
  *
- *    I1   I2   I3   I4
- *    ↓    ↓    ↓    ↓
- *  | I1 | I2 | I3 | I4 | -> O1
- *  | I1 | I2 | I3 | I4 | -> O2
- *  | I1 | I2 | I3 | I4 | -> O3
- *
+ *  I1 -> | I1 | I2 | I3 | I4 |
+ *  I2 -> | I1 | I2 | I3 | I4 |
+ *  I3 -> | I1 | I2 | I3 | I4 |
+ *			↓    ↓    ↓    ↓ 
+ *			O1   O2   O3   O4
  */
 
 namespace Mach1TranscodeConstants {

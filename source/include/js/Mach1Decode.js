@@ -39,7 +39,11 @@ Module["onRuntimeInitialized"] = function() {
    "Mach1DecodeAlgoSpatial_14": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_14,
    "Mach1DecodeAlgoSpatial_16": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_16,
    "Mach1DecodeAlgoSpatial_18": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_18,
-   "Mach1DecodeAlgoSpatial_20": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_20
+   "Mach1DecodeAlgoSpatial_20": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_20,
+   "Mach1DecodeAlgoSpatial_32": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_32,
+   "Mach1DecodeAlgoSpatial_36": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_36,
+   "Mach1DecodeAlgoSpatial_48": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_48,
+   "Mach1DecodeAlgoSpatial_60": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_60
   };
   this.delete = function() {
    if (this._m1obj) {

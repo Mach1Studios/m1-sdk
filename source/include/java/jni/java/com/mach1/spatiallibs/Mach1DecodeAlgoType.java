@@ -18,7 +18,11 @@ public final class Mach1DecodeAlgoType {
   public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_14 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_14");
   public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_16 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_16");
   public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_18 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_18");
-  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_24 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_24");
+  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_20 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_20");
+  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_32 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_32");
+  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_36 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_36");
+  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_48 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_48");
+  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_60 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_60");
 
   public final int swigValue() {
     return swigValue;

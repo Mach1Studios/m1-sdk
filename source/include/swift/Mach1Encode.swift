@@ -180,7 +180,11 @@ public class Mach1Encode {
         ///     - Mach1Spatial_14 (14ch) [Yaw, Pitch, Roll]
         ///     - Mach1Spatial_16 (16ch) [Yaw, Pitch, Roll]
         ///     - Mach1Spatial_18 (18ch) [Yaw, Pitch, Roll]
-        ///     - Mach1Spatial_24 (24ch) [Yaw, Pitch, Roll]
+        ///     - Mach1Spatial_20 (20ch) [Yaw, Pitch, Roll]
+        ///     - Mach1Spatial_32 (32ch) [Yaw, Pitch, Roll]
+        ///     - Mach1Spatial_36 (36ch) [Yaw, Pitch, Roll]
+        ///     - Mach1Spatial_48 (48ch) [Yaw, Pitch, Roll]
+        ///     - Mach1Spatial_60 (60ch) [Yaw, Pitch, Roll]
     }
 
     public func setAzimuth(azimuthFromMinus1To1: Float) {

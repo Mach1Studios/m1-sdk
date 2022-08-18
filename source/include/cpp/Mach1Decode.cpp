@@ -42,7 +42,11 @@ void Mach1Decode::setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType)
 	///     - Mach1DecodeAlgoSpatial_14 (higher order spatial | 14 channels)
 	///     - Mach1DecodeAlgoSpatial_16 (higher order spatial | 16 channels)
 	///     - Mach1DecodeAlgoSpatial_18 (higher order spatial | 18 channels)
-	///     - Mach1DecodeAlgoSpatial_24 (higher order spatial | 24 channels)
+	///     - Mach1DecodeAlgoSpatial_20 (higher order spatial | 20 channels)
+	///     - Mach1DecodeAlgoSpatial_32 (higher order spatial | 32 channels)
+	///     - Mach1DecodeAlgoSpatial_36 (higher order spatial | 36 channels)
+	///     - Mach1DecodeAlgoSpatial_48 (higher order spatial | 48 channels)
+	///     - Mach1DecodeAlgoSpatial_60 (higher order spatial | 60 channels)
 }
 
 #ifndef  __EMSCRIPTEN__

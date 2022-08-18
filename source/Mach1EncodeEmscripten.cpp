@@ -35,6 +35,9 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
         .value("Mach1EncodeOutputModeM1Spatial_18", Mach1EncodeOutputModeM1Spatial_18)
         .value("Mach1EncodeOutputModeM1Spatial_20", Mach1EncodeOutputModeM1Spatial_20)
         .value("Mach1EncodeOutputModeM1Spatial_32", Mach1EncodeOutputModeM1Spatial_32)
+        .value("Mach1EncodeOutputModeM1Spatial_36", Mach1EncodeOutputModeM1Spatial_36)
+        .value("Mach1EncodeOutputModeM1Spatial_48", Mach1EncodeOutputModeM1Spatial_48)
+        .value("Mach1EncodeOutputModeM1Spatial_60", Mach1EncodeOutputModeM1Spatial_60)
         ;
 
     enum_<Mach1EncodePannerMode>("Mach1EncodePannerMode")
@@ -54,6 +57,10 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
         .value("Mach1DecodeAlgoSpatial_16", Mach1DecodeAlgoSpatial_16)
         .value("Mach1DecodeAlgoSpatial_18", Mach1DecodeAlgoSpatial_18)
         .value("Mach1DecodeAlgoSpatial_20", Mach1DecodeAlgoSpatial_20)
+        .value("Mach1DecodeAlgoSpatial_32", Mach1DecodeAlgoSpatial_32)
+        .value("Mach1DecodeAlgoSpatial_36", Mach1DecodeAlgoSpatial_36)
+        .value("Mach1DecodeAlgoSpatial_48", Mach1DecodeAlgoSpatial_48)
+        .value("Mach1DecodeAlgoSpatial_60", Mach1DecodeAlgoSpatial_60)
         ;
 
     register_vector<float>("VectorFloat");

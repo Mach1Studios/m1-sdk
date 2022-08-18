@@ -29,6 +29,10 @@ EMSCRIPTEN_BINDINGS(Mach1DecodePositional) {
         .value("Mach1DecodeAlgoSpatial_16", Mach1DecodeAlgoSpatial_16)
         .value("Mach1DecodeAlgoSpatial_18", Mach1DecodeAlgoSpatial_18)
         .value("Mach1DecodeAlgoSpatial_20", Mach1DecodeAlgoSpatial_20)
+        .value("Mach1DecodeAlgoSpatial_32", Mach1DecodeAlgoSpatial_32)
+        .value("Mach1DecodeAlgoSpatial_36", Mach1DecodeAlgoSpatial_36)
+        .value("Mach1DecodeAlgoSpatial_48", Mach1DecodeAlgoSpatial_48)
+        .value("Mach1DecodeAlgoSpatial_60", Mach1DecodeAlgoSpatial_60)
         ;
 
 	register_vector<float>("VectorFloat");

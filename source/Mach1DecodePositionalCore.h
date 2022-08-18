@@ -105,20 +105,8 @@ public:
 	void setUseBlendMode(bool useBlendMode);
 
 	void setUseAttenuation(bool useAttenuation);
-#if __cplusplus > 201103L
-	[[deprecated]]
-#endif	
-	void setUseFalloff(bool useFalloff);
 	void setAttenuationCurve(float attenuationCurve);
-#if __cplusplus > 201103L
-	[[deprecated]]
-#endif	
-	void setFalloffCurve(float falloffCurve);
-#if __cplusplus > 201103L
-	[[deprecated]]
-#endif	
 	void setAttenuationCurveBlendMode(float attenuationCurveBlendMode);
-	void setFalloffCurveBlendMode(float falloffCurveBlendMode);
 
 	void setIgnoreTopBottom(bool ignoreTopBottom);
 
@@ -126,10 +114,6 @@ public:
 	void setMuteWhenInsideObject(bool muteWhenInsideObject);
 
 	void setUsePlaneCalculation(bool usePlaneCalculation);
-#if __cplusplus > 201103L
-	[[deprecated]]
-#endif	
-	void setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside);
 
 	void setUseYawForRotation(bool useYawForRotation);
 	void setUsePitchForRotation(bool usePitchForRotation);
@@ -137,22 +121,8 @@ public:
 
 	// parameters for algo
 	void setListenerPosition(Mach1Point3DCore* pos);
-#if __cplusplus > 201103L
-	[[deprecated]]
-#endif	
-	void setCameraPosition(Mach1Point3DCore* pos);
-
 	void setListenerRotation(Mach1Point3DCore* euler);
-#if __cplusplus > 201103L
-	[[deprecated]]
-#endif	
-	void setCameraRotation(Mach1Point3DCore* euler);
-
 	void setListenerRotationQuat(Mach1Point4DCore* quat);
-#if __cplusplus > 201103L
-	[[deprecated]]
-#endif	
-	void setCameraRotationQuat(Mach1Point4DCore* quat);
 
 	void setDecoderAlgoPosition(Mach1Point3DCore* pos);
 	void setDecoderAlgoRotation(Mach1Point3DCore* euler);
@@ -162,24 +132,12 @@ public:
 	void evaluatePositionResults();
 
 	void getCoefficients(float *result);
-#if __cplusplus > 201103L
-	[[deprecated]]
-#endif	
-	void getVolumesWalls(float *result);
 	void getCoefficientsInterior(float *result);
-#if __cplusplus > 201103L
-	[[deprecated]]
-#endif	
-	void getVolumesRoom(float *result);
 
 	float getDist();
 
 	Mach1Point3DCore getCurrentAngle();
 	Mach1Point3DCore getCoefficientsRotation();
-#if __cplusplus > 201103L
-	[[deprecated]]
-#endif	
-	Mach1Point3DCore getVolumeRotation();
 
 	Mach1Point3DCore getClosestPointOnPlane();
 

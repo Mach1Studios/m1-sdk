@@ -56,7 +56,11 @@ enum Mach1EncodeOutputModeType {
 	Mach1EncodeOutputModeM1Spatial_18,
 	Mach1EncodeOutputModeM1Spatial_20,
 	Mach1EncodeOutputModeM1Spatial_32,
+	Mach1EncodeOutputModeM1Spatial_36,
+	Mach1EncodeOutputModeM1Spatial_48,
+	Mach1EncodeOutputModeM1Spatial_60,
 };
+
 enum Mach1EncodePannerMode {
 	Mach1EncodePannerModeIsotropicLinear = (int) 0,
 	Mach1EncodePannerModeIsotropicEqualPower,

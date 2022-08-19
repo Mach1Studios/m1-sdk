@@ -32,7 +32,7 @@ namespace Mach1TranscodeConstants {
 		static std::vector<Mach1TranscodeMatrix> getData() {
 			return {
 				{
-					"M1Spatial-4", "M1Spatial-4",
+					"M1Spatial-4", "M1Spatial-4", // AKA M1Horizon
 					{
 						Mach1TranscodeChannel::Coeffs({ 1, 0, 0, 0 }),
 						Mach1TranscodeChannel::Coeffs({ 0, 1, 0, 0 }),
@@ -41,25 +41,7 @@ namespace Mach1TranscodeConstants {
 					}
 				},
 				{
-					"M1Spatial-4", "M1Horizon",
-					{
-						Mach1TranscodeChannel::Coeffs({ 1, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 1, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 1, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 1 }),
-					}
-				},
-				{
-					"M1Horizon", "M1Spatial-4",
-					{
-						Mach1TranscodeChannel::Coeffs({ 1, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 1, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 1, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 1 }),
-					}
-				},
-				{
-					"M1Spatial-4", "M1HorizonPairs",
+					"M1Spatial-4", "M1HorizonPairs", // AKA Quad-Binaural
 					{
 						Mach1TranscodeChannel::Coeffs({ 1, 0, 0, 0, 0, 0, 0, 1 }),
 						Mach1TranscodeChannel::Coeffs({ 0, 1, 1, 0, 0, 0, 0, 0 }),

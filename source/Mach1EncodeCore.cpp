@@ -96,7 +96,7 @@ std::vector<float> M1EncodeCore::getCoeffSetForStandardPointSet(float x, float y
 
 void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<float>& result) {
 
- /*
+   /*
 	* X = Left(-) to Right(+) (from a top down perspective)
 	* Y = Front(+) to Back(-) (from a top down perspective)
 	* Z = Top(+) to Bottom(-) (from a top down perspective) 

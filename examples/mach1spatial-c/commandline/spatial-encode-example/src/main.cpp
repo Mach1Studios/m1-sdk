@@ -110,7 +110,7 @@ int main(int argc, const char * argv[]) {
     
     printf("Setting up\n");
     inputMode = Mach1EncodeInputModeMono;
-    outputMode = Mach1EncodeOutputModeM1Spatial;
+    outputMode = Mach1EncodeOutputModeM1Spatial_8;
     inputName = "MONO";
     outputName = "MACH1 SPATIAL";
     done = false;
@@ -124,7 +124,7 @@ int main(int argc, const char * argv[]) {
         m1Encode.setElevationDegrees(elevation);
         m1Encode.setInputMode(inputMode);
         m1Encode.setOutputMode(outputMode);
-        m1Encode.setIsotropicEncode(isIsotroptic);
+        m1Encode.setPannerMode((isIsotroptic) ? Mach1EncodePannerModeIsotropicLinear : Mach1EncodePannerModePeriphonicLinear);
         m1Encode.setAutoOrbit(isAutoOrbit);
         if (!isAutoOrbit){
             m1Encode.setOrbitRotationDegrees(stereoOrbitRotation);
@@ -203,9 +203,9 @@ static void* decode(void* v)
                     inputMode=Mach1EncodeInputModeAFormat;
                     inputName="AFORMAT";
                 }else if(inputMode==Mach1EncodeInputModeAFormat){
-                    inputMode=Mach1EncodeInputModeBFormat;
+                    inputMode=Mach1EncodeInputModeBFOAACN;
                     inputName="1OA ACN";
-                }else if(inputMode==Mach1EncodeInputModeBFormat){
+                }else if(inputMode==Mach1EncodeInputModeBFOAACN){
                     inputMode=Mach1EncodeInputModeBFOAACN;
                     inputName="1OA ACN";
                 }else if(inputMode==Mach1EncodeInputModeBFOAACN){
@@ -219,24 +219,33 @@ static void* decode(void* v)
                 }
                 break;
             case 'o':
-                if(outputMode==Mach1EncodeOutputModeM1Spatial){
-                    outputMode=Mach1EncodeOutputModeM1Horizon;
-                    outputName="MACH1 HORIZON";
-                }else if(outputMode==Mach1EncodeOutputModeM1Horizon){
-                    outputMode=Mach1EncodeOutputModeM1SpatialPlus;
-                    outputName="MACH1 SPATIAL+";
-                }else if(outputMode==Mach1EncodeOutputModeM1SpatialPlus){
-                    outputMode=Mach1EncodeOutputModeM1SpatialPlusPlus;
-                    outputName="MACH1 SPATIAL++";
-                }else if(outputMode==Mach1EncodeOutputModeM1SpatialPlusPlus){
-                    outputMode=Mach1EncodeOutputModeM1SpatialExt;
-                    outputName="MACH1 SPATIAL Extended";
-                }else if(outputMode==Mach1EncodeOutputModeM1SpatialExt){
-                    outputMode=Mach1EncodeOutputModeM1SpatialExtPlus;
-                    outputName="MACH1 SPATIAL Extended+";
-                }else if(outputMode==Mach1EncodeOutputModeM1SpatialExtPlus){
-                    outputMode=Mach1EncodeOutputModeM1Spatial;
-                    outputName="MACH1 SPATIAL";
+                if(outputMode==Mach1EncodeOutputModeM1Spatial_8){
+                    outputMode=Mach1EncodeOutputModeM1Horizon_4;
+                    outputName="MACH1HORIZON-4";
+                }else if(outputMode==Mach1EncodeOutputModeM1Horizon_4){
+                    outputMode=Mach1EncodeOutputModeM1Spatial_14;
+                    outputName="MACH1SPATIAL-14";
+                }else if(outputMode==Mach1EncodeOutputModeM1Spatial_14){
+                    outputMode=Mach1EncodeOutputModeM1Spatial_16;
+                    outputName="MACH1SPATIAL-16";
+                }else if(outputMode==Mach1EncodeOutputModeM1Spatial_16){
+                    outputMode=Mach1EncodeOutputModeM1Spatial_18;
+                    outputName="MACH1SPATIAL-18";
+                }else if(outputMode==Mach1EncodeOutputModeM1Spatial_18){
+                    outputMode=Mach1EncodeOutputModeM1Spatial_32;
+                    outputName="MACH1SPATIAL-32";
+                }else if(outputMode==Mach1EncodeOutputModeM1Spatial_32){
+                    outputMode=Mach1EncodeOutputModeM1Spatial_36;
+                    outputName="MACH1SPATIAL-36";
+                }else if(outputMode==Mach1EncodeOutputModeM1Spatial_36){
+                    outputMode=Mach1EncodeOutputModeM1Spatial_48;
+                    outputName="MACH1SPATIAL-48";
+                }else if(outputMode==Mach1EncodeOutputModeM1Spatial_48){
+                    outputMode=Mach1EncodeOutputModeM1Spatial_60;
+                    outputName="MACH1SPATIAL-60";
+                }else if(outputMode==Mach1EncodeOutputModeM1Spatial_60){
+                    outputMode=Mach1EncodeOutputModeM1Spatial_8;
+                    outputName="MACH1SPATIAL-8";
                 }else{
                     printf("Input out of scope.");
                 }

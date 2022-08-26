@@ -24,7 +24,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
-#include <pthread.h>
+#include <thread>
 #include <chrono>
 
 #include "Mach1Encode.h"
@@ -64,11 +64,11 @@ BOOLEAN nanosleep(struct timespec* ts, void* p) {
 }
 #endif
 
-static void* decode(void* v);
-static pthread_t thread;
-static bool done = false;
+void* decode(void* v);
+
+bool done = false;
 Mach1Encode m1Encode;
-static std::vector< std::vector<float> > m1Coeffs; //2D array, [input channel][input channel's coeff]
+std::vector< std::vector<float> > m1Coeffs; //2D array, [input channel][input channel's coeff]
 Mach1EncodeInputModeType inputMode;
 Mach1EncodeOutputModeType outputMode;
 std::string inputName;
@@ -86,16 +86,16 @@ std::string outputName;
  
  http://dev.mach1.tech/#mach1-internal-angle-standard
  */
-static float azimuth = 0.0;
-static float diverge = 0.0;
-static float elevation = 0.0;
-static bool isIsotroptic = true;
-static bool isAutoOrbit = true;
-static float stereoOrbitRotation = 0.0;
-static float stereoSpread = 0.0;
+float azimuth = 0.0;
+float diverge = 0.0;
+float elevation = 0.0;
+bool isIsotroptic = true;
+bool isAutoOrbit = true;
+float stereoOrbitRotation = 0.0;
+float stereoSpread = 0.0;
 
 // variables for time logs
-static float timeReturned = 0;
+float timeReturned = 0;
 
 float radToDeg (float input){
     float output = input * (180/PI);
@@ -114,7 +114,7 @@ int main(int argc, const char * argv[]) {
     inputName = "MONO";
     outputName = "MACH1 SPATIAL";
     done = false;
-    pthread_create(&thread, NULL, &decode, NULL);
+    std::thread thread(decode, nullptr);
     
     while (!done) {
         nanosleep(&ts, NULL);
@@ -140,7 +140,7 @@ int main(int argc, const char * argv[]) {
     return 0;
 }
 
-static void* decode(void* v)
+void* decode(void* v)
 {
 /* Allow Terminal to input chars without "Enter" */
 #ifndef _WIN32

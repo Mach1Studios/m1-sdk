@@ -71,11 +71,11 @@ int M1EncodeCorePointResults::getPointsCount()
 float M1EncodeCore::getCoeffForStandardPoint(float x, float y, float z, Mach1Point3DCore point, bool ignoreZ)
 {
 	// map from [-1,1] to [0,1]
-	point.x = 1 - (point.x + 1) / 2;
-	point.y = 1 - (point.y + 1) / 2;
-	point.z = 1 - (point.z + 1) / 2;
+	point.x = (point.x / (1 / 0.707) + 1) / 2;
+	point.y = (point.y / (1 / 0.707) + 1) / 2;
+	point.z = (point.z / (1 / 0.707) + 1) / 2;
 
-	float dist = fabs(point.x - x) * fabs(point.y - y) * (ignoreZ ? 1.0 : fabs(point.z - z));
+	float dist = clamp( 1.0 - pow(pow(point.x - x, 2.0) + pow(point.y - y, 2.0), 0.4), 0, 1);
 
 	// "pan law" experiment
 	if (pannerMode == MODE_ISOTROPICEQUALPOWER){
@@ -854,13 +854,13 @@ void M1EncodeCore::generatePointResults() {
 			}
 		}
 	}
-
+	
 	for (int i = 0; i < resultingPoints.pointsCount; i++)
 	{
 		// Fixing it if we got outside the bounds
-		resultingPoints.ppoints[i].x = clamp(resultingPoints.ppoints[i].x, -1, 1);
-		resultingPoints.ppoints[i].y = clamp(resultingPoints.ppoints[i].y, -1, 1);
-		resultingPoints.ppoints[i].z = clamp(resultingPoints.ppoints[i].z, -1, 1);
+		resultingPoints.ppoints[i].x = clamp(resultingPoints.ppoints[i].x / (1 / 0.707), -1, 1);
+		resultingPoints.ppoints[i].y = clamp(resultingPoints.ppoints[i].y / (1 / 0.707), -1, 1);
+		resultingPoints.ppoints[i].z = clamp(resultingPoints.ppoints[i].z / (1 / 0.707), -1, 1);
 	}
 
 	// Generating channel gains

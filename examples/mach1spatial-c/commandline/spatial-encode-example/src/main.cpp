@@ -319,12 +319,15 @@ void* decode(void* v)
         printf("\n");
         printf("Encode Coeffs:\n");
         for (int i = 0; i < m1Coeffs.size(); i++){
+            float coeffSum = 0;
             printf("Number of Channels %i\n", i);
             printf("Channel %i Coeffs: \n", i);
 			for (int j = 0; j < m1Coeffs[i].size(); j++) {
 				printf("%f ", m1Coeffs[i][j]);
+                coeffSum += m1Coeffs[i][j];
 			}
 			printf("\n\n");
+            printf("Channel %i Sum: %f \n", i, coeffSum);
 		}
         printf("\n");
         printf("Elapsed time: %f Seconds\n", timeReturned);

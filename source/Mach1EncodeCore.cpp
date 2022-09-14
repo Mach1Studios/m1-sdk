@@ -75,9 +75,11 @@ float M1EncodeCore::getCoeffForStandardPoint(float x, float y, float z, Mach1Poi
 	point.y = (point.y / (1 / 0.707) + 1) / 2;
 	point.z = (point.z / (1 / 0.707) + 1) / 2;
 
-	float dist = pow(pow(point.x - x, 2.0) + pow(point.y - y, 2.0) + pow(point.z - z, 2.0), 0.3);
-	dist = clamp(1 - dist, 0, 1);
-	dist = dist * dist * dist * dist; // apply easeInQuart
+	float dist = pow(pow(point.x - x, 2.0) + pow(point.y - y, 2.0) + pow(point.z - z, 2.0), 0.5);
+	dist = 1 - dist;
+	dist = (dist - 0.6) / 0.4;
+	dist = clamp(dist, 0, 1);
+	//dist = dist * dist * dist * dist; // apply easeInQuart
 
 	// "pan law" experiment
 	if (pannerMode == MODE_ISOTROPICEQUALPOWER){

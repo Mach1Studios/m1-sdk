@@ -21,8 +21,25 @@ Mach1EncodeCore normalizes all input ranges to an unsigned "0 to 1" range for Az
 #include <vector>
 
 float M1EncodeCore::clamp(float n, float lower, float upper) {
-	return std::max(lower, std::min(n, upper));
+	return (std::max)(lower, (std::min)(n, upper));
 }
+
+float clamp(float n, float lower, float upper) {
+	return (std::max)(lower, (std::min)(n, upper));
+}
+
+float dist_sq(float lx1, float ly1, float lz1, float lx2, float ly2, float lz2) {
+	return (powf(lx1 - lx2, 2) + powf(ly1 - ly2, 2) + powf(lz1 - lz2, 2));
+}
+
+float distance_to_segment(float px, float py, float pz, float lx1, float ly1, float lz1, float lx2, float ly2, float lz2) {
+	float line_dist = dist_sq(lx1, ly1, lz1, lx2, ly2, lz2);
+	if (line_dist == 0) return dist_sq(px, py, pz, lx1, ly1, lz1);
+	float t = ((px - lx1) * (lx2 - lx1) + (py - ly1) * (ly2 - ly1) + (pz - lz1) * (lz2 - lz1)) / line_dist;
+	t = clamp(t, 0.0, 1.0);
+	return dist_sq(px, py, pz, lx1 + t * (lx2 - lx1), ly1 + t * (ly2 - ly1), lz1 + t * (lz2 - lz1));
+}
+
 
 M1EncodeCorePointResults::M1EncodeCorePointResults() {
 	for (int i = 0; i < MAX_POINTS_COUNT; i++) {
@@ -461,7 +478,86 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 		pointsSet = standards[outputMode];
 	}
 
-	result = getCoeffSetForStandardPointSet(x, y, z, pointsSet, outputMode == OUTPUT_HORIZON_4CH ? true : false);
+	/// NEW ENCODE ALGO SDK 3.0
+
+	x = (x * 2 - 1) * (1 / 0.707);
+	y = (y * 2 - 1) * (1 / 0.707);
+	z = (z * 2 - 1) * (1 / 0.707);
+
+	std::vector<std::pair<int, int>> lines;
+	lines = {
+		{ 0, 1 },
+		{ 1, 2 },
+		{ 2, 3 },
+		{ 3, 0 },
+
+		{ 4, 5 },
+		{ 5, 6 },
+		{ 6, 7 },
+		{ 7, 4 },
+	};
+
+	float dMin = std::numeric_limits<float>::max();
+	float dMinIdx = 0;
+	float dSum = 0;
+	for (int i = 0; i < pointsSet.size(); i++) {
+		float d = sqrt(dist_sq(x, y, z, pointsSet[i].x, pointsSet[i].y, pointsSet[i].z)); 
+		if (d < dMin) {
+			dMin = d;
+			dMinIdx = i;
+		}
+		dSum += d;
+	}
+
+	std::vector<float> distToLines;
+	for (int i = 0; i < lines.size(); i++) {
+		Mach1Point3DCore p1 = pointsSet[lines[i].first];
+		Mach1Point3DCore p2 = pointsSet[lines[i].second];
+		float d = distance_to_segment(x, y, z, p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+		distToLines.push_back(d);
+	}
+
+	std::vector<float> gains;
+	for (int i = 0; i < pointsSet.size(); i++) {
+		float g = 0;
+		if (dMin > 0) {
+			float d = sqrt(dist_sq(x, y, z, pointsSet[i].x, pointsSet[i].y, pointsSet[i].z));
+			float d2 = d / dMin;
+
+			g = 1 - d / dSum;
+			g = g / d2;
+
+			// signal shared between the two points, line mode
+			{
+				float k = std::numeric_limits<float>::max();;
+				for (int j = 0; j < lines.size(); j++) {
+					if (lines[j].first == i || lines[j].second == i) {
+						if (distToLines[j] < k) k = distToLines[j];
+					}
+				}
+
+				if (k == 0) k = 0.00001; // fix if point on the line
+				g = g / k;
+			}
+
+		} else {
+			g = (i == dMinIdx ? 1 : 0);
+		}
+		gains.push_back(g);
+	}
+
+	// normalize gains
+	float gSum = 0;
+	for (int i = 0; i < gains.size(); i++) {
+		gSum += gains[i];
+	}
+
+	for (int i = 0; i < gains.size(); i++) {
+		gains[i] = gains[i] / gSum;
+	}
+
+	result = gains;
+	//result = getCoeffSetForStandardPointSet(x, y, z, pointsSet, outputMode == OUTPUT_HORIZON_4CH ? true : false);
 }
 
 int M1EncodeCore::getInputModeFromString(std::string name) {
@@ -516,7 +612,6 @@ M1EncodeCore::M1EncodeCore() {
 	}
 
 	arr_GainsForInputChannelNamed = new float[MAX_CHANNELS_COUNT];
-
 	arr_ResultingCoeffsDecoded = new float[MAX_CHANNELS_COUNT];
 }
 

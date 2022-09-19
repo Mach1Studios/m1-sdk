@@ -504,6 +504,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 	};
 
 	float dMin = std::numeric_limits<float>::max();
+	float dMax = 0;
 	float dMinIdx = 0;
 	float dSum = 0;
 	for (int i = 0; i < pointsSet.size(); i++) {
@@ -511,6 +512,9 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 		if (d < dMin) {
 			dMin = d;
 			dMinIdx = i;
+		}
+		if (d > dMax) {
+			dMax = d;
 		}
 		dSum += d;
 	}
@@ -528,10 +532,9 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 		float g = 0;
 		if (dMin > 0) {
 			float d = sqrt(dist_sq(x, y, z, pointsSet[i].x, pointsSet[i].y, pointsSet[i].z));
-			float d2 = d / dMin;
 
-			g = 1 - d / dSum;
-			g = g / d2;
+			g = 1 - d / dMax;
+			g = g / d;
 
 			// signal shared between the two points, line mode
 			{

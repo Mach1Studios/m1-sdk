@@ -486,11 +486,17 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 
 	std::vector<std::pair<int, int>> lines;
 	lines = {
+		/// TOP QUAD LINES
 		{ 0, 1 },
 		{ 1, 2 },
 		{ 2, 3 },
 		{ 3, 0 },
-
+		/// TOP TO BOTTOM LINES
+		{ 0, 4 },
+		{ 1, 5 },
+		{ 2, 6 },
+		{ 3, 7 },
+		/// BOTTOM QUAD LINES
 		{ 4, 5 },
 		{ 5, 6 },
 		{ 6, 7 },

@@ -41,6 +41,27 @@ float distance_to_segment(float px, float py, float pz, float lx1, float ly1, fl
 }
 
 
+float distance_to_plane(float p_x, float p_y, float p_z, float p0_x, float p0_y, float p0_z, float p1_x, float p1_y, float p1_z, float p2_x, float p2_y, float p2_z) {
+	float U_x = p1_x - p0_x;
+	float V_x = p2_x - p0_x;
+	float U_y = p1_y - p0_y;
+	float V_y = p2_y - p0_y;
+	float U_z = p1_z - p0_z;
+	float V_z = p2_z - p0_z;
+
+	float n_x = (U_y * V_z) - (U_z * V_y);
+	float n_y = (U_z * V_x) - (U_x * V_z);
+	float n_z = (U_x * V_y) - (U_y * V_x);
+
+	float dist = sqrt((n_x * n_x) + (n_y * n_y) + (n_z * n_z));
+	n_x /= dist;
+	n_y /= dist;
+	n_z /= dist;
+
+	dist = fabs((p_x - p0_x) * n_x + (p_y - p0_y) * n_y + (p_z - p0_z) * n_z);
+	return dist;
+}
+
 M1EncodeCorePointResults::M1EncodeCorePointResults() {
 	for (int i = 0; i < MAX_POINTS_COUNT; i++) {
 		pointsNames[i] = "";
@@ -480,28 +501,60 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 
 	/// NEW ENCODE ALGO SDK 3.0
 
-	x = (x * 2 - 1) * (1 / 0.707);
-	y = (y * 2 - 1) * (1 / 0.707);
-	z = (z * 2 - 1) * (1 / 0.707);
+	// normalize input
+	x = (x * 2 - 1);
+	y = (y * 2 - 1);
+	z = (z * 2 - 1);
 
-	std::vector<std::pair<int, int>> lines;
-	lines = {
+	std::vector<std::vector<int>> m1Spatial_8_Lines_Def = {
 		/// TOP QUAD LINES
-		{ 0, 1 },
-		{ 1, 2 },
-		{ 2, 3 },
-		{ 3, 0 },
+		{0, 1},
+		{1, 3},
+		{3, 2},
+		{2, 0},
 		/// TOP TO BOTTOM LINES
-		{ 0, 4 },
-		{ 1, 5 },
-		{ 2, 6 },
-		{ 3, 7 },
+		{0, 4},
+		{1, 5},
+		{2, 6},
+		{3, 7},
 		/// BOTTOM QUAD LINES
-		{ 4, 5 },
-		{ 5, 6 },
-		{ 6, 7 },
-		{ 7, 4 },
+		{4, 5},
+		{5, 7},
+		{6, 7},
+		{6, 4}, 
 	};
+
+	static std::map<OutputMode, std::vector<std::vector<int>>> lines = {
+		{OUTPUT_SPATIAL_8CH, m1Spatial_8_Lines_Def},
+	};
+	 
+	std::vector<std::vector<int>> m1Spatial_8_Plane_Def = {
+		// back
+		  {0, 1, 2},
+		  {1, 2, 3},
+		  // top
+		  {3, 7, 2},
+		  {2, 7, 6},
+		  // front 
+		  {4, 6, 7},
+		  {4, 7, 5},
+		  // bottom
+		  {0, 1, 4},
+		  {1, 4, 5},
+		  // left 
+		  {0, 4, 6},
+		  {0, 2, 6},
+		  // right
+		  {1, 5, 7},
+		  {1, 3, 7},
+	};
+
+	static std::map<OutputMode, std::vector<std::vector<int>>> planes = {
+		{OUTPUT_SPATIAL_8CH, m1Spatial_8_Plane_Def},
+	};
+
+	std::vector<std::vector<int>> linesSet = lines[outputMode];
+	std::vector<std::vector<int>> planesSet = planes[outputMode];
 
 	float dMin = std::numeric_limits<float>::max();
 	float dMax = 0;
@@ -519,12 +572,22 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 		dSum += d;
 	}
 
+
 	std::vector<float> distToLines;
-	for (int i = 0; i < lines.size(); i++) {
-		Mach1Point3DCore p1 = pointsSet[lines[i].first];
-		Mach1Point3DCore p2 = pointsSet[lines[i].second];
+	for (int i = 0; i < linesSet.size(); i++) {
+		Mach1Point3DCore p1 = pointsSet[linesSet[i][0]];
+		Mach1Point3DCore p2 = pointsSet[linesSet[i][1]];
 		float d = distance_to_segment(x, y, z, p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 		distToLines.push_back(d);
+	}
+
+	std::vector<float> distToPlanes;
+	for (int i = 0; i < planesSet.size(); i++) {
+		Mach1Point3DCore p1 = pointsSet[planesSet[i][0]];
+		Mach1Point3DCore p2 = pointsSet[planesSet[i][1]];
+		Mach1Point3DCore p3 = pointsSet[planesSet[i][2]];
+		float d = distance_to_plane(x, y, z, p1.x, p1.y, p1.z, p2.x, p2.y, p2.z, p3.x, p3.y, p3.z);
+		distToPlanes.push_back(d);
 	}
 
 	std::vector<float> gains;
@@ -533,21 +596,55 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 		if (dMin > 0) {
 			float d = sqrt(dist_sq(x, y, z, pointsSet[i].x, pointsSet[i].y, pointsSet[i].z));
 
-			g = 1 - d / dMax;
+			// v1
+			g = 1 - d / dSum;
 			g = g / d;
+
+			// v2
+			//g = 1 / d;
+
+			// v3
+			/*
+			{
+				float eX = 1 - (pointsSet[i].x + 1) / 2;
+				float eY = 1 - (pointsSet[i].y + 1) / 2;
+				float eZ = 1 - (pointsSet[i].z + 1) / 2;
+
+				float pX = (x + 1) / 2;
+				float pY = (y + 1) / 2;
+				float pZ = (z + 1) / 2;
+
+				g = fabs(eX - pX) * fabs(eY - pY) * fabs(eZ - pZ);
+				continue;
+			}
+			*/
 
 			// signal shared between the two points, line mode
 			{
-				float k = std::numeric_limits<float>::max();;
-				for (int j = 0; j < lines.size(); j++) {
-					if (lines[j].first == i || lines[j].second == i) {
+				float k = std::numeric_limits<float>::max();
+				for (int j = 0; j < linesSet.size(); j++) {
+					if (linesSet[j][0] == i || linesSet[j][1] == i) {
 						if (distToLines[j] < k) k = distToLines[j];
 					}
 				}
 
-				if (k == 0) k = 0.00001; // fix if point on the line
+				if (k == 0) k = 0.000001; // fix if point on the line
 				g = g / k;
 			}
+
+			// signal shared between the planes, plane mode
+			{
+				float k = std::numeric_limits<float>::max();
+				for (int j = 0; j < planesSet.size(); j++) {
+					if (planesSet[j][0] == i || planesSet[j][1] == i || planesSet[j][2] == i) {
+						if (distToPlanes[j] < k) k = distToPlanes[j];
+					}
+				}
+
+				if (k == 0) k = 0.000001; // fix if point on the line
+				g = g / k;
+			}
+
 
 		} else {
 			g = (i == dMinIdx ? 1 : 0);
@@ -989,9 +1086,9 @@ void M1EncodeCore::generatePointResults() {
 	for (int i = 0; i < resultingPoints.pointsCount; i++)
 	{
 		// Fixing it if we got outside the bounds
-		resultingPoints.ppoints[i].x = clamp(resultingPoints.ppoints[i].x / (1 / 0.707), -1, 1);
-		resultingPoints.ppoints[i].y = clamp(resultingPoints.ppoints[i].y / (1 / 0.707), -1, 1);
-		resultingPoints.ppoints[i].z = clamp(resultingPoints.ppoints[i].z / (1 / 0.707), -1, 1);
+		resultingPoints.ppoints[i].x = clamp(resultingPoints.ppoints[i].x / (1 / cos(PI * 0.25f)), -1, 1);
+		resultingPoints.ppoints[i].y = clamp(resultingPoints.ppoints[i].y / (1 / cos(PI * 0.25f)), -1, 1);
+		resultingPoints.ppoints[i].z = clamp(resultingPoints.ppoints[i].z / (1 / cos(PI * 0.25f)), -1, 1);
 	}
 
 	// Generating channel gains

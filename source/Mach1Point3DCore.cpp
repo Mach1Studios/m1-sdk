@@ -112,6 +112,14 @@ Mach1Point3DCore Mach1Point3DCore::getRotated(float angle, const Mach1Point3DCor
 		+ z*(ax.z*ax.z*cosb + cosa));
 }
 
+Mach1Point3DCore Mach1Point3DCore::getCrossed(const Mach1Point3DCore& b) const {
+	return Mach1Point3DCore(
+		y * b.z - z * b.y,
+		z * b.x - x * b.z,
+		x * b.y - y * b.x
+	);
+}
+
 float Mach1Point3DCore::dot(const Mach1Point3DCore & vec1, const Mach1Point3DCore & vec2)
 {
 	return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;

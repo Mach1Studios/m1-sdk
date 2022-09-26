@@ -40,6 +40,64 @@ float distance_to_segment(float px, float py, float pz, float lx1, float ly1, fl
 	return dist_sq(px, py, pz, lx1 + t * (lx2 - lx1), ly1 + t * (ly2 - ly1), lz1 + t * (lz2 - lz1));
 }
 
+bool segments_intersection(Mach1Point3DCore a_first, Mach1Point3DCore a_second, Mach1Point3DCore b_first, Mach1Point3DCore b_second, Mach1Point3DCore& ip) {
+	Mach1Point3DCore da = a_second - a_first;
+	Mach1Point3DCore db = b_second - b_first;
+	Mach1Point3DCore dc = b_first - a_first;
+
+	if (Mach1Point3DCore::dot(dc, da.getCrossed(db)) != 0.0) // lines are not coplanar
+		return false;
+
+	float s = Mach1Point3DCore::dot(dc.getCrossed(db), da.getCrossed(db)) / powf(da.getCrossed(db).length(),2);
+	if (s >= 0.0 && s <= 1.0)
+	{
+		ip = a_first + da * Mach1Point3DCore(s, s, s);
+		return true;
+	}
+
+	return false;
+}
+
+bool segment_intersect_face(Mach1Point3DCore p1line, Mach1Point3DCore p2line, Mach1Point3DCore p1, Mach1Point3DCore p2, Mach1Point3DCore p3, Mach1Point3DCore& point) {
+	Mach1Point3DCore e0 = p2 - p1;
+	Mach1Point3DCore e1 = p3 - p1;
+
+	Mach1Point3DCore dir = p2line - p1line;
+	Mach1Point3DCore dir_norm = dir.getNormalized();
+
+	Mach1Point3DCore h = dir_norm.getCrossed(e1);
+	const float a = Mach1Point3DCore::dot(e0,h);
+
+	float eps = 0.00001;
+
+	if (a > -eps && a < eps) {
+		return false;
+	}
+
+	Mach1Point3DCore s = p1line - p1;
+	const float f = 1.0f / a;
+	const float u = f * Mach1Point3DCore::dot(s, h);
+
+	if (u < 0.0f || u > 1.0f) {
+		return false;
+	}
+
+	Mach1Point3DCore q = s.getCrossed(e0);
+	const float v = f * Mach1Point3DCore::dot(dir_norm, q);
+
+	if (v < 0.0f || u + v > 1.0f) {
+		return false;
+	}
+
+	const float t = f * Mach1Point3DCore::dot(e1, q);
+
+	if (t > eps && t < sqrtf(Mach1Point3DCore::dot(dir, dir))) { // segment intersection
+		point = p1line + dir_norm * t;
+		return true;
+	}
+
+	return false;
+}
 
 float distance_to_plane(float p_x, float p_y, float p_z, float p0_x, float p0_y, float p0_z, float p1_x, float p1_y, float p1_z, float p2_x, float p2_y, float p2_z) {
 	float U_x = p1_x - p0_x;
@@ -501,11 +559,6 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 
 	/// NEW ENCODE ALGO SDK 3.0
 
-	// normalize input
-	x = (x * 2 - 1);
-	y = (y * 2 - 1);
-	z = (z * 2 - 1);
-
 	/// MACH1SPATIAL-4
     /* TOP VIEW
      [0]_________[1]
@@ -914,6 +967,36 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 
 	std::vector<std::vector<int>> linesSet = lines[outputMode];
 	std::vector<std::vector<int>> planesSet = planes[outputMode];
+
+
+
+	// simple clamp 
+	float minX = std::numeric_limits<float>::max(), maxX = std::numeric_limits<float>::min();
+	float minY = std::numeric_limits<float>::max(), maxY = std::numeric_limits<float>::min();
+	float minZ = std::numeric_limits<float>::max(), maxZ = std::numeric_limits<float>::min();
+
+	for (int i = 0; i < pointsSet.size(); i++) {
+		minX = (std::min)(minX, pointsSet[i].x);
+		minY = (std::min)(minY, pointsSet[i].y);
+		minZ = (std::min)(minZ, pointsSet[i].z);
+
+		maxX = (std::max)(maxX, pointsSet[i].x);
+		maxY = (std::max)(maxY, pointsSet[i].y);
+		maxZ = (std::max)(maxZ, pointsSet[i].z);
+	}
+
+	{
+		// round encode point for fix smaller floating numbers
+		int p = 100;
+		x = roundf(x * p) / p;
+		y = roundf(y * p) / p;
+		z = roundf(z * p) / p;
+	}
+
+	x = clamp(x, minX, maxX);
+	y = clamp(y, minY, maxY);
+	z = clamp(z, minZ, maxZ);
+
 
 	float dMin = std::numeric_limits<float>::max();
 	float dMax = 0;
@@ -1442,22 +1525,11 @@ void M1EncodeCore::generatePointResults() {
 		}
 	}
 	
-	for (int i = 0; i < resultingPoints.pointsCount; i++)
-	{
-		// Fixing it if we got outside the bounds
-		resultingPoints.ppoints[i].x = clamp(resultingPoints.ppoints[i].x / (1 / cos(PI * 0.25f)), -1, 1);
-		resultingPoints.ppoints[i].y = clamp(resultingPoints.ppoints[i].y / (1 / cos(PI * 0.25f)), -1, 1);
-		resultingPoints.ppoints[i].z = clamp(resultingPoints.ppoints[i].z / (1 / cos(PI * 0.25f)), -1, 1);
-	}
 
 	// Generating channel gains
 
 	resultingPoints.gains.resize(resultingPoints.pointsCount);
 	for (int i = 0; i < resultingPoints.pointsCount; i++) {
-
-		resultingPoints.ppoints[i].x = resultingPoints.ppoints[i].x / 2 + 0.5f;
-		resultingPoints.ppoints[i].y = resultingPoints.ppoints[i].y / 2 + 0.5f;
-		resultingPoints.ppoints[i].z = resultingPoints.ppoints[i].z / 2 + 0.5f;
 
 		resultingPoints.gains[i].resize(getOutputChannelsCount());
 

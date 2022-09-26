@@ -985,14 +985,6 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 		maxZ = (std::max)(maxZ, pointsSet[i].z);
 	}
 
-	{
-		// round encode point for fix smaller floating numbers
-		int p = 100;
-		x = roundf(x * p) / p;
-		y = roundf(y * p) / p;
-		z = roundf(z * p) / p;
-	}
-
 	x = clamp(x, minX, maxX);
 	y = clamp(y, minY, maxY);
 	z = clamp(z, minZ, maxZ);
@@ -1034,6 +1026,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 
 	std::vector<float> gains;
 	for (int i = 0; i < pointsSet.size(); i++) {
+		float eps = 0.000001;
 		float g = 0;
 		if (dMin > 0) {
 			float d = sqrt(dist_sq(x, y, z, pointsSet[i].x, pointsSet[i].y, pointsSet[i].z));
@@ -1061,33 +1054,36 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 			}
 			*/
 
-			// signal shared between the two points, line mode
-			{
-				float k = std::numeric_limits<float>::max();
-				for (int j = 0; j < linesSet.size(); j++) {
-					if (linesSet[j][0] == i || linesSet[j][1] == i) {
-						if (distToLines[j] < k) k = distToLines[j];
+			if (d < eps) {
+				g = std::numeric_limits<float>::max() * eps;
+			}
+			else {
+				// signal shared between the two points, line mode
+				{
+					float k = std::numeric_limits<float>::max();
+					for (int j = 0; j < linesSet.size(); j++) {
+						if (linesSet[j][0] == i || linesSet[j][1] == i) {
+							if (distToLines[j] < k) k = distToLines[j];
+						}
 					}
+
+					if (k == 0) k = eps; // fix if point on the line
+					g = g / k;
 				}
 
-				if (k == 0) k = 0.000001; // fix if point on the line
-				g = g / k;
-			}
-
-			// signal shared between the planes, plane mode
-			{
-				float k = std::numeric_limits<float>::max();
-				for (int j = 0; j < planesSet.size(); j++) {
-					if (planesSet[j][0] == i || planesSet[j][1] == i || planesSet[j][2] == i) {
-						if (distToPlanes[j] < k) k = distToPlanes[j];
+				// signal shared between the planes, plane mode
+				{
+					float k = std::numeric_limits<float>::max();
+					for (int j = 0; j < planesSet.size(); j++) {
+						if (planesSet[j][0] == i || planesSet[j][1] == i || planesSet[j][2] == i) {
+							if (distToPlanes[j] < k) k = distToPlanes[j];
+						}
 					}
+
+					if (k == 0) k = eps; // fix if point on the line
+					g = g / k;
 				}
-
-				if (k == 0) k = 0.000001; // fix if point on the line
-				g = g / k;
 			}
-
-
 		} else {
 			g = (i == dMinIdx ? 1 : 0);
 		}

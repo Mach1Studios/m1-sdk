@@ -507,6 +507,13 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 	z = (z * 2 - 1);
 
 	/// MACH1SPATIAL-4
+    /* TOP VIEW
+     [0]_________[1]
+       |          |
+       |          |
+       |          |
+     [2]_________[3]
+     */
 	std::vector<std::vector<int>> m1Spatial_4_Lines_Def = {
 		/// QUAD LINES
 		{0, 1},
@@ -520,6 +527,13 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 	};
 
 	/// MACH1SPATIAL-8
+    /* TOP VIEW
+     [0]_________[1]
+       |          |
+       |          |
+       |          |
+     [2]_________[3]
+     */
 	std::vector<std::vector<int>> m1Spatial_8_Lines_Def = {
 		/// TOP QUAD LINES
 		{0, 1},
@@ -538,27 +552,34 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 		{6, 4}, 
 	};
 	std::vector<std::vector<int>> m1Spatial_8_Plane_Def = {
-		// back
-		{0, 1, 2},
-		{1, 2, 3},
-		// top
-		{3, 7, 2},
-		{2, 7, 6},
-		// front 
-		{4, 6, 7},
-		{4, 7, 5},
-		// bottom
-		{0, 1, 4},
-		{1, 4, 5},
-		// left 
-		{0, 4, 6},
-		{0, 2, 6},
-		// right
-		{1, 5, 7},
-		{1, 3, 7},
+        /// FRONT FACE
+        {0, 1, 5},
+        {5, 4, 0},
+        /// RIGHT FACE
+        {1, 3, 7},
+        {7, 5, 1},
+        /// BACK FACE
+        {3, 2, 6},
+        {6, 7, 3},
+        /// LEFT FACE
+        {2, 0, 4},
+        {4, 6, 2},
+        /// TOP FACE
+        {0, 1, 3},
+        {3, 2, 0},
+        /// BOTTOM FACE
+        {4, 5, 7},
+        {7, 6, 4},
 	};
 
 	/// MACH1SPATIAL-12
+    /* TOP VIEW
+     [0]___[8]___[1]
+      |           |
+     [11]        [9]
+      |           |
+     [2]___[10]__[3]
+     */
 	std::vector<std::vector<int>> m1Spatial_12_Lines_Def = {
 		/// TOP QUAD LINES
 		{0, 1},
@@ -597,24 +618,6 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 		{6, 11},
 	};
 	std::vector<std::vector<int>> m1Spatial_12_Plane_Def = {
-		// // back
-		// {0, 1, 2},
-		// {1, 2, 3},
-		// // top
-		// {3, 7, 2},
-		// {2, 7, 6},
-		// // front 
-		// {4, 6, 7},
-		// {4, 7, 5},
-		// // bottom
-		// {0, 1, 4},
-		// {1, 4, 5},
-		// // left 
-		// {0, 4, 6},
-		// {0, 2, 6},
-		// // right
-		// {1, 5, 7},
-		// {1, 3, 7},
 		/// FRONT FACE TO POINT [8]
 		{0, 1, 8},
 		{1, 5, 8},
@@ -638,6 +641,13 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 	};
 
 	/// MACH1SPATIAL-14
+    /* TOP VIEW
+     [0]___[8]___[1]
+      |           |
+     [11]  [12]  [9]
+      |           |
+     [2]___[10]__[3]
+     */
 	std::vector<std::vector<int>> m1Spatial_14_Lines_Def = {
 		/// TOP QUAD LINES
 		{0, 1},
@@ -686,24 +696,6 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 		{7, 13},
 	};
 	std::vector<std::vector<int>> m1Spatial_14_Plane_Def = {
-		// // back
-		// {0, 1, 2},
-		// {1, 2, 3},
-		// // top
-		// {3, 7, 2},
-		// {2, 7, 6},
-		// // front 
-		// {4, 6, 7},
-		// {4, 7, 5},
-		// // bottom
-		// {0, 1, 4},
-		// {1, 4, 5},
-		// // left 
-		// {0, 4, 6},
-		// {0, 2, 6},
-		// // right
-		// {1, 5, 7},
-		// {1, 3, 7},
 		/// FRONT FACE TO POINT [8]
 		{0, 1, 8},
 		{1, 5, 8},
@@ -735,12 +727,180 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 		{7, 6, 13},
 		{6, 4, 13},
 	};
+
+    /// MACH1SPATIAL-16
+    /* TOP VIEW
+           [8]
+        /       \
+     [0]_________[1]
+     / |          | \
+  [11] |          | [9]
+     \ |          | /
+     [2]_________[3]
+        \         /
+           [10]
+     */
+    std::vector<std::vector<int>> m1Spatial_16_Lines_Def = {
+        /// FRONT
+        {0, 8},
+        {8, 1},
+        {1, 5},
+        {5, 12},
+        {12, 4},
+        {4, 0},
+        {8, 12}, // Medium Line
+        /// RIGHT
+        {1, 9},
+        {9, 3},
+        {3, 7},
+        {7, 13},
+        {13, 5},
+        {5, 1},
+        {9, 13}, // Medium Line
+        /// BACK
+        {3, 10},
+        {10, 2},
+        {2, 6},
+        {6, 14},
+        {14, 7},
+        {7, 3},
+        {10, 14}, // Medium Line
+        /// LEFT
+        {2, 11},
+        {11, 0},
+        {0, 5},
+        {5, 15},
+        {15, 6},
+        {6, 2},
+        {11, 15}, // Medium Line
+    };
+    std::vector<std::vector<int>> m1Spatial_16_Plane_Def = {
+        /// FRONT LEFT
+        {0, 8, 12},
+        {12, 4, 0},
+        /// FRONT RIGHT
+        {8, 1, 5},
+        {5, 12, 1},
+        /// RIGHT LEFT
+        {1, 9, 13},
+        {13, 5, 1},
+        /// RIGHT RIGHT
+        {9, 3, 7},
+        {7, 13, 9},
+        /// BACK LEFT
+        {3, 10, 14},
+        {14, 7, 3},
+        /// BACK RIGHT
+        {10, 2, 6},
+        {6, 14, 10},
+        /// LEFT LEFT
+        {2, 11, 15},
+        {15, 6, 2},
+        /// LEFT RIGHT
+        {11, 0, 4},
+        {4, 15, 11},
+    };
+    
+    /// MACH1SPATIAL-18
+    /* TOP VIEW
+           [8]
+        /       \
+     [0]_________[1]
+     / |          | \
+  [11] |   [16]   | [9]
+     \ |          | /
+     [2]_________[3]
+        \         /
+           [10]
+     */
+    std::vector<std::vector<int>> m1Spatial_18_Lines_Def = {
+        /// FRONT
+        {0, 8},
+        {8, 1},
+        {1, 5},
+        {5, 12},
+        {12, 4},
+        {4, 0},
+        {8, 12}, // Medium Line
+        /// RIGHT
+        {1, 9},
+        {9, 3},
+        {3, 7},
+        {7, 13},
+        {13, 5},
+        {5, 1},
+        {9, 13}, // Medium Line
+        /// BACK
+        {3, 10},
+        {10, 2},
+        {2, 6},
+        {6, 14},
+        {14, 7},
+        {7, 3},
+        {10, 14}, // Medium Line
+        /// LEFT
+        {2, 11},
+        {11, 0},
+        {0, 5},
+        {5, 15},
+        {15, 6},
+        {6, 2},
+        {11, 15}, // Medium Line
+        /// TOP FACE LINES
+        {0, 16},
+        {1, 16},
+        {2, 16},
+        {3, 16},
+        /// BOTTOM FACE LINES
+        {4, 17},
+        {5, 17},
+        {6, 17},
+        {7, 17},
+    };
+    std::vector<std::vector<int>> m1Spatial_18_Plane_Def = {
+        /// FRONT LEFT
+        {0, 8, 12},
+        {12, 4, 0},
+        /// FRONT RIGHT
+        {8, 1, 5},
+        {5, 12, 1},
+        /// RIGHT LEFT
+        {1, 9, 13},
+        {13, 5, 1},
+        /// RIGHT RIGHT
+        {9, 3, 7},
+        {7, 13, 9},
+        /// BACK LEFT
+        {3, 10, 14},
+        {14, 7, 3},
+        /// BACK RIGHT
+        {10, 2, 6},
+        {6, 14, 10},
+        /// LEFT LEFT
+        {2, 11, 15},
+        {15, 6, 2},
+        /// LEFT RIGHT
+        {11, 0, 4},
+        {4, 15, 11},
+        /// TOP FACE TO POINT [16]
+        {0, 1, 16},
+        {1, 3, 16},
+        {3, 2, 16},
+        {2, 0, 16},
+        /// BOTTOM FACE TO POINT [17]
+        {4, 5, 17},
+        {5, 7, 17},
+        {7, 6, 17},
+        {6, 4, 17},
+    };
     
 	static std::map<OutputMode, std::vector<std::vector<int>>> lines = {
 		{OUTPUT_HORIZON_4CH, m1Spatial_4_Lines_Def},
 		{OUTPUT_SPATIAL_8CH, m1Spatial_8_Lines_Def},
 		{OUTPUT_SPATIAL_12CH, m1Spatial_12_Lines_Def},
 		{OUTPUT_SPATIAL_14CH, m1Spatial_14_Lines_Def},
+        {OUTPUT_SPATIAL_16CH, m1Spatial_16_Lines_Def},
+        {OUTPUT_SPATIAL_18CH, m1Spatial_18_Lines_Def},
 	};
     
 	static std::map<OutputMode, std::vector<std::vector<int>>> planes = {
@@ -748,6 +908,8 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 		{OUTPUT_SPATIAL_8CH, m1Spatial_8_Plane_Def},
 		{OUTPUT_SPATIAL_12CH, m1Spatial_12_Plane_Def},
 		{OUTPUT_SPATIAL_14CH, m1Spatial_14_Plane_Def},
+        {OUTPUT_SPATIAL_16CH, m1Spatial_16_Plane_Def},
+        {OUTPUT_SPATIAL_18CH, m1Spatial_18_Plane_Def},
 	};
 
 	std::vector<std::vector<int>> linesSet = lines[outputMode];

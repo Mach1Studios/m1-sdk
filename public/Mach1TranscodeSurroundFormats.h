@@ -499,6 +499,7 @@ namespace Mach1TranscodeConstants {
 				},
 				{
 					"6.0_M", "M1Horizon",
+					// L, C, R, Ls, Cs, Rs
 					{
 						Mach1TranscodeChannel::Coeffs({ 1, 0, 0, 0 }),
 						Mach1TranscodeChannel::Coeffs({ 0.353553f, 0.353553f, 0.353553f, 0.353553f }),
@@ -516,6 +517,34 @@ namespace Mach1TranscodeConstants {
 						Mach1TranscodeChannel::Coeffs({ 0, 0.353553f, 0, 1, 0, 0.707106f }),
 						Mach1TranscodeChannel::Coeffs({ 0, 0.353553f, 0, 0, 1, 0.707106f }),
 					}
+				},
+				{
+					"6.0_C", "M1Spatial-12",
+					// L, C, R, Ls, Cs, Rs
+					{
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0, 0, 0, 0.707106f, 0, 0, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.707106f, 0, 0, 0, 0.707106f, 0, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0.707106f, 0, 0, 0, 0.707106f, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0.707106f, 0, 0, 0, 0.707106f, 0, 0, 0, 0 }),
+					}
+				},
+				{
+					"M1Spatial-12", "6.0_C",
+					{
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0.707106f, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0.707106f, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0.707106f }),
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0.707106f, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0.707106f, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0.707106f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 1, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 1, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0 }),
 				},
 				{
 					"Octahedron_M", "M1Spatial-14",
@@ -754,6 +783,24 @@ namespace Mach1TranscodeConstants {
 					}
 				},
 				{
+					"M1Spatial-12", "7.1_C_SDDS",
+					// L, Lc, C, Rc, R, Ls, Rs, LFE
+					{
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0, 0, 0, 0, 0, 0, 0.117851f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0.707106f, 0, 0, 0.117851f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0.707106f, 0, 0.117851f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0.707106f, 0.117851f }),
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0, 0, 0, 0, 0, 0, 0.117851f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0.707106f, 0, 0, 0.117851f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0.707106f, 0, 0.117851f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0.707106f, 0.117851f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 1, 0, 0, 0, 0, 0.117851f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0, 0.117851f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0, 0.117851f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0, 0.117851f }),
+					}
+				},
+				{
 					"7.1_C_SIM", "M1Spatial-8",
 					// L, C, R, Lss, Rss, Lsr, Rsr, LFE, Lts, Rts
 					{
@@ -783,6 +830,24 @@ namespace Mach1TranscodeConstants {
 					}
 				},
 				{
+					"M1Spatial-12", "7.0.2_M",
+					// L, C, R, Lss, Rss, Lsr, Rsr, Lts, Rts
+					{
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0.117851f, 0, 0, 0, 0, 0, 0.707106f, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0.707106f, 0, 0, 0, 0, 0, 0.707106f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 0, 0, 0.707106f, 0, 0.707106f, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 0, 0, 0, 0.707106f, 0, 0.707106f }),
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0.117851f, 0, 0, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0.707106f, 0, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 0, 0, 0.707106f, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 0, 0, 0, 0.707106f, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 0, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 0, 1, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 0, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 1, 0, 0, 0, 0, 0 }),
+					}
+				},
+				{
 					"7.1.2_M", "M1Spatial-12",
 					// L, C, R, Lss, Rss, Lsr, Rsr, LFE, Lts, Rts
 					{
@@ -796,6 +861,24 @@ namespace Mach1TranscodeConstants {
 						Mach1TranscodeChannel::Coeffs({ 0.117851f, 0.117851f, 0.117851f, 0.117851f, 0.117851f, 0.117851f, 0.117851f, 0.117851f, 0.117851f, 0.117851f, 0.117851f, 0.117851f }),
 						Mach1TranscodeChannel::Coeffs({ 0.0236619f, 0.0078859f, 0.0236619f, 0.0078859f, 0, 0, 0, 0, 0, 0, 0, 0 }),
 						Mach1TranscodeChannel::Coeffs({ 0.0078859f, 0.0236619f, 0.0078859f, 0.0236619f, 0, 0, 0, 0, 0, 0, 0, 0 }),
+					}
+				},
+				{
+					"M1Spatial-8", "7.1.2_M",
+					// L, C, R, Lss, Rss, Lsr, Rsr, LFE, Lts, Rts
+					{
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0.117851f, 0, 0, 0, 0, 0, 0.117851f, 0.0236619f, 0.0078859f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0.707106f, 0, 0, 0, 0, 0.117851f, 0.0078859f, 0.0236619f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 0, 0, 0.707106f, 0, 0.117851f, 0.0236619f, 0.0078859f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 0, 0, 0, 0.707106f, 0.117851f, 0.0078859f, 0.0236619f }),
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0.117851f, 0, 0, 0, 0, 0, 0.117851f, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0.707106f, 0, 0, 0, 0, 0.117851f, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 0, 0, 0.707106f, 0, 0.117851f, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 0, 0, 0, 0.707106f, 0.117851f, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 0, 0, 0, 0, 0.117851f, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 0, 1, 0, 0, 0.117851f, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 0, 0, 0, 0, 0.117851f, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 1, 0, 0, 0, 0.117851f, 0, 0 }),
 					}
 				},
 				{
@@ -815,6 +898,41 @@ namespace Mach1TranscodeConstants {
 					}
 				},
 				{
+					"M1Spatial-12", "7.1.2_C",
+					// L, C, R, Lss, Rss, Lsr, Rsr, LFE, Lts, Rts
+					{
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0, 0, 0, 0, 0, 0, 0.117851f, 0.0236619f, 0.0078859f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0.707106f, 0, 0, 0, 0, 0.117851f, 0.0078859f, 0.0236619f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0.707106f, 0, 0.117851f, 0.0236619f, 0.0078859f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0.707106f, 0.117851f, 0.0078859f, 0.0236619f }),
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0, 0, 0, 0, 0, 0, 0.117851f, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0.707106f, 0, 0, 0, 0, 0.117851f, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0.707106f, 0, 0.117851f, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0.707106f, 0.117851f, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 1, 0, 0, 0, 0, 0, 0.117851f, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 1, 0, 0, 0.117851f, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0, 0.117851f, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 1, 0, 0, 0, 0.117851f, 0, 0 }),
+					}
+				},
+				{
+					"M1Spatial-12", "7.0.4_M",
+					{
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0.117851f, 0, 0, 0, 0, 0, 0.72799999f, 0.125f, 0.125f, 0.021f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0.707106f, 0, 0, 0, 0, 0.125f, 0.72799999f, 0.021f, 0.125f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 0, 0, 0.707106f, 0, 0.125f, 0.021f, 0.72799999f, 0.125f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 0, 0, 0, 0.707106f, 0.021f, 0.125f, 0.125f, 0.72799999f }),
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0.176776f, 0, 0, 0, 0, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0.707106f, 0, 0, 0, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 0, 0, 0.707106f, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 0, 0, 0, 0.707106f, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 0, 0, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 0, 1, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 0, 0, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.117851f, 0, 1, 0, 0, 0, 0, 0, 0 }),
+					}
+				},
+				{
 					"7.0.4_C", "M1Spatial-12",
 					// L, C, R, Lss, Rss, Lsr, Rsr, Ltf, Rtf, Ltr, Rtr
 					{
@@ -829,6 +947,42 @@ namespace Mach1TranscodeConstants {
 						Mach1TranscodeChannel::Coeffs({ 0.125f, 0.72799999f, 0.021f, 0.125f, 0, 0, 0, 0, 0, 0, 0, 0 }),
 						Mach1TranscodeChannel::Coeffs({ 0.125f, 0.021f, 0.72799999f, 0.125f, 0, 0, 0, 0, 0, 0, 0, 0 }),
 						Mach1TranscodeChannel::Coeffs({ 0.021f, 0.125f, 0.125f, 0.72799999f, 0, 0, 0, 0, 0, 0, 0, 0 }),
+					}
+				},
+				{
+					"M1Spatial-12", "7.0.4_C",
+					//L, C, R, Lss, Rss, Lsr, Rsr, FLts, FRts, BLts, BRts
+					{
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0, 0, 0, 0, 0, 0, 0.7280f, 0.1250f, 0.1250f, 0.0210f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0.707106f, 0, 0, 0, 0, 0.1250f, 0.7280f, 0.0210f, 0.1250f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0.707106f, 0, 0.1250f, 0.0210f, 0.7280f, 0.1250f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0.707106f, 0.0210f, 0.1250f, 0.1250f, 0.7280f }),
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0.707106f, 0, 0, 0, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0.707106f, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0.707106f, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 }),
+					}
+				},
+				{
+					"M1Spatial-12", "7.1.4_M",
+					// L, C, R, Lss, Rss, Lsr, Rsr, LFE, Ltf, Rtf, Ltr, Rtr
+					{
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0.176776f, 0, 0, 0, 0, 0, 0.176776f, 0.72799999f, 0.125f, 0.125f, 0.021f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0.707106f, 0, 0, 0, 0, 0.176776f, 0.125f, 0.72799999f, 0.021f, 0.125f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0, 0, 0, 0.707106f, 0, 0.176776f, 0.125f, 0.021f, 0.72799999f, 0.125f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0, 0, 0, 0, 0.707106f, 0.176776f, 0.021f, 0.125f, 0.125f, 0.72799999f }),
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0.176776f, 0, 0, 0, 0, 0, 0.176776f, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0.707106f, 0, 0, 0, 0, 0.176776f, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0, 0, 0, 0.707106f, 0, 0.176776f, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0, 0, 0, 0, 0.707106f, 0.176776f, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0, 0.176776f, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 1, 0, 0, 0.176776f, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0, 0.176776f, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 1, 0, 0, 0, 0.176776f, 0, 0, 0, 0 }),
 					}
 				},
 				{
@@ -850,109 +1004,21 @@ namespace Mach1TranscodeConstants {
 					}
 				},
 				{
-					"M1Spatial-8", "7.1_C_SDDS", // TODO: Finish and fix
-					{
-						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0.375f, 0.353553f, 0.125f, 0, 0, 0, 0.176776f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.125f, 0.353553f, 0.375f, 0.707106f, 0, 0, 0.176776f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0.707106f, 0, 0.176776f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0.707106f, 0.176776f }),
-						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0.375f, 0.353553f, 0.125f, 0, 0, 0, 0.176776f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.125f, 0.353553f, 0.375f, 0.707106f, 0, 0, 0.176776f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0.707106f, 0, 0.176776f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0.707106f, 0.176776f }),
-					}
-				},
-				{
-					"M1Spatial-8", "7.0.2_M", // TODO: Finish and fix
-					{
-						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0.176776f, 0, 0.353553f, 0, 0, 0, 0.707106f, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0.707106f, 0, 0.353553f, 0, 0, 0, 0.707106f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0, 0.353553f, 0, 0.707106f, 0, 0.707106f, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0, 0, 0.353553f, 0, 0.707106f, 0, 0.707106f }),
-						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0.176776f, 0, 0.353553f, 0, 0, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0.707106f, 0, 0.353553f, 0, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0, 0.353553f, 0, 0.707106f, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0, 0, 0.353553f, 0, 0.707106f, 0, 0 }),
-					}
-				},
-				{
-					"M1Spatial-8", "7.1.2_M", // TODO: Finish and fix
-					{
-						Mach1TranscodeChannel::Coeffs({ 0.353553f, 0, 0, 0, 0, 0, 0, 0, 0.0236619f, 0.0078859f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.353553f, 0, 0, 0, 0, 0, 0, 0.0078859f, 0.0236619f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0.353553f, 0, 0.0236619f, 0.0078859f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0, 0.353553f, 0.0078859f, 0.0236619f }),
-						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0, 0, 0, 0, 0, 0, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.707106f, 0, 0, 0, 0, 0, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0.707106f, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0, 0.707106f, 0, 0 }),
-					}
-				},
-				{
-					"M1Spatial-8", "7.1.2_C", // TODO: Finish and fix
-					{
-						Mach1TranscodeChannel::Coeffs({ 0.353553f, 0, 0.353553f, 0, 0, 0, 0, 0, 0.0236619f, 0.0078859f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.353553f, 0.353553f, 0, 0, 0, 0, 0, 0.0078859f, 0.0236619f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0.353553f, 0, 0.0236619f, 0.0078859f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0, 0.353553f, 0.0078859f, 0.0236619f }),
-						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0, 0.353553f, 0, 0, 0, 0, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.707106f, 0.353553f, 0, 0, 0, 0, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0.707106f, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0, 0.707106f, 0, 0 }),
-					}
-				},
-				{
-					"M1Spatial-8", "7.0.4_C", // TODO: Finish and fix
-					//L, C, R, Lss, Rss, Lsr, Rsr, FLts, FRts, BLts, BRts
-					{
-						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0.353553f, 0, 0.353553f, 0, 0, 0, 0.7280f, 0.1250f, 0.1250f, 0.0210f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.353553f, 0.707106f, 0, 0.353553f, 0, 0, 0.1250f, 0.7280f, 0.0210f, 0.1250f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0.353553f, 0, 0.707106f, 0, 0.1250f, 0.0210f, 0.7280f, 0.1250f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0.353553f, 0, 0.707106f, 0.0210f, 0.1250f, 0.1250f, 0.7280f }),
-						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0.353553f, 0, 0.353553f, 0, 0, 0, 0, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.353553f, 0.707106f, 0, 0.353553f, 0, 0, 0, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0.353553f, 0, 0.707106f, 0, 0, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0.353553f, 0, 0.707106f, 0, 0, 0, 0 }),
-					}
-				},
-				{
-					"M1Spatial-8", "7.0.4_M", // TODO: Finish and fix
-					{
-						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0.176776f, 0, 0.353553f, 0, 0, 0, 0.72799999f, 0.125f, 0.125f, 0.021f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0.707106f, 0, 0.353553f, 0, 0, 0.125f, 0.72799999f, 0.021f, 0.125f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0, 0.353553f, 0, 0.707106f, 0, 0.125f, 0.021f, 0.72799999f, 0.125f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0, 0, 0.353553f, 0, 0.707106f, 0.021f, 0.125f, 0.125f, 0.72799999f }),
-						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0.176776f, 0, 0.353553f, 0, 0, 0, 0, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0.707106f, 0, 0.353553f, 0, 0, 0, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0, 0.353553f, 0, 0.707106f, 0, 0, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0, 0, 0.353553f, 0, 0.707106f, 0, 0, 0, 0 }),
-					}
-				},
-				{
-					"M1Spatial-8", "7.1.4_C", // TODO: Finish and fix
+					"M1Spatial-12", "7.1.4_C",
 					//L, C, R, Lss, Rss, Lsr, Rsr, LFE, FLts, FRts, BLts, BRts
 					{
-						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0.353553f, 0, 0.353553f, 0, 0, 0, 0.176776f, 0.7280f, 0.1250f, 0.1250f, 0.0210f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.353553f, 0.707106f, 0, 0.353553f, 0, 0, 0.176776f, 0.1250f, 0.7280f, 0.0210f, 0.1250f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0.353553f, 0, 0.707106f, 0, 0.176776f, 0.1250f, 0.0210f, 0.7280f, 0.1250f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0.353553f, 0, 0.707106f, 0.176776f, 0.0210f, 0.1250f, 0.1250f, 0.7280f }),
-						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0.353553f, 0, 0.353553f, 0, 0, 0, 0.176776f, 0, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.353553f, 0.707106f, 0, 0.353553f, 0, 0, 0.176776f, 0, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0.353553f, 0, 0.707106f, 0, 0.176776f, 0, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0.353553f, 0, 0.707106f, 0.176776f, 0, 0, 0, 0 }),
-					}
-				},
-				{
-					"M1Spatial-8", "7.1.4_M", // TODO: Finish and fix
-					{
-						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0.176776f, 0, 0.353553f, 0, 0, 0, 0.176776f, 0.72799999f, 0.125f, 0.125f, 0.021f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0.707106f, 0, 0.353553f, 0, 0, 0.176776f, 0.125f, 0.72799999f, 0.021f, 0.125f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0, 0.353553f, 0, 0.707106f, 0, 0.176776f, 0.125f, 0.021f, 0.72799999f, 0.125f }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0, 0, 0.353553f, 0, 0.707106f, 0.176776f, 0.021f, 0.125f, 0.125f, 0.72799999f }),
-						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0.176776f, 0, 0.353553f, 0, 0, 0, 0.176776f, 0, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0.707106f, 0, 0.353553f, 0, 0, 0.176776f, 0, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0, 0.353553f, 0, 0.707106f, 0, 0.176776f, 0, 0, 0, 0 }),
-						Mach1TranscodeChannel::Coeffs({ 0, 0.176776f, 0, 0, 0.353553f, 0, 0.707106f, 0.176776f, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0, 0, 0, 0, 0, 0, 0.117851f, 0.7280f, 0.1250f, 0.1250f, 0.0210f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0.707106f, 0, 0, 0, 0, 0.117851f, 0.1250f, 0.7280f, 0.0210f, 0.1250f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0.707106f, 0, 0.117851f, 0.1250f, 0.0210f, 0.7280f, 0.1250f }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0.707106f, 0.117851f, 0.0210f, 0.1250f, 0.1250f, 0.7280f }),
+						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0, 0, 0, 0, 0, 0, 0.117851f, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0.707106f, 0, 0, 0, 0, 0.117851f, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0.707106f, 0, 0.117851f, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0.707106f, 0.117851f, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 1, 0, 0, 0, 0, 0, 0, 0.117851f, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 1, 0, 0, 0, 0.117851f, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0, 0, 0.117851f, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 1, 0, 0, 0, 0, 0.117851f, 0, 0, 0, 0 }),
 					}
 				},
 				{

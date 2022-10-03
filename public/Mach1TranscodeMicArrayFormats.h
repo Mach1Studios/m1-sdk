@@ -26,20 +26,20 @@ public:
 	static std::vector<Mach1TranscodeMatrix> getData() {
 		return {
 				{
-					"1.0", "M1Spatial",
+					"1.0", "M1Spatial-8",
 					{
                         Mach1TranscodeChannel::Panner(0, 0, 1, {-6, true}),
 					}
 				},
 				{
-					"2.0", "M1Spatial",
+					"2.0", "M1Spatial-8",
 					{
                         Mach1TranscodeChannel::Panner(-45, 0, 1),
 						Mach1TranscodeChannel::Coeffs({ 0, 0.5f, 0, 0, 0, 0.5f, 0, 0 })
 					}
 				},
 				{
-					"Ambeo", "M1Spatial",
+					"Ambeo", "M1Spatial-8",
 					{
 						Mach1TranscodeChannel::Coeffs({ 1.70710599f, -0.001728f, 0.000685f, -0.31546f, 0.005525f, -0.317307f, -0.311014f, -0.037532f }),
 						Mach1TranscodeChannel::Coeffs({ -0.31979799f, 0.024362f, -0.083181f, -0.31374699f, -0.004715f, 1.77277803f, -0.32243899f, -0.001391f }),
@@ -48,7 +48,7 @@ public:
 					}
 				},
 				{
-					"SPS-200", "M1Spatial",
+					"SPS-200", "M1Spatial-8",
 					{
 						Mach1TranscodeChannel::Coeffs({ 1.70000899f, 0.000097f, -0.005204f, -0.36458799f, 0.022792f, -0.360383f, -0.36231801f, -0.037654f }),
 						Mach1TranscodeChannel::Coeffs({ -0.36043099f, 0.022792f, -0.037529f, -0.36238801f, 0.000104f, 1.70005906f, -0.36461499f, -0.005212f }),
@@ -57,7 +57,7 @@ public:
 					}
 				},
 				{
-					"TetraMic", "M1Spatial",
+					"TetraMic", "M1Spatial-8",
 					{
 						Mach1TranscodeChannel::Coeffs({ 2.36442399f, -0.000757f, -0.005645f, -0.52798003f, 0.033468f, -0.51843101f, -0.52326399f, -0.087658f }),
 						Mach1TranscodeChannel::Coeffs({ -0.52781701f, 0.031688f, -0.087271f, -0.51984698f, -0.005087f, 2.36920309f, -0.52968502f, -0.002606f }),
@@ -66,7 +66,7 @@ public:
 					}
 				},
 				{
-					"NT-SF1", "M1Spatial",
+					"NT-SF1", "M1Spatial-8",
 					{
 						Mach1TranscodeChannel::Coeffs({ 1.61973f, -0.000089f, -0.003503f, -0.32746801f, 0.022924f, -0.32106999f, -0.32451501f, -0.03195f }),
 						Mach1TranscodeChannel::Coeffs({ -0.32611799f, 0.021812f, -0.033303f, -0.321188f, -0.003148f, 1.62159598f, -0.32668999f, -0.001212f }),

@@ -857,6 +857,16 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 		/// LEFT RIGHT
 		{11, 0, 4},
 		{4, 15, 11},
+        /// TOP COVER TRIANGLES
+        {0, 1, 8},
+        {1, 3, 9},
+        {2, 3, 10},
+        {0, 2, 11},
+        /// BOTTOM COVER TRIANGLES
+        {4, 5, 12},
+        {5, 7, 13},
+        {6, 7, 14},
+        {4, 6, 15},
 	};
 	
 	/// MACH1SPATIAL-18
@@ -940,6 +950,16 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 		/// LEFT RIGHT
 		{11, 0, 4},
 		{4, 15, 11},
+        /// TOP COVER TRIANGLES
+        {0, 1, 8},
+        {1, 3, 9},
+        {2, 3, 10},
+        {0, 2, 11},
+        /// BOTTOM COVER TRIANGLES
+        {4, 5, 12},
+        {5, 7, 13},
+        {6, 7, 14},
+        {4, 6, 15},
 		/// TOP FACE TO POINT [16]
 		{0, 1, 16},
 		{1, 3, 16},

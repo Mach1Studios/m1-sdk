@@ -277,8 +277,8 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 		{0, -1 / 0.707, 0},
 		{-1 / 0.707, 0, 0},
 
-		{ 1 / 0.707, 0, 0},
-		{-1 / 0.707, 0, 0} 
+		{ 0, 0, 1 / 0.707},
+		{ 0, 0, -1 / 0.707} 
 	};
 
 	static std::vector<Mach1Point3DCore> m1Spatial_16_Def = { 
@@ -324,8 +324,8 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 		{0, -1 / 0.707, -1},
 		{-1 / 0.707, 0, -1},
 
-		{1 / 0.707, 0, 0},
-		{-1 / 0.707, 0, 0} 
+		{ 0, 0, 1 / 0.707},
+		{ 0, 0, -1 / 0.707} 
 	};
 
 	static std::vector<Mach1Point3DCore> m1Spatial_20_Def = {

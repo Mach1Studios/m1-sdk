@@ -374,7 +374,7 @@ MONO - MACH1SPATIAL-16
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial_16, Mach1EncodePannerModeIsotropicLinear, 90.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
-					{ 0.25, 0.25, 0.25, 0.25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+					{ 0.176776, 0.176776, 0.176776, 0.176776, 0, 0, 0, 0, 0.176776, 0.176776, 0.176776, 0.176776, 0, 0, 0, 0 },
 				},
 			}
 		},

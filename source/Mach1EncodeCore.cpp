@@ -1936,7 +1936,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 
 			// v1
 			g = 1 - d / dSum;
-			g = g / d;
+			g = g / (d * d);
 
 			// v2
 			//g = 1 / d;

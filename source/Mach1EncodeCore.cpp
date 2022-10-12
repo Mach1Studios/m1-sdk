@@ -28,6 +28,11 @@ float clamp(float n, float lower, float upper) {
 	return (std::max)(lower, (std::min)(n, upper));
 }
 
+float map_(float x, float in_min, float in_max, float out_min, float out_max)
+{
+	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
 float dist_sq(float lx1, float ly1, float lz1, float lx2, float ly2, float lz2) {
 	return (powf(lx1 - lx2, 2) + powf(ly1 - ly2, 2) + powf(lz1 - lz2, 2));
 }
@@ -1897,8 +1902,10 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 	float dMax = 0;
 	float dMinIdx = 0;
 	float dSum = 0;
+	std::vector<float> distToPoins;
 	for (int i = 0; i < pointsSet.size(); i++) {
 		float d = sqrt(dist_sq(x, y, z, pointsSet[i].x, pointsSet[i].y, pointsSet[i].z)); 
+		distToPoins.push_back(d);
 		if (d < dMin) {
 			dMin = d;
 			dMinIdx = i;
@@ -1932,7 +1939,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 		float eps = 0.000001;
 		float g = 0;
 		if (dMin > 0) {
-			float d = sqrt(dist_sq(x, y, z, pointsSet[i].x, pointsSet[i].y, pointsSet[i].z));
+			float d = distToPoins[i];
 
 			// v1
 			g = 1 - d / dSum;
@@ -2001,6 +2008,13 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 
 	for (int i = 0; i < gains.size(); i++) {
 		gains[i] = gains[i] / gSum;
+	}
+
+	// use gains normalization for center point
+	float dist_to_center = clamp(sqrt(dist_sq(x, y, z, 0, 0, 0)) / 0.5, 0, 1) ;
+	//dist_to_center = 1 - powf(1 - dist_to_center, 5); // easeOutQuint
+	for (int i = 0; i < gains.size(); i++) {
+		gains[i] = map_(dist_to_center, 0, 1, 1.0 / pointsSet.size(), gains[i]);
 	}
 
 	result = gains;

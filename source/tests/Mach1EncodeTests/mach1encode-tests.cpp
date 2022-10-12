@@ -905,6 +905,8 @@ Input Data Checks
 
 	std::cout << std::endl;
 
+	int passedCases = 0;
+
 	for (auto test : cases) {
 		Mach1Encode m1Encode;
 
@@ -955,9 +957,9 @@ Input Data Checks
 			<< "testing " << test.name << ": "
 			<< inputModeNames[test.input.inputMode] << " > " << outputModeNames[test.input.outputMode] << " with " << inputTypeNames[test.input.inputType];
 
-		int counter = 0;
-
+		bool passed = true;
 		for (size_t i = 0; i < results.size(); i++) {
+			int counter = 0;
 			for (size_t j = 0; j < results[i].size(); j++) {
 				bool check = fabs(test.output.results[i][j] - results[i][j]) < 0.0001;
 				counter += check;
@@ -967,11 +969,18 @@ Input Data Checks
 					std::cout << std::endl;
 				}
 			}
-			if (counter == results[i].size()){
-				std::cout << "... " << "\033[1;32mpassed\033[0m\n"; //TODO: make this also work in windows
+			if (counter != results[i].size()){
+				passed = false;
 			}
 		}
+		if (passed) {
+			std::cout << "... " << "\033[1;32mpassed\033[0m\n"; //TODO: make this also work in windows
+			passedCases++;
+		}
 	}
+
+	std::cout << "passed cases: " << passedCases << "\n"; //TODO: make this also work in windows
+
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 	getchar();
 #endif

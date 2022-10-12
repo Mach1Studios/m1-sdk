@@ -239,7 +239,7 @@ void test_results(void)
 		}
 		
 		if (counter == bufferDecoded.size()) {
-			std::cout << "... " << "\033[1;32mpassed\033[0m\n";
+			std::cout << " " << "\033[1;32mpassed\033[0m\n";
 		}
 	}
 

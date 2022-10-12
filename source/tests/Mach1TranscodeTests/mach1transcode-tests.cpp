@@ -27,8 +27,8 @@ void test_results(void)
 		{
 			"case: TRANSCODE | M1SPATIAL-8 -> M1SPATIAL-4 | Basic Check #1",
 			{
-				"M1Spatial",
-				"M1Horizon"
+				"M1Spatial-8",
+				"M1Spatial-4"
 			},
 			{
 				{
@@ -47,7 +47,7 @@ void test_results(void)
 			"case: TRANSCODE | ACNSN3DmaxRE1oa -> M1SPATIAL-8 | Basic Check #2",
 			{
 				"ACNSN3DmaxRE1oa", 
-				"M1Spatial"
+				"M1Spatial-8"
 			},
 			{ 	
 				{
@@ -76,7 +76,7 @@ void test_results(void)
 			"case: TRANSCODE | 1.0 -> M1SPATIAL-8 | Panner Check #1",
 			{
 				"1.0",
-				"M1Spatial"
+				"M1Spatial-8"
 			},
 			{
 				{
@@ -119,7 +119,7 @@ void test_results(void)
 		}
 		
 		if (counter == m1Transcode.getInputNumChannels() * m1Transcode.getOutputNumChannels()) {
-			std::cout << "... " << "\033[1;32mpassed\033[0m\n";
+			std::cout << " " << "\033[1;32mpassed\033[0m\n";
 		}
 	}
 

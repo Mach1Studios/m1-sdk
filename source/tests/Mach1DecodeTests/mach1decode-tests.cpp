@@ -573,7 +573,7 @@ TODO: add more input tests with less rounded inputs
 				std::cout << std::endl;
 			}
 			if (counter == results.size()){
-				std::cout << "... " << "\033[1;32mpassed\033[0m\n";
+				std::cout << " " << "\033[1;32mpassed\033[0m\n";
 			}
 		}
 	}

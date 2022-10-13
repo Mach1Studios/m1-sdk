@@ -27,8 +27,8 @@ void test_results(void)
 		{
 			"case: TRANSCODE | M1SPATIAL-8 -> M1SPATIAL-4 | Basic Check #1",
 			{
-				"M1Spatial",
-				"M1Horizon"
+				"M1Spatial-8",
+				"M1Spatial-4"
 			},
 			{
 				{
@@ -47,7 +47,7 @@ void test_results(void)
 			"case: TRANSCODE | ACNSN3DmaxRE1oa -> M1SPATIAL-8 | Basic Check #2",
 			{
 				"ACNSN3DmaxRE1oa", 
-				"M1Spatial"
+				"M1Spatial-8"
 			},
 			{ 	
 				{
@@ -58,29 +58,16 @@ void test_results(void)
 				}
 			}
 		},
-/* TODO: ADD THIS TEST WHEN ::Panner() mode is made
+        // TODO: ADD THIS TEST WHEN ::Panner() mode is made
 		{
-			"case: TRANSCODE | 1.0 -> M1SPATIAL-8 | Panner Check: panned forward with -6dB",
+			"case: TRANSCODE | 1.0 -> M1SPATIAL-4 | Panner Check #1",
 			{
 				"1.0",
-				"M1Spatial"
+				"M1Spatial-4"
 			},
 			{
 				{
-					{ 0.1f, 0.1f, 0.0, 0.0, 0.1f, 0.1f, 0.0, 0.0 },
-				}
-			}
-		},
-*/
-		{
-			"case: TRANSCODE | 1.0 -> M1SPATIAL-8 | Panner Check #1",
-			{
-				"1.0",
-				"M1Spatial"
-			},
-			{
-				{
-					{ 0.17677669f, 0.17677669f, 0.17677669f, 0.17677669f, 0.17677669f, 0.17677669f, 0.17677669f, 0.17677669f },
+					{ 0.353553f, 0.353553f, 0.353553f, 0.353553f },
 				}
 			}
 		},
@@ -108,10 +95,10 @@ void test_results(void)
 		for (size_t i = 0; i < matrix.size(); i++) {
 			for (size_t j = 0; j < matrix[i].size(); j++) {
 				// TODO: Finalize the index [i] x [j] relationship after we finish the design for the coeffsFlipped() function
-				bool check = fabs(test.output.matrix[j][i] - matrix[i][j]) < 0.1;
+				bool check = fabs(test.output.matrix[j][i] - matrix[i][j]) < 0.01;
 				if (check == false) {
 					TEST_CHECK_(check, "%s | Error with index [%d, %d]", test.name.c_str(), i, j);
-					std::cout << "index: [" << i << " , " << j << "]: " << matrix[i][j] << ", should be: " << test.output.matrix[i][j];
+					std::cout << "index: [" << i << " , " << j << "]: " << matrix[i][j] << ", should be: " << test.output.matrix[j][i];
 					std::cout << std::endl;
 				}
 				counter += check;
@@ -119,7 +106,7 @@ void test_results(void)
 		}
 		
 		if (counter == m1Transcode.getInputNumChannels() * m1Transcode.getOutputNumChannels()) {
-			std::cout << "... " << "\033[1;32mpassed\033[0m\n";
+			std::cout << " " << "\033[1;32mpassed\033[0m\n";
 		}
 	}
 

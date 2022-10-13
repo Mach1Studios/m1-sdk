@@ -27,10 +27,12 @@ std::map<Mach1EncodeOutputModeType, std::string> encodeOutputModeNames = {
 		{ Mach1EncodeOutputModeM1Spatial_8 , "MACH1SPATIAL-8" },
 		{ Mach1EncodeOutputModeM1Spatial_12 , "MACH1SPATIAL-12" },
 		{ Mach1EncodeOutputModeM1Spatial_14 , "MACH1SPATIAL-14" },
-		{ Mach1EncodeOutputModeM1Spatial_16 , "MACH1SPATIAL-16" },
 		{ Mach1EncodeOutputModeM1Spatial_18 , "MACH1SPATIAL-18" },
-		{ Mach1EncodeOutputModeM1Spatial_20 , "MACH1SPATIAL-20" },
+		// { Mach1EncodeOutputModeM1Spatial_22 , "MACH1SPATIAL-22" },
 		{ Mach1EncodeOutputModeM1Spatial_32 , "MACH1SPATIAL-32" },
+		{ Mach1EncodeOutputModeM1Spatial_36 , "MACH1SPATIAL-36" },
+		{ Mach1EncodeOutputModeM1Spatial_48 , "MACH1SPATIAL-48" },
+		{ Mach1EncodeOutputModeM1Spatial_60 , "MACH1SPATIAL-60" },
 };
 
 enum InputType {
@@ -66,15 +68,13 @@ std::map<Mach1PlatformType, std::string> platformModeNames = {
 
 std::map<Mach1DecodeAlgoType, std::string> decodeModeNames = {
 	{ Mach1DecodeAlgoSpatial_8 , "Spatial - 8Ch" },
-	{ Mach1DecodeAlgoSpatialAlt_8 , "Spatial Alt - 8Ch" },
 	{ Mach1DecodeAlgoHorizon_4 , "Horizon - 4Ch" },
 	{ Mach1DecodeAlgoHorizonPairs , "Horizon Pairs - 8Ch" },
 	{ Mach1DecodeAlgoSpatialPairs , "Spatial Pairs - 16Ch" },
 	{ Mach1DecodeAlgoSpatial_12 , "Spatial - 12Ch" },
 	{ Mach1DecodeAlgoSpatial_14 , "Spatial - 14Ch" },
-	{ Mach1DecodeAlgoSpatial_16 , "Spatial - 16Ch" },
 	{ Mach1DecodeAlgoSpatial_18 , "Spatial - 18Ch" },
-	{ Mach1DecodeAlgoSpatial_20 , "Spatial - 20Ch" },
+	// { Mach1DecodeAlgoSpatial_22 , "Spatial - 20Ch" },
 	{ Mach1DecodeAlgoSpatial_32 , "Spatial - 32Ch" },
 };
 
@@ -239,7 +239,7 @@ void test_results(void)
 		}
 		
 		if (counter == bufferDecoded.size()) {
-			std::cout << "... " << "\033[1;32mpassed\033[0m\n";
+			std::cout << " " << "\033[1;32mpassed\033[0m\n";
 		}
 	}
 

@@ -64,7 +64,7 @@ BOOLEAN nanosleep(struct timespec* ts, void* p) {
 }
 #endif
 
-void* decode(void* v);
+void* encode(void* v);
 
 bool done = false;
 Mach1Encode m1Encode;
@@ -103,7 +103,7 @@ float radToDeg (float input){
 }
 
 int main(int argc, const char * argv[]) {
-    // time increment for Yaw/Pitch/Roll updates to decode
+    // time increment for input value updates to encode
     struct timespec ts;
     ts.tv_sec =  0;
     ts.tv_nsec = (long)1e7;
@@ -114,7 +114,7 @@ int main(int argc, const char * argv[]) {
     inputName = "MONO";
     outputName = "MACH1 SPATIAL";
     done = false;
-    std::thread thread(decode, nullptr);
+    std::thread thread(encode, nullptr);
     
     while (!done) {
         nanosleep(&ts, NULL);
@@ -140,7 +140,7 @@ int main(int argc, const char * argv[]) {
     return 0;
 }
 
-void* decode(void* v)
+void* encode(void* v)
 {
 /* Allow Terminal to input chars without "Enter" */
 #ifndef _WIN32
@@ -319,12 +319,15 @@ void* decode(void* v)
         printf("\n");
         printf("Encode Coeffs:\n");
         for (int i = 0; i < m1Coeffs.size(); i++){
+            float coeffSum = 0;
             printf("Number of Channels %i\n", i);
             printf("Channel %i Coeffs: \n", i);
 			for (int j = 0; j < m1Coeffs[i].size(); j++) {
 				printf("%f ", m1Coeffs[i][j]);
+                coeffSum += m1Coeffs[i][j];
 			}
 			printf("\n\n");
+            printf("Channel %i Sum: %f \n", i, coeffSum);
 		}
         printf("\n");
         printf("Elapsed time: %f Seconds\n", timeReturned);

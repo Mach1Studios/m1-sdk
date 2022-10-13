@@ -564,6 +564,7 @@ namespace Mach1TranscodeConstants {
 						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0 }),
 						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 1, 0 }),
 						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0 }),
+					}
 				},
 				{
 					"Octahedron_M", "M1Spatial-14",
@@ -1066,7 +1067,7 @@ namespace Mach1TranscodeConstants {
 						Mach1TranscodeChannel::Coeffs({ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }),
 					}
 				},
-			};						
+			};
 		}
 	};
 };

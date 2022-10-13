@@ -13,9 +13,8 @@ public final class Mach1EncodeOutputModeType {
   public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Horizon_4 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Horizon_4");
   public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_12 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_12");
   public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_14 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_14");
-  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_16 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_16");
   public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_18 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_18");
-  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_20 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_20");
+  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_22 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_22");
   public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_32 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_32");
   public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_36 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_36");
   public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_48 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_48");

@@ -230,7 +230,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 	* Z = Top(+) to Bottom(-) (from a top down perspective) 
 	*/
 
-	static std::vector<Mach1Point3DCore> m1Horizon_4_Def = { 
+	static std::vector<Mach1Point3DCore> m1Spatial_4_Def = { 
 		{-1, 1, 0},
 		{1, 1, 0},
 		{-1, -1, 0},
@@ -286,28 +286,6 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 		{ 0, 0, -1 / 0.707} 
 	};
 
-	static std::vector<Mach1Point3DCore> m1Spatial_16_Def = { 
-		{-1, 1, 1},
-		{1, 1, 1},
-		{-1, -1, 1},
-		{1, -1, 1},
-
-		{-1, 1, -1},
-		{1, 1, -1},
-		{-1, -1, -1},
-		{1, -1, -1},
-
-		{0, 1 / 0.707, 1},
-		{1 / 0.707, 0, 1},
-		{0, -1 / 0.707, 1},
-		{-1 / 0.707, 0, 1},
-
-		{0, 1 / 0.707, -1},
-		{1 / 0.707, 0, -1},
-		{0, -1 / 0.707, -1},
-		{-1 / 0.707, 0, -1}
-	};
-
 	static std::vector<Mach1Point3DCore> m1Spatial_18_Def = { 
 		{-1, 1, 1},
 		{1, 1, 1},
@@ -333,7 +311,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 		{ 0, 0, -1 / 0.707} 
 	};
 
-	static std::vector<Mach1Point3DCore> m1Spatial_20_Def = {
+	static std::vector<Mach1Point3DCore> m1Spatial_22_Def = {
 		{-1, 1, 1},
 		{1, 1, 1},
 		{-1, -1, 1},
@@ -357,7 +335,10 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 		{0, 1 / 0.707, 0},
 		{1 / 0.707, 0, 0},
 		{0, -1 / 0.707, 0},
-		{-1 / 0.707, 0, 0} 
+		{-1 / 0.707, 0, 0},
+
+		{ 0, 0, 1 / 0.707},
+		{ 0, 0, -1 / 0.707} 
 	};
 
 	static std::vector<Mach1Point3DCore> m1Spatial_32_Def = {
@@ -550,12 +531,11 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 
 	static std::map<OutputMode, std::vector<Mach1Point3DCore>> standards = {
 		{OUTPUT_SPATIAL_8CH, m1Spatial_8_Def},
-		{OUTPUT_HORIZON_4CH, m1Horizon_4_Def},
+		{OUTPUT_HORIZON_4CH, m1Spatial_4_Def},
 		{OUTPUT_SPATIAL_12CH, m1Spatial_12_Def},
 		{OUTPUT_SPATIAL_14CH, m1Spatial_14_Def},
-		{OUTPUT_SPATIAL_16CH, m1Spatial_16_Def},
 		{OUTPUT_SPATIAL_18CH, m1Spatial_18_Def},
-		{OUTPUT_SPATIAL_20CH, m1Spatial_20_Def},
+		{OUTPUT_SPATIAL_18CH, m1Spatial_22_Def},
 		{OUTPUT_SPATIAL_32CH, m1Spatial_32_Def},
 		{OUTPUT_SPATIAL_36CH, m1Spatial_36_Def},
 		{OUTPUT_SPATIAL_48CH, m1Spatial_48_Def},
@@ -795,95 +775,6 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 		{5, 7, 13},
 		{7, 6, 13},
 		{6, 4, 13},
-	};
-
-	/// MACH1SPATIAL-16
-	/* TOP VIEW
-		   [8]
-		/       \
-	 [0]_________[1]
-	 / |          | \
-  [11] |          | [9]
-	 \ |          | /
-	 [2]_________[3]
-		\         /
-		   [10]
-	 */
-	std::vector<std::vector<int>> m1Spatial_16_Lines_Def = {
-		/// FRONT
-		{0, 8},
-		{8, 1},
-		{1, 5},
-		{5, 12},
-		{12, 4},
-		{4, 0},
-		{8, 12}, // Medium Line
-		/// RIGHT
-		{1, 9},
-		{9, 3},
-		{3, 7},
-		{7, 13},
-		{13, 5},
-		{5, 1},
-		{9, 13}, // Medium Line
-		/// BACK
-		{3, 10},
-		{10, 2},
-		{2, 6},
-		{6, 14},
-		{14, 7},
-		{7, 3},
-		{10, 14}, // Medium Line
-		/// LEFT
-		{2, 11},
-		{11, 0},
-		{0, 5},
-		{5, 15},
-		{15, 6},
-		{6, 2},
-		{11, 15}, // Medium Line
-	};
-	std::vector<std::vector<int>> m1Spatial_16_Plane_Def = {
-		/// FRONT LEFT
-		{0, 8, 12},
-		{12, 4, 0},
-		/// FRONT RIGHT
-		{8, 1, 5},
-		{5, 12, 1},
-		/// RIGHT LEFT
-		{1, 9, 13},
-		{13, 5, 1},
-		/// RIGHT RIGHT
-		{9, 3, 7},
-		{7, 13, 9},
-		/// BACK LEFT
-		{3, 10, 14},
-		{14, 7, 3},
-		/// BACK RIGHT
-		{10, 2, 6},
-		{6, 14, 10},
-		/// LEFT LEFT
-		{2, 11, 15},
-		{15, 6, 2},
-		/// LEFT RIGHT
-		{11, 0, 4},
-		{4, 15, 11},
-		/// TOP SQUARE
-		{0, 1, 2},
-		{1, 2, 3},
-		/// BOTTOM SQUARE
-		{4, 5, 6},
-		{5, 6, 7},
-		/// TOP COVER TRIANGLES
-		{0, 1, 8},
-		{1, 3, 9},
-		{2, 3, 10},
-		{0, 2, 11},
-		/// BOTTOM COVER TRIANGLES
-		{4, 5, 12},
-		{5, 7, 13},
-		{6, 7, 14},
-		{4, 6, 15},
 	};
 	
 	/// MACH1SPATIAL-18
@@ -1858,9 +1749,13 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 		{OUTPUT_SPATIAL_8CH, m1Spatial_8_Lines_Def},
 		{OUTPUT_SPATIAL_12CH, m1Spatial_12_Lines_Def},
 		{OUTPUT_SPATIAL_14CH, m1Spatial_14_Lines_Def},
-		{OUTPUT_SPATIAL_16CH, m1Spatial_16_Lines_Def},
 		{OUTPUT_SPATIAL_18CH, m1Spatial_18_Lines_Def},
+		// {OUTPUT_SPATIAL_22CH, m1Spatial_22_Lines_Def},
 		{OUTPUT_SPATIAL_32CH, m1Spatial_32_Lines_Def},
+		{OUTPUT_SPATIAL_36CH, m1Spatial_36_Lines_Def},
+		{OUTPUT_SPATIAL_48CH, m1Spatial_48_Lines_Def},
+		{OUTPUT_SPATIAL_60CH, m1Spatial_60_Lines_Def},
+
 	};
 	
 	static std::map<OutputMode, std::vector<std::vector<int>>> planes = {
@@ -1868,15 +1763,16 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 		{OUTPUT_SPATIAL_8CH, m1Spatial_8_Plane_Def},
 		{OUTPUT_SPATIAL_12CH, m1Spatial_12_Plane_Def},
 		{OUTPUT_SPATIAL_14CH, m1Spatial_14_Plane_Def},
-		{OUTPUT_SPATIAL_16CH, m1Spatial_16_Plane_Def},
 		{OUTPUT_SPATIAL_18CH, m1Spatial_18_Plane_Def},
+		// {OUTPUT_SPATIAL_22CH, m1Spatial_22_Plane_Def},
 		{OUTPUT_SPATIAL_32CH, m1Spatial_32_Plane_Def},
+		{OUTPUT_SPATIAL_36CH, m1Spatial_36_Plane_Def},
+		{OUTPUT_SPATIAL_48CH, m1Spatial_48_Plane_Def},
+		{OUTPUT_SPATIAL_60CH, m1Spatial_60_Plane_Def},
 	};
 
 	std::vector<std::vector<int>> linesSet = lines[outputMode];
 	std::vector<std::vector<int>> planesSet = planes[outputMode];
-
-
 
 	// simple clamp 
 	float minX = std::numeric_limits<float>::max(), maxX = std::numeric_limits<float>::min();
@@ -1897,7 +1793,6 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 	y = clamp(y, minY, maxY);
 	z = clamp(z, minZ, maxZ);
 
-
 	float dMin = std::numeric_limits<float>::max();
 	float dMax = 0;
 	float dMinIdx = 0;
@@ -1915,7 +1810,6 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
 		}
 		dSum += d;
 	}
-
 
 	std::vector<float> distToLines;
 	for (int i = 0; i < linesSet.size(); i++) {
@@ -2476,9 +2370,6 @@ void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, flo
 			case Mach1DecodeAlgoSpatial_8:
 				decodeResultSize = 16;
 				break;
-			case Mach1DecodeAlgoSpatialAlt_8:
-				decodeResultSize = 16;
-				break;
 			case Mach1DecodeAlgoHorizon_4:
 				decodeResultSize = 8;
 				break;
@@ -2494,14 +2385,11 @@ void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, flo
 			case Mach1DecodeAlgoSpatial_14:
 				decodeResultSize = 28;
 				break;
-			case Mach1DecodeAlgoSpatial_16:
-				decodeResultSize = 32;
-				break;
 			case Mach1DecodeAlgoSpatial_18:
 				decodeResultSize = 36;
 				break;
-			case Mach1DecodeAlgoSpatial_20:
-				decodeResultSize = 40;
+			case Mach1DecodeAlgoSpatial_22:
+				decodeResultSize = 44;
 				break;
 			case Mach1DecodeAlgoSpatial_32:
 				decodeResultSize = 64;
@@ -2568,9 +2456,8 @@ int M1EncodeCore::getOutputChannelsCount() {
 		case OUTPUT_HORIZON_4CH: return 4;
 		case OUTPUT_SPATIAL_12CH: return 12;
 		case OUTPUT_SPATIAL_14CH: return 14;
-		case OUTPUT_SPATIAL_16CH: return 16;
 		case OUTPUT_SPATIAL_18CH: return 18;
-		case OUTPUT_SPATIAL_20CH: return 20;
+		case OUTPUT_SPATIAL_22CH: return 22;
 		case OUTPUT_SPATIAL_32CH: return 32;
 		case OUTPUT_SPATIAL_36CH: return 36;
 		case OUTPUT_SPATIAL_48CH: return 48;

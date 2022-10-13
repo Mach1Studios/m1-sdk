@@ -16,9 +16,8 @@ public final class Mach1DecodeAlgoType {
   public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatialPairs = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatialPairs");
   public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_12 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_12");
   public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_14 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_14");
-  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_16 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_16");
   public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_18 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_18");
-  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_20 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_20");
+  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_22 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_22");
   public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_32 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_32");
   public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_36 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_36");
   public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_48 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_48");

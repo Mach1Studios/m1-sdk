@@ -323,30 +323,8 @@ std::vector<Mach1Point3DCore> Mach1TranscodeCore::getPointsSet(int fmt) {
 		{0, -1 / 0.707, 0},
 		{-1 / 0.707, 0, 0},
 
-		{ 1 / 0.707, 0, 0},
-		{-1 / 0.707, 0, 0} 
-	};
-
-	static std::vector<Mach1Point3DCore> m1Spatial_16_Def = { 
-		{-1, 1, 1},
-		{1, 1, 1},
-		{-1, -1, 1},
-		{1, -1, 1},
-
-		{-1, 1, -1},
-		{1, 1, -1},
-		{-1, -1, -1},
-		{1, -1, -1},
-
-		{0, 1 / 0.707, 1},
-		{1 / 0.707, 0, 1},
-		{0, -1 / 0.707, 1},
-		{-1 / 0.707, 0, 1},
-
-		{0, 1 / 0.707, -1},
-		{1 / 0.707, 0, -1},
-		{0, -1 / 0.707, -1},
-		{-1 / 0.707, 0, -1}
+		{ 0, 0, 1 / 0.707},
+		{ 0, 0, -1 / 0.707} 
 	};
 
 	static std::vector<Mach1Point3DCore> m1Spatial_18_Def = { 
@@ -370,11 +348,11 @@ std::vector<Mach1Point3DCore> Mach1TranscodeCore::getPointsSet(int fmt) {
 		{0, -1 / 0.707, -1},
 		{-1 / 0.707, 0, -1},
 
-		{1 / 0.707, 0, 0},
-		{-1 / 0.707, 0, 0} 
+		{ 0, 0, 1 / 0.707},
+		{ 0, 0, -1 / 0.707} 
 	};
 
-	static std::vector<Mach1Point3DCore> m1Spatial_20_Def = {
+	static std::vector<Mach1Point3DCore> m1Spatial_22_Def = {
 		{-1, 1, 1},
 		{1, 1, 1},
 		{-1, -1, 1},
@@ -398,7 +376,10 @@ std::vector<Mach1Point3DCore> Mach1TranscodeCore::getPointsSet(int fmt) {
 		{0, 1 / 0.707, 0},
 		{1 / 0.707, 0, 0},
 		{0, -1 / 0.707, 0},
-		{-1 / 0.707, 0, 0} 
+		{-1 / 0.707, 0, 0},
+
+		{ 0, 0, 1 / 0.707},
+		{ 0, 0, -1 / 0.707} 
 	};
 
 	static std::vector<Mach1Point3DCore> m1Spatial_32_Def = {
@@ -596,8 +577,8 @@ std::vector<Mach1Point3DCore> Mach1TranscodeCore::getPointsSet(int fmt) {
 		{getFormatFromString("M1Spatial-8"), m1Spatial_8_Def},
 		{getFormatFromString("M1Spatial-12"), m1Spatial_12_Def},
 		{getFormatFromString("M1Spatial-14"), m1Spatial_14_Def},
-		{getFormatFromString("M1Spatial-16"), m1Spatial_16_Def},
 		{getFormatFromString("M1Spatial-18"), m1Spatial_18_Def},
+		{getFormatFromString("M1Spatial-22"), m1Spatial_22_Def},
 		{getFormatFromString("M1Spatial-32"), m1Spatial_32_Def},
 		{getFormatFromString("M1Spatial-36"), m1Spatial_36_Def},
 		{getFormatFromString("M1Spatial-48"), m1Spatial_48_Def},

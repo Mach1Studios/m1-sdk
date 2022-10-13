@@ -31,10 +31,12 @@ void test_results(void)
 		{ Mach1EncodeOutputModeM1Spatial_8 , "MACH1SPATIAL-8" },
 		{ Mach1EncodeOutputModeM1Spatial_12 , "MACH1SPATIAL-12" },
 		{ Mach1EncodeOutputModeM1Spatial_14 , "MACH1SPATIAL-14" },
-		{ Mach1EncodeOutputModeM1Spatial_16 , "MACH1SPATIAL-16" },
 		{ Mach1EncodeOutputModeM1Spatial_18 , "MACH1SPATIAL-18" },
-		{ Mach1EncodeOutputModeM1Spatial_20 , "MACH1SPATIAL-20" },
+		// { Mach1EncodeOutputModeM1Spatial_22 , "MACH1SPATIAL-22" },
 		{ Mach1EncodeOutputModeM1Spatial_32 , "MACH1SPATIAL-32" },
+		{ Mach1EncodeOutputModeM1Spatial_36 , "MACH1SPATIAL-36" },
+		{ Mach1EncodeOutputModeM1Spatial_48 , "MACH1SPATIAL-48" },
+		{ Mach1EncodeOutputModeM1Spatial_60 , "MACH1SPATIAL-60" },
 	};
 
 	enum InputType { 
@@ -323,7 +325,7 @@ MONO - MACH1SPATIAL-14
 		},
 /*
 MONO - MACH1SPATIAL-16
-*/
+
 		{
 			"case: ENCODE | MONO->MACH1SPATIAL-16",
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial_16, Mach1EncodePannerModeIsotropicLinear, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
@@ -378,7 +380,7 @@ MONO - MACH1SPATIAL-16
 				},
 			}
 		},
-/*
+
 MONO - MACH1SPATIAL-18
 */
 		{
@@ -470,7 +472,7 @@ MONO - MACH1SPATIAL-32
 			{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial_32, Mach1EncodePannerModeIsotropicLinear, 180.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
-					{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 0, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+					{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 0, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				},
 			}
 		},
@@ -680,10 +682,10 @@ AFormat
 			{ Mach1EncodeInputModeAFormat, Mach1EncodeOutputModeM1Spatial_8, Mach1EncodePannerModeIsotropicLinear, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
 			{
 				{
-					{ 0.728553, 0.125, 0.125, 0.021447, 0.0, 0.0, 0.0, 0.0 },
-					{ 0.0, 0.0, 0.0, 0.0, 0.125, 0.728553, 0.021447, 0.125 },
-					{ 0.0, 0.0, 0.0, 0.0, 0.125, 0.021447, 0.728553, 0.125 },
-					{ 0.021447, 0.125, 0.125, 0.728553, 0.0, 0.0, 0.0, 0.0 },
+					{ 0.904223, 0.0475445, 0.0475445, 0.000687696, 0.0, 0.0, 0.0, 0.0 },
+					{ 0.0, 0.0, 0.0, 0.0, 0.0475445, 0.904223, 0.000687696, 0.0475445 },
+					{ 0.0, 0.0, 0.0, 0.0, 0.0475445, 0.000687696, 0.904223, 0.0475445 },
+					{ 0.000687696, 0.0475445, 0.0475445, 0.904223, 0.0, 0.0, 0.0, 0.0 },
 				},
 			}
 		},

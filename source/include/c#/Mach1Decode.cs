@@ -68,15 +68,17 @@ namespace Mach1
             ///
             /// - Parameters:
             ///     - Mach1DecodeAlgoSpatial_8 (default spatial | 8 channels)
-            ///     - Mach1DecodeAlgoSpatialAlt_8 (periphonic spatial | 8 channels)
             ///     - Mach1DecodeAlgoHorizon_4 (compass / yaw | 4 channels)
             ///     - Mach1DecodeAlgoHorizonPairs (compass / yaw | 4x stereo mastered pairs)
             ///     - Mach1DecodeAlgoSpatialPairs (experimental periphonic pairs | 8x stereo mastered pairs)
             ///     - Mach1DecodeAlgoSpatial_12 (higher order spatial | 12 channels)
             ///     - Mach1DecodeAlgoSpatial_14 (higher order spatial | 14 channels)
-            ///     - Mach1DecodeAlgoSpatial_16 (higher order spatial | 16 channels)
             ///     - Mach1DecodeAlgoSpatial_18 (higher order spatial | 18 channels)
-            ///     - Mach1DecodeAlgoSpatial_24 (higher order spatial | 24 channels)
+            ///     - Mach1DecodeAlgoSpatial_22 (higher order spatial | 22 channels)
+            ///     - Mach1DecodeAlgoSpatial_32 (higher order spatial | 32 channels)
+            ///     - Mach1DecodeAlgoSpatial_36 (higher order spatial | 36 channels)
+            ///     - Mach1DecodeAlgoSpatial_48 (higher order spatial | 48 channels)
+            ///     - Mach1DecodeAlgoSpatial_60 (higher order spatial | 60 channels)
         }
 
         public void setPlatformType(Mach1PlatformType type)

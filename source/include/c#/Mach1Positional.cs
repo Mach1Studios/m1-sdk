@@ -139,7 +139,6 @@ namespace Mach1
             //     - Mach1DecodeAlgoAltSpatial = 1 (periphonic spatial | 8 channels)
             //     - Mach1DecodeAlgoHorizon = 2 (compass / yaw | 4 channels)
             //     - Mach1DecodeAlgoHorizonPairs = 3 (compass / yaw | 4x stereo mastered pairs)
-            //     - Mach1DecodeAlgoSpatialPairs = 4 (experimental periphonic pairs | 8x stereo mastered pairs)
 		}
 
         // settings

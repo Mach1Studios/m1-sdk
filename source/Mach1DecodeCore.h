@@ -278,12 +278,6 @@ public:
 
     // ------------------------------------------------------------------
     
-    std::vector<float> spatialPairsAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-
-    void spatialPairsAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
-
-    // ------------------------------------------------------------------
-    
 };
 
 #endif /* Mach1DecodeCore_h */

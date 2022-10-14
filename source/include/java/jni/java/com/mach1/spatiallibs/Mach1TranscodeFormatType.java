@@ -17,7 +17,6 @@ public final class Mach1TranscodeFormatType {
   public final static Mach1TranscodeFormatType Mach1TranscodeFormatM1HorizonPairs = new Mach1TranscodeFormatType("Mach1TranscodeFormatM1HorizonPairs");
   public final static Mach1TranscodeFormatType Mach1TranscodeFormatM1Spatial = new Mach1TranscodeFormatType("Mach1TranscodeFormatM1Spatial");
   public final static Mach1TranscodeFormatType Mach1TranscodeFormatM1SpatialS = new Mach1TranscodeFormatType("Mach1TranscodeFormatM1SpatialS");
-  public final static Mach1TranscodeFormatType Mach1TranscodeFormatM1SpatialPairs = new Mach1TranscodeFormatType("Mach1TranscodeFormatM1SpatialPairs");
   public final static Mach1TranscodeFormatType Mach1TranscodeFormatM1SpatialPlus = new Mach1TranscodeFormatType("Mach1TranscodeFormatM1SpatialPlus");
   public final static Mach1TranscodeFormatType Mach1TranscodeFormatM1SpatialPlusPlus = new Mach1TranscodeFormatType("Mach1TranscodeFormatM1SpatialPlusPlus");
   public final static Mach1TranscodeFormatType Mach1TranscodeFormatM1SpatialExtended = new Mach1TranscodeFormatType("Mach1TranscodeFormatM1SpatialExtended");

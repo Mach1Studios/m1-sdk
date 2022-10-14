@@ -16,10 +16,8 @@ Module['onRuntimeInitialized'] = function() {
 
         this.Mach1DecodeAlgoType = {
             "Mach1DecodeAlgoSpatial_8": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_8,
-            "Mach1DecodeAlgoSpatialAlt_8": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatialAlt_8,
             "Mach1DecodeAlgoHorizon_4": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoHorizon_4,
             "Mach1DecodeAlgoHorizonPairs": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoHorizonPairs,
-            "Mach1DecodeAlgoSpatialPairs": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatialPairs,
             "Mach1DecodeAlgoSpatial_12": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_12,
             "Mach1DecodeAlgoSpatial_14": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_14,
             "Mach1DecodeAlgoSpatial_18": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_18,

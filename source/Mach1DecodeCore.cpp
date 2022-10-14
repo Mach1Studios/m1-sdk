@@ -1309,7 +1309,6 @@ int Mach1DecodeCore::getFormatChannelCount() {
 		case Mach1DecodeAlgoSpatial_8: return  8;
 		case Mach1DecodeAlgoHorizon_4: return 4;
 		case Mach1DecodeAlgoHorizonPairs: return 4;
-		case Mach1DecodeAlgoSpatialPairs: return 4;
 		case Mach1DecodeAlgoSpatial_12: return 12;
 		case Mach1DecodeAlgoSpatial_14: return 14;
 		case Mach1DecodeAlgoSpatial_18: return 18;
@@ -1327,7 +1326,6 @@ int Mach1DecodeCore::getFormatCoeffCount() {
 		case Mach1DecodeAlgoSpatial_8: return  (8 * 2) + 2;
 		case Mach1DecodeAlgoHorizon_4: return (4 * 2) + 2;
 		case Mach1DecodeAlgoHorizonPairs: return  (4 * 2) + 2;
-		case Mach1DecodeAlgoSpatialPairs: return (4 * 2) + 2;
 		case Mach1DecodeAlgoSpatial_12: return (12 * 2) + 2;
 		case Mach1DecodeAlgoSpatial_14: return (14 * 2) + 2;
 		case Mach1DecodeAlgoSpatial_18: return (18 * 2) + 2;
@@ -1410,7 +1408,7 @@ std::vector<float> Mach1DecodeCore::decodeCoeffs(int bufferSize, int sampleIndex
 	float Roll = fmod(rotation.z, 360.0);
 
 	switch (algorithmType) {
-			// m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs, m1SpatialPairs
+			// m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs
 		case Mach1DecodeAlgoSpatial_8:
 			res = spatialAlgo_8(Yaw, Pitch, Roll, bufferSize, sampleIndex);
 			break;
@@ -1421,10 +1419,6 @@ std::vector<float> Mach1DecodeCore::decodeCoeffs(int bufferSize, int sampleIndex
 
 		case Mach1DecodeAlgoHorizonPairs:
 			res = horizonPairsAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
-			break;
-
-		case Mach1DecodeAlgoSpatialPairs:
-			res = spatialPairsAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
 			break;
 
 		case Mach1DecodeAlgoSpatial_12:
@@ -1523,7 +1517,7 @@ void Mach1DecodeCore::decodeCoeffs(float *result, int bufferSize, int sampleInde
 	float Roll = fmod(rotation.z, 360.0);
 
 	switch (algorithmType) {
-			// m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs, m1SpatialPairs
+			// m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs
 		case Mach1DecodeAlgoSpatial_8:
 			spatialAlgo_8(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
 			break;
@@ -1534,10 +1528,6 @@ void Mach1DecodeCore::decodeCoeffs(float *result, int bufferSize, int sampleInde
 			
 		case Mach1DecodeAlgoHorizonPairs:
 			horizonPairsAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-			break;
-			
-		case Mach1DecodeAlgoSpatialPairs:
-			spatialPairsAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
 			break;
 
 		case Mach1DecodeAlgoSpatial_12:
@@ -2066,175 +2056,4 @@ void Mach1DecodeCore::spatialAlgo_60(float Yaw, float Pitch, float Roll, float *
 	return processSample(&Mach1DecodeCore::spatialAlgoSample_60, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
 }
 
-// ------------------------------------------------------------------
-
-//
-//  Eight pairs audio format.
-//
-//  Order of input angles:
-//  Y = Yaw in degrees
-//  P = Pitch in degrees
-//  R = Roll in degrees
-//
-
-std::vector<float> Mach1DecodeCore::spatialPairsAlgo(float Yaw, float Pitch, float Roll,
-	int bufferSize, int sampleIndex) {
-
-	convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
-
-
-	if (smoothAngles) {
-
-		targetYaw = Yaw;
-		targetPitch = Pitch;
-		targetRoll = Roll;
-
-		updateAngles();
-
-		if (bufferSize > 0) {
-
-			// we're in per sample mode
-
-			Yaw = alignAngle(lerp(previousYaw + 360, currentYaw + 360, (float)sampleIndex / (float)bufferSize) - 360,
-				0, 360);
-			Pitch = alignAngle(lerp(previousPitch + 360, currentPitch + 360, (float)sampleIndex / (float)bufferSize) - 360,
-				-90, 90);
-			Roll = alignAngle(lerp(previousRoll + 360, currentRoll + 360, (float)sampleIndex / (float)bufferSize) - 360,
-				-180, 180);
-
-			Yaw = currentYaw;
-			Pitch = currentPitch;
-			Roll = currentRoll;
-
-		}
-		else {
-
-			Yaw = currentYaw;
-			Pitch = currentPitch;
-			Roll = currentRoll;
-
-		}
-
-	}
-	else {
-		targetYaw = Yaw;
-		targetPitch = Pitch;
-		targetRoll = Roll;
-
-		currentYaw = Yaw;
-		currentPitch = Pitch;
-		currentRoll = Roll;
-		
-		previousYaw = currentYaw;
-		previousPitch = currentPitch;
-		previousRoll = currentRoll;
-	}
-
-
-	//Orientation input safety clamps/alignment
-	Pitch = alignAngle(Pitch, -180, 180);
-	Pitch = clamp(Pitch, -90, 90); // -90, 90
-
-	Yaw = alignAngle(Yaw, 0, 360);
-
-	float volumes[8]; 
-	volumes[0] = 1.f - std::min(1.f, std::min(360.f - Yaw, Yaw) / 90.f);
-	volumes[1] = 1.f - std::min(1.f, std::abs(90.f - Yaw) / 90.f);
-	volumes[2] = 1.f - std::min(1.f, std::abs(180.f - Yaw) / 90.f);
-	volumes[3] = 1.f - std::min(1.f, std::abs(270.f - Yaw) / 90.f);
-
-	float pitchAngle = mmap(Pitch, 90., -90., 0., 1., true);
-	//Use Equal Power if engine requires
-	/*
-	float pitchHigherHalf = cos(pitchAngle * (0.5*PI));
-	float pitchLowerHalf = cos((1.0 - pitchAngle) * (0.5*PI));
-	*/
-	float pitchHigherHalf = pitchAngle;
-	float pitchLowerHalf = 1.f - pitchHigherHalf;
-
-	std::vector<float> result;
-	result.push_back(volumes[0] * pitchHigherHalf);
-	result.push_back(volumes[1] * pitchHigherHalf);
-	result.push_back(volumes[2] * pitchHigherHalf);
-	result.push_back(volumes[3] * pitchHigherHalf);
-	result.push_back(volumes[4] * pitchLowerHalf);
-	result.push_back(volumes[5] * pitchLowerHalf);
-	result.push_back(volumes[6] * pitchLowerHalf);
-	result.push_back(volumes[7] * pitchLowerHalf);
-
-	return result;
-}
-
-void Mach1DecodeCore::spatialPairsAlgo(float Yaw, float Pitch, float Roll, float *result,
-												 int bufferSize, int sampleIndex) {
-	convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
-	
-	if (smoothAngles) {
-		targetYaw = Yaw;
-		targetPitch = Pitch;
-		targetRoll = Roll;
-		
-		updateAngles();
-		
-		if (bufferSize > 0) {
-			// we're in per sample mode
-			Yaw = alignAngle(lerp(previousYaw + 360, currentYaw + 360, (float)sampleIndex / (float)bufferSize) - 360,
-							 0, 360);
-			Pitch = alignAngle(lerp(previousPitch + 360, currentPitch + 360, (float)sampleIndex / (float)bufferSize) - 360,
-								 -90, 90);
-			Roll = alignAngle(lerp(previousRoll + 360, currentRoll + 360, (float)sampleIndex / (float)bufferSize) - 360,
-								-180, 180);
-			Yaw = currentYaw;
-			Pitch = currentPitch;
-			Roll = currentRoll;
-		} else {
-			Yaw = currentYaw;
-			Pitch = currentPitch;
-			Roll = currentRoll;
-		}
-	} else {
-		targetYaw = Yaw;
-		targetPitch = Pitch;
-		targetRoll = Roll;
-		
-		currentYaw = Yaw;
-		currentPitch = Pitch;
-		currentRoll = Roll;
-		
-		previousYaw = currentYaw;
-		previousPitch = currentPitch;
-		previousRoll = currentRoll;
-	}
-	
-	//Orientation input safety clamps/alignment
-	Pitch = alignAngle(Pitch, -180, 180);
-	Pitch = clamp(Pitch, -90, 90); // -90, 90
-	
-	Yaw = alignAngle(Yaw, 0, 360);
-	
-	float volumes[8];
-	volumes[0] = 1.f - std::min(1.f, std::min(360.f - Yaw, Yaw) / 90.f);
-	volumes[1] = 1.f - std::min(1.f, std::abs(90.f - Yaw) / 90.f);
-	volumes[2] = 1.f - std::min(1.f, std::abs(180.f - Yaw) / 90.f);
-	volumes[3] = 1.f - std::min(1.f, std::abs(270.f - Yaw) / 90.f);
-	
-	float pitchAngle = mmap(Pitch, 90., -90., 0., 1., true);
-	//Use Equal Power if engine requires
-	/*
-	 float pitchHigherHalf = cos(pitchAngle * (0.5*PI));
-	 float pitchLowerHalf = cos((1.0 - pitchAngle) * (0.5*PI));
-	 */
-	float pitchHigherHalf = pitchAngle;
-	float pitchLowerHalf = 1.f - pitchHigherHalf;
-	
-	result[0] = (volumes[0] * pitchHigherHalf);
-	result[1] = (volumes[1] * pitchHigherHalf);
-	result[2] = (volumes[2] * pitchHigherHalf);
-	result[3] = (volumes[3] * pitchHigherHalf);
-	result[4] = (volumes[4] * pitchLowerHalf);
-	result[5] = (volumes[5] * pitchLowerHalf);
-	result[6] = (volumes[6] * pitchLowerHalf);
-	result[7] = (volumes[7] * pitchLowerHalf);
-	
-}
 // ------------------------------------------------------------------

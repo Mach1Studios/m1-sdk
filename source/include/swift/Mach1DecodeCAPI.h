@@ -45,7 +45,6 @@ enum Mach1DecodeAlgoType {
 	Mach1DecodeAlgoSpatial_8 = (int) 0,
 	Mach1DecodeAlgoHorizon_4,
 	Mach1DecodeAlgoHorizonPairs,
-	Mach1DecodeAlgoSpatialPairs,
 	Mach1DecodeAlgoSpatial_12,
 	Mach1DecodeAlgoSpatial_14,
 	Mach1DecodeAlgoSpatial_18,

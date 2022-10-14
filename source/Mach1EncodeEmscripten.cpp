@@ -49,7 +49,6 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
         .value("Mach1DecodeAlgoSpatial_8", Mach1DecodeAlgoSpatial_8)
         .value("Mach1DecodeAlgoHorizon_4", Mach1DecodeAlgoHorizon_4)
         .value("Mach1DecodeAlgoHorizonPairs", Mach1DecodeAlgoHorizonPairs)
-        .value("Mach1DecodeAlgoSpatialPairs", Mach1DecodeAlgoSpatialPairs)
         .value("Mach1DecodeAlgoSpatial_12", Mach1DecodeAlgoSpatial_12)
         .value("Mach1DecodeAlgoSpatial_14", Mach1DecodeAlgoSpatial_14)
         .value("Mach1DecodeAlgoSpatial_18", Mach1DecodeAlgoSpatial_18)

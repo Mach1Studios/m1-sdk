@@ -40,7 +40,6 @@ updates and should not be integrated in sections but remain as an update-able fa
 class Mach1DecodePositionalCore {
 
 private:
-
 	Mach1DecodeCore mach1Decode;
 
 	bool useFalloff = false;
@@ -68,7 +67,6 @@ private:
 
 	static void convertPositionToMach1(Mach1PlatformType platformType, float* X, float* Y, float* Z);
 
-
 	static float ClosestPointOnBox(glm::vec3 point, glm::vec3 center, glm::vec3 axis0, glm::vec3 axis1, glm::vec3 axis2, glm::vec3 extents, glm::vec3& closestPoint);
 	static bool Clip(float denom, float numer, float& t0, float& t1);
 	static int DoClipping(float t0, float t1, glm::vec3 origin, glm::vec3 direction, glm::vec3 center, glm::vec3 axis0, glm::vec3 axis1, glm::vec3 axis2, glm::vec3 extents, bool solid, glm::vec3& point0, glm::vec3& point1);
@@ -89,13 +87,11 @@ private:
 	std::vector<float> volumes;
 
 	milliseconds ms;
-
 	long timeLastCalculation;
 
 	glm::vec3 closestPointOnPlane;
 
 public:
-
 	Mach1DecodePositionalCore();
 
 	void setDecodeAlgoType(Mach1DecodeAlgoType type);

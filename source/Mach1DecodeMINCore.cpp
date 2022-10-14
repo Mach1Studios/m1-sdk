@@ -365,7 +365,7 @@ std::vector<float> Mach1DecodeCore::decodeCoeffs(int bufferSize, int sampleIndex
 	float Roll = fmod(rotation.z, 360.0);
 
 	switch (algorithmType) {
-            // m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs, m1SpatialPairs
+            // m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs
         case Mach1DecodeAlgoSpatial_8:
 			res = spatialAlgo_8(Yaw, Pitch, Roll, bufferSize, sampleIndex);
             break;
@@ -388,7 +388,7 @@ void Mach1DecodeCore::decodeCoeffs(float *result, int bufferSize, int sampleInde
 	float Roll = fmod(rotation.z, 360.0);
 
 	switch (algorithmType) {
-            // m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs, m1SpatialPairs
+            // m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs
         case Mach1DecodeAlgoSpatial_8:
             spatialAlgo_8(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
             break;

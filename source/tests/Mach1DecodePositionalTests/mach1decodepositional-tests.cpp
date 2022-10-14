@@ -26,7 +26,6 @@ void test_results(void)
 		{ Mach1DecodeAlgoSpatial_8 , "Spatial - 8Ch" },
 		{ Mach1DecodeAlgoHorizon_4 , "Horizon - 4Ch" },
 		{ Mach1DecodeAlgoHorizonPairs , "Horizon Pairs - 8Ch" },
-		{ Mach1DecodeAlgoSpatialPairs , "Spatial Pairs - 16Ch" },
 		{ Mach1DecodeAlgoSpatial_12 , "Spatial - 12Ch" },
 		{ Mach1DecodeAlgoSpatial_14 , "Spatial - 14Ch" },
 		{ Mach1DecodeAlgoSpatial_18 , "Spatial - 18Ch" },

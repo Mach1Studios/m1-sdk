@@ -70,12 +70,14 @@ std::map<Mach1DecodeAlgoType, std::string> decodeModeNames = {
 	{ Mach1DecodeAlgoSpatial_8 , "Spatial - 8Ch" },
 	{ Mach1DecodeAlgoHorizon_4 , "Horizon - 4Ch" },
 	{ Mach1DecodeAlgoHorizonPairs , "Horizon Pairs - 8Ch" },
-	{ Mach1DecodeAlgoSpatialPairs , "Spatial Pairs - 16Ch" },
 	{ Mach1DecodeAlgoSpatial_12 , "Spatial - 12Ch" },
 	{ Mach1DecodeAlgoSpatial_14 , "Spatial - 14Ch" },
 	{ Mach1DecodeAlgoSpatial_18 , "Spatial - 18Ch" },
-	// { Mach1DecodeAlgoSpatial_22 , "Spatial - 20Ch" },
-	{ Mach1DecodeAlgoSpatial_32 , "Spatial - 32Ch" },
+	// { Mach1DecodeAlgoSpatial_22 , "Spatial - 22Ch" },
+		{ Mach1DecodeAlgoSpatial_32 , "Spatial - 32Ch" },
+		{ Mach1DecodeAlgoSpatial_36 , "Spatial - 36Ch" },
+		{ Mach1DecodeAlgoSpatial_48 , "Spatial - 48Ch" },
+		{ Mach1DecodeAlgoSpatial_60 , "Spatial - 60Ch" },
 };
 
 

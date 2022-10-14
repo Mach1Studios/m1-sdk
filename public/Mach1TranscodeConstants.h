@@ -102,20 +102,19 @@ namespace Mach1TranscodeConstants {
 		{ "CustomPoints", 0 },
 		{ "Empty", 0 },
 		{ "M1Spatial-4", 4 },		// MACH1SPATIAL-4
-		{ "M1HorizonS", 6 },		// MACH1SPATIAL-4
+		{ "M1HorizonS", 6 },		// MACH1SPATIAL-4 + HEADLOCKED STEREO
 		{ "M1HorizonPairs", 8 },
+		{ "M1Spatial-6", 6 },		// MACH1SPATIAL-6 (faces of cube)
 		{ "M1Spatial-8", 8 }, 		// MACH1SPATIAL-8 (default)
-		{ "M1SpatialS", 10 }, 		// MACH1SPATIAL-8 (default)
-		{ "M1SpatialPairs", 16 },
+		{ "M1SpatialS", 10 }, 		// MACH1SPATIAL-8 + HEADLOCKED STEREO
 		{ "M1Spatial-12", 12 }, 	// MACH1SPATIAL-12
 		{ "M1Spatial-14", 14 }, 	// MACH1SPATIAL-14
 		{ "M1Spatial-18", 18 }, 	// MACH1SPATIAL-18
-		{ "M1Spatial-20", 22 }, 	// MACH1SPATIAL-22
+		{ "M1Spatial-22", 22 }, 	// MACH1SPATIAL-22
 		{ "M1Spatial-32", 32 }, 	// MACH1SPATIAL-32
-		{ "M1Spatial-32", 36 }, 	// MACH1SPATIAL-36
-		{ "M1Spatial-32", 48 }, 	// MACH1SPATIAL-48
-		{ "M1Spatial-32", 60 }, 	// MACH1SPATIAL-60
-		{ "M1SpatialFaces", 6 },
+		{ "M1Spatial-36", 36 }, 	// MACH1SPATIAL-36
+		{ "M1Spatial-48", 48 }, 	// MACH1SPATIAL-48
+		{ "M1Spatial-60", 60 }, 	// MACH1SPATIAL-60
 		/*
 		 * SURROUND
 		 */

@@ -196,8 +196,6 @@ jobs:
       addons:
         homebrew:
           packages:
-            - cmake
-            - gcc
             - libpthread-stubs
             - rsync
             - awscli
@@ -502,8 +500,6 @@ jobs:
             - opus-tools
             - mpg123
             - libpthread-stubs
-            - gcc
-            - cmake
             - git-lfs
             - rsync
             - awscli

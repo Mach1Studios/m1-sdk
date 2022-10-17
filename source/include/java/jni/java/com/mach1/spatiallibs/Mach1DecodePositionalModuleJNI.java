@@ -41,18 +41,8 @@ class Mach1DecodePositionalModuleJNI {
   public final static native void Mach1DecodePositionalCAPI_setFilterSpeed(long jarg1, float jarg2);
   public final static native long Mach1DecodePositionalCAPI_getClosestPointOnPlane(long jarg1);
   public final static native int Mach1DecodePositionalCAPI_getLastCalculationTime(long jarg1);
-  public final static native void Mach1DecodePositionalCAPI_setUseFalloff(long jarg1, boolean jarg2);
-  public final static native void Mach1DecodePositionalCAPI_setFalloffCurve(long jarg1, float jarg2);
-  public final static native void Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(long jarg1, boolean jarg2);
-  public final static native void Mach1DecodePositionalCAPI_setCameraPosition(long jarg1, long jarg2, Mach1Point3D jarg2_);
-  public final static native void Mach1DecodePositionalCAPI_setCameraRotation(long jarg1, long jarg2, Mach1Point3D jarg2_);
-  public final static native void Mach1DecodePositionalCAPI_setCameraRotationQuat(long jarg1, long jarg2, Mach1Point4D jarg2_);
-  public final static native void Mach1DecodePositionalCAPI_getVolumesWalls(long jarg1, long jarg2);
-  public final static native long Mach1DecodePositionalCAPI_getVolumeRotation(long jarg1);
   public final static native void Mach1DecodePositionalCAPI_setUseBlendMode(long jarg1, boolean jarg2);
   public final static native void Mach1DecodePositionalCAPI_setIgnoreTopBottom(long jarg1, boolean jarg2);
-  public final static native void Mach1DecodePositionalCAPI_setFalloffCurveBlendMode(long jarg1, float jarg2);
   public final static native void Mach1DecodePositionalCAPI_setAttenuationCurveBlendMode(long jarg1, float jarg2);
-  public final static native void Mach1DecodePositionalCAPI_getVolumesRoom(long jarg1, long jarg2);
   public final static native void Mach1DecodePositionalCAPI_getCoefficientsInterior(long jarg1, long jarg2);
 }

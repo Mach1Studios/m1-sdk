@@ -3,9 +3,10 @@
 cd ${TRAVIS_BUILD_DIR}/source/tests
 
 echo "MACOS: TESTS"
-${POLLY_SOURCE_DIR}/bin/polly --clear --install --config Release --toolchain xcode
+cmake . -B_builds/xcode -GXcode -DCMAKE_INSTALL_PREFIX=`pwd`/_install/xcode
+cmake --build _builds/xcode --config Release --target install
 
-echo "RUN POLLY TESTS"
+echo "RUN TESTS"
 _install/xcode/bin/Mach1EncodeTests
 _install/xcode/bin/Mach1DecodeTests
 _install/xcode/bin/Mach1DecodePositionalTests

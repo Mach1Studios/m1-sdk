@@ -3,9 +3,10 @@
 cd ${TRAVIS_BUILD_DIR}/source/tests
 
 echo "MACOS: TESTS"
-${POLLY_SOURCE_DIR}/bin/polly --clear --install --config Release --toolchain osx-10-13
+cmake . -B_builds/osx-10-13 -GXcode -DCMAKE_OSX_DEPLOYMENT_TARGET="10.13" -DCMAKE_INSTALL_PREFIX=`pwd`/_install/osx-10-13
+cmake --build _builds/osx-10-13 --config Release --target install
 
-echo "RUN POLLY TESTS"
+echo "RUN TESTS"
 _install/osx-10-13/bin/Mach1EncodeTests
 _install/osx-10-13/bin/Mach1DecodeTests
 _install/osx-10-13/bin/Mach1DecodePositionalTests

@@ -19,12 +19,12 @@ void Mach1Decode::setPlatformType(Mach1PlatformType type)
 	/// Set the device's angle order and convention if applicable
 	///
 	/// - Parameters:
-	///     - Mach1PlatformDefault = 0
-	///     - Mach1PlatformUnity = 1
-	///     - Mach1PlatformUE = 2
-	///     - Mach1PlatformOfEasyCam = 3
-	///     - Mach1PlatformAndroid = 4
-	///     - Mach1PlatformiOS = 5
+	///     - Mach1PlatformDefault
+	///     - Mach1PlatformUnity
+	///     - Mach1PlatformUE
+	///     - Mach1PlatformOfEasyCam
+	///     - Mach1PlatformAndroid
+	///     - Mach1PlatformiOS
 }
 
 void Mach1Decode::setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType)
@@ -33,15 +33,20 @@ void Mach1Decode::setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType)
 	/// Set the decoding algorithm
 	///
 	/// - Parameters:
-	///     - Mach1DecodeAlgoSpatial = 0 (default spatial | 8 channels)
-	///     - Mach1DecodeAlgoAltSpatial = 1 (periphonic spatial | 8 channels)
-	///     - Mach1DecodeAlgoHorizon = 2 (compass / yaw | 4 channels)
-	///     - Mach1DecodeAlgoHorizonPairs = 3 (compass / yaw | 4x stereo mastered pairs)
-	///     - Mach1DecodeAlgoSpatialPairs = 4 (experimental periphonic pairs | 8x stereo mastered pairs)
-	///     - Mach1DecodeAlgoSpatialPlus = 5 (higher order spatial | 12 channels)
-	///     - Mach1DecodeAlgoSpatialPlusPlus = 6 (higher order spatial | 14 channels)
-	///     - Mach1DecodeAlgoSpatialExt = 7 (higher order spatial | 16 channels)
-	///     - Mach1DecodeAlgoSpatialExtPlus = 8 (higher order spatial | 18 channels)
+	///     - Mach1DecodeAlgoSpatial_8 (default spatial | 8 channels)
+	///     - Mach1DecodeAlgoSpatialAlt_8 (periphonic spatial | 8 channels)
+	///     - Mach1DecodeAlgoHorizon_4 (compass / yaw | 4 channels)
+	///     - Mach1DecodeAlgoHorizonPairs (compass / yaw | 4x stereo mastered pairs)
+	///     - Mach1DecodeAlgoSpatialPairs (experimental periphonic pairs | 8x stereo mastered pairs)
+	///     - Mach1DecodeAlgoSpatial_12 (higher order spatial | 12 channels)
+	///     - Mach1DecodeAlgoSpatial_14 (higher order spatial | 14 channels)
+	///     - Mach1DecodeAlgoSpatial_16 (higher order spatial | 16 channels)
+	///     - Mach1DecodeAlgoSpatial_18 (higher order spatial | 18 channels)
+	///     - Mach1DecodeAlgoSpatial_20 (higher order spatial | 20 channels)
+	///     - Mach1DecodeAlgoSpatial_32 (higher order spatial | 32 channels)
+	///     - Mach1DecodeAlgoSpatial_36 (higher order spatial | 36 channels)
+	///     - Mach1DecodeAlgoSpatial_48 (higher order spatial | 48 channels)
+	///     - Mach1DecodeAlgoSpatial_60 (higher order spatial | 60 channels)
 }
 
 #ifndef  __EMSCRIPTEN__
@@ -63,7 +68,7 @@ void Mach1Decode::decodePannedCoeffs(float * result, int bufferSize, int sampleI
 
 std::vector<float> Mach1Decode::decode(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex)
 {
-	std::vector<float> vec(getFormatChannelCount());
+	std::vector<float> vec(getFormatCoeffCount());
 
 	Mach1DecodeCAPI_decode(M1obj, Yaw, Pitch, Roll, vec.data(), bufferSize, sampleIndex);
 
@@ -87,7 +92,7 @@ std::vector<float> Mach1Decode::decode(float Yaw, float Pitch, float Roll, int b
 
 std::vector<float> Mach1Decode::decodeCoeffs(int bufferSize, int sampleIndex)
 {
-	std::vector<float> vec(getFormatChannelCount());
+	std::vector<float> vec(getFormatCoeffCount());
 
 	Mach1DecodeCAPI_decodeCoeffs(M1obj, vec.data(), bufferSize, sampleIndex);
 
@@ -108,7 +113,7 @@ std::vector<float> Mach1Decode::decodeCoeffs(int bufferSize, int sampleIndex)
 
 std::vector<float> Mach1Decode::decodePannedCoeffs(int bufferSize, int sampleIndex, bool applyPanLaw)
 {
-	std::vector<float> vec(getFormatChannelCount());
+	std::vector<float> vec(getFormatCoeffCount());
 
 	Mach1DecodeCAPI_decodePannedCoeffs(M1obj, vec.data(), bufferSize, sampleIndex, applyPanLaw);
 
@@ -138,7 +143,7 @@ std::vector<float> Mach1Decode::decodeCoeffsUsingTranscodeMatrix(std::vector< st
 	std::vector<float> vec(2 * channels);
 
 	int inChans = channels;
-	int outChans = (getFormatChannelCount() - 1) / 2;
+	int outChans = getFormatChannelCount();
 
 	float* m = new float[inChans * outChans];
 	for (int i = 0; i < outChans; i++) {
@@ -156,6 +161,11 @@ std::vector<float> Mach1Decode::decodeCoeffsUsingTranscodeMatrix(std::vector< st
 int Mach1Decode::getFormatChannelCount()
 {
 	return Mach1DecodeCAPI_getFormatChannelCount(M1obj);
+}
+
+int Mach1Decode::getFormatCoeffCount()
+{
+	return Mach1DecodeCAPI_getFormatCoeffCount(M1obj);
 }
 
 void Mach1Decode::setRotation(Mach1Point3D newRotationFromMinusOnetoOne)

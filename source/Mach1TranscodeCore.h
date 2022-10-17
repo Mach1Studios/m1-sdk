@@ -1,5 +1,5 @@
 //  Mach1 Spatial SDK
-//  Copyright © 2017-2020 Mach1. All rights reserved.
+//  Copyright © 2017-2022 Mach1. All rights reserved.
 //
 // References: 
 // - York ambisonics: https://www.york.ac.uk/sadie-project/ambidec.html
@@ -77,7 +77,6 @@ public:
 	const std::vector<float> getAvgSamplesDiff();
 
 	void setInputFormat(int inFmt);
-
 	void setInputFormatCustomPointsJson(std::string inJson);
 	void setInputFormatCustomPoints(std::vector<Mach1Point3DCore> points);
 

@@ -89,25 +89,34 @@ private:
 	void horizonPairsAlgoSample(float Yaw, float Pitch, float Roll, float *result);
 	std::vector<float> horizonPairsAlgoSample(float Yaw, float Pitch, float Roll);
 
-	void spatialAltAlgoSample(float Yaw, float Pitch, float Roll, float *result);
-	std::vector<float> spatialAltAlgoSample(float Yaw, float Pitch, float Roll);
-
 	void spatialMultichannelAlgo(Mach1Point3DCore* channelPoints, int numChannelPoints, float Yaw, float Pitch, float Roll, float *result);
 
-	void spatialAlgoSample(float Yaw, float Pitch, float Roll, float *result);
-	std::vector<float> spatialAlgoSample(float Yaw, float Pitch, float Roll);
+	void spatialAlgoSample_8(float Yaw, float Pitch, float Roll, float *result);
+	std::vector<float> spatialAlgoSample_8(float Yaw, float Pitch, float Roll);
 
-	void spatialPlusAlgoSample(float Yaw, float Pitch, float Roll, float *result);
-	std::vector<float> spatialPlusAlgoSample(float Yaw, float Pitch, float Roll);
+	void spatialAlgoSample_12(float Yaw, float Pitch, float Roll, float *result);
+	std::vector<float> spatialAlgoSample_12(float Yaw, float Pitch, float Roll);
 
-	void spatialPlusPlusAlgoSample(float Yaw, float Pitch, float Roll, float *result);
-	std::vector<float> spatialPlusPlusAlgoSample(float Yaw, float Pitch, float Roll);
+	void spatialAlgoSample_14(float Yaw, float Pitch, float Roll, float *result);
+	std::vector<float> spatialAlgoSample_14(float Yaw, float Pitch, float Roll);
 
-	void spatialExtAlgoSample(float Yaw, float Pitch, float Roll, float *result);
-	std::vector<float> spatialExtAlgoSample(float Yaw, float Pitch, float Roll);
+	void spatialAlgoSample_18(float Yaw, float Pitch, float Roll, float *result);
+	std::vector<float> spatialAlgoSample_18(float Yaw, float Pitch, float Roll);
 
-	void spatialExtPlusAlgoSample(float Yaw, float Pitch, float Roll, float *result);
-	std::vector<float> spatialExtPlusAlgoSample(float Yaw, float Pitch, float Roll);
+	void spatialAlgoSample_22(float Yaw, float Pitch, float Roll, float *result);
+	std::vector<float> spatialAlgoSample_22(float Yaw, float Pitch, float Roll);
+
+	void spatialAlgoSample_32(float Yaw, float Pitch, float Roll, float *result);
+	std::vector<float> spatialAlgoSample_32(float Yaw, float Pitch, float Roll);
+
+    void spatialAlgoSample_36(float Yaw, float Pitch, float Roll, float *result);
+    std::vector<float> spatialAlgoSample_36(float Yaw, float Pitch, float Roll);
+
+    void spatialAlgoSample_48(float Yaw, float Pitch, float Roll, float *result);
+    std::vector<float> spatialAlgoSample_48(float Yaw, float Pitch, float Roll);
+
+    void spatialAlgoSample_60(float Yaw, float Pitch, float Roll, float *result);
+    std::vector<float> spatialAlgoSample_60(float Yaw, float Pitch, float Roll);
 
 	// log
 	std::vector<std::string> strLog;
@@ -133,6 +142,7 @@ public:
 	Mach1PlatformType getPlatformType();
 
 	int getFormatChannelCount();
+    int getFormatCoeffCount();
 
 	void setRotation(Mach1Point3DCore newRotationFromMinusOnetoOne);
 	void setRotationDegrees(Mach1Point3DCore newRotationDegrees);
@@ -183,9 +193,9 @@ public:
     //  R = Roll in degrees
     //
     
-    std::vector<float> horizonAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
+    std::vector<float> horizonAlgo_4(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
 
-    void horizonAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
+    void horizonAlgo_4(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
 
     // ------------------------------------------------------------------
     
@@ -213,9 +223,9 @@ public:
     //  R = Roll in degrees
     //
     
-    std::vector<float> spatialAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
+    std::vector<float> spatialAlgo_8(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
     
-    void spatialAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
+    void spatialAlgo_8(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
     
     // ------------------------------------------------------------------
 
@@ -228,57 +238,43 @@ public:
     //  R = Roll in degrees
     //
 
-	std::vector<float> spatialPlusAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-
-	void spatialPlusAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
-
-	// ------------------------------------------------------------------
-
-	std::vector<float> spatialPlusPlusAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-
-	void spatialPlusPlusAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
+	std::vector<float> spatialAlgo_12(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
+	void spatialAlgo_12(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
 
 	// ------------------------------------------------------------------
 
-    std::vector<float> spatialExtAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-
-    void spatialExtAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
-
-    // ------------------------------------------------------------------
-
-    std::vector<float> spatialExtPlusAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-
-    void spatialExtPlusAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
+	std::vector<float> spatialAlgo_14(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
+	void spatialAlgo_14(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
 
     // ------------------------------------------------------------------
 
-	//
-    //  Eight channel audio format.
-    //
-    //  Order of input angles:
-    //  Y = Yaw in degrees
-    //  P = Pitch in degrees
-    //  R = Roll in degrees
-    //
-    
-    std::vector<float> spatialAltAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
+    std::vector<float> spatialAlgo_18(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
+    void spatialAlgo_18(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
 
-    void spatialAltAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
+	// ------------------------------------------------------------------
+
+	std::vector<float> spatialAlgo_22(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
+	void spatialAlgo_22(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
+
+	// ------------------------------------------------------------------
+
+	std::vector<float> spatialAlgo_32(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
+	void spatialAlgo_32(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
+
+	// ------------------------------------------------------------------
+
+    std::vector<float> spatialAlgo_36(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
+    void spatialAlgo_36(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
 
     // ------------------------------------------------------------------
-    
-    //
-    //  Eight pairs audio format.
-    //
-    //  Order of input angles:
-    //  Y = Yaw in degrees
-    //  P = Pitch in degrees
-    //  R = Roll in degrees
-    //
-    
-    std::vector<float> spatialPairsAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
 
-    void spatialPairsAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
+    std::vector<float> spatialAlgo_48(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
+    void spatialAlgo_48(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
+
+    // ------------------------------------------------------------------
+
+    std::vector<float> spatialAlgo_60(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
+    void spatialAlgo_60(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
 
     // ------------------------------------------------------------------
     

@@ -30,8 +30,8 @@
 #define Mach1DecodeCAPI_h
 
 enum Mach1DecodeAlgoType {
-	Mach1DecodeAlgoSpatial = (int) 0,
-	Mach1DecodeAlgoHorizon,
+	Mach1DecodeAlgoSpatial_8 = (int) 0,
+	Mach1DecodeAlgoHorizon_4,
 };
 
 #ifdef __cplusplus

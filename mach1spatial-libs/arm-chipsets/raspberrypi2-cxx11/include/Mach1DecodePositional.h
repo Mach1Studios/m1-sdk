@@ -66,37 +66,6 @@ public:
 	void setFilterSpeed(float filterSpeed);
 
 	Mach1Point3D getClosestPointOnPlane();
-
-/* DEPRECATED START */
-	[[deprecated("setUseFalloff is deprecated, please use setUseAttenuation instead")]]
-	void setUseFalloff(bool useFalloff);
-	[[deprecated("setFalloffCurve is deprecated, please use setAttenuationCurve instead")]]
-	void setFalloffCurve(float falloffCurve);
-	[[deprecated("setFalloffCurveBlendMode is deprecated, please use setAttenuationCurveBlendMode instead")]]
-	void setFalloffCurveBlendMode(float falloffCurveBlendMode);
-	[[deprecated("setUseClosestPointRotationMuteInside is deprecated, please use setUsePlaneCalculation instead")]]
-	void setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside);
-	[[deprecated("setCameraPosition is deprecated, please use setListenerPosition instead")]]
-	void setCameraPosition(Mach1Point3D point);
-	[[deprecated("setCameraRotation is deprecated, please use setListenerRotation instead")]]
-	void setCameraRotation(Mach1Point3D point);
-	[[deprecated("setCameraRotationQuat is deprecated, please use setListenerRotationQuat instead")]]
-	void setCameraRotationQuat(Mach1Point4D quat);
-
-#ifndef  __EMSCRIPTEN__ 
-	[[deprecated("getVolumesWalls is deprecated, please use getCoefficients instead")]]
-	void getVolumesWalls(float* result);
-	[[deprecated("getVolumesRoom is deprecated, please use getCoefficientsInterior instead")]]
-	void getVolumesRoom(float* result);
-#endif
-	[[deprecated("getVolumesWalls is deprecated, please use getCoefficients instead")]]
-	void getVolumesWalls(std::vector<float>& result);
-	[[deprecated("getVolumesRoom is deprecated, please use getCoefficientsInterior instead")]]
-	void getVolumesRoom(std::vector<float>& result);
-
-	[[deprecated("getVolumeRotation is depracted, please use getCoefficientsRotation instead")]]
-	Mach1Point3D getVolumeRotation();
-/* DEPRECATED END */
 };
   
 #endif /* Mach1DecodePositional_h */

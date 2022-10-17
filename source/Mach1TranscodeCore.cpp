@@ -1,5 +1,5 @@
 //  Mach1 Spatial SDK
-//  Copyright © 2017-2020 Mach1. All rights reserved.
+//  Copyright © 2017-2022 Mach1. All rights reserved.
 
 #include "Mach1TranscodeCore.h"
 #include "Mach1GenerateCoeffs.h"
@@ -92,7 +92,6 @@ float Mach1TranscodeCore::processNormalization(float** bufs, int numSamples) {
 				peak = tmp;
 		}
 	}
-
 	return peak;
 }
 
@@ -158,9 +157,7 @@ std::vector<Mach1Point3DCore> parseCustomPointsJson(std::string srtJson)
 			}
 		}
 	}
-
 	for (int i = 0; i < doc.size(); i++) delete doc[i];
-
 	return points;
 }
 
@@ -227,8 +224,7 @@ bool Mach1TranscodeCore::processConversionPath()
                         if (tree[k].fmt == j) {
                             exist = true;
                             break;
-                        }
-                        else {
+                        } else {
                             k = tree[k].prev;
                         }
                     }
@@ -242,7 +238,6 @@ bool Mach1TranscodeCore::processConversionPath()
                     }
                 }
             }
-            
             tree[i].processed = true;
         }
     }
@@ -270,110 +265,324 @@ bool Mach1TranscodeCore::processConversionPath()
 }
 
 std::vector<Mach1Point3DCore> Mach1TranscodeCore::getPointsSet(int fmt) {
-	// M1 horizon plane points
-	static std::vector<Mach1Point3DCore> m1HorizonDef = { {-1, 1, 0},
-												{1, 1, 0},
-												{-1, -1, 0},
-												{1, -1, 0} };
+   /*
+	* X = Left(-) to Right(+) (from a top down perspective)
+	* Y = Front(+) to Back(-) (from a top down perspective)
+	* Z = Top(+) to Bottom(-) (from a top down perspective) 
+	*/
 
-	// M1 spatial cube points
-	static std::vector<Mach1Point3DCore> m1SpatialDef = { {-1, 1, 1},
-												{1, 1, 1},
-												{-1, -1, 1},
-												{1, -1, 1},
+	static std::vector<Mach1Point3DCore> m1Spatial_4_Def = { 
+		{-1, 1, 0},
+		{1, 1, 0},
+		{-1, -1, 0},
+		{1, -1, 0} 
+	};
 
-												{-1, 1, -1},
-												{1, 1, -1},
-												{-1, -1, -1},
-												{1, -1, -1} };
+	static std::vector<Mach1Point3DCore> m1Spatial_8_Def = { 
+		{-1, 1, 1},
+		{1, 1, 1},
+		{-1, -1, 1},
+		{1, -1, 1},
 
-	// M1 spatial+ cube points
-	static std::vector<Mach1Point3DCore> m1SpatialPlusDef = { {-1, 1, 1},
-												{1, 1, 1},
-												{-1, -1, 1},
-												{1, -1, 1},
+		{-1, 1, -1},
+		{1, 1, -1},
+		{-1, -1, -1},
+		{1, -1, -1} 
+	};
 
-												{-1, 1, -1},
-												{1, 1, -1},
-												{-1, -1, -1},
-												{1, -1, -1},
+	static std::vector<Mach1Point3DCore> m1Spatial_12_Def = { 
+		{-1, 1, 1},
+		{1, 1, 1},
+		{-1, -1, 1},
+		{1, -1, 1},
 
-												{0, 1 / 0.707f, 0},
-												{1 / 0.707f, 0, 0},
-												{0, -1 / 0.707f, 0},
-												{-1 / 0.707f, 0, 0} };
+		{-1, 1, -1},
+		{1, 1, -1},
+		{-1, -1, -1},
+		{1, -1, -1},
 
-	// M1 spatial++ cube points
-	static std::vector<Mach1Point3DCore> m1SpatialPlusPlusDef = { {-1, 1, 1},
-												{1, 1, 1},
-												{-1, -1, 1},
-												{1, -1, 1},
+		{0, 1 / 0.707, 0},
+		{1 / 0.707, 0, 0},
+		{0, -1 / 0.707, 0},
+		{-1 / 0.707, 0, 0} 
+	};
 
-												{-1, 1, -1},
-												{1, 1, -1},
-												{-1, -1, -1},
-												{1, -1, -1},
+	static std::vector<Mach1Point3DCore> m1Spatial_14_Def = { 
+		{-1, 1, 1},
+		{1, 1, 1},
+		{-1, -1, 1},
+		{1, -1, 1},
 
-												{0, 1 / 0.707f, 0},
-												{1 / 0.707f, 0, 0},
-												{0, -1 / 0.707f, 0},
-												{-1 / 0.707f, 0, 0},
+		{-1, 1, -1},
+		{1, 1, -1},
+		{-1, -1, -1},
+		{1, -1, -1},
 
-												{ 1 / 0.707f, 0, 0},
-												{-1 / 0.707f, 0, 0} };
+		{0, 1 / 0.707, 0},
+		{1 / 0.707, 0, 0},
+		{0, -1 / 0.707, 0},
+		{-1 / 0.707, 0, 0},
 
-	// M1 spatial extended cube points
-	static std::vector<Mach1Point3DCore> m1SpatialExtendedDef = { {-1, 1, 1},
-												{1, 1, 1},
-												{-1, -1, 1},
-												{1, -1, 1},
+		{ 0, 0, 1 / 0.707},
+		{ 0, 0, -1 / 0.707} 
+	};
 
-												{-1, 1, -1},
-												{1, 1, -1},
-												{-1, -1, -1},
-												{1, -1, -1},
+	static std::vector<Mach1Point3DCore> m1Spatial_18_Def = { 
+		{-1, 1, 1},
+		{1, 1, 1},
+		{-1, -1, 1},
+		{1, -1, 1},
 
-												{0, 1 / 0.707f, 1},
-												{1 / 0.707f, 0, 1},
-												{0, -1 / 0.707f, 1},
-												{-1 / 0.707f, 0, 1},
+		{-1, 1, -1},
+		{1, 1, -1},
+		{-1, -1, -1},
+		{1, -1, -1},
 
-												{0, 1 / 0.707f, -1},
-												{1 / 0.707f, 0, -1},
-												{0, -1 / 0.707f, -1},
-												{-1 / 0.707f, 0, -1} };
+		{0, 1 / 0.707, 1},
+		{1 / 0.707, 0, 1},
+		{0, -1 / 0.707, 1},
+		{-1 / 0.707, 0, 1},
 
-	// M1 spatial extended+ cube points
-	static std::vector<Mach1Point3DCore> m1SpatialExtendedPlusDef = { {-1, 1, 1},
-												{1, 1, 1},
-												{-1, -1, 1},
-												{1, -1, 1},
+		{0, 1 / 0.707, -1},
+		{1 / 0.707, 0, -1},
+		{0, -1 / 0.707, -1},
+		{-1 / 0.707, 0, -1},
 
-												{-1, 1, -1},
-												{1, 1, -1},
-												{-1, -1, -1},
-												{1, -1, -1},
+		{ 0, 0, 1 / 0.707},
+		{ 0, 0, -1 / 0.707} 
+	};
 
-												{0, 1 / 0.707f, 1},
-												{1 / 0.707f, 0, 1},
-												{0, -1 / 0.707f, 1},
-												{-1 / 0.707f, 0, 1},
+	static std::vector<Mach1Point3DCore> m1Spatial_22_Def = {
+		{-1, 1, 1},
+		{1, 1, 1},
+		{-1, -1, 1},
+		{1, -1, 1},
 
-												{0, 1 / 0.707f, -1},
-												{1 / 0.707f, 0, -1},
-												{0, -1 / 0.707f, -1},
-												{-1 / 0.707f, 0, -1},
+		{-1, 1, -1},
+		{1, 1, -1},
+		{-1, -1, -1},
+		{1, -1, -1},
 
-												{1 / 0.707f, 0, 0},
-												{-1 / 0.707f, 0, 0} };
+		{0, 1 / 0.707, 1},
+		{1 / 0.707, 0, 1},
+		{0, -1 / 0.707, 1},
+		{-1 / 0.707, 0, 1},
 
-	static std::map<int, std::vector <Mach1Point3DCore> > standards = {
-		{getFormatFromString("M1Horizon"), m1HorizonDef},
-		{getFormatFromString("M1Spatial"), m1SpatialDef},
-		{getFormatFromString("M1SpatialPlus"), m1SpatialPlusDef},
-		{getFormatFromString("M1SpatialPlusPlus"), m1SpatialPlusPlusDef},
-		{getFormatFromString("M1SpatialExtended"), m1SpatialExtendedDef},
-		{getFormatFromString("M1SpatialExtendedPlus"), m1SpatialExtendedPlusDef},
+		{0, 1 / 0.707, -1},
+		{1 / 0.707, 0, -1},
+		{0, -1 / 0.707, -1},
+		{-1 / 0.707, 0, -1},
+
+		{0, 1 / 0.707, 0},
+		{1 / 0.707, 0, 0},
+		{0, -1 / 0.707, 0},
+		{-1 / 0.707, 0, 0},
+
+		{ 0, 0, 1 / 0.707},
+		{ 0, 0, -1 / 0.707} 
+	};
+
+	static std::vector<Mach1Point3DCore> m1Spatial_32_Def = {
+		{0.00000, 1.32048, 0.50689},
+		{-0.74953, 1.19950, 0.00000},
+		{0.00000, 1.32048, -0.50689},
+		{0.74953, 1.19950, 0.00000},
+		{0.00000, 0.74953, 1.19950},
+		{-0.81928, 0.81928, 0.81128},
+		{-1.32048, 0.50689, 0.00000},
+		{-0.81928, 0.81928, -0.81128},
+		{0.00000, 0.74953, -1.19950},
+		{0.81928, 0.81928, -0.81128},
+		{1.32048, 0.50689, 0.00000},
+		{0.81928, 0.81928, 0.81128},
+		{-0.50681, -0.00885, 1.32048},
+		{-1.19950, -0.00000, 0.74953},
+		{-1.21240, -0.00000, -0.72848},
+		{-0.50681, 0.00885, -1.32048},
+		{0.00000, -1.32048, 0.50689},
+		{0.74953, -1.19950, 0.00000},
+		{0.00000, -1.32048, -0.50689},
+		{-0.74953, -1.19950, 0.00000},
+		{0.00000, -0.74953, 1.19950},
+		{0.81928, -0.81928, 0.81128},
+		{1.32048, -0.50689, 0.00000},
+		{0.81928, -0.81928, -0.81128},
+		{0.00000, -0.74953, -1.19950},
+		{-0.81928, -0.81928, -0.81128},
+		{-1.32048, -0.50689, 0.00000},
+		{-0.81928, -0.81928, 0.81128},
+		{0.50681, -0.00885, 1.32048},
+		{1.19950, 0.00000, 0.74953},
+		{1.19950, 0.00000, -0.74953},
+		{0.50681, 0.00885, -1.32048} 
+	};
+
+	static std::vector<Mach1Point3DCore> m1Spatial_36_Def = {
+		{ -0.43310, 0.71779, 1.13922},
+		{ 1.13922, -0.43310, 0.71779},
+		{ 0.43310, -0.71779, 1.13922},
+		{ 0.71779, 1.13922, -0.43310},
+		{ 1.13922, 0.43310, -0.71779},
+		{ -0.71779, 1.13922, 0.43310},
+		{ -1.13922, 0.43310, 0.71779},
+		{ -0.71779, -1.13922, -0.43310},
+		{ -1.13922, -0.43310, -0.71779},
+		{ 0.71779, -1.13922, 0.43310},
+		{ 0.43310, 0.71779, -1.13922},
+		{ -0.43310, -0.71779, -1.13922},
+		{ -0.34445, 0.88595, -1.04740},
+		{ -1.04740, -0.34445, 0.88595},
+		{ 0.34445, -0.88595, -1.04740},
+		{ 0.88595, -1.04740, -0.34445},
+		{ -1.04740, 0.34445, -0.88595},
+		{ -0.88595, -1.04740, 0.34445},
+		{ 1.04740, 0.34445, 0.88595},
+		{ -0.88595, 1.04740, -0.34445},
+		{ 1.04740, -0.34445, -0.88595},
+		{ 0.88595, 1.04740, 0.34445},
+		{ 0.34445, 0.88595, 1.04740},
+		{ -0.34445, -0.88595, 1.04740},
+		{ 1.35378, -0.40488, -0.06298},
+		{ -0.06298, 1.35378, -0.40488},
+		{ -1.35378, 0.40488, -0.06298},
+		{ -0.40488, -0.06298, 1.35378},
+		{ -0.06298, -1.35378, 0.40488},
+		{ 0.40488, -0.06298, -1.35378},
+		{ 0.06298, -1.35378, -0.40488},
+		{ 0.40488, 0.06298, 1.35378},
+		{ 0.06298, 1.35378, 0.40488},
+		{ -0.40488, 0.06298, -1.35378},
+		{ -1.35378, -0.40488, 0.06298},
+		{ 1.35378, 0.40488, 0.06298} 
+	};
+
+	static std::vector<Mach1Point3DCore> m1Spatial_48_Def = {
+		{ 0.50006, 1.32018, -0.08763},
+		{ -0.50006, 1.32018, 0.08763},
+		{ -0.08763, 1.32018, -0.50006},
+		{ 0.08763, 1.32018, 0.50006},
+		{ 0.50006, -1.32018, 0.08763},
+		{ -0.50006, -1.32018, -0.08763},
+		{ -0.08763, -1.32018, 0.50006},
+		{ 0.08763, -1.32018, -0.50006},
+		{ 1.32018, -0.08763, 0.50006},
+		{ 1.32018, 0.08763, -0.50006},
+		{ 1.32018, -0.50006, -0.08763},
+		{ 1.32018, 0.50006, 0.08763},
+		{ -1.32018, 0.08763, 0.50006},
+		{ -1.32018, -0.08763, -0.50006},
+		{ -1.32018, 0.50006, -0.08763},
+		{ -1.32018, -0.50006, 0.08763},
+		{ -0.08763, 0.50006, 1.32018},
+		{ 0.08763, -0.50006, 1.32018},
+		{ -0.50006, -0.08763, 1.32018},
+		{ 0.50006, 0.08763, 1.32018},
+		{ 0.08763, 0.50006, -1.32018},
+		{ -0.08763, -0.50006, -1.32018},
+		{ 0.50006, -0.08763, -1.32018},
+		{ -0.50006, 0.08763, -1.32018},
+		{ 0.90487, 0.99978, 0.42693},
+		{ -0.90487, 0.99978, -0.42693},
+		{ 0.42693, 0.99978, -0.90487},
+		{ -0.42693, 0.99978, 0.90487},
+		{ 0.90487, -0.99978, -0.42693},
+		{ -0.90487, -0.99978, 0.42693},
+		{ 0.42693, -0.99978, 0.90487},
+		{ -0.42693, -0.99978, -0.90487},
+		{ 0.99978, 0.42693, 0.90487},
+		{ 0.99978, -0.42693, -0.90487},
+		{ 0.99978, -0.90487, 0.42693},
+		{ 0.99978, 0.90487, -0.42693},
+		{ -0.99978, -0.42693, 0.90487},
+		{ -0.99978, 0.42693, -0.90487},
+		{ -0.99978, 0.90487, 0.42693},
+		{ -0.99978, -0.90487, -0.42693},
+		{ 0.42693, 0.90487, 0.99978},
+		{ -0.42693, -0.90487, 0.99978},
+		{ -0.90487, 0.42693, 0.99978},
+		{ 0.90487, -0.42693, 0.99978},
+		{ -0.42693, 0.90487, -0.99978},
+		{ 0.42693, -0.90487, -0.99978},
+		{ 0.90487, 0.42693, -0.99978},
+		{ -0.90487, -0.42693, -0.99978} 
+	};
+
+	static std::vector<Mach1Point3DCore> m1Spatial_60_Def = {
+		{ 0.77221, -1.06624, -0.51714},
+		{ -0.51714, 0.77221, -1.06624},
+		{ -0.77221, 1.06624, -0.51714},
+		{ -1.06624, -0.51714, 0.77221},
+		{ -0.51714, -0.77221, 1.06624},
+		{ 1.06624, -0.51714, -0.77221},
+		{ 0.51714, -0.77221, -1.06624},
+		{ 1.06624, 0.51714, 0.77221},
+		{ 0.51714, 0.77221, 1.06624},
+		{ -1.06624, 0.51714, -0.77221},
+		{ -0.77221, -1.06624, 0.51714},
+		{ 0.77221, 1.06624, 0.51714},
+		{ -1.00870, 0.99036, 0.04822},
+		{ 0.04822, -1.00870, 0.99035},
+		{ 1.00870, -0.99036, 0.04822},
+		{ 0.99036, 0.04822, -1.00870},
+		{ 0.04822, 1.00870, -0.99036},
+		{ -0.99036, 0.04822, 1.00870},
+		{ -0.04822, 1.00870, 0.99036},
+		{ -0.99036, -0.04822, -1.00870},
+		{ -0.04822, -1.00870, -0.99035},
+		{ 0.99036, -0.04822, 1.00870},
+		{ 1.00870, 0.99036, -0.04822},
+		{ -1.00870, -0.99036, -0.04822},
+		{ 0.10898, 0.39071, -1.35502},
+		{ -1.35502, 0.10898, 0.39071},
+		{ -0.10898, -0.39071, -1.35502},
+		{ 0.39071, -1.35502, 0.10898},
+		{ -1.35502, -0.10898, -0.39071},
+		{ -0.39071, -1.35502, -0.10898},
+		{ 1.35502, -0.10898, 0.39071},
+		{ -0.39071, 1.35502, 0.10898},
+		{ 1.35502, 0.10898, -0.39071},
+		{ 0.39071, 1.35502, -0.10898},
+		{ -0.10898, 0.39071, 1.35502},
+		{ 0.10898, -0.39071, 1.35502},
+		{ -1.10800, 0.63907, 0.60377},
+		{ 0.60377, -1.10800, 0.63907},
+		{ 1.10800, -0.63907, 0.60377},
+		{ 0.63907, 0.60377, -1.10800},
+		{ 0.60377, 1.10800, -0.63907},
+		{ -0.63907, 0.60377, 1.10800},
+		{ -0.60377, 1.10800, 0.63907},
+		{ -0.63907, -0.60377, -1.10800},
+		{ -0.60377, -1.10800, -0.63907},
+		{ 0.63907, -0.60377, 1.10800},
+		{ 1.10800, 0.63907, -0.60377},
+		{ -1.10800, -0.63907, -0.60377},
+		{ -1.31996, -0.47890, 0.17020},
+		{ 0.17020, -1.31996, -0.47890},
+		{ 1.31996, 0.47890, 0.17020},
+		{ -0.47890, 0.17020, -1.31996},
+		{ 0.17020, 1.31996, 0.47890},
+		{ 0.47890, 0.17020, 1.31996},
+		{ -0.17020, 1.31996, -0.47890},
+		{ 0.47890, -0.17020, -1.31996},
+		{ -0.17020, -1.31996, 0.47890},
+		{ -0.47890, -0.17020, 1.31996},
+		{ 1.31996, -0.47890, -0.17020},
+		{ -1.31996, 0.47890, -0.17020} 
+	};
+
+	static std::map< int, std::vector <Mach1Point3DCore> > standards = {
+		{getFormatFromString("M1Horizon"), m1Spatial_4_Def},
+		{getFormatFromString("M1Spatial-4"), m1Spatial_4_Def},
+		{getFormatFromString("M1Spatial"), m1Spatial_8_Def},
+		{getFormatFromString("M1Spatial-8"), m1Spatial_8_Def},
+		{getFormatFromString("M1Spatial-12"), m1Spatial_12_Def},
+		{getFormatFromString("M1Spatial-14"), m1Spatial_14_Def},
+		{getFormatFromString("M1Spatial-18"), m1Spatial_18_Def},
+		{getFormatFromString("M1Spatial-22"), m1Spatial_22_Def},
+		{getFormatFromString("M1Spatial-32"), m1Spatial_32_Def},
+		{getFormatFromString("M1Spatial-36"), m1Spatial_36_Def},
+		{getFormatFromString("M1Spatial-48"), m1Spatial_48_Def},
+		{getFormatFromString("M1Spatial-60"), m1Spatial_60_Def},
 	};
 
 	std::vector<Mach1Point3DCore> vec;
@@ -408,23 +617,32 @@ std::vector<std::vector<float>> Mach1TranscodeCore::getCoeffs(int idxMatrix)
 				coeffs.push_back(c->data);
 			}
 			else if (Mach1TranscodePanner* p = dynamic_cast<Mach1TranscodePanner*>(channel)) {
-				/* panner logic */
-				/*
 				M1EncodeCore m1encode;
-				m1encode.setInputMode(M1EncodeCore::InputMode::INPUT_STEREO);
-				m1encode.setOutputMode(M1EncodeCore::OutputMode::OUTPUT_SPATIAL_8CH);
-				*/
-				coeffs.push_back({});
-			}
-			else {
-				coeffs.push_back({});
+
+				int inputMode = m1encode.getInputModeFromString(matrices[idxMatrix].formatFrom);
+				int outputMode = m1encode.getOutputModeFromString(matrices[idxMatrix].formatTo);
+
+				m1encode.setInputMode((M1EncodeCore::InputMode)inputMode);
+				m1encode.setOutputMode((M1EncodeCore::OutputMode)outputMode);
+				m1encode.setDiverge(p->diverge);
+				m1encode.setAzimuthDegrees(p->azimuth);
+				m1encode.setElevationDegrees(p->elevation);
+				m1encode.setOutputGain(p->outputGain.gain, p->outputGain.isDecibel);
+				m1encode.generatePointResults();
+				std::vector<std::vector<float>> gains = m1encode.resultingPoints.getGains();
+				coeffs.push_back(gains[i]);
 			}
 		}
 	}
 
-	return coeffs;
+	std::vector<std::vector<float>> coeffsFlipped(coeffs[0].size(), std::vector<float>(coeffs.size()));
+	for (size_t i = 0; i < coeffs.size(); i++) {
+		for (size_t j = 0; j < coeffs[0].size(); j++) {
+			coeffsFlipped[j][i] = coeffs[i][j];
+		}
+	}
+	return coeffsFlipped;
 }
-
 
 void Mach1TranscodeCore::processConversion(int inFmt, float** inBufs, int outFmt, float** outBufs, int numSamples)
 {
@@ -491,9 +709,7 @@ void Mach1TranscodeCore::processConversion(int inFmt, float** inBufs, int outFmt
             ins[outChannel] = outPtrs[outChannel][sample];
         for (int outChannel = outChans; outChannel < Mach1TranscodeConstants::MAXCHANS; outChannel++)
             ins[outChannel] = 0;
-        
     } 
- 
 }
 
 int Mach1TranscodeCore::getNumChannels(int fmt, bool isInput)
@@ -609,6 +825,11 @@ void Mach1TranscodeCore::getMatrixConversion(float* matrix)
 	*/
 }
 
+// TODO: add a helper function to transpose any matrix
+// Mach1TranscodeMatrix Mach1TranscodeCore::transposeMatrixConversion(Mach1TranscodeMatrix &matrix)
+// {
+// }
+
 void Mach1TranscodeCore::processConversion(float ** inBufs, float ** outBufs, int numSamples)
 {
 	// reinit internal buffer
@@ -647,7 +868,7 @@ void Mach1TranscodeCore::processConversion(float ** inBufs, float ** outBufs, in
 	}
 
 	// spatial downmix check
-	if (outFmt == getFormatFromString("M1Spatial")) {
+	if (outFmt == getFormatFromString("M1Spatial") || outFmt == getFormatFromString("M1Spatial-8")) {
 		spatialDownmixChecker.ProcessBuffer(outBufs, numSamples);
 	}
 }

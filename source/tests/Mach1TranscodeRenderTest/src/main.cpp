@@ -328,7 +328,7 @@ int main(int argc, char* argv[])
 	//  print intermediate formats path
 	//
 	if (!m1transcode.processConversionPath()) {
-		printf("Can't found conversion between formats!");
+		printf("Can't find conversion between formats!");
 		return -1;
 	}
 	else {

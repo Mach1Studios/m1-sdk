@@ -13,7 +13,6 @@ std::map<Mach1EncodeInputModeType, std::string> encodeInputModeNames = {
 		{ Mach1EncodeInputModeQuad , "QUAD" },
 		{ Mach1EncodeInputModeLCRS , "LCRS" },
 		{ Mach1EncodeInputModeAFormat , "AFORMAT" },
-		{ Mach1EncodeInputModeBFormat , "1OA-ACN-DEPRE" },
 		{ Mach1EncodeInputModeBFOAACN , "1OA-ACN" },
 		{ Mach1EncodeInputModeBFOAFUMA , "1OA-FUMA" },
 		{ Mach1EncodeInputModeB2OAACN , "2OA-ACN" },
@@ -24,12 +23,16 @@ std::map<Mach1EncodeInputModeType, std::string> encodeInputModeNames = {
 };
 
 std::map<Mach1EncodeOutputModeType, std::string> encodeOutputModeNames = {
-		{ Mach1EncodeOutputModeM1Horizon , "MACH1HORIZON" },
-		{ Mach1EncodeOutputModeM1Spatial , "MACH1SPATIAL" },
-		{ Mach1EncodeOutputModeM1SpatialPlus , "MACH1SPATIAL+" },
-		{ Mach1EncodeOutputModeM1SpatialPlusPlus , "MACH1SPATIAL++" },
-		{ Mach1EncodeOutputModeM1SpatialExt , "MACH1SPATIALEXT" },
-		{ Mach1EncodeOutputModeM1SpatialExtPlus , "MACH1SPATIALEXT+" },
+		{ Mach1EncodeOutputModeM1Horizon_4 , "MACH1HORIZON-4" },
+		{ Mach1EncodeOutputModeM1Spatial_8 , "MACH1SPATIAL-8" },
+		{ Mach1EncodeOutputModeM1Spatial_12 , "MACH1SPATIAL-12" },
+		{ Mach1EncodeOutputModeM1Spatial_14 , "MACH1SPATIAL-14" },
+		{ Mach1EncodeOutputModeM1Spatial_18 , "MACH1SPATIAL-18" },
+		// { Mach1EncodeOutputModeM1Spatial_22 , "MACH1SPATIAL-22" },
+		{ Mach1EncodeOutputModeM1Spatial_32 , "MACH1SPATIAL-32" },
+		{ Mach1EncodeOutputModeM1Spatial_36 , "MACH1SPATIAL-36" },
+		{ Mach1EncodeOutputModeM1Spatial_48 , "MACH1SPATIAL-48" },
+		{ Mach1EncodeOutputModeM1Spatial_60 , "MACH1SPATIAL-60" },
 };
 
 enum InputType {
@@ -63,17 +66,20 @@ std::map<Mach1PlatformType, std::string> platformModeNames = {
 	{ Mach1PlatformiOSPortrait_YawOnly , "iOS_YawOnly" },
 };
 
-std::map<Mach1DecodeAlgoType, std::string> decodeOutputModeNames = {
-	{ Mach1DecodeAlgoSpatial , "Spatial - 8Ch" },
-	{ Mach1DecodeAlgoAltSpatial , "Spatial Alt - 8Ch" },
-	{ Mach1DecodeAlgoHorizon , "Horizon - 4Ch" },
+std::map<Mach1DecodeAlgoType, std::string> decodeModeNames = {
+	{ Mach1DecodeAlgoSpatial_8 , "Spatial - 8Ch" },
+	{ Mach1DecodeAlgoHorizon_4 , "Horizon - 4Ch" },
 	{ Mach1DecodeAlgoHorizonPairs , "Horizon Pairs - 8Ch" },
-	{ Mach1DecodeAlgoSpatialPairs , "Spatial Pairs - 16Ch" },
-	{ Mach1DecodeAlgoSpatialPlus , "Spatial Plus - 12Ch" },
-	{ Mach1DecodeAlgoSpatialPlusPlus , "Spatial Plus Plus - 14Ch" },
-	// { Mach1DecodeAlgoSpatialExt , "Spatial Ext - 16Ch" },
-	// { Mach1DecodeAlgoSpatialExtPlus , "Spatial Ext Plus - 18Ch" },
+	{ Mach1DecodeAlgoSpatial_12 , "Spatial - 12Ch" },
+	{ Mach1DecodeAlgoSpatial_14 , "Spatial - 14Ch" },
+	{ Mach1DecodeAlgoSpatial_18 , "Spatial - 18Ch" },
+	// { Mach1DecodeAlgoSpatial_22 , "Spatial - 22Ch" },
+		{ Mach1DecodeAlgoSpatial_32 , "Spatial - 32Ch" },
+		{ Mach1DecodeAlgoSpatial_36 , "Spatial - 36Ch" },
+		{ Mach1DecodeAlgoSpatial_48 , "Spatial - 48Ch" },
+		{ Mach1DecodeAlgoSpatial_60 , "Spatial - 60Ch" },
 };
+
 
 void test_results(void)
 {
@@ -85,12 +91,12 @@ void test_results(void)
 		float diverge;
 		float elevation;
 		bool autoOrbit;
-		float stereoSpread;
-		float stereoRotate;
+		float orbitSpread;
+		float orbitRotation;
 		InputType inputType;
 
 		Mach1PlatformType platformMode;
-		Mach1DecodeAlgoType decodeOutputMode;
+		Mach1DecodeAlgoType decodeMode;
 		float yaw;
 		float pitch;
 		float roll;
@@ -113,8 +119,8 @@ void test_results(void)
 				{
 					"Test 1 - Right channel prior",
 					{
-						Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial, true, 90.0, 0.5, 0.0, true, 0.0, 0.0, unsignedDegrees,
-						Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 0.0, 0.0, 0.0, 1.0,
+						Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial_8, true, 90.0, 0.5, 0.0, true, 0.0, 0.0, unsignedDegrees,
+						Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8, 0.0, 0.0, 0.0, 1.0,
 						{ 1.0 }
 					},
 					{
@@ -132,8 +138,6 @@ void test_results(void)
 		m1Encode.setInputMode(test.input.encodeInputMode);
 		m1Encode.setOutputMode(test.input.encodeOutputMode);
 
-		m1Encode.setIsotropicEncode(test.input.isotropicEncode);
-
 		if (test.input.inputType == signedDegrees || test.input.inputType == unsignedDegrees) {
 			m1Encode.setAzimuthDegrees(test.input.azimuth);
 		}
@@ -145,9 +149,6 @@ void test_results(void)
 		}
 		else if (test.input.inputType == quaternion) {
 			// case for quat
-		}
-		else {
-			m1Encode.setRotation(test.input.azimuth);
 		}
 
 		m1Encode.setDiverge(test.input.diverge);
@@ -164,26 +165,20 @@ void test_results(void)
 		else if (test.input.inputType == quaternion) {
 			// case for quat
 		}
-		else {
-			m1Encode.setPitch(test.input.elevation);
-		}
 
 		m1Encode.setAutoOrbit(test.input.autoOrbit);
-		m1Encode.setStereoSpread(test.input.stereoSpread);
+		m1Encode.setStereoSpread(test.input.orbitSpread);
 		if (test.input.inputType == signedDegrees || test.input.inputType == unsignedDegrees) {
-			m1Encode.setOrbitRotationDegrees(test.input.stereoRotate);
+			m1Encode.setOrbitRotationDegrees(test.input.orbitRotation);
 		}
 		else if (test.input.inputType == signedRadians || test.input.inputType == unsignedRadians) {
-			m1Encode.setOrbitRotationRadians(test.input.stereoRotate);
+			m1Encode.setOrbitRotationRadians(test.input.orbitRotation);
 		}
 		else if (test.input.inputType == signedNormalized || test.input.inputType == unsignedNormalized) {
-			m1Encode.setOrbitRotation(test.input.stereoRotate);
+			m1Encode.setOrbitRotation(test.input.orbitRotation);
 		}
 		else if (test.input.inputType == quaternion) {
 			// case for quat
-		}
-		else {
-			m1Encode.setStereoRotate(test.input.stereoRotate);
 		}
 
 		m1Encode.generatePointResults();
@@ -194,7 +189,7 @@ void test_results(void)
 		Mach1Decode m1Decode;
 
 		m1Decode.setPlatformType(test.input.platformMode);
-		m1Decode.setDecodeAlgoType(test.input.decodeOutputMode);
+		m1Decode.setDecodeAlgoType(test.input.decodeMode);
 		m1Decode.setFilterSpeed(test.input.filterSpeed);
 
 		m1Decode.setRotationDegrees(Mach1Point3D{ test.input.yaw, test.input.pitch, test.input.roll });
@@ -206,7 +201,7 @@ void test_results(void)
 		std::cout
 			<< "testing " << test.name << ": "
 			<< encodeInputModeNames[test.input.encodeInputMode] << " > " << encodeOutputModeNames[test.input.encodeOutputMode] << " with " << inputTypeNames[test.input.inputType] << " , "
-			<< platformModeNames[test.input.platformMode] << " > " << decodeOutputModeNames[test.input.decodeOutputMode];
+			<< platformModeNames[test.input.platformMode] << " > " << decodeModeNames[test.input.decodeMode];
 
 		int counter = 0;
 
@@ -246,7 +241,7 @@ void test_results(void)
 		}
 		
 		if (counter == bufferDecoded.size()) {
-			std::cout << "... " << "\033[1;32mpassed\033[0m\n";
+			std::cout << " " << "\033[1;32mpassed\033[0m\n";
 		}
 	}
 

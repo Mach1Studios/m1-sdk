@@ -178,7 +178,7 @@ Mach1DecodePositionalCore::Mach1DecodePositionalCore()
 	ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 	timeLastCalculation = 0;
 
-	setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial);
+    setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial_8);
 }
 
 void Mach1DecodePositionalCore::setDecodeAlgoType(Mach1DecodeAlgoType type)
@@ -202,20 +202,10 @@ void Mach1DecodePositionalCore::setAttenuationCurve(float attenuationCurve)
 {
 	this->falloffCurve = attenuationCurve;
 }
-[[deprecated]]
-void Mach1DecodePositionalCore::setFalloffCurve(float falloffCurve)
-{
-	this->falloffCurve = falloffCurve;
-}
 
 void Mach1DecodePositionalCore::setAttenuationCurveBlendMode(float attenuationCurveBlendMode)
 {
 	this->falloffCurveBlendMode = attenuationCurveBlendMode;
-}
-[[deprecated]]
-void Mach1DecodePositionalCore::setFalloffCurveBlendMode(float falloffCurveBlendMode)
-{
-	this->falloffCurveBlendMode = falloffCurveBlendMode;
 }
 
 void Mach1DecodePositionalCore::setIgnoreTopBottom(bool ignoreTopBottom)
@@ -237,20 +227,10 @@ void Mach1DecodePositionalCore::setUseAttenuation(bool useAttenuation)
 {
 	this->useFalloff = useAttenuation;
 }
-[[deprecated]]
-void Mach1DecodePositionalCore::setUseFalloff(bool useFalloff)
-{
-	this->useFalloff = useFalloff;
-}
 
 void Mach1DecodePositionalCore::setUsePlaneCalculation(bool usePlaneCalculation)
 {
 	this->useClosestPointRotationMuteInside = usePlaneCalculation;
-}
-[[deprecated]]
-void Mach1DecodePositionalCore::setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside)
-{
-	this->useClosestPointRotationMuteInside = useClosestPointRotationMuteInside;
 }
 
 void Mach1DecodePositionalCore::setUseYawForRotation(bool useYawForRotation)
@@ -272,11 +252,6 @@ void Mach1DecodePositionalCore::setListenerPosition(Mach1Point3DCore * pos) {
 	convertPositionToMach1(platformType, &pos->x, &pos->y, &pos->z);
 	cameraPosition = glm::vec3(pos->x, pos->y, pos->z);
 }
-[[deprecated]]
-void Mach1DecodePositionalCore::setCameraPosition(Mach1Point3DCore * pos) {
-	convertPositionToMach1(platformType, &pos->x, &pos->y, &pos->z);
-	cameraPosition = glm::vec3(pos->x, pos->y, pos->z);
-}
 
 void Mach1DecodePositionalCore::setListenerRotation(Mach1Point3DCore * euler) {
 	///*
@@ -286,22 +261,8 @@ void Mach1DecodePositionalCore::setListenerRotation(Mach1Point3DCore * euler) {
 	//*/
 	//cameraRotation = glm::quat(glm::vec3(euler->x * DEG_TO_RAD_F, euler->y * DEG_TO_RAD_F, euler->z * DEG_TO_RAD_F));
 }
-[[deprecated]]
-void Mach1DecodePositionalCore::setCameraRotation(Mach1Point3DCore * euler) {
-	///*
-	Mach1Point3DCore angle(euler->x, euler->y, euler->z);
-	Mach1DecodeCore::convertAnglesToMach1(platformType, &angle.x, &angle.y, &angle.z);
-	cameraRotation = glm::quat(glm::vec3(angle.y * DEG_TO_RAD_F, angle.x * DEG_TO_RAD_F, angle.z * DEG_TO_RAD_F));
-	//*/
-	//cameraRotation = glm::quat(glm::vec3(euler->x * DEG_TO_RAD_F, euler->y * DEG_TO_RAD_F, euler->z * DEG_TO_RAD_F));
-}
 
 void Mach1DecodePositionalCore::setListenerRotationQuat(Mach1Point4DCore * quat)
-{
-	cameraRotation = glm::quat(quat->w, quat->x, quat->y, quat->z);
-}
-[[deprecated]]
-void Mach1DecodePositionalCore::setCameraRotationQuat(Mach1Point4DCore * quat)
 {
 	cameraRotation = glm::quat(quat->w, quat->x, quat->y, quat->z);
 }
@@ -467,14 +428,6 @@ void Mach1DecodePositionalCore::getCoefficients(float *result)
 		result[i] = volumeWalls * volumes[i];
 	}
 }
-[[deprecated]]
-void Mach1DecodePositionalCore::getVolumesWalls(float *result)
-{
-	for (int i = 0; i < volumes.size(); i++)
-	{
-		result[i] = volumeWalls * volumes[i];
-	}
-}
 
 void Mach1DecodePositionalCore::getCoefficientsInterior(float *result)
 {
@@ -483,21 +436,8 @@ void Mach1DecodePositionalCore::getCoefficientsInterior(float *result)
 		result[i] = volumeRoom * volumes[i];
 	}
 }
-[[deprecated]]
-void Mach1DecodePositionalCore::getVolumesRoom(float *result)
-{
-	for (int i = 0; i < volumes.size(); i++)
-	{
-		result[i] = volumeRoom * volumes[i];
-	}
-}
 
 Mach1Point3DCore Mach1DecodePositionalCore::getCoefficientsRotation()
-{
-	return Mach1Point3DCore{ eulerAngles.x , eulerAngles.y, eulerAngles.z };
-}
-[[deprecated]]
-Mach1Point3DCore Mach1DecodePositionalCore::getVolumeRotation()
 {
 	return Mach1Point3DCore{ eulerAngles.x , eulerAngles.y, eulerAngles.z };
 }
@@ -528,7 +468,7 @@ int test()
 {
 	Mach1DecodePositionalCore m1Positional;
 
-	m1Positional.setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial);
+    m1Positional.setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial_8);
 	Mach1PlatformType platfrom = Mach1PlatformType::Mach1PlatformUE; // Mach1PlatformUnity Mach1PlatformUE
 
 	m1Positional.setPlatformType(platfrom);
@@ -576,27 +516,6 @@ int test()
 		m1Positional.setDecoderAlgoRotation(&_drot); 
 		m1Positional.setDecoderAlgoScale(&_dscl);
 	}
-
-	/*
-		[0]	0.4355892
-		[1]	0.2735737
-		[2]	0
-		[3]	0.5630873
-		[4]	0.2484085
-		[5]	0
-		[6]	0
-		[7]	0
-		[8]	0.230426
-		[9]	0
-		[10]	0
-		[11]	0.1633391
-		[12]	0.08557632
-		[13]	0
-		[14]	0
-		[15]	0
-		[16]	1
-		[17]	1
-*/
 
 	for (size_t i = 0; i < 3000; i++)
 	{

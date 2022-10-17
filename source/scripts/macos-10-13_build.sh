@@ -2,7 +2,8 @@
 
 cd ${TRAVIS_BUILD_DIR}/source
 # MACOS 10-13 BUILDS
-${POLLY_SOURCE_DIR}/bin/polly --clear --install --config Release --toolchain osx-10-13
+cmake . -B_builds/osx-10-13 -GXcode -DCMAKE_OSX_DEPLOYMENT_TARGET="10.13" -DCMAKE_INSTALL_PREFIX=`pwd`/_install/osx-10-13
+cmake --build _builds/osx-10-13 --config Release --target install
 # Copy and install
 rsync -c "_install/osx-10-13/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/osx-10-13/lib/libMach1DecodeCAPI.a"
 rsync -c "_install/osx-10-13/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/osx-10-13/lib/libMach1EncodeCAPI.a"

@@ -42,15 +42,20 @@ enum Mach1PlatformType {
 };
 
 enum Mach1DecodeAlgoType {
-	Mach1DecodeAlgoSpatial = (int) 0,
-	Mach1DecodeAlgoAltSpatial,
-	Mach1DecodeAlgoHorizon,
+	Mach1DecodeAlgoSpatial_8 = (int) 0,
+	Mach1DecodeAlgoSpatialAlt_8,
+	Mach1DecodeAlgoHorizon_4,
 	Mach1DecodeAlgoHorizonPairs,
 	Mach1DecodeAlgoSpatialPairs,
-	Mach1DecodeAlgoSpatialPlus,
-	Mach1DecodeAlgoSpatialPlusPlus,
-	Mach1DecodeAlgoSpatialExt,
-	Mach1DecodeAlgoSpatialExtPlus
+	Mach1DecodeAlgoSpatial_12,
+	Mach1DecodeAlgoSpatial_14,
+	Mach1DecodeAlgoSpatial_16,
+	Mach1DecodeAlgoSpatial_18,
+	Mach1DecodeAlgoSpatial_20,
+	Mach1DecodeAlgoSpatial_32,
+	Mach1DecodeAlgoSpatial_36,
+	Mach1DecodeAlgoSpatial_48,
+	Mach1DecodeAlgoSpatial_60
 };
 
 #ifdef __cplusplus
@@ -74,6 +79,7 @@ extern "C" {
 	M1_API void Mach1DecodeCAPI_endBuffer(void* M1obj);
   
 	M1_API int Mach1DecodeCAPI_getFormatChannelCount(void* M1obj);
+	M1_API int Mach1DecodeCAPI_getFormatCoeffCount(void* M1obj);
 	M1_API void Mach1DecodeCAPI_setRotation(void* M1obj, struct Mach1Point3D newRotationFromMinusOnetoOne);
 	M1_API void Mach1DecodeCAPI_setRotationDegrees(void* M1obj, struct Mach1Point3D newRotationDegrees);
 	M1_API void Mach1DecodeCAPI_setRotationRadians(void* M1obj, struct Mach1Point3D newRotationRadians);

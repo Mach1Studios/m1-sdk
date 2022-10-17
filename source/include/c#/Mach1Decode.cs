@@ -67,11 +67,17 @@ namespace Mach1
             /// Set the decoding algorithm
             ///
             /// - Parameters:
-            ///     - Mach1DecodeAlgoSpatial = 0 (default spatial | 8 channels)
-            ///     - Mach1DecodeAlgoAltSpatial = 1 (periphonic spatial | 8 channels)
-            ///     - Mach1DecodeAlgoHorizon = 2 (compass / yaw | 4 channels)
-            ///     - Mach1DecodeAlgoHorizonPairs = 3 (compass / yaw | 4x stereo mastered pairs)
-            ///     - Mach1DecodeAlgoSpatialPairs = 4 (experimental periphonic pairs | 8x stereo mastered pairs)
+            ///     - Mach1DecodeAlgoSpatial_8 (default spatial | 8 channels)
+            ///     - Mach1DecodeAlgoHorizon_4 (compass / yaw | 4 channels)
+            ///     - Mach1DecodeAlgoHorizonPairs (compass / yaw | 4x stereo mastered pairs)
+            ///     - Mach1DecodeAlgoSpatial_12 (higher order spatial | 12 channels)
+            ///     - Mach1DecodeAlgoSpatial_14 (higher order spatial | 14 channels)
+            ///     - Mach1DecodeAlgoSpatial_18 (higher order spatial | 18 channels)
+            ///     - Mach1DecodeAlgoSpatial_22 (higher order spatial | 22 channels)
+            ///     - Mach1DecodeAlgoSpatial_32 (higher order spatial | 32 channels)
+            ///     - Mach1DecodeAlgoSpatial_36 (higher order spatial | 36 channels)
+            ///     - Mach1DecodeAlgoSpatial_48 (higher order spatial | 48 channels)
+            ///     - Mach1DecodeAlgoSpatial_60 (higher order spatial | 60 channels)
         }
 
         public void setPlatformType(Mach1PlatformType type)
@@ -81,11 +87,11 @@ namespace Mach1
             ///
             /// - Parameters:
             ///     - Mach1PlatformDefault = 0
-            ///     - Mach1PlatformUnity = 1
-            ///     - Mach1PlatformUE = 2
-            ///     - Mach1PlatformOfEasyCam = 3
-            ///     - Mach1PlatformAndroid = 4
-            ///     - Mach1PlatformiOS = 5
+            ///     - Mach1PlatformUnity
+            ///     - Mach1PlatformUE
+            ///     - Mach1PlatformOfEasyCam
+            ///     - Mach1PlatformAndroid
+            ///     - Mach1PlatformiOS
         }
 
         public void decode(float Yaw, float Pitch, float Roll, ref float[] data,  int bufferSize = 0, int sampleIndex = 0)

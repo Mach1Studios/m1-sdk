@@ -23,15 +23,17 @@ void test_results(void)
 	};
 
 	std::map<Mach1DecodeAlgoType, std::string> outputModeNames = {
-		{ Mach1DecodeAlgoSpatial , "Spatial - 8Ch" },
-		{ Mach1DecodeAlgoAltSpatial , "Spatial Alt - 8Ch" },
-		{ Mach1DecodeAlgoHorizon , "Horizon - 4Ch" },
+		{ Mach1DecodeAlgoSpatial_8 , "Spatial - 8Ch" },
+		{ Mach1DecodeAlgoHorizon_4 , "Horizon - 4Ch" },
 		{ Mach1DecodeAlgoHorizonPairs , "Horizon Pairs - 8Ch" },
-		{ Mach1DecodeAlgoSpatialPairs , "Spatial Pairs - 16Ch" },
-		{ Mach1DecodeAlgoSpatialPlus , "Spatial Plus - 12Ch" },
-		{ Mach1DecodeAlgoSpatialPlusPlus , "Spatial Plus Plus - 14Ch" },
-		// { Mach1DecodeAlgoSpatialExt , "Spatial Ext - 16Ch" },
-		// { Mach1DecodeAlgoSpatialExtPlus , "Spatial Ext Plus - 18Ch" },
+		{ Mach1DecodeAlgoSpatial_12 , "Spatial - 12Ch" },
+		{ Mach1DecodeAlgoSpatial_14 , "Spatial - 14Ch" },
+		{ Mach1DecodeAlgoSpatial_18 , "Spatial - 18Ch" },
+		// { Mach1DecodeAlgoSpatial_22 , "Spatial - 22Ch" },
+		{ Mach1DecodeAlgoSpatial_32 , "Spatial - 32Ch" },
+		{ Mach1DecodeAlgoSpatial_36 , "Spatial - 36Ch" },
+		{ Mach1DecodeAlgoSpatial_48 , "Spatial - 48Ch" },
+		{ Mach1DecodeAlgoSpatial_60 , "Spatial - 60Ch" },
 	};
 
 	struct INPUT_DATA {
@@ -79,7 +81,7 @@ void test_results(void)
 		 */
 		{
 			"case: POSITIONAL | 0 Yaw",
-			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial, 
+			{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8, 
 				0.0, 0.0, 0.0, //listener pos
 				0.0, 0.0, 0.0, //listener rot
 				0.0, 0.0, 5.0, //m1 pos
@@ -187,10 +189,14 @@ void test_results(void)
 				std::cout << std::endl;
 			}
 			if (counter == results.size()){
-				std::cout << "... " << "\033[1;32mpassed\033[0m\n";
+				std::cout << " " << "\033[1;32mpassed\033[0m\n";
 			}
 		}
 	}
+
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+	getchar();
+#endif
 }
 
 TEST_LIST = {

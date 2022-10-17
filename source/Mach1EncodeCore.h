@@ -38,11 +38,11 @@ using namespace std::chrono;
 #endif
 
 #ifndef MAX_CHANNELS_COUNT
-#define MAX_CHANNELS_COUNT 20 // 18 + 2
+#define MAX_CHANNELS_COUNT 64
 #endif
 
 #ifndef MAX_POINTS_COUNT
-#define MAX_POINTS_COUNT 8
+#define MAX_POINTS_COUNT 16
 #endif
 
 
@@ -71,32 +71,32 @@ public:
 	enum InputMode { 
 		INPUT_MONO = (int) 0, 
 		INPUT_STEREO,
+		INPUT_LCR,
 		INPUT_QUAD, 
 		INPUT_LCRS, 
-		INPUT_AFORMAT, 
-		#if __cplusplus > 201402L
-		[[deprecated("INPUT_BFORMAT is not specific enough, please use either: INPUT_FOAACN or INPUT_FOAFUMA")]]
-		#endif
-		INPUT_BFORMAT, 
+		INPUT_AFORMAT,
+		INPUT_FIVE_ZERO, /// (Using Mach1Transcode is recommended instead)
+		INPUT_FIVE_ONE_FILM, /// (Using Mach1Transcode is recommended instead)
+		INPUT_FIVE_ONE_DTS, /// (Using Mach1Transcode is recommended instead)
+		INPUT_FIVE_ONE_SMPTE, /// (Using Mach1Transcode is recommended instead) 
 		INPUT_1OAACN, 
 		INPUT_1OAFUMA,
 		INPUT_2OAACN, 
 		INPUT_2OAFUMA,
 		INPUT_3OAACN, 
-		INPUT_3OAFUMA,
-		INPUT_LCR,
-		INPUT_FIVE_ZERO, /// (Using Mach1Transcode is recommended instead)
-		INPUT_FIVE_ONE_FILM, /// (Using Mach1Transcode is recommended instead)
-		INPUT_FIVE_ONE_DTS, /// (Using Mach1Transcode is recommended instead)
-		INPUT_FIVE_ONE_SMPTE /// (Using Mach1Transcode is recommended instead)
+		INPUT_3OAFUMA
 	};
 	enum OutputMode { 
-		OUTPUT_HORIZON_4CH = (int) 0, 
-		OUTPUT_SPATIAL_8CH,
-		OUTPUT_SPATIALPLUS_12CH,
-		OUTPUT_SPATIALPLUSPLUS_14CH,
-		OUTPUT_SPATIALEXT_16CH,
-		OUTPUT_SPATIALEXTPLUS_18CH
+		OUTPUT_SPATIAL_8CH = (int) 0, 
+		OUTPUT_HORIZON_4CH,
+		OUTPUT_SPATIAL_12CH,
+		OUTPUT_SPATIAL_14CH,
+		OUTPUT_SPATIAL_18CH,
+		OUTPUT_SPATIAL_22CH,
+		OUTPUT_SPATIAL_32CH,
+		OUTPUT_SPATIAL_36CH,
+		OUTPUT_SPATIAL_48CH,
+		OUTPUT_SPATIAL_60CH
 	};
 
 	enum PannerMode {
@@ -107,33 +107,36 @@ public:
 
 	struct InputModeName { InputMode mode; std::string name; };
 	std::vector<InputModeName> inputModeNames = {
-		 { INPUT_MONO, "Mono"},
-		 { INPUT_STEREO, "Stereo"},
-		 { INPUT_QUAD, "Quad"},
-		 { INPUT_LCRS, "Lcrs"},
-		 { INPUT_AFORMAT, "Aformat"},
-		 { INPUT_BFORMAT, "Bformat"},
-		 { INPUT_1OAACN, "1oaacn"},
-		 { INPUT_1OAFUMA, "1oafuma"},
-		 { INPUT_2OAACN, "2oaacn"},
-		 { INPUT_2OAFUMA, "2oafuma"},
-		 { INPUT_3OAACN, "3oaacn"},
-		 { INPUT_3OAFUMA, "3oafuma"},
-		 { INPUT_LCR, "Lcr"},
-		 { INPUT_FIVE_ZERO, "Zero"},
-		 { INPUT_FIVE_ONE_FILM, "OneFilm"},
-		 { INPUT_FIVE_ONE_DTS, "OneDTS"},
-		 { INPUT_FIVE_ONE_SMPTE, "OneSmpte"},
+		 { INPUT_MONO, "1.0"},
+		 { INPUT_STEREO, "2.0_C"},
+		 { INPUT_LCR, "3.0_LCR"},
+		 { INPUT_QUAD, "4.0_Quad"},
+		 { INPUT_LCRS, "4.0_LCRS"},
+		 { INPUT_AFORMAT, "4.0_AFormat"},
+		 { INPUT_FIVE_ZERO, "5.0_C"},
+		 { INPUT_FIVE_ONE_FILM, "5.1_C"},
+		 { INPUT_FIVE_ONE_DTS, "5.1_C_Dts"},
+		 { INPUT_FIVE_ONE_SMPTE, "5.1_C_SMPTE"},
+		 { INPUT_1OAACN, "ACNSN3D"},
+		 { INPUT_1OAFUMA, "FuMa"},
+		 { INPUT_2OAACN, "ACNSN3DO2A"},
+		 { INPUT_2OAFUMA, "FuMaO2A"},
+		 { INPUT_3OAACN, "FuMaO3A"},
+		 { INPUT_3OAFUMA, "ACNSN3DO3A"},
 	};
 
 	struct OutputModeName { OutputMode mode; std::string name; };
 	std::vector<OutputModeName> outputModeNames = {
-		 { OUTPUT_HORIZON_4CH, "Horizon4ch"},
-		 { OUTPUT_SPATIAL_8CH, "Spatial8ch"},
-		 { OUTPUT_SPATIALPLUS_12CH, "SpatialPlus12ch"},
-		 { OUTPUT_SPATIALPLUSPLUS_14CH, "SpatialPlusPlus14ch"},
-		 { OUTPUT_SPATIALEXT_16CH, "SpatialExt16ch"},
-		 { OUTPUT_SPATIALEXTPLUS_18CH, "SpatialExtPlus18ch"},
+		 { OUTPUT_SPATIAL_8CH, "M1Spatial-8"},
+		 { OUTPUT_HORIZON_4CH, "M1Horizon-4"},
+		 { OUTPUT_SPATIAL_12CH, "M1Spatial-12"},
+		 { OUTPUT_SPATIAL_14CH, "M1Spatial-14"},
+		 { OUTPUT_SPATIAL_18CH, "M1Spatial-18"},
+		 { OUTPUT_SPATIAL_22CH, "M1Spatial-22"},
+		 { OUTPUT_SPATIAL_32CH, "M1Spatial-32"},
+		 { OUTPUT_SPATIAL_36CH, "M1Spatial-36"},
+		 { OUTPUT_SPATIAL_48CH, "M1Spatial-48"},
+		 { OUTPUT_SPATIAL_60CH, "M1Spatial-60"},
 	};
 
 	// arrays for CAPI
@@ -151,8 +154,8 @@ private:
 	float azimuth, diverge, elevation;
 	float orbitRotation, sSpread;
 	bool autoOrbit;
-	bool isotropicEncode; // deprecated
-	bool frontSurroundPerspective; 
+	bool frontSurroundPerspective;
+	float outputGainLinearMultipler;
 
 	float getCoeffForStandardPoint(float x, float y, float z, Mach1Point3DCore point, bool ignoreZ);
 	std::vector<float> getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<Mach1Point3DCore>& pointSet, bool ignoreZ);
@@ -171,15 +174,14 @@ public:
 	M1EncodeCorePointResults resultingPoints;
 
 	void getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, float *decodeResult, float *result);
-#if __cplusplus > 201103L
-	[[deprecated]]
-#endif	
-	void getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, float *decodeResult, float *result);
 
 	InputMode getInputMode();
 	OutputMode getOutputMode();
 	int getInputChannelsCount();
 	int getOutputChannelsCount();
+
+	int getInputModeFromString(std::string name);
+	int getOutputModeFromString(std::string name);
 
 	void setInputMode(InputMode inputMode);
 	void setOutputMode(OutputMode outputMode);
@@ -193,12 +195,13 @@ public:
 	void setIsotropicEncode(bool isotropicEncode);
 	void setPannerMode(PannerMode pannerMode);
 	void setFrontSurroundPerspective(bool frontSurroundPerspective);
+	void setOutputGain(float outputGainMultipler, bool isDecibel);
 
+	void setAutoOrbit(bool autoOrbit);
 	void setOrbitRotation(float orbitRotationFromMinusOnetoOne);
 	void setOrbitRotationDegrees(float orbitRotationDegrees);
 	void setOrbitRotationRadians(float orbitRotationRadians);
 	void setStereoSpread(float sSpreadFrom0to1);
-	void setAutoOrbit(bool autoOrbit);
 
 	long getCurrentTime();
 	long getLastCalculationTime();

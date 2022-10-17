@@ -608,10 +608,10 @@ function createWasm() {
  function receiveInstance(instance, module) {
   var exports = instance.exports;
   Module["asm"] = exports;
-  wasmMemory = Module["asm"]["B"];
+  wasmMemory = Module["asm"]["D"];
   updateGlobalBufferAndViews(wasmMemory.buffer);
-  wasmTable = Module["asm"]["D"];
-  addOnInit(Module["asm"]["C"]);
+  wasmTable = Module["asm"]["F"];
+  addOnInit(Module["asm"]["E"]);
   removeRunDependency("wasm-instantiate");
  }
  addRunDependency("wasm-instantiate");
@@ -2316,6 +2316,16 @@ function __embind_register_void(rawType, name) {
  });
 }
 
+function __emscripten_date_now() {
+ return Date.now();
+}
+
+var nowIsMonotonic = true;
+
+function __emscripten_get_now_is_monotonic() {
+ return nowIsMonotonic;
+}
+
 function __emval_incref(handle) {
  if (handle > 4) {
   emval_handle_array[handle].refcount += 1;
@@ -2339,6 +2349,15 @@ function __emval_take_value(type, arg) {
 function _abort() {
  abort("");
 }
+
+var _emscripten_get_now;
+
+if (ENVIRONMENT_IS_NODE) {
+ _emscripten_get_now = () => {
+  var t = process["hrtime"]();
+  return t[0] * 1e3 + t[1] / 1e6;
+ };
+} else _emscripten_get_now = () => performance.now();
 
 function _emscripten_memcpy_big(dest, src, num) {
  HEAPU8.copyWithin(dest, src, src + num);
@@ -2427,25 +2446,27 @@ var asmLibraryArg = {
  "m": ___cxa_throw,
  "p": __embind_finalize_value_object,
  "r": __embind_register_bigint,
- "y": __embind_register_bool,
+ "A": __embind_register_bool,
  "e": __embind_register_class,
  "d": __embind_register_class_constructor,
  "a": __embind_register_class_function,
- "x": __embind_register_emval,
+ "z": __embind_register_emval,
  "l": __embind_register_float,
  "c": __embind_register_integer,
  "b": __embind_register_memory_view,
  "k": __embind_register_std_string,
  "i": __embind_register_std_wstring,
- "v": __embind_register_value_object,
+ "x": __embind_register_value_object,
  "g": __embind_register_value_object_field,
- "z": __embind_register_void,
- "A": __emval_decref,
+ "B": __embind_register_void,
+ "v": __emscripten_date_now,
+ "u": __emscripten_get_now_is_monotonic,
+ "C": __emval_decref,
  "o": __emval_incref,
  "f": __emval_take_value,
  "h": _abort,
- "w": _emscripten_memcpy_big,
- "u": _emscripten_resize_heap,
+ "y": _emscripten_memcpy_big,
+ "w": _emscripten_resize_heap,
  "t": _fd_close,
  "q": _fd_seek,
  "j": _fd_write,
@@ -2455,31 +2476,31 @@ var asmLibraryArg = {
 var asm = createWasm();
 
 var ___wasm_call_ctors = Module["___wasm_call_ctors"] = function() {
- return (___wasm_call_ctors = Module["___wasm_call_ctors"] = Module["asm"]["C"]).apply(null, arguments);
+ return (___wasm_call_ctors = Module["___wasm_call_ctors"] = Module["asm"]["E"]).apply(null, arguments);
 };
 
 var _malloc = Module["_malloc"] = function() {
- return (_malloc = Module["_malloc"] = Module["asm"]["E"]).apply(null, arguments);
+ return (_malloc = Module["_malloc"] = Module["asm"]["G"]).apply(null, arguments);
 };
 
 var ___getTypeName = Module["___getTypeName"] = function() {
- return (___getTypeName = Module["___getTypeName"] = Module["asm"]["F"]).apply(null, arguments);
+ return (___getTypeName = Module["___getTypeName"] = Module["asm"]["H"]).apply(null, arguments);
 };
 
 var __embind_initialize_bindings = Module["__embind_initialize_bindings"] = function() {
- return (__embind_initialize_bindings = Module["__embind_initialize_bindings"] = Module["asm"]["G"]).apply(null, arguments);
+ return (__embind_initialize_bindings = Module["__embind_initialize_bindings"] = Module["asm"]["I"]).apply(null, arguments);
 };
 
 var _free = Module["_free"] = function() {
- return (_free = Module["_free"] = Module["asm"]["H"]).apply(null, arguments);
+ return (_free = Module["_free"] = Module["asm"]["J"]).apply(null, arguments);
 };
 
 var ___cxa_is_pointer_type = Module["___cxa_is_pointer_type"] = function() {
- return (___cxa_is_pointer_type = Module["___cxa_is_pointer_type"] = Module["asm"]["I"]).apply(null, arguments);
+ return (___cxa_is_pointer_type = Module["___cxa_is_pointer_type"] = Module["asm"]["K"]).apply(null, arguments);
 };
 
 var dynCall_jiji = Module["dynCall_jiji"] = function() {
- return (dynCall_jiji = Module["dynCall_jiji"] = Module["asm"]["J"]).apply(null, arguments);
+ return (dynCall_jiji = Module["dynCall_jiji"] = Module["asm"]["L"]).apply(null, arguments);
 };
 
 var calledRun;

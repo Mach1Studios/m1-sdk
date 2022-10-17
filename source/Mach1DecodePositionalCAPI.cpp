@@ -24,7 +24,7 @@ void Mach1DecodePositionalCAPI_setPlatformType(void * M1obj, Mach1PlatformType t
 	}
 }
 
-void Mach1DecodePositionalCAPI_setDecodeAlgoType(void * M1obj, Mach1DecodeAlgoType newAlgorithmType)
+void Mach1DecodePositionalCAPI_setDecodeAlgoType(void * M1obj, enum Mach1DecodeAlgoType newAlgorithmType)
 {
 	if (M1obj != nullptr) {
 		((Mach1DecodePositionalCore*)M1obj)->setDecodeAlgoType(newAlgorithmType);
@@ -49,11 +49,6 @@ void Mach1DecodePositionalCAPI_setUseAttenuation(void * M1obj, bool useAttenuati
 void Mach1DecodePositionalCAPI_setAttenuationCurve(void * M1obj, float attenuationCurve)
 {
 	((Mach1DecodePositionalCore*)M1obj)->setAttenuationCurve(attenuationCurve);
-}
-
-void Mach1DecodePositionalCAPI_setAttenuationCurveBlendMode(void * M1obj, float attenuationCurveBlendMode)
-{
-	((Mach1DecodePositionalCore*)M1obj)->setAttenuationCurveBlendMode(attenuationCurveBlendMode);
 }
 
 void Mach1DecodePositionalCAPI_setUsePlaneCalculation(void * M1obj, bool usePlaneCalculation)
@@ -161,45 +156,6 @@ long Mach1DecodePositionalCAPI_getLastCalculationTime(void * M1obj)
 	return ((Mach1DecodePositionalCore*)M1obj)->getLastCalculationTime();
 }
 
-/* DEPRECATED START*/
-void Mach1DecodePositionalCAPI_setUseFalloff(void * M1obj, bool useFalloff)
-{
-	((Mach1DecodePositionalCore*)M1obj)->setUseFalloff(useFalloff);
-}
-void Mach1DecodePositionalCAPI_setFalloffCurve(void * M1obj, float falloffCurve)
-{
-	((Mach1DecodePositionalCore*)M1obj)->setFalloffCurve(falloffCurve);
-}
-void Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(void * M1obj, bool useClosestPointRotationMuteInside)
-{
-	((Mach1DecodePositionalCore*)M1obj)->setUseClosestPointRotationMuteInside(useClosestPointRotationMuteInside);
-}
-void Mach1DecodePositionalCAPI_setCameraPosition(void * M1obj, Mach1Point3D point)
-{
-	Mach1Point3DCore pnt{ point.x, point.y, point.z };
-	((Mach1DecodePositionalCore*)M1obj)->setCameraPosition(&pnt);
-}
-void Mach1DecodePositionalCAPI_setCameraRotation(void * M1obj, Mach1Point3D point)
-{
-	Mach1Point3DCore pnt{ point.x, point.y, point.z };
-	((Mach1DecodePositionalCore*)M1obj)->setCameraRotation(&pnt);
-}
-void Mach1DecodePositionalCAPI_setCameraRotationQuat(void * M1obj, Mach1Point4D point)
-{
-	Mach1Point4DCore pnt{ point.x, point.y, point.z, point.w };
-	((Mach1DecodePositionalCore*)M1obj)->setCameraRotationQuat(&pnt);
-}
-void Mach1DecodePositionalCAPI_getVolumesWalls(void * M1obj, float* result)
-{
-	((Mach1DecodePositionalCore*)M1obj)->getVolumesWalls(result);
-}
-Mach1Point3D Mach1DecodePositionalCAPI_getVolumeRotation(void * M1obj)
-{
-	Mach1Point3DCore angle = ((Mach1DecodePositionalCore*)M1obj)->getVolumeRotation();
-	return Mach1Point3D{ angle.x, angle.y, angle.z };
-}
-/* DEPRECATED END */
-
 /* Experimental Functions/Features */
 void Mach1DecodePositionalCAPI_setUseBlendMode(void * M1obj, bool useBlendMode)
 {
@@ -209,13 +165,9 @@ void Mach1DecodePositionalCAPI_setIgnoreTopBottom(void * M1obj, bool ignoreTopBo
 {
 	((Mach1DecodePositionalCore*)M1obj)->setIgnoreTopBottom(ignoreTopBottom);
 }
-void Mach1DecodePositionalCAPI_setFalloffCurveBlendMode(void * M1obj, float falloffCurveBlendMode)
+void Mach1DecodePositionalCAPI_setAttenuationCurveBlendMode(void * M1obj, float attenuationCurveBlendMode)
 {
-	((Mach1DecodePositionalCore*)M1obj)->setFalloffCurveBlendMode(falloffCurveBlendMode);
-}
-void Mach1DecodePositionalCAPI_getVolumesRoom(void * M1obj, float* result)
-{
-	((Mach1DecodePositionalCore*)M1obj)->getVolumesRoom(result);
+	((Mach1DecodePositionalCore*)M1obj)->setAttenuationCurveBlendMode(attenuationCurveBlendMode);
 }
 void Mach1DecodePositionalCAPI_getCoefficientsInterior(void * M1obj, float* result)
 {

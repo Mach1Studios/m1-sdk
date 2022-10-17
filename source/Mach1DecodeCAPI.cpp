@@ -77,6 +77,11 @@ int Mach1DecodeCAPI_getFormatChannelCount(void* M1obj)
 	return ((Mach1DecodeCore*)M1obj)->getFormatChannelCount();
 }
 
+int Mach1DecodeCAPI_getFormatCoeffCount(void* M1obj)
+{
+	return ((Mach1DecodeCore*)M1obj)->getFormatCoeffCount();
+}
+
 void Mach1DecodeCAPI_setRotation(void* M1obj, Mach1Point3D newRotationFromMinusOnetoOne)
 {
 	((Mach1DecodeCore*)M1obj)->setRotation({ newRotationFromMinusOnetoOne.x, newRotationFromMinusOnetoOne.y, newRotationFromMinusOnetoOne.z });

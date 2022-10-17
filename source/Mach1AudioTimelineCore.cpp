@@ -82,8 +82,8 @@ void Mach1AudioTimelineCore::parseAtmos(char* inDotAtmos, char* inDotAtmosDotMet
 	Yaml::Node objectmetadata;
 	int cnt = 0;
 
-	Yaml::Parse(generalmetadata, inDotAtmos, strlen(inDotAtmos));
-	Yaml::Parse(objectmetadata, inDotAtmosDotMetadata, strlen(inDotAtmosDotMetadata));
+	Yaml::Parse(generalmetadata, inDotAtmos, std::strlen(inDotAtmos));
+	Yaml::Parse(objectmetadata, inDotAtmosDotMetadata, std::strlen(inDotAtmosDotMetadata));
 
 	{
 		Yaml::Node & item = generalmetadata["presentations"][0]["bedInstances"][0]["channels"];

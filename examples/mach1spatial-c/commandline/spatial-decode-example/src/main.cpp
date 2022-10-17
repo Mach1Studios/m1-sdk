@@ -109,7 +109,7 @@ int main(int argc, const char * argv[]) {
     ts.tv_nsec = (long)1e7; // 1/100 seconds
     
     printf("Setting up\n");
-    outputFormat = Mach1DecodeAlgoSpatial;
+    outputFormat = Mach1DecodeAlgoSpatial_8;
     outputName = "MACH1 SPATIAL";
     done = false;
     pthread_create(&thread, NULL, &decode, NULL);
@@ -184,33 +184,42 @@ static void* decode(void* v)
                 roll -= DELTA_VALUE;
                 break;
             case 'o':
-                if(outputFormat==Mach1DecodeAlgoSpatial){
-                    outputFormat=Mach1DecodeAlgoHorizon;
-                    outputName="MACH1 HORIZON";
-                }else if(outputFormat==Mach1DecodeAlgoHorizon){
-                    outputFormat=Mach1DecodeAlgoAltSpatial;
-                    outputName="MACH1 SPATIAL Periphonic";
-                }else if(outputFormat==Mach1DecodeAlgoAltSpatial){
-                    outputFormat=Mach1DecodeAlgoSpatialPlus;
-                    outputName="MACH1 SPATIAL+";
-                }else if(outputFormat==Mach1DecodeAlgoSpatialPlus){
-                    outputFormat=Mach1DecodeAlgoSpatialPlusPlus;
-                    outputName="MACH1 SPATIAL++";
-                }else if(outputFormat==Mach1DecodeAlgoSpatialPlusPlus){
-                    outputFormat=Mach1DecodeAlgoSpatialExt;
-                    outputName="MACH1 SPATIAL Extended";
-                }else if(outputFormat==Mach1DecodeAlgoSpatialExt){
-                    outputFormat=Mach1DecodeAlgoSpatialExtPlus;
-                    outputName="MACH1 SPATIAL Extended+";
-                }else if(outputFormat==Mach1DecodeAlgoSpatialExtPlus){
-                    outputFormat=Mach1DecodeAlgoSpatial;
-                    outputName="MACH1 SPATIAL";
+                if(outputFormat==Mach1DecodeAlgoSpatial_8){
+                    outputFormat=Mach1DecodeAlgoHorizon_4;
+                    outputName="MACH1HORIZON-4";
+                }else if(outputFormat==Mach1DecodeAlgoHorizon_4){
+                    outputFormat=Mach1DecodeAlgoSpatialAlt_8;
+                    outputName="MACH1SPATIAL-8-Periphonic";
+                }else if(outputFormat==Mach1DecodeAlgoSpatialAlt_8){
+                    outputFormat=Mach1DecodeAlgoSpatial_14;
+                    outputName="MACH1SPATIAL-14";
+                }else if(outputFormat==Mach1DecodeAlgoSpatial_14){
+                    outputFormat=Mach1DecodeAlgoSpatial_16;
+                    outputName="MACH1SPATIAL-16";
+                }else if(outputFormat==Mach1DecodeAlgoSpatial_16){
+                    outputFormat=Mach1DecodeAlgoSpatial_18;
+                    outputName="MACH1SPATIAL-18";
+                }else if(outputFormat==Mach1DecodeAlgoSpatial_18){
+                    outputFormat=Mach1DecodeAlgoSpatial_32;
+                    outputName="MACH1SPATIAL-32";
+                }else if(outputFormat==Mach1DecodeAlgoSpatial_32){
+                    outputFormat=Mach1DecodeAlgoSpatial_36;
+                    outputName="MACH1SPATIAL-36";
+                }else if(outputFormat==Mach1DecodeAlgoSpatial_32){
+                    outputFormat=Mach1DecodeAlgoSpatial_48;
+                    outputName="MACH1SPATIAL-48";
+                }else if(outputFormat==Mach1DecodeAlgoSpatial_48){
+                    outputFormat=Mach1DecodeAlgoSpatial_60;
+                    outputName="MACH1SPATIAL-60";
+                }else if(outputFormat==Mach1DecodeAlgoSpatial_60){
+                    outputFormat=Mach1DecodeAlgoSpatial_8;
+                    outputName="MACH1SPATIAL-8";
                 }else{
                     printf("Input out of scope.");
                 }
                 //resize coeffs array to the size of the current output
                 m1Decode.setDecodeAlgoType(outputFormat);
-                m1Coeffs.resize(m1Decode.getFormatChannelCount(), 0.0f);
+                m1Coeffs.resize(m1Decode.getFormatCoeffCount(), 0.0f);
                 break;
             default:
                 printf("Input not recognized.\n");
@@ -246,7 +255,7 @@ static void* decode(void* v)
             printf(" %iR: %f\n", i, m1Coeffs[i * 2 + 1]);
         }
         printf("Headlock Stereo Coeffs:\n");
-        printf("%f %f\n", m1Coeffs[m1Decode.getFormatChannelCount()-2], m1Coeffs[m1Decode.getFormatChannelCount()-1]);
+        printf("%f %f\n", m1Coeffs[m1Decode.getFormatCoeffCount()-2], m1Coeffs[m1Decode.getFormatCoeffCount()-1]);
         printf("\n");
         printf("Number of Active Coeffs:\n");
         int activeCount = 0;

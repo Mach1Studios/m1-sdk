@@ -35,21 +35,24 @@ enum Mach1PlatformType {
 	Mach1PlatformUE,
 	Mach1PlatformOfEasyCam,
 	Mach1PlatformAndroid,
+	Mach1PlatformiOS,
 	Mach1PlatformiOSTableTop_ZVertical,
 	Mach1PlatformiOSPortraitHandheld_YVertical,
 	Mach1PlatformiOSPortrait_YawOnly
 };
 
 enum Mach1DecodeAlgoType {
-	Mach1DecodeAlgoSpatial = (int) 0,
-	Mach1DecodeAlgoAltSpatial,
-	Mach1DecodeAlgoHorizon,
+	Mach1DecodeAlgoSpatial_8 = (int) 0,
+	Mach1DecodeAlgoHorizon_4,
 	Mach1DecodeAlgoHorizonPairs,
-	Mach1DecodeAlgoSpatialPairs,
-	Mach1DecodeAlgoSpatialPlus,
-	Mach1DecodeAlgoSpatialPlusPlus,
-	Mach1DecodeAlgoSpatialExt,
-	Mach1DecodeAlgoSpatialExtPlus
+	Mach1DecodeAlgoSpatial_12,
+	Mach1DecodeAlgoSpatial_14,
+	Mach1DecodeAlgoSpatial_18,
+	Mach1DecodeAlgoSpatial_22,
+	Mach1DecodeAlgoSpatial_32,
+	Mach1DecodeAlgoSpatial_36,
+	Mach1DecodeAlgoSpatial_48,
+	Mach1DecodeAlgoSpatial_60
 };
 
 #ifdef __cplusplus
@@ -74,6 +77,7 @@ extern "C" {
 	M1_API void Mach1DecodeCAPI_endBuffer(void* M1obj);
   
 	M1_API int Mach1DecodeCAPI_getFormatChannelCount(void* M1obj);
+	M1_API int Mach1DecodeCAPI_getFormatCoeffCount(void* M1obj);
 	M1_API void Mach1DecodeCAPI_setRotation(void* M1obj, struct Mach1Point3D newRotationFromMinusOnetoOne);
 	M1_API void Mach1DecodeCAPI_setRotationDegrees(void* M1obj, struct Mach1Point3D newRotationDegrees);
 	M1_API void Mach1DecodeCAPI_setRotationRadians(void* M1obj, struct Mach1Point3D newRotationRadians);

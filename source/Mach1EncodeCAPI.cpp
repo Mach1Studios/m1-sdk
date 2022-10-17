@@ -143,6 +143,10 @@ void Mach1EncodeCAPI_setElevationRadians(void* M1obj, float elevationFromMinusHa
 	((M1EncodeCore*)M1obj)->setElevationRadians(elevationFromMinusHalfPItoHalfPI);
 }
 
+void Mach1EncodeCAPI_setAutoOrbit(void* M1obj, bool autoOrbit) {
+	((M1EncodeCore*)M1obj)->setAutoOrbit(autoOrbit);
+}
+
 void Mach1EncodeCAPI_setOrbitRotation(void* M1obj, float orbitRotationFromMinusOnetoOne) {
 	((M1EncodeCore*)M1obj)->setOrbitRotation(orbitRotationFromMinusOnetoOne);
 }
@@ -159,10 +163,6 @@ void Mach1EncodeCAPI_setStereoSpread(void* M1obj, float sSpreadFrom0to1) {
 	((M1EncodeCore*)M1obj)->setStereoSpread(sSpreadFrom0to1);
 }
 
-void Mach1EncodeCAPI_setAutoOrbit(void* M1obj, bool autoOrbit) {
-	((M1EncodeCore*)M1obj)->setAutoOrbit(autoOrbit);
-}
-
 void Mach1EncodeCAPI_setPannerMode(void* M1obj, enum Mach1EncodePannerMode pannerMode) {
 	((M1EncodeCore*)M1obj)->setPannerMode(static_cast<M1EncodeCore::PannerMode>(pannerMode));
 }
@@ -171,36 +171,10 @@ void Mach1EncodeCAPI_setFrontSurroundPerspective(void* M1obj, bool frontSurround
 	((M1EncodeCore*)M1obj)->setFrontSurroundPerspective(frontSurroundPerspective);
 }
 
+void Mach1EncodeCAPI_setOutputGain(void* M1obj, float outputGainMultipler, bool isDecibel) {
+	((M1EncodeCore*)M1obj)->setOutputGain(outputGainMultipler, isDecibel);
+}
+
 long Mach1EncodeCAPI_getLastCalculationTime(void* M1obj) {
 	return ((M1EncodeCore*)M1obj)->getLastCalculationTime();
 }
-
-/* DEPRECATED START*/
-void Mach1EncodeCAPI_setRotation(void* M1obj, float rotationDegrees) {
-	((M1EncodeCore*)M1obj)->setAzimuthDegrees(rotationDegrees);
-}
-
-void Mach1EncodeCAPI_setPitch(void* M1obj, float pitchFromMinus90to90) {
-	((M1EncodeCore*)M1obj)->setElevationDegrees(pitchFromMinus90to90);
-}
-
-void Mach1EncodeCAPI_setStereoRotate(void* M1obj, float sRotateDegrees) {
-	((M1EncodeCore*)M1obj)->setOrbitRotationDegrees(sRotateDegrees);
-}
-
-void Mach1EncodeCAPI_setIsotropicEncode(void* M1obj, bool isotropicEncode) {
-	((M1EncodeCore*)M1obj)->setIsotropicEncode(isotropicEncode);
-}
-
-void* Mach1EncodeCAPI_getResultingVolumesDecoded(void * M1obj, enum Mach1DecodeAlgoType decodeType, float * decodeResult)
-{
-	// clear
-	for (int i = 0; i < MAX_CHANNELS_COUNT; i++) {
-		((M1EncodeCore*)M1obj)->arr_ResultingCoeffsDecoded[i] = 0;
-	}
-	
-	((M1EncodeCore*)M1obj)->getResultingVolumesDecoded(decodeType, decodeResult, ((M1EncodeCore*)M1obj)->arr_ResultingCoeffsDecoded);
-
-	return ((M1EncodeCore*)M1obj)->arr_ResultingCoeffsDecoded;
-}
-/* DEPRECATED END */

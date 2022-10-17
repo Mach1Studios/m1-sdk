@@ -22,29 +22,11 @@ clear:
 
 test: clear
 ifeq ($(detected_OS),Darwin)
-	cd tests && $(POLLY_BIN_PATH) --clear --install --config Release --toolchain xcode
-	./tests/_install/xcode/bin/Mach1EncodeTests
-	./tests/_install/xcode/bin/Mach1DecodeTests
-	./tests/_install/xcode/bin/Mach1DecodePositionalTests
-	./tests/_install/xcode/bin/Mach1SpatialTests
-	./tests/_install/xcode/bin/Mach1TranscodeTests
-	echo "### RENDER CHECK ####"
-	echo "### 5.1_C -> M1Spatial ###"
-	rm -rf tests/Mach1TranscodeRenderTest/build
-	cd tests/Mach1TranscodeRenderTest && mkdir build && cd build && cmake ../ && cmake --build . && ./spatial-transcode-render -in-file "../m1-debug-shortpt-fiveone.wav" -in-fmt 5.1_C -out-file "../m1-debug-shortpt-fiveone_m1spatial-out.wav" -out-fmt M1Spatial -out-file-chans 0
+	cd tests && ./_build_on_osx_for_osx.sh
 else ifeq ($(detected_OS),Windows)
-	cd tests && python $(POLLY_PY_PATH) --clear --install --config Release --toolchain vs-15-2017-win64
+	cd tests && ./_build_on_win_for_win.bat
 else
-	cd tests && $(POLLY_BIN_PATH) --clear --install --config Release --toolchain gcc
-	./tests/_install/gcc/bin/Mach1EncodeTests
-	./tests/_install/gcc/bin/Mach1DecodeTests
-	./tests/_install/gcc/bin/Mach1DecodePositionalTests
-	./tests/_install/gcc/bin/Mach1SpatialTests
-	./tests/_install/gcc/bin/Mach1TranscodeTests
-	echo "### RENDER CHECK ####"
-	echo "### 5.1_C -> M1Spatial ###"
-	rm -rf tests/Mach1TranscodeRenderTest/build
-	cd tests/Mach1TranscodeRenderTest && mkdir build && cd build && cmake ../ && cmake --build . && ./spatial-transcode-render -in-file "../m1-debug-shortpt-fiveone.wav" -in-fmt 5.1_C -out-file "../m1-debug-shortpt-fiveone_m1spatial-out.wav" -out-fmt M1Spatial -out-file-chans 0
+	cd tests && ./_build_on_linux_for_linux.sh
 endif
 
 test-linking:
@@ -74,15 +56,8 @@ build-ci-win: clear test includes-dev includes-release build deploy-dev deploy-r
 build: FORCE
 ifeq ($(detected_OS),Darwin)
 	mkdir -p "../mach1spatial-libs/xcode/lib"
-	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain xcode
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/lib/libMach1DecodeCAPI.a"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/lib/libMach1DecodePositionalCAPI.a"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/lib/libMach1TranscodeCAPI.a"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/lib/libMach1EncodeCAPI.a"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/libBundle/libMach1DecodeCAPI.bundle"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/libBundle/libMach1DecodePositionalCAPI.bundle"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/libBundle/libMach1TranscodeCAPI.bundle"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/xcode/libBundle/libMach1EncodeCAPI.bundle"
+	cmake . -B_builds/xcode -GXcode -DBUILD_SHARED_LIBS=ON -DBUILD_STATIC_LIBS=ON -DBUILD_MACOS_BUNDLE=1 -DBUILD_SHARED_LIBS=1 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/xcode
+	cmake --build _builds/xcode --config Release --target install
 	rsync -c "_install/xcode/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1DecodeCAPI.a"
 	rsync -c "_install/xcode/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1EncodeCAPI.a"
 	rsync -c "_install/xcode/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1TranscodeCAPI.a"
@@ -92,76 +67,60 @@ ifeq ($(detected_OS),Darwin)
 	#cat  ./macOS-UB-readme.md
 	#open _builds/xcode/Mach1SpatialLibraries.xcodeproj
 else ifeq ($(detected_OS),Windows)
-	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-15-2017
-	rsync -c "_install/vs-15-2017/lib" ../mach1spatial-libs/vs-15-2017-x86/lib/Static/MD/Release/*.lib
-	rsync -c "_install/vs-15-2017/lib-shared" ../mach1spatial-libs/vs-15-2017-x86/lib/Dynamic/Release/*.dll
+	cmake . -B_builds/vs-15-2017 -G "Visual Studio 15 2017" -A Win32 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/vs-15-2017
+	cmake --build _builds/vs-15-2017 --config Release --target install
+	rsync -c "_install/vs-15-2017/lib" "../mach1spatial-libs/vs-15-2017-x86/lib/Static/MD/Release/"
+	rsync -c "_install/vs-15-2017/lib-shared" "../mach1spatial-libs/vs-15-2017-x86/lib/Dynamic/Release/"
 	rsync -c "_install/vs-15-2017/lib" "../mach1spatial-libs/windows-x86"
-	rsync -c "_install/vs-15-2017/lib-shared" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Windows/x86"
-	rsync -c "_install/vs-15-2017/lib-shared" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Windows/x86"
-	rsync -c "_install/vs-15-2017/lib" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win32"
-	rsync -c "_install/vs-15-2017/lib-shared" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win32"
-	rsync -c "_install/vs-15-2017/lib" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/vs/x86"
-	python ../../polly/bin/polly.py --clear --install --config Debug --toolchain vs-15-2017
-	rsync -c "_install/vs-15-2017/lib" ../mach1spatial-libs/vs-15-2017-x86/lib/Static/MD/Debug/*.lib
-	rsync -c "_install/vs-15-2017/lib-shared" ../mach1spatial-libs/vs-15-2017-x86/lib/Dynamic/Debug/*.dll
-	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-15-2017-win64
-	rsync -c "_install/vs-15-2017-win64/lib" ../mach1spatial-libs/vs-15-2017-x86_64/lib/Static/MD/Release/*.lib
-	rsync -c "_install/vs-15-2017-win64/lib-shared" ../mach1spatial-libs/vs-15-2017-x86_64/lib/Dynamic/Release/*.dll
+	cmake . -B_builds/vs-15-2017 -G "Visual Studio 15 2017" -A Win32 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/vs-15-2017
+	cmake --build _builds/vs-15-2017 --config Debug --target installrsync -c "_install/vs-15-2017/lib" "../mach1spatial-libs/vs-15-2017-x86/lib/Static/MD/Debug/"
+	rsync -c "_install/vs-15-2017/lib-shared" "../mach1spatial-libs/vs-15-2017-x86/lib/Dynamic/Debug/"
+	# MD x64
+	cmake . -B_builds/vs-15-2017-win64 -G "Visual Studio 15 2017" -A x64 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/vs-15-2017-win64
+	cmake --build _builds/vs-15-2017-win64 --config Release --target install
+	rsync -c "_install/vs-15-2017-win64/lib" "../mach1spatial-libs/vs-15-2017-x86_64/lib/Static/MD/Release/"
+	rsync -c "_install/vs-15-2017-win64/lib-shared" "../mach1spatial-libs/vs-15-2017-x86_64/lib/Dynamic/Release/"
 	rsync -c "_install/vs-15-2017-win64/lib" "../mach1spatial-libs/windows-x86_64"
-	rsync -c "_install/vs-15-2017-win64/lib-shared" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Windows/x86_64"
-	rsync -c "_install/vs-15-2017-win64/lib-shared" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Windows/x86_64"
-	rsync -c "_install/vs-15-2017-win64/lib" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win64"
-	rsync -c "_install/vs-15-2017-win64/lib-shared" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win64"
-	rsync -c "_install/vs-15-2017-win64/lib" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/vs/x64"
-	python ../../polly/bin/polly.py --clear --install --config Debug --toolchain vs-15-2017-win64
-	rsync -c "_install/vs-15-2017-win64/lib" ../mach1spatial-libs/vs-15-2017-x86_64/lib/Static/MD/Debug/*.lib
-	rsync -c "_install/vs-15-2017-win64/lib-shared" ../mach1spatial-libs/vs-15-2017-x86_64/lib/Dynamic/Debug/*.dll
-	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-15-2017-mt
-	rsync -c "_install/vs-15-2017-mt/lib" ../mach1spatial-libs/vs-15-2017-x86/lib/Static/MT/Release/*.lib
-	python ../../polly/bin/polly.py --clear --install --config Debug --toolchain vs-15-2017-mt
-	rsync -c "_install/vs-15-2017-mt/lib"../mach1spatial-libs/vs-15-2017-x86/lib/Static/MT/Debug/*.lib
-	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-15-2017-win64-mt
-	rsync -c "_install/vs-15-2017-win64-mt/lib"../mach1spatial-libs/vs-15-2017-x86_64/lib/Static/MT/Release/*.lib
-	python ../../polly/bin/polly.py --clear --install --config Debug --toolchain vs-15-2017-win64-mt
-	rsync -c "_install/vs-15-2017-win64-mt/lib"../mach1spatial-libs/vs-15-2017-x86_64/lib/Static/MT/Debug/*.lib
-	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-16-2019
-	rsync -c "_install/vs-16-2019/lib" ../mach1spatial-libs/vs-16-2019-x86/lib/Static/MD/Release/*.lib
-	rsync -c "_install/vs-16-2019-win64/lib-shared" ../mach1spatial-libs/vs-16-2019-x86/lib/Dynamic/Release/*.dll
-	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-16-2019-win64
-	rsync -c "_install/vs-16-2019-win64/lib" ../mach1spatial-libs/vs-16-2019-x86_64/lib/Static/MD/Release/*.lib
-	rsync -c "_install/vs-16-2019-win64/lib-shared" ../mach1spatial-libs/vs-16-2019-x86_64/lib/Dynamic/Release/*.dll
-	python ../../polly/bin/polly.py --clear --install --config Debug --toolchain vs-16-2019
-	rsync -c "_install/vs-16-2019/lib" ../mach1spatial-libs/vs-16-2019-x86/lib/Static/MD/Debug/*.lib
-	rsync -c "_install/vs-16-2019/lib-shared" ../mach1spatial-libs/vs-16-2019-x86/lib/Dynamic/Debug/*.dll
-	python ../../polly/bin/polly.py --clear --install --config Debug --toolchain vs-16-2019-win64
-	rsync -c "_install/vs-16-2019-win64/lib" ../mach1spatial-libs/vs-16-2019-x86_64/lib/Static/MD/Debug/*.lib
-	rsync -c "_install/vs-16-2019-win64/lib-shared" ../mach1spatial-libs/vs-16-2019-x86_64/lib/Dynamic/Debug/*.dll
-	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-16-2019-mt
-	rsync -c "_install/vs-16-2019-mt/lib" ../mach1spatial-libs/vs-16-2019-x86/lib/Static/MT/Release/*.lib
-	python ../../polly/bin/polly.py --clear --install --config Debug --toolchain vs-16-2019-mt
-	rsync -c "_install/vs-16-2019-mt/lib" ../mach1spatial-libs/vs-16-2019-x86/lib/Static/MT/Debug/*.lib
-	python ../../polly/bin/polly.py --clear --install --config Release --toolchain vs-16-2019-win64-mt
-	rsync -c "_install/vs-16-2019-win64-mt/lib"../mach1spatial-libs/vs-16-2019-x86_64/lib/Static/MT/Release/*.lib
-	python ../../polly/bin/polly.py --clear --install --config Debug --toolchain vs-16-2019-win64-mt
-	rsync -c "_install/vs-16-2019-win64-mt/lib" ../mach1spatial-libs/vs-16-2019-x86_64/lib/Static/MT/Debug/*.lib
-else
-	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain gcc
+	cmake . -B_builds/vs-15-2017-win64 -G "Visual Studio 15 2017" -A x64 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/vs-15-2017-win64
+	cmake --build _builds/vs-15-2017-win64 --config Debug --target install
+	rsync -c "_install/vs-15-2017-win64/lib" "../mach1spatial-libs/vs-15-2017-x86_64/lib/Static/MD/Debug/"
+	rsync -c "_install/vs-15-2017-win64/lib-shared" "../mach1spatial-libs/vs-15-2017-x86_64/lib/Dynamic/Debug/"
+	# MT win32
+	cmake . -B_builds/vs-15-2017-mt -G "Visual Studio 15 2017" -A Win32 -DCOMPILE_MT=1 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/vs-15-2017-mt
+	cmake --build _builds/vs-15-2017-mt --config Release --target install
+	rsync -c "_install/vs-15-2017-mt/lib" "../mach1spatial-libs/vs-15-2017-x86/lib/Static/MT/Release/"
+	cmake . -B_builds/vs-15-2017-mt -G "Visual Studio 15 2017" -A Win32 -DCOMPILE_MT=1 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/vs-15-2017-mt
+	cmake --build _builds/vs-15-2017-mt --config Debug --target install
+	rsync -c "_install/vs-15-2017-mt/lib" "../mach1spatial-libs/vs-15-2017-x86/lib/Static/MT/Debug/"
+	# MT x64
+	cmake . -B_builds/vs-15-2017-win64-mt -G "Visual Studio 15 2017" -A x64 -DCOMPILE_MT=1 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/vs-15-2017-win64-mt
+	cmake --build _builds/vs-15-2017-win64-mt --config Release --target install
+	rsync -c "_install/vs-15-2017-win64-mt/lib" "../mach1spatial-libs/vs-15-2017-x86_64/lib/Static/MT/Release/"
+	cmake . -B_builds/vs-15-2017-win64-mt -G "Visual Studio 15 2017" -A x64 -DCOMPILE_MT=1 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/vs-15-2017-win64-mt
+	cmake --build _builds/vs-15-2017-win64-mt --config Debug --target install
+	rsync -c "_install/vs-15-2017-win64-mt/lib" "../mach1spatial-libs/vs-15-2017-x86_64/lib/Static/MT/Debug/"
+	cmake . -B_builds/gcc -DCMAKE_INSTALL_PREFIX=`pwd`/_install/gcc
+	cmake --build _builds/gcc --config Release --target install
 endif
 
 debug: FORCE
 ifeq ($(detected_OS),Darwin)
 	mkdir -p "../mach1spatial-libs/xcode/lib"
-	$(POLLY_BIN_PATH) --clear --install --config Debug --toolchain xcode
+	cmake . -B_builds/xcode -GXcode -DBUILD_SHARED_LIBS=ON -DBUILD_STATIC_LIBS=ON -DBUILD_MACOS_BUNDLE=1 -DBUILD_SHARED_LIBS=1 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/xcode
+	cmake --build _builds/xcode --config Debug --target install
 	rsync -c "_install/xcode/lib/libMach1DecodeCAPId.a" "../mach1spatial-libs/xcode/lib/libMach1DecodeCAPI.a"
 	rsync -c "_install/xcode/lib/libMach1EncodeCAPId.a" "../mach1spatial-libs/xcode/lib/libMach1EncodeCAPI.a"
 	rsync -c "_install/xcode/lib/libMach1TranscodeCAPId.a" "../mach1spatial-libs/xcode/lib/libMach1TranscodeCAPI.a"
 	rsync -c "_install/xcode/lib/libMach1DecodePositionalCAPId.a" "../mach1spatial-libs/xcode/lib/libMach1DecodePositionalCAPI.a"
 	#rsync -c "_install/xcode/lib/libMach1Decode-minifiedCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1Decode-minifiedCAPI.a"
 else ifeq ($(detected_OS),Windows)
-	python ../../polly/bin/polly.py --clear --install --config Debug --toolchain vs-15-2017
-	python ../../polly/bin/polly.py --clear --install --config Debug --toolchain vs-15-2017-win64
+	cmake . -B_builds/vs-15-2017 -G "Visual Studio 15 2017" -A Win32 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/vs-15-2017
+	cmake --build _builds/vs-15-2017 --config Debug --target installrsync -c "_install/vs-15-2017/lib" "../mach1spatial-libs/vs-15-2017-x86/lib/Static/MD/Debug/"
+	cmake . -B_builds/vs-15-2017-win64 -G "Visual Studio 15 2017" -A x64 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/vs-15-2017-win64
+	cmake --build _builds/vs-15-2017-win64 --config Debug --target install
 else
-	$(POLLY_BIN_PATH) --clear --install --config Debug --toolchain gcc
+	cmake . -B_builds/gcc -DCMAKE_INSTALL_PREFIX=`pwd`/_install/gcc
+	cmake --build _builds/gcc --config Debug --target install
 endif
 
 copy-public:
@@ -216,43 +175,37 @@ includes-release:
 
 build-mac-10-13:
 	mkdir -p "../mach1spatial-libs/osx-10-13/lib"
-	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain osx-10-13
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/osx-10-13/lib/libMach1DecodeCAPI.a"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/osx-10-13/lib/libMach1DecodePositionalCAPI.a"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/osx-10-13/lib/libMach1TranscodeCAPI.a"
-	codesign --deep --force --verify --verbose --sign "Developer ID Application: Drazen Bosnjak (6ZETDT84RB)" "$(M1SDK_PATH)/source/_install/osx-10-13/lib/libMach1EncodeCAPI.a"
+	cmake . -B_builds/osx-10-13 -GXcode -DCMAKE_OSX_DEPLOYMENT_TARGET="10.13" -DCMAKE_INSTALL_PREFIX=`pwd`/_install/osx-10-13
+	cmake --build _builds/osx-10-13 --config Release --target install
 	rsync -c "_install/osx-10-13/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/osx-10-13/lib/libMach1DecodeCAPI.a"
 	rsync -c "_install/osx-10-13/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/osx-10-13/lib/libMach1EncodeCAPI.a"
 	rsync -c "_install/osx-10-13/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/osx-10-13/lib/libMach1TranscodeCAPI.a"
-	rsync -c "_install/osx-10-13/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/osx-10-13/lib/libMach1DecodePositionalCAPI.a"	
+	rsync -c "_install/osx-10-13/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/osx-10-13/lib/libMach1DecodePositionalCAPI.a"
 
 build-ios: FORCE
-	mkdir -p _builds/ios-10-3-dep-9-0-bitcode/Release-iphoneos # adding this for some weird bug on older macos
-	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain ios-10-3-dep-9-0-bitcode --ios-multiarch --ios-combined
-	rsync -c "_install/ios-10-3-dep-9-0-bitcode/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1DecodeCAPI.a"
-	rsync -c "_install/ios-10-3-dep-9-0-bitcode/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1EncodeCAPI.a"
-	rsync -c "_install/ios-10-3-dep-9-0-bitcode/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/ios/lib/libMach1DecodePositionalCAPI.a"
-	rsync -c "_install/ios-10-3-dep-9-0-bitcode/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1TranscodeCAPI.a"
-	rsync -c "_install/ios-10-3-dep-9-0-bitcode/Frameworks/libMach1DecodeCAPI.framework" "../mach1spatial-libs/ios/Frameworks/libMach1DecodeCAPI.framework"
-	rsync -c "_install/ios-10-3-dep-9-0-bitcode/Frameworks/libMach1EncodeCAPI.framework" "../mach1spatial-libs/ios/FrameworksFrameworks/libMach1EncodeCAPI.framework"
-	rsync -c "_install/ios-10-3-dep-9-0-bitcode/Frameworks/libMach1DecodePositionalCAPI.framework" "../mach1spatial-libs/ios/Frameworks/libMach1DecodePositionalCAPI.framework"
-	rsync -c "_install/ios-10-3-dep-9-0-bitcode/Frameworks/libMach1TranscodeCAPI.framework" "../mach1spatial-libs/ios/Frameworks/libMach1TranscodeCAPI.framework"
-	rsync -c "../mach1spatial-libs/ios/lib/libMach1DecodeCAPI.a" "../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/ios/libMach1DecodeCAPI.a"
-	rsync -c "../mach1spatial-libs/ios/lib/libMach1EncodeCAPI.a" "../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/ios/libMach1EncodeCAPI.a"
-	rsync -c "../mach1spatial-libs/ios/lib/libMach1TranscodeCAPI.a" "../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/ios/libMach1TranscodeCAPI.a"
-	rsync -c "../mach1spatial-libs/ios/lib/libMach1DecodePositionalCAPI.a" "../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/ios/libMach1DecodePositionalCAPI.a"
+	cmake . -B_builds/ios-11-3-dep-9-0-device-bitcode -GXcode -T buildsystem=1 -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_DEPLOYMENT_TARGET=9.3 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/ios-11-3-dep-9-0-device-bitcode -DCMAKE_XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH=NO -DCMAKE_IOS_INSTALL_COMBINED=YES
+	cmake --build _builds/ios-11-3-dep-9-0-device-bitcode --config Release --target install
+	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1DecodeCAPI.a"
+	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1EncodeCAPI.a"
+	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/ios/lib/libMach1DecodePositionalCAPI.a"
+	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1TranscodeCAPI.a"
+	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/Frameworks/libMach1DecodeCAPI.framework" "../mach1spatial-libs/ios/Frameworks/libMach1DecodeCAPI.framework"
+	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/Frameworks/libMach1EncodeCAPI.framework" "../mach1spatial-libs/ios/FrameworksFrameworks/libMach1EncodeCAPI.framework"
+	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/Frameworks/libMach1DecodePositionalCAPI.framework" "../mach1spatial-libs/ios/Frameworks/libMach1DecodePositionalCAPI.framework"
+	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/Frameworks/libMach1TranscodeCAPI.framework" "../mach1spatial-libs/ios/Frameworks/libMach1TranscodeCAPI.framework"
 	rsync -c include/swift/* ../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Classes
 
 build-ios-dev: FORCE
-	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain ios --ios-multiarch --ios-combined
-	rsync -c "_install/ios/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1DecodeCAPI.a"
-	rsync -c "_install/ios/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1EncodeCAPI.a"
-	rsync -c "_install/ios/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/ios/lib/libMach1DecodePositionalCAPI.a"
-	rsync -c "_install/ios/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1TranscodeCAPI.a"
-	rsync -c "../mach1spatial-libs/ios/lib/libMach1DecodeCAPI.a" "../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/ios/libMach1DecodeCAPI.a"
-	rsync -c "../mach1spatial-libs/ios/lib/libMach1EncodeCAPI.a" "../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/ios/libMach1EncodeCAPI.a"
-	rsync -c "../mach1spatial-libs/ios/lib/libMach1TranscodeCAPI.a" "../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/ios/libMach1TranscodeCAPI.a"
-	rsync -c "../mach1spatial-libs/ios/lib/libMach1DecodePositionalCAPI.a" "../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/ios/libMach1DecodePositionalCAPI.a"
+	cmake . -B_builds/ios-11-3-dep-9-0-device-bitcode -GXcode -T buildsystem=1 -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_DEPLOYMENT_TARGET=9.3 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/ios-11-3-dep-9-0-device-bitcode -DCMAKE_XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH=NO -DCMAKE_IOS_INSTALL_COMBINED=YES
+	cmake --build _builds/ios-11-3-dep-9-0-device-bitcode --config Debug --target install
+	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1DecodeCAPI.a"
+	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1EncodeCAPI.a"
+	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/ios/lib/libMach1DecodePositionalCAPI.a"
+	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1TranscodeCAPI.a"
+	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/Frameworks/libMach1DecodeCAPI.framework" "../mach1spatial-libs/ios/Frameworks/libMach1DecodeCAPI.framework"
+	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/Frameworks/libMach1EncodeCAPI.framework" "../mach1spatial-libs/ios/FrameworksFrameworks/libMach1EncodeCAPI.framework"
+	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/Frameworks/libMach1DecodePositionalCAPI.framework" "../mach1spatial-libs/ios/Frameworks/libMach1DecodePositionalCAPI.framework"
+	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/Frameworks/libMach1TranscodeCAPI.framework" "../mach1spatial-libs/ios/Frameworks/libMach1TranscodeCAPI.framework"
 	rsync -c include/swift/* ../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Classes
 
 build-rpi:
@@ -272,19 +225,15 @@ build-rpi:
 build-beaglebone:
 	echo "[NOTE] Ensure to change polly toolchain to use c++14 instead of default c++11"
 ifeq ($(detected_OS),Linux)
-	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain gcc
-	rsync -c "_install/gcc/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/arm-chipsets/beaglebone/lib/libMach1DecodeCAPI.a"
-	rsync -c "_install/gcc/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/arm-chipsets/beaglebone/lib/libMach1EncodeCAPI.a"
-	rsync -c "_install/gcc/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/arm-chipsets/beaglebone/lib/libMach1TranscodeCAPI.a"
-	rsync -c "_install/gcc/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/arm-chipsets/beaglebone/lib/libMach1DecodePositionalCAPI.a"
-	rsync -c "_install/gcc/lib/libMach1Decode-minifiedCAPI.a" "../mach1spatial-libs/arm-chipsets/beaglebone/lib/libMach1Decode-minifiedCAPI.a"
-	rsync -c "_install/gcc/lib/libMach1DecodeCAPI.a" "/usr/local/lib/libMach1DecodeCAPI.a"
-	rsync -c "_install/gcc/lib/libMach1EncodeCAPI.a" "/usr/local/lib/libMach1EncodeCAPI.a"
-	rsync -c "_install/gcc/lib/libMach1TranscodeCAPI.a" "/usr/local/lib/libMach1TranscodeCAPI.a"
-	rsync -c "_install/gcc/lib/libMach1DecodePositionalCAPI.a" "/usr/local/lib/libMach1DecodePositionalCAPI.a"
-	rsync -c "_install/gcc/lib/libMach1Decode-minifiedCAPI.a" "/usr/local/lib/libMach1Decode-minifiedCAPI.a"
+	cmake . -B_builds/gcc -DCMAKE_INSTALL_PREFIX=`pwd`/_install/gcc
+	cmake --build _builds/gcc --config Release --target install
+	rsync -c "_install/gcc/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/linux/lib/libMach1DecodeCAPI.a"
+	rsync -c "_install/gcc/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/linux/lib/libMach1EncodeCAPI.a"
+	rsync -c "_install/gcc/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/linux/lib/libMach1TranscodeCAPI.a"
+	rsync -c "_install/gcc/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/linux/lib/libMach1DecodePositionalCAPI.a"
 else
-	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain linux-gcc-armhf
+	cmake . -B_builds/linux-gcc-armhf -DCMAKE_TOOLCHAIN_FILE=./cmake/armhf-toolchain.cmake -DCMAKE_INSTALL_PREFIX=`pwd`/_install/linux-gcc-armhf
+	cmake --build _builds/linux-gcc-armhf --config Release --target install
 	rsync -c "_install/linux-gcc-armhf/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/arm-chipsets/beaglebone/lib/libMach1DecodeCAPI.a"
 	rsync -c "_install/linux-gcc-armhf/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/arm-chipsets/beaglebone/lib/libMach1EncodeCAPI.a"
 	rsync -c "_install/linux-gcc-armhf/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/arm-chipsets/beaglebone/lib/libMach1TranscodeCAPI.a"
@@ -293,7 +242,8 @@ else
 endif
 
 build-cortexm0:
-	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain gcc-arm-cortexm0-cxx14
+	cmake . -B_builds/gcc-arm-cortexm0-cxx14 -DCMAKE_TOOLCHAIN_FILE=./cmake/cortex-m0-toolchain.cmake -DCMAKE_INSTALL_PREFIX=`pwd`/_install/gcc-arm-cortexm0-cxx14 -DCXX_VERSION=14
+	cmake --build _builds/gcc-arm-cortexm0-cxx14 --config Release --target install
 	rsync -c "_install/gcc-arm-cortexm0-cxx14/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/arm-chipsets/gcc-arm-cortexm0-cxx14/lib/libMach1DecodeCAPI.a"
 	rsync -c "_install/gcc-arm-cortexm0-cxx14/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/arm-chipsets/gcc-arm-cortexm0-cxx14/lib/libMach1EncodeCAPI.a"
 	rsync -c "_install/gcc-arm-cortexm0-cxx14/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/arm-chipsets/gcc-arm-cortexm0-cxx14/lib/libMach1TranscodeCAPI.a"
@@ -301,7 +251,8 @@ build-cortexm0:
 	rsync -c "_install/gcc-arm-cortexm0-cxx14/lib/libMach1Decode-minifiedCAPI.a" "../mach1spatial-libs/arm-chipsets/gcc-arm-cortexm0-cxx14/lib/libMach1Decode-minifiedCAPI.a"
 
 build-armhfneonvfpv4:
-	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain gcc-armhf-neon-vfpv4
+	cmake . -B_builds/gcc-armhf-neon-vfpv4 -DCMAKE_TOOLCHAIN_FILE=./cmake/armhf-neon-vfpv4-toolchain.cmake -DCMAKE_INSTALL_PREFIX=`pwd`/_install/gcc-armhf-neon-vfpv4
+	cmake --build _builds/gcc-armhf-neon-vfpv4 --config Release --target install
 	rsync -c "_install/gcc-armhf-neon-vfpv4/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/arm-chipsets/gcc-armhf-neon-vfpv4/lib/libMach1DecodeCAPI.a"
 	rsync -c "_install/gcc-armhf-neon-vfpv4/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/arm-chipsets/gcc-armhf-neon-vfpv4/lib/libMach1EncodeCAPI.a"
 	rsync -c "_install/gcc-armhf-neon-vfpv4/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/arm-chipsets/gcc-armhf-neon-vfpv4/lib/libMach1TranscodeCAPI.a"
@@ -338,16 +289,20 @@ build-web-release:
 	rsync -c ../mach1spatial-libs/web/* ../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/emscripten/
 
 build-android:
-	python $(POLLY_PY_PATH) --clear --install --config Release --toolchain android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
-	python $(POLLY_PY_PATH) --clear --install --config Release --toolchain android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx
-	python $(POLLY_PY_PATH) --clear --install --config Release --toolchain android-ndk-r16b-api-21-x86-clang-libcxx
-	python $(POLLY_PY_PATH) --clear --install --config Release --toolchain android-ndk-r16b-api-21-x86-64-clang-libcxx
-ifeq ($(detected_OS),Darwin)
-	yes | mv _install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx _install/android-armeabi-v7a
-	yes | mv _install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx _install/android-arm64-v8a
-	yes | mv _install/android-ndk-r16b-api-21-x86-clang-libcxx _install/android-x86
-	yes | mv _install/android-ndk-r16b-api-21-x86-64-clang-libcxx _install/android-x86_64
-	rsync -c "_install/android-armeabi-v7a/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1DecodeCAPI.a" 
+	cmake . -B_builds/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=21 -DCMAKE_ANDROID_ARCH_ABI=arm64-v8a -DCMAKE_ANDROID_NDK=${ANDROID_NDK_r16b} -DCMAKE_ANDROID_STL_TYPE=gnustl_static -DCMAKE_INSTALL_PREFIX=`pwd`/_install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
+	cmake --build _builds/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx --config Release --target install
+	cmake . -B_builds/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=21 -DCMAKE_ANDROID_ARCH_ABI=armeabi-v7a -DCMAKE_ANDROID_NDK=${ANDROID_NDK_r16b} -DCMAKE_ANDROID_STL_TYPE=gnustl_static -DCMAKE_INSTALL_PREFIX=`pwd`/_install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx
+	cmake --build _builds/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx --config Release --target install
+	cmake . -B_builds/android-ndk-r16b-api-21-x86-clang-libcxx -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=21 -DCMAKE_ANDROID_ARCH_ABI=x86 -DCMAKE_ANDROID_NDK=${ANDROID_NDK_r16b} -DCMAKE_ANDROID_STL_TYPE=gnustl_static -DCMAKE_INSTALL_PREFIX=`pwd`/_install/android-ndk-r16b-api-21-x86-clang-libcxx
+	cmake --build _builds/android-ndk-r16b-api-21-x86-clang-libcxx --config Release --target install
+	cmake . -B_builds/android-ndk-r16b-api-21-x86-64-clang-libcxx -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=21 -DCMAKE_ANDROID_ARCH_ABI=x86_64 -DCMAKE_ANDROID_NDK=${ANDROID_NDK_r16b} -DCMAKE_ANDROID_STL_TYPE=gnustl_static -DCMAKE_INSTALL_PREFIX=`pwd`/_install/android-ndk-r16b-api-21-x86-64-clang-libcxx
+	cmake --build _builds/android-ndk-r16b-api-21-x86-64-clang-libcxx --config Release --target install
+	mv _install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx _install/android-armeabi-v7a
+	mv _install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx _install/android-arm64-v8a
+	mv _install/android-ndk-r16b-api-21-x86-clang-libcxx _install/android-x86
+	mv _install/android-ndk-r16b-api-21-x86-64-clang-libcxx _install/android-x86_64
+	# INSTALL ANDROID LIBS
+	rsync -c "_install/android-armeabi-v7a/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1DecodeCAPI.a"
 	rsync -c "_install/android-armeabi-v7a/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1EncodeCAPI.a"
 	rsync -c "_install/android-armeabi-v7a/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1TranscodeCAPI.a"
 	rsync -c "_install/android-armeabi-v7a/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1DecodePositionalCAPI.a"
@@ -363,68 +318,12 @@ ifeq ($(detected_OS),Darwin)
 	rsync -c "_install/android-x86_64/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/android-x86_64/lib/libMach1EncodeCAPI.a"
 	rsync -c "_install/android-x86_64/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/android-x86_64/lib/libMach1TranscodeCAPI.a"
 	rsync -c "_install/android-x86_64/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/android-x86_64/lib/libMach1DecodePositionalCAPI.a"
-	# copy for Unity
-	rsync -c "_install/android-armeabi-v7a/lib-shared/libMach1DecodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/armeabi-v7a/libMach1DecodeCAPI.so" 
-	rsync -c "_install/android-armeabi-v7a/lib-shared/libMach1EncodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/armeabi-v7a/libMach1EncodeCAPI.so"
-	rsync -c "_install/android-armeabi-v7a/lib-shared/libMach1TranscodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/armeabi-v7a/libMach1TranscodeCAPI.so"
-	rsync -c "_install/android-armeabi-v7a/lib-shared/libMach1DecodePositionalCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/armeabi-v7a/libMach1DecodePositionalCAPI.so"
-	rsync -c "_install/android-arm64-v8a/lib-shared/libMach1DecodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/arm64-v8a/libMach1DecodeCAPI.so"
-	rsync -c "_install/android-arm64-v8a/lib-shared/libMach1EncodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/arm64-v8a/libMach1EncodeCAPI.so"
-	rsync -c "_install/android-arm64-v8a/lib-shared/libMach1TranscodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/arm64-v8a/libMach1TranscodeCAPI.so"
-	rsync -c "_install/android-arm64-v8a/lib-shared/libMach1DecodePositionalCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/arm64-v8a/libMach1DecodePositionalCAPI.so"
-	rsync -c "_install/android-x86/lib-shared/libMach1DecodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/x86/libMach1DecodeCAPI.so"
-	rsync -c "_install/android-x86/lib-shared/libMach1EncodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/x86/libMach1EncodeCAPI.so"
-	rsync -c "_install/android-x86/lib-shared/libMach1TranscodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/x86/libMach1TranscodeCAPI.so"
-	rsync -c "_install/android-x86/lib-shared/libMach1DecodePositionalCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/x86/libMach1DecodePositionalCAPI.so"
-	rsync -c "_install/android-x86_64/lib-shared/libMach1DecodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/x86_64/libMach1DecodeCAPI.so"
-	rsync -c "_install/android-x86_64/lib-shared/libMach1EncodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/x86_64/libMach1EncodeCAPI.so"
-	rsync -c "_install/android-x86_64/lib-shared/libMach1TranscodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/x86_64/libMach1TranscodeCAPI.so"
-	rsync -c "_install/android-x86_64/lib-shared/libMach1DecodePositionalCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/x86_64/libMach1DecodePositionalCAPI.so"
-	rsync -c "_install/android-armeabi-v7a/lib-shared/libMach1DecodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/armeabi-v7a/libMach1DecodeCAPI.so" 
-	rsync -c "_install/android-armeabi-v7a/lib-shared/libMach1EncodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/armeabi-v7a/libMach1EncodeCAPI.so"
-	rsync -c "_install/android-armeabi-v7a/lib-shared/libMach1TranscodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/armeabi-v7a/libMach1TranscodeCAPI.so"
-	rsync -c "_install/android-armeabi-v7a/lib-shared/libMach1DecodePositionalCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/armeabi-v7a/libMach1DecodePositionalCAPI.so"
-	rsync -c "_install/android-arm64-v8a/lib-shared/libMach1DecodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/arm64-v8a/libMach1DecodeCAPI.so"
-	rsync -c "_install/android-arm64-v8a/lib-shared/libMach1EncodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/arm64-v8a/libMach1EncodeCAPI.so"
-	rsync -c "_install/android-arm64-v8a/lib-shared/libMach1TranscodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/arm64-v8a/libMach1TranscodeCAPI.so"
-	rsync -c "_install/android-arm64-v8a/lib-shared/libMach1DecodePositionalCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/arm64-v8a/libMach1DecodePositionalCAPI.so"
-	rsync -c "_install/android-x86/lib-shared/libMach1DecodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/x86/libMach1DecodeCAPI.so"
-	rsync -c "_install/android-x86/lib-shared/libMach1EncodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/x86/libMach1EncodeCAPI.so"
-	rsync -c "_install/android-x86/lib-shared/libMach1TranscodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/x86/libMach1TranscodeCAPI.so"
-	rsync -c "_install/android-x86/lib-shared/libMach1DecodePositionalCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/x86/libMach1DecodePositionalCAPI.so"
-	rsync -c "_install/android-x86_64/lib-shared/libMach1DecodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/x86_64/libMach1DecodeCAPI.so"
-	rsync -c "_install/android-x86_64/lib-shared/libMach1EncodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/x86_64/libMach1EncodeCAPI.so"
-	rsync -c "_install/android-x86_64/lib-shared/libMach1TranscodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/x86_64/libMach1TranscodeCAPI.so"
-	rsync -c "_install/android-x86_64/lib-shared/libMach1DecodePositionalCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/x86_64/libMach1DecodePositionalCAPI.so"
-else ifeq ($(detected_OS),Windows)
-	# copy over android from pull
-	rsync -c "_install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx/lib" "../mach1spatial-libs/android-arm64-v8a/lib"
-	rsync -c "_install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx/lib" "../mach1spatial-libs/android-armeabi-v7a/lib"
-	rsync -c "_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib" "../mach1spatial-libs/android-x86/lib"
-	rsync -c "_install/android-ndk-r16b-api-21-x86-64-clang-libcxx/lib" "../mach1spatial-libs/android-x86_64/lib"
-	rsync -c "_install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx/lib-shared" "../mach1spatial-libs/android-arm64-v8a/lib-shared"
-	rsync -c "_install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx/lib-shared" "../mach1spatial-libs/android-armeabi-v7a/lib-shared"
-	rsync -c "_install/android-ndk-r16b-api-21-x86-clang-libcxx/lib-shared" "../mach1spatial-libs/android-x86/lib-shared"
-	rsync -c "_install/android-ndk-r16b-api-21-x86-64-clang-libcxx/lib-shared" "../mach1spatial-libs/android-x86_64/lib-shared"
-	rm -rf _android
-	mkdir ../mach1spatial-libs/android-arm64-v8a
-	mkdir ../mach1spatial-libs/android-armeabi-v7a
-	mkdir ../mach1spatial-libs/android-x86
-	mkdir ../mach1spatial-libs/android-x86_64
-endif
-	# cleanup
-	rm -rf _install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx
-	rm -rf _install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
-	rm -rf _install/android-ndk-r16b-api-21-x86-clang-libcxx
-	rm -rf _install/android-ndk-r16b-api-21-x86-64-clang-libcxx
 
 deploy-windows:
 
-test-linux: FORCE
-	cd tests && sh ./_build_on_linux_for_linux.sh
-
 build-linux: FORCE
-	$(POLLY_BIN_PATH) --clear --install --config Release --toolchain gcc
+	cmake . -B_builds/gcc -DCMAKE_INSTALL_PREFIX=`pwd`/_install/gcc
+	cmake --build _builds/gcc --config Release --target install
 
 deploy-linux: build-linux
 	rsync -c "_install/gcc/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/linux/lib/libMach1DecodeCAPI.a"
@@ -576,7 +475,6 @@ deploy-dev:
 	rsync -c "../mach1spatial-libs/android-x86_64/lib/libMach1EncodeCAPI.a" "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/jniLibs/x86_64/libMach1EncodeCAPI.a"
 	rsync -c "../mach1spatial-libs/android-x86_64/lib/libMach1TranscodeCAPI.a" "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/jniLibs/x86_64/libMach1TranscodeCAPI.a"
 	rsync -c "../mach1spatial-libs/android-x86_64/lib/libMach1DecodePositionalCAPI.a" "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/jniLibs/x86_64/libMach1DecodePositionalCAPI.a"
-	
 	rsync -c include/cpp/*CAPI.h ../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/include
 	rsync -c include/cpp/*D.h ../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/include
 	rsync -c include/java/jni/cpp/mach1/* ../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1
@@ -652,13 +550,6 @@ deploy-dev:
 	echo "### DELETE all lib-shared dirs \###"
 	cd ../mach1spatial-libs && find . -type d -name 'lib-shared' -print0 | xargs -0 rm -rf
 	cd ../mach1spatial-libs && find . -type d -name 'libBundle' -print0 | xargs -0 rm -rf
-	echo "### NUMBERS OF SUCCESSFUL BUILDS:"
-	cd ../source/_logs/polly/ && grep -rl "Installing:" "$(M1SDK_PATH)/source/_logs/polly" | wc -l
-	echo "### ERRORS CAUGHT:"
-	cd ../source/_logs/polly/ && grep -rl "error" "$(M1SDK_PATH)/source/_logs/polly" | wc -l
-	cd ../source/_logs/polly/ && grep -rl "Error" "$(M1SDK_PATH)/source/_logs/polly" | wc -l
-	cd ../source/_logs/polly/ && grep -rl "failed" "$(M1SDK_PATH)/source/_logs/polly" | wc -l
-	cd ../source/_logs/polly/ && grep -rl "FAILED" "$(M1SDK_PATH)/source/_logs/polly" | wc -l
 
 # place anything you need all commands to run here
 FORCE:

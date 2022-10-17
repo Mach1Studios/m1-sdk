@@ -24,14 +24,26 @@ Module["onRuntimeInitialized"] = function() {
    "Mach1PlatformUE": Module.Mach1PlatformType.Mach1PlatformUE,
    "Mach1PlatformOfEasyCam": Module.Mach1PlatformType.Mach1PlatformOfEasyCam,
    "Mach1PlatformAndroid": Module.Mach1PlatformType.Mach1PlatformAndroid,
-   "Mach1PlatformiOS": Module.Mach1PlatformType.Mach1PlatformiOS
+   "Mach1PlatformiOS": Module.Mach1PlatformType.Mach1PlatformiOS,
+   "Mach1PlatformiOSTableTop_ZVertical": Module.Mach1PlatformiOSTableTop_ZVertical,
+   "Mach1PlatformiOSPortraitHandheld_YVertical": Module.Mach1PlatformiOSPortraitHandheld_YVertical,
+   "Mach1PlatformiOSPortrait_YawOnly": Module.Mach1PlatformiOSPortrait_YawOnly
   };
   this.Mach1DecodeAlgoType = {
-   "Mach1DecodeAlgoSpatial": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial,
-   "Mach1DecodeAlgoAltSpatial": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoAltSpatial,
-   "Mach1DecodeAlgoHorizon": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoHorizon,
+   "Mach1DecodeAlgoSpatial_8": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_8,
+   "Mach1DecodeAlgoSpatialAlt_8": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatialAlt_8,
+   "Mach1DecodeAlgoHorizon_4": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoHorizon_4,
    "Mach1DecodeAlgoHorizonPairs": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoHorizonPairs,
-   "Mach1DecodeAlgoSpatialPairs": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatialPairs
+   "Mach1DecodeAlgoSpatialPairs": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatialPairs,
+   "Mach1DecodeAlgoSpatial_12": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_12,
+   "Mach1DecodeAlgoSpatial_14": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_14,
+   "Mach1DecodeAlgoSpatial_16": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_16,
+   "Mach1DecodeAlgoSpatial_18": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_18,
+   "Mach1DecodeAlgoSpatial_20": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_20,
+   "Mach1DecodeAlgoSpatial_32": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_32,
+   "Mach1DecodeAlgoSpatial_36": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_36,
+   "Mach1DecodeAlgoSpatial_48": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_48,
+   "Mach1DecodeAlgoSpatial_60": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_60
   };
   this.delete = function() {
    if (this._m1obj) {
@@ -193,67 +205,6 @@ Module["onRuntimeInitialized"] = function() {
     this._m1obj.setFilterSpeed(filterSpeed);
    }
   };
-  this.setUseFalloff = function(useFalloff) {
-   if (this._m1obj) {
-    this._m1obj.setUseFalloff(useFalloff);
-   }
-  };
-  this.setFalloffCurve = function(falloffCurve) {
-   if (this._m1obj) {
-    this._m1obj.setFalloffCurve(falloffCurve);
-   }
-  };
-  this.setUseClosestPointRotationMuteInside = function(useClosestPointRotationMuteInside) {
-   if (this._m1obj) {
-    this._m1obj.setUseClosestPointRotationMuteInside(useClosestPointRotationMuteInside);
-   }
-  };
-  this.setCameraPosition = function(x, y, z) {
-   if (this._m1obj) {
-    this._m1obj.setCameraPosition({
-     x: x,
-     y: y,
-     z: z
-    });
-   }
-  };
-  this.setCameraRotation = function(yaw, pitch, roll) {
-   if (this._m1obj) {
-    this._m1obj.setCameraRotation({
-     x: yaw,
-     y: pitch,
-     z: roll
-    });
-   }
-  };
-  this.setCameraRotationQuat = function(x, y, z, w) {
-   if (this._m1obj) {
-    this._m1obj.setCameraRotationQuat({
-     x: x,
-     y: y,
-     z: z,
-     w: w
-    });
-   }
-  };
-  this.getVolumesWalls = function() {
-   if (this._m1obj) {
-    var vec = new Module.VectorFloat();
-    vec.resize(18, 0);
-    this._m1obj.getVolumesWalls(vec);
-    var arr = [];
-    for (var i = 0; i < vec.size(); i++) {
-     arr[i] = vec.get(i);
-    }
-    return arr;
-   }
-  };
-  this.getVolumeRotation = function() {
-   if (this._m1obj) {
-    var point = this._m1obj.getVolumeRotation();
-    return [ point.x, point.y, point.z ];
-   }
-  };
   this.setUseBlendMode = function(useBlendMode) {
    if (this._m1obj) {
     this._m1obj.setUseBlendMode(useBlendMode);
@@ -264,26 +215,9 @@ Module["onRuntimeInitialized"] = function() {
     this._m1obj.setIgnoreTopBottom(ignoreTopBottom);
    }
   };
-  this.setFalloffCurveBlendMode = function(falloffCurveBlendMode) {
-   if (this._m1obj) {
-    this._m1obj.setFalloffCurveBlendMode(falloffCurveBlendMode);
-   }
-  };
   this.setAttenuationCurveBlendMode = function(attenuationCurveBlendMode) {
    if (this._m1obj) {
     this._m1obj.setAttenuationCurveBlendMode(attenuationCurveBlendMode);
-   }
-  };
-  this.getVolumesRoom = function() {
-   if (this._m1obj) {
-    var vec = new Module.VectorFloat();
-    vec.resize(18, 0);
-    this._m1obj.getVolumesRoom(vec);
-    var arr = [];
-    for (var i = 0; i < vec.size(); i++) {
-     arr[i] = vec.get(i);
-    }
-    return arr;
    }
   };
   this.getCoefficientsInterior = function() {
@@ -2611,10 +2545,10 @@ var asmLibraryArg = {
  "a": __embind_register_class_function,
  "v": __embind_register_emval,
  "k": __embind_register_enum,
- "c": __embind_register_enum_value,
+ "b": __embind_register_enum_value,
  "m": __embind_register_float,
  "d": __embind_register_integer,
- "b": __embind_register_memory_view,
+ "c": __embind_register_memory_view,
  "l": __embind_register_std_string,
  "f": __embind_register_std_wstring,
  "j": __embind_register_value_object,

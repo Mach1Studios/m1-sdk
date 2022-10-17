@@ -152,7 +152,13 @@ jobs:
       osx_image: xcode9.3
       env:
         - HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+        - HOMEBREW_NO_AUTO_UPDATE=1
         - MACOSX_DEPLOYMENT_TARGET=10.9
+      cache:
+        directories:
+          - $HOME/Library/Caches/Homebrew
+      before_cache:
+        - brew cleanup
       install: 
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/macos_setup.sh
@@ -172,9 +178,15 @@ jobs:
       osx_image: xcode9.3
       env:
         - HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+        - HOMEBREW_NO_AUTO_UPDATE=1
         - MACOSX_DEPLOYMENT_TARGET=10.9
         - IOS_DEVELOPMENT_TEAM="6ZETDT84RB"
         - IOS_BUNDLE_IDENTIFIER="com.mach1.lib"
+      cache:
+        directories:
+          - $HOME/Library/Caches/Homebrew
+      before_cache:
+        - brew cleanup
       before_install:
           - if [ "$TRAVIS_OS_NAME" == "osx" ]; then cd ${TRAVIS_BUILD_DIR}/source/scripts && openssl aes-256-cbc -K $encrypted_b7b9d4064d90_key -iv $encrypted_b7b9d4064d90_iv -in certs/secrets.tar.enc -out certs/secrets.tar -d; fi
           - if [ "$TRAVIS_OS_NAME" == "osx" ]; then cd ${TRAVIS_BUILD_DIR}/source && ./scripts/add_signing_key.sh; fi
@@ -199,9 +211,16 @@ jobs:
             - libpthread-stubs
             - rsync
             - awscli
+      osx_image: xcode13.2
       env:
         - MATRIX_EVAL="CC=gcc CXX=g++"
-      osx_image: xcode13.2
+        - HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+        - HOMEBREW_NO_AUTO_UPDATE=1
+      cache:
+        directories:
+          - $HOME/Library/Caches/Homebrew
+      before_cache:
+        - brew cleanup
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/macos_build.sh
@@ -502,7 +521,15 @@ jobs:
             - git-lfs
             - rsync
             - awscli
+      env:
+        - HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+        - HOMEBREW_NO_AUTO_UPDATE=1
       osx_image: xcode13.2
+      cache:
+        directories:
+          - $HOME/Library/Caches/Homebrew
+      before_cache:
+        - brew cleanup
       git:
         submodules: false
       install:

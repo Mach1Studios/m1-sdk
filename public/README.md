@@ -62,6 +62,10 @@ Channel Order Variants:
  - SMPTE				= L, R, C, LFE, Ls, Rs ...
  - Dts				= L, R, Ls, Rs, C, LFE ...
 ```
+
+#### Additional Vector Descriptions
+The vector formats should only define the immediate step up and step down for each format to ensure proper upmix/downmix functionality remains while reducing what is needed for maintaining this project.
+
 #### Describing Each Channel
 Currently there are two ways to describe how an input channel distributes to the intended output channels. These two designs can be used together within the same matrix to allow more flexible multichannel designs and concepts.
 

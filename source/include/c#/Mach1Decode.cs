@@ -87,11 +87,11 @@ namespace Mach1
             ///
             /// - Parameters:
             ///     - Mach1PlatformDefault = 0
-            ///     - Mach1PlatformUnity = 1
-            ///     - Mach1PlatformUE = 2
-            ///     - Mach1PlatformOfEasyCam = 3
-            ///     - Mach1PlatformAndroid = 4
-            ///     - Mach1PlatformiOS = 5
+            ///     - Mach1PlatformUnity
+            ///     - Mach1PlatformUE
+            ///     - Mach1PlatformOfEasyCam
+            ///     - Mach1PlatformAndroid
+            ///     - Mach1PlatformiOS
         }
 
         public void decode(float Yaw, float Pitch, float Roll, ref float[] data,  int bufferSize = 0, int sampleIndex = 0)

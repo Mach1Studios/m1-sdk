@@ -118,66 +118,73 @@ namespace Mach1
         public void setPlatformType(Mach1PlatformType type)
         {
             Mach1DecodePositionalCAPI_setPlatformType(M1obj, type);
-            // Set the device's angle order and convention if applicable
-            //
-            // - Parameters:
-            //     - Mach1PlatformDefault = 0
-            //     - Mach1PlatformUnity = 1
-            //     - Mach1PlatformUE = 2
-            //     - Mach1PlatformOfEasyCam = 3
-            //     - Mach1PlatformAndroid = 4
-            //     - Mach1PlatformiOS = 5
+            /// Set the device's angle order and convention if applicable
+            ///
+            /// - Parameters:
+            ///     - Mach1PlatformDefault = 0
+            ///     - Mach1PlatformUnity
+            ///     - Mach1PlatformUE
+            ///     - Mach1PlatformOfEasyCam
+            ///     - Mach1PlatformAndroid
+            ///     - Mach1PlatformiOS
         }
 
         public void setDecodeAlgoType(Mach1DecodeAlgoType type)
 		{
 			Mach1DecodePositionalCAPI_setDecodeAlgoType(M1obj, type);
-            // Set the decoding algorithm
-            //
-            // - Parameters:
-            //     - Mach1DecodeAlgoSpatial = 0 (default spatial | 8 channels)
-            //     - Mach1DecodeAlgoAltSpatial = 1 (periphonic spatial | 8 channels)
-            //     - Mach1DecodeAlgoHorizon = 2 (compass / yaw | 4 channels)
-            //     - Mach1DecodeAlgoHorizonPairs = 3 (compass / yaw | 4x stereo mastered pairs)
+            /// Set the decoding algorithm
+            ///
+            /// - Parameters:
+            ///     - Mach1DecodeAlgoSpatial_8 (default spatial | 8 channels)
+            ///     - Mach1DecodeAlgoHorizon_4 (compass / yaw | 4 channels)
+            ///     - Mach1DecodeAlgoHorizonPairs (compass / yaw | 4x stereo mastered pairs)
+            ///     - Mach1DecodeAlgoSpatial_12 (higher order spatial | 12 channels)
+            ///     - Mach1DecodeAlgoSpatial_14 (higher order spatial | 14 channels)
+            ///     - Mach1DecodeAlgoSpatial_18 (higher order spatial | 18 channels)
+            ///     - Mach1DecodeAlgoSpatial_22 (higher order spatial | 22 channels)
+            ///     - Mach1DecodeAlgoSpatial_32 (higher order spatial | 32 channels)
+            ///     - Mach1DecodeAlgoSpatial_36 (higher order spatial | 36 channels)
+            ///     - Mach1DecodeAlgoSpatial_48 (higher order spatial | 48 channels)
+            ///     - Mach1DecodeAlgoSpatial_60 (higher order spatial | 60 channels)
 		}
 
-        // settings
+        // SETTINGS
 
         public void setUseBlendMode(bool useBlendMode)
         {
             Mach1DecodePositionalCAPI_setUseBlendMode(M1obj, useBlendMode);
-            // Warning: Experimental feature
-            // Remark: Part of BlendMode
+            /// Warning: Experimental feature
+            /// Remark: Part of BlendMode
         }
 
         public void setIgnoreTopBottom(bool ignoreTopBottom)
         {
             Mach1DecodePositionalCAPI_setIgnoreTopBottom(M1obj, ignoreTopBottom);
-            // Warning: Experimental feature
-            // Remark: Part of BlendMode
+            /// Warning: Experimental feature
+            /// Remark: Part of BlendMode
 
         }
 
         public void setMuteWhenOutsideObject(bool muteWhenOutsideObject)
         {
             Mach1DecodePositionalCAPI_setMuteWhenOutsideObject(M1obj, muteWhenOutsideObject);
-            // Mute mach1decode object (all coefficifient results becomes 0)
-            // when outside the positional reference shape/point
+            /// Mute mach1decode object (all coefficifient results becomes 0)
+            /// when outside the positional reference shape/point
         }
 
         public void setMuteWhenInsideObject(bool muteWhenInsideObject)
         {
             Mach1DecodePositionalCAPI_setMuteWhenInsideObject(M1obj, muteWhenInsideObject);
-            // Mute mach1decode object (all coefficifient results becomes 0)
-            // when inside the positional reference shape/point
+            /// Mute mach1decode object (all coefficifient results becomes 0)
+            /// when inside the positional reference shape/point
         }
 
         public void setUseAttenuation(bool useAttenuation)
         {
             Mach1DecodePositionalCAPI_setUseAttenuation(M1obj, useAttenuation);
-            // Set distance attenuation calculations on that mach1decode object on/off
-            //
-            // Remark: When off, distance remains 1.0
+            /// Set distance attenuation calculations on that mach1decode object on/off
+            ///
+            /// Remark: When off, distance remains 1.0
         }
 
         public void setAttenuationCurve(float attenuationCurve)
@@ -188,8 +195,8 @@ namespace Mach1
         public void setAttenuationCurveBlendMode(float attenuationCurveBlendMode)
         {
             Mach1DecodePositionalCAPI_setAttenuationCurveBlendMode(M1obj, attenuationCurveBlendMode);
-            // Warning: Experimental feature
-            // Remark: Part of BlendMode
+            /// Warning: Experimental feature
+            /// Remark: Part of BlendMode
         }
 
         public void setUsePlaneCalculation(bool usePlaneCalculation)
@@ -200,89 +207,89 @@ namespace Mach1
         public void setUseYawForRotation(bool useYawForRotation)
         {
             Mach1DecodePositionalCAPI_setUseYawForRotation(M1obj, useYawForRotation);
-            // Set use/ignore Yaw angle rotation results from pivoting positionally
-            //
-            // Remark: Default is true
+            /// Set use/ignore Yaw angle rotation results from pivoting positionally
+            ///
+            /// Remark: Default is true
         }
 
         public void setUsePitchForRotation(bool usePitchForRotation)
         {
             Mach1DecodePositionalCAPI_setUsePitchForRotation(M1obj, usePitchForRotation);
-            // Set use/ignore Pitch angle rotation results from pivoting positionally
-            //
-            // Remark: Default is true
+            /// Set use/ignore Pitch angle rotation results from pivoting positionally
+            ///
+            /// Remark: Default is true
         }
 
         public void setUseRollForRotation(bool useRollForRotation)
         {
             Mach1DecodePositionalCAPI_setUseRollForRotation(M1obj, useRollForRotation);
-            // Set use/ignore Roll angle rotation results from pivoting positionally
-            //
-            // Remark: Default is true
+            /// Set use/ignore Roll angle rotation results from pivoting positionally
+            ///
+            /// Remark: Default is true
         }
 
-        // parameters for algo
+        /// parameters for algo
         public void setListenerPosition(Mach1Point3D point)
         {
             Mach1DecodePositionalCAPI_setListenerPosition(M1obj, point);
-            // Sets the device/camera's position in desired x,y,z space
-            //
-            // - Parameters:
-            //     - Mach1Point3D Position: x,y,z
+            /// Sets the device/camera's position in desired x,y,z space
+            ///
+            /// - Parameters:
+            ///     - Mach1Point3D Position: x,y,z
         }
 
         public void setListenerRotation(Mach1Point3D point)
         {
             Mach1DecodePositionalCAPI_setListenerRotation(M1obj, point);
-            // Sets the device/camera's orientation with Euler angles
-            //
-            // - Parameters:
-            //     - Mach1Point3D Rotation: yaw,pitch,roll
+            /// Sets the device/camera's orientation with Euler angles
+            ///
+            /// - Parameters:
+            ///     - Mach1Point3D Rotation: yaw,pitch,roll
         }
 
         public void setListenerRotationQuat(Mach1Point4D quat)
         {
             Mach1DecodePositionalCAPI_setListenerRotationQuat(M1obj, quat);
-            // Sets the device/camera's orientation with Quaternion
-            //
-            // - Parameters:
-            //     - Mach1Point4D Rotation: Quaternion
+            /// Sets the device/camera's orientation with Quaternion
+            ///
+            /// - Parameters:
+            ///     - Mach1Point4D Rotation: Quaternion
         }
 
         public void setDecoderAlgoPosition(Mach1Point3D point)
         {
             Mach1DecodePositionalCAPI_setDecoderAlgoPosition(M1obj, point);
-            // Sets the decode object's position in desired x,y,z space
-            //
-            // - Parameters:
-            //     - Mach1Point3D Rotation: x,y,z
+            /// Sets the decode object's position in desired x,y,z space
+            ///
+            /// - Parameters:
+            ///     - Mach1Point3D Rotation: x,y,z
         }
 
         public void setDecoderAlgoRotation(Mach1Point3D point)
         {
             Mach1DecodePositionalCAPI_setDecoderAlgoRotation(M1obj, point);
-            // Sets the decode object's orientation with Euler angles
-            //
-            // - Parameters:
-            //     - Mach1Point3D Rotation: yaw,pitch,roll
+            /// Sets the decode object's orientation with Euler angles
+            ///
+            /// - Parameters:
+            ///     - Mach1Point3D Rotation: yaw,pitch,roll
         }
 
         public void setDecoderAlgoRotationQuat(Mach1Point4D quat)
         {
             Mach1DecodePositionalCAPI_setDecoderAlgoRotationQuat(M1obj, quat);
-            // Sets the decode object's orientation with Quaternion
-            //
-            // - Parameters:
-            //     - Mach1Point4D Rotation: Quaternion
+            /// Sets the decode object's orientation with Quaternion
+            ///
+            /// - Parameters:
+            ///     - Mach1Point4D Rotation: Quaternion
         }
 
         public void setDecoderAlgoScale(Mach1Point3D point)
         {
             Mach1DecodePositionalCAPI_setDecoderAlgoScale(M1obj, point);
-            // Sets the decode object's scale in desired x,y,z space
-            //
-            // - Parameters:
-            //     - Mach1Point3D Scale: x,y,z multiplier
+            /// Sets the decode object's scale in desired x,y,z space
+            ///
+            /// - Parameters:
+            ///     - Mach1Point3D Scale: x,y,z multiplier
         }
 
         public void evaluatePositionResults()
@@ -292,7 +299,7 @@ namespace Mach1
 
         public void getCoefficients(ref float[] data)
         {
-            //if(data.Length < 18) data = new float[18];
+            ///if(data.Length < 18) data = new float[18];
             GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
             IntPtr pointer = pinnedArray.AddrOfPinnedObject();
 
@@ -300,12 +307,12 @@ namespace Mach1
 
             pinnedArray.Free();
 
-            // Return the current coefficients to be applied to the audiopla yer's volume
+            /// Return the current coefficients to be applied to the audiopla yer's volume
         }
 
         public void getCoefficientsInterior(ref float[] data)
         {
-            //if(data.Length < 18) data = new float[18];
+            ///if(data.Length < 18) data = new float[18];
             GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
             IntPtr pointer = pinnedArray.AddrOfPinnedObject();
 
@@ -313,15 +320,15 @@ namespace Mach1
 
             pinnedArray.Free();
 
-            // Warning: Experimental feature
-            // Remark: Part of BlendMode
+            /// Warning: Experimental feature
+            /// Remark: Part of BlendMode
         }
 
         public float getDist()
         {
             return Mach1DecodePositionalCAPI_getDist(M1obj);
-            // Return a distance calculation of the position of the device/camera
-            // to the position of the m1obj
+            /// Return a distance calculation of the position of the device/camera
+            /// to the position of the m1obj
         }
 
         public Mach1Point3D getCoefficientsRotation()

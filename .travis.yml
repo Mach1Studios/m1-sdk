@@ -492,7 +492,7 @@ jobs:
         - git clone git@github.com:libsndfile/libsndfile.git
         - cd libsndfile && mkdir build && cd build
         - cmake .. -DENABLE_PACKAGE_CONFIG=ON -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake
-        - cmake --build . --target install -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake
+        - cmake --build . --target install
       script:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - aws s3 sync s3://${AWS_DEPLOY_BUCKET}/deps/libsndfile ./libs/libsndfile

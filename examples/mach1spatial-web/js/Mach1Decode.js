@@ -31,15 +31,16 @@ Module["onRuntimeInitialized"] = function() {
   };
   this.Mach1DecodeAlgoType = {
    "Mach1DecodeAlgoSpatial_8": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_8,
-   "Mach1DecodeAlgoSpatialAlt_8": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatialAlt_8,
    "Mach1DecodeAlgoHorizon_4": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoHorizon_4,
    "Mach1DecodeAlgoHorizonPairs": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoHorizonPairs,
-   "Mach1DecodeAlgoSpatialPairs": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatialPairs,
    "Mach1DecodeAlgoSpatial_12": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_12,
    "Mach1DecodeAlgoSpatial_14": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_14,
-   "Mach1DecodeAlgoSpatial_16": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_16,
    "Mach1DecodeAlgoSpatial_18": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_18,
-   "Mach1DecodeAlgoSpatial_20": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_20
+   "Mach1DecodeAlgoSpatial_22": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_22,
+   "Mach1DecodeAlgoSpatial_32": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_32,
+   "Mach1DecodeAlgoSpatial_36": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_36,
+   "Mach1DecodeAlgoSpatial_48": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_48,
+   "Mach1DecodeAlgoSpatial_60": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_60
   };
   this.delete = function() {
    if (this._m1obj) {
@@ -161,26 +162,18 @@ function logExceptionOnExit(e) {
  err("exiting due to exception: " + toLog);
 }
 
-var fs;
-
-var nodePath;
-
-var requireNodeFS;
-
 if (ENVIRONMENT_IS_NODE) {
  if (ENVIRONMENT_IS_WORKER) {
   scriptDirectory = require("path").dirname(scriptDirectory) + "/";
  } else {
   scriptDirectory = __dirname + "/";
  }
- requireNodeFS = () => {
-  if (!nodePath) {
-   fs = require("fs");
-   nodePath = require("path");
-  }
- };
- read_ = function shell_read(filename, binary) {
-  requireNodeFS();
+ var fs, nodePath;
+ if (typeof require === "function") {
+  fs = require("fs");
+  nodePath = require("path");
+ }
+ read_ = (filename, binary) => {
   filename = nodePath["normalize"](filename);
   return fs.readFileSync(filename, binary ? undefined : "utf8");
  };
@@ -192,7 +185,6 @@ if (ENVIRONMENT_IS_NODE) {
   return ret;
  };
  readAsync = (filename, onload, onerror) => {
-  requireNodeFS();
   filename = nodePath["normalize"](filename);
   fs.readFile(filename, function(err, data) {
    if (err) onerror(err); else onload(data.buffer);
@@ -625,7 +617,7 @@ function createWasm() {
    return exports;
   } catch (e) {
    err("Module.instantiateWasm callback failed with error: " + e);
-   return false;
+   readyPromiseReject(e);
   }
  }
  instantiateAsync().catch(readyPromiseReject);
@@ -2182,17 +2174,14 @@ function UTF16ToString(ptr, maxBytesToRead) {
  var maxIdx = idx + maxBytesToRead / 2;
  while (!(idx >= maxIdx) && HEAPU16[idx]) ++idx;
  endPtr = idx << 1;
- if (endPtr - ptr > 32 && UTF16Decoder) {
-  return UTF16Decoder.decode(HEAPU8.subarray(ptr, endPtr));
- } else {
-  var str = "";
-  for (var i = 0; !(i >= maxBytesToRead / 2); ++i) {
-   var codeUnit = HEAP16[ptr + i * 2 >> 1];
-   if (codeUnit == 0) break;
-   str += String.fromCharCode(codeUnit);
-  }
-  return str;
+ if (endPtr - ptr > 32 && UTF16Decoder) return UTF16Decoder.decode(HEAPU8.subarray(ptr, endPtr));
+ var str = "";
+ for (var i = 0; !(i >= maxBytesToRead / 2); ++i) {
+  var codeUnit = HEAP16[ptr + i * 2 >> 1];
+  if (codeUnit == 0) break;
+  str += String.fromCharCode(codeUnit);
  }
+ return str;
 }
 
 function stringToUTF16(str, outPtr, maxBytesToWrite) {
@@ -2361,10 +2350,6 @@ function __embind_register_void(rawType, name) {
  });
 }
 
-function __emscripten_date_now() {
- return Date.now();
-}
-
 var nowIsMonotonic = true;
 
 function __emscripten_get_now_is_monotonic() {
@@ -2385,6 +2370,10 @@ function __emval_take_value(type, arg) {
 
 function _abort() {
  abort("");
+}
+
+function _emscripten_date_now() {
+ return Date.now();
 }
 
 var _emscripten_get_now;
@@ -2446,12 +2435,12 @@ var asmLibraryArg = {
  "j": __embind_register_value_object,
  "e": __embind_register_value_object_field,
  "x": __embind_register_void,
- "s": __emscripten_date_now,
  "r": __emscripten_get_now_is_monotonic,
  "y": __emval_decref,
  "z": __emval_incref,
  "A": __emval_take_value,
  "q": _abort,
+ "s": _emscripten_date_now,
  "u": _emscripten_memcpy_big,
  "t": _emscripten_resize_heap
 };

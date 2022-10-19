@@ -654,7 +654,7 @@ jobs:
         - cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-web/m1-web-spatialaudioplayer && ${TRAVIS_BUILD_DIR}/source/scripts/git-webplayer-module.sh
         - cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-nodejs/mach1spatial-decode && ${TRAVIS_BUILD_DIR}/source/scripts/git-node-decode-module.sh
         # - cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-nodejs/mach1spatial-encode && ${TRAVIS_BUILD_DIR}/source/scripts/git-node-encode-module.sh
-        - cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-nodejs/mach1spatial-transcode && ${TRAVIS_BUILD_DIR}/source/scripts/git-node-transcode-module.sh
+        # - cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-nodejs/mach1spatial-transcode && ${TRAVIS_BUILD_DIR}/source/scripts/git-node-transcode-module.sh
         - cd ${TRAVIS_BUILD_DIR} && ./source/scripts/deploy.sh
 
 # ---------------------------------
@@ -685,8 +685,8 @@ jobs:
         - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI && git fetch && git checkout -b tmp
         - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-web/m1-web-spatialaudioplayer && git fetch && git checkout -b tmp
         - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-decode && git fetch && git checkout -b tmp
-        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-encode && git fetch && git checkout -b tmp
-        - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-transcode && git fetch && git checkout -b tmp
+        # - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-encode && git fetch && git checkout -b tmp
+        # - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/examples/mach1spatial-nodejs/mach1spatial-transcode && git fetch && git checkout -b tmp
         # Setup tmp branch for root repo
         - cd ${TRAVIS_BUILD_DIR}/../m1-sdk-release/ && git fetch && git checkout -b tmp
       script:

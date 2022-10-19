@@ -201,6 +201,7 @@ jobs:
         directories:
           - $HOME/Library/Caches/Homebrew
           - ${TRAVIS_BUILD_DIR}/cmake-3.19.3
+          - ${TRAVIS_BUILD_DIR}/cmake-3.19.3.zip
       before_cache:
         - brew cleanup
       before_install:

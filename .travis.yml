@@ -552,9 +552,9 @@ jobs:
       script:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - cmake . -DENABLE_PACKAGE_CONFIG=ON -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake -B_builds/vs-15-2017 -G "Visual Studio 15 2017" -A Win32 -DCMAKE_INSTALL_PREFIX=_install/vs-15-2017
-        - cmake --build _builds/vs-15-2017 --config Release --target install -- /nologo /verbosity:minimal
+        - cmake --build _builds/vs-15-2017 --config Release --target install
         - cmake . -DENABLE_PACKAGE_CONFIG=ON -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake -B_builds/vs-15-2017-win64 -G "Visual Studio 15 2017" -A x64 -DCMAKE_INSTALL_PREFIX=_install/vs-15-2017-win64
-        - cmake --build _builds/vs-15-2017-win64 --config Release --target install -- /nologo /verbosity:minimal
+        - cmake --build _builds/vs-15-2017-win64 --config Release --target install
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - cp -f _install/vs-15-2017/build/m1-transcode.exe ${TRAVIS_BUILD_DIR}/executables/windows-x86/m1-transcode.exe

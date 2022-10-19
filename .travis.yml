@@ -24,7 +24,7 @@ after_script:
 stages:
   - name: test
   - name: compile
-    if: branch = deploy OR travis-test
+    if: branch = deploy OR branch = travis-test
   - name: deploy
     if: branch = deploy
   - name: release
@@ -69,6 +69,10 @@ jobs:
 # ---------------------------------
 
     - stage: compile
+      branches:
+        only:
+          - deploy
+          - travis-test
       name: Linux x86_64
       os: linux
       sudo: required
@@ -93,6 +97,10 @@ jobs:
         - ./scripts/examples_linking_test.sh
 
     - stage: compile
+      branches:
+        only:
+          - deploy
+          - travis-test
       name: Linux ARM64
       os: linux
       sudo: required
@@ -146,6 +154,10 @@ jobs:
         # - ./scripts/arm-hf-neon-vfpv4_build.sh
 
     - stage: compile
+      branches:
+        only:
+          - deploy
+          - travis-test
       name: macOS 9.3 (macOS 10.13)
       os: osx
       sudo: required
@@ -171,6 +183,10 @@ jobs:
         - ./scripts/examples_linking_test.sh
 
     - stage: compile
+      branches:
+        only:
+          - deploy
+          - travis-test
       name: macOS 9.3 (iOS)
       os: osx
       sudo: required
@@ -202,6 +218,10 @@ jobs:
         - ./scripts/examples_linking_test.sh
 
     - stage: compile
+      branches:
+        only:
+          - deploy
+          - travis-test
       name: macOS 13.2 (macOS)
       os: osx
       addons:
@@ -228,6 +248,10 @@ jobs:
         - ./scripts/examples_linking_test.sh
 
     - stage: compile
+      branches:
+        only:
+          - deploy
+          - travis-test
       name: Linux x86_64 (RPI)
       os: linux
       sudo: required
@@ -257,6 +281,10 @@ jobs:
         # TODO: Setup RPI testing
 
     - stage: compile
+      branches:
+        only:
+          - deploy
+          - travis-test
       name: Linux x86_64 (WASM/JS)
       os: linux
       sudo: required
@@ -286,6 +314,10 @@ jobs:
         - ./scripts/web_build.sh
 
     - stage: compile
+      branches:
+        only:
+          - deploy
+          - travis-test
       name: Android
       os: linux
       language: android
@@ -328,6 +360,10 @@ jobs:
         - ./scripts/android_build.sh
 
     - stage: compile
+      branches:
+        only:
+          - deploy
+          - travis-test
       name: Windows
       os: windows
       language: sh
@@ -361,6 +397,10 @@ jobs:
 # ---------------------------------
 
     - stage: compile
+      branches:
+        only:
+          - deploy
+          - travis-test
       name: m1-transcode Linux-x86_64
       os: linux
       sudo: required
@@ -400,6 +440,10 @@ jobs:
         - aws s3 cp m1-transcode s3://${AWS_DEPLOY_BUCKET}/executables/linux-arm/m1-transcode --cache-control no-cache --metadata-directive REPLACE
 
     - stage: compile
+      branches:
+        only:
+          - deploy
+          - travis-test
       name: m1-transcode Linux-ARM64
       os: linux
       sudo: required
@@ -461,6 +505,10 @@ jobs:
         - aws s3 cp m1-transcode s3://${AWS_DEPLOY_BUCKET}/executables/linux-arm/m1-transcode --cache-control no-cache --metadata-directive REPLACE
 
     - stage: compile
+      branches:
+        only:
+          - deploy
+          - travis-test
       name: m1-transcode Windows
       os: windows
       language: sh
@@ -481,25 +529,32 @@ jobs:
         - choco install -y awscli
         - choco install -y boost-msvc-14.1
         - choco install -y pkgconfiglite
-        - choco install -y opus-tools
         - export PATH="$(powershell -Command '("Process", "Machine" | % {[Environment]::GetEnvironmentVariable("PATH", $_) -Split ";" -Replace "\\$", ""} | Select -Unique | % { cygpath $_ }) -Join ":"')"
+        - cd ${VCPKG_PATH}
+        - ./vcpkg.exe install libflac --triplet x86-windows
+        - ./vcpkg.exe install libflac --triplet x64-windows
+        - ./vcpkg.exe install libvorbis --triplet x86-windows
+        - ./vcpkg.exe install libvorbis --triplet x64-windows
+        - ./vcpkg.exe install libogg --triplet x86-windows
+        - ./vcpkg.exe install libogg --triplet x64-windows
+        - ./vcpkg.exe install opus --triplet x86-windows
+        - ./vcpkg.exe install opus --triplet x64-windows
+        - ./vcpkg.exe install mpg123 --triplet x86-windows
+        - ./vcpkg.exe install mpg123 --triplet x64-windows
+        - ./vcpkg.exe install sndfile --triplet x86-windows
+        - ./vcpkg.exe install sndfile --triplet x64-windows
         - cd ${TRAVIS_BUILD_DIR}/../
         - git clone git@github.com:Mach1Studios/m1-transcode.git
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - mkdir libs && cd libs
         - git clone --depth 1 git@github.com:ebu/libadm.git
         - git clone --depth 1 git@github.com:irt-open-source/libbw64.git
-        - git clone git@github.com:libsndfile/libsndfile.git
-        - cd libsndfile && mkdir build && cd build
-        - cmake .. -DENABLE_PACKAGE_CONFIG=ON -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake
-        - cmake --build . --target install
       script:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
-        - aws s3 sync s3://${AWS_DEPLOY_BUCKET}/deps/libsndfile ./libs/libsndfile
-        - cmake . -B_builds/vs-15-2017 -G "Visual Studio 15 2017" -A Win32 -DCMAKE_INSTALL_PREFIX=_install/vs-15-2017
-        - cmake --build _builds/vs-15-2017 --config Release --target install -- //nologo //verbosity:quiet //clp:ErrorsOnly
-        - cmake . -B_builds/vs-15-2017-win64 -G "Visual Studio 15 2017" -A x64 -DCMAKE_INSTALL_PREFIX=_install/vs-15-2017-win64
-        - cmake --build _builds/vs-15-2017-win64 --config Release --target install -- //nologo //verbosity:quiet //clp:ErrorsOnly
+        - cmake . -DENABLE_PACKAGE_CONFIG=ON -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake -B_builds/vs-15-2017 -G "Visual Studio 15 2017" -A Win32 -DCMAKE_INSTALL_PREFIX=_install/vs-15-2017
+        - cmake --build _builds/vs-15-2017 --config Release --target install -- /nologo /verbosity:minimal
+        - cmake . -DENABLE_PACKAGE_CONFIG=ON -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake -B_builds/vs-15-2017-win64 -G "Visual Studio 15 2017" -A x64 -DCMAKE_INSTALL_PREFIX=_install/vs-15-2017-win64
+        - cmake --build _builds/vs-15-2017-win64 --config Release --target install -- /nologo /verbosity:minimal
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - cp -f _install/vs-15-2017/build/m1-transcode.exe ${TRAVIS_BUILD_DIR}/executables/windows-x86/m1-transcode.exe
@@ -508,6 +563,10 @@ jobs:
         - aws s3 sync _install/vs-15-2017-win64/build/m1-transcode.exe s3://${AWS_DEPLOY_BUCKET}/executables/windows-x86_64/m1-transcode --cache-control no-cache --metadata-directive REPLACE
 
     - stage: compile
+      branches:
+        only:
+          - deploy
+          - travis-test
       name: m1-transcode macOS
       os: osx
       addons:

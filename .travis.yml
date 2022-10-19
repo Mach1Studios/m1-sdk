@@ -521,10 +521,12 @@ jobs:
           - ${TRAVIS_BUILD_DIR}/vcpkg
       git:
         submodules: false
-      before_install:
+      before_cache:
         - git clone https://github.com/Microsoft/vcpkg.git ${TRAVIS_BUILD_DIR}/vcpkg
         - cd ${TRAVIS_BUILD_DIR}
         - ./vcpkg/bootstrap-vcpkg.bat
+      before_install:
+        - cd ${TRAVIS_BUILD_DIR}
         - git lfs pull --include "m1-debug-shortpt-fiveone.wav"
       install:
         - cd ${TRAVIS_BUILD_DIR}/source

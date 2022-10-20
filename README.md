@@ -20,7 +20,7 @@
 - The most current version of the MACH1 SPATIAL SDK ROYALTY FREE LICENSE will be posted at www.mach1.tech/license. If the Current Version has a more recent effective date than this document, then this document is replaced by the Currnt Version and by clicking on the appropriate button below, or by downloading, installing, activating or using any of the SDK, or any other update method Mach1 may choose, you agree to be bound by the Current Version. You may not use an old version of any SDK if you have not agreed to the Current Version.
  - IF YOU DO NOT AGREE TO THE TERMS OF THIS AGREEMENT, WE WILL NOT LICENSE THE MACH1 SPATIAL SDK TO YOU AND YOU MUST DISCONTINUE THE INSTALLATION OR DOWNLOAD PROCESS OR CEASE USE OF THE MACH1 SPATIAL SDK.
 
-By downloading and/or using the Mach1 Spatial SDK, including use of any of the contents within the [binaries/](binaries),
+By downloading and/or using the Mach1 Spatial SDK, including use of any of the contents within the [mach1spatial-libs/](mach1spatial-libs),
 you agree to and acknowledge the terms of use set forth by the [Mach1 Spatial SDK License](https://www.mach1.tech/license).
 If you do not agree to the terms set forth by the [Mach1 Spatial SDK License](https://www.mach1.tech/license) you are not
 permitted to use, link, compile and/or distribute any of the contents of this repository.
@@ -33,26 +33,22 @@ Please view the [license/](license) directory for more information and proper at
 
 #### The Mach1 Spatial SDK includes four components and libraries: ####
 
-* Mach1Encode lib: Encode and process input streams/audio into a Mach1Spatial VVBP format.
-* Mach1Decode lib: Decode and process a Mach1Spatial VVBP format with device orientation / headtracking to output directional spatial audio.
-* Mach1DecodePositional lib: Add additional optional decoding layer to decode spatial mixes with 6DOF for positional and orientational decoding.
-* Mach1Transcode lib: Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatial VVBP format.
-
-*Mach1Encode and Mach1Decode are supported on OSX 10.7+, Windows 10+, iOS 9.0+ and Android API 19+. Unity 4.0+ and Unreal Engine 4.10+ examples are available and said engines are supported too on the aforementioned platforms.*
-
-*Mach1Transcode is supported on OSX and Windows, game engine support coming soon.*
-
+* Mach1Encode: Encode and process input streams/audio into a Mach1Spatial VVBP format.
+* Mach1Decode: Decode and process a Mach1Spatial VVBP format with device orientation / headtracking to output directional spatial audio.
+* Mach1DecodePositional: Add additional optional decoding layer to decode spatial mixes with 6DOF for positional and orientational decoding.
+* Mach1Transcode: Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatial VVBP format.
 
 ### [INCLUDED](#included) ###
 
-#### API Binaries built for following Platforms
-* Android (libs in multiple archs, jitpack)
+#### Prebuilt libraries
+* Android (libs prebuilt in multiple archs, jitpack)
 * iOS (cocoapod, lib, frameworks)
-* macOS (xcode)
+* MacOS (xcode)
 * Linux (x86 & ARM)
+* Win-x86 (MD, MDd, MT, MTd)
+* Win-x86_64 (MD, MDd, MT, MTd)
 * Windows-x86 (Visual Studio)
 * Windows-x86-64 (Visual Studio)
-* Unix/linux: _m1-transcode executable_
 * RaspberryPi2
 * RaspberryPi3
 * Various embedded ARM chipsets
@@ -66,10 +62,7 @@ Please view the [license/](license) directory for more information and proper at
 * Python (in progress)
 * Golang (in progress)
 
-#### Debug Tools
-* Simple Audio Debug Examples
-
-#### Implementation 
+#### Implementation Examples
 * Unreal Engine Plugin <a href="https://www.mach1.tech/download-spatialgameengine">Unreal Engine Plugin</a>
 	* _UE Plugin for Mach1Decode/Mach1DecodePositional_
 * Unity Package <a href="https://www.mach1.tech/download-spatialgameengine">Unity Package</a>
@@ -105,7 +98,11 @@ Please view the [license/](license) directory for more information and proper at
 
 open or load [`docs/index.html`](https://github.com/Mach1Studios/m1-sdk/tree/master/docs) into your preferred browser to run through all the API documentation or visit our [hosted documentation](https://dev.mach1.tech)
 
+#### Migration ####
+
+Migration guides from older versions of the Mach1 Spatial SDK can be found in [MIGRATIONS.md](MIGRATIONS.md).
+
 ### [CONTACT](#contact) ###
 
 General:
-info@mach1.tech
+whatsup@mach1.tech

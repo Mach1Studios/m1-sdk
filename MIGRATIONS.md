@@ -6,7 +6,7 @@ Currently the Mach1 Spatial SDK has gone through some revisions to improve on it
 [Version 1](https://github.com/Mach1Studios/m1-sdk/tree/1.2)
 
 ## Migration to 3.0+
-Version 3 removes some old deprecated variables and focuses on clearer and more concise function/variable terminology. Major changes for each API as follows: 
+Version 3 removes some old deprecated variables and focuses on clearer and more concise function/variable terminology; and introduces CI/CD to make it easier in the future for community contributions to this project allowing the codebase to self test and distribute with the goal of becoming easier to maintain over time. Major changes for each API as follows: 
 - All APIs: Use specific vector based `Mach1Spatial-n` formats where `n` is the number of channels in the configuration of that format, typically derived or inspired by from platonic solid shapes.
 - Mach1Encode API: Azimuth, Elevation and Diverge are the only terms used for setting a source sound's direction and signal distribution. 
 - Mach1Decode API: Verbose description of orientation data is required within function name.

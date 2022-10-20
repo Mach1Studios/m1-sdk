@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.19.3)
+cmake_minimum_required(VERSION 3.1.0)
 project(spatial-decodeminified-example)
 set(MACH1SPATIAL_LIBS_PATH "../../../../mach1spatial-libs")
 

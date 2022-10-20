@@ -25,17 +25,26 @@ public class Mach1DecodePositional {
         ///     - Mach1PlatformOfEasyCam = 3
         ///     - Mach1PlatformAndroid = 4
         ///     - Mach1PlatformiOS = 5
+        ///     - Mach1PlatformiOSTableTop_ZVertical = 6
+        ///     - Mach1PlatformiOSPortraitHandheld_YVertical = 7
+        ///     - Mach1PlatformiOSPortrait_YawOnly = 8
     }
     public func setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoType) {
         Mach1DecodePositionalCAPI_setDecodeAlgoType(M1obj, newAlgorithmType)
         /// Set the decoding algorithm
         ///
         /// - Parameters:
-        ///     - Mach1DecodeAlgoSpatial = 0 (default spatial | 8 channels)
-        ///     - Mach1DecodeAlgoAltSpatial = 1 (periphonic spatial | 8 channels)
-        ///     - Mach1DecodeAlgoHorizon = 2 (compass / yaw | 4 channels)
-        ///     - Mach1DecodeAlgoHorizonPairs = 3 (compass / yaw | 4x stereo mastered pairs)
-        ///     - Mach1DecodeAlgoSpatialPairs = 4 (experimental periphonic pairs | 8x stereo mastered pairs)
+        ///     - Mach1DecodeAlgoSpatial_8 (default spatial | 8 channels)
+        ///     - Mach1DecodeAlgoHorizon_4 (compass / yaw | 4 channels)
+        ///     - Mach1DecodeAlgoHorizonPairs (compass / yaw | 4x stereo mastered pairs)
+        ///     - Mach1DecodeAlgoSpatial_12 (higher order spatial | 12 channels)
+        ///     - Mach1DecodeAlgoSpatial_14 (higher order spatial | 14 channels)
+        ///     - Mach1DecodeAlgoSpatial_18 (higher order spatial | 18 channels)
+        ///     - Mach1DecodeAlgoSpatial_22 (higher order spatial | 20 channels)
+        ///     - Mach1DecodeAlgoSpatial_32 (higher order spatial | 32 channels)
+        ///     - Mach1DecodeAlgoSpatial_36 (higher order spatial | 36 channels)
+        ///     - Mach1DecodeAlgoSpatial_48 (higher order spatial | 48 channels)
+        ///     - Mach1DecodeAlgoSpatial_60 (higher order spatial | 60 channels)
     }
     
     public func setUseBlendMode(useBlendMode: Bool) {

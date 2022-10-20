@@ -153,21 +153,20 @@ public class Mach1Encode {
         /// - Parameters:
         ///     - Mach1EncodeInputModeMono
         ///     - Mach1EncodeInputModeStereo
+        ///     - Mach1EncodeInputModeLCR
         ///     - Mach1EncodeInputModeQuad
         ///     - Mach1EncodeInputModeLCRS
         ///     - Mach1EncodeInputModeAFormat
-        ///     - Mach1EncodeInputModeBFormat
+        ///     - Mach1EncodeInputMode5dot0
+        ///     - Mach1EncodeInputMode5dot1Film
+        ///     - Mach1EncodeInputMode5dot1DTS
+        ///     - Mach1EncodeInputMode5dot1SMTPE
         ///     - Mach1EncodeInputModeBFOAACN
         ///     - Mach1EncodeInputModeBFOAFUM
         ///     - Mach1EncodeInputModeB2OAACN
         ///     - Mach1EncodeInputModeB2OAFUMA
         ///     - Mach1EncodeInputModeB3OAACN, 
         ///     - Mach1EncodeInputModeB3OAFUMA
-        ///     - Mach1EncodeInputModeLCR
-        ///     - Mach1EncodeInputMode5dot0
-        ///     - Mach1EncodeInputMode5dot1Film
-        ///     - Mach1EncodeInputMode5dot1DTS
-        ///     - Mach1EncodeInputMode5dot1SMTPE
     }
 
     public func setOutputMode(outputMode: Mach1EncodeOutputModeType) {
@@ -175,12 +174,16 @@ public class Mach1Encode {
         /// Sets the output spatial format, Mach1Spatial or Mach1Horizon
         ///
         /// - Parameters:
-        ///     - Mach1Horizon (4ch) [Yaw]
-        ///     - Mach1Spatial (8ch) [Yaw, Pitch, Roll]
-        ///     - Mach1SpatialPlus (12ch) [Yaw, Pitch, Roll]
-        ///     - Mach1SpatialPlusPlus (14ch) [Yaw, Pitch, Roll]
-        ///     - Mach1SpatialExt (16ch) [Yaw, Pitch, Roll]
-        ///     - Mach1SpatialExtPlus (18ch) [Yaw, Pitch, Roll]
+        ///     - Mach1Spatial_8 (8ch) [Yaw, Pitch, Roll]
+        ///     - Mach1Horizon_4 (4ch) [Yaw]
+        ///     - Mach1Spatial_12 (12ch) [Yaw, Pitch, Roll]
+        ///     - Mach1Spatial_14 (14ch) [Yaw, Pitch, Roll]
+        ///     - Mach1Spatial_18 (18ch) [Yaw, Pitch, Roll]
+        ///     - Mach1Spatial_22 (20ch) [Yaw, Pitch, Roll]
+        ///     - Mach1Spatial_32 (32ch) [Yaw, Pitch, Roll]
+        ///     - Mach1Spatial_36 (36ch) [Yaw, Pitch, Roll]
+        ///     - Mach1Spatial_48 (48ch) [Yaw, Pitch, Roll]
+        ///     - Mach1Spatial_60 (60ch) [Yaw, Pitch, Roll]
     }
 
     public func setAzimuth(azimuthFromMinus1To1: Float) {
@@ -260,6 +263,14 @@ public class Mach1Encode {
         /// Remark: Default is true
     }
 
+    public func setOutputGain(outputGainMultipler: Float, isDecibel: Bool) {
+        Mach1EncodeCAPI_setOutputGain(M1obj, outputGainMultipler, isDecibel)
+        /// Applies an additional gain multiplier to all output channels equally
+        /// Can be calculated with a linear amplitude multiplier or a decibel multiplier
+        ///
+        /// Remark: Default is passthrough (1.0, false)
+    }
+
     public func setOrbitRotation(orbitRotationFromMinusOnetoOne: Float) {
         Mach1EncodeCAPI_setOrbitRotation(M1obj, orbitRotationFromMinusOnetoOne)
         /// Sets the two stereo points around the axis of the center point between them
@@ -299,61 +310,4 @@ public class Mach1Encode {
         ///
         /// - Remark: Default is true
     }
-
-/*
-DEPRECATED START
- */
-    public func getResultingVolumesDecoded(decodeType: Mach1DecodeAlgoType, decodeResult: [Float] ) -> [Float] {
-        let pointer: UnsafeMutablePointer = UnsafeMutablePointer(mutating: decodeResult)
-        let volumesPtr = unsafeBitCast( Mach1EncodeCAPI_getResultingVolumesDecoded(M1obj, decodeType, pointer), to: UnsafeMutablePointer<Float>?.self)
-
-        var array: [Float] = Array(repeating: 0.0, count: 18)
-        for i in 0..<array.count {
-            array[i] = (volumesPtr! + i).pointee
-        }
-        return array
-        /// A shorthand function for encoding->decoding audio object handling,
-        /// useful preview UX so that a full input->mach1spatial_multichannel->stereo
-        /// rendeering to disk isnt required and instead designs that stack decode results 
-        /// live can more easily be created
-        ///
-        /// - Remark: Each input audio channel results a direct decode instead of the encode coefficients
-    }
-
-    public func setRotation(rotation: Float) {
-        Mach1EncodeCAPI_setRotation(M1obj, rotation)
-        /// Sets the point(s) around the center origin of the vector space
-        ///
-        /// - Parameters:
-        ///     - value range: 0.0 -> 1.0 (0->360)
-    }
-
-    public func setPitch(pitch: Float) {
-        Mach1EncodeCAPI_setPitch(M1obj, pitch)
-        /// Sets the point(s) up/down the vector space
-        ///
-        /// - Parameters:
-        ///     - value range: -1.0 -> 1.0 (-90->90)
-    }
-
-    public func setStereoRotate(setStereoRotate: Float) {
-        Mach1EncodeCAPI_setStereoRotate(M1obj, setStereoRotate)
-        /// Sets the two stereo points around the axis of the center point between them
-        ///
-        /// - Parameters:
-        ///     - value range: -180.0->180.0
-    }
-
-    public func setIsotropicEncode(setIsotropicEncode: Bool) {
-        Mach1EncodeCAPI_setIsotropicEncode(M1obj, setIsotropicEncode)
-        /// Sets both stereo points rotate in relation to the
-        /// center point between them so that they always triangulate
-        /// toward center of the cuboid
-        ///
-        /// - Remark: Default is true
-    }
-
-/*
-DEPRECATED END
- */
 }

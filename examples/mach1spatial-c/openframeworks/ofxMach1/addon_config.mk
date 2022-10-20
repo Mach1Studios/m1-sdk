@@ -59,10 +59,14 @@ common:
 	# when parsing the file system looking for libraries exclude this for all or
 	# a specific platform
 	# ADDON_LIBS_EXCLUDE =
-	
+
 	ADDON_DEFINES += M1_STATIC
 
 linux:
+	ADDON_LIBS += libs/libmach1/lib/linux/libMach1DecodeCAPI.a
+	ADDON_LIBS += libs/libmach1/lib/linux/libMach1EncodeCAPI.a
+	ADDON_LIBS += libs/libmach1/lib/linux/libMach1DecodePositionalCAPI.a
+	ADDON_LIBS += libs/libmach1/lib/linux/libMach1TranscodeCAPI.a
 linux64:
 linuxarmv6l:
 linuxarmv7l:
@@ -70,21 +74,26 @@ android/armeabi-v7a:
 	ADDON_LIBS += libs/libmach1/lib/android/armeabi-v7a/libMach1DecodeCAPI.a
 	ADDON_LIBS += libs/libmach1/lib/android/armeabi-v7a/libMach1EncodeCAPI.a
 	ADDON_LIBS += libs/libmach1/lib/android/armeabi-v7a/libMach1DecodePositionalCAPI.a
+	ADDON_LIBS += libs/libmach1/lib/android/armeabi-v7a/libMach1TranscodeCAPI.a
 android/x86:
 	ADDON_LIBS += libs/libmach1/lib/android/x86/libMach1DecodeCAPI.a
 	ADDON_LIBS += libs/libmach1/lib/android/x86/libMach1EncodeCAPI.a
 	ADDON_LIBS += libs/libmach1/lib/android/x86/libMach1DecodePositionalCAPI.a
+	ADDON_LIBS += libs/libmach1/lib/android/libMach1TranscodeCAPI.a
 osx:
 	ADDON_LIBS += libs/libmach1/lib/osx/libMach1DecodeCAPI.a
 	ADDON_LIBS += libs/libmach1/lib/osx/libMach1EncodeCAPI.a
 	ADDON_LIBS += libs/libmach1/lib/osx/libMach1DecodePositionalCAPI.a
+	ADDON_LIBS += libs/libmach1/lib/osx/libMach1TranscodeCAPI.a
 ios:
 	ADDON_LIBS += libs/libmach1/lib/ios/libMach1DecodeCAPI.a
 	ADDON_LIBS += libs/libmach1/lib/ios/libMach1EncodeCAPI.a
 	ADDON_LIBS += libs/libmach1/lib/ios/libMach1DecodePositionalCAPI.a
+	ADDON_LIBS += libs/libmach1/lib/ios/libMach1TranscodeCAPI.a
 tvos:
 msys2:
 vs:
 	ADDON_LIBS += libs/libmach1/lib/vs/x64/Mach1DecodeCAPI.lib
 	ADDON_LIBS += libs/libmach1/lib/vs/x64/Mach1EncodeCAPI.lib
 	ADDON_LIBS += libs/libmach1/lib/vs/x64/Mach1DecodePositionalCAPI.lib
+	ADDON_LIBS += libs/libmach1/lib/vs/x64/Mach1TranscodeCAPI.lib

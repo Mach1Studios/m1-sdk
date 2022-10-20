@@ -24,7 +24,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
-#include <pthread.h>
+#include <thread>
 #include <chrono>
 
 #include "Mach1Encode.h"
@@ -64,11 +64,11 @@ BOOLEAN nanosleep(struct timespec* ts, void* p) {
 }
 #endif
 
-static void* decode(void* v);
-static pthread_t thread;
-static bool done = false;
+void* encode(void* v);
+
+bool done = false;
 Mach1Encode m1Encode;
-static std::vector< std::vector<float> > m1Coeffs; //2D array, [input channel][input channel's coeff]
+std::vector< std::vector<float> > m1Coeffs; //2D array, [input channel][input channel's coeff]
 Mach1EncodeInputModeType inputMode;
 Mach1EncodeOutputModeType outputMode;
 std::string inputName;
@@ -86,16 +86,16 @@ std::string outputName;
  
  http://dev.mach1.tech/#mach1-internal-angle-standard
  */
-static float azimuth = 0.0;
-static float diverge = 0.0;
-static float elevation = 0.0;
-static bool isIsotroptic = true;
-static bool isAutoOrbit = true;
-static float stereoOrbitRotation = 0.0;
-static float stereoSpread = 0.0;
+float azimuth = 0.0;
+float diverge = 0.0;
+float elevation = 0.0;
+bool isIsotroptic = true;
+bool isAutoOrbit = true;
+float stereoOrbitRotation = 0.0;
+float stereoSpread = 0.0;
 
 // variables for time logs
-static float timeReturned = 0;
+float timeReturned = 0;
 
 float radToDeg (float input){
     float output = input * (180/PI);
@@ -103,18 +103,18 @@ float radToDeg (float input){
 }
 
 int main(int argc, const char * argv[]) {
-    // time increment for Yaw/Pitch/Roll updates to decode
+    // time increment for input value updates to encode
     struct timespec ts;
     ts.tv_sec =  0;
     ts.tv_nsec = (long)1e7;
     
     printf("Setting up\n");
     inputMode = Mach1EncodeInputModeMono;
-    outputMode = Mach1EncodeOutputModeM1Spatial;
+    outputMode = Mach1EncodeOutputModeM1Spatial_8;
     inputName = "MONO";
     outputName = "MACH1 SPATIAL";
     done = false;
-    pthread_create(&thread, NULL, &decode, NULL);
+    std::thread thread(encode, nullptr);
     
     while (!done) {
         nanosleep(&ts, NULL);
@@ -124,7 +124,7 @@ int main(int argc, const char * argv[]) {
         m1Encode.setElevationDegrees(elevation);
         m1Encode.setInputMode(inputMode);
         m1Encode.setOutputMode(outputMode);
-        m1Encode.setIsotropicEncode(isIsotroptic);
+        m1Encode.setPannerMode((isIsotroptic) ? Mach1EncodePannerModeIsotropicLinear : Mach1EncodePannerModePeriphonicLinear);
         m1Encode.setAutoOrbit(isAutoOrbit);
         if (!isAutoOrbit){
             m1Encode.setOrbitRotationDegrees(stereoOrbitRotation);
@@ -140,7 +140,7 @@ int main(int argc, const char * argv[]) {
     return 0;
 }
 
-static void* decode(void* v)
+void* encode(void* v)
 {
 /* Allow Terminal to input chars without "Enter" */
 #ifndef _WIN32
@@ -203,9 +203,9 @@ static void* decode(void* v)
                     inputMode=Mach1EncodeInputModeAFormat;
                     inputName="AFORMAT";
                 }else if(inputMode==Mach1EncodeInputModeAFormat){
-                    inputMode=Mach1EncodeInputModeBFormat;
+                    inputMode=Mach1EncodeInputModeBFOAACN;
                     inputName="1OA ACN";
-                }else if(inputMode==Mach1EncodeInputModeBFormat){
+                }else if(inputMode==Mach1EncodeInputModeBFOAACN){
                     inputMode=Mach1EncodeInputModeBFOAACN;
                     inputName="1OA ACN";
                 }else if(inputMode==Mach1EncodeInputModeBFOAACN){
@@ -219,24 +219,30 @@ static void* decode(void* v)
                 }
                 break;
             case 'o':
-                if(outputMode==Mach1EncodeOutputModeM1Spatial){
-                    outputMode=Mach1EncodeOutputModeM1Horizon;
-                    outputName="MACH1 HORIZON";
-                }else if(outputMode==Mach1EncodeOutputModeM1Horizon){
-                    outputMode=Mach1EncodeOutputModeM1SpatialPlus;
-                    outputName="MACH1 SPATIAL+";
-                }else if(outputMode==Mach1EncodeOutputModeM1SpatialPlus){
-                    outputMode=Mach1EncodeOutputModeM1SpatialPlusPlus;
-                    outputName="MACH1 SPATIAL++";
-                }else if(outputMode==Mach1EncodeOutputModeM1SpatialPlusPlus){
-                    outputMode=Mach1EncodeOutputModeM1SpatialExt;
-                    outputName="MACH1 SPATIAL Extended";
-                }else if(outputMode==Mach1EncodeOutputModeM1SpatialExt){
-                    outputMode=Mach1EncodeOutputModeM1SpatialExtPlus;
-                    outputName="MACH1 SPATIAL Extended+";
-                }else if(outputMode==Mach1EncodeOutputModeM1SpatialExtPlus){
-                    outputMode=Mach1EncodeOutputModeM1Spatial;
-                    outputName="MACH1 SPATIAL";
+                if(outputMode==Mach1EncodeOutputModeM1Spatial_8){
+                    outputMode=Mach1EncodeOutputModeM1Horizon_4;
+                    outputName="MACH1HORIZON-4";
+                }else if(outputMode==Mach1EncodeOutputModeM1Horizon_4){
+                    outputMode=Mach1EncodeOutputModeM1Spatial_14;
+                    outputName="MACH1SPATIAL-14";
+                }else if(outputMode==Mach1EncodeOutputModeM1Spatial_14){
+                    outputMode=Mach1EncodeOutputModeM1Spatial_18;
+                    outputName="MACH1SPATIAL-18";
+                }else if(outputMode==Mach1EncodeOutputModeM1Spatial_18){
+                    outputMode=Mach1EncodeOutputModeM1Spatial_32;
+                    outputName="MACH1SPATIAL-32";
+                }else if(outputMode==Mach1EncodeOutputModeM1Spatial_32){
+                    outputMode=Mach1EncodeOutputModeM1Spatial_36;
+                    outputName="MACH1SPATIAL-36";
+                }else if(outputMode==Mach1EncodeOutputModeM1Spatial_36){
+                    outputMode=Mach1EncodeOutputModeM1Spatial_48;
+                    outputName="MACH1SPATIAL-48";
+                }else if(outputMode==Mach1EncodeOutputModeM1Spatial_48){
+                    outputMode=Mach1EncodeOutputModeM1Spatial_60;
+                    outputName="MACH1SPATIAL-60";
+                }else if(outputMode==Mach1EncodeOutputModeM1Spatial_60){
+                    outputMode=Mach1EncodeOutputModeM1Spatial_8;
+                    outputName="MACH1SPATIAL-8";
                 }else{
                     printf("Input out of scope.");
                 }
@@ -310,12 +316,15 @@ static void* decode(void* v)
         printf("\n");
         printf("Encode Coeffs:\n");
         for (int i = 0; i < m1Coeffs.size(); i++){
+            float coeffSum = 0;
             printf("Number of Channels %i\n", i);
             printf("Channel %i Coeffs: \n", i);
 			for (int j = 0; j < m1Coeffs[i].size(); j++) {
 				printf("%f ", m1Coeffs[i][j]);
+                coeffSum += m1Coeffs[i][j];
 			}
 			printf("\n\n");
+            printf("Channel %i Sum: %f \n", i, coeffSum);
 		}
         printf("\n");
         printf("Elapsed time: %f Seconds\n", timeReturned);

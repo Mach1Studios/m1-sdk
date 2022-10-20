@@ -22,12 +22,15 @@ public:
 #ifndef  __EMSCRIPTEN__ 
 	void decode(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
 	void decodeCoeffs(float *result, int bufferSize = 0, int sampleIndex = 0);
+	void decodePannedCoeffs(float *result, int bufferSize = 0, int sampleIndex = 0, bool applyPanLaw = true);
 #endif
 	std::vector<float> decode(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
 	std::vector<float> decodeCoeffs(int bufferSize = 0, int sampleIndex = 0);
+	std::vector<float> decodePannedCoeffs(int bufferSize = 0, int sampleIndex = 0, bool applyPanLaw = true);
 	std::vector<float> decodeCoeffsUsingTranscodeMatrix(std::vector< std::vector<float> > matrix, int channels, int bufferSize = 0, int sampleIndex = 0);
 
 	int getFormatChannelCount();
+	int getFormatCoeffCount();
 	void setRotation(Mach1Point3D newRotationFromMinusOnetoOne);
 	void setRotationDegrees(Mach1Point3D newRotationDegrees);
 	void setRotationRadians(Mach1Point3D newRotationRadians);
@@ -50,7 +53,6 @@ public:
 #else
 	std::string getLog();
 #endif
-
 
     Mach1Point3D getCurrentAngle();
 };

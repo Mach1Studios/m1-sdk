@@ -566,8 +566,8 @@ jobs:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - cp -f _install/vs-15-2017/build/m1-transcode.exe ${TRAVIS_BUILD_DIR}/executables/windows-x86/m1-transcode.exe
         - cp -f _install/vs-15-2017-win64/build/m1-transcode.exe ${TRAVIS_BUILD_DIR}/executables/windows-x86_64/m1-transcode.exe
-        - aws s3 sync _install/vs-15-2017/build/m1-transcode.exe s3://${AWS_DEPLOY_BUCKET}/executables/windows-x86/m1-transcode --cache-control no-cache --metadata-directive REPLACE
-        - aws s3 sync _install/vs-15-2017-win64/build/m1-transcode.exe s3://${AWS_DEPLOY_BUCKET}/executables/windows-x86_64/m1-transcode --cache-control no-cache --metadata-directive REPLACE
+        - aws s3 cp _install/vs-15-2017/build/m1-transcode.exe s3://${AWS_DEPLOY_BUCKET}/executables/windows-x86/m1-transcode.exe --cache-control no-cache --metadata-directive REPLACE
+        - aws s3 cp _install/vs-15-2017-win64/build/m1-transcode.exe s3://${AWS_DEPLOY_BUCKET}/executables/windows-x86_64/m1-transcode.exe --cache-control no-cache --metadata-directive REPLACE
 
     - stage: compile
       branches:

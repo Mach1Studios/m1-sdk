@@ -151,16 +151,18 @@ then
 	# OFXMACH1
 	rsync -c ../mach1spatial-libs/web/* ../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/emscripten/
 	echo "COPY LIBS FROM WINDOWS TO EXAMPLES"
-	# rsync -c "_install/vs-15-2017/lib-shared" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Windows/x86"
-	# rsync -c "_install/vs-15-2017/lib-shared" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Windows/x86"
-	# rsync -c "_install/vs-15-2017/lib" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win32"
-	# rsync -c "_install/vs-15-2017/lib-shared" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win32"
-	# rsync -c "_install/vs-15-2017/lib" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/vs/x86"
-	# rsync -c "_install/vs-15-2017-win64/lib-shared" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Windows/x86_64"
-	# rsync -c "_install/vs-15-2017-win64/lib-shared" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Windows/x86_64"
-	# rsync -c "_install/vs-15-2017-win64/lib" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win64"
-	# rsync -c "_install/vs-15-2017-win64/lib-shared" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win64"
-	# rsync -c "_install/vs-15-2017-win64/lib" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/vs/x64"
+	# x86
+	rsync -c "../mach1spatial-libs/vs-15-2017-x86/lib/Dynamic/Release" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Windows/x86"
+	rsync -c "../mach1spatial-libs/vs-15-2017-x86/lib/Dynamic/Release" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Windows/x86"
+	rsync -c "../mach1spatial-libs/vs-15-2017-x86/lib/Static/MD/Release" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win32"
+	rsync -c "../mach1spatial-libs/vs-15-2017-x86/lib/Dynamic/Release" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win32"
+	rsync -c "../mach1spatial-libs/vs-15-2017-x86/lib/Static/MD/Release" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/vs/x86"
+	# x64
+	rsync -c "../mach1spatial-libs/vs-15-2017-x86_64/lib/Dynamic/Release" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Windows/x86_64"
+	rsync -c "../mach1spatial-libs/vs-15-2017-x86_64/lib/Dynamic/Release" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Windows/x86_64"
+	rsync -c "../mach1spatial-libs/vs-15-2017-x86_64/lib/Dynamic/Release" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win64"
+	rsync -c "../mach1spatial-libs/vs-15-2017-x86_64/lib/Dynamic/Release" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win64"
+	rsync -c "../mach1spatial-libs/vs-15-2017-x86_64/lib/Static/MD/Release" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/vs/x64"
 else
 	echo "ERROR: Script called from wrong directory: $PWD"
 fi

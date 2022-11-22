@@ -4,7 +4,7 @@ if [[ "$PWD" == *source/tests ]]
 then
 	echo "Script called from correct path: $PWD"
 	echo "WIN: TESTS"
-	cmake ./tests -Btests/_builds/vs-15-2017 -G "Visual Studio 15 2017" -A x64 -DCMAKE_INSTALL_PREFIX=_install/vs-15-2017
+	cmake ./tests -Btests/_builds/vs-15-2017 -G "Visual Studio 15 2017" -A x64 -DCMAKE_INSTALL_PREFIX=tests/_install/vs-15-2017
 	cmake --build tests/_builds/vs-15-2017 --config Release --target install -- //nologo //verbosity:quiet //clp:ErrorsOnly
 
 	echo "RUN TESTS"

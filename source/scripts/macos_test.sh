@@ -4,7 +4,7 @@ if [[ "$PWD" == *source ]]
 then
 	echo "Script called from correct path: $PWD"
 	echo "MACOS: TESTS"
-	cmake ./tests -Btests/_builds/xcode -GXcode -DCMAKE_INSTALL_PREFIX=`pwd`/_install/xcode
+	cmake ./tests -Btests/_builds/xcode -GXcode -DCMAKE_INSTALL_PREFIX=`pwd`/tests/_install/xcode
 	cmake --build tests/_builds/xcode --config Release --target install
 
 	echo "RUN TESTS"

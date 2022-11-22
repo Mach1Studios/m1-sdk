@@ -5,7 +5,7 @@ if [[ "$PWD" == *source ]]
 then
 	echo "Script called from correct path: $PWD"
 	echo "LINUX: TESTS"
-	cmake ./tests -Btests/_builds/gcc -DCMAKE_INSTALL_PREFIX=`pwd`/_install/gcc
+	cmake ./tests -Btests/_builds/gcc -DCMAKE_INSTALL_PREFIX=`pwd`/tests/_install/gcc
 	cmake --build tests/_builds/gcc --config Release --target install
 
 	echo "RUN TESTS"

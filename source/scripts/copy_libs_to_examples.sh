@@ -4,8 +4,9 @@ if [[ "$PWD" == *source ]]
 then
 	echo "Script called from correct path: $PWD"
 	echo "COPY INCLUDES FOR UE"
-	rsync -r --include='*CAPI.h' --exclude='*' --exclude='*Minified*' "../mach1spatial-libs/xcode/include/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/include"
-	rm "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/include/Mach1DecodeMinifiedCAPI.h"
+	rsync -r --exclude='*Minified*' --include='*CAPI.h' --exclude='*' "../mach1spatial-libs/xcode/include/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/include"
+	rsync -r --exclude='*Minified*' --exclude='Mach1AudioTimeline.cpp' --include='*.cpp' --exclude='*' "include/cpp/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/Source/Mach1DecodePlugin/Private"
+	rsync -r --exclude='*Minified*' --exclude='*CAPI.h' --exclude='Mach1KeyPoint.h' --exclude='Mach1AudioTimeline.h' --include='*.h' --exclude='*' "include/cpp/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/Source/Mach1DecodePlugin/Public"
 	echo "COPY LIBS FROM IOS TO EXAMPLES"
 	# COPYING FOR UE
 	rsync -c "../mach1spatial-libs/ios/lib/libMach1DecodeCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/IOS/libMach1DecodeCAPI.a"

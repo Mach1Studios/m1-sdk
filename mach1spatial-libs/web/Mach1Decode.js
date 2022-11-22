@@ -493,10 +493,8 @@ function removeRunDependency(id) {
 }
 
 function abort(what) {
- {
-  if (Module["onAbort"]) {
-   Module["onAbort"](what);
-  }
+ if (Module["onAbort"]) {
+  Module["onAbort"](what);
  }
  what = "Aborted(" + what + ")";
  err(what);

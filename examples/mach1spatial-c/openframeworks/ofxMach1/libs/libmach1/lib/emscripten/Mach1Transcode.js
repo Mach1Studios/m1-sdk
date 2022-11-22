@@ -511,10 +511,8 @@ function removeRunDependency(id) {
 }
 
 function abort(what) {
- {
-  if (Module["onAbort"]) {
-   Module["onAbort"](what);
-  }
+ if (Module["onAbort"]) {
+  Module["onAbort"](what);
  }
  what = "Aborted(" + what + ")";
  err(what);
@@ -2420,8 +2418,8 @@ UnboundTypeError = Module["UnboundTypeError"] = extendError(Error, "UnboundTypeE
 init_emval();
 
 var asmLibraryArg = {
- "n": ___cxa_allocate_exception,
- "m": ___cxa_throw,
+ "j": ___cxa_allocate_exception,
+ "i": ___cxa_throw,
  "p": __embind_finalize_value_object,
  "r": __embind_register_bigint,
  "z": __embind_register_bool,
@@ -2429,11 +2427,11 @@ var asmLibraryArg = {
  "d": __embind_register_class_constructor,
  "a": __embind_register_class_function,
  "y": __embind_register_emval,
- "l": __embind_register_float,
+ "n": __embind_register_float,
  "c": __embind_register_integer,
  "b": __embind_register_memory_view,
- "k": __embind_register_std_string,
- "i": __embind_register_std_wstring,
+ "m": __embind_register_std_string,
+ "h": __embind_register_std_wstring,
  "w": __embind_register_value_object,
  "g": __embind_register_value_object_field,
  "A": __embind_register_void,
@@ -2441,13 +2439,13 @@ var asmLibraryArg = {
  "B": __emval_decref,
  "o": __emval_incref,
  "f": __emval_take_value,
- "h": _abort,
+ "k": _abort,
  "u": _emscripten_date_now,
  "x": _emscripten_memcpy_big,
  "v": _emscripten_resize_heap,
  "s": _fd_close,
  "q": _fd_seek,
- "j": _fd_write
+ "l": _fd_write
 };
 
 var asm = createWasm();

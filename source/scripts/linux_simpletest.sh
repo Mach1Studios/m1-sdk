@@ -1,14 +1,18 @@
 #!/bin/bash
 
-cd ${TRAVIS_BUILD_DIR}/source/tests
+if [[ "$PWD" == *source ]]
+then
+	echo "Script called from correct path: $PWD"
+	echo "LINUX: TESTS"
+	cmake ./tests -Btests/_builds/gcc -DCMAKE_INSTALL_PREFIX=`pwd`/_install/gcc
+	cmake --build tests/_builds/gcc --config Release --target install
 
-echo "LINUX: TESTS"
-cmake . -B_builds/gcc -DCMAKE_INSTALL_PREFIX=`pwd`/_install/gcc
-cmake --build _builds/gcc --config Release --target install
-
-echo "RUN POLLY TESTS"
-_install/gcc/bin/Mach1EncodeTests
-_install/gcc/bin/Mach1DecodeTests
-_install/gcc/bin/Mach1DecodePositionalTests
-_install/gcc/bin/Mach1SpatialTests
-_install/gcc/bin/Mach1TranscodeTests
+	echo "RUN POLLY TESTS"
+	tests/_install/gcc/bin/Mach1EncodeTests
+	tests/_install/gcc/bin/Mach1DecodeTests
+	tests/_install/gcc/bin/Mach1DecodePositionalTests
+	tests/_install/gcc/bin/Mach1SpatialTests
+	tests/_install/gcc/bin/Mach1TranscodeTests
+else
+	echo "ERROR: Script called from wrong directory: $PWD"
+fi

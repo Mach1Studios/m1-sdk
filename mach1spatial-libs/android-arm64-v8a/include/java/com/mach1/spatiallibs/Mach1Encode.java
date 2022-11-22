@@ -163,36 +163,11 @@ public class Mach1Encode {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setFrontSurroundPerspective(M1obj, frontSurroundPerspective);
   }
 
+  public void setOutputGain(float outputGainMultipler, boolean isDecibel) {
+    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setOutputGain(M1obj, outputGainMultipler, isDecibel);
+  }
+
   public void setIsotropicEncode(boolean isotropicEncode) {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setIsotropicEncode(M1obj, isotropicEncode);
-  }
-
-  // Deprecated
-  public float[] getResultingVolumesDecoded(Mach1DecodeAlgoType decodeType, float[] decodeResult) {
-    Mach1FloatArray floatArrayIn = new Mach1FloatArray(18);
-    for( int i = 0; i < decodeResult.length; i++)
-    {
-      floatArrayIn.setitem(i, decodeResult[i]);
-    }
-    long cPtr = Mach1EncodeModuleJNI.Mach1EncodeCAPI_getResultingVolumesDecoded(M1obj, decodeType.swigValue(), floatArrayIn.asVoidPtr());
-    floatArrayIn.delete();
-
-    Mach1FloatArray floatArrayResulted = Mach1FloatArray.frompointer(cPtr);
-
-    float[] arr = new float[14];
-    for( int i = 0; i < 14; i++)
-    {
-      arr[i] = floatArrayResulted.getitem(i);
-    }
-    return arr;
-  }
-  public void setRotation(float rotation) {
-    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setRotation(M1obj, rotation);
-  }
-  public void setPitch(float pitch) {
-    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setPitch(M1obj, pitch);
-  }
-  public void setStereoRotate(float sRotate) {
-    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setStereoRotate(M1obj, sRotate);
   }
 }

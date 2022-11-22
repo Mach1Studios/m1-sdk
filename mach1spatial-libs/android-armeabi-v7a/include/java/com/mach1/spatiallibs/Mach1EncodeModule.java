@@ -51,11 +51,6 @@ public class Mach1EncodeModule {
     return (cPtr == 0) ? null : new SWIGTYPE_p_void(cPtr, false);
   }
 
-  public static SWIGTYPE_p_void Mach1EncodeCAPI_getResultingVolumesDecoded(SWIGTYPE_p_void M1obj, Mach1DecodeAlgoType decodeType, SWIGTYPE_p_float decodeResult) {
-    long cPtr = Mach1EncodeModuleJNI.Mach1EncodeCAPI_getResultingVolumesDecoded(SWIGTYPE_p_void.getCPtr(M1obj), decodeType.swigValue(), SWIGTYPE_p_float.getCPtr(decodeResult));
-    return (cPtr == 0) ? null : new SWIGTYPE_p_void(cPtr, false);
-  }
-
   public static Mach1EncodeInputModeType Mach1EncodeCAPI_getInputMode(SWIGTYPE_p_void M1obj) {
     return Mach1EncodeInputModeType.swigToEnum(Mach1EncodeModuleJNI.Mach1EncodeCAPI_getInputMode(SWIGTYPE_p_void.getCPtr(M1obj)));
   }
@@ -80,10 +75,6 @@ public class Mach1EncodeModule {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setOutputMode(SWIGTYPE_p_void.getCPtr(M1obj), outputMode.swigValue());
   }
 
-  public static void Mach1EncodeCAPI_setRotation(SWIGTYPE_p_void M1obj, float rotationDegrees) {
-    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setRotation(SWIGTYPE_p_void.getCPtr(M1obj), rotationDegrees);
-  }
-
   public static void Mach1EncodeCAPI_setAzimuth(SWIGTYPE_p_void M1obj, float azimuthFromMinus1To1) {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setAzimuth(SWIGTYPE_p_void.getCPtr(M1obj), azimuthFromMinus1To1);
   }
@@ -100,10 +91,6 @@ public class Mach1EncodeModule {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setDiverge(SWIGTYPE_p_void.getCPtr(M1obj), divergeFromMinus1To1);
   }
 
-  public static void Mach1EncodeCAPI_setPitch(SWIGTYPE_p_void M1obj, float pitchFromMinus90to90) {
-    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setPitch(SWIGTYPE_p_void.getCPtr(M1obj), pitchFromMinus90to90);
-  }
-
   public static void Mach1EncodeCAPI_setElevation(SWIGTYPE_p_void M1obj, float elevationFromMinus1to1) {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setElevation(SWIGTYPE_p_void.getCPtr(M1obj), elevationFromMinus1to1);
   }
@@ -114,14 +101,6 @@ public class Mach1EncodeModule {
 
   public static void Mach1EncodeCAPI_setElevationRadians(SWIGTYPE_p_void M1obj, float elevationFromMinusHalfPItoHalfPI) {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setElevationRadians(SWIGTYPE_p_void.getCPtr(M1obj), elevationFromMinusHalfPItoHalfPI);
-  }
-
-  public static void Mach1EncodeCAPI_setIsotropicEncode(SWIGTYPE_p_void M1obj, boolean isotropicEncode) {
-    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setIsotropicEncode(SWIGTYPE_p_void.getCPtr(M1obj), isotropicEncode);
-  }
-
-  public static void Mach1EncodeCAPI_setStereoRotate(SWIGTYPE_p_void M1obj, float sRotateDegrees) {
-    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setStereoRotate(SWIGTYPE_p_void.getCPtr(M1obj), sRotateDegrees);
   }
 
   public static void Mach1EncodeCAPI_setOrbitRotation(SWIGTYPE_p_void M1obj, float orbitRotationFromMinusOnetoOne) {
@@ -142,6 +121,18 @@ public class Mach1EncodeModule {
 
   public static void Mach1EncodeCAPI_setAutoOrbit(SWIGTYPE_p_void M1obj, boolean autoOrbit) {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setAutoOrbit(SWIGTYPE_p_void.getCPtr(M1obj), autoOrbit);
+  }
+
+  public static void Mach1EncodeCAPI_setPannerMode(SWIGTYPE_p_void M1obj, Mach1EncodePannerMode pannerMode) {
+    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setPannerMode(SWIGTYPE_p_void.getCPtr(M1obj), pannerMode.swigValue());
+  }
+
+  public static void Mach1EncodeCAPI_setFrontSurroundPerspective(SWIGTYPE_p_void M1obj, boolean frontSurroundPerspective) {
+    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setFrontSurroundPerspective(SWIGTYPE_p_void.getCPtr(M1obj), frontSurroundPerspective);
+  }
+
+  public static void Mach1EncodeCAPI_setOutputGain(SWIGTYPE_p_void M1obj, float outputGainMultipler, boolean isDecibel) {
+    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setOutputGain(SWIGTYPE_p_void.getCPtr(M1obj), outputGainMultipler, isDecibel);
   }
 
   public static int Mach1EncodeCAPI_getLastCalculationTime(SWIGTYPE_p_void M1obj) {

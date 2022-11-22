@@ -3,10 +3,20 @@
 if [[ "$PWD" == *source ]]
 then
 	echo "Script called from correct path: $PWD"
+	# COPYING INCLUDES
 	echo "COPY INCLUDES FOR UE"
-	rsync -r --exclude='*Minified*' --include='*CAPI.h' --exclude='*' "../mach1spatial-libs/xcode/include/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/include"
-	rsync -r --exclude='*Minified*' --exclude='Mach1AudioTimeline.cpp' --include='*.cpp' --exclude='*' "include/cpp/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/Source/Mach1DecodePlugin/Private"
-	rsync -r --exclude='*Minified*' --exclude='*CAPI.h' --exclude='Mach1KeyPoint.h' --exclude='Mach1AudioTimeline.h' --include='*.h' --exclude='*' "include/cpp/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/Source/Mach1DecodePlugin/Public"
+	rsync -rc --exclude='*Minified*' --include='*CAPI.h' --exclude='*' "../mach1spatial-libs/xcode/include/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/include"
+	rsync -rc --exclude='*Minified*' --exclude='Mach1AudioTimeline.cpp' --include='*.cpp' --exclude='*' "include/cpp/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/Source/Mach1DecodePlugin/Private"
+	rsync -rc --exclude='*Minified*' --exclude='*CAPI.h' --exclude='Mach1KeyPoint.h' --exclude='Mach1AudioTimeline.h' --include='*.h' --exclude='*' "include/cpp/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/Source/Mach1DecodePlugin/Public"
+	echo "COPY INCLUDES FOR ofxMach1"
+	rsync -rc --exclude='*Minified*' --include='*CAPI.h' --exclude='*' "../mach1spatial-libs/xcode/include/" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include"
+	rsync -rc --exclude='*Minified*' --include='*KeyPoint*D.h' --exclude='*' "../mach1spatial-libs/xcode/include/" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include"
+	echo "COPY INCLUDES FOR COCOAPODS"
+	rsync -rc "include/swift/" "../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Classes/"
+	echo "COPY INCLUDES FOR JITPACK"
+	rsync -rc --include='*CAPI.h' --include='*D.h' --include='Mach1Decode.cpp' --include='Mach1Decode.h' --include='' --exclude='*' "include/cpp/" "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/include/"
+	rsync -rc "include/java/jni/java/com/mach1/spatiallibs/" "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/java/com/mach1/spatiallibs"
+	rsync -rc --include='*D.h' --exclude='*' "include/cpp/" "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/mach1-decode-example/src/main/cpp"
 	echo "COPY LIBS FROM IOS TO EXAMPLES"
 	# COPYING FOR UE
 	rsync -c "../mach1spatial-libs/ios/lib/libMach1DecodeCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/IOS/libMach1DecodeCAPI.a"
@@ -28,7 +38,6 @@ then
 	rsync -c "../mach1spatial-libs/ios/lib/libMach1EncodeCAPI.a" "../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/ios/libMach1EncodeCAPI.a"
 	rsync -c "../mach1spatial-libs/ios/lib/libMach1TranscodeCAPI.a" "../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/ios/libMach1TranscodeCAPI.a"
 	rsync -c "../mach1spatial-libs/ios/lib/libMach1DecodePositionalCAPI.a" "../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/ios/libMach1DecodePositionalCAPI.a"
-	cp -rf include/swift/* "../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Classes/"
 	echo "COPY LIBS FROM ANDROID TO EXAMPLES"
 	# COPYING FOR UNITY
 	# rsync -c "_install/android-armeabi-v7a/lib-shared/libMach1DecodeCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Android/armeabi-v7a/libMach1DecodeCAPI.so" 
@@ -98,14 +107,8 @@ then
 	rsync -c "../mach1spatial-libs/android-x86_64/lib/libMach1EncodeCAPI.a" "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/jniLibs/x86_64/libMach1EncodeCAPI.a"
 	rsync -c "../mach1spatial-libs/android-x86_64/lib/libMach1TranscodeCAPI.a" "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/jniLibs/x86_64/libMach1TranscodeCAPI.a"
 	rsync -c "../mach1spatial-libs/android-x86_64/lib/libMach1DecodePositionalCAPI.a" "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/jniLibs/x86_64/libMach1DecodePositionalCAPI.a"        
-	cp -rf include/cpp/*CAPI.h "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/include/"
-	cp -rf include/cpp/*D.h "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/include/"
-	cp -rf include/java/jni/java/com/mach1/spatiallibs/* "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/java/com/mach1/spatiallibs"
+	# COPYING SINGLE DECODE LIB FOR OLD ANDROID EXAMPLE
 	rsync -c "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1DecodeCAPI.a" "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/mach1-decode-example/src/main/jniLibs/armeabi-v7a/libMach1DecodeCAPI.a"
-	cp -rf include/cpp/Mach1Decode.cpp "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/include/"
-	cp -rf include/cpp/Mach1Decode.h "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/include/"
-	cp -rf include/cpp/Mach1DecodeCAPI.h "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/include/"
-	cp -rf include/cpp/*D.h "../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/mach1-decode-example/src/main/cpp"
 	echo "COPY LIBS FROM LINUX TO EXAMPLES"
 	# COPYING FOR OFXMACH1
 	mkdir -p ../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/linux

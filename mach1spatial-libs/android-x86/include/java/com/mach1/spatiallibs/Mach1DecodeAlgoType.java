@@ -9,15 +9,17 @@
 package com.mach1.spatiallibs;
 
 public final class Mach1DecodeAlgoType {
-  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial", Mach1DecodeModuleJNI.Mach1DecodeAlgoSpatial_get());
-  public final static Mach1DecodeAlgoType Mach1DecodeAlgoAltSpatial = new Mach1DecodeAlgoType("Mach1DecodeAlgoAltSpatial");
-  public final static Mach1DecodeAlgoType Mach1DecodeAlgoHorizon = new Mach1DecodeAlgoType("Mach1DecodeAlgoHorizon");
+  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_8 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_8", Mach1DecodeModuleJNI.Mach1DecodeAlgoSpatial_get());
+  public final static Mach1DecodeAlgoType Mach1DecodeAlgoHorizon_4 = new Mach1DecodeAlgoType("Mach1DecodeAlgoHorizon_4");
   public final static Mach1DecodeAlgoType Mach1DecodeAlgoHorizonPairs = new Mach1DecodeAlgoType("Mach1DecodeAlgoHorizonPairs");
-  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatialPairs = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatialPairs");
-  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatialPlus = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatialPlus");
-  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatialPlusPlus = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatialPlusPlus");
-  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatialExt = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatialExt");
-  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatialExtPlus = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatialExtPlus");
+  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_12 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_12");
+  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_14 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_14");
+  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_18 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_18");
+  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_22 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_22");
+  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_32 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_32");
+  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_36 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_36");
+  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_48 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_48");
+  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_60 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_60");
 
   public final int swigValue() {
     return swigValue;
@@ -53,7 +55,7 @@ public final class Mach1DecodeAlgoType {
     swigNext = this.swigValue+1;
   }
 
-  private static Mach1DecodeAlgoType[] swigValues = { Mach1DecodeAlgoSpatial, Mach1DecodeAlgoAltSpatial, Mach1DecodeAlgoHorizon, Mach1DecodeAlgoHorizonPairs, Mach1DecodeAlgoSpatialPairs, Mach1DecodeAlgoSpatialPlus, Mach1DecodeAlgoSpatialPlusPlus, Mach1DecodeAlgoSpatialExt, Mach1DecodeAlgoSpatialExtPlus };
+  private static Mach1DecodeAlgoType[] swigValues = { Mach1DecodeAlgoSpatial_8, Mach1DecodeAlgoHorizon_4, Mach1DecodeAlgoHorizonPairs, Mach1DecodeAlgoSpatial_12, Mach1DecodeAlgoSpatial_14, Mach1DecodeAlgoSpatial_18, Mach1DecodeAlgoSpatial_22, Mach1DecodeAlgoSpatial_32, Mach1DecodeAlgoSpatial_36, Mach1DecodeAlgoSpatial_48, Mach1DecodeAlgoSpatial_60 };
   private static int swigNext = 0;
   private final int swigValue;
   private final String swigName;

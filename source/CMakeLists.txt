@@ -22,7 +22,7 @@ if(DEFINED BUILD_MACOS_BUNDLE)
 endif()
 
 if(DEFINED BUILD_SHARED_LIBS)
-	set(BUILD_MACOS_BUNDLE 1)
+	set(BUILD_SHARED_LIBS 1)
 	message("SETUP: Building shared libs")
 endif()
 

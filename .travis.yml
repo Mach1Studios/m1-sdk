@@ -674,7 +674,7 @@ jobs:
       sudo: required
       dist: bionic
       env:
-        - ${M1SDK_RELEASE_PATH}=${TRAVIS_BUILD_DIR}/../m1-sdk-release
+        - M1SDK_RELEASE_PATH=${TRAVIS_BUILD_DIR}/../m1-sdk-release
       addons:
         apt:
           packages:

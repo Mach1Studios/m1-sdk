@@ -2,6 +2,7 @@
 
 if [[ "$PWD" == *mach1spatial-transcode ]]
 then
+	echo "Script called from correct path: $PWD"
 	git add -u ./*
 	git commit -a -m "recompiled mach1spatial-libs"
 	git rebase main

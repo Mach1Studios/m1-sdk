@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 if [[ "$PWD" == *mach1spatial-decode ]]
 then
 	echo "Script called from correct path: $PWD"

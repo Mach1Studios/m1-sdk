@@ -3,7 +3,7 @@
 if [[ "$PWD" == *UE-Mach1SpatialAPI ]]
 then
 	echo "Script called from correct path: $PWD"
-	git add ./*
+	git add -u ./*
 	git commit -a -m "recompiled mach1spatial-libs"
 	git rebase master
 	git checkout master && git pull

@@ -5,9 +5,9 @@ then
 	echo "Script called from correct path: $PWD"
 	# COPYING INCLUDES
 	echo "COPY INCLUDES FOR UE"
-	rsync -rc --exclude='*inified*' --include='*CAPI.h' --exclude='*' "../mach1spatial-libs/xcode/include/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/include"
-	rsync -rc --exclude='*inified*' --exclude='Mach1AudioTimeline.cpp' --include='*.cpp' --exclude='*' "include/cpp/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/Source/Mach1DecodePlugin/Private"
-	rsync -rc --exclude='*inified*' --exclude='*CAPI.h' --exclude='Mach1KeyPoint.h' --exclude='Mach1AudioTimeline.h' --include='*.h' --exclude='*' "include/cpp/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/Source/Mach1DecodePlugin/Public"
+	rsync -rc --exclude='*inified*' --exclude='*Encode*' --exclude='*Transcode*' --exclude='Mach1AudioTimeline.h' --include='*CAPI.h' --exclude='*' "../mach1spatial-libs/xcode/include/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/include"
+	rsync -rc --exclude='*inified*' --exclude='*Encode*' --exclude='*Transcode*' --exclude='Mach1AudioTimeline.cpp' --include='*.cpp' --exclude='*' "include/cpp/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/Source/Mach1DecodePlugin/Private"
+	rsync -rc --exclude='*inified*' --exclude='*Encode*' --exclude='*Transcode*' --exclude='*CAPI.h' --exclude='Mach1KeyPoint.h' --exclude='Mach1AudioTimeline.h' --include='*.h' --exclude='*' "include/cpp/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/Source/Mach1DecodePlugin/Public"
 	echo "COPY INCLUDES FOR ofxMach1"
 	rsync -rc --exclude='*inified*' --include='*CAPI.h' --exclude='*' "../mach1spatial-libs/xcode/include/" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include"
 	rsync -rc --exclude='*inified*' --include='*KeyPoint*D.h' --exclude='*' "../mach1spatial-libs/xcode/include/" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/include"
@@ -20,8 +20,8 @@ then
 	echo "COPY LIBS FROM IOS TO EXAMPLES"
 	# COPYING FOR UE
 	rsync -c "../mach1spatial-libs/ios/lib/libMach1DecodeCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/IOS/libMach1DecodeCAPI.a"
-	rsync -c "../mach1spatial-libs/ios/lib/libMach1EncodeCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/IOS/libMach1EncodeCAPI.a"
-	rsync -c "../mach1spatial-libs/ios/lib/libMach1TranscodeCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/IOS/libMach1TranscodeCAPI.a"
+	#rsync -c "../mach1spatial-libs/ios/lib/libMach1EncodeCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/IOS/libMach1EncodeCAPI.a"
+	#rsync -c "../mach1spatial-libs/ios/lib/libMach1TranscodeCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/IOS/libMach1TranscodeCAPI.a"
 	rsync -c "../mach1spatial-libs/ios/lib/libMach1DecodePositionalCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/IOS/libMach1DecodePositionalCAPI.a"
 	# COPYING FOR UNITY
 	rsync -c "../mach1spatial-libs/ios/lib/libMach1DecodeCAPI.a" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/iOS/libMach1DecodeCAPI.a"
@@ -74,12 +74,12 @@ then
 	# rsync -c "_install/android-x86_64/lib-shared/libMach1DecodePositionalCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/x86_64/libMach1DecodePositionalCAPI.so"
 	# COPYING FOR UE
 	rsync -c "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1DecodeCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Android/armeabi-v7a/libMach1DecodeCAPI.a"
-	rsync -c "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1EncodeCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Android/armeabi-v7a/libMach1EncodeCAPI.a"
-	rsync -c "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1TranscodeCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Android/armeabi-v7a/libMach1TranscodeCAPI.a"
+	#rsync -c "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1EncodeCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Android/armeabi-v7a/libMach1EncodeCAPI.a"
+	#rsync -c "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1TranscodeCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Android/armeabi-v7a/libMach1TranscodeCAPI.a"
 	rsync -c "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1DecodePositionalCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Android/armeabi-v7a/libMach1DecodePositionalCAPI.a"
 	rsync -c "../mach1spatial-libs/android-x86/lib/libMach1DecodeCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Android/x86/libMach1DecodeCAPI.a"
-	rsync -c "../mach1spatial-libs/android-x86/lib/libMach1EncodeCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Android/x86/libMach1EncodeCAPI.a"
-	rsync -c "../mach1spatial-libs/android-x86/lib/libMach1TranscodeCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Android/x86/libMach1TranscodeCAPI.a"
+	#rsync -c "../mach1spatial-libs/android-x86/lib/libMach1EncodeCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Android/x86/libMach1EncodeCAPI.a"
+	#rsync -c "../mach1spatial-libs/android-x86/lib/libMach1TranscodeCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Android/x86/libMach1TranscodeCAPI.a"
 	rsync -c "../mach1spatial-libs/android-x86/lib/libMach1DecodePositionalCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Android/x86/libMach1DecodePositionalCAPI.a"
 	# COPYING FOR OFXMACH1
 	rsync -c "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1DecodeCAPI.a" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/android/armeabi-v7a/libMach1DecodeCAPI.a"
@@ -124,8 +124,8 @@ then
 	echo "COPY LIBS FROM MACOS TO EXAMPLES"
 	# COPYING FOR UE
 	rsync -c "../mach1spatial-libs/xcode/lib/libMach1DecodeCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Mac/libMach1DecodeCAPI.a"
-	rsync -c "../mach1spatial-libs/xcode/lib/libMach1EncodeCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Mac/libMach1EncodeCAPI.a"
-	rsync -c "../mach1spatial-libs/xcode/lib/libMach1TranscodeCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Mac/libMach1TranscodeCAPI.a"
+	#rsync -c "../mach1spatial-libs/xcode/lib/libMach1EncodeCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Mac/libMach1EncodeCAPI.a"
+	#rsync -c "../mach1spatial-libs/xcode/lib/libMach1TranscodeCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Mac/libMach1TranscodeCAPI.a"
 	rsync -c "../mach1spatial-libs/xcode/lib/libMach1DecodePositionalCAPI.a" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Mac/libMach1DecodePositionalCAPI.a"
 	# COPYING FOR UNITY
 	# rsync -c "_install/xcode/libBundle/libMach1DecodeCAPI.bundle" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1DecodeCAPI.bundle"
@@ -155,17 +155,17 @@ then
 	rsync -c ../mach1spatial-libs/web/* ../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/emscripten/
 	echo "COPY LIBS FROM WINDOWS TO EXAMPLES"
 	# x86
-	rsync -rc --exclude='*inified*' --exclude='*d.*' --exclude='*.lib' --include='*.dll' "../mach1spatial-libs/vs-15-2017-x86/lib/Dynamic/Release/" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Windows/x86"
-	rsync -rc --exclude='*inified*' --exclude='*d.*' --exclude='*.lib' --include='*.dll' "../mach1spatial-libs/vs-15-2017-x86/lib/Dynamic/Release/" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Windows/x86"
-	rsync -rc --exclude='*inified*' --exclude='*d.*' "../mach1spatial-libs/vs-15-2017-x86/lib/Static/MD/Release/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win32"
-	rsync -rc --exclude='*inified*' --exclude='*d.*' --exclude='*.lib' --include='*.dll' "../mach1spatial-libs/vs-15-2017-x86/lib/Dynamic/Release/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win32"
-	rsync -rc --exclude='*inified*' --exclude='*d.*' "../mach1spatial-libs/vs-15-2017-x86/lib/Static/MD/Release/" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/vs/x86"
+	rsync -rc --exclude='*inified*' --exclude='*Encode*' --exclude='*Transcode*' --exclude='*d.*' --exclude='*.lib' --include='*.dll' "../mach1spatial-libs/vs-15-2017-x86/lib/Dynamic/Release/" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Windows/x86"
+	rsync -rc --exclude='*inified*' --exclude='*Encode*' --exclude='*Transcode*' --exclude='*d.*' --exclude='*.lib' --include='*.dll' "../mach1spatial-libs/vs-15-2017-x86/lib/Dynamic/Release/" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Windows/x86"
+	rsync -rc --exclude='*inified*' --exclude='*Encode*' --exclude='*Transcode*' --exclude='*d.*' "../mach1spatial-libs/vs-15-2017-x86/lib/Static/MD/Release/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win32"
+	rsync -rc --exclude='*inified*' --exclude='*Encode*' --exclude='*Transcode*' --exclude='*d.*' --exclude='*.lib' --include='*.dll' "../mach1spatial-libs/vs-15-2017-x86/lib/Dynamic/Release/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win32"
+	rsync -rc --exclude='*inified*' --exclude='*Encode*' --exclude='*Transcode*' --exclude='*d.*' "../mach1spatial-libs/vs-15-2017-x86/lib/Static/MD/Release/" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/vs/x86"
 	# x64
-	rsync -rc --exclude='*inified*' --exclude='*d.*' --exclude='*.lib' --include='*.dll' "../mach1spatial-libs/vs-15-2017-x86_64/lib/Dynamic/Release/" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Windows/x86_64"
-	rsync -rc --exclude='*inified*' --exclude='*d.*' --exclude='*.lib' --include='*.dll' "../mach1spatial-libs/vs-15-2017-x86_64/lib/Dynamic/Release/" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Windows/x86_64"
-	rsync -rc --exclude='*inified*' --exclude='*d.*' "../mach1spatial-libs/vs-15-2017-x86_64/lib/Static/MD/Release/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win64"
-	rsync -rc --exclude='*inified*' --exclude='*d.*' --exclude='*.lib' --include='*.dll' "../mach1spatial-libs/vs-15-2017-x86_64/lib/Dynamic/Release/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win64"
-	rsync -rc --exclude='*inified*' --exclude='*d.*' "../mach1spatial-libs/vs-15-2017-x86_64/lib/Static/MD/Release/" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/vs/x64"
+	rsync -rc --exclude='*inified*' --exclude='*Encode*' --exclude='*Transcode*' --exclude='*d.*' --exclude='*.lib' --include='*.dll' "../mach1spatial-libs/vs-15-2017-x86_64/lib/Dynamic/Release/" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Windows/x86_64"
+	rsync -rc --exclude='*inified*' --exclude='*Encode*' --exclude='*Transcode*' --exclude='*d.*' --exclude='*.lib' --include='*.dll' "../mach1spatial-libs/vs-15-2017-x86_64/lib/Dynamic/Release/" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Windows/x86_64"
+	rsync -rc --exclude='*inified*' --exclude='*Encode*' --exclude='*Transcode*' --exclude='*d.*' "../mach1spatial-libs/vs-15-2017-x86_64/lib/Static/MD/Release/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win64"
+	rsync -rc --exclude='*inified*' --exclude='*Encode*' --exclude='*Transcode*' --exclude='*d.*' --exclude='*.lib' --include='*.dll' "../mach1spatial-libs/vs-15-2017-x86_64/lib/Dynamic/Release/" "../examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win64"
+	rsync -rc --exclude='*inified*' --exclude='*Encode*' --exclude='*Transcode*' --exclude='*d.*' "../mach1spatial-libs/vs-15-2017-x86_64/lib/Static/MD/Release/" "../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/vs/x64"
 else
 	echo "ERROR: Script called from wrong directory: $PWD"
 fi

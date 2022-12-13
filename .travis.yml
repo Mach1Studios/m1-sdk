@@ -418,7 +418,6 @@ jobs:
           packages:
             - build-essential
             - g++-7
-            - libsndfile-dev
             - libopus-dev
             - libmpg123-dev
             - libpthread-stubs0-dev
@@ -434,11 +433,12 @@ jobs:
         - git clone git@github.com:Mach1Studios/m1-transcode.git
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - mkdir libs && cd libs
+        - git clone --depth 1 git@github.com:libsndfile/libsndfile.git
         - git clone --depth 1 git@github.com:ebu/libadm.git
         - git clone --depth 1 git@github.com:irt-open-source/libbw64.git
       script:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
-        - cmake .
+        - cmake . -DENABLE_SHARED=OFF -DBUILD_SHARED_LIBS=OFF -DBUILD_PROGRAMS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DADM_EXAMPLES=OFF -DADM_UNIT_TESTS=OFF-DADM_PACKAGE_AND_INSTALL=OFF -DBW64_EXAMPLES=OFF -DBW64_UNIT_TESTS=OFF -DBW64_PACKAGE_AND_INSTALL=OFF
         - cmake --build . --config Release
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
@@ -461,7 +461,6 @@ jobs:
             - ubuntu-toolchain-r-test
           packages:
             - build-essential
-            - libsndfile-dev
             - libopus-dev
             - libmpg123-dev
             - libpthread-stubs0-dev
@@ -499,11 +498,12 @@ jobs:
         - git clone git@github.com:Mach1Studios/m1-transcode.git
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - mkdir libs && cd libs
+        - git clone --depth 1 git@github.com:libsndfile/libsndfile.git
         - git clone --depth 1 git@github.com:ebu/libadm.git
         - git clone --depth 1 git@github.com:irt-open-source/libbw64.git
       script:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
-        - cmake .
+        - cmake . -DENABLE_SHARED=OFF -DBUILD_SHARED_LIBS=OFF -DBUILD_PROGRAMS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DADM_EXAMPLES=OFF -DADM_UNIT_TESTS=OFF-DADM_PACKAGE_AND_INSTALL=OFF -DBW64_EXAMPLES=OFF -DBW64_UNIT_TESTS=OFF -DBW64_PACKAGE_AND_INSTALL=OFF
         - cmake --build . --config Release
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
@@ -542,29 +542,28 @@ jobs:
         - choco install -y pkgconfiglite
         - export PATH="$(powershell -Command '("Process", "Machine" | % {[Environment]::GetEnvironmentVariable("PATH", $_) -Split ";" -Replace "\\$", ""} | Select -Unique | % { cygpath $_ }) -Join ":"')"
         - cd ${VCPKG_PATH}
-        - ./vcpkg.exe install libflac --triplet x86-windows
-        - ./vcpkg.exe install libflac --triplet x64-windows
-        - ./vcpkg.exe install libvorbis --triplet x86-windows
-        - ./vcpkg.exe install libvorbis --triplet x64-windows
-        - ./vcpkg.exe install libogg --triplet x86-windows
-        - ./vcpkg.exe install libogg --triplet x64-windows
-        - ./vcpkg.exe install opus --triplet x86-windows
-        - ./vcpkg.exe install opus --triplet x64-windows
-        - ./vcpkg.exe install mpg123 --triplet x86-windows
-        - ./vcpkg.exe install mpg123 --triplet x64-windows
-        - ./vcpkg.exe install sndfile --triplet x86-windows
-        - ./vcpkg.exe install sndfile --triplet x64-windows
+        - ./vcpkg.exe install libflac --triplet x86-windows-static
+        - ./vcpkg.exe install libflac --triplet x64-windows-static
+        - ./vcpkg.exe install libvorbis --triplet x86-windows-static
+        - ./vcpkg.exe install libvorbis --triplet x64-windows-static
+        - ./vcpkg.exe install libogg --triplet x86-windows-static
+        - ./vcpkg.exe install libogg --triplet x64-windows-static
+        - ./vcpkg.exe install opus --triplet x86-windows-static
+        - ./vcpkg.exe install opus --triplet x64-windows-static
+        - ./vcpkg.exe install mpg123 --triplet x86-windows-static
+        - ./vcpkg.exe install mpg123 --triplet x64-windows-static
         - cd ${TRAVIS_BUILD_DIR}/../
         - git clone git@github.com:Mach1Studios/m1-transcode.git
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - mkdir libs && cd libs
+        - git clone --depth 1 git@github.com:libsndfile/libsndfile.git
         - git clone --depth 1 git@github.com:ebu/libadm.git
         - git clone --depth 1 git@github.com:irt-open-source/libbw64.git
       script:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
-        - cmake . -DENABLE_PACKAGE_CONFIG=ON -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake -B_builds/vs-15-2017 -G "Visual Studio 15 2017" -A Win32 -DCMAKE_INSTALL_PREFIX=_install/vs-15-2017
+        - cmake . -DENABLE_PACKAGE_CONFIG=ON -DENABLE_SHARED=OFF -DBUILD_SHARED_LIBS=OFF -DBUILD_PROGRAMS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DADM_EXAMPLES=OFF -DADM_UNIT_TESTS=OFF-DADM_PACKAGE_AND_INSTALL=OFF -DBW64_EXAMPLES=OFF -DBW64_UNIT_TESTS=OFF -DBW64_PACKAGE_AND_INSTALL=OFF -DENABLE_STATIC_RUNTIME=ON -DCMAKE_EXE_LINKER_FLAGS="-static" -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static -B_builds/vs-15-2017 -G "Visual Studio 15 2017" -A Win32 -DCMAKE_INSTALL_PREFIX=_install/vs-15-2017
         - cmake --build _builds/vs-15-2017 --config Release --target install -- //nologo //verbosity:quiet //clp:ErrorsOnly
-        - cmake . -DENABLE_PACKAGE_CONFIG=ON -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake -B_builds/vs-15-2017-win64 -G "Visual Studio 15 2017" -A x64 -DCMAKE_INSTALL_PREFIX=_install/vs-15-2017-win64
+        - cmake . -DENABLE_PACKAGE_CONFIG=ON -DENABLE_SHARED=OFF -DBUILD_SHARED_LIBS=OFF -DBUILD_PROGRAMS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DADM_EXAMPLES=OFF -DADM_UNIT_TESTS=OFF-DADM_PACKAGE_AND_INSTALL=OFF -DBW64_EXAMPLES=OFF -DBW64_UNIT_TESTS=OFF -DBW64_PACKAGE_AND_INSTALL=OFF -DENABLE_STATIC_RUNTIME=ON -DCMAKE_EXE_LINKER_FLAGS="-static" -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static -B_builds/vs-15-2017-win64 -G "Visual Studio 15 2017" -A x64 -DCMAKE_INSTALL_PREFIX=_install/vs-15-2017-win64
         - cmake --build _builds/vs-15-2017-win64 --config Release --target install -- //nologo //verbosity:quiet //clp:ErrorsOnly
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
@@ -583,7 +582,6 @@ jobs:
       addons:
         homebrew:
           packages:
-            - libsndfile
             - opus-tools
             - mpg123
             - libpthread-stubs
@@ -609,10 +607,11 @@ jobs:
         - git clone git@github.com:Mach1Studios/m1-transcode.git
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - mkdir libs && cd libs
+        - git clone --depth 1 git@github.com:libsndfile/libsndfile.git
         - git clone --depth 1 git@github.com:ebu/libadm.git
         - git clone --depth 1 git@github.com:irt-open-source/libbw64.git
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
-        - cmake .
+        - cmake . -DENABLE_SHARED=OFF -DBUILD_SHARED_LIBS=OFF -DBUILD_PROGRAMS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DADM_EXAMPLES=OFF -DADM_UNIT_TESTS=OFF-DADM_PACKAGE_AND_INSTALL=OFF -DBW64_EXAMPLES=OFF -DBW64_UNIT_TESTS=OFF -DBW64_PACKAGE_AND_INSTALL=OFF
         - cmake --build . --config Release
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode

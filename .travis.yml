@@ -418,8 +418,14 @@ jobs:
           packages:
             - build-essential
             - g++-7
+            - libasound2-dev
+            - libvorbis-dev
+            - libflac-dev
             - libopus-dev
+            - libogg-dev
             - libmpg123-dev
+            - libmp3lame-dev
+            - libtool
             - libpthread-stubs0-dev
             - rsync
             - awscli
@@ -461,8 +467,14 @@ jobs:
             - ubuntu-toolchain-r-test
           packages:
             - build-essential
+            - libasound2-dev
+            - libvorbis-dev
+            - libflac-dev
             - libopus-dev
+            - libogg-dev
             - libmpg123-dev
+            - libmp3lame-dev
+            - libtool
             - libpthread-stubs0-dev
             - rsync
             - awscli
@@ -582,8 +594,12 @@ jobs:
         homebrew:
           packages:
             - libvorbis
+            - libogg
+            - flac
             - opus-tools
             - mpg123
+            - lame
+            - libtool
             - libpthread-stubs
             - git-lfs
             - rsync

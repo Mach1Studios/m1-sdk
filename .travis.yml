@@ -443,7 +443,7 @@ jobs:
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - cp -f ./m1-transcode ${TRAVIS_BUILD_DIR}/executables/unix/m1-transcode
-        - aws s3 cp m1-transcode s3://${AWS_DEPLOY_BUCKET}/executables/linux-arm/m1-transcode --cache-control no-cache --metadata-directive REPLACE
+        - aws s3 cp m1-transcode s3://${AWS_DEPLOY_BUCKET}/executables/linux/m1-transcode --cache-control no-cache --metadata-directive REPLACE
 
     - stage: compile
       branches:
@@ -519,11 +519,14 @@ jobs:
       os: windows
       language: sh
       env:
-        - VS15=true
-        - VCPKG_PATH=${TRAVIS_BUILD_DIR}/vcpkg
+        - VCPKG_ROOT=${TRAVIS_BUILD_DIR}/vcpkg
+        - VCPKG_PATH=${VCPKG_ROOT}
+        - VCPKG_DEFINES="-DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake"
       cache:
+        timeout: 1000
         directories:
           - ${TRAVIS_BUILD_DIR}/vcpkg
+          - ${TRAVIS_BUILD_DIR}/.cache/vcpkg
       git:
         submodules: false
       before_cache:
@@ -534,6 +537,12 @@ jobs:
         - cd ${TRAVIS_BUILD_DIR}
         - git lfs pull --include "m1-debug-shortpt-fiveone.wav"
       install:
+        - cd ${TRAVIS_BUILD_DIR}
+        - if [ -d "${TRAVIS_BUILD_DIR}/vcpkg/.git" ] ; then echo vcpkg cached ; else rm -rf vcpkg ; git clone https://github.com/Microsoft/vcpkg ; fi
+        - cd vcpkg
+        - git checkout .
+        - git pull
+        - ./bootstrap-vcpkg.bat
         - cd ${TRAVIS_BUILD_DIR}/source
         - choco install -y cmake --installargs 'ADD_CMAKE_TO_PATH=System'
         - choco install -y make
@@ -541,17 +550,7 @@ jobs:
         - choco install -y boost-msvc-14.1
         - choco install -y pkgconfiglite
         - export PATH="$(powershell -Command '("Process", "Machine" | % {[Environment]::GetEnvironmentVariable("PATH", $_) -Split ";" -Replace "\\$", ""} | Select -Unique | % { cygpath $_ }) -Join ":"')"
-        - cd ${VCPKG_PATH}
-        - ./vcpkg.exe install libflac --triplet x86-windows-static
-        - ./vcpkg.exe install libflac --triplet x64-windows-static
-        - ./vcpkg.exe install libvorbis --triplet x86-windows-static
-        - ./vcpkg.exe install libvorbis --triplet x64-windows-static
-        - ./vcpkg.exe install libogg --triplet x86-windows-static
-        - ./vcpkg.exe install libogg --triplet x64-windows-static
-        - ./vcpkg.exe install opus --triplet x86-windows-static
-        - ./vcpkg.exe install opus --triplet x64-windows-static
-        - ./vcpkg.exe install mpg123 --triplet x86-windows-static
-        - ./vcpkg.exe install mpg123 --triplet x64-windows-static
+        - ${TRAVIS_BUILD_DIR}/vcpkg/vcpkg.exe install libvorbis:x64-windows libvorbis:x64-windows-static libvorbis:x86-windows libflac:x64-windows libflac:x64-windows-static libflac:x86-windows opus:x64-windows opus:x64-windows-static opus:x86-windows mp3lame:x64-windows mp3lame:x64-windows-static mp3lame:x86-windows mpg123:x64-windows mpg123:x64-windows-static mpg123:x86-windows
         - cd ${TRAVIS_BUILD_DIR}/../
         - git clone git@github.com:Mach1Studios/m1-transcode.git
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
@@ -561,7 +560,7 @@ jobs:
         - git clone --depth 1 git@github.com:irt-open-source/libbw64.git
       script:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
-        - cmake . -DENABLE_PACKAGE_CONFIG=ON -DENABLE_SHARED=OFF -DBUILD_SHARED_LIBS=OFF -DBUILD_PROGRAMS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DADM_EXAMPLES=OFF -DADM_UNIT_TESTS=OFF-DADM_PACKAGE_AND_INSTALL=OFF -DBW64_EXAMPLES=OFF -DBW64_UNIT_TESTS=OFF -DBW64_PACKAGE_AND_INSTALL=OFF -DENABLE_STATIC_RUNTIME=ON -DCMAKE_EXE_LINKER_FLAGS="-static" -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static -B_builds/vs-15-2017 -G "Visual Studio 15 2017" -A Win32 -DCMAKE_INSTALL_PREFIX=_install/vs-15-2017
+        - cmake . -DENABLE_PACKAGE_CONFIG=ON -DENABLE_SHARED=OFF -DBUILD_SHARED_LIBS=OFF -DBUILD_PROGRAMS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DADM_EXAMPLES=OFF -DADM_UNIT_TESTS=OFF-DADM_PACKAGE_AND_INSTALL=OFF -DBW64_EXAMPLES=OFF -DBW64_UNIT_TESTS=OFF -DBW64_PACKAGE_AND_INSTALL=OFF -DENABLE_STATIC_RUNTIME=ON -DCMAKE_EXE_LINKER_FLAGS="-static" -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake -B_builds/vs-15-2017 -G "Visual Studio 15 2017" -A Win32 -DCMAKE_INSTALL_PREFIX=_install/vs-15-2017
         - cmake --build _builds/vs-15-2017 --config Release --target install -- //nologo //verbosity:quiet //clp:ErrorsOnly
         - cmake . -DENABLE_PACKAGE_CONFIG=ON -DENABLE_SHARED=OFF -DBUILD_SHARED_LIBS=OFF -DBUILD_PROGRAMS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DADM_EXAMPLES=OFF -DADM_UNIT_TESTS=OFF-DADM_PACKAGE_AND_INSTALL=OFF -DBW64_EXAMPLES=OFF -DBW64_UNIT_TESTS=OFF -DBW64_PACKAGE_AND_INSTALL=OFF -DENABLE_STATIC_RUNTIME=ON -DCMAKE_EXE_LINKER_FLAGS="-static" -DCMAKE_TOOLCHAIN_FILE=${TRAVIS_BUILD_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static -B_builds/vs-15-2017-win64 -G "Visual Studio 15 2017" -A x64 -DCMAKE_INSTALL_PREFIX=_install/vs-15-2017-win64
         - cmake --build _builds/vs-15-2017-win64 --config Release --target install -- //nologo //verbosity:quiet //clp:ErrorsOnly
@@ -582,6 +581,7 @@ jobs:
       addons:
         homebrew:
           packages:
+            - libvorbis
             - opus-tools
             - mpg123
             - libpthread-stubs

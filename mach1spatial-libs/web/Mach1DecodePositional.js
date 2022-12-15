@@ -267,18 +267,15 @@ function logExceptionOnExit(e) {
 }
 
 if (ENVIRONMENT_IS_NODE) {
+ var fs = require("fs");
+ var nodePath = require("path");
  if (ENVIRONMENT_IS_WORKER) {
-  scriptDirectory = require("path").dirname(scriptDirectory) + "/";
+  scriptDirectory = nodePath.dirname(scriptDirectory) + "/";
  } else {
   scriptDirectory = __dirname + "/";
  }
- var fs, nodePath;
- if (typeof require === "function") {
-  fs = require("fs");
-  nodePath = require("path");
- }
  read_ = (filename, binary) => {
-  filename = nodePath["normalize"](filename);
+  filename = isFileURI(filename) ? new URL(filename) : nodePath.normalize(filename);
   return fs.readFileSync(filename, binary ? undefined : "utf8");
  };
  readBinary = filename => {
@@ -289,7 +286,7 @@ if (ENVIRONMENT_IS_NODE) {
   return ret;
  };
  readAsync = (filename, onload, onerror) => {
-  filename = nodePath["normalize"](filename);
+  filename = isFileURI(filename) ? new URL(filename) : nodePath.normalize(filename);
   fs.readFile(filename, function(err, data) {
    if (err) onerror(err); else onload(data.buffer);
   });
@@ -677,10 +674,10 @@ function createWasm() {
  function receiveInstance(instance, module) {
   var exports = instance.exports;
   Module["asm"] = exports;
-  wasmMemory = Module["asm"]["B"];
+  wasmMemory = Module["asm"]["A"];
   updateGlobalBufferAndViews(wasmMemory.buffer);
-  wasmTable = Module["asm"]["D"];
-  addOnInit(Module["asm"]["C"]);
+  wasmTable = Module["asm"]["C"];
+  addOnInit(Module["asm"]["B"]);
   removeRunDependency("wasm-instantiate");
  }
  addRunDependency("wasm-instantiate");
@@ -736,10 +733,6 @@ function callRuntimeCallbacks(callbacks) {
  while (callbacks.length > 0) {
   callbacks.shift()(Module);
  }
-}
-
-function ___cxa_allocate_exception(size) {
- return _malloc(size + 24) + 24;
 }
 
 function ExceptionInfo(excPtr) {
@@ -2518,7 +2511,6 @@ UnboundTypeError = Module["UnboundTypeError"] = extendError(Error, "UnboundTypeE
 init_emval();
 
 var asmLibraryArg = {
- "o": ___cxa_allocate_exception,
  "n": ___cxa_throw,
  "i": __embind_finalize_value_object,
  "p": __embind_register_bigint,
@@ -2527,12 +2519,12 @@ var asmLibraryArg = {
  "g": __embind_register_class_constructor,
  "a": __embind_register_class_function,
  "v": __embind_register_emval,
- "k": __embind_register_enum,
+ "m": __embind_register_enum,
  "b": __embind_register_enum_value,
- "m": __embind_register_float,
+ "l": __embind_register_float,
  "d": __embind_register_integer,
  "c": __embind_register_memory_view,
- "l": __embind_register_std_string,
+ "k": __embind_register_std_string,
  "f": __embind_register_std_wstring,
  "j": __embind_register_value_object,
  "e": __embind_register_value_object_field,
@@ -2540,7 +2532,7 @@ var asmLibraryArg = {
  "r": __emscripten_get_now_is_monotonic,
  "y": __emval_decref,
  "z": __emval_incref,
- "A": __emval_take_value,
+ "o": __emval_take_value,
  "q": _abort,
  "s": _emscripten_date_now,
  "u": _emscripten_memcpy_big,
@@ -2550,27 +2542,27 @@ var asmLibraryArg = {
 var asm = createWasm();
 
 var ___wasm_call_ctors = Module["___wasm_call_ctors"] = function() {
- return (___wasm_call_ctors = Module["___wasm_call_ctors"] = Module["asm"]["C"]).apply(null, arguments);
+ return (___wasm_call_ctors = Module["___wasm_call_ctors"] = Module["asm"]["B"]).apply(null, arguments);
 };
 
 var ___getTypeName = Module["___getTypeName"] = function() {
- return (___getTypeName = Module["___getTypeName"] = Module["asm"]["E"]).apply(null, arguments);
+ return (___getTypeName = Module["___getTypeName"] = Module["asm"]["D"]).apply(null, arguments);
 };
 
 var __embind_initialize_bindings = Module["__embind_initialize_bindings"] = function() {
- return (__embind_initialize_bindings = Module["__embind_initialize_bindings"] = Module["asm"]["F"]).apply(null, arguments);
+ return (__embind_initialize_bindings = Module["__embind_initialize_bindings"] = Module["asm"]["E"]).apply(null, arguments);
 };
 
 var _malloc = Module["_malloc"] = function() {
- return (_malloc = Module["_malloc"] = Module["asm"]["G"]).apply(null, arguments);
+ return (_malloc = Module["_malloc"] = Module["asm"]["F"]).apply(null, arguments);
 };
 
 var _free = Module["_free"] = function() {
- return (_free = Module["_free"] = Module["asm"]["H"]).apply(null, arguments);
+ return (_free = Module["_free"] = Module["asm"]["G"]).apply(null, arguments);
 };
 
 var ___cxa_is_pointer_type = Module["___cxa_is_pointer_type"] = function() {
- return (___cxa_is_pointer_type = Module["___cxa_is_pointer_type"] = Module["asm"]["I"]).apply(null, arguments);
+ return (___cxa_is_pointer_type = Module["___cxa_is_pointer_type"] = Module["asm"]["H"]).apply(null, arguments);
 };
 
 var calledRun;

@@ -36,7 +36,13 @@ ifeq ($(detected_OS),Darwin)
 	g++ -o builds/spatial-encode-example ../examples/mach1spatial-c/commandline/spatial-encode-example/src/main.cpp ../mach1spatial-libs/xcode/include/Mach1Encode.cpp -I../mach1spatial-libs/xcode/include -L../mach1spatial-libs/xcode/lib -lstdc++ -lpthread -lMach1EncodeCAPI
 	g++ -o builds/spatial-transcode-example ../examples/mach1spatial-c/commandline/spatial-transcode-example/src/main.cpp ../mach1spatial-libs/xcode/include/Mach1Transcode.cpp -I../mach1spatial-libs/xcode/include -L../mach1spatial-libs/xcode/lib -lstdc++ -lMach1TranscodeCAPI
 else ifeq ($(detected_OS),Windows)
-
+	mkdir -p builds
+	cmake ../examples/mach1spatial-c/commandline/spatial-decode-example -Bbuilds
+	cmake --build builds
+	cmake ../examples/mach1spatial-c/commandline/spatial-encode-example -Bbuilds
+	cmake --build builds
+	cmake ../examples/mach1spatial-c/commandline/spatial-transcode-example -Bbuilds
+	cmake --build builds
 else
 	mkdir -p builds
 	g++ -o builds/spatial-decode-example ../examples/mach1spatial-c/commandline/spatial-decode-example/src/main.cpp ../mach1spatial-libs/linux/include/Mach1Decode.cpp -I../mach1spatial-libs/linux/include -L../mach1spatial-libs/linux/lib -lstdc++ -pthread -lMach1DecodeCAPI

@@ -88,11 +88,6 @@ Module["onRuntimeInitialized"] = function() {
     return this._m1obj.getFormatChannelCount();
    }
   };
-  this.getFormatCoeffCount = function() {
-   if (this._m1obj) {
-    return this._m1obj.getFormatCoeffCount();
-   }
-  };
   this.getCurrentAngle = function() {
    if (this._m1obj) {
     return this._m1obj.getCurrentAngle();

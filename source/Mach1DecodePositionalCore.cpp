@@ -453,14 +453,14 @@ void Mach1DecodePositionalCore::getCoefficientsInterior(float *result)
 	}
 }
 
-Mach1Point3DCore Mach1DecodePositionalCore::getCoefficientsRotation()
+Mach1Point3DCore Mach1DecodePositionalCore::getCurrentAngle()
 {
 	glm::vec3 angle = eulerAngles;
 	Mach1DecodeCore::convertAnglesToPlatform(platformType, &angle.x, &angle.y, &angle.z);
 	return Mach1Point3DCore{ angle.x , angle.y, angle.z };
 }
 
-Mach1Point3DCore Mach1DecodePositionalCore::getCoefficientsRotationInternal()
+Mach1Point3DCore Mach1DecodePositionalCore::getCurrentAngleInternal()
 {
 	return Mach1Point3DCore{ eulerAngles.x , eulerAngles.y, eulerAngles.z };
 }
@@ -475,13 +475,6 @@ Mach1Point3DCore Mach1DecodePositionalCore::getClosestPointOnPlane()
 float Mach1DecodePositionalCore::getDist()
 {
 	return dist;
-}
-
-Mach1Point3DCore Mach1DecodePositionalCore::getCurrentAngle()
-{
-	Mach1Point3DCore angle = mach1Decode.getCurrentAngle();
-	Mach1DecodeCore::convertAnglesToPlatform(platformType, &angle.x, &angle.y, &angle.z);
-	return Mach1Point3DCore{ angle.x , angle.y, angle.z };
 }
 
 void Mach1DecodePositionalCore::setFilterSpeed(float filterSpeed)

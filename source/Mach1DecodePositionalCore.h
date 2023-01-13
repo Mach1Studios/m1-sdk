@@ -134,8 +134,7 @@ public:
 	float getDist();
 
 	Mach1Point3DCore getCurrentAngle();
-	Mach1Point3DCore getCoefficientsRotation();
-	Mach1Point3DCore getCoefficientsRotationInternal();
+	Mach1Point3DCore getCurrentAngleInternal();
 
 	Mach1Point3DCore getClosestPointOnPlane();
 

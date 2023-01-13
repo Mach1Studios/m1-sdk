@@ -62,7 +62,7 @@ public:
 
 	float getDist();
 	Mach1Point3D getCurrentAngle();
-	Mach1Point3D getCoefficientsRotation();
+	Mach1Point3D getCurrentAngleInternal();
 	void setFilterSpeed(float filterSpeed);
 
 	Mach1Point3D getClosestPointOnPlane();

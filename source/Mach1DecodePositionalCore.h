@@ -66,6 +66,7 @@ private:
 	glm::vec3 soundScale;
 
 	static void convertPositionToMach1(Mach1PlatformType platformType, float* X, float* Y, float* Z);
+	static void convertPositionToPlatform(Mach1PlatformType platformType, float* X, float* Y, float* Z);
 
 	static float ClosestPointOnBox(glm::vec3 point, glm::vec3 center, glm::vec3 axis0, glm::vec3 axis1, glm::vec3 axis2, glm::vec3 extents, glm::vec3& closestPoint);
 	static bool Clip(float denom, float numer, float& t0, float& t1);
@@ -134,6 +135,7 @@ public:
 
 	Mach1Point3DCore getCurrentAngle();
 	Mach1Point3DCore getCoefficientsRotation();
+	Mach1Point3DCore getCoefficientsRotationInternal();
 
 	Mach1Point3DCore getClosestPointOnPlane();
 

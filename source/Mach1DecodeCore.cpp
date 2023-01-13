@@ -1095,6 +1095,8 @@ std::vector<float> Mach1DecodeCore::spatialAlgoSample_60(float Yaw, float Pitch,
 
 // Angular settings functions
 void Mach1DecodeCore::convertAnglesToMach1(Mach1PlatformType platformType, float* Y, float* P, float* R) {
+	float _Y = 0, _P = 0, _R = 0;
+	
 	switch (platformType) {
 	case Mach1PlatformDefault:
 		*Y = *Y;
@@ -1130,10 +1132,13 @@ void Mach1DecodeCore::convertAnglesToMach1(Mach1PlatformType platformType, float
 		break;
 
 	case Mach1PlatformUnity:
-		std::swap(*P, *Y);
-		*Y = *Y;             // Y in Unity
-		*P = *P;             // X in Unity
-		*R = *R;             // Z in Unity
+		// R Y P -> Y -P R
+		_R = *Y;
+		_Y = *P;
+		_P = *R;
+		*Y = _Y;
+		*P = -_P;
+		*R = _R;
 		break;
 
 	case Mach1PlatformUE:
@@ -1141,9 +1146,6 @@ void Mach1DecodeCore::convertAnglesToMach1(Mach1PlatformType platformType, float
 		std::swap(*Y, *P);
 		std::swap(*P, *R);
 		std::swap(*P, *Y);
-		*Y = *Y;
-		*P = *P;
-		*R = *R;
 		break;
 
 	case Mach1PlatformOfEasyCam:
@@ -1153,11 +1155,14 @@ void Mach1DecodeCore::convertAnglesToMach1(Mach1PlatformType platformType, float
 		break;
 
 	case Mach1PlatformAndroid:
-		std::swap(*P, *Y);
-		*Y = -*Y;
-		*P = -*P;
-		*R = *R;
-		break;		
+		// P Y R -> Y -P R
+		_P = *Y;
+		_Y = *P;
+		_R = *R;
+		*Y = _Y;
+		*P = -_P;
+		*R = _R;
+		break;
 
 	default:
 		break;
@@ -1166,7 +1171,9 @@ void Mach1DecodeCore::convertAnglesToMach1(Mach1PlatformType platformType, float
 
 void Mach1DecodeCore::convertAnglesToPlatform(Mach1PlatformType platformType, float * Y, float * P, float * R)
 {
-	 switch (platformType) {
+	float _Y = 0, _P = 0, _R = 0;
+	
+	switch (platformType) {
 	 case Mach1PlatformDefault:
 		*Y = *Y;
 		*P = *P;
@@ -1201,10 +1208,13 @@ void Mach1DecodeCore::convertAnglesToPlatform(Mach1PlatformType platformType, fl
 		break;
 
 	 case Mach1PlatformUnity:
-		*Y = *Y;                   // Y in Unity
-		*P = *P;             // X in Unity
-		*R = *R;                    // Z in Unity
-		std::swap(*P, *Y);
+		// Y -P R -> R Y P 
+		_Y = *Y;
+		_P = -*P;
+		_R = *R;
+		*Y = _R;
+		*P = _Y;
+		*R = _P;
 		break;
 
 	 case Mach1PlatformUE:

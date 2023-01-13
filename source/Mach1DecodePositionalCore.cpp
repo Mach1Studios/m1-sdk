@@ -18,6 +18,24 @@ void Mach1DecodePositionalCore::convertPositionToMach1(Mach1PlatformType platfor
 		std::swap(*Y, *Z);
 		break;
 
+	case Mach1PlatformUnity:
+		break;
+
+	default:
+		break;
+	}
+}
+
+void Mach1DecodePositionalCore::convertPositionToPlatform(Mach1PlatformType platformType, float* X, float* Y, float* Z)
+{
+	switch (platformType) {
+	case Mach1PlatformUE:
+		std::swap(*Y, *Z);
+		std::swap(*X, *Y);
+		break;
+	case Mach1PlatformUnity:
+		break;
+
 	default:
 		break;
 	}
@@ -190,7 +208,7 @@ void Mach1DecodePositionalCore::setDecodeAlgoType(Mach1DecodeAlgoType type)
 void Mach1DecodePositionalCore::setPlatformType(Mach1PlatformType type)
 {
 	platformType = type;
-	mach1Decode.setPlatformType(Mach1PlatformDefault);
+	mach1Decode.setPlatformType(Mach1PlatformType::Mach1PlatformDefault); // because rotation is already converted by positional
 }
 
 void Mach1DecodePositionalCore::setUseBlendMode(bool useBlendMode)
@@ -254,17 +272,16 @@ void Mach1DecodePositionalCore::setListenerPosition(Mach1Point3DCore * pos) {
 }
 
 void Mach1DecodePositionalCore::setListenerRotation(Mach1Point3DCore * euler) {
-	///*
 	Mach1Point3DCore angle(euler->x, euler->y, euler->z);
 	Mach1DecodeCore::convertAnglesToMach1(platformType, &angle.x, &angle.y, &angle.z);
-	cameraRotation = glm::quat(glm::vec3(angle.y * DEG_TO_RAD_F, angle.x * DEG_TO_RAD_F, angle.z * DEG_TO_RAD_F));
-	//*/
-	//cameraRotation = glm::quat(glm::vec3(euler->x * DEG_TO_RAD_F, euler->y * DEG_TO_RAD_F, euler->z * DEG_TO_RAD_F));
+	cameraRotation = glm::quat(glm::vec3(angle.y * DEG_TO_RAD_F, angle.x * DEG_TO_RAD_F, angle.z * DEG_TO_RAD_F));  // swap p & y from glm
 }
 
 void Mach1DecodePositionalCore::setListenerRotationQuat(Mach1Point4DCore * quat)
 {
-	cameraRotation = glm::quat(quat->w, quat->x, quat->y, quat->z);
+	glm::vec3 angle = GetEuler(glm::quat(quat->w, quat->x, quat->y, quat->z));
+	Mach1DecodeCore::convertAnglesToMach1(platformType, &angle.x, &angle.y, &angle.z);
+	cameraRotation = glm::quat(glm::vec3(angle.y * DEG_TO_RAD_F, angle.x * DEG_TO_RAD_F, angle.z * DEG_TO_RAD_F));  // swap p & y from glm
 }
 
 void Mach1DecodePositionalCore::setDecoderAlgoPosition(Mach1Point3DCore * pos) {
@@ -273,17 +290,15 @@ void Mach1DecodePositionalCore::setDecoderAlgoPosition(Mach1Point3DCore * pos) {
 }
 
 void Mach1DecodePositionalCore::setDecoderAlgoRotation(Mach1Point3DCore * euler) {
-	///*
 	Mach1Point3DCore angle(euler->x, euler->y, euler->z);
 	Mach1DecodeCore::convertAnglesToMach1(platformType, &angle.x, &angle.y, &angle.z);
-	soundRotation = glm::quat(glm::vec3(angle.x * DEG_TO_RAD_F, angle.y * DEG_TO_RAD_F, angle.z * DEG_TO_RAD_F));
-	//*/
-	//soundRotation = glm::quat(glm::vec3(euler->x * DEG_TO_RAD_F, euler->y * DEG_TO_RAD_F, euler->z * DEG_TO_RAD_F));
+	soundRotation = glm::quat(glm::vec3(angle.y * DEG_TO_RAD_F, angle.x * DEG_TO_RAD_F, angle.z * DEG_TO_RAD_F)); // swap p & y from glm
 }
 
-void Mach1DecodePositionalCore::setDecoderAlgoRotationQuat(Mach1Point4DCore * quat)
-{
-	soundRotation = glm::quat(quat->w, quat->x, quat->y, quat->z);
+void Mach1DecodePositionalCore::setDecoderAlgoRotationQuat(Mach1Point4DCore * quat) {
+	glm::vec3 angle = GetEuler(glm::quat(quat->w, quat->x, quat->y, quat->z));
+	Mach1DecodeCore::convertAnglesToMach1(platformType, &angle.x, &angle.y, &angle.z);
+	soundRotation = glm::quat(glm::vec3(angle.y * DEG_TO_RAD_F, angle.x * DEG_TO_RAD_F, angle.z * DEG_TO_RAD_F)); // swap p & y from glm
 }
 
 void Mach1DecodePositionalCore::setDecoderAlgoScale(Mach1Point3DCore * scale) {
@@ -382,24 +397,25 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
 		// http://www.aclockworkberry.com/world-coordinate-systems-in-3ds-max-unity-and-unreal-engine/
 		glm::quat quat;
 		quat = glm::quatLookAtLH(glm::normalize(dir), GetUpVector());
-
 		quat = glm::inverse(quat);
 		quat = quat * soundRotation;
 
-		glm::vec3 quatEulerAngles = glm::eulerAngles(quat);
+		glm::vec3 quatEulerAngles = GetEuler(quat)* DEG_TO_RAD_F;
 
 		// glm (pitch, yaw, roll)
 		bool useXForRotation = usePitchForRotation;
 		bool useYForRotation = useYawForRotation;
 		bool useZForRotation = useRollForRotation;
-
+		
 		quat = glm::quat(glm::vec3(useXForRotation ? quatEulerAngles.x : 0, useYForRotation ? quatEulerAngles.y : 0, useZForRotation ? quatEulerAngles.z : 0));
 		quat *= cameraRotation;
 
-		eulerAngles = GetEuler(quat);
+		glm::vec3 angles = GetEuler(quat);
+		std::swap(angles.x, angles.y); // swap p & y from glm
+		eulerAngles = angles;
 
 		// SoundAlgorithm
-		mach1Decode.setRotationDegrees(Mach1Point3DCore{ eulerAngles.y, eulerAngles.x, eulerAngles.z });
+		mach1Decode.setRotationDegrees(Mach1Point3DCore{ eulerAngles.x, eulerAngles.y, eulerAngles.z });
 		volumes = mach1Decode.decodeCoeffs();
 	}
 	else 
@@ -439,12 +455,21 @@ void Mach1DecodePositionalCore::getCoefficientsInterior(float *result)
 
 Mach1Point3DCore Mach1DecodePositionalCore::getCoefficientsRotation()
 {
+	glm::vec3 angle = eulerAngles;
+	Mach1DecodeCore::convertAnglesToPlatform(platformType, &angle.x, &angle.y, &angle.z);
+	return Mach1Point3DCore{ angle.x , angle.y, angle.z };
+}
+
+Mach1Point3DCore Mach1DecodePositionalCore::getCoefficientsRotationInternal()
+{
 	return Mach1Point3DCore{ eulerAngles.x , eulerAngles.y, eulerAngles.z };
 }
 
 Mach1Point3DCore Mach1DecodePositionalCore::getClosestPointOnPlane()
 {
-	return Mach1Point3DCore{ closestPointOnPlane.x , closestPointOnPlane.y, closestPointOnPlane.z };
+	glm::vec3 p = closestPointOnPlane;
+	convertPositionToPlatform(platformType, &p.x, &p.y, &p.z);
+	return Mach1Point3DCore{ p.x, p.y, p.z  };
 }
 
 float Mach1DecodePositionalCore::getDist()
@@ -455,8 +480,8 @@ float Mach1DecodePositionalCore::getDist()
 Mach1Point3DCore Mach1DecodePositionalCore::getCurrentAngle()
 {
 	Mach1Point3DCore angle = mach1Decode.getCurrentAngle();
-	Mach1DecodeCore::convertAnglesToMach1(platformType, &angle.x, &angle.y, &angle.z);
-	return angle;
+	Mach1DecodeCore::convertAnglesToPlatform(platformType, &angle.x, &angle.y, &angle.z);
+	return Mach1Point3DCore{ angle.x , angle.y, angle.z };
 }
 
 void Mach1DecodePositionalCore::setFilterSpeed(float filterSpeed)

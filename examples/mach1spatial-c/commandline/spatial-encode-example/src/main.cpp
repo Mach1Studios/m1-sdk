@@ -23,8 +23,8 @@
 #include <time.h>
 #include <string.h>
 #include <stdio.h>
+#include <pthread.h>
 #include <math.h>
-#include <thread>
 #include <chrono>
 
 #include "Mach1Encode.h"
@@ -65,7 +65,7 @@ BOOLEAN nanosleep(struct timespec* ts, void* p) {
 #endif
 
 void* encode(void* v);
-
+static pthread_t thread;
 bool done = false;
 Mach1Encode m1Encode;
 std::vector< std::vector<float> > m1Coeffs; //2D array, [input channel][input channel's coeff]
@@ -114,7 +114,7 @@ int main(int argc, const char * argv[]) {
     inputName = "MONO";
     outputName = "MACH1 SPATIAL";
     done = false;
-    std::thread thread(encode, nullptr);
+    pthread_create(&thread, NULL, &encode, NULL);
     
     while (!done) {
         nanosleep(&ts, NULL);

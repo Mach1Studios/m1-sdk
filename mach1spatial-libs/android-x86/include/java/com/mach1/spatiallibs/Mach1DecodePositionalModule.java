@@ -114,38 +114,6 @@ public class Mach1DecodePositionalModule {
     return Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_getLastCalculationTime(SWIGTYPE_p_void.getCPtr(M1obj));
   }
 
-  public static void Mach1DecodePositionalCAPI_setUseFalloff(SWIGTYPE_p_void M1obj, boolean useFalloff) {
-    Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_setUseFalloff(SWIGTYPE_p_void.getCPtr(M1obj), useFalloff);
-  }
-
-  public static void Mach1DecodePositionalCAPI_setFalloffCurve(SWIGTYPE_p_void M1obj, float falloffCurve) {
-    Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_setFalloffCurve(SWIGTYPE_p_void.getCPtr(M1obj), falloffCurve);
-  }
-
-  public static void Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(SWIGTYPE_p_void M1obj, boolean useClosestPointRotationMuteInside) {
-    Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(SWIGTYPE_p_void.getCPtr(M1obj), useClosestPointRotationMuteInside);
-  }
-
-  public static void Mach1DecodePositionalCAPI_setCameraPosition(SWIGTYPE_p_void M1obj, Mach1Point3D point) {
-    Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_setCameraPosition(SWIGTYPE_p_void.getCPtr(M1obj), Mach1Point3D.getCPtr(point), point);
-  }
-
-  public static void Mach1DecodePositionalCAPI_setCameraRotation(SWIGTYPE_p_void M1obj, Mach1Point3D point) {
-    Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_setCameraRotation(SWIGTYPE_p_void.getCPtr(M1obj), Mach1Point3D.getCPtr(point), point);
-  }
-
-  public static void Mach1DecodePositionalCAPI_setCameraRotationQuat(SWIGTYPE_p_void M1obj, Mach1Point4D point) {
-    Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_setCameraRotationQuat(SWIGTYPE_p_void.getCPtr(M1obj), Mach1Point4D.getCPtr(point), point);
-  }
-
-  public static void Mach1DecodePositionalCAPI_getVolumesWalls(SWIGTYPE_p_void M1obj, SWIGTYPE_p_float result) {
-    Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_getVolumesWalls(SWIGTYPE_p_void.getCPtr(M1obj), SWIGTYPE_p_float.getCPtr(result));
-  }
-
-  public static Mach1Point3D Mach1DecodePositionalCAPI_getVolumeRotation(SWIGTYPE_p_void M1obj) {
-    return new Mach1Point3D(Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_getVolumeRotation(SWIGTYPE_p_void.getCPtr(M1obj)), true);
-  }
-
   public static void Mach1DecodePositionalCAPI_setUseBlendMode(SWIGTYPE_p_void M1obj, boolean useBlendMode) {
     Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_setUseBlendMode(SWIGTYPE_p_void.getCPtr(M1obj), useBlendMode);
   }
@@ -154,16 +122,8 @@ public class Mach1DecodePositionalModule {
     Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_setIgnoreTopBottom(SWIGTYPE_p_void.getCPtr(M1obj), ignoreTopBottom);
   }
 
-  public static void Mach1DecodePositionalCAPI_setFalloffCurveBlendMode(SWIGTYPE_p_void M1obj, float falloffCurveBlendMode) {
-    Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_setFalloffCurveBlendMode(SWIGTYPE_p_void.getCPtr(M1obj), falloffCurveBlendMode);
-  }
-
   public static void Mach1DecodePositionalCAPI_setAttenuationCurveBlendMode(SWIGTYPE_p_void M1obj, float attenuationCurveBlendMode) {
     Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_setAttenuationCurveBlendMode(SWIGTYPE_p_void.getCPtr(M1obj), attenuationCurveBlendMode);
-  }
-
-  public static void Mach1DecodePositionalCAPI_getVolumesRoom(SWIGTYPE_p_void M1obj, SWIGTYPE_p_float result) {
-    Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_getVolumesRoom(SWIGTYPE_p_void.getCPtr(M1obj), SWIGTYPE_p_float.getCPtr(result));
   }
 
   public static void Mach1DecodePositionalCAPI_getCoefficientsInterior(SWIGTYPE_p_void M1obj, SWIGTYPE_p_float result) {

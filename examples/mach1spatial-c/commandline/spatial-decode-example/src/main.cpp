@@ -188,15 +188,9 @@ static void* decode(void* v)
                     outputFormat=Mach1DecodeAlgoHorizon_4;
                     outputName="MACH1HORIZON-4";
                 }else if(outputFormat==Mach1DecodeAlgoHorizon_4){
-                    outputFormat=Mach1DecodeAlgoSpatialAlt_8;
-                    outputName="MACH1SPATIAL-8-Periphonic";
-                }else if(outputFormat==Mach1DecodeAlgoSpatialAlt_8){
                     outputFormat=Mach1DecodeAlgoSpatial_14;
                     outputName="MACH1SPATIAL-14";
                 }else if(outputFormat==Mach1DecodeAlgoSpatial_14){
-                    outputFormat=Mach1DecodeAlgoSpatial_16;
-                    outputName="MACH1SPATIAL-16";
-                }else if(outputFormat==Mach1DecodeAlgoSpatial_16){
                     outputFormat=Mach1DecodeAlgoSpatial_18;
                     outputName="MACH1SPATIAL-18";
                 }else if(outputFormat==Mach1DecodeAlgoSpatial_18){
@@ -205,7 +199,7 @@ static void* decode(void* v)
                 }else if(outputFormat==Mach1DecodeAlgoSpatial_32){
                     outputFormat=Mach1DecodeAlgoSpatial_36;
                     outputName="MACH1SPATIAL-36";
-                }else if(outputFormat==Mach1DecodeAlgoSpatial_32){
+                }else if(outputFormat==Mach1DecodeAlgoSpatial_36){
                     outputFormat=Mach1DecodeAlgoSpatial_48;
                     outputName="MACH1SPATIAL-48";
                 }else if(outputFormat==Mach1DecodeAlgoSpatial_48){

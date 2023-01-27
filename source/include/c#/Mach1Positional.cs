@@ -96,9 +96,15 @@ namespace Mach1
 
         [DllImport(libname)]
         internal static extern float Mach1DecodePositionalCAPI_getDist(IntPtr M1obj);
+       
+        [DllImport(libname)]
+        internal static extern Mach1Point3D Mach1DecodePositionalCAPI_getCurrentAngle(IntPtr M1obj);
 
         [DllImport(libname)]
-        internal static extern Mach1Point3D Mach1DecodePositionalCAPI_getCoefficientsRotation(IntPtr M1obj);
+        internal static extern Mach1Point3D Mach1DecodePositionalCAPI_getCurrentAngleInternal(IntPtr M1obj);
+
+        [DllImport(libname)]
+        internal static extern Mach1Point3D Mach1DecodePositionalCAPI_getPositionalRotation(IntPtr M1obj);
 
         [DllImport(libname)]
         internal static extern Mach1Point3D Mach1DecodePositionalCAPI_getClosestPointOnPlane(IntPtr M1obj);
@@ -331,9 +337,19 @@ namespace Mach1
             /// to the position of the m1obj
         }
 
-        public Mach1Point3D getCoefficientsRotation()
+        public Mach1Point3D getCurrentAngle()
         {
-            return Mach1DecodePositionalCAPI_getCoefficientsRotation(M1obj);
+            return Mach1DecodePositionalCAPI_getCurrentAngle(M1obj);
+        }
+
+        public Mach1Point3D getCurrentAngleInternal()
+        {
+            return Mach1DecodePositionalCAPI_getCurrentAngleInternal(M1obj);
+        }
+
+        public Mach1Point3D getPositionalRotation()
+        {
+            return Mach1DecodePositionalCAPI_getPositionalRotation(M1obj);
         }
 
         public Mach1Point3D getClosestPointOnPlane()

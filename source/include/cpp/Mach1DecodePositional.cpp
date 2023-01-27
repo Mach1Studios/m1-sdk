@@ -273,6 +273,11 @@ Mach1Point3D Mach1DecodePositional::getCurrentAngleInternal()
 	/// intended for debug purposes only
 }
 
+Mach1Point3D Mach1DecodePositional::getPositionalRotation()
+{
+	return Mach1DecodePositionalCAPI_getPositionalRotation(M1obj);
+}
+
 void Mach1DecodePositional::setFilterSpeed(float filterSpeed)
 {
 	Mach1DecodePositionalCAPI_setFilterSpeed(M1obj, filterSpeed);

@@ -9,29 +9,101 @@ updates and should not be integrated in sections but remain as an update-able fa
 
 #include "Mach1DecodePositionalCore.h"
 
-// Angular settings functions
-void Mach1DecodePositionalCore::convertPositionToMach1(Mach1PlatformType platformType, float* X, float* Y, float* Z) {
-	switch (platformType) {
-	case Mach1PlatformUE:
-		// y z x
-		std::swap(*X, *Y);
-		std::swap(*Y, *Z);
-		break;
-
-	case Mach1PlatformUnity:
-		break;
-
-	default:
-		break;
-	}
-}
-
-void Mach1DecodePositionalCore::convertPositionToPlatform(Mach1PlatformType platformType, float* X, float* Y, float* Z)
+glm::vec3 Mach1DecodePositionalCore::QuaternionToEuler(glm::quat q)
 {
+	glm::vec3 euler;
+
+	// if the input quaternion is normalized, this is exactly one. Otherwise, this acts as a correction factor for the quaternion's not-normalizedness
+	float unit = (q.x * q.x) + (q.y * q.y) + (q.z * q.z) + (q.w * q.w);
+
+	// this will have a magnitude of 0.5 or greater if and only if this is a singularity case
+	float test = q.x * q.w - q.y * q.z;
+
+	if (test > 0.499999f * unit) // singularity at north pole
+	{
+		euler.y = -PI_F / 2;
+		euler.x = -2.0f * atan2(q.y, q.x);
+		euler.z = 0;
+	}
+	else if (test < -0.499999f * unit) // singularity at south pole
+	{
+		euler.y = PI_F / 2;
+		euler.x = 2.0f * atan2(q.y, q.x);
+		euler.z = 0;
+	}
+	else // no singularity - this is the majority of cases
+	{
+		euler.y = -asin(2.0f * (q.w * q.x - q.y * q.z));
+		euler.x = atan2(2.0f * q.w * q.y + 2.0f * q.z * q.x, 1 - 2.0f * (q.x * q.x + q.y * q.y));
+		euler.z = atan2(2.0f * q.w * q.z + 2.0f * q.x * q.y, 1 - 2.0f * (q.z * q.z + q.x * q.x));
+	}
+
+	// ensure the degree values are between 0 and 2*PI
+	euler.x = fmod(euler.x, 2 * PI_F);
+	euler.y = fmod(euler.y, 2 * PI_F);
+	euler.z = fmod(euler.z, 2 * PI_F);
+
+	return euler;
+}
+
+glm::quat Mach1DecodePositionalCore::EulerToQuaternion(glm::vec3 euler)
+{
+	float xOver2 = -euler.y * 0.5f;
+	float yOver2 = euler.x * 0.5f;
+	float zOver2 = euler.z * 0.5f;
+
+	float sinXOver2 = sin(xOver2);
+	float cosXOver2 = cos(xOver2);
+	float sinYOver2 = sin(yOver2);
+	float cosYOver2 = cos(yOver2);
+	float sinZOver2 = sin(zOver2);
+	float cosZOver2 = cos(zOver2);
+
+	glm::quat result;
+	result.x = cosYOver2 * sinXOver2 * cosZOver2 + sinYOver2 * cosXOver2 * sinZOver2;
+	result.y = sinYOver2 * cosXOver2 * cosZOver2 - cosYOver2 * sinXOver2 * sinZOver2;
+	result.z = cosYOver2 * cosXOver2 * sinZOver2 - sinYOver2 * sinXOver2 * cosZOver2;
+	result.w = cosYOver2 * cosXOver2 * cosZOver2 + sinYOver2 * sinXOver2 * sinZOver2;
+
+	return result;
+}
+
+// Position settings functions
+void Mach1DecodePositionalCore::ConvertPositionToMach1(Mach1PlatformType platformType, float* X, float* Y, float* Z) {
+	float _X = 0, _Y = 0, _Z = 0;
+
 	switch (platformType) {
 	case Mach1PlatformUE:
-		std::swap(*Y, *Z);
-		std::swap(*X, *Y);
+		// Z X Y -> X Y Z
+		_Z = *X;
+		_X = *Y;
+		_Y = *Z;
+		*X = _X;
+		*Y = _Y;
+		*Z = _Z;
+		break;
+
+	case Mach1PlatformUnity:
+		break;
+
+	default:
+		break;
+	}
+}
+
+void Mach1DecodePositionalCore::ConvertPositionToPlatform(Mach1PlatformType platformType, float* X, float* Y, float* Z)
+{
+	float _X = 0, _Y = 0, _Z = 0;
+
+	switch (platformType) {
+	case Mach1PlatformUE:
+		// X Y Z -> Z X Y
+		_X = *X;
+		_Y = *Y;
+		_Z = *Z;
+		*X = _Z;
+		*Y = _X;
+		*Z = _Y;
 		break;
 	case Mach1PlatformUnity:
 		break;
@@ -41,7 +113,7 @@ void Mach1DecodePositionalCore::convertPositionToPlatform(Mach1PlatformType plat
 	}
 }
 
-float Mach1DecodePositionalCore::ClosestPointOnBox(glm::vec3 point, glm::vec3 center, glm::vec3 axis0, glm::vec3 axis1, glm::vec3 axis2, glm::vec3 extents, glm::vec3 & closestPoint)
+float Mach1DecodePositionalCore::ClosestPointOnBox(glm::vec3 point, glm::vec3 center, glm::vec3 axis0, glm::vec3 axis1, glm::vec3 axis2, glm::vec3 extents, glm::vec3& closestPoint)
 {
 	glm::vec3 vector = point - center;
 	float num = 0.0f;
@@ -86,7 +158,7 @@ float Mach1DecodePositionalCore::ClosestPointOnBox(glm::vec3 point, glm::vec3 ce
 	return sqrt(num);
 }
 
-bool Mach1DecodePositionalCore::Clip(float denom, float numer, float & t0, float & t1)
+bool Mach1DecodePositionalCore::Clip(float denom, float numer, float& t0, float& t1)
 {
 	if ((double)denom > 0.0)
 	{
@@ -105,7 +177,7 @@ bool Mach1DecodePositionalCore::Clip(float denom, float numer, float & t0, float
 	return true;
 }
 
-int Mach1DecodePositionalCore::DoClipping(float t0, float t1, glm::vec3 origin, glm::vec3 direction, glm::vec3 center, glm::vec3 axis0, glm::vec3 axis1, glm::vec3 axis2, glm::vec3 extents, bool solid, glm::vec3 & point0, glm::vec3 & point1)
+int Mach1DecodePositionalCore::DoClipping(float t0, float t1, glm::vec3 origin, glm::vec3 direction, glm::vec3 center, glm::vec3 axis0, glm::vec3 axis1, glm::vec3 axis2, glm::vec3 extents, bool solid, glm::vec3& point0, glm::vec3& point1)
 {
 	glm::vec3 vector = origin - center;
 	glm::vec3 vector2 = glm::vec3(glm::dot(vector, axis0), glm::dot(vector, axis1), glm::dot(vector, axis2));
@@ -143,36 +215,6 @@ int Mach1DecodePositionalCore::DoClipping(float t0, float t1, glm::vec3 origin, 
 	return quantity;
 }
 
-glm::vec3 Mach1DecodePositionalCore::GetEuler(glm::quat q1)
-{
-	float test = q1.x * q1.y + q1.z * q1.w;
-	if (test > 0.499) // singularity at north pole
-	{
-		return glm::vec3(
-			0,
-			2 * atan2(q1.x, q1.w),
-			PI / 2
-		) * RAD_TO_DEG_F;
-	}
-	if (test < -0.499) // singularity at south pole
-	{
-		return glm::vec3(
-			0,
-			-2 * atan2(q1.x, q1.w),
-			-PI / 2
-		) * RAD_TO_DEG_F;
-	}
-	float sqx = q1.x * q1.x;
-	float sqy = q1.y * q1.y;
-	float sqz = q1.z * q1.z;
-
-	return glm::vec3(
-		atan2(2.0f * q1.x * q1.w - 2 * q1.y * q1.z, 1.0f - 2.0f * sqx - 2.0f * sqz),
-		atan2(2.0f * q1.y * q1.w - 2 * q1.x * q1.z, 1.0f - 2.0f * sqy - 2.0f * sqz),
-		sin(2.0f * test)
-	) * RAD_TO_DEG_F;
-}
-
 glm::vec3 Mach1DecodePositionalCore::GetRightVector()
 {
 	return glm::vec3(1, 0, 0);
@@ -196,7 +238,7 @@ Mach1DecodePositionalCore::Mach1DecodePositionalCore()
 	ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 	timeLastCalculation = 0;
 
-    setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial_8);
+	setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial_8);
 }
 
 void Mach1DecodePositionalCore::setDecodeAlgoType(Mach1DecodeAlgoType type)
@@ -266,42 +308,38 @@ void Mach1DecodePositionalCore::setUseRollForRotation(bool useRollForRotation)
 	this->useRollForRotation = useRollForRotation;
 }
 
-void Mach1DecodePositionalCore::setListenerPosition(Mach1Point3DCore * pos) {
-	convertPositionToMach1(platformType, &pos->x, &pos->y, &pos->z);
+void Mach1DecodePositionalCore::setListenerPosition(Mach1Point3DCore* pos) {
+	ConvertPositionToMach1(platformType, &pos->x, &pos->y, &pos->z);
 	cameraPosition = glm::vec3(pos->x, pos->y, pos->z);
 }
 
-void Mach1DecodePositionalCore::setListenerRotation(Mach1Point3DCore * euler) {
+void Mach1DecodePositionalCore::setListenerRotation(Mach1Point3DCore* euler) {
 	Mach1Point3DCore angle(euler->x, euler->y, euler->z);
 	Mach1DecodeCore::convertAnglesToMach1(platformType, &angle.x, &angle.y, &angle.z);
-	cameraRotation = glm::quat(glm::vec3(angle.y * DEG_TO_RAD_F, angle.x * DEG_TO_RAD_F, angle.z * DEG_TO_RAD_F));  // swap p & y from glm
+	cameraRotation = EulerToQuaternion(glm::vec3(angle.x, angle.y, angle.z) * DEG_TO_RAD_F);
 }
 
-void Mach1DecodePositionalCore::setListenerRotationQuat(Mach1Point4DCore * quat)
+void Mach1DecodePositionalCore::setListenerRotationQuat(Mach1Point4DCore* quat)
 {
-	glm::vec3 angle = GetEuler(glm::quat(quat->w, quat->x, quat->y, quat->z));
-	Mach1DecodeCore::convertAnglesToMach1(platformType, &angle.x, &angle.y, &angle.z);
-	cameraRotation = glm::quat(glm::vec3(angle.y * DEG_TO_RAD_F, angle.x * DEG_TO_RAD_F, angle.z * DEG_TO_RAD_F));  // swap p & y from glm
+	cameraRotation = glm::quat(quat->w, quat->x, quat->y, quat->z);
 }
 
-void Mach1DecodePositionalCore::setDecoderAlgoPosition(Mach1Point3DCore * pos) {
-	convertPositionToMach1(platformType, &pos->x, &pos->y, &pos->z);
+void Mach1DecodePositionalCore::setDecoderAlgoPosition(Mach1Point3DCore* pos) {
+	ConvertPositionToMach1(platformType, &pos->x, &pos->y, &pos->z);
 	soundPosition = glm::vec3(pos->x, pos->y, pos->z);
 }
 
-void Mach1DecodePositionalCore::setDecoderAlgoRotation(Mach1Point3DCore * euler) {
+void Mach1DecodePositionalCore::setDecoderAlgoRotation(Mach1Point3DCore* euler) {
 	Mach1Point3DCore angle(euler->x, euler->y, euler->z);
 	Mach1DecodeCore::convertAnglesToMach1(platformType, &angle.x, &angle.y, &angle.z);
-	soundRotation = glm::quat(glm::vec3(angle.y * DEG_TO_RAD_F, angle.x * DEG_TO_RAD_F, angle.z * DEG_TO_RAD_F)); // swap p & y from glm
+	soundRotation = EulerToQuaternion(glm::vec3(angle.x, angle.y, angle.z) * DEG_TO_RAD_F);
 }
 
-void Mach1DecodePositionalCore::setDecoderAlgoRotationQuat(Mach1Point4DCore * quat) {
-	glm::vec3 angle = GetEuler(glm::quat(quat->w, quat->x, quat->y, quat->z));
-	Mach1DecodeCore::convertAnglesToMach1(platformType, &angle.x, &angle.y, &angle.z);
-	soundRotation = glm::quat(glm::vec3(angle.y * DEG_TO_RAD_F, angle.x * DEG_TO_RAD_F, angle.z * DEG_TO_RAD_F)); // swap p & y from glm
+void Mach1DecodePositionalCore::setDecoderAlgoRotationQuat(Mach1Point4DCore* quat) {
+	soundRotation = glm::quat(quat->w, quat->x, quat->y, quat->z);
 }
 
-void Mach1DecodePositionalCore::setDecoderAlgoScale(Mach1Point3DCore * scale) {
+void Mach1DecodePositionalCore::setDecoderAlgoScale(Mach1Point3DCore* scale) {
 	soundScale = glm::vec3(scale->x, scale->y, scale->z);
 }
 
@@ -318,7 +356,6 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
 
 	glm::vec3 outsideClosestPoint;
 	//glm::vec3 insidePoint0, insidePoint1;
-
 
 	if (ignoreTopBottom && useBlendMode)
 	{
@@ -389,6 +426,21 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
 
 	closestPointOnPlane = point;
 
+	// mini test
+	/*
+	{
+		glm::quat quat = EulerToQuaternion(glm::vec3(12, -10, 25) * DEG_TO_RAD_F);
+		glm::vec3 quatEulerAngles = QuaternionToEuler(quat) * RAD_TO_DEG_F;
+		glm::quat quat2 = EulerToQuaternion(quatEulerAngles * DEG_TO_RAD_F);
+
+		glm::quat myquaternion = glm::quat(glm::vec3(12, -10, 25) * DEG_TO_RAD_F);
+		glm::vec3 quatEulerAngles2 = glm::eulerAngles(myquaternion) * RAD_TO_DEG_F;
+		glm::quat myquaternion2 = glm::quat(quatEulerAngles2 * DEG_TO_RAD_F);
+
+		quatEulerAngles.x = quatEulerAngles.x;
+	}	
+	//*/
+
 	glm::vec3 dir = point - cameraPosition;
 
 	if (glm::length(dir) > 0)
@@ -397,32 +449,32 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
 		// http://www.aclockworkberry.com/world-coordinate-systems-in-3ds-max-unity-and-unreal-engine/
 		glm::quat quat;
 		quat = glm::quatLookAtLH(glm::normalize(dir), GetUpVector());
-		quat = glm::inverse(quat);
-		quat = quat * soundRotation;
+		quat *= glm::inverse(soundRotation);
 
-		glm::vec3 quatEulerAngles = GetEuler(quat)* DEG_TO_RAD_F;
+		glm::vec3 quatEulerAngles = QuaternionToEuler(glm::normalize(quat));
 
-		// glm (pitch, yaw, roll)
-		bool useXForRotation = usePitchForRotation;
-		bool useYForRotation = useYawForRotation;
+		bool useXForRotation = useYawForRotation;
+		bool useYForRotation = usePitchForRotation;
 		bool useZForRotation = useRollForRotation;
+
+		quat = EulerToQuaternion(glm::vec3(useXForRotation ? quatEulerAngles.x : 0, useYForRotation ? quatEulerAngles.y : 0, useZForRotation ? quatEulerAngles.z : 0));
+		eulerAnglesCube = QuaternionToEuler(glm::normalize(quat)) * RAD_TO_DEG_F;
+
+		quat *= glm::inverse(cameraRotation);
+
+		quat = glm::inverse(quat); // the last inversion, because it is not a rotation of the cube, but a pointer in the opposite direction
+
+		eulerAngles = QuaternionToEuler(glm::normalize(quat)) * RAD_TO_DEG_F;
 		
-		quat = glm::quat(glm::vec3(useXForRotation ? quatEulerAngles.x : 0, useYForRotation ? quatEulerAngles.y : 0, useZForRotation ? quatEulerAngles.z : 0));
-		quat *= cameraRotation;
-
-		glm::vec3 angles = GetEuler(quat);
-		std::swap(angles.x, angles.y); // swap p & y from glm
-		eulerAngles = angles;
-
 		// SoundAlgorithm
 		mach1Decode.setRotationDegrees(Mach1Point3DCore{ eulerAngles.x, eulerAngles.y, eulerAngles.z });
 		volumes = mach1Decode.decodeCoeffs();
 	}
-	else 
+	else
 	{
 		// Fixed zero distance
 		eulerAngles = glm::vec3(0, 0, 0);
-		
+
 		for (int i = 0; i < volumes.size(); i++)
 		{
 			volumes[i] = 0;
@@ -437,7 +489,7 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
 	timeLastCalculation = getCurrentTime() - tStart;
 }
 
-void Mach1DecodePositionalCore::getCoefficients(float *result)
+void Mach1DecodePositionalCore::getCoefficients(float* result)
 {
 	for (int i = 0; i < volumes.size(); i++)
 	{
@@ -445,7 +497,7 @@ void Mach1DecodePositionalCore::getCoefficients(float *result)
 	}
 }
 
-void Mach1DecodePositionalCore::getCoefficientsInterior(float *result)
+void Mach1DecodePositionalCore::getCoefficientsInterior(float* result)
 {
 	for (int i = 0; i < volumes.size(); i++)
 	{
@@ -465,11 +517,18 @@ Mach1Point3DCore Mach1DecodePositionalCore::getCurrentAngleInternal()
 	return Mach1Point3DCore{ eulerAngles.x , eulerAngles.y, eulerAngles.z };
 }
 
+Mach1Point3DCore Mach1DecodePositionalCore::getPositionalRotation()
+{
+	glm::vec3 angle = eulerAnglesCube;
+	Mach1DecodeCore::convertAnglesToPlatform(platformType, &angle.x, &angle.y, &angle.z);
+	return Mach1Point3DCore{ angle.x , angle.y, angle.z };
+}
+
 Mach1Point3DCore Mach1DecodePositionalCore::getClosestPointOnPlane()
 {
 	glm::vec3 p = closestPointOnPlane;
-	convertPositionToPlatform(platformType, &p.x, &p.y, &p.z);
-	return Mach1Point3DCore{ p.x, p.y, p.z  };
+	ConvertPositionToPlatform(platformType, &p.x, &p.y, &p.z);
+	return Mach1Point3DCore{ p.x, p.y, p.z };
 }
 
 float Mach1DecodePositionalCore::getDist()
@@ -486,7 +545,7 @@ int test()
 {
 	Mach1DecodePositionalCore m1Positional;
 
-    m1Positional.setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial_8);
+	m1Positional.setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial_8);
 	Mach1PlatformType platfrom = Mach1PlatformType::Mach1PlatformUE; // Mach1PlatformUnity Mach1PlatformUE
 
 	m1Positional.setPlatformType(platfrom);
@@ -511,10 +570,10 @@ int test()
 		m1Positional.setListenerPosition(&lpos); //ConvertToMach1Point3D(PlayerPosition));
 		m1Positional.setListenerRotation(&lrot);
 		m1Positional.setDecoderAlgoPosition(&dpos); //ConvertToMach1Point3D(GetActorLocation()));
-		m1Positional.setDecoderAlgoRotation(&drot); //ConvertToMach1Point3D(GetEuler(GetActorRotation().Quaternion())));
+		m1Positional.setDecoderAlgoRotation(&drot); //ConvertToMach1Point3D(GetEuler(GetActorRotation().glm::quat())));
 		m1Positional.setDecoderAlgoScale(&dscl);
 	}
-	else if(platfrom == Mach1PlatformType::Mach1PlatformUE)
+	else if (platfrom == Mach1PlatformType::Mach1PlatformUE)
 	{
 		Mach1Point3DCore lpos = { 0.3036554, 0.3616396, -1.546355 }; // camera
 		Mach1Point3DCore lrot = { 347.5, 314.25,  0.0 };
@@ -530,8 +589,8 @@ int test()
 
 		m1Positional.setListenerPosition(&_lpos);
 		m1Positional.setListenerRotation(&_lrot);
-		m1Positional.setDecoderAlgoPosition(&_dpos); 
-		m1Positional.setDecoderAlgoRotation(&_drot); 
+		m1Positional.setDecoderAlgoPosition(&_dpos);
+		m1Positional.setDecoderAlgoRotation(&_drot);
 		m1Positional.setDecoderAlgoScale(&_dscl);
 	}
 

@@ -123,21 +123,13 @@ float Mach1DecodeCore::targetDirectionMultiplier(float angleCurrent, float angle
 
 // Envelope follower feature is defined here, in updateAngles()
 void Mach1DecodeCore::updateAngles() {
-	if (targetYaw < 0) targetYaw += 360;
-	if (targetPitch < 0) targetPitch += 360;
-	if (targetRoll < 0) targetRoll += 360;
+	targetYaw = fmod(targetYaw, 360);
+	targetPitch = fmod(targetPitch, 360);
+	targetRoll = fmod(targetRoll, 360);
 
-	if (targetYaw > 360) targetYaw -= 360;
-	if (targetPitch > 360) targetPitch -= 360;
-	if (targetRoll > 360) targetRoll -= 360;
-
-	if (currentYaw < 0) currentYaw += 360;
-	if (currentPitch < 0) currentPitch += 360;
-	if (currentRoll < 0) currentRoll += 360;
-
-	if (currentYaw > 360) currentYaw -= 360;
-	if (currentPitch > 360) currentPitch -= 360;
-	if (currentRoll > 360) currentRoll -= 360;
+	currentYaw = fmod(currentYaw, 360);
+	currentPitch = fmod(currentPitch, 360);
+	currentRoll = fmod(currentRoll, 360);
 
 	if (filterSpeed >= 1.0f) {
 		currentYaw = targetYaw;
@@ -150,23 +142,26 @@ void Mach1DecodeCore::updateAngles() {
 		timeLastUpdate = getCurrentTime();
 
 		float distanceYaw = radialDistance(targetYaw, currentYaw);
-		if (((distanceYaw) > speedAngle) /* && (distanceYaw < 360) */) {
+		float distancePitch = radialDistance(targetPitch, currentPitch);
+		float distanceRoll = radialDistance(targetRoll, currentRoll);
+
+		float distance = distanceYaw + distancePitch + distanceRoll;
+
+		if (distanceYaw > speedAngle && distance < 360) {
 			currentYaw += speedAngle * targetDirectionMultiplier(currentYaw, targetYaw);
 		}
 		else {
 			currentYaw = targetYaw;
 		}
 
-		float distancePitch = radialDistance(targetPitch, currentPitch);
-		if (((distancePitch) > speedAngle) /* && (distancePitch < 360) */) {
+		if (distancePitch > speedAngle && distance < 360) {
 			currentPitch += speedAngle * targetDirectionMultiplier(currentPitch, targetPitch);
 		}
 		else {
 			currentPitch = targetPitch;
 		}
 
-		float distanceRoll = radialDistance(targetRoll, currentRoll);
-		if (((distanceRoll) > speedAngle) && (distanceRoll < 360)) {
+		if (distanceRoll > speedAngle && distance < 360) {
 			currentRoll += speedAngle * targetDirectionMultiplier(currentRoll, targetRoll);
 		}
 		else {
@@ -1132,20 +1127,23 @@ void Mach1DecodeCore::convertAnglesToMach1(Mach1PlatformType platformType, float
 		break;
 
 	case Mach1PlatformUnity:
-		// R Y P -> Y -P R
-		_R = *Y;
+		// P Y R -> Y -P R
+		_P = *Y;
 		_Y = *P;
-		_P = *R;
+		_R = *R;
 		*Y = _Y;
 		*P = -_P;
 		*R = _R;
 		break;
 
 	case Mach1PlatformUE:
-		*Y = -*Y;
-		std::swap(*Y, *P);
-		std::swap(*P, *R);
-		std::swap(*P, *Y);
+		// R P Y -> Y P R
+		_R = *Y;
+		_P = *P;
+		_Y = *R;
+		*Y = _Y;
+		*P = _P;
+		*R = _R;
 		break;
 
 	case Mach1PlatformOfEasyCam:
@@ -1208,20 +1206,23 @@ void Mach1DecodeCore::convertAnglesToPlatform(Mach1PlatformType platformType, fl
 		break;
 
 	 case Mach1PlatformUnity:
-		// Y -P R -> R Y P 
+		// Y -P R -> P Y R 
 		_Y = *Y;
 		_P = -*P;
 		_R = *R;
-		*Y = _R;
+		*Y = _P;
 		*P = _Y;
-		*R = _P;
+		*R = _R;
 		break;
 
 	 case Mach1PlatformUE:
-		*Y = *Y;                    // Y in UE
-		*P = (*P > 360 ? *P - 360 : *P);   // Z in UE
-		*R = *R;                    // X in UE
-		std::swap(*R, *Y);
+		// Y P R -> R P Y 
+		_Y = *Y;
+		_P = *P;
+		_R = *R;
+		*Y = _R;
+		*P = _P;
+		*R = _Y;
 		break;
 
 	 case Mach1PlatformOfEasyCam:

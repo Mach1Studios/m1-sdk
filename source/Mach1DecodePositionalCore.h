@@ -65,13 +65,15 @@ private:
 	glm::quat soundRotation;
 	glm::vec3 soundScale;
 
-	static void convertPositionToMach1(Mach1PlatformType platformType, float* X, float* Y, float* Z);
-	static void convertPositionToPlatform(Mach1PlatformType platformType, float* X, float* Y, float* Z);
+	static void ConvertPositionToMach1(Mach1PlatformType platformType, float* X, float* Y, float* Z);
+	static void ConvertPositionToPlatform(Mach1PlatformType platformType, float* X, float* Y, float* Z);
 
 	static float ClosestPointOnBox(glm::vec3 point, glm::vec3 center, glm::vec3 axis0, glm::vec3 axis1, glm::vec3 axis2, glm::vec3 extents, glm::vec3& closestPoint);
 	static bool Clip(float denom, float numer, float& t0, float& t1);
 	static int DoClipping(float t0, float t1, glm::vec3 origin, glm::vec3 direction, glm::vec3 center, glm::vec3 axis0, glm::vec3 axis1, glm::vec3 axis2, glm::vec3 extents, bool solid, glm::vec3& point0, glm::vec3& point1);
-	static glm::vec3 GetEuler(glm::quat q1);
+
+	static glm::vec3 QuaternionToEuler(glm::quat q);
+	static glm::quat EulerToQuaternion(glm::vec3 euler);
 
 	Mach1PlatformType platformType;
 	Mach1DecodeAlgoType algorithmType;
@@ -84,6 +86,7 @@ private:
 	float volumeRoom;
 	float dist;
 	glm::vec3 eulerAngles;
+	glm::vec3 eulerAnglesCube;
 
 	std::vector<float> volumes;
 
@@ -135,6 +138,7 @@ public:
 
 	Mach1Point3DCore getCurrentAngle();
 	Mach1Point3DCore getCurrentAngleInternal();
+	Mach1Point3DCore getPositionalRotation();
 
 	Mach1Point3DCore getClosestPointOnPlane();
 

@@ -140,6 +140,12 @@ Mach1Point3D Mach1DecodePositionalCAPI_getCurrentAngleInternal(void * M1obj)
 	return Mach1Point3D{ angle.x, angle.y, angle.z };
 }
 
+Mach1Point3D Mach1DecodePositionalCAPI_getPositionalRotation(void* M1obj)
+{
+	Mach1Point3DCore angle = ((Mach1DecodePositionalCore*)M1obj)->getPositionalRotation();
+	return Mach1Point3D{ angle.x, angle.y, angle.z };
+}
+
 void Mach1DecodePositionalCAPI_setFilterSpeed(void * M1obj, float filterSpeed)
 {
 	((Mach1DecodePositionalCore*)M1obj)->setFilterSpeed(filterSpeed);

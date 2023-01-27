@@ -131,8 +131,11 @@ public:
     float filterSpeed;
 
 	// Angular settings functions
-	static void convertAnglesToMach1(Mach1PlatformType platformType, float* Y, float* P, float* R);
-	static void convertAnglesToPlatform(Mach1PlatformType platformType, float* Y, float* P, float* R);
+    static void convertAnglesToMach1(Mach1PlatformType platformType, float* Y, float* P, float* R);
+    static void convertAnglesToPlatform(Mach1PlatformType platformType, float* Y, float* P, float* R);
+
+    //static void convertQuaternionToMach1(Mach1PlatformType platformType, float* X, float* Y, float* Z, float* W);
+    //static void convertQuaternionToPlatform(Mach1PlatformType platformType, float* Y, float* P, float* R);
 
 	Mach1Point3DCore getCurrentAngle();
 

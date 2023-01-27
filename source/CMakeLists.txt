@@ -74,7 +74,7 @@ set(Mach1SpatialLibraries_VERSION ${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1
 # SET API VERSIONS
 set(ENCODE_VERSION "3.0.0.0")
 set(DECODE_VERSION "3.0.1.0")
-set(DECODEPOSITIONAL_VERSION "3.0.0.0")
+set(DECODEPOSITIONAL_VERSION "3.0.1.0")
 set(TRANSCODE_VERSION "3.0.0.0")
 
 #----------------

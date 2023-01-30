@@ -266,11 +266,16 @@ Mach1Point3D Mach1DecodePositional::getCurrentAngle()
 	/// Return the current orientation angle of the m1obj
 }
 
-Mach1Point3D Mach1DecodePositional::getCoefficientsRotation()
+Mach1Point3D Mach1DecodePositional::getCurrentAngleInternal()
 {
-	return Mach1DecodePositionalCAPI_getCoefficientsRotation(M1obj);
-	/// Return the current pivot rotation due to the m1obj comparison to the
-	/// device/camera
+	return Mach1DecodePositionalCAPI_getCurrentAngleInternal(M1obj);
+	/// Returns the current angle before any platform corrections have been made
+	/// intended for debug purposes only
+}
+
+Mach1Point3D Mach1DecodePositional::getPositionalRotation()
+{
+	return Mach1DecodePositionalCAPI_getPositionalRotation(M1obj);
 }
 
 void Mach1DecodePositional::setFilterSpeed(float filterSpeed)

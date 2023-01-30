@@ -60,7 +60,8 @@ extern "C" {
 	M1_API void Mach1DecodePositionalCAPI_getCoefficients(void * M1obj, float* result);
 	M1_API float Mach1DecodePositionalCAPI_getDist(void* M1obj);
 	M1_API struct Mach1Point3D Mach1DecodePositionalCAPI_getCurrentAngle(void* M1obj);
-	M1_API struct Mach1Point3D Mach1DecodePositionalCAPI_getCoefficientsRotation(void* M1obj);
+	M1_API struct Mach1Point3D Mach1DecodePositionalCAPI_getCurrentAngleInternal(void* M1obj);
+	M1_API struct Mach1Point3D Mach1DecodePositionalCAPI_getPositionalRotation(void* M1obj);
 	M1_API void Mach1DecodePositionalCAPI_setFilterSpeed(void* M1obj, float filterSpeed);
 
 	M1_API struct Mach1Point3D Mach1DecodePositionalCAPI_getClosestPointOnPlane(void* M1obj);

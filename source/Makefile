@@ -1,8 +1,5 @@
 # Mach1 Spatial SDK
 
-# local paths are in this file
-include ~/m1-globallocal.mk
-
 # getting OS type
 ifeq ($(OS),Windows_NT)
 	detected_OS := Windows
@@ -20,7 +17,7 @@ clear:
 	rm -rf _install
 	rm -rf _builds
 
-test: clear
+test: FORCE clear
 ifeq ($(detected_OS),Darwin)
 	cd tests && ./_build_on_osx_for_osx.sh
 else ifeq ($(detected_OS),Windows)
@@ -29,7 +26,7 @@ else
 	cd tests && ./_build_on_linux_for_linux.sh
 endif
 
-test-linking:
+test-linking: FORCE
 ifeq ($(detected_OS),Darwin)
 	mkdir -p builds
 	g++ -o builds/spatial-decode-example ../examples/mach1spatial-c/commandline/spatial-decode-example/src/main.cpp ../mach1spatial-libs/xcode/include/Mach1Decode.cpp -I../mach1spatial-libs/xcode/include -L../mach1spatial-libs/xcode/lib -lstdc++ -lpthread -lMach1DecodeCAPI
@@ -50,14 +47,14 @@ else
 	g++ -o builds/spatial-transcode-example ../examples/mach1spatial-c/commandline/spatial-transcode-example/src/main.cpp ../mach1spatial-libs/linux/include/Mach1Transcode.cpp -I../mach1spatial-libs/linux/include -L../mach1spatial-libs/linux/lib -lstdc++ -lMach1TranscodeCAPI
 endif
 
-build-all: clear test copy-public includes-dev includes-release build build-web-release build-android build-rpi build-cortexm0 deploy-dev deploy-release
+build-all: FORCE clear test copy-public includes-dev includes-release build build-web-release build-android build-rpi build-cortexm0 deploy-dev deploy-release
 	echo "REMINDER: Build FAT iOS lib first!"
 
-build-ci-mac: clear test includes-dev includes-release build build-web-release deploy-dev deploy-release
+build-ci-mac: FORCE clear test includes-dev includes-release build build-web-release deploy-dev deploy-release
 
-build-ci-linux: clear test includes-dev includes-release build deploy-dev deploy-release
+build-ci-linux: FORCE clear test includes-dev includes-release build deploy-dev deploy-release
 
-build-ci-win: clear test includes-dev includes-release build deploy-dev deploy-release
+build-ci-win: FORCE clear test includes-dev includes-release build deploy-dev deploy-release
 
 build: FORCE
 ifeq ($(detected_OS),Darwin)
@@ -89,16 +86,16 @@ else
 	cmake --build _builds/gcc --config Debug --target install
 endif
 
-copy-public:
+copy-public: FORCE
 	rsync -c ../public/* $(M1SDK_RELEASE_PATH)
 
-includes-dev: 
+includes-dev: FORCE
 	./scripts/copy_includes_dev.sh
 
-includes-release: 
+includes-release: FORCE
 	./scripts/copy_includes_release.sh
 
-build-mac-10-13:
+build-mac-10-13: FORCE
 	./scripts/macos-10-13_build.sh
 
 build-ios: FORCE
@@ -117,10 +114,10 @@ build-ios-dev: FORCE
 	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/Frameworks/libMach1TranscodeCAPI.framework" "../mach1spatial-libs/ios/Frameworks/libMach1TranscodeCAPI.framework"
 	rsync -c include/swift/* ../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Classes
 
-build-rpi:
+build-rpi: FORCE
 	./scripts/rpi_build.sh
 
-build-beaglebone:
+build-beaglebone: FORCE
 	echo "[NOTE] Ensure to change polly toolchain to use c++14 instead of default c++11"
 ifeq ($(detected_OS),Linux)
 	cmake . -B_builds/gcc -DCMAKE_INSTALL_PREFIX=`pwd`/_install/gcc
@@ -139,19 +136,19 @@ else
 	rsync -c "_install/linux-gcc-armhf/lib/libMach1Decode-minifiedCAPI.a" "../mach1spatial-libs/arm-chipsets/beaglebone/lib/libMach1Decode-minifiedCAPI.a"
 endif
 
-build-cortexm0:
+build-cortexm0: FORCE
 	./scripts/arm-cortexm0_build.sh
 
-build-armhfneonvfpv4:
+build-armhfneonvfpv4: FORCE
 	./scripts/arm-hf-neon-vfpv4_build.sh
 
-build-web-debug:
+build-web-debug: FORCE
 	source $(EMSDK_PATH)/emsdk_env.sh && emcc -O0 --closure 0 -s MODULARIZE=1 -gseparate-dwarf="include/js/Mach1Decode.debug.wasm" -lembind -std=c++11 -s "EXPORT_NAME='Mach1DecodeModule'" --pre-js Mach1DecodeEmscripten.js -o include/js/Mach1Decode.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodeEmscripten.cpp
 	source $(EMSDK_PATH)/emsdk_env.sh && emcc -O0 --closure 0 -s MODULARIZE=1 -gseparate-dwarf="include/js/Mach1DecodePositional.debug.wasm" -lembind -std=c++11 -s "EXPORT_NAME='Mach1DecodePositionalModule'" -Ideps/ --pre-js Mach1DecodePositionalEmscripten.js -o include/js/Mach1DecodePositional.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodePositionalCore.cpp Mach1DecodePositionalCAPI.cpp Mach1DecodePositionalEmscripten.cpp
 	source $(EMSDK_PATH)/emsdk_env.sh && emcc -O0 --closure 0 -s MODULARIZE=1 -gseparate-dwarf="include/js/Mach1Encode.debug.wasm" -lembind -std=c++11 -s "EXPORT_NAME='Mach1EncodeModule'" --pre-js Mach1EncodeEmscripten.js -o include/js/Mach1Encode.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1EncodeCore.cpp Mach1EncodeCAPI.cpp Mach1EncodeEmscripten.cpp
 	source $(EMSDK_PATH)/emsdk_env.sh && emcc -O0 --closure 0 -s MODULARIZE=1 -gseparate-dwarf="include/js/Mach1Transcode.debug.wasm" -lembind -std=c++11 -s "EXPORT_NAME='Mach1TranscodeModule'" --pre-js Mach1TranscodeEmscripten.js -o include/js/Mach1Transcode.js -Iinclude -I../public -Ideps Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1TranscodeCore.cpp Mach1TranscodeCAPI.cpp Mach1TranscodeEmscripten.cpp Mach1EncodeCore.cpp Mach1GenerateCoeffs.cpp deps/M1DSP/M1DSPUtilities.cpp deps/M1DSP/M1DSPFilters.cpp
 
-build-web-release:
+build-web-release: FORCE
 	source $(EMSDK_PATH)/emsdk_env.sh && emcc -O3 --minify 0 --closure 0 -s MODULARIZE=1 --bind -s "EXPORT_NAME='Mach1DecodeModule'" -s ALLOW_TABLE_GROWTH=1 --pre-js Mach1DecodeEmscripten.js -o include/js/Mach1Decode.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodeEmscripten.cpp
 	source $(EMSDK_PATH)/emsdk_env.sh && emcc -O3 --minify 0 --closure 0 -s MODULARIZE=1 --bind -s "EXPORT_NAME='Mach1DecodePositionalModule'" -s ALLOW_TABLE_GROWTH=1 -Ideps/ --pre-js Mach1DecodePositionalEmscripten.js -o include/js/Mach1DecodePositional.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodePositionalCore.cpp Mach1DecodePositionalCAPI.cpp Mach1DecodePositionalEmscripten.cpp
 	source $(EMSDK_PATH)/emsdk_env.sh && emcc -O3 --minify 0 --closure 0 -s MODULARIZE=1 --bind -s "EXPORT_NAME='Mach1EncodeModule'" -s ALLOW_TABLE_GROWTH=1 --pre-js Mach1EncodeEmscripten.js -o include/js/Mach1Encode.js Mach1Point3DCore.cpp Mach1Point4DCore.cpp Mach1EncodeCore.cpp Mach1EncodeCAPI.cpp Mach1EncodeEmscripten.cpp
@@ -174,17 +171,17 @@ build-web-release:
 	# OFXMACH1
 	rsync -c ../mach1spatial-libs/web/* ../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/emscripten/
 
-build-android:
+build-android: FORCE
 	./scripts/android_build.sh
 
 build-linux: FORCE
 	./scripts/linux_build.sh
 
-deploy-release: deploy-dev
+deploy-release: FORCE deploy-dev
 	./scripts/copy_includes_release.sh
 	./scripts/copy_to_examples_release.sh
 
-deploy-dev:
+deploy-dev: FORCE
 	./scripts/copy_includes_dev.sh
 	./scripts/copy_to_examples.sh
 	# copy over mac libs
@@ -194,7 +191,7 @@ deploy-dev:
 	echo "### DELETE all lib-shared dirs \###"
 	cd ../mach1spatial-libs && find . -type d -name 'lib-shared' -print0 | xargs -0 rm -rf
 
-deploy-shared-dev: deploy-dev
+deploy-shared-dev: FORCE deploy-dev
 	echo "### Copying libs for Unity \###"
 	rsync -c "../mach1spatial-libs/xcode/libBundle/libMach1DecodeCAPI.bundle" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1DecodeCAPI.bundle"
 	rsync -c "../mach1spatial-libs/xcode/libBundle/libMach1EncodeCAPI.bundle" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1EncodeCAPI.bundle"
@@ -240,3 +237,5 @@ deploy-shared-dev: deploy-dev
 
 # place anything you need all commands to run here
 FORCE:
+	# local paths are in this file
+	source ~/m1-globallocal.sh

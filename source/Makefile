@@ -1,5 +1,8 @@
 # Mach1 Spatial SDK
 
+# Make sure you fill all the variables and paths
+include ./Makefile.variables
+
 # getting OS type
 ifeq ($(OS),Windows_NT)
 	detected_OS := Windows

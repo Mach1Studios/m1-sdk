@@ -240,5 +240,3 @@ deploy-shared-dev: FORCE deploy-dev
 
 # place anything you need all commands to run here
 FORCE:
-	# local paths are in this file
-	source ~/m1-globallocal.sh

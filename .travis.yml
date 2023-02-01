@@ -394,7 +394,7 @@ jobs:
       script:
         # WINDOWS BUILDS
         - cd ${TRAVIS_BUILD_DIR}/source
-        - ./scripts/win_build.sh
+        - ./scripts/win_build.sh -u
 
 # ---------------------------------
 #

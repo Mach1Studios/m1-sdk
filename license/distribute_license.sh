@@ -27,9 +27,9 @@ cp Mach1SpatialSDK-RoyaltyFreeLicense.pdf ../examples/mach1spatial-c/Unity/DSPGr
 cp -r attribution ../examples/mach1spatial-c/Unity/DSPGraph/Assets/Mach1/license/
 cp LICENSE.txt ../examples/mach1spatial-c/Unity/DSPGraph/Assets/Mach1/Plugins/LICENSE.txt
 
-cp LICENSE.txt ../examples/mach1spatial-c/Unreal\ Engine/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/Resources/license/LICENSE.txt
-cp Mach1SpatialSDK-RoyaltyFreeLicense.pdf ../examples/mach1spatial-c/Unreal\ Engine/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/Resources/license/Mach1SpatialSDK-RoyaltyFreeLicense.pdf
-cp -r attribution ../examples/mach1spatial-c/Unreal\ Engine/Mach1DecodePlugin/SourcePlugin/Mach1DecodePlugin/Resources/license/
+cp LICENSE.txt ../examples/mach1spatial-c/Unreal\ Engine/Mach1DecodePlugin/Resources/license/LICENSE.txt
+cp Mach1SpatialSDK-RoyaltyFreeLicense.pdf ../examples/mach1spatial-c/Unreal\ Engine/Mach1DecodePlugin/Resources/license/Mach1SpatialSDK-RoyaltyFreeLicense.pdf
+cp -r attribution ../examples/mach1spatial-c/Unreal\ Engine/Mach1DecodePlugin/Resources/license/
 
 cp LICENSE.txt ../examples/mach1spatial-web/js/LICENSE.txt
 cp LICENSE.txt ../examples/mach1spatial-web/m1-web-spatialaudioplayer/js/LICENSE.txt

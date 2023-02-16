@@ -25,10 +25,6 @@
     #endif
 #endif
 
-
-#ifndef Mach1DecodeCAPI_h
-#define Mach1DecodeCAPI_h
-
 enum Mach1PlatformType {
 	Mach1PlatformDefault = (int) 0,
 	Mach1PlatformUnity,
@@ -92,5 +88,3 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
-
-#endif 

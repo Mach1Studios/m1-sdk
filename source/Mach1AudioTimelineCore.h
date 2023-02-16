@@ -6,9 +6,6 @@
 
 #pragma once
 
-#ifndef Mach1AudioTimelineCore_h
-#define Mach1AudioTimelineCore_h
-
 #include <math.h>
 #include <stddef.h>
 #include <vector>
@@ -39,5 +36,3 @@ public:
 	void parseADM(char* inXml);
 	void parseAtmos(char* inDotAtmos, char* inDotAtmosDotMetadata);
 };
-
-#endif /* Mach1AudioTimelineCore_h */

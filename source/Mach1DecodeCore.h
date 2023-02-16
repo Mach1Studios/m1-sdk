@@ -21,9 +21,6 @@ Mach1DecodeCore normalizes all input ranges to an unsigned "0 to 1" range for Ya
 
 #pragma once
 
-#ifndef Mach1DecodeCore_h
-#define Mach1DecodeCore_h
-
 #include <vector>
 
 #include "Mach1Point3DCore.h"
@@ -282,5 +279,3 @@ public:
     // ------------------------------------------------------------------
     
 };
-
-#endif /* Mach1DecodeCore_h */

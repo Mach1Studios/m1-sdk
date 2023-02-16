@@ -24,9 +24,6 @@
     #endif
 #endif
 
-#ifndef Mach1AudioTimelineCAPI_h
-#define Mach1AudioTimelineCAPI_h
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -54,5 +51,3 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
-
-#endif 

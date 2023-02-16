@@ -25,9 +25,6 @@
     #endif
 #endif
 
-#ifndef Mach1EncodeCAPI_h
-#define Mach1EncodeCAPI_h
-
 enum Mach1EncodeInputModeType {
 	Mach1EncodeInputModeMono = (int) 0, 
 	Mach1EncodeInputModeStereo, 
@@ -116,5 +113,3 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
-
-#endif 

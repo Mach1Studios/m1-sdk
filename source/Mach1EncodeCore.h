@@ -15,9 +15,6 @@ Mach1EncodeCore normalizes all input ranges to an unsigned "0 to 1" range for Az
 
 #pragma once
 
-#ifndef Mach1EncodeCore_h
-#define Mach1EncodeCore_h
-
 #include "Mach1Point3DCore.h"
 #include "Mach1DecodeCAPI.h"
 
@@ -206,5 +203,3 @@ public:
 	long getCurrentTime();
 	long getLastCalculationTime();
 };
-
-#endif /* Mach1EncodeCore_h */

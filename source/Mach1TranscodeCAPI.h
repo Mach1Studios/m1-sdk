@@ -24,10 +24,6 @@
 	#endif
 #endif
 
-
-#ifndef Mach1TranscodeCAPI_h
-#define Mach1TranscodeCAPI_h
-
 const int Mach1TranscodeMAXCHANS = 64;
 
 /* TODO: Implement process settings for object-audio format conversions
@@ -78,6 +74,4 @@ extern "C" {
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Mach1Point3DCore.h"
 
 /*

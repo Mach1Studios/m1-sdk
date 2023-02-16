@@ -6,9 +6,6 @@
 
 #pragma once
 
-#ifndef Mach1TranscodeCore_h
-#define Mach1TranscodeCore_h
-
 #include <math.h>
 #include <stddef.h>
 #include <vector>
@@ -92,5 +89,3 @@ public:
 
 	std::vector<int>& getFormatConversionPath();
 };
-
-#endif /* Mach1TranscodeCore_h */

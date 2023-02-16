@@ -3,9 +3,6 @@
 
 #pragma once
 
-#ifndef Mach1DecodePositional_h
-#define Mach1DecodePositional_h
-
 #include <vector>
 #include <cmath>
 #include <chrono>
@@ -68,5 +65,3 @@ public:
 
 	Mach1Point3D getClosestPointOnPlane();
 };
-  
-#endif /* Mach1DecodePositional_h */

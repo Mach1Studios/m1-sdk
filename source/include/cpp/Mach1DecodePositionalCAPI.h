@@ -23,9 +23,6 @@
     #endif
 #endif
 
-#ifndef Mach1PositionalCAPI_h
-#define Mach1PositionalCAPI_h
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -75,6 +72,4 @@ extern "C" {
 	M1_API void Mach1DecodePositionalCAPI_getCoefficientsInterior(void * M1obj, float* result);
 #ifdef __cplusplus
 }
-#endif
-
 #endif

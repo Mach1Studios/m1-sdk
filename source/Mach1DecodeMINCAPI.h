@@ -25,10 +25,6 @@
     #endif
 #endif
 
-
-#ifndef Mach1DecodeCAPI_h
-#define Mach1DecodeCAPI_h
-
 enum Mach1DecodeAlgoType {
 	Mach1DecodeAlgoSpatial_8 = (int) 0,
 	Mach1DecodeAlgoHorizon_4,
@@ -60,5 +56,3 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
-
-#endif 

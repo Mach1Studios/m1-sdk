@@ -6,35 +6,34 @@
 using namespace emscripten;
 
 EMSCRIPTEN_BINDINGS(Mach1Transcode) {
-	register_vector<float>("VectorFloat");
-	register_vector<std::string>("VectorString");
-	register_vector<Mach1Point3D>("VectorMach1Point3D");
-	register_vector<std::vector<float>>("VectorVectorFloat");
+    register_vector<float>("VectorFloat");
+    register_vector<std::string>("VectorString");
+    register_vector<Mach1Point3D>("VectorMach1Point3D");
+    register_vector<std::vector<float>>("VectorVectorFloat");
 
     value_object<Mach1Point3D>("Mach1Point3D")
-		.field("x", &Mach1Point3D::x)
-		.field("y", &Mach1Point3D::y)
-		.field("z", &Mach1Point3D::z)
-        ;
+        .field("x", &Mach1Point3D::x)
+        .field("y", &Mach1Point3D::y)
+        .field("z", &Mach1Point3D::z);
 
     class_<Mach1Transcode>("Mach1TranscodeInternal")
         .constructor<>()
         .function("getInputNumChannels", &Mach1Transcode::getInputNumChannels)
         .function("getOutputNumChannels", &Mach1Transcode::getOutputNumChannels)
-		.function("getFormatFromString", &Mach1Transcode::getFormatFromString)
-		.function("getFormatName", &Mach1Transcode::getFormatName)
+        .function("getFormatFromString", &Mach1Transcode::getFormatFromString)
+        .function("getFormatName", &Mach1Transcode::getFormatName)
 
-		.function("processNormalization", &Mach1Transcode::processNormalization)
-		.function("processMasterGain", &Mach1Transcode::processMasterGain)
+        .function("processNormalization", &Mach1Transcode::processNormalization)
+        .function("processMasterGain", &Mach1Transcode::processMasterGain)
 
-		.function("db2level", &Mach1Transcode::db2level)
-		.function("level2db", &Mach1Transcode::level2db)
+        .function("db2level", &Mach1Transcode::db2level)
+        .function("level2db", &Mach1Transcode::level2db)
 
-		.function("setLFESub", &Mach1Transcode::setLFESub)
+        .function("setLFESub", &Mach1Transcode::setLFESub)
         .function("setSpatialDownmixer", &Mach1Transcode::setSpatialDownmixer)
         .function("getSpatialDownmixerPossibility", &Mach1Transcode::getSpatialDownmixerPossibility)
 
-		.function("setInputFormat", &Mach1Transcode::setInputFormat)
+        .function("setInputFormat", &Mach1Transcode::setInputFormat)
         .function("setInputFormatCustomPointsJson", &Mach1Transcode::setInputFormatCustomPointsJson)
         .function("setInputFormatCustomPoints", &Mach1Transcode::setInputFormatCustomPoints)
 
@@ -46,6 +45,5 @@ EMSCRIPTEN_BINDINGS(Mach1Transcode) {
         .function("getMatrixConversion", &Mach1Transcode::getMatrixConversion)
         .function("processConversion", &Mach1Transcode::processConversion)
 
-        .function("getFormatConversionPath", &Mach1Transcode::getFormatConversionPath)
-        ;
+        .function("getFormatConversionPath", &Mach1Transcode::getFormatConversionPath);
 }

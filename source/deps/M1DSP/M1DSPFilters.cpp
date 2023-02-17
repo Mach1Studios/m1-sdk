@@ -7,7 +7,7 @@
 using namespace M1DSP::Filters;
 
 #ifndef PI
-#define PI       3.14159265358979323846
+#    define PI 3.14159265358979323846
 #endif
 
 #define BUDDA_Q_SCALE 6.f
@@ -24,45 +24,41 @@ using namespace M1DSP::Filters;
  - Make single global SetSampleRate(sr)
  */
 
-void CFilterSimpleLP::Setup(int cutoff_frequency, double resonance)
-{
-	// https://www.musicdsp.org/en/latest/Filters/38-lp-and-hp-filter.html
-	this->cutoff_frequency = cutoff_frequency;
-	this->resonance = 1.0f - resonance;
-	in1 = 0.0;
-	in2 = 0.0;
-	out1 = 0.0;
-	out2 = 0.0;
+void CFilterSimpleLP::Setup(int cutoff_frequency, double resonance) {
+    // https://www.musicdsp.org/en/latest/Filters/38-lp-and-hp-filter.html
+    this->cutoff_frequency = cutoff_frequency;
+    this->resonance = 1.0f - resonance;
+    in1 = 0.0;
+    in2 = 0.0;
+    out1 = 0.0;
+    out2 = 0.0;
 }
 
-void CFilterSimpleLP::SetSampleRate(double fs)
-{
+void CFilterSimpleLP::SetSampleRate(double fs) {
     this->sample_rate = fs;
 }
 
-double CFilterSimpleLP::Run(double in)
-{
-	double c = 1.0 / tan(PI * cutoff_frequency / sample_rate);
+double CFilterSimpleLP::Run(double in) {
+    double c = 1.0 / tan(PI * cutoff_frequency / sample_rate);
 
-	double a1 = 1.0 / (1.0 + resonance * c + c * c);
-	double a2 = 2 * a1;
-	double a3 = a1;
-	double b1 = 2.0 * (1.0 - c * c) * a1;
-	double b2 = (1.0 - resonance * c + c * c) * a1;
+    double a1 = 1.0 / (1.0 + resonance * c + c * c);
+    double a2 = 2 * a1;
+    double a3 = a1;
+    double b1 = 2.0 * (1.0 - c * c) * a1;
+    double b2 = (1.0 - resonance * c + c * c) * a1;
 
-	double out = a1 * in + a2 * in1 + a3 * in2 - b1 * out1 - b2 * out2;
+    double out = a1 * in + a2 * in1 + a3 * in2 - b1 * out1 - b2 * out2;
 
-	out2 = out1;
-	out1 = out;
+    out2 = out1;
+    out1 = out;
 
-	in2 = in1;
-	in1 = in;
+    in2 = in1;
+    in1 = in;
 
-	return out;
+    return out;
 }
 
-CFilterButterworth24db::CFilterButterworth24db()
-{
+CFilterButterworth24db::CFilterButterworth24db() {
     this->history1 = 0.f;
     this->history2 = 0.f;
     this->history3 = 0.f;
@@ -72,12 +68,10 @@ CFilterButterworth24db::CFilterButterworth24db()
     this->Setup(22050.f, 0.0);
 }
 
-CFilterButterworth24db::~CFilterButterworth24db()
-{
+CFilterButterworth24db::~CFilterButterworth24db() {
 }
 
-void CFilterButterworth24db::SetSampleRate(double fs)
-{
+void CFilterButterworth24db::SetSampleRate(double fs) {
     double pi = 4.f * atanf(1.f);
 
     this->t0 = 4.f * fs * fs;
@@ -89,16 +83,15 @@ void CFilterButterworth24db::SetSampleRate(double fs)
     this->max_cutoff = fs * 0.45f;
 }
 
-void CFilterButterworth24db::Setup(double cutoff, double q)
-{
+void CFilterButterworth24db::Setup(double cutoff, double q) {
     if (cutoff < this->min_cutoff)
         cutoff = this->min_cutoff;
-    else if(cutoff > this->max_cutoff)
+    else if (cutoff > this->max_cutoff)
         cutoff = this->max_cutoff;
 
-    if(q < 0.f)
+    if (q < 0.f)
         q = 0.f;
-    else if(q > 1.f)
+    else if (q > 1.f)
         q = 1.f;
 
     double wp = this->t2 * tanf(this->t3 * cutoff);
@@ -130,8 +123,7 @@ void CFilterButterworth24db::Setup(double cutoff, double q)
     this->coef3 = (bd_tmp - this->t2 * b1) * bd;
 }
 
-double CFilterButterworth24db::Run(double input)
-{
+double CFilterButterworth24db::Run(double input) {
     double output = input * this->gain;
     double new_hist = 0;
 
@@ -156,23 +148,22 @@ double CFilterButterworth24db::Run(double input)
     return output;
 }
 
-void CFilterLowPass::setAlpha(double alpha)
-{
-    if (alpha<=0.0 || alpha>1.0)
-        throw std::range_error("alpha should be in (0.0., 1.0]") ;
-    a = alpha ;
+void CFilterLowPass::setAlpha(double alpha) {
+    if (alpha <= 0.0 || alpha > 1.0)
+        throw std::range_error("alpha should be in (0.0., 1.0]");
+    a = alpha;
 }
 
 CFilterLowPass::CFilterLowPass(double alpha, double initval) {
-    y = s = initval ;
-    setAlpha(alpha) ;
-    initialized = false ;
+    y = s = initval;
+    setAlpha(alpha);
+    initialized = false;
 }
 
 double CFilterLowPass::Run(double input) {
     double result;
     if (initialized)
-        result = a*input + (1.0-a)*s;
+        result = a * input + (1.0 - a) * s;
     else {
         result = input;
         initialized = true;
@@ -195,8 +186,7 @@ double CFilterLowPass::lastRawValue() {
     return y;
 }
 
-void CFilterOneEuro::Setup(double mincutoff, double beta_, double dcutoff)
-{
+void CFilterOneEuro::Setup(double mincutoff, double beta_, double dcutoff) {
     // http://cristal.univ-lille.fr/~casiez/1euro/
     setMinCutoff(mincutoff);
     setBeta(beta_);
@@ -206,44 +196,44 @@ void CFilterOneEuro::Setup(double mincutoff, double beta_, double dcutoff)
 }
 
 double CFilterOneEuro::alpha(double cutoff) {
-    double te = 1.0 / freq ;
-    double tau = 1.0 / (2*PI*cutoff) ;
-    return 1.0 / (1.0 + tau/te) ;
+    double te = 1.0 / freq;
+    double tau = 1.0 / (2 * PI * cutoff);
+    return 1.0 / (1.0 + tau / te);
 }
 
 void CFilterOneEuro::setMinCutoff(double mc) {
-    if (mc<=0) throw std::range_error("mincutoff should be >0") ;
-    mincutoff = mc ;
+    if (mc <= 0)
+        throw std::range_error("mincutoff should be >0");
+    mincutoff = mc;
 }
 
 void CFilterOneEuro::setBeta(double b) {
-    beta_ = b ;
+    beta_ = b;
 }
 
 void CFilterOneEuro::setDerivateCutoff(double dc) {
-    if (dc<=0) throw std::range_error("dcutoff should be >0") ;
-    dcutoff = dc ;
+    if (dc <= 0)
+        throw std::range_error("dcutoff should be >0");
+    dcutoff = dc;
 }
 
-double CFilterOneEuro::Run(double input)
-{
+double CFilterOneEuro::Run(double input) {
     // estimate the current variation per second
-    double dvalue = x->hasLastRawValue() ? (input - x->lastRawValue())*freq : 0.0 ; // FIXME: 0.0 or value?
-    double edvalue = dx->filterWithAlpha(dvalue, alpha(dcutoff)) ;
+    double dvalue = x->hasLastRawValue() ? (input - x->lastRawValue()) * freq : 0.0; // FIXME: 0.0 or value?
+    double edvalue = dx->filterWithAlpha(dvalue, alpha(dcutoff));
     // use it to update the cutoff frequency
-    double cutoff = mincutoff + beta_*fabs(edvalue) ;
+    double cutoff = mincutoff + beta_ * fabs(edvalue);
     // filter the given value
-    return x->filterWithAlpha(input, alpha(cutoff)) ;
+    return x->filterWithAlpha(input, alpha(cutoff));
 }
 
-void CFilterOneEuro::SetSampleRate(double fs)
-{
-    if (fs<=0) throw std::range_error("freq should be >0");
+void CFilterOneEuro::SetSampleRate(double fs) {
+    if (fs <= 0)
+        throw std::range_error("freq should be >0");
     freq = fs;
 }
 
-CFilterOneEuro::~CFilterOneEuro()
-{
+CFilterOneEuro::~CFilterOneEuro() {
     delete x;
     delete dx;
 }

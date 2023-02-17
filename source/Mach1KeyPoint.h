@@ -6,6 +6,6 @@
 #include "Mach1Point3D.h"
 
 struct Mach1KeyPoint {
-	long long sample;
-	Mach1Point3D point;
+    long long sample;
+    Mach1Point3D point;
 };

@@ -15,10 +15,9 @@ EMSCRIPTEN_BINDINGS(Mach1Decode) {
         .value("Mach1PlatformiOS", Mach1PlatformiOS)
         .value("Mach1PlatformiOSTableTop_ZVertical", Mach1PlatformiOSTableTop_ZVertical)
         .value("Mach1PlatformiOSPortraitHandheld_YVertical", Mach1PlatformiOSPortraitHandheld_YVertical)
-        .value("Mach1PlatformiOSPortrait_YawOnly", Mach1PlatformiOSPortrait_YawOnly)
-        ;
-    
-	enum_<Mach1DecodeAlgoType>("Mach1DecodeAlgoType")
+        .value("Mach1PlatformiOSPortrait_YawOnly", Mach1PlatformiOSPortrait_YawOnly);
+
+    enum_<Mach1DecodeAlgoType>("Mach1DecodeAlgoType")
         .value("Mach1DecodeAlgoSpatial_8", Mach1DecodeAlgoSpatial_8)
         .value("Mach1DecodeAlgoHorizon_4", Mach1DecodeAlgoHorizon_4)
         .value("Mach1DecodeAlgoHorizonPairs", Mach1DecodeAlgoHorizonPairs)
@@ -29,23 +28,20 @@ EMSCRIPTEN_BINDINGS(Mach1Decode) {
         .value("Mach1DecodeAlgoSpatial_32", Mach1DecodeAlgoSpatial_32)
         .value("Mach1DecodeAlgoSpatial_36", Mach1DecodeAlgoSpatial_36)
         .value("Mach1DecodeAlgoSpatial_48", Mach1DecodeAlgoSpatial_48)
-        .value("Mach1DecodeAlgoSpatial_60", Mach1DecodeAlgoSpatial_60)
-        ;
+        .value("Mach1DecodeAlgoSpatial_60", Mach1DecodeAlgoSpatial_60);
 
-	register_vector<float>("VectorFloat");
+    register_vector<float>("VectorFloat");
 
     value_object<Mach1Point3D>("Mach1Point3D")
-		.field("x", &Mach1Point3D::x)
-		.field("y", &Mach1Point3D::y)
-		.field("z", &Mach1Point3D::z)
-        ;
+        .field("x", &Mach1Point3D::x)
+        .field("y", &Mach1Point3D::y)
+        .field("z", &Mach1Point3D::z);
 
     value_object<Mach1Point4D>("Mach1Point4D")
         .field("x", &Mach1Point4D::x)
         .field("y", &Mach1Point4D::y)
         .field("z", &Mach1Point4D::z)
-        .field("w", &Mach1Point4D::w)
-        ;
+        .field("w", &Mach1Point4D::w);
 
     class_<Mach1Decode>("Mach1DecodeInternal")
         .constructor<>()
@@ -63,6 +59,5 @@ EMSCRIPTEN_BINDINGS(Mach1Decode) {
         .function("endBuffer", &Mach1Decode::endBuffer)
         .function("getCurrentTime", &Mach1Decode::getCurrentTime)
         .function("getCurrentAngle", &Mach1Decode::getCurrentAngle)
-        .function("getLog", &Mach1Decode::getLog)
-        ;
+        .function("getLog", &Mach1Decode::getLog);
 }

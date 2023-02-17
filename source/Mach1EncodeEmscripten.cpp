@@ -1,7 +1,7 @@
 #include <emscripten/bind.h>
 
-#include "Mach1EncodeCAPI.h"
 #include "Mach1DecodeCAPI.h"
+#include "Mach1EncodeCAPI.h"
 #include "include/cpp/Mach1Encode.cpp"
 
 using namespace emscripten;
@@ -23,9 +23,8 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
         .value("Mach1EncodeInputModeB2OAACN", Mach1EncodeInputModeB2OAACN)
         .value("Mach1EncodeInputModeB2OAFUMA", Mach1EncodeInputModeB2OAFUMA)
         .value("Mach1EncodeInputModeB3OAACN", Mach1EncodeInputModeB3OAACN)
-        .value("Mach1EncodeInputModeB3OAFUMA", Mach1EncodeInputModeB3OAFUMA)
-        ;
-        
+        .value("Mach1EncodeInputModeB3OAFUMA", Mach1EncodeInputModeB3OAFUMA);
+
     enum_<Mach1EncodeOutputModeType>("Mach1EncodeOutputModeType")
         .value("Mach1EncodeOutputModeM1Spatial_8", Mach1EncodeOutputModeM1Spatial_8)
         .value("Mach1EncodeOutputModeM1Horizon_4", Mach1EncodeOutputModeM1Horizon_4)
@@ -36,14 +35,12 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
         .value("Mach1EncodeOutputModeM1Spatial_32", Mach1EncodeOutputModeM1Spatial_32)
         .value("Mach1EncodeOutputModeM1Spatial_36", Mach1EncodeOutputModeM1Spatial_36)
         .value("Mach1EncodeOutputModeM1Spatial_48", Mach1EncodeOutputModeM1Spatial_48)
-        .value("Mach1EncodeOutputModeM1Spatial_60", Mach1EncodeOutputModeM1Spatial_60)
-        ;
+        .value("Mach1EncodeOutputModeM1Spatial_60", Mach1EncodeOutputModeM1Spatial_60);
 
     enum_<Mach1EncodePannerMode>("Mach1EncodePannerMode")
         .value("Mach1EncodePannerModeIsotropicLinear", Mach1EncodePannerModeIsotropicLinear)
         .value("Mach1EncodePannerModeIsotropicEqualPower", Mach1EncodePannerModeIsotropicEqualPower)
-        .value("Mach1EncodePannerModePeriphonicLinear", Mach1EncodePannerModePeriphonicLinear)
-        ;
+        .value("Mach1EncodePannerModePeriphonicLinear", Mach1EncodePannerModePeriphonicLinear);
 
     enum_<Mach1DecodeAlgoType>("Mach1DecodeAlgoType")
         .value("Mach1DecodeAlgoSpatial_8", Mach1DecodeAlgoSpatial_8)
@@ -56,8 +53,7 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
         .value("Mach1DecodeAlgoSpatial_32", Mach1DecodeAlgoSpatial_32)
         .value("Mach1DecodeAlgoSpatial_36", Mach1DecodeAlgoSpatial_36)
         .value("Mach1DecodeAlgoSpatial_48", Mach1DecodeAlgoSpatial_48)
-        .value("Mach1DecodeAlgoSpatial_60", Mach1DecodeAlgoSpatial_60)
-        ;
+        .value("Mach1DecodeAlgoSpatial_60", Mach1DecodeAlgoSpatial_60);
 
     register_vector<float>("VectorFloat");
     register_vector<std::string>("VectorString");
@@ -67,8 +63,7 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
     value_object<Mach1Point3D>("Mach1Point3D")
         .field("x", &Mach1Point3D::x)
         .field("y", &Mach1Point3D::y)
-        .field("z", &Mach1Point3D::z)
-        ;
+        .field("z", &Mach1Point3D::z);
 
     class_<Mach1Encode>("Mach1EncodeInternal")
         .constructor<>()
@@ -108,6 +103,5 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
         .function("setOrbitRotation", &Mach1Encode::setOrbitRotation)
         .function("setOrbitRotationDegrees", &Mach1Encode::setOrbitRotationDegrees)
         .function("setOrbitRotationRadians", &Mach1Encode::setOrbitRotationRadians)
-        .function("setStereoSpread", &Mach1Encode::setStereoSpread)
-        ;
+        .function("setStereoSpread", &Mach1Encode::setStereoSpread);
 }

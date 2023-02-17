@@ -23,24 +23,24 @@ Mach1DecodeCore normalizes all input ranges to an unsigned "0 to 1" range for Ya
 
 #include <vector>
 
+#include "Mach1DecodeMINCAPI.h"
 #include "Mach1Point3DCore.h"
 #include "Mach1Point4DCore.h"
-#include "Mach1DecodeMINCAPI.h"
 
 #ifndef PI
-#define PI       3.14159265358979323846f
-#endif 
+#    define PI 3.14159265358979323846f
+#endif
 
 //////////////
 
 class Mach1DecodeCore {
 
-public:
+  public:
     static float mDegToRad(float degrees);
     static float mmap(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp = false);
     static float clamp(float a, float min, float max);
 
-private:
+  private:
     typedef std::vector<float> (Mach1DecodeCore::*functionAlgoSample)(float Yaw, float Pitch, float Roll);
     typedef void (Mach1DecodeCore::*functionAlgoSampleHP)(float Yaw, float Pitch, float Roll, float *result);
 
@@ -51,57 +51,57 @@ private:
     static float alignAngle(float a, float min = -180, float max = 180);
     static float lerp(float x1, float x2, float t);
     float radialDistance(float angle1, float angle2);
-    
+
     // Filter features
     // Envelope follower feature is defined here, in updateAngles()
-    
+
     void updateAngles();
-    
+
     float currentYaw, currentPitch, currentRoll;
     float targetYaw, targetPitch, targetRoll;
     float previousYaw, previousPitch, previousRoll;
 
     bool smoothAngles;
-     
+
     // Selected algo type
-    
+
     Mach1DecodeAlgoType algorithmType;
-    
-	inline float _dot(const Mach1Point3DCore& p1, const Mach1Point3DCore& p2) const;
 
-	bool linePlaneIntersection(Mach1Point3DCore& contact, Mach1Point3DCore ray, Mach1Point3DCore rayOrigin, Mach1Point3DCore normal, Mach1Point3DCore coord);
+    inline float _dot(const Mach1Point3DCore &p1, const Mach1Point3DCore &p2) const;
 
-	void spatialMultichannelAlgo(Mach1Point3DCore* points, int countPoints, float Yaw, float Pitch, float Roll, float *result);
+    bool linePlaneIntersection(Mach1Point3DCore &contact, Mach1Point3DCore ray, Mach1Point3DCore rayOrigin, Mach1Point3DCore normal, Mach1Point3DCore coord);
 
-	void spatialAlgoSample_8(float Yaw, float Pitch, float Roll, float *result);
-	std::vector<float> spatialAlgoSample_8(float Yaw, float Pitch, float Roll);
+    void spatialMultichannelAlgo(Mach1Point3DCore *points, int countPoints, float Yaw, float Pitch, float Roll, float *result);
 
-	Mach1Point3DCore rotation;
+    void spatialAlgoSample_8(float Yaw, float Pitch, float Roll, float *result);
+    std::vector<float> spatialAlgoSample_8(float Yaw, float Pitch, float Roll);
 
-public:
+    Mach1Point3DCore rotation;
+
+  public:
     float filterSpeed;
 
-	Mach1Point3DCore getCurrentAngle();
+    Mach1Point3DCore getCurrentAngle();
 
     Mach1DecodeCore();
 
-	int getFormatChannelCount();
+    int getFormatChannelCount();
 
     void setRotation(Mach1Point3DCore newRotationFromMinusOnetoOne);
-	void setRotationDegrees(Mach1Point3DCore newRotationDegrees);
+    void setRotationDegrees(Mach1Point3DCore newRotationDegrees);
     void setRotationRadians(Mach1Point3DCore newRotationRadians);
-	void setRotationQuat(Mach1Point4DCore newRotationQuat);
+    void setRotationQuat(Mach1Point4DCore newRotationQuat);
 
     void beginBuffer();
     void endBuffer();
-    
+
     // Set the algorithm type to use when decoding
-    
-	void setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType);
-	Mach1DecodeAlgoType getDecodeAlgoType();
+
+    void setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType);
+    Mach1DecodeAlgoType getDecodeAlgoType();
 
     // Decode using the current algorithm type
-    
+
     //  Order of input angles:
     //  Y = Yaw in degrees
     //  P = Pitch in degrees
@@ -111,13 +111,13 @@ public:
 
     // Decode using the current algorithm type in a more efficient way
 
-	void decodeCoeffs(float *result, int bufferSize = 0, int sampleIndex = 0);
-	void decodeCoeffsUsingTranscodeMatrix(void * M1obj, float * matrix, int channels, float * result, int bufferSize = 0, int sampleIndex = 0);
+    void decodeCoeffs(float *result, int bufferSize = 0, int sampleIndex = 0);
+    void decodeCoeffsUsingTranscodeMatrix(void *M1obj, float *matrix, int channels, float *result, int bufferSize = 0, int sampleIndex = 0);
 
     // The following functions are deprecated as of now
-    
+
     //--------------------------------------------------
-    
+
     //
     //  Four channel audio format
     //
@@ -126,12 +126,12 @@ public:
     //  P = Pitch in degrees
     //  R = Roll in degrees
     //
-    
+
     std::vector<float> horizonAlgo_4(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
     void horizonAlgo_4(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
 
     // ------------------------------------------------------------------
-    
+
     //
     //  Eight channel audio format (isotropic version).
     //
@@ -140,8 +140,7 @@ public:
     //  P = Pitch in degrees
     //  R = Roll in degrees
     //
-    
+
     std::vector<float> spatialAlgo_8(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
     void spatialAlgo_8(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
-    
 };

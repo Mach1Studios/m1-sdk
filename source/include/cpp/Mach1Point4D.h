@@ -4,5 +4,5 @@
 #pragma once
 
 struct Mach1Point4D {
-	float x, y, z, w;
+    float x, y, z, w;
 };

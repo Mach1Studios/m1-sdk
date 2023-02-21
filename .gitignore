@@ -1,3 +1,6 @@
+# Ignore the source variables file for local changes
+Makefile.variables
+
 # AudioFiles (please use download-audiofiles.sh where applicable)
 *.wav
 *.aif

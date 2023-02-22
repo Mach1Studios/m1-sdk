@@ -205,15 +205,14 @@ jobs:
         directories:
           - $HOME/Library/Caches/Homebrew
           - ${TRAVIS_BUILD_DIR}/cmake-3.19.3
-          - ${TRAVIS_BUILD_DIR}/cmake-3.19.3.zip
       before_cache:
         - brew cleanup
       before_install:
           - if [ "$TRAVIS_OS_NAME" == "osx" ]; then cd ${TRAVIS_BUILD_DIR}/source/scripts && openssl aes-256-cbc -K $encrypted_b7b9d4064d90_key -iv $encrypted_b7b9d4064d90_iv -in certs/secrets.tar.enc -out certs/secrets.tar -d; fi
           - if [ "$TRAVIS_OS_NAME" == "osx" ]; then cd ${TRAVIS_BUILD_DIR}/source && ./scripts/add_signing_key.sh; fi
       install:
-        - cd ${TRAVIS_BUILD_DIR}/source
-        - ./scripts/ios_setup.sh
+        - cd ${TRAVIS_BUILD_DIR}
+        - ./source/scripts/ios_setup.sh
         - sudo pip install --upgrade pip
         - sudo python -m pip install awscli --ignore-installed six
       script:
@@ -394,6 +393,7 @@ jobs:
       script:
         # WINDOWS BUILDS
         - cd ${TRAVIS_BUILD_DIR}/source
+        - ./scripts/win_setup.sh
         - ./scripts/win_build.sh -u
 
 # ---------------------------------
@@ -559,7 +559,6 @@ jobs:
         - choco install -y cmake --installargs 'ADD_CMAKE_TO_PATH=System'
         - choco install -y make
         - choco install -y awscli
-        - choco install -y boost-msvc-14.1
         - choco install -y pkgconfiglite
         - export PATH="$(powershell -Command '("Process", "Machine" | % {[Environment]::GetEnvironmentVariable("PATH", $_) -Split ";" -Replace "\\$", ""} | Select -Unique | % { cygpath $_ }) -Join ":"')"
         - ${TRAVIS_BUILD_DIR}/vcpkg/vcpkg.exe install libvorbis:x64-windows libvorbis:x64-windows-static libvorbis:x86-windows libflac:x64-windows libflac:x64-windows-static libflac:x86-windows opus:x64-windows opus:x64-windows-static opus:x86-windows mp3lame:x64-windows mp3lame:x64-windows-static mp3lame:x86-windows mpg123:x64-windows mpg123:x64-windows-static mpg123:x86-windows

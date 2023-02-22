@@ -16,7 +16,7 @@ while getopts 'uh:' OPTION; do
 			;;
 	esac
 done
-shift "$(($OPTION -1))"
+# shift "$(($OPTION -1))"
 
 if [[ "$PWD" == *source ]]
 then

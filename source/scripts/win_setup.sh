@@ -1,6 +1,9 @@
 #!/bin/bash
 
-if [ -d "$TRAVIS_BUILD_DIR" ]; then
+PATH=${TRAVIS_BUILD_DIR}
+
+if [ ! -z "$PATH" ]; then
+    echo "Detected travis CI pathing..."
     mkdir -p ${TRAVIS_BUILD_DIR}/source/_install/vs-15-2017/Release/lib-shared
     mkdir -p ${TRAVIS_BUILD_DIR}/source/_install/vs-15-2017/Debug/lib-shared
     mkdir -p ${TRAVIS_BUILD_DIR}/source/_install/vs-15-2017-win64/Release/lib-shared
@@ -15,5 +18,4 @@ if [ -d "$TRAVIS_BUILD_DIR" ]; then
     mkdir -p ${TRAVIS_BUILD_DIR}/source/_install/vs-15-2017-win64-mt/Debug/lib
 else
     # Local non CI/CD install
-
 fi

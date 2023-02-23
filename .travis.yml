@@ -90,6 +90,8 @@ jobs:
             - cmake
       env:
         - MATRIX_EVAL="CC=gcc-7 CXX=g++-7"
+      git:
+        submodules: false
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/linux_build.sh
@@ -138,6 +140,8 @@ jobs:
         - CROSS_COMPILE=arm-none-eabi-
         - CC=$(CROSS_COMPILE)gcc 
         - CXX=$(CROSS_COMPILE)g++
+      git:
+        submodules: false
       install:
         - export PATH=/usr/local/bin:$PATH
         - sudo apt remove binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi
@@ -170,6 +174,8 @@ jobs:
         - HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
         - HOMEBREW_NO_AUTO_UPDATE=1
         - MACOSX_DEPLOYMENT_TARGET=10.9
+      git:
+        submodules: false
       cache:
         directories:
           - $HOME/Library/Caches/Homebrew
@@ -201,6 +207,8 @@ jobs:
         - MACOSX_DEPLOYMENT_TARGET=10.9
         - IOS_DEVELOPMENT_TEAM="6ZETDT84RB"
         - IOS_BUNDLE_IDENTIFIER="com.mach1.lib"
+      git:
+        submodules: false
       cache:
         directories:
           - $HOME/Library/Caches/Homebrew
@@ -240,6 +248,8 @@ jobs:
         - MATRIX_EVAL="CC=gcc CXX=g++"
         - HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
         - HOMEBREW_NO_AUTO_UPDATE=1
+      git:
+        submodules: false
       cache:
         directories:
           - $HOME/Library/Caches/Homebrew
@@ -275,6 +285,8 @@ jobs:
             - qemu-user-static
       env:
         - RPI_TOOLS=${HOME}/rpi/tools
+      git:
+        submodules: false
       install:
         - mkdir -p ~/rpi/
         - cd ~/rpi
@@ -307,6 +319,8 @@ jobs:
             - cmake
       env:
         - MATRIX_EVAL="CC=gcc-7 CXX=g++-7"
+      git:
+        submodules: false
       install:
         - cd ${TRAVIS_BUILD_DIR}
         - git clone https://github.com/emscripten-core/emsdk.git
@@ -348,6 +362,8 @@ jobs:
         update: true
       env: 
         - MATRIX_EVAL="CC=gcc-7 CXX=g++-7 ANDROID_NDK_r16b=${TRAVIS_BUILD_DIR}/android-ndk-r16b"
+      git:
+        submodules: false
       install: 
         - cd ${TRAVIS_BUILD_DIR}
         - echo y | sdkmanager 'ndk;21.1.6352462'
@@ -374,6 +390,12 @@ jobs:
       language: sh
       env:
         - VS15=true
+      git:
+        submodules: false
+      cache:
+        timeout: 1000
+        directories:
+          - $HOME/AppData/Local/Temp/chocolatey
       before_install:
         - git clone https://github.com/pyenv-win/pyenv-win.git $HOME/.pyenv
         - export PATH="$HOME/.pyenv/pyenv-win/bin:$HOME/.pyenv/pyenv-win/shims:$PATH"

@@ -539,6 +539,7 @@ jobs:
         directories:
           - ${TRAVIS_BUILD_DIR}/vcpkg
           - ${TRAVIS_BUILD_DIR}/.cache/vcpkg
+          - $HOME/AppData/Local/Temp/chocolatey
       git:
         submodules: false
       before_cache:
@@ -558,7 +559,7 @@ jobs:
         - cd ${TRAVIS_BUILD_DIR}/source
         - choco install -y cmake --installargs 'ADD_CMAKE_TO_PATH=System'
         - choco install -y make
-        - choco install -y boost-msvc-14.1
+        - choco install -y boost-msvc-14.1 --execution-timeout 5400
         - choco install -y awscli
         - choco install -y pkgconfiglite
         - export PATH="$(powershell -Command '("Process", "Machine" | % {[Environment]::GetEnvironmentVariable("PATH", $_) -Split ";" -Replace "\\$", ""} | Select -Unique | % { cygpath $_ }) -Join ":"')"

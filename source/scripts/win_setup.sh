@@ -1,8 +1,8 @@
 #!/bin/bash
 
-PATH=${TRAVIS_BUILD_DIR}
+TESTPATH=${TRAVIS_BUILD_DIR}
 
-if [ ! -z "$PATH" ]; then
+if [ ! -z "$TESTPATH" ]; then
     echo "Detected travis CI pathing..."
     mkdir -p ${TRAVIS_BUILD_DIR}/source/_install/vs-15-2017/Release/lib-shared
     mkdir -p ${TRAVIS_BUILD_DIR}/source/_install/vs-15-2017/Debug/lib-shared

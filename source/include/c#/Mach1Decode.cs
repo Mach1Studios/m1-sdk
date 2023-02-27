@@ -32,6 +32,15 @@ namespace Mach1
         internal static extern IntPtr Mach1DecodeCAPI_decode(IntPtr M1obj, float Yaw, float Pitch, float Roll, IntPtr data, int bufferSize = 0, int sampleIndex = 0);
 
         [DllImport(libname)]
+        internal static extern IntPtr Mach1DecodeCAPI_decodeCoeffs(IntPtr M1obj, IntPtr data, int bufferSize = 0, int sampleIndex = 0);
+
+        [DllImport(libname)]
+        internal static extern IntPtr Mach1DecodeCAPI_decodePannedCoeffs(IntPtr M1obj, IntPtr data, int bufferSize = 0, int sampleIndex = 0, bool applyPanLaw = true);
+
+        [DllImport(libname)]
+        internal static extern IntPtr Mach1DecodeCAPI_decodeCoeffsUsingTranscodeMatrix(IntPtr M1obj, InPtr matrix, int channels, IntPtr data, int bufferSize = 0, int sampleIndex = 0);
+
+        [DllImport(libname)]
         internal static extern void Mach1DecodeCAPI_setFilterSpeed(IntPtr M1obj, float filterSpeed);
 
         [DllImport(libname)]
@@ -41,13 +50,22 @@ namespace Mach1
         internal static extern void Mach1DecodeCAPI_endBuffer(IntPtr M1obj);
 
         [DllImport(libname)]
+        internal static extern Mach1Point3D Mach1DecodeCAPI_getCurrentAngle(IntPtr M1obj);
+
+        [DllImport(libname)]
+        internal static extern int Mach1DecodeCAPI_getFormatChannelCount(IntPtr M1obj);
+
+        [DllImport(libname)]
+        internal static extern int Mach1DecodeCAPI_getFormatCoeffCount(IntPtr M1obj);
+
+        [DllImport(libname)]
         internal static extern long Mach1DecodeCAPI_getCurrentTime(IntPtr M1obj);
 
         [DllImport(libname)]
-        internal static extern string Mach1DecodeCAPI_getLog(IntPtr M1obj);
+        internal static extern long Mach1DecodeCAPI_getLastCalculationTime(IntPtr M1obj);
 
         [DllImport(libname)]
-        internal static extern Mach1Point3D Mach1DecodeCAPI_getCurrentAngle(IntPtr M1obj);
+        internal static extern string Mach1DecodeCAPI_getLog(IntPtr M1obj);
 
         internal IntPtr M1obj;
 
@@ -92,6 +110,9 @@ namespace Mach1
             ///     - Mach1PlatformOfEasyCam
             ///     - Mach1PlatformAndroid
             ///     - Mach1PlatformiOS
+            ///     - Mach1PlatformiOSTableTop_ZVertical
+            ///     - Mach1PlatformiOSPortraitHandheld_YVertical
+            ///     - Mach1PlatformiOSPortrait_YawOnly
         }
 
         public void decode(float Yaw, float Pitch, float Roll, ref float[] data,  int bufferSize = 0, int sampleIndex = 0)
@@ -144,10 +165,22 @@ namespace Mach1
             /// Call this function after reading from the Mach1Decode buffer
         }
 
+        public Mach1Point3D getCurrentAngle()
+        {
+            return Mach1DecodeCAPI_getCurrentAngle(M1obj);
+            /// Returns the Mach1Decode lib object's current 3D angle for feedback design
+        }
+
         public long getCurrentTime()
         {
             return Mach1DecodeCAPI_getCurrentTime(M1obj);
             /// Returns the current elapsed time in milliseconds (ms) since Mach1Decode object creation
+        }
+
+        public long getLastCalculationTime()
+        {
+            return Mach1DecodeCAPI_getLastCalculationTime(M1obj);
+            /// Returns the last elapsed time in milliseconds (ms) since Mach1Decode object creation
         }
 
         public string getLog()
@@ -155,12 +188,5 @@ namespace Mach1
             return Mach1DecodeCAPI_getLog(M1obj);
             /// Returns the current elapsed time in milliseconds (ms) since Mach1Decode object creation
         }
-
-        public Mach1Point3D getCurrentAngle()
-        {
-            return Mach1DecodeCAPI_getCurrentAngle(M1obj);
-            /// Returns the Mach1Decode lib object's current 3D angle for feedback design
-        }
-
     }
 }

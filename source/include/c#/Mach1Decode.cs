@@ -50,6 +50,18 @@ namespace Mach1
         internal static extern void Mach1DecodeCAPI_endBuffer(IntPtr M1obj);
 
         [DllImport(libname)]
+        internal static extern void Mach1DecodeCAPI_setRotation(IntPtr M1obj, Mach1Point3D newRotationFromMinusOnetoOne);
+
+        [DllImport(libname)]
+        internal static extern void Mach1DecodeCAPI_setRotationDegrees(IntPtr M1obj, Mach1Point3D newRotationDegrees);
+
+        [DllImport(libname)]
+        internal static extern void Mach1DecodeCAPI_setRotationRadians(IntPtr M1obj, Mach1Point3D newRotationRadians);
+
+        [DllImport(libname)]
+        internal static extern void Mach1DecodeCAPI_setRotationQuat(IntPtr M1obj, Mach1Point3D newRotationQuat);
+
+        [DllImport(libname)]
         internal static extern Mach1Point3D Mach1DecodeCAPI_getCurrentAngle(IntPtr M1obj);
 
         [DllImport(libname)]
@@ -117,7 +129,6 @@ namespace Mach1
 
         public void decode(float Yaw, float Pitch, float Roll, ref float[] data,  int bufferSize = 0, int sampleIndex = 0)
         {
-            //if(data.Length < 18) data = new float[18];
             GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
             IntPtr pointer = pinnedArray.AddrOfPinnedObject();
 
@@ -139,7 +150,28 @@ namespace Mach1
             ///     - Roll: float for device/listener roll angle: [Range: -90->90]
             ///     - bufferSize: int for number of samples in a buffer, ideally supplied from your audioplayer/engine
             ///     - sampleIndex: int for current sample index array, ideally supplied from your audioplayer/engine
+        }
 
+        public void decodeCoeffs(ref float[] data,  int bufferSize = 0, int sampleIndex = 0)
+        {
+            GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
+            IntPtr pointer = pinnedArray.AddrOfPinnedObject();
+
+            Mach1DecodeCAPI_decodeCoeffs(M1obj, pointer, bufferSize, sampleIndex);
+
+            pinnedArray.Free();
+            /// Call with current update's angles to return the resulting coefficients
+            /// to apply to the audioplayer's volume
+            ///
+            /// Includes two modes of use:
+            /// + Update decode results via audio callback
+            ///   + *Use your audio player's buffersize and current sample index for sync callbacks*
+            /// + Update decode results via main loop (or any loop)
+            ///   + *Default null or 0 values to **bufferSize** or **sampleIndex** will use the second mode*
+            ///
+            /// - Parameters: 
+            ///     - bufferSize: int for number of samples in a buffer, ideally supplied from your audioplayer/engine
+            ///     - sampleIndex: int for current sample index array, ideally supplied from your audioplayer/engine
         }
 
         public void setFilterSpeed(float filterSpeed)
@@ -163,6 +195,57 @@ namespace Mach1
         {
             Mach1DecodeCAPI_endBuffer(M1obj);
             /// Call this function after reading from the Mach1Decode buffer
+        }
+
+        public void setRotation(Mach1Point3D newRotationFromMinusOnetoOne)
+        {
+            Mach1DecodeCAPI_setRotation(M1obj, (Mach1Point3D)newRotationFromMinusOnetoOne);
+            /// Set current buffer/sample intended decoding orientation YPR.
+            ///
+            /// - Parameters:
+            ///     - Yaw: float for device/listener yaw angle:     [Range: 0.0 -> 1.0 | -0.5 -> 0.5]
+            ///                                                     [Range: 0.0 -> 360 | -180 -> 180]
+            ///     - Pitch: float for device/listener pitch angle: [Range: -0.25 -> 0.25]
+            ///                                                     [Range: -90   -> 90]
+            ///     - Roll: float for device/listener roll angle:   [Range: -0.25 -> 0.25]
+            ///                                                     [Range: -90   -> 90]
+        }
+
+        public void setRotationDegrees(Mach1Point3D newRotationDegrees)
+        {
+            Mach1DecodeCAPI_setRotationDegrees(M1obj, (Mach1Point3D)newRotationDegrees);
+            /// Set current buffer/sample intended decoding orientation YPR.
+            ///
+            /// - Parameters:
+            ///     - Yaw: float for device/listener yaw angle: [Range: 0.0 -> 360 | -180 -> 180]
+            ///     - Pitch: float for device/listener pitch angle: [Range: -90 -> 90]
+            ///     - Roll: float for device/listener roll angle: [Range: -90 -> 90]
+        }
+
+        public void setRotationRadians(Mach1Point3D newRotationRadians)
+        {
+            Mach1DecodeCAPI_setRotationRadians(M1obj, (Mach1Point3D)newRotationRadians);
+            /// Set current buffer/sample intended decoding orientation YPR in radians.
+            ///
+            /// - Parameters:
+            ///     - Yaw: float for device/listener yaw angle:     [Range: 0.0 -> 2PI | -PI  -> PI]
+            ///                                                     [Range: 0.0 -> 360 | -180 -> 180]
+            ///     - Pitch: float for device/listener pitch angle: [Range: -PI/2 -> PI/2]
+            ///                                                     [Range: -90   -> 90]
+            ///     - Roll: float for device/listener roll angle:   [Range: -PI/2 -> PI/2]
+            ///                                                     [Range: -90   -> 90]
+        }
+
+        public void setRotationQuat(Mach1Point3D newRotationQuat)
+        {
+            Mach1DecodeCAPI_setRotationQuat(M1obj, (Mach1Point3D)newRotationQuat);
+            /// Set current buffer/sample intended decoding orientation YPR in quaternion.
+            ///
+            /// - Parameters:
+            ///     - W: float for device/listener W: [Range: -1.0->1.0]
+            ///     - X: float for device/listener X: [Range: -1.0->1.0]
+            ///     - Y: float for device/listener Y: [Range: -1.0->1.0]
+            ///     - Z: float for device/listener Z: [Range: -1.0->1.0]
         }
 
         public Mach1Point3D getCurrentAngle()

@@ -29,6 +29,12 @@ namespace Mach1
         internal static extern void Mach1DecodeCAPI_setPlatformType(IntPtr M1obj, Mach1PlatformType type);
 
         [DllImport(libname)]
+        Mach1DecodeAlgoType Mach1DecodeCAPI_getDecodeAlgoType(IntPtr M1obj);
+
+        [DllImport(libname)]
+        Mach1PlatformType Mach1DecodeCAPI_getPlatformType(IntPtr M1obj);
+
+        [DllImport(libname)]
         internal static extern IntPtr Mach1DecodeCAPI_decode(IntPtr M1obj, float Yaw, float Pitch, float Roll, IntPtr data, int bufferSize = 0, int sampleIndex = 0);
 
         [DllImport(libname)]
@@ -50,6 +56,12 @@ namespace Mach1
         internal static extern void Mach1DecodeCAPI_endBuffer(IntPtr M1obj);
 
         [DllImport(libname)]
+        internal static extern int Mach1DecodeCAPI_getFormatChannelCount(IntPtr M1obj);
+
+        [DllImport(libname)]
+        internal static extern int Mach1DecodeCAPI_getFormatCoeffCount(IntPtr M1obj);
+
+        [DllImport(libname)]
         internal static extern void Mach1DecodeCAPI_setRotation(IntPtr M1obj, Mach1Point3D newRotationFromMinusOnetoOne);
 
         [DllImport(libname)]
@@ -62,22 +74,16 @@ namespace Mach1
         internal static extern void Mach1DecodeCAPI_setRotationQuat(IntPtr M1obj, Mach1Point3D newRotationQuat);
 
         [DllImport(libname)]
-        internal static extern Mach1Point3D Mach1DecodeCAPI_getCurrentAngle(IntPtr M1obj);
-
-        [DllImport(libname)]
-        internal static extern int Mach1DecodeCAPI_getFormatChannelCount(IntPtr M1obj);
-
-        [DllImport(libname)]
-        internal static extern int Mach1DecodeCAPI_getFormatCoeffCount(IntPtr M1obj);
-
-        [DllImport(libname)]
         internal static extern long Mach1DecodeCAPI_getCurrentTime(IntPtr M1obj);
 
         [DllImport(libname)]
         internal static extern long Mach1DecodeCAPI_getLastCalculationTime(IntPtr M1obj);
 
         [DllImport(libname)]
-        internal static extern string Mach1DecodeCAPI_getLog(IntPtr M1obj);
+        internal static extern IntPtr Mach1DecodeCAPI_getLog(IntPtr M1obj);
+
+        [DllImport(libname)]
+        internal static extern Mach1Point3D Mach1DecodeCAPI_getCurrentAngle(IntPtr M1obj);
 
         internal IntPtr M1obj;
 
@@ -268,7 +274,7 @@ namespace Mach1
 
         public string getLog()
         {
-            return Mach1DecodeCAPI_getLog(M1obj);
+            return Marshal.PtrToStringAuto(Mach1DecodeCAPI_getLog(M1obj));
             /// Returns the current elapsed time in milliseconds (ms) since Mach1Decode object creation
         }
     }

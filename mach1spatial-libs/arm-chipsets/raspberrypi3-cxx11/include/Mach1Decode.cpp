@@ -22,6 +22,9 @@ void Mach1Decode::setPlatformType(Mach1PlatformType type) {
     ///     - Mach1PlatformOfEasyCam
     ///     - Mach1PlatformAndroid
     ///     - Mach1PlatformiOS
+    ///     - Mach1PlatformiOSTableTop_ZVertical
+    ///     - Mach1PlatformiOSPortraitHandheld_YVertical
+    ///     - Mach1PlatformiOSPortrait_YawOnly
 }
 
 void Mach1Decode::setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType) {

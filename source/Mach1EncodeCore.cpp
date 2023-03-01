@@ -2269,7 +2269,7 @@ void M1EncodeCore::generatePointResults() {
             CenterChannel,
             {0, 0, 0},
         };
-        pnts[1] = (pnts[0] + pnts[2]) / 2;
+        pnts[4] = (pnts[0] + pnts[1]) / 2;
 
         for (int i = 0; i < resultingPoints.pointsCount; i++) {
             resultingPoints.pointsNames[i] = names[i];
@@ -2296,7 +2296,7 @@ void M1EncodeCore::generatePointResults() {
             {(float)cos((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge},
             {(float)cos((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge},
         };
-        pnts[1] = (pnts[0] + pnts[2]) / 2;
+        pnts[2] = (pnts[0] + pnts[1]) / 2;
 
         for (int i = 0; i < resultingPoints.pointsCount; i++) {
             resultingPoints.pointsNames[i] = names[i];

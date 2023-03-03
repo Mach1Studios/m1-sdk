@@ -473,156 +473,6 @@ std::vector<float> Mach1DecodeCore::spatialAlgoSample_14(float Yaw, float Pitch,
     return result;
 }
 
-void Mach1DecodeCore::spatialAlgoSample_18(float Yaw, float Pitch, float Roll, float *result) {
-    const int numChannelPoints = 8 + 8 + 2;
-
-    float diag = sqrtf(2 * 100 * 100);
-
-    Mach1Point3DCore channelPoints[numChannelPoints] =
-        {
-            Mach1Point3DCore(-100, 100, 100),
-            Mach1Point3DCore(100, 100, 100),
-            Mach1Point3DCore(-100, -100, 100),
-            Mach1Point3DCore(100, -100, 100),
-
-            Mach1Point3DCore(-100, 100, -100),
-            Mach1Point3DCore(100, 100, -100),
-            Mach1Point3DCore(-100, -100, -100),
-            Mach1Point3DCore(100, -100, -100),
-
-            // TODO: FIX THIS
-            Mach1Point3DCore(diag, 0, 0),
-            Mach1Point3DCore(-diag, 0, 0),
-            Mach1Point3DCore(0, diag, 0),
-            Mach1Point3DCore(0, -diag, 0),
-            Mach1Point3DCore(diag, 0, 0),
-            Mach1Point3DCore(-diag, 0, 0),
-            Mach1Point3DCore(0, diag, 0),
-            Mach1Point3DCore(0, -diag, 0),
-
-            Mach1Point3DCore(0, 0, diag),
-            Mach1Point3DCore(0, 0, -diag),
-        };
-
-    spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result);
-}
-
-std::vector<float> Mach1DecodeCore::spatialAlgoSample_18(float Yaw, float Pitch, float Roll) {
-    const int numChannelPoints = 8 + 8 + 2;
-
-    float diag = sqrtf(2 * 100 * 100);
-
-    std::vector<float> result;
-    result.resize(numChannelPoints * 2 + 2);
-
-    Mach1Point3DCore channelPoints[numChannelPoints] =
-        {
-            Mach1Point3DCore(-100, 100, 100),
-            Mach1Point3DCore(100, 100, 100),
-            Mach1Point3DCore(-100, -100, 100),
-            Mach1Point3DCore(100, -100, 100),
-
-            Mach1Point3DCore(-100, 100, -100),
-            Mach1Point3DCore(100, 100, -100),
-            Mach1Point3DCore(-100, -100, -100),
-            Mach1Point3DCore(100, -100, -100),
-
-            // TODO: FIX THIS
-            Mach1Point3DCore(diag, 0, 0),
-            Mach1Point3DCore(-diag, 0, 0),
-            Mach1Point3DCore(0, diag, 0),
-            Mach1Point3DCore(0, -diag, 0),
-            Mach1Point3DCore(diag, 0, 0),
-            Mach1Point3DCore(-diag, 0, 0),
-            Mach1Point3DCore(0, diag, 0),
-            Mach1Point3DCore(0, -diag, 0),
-
-            Mach1Point3DCore(0, 0, diag),
-            Mach1Point3DCore(0, 0, -diag),
-        };
-
-    spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result.data());
-
-    return result;
-}
-
-void Mach1DecodeCore::spatialAlgoSample_22(float Yaw, float Pitch, float Roll, float *result) {
-    const int numChannelPoints = 20;
-
-    float diag = sqrtf(2 * 100 * 100);
-
-    Mach1Point3DCore channelPoints[numChannelPoints] =
-        {
-            Mach1Point3DCore(-100, 100, 100),
-            Mach1Point3DCore(100, 100, 100),
-            Mach1Point3DCore(-100, -100, 100),
-            Mach1Point3DCore(100, -100, 100),
-
-            Mach1Point3DCore(-100, 100, -100),
-            Mach1Point3DCore(100, 100, -100),
-            Mach1Point3DCore(-100, -100, -100),
-            Mach1Point3DCore(100, -100, -100),
-
-            Mach1Point3DCore(0, diag, 100),
-            Mach1Point3DCore(diag, 0, 100),
-            Mach1Point3DCore(0, -diag, 100),
-            Mach1Point3DCore(-diag, 0, 100),
-
-            Mach1Point3DCore(0, diag, -100),
-            Mach1Point3DCore(diag, 0, -100),
-            Mach1Point3DCore(0, -diag, -100),
-            Mach1Point3DCore(-diag, 0, -100),
-
-            Mach1Point3DCore(0, diag, 0),
-            Mach1Point3DCore(diag, 0, 0),
-            Mach1Point3DCore(0, -diag, 0),
-            Mach1Point3DCore(-diag, 0, 0),
-        };
-
-    spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result);
-}
-
-std::vector<float> Mach1DecodeCore::spatialAlgoSample_22(float Yaw, float Pitch, float Roll) {
-    const int numChannelPoints = 20;
-
-    float diag = sqrtf(2 * 100 * 100);
-
-    std::vector<float> result;
-    result.resize(numChannelPoints * 2 + 2);
-
-    Mach1Point3DCore channelPoints[numChannelPoints] =
-        {
-            Mach1Point3DCore(-100, 100, 100),
-            Mach1Point3DCore(100, 100, 100),
-            Mach1Point3DCore(-100, -100, 100),
-            Mach1Point3DCore(100, -100, 100),
-
-            Mach1Point3DCore(-100, 100, -100),
-            Mach1Point3DCore(100, 100, -100),
-            Mach1Point3DCore(-100, -100, -100),
-            Mach1Point3DCore(100, -100, -100),
-
-            Mach1Point3DCore(0, diag, 100),
-            Mach1Point3DCore(diag, 0, 100),
-            Mach1Point3DCore(0, -diag, 100),
-            Mach1Point3DCore(-diag, 0, 100),
-
-            Mach1Point3DCore(0, diag, -100),
-            Mach1Point3DCore(diag, 0, -100),
-            Mach1Point3DCore(0, -diag, -100),
-            Mach1Point3DCore(-diag, 0, -100),
-
-            Mach1Point3DCore(0, diag, 0),
-            Mach1Point3DCore(diag, 0, 0),
-            Mach1Point3DCore(0, -diag, 0),
-            Mach1Point3DCore(-diag, 0, 0),
-        };
-
-    spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result.data());
-
-    return result;
-}
-
 void Mach1DecodeCore::spatialAlgoSample_32(float Yaw, float Pitch, float Roll, float *result) {
     const int numChannelPoints = 32;
 
@@ -1309,10 +1159,6 @@ int Mach1DecodeCore::getFormatChannelCount() {
         return 12;
     case Mach1DecodeAlgoSpatial_14:
         return 14;
-    case Mach1DecodeAlgoSpatial_18:
-        return 18;
-    case Mach1DecodeAlgoSpatial_22:
-        return 20;
     case Mach1DecodeAlgoSpatial_32:
         return 32;
     case Mach1DecodeAlgoSpatial_36:
@@ -1337,10 +1183,6 @@ int Mach1DecodeCore::getFormatCoeffCount() {
         return (12 * 2) + 2;
     case Mach1DecodeAlgoSpatial_14:
         return (14 * 2) + 2;
-    case Mach1DecodeAlgoSpatial_18:
-        return (18 * 2) + 2;
-    case Mach1DecodeAlgoSpatial_22:
-        return (20 * 2) + 2;
     case Mach1DecodeAlgoSpatial_32:
         return (32 * 2) + 2;
     case Mach1DecodeAlgoSpatial_36:
@@ -1417,53 +1259,44 @@ std::vector<float> Mach1DecodeCore::decodeCoeffs(int bufferSize, int sampleIndex
     float Roll = fmod(rotation.z, 360.0);
 
     switch (algorithmType) {
-        // m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs
-    case Mach1DecodeAlgoSpatial_8:
-        res = spatialAlgo_8(Yaw, Pitch, Roll, bufferSize, sampleIndex);
-        break;
+        case Mach1DecodeAlgoSpatial_8:
+            res = spatialAlgo_8(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+            break;
 
-    case Mach1DecodeAlgoHorizon_4:
-        res = horizonAlgo_4(Yaw, Pitch, Roll, bufferSize, sampleIndex);
-        break;
+        case Mach1DecodeAlgoHorizon_4:
+            res = horizonAlgo_4(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+            break;
 
-    case Mach1DecodeAlgoHorizonPairs:
-        res = horizonPairsAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
-        break;
+        case Mach1DecodeAlgoHorizonPairs:
+            res = horizonPairsAlgo(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+            break;
 
-    case Mach1DecodeAlgoSpatial_12:
-        res = spatialAlgo_12(Yaw, Pitch, Roll, bufferSize, sampleIndex);
-        break;
+        case Mach1DecodeAlgoSpatial_12:
+            res = spatialAlgo_12(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+            break;
 
-    case Mach1DecodeAlgoSpatial_14:
-        res = spatialAlgo_14(Yaw, Pitch, Roll, bufferSize, sampleIndex);
-        break;
+        case Mach1DecodeAlgoSpatial_14:
+            res = spatialAlgo_14(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+            break;
 
-    case Mach1DecodeAlgoSpatial_18:
-        res = spatialAlgo_18(Yaw, Pitch, Roll, bufferSize, sampleIndex);
-        break;
+        case Mach1DecodeAlgoSpatial_32:
+            res = spatialAlgo_32(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+            break;
 
-    case Mach1DecodeAlgoSpatial_22:
-        res = spatialAlgo_22(Yaw, Pitch, Roll, bufferSize, sampleIndex);
-        break;
+        case Mach1DecodeAlgoSpatial_36:
+            res = spatialAlgo_36(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+            break;
 
-    case Mach1DecodeAlgoSpatial_32:
-        res = spatialAlgo_32(Yaw, Pitch, Roll, bufferSize, sampleIndex);
-        break;
+        case Mach1DecodeAlgoSpatial_48:
+            res = spatialAlgo_48(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+            break;
 
-    case Mach1DecodeAlgoSpatial_36:
-        res = spatialAlgo_36(Yaw, Pitch, Roll, bufferSize, sampleIndex);
-        break;
+        case Mach1DecodeAlgoSpatial_60:
+            res = spatialAlgo_60(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+            break;
 
-    case Mach1DecodeAlgoSpatial_48:
-        res = spatialAlgo_48(Yaw, Pitch, Roll, bufferSize, sampleIndex);
-        break;
-
-    case Mach1DecodeAlgoSpatial_60:
-        res = spatialAlgo_60(Yaw, Pitch, Roll, bufferSize, sampleIndex);
-        break;
-
-    default:
-        break;
+        default:
+            break;
     }
 
     timeLastCalculation = getCurrentTime() - tStart;
@@ -1526,53 +1359,44 @@ void Mach1DecodeCore::decodeCoeffs(float *result, int bufferSize, int sampleInde
     float Roll = fmod(rotation.z, 360.0);
 
     switch (algorithmType) {
-        // m1Spatial = 0, m1AltSpatial, m1Horizon, m1HorizonPairs
-    case Mach1DecodeAlgoSpatial_8:
-        spatialAlgo_8(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-        break;
+        case Mach1DecodeAlgoSpatial_8:
+            spatialAlgo_8(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+            break;
 
-    case Mach1DecodeAlgoHorizon_4:
-        horizonAlgo_4(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-        break;
+        case Mach1DecodeAlgoHorizon_4:
+            horizonAlgo_4(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+            break;
 
-    case Mach1DecodeAlgoHorizonPairs:
-        horizonPairsAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-        break;
+        case Mach1DecodeAlgoHorizonPairs:
+            horizonPairsAlgo(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+            break;
 
-    case Mach1DecodeAlgoSpatial_12:
-        spatialAlgo_12(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-        break;
+        case Mach1DecodeAlgoSpatial_12:
+            spatialAlgo_12(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+            break;
 
-    case Mach1DecodeAlgoSpatial_14:
-        spatialAlgo_14(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-        break;
+        case Mach1DecodeAlgoSpatial_14:
+            spatialAlgo_14(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+            break;
 
-    case Mach1DecodeAlgoSpatial_18:
-        spatialAlgo_18(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-        break;
+        case Mach1DecodeAlgoSpatial_32:
+            spatialAlgo_32(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+            break;
 
-    case Mach1DecodeAlgoSpatial_22:
-        spatialAlgo_22(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-        break;
+        case Mach1DecodeAlgoSpatial_36:
+            spatialAlgo_36(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+            break;
 
-    case Mach1DecodeAlgoSpatial_32:
-        spatialAlgo_32(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-        break;
+        case Mach1DecodeAlgoSpatial_48:
+            spatialAlgo_48(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+            break;
 
-    case Mach1DecodeAlgoSpatial_36:
-        spatialAlgo_36(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-        break;
+        case Mach1DecodeAlgoSpatial_60:
+            spatialAlgo_60(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+            break;
 
-    case Mach1DecodeAlgoSpatial_48:
-        spatialAlgo_48(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-        break;
-
-    case Mach1DecodeAlgoSpatial_60:
-        spatialAlgo_60(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-        break;
-
-    default:
-        break;
+        default:
+            break;
     }
 
     timeLastCalculation = getCurrentTime() - tStart;
@@ -1657,19 +1481,12 @@ void Mach1DecodeCore::endBuffer() {
 
 void Mach1DecodeCore::processSample(functionAlgoSampleHP funcAlgoSampleHP, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
     convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
-
-    /*char buff[1020];
-     snprintf(buff, sizeof(buff), "%.5f - current (%.4f %.4f %.4f), target (%.4f %.4f %.4f), previous (%.4f %.4f %.4f) \r\n", timeLastUpdate ? timeLastUpdate / 1000.0 : 0, currentYaw, currentPitch, currentRoll, targetYaw, targetPitch, targetRoll, previousYaw, previousPitch, previousRoll);
-     addToLog(buff);*/
-
     if (smoothAngles) {
-
         targetYaw = Yaw;
         targetPitch = Pitch;
         targetRoll = Roll;
 
         if (bufferSize > 0) {
-
             // we're in per sample mode
             // returning values from right here!
 
@@ -1728,19 +1545,12 @@ void Mach1DecodeCore::processSample(functionAlgoSampleHP funcAlgoSampleHP, float
 
 std::vector<float> Mach1DecodeCore::processSample(functionAlgoSample funcAlgoSample, float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {
     convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
-
-    /*char buff[1020];
-    snprintf(buff, sizeof(buff), "%.5f - current (%.4f %.4f %.4f), target (%.4f %.4f %.4f), previous (%.4f %.4f %.4f) \r\n", timeLastUpdate ? timeLastUpdate / 1000.0 : 0, currentYaw, currentPitch, currentRoll, targetYaw, targetPitch, targetRoll, previousYaw, previousPitch, previousRoll);
-    addToLog(buff);*/
-
     if (smoothAngles) {
-
         targetYaw = Yaw;
         targetPitch = Pitch;
         targetRoll = Roll;
 
         if (bufferSize > 0) {
-
             // we're in per sample mode
             // returning values from right here!
             std::vector<float> volumes1 = (this->*funcAlgoSample)(previousYaw, previousPitch, previousRoll);
@@ -1972,34 +1782,6 @@ void Mach1DecodeCore::spatialAlgo_14(float Yaw, float Pitch, float Roll, float *
                                      int bufferSize, int sampleIndex) {
 
     return processSample(&Mach1DecodeCore::spatialAlgoSample_14, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-}
-
-// ------------------------------------------------------------------
-
-std::vector<float> Mach1DecodeCore::spatialAlgo_18(float Yaw, float Pitch, float Roll,
-                                                   int bufferSize, int sampleIndex) {
-
-    return processSample(&Mach1DecodeCore::spatialAlgoSample_18, Yaw, Pitch, Roll, bufferSize, sampleIndex);
-}
-
-void Mach1DecodeCore::spatialAlgo_18(float Yaw, float Pitch, float Roll, float *result,
-                                     int bufferSize, int sampleIndex) {
-
-    return processSample(&Mach1DecodeCore::spatialAlgoSample_18, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-}
-
-// ------------------------------------------------------------------
-
-std::vector<float> Mach1DecodeCore::spatialAlgo_22(float Yaw, float Pitch, float Roll,
-                                                   int bufferSize, int sampleIndex) {
-
-    return processSample(&Mach1DecodeCore::spatialAlgoSample_22, Yaw, Pitch, Roll, bufferSize, sampleIndex);
-}
-
-void Mach1DecodeCore::spatialAlgo_22(float Yaw, float Pitch, float Roll, float *result,
-                                     int bufferSize, int sampleIndex) {
-
-    return processSample(&Mach1DecodeCore::spatialAlgoSample_22, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
 }
 
 // ------------------------------------------------------------------

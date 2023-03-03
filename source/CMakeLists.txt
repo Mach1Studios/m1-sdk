@@ -72,10 +72,10 @@ set(Mach1SpatialLibraries_VERSION_MINOR 0)
 set(Mach1SpatialLibraries_VERSION ${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR})
 
 # SET API VERSIONS
-set(ENCODE_VERSION "3.0.1.0")
-set(DECODE_VERSION "3.0.1.0")
-set(DECODEPOSITIONAL_VERSION "3.0.1.0")
-set(TRANSCODE_VERSION "3.0.0.0")
+set(ENCODE_VERSION "3.1.0.0")
+set(DECODE_VERSION "3.1.0.0")
+set(DECODEPOSITIONAL_VERSION "3.1.0.0")
+set(TRANSCODE_VERSION "3.1.0.0")
 
 #----------------
 # Sources

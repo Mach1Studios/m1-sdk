@@ -109,8 +109,6 @@ namespace Mach1TranscodeConstants {
 		{ "M1SpatialS", 10 }, 		// MACH1SPATIAL-8 + HEADLOCKED STEREO
 		{ "M1Spatial-12", 12 }, 	// MACH1SPATIAL-12
 		{ "M1Spatial-14", 14 }, 	// MACH1SPATIAL-14
-		{ "M1Spatial-18", 18 }, 	// MACH1SPATIAL-18
-		{ "M1Spatial-22", 22 }, 	// MACH1SPATIAL-22
 		{ "M1Spatial-32", 32 }, 	// MACH1SPATIAL-32
 		{ "M1Spatial-36", 36 }, 	// MACH1SPATIAL-36
 		{ "M1Spatial-48", 48 }, 	// MACH1SPATIAL-48

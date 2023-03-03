@@ -49,8 +49,6 @@ enum Mach1EncodeOutputModeType {
     Mach1EncodeOutputModeM1Horizon_4,
     Mach1EncodeOutputModeM1Spatial_12,
     Mach1EncodeOutputModeM1Spatial_14,
-    Mach1EncodeOutputModeM1Spatial_18,
-    Mach1EncodeOutputModeM1Spatial_22,
     Mach1EncodeOutputModeM1Spatial_32,
     Mach1EncodeOutputModeM1Spatial_36,
     Mach1EncodeOutputModeM1Spatial_48,

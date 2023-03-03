@@ -247,16 +247,6 @@ class Mach1DecodeCore {
 
     // ------------------------------------------------------------------
 
-    std::vector<float> spatialAlgo_18(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-    void spatialAlgo_18(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
-
-    // ------------------------------------------------------------------
-
-    std::vector<float> spatialAlgo_22(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-    void spatialAlgo_22(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
-
-    // ------------------------------------------------------------------
-
     std::vector<float> spatialAlgo_32(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
     void spatialAlgo_32(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
 

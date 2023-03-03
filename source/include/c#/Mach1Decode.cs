@@ -72,8 +72,6 @@ namespace Mach1
             ///     - Mach1DecodeAlgoHorizonPairs (compass / yaw | 4x stereo mastered pairs)
             ///     - Mach1DecodeAlgoSpatial_12 (higher order spatial | 12 channels)
             ///     - Mach1DecodeAlgoSpatial_14 (higher order spatial | 14 channels)
-            ///     - Mach1DecodeAlgoSpatial_18 (higher order spatial | 18 channels)
-            ///     - Mach1DecodeAlgoSpatial_22 (higher order spatial | 22 channels)
             ///     - Mach1DecodeAlgoSpatial_32 (higher order spatial | 32 channels)
             ///     - Mach1DecodeAlgoSpatial_36 (higher order spatial | 36 channels)
             ///     - Mach1DecodeAlgoSpatial_48 (higher order spatial | 48 channels)

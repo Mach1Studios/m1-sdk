@@ -3,35 +3,35 @@
 
 #pragma once
 
-#include <vector>
-#include <string>
 #include "Mach1AudioTimelineCAPI.h"
+#include <string>
+#include <vector>
 
 class Mach1AudioObject {
-private:
-	void* M1obj;
+  private:
+    void *M1obj;
 
-public:
-	Mach1AudioObject();
-	~Mach1AudioObject();
+  public:
+    Mach1AudioObject();
+    ~Mach1AudioObject();
 
-	std::string getName();
-	std::vector<Mach1KeyPoint> getKeyPoints();
+    std::string getName();
+    std::vector<Mach1KeyPoint> getKeyPoints();
 
-	void setName(std::string name);
-	void setKeyPoints(std::vector<Mach1KeyPoint> points);
+    void setName(std::string name);
+    void setKeyPoints(std::vector<Mach1KeyPoint> points);
 };
 
 class Mach1AudioTimeline {
-private:
-	void* M1obj;
+  private:
+    void *M1obj;
 
-public:
-	Mach1AudioTimeline();
-	~Mach1AudioTimeline();
+  public:
+    Mach1AudioTimeline();
+    ~Mach1AudioTimeline();
 
-	std::vector<Mach1AudioObject> getAudioObjects();
+    std::vector<Mach1AudioObject> getAudioObjects();
 
-	void parseADM(char* inXml);
-	void parseAtmos(char* inDotAtmos, char* inDotAtmosDotMetadata);
+    void parseADM(char *inXml);
+    void parseAtmos(char *inDotAtmos, char *inDotAtmosDotMetadata);
 };

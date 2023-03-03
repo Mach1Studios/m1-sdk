@@ -178,8 +178,6 @@ public class Mach1Encode {
         ///     - Mach1Horizon_4 (4ch) [Yaw]
         ///     - Mach1Spatial_12 (12ch) [Yaw, Pitch, Roll]
         ///     - Mach1Spatial_14 (14ch) [Yaw, Pitch, Roll]
-        ///     - Mach1Spatial_18 (18ch) [Yaw, Pitch, Roll]
-        ///     - Mach1Spatial_22 (20ch) [Yaw, Pitch, Roll]
         ///     - Mach1Spatial_32 (32ch) [Yaw, Pitch, Roll]
         ///     - Mach1Spatial_36 (36ch) [Yaw, Pitch, Roll]
         ///     - Mach1Spatial_48 (48ch) [Yaw, Pitch, Roll]

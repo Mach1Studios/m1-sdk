@@ -688,6 +688,7 @@ jobs:
         - rsync -arv executables_pulldown/ executables
         - rm -rf executables_pulldown/
       after_success:
+        - cd ${TRAVIS_BUILD_DIR}/source && ./scripts/upload_includes.sh
         - cd ${TRAVIS_BUILD_DIR}/source && ./scripts/copy_includes_dev.sh
         - cd ${TRAVIS_BUILD_DIR}/source && ./scripts/copy_to_examples.sh
         - cd ${TRAVIS_BUILD_DIR}/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI && ${TRAVIS_BUILD_DIR}/source/scripts/git-pod-module.sh

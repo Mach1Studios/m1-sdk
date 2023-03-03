@@ -212,6 +212,7 @@ jobs:
       cache:
         directories:
           - $HOME/Library/Caches/Homebrew
+          - $HOME/.cache/pip
           - ${TRAVIS_BUILD_DIR}/cmake-3.19.3
       before_cache:
         - brew cleanup

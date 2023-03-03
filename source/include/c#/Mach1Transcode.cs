@@ -115,15 +115,15 @@ namespace Mach1
 
         public int getFormatFromString(string str)
         {
-            IntPtr strPtr = Marshal.StringToHGlobalAuto(str);
-            int fmt = Mach1TranscodeCAPI_getFormatFromString(M1obj, Marshal.StringToHGlobalAuto(str));
+            IntPtr strPtr = Marshal.StringToHGlobalAnsi(str);
+            int fmt = Mach1TranscodeCAPI_getFormatFromString(M1obj, strPtr);
             Marshal.FreeHGlobal(strPtr);
             return fmt;
         }
 
         public string getFormatName(int fmt)
         {
-           return Marshal.PtrToStringAuto(Mach1TranscodeCAPI_getFormatName(M1obj, fmt));
+            return Marshal.PtrToStringAnsi(Mach1TranscodeCAPI_getFormatName(M1obj, fmt));
         }
 
         public void processMasterGain(List<float[]> bufs, int numSamples, float masterGain = 1.0f)
@@ -134,8 +134,8 @@ namespace Mach1
                 array[i] = GCHandle.Alloc(bufs[i], GCHandleType.Pinned).AddrOfPinnedObject();
             }
             IntPtr ptr = GCHandle.Alloc(array, GCHandleType.Pinned).AddrOfPinnedObject();
-            
-            Mach1TranscodeCAPI_processMasterGain(M1obj, ptr, numSamples);
+
+            Mach1TranscodeCAPI_processMasterGain(M1obj, ptr, numSamples, masterGain);
 
             for (int i = 0; i < array.Length; i++)
             {
@@ -166,12 +166,12 @@ namespace Mach1
 
         public float db2level(float db)
         {
-            return Mach1TranscodeCAPI_db2level(db);
+            return Mach1TranscodeCAPI_db2level(M1obj, db);
         }
 
         public float level2db(float level)
         {
-            return Mach1TranscodeCAPI_level2db(level);
+            return Mach1TranscodeCAPI_level2db(M1obj, level);
         }
 
         public void setLFESub(int[] subChannelIndices, int sampleRate)
@@ -186,7 +186,7 @@ namespace Mach1
 
         public void setSpatialDownmixer(float corrThreshold = 0.1f)
         {
-            Mach1TranscodeCAPI_getSpatialDownmixerPossibility(M1obj, corrThreshold);
+            Mach1TranscodeCAPI_setSpatialDownmixer(M1obj, corrThreshold);
         }
 
         public bool getSpatialDownmixerPossibility()
@@ -209,7 +209,7 @@ namespace Mach1
 
         public void setInputFormatCustomPointsJson(string inJson)
         {
-            IntPtr strPtr = Marshal.StringToHGlobalAuto(str);
+            IntPtr strPtr = Marshal.StringToHGlobalAnsi(inJson);
             Mach1TranscodeCAPI_setInputFormatCustomPointsJson(M1obj, strPtr);
             Marshal.FreeHGlobal(strPtr);
         }
@@ -231,7 +231,7 @@ namespace Mach1
 
         public void setOutputFormatCustomPointsJson(string strJson)
         {
-            IntPtr strPtr = Marshal.StringToHGlobalAuto(str);
+            IntPtr strPtr = Marshal.StringToHGlobalAnsi(strJson);
             Mach1TranscodeCAPI_setOutputFormatCustomPointsJson(M1obj, strPtr);
             Marshal.FreeHGlobal(strPtr);
         }
@@ -248,7 +248,7 @@ namespace Mach1
 
         public bool processConversionPath()
         {
-            Mach1TranscodeCAPI_processConversionPath(M1obj);
+            return Mach1TranscodeCAPI_processConversionPath(M1obj);
         }
 
         public float[][] getMatrixConversion()
@@ -313,7 +313,7 @@ namespace Mach1
             int count = 0;
             IntPtr ptr = Mach1TranscodeCAPI_getFormatConversionPath(M1obj, ref count);
 
-            float[] vec = new float[count];
+            int[] vec = new int[count];
             Marshal.Copy(ptr, vec, 0, count);
             return vec;
         }

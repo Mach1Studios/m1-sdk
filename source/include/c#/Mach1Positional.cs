@@ -1,5 +1,5 @@
-﻿//  Mach1 SDK
-//  Copyright © 2017 Mach1. All rights reserved.
+﻿//  Mach1 Spatial SDK
+//  Copyright © 2017 Mach1, Corp. All rights reserved.
 
 using System;
 using System.Runtime.InteropServices;
@@ -133,6 +133,9 @@ namespace Mach1
             ///     - Mach1PlatformOfEasyCam
             ///     - Mach1PlatformAndroid
             ///     - Mach1PlatformiOS
+            ///     - Mach1PlatformiOSTableTop_ZVertical
+            ///     - Mach1PlatformiOSPortraitHandheld_YVertical
+            ///     - Mach1PlatformiOSPortrait_YawOnly
         }
 
         public void setDecodeAlgoType(Mach1DecodeAlgoType type)

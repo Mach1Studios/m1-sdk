@@ -29,10 +29,10 @@ namespace Mach1
         internal static extern void Mach1DecodeCAPI_setPlatformType(IntPtr M1obj, Mach1PlatformType type);
 
         [DllImport(libname)]
-        Mach1DecodeAlgoType Mach1DecodeCAPI_getDecodeAlgoType(IntPtr M1obj);
+        internal static extern Mach1DecodeAlgoType Mach1DecodeCAPI_getDecodeAlgoType(IntPtr M1obj);
 
         [DllImport(libname)]
-        Mach1PlatformType Mach1DecodeCAPI_getPlatformType(IntPtr M1obj);
+        internal static extern Mach1PlatformType Mach1DecodeCAPI_getPlatformType(IntPtr M1obj);
 
         [DllImport(libname)]
         internal static extern IntPtr Mach1DecodeCAPI_decode(IntPtr M1obj, float Yaw, float Pitch, float Roll, IntPtr data, int bufferSize = 0, int sampleIndex = 0);
@@ -44,7 +44,7 @@ namespace Mach1
         internal static extern IntPtr Mach1DecodeCAPI_decodePannedCoeffs(IntPtr M1obj, IntPtr data, int bufferSize = 0, int sampleIndex = 0, bool applyPanLaw = true);
 
         [DllImport(libname)]
-        internal static extern IntPtr Mach1DecodeCAPI_decodeCoeffsUsingTranscodeMatrix(IntPtr M1obj, InPtr matrix, int channels, IntPtr data, int bufferSize = 0, int sampleIndex = 0);
+        internal static extern IntPtr Mach1DecodeCAPI_decodeCoeffsUsingTranscodeMatrix(IntPtr M1obj, IntPtr matrix, int channels, IntPtr data, int bufferSize = 0, int sampleIndex = 0);
 
         [DllImport(libname)]
         internal static extern void Mach1DecodeCAPI_setFilterSpeed(IntPtr M1obj, float filterSpeed);
@@ -129,6 +129,18 @@ namespace Mach1
             ///     - Mach1PlatformiOSTableTop_ZVertical
             ///     - Mach1PlatformiOSPortraitHandheld_YVertical
             ///     - Mach1PlatformiOSPortrait_YawOnly
+        }
+
+        public Mach1DecodeAlgoType getDecodeAlgoType()
+        {
+            return Mach1DecodeCAPI_getDecodeAlgoType(M1obj);
+            /// Returns the current decoding algorithm (or also known as the Mach1Decode's input channel mode)
+        }
+
+        public Mach1PlatformType getPlatformType()
+        {
+            return Mach1DecodeCAPI_getPlatformType(M1obj);
+            /// Returns the current platform type being used to re-order input orientation
         }
 
         public void decode(float Yaw, float Pitch, float Roll, ref float[] data,  int bufferSize = 0, int sampleIndex = 0)

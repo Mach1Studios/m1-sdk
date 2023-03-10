@@ -52,4 +52,6 @@ set env var ANDROID_NDK_r16b to ndk path
 3. for travis-ci setup run `cd scripts && ./local-ios-setup.sh`
 
 ## TODO ##
+- Automate this repo's `master` branch merge back into `develop`
+- Automate deletion of `deploy` and `master` after the above step is completed
 - PR Merge for [../public](public) triggers a CD action/job for recompiling Mach1Transcode API/exec and upping the version

@@ -6,6 +6,13 @@
 - Fill out the `m1-globallocal.mk` file and move it to `~/m1-globallocal.mk` for proper path variables
 - run commands from `makefile` or run `make build-all` from this directory to test everything 
 
+### Travis CI/CD Release Process ###
+
+- `develop` branch is tested per commit
+- When ready to release and update all libs for both `m1-sdk` and `m1-sdk-dev` create and push a new branch named `deploy` off of the desired commit
+- If `deploy` is successful it will create a `master` branch in this repo of the updated recompiled libs that will need to be merged into `develop`
+- **IMPORTANT** After each `deploy` attempt is finished and the `master` branch in this repo is merged in, delete both the local and remote branches of both `deploy` and `master` as a cleanup step
+
 ## Recipes ##
 
 * Mac OS build (xcode) Example:

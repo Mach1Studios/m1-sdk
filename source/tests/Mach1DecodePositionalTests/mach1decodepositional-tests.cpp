@@ -36,26 +36,12 @@ void test_results(void) {
     struct INPUT_DATA {
         Mach1PlatformType platformMode;
         Mach1DecodeAlgoType outputMode;
-        float listenerPosX;
-        float listenerPosY;
-        float listenerPosZ;
-        float listenerYaw;
-        float listenerPitch;
-        float listenerRoll;
-        float m1PosX;
-        float m1PosY;
-        float m1PosZ;
-        float m1Yaw;
-        float m1Pitch;
-        float m1Roll;
-        float scaleX;
-        float scaleY;
-        float scaleZ;
-        bool atttenuate;
-        bool planeMode;
-        bool blendMode;
-        bool muteWhenInside;
-        bool muteWhenOutside;
+        float listenerPosX, listenerPosY, listenerPosZ;
+        float listenerYaw, listenerPitch, listenerRoll;
+        float m1PosX, m1PosY, m1PosZ;
+        float m1Yaw, m1Pitch, m1Roll;
+        float scaleX, scaleY, scaleZ;
+        bool atttenuate, planeMode, blendMode, muteWhenInside, muteWhenOutside;
         float filterSpeed;
     };
 
@@ -78,64 +64,215 @@ void test_results(void) {
          */
         {
             "case: POSITIONAL | 0 Yaw",
-            {Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
-             0.0, 0.0, 0.0, // listener pos
-             0.0, 0.0, 0.0, // listener rot
-             0.0, 0.0, 5.0, // m1 pos
-             0.0, 0.0, 0.0, // m1 rot
-             1.0, 1.0, 1.0, // m1 scale
-             false, false, false, false, false, 1.0},
+            {
+                Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
+                0.0, 0.0, 0.0, // listener pos
+                0.0, 0.0, 0.0, // listener rot
+                0.0, 0.0, 5.0, // m1 pos
+                0.0, 0.0, 0.0, // m1 rot
+                1.0, 1.0, 1.0, // m1 scale
+                false, false, false, false, false, 1.0
+            },
             {
                 {
-                    0.5,
-                    0.0,
-                    0.0,
-                    0.5,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.5,
-                    0.0,
-                    0.0,
-                    0.5,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0,
-                    1.0,
+                    0.5, 0.0,
+                    0.0, 0.5,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.5, 0.0,
+                    0.0, 0.5,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    1.0, 1.0,
                 },
                 5.0,
-            }},
-        // {
-        // 	"case: POSITIONAL | 90 Yaw",
-        // 	{ Mach1PlatformDefault, Mach1DecodeAlgoSpatial,
-        // 		0.0, 0.0, -5.0, //listener pos
-        // 		90.0, 0.0, 0.0, //listener rot
-        // 		0.0, 0.0, 0.0, //m1 pos
-        // 		0.0, 0.0, 0.0, //m1 rot
-        // 		1.0, 1.0, 1.0, //m1 scale
-        // 		false, false, false, false, false, 1.0 },
-        // 	{
-        // 		{
-        // 			0.0, 0.0,
-        // 			0.5, 0.0,
-        // 			0.0, 0.0,
-        // 			0.0, 0.5,
-        // 			0.0, 0.0,
-        // 			0.5, 0.0,
-        // 			0.0, 0.0,
-        // 			0.0, 0.5,
-        // 			1.0, 1.0,
-        // 		},
-        // 		5.0,
-        // 	}
-        // },
+            }
+        },
+        {
+            "case: POSITIONAL | 90 Yaw",
+            {
+                Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
+                0.0, 0.0, 0.0, //listener pos
+                90.0, 0.0, 0.0, //listener rot
+                0.0, 0.0, 5.0, //m1 pos
+                0.0, 0.0, 0.0, //m1 rot
+                1.0, 1.0, 1.0, //m1 scale
+                false, false, false, false, false, 1.0
+            },
+            {
+                {
+                    0.0, 0.0,
+                    0.5, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.5,
+                    0.0, 0.0,
+                    0.5, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.5,
+                    1.0, 1.0,
+                },
+                5.0,
+            }
+        },
+        {
+            "case: POSITIONAL | -90 Yaw",
+            {
+                Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
+                0.0, 0.0, 0.0, //listener pos
+                -90.0, 0.0, 0.0, //listener rot
+                0.0, 0.0, 5.0, //m1 pos
+                0.0, 0.0, 0.0, //m1 rot
+                1.0, 1.0, 1.0, //m1 scale
+                false, false, false, false, false, 1.0
+            },
+            {
+                {
+                    0.0, 0.5,
+                    0.0, 0.0,
+                    0.5, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.5,
+                    0.0, 0.0,
+                    0.5, 0.0,
+                    0.0, 0.0,
+                    1.0, 1.0,
+                },
+                5.0,
+            }
+        },
+        {
+            "case: POSITIONAL | -90Y 45P",
+            {
+                Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
+                0.0, 0.0, 0.0, //listener pos
+                -90.0, 45.0, 0.0, //listener rot
+                0.0, 0.0, 5.0, //m1 pos
+                0.0, 0.0, 0.0, //m1 rot
+                1.0, 1.0, 1.0, //m1 scale
+                false, false, false, false, false, 1.0
+            },
+            {
+                {
+                    0.074610, 0.702021,
+                    0.000000, 0.111684,
+                    0.702021, 0.074610,
+                    0.111684, 0.000000,
+                    0.000000, 0.111684,
+                    0.000000, 0.000000,
+                    0.111684, 0.000000,
+                    0.000000, 0.000000,
+                    1.0, 1.0,
+                },
+                5.0,
+            }
+        },
         /*
         PLATFORM TESTING
-        TODO: add more input tests with less rounded inputs
          */
+        {
+            "case: POSITIONAL | Unity | 0 Yaw",
+            {
+                Mach1PlatformUnity, Mach1DecodeAlgoSpatial_8,
+                0.0, 0.0, 0.0, //listener pos
+                0.0, 0.0, 0.0, //listener rot
+                0.0, 0.0, 5.0, //m1 pos
+                0.0, 0.0, 0.0, //m1 rot
+                1.0, 1.0, 1.0, //m1 scale
+                false, false, false, false, false, 1.0
+            },
+            {
+                {
+                    0.5, 0.0,
+                    0.0, 0.5,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.5, 0.0,
+                    0.0, 0.5,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    1.0, 1.0,
+                },
+                5.0,
+            }
+        },
+        {
+            "case: POSITIONAL | Unity | 90 Yaw",
+            {
+                Mach1PlatformUnity, Mach1DecodeAlgoSpatial_8,
+                0.0, 0.0, 0.0, //listener pos
+                0.0, 90.0, 0.0, //listener rot
+                0.0, 0.0, 5.0, //m1 pos
+                0.0, 0.0, 0.0, //m1 rot
+                1.0, 1.0, 1.0, //m1 scale
+                false, false, false, false, false, 1.0
+            },
+            {
+                {
+                    0.0, 0.0,
+                    0.5, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.5,
+                    0.0, 0.0,
+                    0.5, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.5,
+                    1.0, 1.0,
+                },
+                5.0,
+            }
+        },
+        {
+            "case: POSITIONAL | UE | 0 Yaw",
+            {
+                Mach1PlatformUE, Mach1DecodeAlgoSpatial_8,
+                0.0, 0.0, 0.0, //listener pos
+                0.0, 0.0, 0.0, //listener rot
+                0.0, 0.0, 5.0, //m1 pos
+                0.0, 0.0, 0.0, //m1 rot
+                1.0, 1.0, 1.0, //m1 scale
+                false, false, false, false, false, 1.0
+            },
+            {
+                {
+                    0.5, 0.0,
+                    0.0, 0.5,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.5, 0.0,
+                    0.0, 0.5,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    1.0, 1.0,
+                },
+                5.0,
+            }
+        },
+        {
+            "case: POSITIONAL | UE | 90 Yaw",
+            {
+                Mach1PlatformUE, Mach1DecodeAlgoSpatial_8,
+                0.0, 0.0, 0.0, //listener pos
+                0.0, 0.0, 90.0, //listener rot
+                0.0, 0.0, 5.0, //m1 pos
+                0.0, 0.0, 0.0, //m1 rot
+                1.0, 1.0, 1.0, //m1 scale
+                false, false, false, false, false, 1.0
+            },
+            {
+                {
+                    0.0, 0.0,
+                    0.5, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.5,
+                    0.0, 0.0,
+                    0.5, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.5,
+                    1.0, 1.0,
+                },
+                5.0,
+            }
+        },
     };
 
     std::cout << std::endl;

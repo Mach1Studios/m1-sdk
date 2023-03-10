@@ -624,58 +624,58 @@ void test_results(void) {
          }},
         // TODO: write out the results for OrbitRotation input checks
         //  {
-        //  	"OrbitRotation: signed degrees",
-        //  	{ Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial_8, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, signedDegrees },
-        //  	{
-        //  		{
-        //  			{ 0.0, 0.0, 0.0, 0.0, 0.25, 0.25, 0.25, 0.25 },
-        //  		},
-        //  	}
+        //      "OrbitRotation: signed degrees",
+        //      { Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial_8, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, signedDegrees },
+        //      {
+        //          {
+        //              { 0.0, 0.0, 0.0, 0.0, 0.25, 0.25, 0.25, 0.25 },
+        //          },
+        //      }
         //  },
         //  {
-        //  	"OrbitRotation: unsigned degrees",
-        //  	{ Mach1EncodeInputModeStereo, Mach1EncodeOutputModeM1Spatial_8, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
-        //  	{
-        //  		{
-        //  			{ 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125 },
-        //  		},
-        //  	}
+        //      "OrbitRotation: unsigned degrees",
+        //      { Mach1EncodeInputModeStereo, Mach1EncodeOutputModeM1Spatial_8, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees },
+        //      {
+        //          {
+        //              { 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125 },
+        //          },
+        //      }
         //  },
         //  {
-        //  	"OrbitRotation: signed radians",
-        //  	{ Mach1EncodeInputModeStereo, Mach1EncodeOutputModeM1Spatial_8, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, signedRadians },
-        //  	{
-        //  		{
-        //  			{ 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125 },
-        //  		},
-        //  	}
+        //      "OrbitRotation: signed radians",
+        //      { Mach1EncodeInputModeStereo, Mach1EncodeOutputModeM1Spatial_8, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, signedRadians },
+        //      {
+        //          {
+        //              { 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125 },
+        //          },
+        //      }
         //  },
         //  {
-        //  	"OrbitRotation: unsigned radians",
-        //  	{ Mach1EncodeInputModeStereo, Mach1EncodeOutputModeM1Spatial_8, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedRadians },
-        //  	{
-        //  		{
-        //  			{ 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125 },
-        //  		},
-        //  	}
+        //      "OrbitRotation: unsigned radians",
+        //      { Mach1EncodeInputModeStereo, Mach1EncodeOutputModeM1Spatial_8, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedRadians },
+        //      {
+        //          {
+        //              { 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125 },
+        //          },
+        //      }
         //  },
         //  {
-        //  	"OrbitRotation: signed norm",
-        //  	{ Mach1EncodeInputModeStereo, Mach1EncodeOutputModeM1Spatial_8, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, signedRadians },
-        //  	{
-        //  		{
-        //  			{ 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125 },
-        //  		},
-        //  	}
+        //      "OrbitRotation: signed norm",
+        //      { Mach1EncodeInputModeStereo, Mach1EncodeOutputModeM1Spatial_8, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, signedRadians },
+        //      {
+        //          {
+        //              { 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125 },
+        //          },
+        //      }
         //  },
         //  {
-        //  	"OrbitRotation: unsigned norm",
-        //  	{ Mach1EncodeInputModeStereo, Mach1EncodeOutputModeM1Spatial_8, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedRadians },
-        //  	{
-        //  		{
-        //  			{ 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125 },
-        //  		},
-        //  	}
+        //      "OrbitRotation: unsigned norm",
+        //      { Mach1EncodeInputModeStereo, Mach1EncodeOutputModeM1Spatial_8, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedRadians },
+        //      {
+        //          {
+        //              { 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125 },
+        //          },
+        //      }
         //  },
     };
 

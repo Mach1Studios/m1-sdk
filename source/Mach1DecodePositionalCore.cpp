@@ -396,7 +396,7 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
         // http://www.aclockworkberry.com/world-coordinate-systems-in-3ds-max-unity-and-unreal-engine/
         glm::quat quat;
         quat = glm::quatLookAtLH(glm::normalize(dir), GetUpVector());
-        quat *= glm::inverse(soundRotation);
+        //quat *= glm::inverse(soundRotation);
 
         glm::vec3 quatEulerAngles = QuaternionToEuler(glm::normalize(quat));
 
@@ -407,7 +407,7 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
         quat = EulerToQuaternion(glm::vec3(useXForRotation ? quatEulerAngles.x : 0, useYForRotation ? quatEulerAngles.y : 0, useZForRotation ? quatEulerAngles.z : 0));
         eulerAnglesCube = QuaternionToEuler(glm::normalize(quat)) * RAD_TO_DEG_F;
 
-        quat *= glm::inverse(cameraRotation);
+        quat *= glm::inverse(cameraRotation) * soundRotation; 
 
         quat = glm::inverse(quat); // the last inversion, because it is not a rotation of the cube, but a pointer in the opposite direction
 

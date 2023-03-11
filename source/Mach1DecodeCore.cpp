@@ -1490,13 +1490,13 @@ void Mach1DecodeCore::processSample(functionAlgoSampleHP funcAlgoSampleHP, float
             // we're in per sample mode
             // returning values from right here!
 
-            float volumes1[18];
-            float volumes2[18];
-            (this->*funcAlgoSampleHP)(previousYaw, previousPitch, previousRoll, volumes1);
-            (this->*funcAlgoSampleHP)(currentYaw, currentPitch, currentRoll, volumes2);
+            std::vector<float> volumes1(getFormatCoeffCount());
+            std::vector<float> volumes2(getFormatCoeffCount());
+            (this->*funcAlgoSampleHP)(previousYaw, previousPitch, previousRoll, volumes1.data());
+            (this->*funcAlgoSampleHP)(currentYaw, currentPitch, currentRoll, volumes2.data());
             float phase = (float)sampleIndex / (float)bufferSize;
 
-            float volumes_lerp[18];
+            std::vector<float> volumes_lerp(getFormatCoeffCount());
             for (int i = 0; i < 18; i++) {
                 volumes_lerp[i] = volumes1[i] * (1 - phase) + volumes2[i] * phase;
                 result[i] = volumes_lerp[i];
@@ -1564,13 +1564,24 @@ std::vector<float> Mach1DecodeCore::processSample(functionAlgoSample funcAlgoSam
             return volumes_lerp;
         } else {
             // Filtering per-buffer
-            Yaw = currentYaw;
-            Pitch = currentPitch;
-            Roll = currentRoll;
+            if (filterSpeed >= 1.0) {
+                currentYaw = Yaw;
+                currentPitch = Pitch;
+                currentRoll = Roll;
 
-            previousYaw = currentYaw;
-            previousPitch = currentPitch;
-            previousRoll = currentRoll;
+                previousYaw = currentYaw;
+                previousPitch = currentPitch;
+                previousRoll = currentRoll;
+
+            } else {
+                Yaw = currentYaw;
+                Pitch = currentPitch;
+                Roll = currentRoll;
+
+                previousYaw = currentYaw;
+                previousPitch = currentPitch;
+                previousRoll = currentRoll;
+            }
         }
     } else {
         targetYaw = Yaw;

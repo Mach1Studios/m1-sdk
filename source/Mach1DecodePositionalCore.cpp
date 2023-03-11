@@ -113,13 +113,13 @@ void Mach1DecodePositionalCore::ConvertPositionToMach1(Mach1PlatformType platfor
         break;
 
     case Mach1PlatformUE:
-        // R P Y -> Y P R
+        // R P Y -> Y P -R
         _R = *Y;
         _P = *P;
         _Y = *R;
         *Y = _Y;
         *P = _P;
-        *R = _R;
+        *R = -_R;
         break;
 
     case Mach1PlatformOfEasyCam:
@@ -191,13 +191,13 @@ void Mach1DecodePositionalCore::ConvertPositionToPlatform(Mach1PlatformType plat
         break;
 
     case Mach1PlatformUE:
-        // R P Y -> Y P R
+        // R P Y -> Y P -R
         _R = *Y;
         _P = *P;
         _Y = *R;
         *Y = _Y;
         *P = _P;
-        *R = _R;
+        *R = -_R;
         break;
 
     case Mach1PlatformOfEasyCam:

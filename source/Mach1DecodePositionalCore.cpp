@@ -65,21 +65,77 @@ glm::quat Mach1DecodePositionalCore::EulerToQuaternion(glm::vec3 euler) {
 }
 
 // Position settings functions
-void Mach1DecodePositionalCore::ConvertPositionToMach1(Mach1PlatformType platformType, float *X, float *Y, float *Z) {
-    float _X = 0, _Y = 0, _Z = 0;
+void Mach1DecodePositionalCore::ConvertPositionToMach1(Mach1PlatformType platformType, float *Y, float *P, float *R) {
+    float _Y = 0, _P = 0, _R = 0;
 
     switch (platformType) {
-    case Mach1PlatformUE:
-        // Z X Y -> X Y Z
-        _Z = *X;
-        _X = *Y;
-        _Y = *Z;
-        *X = _X;
-        *Y = _Y;
-        *Z = _Z;
+    case Mach1PlatformDefault:
+        *Y = *Y;
+        *P = *P;
+        *R = *R;
+        break;
+
+    case Mach1PlatformiOS:
+        *Y = -*Y;
+        *P = *P;
+        *R = *R;
+        break;
+
+    case Mach1PlatformiOSTableTop_ZVertical:
+        *Y = -*Y;
+        *P = *P;
+        *R = *R;
+        break;
+
+    case Mach1PlatformiOSPortraitHandheld_YVertical:
+        // TODO: add this!
+        break;
+
+    case Mach1PlatformiOSPortrait_YawOnly:
+        *Y = -*Y;
+        *P = *P;
+        *R = *R;
+        if (*R < 0 && *Y < 0) {
+            *Y = 360 - (-1 * (*Y + *R));
+        } else {
+            *Y = *Y + *R;
+        }
         break;
 
     case Mach1PlatformUnity:
+        // P Y R -> Y -P R
+        _P = *Y;
+        _Y = *P;
+        _R = *R;
+        *Y = _Y;
+        *P = -_P;
+        *R = _R;
+        break;
+
+    case Mach1PlatformUE:
+        // R P Y -> Y P R
+        _R = *Y;
+        _P = *P;
+        _Y = *R;
+        *Y = _Y;
+        *P = _P;
+        *R = _R;
+        break;
+
+    case Mach1PlatformOfEasyCam:
+        *Y = *Y;
+        *P = -*P;
+        *R = -*R;
+        break;
+
+    case Mach1PlatformAndroid:
+        // P Y R -> Y -P R
+        _P = *Y;
+        _Y = *P;
+        _R = *R;
+        *Y = _Y;
+        *P = -_P;
+        *R = _R;
         break;
 
     default:
@@ -87,20 +143,77 @@ void Mach1DecodePositionalCore::ConvertPositionToMach1(Mach1PlatformType platfor
     }
 }
 
-void Mach1DecodePositionalCore::ConvertPositionToPlatform(Mach1PlatformType platformType, float *X, float *Y, float *Z) {
-    float _X = 0, _Y = 0, _Z = 0;
+void Mach1DecodePositionalCore::ConvertPositionToPlatform(Mach1PlatformType platformType, float *Y, float *P, float *R) {
+    float _Y = 0, _P = 0, _R = 0;
 
     switch (platformType) {
-    case Mach1PlatformUE:
-        // X Y Z -> Z X Y
-        _X = *X;
-        _Y = *Y;
-        _Z = *Z;
-        *X = _Z;
-        *Y = _X;
-        *Z = _Y;
+    case Mach1PlatformDefault:
+        *Y = *Y;
+        *P = *P;
+        *R = *R;
         break;
+
+    case Mach1PlatformiOS:
+        *Y = -*Y;
+        *P = *P;
+        *R = *R;
+        break;
+
+    case Mach1PlatformiOSTableTop_ZVertical:
+        *Y = -*Y;
+        *P = *P;
+        *R = *R;
+        break;
+
+    case Mach1PlatformiOSPortraitHandheld_YVertical:
+        // TODO: add this!
+        break;
+
+    case Mach1PlatformiOSPortrait_YawOnly:
+        *Y = -*Y;
+        *P = *P;
+        *R = *R;
+        if (*R < 0 && *Y < 0) {
+            *Y = 360 - (-1 * (*Y + *R));
+        } else {
+            *Y = *Y + *R;
+        }
+        break;
+
     case Mach1PlatformUnity:
+        // P Y R -> Y -P R
+        _P = *Y;
+        _Y = *P;
+        _R = *R;
+        *Y = _Y;
+        *P = -_P;
+        *R = _R;
+        break;
+
+    case Mach1PlatformUE:
+        // R P Y -> Y P R
+        _R = *Y;
+        _P = *P;
+        _Y = *R;
+        *Y = _Y;
+        *P = _P;
+        *R = _R;
+        break;
+
+    case Mach1PlatformOfEasyCam:
+        *Y = *Y;
+        *P = -*P;
+        *R = -*R;
+        break;
+
+    case Mach1PlatformAndroid:
+        // P Y R -> Y -P R
+        _P = *Y;
+        _Y = *P;
+        _R = *R;
+        *Y = _Y;
+        *P = -_P;
+        *R = _R;
         break;
 
     default:
@@ -473,67 +586,6 @@ float Mach1DecodePositionalCore::getDist() {
 
 void Mach1DecodePositionalCore::setFilterSpeed(float filterSpeed) {
     mach1Decode.setFilterSpeed(filterSpeed);
-}
-
-int test() {
-    Mach1DecodePositionalCore m1Positional;
-
-    m1Positional.setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial_8);
-    Mach1PlatformType platfrom = Mach1PlatformType::Mach1PlatformUE; // Mach1PlatformUnity Mach1PlatformUE
-
-    m1Positional.setPlatformType(platfrom);
-    m1Positional.setUseBlendMode(false);
-    m1Positional.setIgnoreTopBottom(false); // true
-    m1Positional.setMuteWhenOutsideObject(false);
-    m1Positional.setMuteWhenInsideObject(false);
-    m1Positional.setUseAttenuation(false);
-    m1Positional.setUsePlaneCalculation(false);
-    m1Positional.setUseYawForRotation(true);
-    m1Positional.setUsePitchForRotation(true);
-    m1Positional.setUseRollForRotation(true);
-
-    if (platfrom == Mach1PlatformType::Mach1PlatformUnity) {
-        Mach1Point3DCore lpos = {0.3036554, 0.3616396, -1.546355}; // camera
-        Mach1Point3DCore lrot = {347.5, 314.25, 0.0};
-        Mach1Point3DCore dpos = {0.00, 0.00, 0.0}; // actor
-        Mach1Point3DCore drot = {0.00, 0.0, 0.0};
-        Mach1Point3DCore dscl = {1, 1, 1};
-
-        m1Positional.setListenerPosition(&lpos); // ConvertToMach1Point3D(PlayerPosition));
-        m1Positional.setListenerRotation(&lrot);
-        m1Positional.setDecoderAlgoPosition(&dpos); // ConvertToMach1Point3D(GetActorLocation()));
-        m1Positional.setDecoderAlgoRotation(&drot); // ConvertToMach1Point3D(GetEuler(GetActorRotation().glm::quat())));
-        m1Positional.setDecoderAlgoScale(&dscl);
-    } else if (platfrom == Mach1PlatformType::Mach1PlatformUE) {
-        Mach1Point3DCore lpos = {0.3036554, 0.3616396, -1.546355}; // camera
-        Mach1Point3DCore lrot = {347.5, 314.25, 0.0};
-        Mach1Point3DCore dpos = {0.00, 0.00, 0.0}; // actor
-        Mach1Point3DCore drot = {0.00, 0.0, 0.0};
-        Mach1Point3DCore dscl = {1, 1, 1};
-
-        Mach1Point3DCore _lpos = {lpos.z, lpos.x, lpos.y};
-        Mach1Point3DCore _lrot = {-lrot.z, lrot.x, lrot.y};
-        Mach1Point3DCore _dpos = {dpos.z, dpos.x, dpos.y};
-        Mach1Point3DCore _drot = {-drot.z, drot.x, drot.y};
-        Mach1Point3DCore _dscl = {dscl.x, dscl.y, dscl.z};
-
-        m1Positional.setListenerPosition(&_lpos);
-        m1Positional.setListenerRotation(&_lrot);
-        m1Positional.setDecoderAlgoPosition(&_dpos);
-        m1Positional.setDecoderAlgoRotation(&_drot);
-        m1Positional.setDecoderAlgoScale(&_dscl);
-    }
-
-    for (size_t i = 0; i < 3000; i++) {
-        m1Positional.evaluatePositionResults();
-    }
-    m1Positional.evaluatePositionResults();
-
-    // NEW 2
-    float volumesWalls[18];
-    float d = m1Positional.getDist();
-    m1Positional.getCoefficients(volumesWalls);
-    return 0;
 }
 
 long Mach1DecodePositionalCore::getCurrentTime() {

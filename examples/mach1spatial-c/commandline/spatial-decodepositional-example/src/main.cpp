@@ -41,10 +41,6 @@
 #define M_PI 3.14159265358979323846264338327950288
 #endif
 
-#ifndef PI
-#define PI 3.14159265358979323846
-#endif
-
 #ifdef WIN32
 BOOLEAN nanosleep(struct timespec* ts, void* p) {
 	/* Declarations */
@@ -132,7 +128,7 @@ int main(int argc, const char * argv[]) {
     
     printf("Setting up\n");
 	m1Decode.setPlatformType(Mach1PlatformType::Mach1PlatformDefault);
-	m1Decode.setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial);
+	m1Decode.setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial_8);
 	m1Decode.setFilterSpeed(1.0);
     
     m1Decode.setUseBlendMode(false);

@@ -65,77 +65,29 @@ glm::quat Mach1DecodePositionalCore::EulerToQuaternion(glm::vec3 euler) {
 }
 
 // Position settings functions
-void Mach1DecodePositionalCore::ConvertPositionToMach1(Mach1PlatformType platformType, float *Y, float *P, float *R) {
-    float _Y = 0, _P = 0, _R = 0;
+void Mach1DecodePositionalCore::ConvertPositionToMach1(Mach1PlatformType platformType, float *X, float *Y, float *Z) {
+    float _X = 0, _Y = 0, _Z = 0;
 
     switch (platformType) {
     case Mach1PlatformDefault:
+        *X = *X;
         *Y = *Y;
-        *P = *P;
-        *R = *R;
-        break;
-
-    case Mach1PlatformiOS:
-        *Y = -*Y;
-        *P = *P;
-        *R = *R;
-        break;
-
-    case Mach1PlatformiOSTableTop_ZVertical:
-        *Y = -*Y;
-        *P = *P;
-        *R = *R;
-        break;
-
-    case Mach1PlatformiOSPortraitHandheld_YVertical:
-        // TODO: add this!
-        break;
-
-    case Mach1PlatformiOSPortrait_YawOnly:
-        *Y = -*Y;
-        *P = *P;
-        *R = *R;
-        if (*R < 0 && *Y < 0) {
-            *Y = 360 - (-1 * (*Y + *R));
-        } else {
-            *Y = *Y + *R;
-        }
-        break;
-
-    case Mach1PlatformUnity:
-        // P Y R -> Y -P R
-        _P = *Y;
-        _Y = *P;
-        _R = *R;
-        *Y = _Y;
-        *P = -_P;
-        *R = _R;
+        *Z = *Z;
         break;
 
     case Mach1PlatformUE:
-        // R P Y -> Y P -R
-        _R = *Y;
-        _P = *P;
-        _Y = *R;
+        // forward: x, right: y, up: z
+        // Z X Y -> X Y Z
+        _Z = *X;
+        _X = *Y;
+        _Y = *Z;
+        *X = _X;
         *Y = _Y;
-        *P = _P;
-        *R = -_R;
+        *Z = _Z;
         break;
 
-    case Mach1PlatformOfEasyCam:
-        *Y = *Y;
-        *P = -*P;
-        *R = -*R;
-        break;
-
-    case Mach1PlatformAndroid:
-        // P Y R -> Y -P R
-        _P = *Y;
-        _Y = *P;
-        _R = *R;
-        *Y = _Y;
-        *P = -_P;
-        *R = _R;
+    case Mach1PlatformUnity:
+        // forward: z, right: x, up: y
         break;
 
     default:
@@ -143,77 +95,29 @@ void Mach1DecodePositionalCore::ConvertPositionToMach1(Mach1PlatformType platfor
     }
 }
 
-void Mach1DecodePositionalCore::ConvertPositionToPlatform(Mach1PlatformType platformType, float *Y, float *P, float *R) {
-    float _Y = 0, _P = 0, _R = 0;
+void Mach1DecodePositionalCore::ConvertPositionToPlatform(Mach1PlatformType platformType, float *X, float *Y, float *Z) {
+    float _X = 0, _Y = 0, _Z = 0;
 
     switch (platformType) {
     case Mach1PlatformDefault:
+        *X = *X;
         *Y = *Y;
-        *P = *P;
-        *R = *R;
-        break;
-
-    case Mach1PlatformiOS:
-        *Y = -*Y;
-        *P = *P;
-        *R = *R;
-        break;
-
-    case Mach1PlatformiOSTableTop_ZVertical:
-        *Y = -*Y;
-        *P = *P;
-        *R = *R;
-        break;
-
-    case Mach1PlatformiOSPortraitHandheld_YVertical:
-        // TODO: add this!
-        break;
-
-    case Mach1PlatformiOSPortrait_YawOnly:
-        *Y = -*Y;
-        *P = *P;
-        *R = *R;
-        if (*R < 0 && *Y < 0) {
-            *Y = 360 - (-1 * (*Y + *R));
-        } else {
-            *Y = *Y + *R;
-        }
-        break;
-
-    case Mach1PlatformUnity:
-        // P Y R -> Y -P R
-        _P = *Y;
-        _Y = *P;
-        _R = *R;
-        *Y = _Y;
-        *P = -_P;
-        *R = _R;
+        *Z = *Z;
         break;
 
     case Mach1PlatformUE:
-        // R P Y -> Y P -R
-        _R = *Y;
-        _P = *P;
-        _Y = *R;
-        *Y = _Y;
-        *P = _P;
-        *R = -_R;
+        // forward: x, right: y, up: z
+        // X Y Z -> Z X Y
+        _X = *X;
+        _Y = *Y;
+        _Z = *Z;
+        *X = _Z;
+        *Y = _X;
+        *Z = _Y;
         break;
 
-    case Mach1PlatformOfEasyCam:
-        *Y = *Y;
-        *P = -*P;
-        *R = -*R;
-        break;
-
-    case Mach1PlatformAndroid:
-        // P Y R -> Y -P R
-        _P = *Y;
-        _Y = *P;
-        _R = *R;
-        *Y = _Y;
-        *P = -_P;
-        *R = _R;
+    case Mach1PlatformUnity:
+        // forward: z, right: x, up: y
         break;
 
     default:

@@ -974,13 +974,13 @@ void Mach1DecodeCore::convertAnglesToMach1(Mach1PlatformType platformType, float
         break;
 
     case Mach1PlatformUE:
-        // R P Y -> Y P R
+        // R P Y -> Y P -R
         _R = *Y;
         _P = *P;
         _Y = *R;
         *Y = _Y;
         *P = _P;
-        *R = _R;
+        *R = -_R;
         break;
 
     case Mach1PlatformOfEasyCam:
@@ -1052,10 +1052,10 @@ void Mach1DecodeCore::convertAnglesToPlatform(Mach1PlatformType platformType, fl
         break;
 
     case Mach1PlatformUE:
-        // Y P R -> R P Y
+        // Y P -R -> R P Y
         _Y = *Y;
         _P = *P;
-        _R = *R;
+        _R = -*R;
         *Y = _R;
         *P = _P;
         *R = _Y;

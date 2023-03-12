@@ -11,11 +11,12 @@ float mapFloat(float input, float inMin, float inMax, float outMin, float outMax
 
 void test_results(void) {
     std::map<Mach1PlatformType, std::string> platformModeNames = {
-        {Mach1PlatformDefault, "Default"},
-        {Mach1PlatformUnity, "Unity"},
-        {Mach1PlatformUE, "UE"},
-        {Mach1PlatformOfEasyCam, "OFEasyCam"},
+        {Mach1PlatformDefault, "Default"}, // y, p, r
+        {Mach1PlatformUnity, "Unity"}, // p, y, r
+        {Mach1PlatformUE, "UE"}, // p, r, y
+        {Mach1PlatformOfEasyCam, "OFEasyCam"}, 
         {Mach1PlatformAndroid, "Android"},
+        {Mach1PlatformiOS, "iOS"},
         {Mach1PlatformiOSTableTop_ZVertical, "iOS_ZVertical"},
         {Mach1PlatformiOSPortraitHandheld_YVertical, "iOS_YVertical"},
         {Mach1PlatformiOSPortrait_YawOnly, "iOS_YawOnly"},
@@ -153,13 +154,13 @@ void test_results(void) {
             },
             {
                 {
-                    0.074610, 0.702021,
-                    0.000000, 0.111684,
-                    0.702021, 0.074610,
-                    0.111684, 0.000000,
-                    0.000000, 0.111684,
+                    0.064039, 0.602562,
+                    0.000000, 0.166699,
+                    0.602562, 0.064039,
+                    0.166699, 0.000000,
+                    0.000000, 0.166699,
                     0.000000, 0.000000,
-                    0.111684, 0.000000,
+                    0.166699, 0.000000,
                     0.000000, 0.000000,
                     1.0, 1.0,
                 },

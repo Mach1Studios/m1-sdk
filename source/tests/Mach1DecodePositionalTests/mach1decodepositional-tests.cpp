@@ -228,7 +228,7 @@ void test_results(void) {
                 Mach1PlatformUnity, Mach1DecodeAlgoSpatial_8,
                 0.0, 0.0, 0.0, //listener pos
                 0.0, 90.0, 0.0, //listener rot
-                5.0, 0.0, 0.0, //m1 pos
+                0.0, 0.0, 5.0, //m1 pos
                 0.0, 0.0, 0.0, //m1 rot
                 1.0, 1.0, 1.0, //m1 scale
                 false, false, false, false, false, 1.0
@@ -254,7 +254,7 @@ void test_results(void) {
                 Mach1PlatformUnity, Mach1DecodeAlgoSpatial_8,
                 0.0, 0.0, 0.0, //listener pos
                 0.0, 90.0, 0.0, //listener rot
-                5.0, 5.0, 0.0, //m1 pos
+                5.0, 0.0, 5.0, //m1 pos
                 0.0, 0.0, 0.0, //m1 rot
                 1.0, 1.0, 1.0, //m1 scale
                 false, false, false, false, false, 1.0
@@ -280,7 +280,7 @@ void test_results(void) {
                 Mach1PlatformUnity, Mach1DecodeAlgoSpatial_8,
                 0.0, 0.0, 0.0, //listener pos
                 45.0, 45.0, 45.0, //listener rot
-                5.0, 0.0, 0.0, //m1 pos
+                0.0, 0.0, 5.0, //m1 pos
                 0.0, 0.0, 0.0, //m1 rot
                 1.0, 1.0, 1.0, //m1 scale
                 false, false, false, false, false, 1.0

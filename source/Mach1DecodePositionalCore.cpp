@@ -90,12 +90,12 @@ void Mach1DecodePositionalCore::ConvertPositionToMach1(Mach1PlatformType platfor
     case Mach1PlatformUnity:
         // forward: z, right: x, up: y
         // X Z Y -> X Y Z
-//        _X = *X;
-//        _Z = *Y;
-//        _Y = *Z;
-//        *X = _X;
-//        *Y = _Y;
-//        *Z = _Z;
+       _X = *X;
+       _Z = *Y;
+       _Y = *Z;
+       *X = _X;
+       *Y = _Y;
+       *Z = _Z;
         break;
 
     default:
@@ -127,12 +127,12 @@ void Mach1DecodePositionalCore::ConvertPositionToPlatform(Mach1PlatformType plat
     case Mach1PlatformUnity:
         // forward: z, right: x, up: y
         // X Y Z -> X Z Y
-//        _X = *X;
-//        _Y = *Y;
-//        _Z = *Z;
-//        *X = _X;
-//        *Y = _Z;
-//        *Z = _Y;
+       _X = *X;
+       _Y = *Y;
+       _Z = *Z;
+       *X = _X;
+       *Y = _Z;
+       *Z = _Y;
         break;
 
     default:

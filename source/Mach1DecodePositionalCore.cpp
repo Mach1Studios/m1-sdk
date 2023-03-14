@@ -70,7 +70,7 @@ void Mach1DecodePositionalCore::ConvertPositionToMach1(Mach1PlatformType platfor
 
     switch (platformType) {
     case Mach1PlatformDefault:
-        // forward: y, right: x, up: z
+        // forward: z, right: x, up: y
         *X = *X;
         *Y = *Y;
         *Z = *Z;
@@ -78,10 +78,9 @@ void Mach1DecodePositionalCore::ConvertPositionToMach1(Mach1PlatformType platfor
 
     case Mach1PlatformUE:
         // forward: x, right: y, up: z
-        // Y X Z -> X Y Z
-        _Y = *X;
+        _Z = *X;
         _X = *Y;
-        _Z = *Z;
+        _Y = *Z;
         *X = _X;
         *Y = _Y;
         *Z = _Z;
@@ -89,13 +88,9 @@ void Mach1DecodePositionalCore::ConvertPositionToMach1(Mach1PlatformType platfor
 
     case Mach1PlatformUnity:
         // forward: z, right: x, up: y
-        // X Z Y -> X Y Z
-       _X = *X;
-       _Z = *Y;
-       _Y = *Z;
-       *X = _X;
-       *Y = _Y;
-       *Z = _Z;
+        *X = *X;
+        *Y = *Y;
+        *Z = *Z;
         break;
 
     default:
@@ -108,6 +103,7 @@ void Mach1DecodePositionalCore::ConvertPositionToPlatform(Mach1PlatformType plat
 
     switch (platformType) {
     case Mach1PlatformDefault:
+        // forward: z, right: x, up: y
         *X = *X;
         *Y = *Y;
         *Z = *Z;
@@ -115,24 +111,17 @@ void Mach1DecodePositionalCore::ConvertPositionToPlatform(Mach1PlatformType plat
 
     case Mach1PlatformUE:
         // forward: x, right: y, up: z
-        // X Y Z -> Y X Z
         _X = *X;
         _Y = *Y;
         _Z = *Z;
-        *X = _Y;
+        *X = _Z;
         *Y = _X;
-        *Z = _Z;
+        *Z = _Y;
         break;
 
     case Mach1PlatformUnity:
         // forward: z, right: x, up: y
         // X Y Z -> X Z Y
-       _X = *X;
-       _Y = *Y;
-       _Z = *Z;
-       *X = _X;
-       *Y = _Z;
-       *Z = _Y;
         break;
 
     default:

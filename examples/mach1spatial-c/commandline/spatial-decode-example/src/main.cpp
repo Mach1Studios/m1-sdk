@@ -60,7 +60,6 @@ BOOLEAN nanosleep(struct timespec* ts, void* p) {
 }
 #endif
 
-
 static void* decode(void* v);
 static pthread_t thread;
 static bool done = false;
@@ -133,7 +132,6 @@ int main(int argc, const char * argv[]) {
         std::chrono::duration<double> elapsed = end - start;
         timeReturned = (float)elapsed.count();
     }
-    
     return 0;
 }
 

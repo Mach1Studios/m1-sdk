@@ -33,6 +33,8 @@
 #include "Mach1DecodePositional.h"
 
 #define DELTA_ANGLE 0.0174533 // equivalent of 1 degrees in radians
+#define DELTA_VALUE 1.0 // used for incrementing in degrees directly
+#define DELTA_POS_STEP 0.25
 #ifndef PI
 #define PI 3.14159265358979323846
 #endif
@@ -63,10 +65,6 @@ BOOLEAN nanosleep(struct timespec* ts, void* p) {
 	return TRUE;
 }
 #endif
-
-#define DELTA_ANGLE 0.0174533 // equivalent of 1 degrees in radians
-#define DELTA_POS_STEP 0.25
-
 
 static void* decode(void* v);
 static pthread_t thread;
@@ -105,6 +103,7 @@ static float dRoll = 0;
 static float x = 0;
 static float y = 0;
 static float z = -2;
+static bool attenuationActive = true;
 static float distance = 0;
 static float attenuation = 0;
 
@@ -135,10 +134,7 @@ int main(int argc, const char * argv[]) {
     m1Decode.setIgnoreTopBottom(false);
     m1Decode.setMuteWhenInsideObject(false);
     m1Decode.setMuteWhenOutsideObject(false);
-    
-    m1Decode.setUseAttenuation(true);
-    m1Decode.setUsePlaneCalculation(false);
-    
+        
     done = false;
     pthread_create(&thread, NULL, &decode, NULL);
     
@@ -148,15 +144,16 @@ int main(int argc, const char * argv[]) {
         m1Decode.setDecoderAlgoPosition(Mach1Point3D {0.0, 0.0, 0.0});
         m1Decode.setDecoderAlgoRotation(Mach1Point3D {0.0, 0.0, 0.0});
         m1Decode.setDecoderAlgoScale(Mach1Point3D {1.0, 1.0, 1.0});
-		dYaw = radToDeg(rYaw);
-		dPitch = radToDeg(rPitch);
-        dRoll = radToDeg(rRoll);
+		dYaw = rYaw;
+		dPitch = rPitch;
+        dRoll = rRoll;
         m1Decode.setListenerRotation(Mach1Point3D {dYaw, dPitch, dRoll});
         m1Decode.setListenerPosition(Mach1Point3D {x, y, z});
         m1Decode.setUseYawForRotation(true);
         m1Decode.setUsePitchForRotation(true);
         m1Decode.setUseRollForRotation(true);
         m1Decode.evaluatePositionResults();
+        m1Decode.setUsePlaneCalculation(false);
         //Distance Application:
         distance = m1Decode.getDist();
         /*
@@ -164,6 +161,7 @@ int main(int argc, const char * argv[]) {
          Design your own distance coefficient curve here
          This example: Linear curve of 100% -> 0% from 0 to 10 distance away
         */
+        m1Decode.setUseAttenuation(attenuationActive);
         attenuation = mapFloat(distance, 0, 10, 1, 0);
         m1Decode.setAttenuationCurve(attenuation);
         m1Decode.getCoefficients(m1Coeffs);
@@ -171,7 +169,6 @@ int main(int argc, const char * argv[]) {
         std::chrono::duration<double> elapsed = end - start;
         timeReturned = (float)elapsed.count();
     }
-    
     return 0;
 }
 
@@ -204,22 +201,22 @@ static void* decode(void* v)
         printf("\b");
         switch (c) {
             case 'd':
-                rYaw += DELTA_ANGLE;
+                rYaw += DELTA_VALUE;
                 break;
             case 'a':
-                rYaw -= DELTA_ANGLE;
+                rYaw -= DELTA_VALUE;
                 break;
             case 'w':
-                rPitch += DELTA_ANGLE;
+                rPitch += DELTA_VALUE;
                 break;
             case 's':
-                rPitch -= DELTA_ANGLE;
+                rPitch -= DELTA_VALUE;
                 break;
             case 'x':
-                rRoll += DELTA_ANGLE;
+                rRoll += DELTA_VALUE;
                 break;
             case 'z':
-                rRoll -= DELTA_ANGLE;
+                rRoll -= DELTA_VALUE;
                 break;
             case 'i':
                 z += DELTA_POS_STEP;
@@ -239,17 +236,20 @@ static void* decode(void* v)
             case 'h':
                 y -= DELTA_POS_STEP;
                 break;
+            case 'n':
+                attenuationActive = !attenuationActive;
+                break;
             default:
                 printf("Input not recognized.\n");
         }
         
         // check that the values are in proper range
-        if (rPitch < -M_PI) rPitch = M_PI;
-        else if (rPitch > M_PI) rPitch = -M_PI;
-        if (rYaw < 0) rYaw = 2*M_PI;
-        else if (rYaw > 2*M_PI) rYaw = 0;
-        if (rRoll < -M_PI) rRoll = M_PI;
-        else if (rRoll > M_PI) rRoll = -M_PI;
+        if (dYaw < 0.0) dYaw = 360.0;
+        else if (dYaw > 360.0) dYaw = 0.0;
+        if (dPitch < -90.0) dPitch = -90.0;
+        else if (dPitch > 90.0) dPitch = 90.0;
+        if (dRoll < -90.0) dRoll = -90.0;
+        else if (dRoll > 90.0) dRoll = 90.0;
         
         // Mach1DecodeCAPI Log:
         printf("\n");
@@ -258,10 +258,13 @@ static void* decode(void* v)
         printf("x / y / z: %f %f %f\n", x, y, z);
         printf("\n");
         printf("Decode Coeffs:\n");
-        printf(" 1L: %f 1R: %f\n 2L: %f 2R: %f\n 3L: %f 3R: %f\n 4L: %f 4R: %f\n\n 5L: %f 5R: %f\n 6L: %f 6R: %f\n 7L: %f 7R: %f\n 8L: %f 8R: %f\n", m1Coeffs[0], m1Coeffs[1], m1Coeffs[2], m1Coeffs[3], m1Coeffs[4], m1Coeffs[5], m1Coeffs[6], m1Coeffs[7], m1Coeffs[8], m1Coeffs[9], m1Coeffs[10], m1Coeffs[11], m1Coeffs[12], m1Coeffs[13], m1Coeffs[14], m1Coeffs[15]);
+        for (int i = 0; i < (m1Coeffs.size()-2)/2; i++){
+            printf(" %iL: %f", i, m1Coeffs[i * 2]);
+            printf(" %iR: %f\n", i, m1Coeffs[i * 2 + 1]);
+        }
         printf("\n");
         printf("Headlock Stereo Coeffs:\n");
-        printf("%f %f\n", m1Coeffs[16], m1Coeffs[17]);
+        printf("%f %f\n", m1Coeffs[m1Coeffs.size()-2], m1Coeffs[m1Coeffs.size()-1]);
         printf("\n");
         printf("Distance:\n");
         printf("%f\n", distance);

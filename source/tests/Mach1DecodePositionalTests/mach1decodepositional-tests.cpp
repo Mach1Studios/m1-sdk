@@ -90,6 +90,84 @@ void test_results(void) {
             }
         },
         {
+            "case: POSITIONAL | 0Y | Test ObjRot 1",
+            {
+                Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
+                0.0, 90.0, 0.0, // listener pos
+                0.0, 0.0, 0.0, // listener rot
+                0.0, 0.0, 5.0, // m1 pos
+                0.0, 0.0, 0.0, // m1 rot
+                1.0, 1.0, 1.0, // m1 scale
+                false, false, false, false, false, 1.0
+            },
+            {
+                {
+                    0.5, 0.0,
+                    0.0, 0.5,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.5, 0.0,
+                    0.0, 0.5,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    1.0, 1.0,
+                },
+                5.0,
+            }
+        },
+        {
+            "case: POSITIONAL | 0Y | Test ObjRot 2",
+            {
+                Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
+                45.0, 0.0, 0.0, // listener pos
+                0.0, 0.0, 0.0, // listener rot
+                0.0, 0.0, 5.0, // m1 pos
+                0.0, 0.0, 0.0, // m1 rot
+                1.0, 1.0, 1.0, // m1 scale
+                false, false, false, false, false, 1.0
+            },
+            {
+                {
+                    0.5, 0.0,
+                    0.0, 0.5,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.5, 0.0,
+                    0.0, 0.5,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    1.0, 1.0,
+                },
+                5.0,
+            }
+        },
+        {
+            "case: POSITIONAL | 0Y | Test ObjRot 3",
+            {
+                Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
+                0.0, 0.0, 90.0, // listener pos
+                0.0, 0.0, 0.0, // listener rot
+                0.0, 0.0, 5.0, // m1 pos
+                0.0, 0.0, 0.0, // m1 rot
+                1.0, 1.0, 1.0, // m1 scale
+                false, false, false, false, false, 1.0
+            },
+            {
+                {
+                    0.5, 0.0,
+                    0.0, 0.5,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.5, 0.0,
+                    0.0, 0.5,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    1.0, 1.0,
+                },
+                5.0,
+            }
+        },
+        {
             "case: POSITIONAL | 90Y",
             {
                 Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,

@@ -24,12 +24,15 @@ void Mach1DecodePositional::setPlatformType(Mach1PlatformType type) {
     /// Set the device's angle order and convention if applicable
     ///
     /// - Parameters:
-    ///     - Mach1PlatformDefault = 0
-    ///     - Mach1PlatformUnity = 1
-    ///     - Mach1PlatformUE = 2
-    ///     - Mach1PlatformOfEasyCam = 3
-    ///     - Mach1PlatformAndroid = 4
-    ///     - Mach1PlatformiOS = 5
+    ///     - Mach1PlatformDefault
+    ///     - Mach1PlatformUnity
+    ///     - Mach1PlatformUE
+    ///     - Mach1PlatformOfEasyCam
+    ///     - Mach1PlatformAndroid
+    ///     - Mach1PlatformiOS
+    ///     - Mach1PlatformiOSTableTop_ZVertical
+    ///     - Mach1PlatformiOSPortraitHandheld_YVertical
+    ///     - Mach1PlatformiOSPortrait_YawOnly
 }
 
 void Mach1DecodePositional::setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType) {

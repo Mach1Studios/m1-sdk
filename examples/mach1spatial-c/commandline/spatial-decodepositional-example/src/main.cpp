@@ -43,7 +43,7 @@
 #define M_PI 3.14159265358979323846264338327950288
 #endif
 
-#ifdef WIN32
+#ifdef _WIN32
 BOOLEAN nanosleep(struct timespec* ts, void* p) {
 	/* Declarations */
 	HANDLE timer;	/* Timer handle */

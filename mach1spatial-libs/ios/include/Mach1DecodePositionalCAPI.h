@@ -7,7 +7,7 @@
 
 #ifdef Mach1PositionalCore_h
 #    ifndef M1_API
-#        if defined(_WINDOWS) || defined(WIN32)
+#        if defined(_WINDOWS) || defined(_WIN32)
 #            define M1_API __declspec(dllexport)
 #        else
 #            define M1_API
@@ -15,7 +15,7 @@
 #    endif
 #else
 #    ifndef M1_API
-#        if defined(_WINDOWS) || defined(WIN32)
+#        if defined(_WINDOWS) || defined(_WIN32)
 #            define M1_API __declspec(dllimport)
 #        else
 #            define M1_API

@@ -157,15 +157,13 @@ then
 	# x86
 	rsync -c --exclude='*.lib' --include='*.dll' "../mach1spatial-libs/vs-15-2017-x86/lib/Dynamic/Release" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Windows/x86"
 	rsync -c --exclude='*.lib' --include='*.dll' "../mach1spatial-libs/vs-15-2017-x86/lib/Dynamic/Release" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Windows/x86"
-	rsync -c "../mach1spatial-libs/vs-15-2017-x86/lib/Static/MD/Release" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win32"
-	rsync -c --exclude='*.lib' --include='*.dll' "../mach1spatial-libs/vs-15-2017-x86/lib/Dynamic/Release" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win32"
+	# rsync -c "../mach1spatial-libs/vs-15-2017-x86/lib/Static/MD/Release" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win32"
 	rsync -c "../mach1spatial-libs/vs-15-2017-x86/lib/Static/MD/Release" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/vs/x86"
 	# x64
 	rsync -c --exclude='*.lib' --include='*.dll' "../mach1spatial-libs/vs-15-2017-x86_64/lib/Dynamic/Release" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/Windows/x86_64"
 	rsync -c --exclude='*.lib' --include='*.dll' "../mach1spatial-libs/vs-15-2017-x86_64/lib/Dynamic/Release" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Windows/x86_64"
-	rsync -c "../mach1spatial-libs/vs-15-2017-x86_64/lib/Static/MD/Release" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win64"
-	rsync -c --exclude='*.lib' --include='*.dll' "../mach1spatial-libs/vs-15-2017-x86_64/lib/Dynamic/Release" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win64"
-	rsync -c "../mach1spatial-libs/vs-15-2017-x86_64/lib/Static/MD/Release" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/vs/x64"
+	rsync -c --exclude='*inified*' --exclude='*Encode*' --exclude='*Transcode*' --exclude='*d.*' "../mach1spatial-libs/vs-15-2017-x86_64/lib/Static/MD/Release" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/ThirdParty/Mach1/bin/Win64"
+	rsync -c --exclude='*inified*' --exclude='*Encode*' --exclude='*Transcode*' --exclude='*d.*' "../mach1spatial-libs/vs-15-2017-x86_64/lib/Static/MD/Release" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/vs/x64"
 else
 	echo "ERROR: Script called from wrong directory: $PWD"
 fi

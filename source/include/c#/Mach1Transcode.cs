@@ -279,33 +279,37 @@ namespace Mach1
             if (inBufs.Count == 0 || outBufs.Count == 0)
                 return;
 
-            IntPtr[] pinnedArrays1 = new IntPtr[inBufs.Count];
+            // Allocate pinned buffers
+            GCHandle[] inBufHandles = new GCHandle[inBufs.Count];
+            IntPtr[] inBufPointers = new IntPtr[inBufs.Count];
             for (int i = 0; i < inBufs.Count; i++)
             {
-                pinnedArrays1[i] = GCHandle.Alloc(inBufs[i], GCHandleType.Pinned).AddrOfPinnedObject();
+                inBufHandles[i] = GCHandle.Alloc(inBufs[i], GCHandleType.Pinned);
+                inBufPointers[i] = inBufHandles[i].AddrOfPinnedObject();
             }
-            IntPtr ptr1 = GCHandle.Alloc(pinnedArrays1, GCHandleType.Pinned).AddrOfPinnedObject();
+            GCHandle inBufArrayHandle = GCHandle.Alloc(inBufPointers, GCHandleType.Pinned);
+            IntPtr inBufArrayPointer = inBufArrayHandle.AddrOfPinnedObject();
 
-            IntPtr[] pinnedArrays2 = new IntPtr[outBufs.Count];
+            GCHandle[] outBufHandles = new GCHandle[outBufs.Count];
+            IntPtr[] outBufPointers = new IntPtr[outBufs.Count];
             for (int i = 0; i < outBufs.Count; i++)
             {
-                pinnedArrays2[i] = GCHandle.Alloc(outBufs[i], GCHandleType.Pinned).AddrOfPinnedObject();
+                outBufHandles[i] = GCHandle.Alloc(outBufs[i], GCHandleType.Pinned);
+                outBufPointers[i] = outBufHandles[i].AddrOfPinnedObject();
             }
-            IntPtr ptr2 = GCHandle.Alloc(pinnedArrays2, GCHandleType.Pinned).AddrOfPinnedObject();
+            GCHandle outBufArrayHandle = GCHandle.Alloc(outBufPointers, GCHandleType.Pinned);
+            IntPtr outBufArrayPointer = outBufArrayHandle.AddrOfPinnedObject();
 
-            Mach1TranscodeCAPI_processConversion(M1obj, ptr1, ptr2, inBufs[0].Length);
+            Mach1TranscodeCAPI_processConversion(M1obj, inBufArrayPointer, outBufArrayPointer, inBufs[0].Length);
 
-            for (int i = 0; i < pinnedArrays1.Length; i++)
-            {
-                GCHandle.FromIntPtr(pinnedArrays1[i]).Free();
-            }
-            GCHandle.FromIntPtr(ptr1).Free();
+            // Free the pinned buffers
+            foreach (var handle in inBufHandles)
+                handle.Free();
+            inBufArrayHandle.Free();
 
-            for (int i = 0; i < pinnedArrays2.Length; i++)
-            {
-                GCHandle.FromIntPtr(pinnedArrays2[i]).Free();
-            }
-            GCHandle.FromIntPtr(ptr2).Free();
+            foreach (var handle in outBufHandles)
+                handle.Free();
+            outBufArrayHandle.Free();
         }
 
         public int[] getFormatConversionPath()

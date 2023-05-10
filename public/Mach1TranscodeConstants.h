@@ -101,14 +101,15 @@ namespace Mach1TranscodeConstants {
 		 */
 		{ "CustomPoints", 0 },
 		{ "Empty", 0 },
+		{ "1.0", 1 },
 		{ "M1Spatial-4", 4 },		// MACH1SPATIAL-4
-		{ "M1HorizonS", 6 },		// MACH1SPATIAL-4 + HEADLOCKED STEREO
+		{ "M1Horizon-4_2", 6 },		// MACH1SPATIAL-4 + HEADLOCKED STEREO
 		{ "M1HorizonPairs", 8 },
-		{ "M1Spatial-6", 6 },		// MACH1SPATIAL-6 (faces of cube)
+		{ "M1Spatial-6", 6 },		// MACH1SPATIAL-6 (hexadron planes)
 		{ "M1Spatial-8", 8 }, 		// MACH1SPATIAL-8 (default)
-		{ "M1SpatialS", 10 }, 		// MACH1SPATIAL-8 + HEADLOCKED STEREO
-		{ "M1Spatial-12", 12 }, 	// MACH1SPATIAL-12
-		{ "M1Spatial-14", 14 }, 	// MACH1SPATIAL-14
+		{ "M1Spatial-8_2", 10 }, 	// MACH1SPATIAL-8 + HEADLOCKED STEREO
+		{ "M1Spatial-12", 12 }, 	// MACH1SPATIAL-12 (hexadron vertices + horizontal hexadron planes)
+		{ "M1Spatial-14", 14 }, 	// MACH1SPATIAL-14 (hexadron vertices + hexadron planes)
 		{ "M1Spatial-32", 32 }, 	// MACH1SPATIAL-32
 		{ "M1Spatial-36", 36 }, 	// MACH1SPATIAL-36
 		{ "M1Spatial-48", 48 }, 	// MACH1SPATIAL-48
@@ -116,7 +117,6 @@ namespace Mach1TranscodeConstants {
 		/*
 		 * SURROUND
 		 */
-		{ "1.0", 1 },
 		{ "2.0_M", 2 },
 		{ "2.0_C", 2 },
 		{ "3.0_LCR", 3 },
@@ -213,9 +213,10 @@ namespace Mach1TranscodeConstants {
 		 */
 		{ "FOA-Ambix", 4 },
 		{ "FOA-FuMa", 4 },
-		{ "FuMa", 4 },
-		{ "ACNSN3D", 4 },
+		{ "FuMa", 4 },    // legacy conversion, TODO: deprecate
+		{ "ACNSN3D", 4 }, // legacy conversion, TODO: deprecate
 		{ "TBE", 8 },
+		{ "TBE_2", 10 },
 		{ "ACNSN3DO2A", 9 },
 		{ "FuMaO2A", 9 },
 		{ "ACNSN3DO3A", 16 },

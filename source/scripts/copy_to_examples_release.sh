@@ -128,10 +128,10 @@ then
 	rsync -c "../mach1spatial-libs/xcode/lib/libMach1TranscodeCAPI.a" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/ThirdParty/Mach1/bin/Mac/libMach1TranscodeCAPI.a"
 	rsync -c "../mach1spatial-libs/xcode/lib/libMach1DecodePositionalCAPI.a" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/ThirdParty/Mach1/bin/Mac/libMach1DecodePositionalCAPI.a"
 	# COPYING FOR UNITY
-	# rsync -c "_install/xcode/libBundle/libMach1DecodeCAPI.bundle" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1DecodeCAPI.bundle"
-	# rsync -c "_install/xcode/libBundle/libMach1EncodeCAPI.bundle" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1EncodeCAPI.bundle"
-	# rsync -c "_install/xcode/libBundle/libMach1TranscodeCAPI.bundle" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1TranscodeCAPI.bundle"
-	# rsync -c "_install/xcode/libBundle/libMach1DecodePositionalCAPI.bundle" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1DecodePositionalCAPI.bundle"
+	rsync -c "../mach1spatial-libs/xcode-bundle/lib/libMach1DecodeCAPI.bundle" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1DecodeCAPI.bundle"
+	rsync -c "../mach1spatial-libs/xcode-bundle/lib/libMach1EncodeCAPI.bundle" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1EncodeCAPI.bundle"
+	rsync -c "../mach1spatial-libs/xcode-bundle/lib/libMach1TranscodeCAPI.bundle" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1TranscodeCAPI.bundle"
+	rsync -c "../mach1spatial-libs/xcode-bundle/lib/libMach1DecodePositionalCAPI.bundle" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1DecodePositionalCAPI.bundle"
 	# COPYING FOR OFXMACH1
 	rsync -c "../mach1spatial-libs/xcode/lib/libMach1DecodeCAPI.a" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/osx/libMach1DecodeCAPI.a"
 	rsync -c "../mach1spatial-libs/xcode/lib/libMach1EncodeCAPI.a" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/osx/libMach1EncodeCAPI.a"

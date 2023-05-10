@@ -258,7 +258,7 @@ jobs:
         - brew cleanup
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
-        - ./scripts/macos_build.sh
+        - ./scripts/macos_build.sh -u
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/examples_linking_test.sh

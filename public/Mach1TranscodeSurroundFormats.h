@@ -50,21 +50,6 @@ namespace Mach1TranscodeConstants {
 		static std::vector<Mach1TranscodeMatrix> getData() {
 			return {
 				{
-					"1.0", "M1Spatial-4",
-					{
-						Mach1TranscodeChannel::Coeffs({ 0.353553f, 0.353553f, 0.353553f, 0.353553f }),
-					}
-				},
-				{
-					"M1Spatial-4", "1.0",
-					{
-						Mach1TranscodeChannel::Coeffs({ 0.353553f }),
-						Mach1TranscodeChannel::Coeffs({ 0.353553f }),
-						Mach1TranscodeChannel::Coeffs({ 0.353553f }),
-						Mach1TranscodeChannel::Coeffs({ 0.353553f }),
-					}
-				},
-				{
 					"2.0_M", "M1Spatial-4",
 					{
 						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0, 0.707106f, 0 }),

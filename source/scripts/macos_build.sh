@@ -1,5 +1,23 @@
 #!/bin/bash
 
+while getopts 'uh:' OPTION; do
+	case "$OPTION" in
+		u)
+			upload_artifacts=ON
+			echo "Uploading binaries to aws"
+			;;
+		h)
+			echo "script usage: $(basename \$0) [-u] [-h]" >&2
+			exit 1
+			;;
+		?)
+			echo "script usage: $(basename \$0) [-u] [-h]" >&2
+			exit 1
+			;;
+	esac
+done
+# shift "$(($OPTION -1))"
+
 if [[ "$PWD" == *source ]]
 then
 	echo "Script called from correct path: $PWD"
@@ -10,8 +28,21 @@ then
 	rsync -c "_install/xcode/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1EncodeCAPI.a"
 	rsync -c "_install/xcode/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1TranscodeCAPI.a"
 	rsync -c "_install/xcode/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1DecodePositionalCAPI.a"
+	# bundles
+	rsync -c "_install/xcode/libBundle/libMach1DecodeCAPI.a" "../mach1spatial-libs/xcode-bundle/lib/libMach1DecodeCAPI.a"
+	rsync -c "_install/xcode/libBundle/libMach1EncodeCAPI.a" "../mach1spatial-libs/xcode-bundle/lib/libMach1EncodeCAPI.a"
+	rsync -c "_install/xcode/libBundle/libMach1TranscodeCAPI.a" "../mach1spatial-libs/xcode-bundle/lib/libMach1TranscodeCAPI.a"
+	rsync -c "_install/xcode/libBundle/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/xcode-bundle/lib/libMach1DecodePositionalCAPI.a"
 	# Upload built libs
-	aws s3 sync _install/xcode/lib/ s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs/xcode/lib --exclude "*-minifiedCAPI*" --cache-control no-cache --metadata-directive REPLACE
+	if [[ $upload_artifacts == "ON" ]]
+	then
+		# static
+		aws s3 sync _install/xcode/lib/ s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs/xcode/lib --exclude "*-minifiedCAPI*" --cache-control no-cache --metadata-directive REPLACE
+		# dynamic
+		# aws s3 sync _install/xcode/lib-shared/ s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs/xcode/lib-shared --exclude "*-minifiedCAPI*" --cache-control no-cache --metadata-directive REPLACE
+		# bundle
+		aws s3 sync _install/xcode-bundle/lib/ s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs/xcode-bundle/lib --exclude "*-minifiedCAPI*" --cache-control no-cache --metadata-directive REPLACE
+	fi
 else
 	echo "ERROR: Script called from wrong directory: $PWD"
 fi

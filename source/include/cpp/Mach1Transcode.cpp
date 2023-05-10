@@ -40,6 +40,15 @@ int Mach1Transcode::getFormatFromString(std::string str) {
 std::string Mach1Transcode::getFormatName(int fmt) {
     return std::string(Mach1TranscodeCAPI_getFormatName(M1obj, fmt));
 }
+
+std::vector<std::string> Mach1TranscodeCore::getAllTranscodeFormats() {
+    return Mach1TranscodeCAPI_getAllTranscodeFormats(M1obj);
+    /// Returns a list of all the names of available formats in Mach1Transcode API
+    ///
+    /// - Returns:
+    ///     - vector of strings of the names of all formats
+}
+
 #ifndef __EMSCRIPTEN__
 float Mach1Transcode::processNormalization(float **bufs, int numSamples) {
     return Mach1TranscodeCAPI_processNormalization(M1obj, bufs, numSamples);

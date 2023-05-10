@@ -33,6 +33,12 @@ Module['onRuntimeInitialized'] = function() {
             }
         };
 
+        this.getAllTranscodeFormats = function() {
+            if (this._m1obj) {
+                return this._m1obj.getAllTranscodeFormats();
+            }
+        };
+
         this.processNormalization = function(bufs) {
             if (this._m1obj) {
                 return this._m1obj.processNormalization(bufs);

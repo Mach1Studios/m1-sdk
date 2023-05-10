@@ -32,6 +32,10 @@ const char *Mach1TranscodeCAPI_getFormatName(void *M1obj, int fmt) {
     return ((Mach1TranscodeCore *)M1obj)->getFormatName((int)fmt);
 }
 
+std::vector<std::string> Mach1TranscodeCAPI_getAllTranscodeFormats(void *M1obj) {
+    return ((Mach1TranscodeCore *)M1obj)->getAllTranscodeFormats();
+}
+
 float Mach1TranscodeCAPI_processNormalization(void *M1obj, float **bufs, int numSamples) {
     return ((Mach1TranscodeCore *)M1obj)->processNormalization(bufs, numSamples);
 }

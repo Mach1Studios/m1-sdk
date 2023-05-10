@@ -76,6 +76,14 @@ const char *Mach1TranscodeCore::getFormatName(int fmt) {
     return "";
 }
 
+std::vector<std::string> Mach1TranscodeCore::getAllTranscodeFormats() {
+    std::vector<std::string> formatNames;
+    for (auto it = Mach1TranscodeConstants::formats.begin(); it != Mach1TranscodeConstants::formats.end(); ++it) {
+        formatNames.push_back(it->name.data());
+    }
+    return formatNames;
+}
+
 float Mach1TranscodeCore::processNormalization(float **bufs, int numSamples) {
     float peak = 0;
 

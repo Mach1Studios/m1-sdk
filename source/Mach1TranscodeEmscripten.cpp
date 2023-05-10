@@ -22,6 +22,7 @@ EMSCRIPTEN_BINDINGS(Mach1Transcode) {
         .function("getOutputNumChannels", &Mach1Transcode::getOutputNumChannels)
         .function("getFormatFromString", &Mach1Transcode::getFormatFromString)
         .function("getFormatName", &Mach1Transcode::getFormatName)
+        .function("getAllTranscodeFormats", &Mach1Transcode::getAllTranscodeFormats)
 
         .function("processNormalization", &Mach1Transcode::processNormalization)
         .function("processMasterGain", &Mach1Transcode::processMasterGain)

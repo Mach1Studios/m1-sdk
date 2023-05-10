@@ -41,7 +41,7 @@ std::string Mach1Transcode::getFormatName(int fmt) {
     return std::string(Mach1TranscodeCAPI_getFormatName(M1obj, fmt));
 }
 
-std::vector<std::string> Mach1TranscodeCore::getAllFormatNames() {
+std::vector<std::string> Mach1Transcode::getAllFormatNames() {
     return Mach1TranscodeCAPI_getAllFormatNames(M1obj);
     /// Returns a list of all the names of available formats in Mach1Transcode API
     ///

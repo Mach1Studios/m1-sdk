@@ -5,6 +5,8 @@
 
 #include "Mach1Point3D.h"
 #include <stdbool.h>
+#include <vector>
+#include <string>
 
 #if defined(Mach1DecodeCore_h) || defined(Mach1EncodeCore_h) || defined(Mach1PositionalCore_h) || defined(Mach1TranscodeCore_h) || defined(Mach1AudioTimelineCore_h)
 #    ifndef M1_API

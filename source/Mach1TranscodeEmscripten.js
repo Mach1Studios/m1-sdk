@@ -33,9 +33,9 @@ Module['onRuntimeInitialized'] = function() {
             }
         };
 
-        this.getAllTranscodeFormats = function() {
+        this.getAllFormatNames = function() {
             if (this._m1obj) {
-                return this._m1obj.getAllTranscodeFormats();
+                return this._m1obj.getAllFormatNames();
             }
         };
 

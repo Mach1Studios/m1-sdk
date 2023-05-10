@@ -76,7 +76,7 @@ const char *Mach1TranscodeCore::getFormatName(int fmt) {
     return "";
 }
 
-std::vector<std::string> Mach1TranscodeCore::getAllTranscodeFormats() {
+std::vector<std::string> Mach1TranscodeCore::getAllFormatNames() {
     std::vector<std::string> formatNames;
     for (auto it = Mach1TranscodeConstants::formats.begin(); it != Mach1TranscodeConstants::formats.end(); ++it) {
         formatNames.push_back(it->name.data());

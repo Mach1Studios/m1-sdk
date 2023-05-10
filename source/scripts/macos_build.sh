@@ -41,7 +41,7 @@ then
 		# dynamic
 		# aws s3 sync _install/xcode/lib-shared/ s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs/xcode/lib-shared --exclude "*-minifiedCAPI*" --cache-control no-cache --metadata-directive REPLACE
 		# bundle
-		aws s3 sync _install/xcode-bundle/lib/ s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs/xcode-bundle/lib --exclude "*-minifiedCAPI*" --cache-control no-cache --metadata-directive REPLACE
+		aws s3 sync _install/xcode/libBundle/ s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs/xcode-bundle/lib --exclude "*-minifiedCAPI*" --cache-control no-cache --metadata-directive REPLACE
 	fi
 else
 	echo "ERROR: Script called from wrong directory: $PWD"

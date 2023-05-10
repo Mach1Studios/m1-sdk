@@ -29,10 +29,10 @@ then
 	rsync -c "_install/xcode/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1TranscodeCAPI.a"
 	rsync -c "_install/xcode/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1DecodePositionalCAPI.a"
 	# bundles
-	rsync -c "_install/xcode/libBundle/libMach1DecodeCAPI.a" "../mach1spatial-libs/xcode-bundle/lib/libMach1DecodeCAPI.a"
-	rsync -c "_install/xcode/libBundle/libMach1EncodeCAPI.a" "../mach1spatial-libs/xcode-bundle/lib/libMach1EncodeCAPI.a"
-	rsync -c "_install/xcode/libBundle/libMach1TranscodeCAPI.a" "../mach1spatial-libs/xcode-bundle/lib/libMach1TranscodeCAPI.a"
-	rsync -c "_install/xcode/libBundle/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/xcode-bundle/lib/libMach1DecodePositionalCAPI.a"
+	rsync -c "_install/xcode/libBundle/Mach1DecodeCAPI.bundle" "../mach1spatial-libs/xcode-bundle/lib/Mach1DecodeCAPI.bundle"
+	rsync -c "_install/xcode/libBundle/Mach1EncodeCAPI.bundle" "../mach1spatial-libs/xcode-bundle/lib/Mach1EncodeCAPI.bundle"
+	rsync -c "_install/xcode/libBundle/Mach1TranscodeCAPI.bundle" "../mach1spatial-libs/xcode-bundle/lib/Mach1TranscodeCAPI.bundle"
+	rsync -c "_install/xcode/libBundle/Mach1DecodePositionalCAPI.bundle" "../mach1spatial-libs/xcode-bundle/lib/Mach1DecodePositionalCAPI.bundle"
 	# Upload built libs
 	if [[ $upload_artifacts == "ON" ]]
 	then

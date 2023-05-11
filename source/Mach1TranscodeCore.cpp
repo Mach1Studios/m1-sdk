@@ -663,6 +663,11 @@ void Mach1TranscodeCore::getMatrixConversion(float *matrix) {
     std::memset(mCurrent, 0, mSize);
     std::memset(mRes, 0, mSize);
 
+	// find a path if it is empty
+	if (formatConversionPath.size() == 0) {
+		processConversionPath();
+	}
+
     for (int k = 0; k < formatConversionPath.size() - 1; k++) {
         int inFmt = formatConversionPath[k];
         int outFmt = formatConversionPath[k + 1];
@@ -745,6 +750,11 @@ void Mach1TranscodeCore::getMatrixConversion(float *matrix) {
 // }
 
 void Mach1TranscodeCore::processConversion(float **inBufs, float **outBufs, int numSamples) {
+	// find a path if it is empty
+	if (formatConversionPath.size() == 0) {
+		processConversionPath();
+	}
+
     // reinit internal buffer
     if (numSamples > bufferSize) {
         bufferSize = numSamples;

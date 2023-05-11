@@ -29,10 +29,10 @@ then
 	rsync -c "_install/xcode/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1TranscodeCAPI.a"
 	rsync -c "_install/xcode/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1DecodePositionalCAPI.a"
 	# bundles
-	rsync -c "_install/xcode/libBundle/Mach1DecodeCAPI.bundle" "../mach1spatial-libs/xcode-bundle/lib/Mach1DecodeCAPI.bundle"
-	rsync -c "_install/xcode/libBundle/Mach1EncodeCAPI.bundle" "../mach1spatial-libs/xcode-bundle/lib/Mach1EncodeCAPI.bundle"
-	rsync -c "_install/xcode/libBundle/Mach1TranscodeCAPI.bundle" "../mach1spatial-libs/xcode-bundle/lib/Mach1TranscodeCAPI.bundle"
-	rsync -c "_install/xcode/libBundle/Mach1DecodePositionalCAPI.bundle" "../mach1spatial-libs/xcode-bundle/lib/Mach1DecodePositionalCAPI.bundle"
+	rsync -rc "_install/xcode/lib-bundle/Mach1DecodeCAPI.bundle" "../mach1spatial-libs/xcode/lib-bundle/Mach1DecodeCAPI.bundle"
+	rsync -rc "_install/xcode/lib-bundle/Mach1EncodeCAPI.bundle" "../mach1spatial-libs/xcode/lib-bundle/Mach1EncodeCAPI.bundle"
+	rsync -rc "_install/xcode/lib-bundle/Mach1TranscodeCAPI.bundle" "../mach1spatial-libs/xcode/lib-bundle/Mach1TranscodeCAPI.bundle"
+	rsync -rc "_install/xcode/lib-bundle/Mach1DecodePositionalCAPI.bundle" "../mach1spatial-libs/xcode/lib-bundle/Mach1DecodePositionalCAPI.bundle"
 	# Upload built libs
 	if [[ $upload_artifacts == "ON" ]]
 	then
@@ -41,7 +41,7 @@ then
 		# dynamic
 		# aws s3 sync _install/xcode/lib-shared/ s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs/xcode/lib-shared --exclude "*-minifiedCAPI*" --cache-control no-cache --metadata-directive REPLACE
 		# bundle
-		aws s3 sync _install/xcode/libBundle/ s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs/xcode-bundle/lib --exclude "*-minifiedCAPI*" --cache-control no-cache --metadata-directive REPLACE
+		aws s3 sync _install/xcode/lib-bundle/ s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs/xcode-bundle/lib --exclude "*-minifiedCAPI*" --cache-control no-cache --metadata-directive REPLACE
 	fi
 else
 	echo "ERROR: Script called from wrong directory: $PWD"

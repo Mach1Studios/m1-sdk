@@ -11,7 +11,6 @@ then
 	rsync -rc "include/cpp/" "$M1SDK_RELEASE_PATH/mach1spatial-libs/arm-chipsets/raspberrypi3-cxx11/include"
 	rsync -rc "include/cpp/" "$M1SDK_RELEASE_PATH/mach1spatial-libs/linux/include"
 	rsync -rc "include/cpp/" "$M1SDK_RELEASE_PATH/mach1spatial-libs/xcode/include"
-	rsync -rc "include/cpp/" "$M1SDK_RELEASE_PATH/mach1spatial-libs/xcode-bundle/include"
 	rsync -rc "include/cpp/" "$M1SDK_RELEASE_PATH/mach1spatial-libs/osx-10-13/include"
 	rsync -rc "include/cpp/" "$M1SDK_RELEASE_PATH/mach1spatial-libs/vs-15-2017-x86/include"
 	rsync -rc "include/cpp/" "$M1SDK_RELEASE_PATH/mach1spatial-libs/vs-15-2017-x86_64/include"

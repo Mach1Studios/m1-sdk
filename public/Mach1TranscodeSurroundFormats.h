@@ -50,21 +50,6 @@ namespace Mach1TranscodeConstants {
 		static std::vector<Mach1TranscodeMatrix> getData() {
 			return {
 				{
-					"1.0", "M1Spatial-4",
-					{
-						Mach1TranscodeChannel::Coeffs({ 0.353553f, 0.353553f, 0.353553f, 0.353553f }),
-					}
-				},
-				{
-					"M1Spatial-4", "1.0",
-					{
-						Mach1TranscodeChannel::Coeffs({ 0.353553f }),
-						Mach1TranscodeChannel::Coeffs({ 0.353553f }),
-						Mach1TranscodeChannel::Coeffs({ 0.353553f }),
-						Mach1TranscodeChannel::Coeffs({ 0.353553f }),
-					}
-				},
-				{
 					"2.0_M", "M1Spatial-4",
 					{
 						Mach1TranscodeChannel::Coeffs({ 0.707106f, 0, 0.707106f, 0 }),
@@ -918,6 +903,22 @@ namespace Mach1TranscodeConstants {
 					}
 				},
 				{
+					"7.1.2_C_SIM", "M1Spatial-8",
+					// L, C, R, Lss, Rss, Lsr, Rsr, LFE, Ltf, Rtf, Ltr, Rtr
+					{
+						Mach1TranscodeChannel::Coeffs({ 0.36125001f, 0.06375f, 0.06375f, 0.01125f, 0.36125001f, 0.06375f, 0.06375f, 0.01125f }),
+						Mach1TranscodeChannel::Coeffs({ 0.213388f, 0.213388f, 0.036612f, 0.036612f, 0.213388f, 0.213388f, 0.036612f, 0.036612f }),
+						Mach1TranscodeChannel::Coeffs({ 0.06375f, 0.36125001f, 0.01125f, 0.06375f, 0.06375f, 0.36125001f, 0.01125f, 0.06375f }),
+						Mach1TranscodeChannel::Coeffs({ 0.248744f, 0.001256f, 0.248744f, 0.001256f, 0.248744f, 0.001256f, 0.248744f, 0.001256f }),
+						Mach1TranscodeChannel::Coeffs({ 0.001256f, 0.248744f, 0.001256f, 0.248744f, 0.001256f, 0.248744f, 0.001256f, 0.248744f }),
+						Mach1TranscodeChannel::Coeffs({ 0.06375f, 0.01125f, 0.36125001f, 0.06375f, 0.06375f, 0.01125f, 0.36125001f, 0.06375f }),
+						Mach1TranscodeChannel::Coeffs({ 0.01125f, 0.06375f, 0.06375f, 0.36125001f, 0.01125f, 0.06375f, 0.06375f, 0.36125001f }),
+						Mach1TranscodeChannel::Coeffs({ 0.176776f, 0.176776f, 0.176776f, 0.176776f, 0.176776f, 0.176776f, 0.176776f, 0.176776f }),
+						Mach1TranscodeChannel::Coeffs({ 0.0236619f, 0.0078859f, 0.0236619f, 0.0078859f, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0.0078859f, 0.0236619f, 0.0078859f, 0.0236619f, 0, 0, 0, 0 }),
+					}
+				},
+				{
 					"M1Spatial-12", "7.1.2_C",
 					// L, C, R, Lss, Rss, Lsr, Rsr, LFE, Lts, Rts
 					{
@@ -1021,6 +1022,24 @@ namespace Mach1TranscodeConstants {
 						Mach1TranscodeChannel::Coeffs({ 0.125f, 0.72799999f, 0.021f, 0.125f, 0, 0, 0, 0, 0, 0, 0, 0 }),
 						Mach1TranscodeChannel::Coeffs({ 0.125f, 0.021f, 0.72799999f, 0.125f, 0, 0, 0, 0, 0, 0, 0, 0 }),
 						Mach1TranscodeChannel::Coeffs({ 0.021f, 0.125f, 0.125f, 0.72799999f, 0, 0, 0, 0, 0, 0, 0, 0 }),
+					}
+				},
+				{
+					"7.1.4_C_SIM", "M1Spatial-8",
+					// L, C, R, Lss, Rss, Lsr, Rsr, LFE, Ltf, Rtf, Ltr, Rtr
+					{
+						Mach1TranscodeChannel::Coeffs({ 0.36125001f, 0.06375f, 0.06375f, 0.01125f, 0.36125001f, 0.06375f, 0.06375f, 0.01125f }),
+						Mach1TranscodeChannel::Coeffs({ 0.213388f, 0.213388f, 0.036612f, 0.036612f, 0.213388f, 0.213388f, 0.036612f, 0.036612f }),
+						Mach1TranscodeChannel::Coeffs({ 0.06375f, 0.36125001f, 0.01125f, 0.06375f, 0.06375f, 0.36125001f, 0.01125f, 0.06375f }),
+						Mach1TranscodeChannel::Coeffs({ 0.248744f, 0.001256f, 0.248744f, 0.001256f, 0.248744f, 0.001256f, 0.248744f, 0.001256f }),
+						Mach1TranscodeChannel::Coeffs({ 0.001256f, 0.248744f, 0.001256f, 0.248744f, 0.001256f, 0.248744f, 0.001256f, 0.248744f }),
+						Mach1TranscodeChannel::Coeffs({ 0.06375f, 0.01125f, 0.36125001f, 0.06375f, 0.06375f, 0.01125f, 0.36125001f, 0.06375f }),
+						Mach1TranscodeChannel::Coeffs({ 0.01125f, 0.06375f, 0.06375f, 0.36125001f, 0.01125f, 0.06375f, 0.06375f, 0.36125001f }),
+						Mach1TranscodeChannel::Coeffs({ 0.176776f, 0.176776f, 0.176776f, 0.176776f, 0.176776f, 0.176776f, 0.176776f, 0.176776f }),
+						Mach1TranscodeChannel::Coeffs({ 0.72799999f, 0.125f, 0.125f, 0.021f, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0.125f, 0.72799999f, 0.021f, 0.125f, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0.125f, 0.021f, 0.72799999f, 0.125f, 0, 0, 0, 0 }),
+						Mach1TranscodeChannel::Coeffs({ 0.021f, 0.125f, 0.125f, 0.72799999f, 0, 0, 0, 0 }),
 					}
 				},
 				{

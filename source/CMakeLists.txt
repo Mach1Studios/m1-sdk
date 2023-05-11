@@ -227,6 +227,11 @@ if(BUILD_MACOS_BUNDLE)
     set_target_properties(Mach1EncodeCAPIbundle PROPERTIES BUNDLE TRUE)
     set_target_properties(Mach1TranscodeCAPIbundle PROPERTIES BUNDLE TRUE)
 
+    set_target_properties(Mach1DecodeCAPIbundle PROPERTIES PREFIX "lib")
+    set_target_properties(Mach1DecodePositionalCAPIbundle PROPERTIES PREFIX "lib")
+    set_target_properties(Mach1EncodeCAPIbundle PROPERTIES PREFIX "lib")
+    set_target_properties(Mach1TranscodeCAPIbundle PROPERTIES PREFIX "lib")
+
     set_target_properties(Mach1DecodeCAPIbundle PROPERTIES OUTPUT_NAME "Mach1DecodeCAPI")
     set_target_properties(Mach1DecodePositionalCAPIbundle PROPERTIES OUTPUT_NAME "Mach1DecodePositionalCAPI")
     set_target_properties(Mach1EncodeCAPIbundle PROPERTIES OUTPUT_NAME "Mach1EncodeCAPI")

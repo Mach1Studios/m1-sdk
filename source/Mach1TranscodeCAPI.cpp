@@ -32,8 +32,9 @@ const char *Mach1TranscodeCAPI_getFormatName(void *M1obj, int fmt) {
     return ((Mach1TranscodeCore *)M1obj)->getFormatName((int)fmt);
 }
 
-std::vector<std::string> Mach1TranscodeCAPI_getAllFormatNames(void *M1obj) {
-    return ((Mach1TranscodeCore *)M1obj)->getAllFormatNames();
+const char *Mach1TranscodeCAPI_getAllFormatNames(void *M1obj) {
+    std::vector<std::string> &formatList = ((Mach1TranscodeCore *)M1obj)->getAllFormatNames();
+    return (std::string *)formatList.data();
 }
 
 float Mach1TranscodeCAPI_processNormalization(void *M1obj, float **bufs, int numSamples) {

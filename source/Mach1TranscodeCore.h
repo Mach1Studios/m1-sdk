@@ -59,7 +59,7 @@ class Mach1TranscodeCore {
     int getOutputNumChannels();
     int getFormatFromString(const char *str);
     const char *getFormatName(int fmt);
-    std::vector<std::string> getAllFormatNames();
+    const char *getAllFormatNames();
 
     float processNormalization(float **bufs, int numSamples);
     void processMasterGain(float **bufs, int numSamples, float masterGain = 1.0f);

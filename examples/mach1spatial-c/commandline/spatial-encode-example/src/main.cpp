@@ -41,7 +41,7 @@
 #define M_PI 3.14159265358979323846264338327950288
 #endif
 
-#ifdef WIN32
+#ifdef _WIN32
 BOOLEAN nanosleep(struct timespec* ts, void* p) {
 	/* Declarations */
 	HANDLE timer;	/* Timer handle */
@@ -226,9 +226,6 @@ void* encode(void* v)
                     outputMode=Mach1EncodeOutputModeM1Spatial_14;
                     outputName="MACH1SPATIAL-14";
                 }else if(outputMode==Mach1EncodeOutputModeM1Spatial_14){
-                    outputMode=Mach1EncodeOutputModeM1Spatial_18;
-                    outputName="MACH1SPATIAL-18";
-                }else if(outputMode==Mach1EncodeOutputModeM1Spatial_18){
                     outputMode=Mach1EncodeOutputModeM1Spatial_32;
                     outputName="MACH1SPATIAL-32";
                 }else if(outputMode==Mach1EncodeOutputModeM1Spatial_32){

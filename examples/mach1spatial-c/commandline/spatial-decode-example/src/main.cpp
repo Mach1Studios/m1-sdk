@@ -37,7 +37,7 @@
 #define M_PI 3.14159265358979323846264338327950288
 #endif
 
-#ifdef WIN32
+#ifdef _WIN32
 BOOLEAN nanosleep(struct timespec* ts, void* p) {
 	/* Declarations */
 	HANDLE timer;	/* Timer handle */
@@ -59,7 +59,6 @@ BOOLEAN nanosleep(struct timespec* ts, void* p) {
 	return TRUE;
 }
 #endif
-
 
 static void* decode(void* v);
 static pthread_t thread;
@@ -133,7 +132,6 @@ int main(int argc, const char * argv[]) {
         std::chrono::duration<double> elapsed = end - start;
         timeReturned = (float)elapsed.count();
     }
-    
     return 0;
 }
 
@@ -191,9 +189,6 @@ static void* decode(void* v)
                     outputFormat=Mach1DecodeAlgoSpatial_14;
                     outputName="MACH1SPATIAL-14";
                 }else if(outputFormat==Mach1DecodeAlgoSpatial_14){
-                    outputFormat=Mach1DecodeAlgoSpatial_18;
-                    outputName="MACH1SPATIAL-18";
-                }else if(outputFormat==Mach1DecodeAlgoSpatial_18){
                     outputFormat=Mach1DecodeAlgoSpatial_32;
                     outputName="MACH1SPATIAL-32";
                 }else if(outputFormat==Mach1DecodeAlgoSpatial_32){

@@ -41,8 +41,6 @@ Module["onRuntimeInitialized"] = function() {
    "Mach1EncodeOutputModeM1Horizon_4": Module.Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Horizon_4,
    "Mach1EncodeOutputModeM1Spatial_12": Module.Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_12,
    "Mach1EncodeOutputModeM1Spatial_14": Module.Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_14,
-   "Mach1EncodeOutputModeM1Spatial_18": Module.Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_18,
-   "Mach1EncodeOutputModeM1Spatial_22": Module.Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_22,
    "Mach1EncodeOutputModeM1Spatial_32": Module.Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_32,
    "Mach1EncodeOutputModeM1Spatial_36": Module.Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_36,
    "Mach1EncodeOutputModeM1Spatial_48": Module.Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_48,
@@ -54,8 +52,6 @@ Module["onRuntimeInitialized"] = function() {
    "Mach1DecodeAlgoHorizonPairs": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoHorizonPairs,
    "Mach1DecodeAlgoSpatial_12": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_12,
    "Mach1DecodeAlgoSpatial_14": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_14,
-   "Mach1DecodeAlgoSpatial_18": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_18,
-   "Mach1DecodeAlgoSpatial_22": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_22,
    "Mach1DecodeAlgoSpatial_32": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_32,
    "Mach1DecodeAlgoSpatial_36": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_36,
    "Mach1DecodeAlgoSpatial_48": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_48,
@@ -293,18 +289,26 @@ function logExceptionOnExit(e) {
  err("exiting due to exception: " + toLog);
 }
 
+var fs;
+
+var nodePath;
+
+var requireNodeFS;
+
 if (ENVIRONMENT_IS_NODE) {
  if (ENVIRONMENT_IS_WORKER) {
   scriptDirectory = require("path").dirname(scriptDirectory) + "/";
  } else {
   scriptDirectory = __dirname + "/";
  }
- var fs, nodePath;
- if (typeof require === "function") {
-  fs = require("fs");
-  nodePath = require("path");
- }
- read_ = (filename, binary) => {
+ requireNodeFS = () => {
+  if (!nodePath) {
+   fs = require("fs");
+   nodePath = require("path");
+  }
+ };
+ read_ = function shell_read(filename, binary) {
+  requireNodeFS();
   filename = nodePath["normalize"](filename);
   return fs.readFileSync(filename, binary ? undefined : "utf8");
  };
@@ -316,6 +320,7 @@ if (ENVIRONMENT_IS_NODE) {
   return ret;
  };
  readAsync = (filename, onload, onerror) => {
+  requireNodeFS();
   filename = nodePath["normalize"](filename);
   fs.readFile(filename, function(err, data) {
    if (err) onerror(err); else onload(data.buffer);
@@ -405,6 +410,12 @@ if (Module["arguments"]) arguments_ = Module["arguments"];
 if (Module["thisProgram"]) thisProgram = Module["thisProgram"];
 
 if (Module["quit"]) quit_ = Module["quit"];
+
+var tempRet0 = 0;
+
+var setTempRet0 = value => {
+ tempRet0 = value;
+};
 
 var wasmBinary;
 
@@ -713,10 +724,10 @@ function createWasm() {
  function receiveInstance(instance, module) {
   var exports = instance.exports;
   Module["asm"] = exports;
-  wasmMemory = Module["asm"]["I"];
+  wasmMemory = Module["asm"]["J"];
   updateGlobalBufferAndViews(wasmMemory.buffer);
-  wasmTable = Module["asm"]["K"];
-  addOnInit(Module["asm"]["J"]);
+  wasmTable = Module["asm"]["L"];
+  addOnInit(Module["asm"]["K"]);
   removeRunDependency("wasm-instantiate");
  }
  addRunDependency("wasm-instantiate");
@@ -755,7 +766,7 @@ function createWasm() {
    return exports;
   } catch (e) {
    err("Module.instantiateWasm callback failed with error: " + e);
-   readyPromiseReject(e);
+   return false;
   }
  }
  instantiateAsync().catch(readyPromiseReject);
@@ -776,6 +787,10 @@ function callRuntimeCallbacks(callbacks) {
  while (callbacks.length > 0) {
   callbacks.shift()(Module);
  }
+}
+
+function writeArrayToMemory(array, buffer) {
+ HEAP8.set(array, buffer);
 }
 
 function ___cxa_allocate_exception(size) {
@@ -2316,14 +2331,17 @@ function UTF16ToString(ptr, maxBytesToRead) {
  var maxIdx = idx + maxBytesToRead / 2;
  while (!(idx >= maxIdx) && HEAPU16[idx]) ++idx;
  endPtr = idx << 1;
- if (endPtr - ptr > 32 && UTF16Decoder) return UTF16Decoder.decode(HEAPU8.subarray(ptr, endPtr));
- var str = "";
- for (var i = 0; !(i >= maxBytesToRead / 2); ++i) {
-  var codeUnit = HEAP16[ptr + i * 2 >> 1];
-  if (codeUnit == 0) break;
-  str += String.fromCharCode(codeUnit);
+ if (endPtr - ptr > 32 && UTF16Decoder) {
+  return UTF16Decoder.decode(HEAPU8.subarray(ptr, endPtr));
+ } else {
+  var str = "";
+  for (var i = 0; !(i >= maxBytesToRead / 2); ++i) {
+   var codeUnit = HEAP16[ptr + i * 2 >> 1];
+   if (codeUnit == 0) break;
+   str += String.fromCharCode(codeUnit);
+  }
+  return str;
  }
- return str;
 }
 
 function stringToUTF16(str, outPtr, maxBytesToWrite) {
@@ -2492,6 +2510,10 @@ function __embind_register_void(rawType, name) {
  });
 }
 
+function __emscripten_date_now() {
+ return Date.now();
+}
+
 var nowIsMonotonic = true;
 
 function __emscripten_get_now_is_monotonic() {
@@ -2512,10 +2534,6 @@ function __emval_take_value(type, arg) {
 
 function _abort() {
  abort("");
-}
-
-function _emscripten_date_now() {
- return Date.now();
 }
 
 var _emscripten_get_now;
@@ -2635,7 +2653,7 @@ var PATH = {
   return path.substr(lastSlash + 1);
  },
  join: function() {
-  var paths = Array.prototype.slice.call(arguments);
+  var paths = Array.prototype.slice.call(arguments, 0);
   return PATH.normalize(paths.join("/"));
  },
  join2: (l, r) => {
@@ -2739,10 +2757,10 @@ var TTY = {
    stream.seekable = false;
   },
   close: function(stream) {
-   stream.tty.ops.fsync(stream.tty);
+   stream.tty.ops.flush(stream.tty);
   },
-  fsync: function(stream) {
-   stream.tty.ops.fsync(stream.tty);
+  flush: function(stream) {
+   stream.tty.ops.flush(stream.tty);
   },
   read: function(stream, buffer, offset, length, pos) {
    if (!stream.tty || !stream.tty.ops.get_char) {
@@ -2829,7 +2847,7 @@ var TTY = {
     if (val != 0) tty.output.push(val);
    }
   },
-  fsync: function(tty) {
+  flush: function(tty) {
    if (tty.output && tty.output.length > 0) {
     out(UTF8ArrayToString(tty.output, 0));
     tty.output = [];
@@ -2845,7 +2863,7 @@ var TTY = {
     if (val != 0) tty.output.push(val);
    }
   },
-  fsync: function(tty) {
+  flush: function(tty) {
    if (tty.output && tty.output.length > 0) {
     err(UTF8ArrayToString(tty.output, 0));
     tty.output = [];
@@ -3155,7 +3173,13 @@ var MEMFS = {
    };
   },
   msync: function(stream, buffer, offset, length, mmapFlags) {
-   MEMFS.stream_ops.write(stream, buffer, 0, length, offset, false);
+   if (!FS.isFile(stream.node.mode)) {
+    throw new FS.ErrnoError(43);
+   }
+   if (mmapFlags & 2) {
+    return 0;
+   }
+   var bytesWritten = MEMFS.stream_ops.write(stream, buffer, 0, length, offset, false);
    return 0;
   }
  }
@@ -4125,7 +4149,7 @@ var FS = {
   return stream.stream_ops.mmap(stream, length, position, prot, flags);
  },
  msync: (stream, buffer, offset, length, mmapFlags) => {
-  if (!stream.stream_ops.msync) {
+  if (!stream || !stream.stream_ops.msync) {
    return 0;
   }
   return stream.stream_ops.msync(stream, buffer, offset, length, mmapFlags);
@@ -4743,7 +4767,8 @@ var SYSCALLS = {
   if (dirfd === -100) {
    dir = FS.cwd();
   } else {
-   var dirstream = SYSCALLS.getStreamFromFD(dirfd);
+   var dirstream = FS.getStream(dirfd);
+   if (!dirstream) throw new FS.ErrnoError(8);
    dir = dirstream.path;
   }
   if (path.length == 0) {
@@ -4766,7 +4791,7 @@ var SYSCALLS = {
   HEAP32[buf >> 2] = stat.dev;
   HEAP32[buf + 8 >> 2] = stat.ino;
   HEAP32[buf + 12 >> 2] = stat.mode;
-  HEAPU32[buf + 16 >> 2] = stat.nlink;
+  HEAP32[buf + 16 >> 2] = stat.nlink;
   HEAP32[buf + 20 >> 2] = stat.uid;
   HEAP32[buf + 24 >> 2] = stat.gid;
   HEAP32[buf + 28 >> 2] = stat.rdev;
@@ -4777,26 +4802,20 @@ var SYSCALLS = {
   tempI64 = [ Math.floor(stat.atime.getTime() / 1e3) >>> 0, (tempDouble = Math.floor(stat.atime.getTime() / 1e3), 
   +Math.abs(tempDouble) >= 1 ? tempDouble > 0 ? (Math.min(+Math.floor(tempDouble / 4294967296), 4294967295) | 0) >>> 0 : ~~+Math.ceil((tempDouble - +(~~tempDouble >>> 0)) / 4294967296) >>> 0 : 0) ], 
   HEAP32[buf + 56 >> 2] = tempI64[0], HEAP32[buf + 60 >> 2] = tempI64[1];
-  HEAPU32[buf + 64 >> 2] = 0;
+  HEAP32[buf + 64 >> 2] = 0;
   tempI64 = [ Math.floor(stat.mtime.getTime() / 1e3) >>> 0, (tempDouble = Math.floor(stat.mtime.getTime() / 1e3), 
   +Math.abs(tempDouble) >= 1 ? tempDouble > 0 ? (Math.min(+Math.floor(tempDouble / 4294967296), 4294967295) | 0) >>> 0 : ~~+Math.ceil((tempDouble - +(~~tempDouble >>> 0)) / 4294967296) >>> 0 : 0) ], 
   HEAP32[buf + 72 >> 2] = tempI64[0], HEAP32[buf + 76 >> 2] = tempI64[1];
-  HEAPU32[buf + 80 >> 2] = 0;
+  HEAP32[buf + 80 >> 2] = 0;
   tempI64 = [ Math.floor(stat.ctime.getTime() / 1e3) >>> 0, (tempDouble = Math.floor(stat.ctime.getTime() / 1e3), 
   +Math.abs(tempDouble) >= 1 ? tempDouble > 0 ? (Math.min(+Math.floor(tempDouble / 4294967296), 4294967295) | 0) >>> 0 : ~~+Math.ceil((tempDouble - +(~~tempDouble >>> 0)) / 4294967296) >>> 0 : 0) ], 
   HEAP32[buf + 88 >> 2] = tempI64[0], HEAP32[buf + 92 >> 2] = tempI64[1];
-  HEAPU32[buf + 96 >> 2] = 0;
+  HEAP32[buf + 96 >> 2] = 0;
   tempI64 = [ stat.ino >>> 0, (tempDouble = stat.ino, +Math.abs(tempDouble) >= 1 ? tempDouble > 0 ? (Math.min(+Math.floor(tempDouble / 4294967296), 4294967295) | 0) >>> 0 : ~~+Math.ceil((tempDouble - +(~~tempDouble >>> 0)) / 4294967296) >>> 0 : 0) ], 
   HEAP32[buf + 104 >> 2] = tempI64[0], HEAP32[buf + 108 >> 2] = tempI64[1];
   return 0;
  },
  doMsync: function(addr, stream, len, flags, offset) {
-  if (!FS.isFile(stream.node.mode)) {
-   throw new FS.ErrnoError(43);
-  }
-  if (flags & 2) {
-   return 0;
-  }
   var buffer = HEAPU8.slice(addr, addr + len);
   FS.msync(stream, buffer, offset, len, flags);
  },
@@ -4868,7 +4887,7 @@ function _fd_read(fd, iov, iovcnt, pnum) {
  try {
   var stream = SYSCALLS.getStreamFromFD(fd);
   var num = doReadv(stream, iov, iovcnt);
-  HEAPU32[pnum >> 2] = num;
+  HEAP32[pnum >> 2] = num;
   return 0;
  } catch (e) {
   if (typeof FS == "undefined" || !(e instanceof FS.ErrnoError)) throw e;
@@ -4921,6 +4940,10 @@ function _fd_write(fd, iov, iovcnt, pnum) {
  }
 }
 
+function _setTempRet0(val) {
+ setTempRet0(val);
+}
+
 function __isLeapYear(year) {
  return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
 }
@@ -4956,10 +4979,6 @@ function __addDays(date, days) {
   }
  }
  return newDate;
-}
-
-function writeArrayToMemory(array, buffer) {
- HEAP8.set(array, buffer);
 }
 
 function _strftime(s, maxsize, format, tm) {
@@ -5200,7 +5219,7 @@ function _strftime(s, maxsize, format, tm) {
  return bytes.length - 1;
 }
 
-function _strftime_l(s, maxsize, format, tm, loc) {
+function _strftime_l(s, maxsize, format, tm) {
  return _strftime(s, maxsize, format, tm);
 }
 
@@ -5277,11 +5296,11 @@ var asmLibraryArg = {
  "o": ___cxa_throw,
  "q": __embind_finalize_value_object,
  "t": __embind_register_bigint,
- "E": __embind_register_bool,
+ "F": __embind_register_bool,
  "f": __embind_register_class,
  "e": __embind_register_class_constructor,
  "a": __embind_register_class_function,
- "D": __embind_register_emval,
+ "E": __embind_register_emval,
  "g": __embind_register_enum,
  "b": __embind_register_enum_value,
  "n": __embind_register_float,
@@ -5291,68 +5310,69 @@ var asmLibraryArg = {
  "j": __embind_register_std_wstring,
  "r": __embind_register_value_object,
  "i": __embind_register_value_object_field,
- "F": __embind_register_void,
- "z": __emscripten_get_now_is_monotonic,
- "G": __emval_decref,
- "H": __emval_incref,
+ "G": __embind_register_void,
+ "B": __emscripten_date_now,
+ "A": __emscripten_get_now_is_monotonic,
+ "H": __emval_decref,
+ "I": __emval_incref,
  "h": __emval_take_value,
  "k": _abort,
- "A": _emscripten_date_now,
- "C": _emscripten_memcpy_big,
- "B": _emscripten_resize_heap,
- "v": _environ_get,
- "w": _environ_sizes_get,
- "x": _fd_close,
- "y": _fd_read,
+ "D": _emscripten_memcpy_big,
+ "C": _emscripten_resize_heap,
+ "w": _environ_get,
+ "x": _environ_sizes_get,
+ "y": _fd_close,
+ "z": _fd_read,
  "s": _fd_seek,
  "l": _fd_write,
- "u": _strftime_l
+ "u": _setTempRet0,
+ "v": _strftime_l
 };
 
 var asm = createWasm();
 
 var ___wasm_call_ctors = Module["___wasm_call_ctors"] = function() {
- return (___wasm_call_ctors = Module["___wasm_call_ctors"] = Module["asm"]["J"]).apply(null, arguments);
+ return (___wasm_call_ctors = Module["___wasm_call_ctors"] = Module["asm"]["K"]).apply(null, arguments);
 };
 
 var _malloc = Module["_malloc"] = function() {
- return (_malloc = Module["_malloc"] = Module["asm"]["L"]).apply(null, arguments);
+ return (_malloc = Module["_malloc"] = Module["asm"]["M"]).apply(null, arguments);
 };
 
 var ___getTypeName = Module["___getTypeName"] = function() {
- return (___getTypeName = Module["___getTypeName"] = Module["asm"]["M"]).apply(null, arguments);
+ return (___getTypeName = Module["___getTypeName"] = Module["asm"]["N"]).apply(null, arguments);
 };
 
 var __embind_initialize_bindings = Module["__embind_initialize_bindings"] = function() {
- return (__embind_initialize_bindings = Module["__embind_initialize_bindings"] = Module["asm"]["N"]).apply(null, arguments);
+ return (__embind_initialize_bindings = Module["__embind_initialize_bindings"] = Module["asm"]["O"]).apply(null, arguments);
 };
 
 var _free = Module["_free"] = function() {
- return (_free = Module["_free"] = Module["asm"]["O"]).apply(null, arguments);
+ return (_free = Module["_free"] = Module["asm"]["P"]).apply(null, arguments);
 };
 
 var ___cxa_is_pointer_type = Module["___cxa_is_pointer_type"] = function() {
- return (___cxa_is_pointer_type = Module["___cxa_is_pointer_type"] = Module["asm"]["P"]).apply(null, arguments);
+ return (___cxa_is_pointer_type = Module["___cxa_is_pointer_type"] = Module["asm"]["Q"]).apply(null, arguments);
 };
 
 var dynCall_viijii = Module["dynCall_viijii"] = function() {
- return (dynCall_viijii = Module["dynCall_viijii"] = Module["asm"]["Q"]).apply(null, arguments);
+ return (dynCall_viijii = Module["dynCall_viijii"] = Module["asm"]["R"]).apply(null, arguments);
 };
 
 var dynCall_jiji = Module["dynCall_jiji"] = function() {
- return (dynCall_jiji = Module["dynCall_jiji"] = Module["asm"]["R"]).apply(null, arguments);
+ return (dynCall_jiji = Module["dynCall_jiji"] = Module["asm"]["S"]).apply(null, arguments);
 };
 
 var dynCall_iiiiij = Module["dynCall_iiiiij"] = function() {
- return (dynCall_iiiiij = Module["dynCall_iiiiij"] = Module["asm"]["S"]).apply(null, arguments);
+ return (dynCall_iiiiij = Module["dynCall_iiiiij"] = Module["asm"]["T"]).apply(null, arguments);
 };
 
 var dynCall_iiiiijj = Module["dynCall_iiiiijj"] = function() {
- return (dynCall_iiiiijj = Module["dynCall_iiiiijj"] = Module["asm"]["T"]).apply(null, arguments);
+ return (dynCall_iiiiijj = Module["dynCall_iiiiijj"] = Module["asm"]["U"]).apply(null, arguments);
 };
 
 var dynCall_iiiiiijj = Module["dynCall_iiiiiijj"] = function() {
- return (dynCall_iiiiiijj = Module["dynCall_iiiiiijj"] = Module["asm"]["U"]).apply(null, arguments);
+ return (dynCall_iiiiiijj = Module["dynCall_iiiiiijj"] = Module["asm"]["V"]).apply(null, arguments);
 };
 
 var calledRun;

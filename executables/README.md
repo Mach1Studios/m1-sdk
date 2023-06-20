@@ -2,7 +2,7 @@
 
 ## Usecases
 
-* Commandline execution for unix/linux/windows environments
+* Commandline execution for macos/linux/windows environments
 * Use to convert to/from any Mach1 Spatial format
 * Use to convert to/from any multichannel surround format (by using Mach1 Spatial as the hidden layer)
 * Use to convert to/from any spatial/ambisonic format (by using Mach1 Spatial as the hidden layer)
@@ -14,15 +14,15 @@
 ## Usage
 
 ##### Example in command line for converting Mach1Spatial mix to First Order ambisonics: ACNSN3D
-`./m1-transcode fmtconv -in-file /path/to/file.wav -in-fmt M1Spatial -out-fmt ACNSN3D -out-file /path/to/output.wav -out-file-chans 0`
+`./m1-transcode -in-file /path/to/file.wav -in-fmt M1Spatial -out-fmt ACNSN3D -out-file /path/to/output.wav -out-file-chans 0`
 
 ##### Example in command line for converting 7.1 film mix to Mach1Spatial
 
-`./m1-transcode fmtconv -in-file /path/to/file.wav -in-fmt SevenOnePT_Cinema -out-fmt Mach1Spatial -out-file /path/to/output.wav`
+`./m1-transcode -in-file /path/to/file.wav -in-fmt SevenOnePT_Cinema -out-fmt Mach1Spatial -out-file /path/to/output.wav`
 
 ### Custom Format/Configuration
 
-`./m1-transcode fmtconv -in-file /path/to/16channel.wav -in-fmt TTPoints -in-json /path/to/16ChannelDescription.json -out-file /path/to/output-m1spatial.wav -out-fmt M1Spatial -out-file-chans 0`
+`./m1-transcode -in-file /path/to/16channel.wav -in-fmt TTPoints -in-json /path/to/16ChannelDescription.json -out-file /path/to/output-m1spatial.wav -out-fmt M1Spatial -out-file-chans 0`
 
 Input JSON description of the surround/spatial soundfield setup per your design and input it with the -in-json arguement for any custom input or output transcoding.
 
@@ -31,19 +31,19 @@ The `-in-fmt` or `-out-fmt` as `TTPoints` can be used to set a custom json forma
 You can also find an example custom `.json` file here: [reference/Custom16Channel.json](reference/Custom16Channel.json)
 
 #### ADM Extractor
-`./m1-transcode fmtconv -in-file /path/to/input-ADM.wav -in-fmt SevenOneFour -out-file /path/to/output.wav -extract-metadata -out-fmt M1Spatial -out-file-chans 0`
+`./m1-transcode -in-file /path/to/input-ADM.wav -in-fmt SevenOneFour -out-file /path/to/output.wav -extract-metadata -out-fmt M1Spatial -out-file-chans 0`
 
 `-extract-metadata` will dump any found XML ADM metadata in the audio binary as a textfile with the same output name and path.
 
 #### LFE/SUB Channel Filter
 
 ##### Example of low pass filtering every channel but the Front-Right of the Mach1 Spatial mix and outputting it to stereo.
-`./m1-transcode fmtconv -in-file /path/to/input-m1spatial.wav -in-fmt M1Spatial -out-file /path/to/output-stereo.wav -lfe-sub 0,2,3,4,6,7 -out-fmt Stereo -out-file-chans 0`
+`./m1-transcode -in-file /path/to/input-m1spatial.wav -in-fmt M1Spatial -out-file /path/to/output-stereo.wav -lfe-sub 0,2,3,4,6,7 -out-fmt Stereo -out-file-chans 0`
 
 Use -lfe-sub arguement to indicate which input channels you want to apply a Low Pass Filter to, the arguement exapects a list of ints with commas to separate them.
 
 #### Mach1 Spatial Downmixer
-`./m1-transcode fmtconv -in-file /path/to/input-fiveOne.wav -in-fmt FiveOneFilm_Cinema -spatial-downmixer 0.9 -out-file /path/to/output-m1spatial.wav -out-fmt M1Spatial -out-file-chans 0`
+`./m1-transcode -in-file /path/to/input-fiveOne.wav -in-fmt FiveOneFilm_Cinema -spatial-downmixer 0.9 -out-file /path/to/output-m1spatial.wav -out-fmt M1Spatial -out-file-chans 0`
 
 `-spatial-downmixer` arguement can be used to set this, the float after this arguement will be used as the threshold. If used this will effectively add an additional transoding after anything outputting to Mach1 Spatial to then transcode from Mach1 Spatial to Mach1 Horizon while respecting the content of the soundfield. 
 

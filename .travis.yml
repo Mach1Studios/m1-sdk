@@ -471,7 +471,7 @@ jobs:
         - cmake --build . --config Release
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
-        - cp -f ./m1-transcode ${TRAVIS_BUILD_DIR}/executables/unix/m1-transcode
+        - cp -f ./m1-transcode ${TRAVIS_BUILD_DIR}/executables/macos/m1-transcode
         - aws s3 cp m1-transcode s3://${AWS_DEPLOY_BUCKET}/executables/linux/m1-transcode --cache-control no-cache --metadata-directive REPLACE
 
     - stage: compile
@@ -656,8 +656,8 @@ jobs:
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
         - chmod +x ./m1-transcode
-        - cp -f ./m1-transcode ${TRAVIS_BUILD_DIR}/executables/unix/m1-transcode
-        - aws s3 cp m1-transcode s3://${AWS_DEPLOY_BUCKET}/executables/unix/m1-transcode --cache-control no-cache --metadata-directive REPLACE
+        - cp -f ./m1-transcode ${TRAVIS_BUILD_DIR}/executables/macos/m1-transcode
+        - aws s3 cp m1-transcode s3://${AWS_DEPLOY_BUCKET}/executables/macos/m1-transcode --cache-control no-cache --metadata-directive REPLACE
 
 # ---------------------------------
 #

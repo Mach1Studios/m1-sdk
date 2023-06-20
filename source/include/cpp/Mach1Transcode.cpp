@@ -46,7 +46,7 @@ std::vector<std::string> Mach1Transcode::getAllFormatNames() {
     ///
     /// - Returns:
     ///     - vector of strings of the names of all formats
-	char** formats = Mach1TranscodeCAPI_getAllFormatNames(M1obj);
+	const char** formats = Mach1TranscodeCAPI_getAllFormatNames(M1obj);
 	std::vector<std::string> formatNames;
 	for (size_t i = 0; formats[i] != nullptr; i++) {
 		formatNames.push_back(std::string(formats[i]));

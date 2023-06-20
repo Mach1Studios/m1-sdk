@@ -86,7 +86,7 @@ const char** Mach1TranscodeCore::getAllFormatNames() {
 		formatNames.push_back(nullptr);
 	}
 
-    return formatNames.data();
+    return (const char**)formatNames.data();
 }
 
 float Mach1TranscodeCore::processNormalization(float **bufs, int numSamples) {

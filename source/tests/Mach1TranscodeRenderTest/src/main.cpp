@@ -89,7 +89,7 @@ void printFormats() {
     std::cout << std::endl;
     std::cout << "  Formats Supported:" << std::endl;
     for (auto fmt = 0; fmt < formats.size(); fmt++) {
-        std::cout << "    " << fmt << std::endl;
+        std::cout << "    " << formats[fmt] << std::endl;
     }
     std::cout << std::endl;
 }
@@ -155,9 +155,9 @@ int main(int argc, char *argv[]) {
         printHelp();
         return 0;
     }
-    pStr = getCmdOption(argv, argv + argc, "-formats");
-    if (pStr != NULL) {
+    if (cmdOptionExists(argv, argv + argc, "-format") || cmdOptionExists(argv, argv + argc, "--formats") || argc == 1) {
         printFormats();
+        return 0;
     }
     pStr = getCmdOption(argv, argv + argc, "-normalize");
     if (pStr != NULL) {

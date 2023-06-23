@@ -86,6 +86,8 @@ void test_results(void) {
                 counter += check;
             }
         }
+        
+        std::vector<std::string> formats = m1Transcode.getAllFormatNames();
 
         if (counter == m1Transcode.getInputNumChannels() * m1Transcode.getOutputNumChannels()) {
             std::cout << " "

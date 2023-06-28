@@ -5,6 +5,8 @@
 
 #include "Mach1Point3D.h"
 #include <stdbool.h>
+#include <vector>
+#include <string>
 
 #if defined(Mach1DecodeCore_h) || defined(Mach1EncodeCore_h) || defined(Mach1PositionalCore_h) || defined(Mach1TranscodeCore_h) || defined(Mach1AudioTimelineCore_h)
 #    ifndef M1_API
@@ -43,7 +45,9 @@ M1_API void Mach1TranscodeCAPI_delete(void *M1obj);
 M1_API int Mach1TranscodeCAPI_getInputNumChannels(void *M1obj);
 M1_API int Mach1TranscodeCAPI_getOutputNumChannels(void *M1obj);
 M1_API int Mach1TranscodeCAPI_getFormatFromString(void *M1obj, const char *str);
-M1_API const char *Mach1TranscodeCAPI_getFormatName(void *M1obj, int fmt);
+M1_API const char* Mach1TranscodeCAPI_getFormatName(void *M1obj, int fmt);
+M1_API const char** Mach1TranscodeCAPI_getAllFormatNames(void *M1obj);
+M1_API int Mach1TranscodeCAPI_getFormatsCount(void *M1obj);
 
 M1_API float Mach1TranscodeCAPI_processNormalization(void *M1obj, float **bufs, int numSamples);
 M1_API void Mach1TranscodeCAPI_processMasterGain(void *M1obj, float **bufs, int numSamples, float masterGain);

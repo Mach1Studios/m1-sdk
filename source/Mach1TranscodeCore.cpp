@@ -89,6 +89,10 @@ const char** Mach1TranscodeCore::getAllFormatNames() {
     return (const char**)formatNames.data();
 }
 
+int Mach1TranscodeCore::getFormatsCounts() {
+    return (int)formatNames.size();
+}
+
 float Mach1TranscodeCore::processNormalization(float **bufs, int numSamples) {
     float peak = 0;
 

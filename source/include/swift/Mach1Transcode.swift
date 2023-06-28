@@ -40,8 +40,32 @@ public class Mach1Transcode {
     public func getFormatName(fmt:Mach1TranscodeFormatType) -> String {
         let cStr = Mach1TranscodeCAPI_getFormatName(M1obj, fmt)
         return String(cString: cStr!)
+        /// Returns the format index of a specified format string name
     }
-    
+
+    public func getAllFormatNames() -> [String] {
+        var array = Array(repeating: String, count: Int(Mach1TranscodeCAPI_getFormatsCount(M1obj)))
+        let formatNamePtr = unsafeBitCast( Mach1TranscodeCAPI_getAllFormatNames(M1obj), to: UnsafeMutablePointer<String>?.self)
+
+        for i in 0..<array.count {
+            array[i] = formatNamePtr!
+        }
+        return array
+        /// Returns a list of all the names of available formats in Mach1Transcode API
+        ///
+        /// - Returns:
+        ///     - vector of strings of the names of all formats
+    }
+
+    public func getFormatsCount() -> Int {
+        let count = Mach1TranscodeCAPI_getFormatsCount(M1obj)
+        return Int(count)
+        /// Returns the number of formats defined in Mach1Transcode API
+        ///
+        /// - Returns:
+        ///     - integer of number of defined formats
+    }
+
     public func processNormalization(bufs: UnsafeMutablePointer<UnsafeMutablePointer<Float>?>!, numSamples:Int) -> Float {
         let pointer: UnsafeMutablePointer = UnsafeMutablePointer(mutating: bufs)
         return Mach1TranscodeCAPI_processNormalization(M1obj, pointer, CInt(numSamples))

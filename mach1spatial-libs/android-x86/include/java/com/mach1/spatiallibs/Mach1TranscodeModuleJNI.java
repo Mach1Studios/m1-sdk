@@ -22,6 +22,8 @@ class Mach1TranscodeModuleJNI {
   public final static native int Mach1TranscodeCAPI_getOutputNumChannels(long jarg1);
   public final static native int Mach1TranscodeCAPI_getFormatFromString(long jarg1, String jarg2);
   public final static native String Mach1TranscodeCAPI_getFormatName(long jarg1, int jarg2);
+  public final static native String Mach1TranscodeCAPI_getAllFormatNames(long jarg1);
+  public final static native int Mach1TranscodeCAPI_getFormatsCount(long jarg1);
   public final static native float Mach1TranscodeCAPI_processNormalization(long jarg1, long jarg2, int jarg3);
   public final static native void Mach1TranscodeCAPI_processMasterGain(long jarg1, long jarg2, int jarg3, float jarg4);
   public final static native float Mach1TranscodeCAPI_db2level(long jarg1, float jarg2);

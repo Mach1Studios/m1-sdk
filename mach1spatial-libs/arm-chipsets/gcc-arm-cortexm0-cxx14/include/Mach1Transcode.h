@@ -20,6 +20,7 @@ class Mach1Transcode {
     int getFormatFromString(std::string str);
     std::string getFormatName(int fmt);
     std::vector<std::string> getAllFormatNames();
+    int getFormatsCount();
 
 #ifndef __EMSCRIPTEN__
     float processNormalization(float **bufs, int numSamples);

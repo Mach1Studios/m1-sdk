@@ -36,6 +36,10 @@ const char** Mach1TranscodeCAPI_getAllFormatNames(void *M1obj) {
     return ((Mach1TranscodeCore *)M1obj)->getAllFormatNames();
 }
 
+int Mach1TranscodeCAPI_getFormatsCount(void *M1obj) {
+    return ((Mach1TranscodeCore *)M1obj)->getFormatsCount();
+}
+
 float Mach1TranscodeCAPI_processNormalization(void *M1obj, float **bufs, int numSamples) {
     return ((Mach1TranscodeCore *)M1obj)->processNormalization(bufs, numSamples);
 }

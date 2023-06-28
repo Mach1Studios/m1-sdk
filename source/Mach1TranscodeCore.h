@@ -28,6 +28,8 @@ class Mach1TranscodeCore {
     int inFmt;
     int outFmt;
 
+    int numFormats; 
+
     std::vector<Mach1TranscodeMatrix> matrices;
 
     std::vector<Mach1Point3DCore> inCustomPoints;

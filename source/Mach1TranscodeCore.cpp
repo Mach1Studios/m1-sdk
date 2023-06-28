@@ -85,12 +85,12 @@ const char** Mach1TranscodeCore::getAllFormatNames() {
 		}
 		formatNames.push_back(nullptr);
 	}
-
+    numFormats = formatNames.size();
     return (const char**)formatNames.data();
 }
 
-int Mach1TranscodeCore::getFormatsCounts() {
-    return (int)formatNames.size();
+int Mach1TranscodeCore::getFormatsCount() {
+    return numFormats;
 }
 
 float Mach1TranscodeCore::processNormalization(float **bufs, int numSamples) {

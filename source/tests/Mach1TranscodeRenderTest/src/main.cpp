@@ -52,25 +52,46 @@ string convertToString(char *a, int size) {
 }
 
 void printHelp() {
-    cout << "spatial-transcode-audio -- light command line example conversion tool" << std::endl;
-    cout << "note: for a complete transcoding tool use `m1-transcode` from the `executables` directory" << std::endl;
-    cout << std::endl;
-    cout << "usage: fmtconv -in-file test_s8.wav -in-fmt M1Spatial -out-file test_b.wav -out-fmt ACNSN3D -out-file-chans 0" << std::endl;
-    cout << std::endl;
-    cout << "  -help                 - list command line options" << std::endl;
-    cout << "  -in-file  <filename>  - input file: put quotes around sets of files" << std::endl;
-    cout << "  -in-fmt   <fmt>       - input format: see supported formats below" << std::endl;
-    cout << "  -in-json  <json>      - input json: for input custom json Mach1Transcode templates" << std::endl;
-    cout << "  -out-file <filename>  - output file. full name for single file or name stem for file sets" << std::endl;
-    cout << "  -out-fmt  <fmt>       - output format: see supported formats below" << std::endl;
-    cout << "  -out-json  <json>     - output json: for output custom json Mach1Transcode templates" << std::endl;
-    cout << "  -out-file-chans <#>   - output file channels: 1, 2 or 0 (0 = multichannel)" << std::endl;
-    cout << "  -normalize            - two pass normalize absolute peak to zero dBFS" << std::endl;
-    cout << "  -master-gain <#>      - final output gain in dB like -3 or 2.3" << std::endl;
-    cout << "  -spatial-downmix <#>  - compare top vs. bottom of the input soundfield, if difference is less than the set threshold (float) output format will be Mach1 Horizon" << std::endl;
-    cout << std::endl;
-    std::cout << "  Formats Supported: https://dev.mach1.tech/#formats-supported" << std::endl;
-    cout << std::endl;
+    std::cout << "spatial-transcode-audio -- light command line example conversion tool" << std::endl;
+    std::cout << "note: for a complete transcoding tool use `m1-transcode` from the `executables` directory" << std::endl;
+    std::cout << std::endl;
+    std::cout << "usage: fmtconv -in-file test_s8.wav -in-fmt M1Spatial -out-file test_b.wav -out-fmt ACNSN3D -out-file-chans 0" << std::endl;
+    std::cout << std::endl;
+    std::cout << "  -help                 - list command line options" << std::endl;
+    std::cout << "  -formats              - list all available formats" << std::endl;
+    std::cout << "  -in-file  <filename>  - input file: put quotes around sets of files" << std::endl;
+    std::cout << "  -in-fmt   <fmt>       - input format: see supported formats below" << std::endl;
+    std::cout << "  -in-json  <json>      - input json: for input custom json Mach1Transcode templates" << std::endl;
+    std::cout << "  -out-file <filename>  - output file. full name for single file or name stem for file sets" << std::endl;
+    std::cout << "  -out-fmt  <fmt>       - output format: see supported formats below" << std::endl;
+    std::cout << "  -out-json  <json>     - output json: for output custom json Mach1Transcode templates" << std::endl;
+    std::cout << "  -out-file-chans <#>   - output file channels: 1, 2 or 0 (0 = multichannel)" << std::endl;
+    std::cout << "  -normalize            - two pass normalize absolute peak to zero dBFS" << std::endl;
+    std::cout << "  -master-gain <#>      - final output gain in dB like -3 or 2.3" << std::endl;
+    std::cout << "  -spatial-downmix <#>  - compare top vs. bottom of the input soundfield, if difference is less than the set threshold (float) output format will be Mach1 Horizon" << std::endl;
+    std::cout << std::endl;
+}
+
+void printFormats() {
+    Mach1Transcode formatLister;
+    std::vector<std::string> formats = formatLister.getAllFormatNames();
+
+    std::cout << "  Format Descriptions:" << std::endl;
+    std::cout << "    - M or Music          = `Music Mix` (Channels are spaced out evenly throughout the horizontal soundfield)" << std::endl;
+    std::cout << "    - C or Cinema         = `Cinema Mix` (Channels are more focused on the front)" << std::endl;
+    std::cout << "    - S or SideSurround   = `Side Surround Mix` (Surround channels are oriented more to the sides instead of rear (+-110 azimuth instead of +-135))" << std::endl;
+    std::cout << "    - R or RearSurround   = `Rear Surround Mix` (Surround channels are oriented more to the rears instead of sides (+-154 azimuth instead of +-135))" << std::endl;
+    std::cout << "    - SIM or Simulated    = `Simulated Room Mix` (Lessens the divergence of virtual speakers to quickly simulate hearing front/back soundfield within a real world listening environment)" << std::endl;
+    std::cout << std::endl;
+    std::cout << "  Mach1 Spatial Best Practices:" << std::endl;
+    std::cout << "    - C / S / R surround configurations should use Mach1Spatial-12 as a minimum to correctly handle the transcoding of a dedicated Center channel" << std::endl;
+    std::cout << "    - M or SIM surround configurations could be retained within lower Mach1Spatial-4 / Mach1Spatial-8 containers" << std::endl;
+    std::cout << std::endl;
+    std::cout << "  Formats Supported:" << std::endl;
+    for (auto fmt = 0; fmt < formats.size(); fmt++) {
+        std::cout << "    " << formats[fmt] << std::endl;
+    }
+    std::cout << std::endl;
 }
 
 void printFileInfo(SndfileHandle file) {
@@ -132,6 +153,10 @@ int main(int argc, char *argv[]) {
     char *pStr;
     if (cmdOptionExists(argv, argv + argc, "-h") || cmdOptionExists(argv, argv + argc, "-help") || cmdOptionExists(argv, argv + argc, "--help") || argc == 1) {
         printHelp();
+        return 0;
+    }
+    if (cmdOptionExists(argv, argv + argc, "-format") || cmdOptionExists(argv, argv + argc, "--formats") || argc == 1) {
+        printFormats();
         return 0;
     }
     pStr = getCmdOption(argv, argv + argc, "-normalize");

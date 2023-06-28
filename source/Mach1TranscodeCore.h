@@ -58,7 +58,9 @@ class Mach1TranscodeCore {
     int getInputNumChannels();
     int getOutputNumChannels();
     int getFormatFromString(const char *str);
-    const char *getFormatName(int fmt);
+    const char* getFormatName(int fmt);
+    const char** getAllFormatNames();
+    int getFormatsCount();
 
     float processNormalization(float **bufs, int numSamples);
     void processMasterGain(float **bufs, int numSamples, float masterGain = 1.0f);

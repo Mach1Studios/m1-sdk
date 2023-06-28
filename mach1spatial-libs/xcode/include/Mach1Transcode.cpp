@@ -40,6 +40,28 @@ int Mach1Transcode::getFormatFromString(std::string str) {
 std::string Mach1Transcode::getFormatName(int fmt) {
     return std::string(Mach1TranscodeCAPI_getFormatName(M1obj, fmt));
 }
+
+std::vector<std::string> Mach1Transcode::getAllFormatNames() {
+	const char** formats = Mach1TranscodeCAPI_getAllFormatNames(M1obj);
+	std::vector<std::string> formatNames;
+	for (size_t i = 0; formats[i] != nullptr; i++) {
+		formatNames.push_back(std::string(formats[i]));
+	}
+	return formatNames;
+    /// Returns a list of all the names of available formats in Mach1Transcode API
+    ///
+    /// - Returns:
+    ///     - vector of strings of the names of all formats
+}
+
+int Mach1Transcode::getFormatsCount() {
+    return Mach1TranscodeCAPI_getFormatsCount(M1obj);
+    /// Returns a list of all the names of available formats in Mach1Transcode API
+    ///
+    /// - Returns:
+    ///     - vector of strings of the names of all formats
+}
+
 #ifndef __EMSCRIPTEN__
 float Mach1Transcode::processNormalization(float **bufs, int numSamples) {
     return Mach1TranscodeCAPI_processNormalization(M1obj, bufs, numSamples);

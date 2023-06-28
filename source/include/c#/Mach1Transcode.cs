@@ -36,6 +36,9 @@ namespace Mach1
         internal static extern IntPtr Mach1TranscodeCAPI_getFormatName(IntPtr M1obj, int fmt);
 
         [DllImport(libname)]
+        internal static extern IntPtr Mach1TranscodeCAPI_getAllFormatNames(IntPtr M1obj);
+
+        [DllImport(libname)]
         internal static extern float Mach1TranscodeCAPI_processNormalization(IntPtr M1obj, IntPtr bufs, int numSamples);
 
         [DllImport(libname)]

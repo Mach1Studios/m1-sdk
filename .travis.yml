@@ -442,7 +442,6 @@ jobs:
             - ubuntu-toolchain-r-test
           packages:
             - build-essential
-            - g++-7
             - libasound2-dev
             - libflac-dev
             - libopus-dev

@@ -25,6 +25,8 @@ stages:
   - name: test
   - name: compile
     if: branch = deploy OR branch = travis-test
+  - name: compile-transcode-exe
+    if: branch = deploy OR branch = travis-test
   - name: deploy
     if: branch = deploy
   - name: release
@@ -425,7 +427,7 @@ jobs:
 #
 # ---------------------------------
 
-    - stage: compile
+    - stage: compile-transcode-exe
       branches:
         only:
           - deploy
@@ -458,6 +460,12 @@ jobs:
       git:
         submodules: false
       install:
+        # grab the latest compiled libs
+        - cd ${TRAVIS_BUILD_DIR}
+        - aws s3 cp s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs mach1spatial-libs_pulldown --recursive
+        - rsync -arv mach1spatial-libs_pulldown/ mach1spatial-libs
+        - rm -rf mach1spatial-libs_pulldown/
+        # setup m1-transcode repo
         - cd ${TRAVIS_BUILD_DIR}/../
         - git clone git@github.com:Mach1Studios/m1-transcode.git
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
@@ -474,7 +482,7 @@ jobs:
         - cp -f ./m1-transcode ${TRAVIS_BUILD_DIR}/executables/macos/m1-transcode
         - aws s3 cp m1-transcode s3://${AWS_DEPLOY_BUCKET}/executables/linux/m1-transcode --cache-control no-cache --metadata-directive REPLACE
 
-    - stage: compile
+    - stage: compile-transcode-exe
       branches:
         only:
           - deploy
@@ -523,6 +531,12 @@ jobs:
       git:
         submodules: false
       install:
+        # grab the latest compiled libs
+        - cd ${TRAVIS_BUILD_DIR}
+        - aws s3 cp s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs mach1spatial-libs_pulldown --recursive
+        - rsync -arv mach1spatial-libs_pulldown/ mach1spatial-libs
+        - rm -rf mach1spatial-libs_pulldown/
+        # setup m1-transcode repo
         - sudo apt remove binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi
         - cd ${TRAVIS_BUILD_DIR}
         - wget --quiet https://developer.arm.com/-/media/Files/downloads/gnu-rm/7-2018q2/gcc-arm-none-eabi-7-2018-q2-update-linux.tar.bz2
@@ -545,7 +559,7 @@ jobs:
         - cp -f ./m1-transcode ${TRAVIS_BUILD_DIR}/executables/linux-arm/m1-transcode
         - aws s3 cp m1-transcode s3://${AWS_DEPLOY_BUCKET}/executables/linux-arm/m1-transcode --cache-control no-cache --metadata-directive REPLACE
 
-    - stage: compile
+    - stage: compile-transcode-exe
       branches:
         only:
           - deploy
@@ -587,6 +601,12 @@ jobs:
         - choco install -y pkgconfiglite
         - export PATH="$(powershell -Command '("Process", "Machine" | % {[Environment]::GetEnvironmentVariable("PATH", $_) -Split ";" -Replace "\\$", ""} | Select -Unique | % { cygpath $_ }) -Join ":"')"
         - ${TRAVIS_BUILD_DIR}/vcpkg/vcpkg.exe install libvorbis:x64-windows libvorbis:x64-windows-static libvorbis:x86-windows libflac:x64-windows libflac:x64-windows-static libflac:x86-windows opus:x64-windows opus:x64-windows-static opus:x86-windows mp3lame:x64-windows mp3lame:x64-windows-static mp3lame:x86-windows mpg123:x64-windows mpg123:x64-windows-static mpg123:x86-windows
+        # grab the latest compiled libs
+        - cd ${TRAVIS_BUILD_DIR}
+        - aws s3 cp s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs mach1spatial-libs_pulldown --recursive
+        - rsync -arv mach1spatial-libs_pulldown/ mach1spatial-libs
+        - rm -rf mach1spatial-libs_pulldown/
+        # setup m1-transcode repo
         - cd ${TRAVIS_BUILD_DIR}/../
         - git clone git@github.com:Mach1Studios/m1-transcode.git
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
@@ -607,7 +627,7 @@ jobs:
         - aws s3 cp _install/vs-15-2017/build/m1-transcode.exe s3://${AWS_DEPLOY_BUCKET}/executables/windows-x86/m1-transcode.exe --cache-control no-cache --metadata-directive REPLACE
         - aws s3 cp _install/vs-15-2017-win64/build/m1-transcode.exe s3://${AWS_DEPLOY_BUCKET}/executables/windows-x86_64/m1-transcode.exe --cache-control no-cache --metadata-directive REPLACE
 
-    - stage: compile
+    - stage: compile-transcode-exe
       branches:
         only:
           - deploy
@@ -643,6 +663,12 @@ jobs:
         - brew tap irt-open-source/homebrew-nga
         - brew install libadm libbw64
       script:
+        # grab the latest compiled libs
+        - cd ${TRAVIS_BUILD_DIR}
+        - aws s3 cp s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs mach1spatial-libs_pulldown --recursive
+        - rsync -arv mach1spatial-libs_pulldown/ mach1spatial-libs
+        - rm -rf mach1spatial-libs_pulldown/
+        # setup m1-transcode repo
         - cd ${TRAVIS_BUILD_DIR}/../
         - git clone git@github.com:Mach1Studios/m1-transcode.git
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode

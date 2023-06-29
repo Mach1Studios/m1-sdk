@@ -44,6 +44,16 @@ Module["onRuntimeInitialized"] = function() {
     return this._m1obj.getFormatName(fmt);
    }
   };
+  this.getAllFormatNames = function() {
+   if (this._m1obj) {
+    return this._m1obj.getAllFormatNames();
+   }
+  };
+  this.getFormatsCount = function() {
+    if (this._m1obj) {
+      return this._m1obj.getFormatsCount();
+    }
+  }
   this.processNormalization = function(bufs) {
    if (this._m1obj) {
     return this._m1obj.processNormalization(bufs);

@@ -447,6 +447,7 @@ jobs:
             - libflac-dev
             - libopus-dev
             - libogg-dev
+            - libvorbis-dev
             - libmpg123-dev
             - libmp3lame-dev
             - libtool
@@ -459,7 +460,6 @@ jobs:
       git:
         submodules: false
       install:
-        - sudo apt-get install libvorbis-dev=1.3.7
         # grab the latest compiled libs
         - cd ${TRAVIS_BUILD_DIR}
         - aws s3 cp s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs mach1spatial-libs_pulldown --recursive
@@ -502,6 +502,7 @@ jobs:
             - libflac-dev
             - libopus-dev
             - libogg-dev
+            - libvorbis-dev
             - libmpg123-dev
             - libmp3lame-dev
             - libtool
@@ -530,7 +531,6 @@ jobs:
       git:
         submodules: false
       install:
-        - sudo apt-get install libvorbis-dev=1.3.7
         # grab the latest compiled libs
         - cd ${TRAVIS_BUILD_DIR}
         - aws s3 cp s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs mach1spatial-libs_pulldown --recursive

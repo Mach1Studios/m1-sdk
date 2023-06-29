@@ -435,19 +435,18 @@ jobs:
       name: m1-transcode Linux-x86_64
       os: linux
       sudo: required
-      dist: focal
+      dist: jammy
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
             - build-essential
-            - g++-7
             - libasound2-dev
-            - libvorbis-dev
             - libflac-dev
             - libopus-dev
             - libogg-dev
+            - libvorbis-dev
             - libmpg123-dev
             - libmp3lame-dev
             - libtool
@@ -479,7 +478,7 @@ jobs:
         - cmake --build . --config Release
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/../m1-transcode
-        - cp -f ./m1-transcode ${TRAVIS_BUILD_DIR}/executables/macos/m1-transcode
+        - cp -f ./m1-transcode ${TRAVIS_BUILD_DIR}/executables/linux/m1-transcode
         - aws s3 cp m1-transcode s3://${AWS_DEPLOY_BUCKET}/executables/linux/m1-transcode --cache-control no-cache --metadata-directive REPLACE
 
     - stage: compile-transcode-exe
@@ -491,7 +490,7 @@ jobs:
       os: linux
       sudo: required
       arch: arm64
-      dist: focal
+      dist: jammy
       addons:
         apt:
           sources:
@@ -499,10 +498,10 @@ jobs:
           packages:
             - build-essential
             - libasound2-dev
-            - libvorbis-dev
             - libflac-dev
             - libopus-dev
             - libogg-dev
+            - libvorbis-dev
             - libmpg123-dev
             - libmp3lame-dev
             - libtool

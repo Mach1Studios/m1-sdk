@@ -435,7 +435,7 @@ jobs:
       name: m1-transcode Linux-x86_64
       os: linux
       sudo: required
-      dist: focal
+      dist: jammy
       addons:
         apt:
           sources:
@@ -491,7 +491,7 @@ jobs:
       os: linux
       sudo: required
       arch: arm64
-      dist: focal
+      dist: jammy
       addons:
         apt:
           sources:

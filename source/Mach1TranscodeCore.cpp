@@ -154,7 +154,7 @@ std::vector<Mach1Point3DCore> parseCustomPointsJson(std::string srtJson) {
     if (doc.size() > 0) {
         auto jsonPoints = JSON::getChildren(doc, "points");
         if (jsonPoints.size() > 0) {
-            for (int i = 0;; i++) {
+            for (int i = 0; i < jsonPoints.size()*250; i++) {
                 auto jsonPoint = JSON::getElement(jsonPoints, 3, i);
                 if (jsonPoint.size() > 0) {
                     points.push_back(
@@ -582,13 +582,18 @@ void Mach1TranscodeCore::processConversion(int inFmt, float **inBufs, int outFmt
     int outChans = getNumChannels(outFmt, false);
     std::vector<std::vector<float>> currentFormatConversionMatrix;
 
+    // TODO: if `inFmt` or `outFmt` is not a m1spatial format return an informative error
     if (inFmt == getFormatFromString("CustomPoints") && outFmt != getFormatFromString("CustomPoints")) {
+        // custom points input
         currentFormatConversionMatrix = generateCoeffSetForPoints(inCustomPoints, getPointsSet(outFmt));
     } else if (inFmt != getFormatFromString("CustomPoints") && outFmt == getFormatFromString("CustomPoints")) {
+        // custom points output
         currentFormatConversionMatrix = generateCoeffSetForPoints(getPointsSet(inFmt), outCustomPoints);
     } else if (inFmt == getFormatFromString("CustomPoints") && outFmt == getFormatFromString("CustomPoints")) {
+        // custom points input and output
         currentFormatConversionMatrix = generateCoeffSetForPoints(inCustomPoints, outCustomPoints);
     } else if (inFmt != getFormatFromString("CustomPoints") && outFmt != getFormatFromString("CustomPoints")) {
+        // predefined recipes only
         currentFormatConversionMatrix = getCoeffs(findMatrix(inFmt, outFmt));
     }
 
@@ -680,6 +685,7 @@ void Mach1TranscodeCore::getMatrixConversion(float *matrix) {
         int outChans = getNumChannels(outFmt, false);
         std::vector<std::vector<float>> currentFormatConversionMatrix;
 
+        // TODO: if `inFmt` or `outFmt` is not a m1spatial format return an informative error
         if (inFmt == getFormatFromString("CustomPoints") && outFmt != getFormatFromString("CustomPoints")) {
             currentFormatConversionMatrix = generateCoeffSetForPoints(inCustomPoints, getPointsSet(outFmt));
         } else if (inFmt != getFormatFromString("CustomPoints") && outFmt == getFormatFromString("CustomPoints")) {

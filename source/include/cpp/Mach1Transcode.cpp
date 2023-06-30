@@ -150,7 +150,7 @@ void Mach1Transcode::setInputFormat(int inFmt) {
     /// Sets the input format for transcoding from the preset Mach1Transcode options
     ///
     /// Remarks:
-    ///     View the current list of Mach1Transcode preset formats here: https://dev.mach1.tech/#formats-supported
+    ///     View the current list of Mach1Transcode preset formats here: https://github.com/Mach1Studios/m1-sdk/blob/master/public/Mach1TranscodeConstants.h
 }
 
 void Mach1Transcode::setInputFormatCustomPointsJson(std::string inJson) {

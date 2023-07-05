@@ -154,7 +154,7 @@ std::vector<Mach1Point3DCore> parseCustomPointsJson(std::string srtJson) {
     if (doc.size() > 0) {
         auto jsonPoints = JSON::getChildren(doc, "points");
         if (jsonPoints.size() > 0) {
-            for (int i = 0; i < jsonPoints.size()*250; i++) {
+            for (int i = 0; i < jsonPoints.size(); i++) {
                 auto jsonPoint = JSON::getElement(jsonPoints, 3, i);
                 if (jsonPoint.size() > 0) {
                     points.push_back(

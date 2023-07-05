@@ -161,24 +161,24 @@ std::vector<Mach1Point3DCore> parseCustomPointsJson(std::string srtJson) {
                     /// TEST FOR SPHERICAL / POLAR DEFINITIONS
                     auto usePolar = JSON::getChildren(jsonPoint, "usePolar")[0]->value;
                     if ((usePolar.find("1") != std::string::npos || usePolar.find("true") != std::string::npos || usePolar.find("True") != std::string::npos || usePolar.find("TRUE") != std::string::npos || usePolar.find("yes") != std::string::npos || usePolar.find("YES") != std::string::npos) || JSON::getChildren(jsonPoint, "x").empty()) {
-                        float diverge_radius, azimuth_radians, elevation_radians = 0.0;
+                        float diverge_radius = 0, azimuth_radians = 0, elevation_radians = 0;
                         if (!JSON::getChildren(jsonPoint, "diverge").empty()) {
-                            float diverge_radius = std::stof(JSON::getChildren(jsonPoint, "diverge")[0]->value);
+                            diverge_radius = std::stof(JSON::getChildren(jsonPoint, "diverge")[0]->value);
                             if (diverge_radius > 1.0) diverge_radius = 1.0;
                             if (diverge_radius < -1.0) diverge_radius = -1.0;
                         }
                         if (!JSON::getChildren(jsonPoint, "azimuth").empty()) {
-                            float azimuth_radians = (std::stof(JSON::getChildren(jsonPoint, "azimuth")[0]->value) * PI / 180);
+                            azimuth_radians = (std::stof(JSON::getChildren(jsonPoint, "azimuth")[0]->value) * PI / 180);
                         }
                         if (!JSON::getChildren(jsonPoint, "elevation").empty()) {
-                            float elevation_radians = (std::stof(JSON::getChildren(jsonPoint, "elevation")[0]->value) * PI / 180);
+                            elevation_radians = (std::stof(JSON::getChildren(jsonPoint, "elevation")[0]->value) * PI / 180);
                         }
                     
                         points.push_back(
                             Mach1Point3DCore(
-                                cos(elevation_radians) * cos(-azimuth_radians) * diverge_radius,
-                                cos(elevation_radians) * sin(-azimuth_radians) * diverge_radius,
-                                sin(elevation_radians) * diverge_radius));
+                                cos(elevation_radians) * cos(-azimuth_radians /* negating to make left handed */) * diverge_radius,
+                                cos(elevation_radians) * sin(-azimuth_radians /* negating to make left handed */) * diverge_radius,
+                                sin(elevation_radians)                                                            * diverge_radius));
                     } else {
                         /// TEST FOR CARTESIAN DEFINITIONS
                         if (!JSON::getChildren(jsonPoint, "x").empty() && !JSON::getChildren(jsonPoint, "y").empty() && !JSON::getChildren(jsonPoint, "z").empty()) {

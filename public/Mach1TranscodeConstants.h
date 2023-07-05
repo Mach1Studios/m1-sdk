@@ -64,7 +64,7 @@ public:
         return obj;
     }
 
-    static Mach1TranscodePanner* Panner(float azimuthFromMinus180to180, float elevationFromMinus90to90, float divergeFromMinus1To1, const Mach1GainCoeff & outputGain)
+    static Mach1TranscodePanner* Panner(float azimuthFromMinus180to180, float elevationFromMinus90to90, float divergeFromMinus1To1, const Mach1GainCoeff& outputGain)
     {
         Mach1TranscodePanner* obj = new Mach1TranscodePanner();
         obj->azimuth = azimuthFromMinus180to180;

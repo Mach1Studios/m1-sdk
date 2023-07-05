@@ -157,11 +157,23 @@ std::vector<Mach1Point3DCore> parseCustomPointsJson(std::string srtJson) {
             for (int i = 0; i < jsonPoints.size(); i++) {
                 auto jsonPoint = JSON::getElement(jsonPoints, 3, i);
                 if (jsonPoint.size() > 0) {
-                    points.push_back(
-                        Mach1Point3DCore(
-                            std::stof(JSON::getChildren(jsonPoint, "x")[0]->value),
-                            std::stof(JSON::getChildren(jsonPoint, "y")[0]->value),
-                            std::stof(JSON::getChildren(jsonPoint, "z")[0]->value)));
+                    auto usePolar = JSON::getChildren(jsonPoint, "usePolar")[0]->value;
+                    if (usePolar.find("1") != std::string::npos || usePolar.find("true") != std::string::npos || usePolar.find("True") != std::string::npos || usePolar.find("TRUE") != std::string::npos || usePolar.find("yes") != std::string::npos || usePolar.find("YES") != std::string::npos) {
+                        float divergeRadius = std::stof(JSON::getChildren(jsonPoint, "diverge")[0]->value);
+                        if (divergeRadius > 1.0) divergeRadius = 1.0;
+                        if (divergeRadius < -1.0) divergeRadius = -1.0;
+                        points.push_back(
+                            Mach1Point3DCore(
+                                cos(std::stof(JSON::getChildren(jsonPoint, "elevation")[0]->value)) * cos(std::stof(JSON::getChildren(jsonPoint, "azimuth")[0]->value)) * divergeRadius,
+                                sin(std::stof(JSON::getChildren(jsonPoint, "elevation")[0]->value)) * cos(std::stof(JSON::getChildren(jsonPoint, "azimuth")[0]->value)) * divergeRadius,
+                                sin(std::stof(JSON::getChildren(jsonPoint, "azimuth")[0]->value)) * divergeRadius));
+                    } else {
+                        points.push_back(
+                            Mach1Point3DCore(
+                                std::stof(JSON::getChildren(jsonPoint, "x")[0]->value),
+                                std::stof(JSON::getChildren(jsonPoint, "y")[0]->value),
+                                std::stof(JSON::getChildren(jsonPoint, "z")[0]->value)));
+                    }
                 }
             }
         }

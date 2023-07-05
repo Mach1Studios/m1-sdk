@@ -117,8 +117,7 @@ void test_results(void) {
                             "elevation": 0.0,
                             "diverge": 1.0,
                             "usePolar": true,
-                            "name": "L",
-                            "children": []
+                            "name": "L"
                         }
                     ]
                 }

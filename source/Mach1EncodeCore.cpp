@@ -1821,10 +1821,10 @@ void M1EncodeCore::generatePointResults() {
         pannerMode = MODE_PERIPHONICLINEAR;
     }
 
-    Mach1Point3DCore CenterChannel;
+    Mach1Point3DCore centerpoint;
 
     float normalisedOutputDiverge = diverge * (1 / cos(PI * 0.25f));
-    Mach1Point3DCore centerpoint = {(float)cos((azimuth)*PI * 2) * normalisedOutputDiverge, 0, (float)sin((azimuth)*PI * 2) * normalisedOutputDiverge};
+    centerpoint = {(float)cos((azimuth)*PI * 2) * normalisedOutputDiverge, 0, (float)sin((azimuth)*PI * 2) * normalisedOutputDiverge};
 
     if (inputMode == INPUT_MONO) {
 
@@ -1891,13 +1891,13 @@ void M1EncodeCore::generatePointResults() {
 
         std::vector<std::string> names = {"L", "C", "R", "S"};
         if (frontSurroundPerspective) {
-            CenterChannel = {(float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge};
+            centerpoint = {(float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge};
         } else {
-            CenterChannel = {0, 0, 0};
+            centerpoint = {0, 0, 0};
         }
         std::vector<Mach1Point3DCore> pnts = {
             {(float)cos((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge},
-            CenterChannel,
+            centerpoint,
             {(float)cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge},
             {(float)cos((azimuth + 0.5f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.5f) * PI * 2) * diverge},
         };
@@ -2018,13 +2018,13 @@ void M1EncodeCore::generatePointResults() {
 
         std::vector<std::string> names = {"L", "C", "R"};
         if (frontSurroundPerspective) {
-            CenterChannel = {(float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge};
+            centerpoint = {(float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge};
         } else {
-            CenterChannel = {0, 0, 0};
+            centerpoint = {0, 0, 0};
         }
         std::vector<Mach1Point3DCore> pnts = {
             {(float)cos((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge},
-            CenterChannel,
+            centerpoint,
             {(float)cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge},
         };
         pnts[1] = (pnts[0] + pnts[2]) / 2;
@@ -2042,13 +2042,13 @@ void M1EncodeCore::generatePointResults() {
 
         std::vector<std::string> names = {"L", "C", "R", "Ls", "Rs"};
         if (frontSurroundPerspective) {
-            CenterChannel = {(float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge};
+            centerpoint = {(float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge};
         } else {
-            CenterChannel = {0, 0, 0};
+            centerpoint = {0, 0, 0};
         }
         std::vector<Mach1Point3DCore> pnts = {
             {(float)cos((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge},
-            CenterChannel,
+            centerpoint,
             {(float)cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge},
             {(float)cos((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge},
             {(float)cos((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge},
@@ -2068,13 +2068,13 @@ void M1EncodeCore::generatePointResults() {
 
         std::vector<std::string> names = {"L", "C", "R", "Ls", "Rs", "LFE"};
         if (frontSurroundPerspective) {
-            CenterChannel = {(float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge};
+            centerpoint = {(float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge};
         } else {
-            CenterChannel = {0, 0, 0};
+            centerpoint = {0, 0, 0};
         }
         std::vector<Mach1Point3DCore> pnts = {
             {(float)cos((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge},
-            CenterChannel,
+            centerpoint,
             {(float)cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge},
             {(float)cos((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge},
             {(float)cos((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge},
@@ -2095,16 +2095,16 @@ void M1EncodeCore::generatePointResults() {
 
         std::vector<std::string> names = {"L", "R", "Ls", "Rs", "C", "LFE"};
         if (frontSurroundPerspective) {
-            CenterChannel = {(float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge};
+            centerpoint = {(float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge};
         } else {
-            CenterChannel = {0, 0, 0};
+            centerpoint = {0, 0, 0};
         }
         std::vector<Mach1Point3DCore> pnts = {
             {(float)cos((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge},
             {(float)cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge},
             {(float)cos((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge},
             {(float)cos((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge},
-            CenterChannel,
+            centerpoint,
             {0, 0, 0},
         };
         pnts[4] = (pnts[0] + pnts[1]) / 2;
@@ -2122,14 +2122,14 @@ void M1EncodeCore::generatePointResults() {
 
         std::vector<std::string> names = {"L", "R", "C", "LFE", "Ls", "Rs"};
         if (frontSurroundPerspective) {
-            CenterChannel = {(float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge};
+            centerpoint = {(float)cos((azimuth + 0.0f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.0f) * PI * 2) * diverge};
         } else {
-            CenterChannel = {0, 0, 0};
+            centerpoint = {0, 0, 0};
         }
         std::vector<Mach1Point3DCore> pnts = {
             {(float)cos((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth - 0.125f) * PI * 2) * normalisedOutputDiverge},
             {(float)cos((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f) * PI * 2) * normalisedOutputDiverge},
-            CenterChannel,
+            centerpoint,
             {0, 0, 0},
             {(float)cos((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge},
             {(float)cos((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge},

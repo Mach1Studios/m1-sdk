@@ -159,10 +159,9 @@ std::vector<Mach1Point3DCore> parseCustomPointsJson(std::string srtJson) {
     if (doc.size() > 0) {
         auto jsonPoints = JSON::getChildren(doc, "points");
         if (jsonPoints.size() > 0) {
-            for (int i = 0; i < jsonPoints.size(); i++) {
+            for (int i = 0; ; i++) {
                 auto jsonPoint = JSON::getElement(jsonPoints, 3, i);
                 if (jsonPoint.size() > 0) {
-                    
                     /// TEST FOR SPHERICAL / POLAR DEFINITIONS
                     auto usePolar = JSON::getChildren(jsonPoint, "usePolar")[0]->value;
                     if ((usePolar.find("1") != std::string::npos || usePolar.find("true") != std::string::npos || usePolar.find("True") != std::string::npos || usePolar.find("TRUE") != std::string::npos || usePolar.find("yes") != std::string::npos || usePolar.find("YES") != std::string::npos) || JSON::getChildren(jsonPoint, "x").empty()) {
@@ -208,6 +207,8 @@ std::vector<Mach1Point3DCore> parseCustomPointsJson(std::string srtJson) {
                             );
                         }
                     }
+                } else {
+                    break;
                 }
             }
         }

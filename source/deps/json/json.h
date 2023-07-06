@@ -65,8 +65,8 @@ std::vector<Node *> getElement(std::vector<Node *> docOrig, int level, int n) {
     }
 
     if (idx >= 0) {
-        for (int j = idx; j < docOrig.size(); j++) {
-            if (docOrig[j]->level >= docOrig[idx]->level) {
+        for (int j = idx + 1; j < docOrig.size(); j++) {
+            if (docOrig[j]->level > docOrig[idx]->level) {
                 doc.push_back(docOrig[j]);
             } else
                 break;

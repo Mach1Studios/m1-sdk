@@ -19,6 +19,11 @@
 #    define M_LN10 2.30258509299404568402
 #endif
 
+// TODO: remove this and use a single instance of clamp in all apis
+float clamp_local(float n, float lower, float upper) {
+    return (std::max)(lower, (std::min)(n, upper));
+}
+
 Mach1TranscodeCore::Mach1TranscodeCore() {
     inFmt = -1;
     outFmt = -1;
@@ -161,24 +166,37 @@ std::vector<Mach1Point3DCore> parseCustomPointsJson(std::string srtJson) {
                     /// TEST FOR SPHERICAL / POLAR DEFINITIONS
                     auto usePolar = JSON::getChildren(jsonPoint, "usePolar")[0]->value;
                     if ((usePolar.find("1") != std::string::npos || usePolar.find("true") != std::string::npos || usePolar.find("True") != std::string::npos || usePolar.find("TRUE") != std::string::npos || usePolar.find("yes") != std::string::npos || usePolar.find("YES") != std::string::npos) || JSON::getChildren(jsonPoint, "x").empty()) {
-                        float diverge_radius = 0, azimuth_radians = 0, elevation_radians = 0;
+                        float diverge_radius = 0, azimuth = 0, elevation = 0;
                         if (!JSON::getChildren(jsonPoint, "diverge").empty()) {
                             diverge_radius = std::stof(JSON::getChildren(jsonPoint, "diverge")[0]->value);
                             if (diverge_radius > 1.0) diverge_radius = 1.0;
                             if (diverge_radius < -1.0) diverge_radius = -1.0;
                         }
                         if (!JSON::getChildren(jsonPoint, "azimuth").empty()) {
-                            azimuth_radians = (std::stof(JSON::getChildren(jsonPoint, "azimuth")[0]->value) * PI / 180);
+                            float azimuth_degrees = (std::stof(JSON::getChildren(jsonPoint, "azimuth")[0]->value));
+                            // convert the -180 -> 180 degree range to 0 -> 1
+                            azimuth_degrees = std::fmod(azimuth_degrees, 360.0); // protect a 360 cycle
+                            if (azimuth_degrees < 0) { // check if -180 to 180, convert to 0-360
+                                azimuth_degrees += 360.0;
+                            }
+                            azimuth = azimuth_degrees / 360.0;
                         }
                         if (!JSON::getChildren(jsonPoint, "elevation").empty()) {
-                            elevation_radians = (std::stof(JSON::getChildren(jsonPoint, "elevation")[0]->value) * PI / 180);
+                            // convert the -90 -> 90 degree range to 0 -> 1
+                            float elevation_degrees = (std::stof(JSON::getChildren(jsonPoint, "elevation")[0]->value));
+                            elevation_degrees = clamp_local(elevation_degrees, -90, 90);
+                            elevation = elevation_degrees / 90;
                         }
-                    
-                        points.push_back(
-                            Mach1Point3DCore(
-                                cos(elevation_radians) * cos(-azimuth_radians /* negating to make left handed */) * diverge_radius,
-                                cos(elevation_radians) * sin(-azimuth_radians /* negating to make left handed */) * diverge_radius,
-                                sin(elevation_radians)                                                            * diverge_radius));
+                        
+                        float normalisedOutputDiverge = diverge_radius * (1 / std::cos(PI * 0.25f)); // normalize for entire cube space and not just spherical space
+
+                        points.push_back({
+                            // process normalized polar inputs as cartesian normalized for the vector space
+                            std::sin((azimuth)*PI * 2) * normalisedOutputDiverge * std::sin((-elevation + 1) * PI / 2),
+                            std::cos((azimuth)*PI * 2) * normalisedOutputDiverge * std::sin((-elevation + 1) * PI / 2),
+                            std::cos((-elevation + 1) * PI / 2) * normalisedOutputDiverge,
+                        });
+                        
                     } else {
                         /// TEST FOR CARTESIAN DEFINITIONS
                         if (!JSON::getChildren(jsonPoint, "x").empty() && !JSON::getChildren(jsonPoint, "y").empty() && !JSON::getChildren(jsonPoint, "z").empty()) {

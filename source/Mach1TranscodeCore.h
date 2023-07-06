@@ -53,6 +53,9 @@ class Mach1TranscodeCore {
 
     Mach1Point3D *(*customPointsSamplerCallback)(long long, int &) = nullptr;
 
+    // TODO: remove this for a single instance of the function in all apis
+    float clamp_local(float n, float lower, float upper);
+
   public:
     Mach1TranscodeCore();
     ~Mach1TranscodeCore();

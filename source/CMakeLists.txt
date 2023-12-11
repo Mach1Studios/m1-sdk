@@ -84,7 +84,7 @@ set(TRANSCODE_VERSION           "${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1S
 
 # include headers
 set(Mach1AdditionalIncludes "./deps")
-set(Mach1TranscodeAdditionalIncludes "../public")
+set(Mach1TranscodeAdditionalIncludes "../public" "./deps/yaml/yaml" "./deps/pugixml/src" "./deps/glm")
 
 # collect and add source files
 set(Mach1EncodeAPI_SOURCE "./Mach1EncodeCAPI.cpp" "./Mach1EncodeCore.cpp" "./Mach1Point3DCore.cpp")

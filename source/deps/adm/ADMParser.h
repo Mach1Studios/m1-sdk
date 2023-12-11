@@ -9,7 +9,7 @@
 #include <math.h>
 
 #include "2094_common_definitions.xml.h"
-#include "xml/pugixml.hpp"
+#include <pugixml.hpp>
 
 #ifndef PI
 #    define PI 3.14159265358979323846f

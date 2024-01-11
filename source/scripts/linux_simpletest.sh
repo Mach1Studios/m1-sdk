@@ -7,7 +7,7 @@ then
 	cmake ./tests -Btests/_builds/gcc -DCMAKE_INSTALL_PREFIX=`pwd`/tests/_install/gcc
 	cmake --build tests/_builds/gcc --config Release --target install
 
-	echo "RUN POLLY TESTS"
+	echo "RUN TESTS"
 	tests/_install/gcc/bin/Mach1EncodeTests
 	tests/_install/gcc/bin/Mach1DecodeTests
 	tests/_install/gcc/bin/Mach1DecodePositionalTests

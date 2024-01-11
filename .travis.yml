@@ -60,7 +60,7 @@ jobs:
       before_install:
         - cd ${TRAVIS_BUILD_DIR}
         - ./source/scripts/check-changes.sh ./source ; RETURN_CODE=$? ; if [ $RETURN_CODE -eq 137 ]; then travis_terminate 0; elif [ $RETURN_CODE -ne 0 ]; then travis_terminate $RETURN_CODE; fi
-        - git submodule update source/deps
+        - git submodule update --init source
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/linux_simpletest.sh
@@ -97,7 +97,7 @@ jobs:
         submodules: false
       script:
         - cd ${TRAVIS_BUILD_DIR}
-        - git submodule update source/deps
+        - git submodule update --init source
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/linux_build.sh
       after_success:
@@ -148,10 +148,10 @@ jobs:
       git:
         submodules: false
       install:
+        - cd ${TRAVIS_BUILD_DIR}
+        - git submodule update --init source
         - export PATH=/usr/local/bin:$PATH
         - sudo apt remove binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi
-        - cd ${TRAVIS_BUILD_DIR}
-        - git submodule update source/deps
         - wget --quiet https://developer.arm.com/-/media/Files/downloads/gnu-rm/7-2018q2/gcc-arm-none-eabi-7-2018-q2-update-linux.tar.bz2
         - tar -xf gcc-arm-none-eabi-7-2018-q2-update-linux.tar.bz2
         - cd gcc-arm-none-eabi-7-2018-q2-update
@@ -188,11 +188,11 @@ jobs:
       before_cache:
         - brew cleanup
       install: 
+        - cd ${TRAVIS_BUILD_DIR}
+        - git submodule update --init source
         - cd ${TRAVIS_BUILD_DIR}/source
         - sudo pip install --upgrade pip
         - sudo python -m pip install awscli --ignore-installed six
-        - cd ${TRAVIS_BUILD_DIR}
-        - git submodule update source/deps
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/macos-10-13_build.sh
@@ -229,7 +229,7 @@ jobs:
           - if [ "$TRAVIS_OS_NAME" == "osx" ]; then cd ${TRAVIS_BUILD_DIR}/source && ./scripts/add_signing_key.sh; fi
       install:
         - cd ${TRAVIS_BUILD_DIR}
-        - git submodule update source/deps
+        - git submodule update --init source
         - ./source/scripts/ios_setup.sh
         - sudo pip install --upgrade pip
         - sudo python -m pip install awscli --ignore-installed six
@@ -265,9 +265,10 @@ jobs:
           - $HOME/Library/Caches/Homebrew
       before_cache:
         - brew cleanup
-      script:
+      install:
         - cd ${TRAVIS_BUILD_DIR}
-        - git submodule update source/deps
+        - git submodule update --init source
+      script:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/macos_build.sh -u
       after_success:
@@ -301,7 +302,7 @@ jobs:
         submodules: false
       install:
         - cd ${TRAVIS_BUILD_DIR}
-        - git submodule update source/deps
+        - git submodule update --init source
         - mkdir -p ~/rpi/
         - cd ~/rpi
         - git clone https://github.com/raspberrypi/tools.git
@@ -337,7 +338,7 @@ jobs:
         submodules: false
       install:
         - cd ${TRAVIS_BUILD_DIR}
-        - git submodule update source/deps
+        - git submodule update --init source
         - git clone https://github.com/emscripten-core/emsdk.git
         - cd emsdk && git pull
         - ./emsdk install latest
@@ -379,9 +380,9 @@ jobs:
         - MATRIX_EVAL="CC=gcc-7 CXX=g++-7 ANDROID_NDK_r16b=${TRAVIS_BUILD_DIR}/android-ndk-r16b"
       git:
         submodules: false
-      install: 
+      install:
         - cd ${TRAVIS_BUILD_DIR}
-        - git submodule update source/deps
+        - git submodule update --init source
         - echo y | sdkmanager 'ndk;21.1.6352462'
         - echo y | sdkmanager "cmake;3.10.2.4988404"
         - wget --quiet https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip
@@ -423,7 +424,7 @@ jobs:
         - git lfs pull --include "m1-debug-shortpt-fiveone.wav"
       install:
         - cd ${TRAVIS_BUILD_DIR}
-        - git submodule update source/deps
+        - git submodule update --init source
         - cd ${TRAVIS_BUILD_DIR}/source
         - choco install -y cmake
         - choco install -y make
@@ -475,8 +476,6 @@ jobs:
         submodules: false
       install:
         # grab the latest compiled libs
-        - cd ${TRAVIS_BUILD_DIR}
-        - git submodule update source/deps
         - aws s3 cp s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs mach1spatial-libs_pulldown --recursive
         - rsync -arv mach1spatial-libs_pulldown/ mach1spatial-libs
         - rm -rf mach1spatial-libs_pulldown/
@@ -547,8 +546,6 @@ jobs:
         submodules: false
       install:
         # grab the latest compiled libs
-        - cd ${TRAVIS_BUILD_DIR}
-        - git submodule update source/deps
         - aws s3 cp s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs mach1spatial-libs_pulldown --recursive
         - rsync -arv mach1spatial-libs_pulldown/ mach1spatial-libs
         - rm -rf mach1spatial-libs_pulldown/
@@ -600,8 +597,6 @@ jobs:
         - cd ${TRAVIS_BUILD_DIR}
         - ./vcpkg/bootstrap-vcpkg.bat
       before_install:
-        - cd ${TRAVIS_BUILD_DIR}
-        - git submodule update source/deps
         - git lfs pull --include "m1-debug-shortpt-fiveone.wav"
       install:
         - cd ${TRAVIS_BUILD_DIR}
@@ -677,8 +672,6 @@ jobs:
       git:
         submodules: false
       install:
-        - cd ${TRAVIS_BUILD_DIR}
-        - git submodule update source/deps
         - brew tap irt-open-source/homebrew-nga
         - brew install libadm libbw64
       script:

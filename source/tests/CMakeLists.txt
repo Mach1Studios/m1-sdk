@@ -68,11 +68,11 @@ add_executable(Mach1SpatialTests "./Mach1SpatialTests/mach1spatial-tests.cpp" ${
 #----------------
 
 # include headers
-set(Mach1CAPIinclude "../" "../include/cpp" "../deps")
+set(Mach1CAPIinclude "../" "../include/cpp" "../deps" "../deps/acutest/include" "../deps/nlohmann/single_include")
 set(Mach1EncodeCAPIinclude ${Mach1CAPIinclude})
 set(Mach1DecodeCAPIinclude ${Mach1CAPIinclude})
-set(Mach1DecodePositionalCAPIinclude ${Mach1CAPIinclude} "../deps")
-set(Mach1TranscodeCAPIinclude ${Mach1CAPIinclude} "../deps" "../../public")
+set(Mach1DecodePositionalCAPIinclude ${Mach1CAPIinclude} "../deps/glm")
+set(Mach1TranscodeCAPIinclude ${Mach1CAPIinclude} "../../public")
 
 target_include_directories(Mach1EncodeTests PRIVATE "./include" ${Mach1EncodeCAPIinclude})
 target_include_directories(Mach1DecodeTests PRIVATE "./include" ${Mach1DecodeCAPIinclude})

@@ -1,6 +1,6 @@
 #include "Mach1Transcode.h"
 #include "acutest.h"
-#include "json.hpp"
+#include <nlohmann/json.hpp>
 
 #include <iostream>
 #include <map>

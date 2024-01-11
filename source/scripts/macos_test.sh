@@ -17,12 +17,10 @@ then
 	echo "RENDER CHECK#"
 	echo "5.1_C -> M1Spatial"
 	cd tests/Mach1TranscodeRenderTest
-	wget -O https://github.com/Mach1Studios/m1-sdk-dev/raw/feature/prep-ci/source/tests/Mach1TranscodeRenderTest/m1-debug-shortpt-fiveone.wav
-	mkdir -p build && cd build
-	cmake ../
-	cmake --build .
-	#TODO: Fix bug preventing render test from running
-	#./spatial-transcode-render -in-file "../m1-debug-shortpt-fiveone.wav" -in-fmt 5.1_C -out-file "../m1-debug-shortpt-fiveone_m1spatial-out.wav" -out-fmt M1Spatial -out-file-chans 0
+	#wget https://media.githubusercontent.com/media/Mach1Studios/m1-sdk-dev/develop/source/tests/Mach1TranscodeRenderTest/m1-debug-shortpt-fiveone.wav?token=ABVV4WPEM4POB55JFFRSGMLFUBSCK
+	cmake ./tests/ -Btests/_builds/xcode -GXcode -DCMAKE_INSTALL_PREFIX=`pwd`/tests/_install/xcode
+	cmake --build build
+	#build/spatial-transcode-render -in-file "../m1-debug-shortpt-fiveone.wav" -in-fmt 5.1_C -out-file "../m1-debug-shortpt-fiveone_m1spatial-out.wav" -out-fmt M1Spatial -out-file-chans 0
 else
 	echo "ERROR: Script called from wrong directory: $PWD"
 fi

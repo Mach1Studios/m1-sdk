@@ -370,10 +370,10 @@ void Mach1DecodeCore::spatialAlgoSample_12(float Yaw, float Pitch, float Roll, f
             Mach1Point3DCore(-100, -100, -100),
             Mach1Point3DCore(100, -100, -100),
 
-            Mach1Point3DCore(diag, 0, 0),
-            Mach1Point3DCore(-diag, 0, 0),
             Mach1Point3DCore(0, diag, 0),
+            Mach1Point3DCore(diag, 0, 0),
             Mach1Point3DCore(0, -diag, 0),
+            Mach1Point3DCore(-diag, 0, 0),
         };
 
     spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result);
@@ -399,10 +399,10 @@ std::vector<float> Mach1DecodeCore::spatialAlgoSample_12(float Yaw, float Pitch,
             Mach1Point3DCore(-100, -100, -100),
             Mach1Point3DCore(100, -100, -100),
 
-            Mach1Point3DCore(diag, 0, 0),
-            Mach1Point3DCore(-diag, 0, 0),
             Mach1Point3DCore(0, diag, 0),
+            Mach1Point3DCore(diag, 0, 0),
             Mach1Point3DCore(0, -diag, 0),
+            Mach1Point3DCore(-diag, 0, 0),
         };
 
     spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result.data());
@@ -427,10 +427,10 @@ void Mach1DecodeCore::spatialAlgoSample_14(float Yaw, float Pitch, float Roll, f
             Mach1Point3DCore(-100, -100, -100),
             Mach1Point3DCore(100, -100, -100),
 
-            Mach1Point3DCore(diag, 0, 0),
-            Mach1Point3DCore(-diag, 0, 0),
             Mach1Point3DCore(0, diag, 0),
+            Mach1Point3DCore(diag, 0, 0),
             Mach1Point3DCore(0, -diag, 0),
+            Mach1Point3DCore(-diag, 0, 0),
 
             Mach1Point3DCore(0, 0, diag),
             Mach1Point3DCore(0, 0, -diag),
@@ -459,10 +459,10 @@ std::vector<float> Mach1DecodeCore::spatialAlgoSample_14(float Yaw, float Pitch,
             Mach1Point3DCore(-100, -100, -100),
             Mach1Point3DCore(100, -100, -100),
 
-            Mach1Point3DCore(diag, 0, 0),
-            Mach1Point3DCore(-diag, 0, 0),
             Mach1Point3DCore(0, diag, 0),
+            Mach1Point3DCore(diag, 0, 0),
             Mach1Point3DCore(0, -diag, 0),
+            Mach1Point3DCore(-diag, 0, 0),
 
             Mach1Point3DCore(0, 0, diag),
             Mach1Point3DCore(0, 0, -diag),

@@ -13,10 +13,6 @@ public final class Mach1EncodeOutputModeType {
   public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Horizon_4 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Horizon_4");
   public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_12 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_12");
   public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_14 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_14");
-  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_32 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_32");
-  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_36 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_36");
-  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_48 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_48");
-  public final static Mach1EncodeOutputModeType Mach1EncodeOutputModeM1Spatial_60 = new Mach1EncodeOutputModeType("Mach1EncodeOutputModeM1Spatial_60");
 
   public final int swigValue() {
     return swigValue;
@@ -52,7 +48,7 @@ public final class Mach1EncodeOutputModeType {
     swigNext = this.swigValue+1;
   }
 
-  private static Mach1EncodeOutputModeType[] swigValues = { Mach1EncodeOutputModeM1Spatial_8, Mach1EncodeOutputModeM1Horizon_4, Mach1EncodeOutputModeM1Spatial_12, Mach1EncodeOutputModeM1Spatial_14, Mach1EncodeOutputModeM1Spatial_32, Mach1EncodeOutputModeM1Spatial_36, Mach1EncodeOutputModeM1Spatial_48, Mach1EncodeOutputModeM1Spatial_60 };
+  private static Mach1EncodeOutputModeType[] swigValues = { Mach1EncodeOutputModeM1Spatial_8, Mach1EncodeOutputModeM1Horizon_4, Mach1EncodeOutputModeM1Spatial_12, Mach1EncodeOutputModeM1Spatial_14 };
   private static int swigNext = 0;
   private final int swigValue;
   private final String swigName;

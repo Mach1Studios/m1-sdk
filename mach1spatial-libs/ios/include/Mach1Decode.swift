@@ -40,10 +40,6 @@ public class Mach1Decode {
         ///     - Mach1DecodeAlgoHorizonPairs (compass / yaw | 4x stereo mastered pairs)
         ///     - Mach1DecodeAlgoSpatial_12 (higher order spatial | 12 channels)
         ///     - Mach1DecodeAlgoSpatial_14 (higher order spatial | 14 channels)
-        ///     - Mach1DecodeAlgoSpatial_32 (higher order spatial | 32 channels)
-        ///     - Mach1DecodeAlgoSpatial_36 (higher order spatial | 36 channels)
-        ///     - Mach1DecodeAlgoSpatial_48 (higher order spatial | 48 channels)
-        ///     - Mach1DecodeAlgoSpatial_60 (higher order spatial | 60 channels)
     }
 
     public func getFormatChannelCount() -> Int {

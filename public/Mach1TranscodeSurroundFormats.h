@@ -582,7 +582,7 @@ namespace Mach1TranscodeConstants {
                     }
                 },
                 {
-                    "7.0_M", "M1Spatial-8", // TODO: Change to >M1Spatial-16
+                    "7.0_M", "M1Spatial-8", // TODO: Change to >M1Spatial-14
                     {
                         Mach1TranscodeChannel::Coeffs({ 0.707106f, 0, 0, 0, 0.707106f, 0, 0, 0 }),
                         Mach1TranscodeChannel::Coeffs({ 0.176776f, 0.176776f, 0.176776f, 0.176776f, 0.176776f, 0.176776f, 0.176776f, 0.176776f }),

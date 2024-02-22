@@ -41,10 +41,6 @@ Module["onRuntimeInitialized"] = function() {
    "Mach1EncodeOutputModeM1Horizon_4": Module.Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Horizon_4,
    "Mach1EncodeOutputModeM1Spatial_12": Module.Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_12,
    "Mach1EncodeOutputModeM1Spatial_14": Module.Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_14,
-   "Mach1EncodeOutputModeM1Spatial_32": Module.Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_32,
-   "Mach1EncodeOutputModeM1Spatial_36": Module.Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_36,
-   "Mach1EncodeOutputModeM1Spatial_48": Module.Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_48,
-   "Mach1EncodeOutputModeM1Spatial_60": Module.Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_60
   };
   this.Mach1DecodeAlgoType = {
    "Mach1DecodeAlgoSpatial_8": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_8,
@@ -52,10 +48,6 @@ Module["onRuntimeInitialized"] = function() {
    "Mach1DecodeAlgoHorizonPairs": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoHorizonPairs,
    "Mach1DecodeAlgoSpatial_12": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_12,
    "Mach1DecodeAlgoSpatial_14": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_14,
-   "Mach1DecodeAlgoSpatial_32": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_32,
-   "Mach1DecodeAlgoSpatial_36": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_36,
-   "Mach1DecodeAlgoSpatial_48": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_48,
-   "Mach1DecodeAlgoSpatial_60": Module.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_60
   };
   this.delete = function() {
    if (this._m1obj) {

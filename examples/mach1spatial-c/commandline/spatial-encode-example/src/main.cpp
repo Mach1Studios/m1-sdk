@@ -226,18 +226,6 @@ void* encode(void* v)
                     outputMode=Mach1EncodeOutputModeM1Spatial_14;
                     outputName="MACH1SPATIAL-14";
                 }else if(outputMode==Mach1EncodeOutputModeM1Spatial_14){
-                    outputMode=Mach1EncodeOutputModeM1Spatial_32;
-                    outputName="MACH1SPATIAL-32";
-                }else if(outputMode==Mach1EncodeOutputModeM1Spatial_32){
-                    outputMode=Mach1EncodeOutputModeM1Spatial_36;
-                    outputName="MACH1SPATIAL-36";
-                }else if(outputMode==Mach1EncodeOutputModeM1Spatial_36){
-                    outputMode=Mach1EncodeOutputModeM1Spatial_48;
-                    outputName="MACH1SPATIAL-48";
-                }else if(outputMode==Mach1EncodeOutputModeM1Spatial_48){
-                    outputMode=Mach1EncodeOutputModeM1Spatial_60;
-                    outputName="MACH1SPATIAL-60";
-                }else if(outputMode==Mach1EncodeOutputModeM1Spatial_60){
                     outputMode=Mach1EncodeOutputModeM1Spatial_8;
                     outputName="MACH1SPATIAL-8";
                 }else{

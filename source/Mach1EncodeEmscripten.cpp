@@ -29,11 +29,7 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
         .value("Mach1EncodeOutputModeM1Spatial_8", Mach1EncodeOutputModeM1Spatial_8)
         .value("Mach1EncodeOutputModeM1Horizon_4", Mach1EncodeOutputModeM1Horizon_4)
         .value("Mach1EncodeOutputModeM1Spatial_12", Mach1EncodeOutputModeM1Spatial_12)
-        .value("Mach1EncodeOutputModeM1Spatial_14", Mach1EncodeOutputModeM1Spatial_14)
-        .value("Mach1EncodeOutputModeM1Spatial_32", Mach1EncodeOutputModeM1Spatial_32)
-        .value("Mach1EncodeOutputModeM1Spatial_36", Mach1EncodeOutputModeM1Spatial_36)
-        .value("Mach1EncodeOutputModeM1Spatial_48", Mach1EncodeOutputModeM1Spatial_48)
-        .value("Mach1EncodeOutputModeM1Spatial_60", Mach1EncodeOutputModeM1Spatial_60);
+        .value("Mach1EncodeOutputModeM1Spatial_14", Mach1EncodeOutputModeM1Spatial_14);
 
     enum_<Mach1EncodePannerMode>("Mach1EncodePannerMode")
         .value("Mach1EncodePannerModeIsotropicLinear", Mach1EncodePannerModeIsotropicLinear)
@@ -45,11 +41,7 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
         .value("Mach1DecodeAlgoHorizon_4", Mach1DecodeAlgoHorizon_4)
         .value("Mach1DecodeAlgoHorizonPairs", Mach1DecodeAlgoHorizonPairs)
         .value("Mach1DecodeAlgoSpatial_12", Mach1DecodeAlgoSpatial_12)
-        .value("Mach1DecodeAlgoSpatial_14", Mach1DecodeAlgoSpatial_14)
-        .value("Mach1DecodeAlgoSpatial_32", Mach1DecodeAlgoSpatial_32)
-        .value("Mach1DecodeAlgoSpatial_36", Mach1DecodeAlgoSpatial_36)
-        .value("Mach1DecodeAlgoSpatial_48", Mach1DecodeAlgoSpatial_48)
-        .value("Mach1DecodeAlgoSpatial_60", Mach1DecodeAlgoSpatial_60);
+        .value("Mach1DecodeAlgoSpatial_14", Mach1DecodeAlgoSpatial_14);
 
     register_vector<float>("VectorFloat");
     register_vector<std::string>("VectorString");

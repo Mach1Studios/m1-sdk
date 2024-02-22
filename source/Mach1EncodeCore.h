@@ -85,11 +85,7 @@ class M1EncodeCore {
         OUTPUT_SPATIAL_8CH = (int)0,
         OUTPUT_HORIZON_4CH,
         OUTPUT_SPATIAL_12CH,
-        OUTPUT_SPATIAL_14CH,
-        OUTPUT_SPATIAL_32CH,
-        OUTPUT_SPATIAL_36CH,
-        OUTPUT_SPATIAL_48CH,
-        OUTPUT_SPATIAL_60CH
+        OUTPUT_SPATIAL_14CH
     };
 
     enum PannerMode {
@@ -130,10 +126,6 @@ class M1EncodeCore {
         {OUTPUT_HORIZON_4CH, "M1Horizon-4"},
         {OUTPUT_SPATIAL_12CH, "M1Spatial-12"},
         {OUTPUT_SPATIAL_14CH, "M1Spatial-14"},
-        {OUTPUT_SPATIAL_32CH, "M1Spatial-32"},
-        {OUTPUT_SPATIAL_36CH, "M1Spatial-36"},
-        {OUTPUT_SPATIAL_48CH, "M1Spatial-48"},
-        {OUTPUT_SPATIAL_60CH, "M1Spatial-60"},
     };
 
     // arrays for CAPI

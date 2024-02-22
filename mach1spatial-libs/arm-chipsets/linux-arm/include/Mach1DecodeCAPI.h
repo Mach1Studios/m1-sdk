@@ -42,11 +42,7 @@ enum Mach1DecodeAlgoType {
     Mach1DecodeAlgoHorizon_4,
     Mach1DecodeAlgoHorizonPairs,
     Mach1DecodeAlgoSpatial_12,
-    Mach1DecodeAlgoSpatial_14,
-    Mach1DecodeAlgoSpatial_32,
-    Mach1DecodeAlgoSpatial_36,
-    Mach1DecodeAlgoSpatial_48,
-    Mach1DecodeAlgoSpatial_60
+    Mach1DecodeAlgoSpatial_14
 };
 
 #ifdef __cplusplus

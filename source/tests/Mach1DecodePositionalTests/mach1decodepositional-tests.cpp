@@ -28,10 +28,6 @@ void test_results(void) {
         {Mach1DecodeAlgoHorizonPairs, "Horizon Pairs - 8Ch"},
         {Mach1DecodeAlgoSpatial_12, "Spatial - 12Ch"},
         {Mach1DecodeAlgoSpatial_14, "Spatial - 14Ch"},
-        {Mach1DecodeAlgoSpatial_32, "Spatial - 32Ch"},
-        {Mach1DecodeAlgoSpatial_36, "Spatial - 36Ch"},
-        {Mach1DecodeAlgoSpatial_48, "Spatial - 48Ch"},
-        {Mach1DecodeAlgoSpatial_60, "Spatial - 60Ch"},
     };
 
     struct INPUT_DATA {

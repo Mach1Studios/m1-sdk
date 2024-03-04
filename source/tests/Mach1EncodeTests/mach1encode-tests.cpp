@@ -29,10 +29,6 @@ void test_results(void) {
         {Mach1EncodeOutputModeM1Spatial_8, "MACH1SPATIAL-8"},
         {Mach1EncodeOutputModeM1Spatial_12, "MACH1SPATIAL-12"},
         {Mach1EncodeOutputModeM1Spatial_14, "MACH1SPATIAL-14"},
-        {Mach1EncodeOutputModeM1Spatial_32, "MACH1SPATIAL-32"},
-        {Mach1EncodeOutputModeM1Spatial_36, "MACH1SPATIAL-36"},
-        {Mach1EncodeOutputModeM1Spatial_48, "MACH1SPATIAL-48"},
-        {Mach1EncodeOutputModeM1Spatial_60, "MACH1SPATIAL-60"},
     };
 
     enum InputType {
@@ -271,52 +267,6 @@ void test_results(void) {
          {
              {
                  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
-             },
-         }},
-        /*
-        MONO - MACH1SPATIAL-32
-        */
-        {
-            "case: ENCODE | MONO->MACH1SPATIAL-32",
-            {Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial_32, Mach1EncodePannerModeIsotropicLinear, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
-            {
-                {
-                    {0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125, 0.03125},
-                },
-            }},
-        {"case: ENCODE | MONO->MACH1SPATIAL-32 | Diverge",
-         {Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial_32, Mach1EncodePannerModeIsotropicLinear, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
-         {
-             {
-                 {0.5, 0, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-             },
-         }},
-        {"case: ENCODE | MONO->MACH1SPATIAL-32 | Azimuth 90",
-         {Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial_32, Mach1EncodePannerModeIsotropicLinear, 90.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
-         {
-             {
-                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-             },
-         }},
-        {"case: ENCODE | MONO->MACH1SPATIAL-32 | Azimuth 180",
-         {Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial_32, Mach1EncodePannerModeIsotropicLinear, 180.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
-         {
-             {
-                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 0, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-             },
-         }},
-        {"case: ENCODE | MONO->MACH1SPATIAL-32 | Azimuth 270",
-         {Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial_32, Mach1EncodePannerModeIsotropicLinear, 270.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
-         {
-             {
-                 {0, 0, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0},
-             },
-         }},
-        {"case: ENCODE | MONO->MACH1SPATIAL-32 | Height",
-         {Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial_32, Mach1EncodePannerModeIsotropicLinear, 90.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees},
-         {
-             {
-                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 0, 0, 0},
              },
          }},
         /*

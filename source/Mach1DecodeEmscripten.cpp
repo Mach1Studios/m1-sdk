@@ -22,11 +22,7 @@ EMSCRIPTEN_BINDINGS(Mach1Decode) {
         .value("Mach1DecodeAlgoHorizon_4", Mach1DecodeAlgoHorizon_4)
         .value("Mach1DecodeAlgoHorizonPairs", Mach1DecodeAlgoHorizonPairs)
         .value("Mach1DecodeAlgoSpatial_12", Mach1DecodeAlgoSpatial_12)
-        .value("Mach1DecodeAlgoSpatial_14", Mach1DecodeAlgoSpatial_14)
-        .value("Mach1DecodeAlgoSpatial_32", Mach1DecodeAlgoSpatial_32)
-        .value("Mach1DecodeAlgoSpatial_36", Mach1DecodeAlgoSpatial_36)
-        .value("Mach1DecodeAlgoSpatial_48", Mach1DecodeAlgoSpatial_48)
-        .value("Mach1DecodeAlgoSpatial_60", Mach1DecodeAlgoSpatial_60);
+        .value("Mach1DecodeAlgoSpatial_14", Mach1DecodeAlgoSpatial_14);
 
     register_vector<float>("VectorFloat");
 

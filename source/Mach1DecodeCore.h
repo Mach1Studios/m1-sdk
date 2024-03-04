@@ -97,24 +97,6 @@ class Mach1DecodeCore {
     void spatialAlgoSample_14(float Yaw, float Pitch, float Roll, float *result);
     std::vector<float> spatialAlgoSample_14(float Yaw, float Pitch, float Roll);
 
-    void spatialAlgoSample_18(float Yaw, float Pitch, float Roll, float *result);
-    std::vector<float> spatialAlgoSample_18(float Yaw, float Pitch, float Roll);
-
-    void spatialAlgoSample_22(float Yaw, float Pitch, float Roll, float *result);
-    std::vector<float> spatialAlgoSample_22(float Yaw, float Pitch, float Roll);
-
-    void spatialAlgoSample_32(float Yaw, float Pitch, float Roll, float *result);
-    std::vector<float> spatialAlgoSample_32(float Yaw, float Pitch, float Roll);
-
-    void spatialAlgoSample_36(float Yaw, float Pitch, float Roll, float *result);
-    std::vector<float> spatialAlgoSample_36(float Yaw, float Pitch, float Roll);
-
-    void spatialAlgoSample_48(float Yaw, float Pitch, float Roll, float *result);
-    std::vector<float> spatialAlgoSample_48(float Yaw, float Pitch, float Roll);
-
-    void spatialAlgoSample_60(float Yaw, float Pitch, float Roll, float *result);
-    std::vector<float> spatialAlgoSample_60(float Yaw, float Pitch, float Roll);
-
     // log
     std::vector<std::string> strLog;
     void addToLog(std::string str, int maxCount = 100);
@@ -244,26 +226,6 @@ class Mach1DecodeCore {
 
     std::vector<float> spatialAlgo_14(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
     void spatialAlgo_14(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
-
-    // ------------------------------------------------------------------
-
-    std::vector<float> spatialAlgo_32(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-    void spatialAlgo_32(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
-
-    // ------------------------------------------------------------------
-
-    std::vector<float> spatialAlgo_36(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-    void spatialAlgo_36(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
-
-    // ------------------------------------------------------------------
-
-    std::vector<float> spatialAlgo_48(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-    void spatialAlgo_48(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
-
-    // ------------------------------------------------------------------
-
-    std::vector<float> spatialAlgo_60(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-    void spatialAlgo_60(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
 
     // ------------------------------------------------------------------
 };

@@ -167,6 +167,9 @@ class M1EncodeCore {
     M1EncodeCore();
     ~M1EncodeCore();
 
+	M1EncodeCore(const M1EncodeCore& other); 
+    M1EncodeCore& operator=(const M1EncodeCore& other);
+
     void generatePointResults();
     M1EncodeCorePointResults resultingPoints;
 

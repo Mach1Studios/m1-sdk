@@ -11,6 +11,20 @@ Mach1Encode::~Mach1Encode() {
     Mach1EncodeCAPI_delete(M1obj);
 }
 
+Mach1Encode::Mach1Encode(const Mach1Encode &other) {
+    M1obj = Mach1EncodeCAPI_create();
+    Mach1EncodeCAPI_copy(other.M1obj, M1obj);
+    gains = other.gains;
+}
+
+Mach1Encode &Mach1Encode::operator=(const Mach1Encode &other) {
+    if (this != &other) {
+        Mach1EncodeCAPI_copy(other.M1obj, M1obj);
+        gains = other.gains;
+    }
+    return *this;
+}
+
 std::vector<Mach1Point3D> Mach1Encode::getPoints() {
     std::vector<Mach1Point3D> vec(Mach1EncodeCAPI_getPointsCount(M1obj));
 

@@ -9,6 +9,17 @@ void *Mach1EncodeCAPI_create() {
     return new M1EncodeCore();
 }
 
+void Mach1EncodeCAPI_copy(void *M1str, void *M1dst) {
+    if (M1str == nullptr || M1dst == nullptr) {
+        return;
+    }
+
+    M1EncodeCore *src = static_cast<M1EncodeCore *>(M1str);
+    M1EncodeCore *dst = static_cast<M1EncodeCore *>(M1dst);
+
+    *dst = *src;
+}
+
 void Mach1EncodeCAPI_delete(void *M1obj) {
     if (M1obj != nullptr) {
         delete (M1EncodeCore *)M1obj;

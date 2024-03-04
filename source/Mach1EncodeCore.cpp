@@ -1814,6 +1814,76 @@ M1EncodeCore::~M1EncodeCore() {
     delete[] arr_ResultingCoeffsDecoded;
 }
 
+// Copy constructor
+M1EncodeCore::M1EncodeCore(const M1EncodeCore& other) {
+    inputMode = other.inputMode;
+    outputMode = other.outputMode;
+    pannerMode = other.pannerMode;
+    azimuth = other.azimuth;
+    diverge = other.diverge;
+    elevation = other.elevation;
+    frontSurroundPerspective = other.frontSurroundPerspective;
+    orbitRotation = other.orbitRotation;
+    sSpread = other.sSpread;
+    autoOrbit = other.autoOrbit;
+    ms = other.ms;
+    timeLastCalculation = other.timeLastCalculation;
+    outputGainLinearMultipler = other.outputGainLinearMultipler;
+
+    // Copy additional arrays
+    arr_Points = new Mach1Point3DCore[MAX_POINTS_COUNT];
+    std::copy(other.arr_Points, other.arr_Points + MAX_POINTS_COUNT, arr_Points);
+
+    arr_Gains = new float*[MAX_POINTS_COUNT];
+    for (int i = 0; i < MAX_POINTS_COUNT; i++) {
+        arr_Gains[i] = new float[MAX_CHANNELS_COUNT];
+        std::copy(other.arr_Gains[i], other.arr_Gains[i] + MAX_CHANNELS_COUNT, arr_Gains[i]);
+    }
+
+    arr_PointsNames = new char*[MAX_POINTS_COUNT];
+    for (int i = 0; i < MAX_POINTS_COUNT; i++) {
+        arr_PointsNames[i] = new char[255];
+        strcpy(arr_PointsNames[i], other.arr_PointsNames[i]);
+    }
+
+    std::copy(other.arr_GainsForInputChannelNamed, other.arr_GainsForInputChannelNamed + MAX_CHANNELS_COUNT, arr_GainsForInputChannelNamed);
+    std::copy(other.arr_ResultingCoeffsDecoded, other.arr_ResultingCoeffsDecoded + MAX_CHANNELS_COUNT, arr_ResultingCoeffsDecoded);
+}
+
+// Copy assignment operator
+M1EncodeCore& M1EncodeCore::operator=(const M1EncodeCore& other) {
+    if (this != &other) {
+        inputMode = other.inputMode;
+        outputMode = other.outputMode;
+        pannerMode = other.pannerMode;
+        azimuth = other.azimuth;
+        diverge = other.diverge;
+        elevation = other.elevation;
+        frontSurroundPerspective = other.frontSurroundPerspective;
+        orbitRotation = other.orbitRotation;
+        sSpread = other.sSpread;
+        autoOrbit = other.autoOrbit;
+        ms = other.ms;
+        timeLastCalculation = other.timeLastCalculation;
+        outputGainLinearMultipler = other.outputGainLinearMultipler;
+
+        // Copy additional arrays
+        std::copy(other.arr_Points, other.arr_Points + MAX_POINTS_COUNT, arr_Points);
+
+        for (int i = 0; i < MAX_POINTS_COUNT; i++) {
+            std::copy(other.arr_Gains[i], other.arr_Gains[i] + MAX_CHANNELS_COUNT, arr_Gains[i]);
+        }
+
+        for (int i = 0; i < MAX_POINTS_COUNT; i++) {
+            strcpy(arr_PointsNames[i], other.arr_PointsNames[i]);
+        }
+
+        std::copy(other.arr_GainsForInputChannelNamed, other.arr_GainsForInputChannelNamed + MAX_CHANNELS_COUNT, arr_GainsForInputChannelNamed);
+        std::copy(other.arr_ResultingCoeffsDecoded, other.arr_ResultingCoeffsDecoded + MAX_CHANNELS_COUNT, arr_ResultingCoeffsDecoded);
+    }
+    return *this;
+}
+
 void M1EncodeCore::generatePointResults() {
     long tStart = getCurrentTime();
 

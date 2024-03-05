@@ -19,6 +19,7 @@ Mach1EncodeCore normalizes all input ranges to an unsigned "0 to 1" range for Az
 #include <map>
 #include <math.h>
 #include <vector>
+#include <cstring>
 
 float M1EncodeCore::clamp(float n, float lower, float upper) {
     return (std::max)(lower, (std::min)(n, upper));
@@ -782,7 +783,7 @@ M1EncodeCore::M1EncodeCore(const M1EncodeCore& other) {
     arr_PointsNames = new char*[MAX_POINTS_COUNT];
     for (int i = 0; i < MAX_POINTS_COUNT; i++) {
         arr_PointsNames[i] = new char[255];
-        strcpy(arr_PointsNames[i], other.arr_PointsNames[i]);
+        std::strcpy(arr_PointsNames[i], other.arr_PointsNames[i]);
     }
 
     std::copy(other.arr_GainsForInputChannelNamed, other.arr_GainsForInputChannelNamed + MAX_CHANNELS_COUNT, arr_GainsForInputChannelNamed);
@@ -814,7 +815,7 @@ M1EncodeCore& M1EncodeCore::operator=(const M1EncodeCore& other) {
         }
 
         for (int i = 0; i < MAX_POINTS_COUNT; i++) {
-            strcpy(arr_PointsNames[i], other.arr_PointsNames[i]);
+            std::strcpy(arr_PointsNames[i], other.arr_PointsNames[i]);
         }
 
         std::copy(other.arr_GainsForInputChannelNamed, other.arr_GainsForInputChannelNamed + MAX_CHANNELS_COUNT, arr_GainsForInputChannelNamed);

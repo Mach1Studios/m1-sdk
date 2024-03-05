@@ -64,7 +64,7 @@ public:
         return obj;
     }
 
-    static Mach1TranscodePanner* Panner(float azimuthFromMinus180to180, float elevationFromMinus90to90, float divergeFromMinus1To1, const Mach1GainCoeff & outputGain)
+    static Mach1TranscodePanner* Panner(float azimuthFromMinus180to180, float elevationFromMinus90to90, float divergeFromMinus1To1, const Mach1GainCoeff& outputGain)
     {
         Mach1TranscodePanner* obj = new Mach1TranscodePanner();
         obj->azimuth = azimuthFromMinus180to180;
@@ -109,11 +109,7 @@ namespace Mach1TranscodeConstants {
         { "M1Spatial-8", 8 },       // MACH1SPATIAL-8 (default)
         { "M1Spatial-8_2", 10 },    // MACH1SPATIAL-8 + HEADLOCKED STEREO
         { "M1Spatial-12", 12 },     // MACH1SPATIAL-12 (hexadron vertices + horizontal hexadron planes)
-        { "M1Spatial-14", 14 },     // MACH1SPATIAL-14 (hexadron vertices + hexadron planes)
-        { "M1Spatial-32", 32 },     // MACH1SPATIAL-32
-        { "M1Spatial-36", 36 },     // MACH1SPATIAL-36
-        { "M1Spatial-48", 48 },     // MACH1SPATIAL-48
-        { "M1Spatial-60", 60 },     // MACH1SPATIAL-60
+        { "M1Spatial-14", 14 },     // MACH1SPATIAL-14 (Tetrakis Hexahedron)
         /*
          * SURROUND
          */

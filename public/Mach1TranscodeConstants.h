@@ -236,6 +236,7 @@ namespace Mach1TranscodeConstants {
         { "SPS-200", 4 },
         { "NT-SF1", 4 },
         { "ORTF3D", 8 },
+        { "CoreSound-OctoMic", 8 },
     };
 };
 

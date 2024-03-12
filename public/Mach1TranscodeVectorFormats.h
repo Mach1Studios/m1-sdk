@@ -187,7 +187,7 @@ namespace Mach1TranscodeConstants {
                         Mach1TranscodeChannel::Coeffs({ 0.125f, 0.125f, 0.125f, 0.125f, 0.125f, 0.125f, 0.125f, 0.125f }),
                     }
                 },
-                {   // Implemented with 8 input channels directly outputting to the 32 channels without signal distribution included
+                {
                     "M1Spatial-8", "M1Spatial-12",
                     {
                         Mach1TranscodeChannel::Coeffs({ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }),

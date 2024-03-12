@@ -237,6 +237,9 @@ namespace Mach1TranscodeConstants {
         { "NT-SF1", 4 },
         { "ORTF3D", 8 },
         { "CoreSound-OctoMic", 8 },
+        { "CoreSound-OctoMic_SIM", 8 },
+        { "ZM-1", 19 },
+        { "ZM-1_SIM", 19 },
     };
 };
 

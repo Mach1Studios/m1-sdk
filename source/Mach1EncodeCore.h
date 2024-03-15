@@ -169,6 +169,8 @@ class M1EncodeCore {
 
     InputMode getInputMode();
     OutputMode getOutputMode();
+	PannerMode getPannerMode();
+	bool getAutoOrbit();
     int getInputChannelsCount();
     int getOutputChannelsCount();
 

@@ -1197,6 +1197,14 @@ M1EncodeCore::OutputMode M1EncodeCore::getOutputMode() {
     return outputMode;
 }
 
+M1EncodeCore::PannerMode M1EncodeCore::getPannerMode() {
+    return pannerMode;
+}
+
+bool M1EncodeCore::getAutoOrbit() {
+    return autoOrbit;
+}
+
 int M1EncodeCore::getInputChannelsCount() {
     switch (inputMode) {
     case INPUT_MONO:

@@ -112,6 +112,14 @@ enum Mach1EncodeOutputModeType Mach1EncodeCAPI_getOutputMode(void *M1obj) {
     return (Mach1EncodeOutputModeType)(int)((M1EncodeCore *)M1obj)->getOutputMode();
 }
 
+enum Mach1EncodePannerModeType Mach1EncodeCAPI_getPannerMode(void *M1obj) {
+    return (Mach1EncodePannerModeType)(int)((M1EncodeCore *)M1obj)->getPannerMode();
+}
+
+bool Mach1EncodeCAPI_getAutoOrbit(void *M1obj) {
+    return ((M1EncodeCore *)M1obj)->getAutoOrbit();
+}
+
 int Mach1EncodeCAPI_getInputChannelsCount(void *M1obj) {
     return ((M1EncodeCore *)M1obj)->getInputChannelsCount();
 }
@@ -176,7 +184,7 @@ void Mach1EncodeCAPI_setStereoSpread(void *M1obj, float sSpreadFrom0to1) {
     ((M1EncodeCore *)M1obj)->setStereoSpread(sSpreadFrom0to1);
 }
 
-void Mach1EncodeCAPI_setPannerMode(void *M1obj, enum Mach1EncodePannerMode pannerMode) {
+void Mach1EncodeCAPI_setPannerMode(void *M1obj, enum Mach1EncodePannerModeType pannerMode) {
     ((M1EncodeCore *)M1obj)->setPannerMode(static_cast<M1EncodeCore::PannerMode>(pannerMode));
 }
 

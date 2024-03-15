@@ -23,7 +23,7 @@ int main()
     m1Encode.setAutoOrbit(true);
     m1Encode.setStereoSpread(0.0);
     m1Encode.setOrbitRotationDegrees(0.0);
-    m1Encode.setPannerMode(Mach1EncodePannerMode::Mach1EncodePannerModeIsotropicLinear);
+    m1Encode.setPannerMode(Mach1EncodePannerModeType::Mach1EncodePannerModeIsotropicLinear);
     
     m1Encode.generatePointResults();
     

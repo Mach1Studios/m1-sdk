@@ -9,9 +9,9 @@
 package com.mach1.spatiallibs;
 
 public final class Mach1EncodePannerMode {
-  public final static Mach1EncodePannerMode Mach1EncodePannerModeIsotropicLinear = new Mach1EncodePannerMode("Mach1EncodePannerModeIsotropicLinear", Mach1EncodeModuleJNI.Mach1EncodePannerModeIsotropicLinear_get());
-  public final static Mach1EncodePannerMode Mach1EncodePannerModeIsotropicEqualPower = new Mach1EncodePannerMode("Mach1EncodePannerModeIsotropicEqualPower");
-  public final static Mach1EncodePannerMode Mach1EncodePannerModePeriphonicLinear = new Mach1EncodePannerMode("Mach1EncodePannerModePeriphonicLinear");
+  public final static Mach1EncodePannerMode Mach1EncodePannerModeIsotropicLinear = new Mach1EncodePannerModeType("Mach1EncodePannerModeIsotropicLinear", Mach1EncodeModuleJNI.Mach1EncodePannerModeIsotropicLinear_get());
+  public final static Mach1EncodePannerMode Mach1EncodePannerModeIsotropicEqualPower = new Mach1EncodePannerModeType("Mach1EncodePannerModeIsotropicEqualPower");
+  public final static Mach1EncodePannerMode Mach1EncodePannerModePeriphonicLinear = new Mach1EncodePannerModeType("Mach1EncodePannerModePeriphonicLinear");
 
   public final int swigValue() {
     return swigValue;
@@ -27,21 +27,21 @@ public final class Mach1EncodePannerMode {
     for (int i = 0; i < swigValues.length; i++)
       if (swigValues[i].swigValue == swigValue)
         return swigValues[i];
-    throw new IllegalArgumentException("No enum " + Mach1EncodePannerMode.class + " with value " + swigValue);
+    throw new IllegalArgumentException("No enum " + Mach1EncodePannerModeType.class + " with value " + swigValue);
   }
 
-  private Mach1EncodePannerMode(String swigName) {
+  private Mach1EncodePannerModeType(String swigName) {
     this.swigName = swigName;
     this.swigValue = swigNext++;
   }
 
-  private Mach1EncodePannerMode(String swigName, int swigValue) {
+  private Mach1EncodePannerModeType(String swigName, int swigValue) {
     this.swigName = swigName;
     this.swigValue = swigValue;
     swigNext = swigValue+1;
   }
 
-  private Mach1EncodePannerMode(String swigName, Mach1EncodePannerMode swigEnum) {
+  private Mach1EncodePannerModeType(String swigName, Mach1EncodePannerMode swigEnum) {
     this.swigName = swigName;
     this.swigValue = swigEnum.swigValue;
     swigNext = this.swigValue+1;

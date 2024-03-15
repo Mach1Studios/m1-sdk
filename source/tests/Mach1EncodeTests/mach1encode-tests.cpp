@@ -54,7 +54,7 @@ void test_results(void) {
     struct INPUT_DATA {
         Mach1EncodeInputModeType inputMode;
         Mach1EncodeOutputModeType outputMode;
-        Mach1EncodePannerMode pannerMode;
+        Mach1EncodePannerModeType pannerMode;
         float azimuth;
         float diverge;
         float elevation;

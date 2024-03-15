@@ -49,10 +49,6 @@ enum Mach1EncodeOutputModeType {
     Mach1EncodeOutputModeM1Horizon_4,
     Mach1EncodeOutputModeM1Spatial_12,
     Mach1EncodeOutputModeM1Spatial_14,
-    Mach1EncodeOutputModeM1Spatial_32,
-    Mach1EncodeOutputModeM1Spatial_36,
-    Mach1EncodeOutputModeM1Spatial_48,
-    Mach1EncodeOutputModeM1Spatial_60,
 };
 
 enum Mach1EncodePannerMode {
@@ -65,6 +61,7 @@ enum Mach1EncodePannerMode {
 extern "C" {
 #endif
 M1_API void *Mach1EncodeCAPI_create();
+M1_API void Mach1EncodeCAPI_copy(void *M1str, void *M1dst);
 M1_API void Mach1EncodeCAPI_delete(void *M1obj);
 
 M1_API void *Mach1EncodeCAPI_getPoints(void *M1obj);

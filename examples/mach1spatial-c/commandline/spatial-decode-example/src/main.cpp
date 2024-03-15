@@ -189,18 +189,6 @@ static void* decode(void* v)
                     outputFormat=Mach1DecodeAlgoSpatial_14;
                     outputName="MACH1SPATIAL-14";
                 }else if(outputFormat==Mach1DecodeAlgoSpatial_14){
-                    outputFormat=Mach1DecodeAlgoSpatial_32;
-                    outputName="MACH1SPATIAL-32";
-                }else if(outputFormat==Mach1DecodeAlgoSpatial_32){
-                    outputFormat=Mach1DecodeAlgoSpatial_36;
-                    outputName="MACH1SPATIAL-36";
-                }else if(outputFormat==Mach1DecodeAlgoSpatial_36){
-                    outputFormat=Mach1DecodeAlgoSpatial_48;
-                    outputName="MACH1SPATIAL-48";
-                }else if(outputFormat==Mach1DecodeAlgoSpatial_48){
-                    outputFormat=Mach1DecodeAlgoSpatial_60;
-                    outputName="MACH1SPATIAL-60";
-                }else if(outputFormat==Mach1DecodeAlgoSpatial_60){
                     outputFormat=Mach1DecodeAlgoSpatial_8;
                     outputName="MACH1SPATIAL-8";
                 }else{

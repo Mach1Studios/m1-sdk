@@ -32,7 +32,9 @@ class Mach1Encode {
 
     Mach1EncodeInputModeType getInputMode();
     Mach1EncodeOutputModeType getOutputMode();
-    int getInputChannelsCount();
+	Mach1EncodePannerModeType getPannerMode();
+	bool getAutoOrbit();
+	int getInputChannelsCount();
     int getOutputChannelsCount();
 
     template <typename T>
@@ -52,7 +54,7 @@ class Mach1Encode {
     void setElevationDegrees(float elevationFromMinus90to90);
     void setElevationRadians(float elevationFromMinusHalfPItoHalfPI);
 
-    void setPannerMode(enum Mach1EncodePannerMode pannerMode);
+    void setPannerMode(enum Mach1EncodePannerModeType pannerMode);
     void setFrontSurroundPerspective(bool frontSurroundPerspective);
     void setOutputGain(float outputGainMultipler, bool isDecibel);
 

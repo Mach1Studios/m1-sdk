@@ -8,10 +8,10 @@
 
 package com.mach1.spatiallibs;
 
-public final class Mach1EncodePannerMode {
-  public final static Mach1EncodePannerMode Mach1EncodePannerModeIsotropicLinear = new Mach1EncodePannerModeType("Mach1EncodePannerModeIsotropicLinear", Mach1EncodeModuleJNI.Mach1EncodePannerModeIsotropicLinear_get());
-  public final static Mach1EncodePannerMode Mach1EncodePannerModeIsotropicEqualPower = new Mach1EncodePannerModeType("Mach1EncodePannerModeIsotropicEqualPower");
-  public final static Mach1EncodePannerMode Mach1EncodePannerModePeriphonicLinear = new Mach1EncodePannerModeType("Mach1EncodePannerModePeriphonicLinear");
+public final class Mach1EncodePannerModeType {
+  public final static Mach1EncodePannerModeType Mach1EncodePannerModeIsotropicLinear = new Mach1EncodePannerModeType("Mach1EncodePannerModeIsotropicLinear", Mach1EncodeModuleJNI.Mach1EncodePannerModeIsotropicLinear_get());
+  public final static Mach1EncodePannerModeType Mach1EncodePannerModeIsotropicEqualPower = new Mach1EncodePannerModeType("Mach1EncodePannerModeIsotropicEqualPower");
+  public final static Mach1EncodePannerModeType Mach1EncodePannerModePeriphonicLinear = new Mach1EncodePannerModeType("Mach1EncodePannerModePeriphonicLinear");
 
   public final int swigValue() {
     return swigValue;
@@ -21,7 +21,7 @@ public final class Mach1EncodePannerMode {
     return swigName;
   }
 
-  public static Mach1EncodePannerMode swigToEnum(int swigValue) {
+  public static Mach1EncodePannerModeType swigToEnum(int swigValue) {
     if (swigValue < swigValues.length && swigValue >= 0 && swigValues[swigValue].swigValue == swigValue)
       return swigValues[swigValue];
     for (int i = 0; i < swigValues.length; i++)
@@ -41,13 +41,13 @@ public final class Mach1EncodePannerMode {
     swigNext = swigValue+1;
   }
 
-  private Mach1EncodePannerModeType(String swigName, Mach1EncodePannerMode swigEnum) {
+  private Mach1EncodePannerModeType(String swigName, Mach1EncodePannerModeType swigEnum) {
     this.swigName = swigName;
     this.swigValue = swigEnum.swigValue;
     swigNext = this.swigValue+1;
   }
 
-  private static Mach1EncodePannerMode[] swigValues = { Mach1EncodePannerModeIsotropicLinear, Mach1EncodePannerModeIsotropicEqualPower, Mach1EncodePannerModePeriphonicLinear };
+  private static Mach1EncodePannerModeType[] swigValues = { Mach1EncodePannerModeIsotropicLinear, Mach1EncodePannerModeIsotropicEqualPower, Mach1EncodePannerModePeriphonicLinear };
   private static int swigNext = 0;
   private final int swigValue;
   private final String swigName;

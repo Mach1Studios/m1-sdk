@@ -51,7 +51,7 @@ enum Mach1EncodeOutputModeType {
     Mach1EncodeOutputModeM1Spatial_14,
 };
 
-enum Mach1EncodePannerMode {
+enum Mach1EncodePannerModeType {
     Mach1EncodePannerModeIsotropicLinear = (int)0,
     Mach1EncodePannerModeIsotropicEqualPower,
     Mach1EncodePannerModePeriphonicLinear
@@ -91,7 +91,7 @@ M1_API void Mach1EncodeCAPI_setElevation(void *M1obj, float elevationFromMinus1t
 M1_API void Mach1EncodeCAPI_setElevationDegrees(void *M1obj, float elevationFromMinus90to90);
 M1_API void Mach1EncodeCAPI_setElevationRadians(void *M1obj, float elevationFromMinusHalfPItoHalfPI);
 
-M1_API void Mach1EncodeCAPI_setPannerMode(void *M1obj, enum Mach1EncodePannerMode pannerMode);
+M1_API void Mach1EncodeCAPI_setPannerMode(void *M1obj, enum Mach1EncodePannerModeType pannerMode);
 M1_API void Mach1EncodeCAPI_setFrontSurroundPerspective(void *M1obj, bool frontSurroundPerspective);
 M1_API void Mach1EncodeCAPI_setOutputGain(void *M1obj, float outputGainMultipler, bool isDecibel);
 

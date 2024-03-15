@@ -236,7 +236,7 @@ public class Mach1Encode {
         ///     - value range: -PI/2 -> PI/2
     }
 
-    public func setPannerMode(pannerMode: Mach1EncodePannerMode) {
+    public func setPannerMode(pannerMode: Mach1EncodePannerModeType) {
         Mach1EncodeCAPI_setPannerMode(M1obj, pannerMode)
         /// Sets the style and mode of panner input calculation
         ///

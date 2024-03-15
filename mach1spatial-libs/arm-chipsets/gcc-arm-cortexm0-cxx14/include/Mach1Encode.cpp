@@ -132,6 +132,14 @@ Mach1EncodeOutputModeType Mach1Encode::getOutputMode() {
     return Mach1EncodeCAPI_getOutputMode(M1obj);
 }
 
+Mach1EncodePannerModeType Mach1Encode::getPannerMode() {
+	return Mach1EncodeCAPI_getPannerMode(M1obj);
+}
+
+bool Mach1Encode::getAutoOrbit() {
+	return Mach1EncodeCAPI_getAutoOrbit(M1obj);
+}
+
 int Mach1Encode::getInputChannelsCount() {
     return Mach1EncodeCAPI_getInputChannelsCount(M1obj);
     /// Returns the number of input channels/points that Mach1Encode instance has
@@ -238,7 +246,7 @@ void Mach1Encode::setElevationRadians(float elevationFromMinusHalfPItoHalfPI) {
     ///     - value range: -PI/2 -> PI/2
 }
 
-void Mach1Encode::setPannerMode(Mach1EncodePannerMode pannerMode) {
+void Mach1Encode::setPannerMode(Mach1EncodePannerModeType pannerMode) {
     Mach1EncodeCAPI_setPannerMode(M1obj, pannerMode);
     /// Sets the style and mode of panner input calculation
     ///

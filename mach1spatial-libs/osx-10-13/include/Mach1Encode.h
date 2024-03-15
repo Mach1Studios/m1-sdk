@@ -17,6 +17,9 @@ class Mach1Encode {
     Mach1Encode();
     ~Mach1Encode();
 
+    Mach1Encode(const Mach1Encode &other);
+    Mach1Encode &operator=(const Mach1Encode &other);
+
     std::vector<Mach1Point3D> getPoints();
     std::vector<std::vector<float>> getGains();
     std::vector<std::string> getPointsNames();

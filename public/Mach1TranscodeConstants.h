@@ -106,7 +106,7 @@ namespace Mach1TranscodeConstants {
         { "M1Horizon-4_2", 6 },     // MACH1SPATIAL-4 + HEADLOCKED STEREO
         { "M1HorizonPairs", 8 },
         { "M1Spatial-6", 6 },       // MACH1SPATIAL-6 (hexadron planes)
-        { "M1Spatial-8", 8 },       // MACH1SPATIAL-8 (default)
+        { "M1Spatial-8", 8 },       // MACH1SPATIAL-8 (cube [default])
         { "M1Spatial-8_2", 10 },    // MACH1SPATIAL-8 + HEADLOCKED STEREO
         { "M1Spatial-12", 12 },     // MACH1SPATIAL-12 (hexadron vertices + horizontal hexadron planes)
         { "M1Spatial-14", 14 },     // MACH1SPATIAL-14 (Tetrakis Hexahedron)
@@ -236,6 +236,10 @@ namespace Mach1TranscodeConstants {
         { "SPS-200", 4 },
         { "NT-SF1", 4 },
         { "ORTF3D", 8 },
+        { "CoreSound-OctoMic", 8 },
+        { "CoreSound-OctoMic_SIM", 8 },
+        { "ZM-1", 19 },
+        { "ZM-1_SIM", 19 },
     };
 };
 

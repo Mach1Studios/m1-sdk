@@ -11,8 +11,6 @@ then
 	rsync -c "_install/osx-10-13/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/osx-10-13/lib/libMach1EncodeCAPI.a"
 	rsync -c "_install/osx-10-13/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/osx-10-13/lib/libMach1TranscodeCAPI.a"
 	rsync -c "_install/osx-10-13/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/osx-10-13/lib/libMach1DecodePositionalCAPI.a"
-	# Upload built libs
-	aws s3 sync _install/osx-10-13/lib/ s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs/osx-10-13/lib --exclude "*-minifiedCAPI*" --cache-control no-cache --metadata-directive REPLACE
 else
 	echo "ERROR: Script called from wrong directory: $PWD"
 fi

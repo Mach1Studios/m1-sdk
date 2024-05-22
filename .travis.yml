@@ -172,39 +172,6 @@ jobs:
         only:
           - deploy
           - travis-test
-      name: macOS 9.3 (macOS 10.13)
-      os: osx
-      sudo: required
-      osx_image: xcode9.3
-      env:
-        - HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
-        - HOMEBREW_NO_AUTO_UPDATE=1
-        - MACOSX_DEPLOYMENT_TARGET=10.9
-      git:
-        submodules: false
-      cache:
-        directories:
-          - $HOME/Library/Caches/Homebrew
-      before_cache:
-        - brew cleanup
-      install: 
-        - cd ${TRAVIS_BUILD_DIR}
-        - git submodule update --init source
-        - cd ${TRAVIS_BUILD_DIR}/source
-        - sudo pip install --upgrade pip
-        - sudo python -m pip install awscli --ignore-installed six
-      script:
-        - cd ${TRAVIS_BUILD_DIR}/source
-        - ./scripts/macos-10-13_build.sh
-      after_success:
-        - cd ${TRAVIS_BUILD_DIR}/source
-        - ./scripts/examples_linking_test.sh
-
-    - stage: compile
-      branches:
-        only:
-          - deploy
-          - travis-test
       name: macOS 9.3 (iOS)
       os: osx
       sudo: required

@@ -237,7 +237,6 @@ jobs:
         - sudo python3 -m pip install awscli --ignore-installed six
         - cd ${TRAVIS_BUILD_DIR}
         - git submodule update --init source
-        - cd ${TRAVIS_BUILD_DIR}/source
         - ./source/scripts/ios_setup.sh
       script:
         - cd ${TRAVIS_BUILD_DIR}/source

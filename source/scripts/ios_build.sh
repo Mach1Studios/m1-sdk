@@ -29,11 +29,11 @@ then
 	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1EncodeCAPI.a"
 	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/ios/lib/libMach1DecodePositionalCAPI.a"
 	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/ios/lib/libMach1TranscodeCAPI.a"
-	# TODO: Disable framework installs until we discover why they dont build in latest Travis
-	# rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/Frameworks/libMach1DecodeCAPI.framework" "../mach1spatial-libs/ios/Frameworks/libMach1DecodeCAPI.framework"
-	# rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/Frameworks/libMach1EncodeCAPI.framework" "../mach1spatial-libs/ios/FrameworksFrameworks/libMach1EncodeCAPI.framework"
-	# rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/Frameworks/libMach1DecodePositionalCAPI.framework" "../mach1spatial-libs/ios/Frameworks/libMach1DecodePositionalCAPI.framework"
-	# rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/Frameworks/libMach1TranscodeCAPI.framework" "../mach1spatial-libs/ios/Frameworks/libMach1TranscodeCAPI.framework"
+	mkdir -p "../mach1spatial-libs/ios/Frameworks"
+	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/Frameworks/Mach1DecodeCAPI.framework" "../mach1spatial-libs/ios/Frameworks/Mach1DecodeCAPI.framework"
+	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/Frameworks/Mach1EncodeCAPI.framework" "../mach1spatial-libs/ios/FrameworksFrameworks/Mach1EncodeCAPI.framework"
+	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/Frameworks/Mach1DecodePositionalCAPI.framework" "../mach1spatial-libs/ios/Frameworks/Mach1DecodePositionalCAPI.framework"
+	rsync -c "_install/ios-11-3-dep-9-0-device-bitcode/Frameworks/Mach1TranscodeCAPI.framework" "../mach1spatial-libs/ios/Frameworks/Mach1TranscodeCAPI.framework"
 	rsync -c include/swift/* ../examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Classes
 	# Upload built libs
 	if [[ $upload_artifacts == "ON" ]]

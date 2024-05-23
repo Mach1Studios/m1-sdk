@@ -39,6 +39,7 @@ then
 	if [[ $upload_artifacts == "ON" ]]
 	then
 		aws s3 sync _install/ios-11-3-dep-9-0-device-bitcode/lib/ s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs/ios/lib --exclude "*-minifiedCAPI*" --cache-control no-cache --metadata-directive REPLACE
+		aws s3 sync _install/ios-11-3-dep-9-0-device-bitcode/Frameworks/ s3://${AWS_DEPLOY_BUCKET}/mach1spatial-libs/ios/Frameworks --exclude "*-minifiedCAPI*" --cache-control no-cache --metadata-directive REPLACE
 	fi
 else
 	echo "ERROR: Script called from wrong directory: $PWD"

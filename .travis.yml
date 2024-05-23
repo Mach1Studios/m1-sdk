@@ -234,10 +234,11 @@ jobs:
         - sudo installer -pkg python-3.7.9-macosx10.9.pkg  -target /
         - curl https://bootstrap.pypa.io/get-pip.py | python3
         - export PATH=/Library/Frameworks/Python.framework/Versions/3.7/bin:$PATH
+        - sudo python3 -m pip install awscli --ignore-installed six
         - cd ${TRAVIS_BUILD_DIR}
         - git submodule update --init source
         - cd ${TRAVIS_BUILD_DIR}/source
-        - sudo python3 -m pip install awscli --ignore-installed six
+        - ./source/scripts/ios_setup.sh
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/ios_build.sh -u

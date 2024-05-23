@@ -238,7 +238,7 @@ deploy-shared-dev: FORCE deploy-dev
 	rsync -c "../mach1spatial-libs/android-arm64-v8a/lib-shared/libMach1DecodePositionalCAPI.so" "../examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/Android/arm64-v8a/libMach1DecodePositionalCAPI.so"
 	cd ../mach1spatial-libs && find . -type d -name 'lib-bundle' -print0 | xargs -0 rm -rf
 
-dev-unity: FORCE build
+dev-unity: FORCE clear build
 	echo "### Copying libs for Test Project \###"
 	rsync -rc "../mach1spatial-libs/xcode/lib-bundle/libMach1DecodeCAPI.bundle" ~/unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS
 	rsync -rc "../mach1spatial-libs/xcode/lib-bundle/libMach1EncodeCAPI.bundle" ~/unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS

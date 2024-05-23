@@ -188,11 +188,14 @@ jobs:
       before_cache:
         - brew cleanup
       install: 
+        - wget https://www.python.org/ftp/python/3.7.9/python-3.7.9-macosx10.9.pkg
+        - sudo installer -pkg python-3.7.9-macosx10.9.pkg  -target / 
+        - curl https://bootstrap.pypa.io/get-pip.py | python3
         - cd ${TRAVIS_BUILD_DIR}
         - git submodule update --init source
         - cd ${TRAVIS_BUILD_DIR}/source
         - sudo pip install --upgrade pip
-        - sudo python -m pip install awscli --ignore-installed six
+        - sudo python3 -m pip install awscli --ignore-installed six
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/macos-10-13_build.sh

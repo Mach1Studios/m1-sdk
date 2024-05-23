@@ -187,7 +187,6 @@ jobs:
       cache:
         directories:
           - $HOME/Library/Caches/Homebrew
-          - $HOME/.cache/pip
           - ${TRAVIS_BUILD_DIR}/cmake-3.19.3
       before_cache:
         - brew cleanup
@@ -195,11 +194,14 @@ jobs:
           - if [ "$TRAVIS_OS_NAME" == "osx" ]; then cd ${TRAVIS_BUILD_DIR}/source/scripts && openssl aes-256-cbc -K $encrypted_b7b9d4064d90_key -iv $encrypted_b7b9d4064d90_iv -in certs/secrets.tar.enc -out certs/secrets.tar -d; fi
           - if [ "$TRAVIS_OS_NAME" == "osx" ]; then cd ${TRAVIS_BUILD_DIR}/source && ./scripts/add_signing_key.sh; fi
       install:
+        - wget https://www.python.org/ftp/python/3.7.9/python-3.7.9-macosx10.9.pkg
+        - sudo installer -pkg python-3.7.9-macosx10.9.pkg  -target / 
+        - curl https://bootstrap.pypa.io/get-pip.py | python3
         - cd ${TRAVIS_BUILD_DIR}
         - git submodule update --init source
         - ./source/scripts/ios_setup.sh
         - sudo pip install --upgrade pip
-        - sudo python -m pip install awscli --ignore-installed six
+        - sudo python3 -m pip install awscli --ignore-installed six
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/ios_build.sh

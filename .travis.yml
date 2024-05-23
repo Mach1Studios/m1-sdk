@@ -189,16 +189,16 @@ jobs:
         - brew cleanup
       install: 
         - wget https://www.python.org/ftp/python/3.7.9/python-3.7.9-macosx10.9.pkg
-        - sudo installer -pkg python-3.7.9-macosx10.9.pkg  -target / 
+        - sudo installer -pkg python-3.7.9-macosx10.9.pkg  -target /
         - curl https://bootstrap.pypa.io/get-pip.py | python3
+        - export PATH=/Library/Frameworks/Python.framework/Versions/3.7/bin:$PATH
         - cd ${TRAVIS_BUILD_DIR}
         - git submodule update --init source
         - cd ${TRAVIS_BUILD_DIR}/source
-        - sudo pip install --upgrade pip
         - sudo python3 -m pip install awscli --ignore-installed six
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
-        - ./scripts/macos-10-13_build.sh
+        - ./scripts/macos-10-13_build.sh -u
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/examples_linking_test.sh
@@ -231,16 +231,16 @@ jobs:
           - if [ "$TRAVIS_OS_NAME" == "osx" ]; then cd ${TRAVIS_BUILD_DIR}/source && ./scripts/add_signing_key.sh; fi
       install:
         - wget https://www.python.org/ftp/python/3.7.9/python-3.7.9-macosx10.9.pkg
-        - sudo installer -pkg python-3.7.9-macosx10.9.pkg  -target / 
+        - sudo installer -pkg python-3.7.9-macosx10.9.pkg  -target /
         - curl https://bootstrap.pypa.io/get-pip.py | python3
+        - export PATH=/Library/Frameworks/Python.framework/Versions/3.7/bin:$PATH
         - cd ${TRAVIS_BUILD_DIR}
         - git submodule update --init source
-        - ./source/scripts/ios_setup.sh
-        - sudo pip install --upgrade pip
+        - cd ${TRAVIS_BUILD_DIR}/source
         - sudo python3 -m pip install awscli --ignore-installed six
       script:
         - cd ${TRAVIS_BUILD_DIR}/source
-        - ./scripts/ios_build.sh
+        - ./scripts/ios_build.sh -u
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/source
         - ./scripts/examples_linking_test.sh

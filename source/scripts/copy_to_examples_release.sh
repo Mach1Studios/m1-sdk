@@ -128,10 +128,8 @@ then
 	rsync -c "../mach1spatial-libs/xcode/lib/libMach1TranscodeCAPI.a" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/ThirdParty/Mach1/bin/Mac/libMach1TranscodeCAPI.a"
 	rsync -c "../mach1spatial-libs/xcode/lib/libMach1DecodePositionalCAPI.a" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/ThirdParty/Mach1/bin/Mac/libMach1DecodePositionalCAPI.a"
 	# COPYING FOR UNITY
-	rsync -rc "../mach1spatial-libs/xcode/lib-bundle/libMach1DecodeCAPI.bundle" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1DecodeCAPI.bundle"
-	rsync -rc "../mach1spatial-libs/xcode/lib-bundle/libMach1EncodeCAPI.bundle" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1EncodeCAPI.bundle"
-	rsync -rc "../mach1spatial-libs/xcode/lib-bundle/libMach1TranscodeCAPI.bundle" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1TranscodeCAPI.bundle"
-	rsync -rc "../mach1spatial-libs/xcode/lib-bundle/libMach1DecodePositionalCAPI.bundle" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/libMach1DecodePositionalCAPI.bundle"
+	rsync -rc "../mach1spatial-libs/xcode/lib-bundle/" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecodeTest/Assets/Mach1/Plugins/macOS/"
+	rsync -rc "../mach1spatial-libs/xcode/lib-bundle/" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1DSPGraph/Assets/Mach1/Plugins/macOS/"
 	# COPYING FOR OFXMACH1
 	rsync -c "../mach1spatial-libs/xcode/lib/libMach1DecodeCAPI.a" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/osx/libMach1DecodeCAPI.a"
 	rsync -c "../mach1spatial-libs/xcode/lib/libMach1EncodeCAPI.a" "$(M1SDK_RELEASE_PATH)/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/osx/libMach1EncodeCAPI.a"

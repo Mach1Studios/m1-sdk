@@ -400,7 +400,7 @@ jobs:
       script:
         # Android Build on linux
         - cd ${TRAVIS_BUILD_DIR}/source
-        - ./scripts/android_build.sh
+        - ./scripts/android_build.sh -u
 
     - stage: compile
       branches:

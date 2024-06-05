@@ -86,38 +86,39 @@ void test_results(void) {
             }
         },
         {
-            "case: POSITIONAL | 0Y | Test ObjRot 1",
+            "case: POSITIONAL | 0Y | Test Pos 1",
+            // should require a 45 yaw deg rotation to face
             {
                 Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
-                0.0, 90.0, 0.0, // listener pos
+                10.0, 0.0, 0.0, // listener pos
                 0.0, 0.0, 0.0, // listener rot
-                0.0, 0.0, 5.0, // m1 pos
+                0.0, 0.0, 10.0, // m1 pos
                 0.0, 0.0, 0.0, // m1 rot
                 1.0, 1.0, 1.0, // m1 scale
                 false, false, false, false, false, 1.0
             },
             {
                 {
-                    0.5, 0.0,
-                    0.0, 0.5,
-                    0.0, 0.0,
-                    0.0, 0.0,
-                    0.5, 0.0,
-                    0.0, 0.5,
-                    0.0, 0.0,
-                    0.0, 0.0,
+                    0.250000, 0.000000,
+                    0.250000, 0.250000,
+                    0.000000, 0.000000,
+                    0.000000, 0.250000,
+                    0.250000, 0.000000,
+                    0.250000, 0.250000,
+                    0.000000, 0.000000,
+                    0.000000, 0.250000,
                     1.0, 1.0,
                 },
-                5.0,
+                14.1421356237,
             }
         },
         {
-            "case: POSITIONAL | 0Y | Test ObjRot 2",
+            "case: POSITIONAL | 0Y | Test Pos 2",
             {
                 Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
-                45.0, 0.0, 0.0, // listener pos
-                0.0, 0.0, 0.0, // listener rot
-                0.0, 0.0, 5.0, // m1 pos
+                40.0, 0.0, 0.0, // listener pos
+                -90.0, 0.0, 0.0, // listener rot
+                0.0, 0.0, 0.0, // m1 pos
                 0.0, 0.0, 0.0, // m1 rot
                 1.0, 1.0, 1.0, // m1 scale
                 false, false, false, false, false, 1.0
@@ -134,16 +135,16 @@ void test_results(void) {
                     0.0, 0.0,
                     1.0, 1.0,
                 },
-                5.0,
+                40.0,
             }
         },
         {
-            "case: POSITIONAL | 0Y | Test ObjRot 3",
+            "case: POSITIONAL | 0Y | Test Pos 3",
             {
                 Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
-                0.0, 0.0, 90.0, // listener pos
-                0.0, 0.0, 0.0, // listener rot
-                0.0, 0.0, 5.0, // m1 pos
+                0.0, 0.0, 0.0, // listener pos
+                0.0, 90.0, 0.0, // listener rot
+                0.0, 80.0, 0.0, // m1 pos
                 0.0, 0.0, 0.0, // m1 rot
                 1.0, 1.0, 1.0, // m1 scale
                 false, false, false, false, false, 1.0
@@ -160,7 +161,7 @@ void test_results(void) {
                     0.0, 0.0,
                     1.0, 1.0,
                 },
-                5.0,
+                80.0,
             }
         },
         {
@@ -371,7 +372,7 @@ void test_results(void) {
                     0.0, 0.5,
                     1.0, 1.0,
                 },
-                5.0,
+                7.07106781187,
             }
         },
         {

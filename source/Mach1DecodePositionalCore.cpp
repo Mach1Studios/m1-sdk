@@ -427,7 +427,7 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
         quat = EulerToQuaternion(glm::vec3(useXForRotation ? quatEulerAngles.x : 0, useYForRotation ? quatEulerAngles.y : 0, useZForRotation ? quatEulerAngles.z : 0));
         eulerAnglesCube = QuaternionToEuler(glm::normalize(quat)) * RAD_TO_DEG_F;
 
-        quat = quat * glm::inverse(cameraRotation) * soundRotation;
+        quat = glm::inverse(cameraRotation) * soundRotation;
         quat = glm::inverse(quat); // the last inversion, because it is not a rotation of the cube, but a pointer in the opposite direction
 
         eulerAngles = QuaternionToEuler(glm::normalize(quat)) * RAD_TO_DEG_F;

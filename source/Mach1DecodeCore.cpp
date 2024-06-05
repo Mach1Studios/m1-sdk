@@ -517,8 +517,8 @@ void Mach1DecodeCore::convertAnglesToMach1(Mach1PlatformType platformType, float
         _Y = *P;
         _R = *R;
         *Y = _Y;
-        *P = _P;
-        *R = _R;
+        *P = -_P;
+        *R = -_R;
         break;
 
     case Mach1PlatformUE:
@@ -592,8 +592,8 @@ void Mach1DecodeCore::convertAnglesToPlatform(Mach1PlatformType platformType, fl
     case Mach1PlatformUnity:
         // Y P R -> P Y R
         _Y = *Y;
-        _P = *P;
-        _R = *R;
+        _P = -*P;
+        _R = -*R;
         *Y = _P;
         *P = _Y;
         *R = _R;

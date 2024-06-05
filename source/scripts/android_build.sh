@@ -36,6 +36,10 @@ then
 	mv _install/android-ndk-r16b-api-21-x86-clang-libcxx _install/android-x86
 	mv _install/android-ndk-r16b-api-21-x86-64-clang-libcxx _install/android-x86_64
 	# INSTALL STATIC ANDROID LIBS
+	mkdir -p "../mach1spatial-libs/android-armeabi-v7a/lib"
+	mkdir -p "../mach1spatial-libs/android-arm64-v8a/lib"
+	mkdir -p "../mach1spatial-libs/android-x86/lib"
+	mkdir -p "../mach1spatial-libs/android-x86_64/lib"
 	rsync -c "_install/android-armeabi-v7a/lib/libMach1DecodeCAPI.a" "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1DecodeCAPI.a"
 	rsync -c "_install/android-armeabi-v7a/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1EncodeCAPI.a"
 	rsync -c "_install/android-armeabi-v7a/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/android-armeabi-v7a/lib/libMach1TranscodeCAPI.a"
@@ -53,6 +57,10 @@ then
 	rsync -c "_install/android-x86_64/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/android-x86_64/lib/libMach1TranscodeCAPI.a"
 	rsync -c "_install/android-x86_64/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/android-x86_64/lib/libMach1DecodePositionalCAPI.a"
 	# INSTALL SHARED ANDROID LIBS
+	mkdir -p "../mach1spatial-libs/android-armeabi-v7a/lib-shared"
+	mkdir -p "../mach1spatial-libs/android-arm64-v8a/lib-shared"
+	mkdir -p "../mach1spatial-libs/android-x86/lib-shared"
+	mkdir -p "../mach1spatial-libs/android-x86_64/lib-shared"
 	rsync -c "_install/android-armeabi-v7a/lib-shared/libMach1DecodeCAPI.so" "../mach1spatial-libs/android-armeabi-v7a/lib-shared/libMach1DecodeCAPI.so"
 	rsync -c "_install/android-armeabi-v7a/lib-shared/libMach1EncodeCAPI.so" "../mach1spatial-libs/android-armeabi-v7a/lib-shared/libMach1EncodeCAPI.so"
 	rsync -c "_install/android-armeabi-v7a/lib-shared/libMach1TranscodeCAPI.so" "../mach1spatial-libs/android-armeabi-v7a/lib-shared/libMach1TranscodeCAPI.so"

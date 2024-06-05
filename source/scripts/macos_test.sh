@@ -8,11 +8,11 @@ then
 	cmake --build tests/_builds/xcode --config Release --target install
 
 	echo "RUN TESTS"
-	tests/_install/xcode/bin/Mach1EncodeTests
-	tests/_install/xcode/bin/Mach1DecodeTests
-	tests/_install/xcode/bin/Mach1DecodePositionalTests
-	tests/_install/xcode/bin/Mach1SpatialTests
-	tests/_install/xcode/bin/Mach1TranscodeTests
+	tests/_install/xcode/bin/Mach1EncodeTests || { echo 'Mach1Encode API test failed...' ; exit 1; }
+	tests/_install/xcode/bin/Mach1DecodeTests || { echo 'Mach1Decode API test failed...' ; exit 1; }
+	tests/_install/xcode/bin/Mach1DecodePositionalTests || { echo 'Mach1DecodePositional API test failed...' ; exit 1; }
+	tests/_install/xcode/bin/Mach1TranscodeTests || { echo 'Mach1Transcode API test failed...' ; exit 1; }
+	tests/_install/xcode/bin/Mach1SpatialTests || { echo 'Additional API tests failed...' ; exit 1; }
 
 	echo "RENDER CHECK#"
 	echo "5.1_C -> M1Spatial"

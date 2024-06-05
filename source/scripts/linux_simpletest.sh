@@ -8,11 +8,11 @@ then
 	cmake --build tests/_builds/gcc --config Release --target install
 
 	echo "RUN TESTS"
-	tests/_install/gcc/bin/Mach1EncodeTests
-	tests/_install/gcc/bin/Mach1DecodeTests
-	tests/_install/gcc/bin/Mach1DecodePositionalTests
-	tests/_install/gcc/bin/Mach1SpatialTests
-	tests/_install/gcc/bin/Mach1TranscodeTests
+	tests/_install/gcc/bin/Mach1EncodeTests || { echo 'Mach1Encode API test failed...' ; exit 1; }
+	tests/_install/gcc/bin/Mach1DecodeTests || { echo 'Mach1Decode API test failed...' ; exit 1; }
+	tests/_install/gcc/bin/Mach1DecodePositionalTests || { echo 'Mach1DecodePositional API test failed...' ; exit 1; }
+	tests/_install/gcc/bin/Mach1TranscodeTests || { echo 'Mach1Transcode API test failed...' ; exit 1; }
+	tests/_install/gcc/bin/Mach1SpatialTests || { echo 'Additional API tests failed...' ; exit 1; }
 else
 	echo "ERROR: Script called from wrong directory: $PWD"
 fi

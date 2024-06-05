@@ -5,11 +5,11 @@ echo "### BUILD Linux ###"
 cmake . -B_builds/gcc -DCMAKE_INSTALL_PREFIX=`pwd`/_install/gcc
 cmake --build _builds/gcc --target install
 
-_install/gcc/bin/Mach1EncodeTests
-_install/gcc/bin/Mach1DecodeTests
-_install/gcc/bin/Mach1DecodePositionalTests
-_install/gcc/bin/Mach1TranscodeTests
-_install/gcc/bin/Mach1SpatialTests
+_install/gcc/bin/Mach1EncodeTests || { echo 'Mach1Encode API test failed...' ; exit 1; }
+_install/gcc/bin/Mach1DecodeTests || { echo 'Mach1Decode API test failed...' ; exit 1; }
+_install/gcc/bin/Mach1DecodePositionalTests || { echo 'Mach1DecodePositional API test failed...' ; exit 1; }
+_install/gcc/bin/Mach1TranscodeTests || { echo 'Mach1Transcode API test failed...' ; exit 1; }
+_install/gcc/bin/Mach1SpatialTests || { echo 'Additional API tests failed...' ; exit 1; }
 
 echo "### RUN LINKING TESTS ON CURRENT DEVICE ###"
 g++ -o spatial-decode-exmple -I../include/cpp -L_install/gcc/lib -lpthread -lMach1DecodeCAPI ../examples/mach1spatial-c/commandline/spatial-decode-example/spatial-decode-example/main.cpp 

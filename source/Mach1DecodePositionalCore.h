@@ -77,9 +77,9 @@ class Mach1DecodePositionalCore {
     Mach1PlatformType platformType;
     Mach1DecodeAlgoType algorithmType;
 
-    glm::vec3 GetRightVector();
-    glm::vec3 GetUpVector();
-    glm::vec3 GetForwardVector();
+    static glm::vec3 GetRightVector();
+    static glm::vec3 GetUpVector();
+    static glm::vec3 GetForwardVector();
 
     float volumeWalls;
     float volumeRoom;

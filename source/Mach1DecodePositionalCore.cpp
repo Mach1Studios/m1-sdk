@@ -44,9 +44,9 @@ glm::vec3 Mach1DecodePositionalCore::QuaternionToEuler(glm::quat q) {
 }
 
 glm::quat Mach1DecodePositionalCore::EulerToQuaternion(glm::vec3 euler) {
-    float xOver2 = -euler.y * 0.5f;
+    float xOver2 = euler.z * 0.5f;
     float yOver2 = euler.x * 0.5f;
-    float zOver2 = euler.z * 0.5f;
+    float zOver2 = euler.y * 0.5f;
 
     float sinXOver2 = sin(xOver2);
     float cosXOver2 = cos(xOver2);

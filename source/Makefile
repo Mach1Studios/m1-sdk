@@ -175,10 +175,10 @@ build-web-release: FORCE
 	rsync -c ../mach1spatial-libs/web/* ../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/emscripten/
 
 build-ndkr16b-android: FORCE
-	./scripts/android-ndk16b_build.sh
+	./scripts/android-ndkr16b_build.sh
 
 build-ndkr26d-android: FORCE
-	./scripts/android-ndk26d_build.sh
+	./scripts/android-ndkr26d_build.sh
 
 build-linux: FORCE
 	./scripts/linux_build.sh

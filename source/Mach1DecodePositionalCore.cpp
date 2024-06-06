@@ -32,7 +32,7 @@ glm::vec3 Mach1DecodePositionalCore::QuaternionToEuler(glm::quat q) {
     {
         euler.y = -asin(2.0f * (q.w * q.x - q.y * q.z));
         euler.x = atan2(2.0f * q.w * q.y + 2.0f * q.z * q.x, 1 - 2.0f * (q.x * q.x + q.y * q.y));
-        euler.z = atan2(2.0f * q.w * q.z + 2.0f * q.x * q.y, 1 - 2.0f * (q.z * q.z + q.x * q.x));
+        euler.z = -atan2(2.0f * q.w * q.z + 2.0f * q.x * q.y, 1 - 2.0f * (q.z * q.z + q.x * q.x));
     }
 
     // ensure the degree values are between 0 and 2*PI
@@ -46,8 +46,8 @@ glm::vec3 Mach1DecodePositionalCore::QuaternionToEuler(glm::quat q) {
 glm::quat Mach1DecodePositionalCore::EulerToQuaternion(glm::vec3 eulerYPRinRad)
 {
     glm::quat qx = glm::angleAxis(eulerYPRinRad.x, GetUpVector());
-    glm::quat qy = glm::angleAxis(-eulerYPRinRad.y, GetRightVector()); 
-    glm::quat qz = glm::angleAxis(eulerYPRinRad.z, GetForwardVector());
+    glm::quat qy = glm::angleAxis(-eulerYPRinRad.y, GetRightVector());
+    glm::quat qz = glm::angleAxis(-eulerYPRinRad.z, GetForwardVector());
 
     return qz * qy * qx;
 }
@@ -404,7 +404,7 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
         // Compute rotation for sound
         // http://www.aclockworkberry.com/world-coordinate-systems-in-3ds-max-unity-and-unreal-engine/
         glm::quat quat;
-        quat = glm::quatLookAtLH(glm::normalize(dir), GetUpVector() * glm::inverse(soundRotation));
+        quat = glm::quatLookAtLH(glm::normalize(dir), GetUpVector() ) * glm::inverse(soundRotation);
 
         glm::vec3 quatEulerAngles = QuaternionToEuler(glm::normalize(quat));
 
@@ -415,9 +415,7 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
         quat = EulerToQuaternion(glm::vec3(useXForRotation ? quatEulerAngles.x : 0, useYForRotation ? quatEulerAngles.y : 0, useZForRotation ? quatEulerAngles.z : 0));
         eulerAnglesCube = QuaternionToEuler(glm::normalize(quat)) * RAD_TO_DEG_F;
 
-        quat = quat * glm::inverse(cameraRotation) * soundRotation;
-        quat = glm::inverse(quat); // the last inversion, because it is not a rotation of the cube, but a pointer in the opposite direction
-
+        quat = glm::inverse(quat) * cameraRotation; // * glm::inverse(soundRotation); 
         eulerAngles = QuaternionToEuler(glm::normalize(quat)) * RAD_TO_DEG_F;
 
         // SoundAlgorithm

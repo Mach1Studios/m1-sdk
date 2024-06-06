@@ -43,13 +43,25 @@ glm::vec3 Mach1DecodePositionalCore::QuaternionToEuler(glm::quat q) {
     return euler;
 }
 
-glm::quat Mach1DecodePositionalCore::EulerToQuaternion(glm::vec3 eulerYPRinRad)
-{
-    glm::quat qx = glm::angleAxis(eulerYPRinRad.x, GetUpVector());
-    glm::quat qy = glm::angleAxis(-eulerYPRinRad.y, GetRightVector());
-    glm::quat qz = glm::angleAxis(-eulerYPRinRad.z, GetForwardVector());
+glm::quat Mach1DecodePositionalCore::EulerToQuaternion(glm::vec3 euler) {
+    float xOver2 = -euler.y * 0.5f;
+    float yOver2 = euler.x * 0.5f;
+    float zOver2 = -euler.z * 0.5f;
 
-    return qz * qy * qx;
+    float sinXOver2 = sin(xOver2);
+    float cosXOver2 = cos(xOver2);
+    float sinYOver2 = sin(yOver2);
+    float cosYOver2 = cos(yOver2);
+    float sinZOver2 = sin(zOver2);
+    float cosZOver2 = cos(zOver2);
+
+    glm::quat result;
+    result.x = cosYOver2 * sinXOver2 * cosZOver2 + sinYOver2 * cosXOver2 * sinZOver2;
+    result.y = sinYOver2 * cosXOver2 * cosZOver2 - cosYOver2 * sinXOver2 * sinZOver2;
+    result.z = cosYOver2 * cosXOver2 * sinZOver2 - sinYOver2 * sinXOver2 * cosZOver2;
+    result.w = cosYOver2 * cosXOver2 * cosZOver2 + sinYOver2 * sinXOver2 * sinZOver2;
+
+    return result;
 }
 
 // Position settings functions

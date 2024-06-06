@@ -50,7 +50,7 @@ else
 	g++ -o builds/spatial-transcode-example ../examples/mach1spatial-c/commandline/spatial-transcode-example/src/main.cpp ../mach1spatial-libs/linux/include/Mach1Transcode.cpp -I../mach1spatial-libs/linux/include -L../mach1spatial-libs/linux/lib -lstdc++ -lMach1TranscodeCAPI
 endif
 
-build-all: FORCE clear test copy-public includes-dev includes-release build build-web-release build-android build-rpi build-cortexm0 deploy-dev deploy-release
+build-all: FORCE clear test copy-public includes-dev includes-release build build-web-release build-ndkr16b-android build-ndkr26d-android build-rpi build-cortexm0 deploy-dev deploy-release
 	echo "REMINDER: Build FAT iOS lib first!"
 
 build-ci-mac: FORCE clear test includes-dev includes-release build build-web-release deploy-dev deploy-release
@@ -174,8 +174,11 @@ build-web-release: FORCE
 	# OFXMACH1
 	rsync -c ../mach1spatial-libs/web/* ../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/emscripten/
 
-build-android: FORCE
-	./scripts/android_build.sh
+build-ndkr16b-android: FORCE
+	./scripts/android-ndk16b_build.sh
+
+build-ndkr26d-android: FORCE
+	./scripts/android-ndk26d_build.sh
 
 build-linux: FORCE
 	./scripts/linux_build.sh

@@ -358,7 +358,57 @@ jobs:
         only:
           - deploy
           - travis-test
-      name: Android
+      name: Android-ndkr26d
+      os: linux
+      language: android
+      dist: trusty
+      sudo: true
+      android:
+        components:
+          - tools
+          - platform-tools
+          - build-tools-26.0.2
+          - android-26
+          - add-on
+          - extra
+        licenses:
+          - 'android-sdk-preview-license-52d11cd2'
+          - 'android-sdk-license-.+'
+          - 'google-gdk-license-.+'
+      addons:
+        apt:
+          - build-essential
+          - rsync
+          - cmake
+          - awscli
+        update: true
+      env:
+        global:
+          - ANDROID_HOME=$HOME/travis-tools/android
+          - ANDROID_SDK_ROOT=$HOME/travis-tools/android
+      git:
+        submodules: false
+      before_install:
+        - mkdir -p $ANDROID_HOME/licenses
+        - echo "8933bad161af4178b1185d1a37fbf41ea5269c55" > $ANDROID_HOME/licenses/android-sdk-license
+        - echo "d56f5187479451eabf01fb78af6dfcb131a6481e" >> $ANDROID_HOME/licenses/android-sdk-license
+      install:
+        - cd ${TRAVIS_BUILD_DIR}
+        - git submodule update --init source
+        - echo y | sdkmanager "ndk-bundle"
+        - echo y | sdkmanager "cmake;3.6.4111459"
+        - echo y | sdkmanager "lldb;3.1"
+      script:
+        # Android Build on linux
+        - cd ${TRAVIS_BUILD_DIR}/source
+        - ./scripts/android_ndkr26d_build.sh -u
+
+    - stage: compile
+      branches:
+        only:
+          - deploy
+          - travis-test
+      name: Android-ndk16b
       os: linux
       language: android
       dist: trusty
@@ -400,7 +450,7 @@ jobs:
       script:
         # Android Build on linux
         - cd ${TRAVIS_BUILD_DIR}/source
-        - ./scripts/android_build.sh -u
+        - ./scripts/android_ndkr16b_build.sh -u
 
     - stage: compile
       branches:

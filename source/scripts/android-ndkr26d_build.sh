@@ -29,7 +29,7 @@ then
 	cmake . -B_builds/android-ndk-r26d-api-29-x86 -DCMAKE_SYSTEM_NAME=Android -DCMAKE_ANDROID_API=29 -DCMAKE_SYSTEM_VERSION=29 -DCMAKE_ANDROID_ARCH_ABI=x86 -DCMAKE_ANDROID_NDK=${ANDROID_SDK_ROOT} -DCMAKE_ANDROID_STL_TYPE=gnustl_static -DBUILD_SHARED_LIBS=1 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/android-ndk-r26d-api-29-x86
 	cmake --build _builds/android-ndk-r26d-api-29-x86 --config Release --target install
 	cmake . -B_builds/android-ndk-r26d-api-29-x86-64 -DCMAKE_SYSTEM_NAME=Android -DCMAKE_ANDROID_API=29 -DCMAKE_SYSTEM_VERSION=29 -DCMAKE_ANDROID_ARCH_ABI=x86_64 -DCMAKE_ANDROID_NDK=${ANDROID_SDK_ROOT} -DCMAKE_ANDROID_STL_TYPE=gnustl_static -DBUILD_SHARED_LIBS=1 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/android-ndk-r26d-api-29-x86-64
-	cmake --build _builds/android-ndk-r26d-api-29-x86-64-clang-libcxx --config Release --target install
+	cmake --build _builds/android-ndk-r26d-api-29-x86-64 --config Release --target install
 	cd ${TRAVIS_BUILD_DIR}/source
 	mv _install/android-ndk-r26d-api-29-armeabi-v7a _install/android-ndkr26d-armeabi-v7a
 	mv _install/android-ndk-r26d-api-29-arm64-v8a _install/android-ndkr26d-arm64-v8a

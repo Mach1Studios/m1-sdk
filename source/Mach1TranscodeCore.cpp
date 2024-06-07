@@ -10,7 +10,7 @@
 #include "Mach1TranscodeVectorFormats.h"
 #include "json/json.h"
 #include <cstring>
-#include <string.h>
+#include <string>
 
 #define _USE_MATH_DEFINES
 #include <cmath>

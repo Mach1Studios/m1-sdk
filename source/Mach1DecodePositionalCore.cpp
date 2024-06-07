@@ -66,7 +66,7 @@ glm::quat Mach1DecodePositionalCore::EulerToQuaternion(glm::vec3 euler) {
 
 // Position settings functions
 void Mach1DecodePositionalCore::ConvertPositionToMach1(Mach1PlatformType platformType, float *X, float *Y, float *Z) {
-    float _X = 0, _Y = 0, _Z = 0;
+    float _x = 0, _y = 0, _z = 0;
 
     switch (platformType) {
     case Mach1PlatformDefault:
@@ -78,12 +78,12 @@ void Mach1DecodePositionalCore::ConvertPositionToMach1(Mach1PlatformType platfor
 
     case Mach1PlatformUE:
         // forward: x, right: y, up: z
-        _Z = *X;
-        _X = *Y;
-        _Y = *Z;
-        *X = _X;
-        *Y = _Y;
-        *Z = _Z;
+        _z = *X;
+        _x = *Y;
+        _y = *Z;
+        *X = _x;
+        *Y = _y;
+        *Z = _z;
         break;
 
     case Mach1PlatformUnity:
@@ -99,7 +99,7 @@ void Mach1DecodePositionalCore::ConvertPositionToMach1(Mach1PlatformType platfor
 }
 
 void Mach1DecodePositionalCore::ConvertPositionToPlatform(Mach1PlatformType platformType, float *X, float *Y, float *Z) {
-    float _X = 0, _Y = 0, _Z = 0;
+    float _x = 0, _y = 0, _z = 0;
 
     switch (platformType) {
     case Mach1PlatformDefault:
@@ -111,12 +111,12 @@ void Mach1DecodePositionalCore::ConvertPositionToPlatform(Mach1PlatformType plat
 
     case Mach1PlatformUE:
         // forward: x, right: y, up: z
-        _X = *X;
-        _Y = *Y;
-        _Z = *Z;
-        *X = _Z;
-        *Y = _X;
-        *Z = _Y;
+        _x = *X;
+        _y = *Y;
+        _z = *Z;
+        *X = _z;
+        *Y = _x;
+        *Z = _y;
         break;
 
     case Mach1PlatformUnity:

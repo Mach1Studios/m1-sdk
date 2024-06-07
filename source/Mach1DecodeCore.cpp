@@ -26,6 +26,11 @@ Mach1DecodeCore normalizes all input ranges to an unsigned "0 to 1" range for Ya
 #include <cmath>
 #include <string>
 
+#ifndef __ANDROID__
+// TODO: Remove this and figure out how to get ANDROID builds to accept newer stdlib 
+#define copysign std::copysign
+#endif
+
 #ifndef DEG_TO_RAD
 #    define DEG_TO_RAD (PI / 180.0)
 #endif
@@ -750,7 +755,7 @@ void Mach1DecodeCore::setRotationQuat(Mach1Point4DCore newRotationQuat) {
     // pitch (y-axis rotation)
     float sinp = 2 * (newRotationQuat.w * newRotationQuat.y - newRotationQuat.z * newRotationQuat.x);
     if (std::abs(sinp) >= 1) {
-        angles.y = std::copysignf(PI / 2, sinp); // use 90 degrees if out of range
+        angles.y = copysignf(PI / 2, sinp); // use 90 degrees if out of range
     } else {
         angles.y = asinf(sinp);
     }

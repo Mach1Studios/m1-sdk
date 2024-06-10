@@ -38,6 +38,7 @@ then
 	# BUILD armeabi-v7a
 	cmake . -B_builds/android-ndk-r16b-api-21-armeabi-v7a \
 	-DCMAKE_SYSTEM_NAME=Android \
+	-DCMAKE_SYSTEM_VERSION=21 \
 	-DCMAKE_ANDROID_ARCH=armeabi-v7a \
 	-DCMAKE_ANDROID_NDK=$ANDROID_NDK_HOME \
 	-DCMAKE_ANDROID_ARM_NEON=ON \

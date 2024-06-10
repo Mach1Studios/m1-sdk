@@ -22,24 +22,61 @@ if [[ "$PWD" == *source ]]
 then
 	echo "Script called from correct path: $PWD"
 	echo "Compiling Static Android libs..."
+
 	# BUILD arm64
-	cmake . -B_builds/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake -DCMAKE_SYSTEM_NAME=Android -DANDROID_NDK_VERSION=r16b -DCMAKE_SYSTEM_VERSION=21 -DCMAKE_ANDROID_ARCH_ABI=arm64-v8a -DCMAKE_ANDROID_NDK=${ANDROID_NDK_r16b} -DCMAKE_ANDROID_NDK_TOOLCHAIN_VERSION=clang -DANDROID_STL=c++_static -DCMAKE_ANDROID_STL_TYPE=c++_static -DBUILD_SHARED_LIBS=1 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx
-	cmake --build _builds/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx --config Release --target install
+	cmake . -B_builds/android-ndk-r16b-api-21-arm64-v8a \
+	-DCMAKE_SYSTEM_NAME=Android \
+	-DCMAKE_SYSTEM_VERSION=21 \
+	-DCMAKE_ANDROID_ARCH_ABI=arm64-v8a \
+	-DCMAKE_ANDROID_NDK=$ANDROID_NDK_HOME \
+	-DCMAKE_ANDROID_NDK_TOOLCHAIN_VERSION=clang \
+	-DCMAKE_ANDROID_STL_TYPE=c++_static \
+	-DBUILD_SHARED_LIBS=1 \
+	-DCMAKE_INSTALL_PREFIX=`pwd`/_install/android-ndk-r16b-api-21-arm64-v8a
+	cmake --build _builds/android-ndk-r16b-api-21-arm64-v8a --config Release --target install
+
 	# BUILD armeabi-v7a
-	cmake . -B_builds/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=21 -DCMAKE_ANDROID_ARCH_ABI=armeabi-v7a -DCMAKE_ANDROID_NDK=${ANDROID_NDK_r16b} -DCMAKE_ANDROID_ARM_NEON=true -DCMAKE_ANDROID_ARM_MODE=true -DCMAKE_ANDROID_NDK_TOOLCHAIN_VERSION=clang -DANDROID_STL=c++_static -DCMAKE_ANDROID_STL_TYPE=c++_static -DBUILD_SHARED_LIBS=1 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx
-	cmake --build _builds/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx --config Release --target install
+	cmake . -B_builds/android-ndk-r16b-api-21-armeabi-v7a \
+	-DCMAKE_SYSTEM_NAME=Android \
+	-DCMAKE_ANDROID_ARCH=armeabi-v7a \
+	-DCMAKE_ANDROID_NDK=$ANDROID_NDK_HOME \
+	-DCMAKE_ANDROID_ARM_NEON=ON \
+	-DCMAKE_ANDROID_ARM_MODE=ON \
+	-DCMAKE_ANDROID_NDK_TOOLCHAIN_VERSION=clang \
+	-DCMAKE_ANDROID_STL_TYPE=c++_static \
+	-DBUILD_SHARED_LIBS=1 \
+	-DCMAKE_INSTALL_PREFIX=`pwd`/_install/android-ndk-r16b-api-21-armeabi-v7a
+	cmake --build _builds/android-ndk-r16b-api-21-armeabi-v7a --config Release --target install
+
 	# BUILD x86
-	cmake . -B_builds/android-ndk-r16b-api-21-x86-clang-libcxx -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=21 -DCMAKE_ANDROID_ARCH_ABI=x86 -DCMAKE_ANDROID_NDK=${ANDROID_NDK_r16b} -DCMAKE_ANDROID_NDK_TOOLCHAIN_VERSION=clang -DANDROID_STL=c++_static -DCMAKE_ANDROID_STL_TYPE=c++_static -DBUILD_SHARED_LIBS=1 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/android-ndk-r16b-api-21-x86-clang-libcxx
-	cmake --build _builds/android-ndk-r16b-api-21-x86-clang-libcxx --config Release --target install
+	cmake . -B_builds/android-ndk-r16b-api-21-x86 \
+	-DCMAKE_SYSTEM_NAME=Android \
+	-DCMAKE_SYSTEM_VERSION=21 \
+	-DCMAKE_ANDROID_ARCH=x86 \
+	-DCMAKE_ANDROID_NDK=$ANDROID_NDK_HOME \
+	-DCMAKE_ANDROID_NDK_TOOLCHAIN_VERSION=clang \
+	-DCMAKE_ANDROID_STL_TYPE=c++_static \
+	-DBUILD_SHARED_LIBS=1 \
+	-DCMAKE_INSTALL_PREFIX=`pwd`/_install/android-ndk-r16b-api-21-x86
+	cmake --build _builds/android-ndk-r16b-api-21-x86 --config Release --target install
+
 	# BUILD x64
-	cmake . -B_builds/android-ndk-r16b-api-21-x86-64-clang-libcxx -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=21 -DCMAKE_ANDROID_ARCH_ABI=x86_64 -DCMAKE_ANDROID_NDK=${ANDROID_NDK_r16b} -DCMAKE_ANDROID_NDK_TOOLCHAIN_VERSION=clang -DANDROID_STL=c++_static -DCMAKE_ANDROID_STL_TYPE=c++_static -DBUILD_SHARED_LIBS=1 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/android-ndk-r16b-api-21-x86-64-clang-libcxx
-	cmake --build _builds/android-ndk-r16b-api-21-x86-64-clang-libcxx --config Release --target install
+	cmake . -B_builds/android-ndk-r16b-api-21-x86-64 \
+	-DCMAKE_SYSTEM_NAME=Android \
+	-DCMAKE_SYSTEM_VERSION=21 \
+	-DCMAKE_ANDROID_ARCH=x86_64 \
+	-DCMAKE_ANDROID_NDK=$ANDROID_NDK_HOME \
+	-DCMAKE_ANDROID_NDK_TOOLCHAIN_VERSION=clang \
+	-DCMAKE_ANDROID_STL_TYPE=c++_static \
+	-DBUILD_SHARED_LIBS=1 \
+	-DCMAKE_INSTALL_PREFIX=`pwd`/_install/android-ndk-r16b-api-21-x86-64
+	cmake --build _builds/android-ndk-r16b-api-21-x86-64 --config Release --target install
 	# PREPARE DIRS
 	cd ${TRAVIS_BUILD_DIR}/source
-	mv _install/android-ndk-r16b-api-21-armeabi-v7a-neon-clang-libcxx _install/android-armeabi-v7a
-	mv _install/android-ndk-r16b-api-21-arm64-v8a-neon-clang-libcxx _install/android-arm64-v8a
-	mv _install/android-ndk-r16b-api-21-x86-clang-libcxx _install/android-x86
-	mv _install/android-ndk-r16b-api-21-x86-64-clang-libcxx _install/android-x86_64
+	mv _install/android-ndk-r16b-api-21-arm64-v8a _install/android-arm64-v8a
+	mv _install/android-ndk-r16b-api-21-armeabi-v7a _install/android-armeabi-v7a
+	mv _install/android-ndk-r16b-api-21-x86 _install/android-x86
+	mv _install/android-ndk-r16b-api-21-x86-64 _install/android-x86_64
 	# INSTALL STATIC ANDROID LIBS
 	mkdir -p "../mach1spatial-libs/android-armeabi-v7a/lib"
 	mkdir -p "../mach1spatial-libs/android-arm64-v8a/lib"

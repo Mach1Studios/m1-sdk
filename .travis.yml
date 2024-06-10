@@ -381,7 +381,7 @@ jobs:
           - awscli
         update: true
       env: 
-        - ANDROID_NDK_r16b=${TRAVIS_BUILD_DIR}/android-ndk-r16b
+        - ANDROID_NDK_HOME=${TRAVIS_BUILD_DIR}/android-ndk-r16b
       git:
         submodules: false
       install:
@@ -397,7 +397,6 @@ jobs:
         - wget --quiet https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip
         - unzip -qq android-ndk-r16b-linux-x86_64.zip
         - export ANDROID_NDK_HOME=`pwd`/android-ndk-r16b
-        - export ANDROID_NDK_r16b=`pwd`/android-ndk-r16b
         - export LOCAL_ANDROID_NDK_HOME="$ANDROID_NDK_HOME"
         - export LOCAL_ANDROID_NDK_HOST_PLATFORM="linux-x86_64"
         - export PATH=$PATH:${ANDROID_NDK_HOME}

@@ -17,14 +17,19 @@ setup:
 	source $(EMSDK_PATH)/emsdk_env.sh
 
 clear:
+ifeq ($(detected_OS),Windows)
+	if exist _install del /f /q _install
+	if exist _builds del /f /q _builds
+else
 	rm -rf _install
 	rm -rf _builds
+endif
 
 test: FORCE clear
 ifeq ($(detected_OS),Darwin)
 	cd tests && ./_build_on_osx_for_osx.sh
 else ifeq ($(detected_OS),Windows)
-	cd tests && ./_build_on_win_for_win.bat
+	cd tests && _build_on_win_for_win.bat
 else
 	cd tests && ./_build_on_linux_for_linux.sh
 endif
@@ -36,7 +41,6 @@ ifeq ($(detected_OS),Darwin)
 	g++ -o builds/spatial-encode-example ../examples/mach1spatial-c/commandline/spatial-encode-example/src/main.cpp ../mach1spatial-libs/xcode/include/Mach1Encode.cpp -I../mach1spatial-libs/xcode/include -L../mach1spatial-libs/xcode/lib -lstdc++ -lpthread -lMach1EncodeCAPI
 	g++ -o builds/spatial-transcode-example ../examples/mach1spatial-c/commandline/spatial-transcode-example/src/main.cpp ../mach1spatial-libs/xcode/include/Mach1Transcode.cpp -I../mach1spatial-libs/xcode/include -L../mach1spatial-libs/xcode/lib -lstdc++ -lMach1TranscodeCAPI
 else ifeq ($(detected_OS),Windows)
-	#mkdir -p builds
 	cmake ../examples/mach1spatial-c/commandline/spatial-decode-example -Bbuilds
 	cmake --build builds
 	cmake ../examples/mach1spatial-c/commandline/spatial-encode-example -Bbuilds

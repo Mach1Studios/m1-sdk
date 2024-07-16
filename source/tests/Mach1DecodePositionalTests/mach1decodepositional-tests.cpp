@@ -59,7 +59,7 @@ void test_results(void) {
         Testing for mute functions when inside/outside the positional reference shape/point
         */
         {
-            "case: INSIDE OBJECT MUTE",
+            "case: POSITIONAL | INSIDE OBJECT MUTE",
             {
                 Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
                 0.0, 0.0, 0.0, // listener pos
@@ -85,10 +85,10 @@ void test_results(void) {
             }
         },
         {
-            "case: OUTSIDE OBJECT MUTE",
+            "case: POSITIONAL | OUTSIDE OBJECT MUTE",
             {
                 Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
-                1.0, 1.0, 1.0, // listener pos
+                2.0, 2.0, 2.0, // listener pos
                 0.0, 0.0, 0.0, // listener rot
                 0.0, 0.0, 0.0, // m1 pos
                 0.0, 0.0, 0.0, // m1 rot

@@ -55,6 +55,62 @@ void test_results(void) {
 
     std::vector<CASE> cases = {
         /*
+        MUTE TESTING
+        Testing for mute functions when inside/outside the positional reference shape/point
+        */
+        {
+            "case: POSITIONAL | INSIDE OBJECT MUTE",
+            {
+                Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
+                0.0, 0.0, 0.0, // listener pos
+                0.0, 0.0, 0.0, // listener rot
+                0.0, 0.0, 0.0, // m1 pos
+                0.0, 0.0, 0.0, // m1 rot
+                1.0, 1.0, 1.0, // m1 scale
+                false, false, false, true, false, 1.0
+            },
+            {
+                {
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                },
+                5.0,
+            }
+        },
+        {
+            "case: POSITIONAL | OUTSIDE OBJECT MUTE",
+            {
+                Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
+                2.0, 2.0, 2.0, // listener pos
+                0.0, 0.0, 0.0, // listener rot
+                0.0, 0.0, 0.0, // m1 pos
+                0.0, 0.0, 0.0, // m1 rot
+                1.0, 1.0, 1.0, // m1 scale
+                false, false, false, false, true, 1.0
+            },
+            {
+                {
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                },
+                5.0,
+            }
+        },
+        /*
         POSITIONAL TESTING
         TODO: add more input tests with less rounded inputs
         TODO: add all other output modes
@@ -646,7 +702,7 @@ void test_results(void) {
             << "testing " << test.name << ": "
             << platformModeNames[test.input.platformMode] << " > " << outputModeNames[test.input.outputMode] << ", "
             << "m1PosRot: " << test.input.m1PosX << "," << test.input.m1PosY << "," << test.input.m1PosZ << "|" << test.input.m1Yaw << "," << test.input.m1Pitch << "," << test.input.m1Roll << " || "
-            << "ListenerPosRot: " << test.input.listenerYaw << "," << test.input.listenerPitch << "," << test.input.listenerRoll << "|" << test.input.listenerPosX << "," << test.input.listenerPosY << "," << test.input.listenerPosZ;
+            << "ListenerPosRot: " << test.input.listenerPosX << "," << test.input.listenerPosY << "," << test.input.listenerPosZ << "|" << test.input.listenerYaw << "," << test.input.listenerPitch << "," << test.input.listenerRoll;
 
         int counter = 0;
 

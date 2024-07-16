@@ -1,3 +1,5 @@
+cmake_generator=
+
 M1WORKFLOW_PATH=
 M1SDK_PATH=
 M1SDK_RELEASE_PATH=

@@ -49,11 +49,6 @@ if(DEFINED BUILD_SHARED_LIBS)
     message(STATUS "SETUP: Building shared libs")
 endif()
 
-if(DEFINED BUILD_MINIFIED_DECODE)
-    set(BUILD_MINIFIED_DECODE 1)
-    message(STATUS "SETUP: Building minified decode API")
-endif()
-
 if(DEFINED COMPILE_MT)
     set(COMPILE_MT 1)
     message(STATUS "SETUP: Building /MT static libs for windows target")
@@ -214,16 +209,6 @@ set_target_properties(Mach1TranscodeAPI PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PR
 
 target_include_directories(Mach1DecodePositionalAPI PRIVATE ${RootAdditionalIncludes} ${Mach1DecodePositionalAdditionalIncludes})
 target_include_directories(Mach1TranscodeAPI PRIVATE ${RootAdditionalIncludes} ${Mach1TranscodeAdditionalIncludes})
-
-# MINIFIED MACH1DECODE for ARM/LINUX
-if(BUILD_MINIFIED_DECODE)
-    set(Mach1DecodeMINAPI_SOURCE "./Mach1DecodeMINCAPI.cpp" "./Mach1DecodeMINCore.cpp" "./Mach1Point3DCore.cpp" "./Mach1Point4DCore.cpp")
-    add_library(Mach1DecodeMINAPI STATIC ${Mach1DecodeMINAPI_SOURCE})
-    set_target_properties(Mach1DecodeMINAPI PROPERTIES OUTPUT_NAME "Mach1Decode-minifiedCAPI")
-    set_target_properties(Mach1DecodeMINAPI PROPERTIES VERSION ${DECODE_VERSION})
-    set_target_properties(Mach1DecodeMINAPI PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static)
-    install(TARGETS Mach1DecodeMINAPI DESTINATION lib)
-endif()
 
 # UNITY / SHARED libs
 if(BUILD_SHARED_LIBS)

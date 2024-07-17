@@ -84,7 +84,6 @@ ifeq ($(detected_OS),Darwin)
 	rsync -c "_install/xcode/lib/libMach1EncodeCAPId.a" "../mach1spatial-libs/xcode/lib/libMach1EncodeCAPI.a"
 	rsync -c "_install/xcode/lib/libMach1TranscodeCAPId.a" "../mach1spatial-libs/xcode/lib/libMach1TranscodeCAPI.a"
 	rsync -c "_install/xcode/lib/libMach1DecodePositionalCAPId.a" "../mach1spatial-libs/xcode/lib/libMach1DecodePositionalCAPI.a"
-	#rsync -c "_install/xcode/lib/libMach1Decode-minifiedCAPI.a" "../mach1spatial-libs/xcode/lib/libMach1Decode-minifiedCAPI.a"
 else ifeq ($(detected_OS),Windows)
 	cmake . -B_builds/vs-15-2017 -G "Visual Studio 15 2017" -A Win32 -DCMAKE_INSTALL_PREFIX=`pwd`/_install/vs-15-2017
 	cmake --build _builds/vs-15-2017 --config Debug --target installrsync -c "_install/vs-15-2017/lib" "../mach1spatial-libs/vs-15-2017-x86/lib/Static/MD/Debug/"
@@ -142,7 +141,6 @@ else
 	rsync -c "_install/linux-gcc-armhf/lib/libMach1EncodeCAPI.a" "../mach1spatial-libs/arm-chipsets/beaglebone/lib/libMach1EncodeCAPI.a"
 	rsync -c "_install/linux-gcc-armhf/lib/libMach1TranscodeCAPI.a" "../mach1spatial-libs/arm-chipsets/beaglebone/lib/libMach1TranscodeCAPI.a"
 	rsync -c "_install/linux-gcc-armhf/lib/libMach1DecodePositionalCAPI.a" "../mach1spatial-libs/arm-chipsets/beaglebone/lib/libMach1DecodePositionalCAPI.a"
-	rsync -c "_install/linux-gcc-armhf/lib/libMach1Decode-minifiedCAPI.a" "../mach1spatial-libs/arm-chipsets/beaglebone/lib/libMach1Decode-minifiedCAPI.a"
 endif
 
 build-cortexm0: FORCE

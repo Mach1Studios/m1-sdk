@@ -304,9 +304,6 @@ void Mach1DecodeCore::spatialMultichannelAlgo(Mach1Point3DCore *channelPoints, i
     }
 
     // if(sumL > 1.0 || sumR > 1.0) printf("%f - %f\r\n", sumL, sumR);
-
-    result[numChannelPoints * 2 + 0] = 1.0f; // static stereo L
-    result[numChannelPoints * 2 + 1] = 1.0f; // static stereo R
 }
 
 void Mach1DecodeCore::spatialAlgoSample_8(float Yaw, float Pitch, float Roll, float *result) {
@@ -338,7 +335,7 @@ std::vector<float> Mach1DecodeCore::spatialAlgoSample_8(float Yaw, float Pitch, 
     const int numChannelPoints = 8;
 
     std::vector<float> result;
-    result.resize(numChannelPoints * 2 + 2);
+    result.resize(numChannelPoints * 2);
 
     Mach1Point3DCore channelPoints[numChannelPoints] =
         {
@@ -390,7 +387,7 @@ std::vector<float> Mach1DecodeCore::spatialAlgoSample_12(float Yaw, float Pitch,
     float diag = sqrtf(2 * 100 * 100);
 
     std::vector<float> result;
-    result.resize(numChannelPoints * 2 + 2);
+    result.resize(numChannelPoints * 2);
 
     Mach1Point3DCore channelPoints[numChannelPoints] =
         {
@@ -450,7 +447,7 @@ std::vector<float> Mach1DecodeCore::spatialAlgoSample_14(float Yaw, float Pitch,
     float diag = sqrtf(2 * 100 * 100);
 
     std::vector<float> result;
-    result.resize(numChannelPoints * 2 + 2);
+    result.resize(numChannelPoints * 2);
 
     Mach1Point3DCore channelPoints[numChannelPoints] =
         {
@@ -1002,7 +999,7 @@ void Mach1DecodeCore::processSample(functionAlgoSampleHP funcAlgoSampleHP, float
             float phase = (float)sampleIndex / (float)bufferSize;
 
             std::vector<float> volumes_lerp(getFormatCoeffCount());
-            for (int i = 0; i < 18; i++) {
+            for (int i = 0; i < 16; i++) {
                 volumes_lerp[i] = volumes1[i] * (1 - phase) + volumes2[i] * phase;
                 result[i] = volumes_lerp[i];
             }
@@ -1113,13 +1110,12 @@ std::vector<float> Mach1DecodeCore::processSample(functionAlgoSample funcAlgoSam
 //  R = Roll in degrees
 //
 
-std::vector<float> Mach1DecodeCore::horizonAlgo_4(float Yaw, float Pitch, float Roll,
-                                                  int bufferSize, int sampleIndex) {
+std::vector<float> Mach1DecodeCore::horizonAlgo_4(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {
 
+    const int numChannelPoints = 4;
     convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
 
     if (smoothAngles) {
-
         targetYaw = Yaw;
         targetPitch = Pitch;
         targetRoll = Roll;
@@ -1129,7 +1125,6 @@ std::vector<float> Mach1DecodeCore::horizonAlgo_4(float Yaw, float Pitch, float 
         Yaw = currentYaw;
         Pitch = currentPitch;
         Roll = currentRoll;
-
     } else {
         targetYaw = Yaw;
         targetPitch = Pitch;
@@ -1147,14 +1142,14 @@ std::vector<float> Mach1DecodeCore::horizonAlgo_4(float Yaw, float Pitch, float 
     // Orientation input safety clamps/alignment
     Yaw = alignAngle(Yaw, 0, 360);
 
-    float coefficients[4];
+    float coefficients[numChannelPoints];
     coefficients[0] = 1.f - std::min(1.f, std::min(360.f - Yaw, Yaw) / 90.f);
     coefficients[1] = 1.f - std::min(1.f, std::abs(90.f - Yaw) / 90.f);
     coefficients[2] = 1.f - std::min(1.f, std::abs(180.f - Yaw) / 90.f);
     coefficients[3] = 1.f - std::min(1.f, std::abs(270.f - Yaw) / 90.f);
 
     std::vector<float> result;
-    result.resize(8);
+    result.resize(numChannelPoints * 2);
     result[0] = coefficients[0]; // 1 left
     result[1] = coefficients[3]; //   right
     result[2] = coefficients[1]; // 2 left
@@ -1163,14 +1158,12 @@ std::vector<float> Mach1DecodeCore::horizonAlgo_4(float Yaw, float Pitch, float 
     result[5] = coefficients[2]; //   right
     result[6] = coefficients[2]; // 4 left
     result[7] = coefficients[1]; //   right
-
-    result.push_back(1.0); // static stereo L
-    result.push_back(1.0); // static stereo R
     return result;
 }
 
-void Mach1DecodeCore::horizonAlgo_4(float Yaw, float Pitch, float Roll, float *result,
-                                    int bufferSize, int sampleIndex) {
+void Mach1DecodeCore::horizonAlgo_4(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
+
+    const int numChannelPoints = 4;
     convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
 
     if (smoothAngles) {
@@ -1200,12 +1193,13 @@ void Mach1DecodeCore::horizonAlgo_4(float Yaw, float Pitch, float Roll, float *r
     // Orientation input safety clamps/alignment
     Yaw = alignAngle(Yaw, 0, 360);
 
-    float coefficients[4];
+    float coefficients[numChannelPoints];
     coefficients[0] = 1.f - std::min(1.f, std::min(360.f - Yaw, Yaw) / 90.f);
     coefficients[1] = 1.f - std::min(1.f, std::abs(90.f - Yaw) / 90.f);
     coefficients[2] = 1.f - std::min(1.f, std::abs(180.f - Yaw) / 90.f);
     coefficients[3] = 1.f - std::min(1.f, std::abs(270.f - Yaw) / 90.f);
 
+    //result.resize(numChannelPoints * 2);
     result[0] = coefficients[0]; // 1 left
     result[1] = coefficients[3]; //   right
     result[2] = coefficients[1]; // 2 left
@@ -1214,9 +1208,6 @@ void Mach1DecodeCore::horizonAlgo_4(float Yaw, float Pitch, float Roll, float *r
     result[5] = coefficients[2]; //   right
     result[6] = coefficients[2]; // 4 left
     result[7] = coefficients[1]; //   right
-
-    result[8] = 1.0; // static stereo L
-    result[9] = 1.0; // static stereo R
 }
 
 // ------------------------------------------------------------------

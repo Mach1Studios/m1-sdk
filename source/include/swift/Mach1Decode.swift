@@ -51,7 +51,7 @@ public class Mach1Decode {
     public func getFormatCoeffCount() -> Int {
         let count = Mach1DecodeCAPI_getFormatCoeffCount(M1obj)
         return Int(count)
-        /// Returns the number of coeffs for verbose spatial mixer (getFormatChannelCount() * 2 + 2) for format to be decoded
+        /// Returns the number of coeffs for verbose spatial mixer (getFormatChannelCount() * 2) for format to be decoded
     }
 
     public func setRotation(newRotationFromMinusOnetoOne: Mach1Point3D) {

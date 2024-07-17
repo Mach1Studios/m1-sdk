@@ -325,6 +325,7 @@ void Mach1DecodePositionalCore::setDecoderAlgoScale(Mach1Point3DCore *scale) {
 void Mach1DecodePositionalCore::evaluatePositionResults() {
     long tStart = getCurrentTime();
 
+    // TODO: Rename this
     volumeWalls = 1.0f;
     volumeRoom = 0.0f;
 
@@ -364,17 +365,13 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
         glm::mat4 translate = glm::translate(identity, soundPosition);
         glm::mat4 rotate = glm::toMat4(soundRotation);
         glm::mat4 scale = glm::scale(identity, soundScale);
-
         glm::mat4 mat = glm::inverse(translate * rotate * scale);
-
         glm::vec3 p0 = 2.0f * (mat * glm::vec4(cameraPosition, 1.0f)); // InverseTransformPoint
-
         dist = 1 - std::max(abs(p0.x), std::max(abs(p0.y), abs(p0.z)));
 
         if (useFalloff) {
             volumeWalls = volumeWalls * falloffCurveBlendMode;
         }
-
         volumeRoom = 1 - volumeWalls;
     } else if (hasSoundOutside || hasSoundInside) // useCenterPointRotation
     {
@@ -394,22 +391,6 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
     }
 
     closestPointOnPlane = point;
-
-    // mini test
-    /*
-    {
-        glm::quat quat = EulerToQuaternion(glm::vec3(12, -10, 25) * DEG_TO_RAD_F);
-        glm::vec3 quatEulerAngles = QuaternionToEuler(quat) * RAD_TO_DEG_F;
-        glm::quat quat2 = EulerToQuaternion(quatEulerAngles * DEG_TO_RAD_F);
-
-        glm::quat myquaternion = glm::quat(glm::vec3(12, -10, 25) * DEG_TO_RAD_F);
-        glm::vec3 quatEulerAngles2 = glm::eulerAngles(myquaternion) * RAD_TO_DEG_F;
-        glm::quat myquaternion2 = glm::quat(quatEulerAngles2 * DEG_TO_RAD_F);
-
-        quatEulerAngles.x = quatEulerAngles.x;
-    }
-    //*/
-
     glm::vec3 dir = point - cameraPosition;
 
     if (glm::length(dir) > 0) {

@@ -227,12 +227,10 @@ std::vector<float> Mach1DecodeCore::horizonPairsAlgoSample(float Yaw, float Pitc
     result.push_back(volumes[5]);
     result.push_back(volumes[6]);
     result.push_back(volumes[7]);
-
     return result;
 }
 
 void Mach1DecodeCore::spatialMultichannelAlgo(Mach1Point3DCore *channelPoints, int numChannelPoints, float Yaw, float Pitch, float Roll, float *result) {
-    // TODO: change this so it can be scaled
     Mach1Point3DCore simulationAngles = Mach1Point3DCore(Yaw, Pitch, Roll);
 
     Mach1Point3DCore faceVector1 = Mach1Point3DCore(
@@ -958,27 +956,6 @@ void Mach1DecodeCore::decodeCoeffsUsingTranscodeMatrix(void *M1obj, float *matri
             }
         }
     }
-}
-
-// The following functions are deprecated as of now
-//--------------------------------------------------
-//  Begin function that has to be called
-//  before per-sample coefficient calculation.
-//
-
-void Mach1DecodeCore::beginBuffer() {
-    previousYaw = currentYaw;
-    previousPitch = currentPitch;
-    previousRoll = currentRoll;
-
-    updateAngles();
-}
-
-//  End function that has to be called
-//  after per-sample coefficient calculation.
-
-void Mach1DecodeCore::endBuffer() {
-    //  ;)
 }
 
 void Mach1DecodeCore::processSample(functionAlgoSampleHP funcAlgoSampleHP, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {

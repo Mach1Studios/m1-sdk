@@ -413,9 +413,7 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
 
         // SoundAlgorithm
         mach1Decode.setRotationDegrees(Mach1Point3DCore{eulerAngles.x, eulerAngles.y, eulerAngles.z});
-        mach1Decode.beginBuffer();
         volumes = mach1Decode.decodeCoeffs(0, 0);
-        mach1Decode.endBuffer();
     } else {
         // Fixed zero distance
         eulerAngles = glm::vec3(0, 0, 0);

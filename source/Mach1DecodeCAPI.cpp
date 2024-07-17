@@ -51,14 +51,6 @@ void Mach1DecodeCAPI_setFilterSpeed(void *M1obj, float filterSpeed) {
     ((Mach1DecodeCore *)M1obj)->setFilterSpeed(filterSpeed);
 }
 
-void Mach1DecodeCAPI_beginBuffer(void *M1obj) {
-    ((Mach1DecodeCore *)M1obj)->beginBuffer();
-}
-
-void Mach1DecodeCAPI_endBuffer(void *M1obj) {
-    ((Mach1DecodeCore *)M1obj)->endBuffer();
-}
-
 int Mach1DecodeCAPI_getFormatChannelCount(void *M1obj) {
     return ((Mach1DecodeCore *)M1obj)->getFormatChannelCount();
 }

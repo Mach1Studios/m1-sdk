@@ -49,9 +49,7 @@ int main()
     m1Decode.setFilterSpeed(1.0);
     m1Decode.setRotationDegrees(Mach1Point3D{0.0, 0.0, 0.0});
     
-    m1Decode.beginBuffer();
     auto resultsDecode = m1Decode.decodeCoeffs(0, 0);
-    m1Decode.endBuffer();
     
     if (showDebug) {
         for (size_t i = 0; i < resultsDecode.size() - 2; i++) {

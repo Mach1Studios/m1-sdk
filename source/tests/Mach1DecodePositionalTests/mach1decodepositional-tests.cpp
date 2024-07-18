@@ -415,14 +415,6 @@ void test_results(void) {
                     0.250000, 0.250000,
                     0.000000, 0.000000,
                     0.000000, 0.250000,
-                    // 0.250000, 0.250000,
-                    // 0.000000, 0.250000,
-                    // 0.250000, 0.000000,
-                    // 0.000000, 0.000000,
-                    // 0.250000, 0.250000,
-                    // 0.000000, 0.250000,
-                    // 0.250000, 0.000000,
-                    // 0.000000, 0.000000,
                 },
                 7.07106781187,
             }
@@ -598,14 +590,6 @@ void test_results(void) {
                     0.250000, 0.250000,
                     0.000000, 0.000000,
                     0.000000, 0.250000,
-                    // 0.250000, 0.250000,
-                    // 0.000000, 0.250000,
-                    // 0.250000, 0.000000,
-                    // 0.000000, 0.000000,
-                    // 0.250000, 0.250000,
-                    // 0.000000, 0.250000,
-                    // 0.250000, 0.000000,
-                    // 0.000000, 0.000000,
                 },
                 5.0,
             }
@@ -683,6 +667,7 @@ void test_results(void) {
             << "ListenerPosRot: " << test.input.listenerPosX << "," << test.input.listenerPosY << "," << test.input.listenerPosZ << "|" << test.input.listenerYaw << "," << test.input.listenerPitch << "," << test.input.listenerRoll;
 
         int counter = 0;
+        std::cout << "Array Size: " << results.size();
 
         for (size_t i = 0; i < results.size(); i++) {
             bool check = fabs(test.output.results[i] - results[i]) < 0.0001;

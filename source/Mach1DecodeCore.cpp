@@ -109,7 +109,6 @@ float Mach1DecodeCore::targetDirectionMultiplier(float angleCurrent, float angle
         if (angleCurrent > angleTarget) {
             return 1.;
         }
-
     } else {
         if (angleCurrent < angleTarget) {
             return 1.;
@@ -118,7 +117,6 @@ float Mach1DecodeCore::targetDirectionMultiplier(float angleCurrent, float angle
             return -1.;
         }
     }
-
     return 0.;
 }
 
@@ -714,15 +712,15 @@ int Mach1DecodeCore::getFormatChannelCount() {
 int Mach1DecodeCore::getFormatCoeffCount() {
     switch (algorithmType) {
     case Mach1DecodeAlgoSpatial_8:
-        return (8 * 2) + 2;
+        return (8 * 2);
     case Mach1DecodeAlgoHorizon_4:
-        return (4 * 2) + 2;
+        return (4 * 2);
     case Mach1DecodeAlgoHorizonPairs:
-        return (4 * 2) + 2;
+        return (4 * 2);
     case Mach1DecodeAlgoSpatial_12:
-        return (12 * 2) + 2;
+        return (12 * 2);
     case Mach1DecodeAlgoSpatial_14:
-        return (14 * 2) + 2;
+        return (14 * 2);
     }
     return 0;
 }

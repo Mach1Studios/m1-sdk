@@ -358,8 +358,8 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
         if (useFalloff) {
             volumeWalls = volumeWalls * falloffCurve;
         }
-
-    } else if (hasSoundInside && useBlendMode) // && DoClipping(0, float.MaxValue, cameraPosition, (cameraPosition - soundPosition).normalized, soundPosition, gameObject.transform.right, gameObject.transform.up, gameObject.transform.forward, gameObject.transform.localScale / 2, true, out insidePoint0, out insidePoint1) == 2)
+    } 
+    else if (hasSoundInside && useBlendMode)
     {
         glm::mat4 identity(1.0f); // construct identity matrix
         glm::mat4 translate = glm::translate(identity, soundPosition);
@@ -373,7 +373,8 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
             volumeWalls = volumeWalls * falloffCurveBlendMode;
         }
         volumeRoom = 1 - volumeWalls;
-    } else if (hasSoundOutside || hasSoundInside) // useCenterPointRotation
+    } 
+    else if (hasSoundOutside || hasSoundInside) // useCenterPointRotation
     {
         dist = glm::distance(cameraPosition, point);
 
@@ -385,7 +386,8 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
                 volumeWalls = volumeWalls * falloffCurveBlendMode;
             }
         }
-    } else {
+    } 
+    else {
         volumeWalls = 0;
         volumeRoom = 0;
     }
@@ -414,7 +416,8 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
         // SoundAlgorithm
         mach1Decode.setRotationDegrees(Mach1Point3DCore{eulerAngles.x, eulerAngles.y, eulerAngles.z});
         volumes = mach1Decode.decodeCoeffs(0, 0);
-    } else {
+    } 
+    else {
         // Fixed zero distance
         eulerAngles = glm::vec3(0, 0, 0);
 

@@ -80,10 +80,9 @@ void test_results(void) {
         TODO: add more input tests with less rounded inputs
         TODO: add all other output modes
          */
-        {
-            "case: ENCODE | MONO->MACH1HORIZON-4",
-            {Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Horizon_4, Mach1EncodePannerModeIsotropicLinear, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
-            {
+        {"case: ENCODE | MONO->MACH1HORIZON-4",
+         {Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Horizon_4, Mach1EncodePannerModeIsotropicLinear, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+         {
                 {
                     {0.25, 0.25, 0.25, 0.25},
                 },

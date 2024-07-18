@@ -9,60 +9,52 @@
 
 int main()
 {
-    std::cout << "panner:" << std::endl;
-    
+    bool showDebug = false;
+
+    if (showDebug) {
+        std::cout << "panner:" << std::endl;
+    }
+
     Mach1Encode m1Encode;
-    
     m1Encode.setInputMode(Mach1EncodeInputModeMono);
     m1Encode.setOutputMode(Mach1EncodeOutputModeM1Spatial_14);// Mach1EncodeOutputModeM1Spatial_8);
-    
     m1Encode.setAzimuthDegrees(0.0);
     m1Encode.setDiverge(0.7);
     m1Encode.setElevationDegrees(0.0);
-    
     m1Encode.setAutoOrbit(true);
     m1Encode.setStereoSpread(0.0);
     m1Encode.setOrbitRotationDegrees(0.0);
     m1Encode.setPannerMode(Mach1EncodePannerModeType::Mach1EncodePannerModeIsotropicLinear);
-    
     m1Encode.generatePointResults();
     
     // auto points = m1Encode.getPoints();
     auto resultsEncode = m1Encode.getGains();
     
-    for (size_t i = 0; i < resultsEncode.size(); i++) {
-        for (size_t j = 0; j < resultsEncode[i].size(); j++) {
-            std::cout << resultsEncode[i][j] << std::endl;
+    if (showDebug) {
+        for (size_t i = 0; i < resultsEncode.size(); i++) {
+            for (size_t j = 0; j < resultsEncode[i].size(); j++) {
+                std::cout << resultsEncode[i][j] << std::endl;
+            }
         }
     }
-    std::cout << std::endl;
-    
-    
-    std::cout << "monitor:" << std::endl;
-    
+
+    if (showDebug) {
+        std::cout << std::endl;
+        std::cout << "monitor:" << std::endl;
+    }
     
     Mach1Decode m1Decode;
-    
     m1Decode.setPlatformType(Mach1PlatformDefault);
     m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial_14);// Mach1DecodeAlgoSpatial_8);
     m1Decode.setFilterSpeed(1.0);
-    m1Decode.setRotationDegrees(Mach1Point3D{
-        0.0,
-        0.0,
-        0.0});
+    m1Decode.setRotationDegrees(Mach1Point3D{0.0, 0.0, 0.0});
     
-    
-    
-    m1Decode.beginBuffer();
     auto resultsDecode = m1Decode.decodeCoeffs(0, 0);
-    m1Decode.endBuffer();
     
-    
-    
-    for (size_t i = 0; i < resultsDecode.size() - 2; i++) {
-        std::cout << resultsDecode[i] << std::endl;
-        
-        
+    if (showDebug) {
+        for (size_t i = 0; i < resultsDecode.size() - 2; i++) {
+            std::cout << resultsDecode[i] << std::endl;
+        }
     }
     
     int channels = m1Decode.getFormatChannelCount();
@@ -73,12 +65,13 @@ int main()
         outBufferR += resultsEncode[0][input_channel] * resultsDecode[input_channel * 2 + 1];
     }
     
-    std::cout << std::endl;
-    
-    std::cout << "out" << std::endl;
-    std::cout << outBufferL << std::endl;
-    std::cout << outBufferR << std::endl;
-    std::cout << std::endl;
+    if (showDebug) {
+        std::cout << std::endl;
+        std::cout << "out" << std::endl;
+        std::cout << outBufferL << std::endl;
+        std::cout << outBufferR << std::endl;
+        std::cout << std::endl;
+    }
     
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
     getchar();
@@ -241,9 +234,7 @@ int main()
 //
 //        m1Decode.setRotationDegrees(Mach1Point3D{test.input.yaw, test.input.pitch, test.input.roll});
 //
-//        m1Decode.beginBuffer();
 //        auto decodeResults = m1Decode.decodeCoeffs(0, 0);
-//        m1Decode.endBuffer();
 //
 //        std::cout
 //            << "testing " << test.name << ": "

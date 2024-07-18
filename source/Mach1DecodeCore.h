@@ -132,9 +132,6 @@ class Mach1DecodeCore {
 
     void setFilterSpeed(float filterSpeed);
 
-    void beginBuffer();
-    void endBuffer();
-
     long getCurrentTime();
     long getLastCalculationTime();
 

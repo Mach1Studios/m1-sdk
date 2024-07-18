@@ -407,26 +407,6 @@ SWIGEXPORT void JNICALL Java_com_mach1_spatiallibs_Mach1DecodeModuleJNI_Mach1Dec
 }
 
 
-SWIGEXPORT void JNICALL Java_com_mach1_spatiallibs_Mach1DecodeModuleJNI_Mach1DecodeCAPI_1beginBuffer(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  void *arg1 = (void *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = *(void **)&jarg1; 
-  Mach1DecodeCAPI_beginBuffer(arg1);
-}
-
-
-SWIGEXPORT void JNICALL Java_com_mach1_spatiallibs_Mach1DecodeModuleJNI_Mach1DecodeCAPI_1endBuffer(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  void *arg1 = (void *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = *(void **)&jarg1; 
-  Mach1DecodeCAPI_endBuffer(arg1);
-}
-
-
 SWIGEXPORT jint JNICALL Java_com_mach1_spatiallibs_Mach1DecodeModuleJNI_Mach1DecodeCAPI_1getFormatChannelCount(JNIEnv *jenv, jclass jcls, jlong jarg1) {
   jint jresult = 0 ;
   void *arg1 = (void *) 0 ;

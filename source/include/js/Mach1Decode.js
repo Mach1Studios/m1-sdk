@@ -109,16 +109,6 @@ Module["onRuntimeInitialized"] = function() {
     return a;
    }
   };
-  this.beginBuffer = function() {
-   if (this._m1obj) {
-    this._m1obj.beginBuffer();
-   }
-  };
-  this.endBuffer = function() {
-   if (this._m1obj) {
-    this._m1obj.endBuffer();
-   }
-  };
   this._m1obj = new Module.Mach1DecodeInternal();
  };
 };

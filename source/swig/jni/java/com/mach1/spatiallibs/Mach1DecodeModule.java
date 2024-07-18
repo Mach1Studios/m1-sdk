@@ -50,14 +50,6 @@ public class Mach1DecodeModule {
     Mach1DecodeModuleJNI.Mach1DecodeCAPI_setFilterSpeed(SWIGTYPE_p_void.getCPtr(M1obj), filterSpeed);
   }
 
-  public static void Mach1DecodeCAPI_beginBuffer(SWIGTYPE_p_void M1obj) {
-    Mach1DecodeModuleJNI.Mach1DecodeCAPI_beginBuffer(SWIGTYPE_p_void.getCPtr(M1obj));
-  }
-
-  public static void Mach1DecodeCAPI_endBuffer(SWIGTYPE_p_void M1obj) {
-    Mach1DecodeModuleJNI.Mach1DecodeCAPI_endBuffer(SWIGTYPE_p_void.getCPtr(M1obj));
-  }
-
   public static int Mach1DecodeCAPI_getFormatChannelCount(SWIGTYPE_p_void M1obj) {
     return Mach1DecodeModuleJNI.Mach1DecodeCAPI_getFormatChannelCount(SWIGTYPE_p_void.getCPtr(M1obj));
   }

@@ -80,16 +80,6 @@ public class Mach1Decode {
     arr.delete();
   }
 
-  public void beginBuffer()
-  {
-    Mach1DecodeModuleJNI.Mach1DecodeCAPI_beginBuffer(M1obj);
-  }
-
-  public void endBuffer()
-  {
-    Mach1DecodeModuleJNI.Mach1DecodeCAPI_endBuffer(M1obj);
-  }
-
   public int getFormatChannelCount()
   {
     return Mach1DecodeModuleJNI.Mach1DecodeCAPI_getFormatChannelCount(M1obj);

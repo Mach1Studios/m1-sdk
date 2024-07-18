@@ -33,10 +33,6 @@ updates and should not be integrated in sections but remain as an update-able fa
 #    define PI_F 3.14159265358979323846f
 #endif
 
-#ifndef PI
-#    define PI 3.14159265358979323846
-#endif
-
 class Mach1DecodePositionalCore {
 
   private:

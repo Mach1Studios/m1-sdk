@@ -206,16 +206,6 @@ void Mach1Decode::setFilterSpeed(float filterSpeed) {
     ///     and 1.0 is no filter)
 }
 
-void Mach1Decode::beginBuffer() {
-    Mach1DecodeCAPI_beginBuffer(M1obj);
-    /// Call this function before reading from the Mach1Decode buffer
-}
-
-void Mach1Decode::endBuffer() {
-    Mach1DecodeCAPI_endBuffer(M1obj);
-    /// Call this function after reading from the Mach1Decode buffer
-}
-
 long Mach1Decode::getCurrentTime() {
     return Mach1DecodeCAPI_getCurrentTime(M1obj);
     /// Returns the current elapsed time in milliseconds (ms) since Mach1Decode object creation

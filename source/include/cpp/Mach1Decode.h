@@ -36,9 +36,6 @@ class Mach1Decode {
 
     void setFilterSpeed(float filterSpeed);
 
-    void beginBuffer();
-    void endBuffer();
-
     template <typename T>
     void decodeBuffer(std::vector<std::vector<T>> *inBuffer, std::vector<std::vector<T>> *outBuffer, int inputPoints, int bufferSize);
 
@@ -57,8 +54,6 @@ class Mach1Decode {
 
 template <typename T>
 void Mach1Decode::decodeBuffer(std::vector<std::vector<T>> *inBuffer, std::vector<std::vector<T>> *outBuffer, int inputPoints, int bufferSize) {
-    beginBuffer();
-
     T sample = 0;
     int cOffset = 0;
     int inputChannelsCount = inBuffer->size() / inputPoints;
@@ -87,17 +82,12 @@ void Mach1Decode::decodeBuffer(std::vector<std::vector<T>> *inBuffer, std::vecto
             outBuffer->operator[](c)[i] = sample;
         }
     }
-
-    endBuffer();
 }
 
 template <typename T>
 void Mach1Decode::decodeBuffer(std::vector<T *> *inBuffer, std::vector<T *> *outBuffer, int inputPoints, int bufferSize) {
-    beginBuffer();
-
     T sample = 0;
     int offset = 0;
-
     std::vector<float> startVolumes = decodeCoeffs(bufferSize, 0);
     std::vector<float> endVolumes = decodeCoeffs(bufferSize, bufferSize);
     std::vector<float> volumes(inBuffer->size() * 2);
@@ -121,6 +111,4 @@ void Mach1Decode::decodeBuffer(std::vector<T *> *inBuffer, std::vector<T *> *out
             outBuffer->operator[](c)[i] = sample;
         }
     }
-
-    endBuffer();
 }

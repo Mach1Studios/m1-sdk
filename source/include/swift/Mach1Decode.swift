@@ -51,7 +51,7 @@ public class Mach1Decode {
     public func getFormatCoeffCount() -> Int {
         let count = Mach1DecodeCAPI_getFormatCoeffCount(M1obj)
         return Int(count)
-        /// Returns the number of coeffs for verbose spatial mixer (getFormatChannelCount() * 2 + 2) for format to be decoded
+        /// Returns the number of coeffs for verbose spatial mixer (getFormatChannelCount() * 2) for format to be decoded
     }
 
     public func setRotation(newRotationFromMinusOnetoOne: Mach1Point3D) {
@@ -109,16 +109,6 @@ public class Mach1Decode {
         /// - Parameters: 
         ///     - value range: 0.0001 -> 1.0 (where 0.1 would be a slow filter
         ///     and 1.0 is no filter)
-    }
-    
-    public func beginBuffer() {
-        Mach1DecodeCAPI_beginBuffer(M1obj)
-        /// Call this function before reading from the Mach1Decode buffer
-    }
-    
-    public func endBuffer() {
-        Mach1DecodeCAPI_endBuffer(M1obj)
-        /// Call this function after reading from the Mach1Decode buffer
     }
     
     public func getCurrentTime() -> Int {

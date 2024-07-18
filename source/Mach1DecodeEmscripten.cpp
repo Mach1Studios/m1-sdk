@@ -49,8 +49,6 @@ EMSCRIPTEN_BINDINGS(Mach1Decode) {
         .function("setRotationDegrees", &Mach1Decode::setRotationDegrees)
         .function("setRotationRadians", &Mach1Decode::setRotationRadians)
         .function("setRotationQuat", &Mach1Decode::setRotationQuat)
-        .function("beginBuffer", &Mach1Decode::beginBuffer)
-        .function("endBuffer", &Mach1Decode::endBuffer)
         .function("getCurrentTime", &Mach1Decode::getCurrentTime)
         .function("getCurrentAngle", &Mach1Decode::getCurrentAngle)
         .function("getLog", &Mach1Decode::getLog);

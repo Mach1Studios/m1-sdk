@@ -111,16 +111,6 @@ public class Mach1Decode {
         ///     and 1.0 is no filter)
     }
     
-    public func beginBuffer() {
-        Mach1DecodeCAPI_beginBuffer(M1obj)
-        /// Call this function before reading from the Mach1Decode buffer
-    }
-    
-    public func endBuffer() {
-        Mach1DecodeCAPI_endBuffer(M1obj)
-        /// Call this function after reading from the Mach1Decode buffer
-    }
-    
     public func getCurrentTime() -> Int {
         let t = Mach1DecodeCAPI_getCurrentTime(M1obj)
         return t

@@ -50,12 +50,6 @@ namespace Mach1
         internal static extern void Mach1DecodeCAPI_setFilterSpeed(IntPtr M1obj, float filterSpeed);
 
         [DllImport(libname)]
-        internal static extern void Mach1DecodeCAPI_beginBuffer(IntPtr M1obj);
-
-        [DllImport(libname)]
-        internal static extern void Mach1DecodeCAPI_endBuffer(IntPtr M1obj);
-
-        [DllImport(libname)]
         internal static extern int Mach1DecodeCAPI_getFormatChannelCount(IntPtr M1obj);
 
         [DllImport(libname)]
@@ -195,18 +189,6 @@ namespace Mach1
             /// - Parameters:
             ///     - value range: 0.0001 -> 1.0 (where 0.1 would be a slow filter
             ///     and 1.0 is no filter)
-        }
-
-        public void beginBuffer()
-        {
-            Mach1DecodeCAPI_beginBuffer(M1obj);
-            /// Call this function before reading from the Mach1Decode buffer
-        }
-
-        public void endBuffer()
-        {
-            Mach1DecodeCAPI_endBuffer(M1obj);
-            /// Call this function after reading from the Mach1Decode buffer
         }
 
         public void setRotation(Mach1Point3D newRotationFromMinusOnetoOne)

@@ -132,9 +132,8 @@ int main()
 //};
 //
 //std::map<Mach1DecodeAlgoType, std::string> decodeModeNames = {
-//    {Mach1DecodeAlgoSpatial_8, "Spatial - 8Ch"},
 //    {Mach1DecodeAlgoHorizon_4, "Horizon - 4Ch"},
-//    {Mach1DecodeAlgoHorizonPairs, "Horizon Pairs - 8Ch"},
+//    {Mach1DecodeAlgoSpatial_8, "Spatial - 8Ch"},
 //    {Mach1DecodeAlgoSpatial_12, "Spatial - 12Ch"},
 //    {Mach1DecodeAlgoSpatial_14, "Spatial - 14Ch"},
 //};

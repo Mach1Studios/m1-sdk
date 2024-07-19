@@ -47,18 +47,6 @@ void Mach1DecodePositional::setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmTy
     ///     - Mach1DecodeAlgoSpatial_14 (higher order spatial | 14 channels)
 }
 
-void Mach1DecodePositional::setUseBlendMode(bool useBlendMode) {
-    Mach1DecodePositionalCAPI_setUseBlendMode(M1obj, useBlendMode);
-    /// - Warning: Experimental feature
-    /// - Remark: Part of BlendMode
-}
-
-void Mach1DecodePositional::setIgnoreTopBottom(bool ignoreTopBottom) {
-    Mach1DecodePositionalCAPI_setIgnoreTopBottom(M1obj, ignoreTopBottom);
-    /// - Warning: Experimental feature
-    /// - Remark: Part of BlendMode
-}
-
 void Mach1DecodePositional::setMuteWhenOutsideObject(bool muteWhenOutsideObject) {
     Mach1DecodePositionalCAPI_setMuteWhenOutsideObject(M1obj, muteWhenOutsideObject);
     /// Mute mach1decode object (all coefficifient results becomes 0)
@@ -84,18 +72,6 @@ void Mach1DecodePositional::setAttenuationCurve(float attenuationCurve) {
     ///
     /// - Parameters:
     ///     - Normalized range: 0.0 -> 1.0
-}
-
-void Mach1DecodePositional::setAttenuationCurveBlendMode(float attenuationCurveBlendMode) {
-    Mach1DecodePositionalCAPI_setAttenuationCurveBlendMode(M1obj, attenuationCurveBlendMode);
-    /// Set the current normalized distance per update for blendmode's
-    /// internalattenuation coefficient
-    ///
-    /// - Parameters:
-    ///     - Normalized range: 0.0 -> 1.0
-    ///
-    /// - Warning: Experimental feature
-    /// - Remark: Part of BlendMode
 }
 
 void Mach1DecodePositional::setUsePlaneCalculation(bool usePlaneCalculation) {
@@ -196,14 +172,6 @@ void Mach1DecodePositional::getCoefficients(float *result) {
     ///
     /// - Remark: Result is returned back as the argument, an array of 18 floats is required as an input
 }
-
-void Mach1DecodePositional::getCoefficientsInterior(float *result) {
-    Mach1DecodePositionalCAPI_getCoefficientsInterior(M1obj, result);
-    /// - Warning: Experimental feature
-    /// - Remark: Part of BlendMode
-    ///
-    /// - Remark: Result is returned back as the argument, an array of 18 floats is required as an input
-}
 #endif
 
 void Mach1DecodePositional::getCoefficients(std::vector<float> &result) {
@@ -213,18 +181,18 @@ void Mach1DecodePositional::getCoefficients(std::vector<float> &result) {
     /// - Remark: Result is returned back as the argument, an array of 18 floats is required as an input
 }
 
-void Mach1DecodePositional::getCoefficientsInterior(std::vector<float> &result) {
-    Mach1DecodePositionalCAPI_getCoefficientsInterior(M1obj, result.data());
-    /// - Warning: Experimental feature
-    /// - Remark: Part of BlendMode
-    ///
-    /// - Remark: Result is returned back as the argument, an array of 18 floats is required as an input
-}
-
 float Mach1DecodePositional::getDist() {
     return Mach1DecodePositionalCAPI_getDist(M1obj);
     /// Return a distance calculation of the position of the device/camera
     /// to the position of the m1obj
+}
+
+int Mach1DecodePositional::getFormatChannelCount() {
+    return Mach1DecodePositionalCAPI_getFormatChannelCount(M1obj);
+}
+
+int Mach1DecodePositional::getFormatCoeffCount() {
+    return Mach1DecodePositionalCAPI_getFormatCoeffCount(M1obj);
 }
 
 Mach1Point3D Mach1DecodePositional::getCurrentAngle() {

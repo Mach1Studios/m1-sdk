@@ -226,7 +226,6 @@ glm::vec3 Mach1DecodePositionalCore::GetForwardVector() {
 
 Mach1DecodePositionalCore::Mach1DecodePositionalCore() {
     falloffCurve = 1;
-    falloffCurveBlendMode = 1;
 
     ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     timeLastCalculation = 0;
@@ -244,20 +243,8 @@ void Mach1DecodePositionalCore::setPlatformType(Mach1PlatformType type) {
     mach1Decode.setPlatformType(Mach1PlatformType::Mach1PlatformDefault); // because rotation is already converted by positional
 }
 
-void Mach1DecodePositionalCore::setUseBlendMode(bool useBlendMode) {
-    this->useBlendMode = useBlendMode;
-}
-
 void Mach1DecodePositionalCore::setAttenuationCurve(float attenuationCurve) {
     this->falloffCurve = attenuationCurve;
-}
-
-void Mach1DecodePositionalCore::setAttenuationCurveBlendMode(float attenuationCurveBlendMode) {
-    this->falloffCurveBlendMode = attenuationCurveBlendMode;
-}
-
-void Mach1DecodePositionalCore::setIgnoreTopBottom(bool ignoreTopBottom) {
-    this->ignoreTopBottom = ignoreTopBottom;
 }
 
 void Mach1DecodePositionalCore::setMuteWhenOutsideObject(bool muteWhenOutsideObject) {
@@ -325,10 +312,7 @@ void Mach1DecodePositionalCore::setDecoderAlgoScale(Mach1Point3DCore *scale) {
 void Mach1DecodePositionalCore::evaluatePositionResults() {
     long tStart = getCurrentTime();
 
-    // TODO: Rename this
-    volumeWalls = 1.0f;
-    volumeRoom = 0.0f;
-
+    gain = 1.0f;
     dist = 0;
 
     // Find closest point
@@ -336,10 +320,6 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
 
     glm::vec3 outsideClosestPoint;
     // glm::vec3 insidePoint0, insidePoint1;
-
-    if (ignoreTopBottom && useBlendMode) {
-        cameraPosition.y = soundPosition.y;
-    }
 
     glm::vec3 soundRightVector = soundRotation * GetRightVector();     // glm::vec3(1, 0, 0);// GetRightVector(); // right
     glm::vec3 soundUpVector = soundRotation * GetUpVector();           // glm::vec3(0, 1, 0); // up
@@ -356,23 +336,8 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
         dist = glm::distance(cameraPosition, point);
 
         if (useFalloff) {
-            volumeWalls = volumeWalls * falloffCurve;
+            gain = gain * falloffCurve;
         }
-    } 
-    else if (hasSoundInside && useBlendMode)
-    {
-        glm::mat4 identity(1.0f); // construct identity matrix
-        glm::mat4 translate = glm::translate(identity, soundPosition);
-        glm::mat4 rotate = glm::toMat4(soundRotation);
-        glm::mat4 scale = glm::scale(identity, soundScale);
-        glm::mat4 mat = glm::inverse(translate * rotate * scale);
-        glm::vec3 p0 = 2.0f * (mat * glm::vec4(cameraPosition, 1.0f)); // InverseTransformPoint
-        dist = 1 - std::max(abs(p0.x), std::max(abs(p0.y), abs(p0.z)));
-
-        if (useFalloff) {
-            volumeWalls = volumeWalls * falloffCurveBlendMode;
-        }
-        volumeRoom = 1 - volumeWalls;
     } 
     else if (hasSoundOutside || hasSoundInside) // useCenterPointRotation
     {
@@ -380,16 +345,12 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
 
         if (useFalloff) {
             if (hasSoundOutside) {
-                volumeWalls = volumeWalls * falloffCurve;
-            }
-            if (useBlendMode) {
-                volumeWalls = volumeWalls * falloffCurveBlendMode;
+                gain = gain * falloffCurve;
             }
         }
     } 
     else {
-        volumeWalls = 0;
-        volumeRoom = 0;
+        gain = 0;
     }
 
     closestPointOnPlane = point;
@@ -415,33 +376,32 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
 
         // SoundAlgorithm
         mach1Decode.setRotationDegrees(Mach1Point3DCore{eulerAngles.x, eulerAngles.y, eulerAngles.z});
-        volumes = mach1Decode.decodeCoeffs(0, 0);
+        coeffs = mach1Decode.decodeCoeffs(0, 0);
     } 
     else {
         // Fixed zero distance
         eulerAngles = glm::vec3(0, 0, 0);
 
-        for (int i = 0; i < volumes.size(); i++) {
-            volumes[i] = 0;
+        for (int i = 0; i < coeffs.size(); i++) {
+            coeffs[i] = 0;
         }
-
-        volumeWalls = 0;
-        volumeRoom = 0;
+        gain = 0;
     }
-
     timeLastCalculation = getCurrentTime() - tStart;
 }
 
 void Mach1DecodePositionalCore::getCoefficients(float *result) {
-    for (int i = 0; i < volumes.size(); i++) {
-        result[i] = volumeWalls * volumes[i];
+    for (int i = 0; i < coeffs.size(); i++) {
+        result[i] = gain * coeffs[i];
     }
 }
 
-void Mach1DecodePositionalCore::getCoefficientsInterior(float *result) {
-    for (int i = 0; i < volumes.size(); i++) {
-        result[i] = volumeRoom * volumes[i];
-    }
+int Mach1DecodePositionalCore::getFormatChannelCount() {
+    return mach1Decode.getFormatChannelCount();
+}
+
+int Mach1DecodePositionalCore::getFormatCoeffCount() {
+    return mach1Decode.getFormatCoeffCount();
 }
 
 Mach1Point3DCore Mach1DecodePositionalCore::getCurrentAngle() {

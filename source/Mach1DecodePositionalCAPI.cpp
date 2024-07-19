@@ -106,6 +106,14 @@ float Mach1DecodePositionalCAPI_getDist(void *M1obj) {
     return ((Mach1DecodePositionalCore *)M1obj)->getDist();
 }
 
+int Mach1DecodePositionalCAPI_getFormatChannelCount(void *M1obj) {
+    return ((Mach1DecodePositionalCore *)M1obj)->getFormatChannelCount();
+}
+
+int Mach1DecodePositionalCAPI_getFormatCoeffCount(void *M1obj) {
+    return ((Mach1DecodePositionalCore *)M1obj)->getFormatCoeffCount();
+}
+
 Mach1Point3D Mach1DecodePositionalCAPI_getCurrentAngle(void *M1obj) {
     Mach1Point3DCore angle = ((Mach1DecodePositionalCore *)M1obj)->getCurrentAngle();
     return Mach1Point3D{angle.x, angle.y, angle.z};
@@ -132,18 +140,4 @@ Mach1Point3D Mach1DecodePositionalCAPI_getClosestPointOnPlane(void *M1obj) {
 
 long Mach1DecodePositionalCAPI_getLastCalculationTime(void *M1obj) {
     return ((Mach1DecodePositionalCore *)M1obj)->getLastCalculationTime();
-}
-
-/* Experimental Functions/Features */
-void Mach1DecodePositionalCAPI_setUseBlendMode(void *M1obj, bool useBlendMode) {
-    ((Mach1DecodePositionalCore *)M1obj)->setUseBlendMode(useBlendMode);
-}
-void Mach1DecodePositionalCAPI_setIgnoreTopBottom(void *M1obj, bool ignoreTopBottom) {
-    ((Mach1DecodePositionalCore *)M1obj)->setIgnoreTopBottom(ignoreTopBottom);
-}
-void Mach1DecodePositionalCAPI_setAttenuationCurveBlendMode(void *M1obj, float attenuationCurveBlendMode) {
-    ((Mach1DecodePositionalCore *)M1obj)->setAttenuationCurveBlendMode(attenuationCurveBlendMode);
-}
-void Mach1DecodePositionalCAPI_getCoefficientsInterior(void *M1obj, float *result) {
-    ((Mach1DecodePositionalCore *)M1obj)->getCoefficientsInterior(result);
 }

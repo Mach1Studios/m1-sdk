@@ -62,8 +62,4 @@ EMSCRIPTEN_BINDINGS(Mach1DecodePositional) {
         .function("getCurrentAngle", &Mach1DecodePositional::getCurrentAngle)
         .function("getCoefficientsRotation", &Mach1DecodePositional::getCoefficientsRotation)
         .function("setFilterSpeed", &Mach1DecodePositional::setFilterSpeed)
-        .function("setUseBlendMode", &Mach1DecodePositional::setUseBlendMode)
-        .function("setIgnoreTopBottom", &Mach1DecodePositional::setIgnoreTopBottom)
-        .function("setAttenuationCurveBlendMode", &Mach1DecodePositional::setAttenuationCurveBlendMode)
-        .function("getCoefficientsInterior", &Mach1DecodePositional::getCoefficientsInterior);
 }

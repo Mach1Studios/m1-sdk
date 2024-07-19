@@ -56,6 +56,8 @@ M1_API void Mach1DecodePositionalCAPI_setDecoderAlgoScale(void *M1obj, struct Ma
 M1_API void Mach1DecodePositionalCAPI_evaluatePositionResults(void *M1obj);
 M1_API void Mach1DecodePositionalCAPI_getCoefficients(void *M1obj, float *result);
 M1_API float Mach1DecodePositionalCAPI_getDist(void *M1obj);
+M1_API int Mach1DecodePositionalCAPI_getFormatChannelCount(void *M1obj);
+M1_API int Mach1DecodePositionalCAPI_getFormatCoeffCount(void *M1obj);
 M1_API struct Mach1Point3D Mach1DecodePositionalCAPI_getCurrentAngle(void *M1obj);
 M1_API struct Mach1Point3D Mach1DecodePositionalCAPI_getCurrentAngleInternal(void *M1obj);
 M1_API struct Mach1Point3D Mach1DecodePositionalCAPI_getPositionalRotation(void *M1obj);
@@ -64,12 +66,6 @@ M1_API void Mach1DecodePositionalCAPI_setFilterSpeed(void *M1obj, float filterSp
 M1_API struct Mach1Point3D Mach1DecodePositionalCAPI_getClosestPointOnPlane(void *M1obj);
 
 M1_API long Mach1DecodePositionalCAPI_getLastCalculationTime(void *M1obj);
-
-/* Experimental Functions/Features */
-M1_API void Mach1DecodePositionalCAPI_setUseBlendMode(void *M1obj, bool useBlendMode);
-M1_API void Mach1DecodePositionalCAPI_setIgnoreTopBottom(void *M1obj, bool ignoreTopBottom);
-M1_API void Mach1DecodePositionalCAPI_setAttenuationCurveBlendMode(void *M1obj, float attenuationCurveBlendMode);
-M1_API void Mach1DecodePositionalCAPI_getCoefficientsInterior(void *M1obj, float *result);
 #ifdef __cplusplus
 }
 #endif

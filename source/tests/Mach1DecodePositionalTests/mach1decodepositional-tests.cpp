@@ -38,7 +38,7 @@ void test_results(void) {
         float m1PosX, m1PosY, m1PosZ;
         float m1Yaw, m1Pitch, m1Roll;
         float scaleX, scaleY, scaleZ;
-        bool atttenuate, planeMode, blendMode, muteWhenInside, muteWhenOutside;
+        bool atttenuate, planeMode, muteWhenInside, muteWhenOutside;
         float filterSpeed;
     };
 
@@ -67,7 +67,7 @@ void test_results(void) {
                 0.0, 0.0, 0.0, // m1 pos
                 0.0, 0.0, 0.0, // m1 rot
                 1.0, 1.0, 1.0, // m1 scale
-                false, false, false, true, false, 1.0
+                false, false, true, false, 1.0
             },
             {
                 {
@@ -92,7 +92,7 @@ void test_results(void) {
                 0.0, 0.0, 0.0, // m1 pos
                 0.0, 0.0, 0.0, // m1 rot
                 1.0, 1.0, 1.0, // m1 scale
-                false, false, false, false, true, 1.0
+                false, false, false, true, 1.0
             },
             {
                 {
@@ -122,7 +122,7 @@ void test_results(void) {
                 0.0, 0.0, 5.0, // m1 pos
                 0.0, 0.0, 0.0, // m1 rot
                 1.0, 1.0, 1.0, // m1 scale
-                false, false, false, false, false, 1.0
+                false, false, false, false, 1.0
             },
             {
                 {
@@ -148,7 +148,7 @@ void test_results(void) {
                 0.0, 0.0, 10.0, // m1 pos
                 0.0, 0.0, 0.0, // m1 rot
                 1.0, 1.0, 1.0, // m1 scale
-                false, false, false, false, false, 1.0
+                false, false, false, false, 1.0
             },
             {
                 {
@@ -173,7 +173,7 @@ void test_results(void) {
                 0.0, 0.0, 0.0, // m1 pos
                 0.0, 0.0, 0.0, // m1 rot
                 1.0, 1.0, 1.0, // m1 scale
-                false, false, false, false, false, 1.0
+                false, false, false, false, 1.0
             },
             {
                 {
@@ -198,7 +198,7 @@ void test_results(void) {
                 0.0, 80.0, 0.0, // m1 pos
                 0.0, 0.0, 0.0, // m1 rot
                 1.0, 1.0, 1.0, // m1 scale
-                false, false, false, false, false, 1.0
+                false, false, false, false, 1.0
             },
             {
                 {
@@ -223,7 +223,7 @@ void test_results(void) {
                 0.0, 0.0, 5.0, //m1 pos
                 0.0, 0.0, 0.0, //m1 rot
                 1.0, 1.0, 1.0, //m1 scale
-                false, false, false, false, false, 1.0
+                false, false, false, false, 1.0
             },
             {
                 {
@@ -248,7 +248,7 @@ void test_results(void) {
                 0.0, 0.0, 5.0, //m1 pos
                 0.0, 0.0, 0.0, //m1 rot
                 1.0, 1.0, 1.0, //m1 scale
-                false, false, false, false, false, 1.0
+                false, false, false, false, 1.0
             },
             {
                 {
@@ -273,7 +273,7 @@ void test_results(void) {
                 0.0, 0.0, 5.0, //m1 pos
                 0.0, 0.0, 0.0, //m1 rot
                 1.0, 1.0, 1.0, //m1 scale
-                false, false, false, false, false, 1.0
+                false, false, false, false, 1.0
             },
             {
                 {
@@ -298,7 +298,7 @@ void test_results(void) {
                 0.0, 0.0, 10.0, //m1 pos
                 0.0, 0.0, 0.0, //m1 rot
                 1.0, 1.0, 1.0, //m1 scale
-                false, false, false, false, false, 1.0
+                false, false, false, false, 1.0
             },
             {
                 {
@@ -326,7 +326,7 @@ void test_results(void) {
                 0.0, 0.0, 5.0, //m1 pos in UNITY
                 0.0, 0.0, 0.0, //m1 rot in UNITY
                 1.0, 1.0, 1.0, //m1 scale
-                false, false, false, false, false, 1.0
+                false, false, false, false, 1.0
             },
             {
                 {
@@ -351,7 +351,7 @@ void test_results(void) {
                 0.0, 0.0, 5.0, //m1 pos in UNITY
                 0.0, 0.0, 0.0, //m1 rot in UNITY
                 1.0, 1.0, 1.0, //m1 scale
-                false, false, false, false, false, 1.0
+                false, false, false, false, 1.0
             },
             {
                 {
@@ -376,7 +376,7 @@ void test_results(void) {
                 -3.0, 0.0, 0.0, //m1 pos in UNITY
                 0.0, 0.0, 0.0, //m1 rot in UNITY
                 1.0, 1.0, 1.0, //m1 scale
-                false, false, false, false, false, 1.0
+                false, false, false, false, 1.0
             },
             {
                 {
@@ -403,7 +403,7 @@ void test_results(void) {
                 5.0, 0.0, 5.0, //m1 pos in UNITY
                 0.0, 0.0, 0.0, //m1 rot in UNITY
                 1.0, 1.0, 1.0, //m1 scale
-                false, false, false, false, false, 1.0
+                false, false, false, false, 1.0
             },
             {
                 {
@@ -428,7 +428,7 @@ void test_results(void) {
                 0.0, 0.0, 5.0, //m1 pos in UNITY
                 0.0, 0.0, 0.0, //m1 rot in UNITY
                 1.0, 1.0, 1.0, //m1 scale
-                false, false, false, false, false, 1.0
+                false, false, false, false, 1.0
             },
             {
                 {
@@ -453,7 +453,7 @@ void test_results(void) {
                 0.0, 0.0, 5.0, //m1 pos in UNITY
                 0.0, 0.0, 0.0, //m1 rot in UNITY
                 1.0, 1.0, 1.0, //m1 scale
-                false, false, false, false, false, 1.0
+                false, false, false, false, 1.0
             },
             {
                 {
@@ -478,7 +478,7 @@ void test_results(void) {
                 0.0, 0.0, 5.0, //m1 pos in UNITY
                 0.0, 0.0, 0.0, //m1 rot in UNITY
                 1.0, 1.0, 1.0, //m1 scale
-                false, false, false, false, false, 1.0
+                false, false, false, false, 1.0
             },
             {
                 {
@@ -503,7 +503,7 @@ void test_results(void) {
                 0.0, 0.0, 5.0, //m1 pos in UNITY
                 0.0, 0.0, 0.0, //m1 rot in UNITY
                 1.0, 1.0, 1.0, //m1 scale
-                false, false, false, false, false, 1.0
+                false, false, false, false, 1.0
             },
             {
                 {
@@ -528,7 +528,7 @@ void test_results(void) {
                 5.0, 0.0, 0.0, //m1 pos
                 0.0, 0.0, 0.0, //m1 rot
                 1.0, 1.0, 1.0, //m1 scale
-                false, false, false, false, false, 1.0
+                false, false, false, false, 1.0
             },
             {
                 {
@@ -553,7 +553,7 @@ void test_results(void) {
                 5.0, 0.0, 0.0, //m1 pos
                 0.0, 0.0, 0.0, //m1 rot
                 1.0, 1.0, 1.0, //m1 scale
-                false, false, false, false, false, 1.0
+                false, false, false, false, 1.0
             },
             {
                 {
@@ -578,7 +578,7 @@ void test_results(void) {
                 5.0, 5.0, 0.0, //m1 pos
                 0.0, 0.0, 0.0, //m1 rot
                 1.0, 1.0, 1.0, //m1 scale
-                false, false, false, false, false, 1.0
+                false, false, false, false, 1.0
             },
             {
                 {
@@ -603,7 +603,7 @@ void test_results(void) {
                 5.0, 0.0, 0.0, //m1 pos
                 0.0, 0.0, 0.0, //m1 rot
                 1.0, 1.0, 1.0, //m1 scale
-                false, false, false, false, false, 1.0
+                false, false, false, false, 1.0
             },
             {
                 {
@@ -629,8 +629,6 @@ void test_results(void) {
         m1Decode.setPlatformType(test.input.platformMode);
         m1Decode.setDecodeAlgoType(test.input.outputMode);
         m1Decode.setFilterSpeed(test.input.filterSpeed);
-        m1Decode.setUseBlendMode(test.input.blendMode);
-        m1Decode.setIgnoreTopBottom(false);
         m1Decode.setMuteWhenInsideObject(test.input.muteWhenInside);
         m1Decode.setMuteWhenOutsideObject(test.input.muteWhenOutside);
 
@@ -646,21 +644,20 @@ void test_results(void) {
         m1Decode.setUseYawForRotation(true);
         m1Decode.setUsePitchForRotation(true);
         m1Decode.setUseRollForRotation(true);
-        // Distance Application:
         
+        std::vector<float> results;
+        results.resize(m1Decode.getFormatCoeffCount());
+        m1Decode.evaluatePositionResults();
+        m1Decode.getCoefficients(results);
 
+        // Distance Application:
+        float distance = m1Decode.getDist();
+        float attenuation = mapFloat(distance, 0, 10, 1, 0);
         /*
          Mapping distance to arbitrary linear curve
          Design your own distance coefficient curve here
          This example: Linear curve of 100% -> 0% from 0 to 10 distance away
         */
-
-        m1Decode.evaluatePositionResults();
-        std::vector<float> results;
-        m1Decode.getCoefficients(results);
-
-        float distance = m1Decode.getDist();
-        float attenuation = mapFloat(distance, 0, 10, 1, 0);
 
         std::cout
             << "testing " << test.name << ": "

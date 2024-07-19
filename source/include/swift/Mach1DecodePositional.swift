@@ -41,18 +41,6 @@ public class Mach1DecodePositional {
         ///     - Mach1DecodeAlgoSpatial_14 (higher order spatial | 14 channels)
     }
     
-    public func setUseBlendMode(useBlendMode: Bool) {
-        Mach1DecodePositionalCAPI_setUseBlendMode(M1obj, useBlendMode)
-        /// - Warning: Experimental feature
-        /// - Remark: Part of BlendMode
-    }
-
-    public func setIgnoreTopBottom(ignoreTopBottom: Bool) {
-        Mach1DecodePositionalCAPI_setIgnoreTopBottom(M1obj, ignoreTopBottom)
-        /// - Warning: Experimental feature
-        /// - Remark: Part of BlendMode
-    }
-    
     public func setMuteWhenOutsideObject(muteWhenOutsideObject: Bool) {
         Mach1DecodePositionalCAPI_setMuteWhenOutsideObject(M1obj, muteWhenOutsideObject)
         /// Mute mach1decode object (all coefficifient results becomes 0) 
@@ -78,18 +66,6 @@ public class Mach1DecodePositional {
         ///
         /// - Parameters: 
         ///     - Normalized range: 0.0 -> 1.0
-    }
-
-    public func setAttenuationCurveBlendMode(attenuationCurveBlendMode: Float) {
-        Mach1DecodePositionalCAPI_setAttenuationCurveBlendMode(M1obj, attenuationCurveBlendMode)
-        /// Set the current normalized distance per update for blendmode's 
-        /// internalattenuation coefficient
-        ///
-        /// - Parameters: 
-        ///     - Normalized range: 0.0 -> 1.0
-        ///
-        /// - Warning: Experimental feature
-        /// - Remark: Part of BlendMode
     }
     
     public func setUsePlaneCalculation(bool usePlaneCalculation: Bool) {
@@ -191,19 +167,20 @@ public class Mach1DecodePositional {
         /// - Remark: Result is returned back as the argument, an array of 18 floats is required as an input
     }
 
-    public func getCoefficientsInterior(result: inout [Float]) {
-        let pointer: UnsafeMutablePointer< Float > = UnsafeMutablePointer(&result)
-        Mach1DecodePositionalCAPI_getCoefficientsInterior(M1obj, pointer);
-        /// - Warning: Experimental feature
-        /// - Remark: Part of BlendMode
-        ///
-        /// - Remark: Result is returned back as the argument, an array of 18 floats is required as an input
-    }
-
     public func getDist() -> Float {
         return Mach1DecodePositionalCAPI_getDist(M1obj)
         /// Return a distance calculation of the position of the device/camera
         /// to the position of the m1obj
+    }
+
+    public func getFormatChannelCount() -> Int {
+        return Mach1DecodePositionalCAPI_getFormatChannelCount(M1obj)
+        /// Return number of channels in current decode algorithm
+    }
+
+    public func getFormatCoeffCount() -> Int {
+        return Mach1DecodePositionalCAPI_getFormatCoeffCount(M1obj)
+        /// Return number of coeffs for resizing the results
     }
     
     public func getCurrentAngle() -> Mach1Point3D {
@@ -226,75 +203,5 @@ public class Mach1DecodePositional {
         ///     - value range: 0.0001 -> 1.0 (where 0.1 would be a slow filter
         ///     and 1.0 is no filter)
     }
-
-/* DEPRECATED START*/
-    @available(*, deprecated, message: "Please use setUseAttenuation instead")
-    public func setUseFalloff(useFalloff: Bool) {
-        Mach1DecodePositionalCAPI_setUseFalloff(M1obj, useFalloff)
-        /// Set distance attenuation calculations on that mach1decode object on/off
-        ///
-        /// - Remark: When off, distance remains 1.0
-    }
-    @available(*, deprecated, message: "Please use setAttenuationCurve instead")
-    public func setFalloffCurve(falloffCurve: Float) {
-        Mach1DecodePositionalCAPI_setFalloffCurve(M1obj, falloffCurve)
-    }
-    @available(*, deprecated, message: "Please use setAttenuationCurveBlendMode instead")
-    public func setFalloffCurveBlendMode(falloffCurveBlendMode: Float) {
-        Mach1DecodePositionalCAPI_setFalloffCurveBlendMode(M1obj, falloffCurveBlendMode)
-        /// - Warning: Experimental feature
-        /// - Remark: Part of BlendMode
-    }
-    @available(*, deprecated, message: "Please use setUsePlaneCalculation instead")
-    public func setUseClosestPointRotationMuteInside(bool useClosestPointRotationMuteInside: Bool) {
-        Mach1DecodePositionalCAPI_setUseClosestPointRotationMuteInside(M1obj, useClosestPointRotationMuteInside)
-    }
-    @available(*, deprecated, message: "Please use setListenerPosition instead")
-    public func setCameraPosition(point: Mach1Point3D) {
-       Mach1DecodePositionalCAPI_setCameraPosition(M1obj, point)
-        /// Sets the device/camera's position in desired x,y,z space
-        ///
-        /// - Parameters:
-        ///     - Mach1Point3D Position: x,y,z
-    }
-    @available(*, deprecated, message: "Please use setListenerRotation instead")
-    public func setCameraRotation(point: Mach1Point3D) {
-        Mach1DecodePositionalCAPI_setCameraRotation(M1obj, point)
-        /// Sets the device/camera's orientation with Euler angles
-        ///
-        /// - Parameters:
-        ///     - Mach1Point3D Rotation: yaw,pitch,roll
-    }
-    @available(*, deprecated, message: "Please use setListenerRotationQuat instead")
-    public func setCameraRotationQuat(point: Mach1Point4D) {
-        Mach1DecodePositionalCAPI_setCameraRotationQuat(M1obj, point)
-        /// Sets the device/camera's orientation with Quaternion
-        ///
-        /// - Parameters:
-    }
-    @available(*, deprecated, message: "Please use getCoefficients instead")
-    public func getVolumesWalls(result: inout [Float]) {
-        let pointer: UnsafeMutablePointer< Float > = UnsafeMutablePointer(&result)
-        Mach1DecodePositionalCAPI_getVolumesWalls(M1obj, pointer);
-        /// Return the current coefficients to be applied to the audioplayer's volume
-        ///
-        /// - Remark: Result is returned back as the argument, an array of 18 floats is required as an input
-    }
-    @available(*, deprecated, message: "Please use getCoefficientsInterior instead")
-    public func getVolumesRoom(result: inout [Float]) {
-         let pointer: UnsafeMutablePointer< Float > = UnsafeMutablePointer(&result)
-        Mach1DecodePositionalCAPI_getVolumesRoom(M1obj, pointer);
-        /// - Warning: Experimental feature
-        /// - Remark: Part of BlendMode
-        ///
-        /// - Remark: Result is returned back as the argument, an array of 18 floats is required as an input
-    }
-    @available(*, deprecated, message: "Please use getCoefficientsRotation instead")
-    public func getVolumeRotation() -> Mach1Point3D {
-        return Mach1DecodePositionalCAPI_getVolumeRotation(M1obj)
-        /// Return the current pivot rotation due to the m1obj comparison to the
-        /// device/camera
-    }
-/* DEPRECATED END*/
 
 }

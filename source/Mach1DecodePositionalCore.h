@@ -40,10 +40,6 @@ class Mach1DecodePositionalCore {
 
     bool useFalloff = false;
     float falloffCurve;
-    float falloffCurveBlendMode;
-
-    bool useBlendMode = false;
-    bool ignoreTopBottom = true;
 
     bool muteWhenInsideObject = false;
     bool muteWhenOutsideObject = false;
@@ -77,13 +73,12 @@ class Mach1DecodePositionalCore {
     static glm::vec3 GetUpVector();
     static glm::vec3 GetForwardVector();
 
-    float volumeWalls;
-    float volumeRoom;
+    float gain;
     float dist;
     glm::vec3 eulerAngles;
     glm::vec3 eulerAnglesCube;
 
-    std::vector<float> volumes;
+    std::vector<float> coeffs;
 
     milliseconds ms;
     long timeLastCalculation;
@@ -97,13 +92,8 @@ class Mach1DecodePositionalCore {
     void setPlatformType(Mach1PlatformType type);
 
     // settings
-    void setUseBlendMode(bool useBlendMode);
-
     void setUseAttenuation(bool useAttenuation);
     void setAttenuationCurve(float attenuationCurve);
-    void setAttenuationCurveBlendMode(float attenuationCurveBlendMode);
-
-    void setIgnoreTopBottom(bool ignoreTopBottom);
 
     void setMuteWhenOutsideObject(bool muteWhenOutsideObject);
     void setMuteWhenInsideObject(bool muteWhenInsideObject);
@@ -127,9 +117,11 @@ class Mach1DecodePositionalCore {
     void evaluatePositionResults();
 
     void getCoefficients(float *result);
-    void getCoefficientsInterior(float *result);
 
     float getDist();
+
+    int getFormatChannelCount();
+    int getFormatCoeffCount();
 
     Mach1Point3DCore getCurrentAngle();
     Mach1Point3DCore getCurrentAngleInternal();

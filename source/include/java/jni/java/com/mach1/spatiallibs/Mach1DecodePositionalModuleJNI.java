@@ -36,6 +36,8 @@ class Mach1DecodePositionalModuleJNI {
   public final static native void Mach1DecodePositionalCAPI_evaluatePositionResults(long jarg1);
   public final static native void Mach1DecodePositionalCAPI_getCoefficients(long jarg1, long jarg2);
   public final static native float Mach1DecodePositionalCAPI_getDist(long jarg1);
+  public final static native int Mach1DecodePositionalCAPI_getFormatChannelCount(long jarg1);
+  public final static native int Mach1DecodePositionalCAPI_getFormatCoeffCount(long jarg1);
   public final static native long Mach1DecodePositionalCAPI_getCurrentAngle(long jarg1);
   public final static native long Mach1DecodePositionalCAPI_getCoefficientsRotation(long jarg1);
   public final static native void Mach1DecodePositionalCAPI_setFilterSpeed(long jarg1, float jarg2);

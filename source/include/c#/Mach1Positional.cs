@@ -29,12 +29,6 @@ namespace Mach1
         internal static extern void Mach1DecodePositionalCAPI_setDecodeAlgoType(IntPtr M1obj, Mach1DecodeAlgoType type);
 
         [DllImport(libname)]
-        internal static extern void Mach1DecodePositionalCAPI_setUseBlendMode(IntPtr M1obj, bool useBlendMode);
-
-        [DllImport(libname)]
-        internal static extern void Mach1DecodePositionalCAPI_setIgnoreTopBottom(IntPtr M1obj, bool ignoreTopBottom);
-
-        [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setMuteWhenOutsideObject(IntPtr M1obj, bool muteWhenOutsideObject);
 
         [DllImport(libname)]
@@ -45,9 +39,6 @@ namespace Mach1
 
         [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setAttenuationCurve(IntPtr M1obj, float attenuationCurve);
-
-        [DllImport(libname)]
-        internal static extern void Mach1DecodePositionalCAPI_setAttenuationCurveBlendMode(IntPtr M1obj, float attenuationCurveBlendMode);
 
         [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setUsePlaneCalculation(IntPtr M1obj, bool usePlaneCalculation);
@@ -92,11 +83,14 @@ namespace Mach1
         internal static extern void Mach1DecodePositionalCAPI_getCoefficients(IntPtr M1obj, IntPtr data);
 
         [DllImport(libname)]
-        internal static extern void Mach1DecodePositionalCAPI_getCoefficientsInterior(IntPtr M1obj, IntPtr data);
-
-        [DllImport(libname)]
         internal static extern float Mach1DecodePositionalCAPI_getDist(IntPtr M1obj);
        
+        [DllImport(libname)]
+        internal static extern int Mach1DecodePositionalCAPI_getFormatChannelCount(IntPtr M1obj);
+
+        [DllImport(libname)]
+        internal static extern int Mach1DecodePositionalCAPI_getFormatCoeffCount(IntPtr M1obj);
+
         [DllImport(libname)]
         internal static extern Mach1Point3D Mach1DecodePositionalCAPI_getCurrentAngle(IntPtr M1obj);
 
@@ -153,21 +147,6 @@ namespace Mach1
 
         // SETTINGS
 
-        public void setUseBlendMode(bool useBlendMode)
-        {
-            Mach1DecodePositionalCAPI_setUseBlendMode(M1obj, useBlendMode);
-            /// Warning: Experimental feature
-            /// Remark: Part of BlendMode
-        }
-
-        public void setIgnoreTopBottom(bool ignoreTopBottom)
-        {
-            Mach1DecodePositionalCAPI_setIgnoreTopBottom(M1obj, ignoreTopBottom);
-            /// Warning: Experimental feature
-            /// Remark: Part of BlendMode
-
-        }
-
         public void setMuteWhenOutsideObject(bool muteWhenOutsideObject)
         {
             Mach1DecodePositionalCAPI_setMuteWhenOutsideObject(M1obj, muteWhenOutsideObject);
@@ -193,13 +172,6 @@ namespace Mach1
         public void setAttenuationCurve(float attenuationCurve)
         {
             Mach1DecodePositionalCAPI_setAttenuationCurve(M1obj, attenuationCurve);
-        }
-
-        public void setAttenuationCurveBlendMode(float attenuationCurveBlendMode)
-        {
-            Mach1DecodePositionalCAPI_setAttenuationCurveBlendMode(M1obj, attenuationCurveBlendMode);
-            /// Warning: Experimental feature
-            /// Remark: Part of BlendMode
         }
 
         public void setUsePlaneCalculation(bool usePlaneCalculation)
@@ -313,25 +285,23 @@ namespace Mach1
             /// Return the current coefficients to be applied to the audiopla yer's volume
         }
 
-        public void getCoefficientsInterior(ref float[] data)
-        {
-            ///if(data.Length < 18) data = new float[18];
-            GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
-            IntPtr pointer = pinnedArray.AddrOfPinnedObject();
-
-            Mach1DecodePositionalCAPI_getCoefficientsInterior(M1obj, pointer);
-
-            pinnedArray.Free();
-
-            /// Warning: Experimental feature
-            /// Remark: Part of BlendMode
-        }
-
         public float getDist()
         {
             return Mach1DecodePositionalCAPI_getDist(M1obj);
             /// Return a distance calculation of the position of the device/camera
             /// to the position of the m1obj
+        }
+
+        public int getFormatChannelCount()
+        {
+            return Mach1DecodePositionalCAPI_getFormatChannelCount(M1obj);
+            /// Return number of channels in current decode algorithm
+        }
+
+        public float getFormatCoeffCount()
+        {
+            return Mach1DecodePositionalCAPI_getFormatCoeffCount(M1obj);
+            /// Return number of coeffs for resizing the results
         }
 
         public Mach1Point3D getCurrentAngle()

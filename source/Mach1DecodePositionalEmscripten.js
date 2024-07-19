@@ -206,38 +206,6 @@ Module['onRuntimeInitialized'] = function() {
             }
         };
 
-        /* Experimental Functions/Features */
-        this.setUseBlendMode = function(useBlendMode) {
-            if (this._m1obj) {
-                this._m1obj.setUseBlendMode(useBlendMode);
-            }
-        };
-
-        this.setIgnoreTopBottom = function(ignoreTopBottom) {
-            if (this._m1obj) {
-                this._m1obj.setIgnoreTopBottom(ignoreTopBottom);
-            }
-        };
-
-        this.setAttenuationCurveBlendMode = function(attenuationCurveBlendMode) {
-            if (this._m1obj) {
-                this._m1obj.setAttenuationCurveBlendMode(attenuationCurveBlendMode);
-            }
-        };
-
-        this.getCoefficientsInterior = function() {
-            if (this._m1obj) {
-                var vec = new(Module).VectorFloat();
-                vec.resize(18, 0);
-                this._m1obj.getCoefficientsInterior(vec);
-                var arr = [];
-                for (var i = 0; i < vec.size(); i++) {
-                    arr[i] = vec.get(i);
-                }
-                return arr;
-            }
-        };
-
         this._m1obj = new(Module).Mach1DecodePositionalInternal();
     };
 };

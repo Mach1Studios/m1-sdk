@@ -98,6 +98,14 @@ public class Mach1DecodePositionalModule {
     return Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_getDist(SWIGTYPE_p_void.getCPtr(M1obj));
   }
 
+  public static int Mach1DecodePositionalCAPI_getFormatChannelCount(SWIGTYPE_p_void M1obj) {
+    return Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_getFormatChannelCount(SWIGTYPE_p_void.getCPtr(M1obj));
+  }
+
+  public static int Mach1DecodePositionalCAPI_getFormatCoeffCount(SWIGTYPE_p_void M1obj) {
+    return Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_getFormatCoeffCount(SWIGTYPE_p_void.getCPtr(M1obj));
+  }
+
   public static Mach1Point3D Mach1DecodePositionalCAPI_getCurrentAngle(SWIGTYPE_p_void M1obj) {
     return new Mach1Point3D(Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_getCurrentAngle(SWIGTYPE_p_void.getCPtr(M1obj)), true);
   }
@@ -112,22 +120,6 @@ public class Mach1DecodePositionalModule {
 
   public static int Mach1DecodePositionalCAPI_getLastCalculationTime(SWIGTYPE_p_void M1obj) {
     return Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_getLastCalculationTime(SWIGTYPE_p_void.getCPtr(M1obj));
-  }
-
-  public static void Mach1DecodePositionalCAPI_setUseBlendMode(SWIGTYPE_p_void M1obj, boolean useBlendMode) {
-    Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_setUseBlendMode(SWIGTYPE_p_void.getCPtr(M1obj), useBlendMode);
-  }
-
-  public static void Mach1DecodePositionalCAPI_setIgnoreTopBottom(SWIGTYPE_p_void M1obj, boolean ignoreTopBottom) {
-    Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_setIgnoreTopBottom(SWIGTYPE_p_void.getCPtr(M1obj), ignoreTopBottom);
-  }
-
-  public static void Mach1DecodePositionalCAPI_setAttenuationCurveBlendMode(SWIGTYPE_p_void M1obj, float attenuationCurveBlendMode) {
-    Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_setAttenuationCurveBlendMode(SWIGTYPE_p_void.getCPtr(M1obj), attenuationCurveBlendMode);
-  }
-
-  public static void Mach1DecodePositionalCAPI_getCoefficientsInterior(SWIGTYPE_p_void M1obj, SWIGTYPE_p_float result) {
-    Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_getCoefficientsInterior(SWIGTYPE_p_void.getCPtr(M1obj), SWIGTYPE_p_float.getCPtr(result));
   }
 
 }

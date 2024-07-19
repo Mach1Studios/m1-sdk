@@ -83,9 +83,6 @@ class Mach1DecodeCore {
 
     bool linePlaneIntersection(Mach1Point3DCore &contact, Mach1Point3DCore ray, Mach1Point3DCore rayOrigin, Mach1Point3DCore normal, Mach1Point3DCore coord);
 
-    void horizonPairsAlgoSample(float Yaw, float Pitch, float Roll, float *result);
-    std::vector<float> horizonPairsAlgoSample(float Yaw, float Pitch, float Roll);
-
     void spatialMultichannelAlgo(Mach1Point3DCore *channelPoints, int numChannelPoints, float Yaw, float Pitch, float Roll, float *result);
 
     void spatialAlgoSample_8(float Yaw, float Pitch, float Roll, float *result);
@@ -174,21 +171,6 @@ class Mach1DecodeCore {
     std::vector<float> horizonAlgo_4(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
 
     void horizonAlgo_4(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
-
-    // ------------------------------------------------------------------
-
-    //
-    //  Four pairs audio format.
-    //
-    //  Order of input angles:
-    //  Y = Yaw in degrees
-    //  P = Pitch in degrees
-    //  R = Roll in degrees
-    //
-
-    std::vector<float> horizonPairsAlgo(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-
-    void horizonPairsAlgo(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
 
     // ------------------------------------------------------------------
 

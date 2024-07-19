@@ -38,9 +38,8 @@ enum Mach1PlatformType {
 };
 
 enum Mach1DecodeAlgoType {
-    Mach1DecodeAlgoSpatial_8 = (int)0,
-    Mach1DecodeAlgoHorizon_4,
-    Mach1DecodeAlgoHorizonPairs,
+    Mach1DecodeAlgoHorizon_4 = (int)0,
+    Mach1DecodeAlgoSpatial_8,
     Mach1DecodeAlgoSpatial_12,
     Mach1DecodeAlgoSpatial_14
 };

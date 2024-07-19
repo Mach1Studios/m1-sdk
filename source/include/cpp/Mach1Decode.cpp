@@ -32,9 +32,8 @@ void Mach1Decode::setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType) {
     /// Set the decoding algorithm
     ///
     /// - Parameters:
-    ///     - Mach1DecodeAlgoSpatial_8 (default spatial | 8 channels)
     ///     - Mach1DecodeAlgoHorizon_4 (compass / yaw | 4 channels)
-    ///     - Mach1DecodeAlgoHorizonPairs (compass / yaw | 4x stereo mastered pairs)
+    ///     - Mach1DecodeAlgoSpatial_8 (spatial | 8 channels)
     ///     - Mach1DecodeAlgoSpatial_12 (higher order spatial | 12 channels)
     ///     - Mach1DecodeAlgoSpatial_14 (higher order spatial | 14 channels)
 }

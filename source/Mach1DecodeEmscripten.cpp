@@ -18,9 +18,8 @@ EMSCRIPTEN_BINDINGS(Mach1Decode) {
         .value("Mach1PlatformiOSPortrait_YawOnly", Mach1PlatformiOSPortrait_YawOnly);
 
     enum_<Mach1DecodeAlgoType>("Mach1DecodeAlgoType")
-        .value("Mach1DecodeAlgoSpatial_8", Mach1DecodeAlgoSpatial_8)
         .value("Mach1DecodeAlgoHorizon_4", Mach1DecodeAlgoHorizon_4)
-        .value("Mach1DecodeAlgoHorizonPairs", Mach1DecodeAlgoHorizonPairs)
+        .value("Mach1DecodeAlgoSpatial_8", Mach1DecodeAlgoSpatial_8)
         .value("Mach1DecodeAlgoSpatial_12", Mach1DecodeAlgoSpatial_12)
         .value("Mach1DecodeAlgoSpatial_14", Mach1DecodeAlgoSpatial_14);
 

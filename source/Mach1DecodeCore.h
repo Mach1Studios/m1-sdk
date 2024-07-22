@@ -24,8 +24,8 @@ Mach1DecodeCore normalizes all input ranges to an unsigned "0 to 1" range for Ya
 #include <vector>
 
 #include "Mach1DecodeCAPI.h"
-#include "Mach1Point3DCore.h"
-#include "Mach1Point4DCore.h"
+#include "Mach1Point3D.h"
+#include "Mach1Point4D.h"
 
 #ifndef SWIG
 using namespace std::chrono;
@@ -79,11 +79,11 @@ class Mach1DecodeCore {
 
     Mach1DecodeAlgoType algorithmType;
 
-    inline float _dot(const Mach1Point3DCore &p1, const Mach1Point3DCore &p2) const;
+    inline float _dot(const Mach1Point3D &p1, const Mach1Point3D &p2) const;
 
-    bool linePlaneIntersection(Mach1Point3DCore &contact, Mach1Point3DCore ray, Mach1Point3DCore rayOrigin, Mach1Point3DCore normal, Mach1Point3DCore coord);
+    bool linePlaneIntersection(Mach1Point3D &contact, Mach1Point3D ray, Mach1Point3D rayOrigin, Mach1Point3D normal, Mach1Point3D coord);
 
-    void spatialMultichannelAlgo(Mach1Point3DCore *channelPoints, int numChannelPoints, float Yaw, float Pitch, float Roll, float *result);
+    void spatialMultichannelAlgo(Mach1Point3D *channelPoints, int numChannelPoints, float Yaw, float Pitch, float Roll, float *result);
 
     void spatialAlgoSample_8(float Yaw, float Pitch, float Roll, float *result);
     std::vector<float> spatialAlgoSample_8(float Yaw, float Pitch, float Roll);
@@ -98,7 +98,7 @@ class Mach1DecodeCore {
     std::vector<std::string> strLog;
     void addToLog(std::string str, int maxCount = 100);
 
-    Mach1Point3DCore rotation;
+    Mach1Point3D rotation;
 
   public:
     char *getLog();
@@ -112,7 +112,7 @@ class Mach1DecodeCore {
     // static void convertQuaternionToMach1(Mach1PlatformType platformType, float* X, float* Y, float* Z, float* W);
     // static void convertQuaternionToPlatform(Mach1PlatformType platformType, float* Y, float* P, float* R);
 
-    Mach1Point3DCore getCurrentAngle();
+    Mach1Point3D getCurrentAngle();
 
     Mach1DecodeCore();
 
@@ -122,10 +122,10 @@ class Mach1DecodeCore {
     int getFormatChannelCount();
     int getFormatCoeffCount();
 
-    void setRotation(Mach1Point3DCore newRotationFromMinusOnetoOne);
-    void setRotationDegrees(Mach1Point3DCore newRotationDegrees);
-    void setRotationRadians(Mach1Point3DCore newRotationRadians);
-    void setRotationQuat(Mach1Point4DCore newRotationQuat);
+    void setRotation(Mach1Point3D newRotationFromMinusOnetoOne);
+    void setRotationDegrees(Mach1Point3D newRotationDegrees);
+    void setRotationRadians(Mach1Point3D newRotationRadians);
+    void setRotationQuat(Mach1Point4D newRotationQuat);
 
     void setFilterSpeed(float filterSpeed);
 

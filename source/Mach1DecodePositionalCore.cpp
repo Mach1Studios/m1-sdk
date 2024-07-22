@@ -275,37 +275,37 @@ void Mach1DecodePositionalCore::setUseRollForRotation(bool useRollForRotation) {
     this->useRollForRotation = useRollForRotation;
 }
 
-void Mach1DecodePositionalCore::setListenerPosition(Mach1Point3DCore *pos) {
+void Mach1DecodePositionalCore::setListenerPosition(Mach1Point3D *pos) {
     ConvertPositionToMach1(platformType, &pos->x, &pos->y, &pos->z);
     cameraPosition = glm::vec3(pos->x, pos->y, pos->z);
 }
 
-void Mach1DecodePositionalCore::setListenerRotation(Mach1Point3DCore *euler) {
-    Mach1Point3DCore angle(euler->x, euler->y, euler->z);
+void Mach1DecodePositionalCore::setListenerRotation(Mach1Point3D *euler) {
+    Mach1Point3D angle(euler->x, euler->y, euler->z);
     Mach1DecodeCore::convertAnglesToMach1(platformType, &angle.x, &angle.y, &angle.z);
     cameraRotation = EulerToQuaternion(glm::vec3(angle.x, angle.y, angle.z) * DEG_TO_RAD_F);
 }
 
-void Mach1DecodePositionalCore::setListenerRotationQuat(Mach1Point4DCore *quat) {
+void Mach1DecodePositionalCore::setListenerRotationQuat(Mach1Point4D *quat) {
     cameraRotation = glm::quat(quat->w, quat->x, quat->y, quat->z);
 }
 
-void Mach1DecodePositionalCore::setDecoderAlgoPosition(Mach1Point3DCore *pos) {
+void Mach1DecodePositionalCore::setDecoderAlgoPosition(Mach1Point3D *pos) {
     ConvertPositionToMach1(platformType, &pos->x, &pos->y, &pos->z);
     soundPosition = glm::vec3(pos->x, pos->y, pos->z);
 }
 
-void Mach1DecodePositionalCore::setDecoderAlgoRotation(Mach1Point3DCore *euler) {
-    Mach1Point3DCore angle(euler->x, euler->y, euler->z);
+void Mach1DecodePositionalCore::setDecoderAlgoRotation(Mach1Point3D *euler) {
+    Mach1Point3D angle(euler->x, euler->y, euler->z);
     Mach1DecodeCore::convertAnglesToMach1(platformType, &angle.x, &angle.y, &angle.z);
     soundRotation = EulerToQuaternion(glm::vec3(angle.x, angle.y, angle.z) * DEG_TO_RAD_F);
 }
 
-void Mach1DecodePositionalCore::setDecoderAlgoRotationQuat(Mach1Point4DCore *quat) {
+void Mach1DecodePositionalCore::setDecoderAlgoRotationQuat(Mach1Point4D *quat) {
     soundRotation = glm::quat(quat->w, quat->x, quat->y, quat->z);
 }
 
-void Mach1DecodePositionalCore::setDecoderAlgoScale(Mach1Point3DCore *scale) {
+void Mach1DecodePositionalCore::setDecoderAlgoScale(Mach1Point3D *scale) {
     soundScale = glm::vec3(scale->x, scale->y, scale->z);
 }
 
@@ -375,7 +375,7 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
         eulerAngles = QuaternionToEuler(glm::normalize(quat)) * RAD_TO_DEG_F;
 
         // SoundAlgorithm
-        mach1Decode.setRotationDegrees(Mach1Point3DCore{eulerAngles.x, eulerAngles.y, eulerAngles.z});
+        mach1Decode.setRotationDegrees(Mach1Point3D{eulerAngles.x, eulerAngles.y, eulerAngles.z});
         coeffs = mach1Decode.decodeCoeffs(0, 0);
     } 
     else {
@@ -404,26 +404,26 @@ int Mach1DecodePositionalCore::getFormatCoeffCount() {
     return mach1Decode.getFormatCoeffCount();
 }
 
-Mach1Point3DCore Mach1DecodePositionalCore::getCurrentAngle() {
+Mach1Point3D Mach1DecodePositionalCore::getCurrentAngle() {
     glm::vec3 angle = eulerAngles;
     Mach1DecodeCore::convertAnglesToPlatform(platformType, &angle.x, &angle.y, &angle.z);
-    return Mach1Point3DCore{angle.x, angle.y, angle.z};
+    return Mach1Point3D{angle.x, angle.y, angle.z};
 }
 
-Mach1Point3DCore Mach1DecodePositionalCore::getCurrentAngleInternal() {
-    return Mach1Point3DCore{eulerAngles.x, eulerAngles.y, eulerAngles.z};
+Mach1Point3D Mach1DecodePositionalCore::getCurrentAngleInternal() {
+    return Mach1Point3D{eulerAngles.x, eulerAngles.y, eulerAngles.z};
 }
 
-Mach1Point3DCore Mach1DecodePositionalCore::getPositionalRotation() {
+Mach1Point3D Mach1DecodePositionalCore::getPositionalRotation() {
     glm::vec3 angle = eulerAnglesCube;
     Mach1DecodeCore::convertAnglesToPlatform(platformType, &angle.x, &angle.y, &angle.z);
-    return Mach1Point3DCore{angle.x, angle.y, angle.z};
+    return Mach1Point3D{angle.x, angle.y, angle.z};
 }
 
-Mach1Point3DCore Mach1DecodePositionalCore::getClosestPointOnPlane() {
+Mach1Point3D Mach1DecodePositionalCore::getClosestPointOnPlane() {
     glm::vec3 p = closestPointOnPlane;
     ConvertPositionToPlatform(platformType, &p.x, &p.y, &p.z);
-    return Mach1Point3DCore{p.x, p.y, p.z};
+    return Mach1Point3D{p.x, p.y, p.z};
 }
 
 float Mach1DecodePositionalCore::getDist() {

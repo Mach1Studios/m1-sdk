@@ -60,37 +60,37 @@ void Mach1DecodePositionalCAPI_setUseRollForRotation(void *M1obj, bool useRollFo
 }
 
 void Mach1DecodePositionalCAPI_setListenerPosition(void *M1obj, Mach1Point3D point) {
-    Mach1Point3DCore pnt{point.x, point.y, point.z};
+    Mach1Point3D pnt{point.x, point.y, point.z};
     ((Mach1DecodePositionalCore *)M1obj)->setListenerPosition(&pnt);
 }
 
 void Mach1DecodePositionalCAPI_setListenerRotation(void *M1obj, Mach1Point3D point) {
-    Mach1Point3DCore pnt{point.x, point.y, point.z};
+    Mach1Point3D pnt{point.x, point.y, point.z};
     ((Mach1DecodePositionalCore *)M1obj)->setListenerRotation(&pnt);
 }
 
 void Mach1DecodePositionalCAPI_setListenerRotationQuat(void *M1obj, Mach1Point4D point) {
-    Mach1Point4DCore pnt{point.x, point.y, point.z, point.w};
+    Mach1Point4D pnt{point.x, point.y, point.z, point.w};
     ((Mach1DecodePositionalCore *)M1obj)->setListenerRotationQuat(&pnt);
 }
 
 void Mach1DecodePositionalCAPI_setDecoderAlgoPosition(void *M1obj, Mach1Point3D point) {
-    Mach1Point3DCore pnt{point.x, point.y, point.z};
+    Mach1Point3D pnt{point.x, point.y, point.z};
     ((Mach1DecodePositionalCore *)M1obj)->setDecoderAlgoPosition(&pnt);
 }
 
 void Mach1DecodePositionalCAPI_setDecoderAlgoRotation(void *M1obj, Mach1Point3D point) {
-    Mach1Point3DCore pnt{point.x, point.y, point.z};
+    Mach1Point3D pnt{point.x, point.y, point.z};
     ((Mach1DecodePositionalCore *)M1obj)->setDecoderAlgoRotation(&pnt);
 }
 
 void Mach1DecodePositionalCAPI_setDecoderAlgoRotationQuat(void *M1obj, Mach1Point4D point) {
-    Mach1Point4DCore pnt{point.x, point.y, point.z, point.w};
+    Mach1Point4D pnt{point.x, point.y, point.z, point.w};
     ((Mach1DecodePositionalCore *)M1obj)->setDecoderAlgoRotationQuat(&pnt);
 }
 
 void Mach1DecodePositionalCAPI_setDecoderAlgoScale(void *M1obj, Mach1Point3D point) {
-    Mach1Point3DCore pnt{point.x, point.y, point.z};
+    Mach1Point3D pnt{point.x, point.y, point.z};
     ((Mach1DecodePositionalCore *)M1obj)->setDecoderAlgoScale(&pnt);
 }
 
@@ -115,17 +115,17 @@ int Mach1DecodePositionalCAPI_getFormatCoeffCount(void *M1obj) {
 }
 
 Mach1Point3D Mach1DecodePositionalCAPI_getCurrentAngle(void *M1obj) {
-    Mach1Point3DCore angle = ((Mach1DecodePositionalCore *)M1obj)->getCurrentAngle();
+    Mach1Point3D angle = ((Mach1DecodePositionalCore *)M1obj)->getCurrentAngle();
     return Mach1Point3D{angle.x, angle.y, angle.z};
 }
 
 Mach1Point3D Mach1DecodePositionalCAPI_getCurrentAngleInternal(void *M1obj) {
-    Mach1Point3DCore angle = ((Mach1DecodePositionalCore *)M1obj)->getCurrentAngleInternal();
+    Mach1Point3D angle = ((Mach1DecodePositionalCore *)M1obj)->getCurrentAngleInternal();
     return Mach1Point3D{angle.x, angle.y, angle.z};
 }
 
 Mach1Point3D Mach1DecodePositionalCAPI_getPositionalRotation(void *M1obj) {
-    Mach1Point3DCore angle = ((Mach1DecodePositionalCore *)M1obj)->getPositionalRotation();
+    Mach1Point3D angle = ((Mach1DecodePositionalCore *)M1obj)->getPositionalRotation();
     return Mach1Point3D{angle.x, angle.y, angle.z};
 }
 
@@ -134,7 +134,7 @@ void Mach1DecodePositionalCAPI_setFilterSpeed(void *M1obj, float filterSpeed) {
 }
 
 Mach1Point3D Mach1DecodePositionalCAPI_getClosestPointOnPlane(void *M1obj) {
-    Mach1Point3DCore p = ((Mach1DecodePositionalCore *)M1obj)->getClosestPointOnPlane();
+    Mach1Point3D p = ((Mach1DecodePositionalCore *)M1obj)->getClosestPointOnPlane();
     return Mach1Point3D{p.x, p.y, p.z};
 }
 

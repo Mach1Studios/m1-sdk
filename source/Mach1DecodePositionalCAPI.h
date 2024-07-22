@@ -45,25 +45,25 @@ M1_API void Mach1DecodePositionalCAPI_setUseYawForRotation(void *M1obj, bool use
 M1_API void Mach1DecodePositionalCAPI_setUsePitchForRotation(void *M1obj, bool usePitchForRotation);
 M1_API void Mach1DecodePositionalCAPI_setUseRollForRotation(void *M1obj, bool useRollForRotation);
 
-M1_API void Mach1DecodePositionalCAPI_setListenerPosition(void *M1obj, struct Mach1Point3D point);
-M1_API void Mach1DecodePositionalCAPI_setListenerRotation(void *M1obj, struct Mach1Point3D point);
-M1_API void Mach1DecodePositionalCAPI_setListenerRotationQuat(void *M1obj, struct Mach1Point4D point);
-M1_API void Mach1DecodePositionalCAPI_setDecoderAlgoPosition(void *M1obj, struct Mach1Point3D point);
-M1_API void Mach1DecodePositionalCAPI_setDecoderAlgoRotation(void *M1obj, struct Mach1Point3D point);
-M1_API void Mach1DecodePositionalCAPI_setDecoderAlgoRotationQuat(void *M1obj, struct Mach1Point4D point);
-M1_API void Mach1DecodePositionalCAPI_setDecoderAlgoScale(void *M1obj, struct Mach1Point3D point);
+M1_API void Mach1DecodePositionalCAPI_setListenerPosition(void *M1obj, Mach1Point3D point);
+M1_API void Mach1DecodePositionalCAPI_setListenerRotation(void *M1obj, Mach1Point3D point);
+M1_API void Mach1DecodePositionalCAPI_setListenerRotationQuat(void *M1obj, Mach1Point4D point);
+M1_API void Mach1DecodePositionalCAPI_setDecoderAlgoPosition(void *M1obj, Mach1Point3D point);
+M1_API void Mach1DecodePositionalCAPI_setDecoderAlgoRotation(void *M1obj, Mach1Point3D point);
+M1_API void Mach1DecodePositionalCAPI_setDecoderAlgoRotationQuat(void *M1obj, Mach1Point4D point);
+M1_API void Mach1DecodePositionalCAPI_setDecoderAlgoScale(void *M1obj, Mach1Point3D point);
 
 M1_API void Mach1DecodePositionalCAPI_evaluatePositionResults(void *M1obj);
 M1_API void Mach1DecodePositionalCAPI_getCoefficients(void *M1obj, float *result);
 M1_API float Mach1DecodePositionalCAPI_getDist(void *M1obj);
 M1_API int Mach1DecodePositionalCAPI_getFormatChannelCount(void *M1obj);
 M1_API int Mach1DecodePositionalCAPI_getFormatCoeffCount(void *M1obj);
-M1_API struct Mach1Point3D Mach1DecodePositionalCAPI_getCurrentAngle(void *M1obj);
-M1_API struct Mach1Point3D Mach1DecodePositionalCAPI_getCurrentAngleInternal(void *M1obj);
-M1_API struct Mach1Point3D Mach1DecodePositionalCAPI_getPositionalRotation(void *M1obj);
+M1_API Mach1Point3D Mach1DecodePositionalCAPI_getCurrentAngle(void *M1obj);
+M1_API Mach1Point3D Mach1DecodePositionalCAPI_getCurrentAngleInternal(void *M1obj);
+M1_API Mach1Point3D Mach1DecodePositionalCAPI_getPositionalRotation(void *M1obj);
 M1_API void Mach1DecodePositionalCAPI_setFilterSpeed(void *M1obj, float filterSpeed);
 
-M1_API struct Mach1Point3D Mach1DecodePositionalCAPI_getClosestPointOnPlane(void *M1obj);
+M1_API Mach1Point3D Mach1DecodePositionalCAPI_getClosestPointOnPlane(void *M1obj);
 
 M1_API long Mach1DecodePositionalCAPI_getLastCalculationTime(void *M1obj);
 #ifdef __cplusplus

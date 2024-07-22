@@ -2,7 +2,7 @@
 //  Copyright © 2017-2020 Mach1. All rights reserved.
 
 #include "Mach1TranscodeCAPI.h"
-#include "Mach1Point3DCore.h"
+#include "Mach1Point3D.h"
 #include "Mach1TranscodeCore.h"
 
 void *Mach1TranscodeCAPI_create() {
@@ -83,7 +83,7 @@ void Mach1TranscodeCAPI_setInputFormatCustomPointsJson(void *M1obj, char *strJso
 }
 
 void Mach1TranscodeCAPI_setInputFormatCustomPoints(void *M1obj, Mach1Point3D *points, int count) {
-    ((Mach1TranscodeCore *)M1obj)->setInputFormatCustomPoints(std::vector<Mach1Point3DCore>((Mach1Point3DCore *)points, (Mach1Point3DCore *)points + count));
+    ((Mach1TranscodeCore *)M1obj)->setInputFormatCustomPoints(std::vector<Mach1Point3D>((Mach1Point3D *)points, (Mach1Point3D *)points + count));
 }
 
 void Mach1TranscodeCAPI_setOutputFormat(void *M1obj, int outFmt) {
@@ -95,7 +95,7 @@ void Mach1TranscodeCAPI_setOutputFormatCustomPointsJson(void *M1obj, char *strJs
 }
 
 void Mach1TranscodeCAPI_setOutputFormatCustomPoints(void *M1obj, Mach1Point3D *points, int count) {
-    ((Mach1TranscodeCore *)M1obj)->setOutputFormatCustomPoints(std::vector<Mach1Point3DCore>((Mach1Point3DCore *)points, (Mach1Point3DCore *)points + count));
+    ((Mach1TranscodeCore *)M1obj)->setOutputFormatCustomPoints(std::vector<Mach1Point3D>((Mach1Point3D *)points, (Mach1Point3D *)points + count));
 }
 
 void Mach1TranscodeCAPI_setCustomPointsSamplerCallback(void *M1obj, Mach1Point3D *(*callback)(long long, int &)) {

@@ -28,15 +28,15 @@ void Mach1EncodeCAPI_delete(void *M1obj) {
 }
 
 void *Mach1EncodeCAPI_getPoints(void *M1obj) {
-    std::vector<Mach1Point3DCore> vec = ((M1EncodeCore *)M1obj)->resultingPoints.getPoints();
+    std::vector<Mach1Point3D> vec = ((M1EncodeCore *)M1obj)->resultingPoints.getPoints();
 
     // clear
     for (int i = 0; i < MAX_POINTS_COUNT; i++) {
-        ((M1EncodeCore *)M1obj)->arr_Points[i] = Mach1Point3DCore();
+        ((M1EncodeCore *)M1obj)->arr_Points[i] = Mach1Point3D();
     }
 
     for (int i = 0; i < vec.size(); i++)
-        std::memcpy(&(((M1EncodeCore *)M1obj)->arr_Points[i]), &vec[i], sizeof(Mach1Point3DCore));
+        std::memcpy(&(((M1EncodeCore *)M1obj)->arr_Points[i]), &vec[i], sizeof(Mach1Point3D));
 
     return ((M1EncodeCore *)M1obj)->arr_Points;
 }

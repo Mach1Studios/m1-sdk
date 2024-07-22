@@ -120,14 +120,13 @@ int main(int argc, const char * argv[]) {
         m1Decode.setDecodeAlgoType(outputFormat);
         m1Decode.setFilterSpeed(1.0);
 
-        m1Decode.beginBuffer();
         orientation.x = yaw;
         orientation.y = pitch;
         orientation.z = roll;
         m1Decode.setRotationDegrees(orientation);
         m1Coeffs = m1Decode.decodeCoeffs();
         m1PannedCoeffs = m1Decode.decodePannedCoeffs();
-        m1Decode.endBuffer();
+
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> elapsed = end - start;
         timeReturned = (float)elapsed.count();

@@ -105,14 +105,14 @@ class Mach1DecodePositionalCore {
     void setUseRollForRotation(bool useRollForRotation);
 
     // parameters for algo
-    void setListenerPosition(Mach1Point3DCore *pos);
-    void setListenerRotation(Mach1Point3DCore *euler);
-    void setListenerRotationQuat(Mach1Point4DCore *quat);
+    void setListenerPosition(Mach1Point3D *pos);
+    void setListenerRotation(Mach1Point3D *euler);
+    void setListenerRotationQuat(Mach1Point4D *quat);
 
-    void setDecoderAlgoPosition(Mach1Point3DCore *pos);
-    void setDecoderAlgoRotation(Mach1Point3DCore *euler);
-    void setDecoderAlgoRotationQuat(Mach1Point4DCore *quat);
-    void setDecoderAlgoScale(Mach1Point3DCore *scale);
+    void setDecoderAlgoPosition(Mach1Point3D *pos);
+    void setDecoderAlgoRotation(Mach1Point3D *euler);
+    void setDecoderAlgoRotationQuat(Mach1Point4D *quat);
+    void setDecoderAlgoScale(Mach1Point3D *scale);
 
     void evaluatePositionResults();
 
@@ -123,11 +123,11 @@ class Mach1DecodePositionalCore {
     int getFormatChannelCount();
     int getFormatCoeffCount();
 
-    Mach1Point3DCore getCurrentAngle();
-    Mach1Point3DCore getCurrentAngleInternal();
-    Mach1Point3DCore getPositionalRotation();
+    Mach1Point3D getCurrentAngle();
+    Mach1Point3D getCurrentAngleInternal();
+    Mach1Point3D getPositionalRotation();
 
-    Mach1Point3DCore getClosestPointOnPlane();
+    Mach1Point3D getClosestPointOnPlane();
 
     void setFilterSpeed(float filterSpeed);
 

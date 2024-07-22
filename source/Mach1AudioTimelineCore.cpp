@@ -158,13 +158,13 @@ void Mach1AudioTimelineCore::parseAtmos(char *inDotAtmos, char *inDotAtmosDotMet
                 float Rotation = atan2(x, y) * 180 / PI;
                 float Diverge = 100 * sqrtf(x * x + y * y) / sqrtf(2.0);
 
-                Mach1Point3DCore a(x, y, z);
-                Mach1Point3DCore b(x, y, 0.0);
+                Mach1Point3D a(x, y, z);
+                Mach1Point3D b(x, y, 0.0);
 
                 float Elevation = 0;
                 if (a != b) {
                     // vector_angle_between
-                    Elevation = (acos(Mach1Point3DCore::dot(a, b)) / (a.length() * b.length())) * 180 / PI;
+                    Elevation = (acos(Mach1Point3D::dot(a, b)) / (a.length() * b.length())) * 180 / PI;
                 }
 
                 float xConv, yConv;

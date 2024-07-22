@@ -70,7 +70,7 @@ static void* decode(void* v);
 static pthread_t thread;
 static bool done = false;
 Mach1DecodePositional m1Decode;
-static std::vector<float> m1Coeffs;
+std::vector<float> m1Coeffs;
 
 /*
  Positional 3D Coords
@@ -130,8 +130,6 @@ int main(int argc, const char * argv[]) {
 	m1Decode.setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial_8);
 	m1Decode.setFilterSpeed(1.0);
     
-    m1Decode.setUseBlendMode(false);
-    m1Decode.setIgnoreTopBottom(false);
     m1Decode.setMuteWhenInsideObject(false);
     m1Decode.setMuteWhenOutsideObject(false);
         
@@ -152,8 +150,9 @@ int main(int argc, const char * argv[]) {
         m1Decode.setUseYawForRotation(true);
         m1Decode.setUsePitchForRotation(true);
         m1Decode.setUseRollForRotation(true);
-        m1Decode.evaluatePositionResults();
         m1Decode.setUsePlaneCalculation(false);
+        m1Decode.evaluatePositionResults();
+
         //Distance Application:
         distance = m1Decode.getDist();
         /*
@@ -164,6 +163,8 @@ int main(int argc, const char * argv[]) {
         m1Decode.setUseAttenuation(attenuationActive);
         attenuation = mapFloat(distance, 0, 10, 1, 0);
         m1Decode.setAttenuationCurve(attenuation);
+        
+        m1Coeffs.resize(m1Decode.getFormatCoeffCount());
         m1Decode.getCoefficients(m1Coeffs);
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> elapsed = end - start;

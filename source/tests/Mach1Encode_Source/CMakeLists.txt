@@ -48,7 +48,7 @@ message(STATUS "CMAKE_CXX_COMPILE_OBJECT='${CMAKE_CXX_COMPILE_OBJECT}'")
 #----------------
 
 # Mach1Encode
-set(Mach1EncodeCAPIsrc "../../Mach1EncodeCAPI.cpp" "../../Mach1EncodeCore.cpp" "../../include/cpp/Mach1Encode.cpp" "../../Mach1Point3DCore.cpp")
+set(Mach1EncodeCAPIsrc "../../Mach1EncodeCAPI.cpp" "../../Mach1EncodeCore.cpp" "../../include/cpp/Mach1Encode.cpp" "../../Mach1Point3D.cpp")
 
 # create the executable
 add_executable(Mach1Encode_Source "../../../examples/mach1spatial-c/commandline/spatial-encode-example/src/main.cpp" ${Mach1EncodeCAPIsrc})

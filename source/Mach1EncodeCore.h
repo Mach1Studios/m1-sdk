@@ -16,7 +16,7 @@ Mach1EncodeCore normalizes all input ranges to an unsigned "0 to 1" range for Az
 #pragma once
 
 #include "Mach1DecodeCAPI.h"
-#include "Mach1Point3DCore.h"
+#include "Mach1Point3D.h"
 
 #include <chrono>
 #include <string>
@@ -43,7 +43,7 @@ using namespace std::chrono;
 #endif
 
 class M1EncodeCorePointResults {
-    Mach1Point3DCore ppoints[MAX_POINTS_COUNT];
+    Mach1Point3D ppoints[MAX_POINTS_COUNT];
     int pointsCount;
     std::string pointsNames[MAX_POINTS_COUNT];
     std::vector<std::vector<float>> gains;
@@ -54,7 +54,7 @@ class M1EncodeCorePointResults {
     M1EncodeCorePointResults();
     ~M1EncodeCorePointResults();
 
-    std::vector<Mach1Point3DCore> getPoints();
+    std::vector<Mach1Point3D> getPoints();
     std::vector<std::vector<float>> getGains();
     std::vector<std::string> getPointsNames();
     std::vector<float> getGainsForInputChannelNamed(std::string pointName);
@@ -129,7 +129,7 @@ class M1EncodeCore {
     };
 
     // arrays for CAPI
-    Mach1Point3DCore *arr_Points = nullptr;
+    Mach1Point3D *arr_Points = nullptr;
     float **arr_Gains = nullptr;
     char **arr_PointsNames = nullptr;
     float *arr_GainsForInputChannelNamed = nullptr;
@@ -146,8 +146,8 @@ class M1EncodeCore {
     bool frontSurroundPerspective;
     float outputGainLinearMultipler;
 
-    float getCoeffForStandardPoint(float x, float y, float z, Mach1Point3DCore point, bool ignoreZ);
-    std::vector<float> getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<Mach1Point3DCore> &pointSet, bool ignoreZ);
+    float getCoeffForStandardPoint(float x, float y, float z, Mach1Point3D point, bool ignoreZ);
+    std::vector<float> getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<Mach1Point3D> &pointSet, bool ignoreZ);
     void processGainsChannels(float x, float y, float z, std::vector<float> &result);
 
     milliseconds ms;

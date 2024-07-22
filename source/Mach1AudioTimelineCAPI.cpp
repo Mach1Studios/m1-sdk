@@ -3,7 +3,7 @@
 
 #include "Mach1AudioTimelineCAPI.h"
 #include "Mach1AudioTimelineCore.h"
-#include "Mach1Point3DCore.h"
+#include "Mach1Point3D.h"
 
 void *Mach1AudioObjectCAPI_create() {
     return new Mach1AudioObjectCore();

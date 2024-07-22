@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Mach1Point3DCore.h"
+#include "Mach1Point3D.h"
 
 /*
  // OG version of this
@@ -14,7 +14,7 @@
          float rawAutoCoeffs[8];
          float autoCoeffsSum = 0;
          for (int j = 0; j < 8; j++) {
-             Mach1Point3DCore dataPointInProperSpace = Mach1Point3DCore(-(i.y - 0.5),
+             Mach1Point3D dataPointInProperSpace = Mach1Point3D(-(i.y - 0.5),
                                                        i.x - 0.5,
                                                        0) * 2;
              float rawCoeff = (dataPointInProperSpace
@@ -33,5 +33,5 @@
 
  */
 
-std::vector<float> generateCoeffSetForPoint(float x, float y, float z, std::vector<Mach1Point3DCore> targetStandart);
-std::vector<std::vector<float>> generateCoeffSetForPoints(std::vector<Mach1Point3DCore> points, std::vector<Mach1Point3DCore> targetStandart);
+std::vector<float> generateCoeffSetForPoint(float x, float y, float z, std::vector<Mach1Point3D> targetStandart);
+std::vector<std::vector<float>> generateCoeffSetForPoints(std::vector<Mach1Point3D> points, std::vector<Mach1Point3D> targetStandart);

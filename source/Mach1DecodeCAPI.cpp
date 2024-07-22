@@ -88,6 +88,6 @@ char *Mach1DecodeCAPI_getLog(void *M1obj) {
 }
 
 Mach1Point3D Mach1DecodeCAPI_getCurrentAngle(void *M1obj) {
-    Mach1Point3DCore angle = ((Mach1DecodeCore *)M1obj)->getCurrentAngle();
+    Mach1Point3D angle = ((Mach1DecodeCore *)M1obj)->getCurrentAngle();
     return Mach1Point3D{angle.x, angle.y, angle.z};
 }

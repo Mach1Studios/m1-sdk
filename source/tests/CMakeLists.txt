@@ -48,13 +48,13 @@ message(STATUS "CMAKE_CXX_COMPILE_OBJECT='${CMAKE_CXX_COMPILE_OBJECT}'")
 #----------------
 
 # Mach1Encode
-set(Mach1EncodeCAPIsrc "../Mach1EncodeCAPI.cpp" "../Mach1EncodeCore.cpp" "../include/cpp/Mach1Encode.cpp" "../Mach1Point3DCore.cpp")
+set(Mach1EncodeCAPIsrc "../Mach1EncodeCAPI.cpp" "../Mach1EncodeCore.cpp" "../include/cpp/Mach1Encode.cpp" "../Mach1Point3D.cpp")
 # Mach1Decode
-set(Mach1DecodeCAPIsrc "../Mach1DecodeCAPI.cpp" "../Mach1DecodeCore.cpp" "../Mach1Point3DCore.cpp" "../Mach1Point4DCore.cpp" "../include/cpp/Mach1Decode.cpp")
+set(Mach1DecodeCAPIsrc "../Mach1DecodeCAPI.cpp" "../Mach1DecodeCore.cpp" "../Mach1Point3D.cpp" "../Mach1Point4D.cpp" "../include/cpp/Mach1Decode.cpp")
 # Mach1DecodePositional
-set(Mach1DecodePositionalCAPIsrc "../Mach1DecodePositionalCAPI.cpp" "../Mach1DecodePositionalCore.cpp" "../include/cpp/Mach1DecodePositional.cpp"  "../Mach1Point4DCore.cpp" ${Mach1EncodeCAPIsrc} ${Mach1DecodeCAPIsrc})
+set(Mach1DecodePositionalCAPIsrc "../Mach1DecodePositionalCAPI.cpp" "../Mach1DecodePositionalCore.cpp" "../include/cpp/Mach1DecodePositional.cpp"  "../Mach1Point4D.cpp" ${Mach1EncodeCAPIsrc} ${Mach1DecodeCAPIsrc})
 # Mach1TranscodeTests
-set(Mach1TranscodeCAPIsrc "../Mach1TranscodeCAPI.cpp" "../Mach1TranscodeCore.cpp" "../Mach1EncodeCore.cpp" "../Mach1GenerateCoeffs.cpp" "../deps/M1DSP/M1DSPFilters.cpp" "../deps/M1DSP/M1DSPUtilities.cpp" "../Mach1Point3DCore.cpp" "../Mach1Point4DCore.cpp" "../include/cpp/Mach1Transcode.cpp")
+set(Mach1TranscodeCAPIsrc "../Mach1TranscodeCAPI.cpp" "../Mach1TranscodeCore.cpp" "../Mach1EncodeCore.cpp" "../Mach1GenerateCoeffs.cpp" "../deps/M1DSP/M1DSPFilters.cpp" "../deps/M1DSP/M1DSPUtilities.cpp" "../Mach1Point3D.cpp" "../Mach1Point4D.cpp" "../include/cpp/Mach1Transcode.cpp")
 
 # create the executable
 add_executable(Mach1EncodeTests "./Mach1EncodeTests/mach1encode-tests.cpp" ${Mach1EncodeCAPIsrc})

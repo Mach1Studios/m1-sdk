@@ -152,8 +152,8 @@ void Mach1TranscodeCore::setInputFormat(int inFmt) {
     this->inFmt = inFmt;
 }
 
-std::vector<Mach1Point3DCore> parseCustomPointsJson(std::string srtJson) {
-    std::vector<Mach1Point3DCore> points;
+std::vector<Mach1Point3D> parseCustomPointsJson(std::string srtJson) {
+    std::vector<Mach1Point3D> points;
 
     auto doc = JSON::parse(srtJson);
     if (doc.size() > 0) {
@@ -200,7 +200,7 @@ std::vector<Mach1Point3DCore> parseCustomPointsJson(std::string srtJson) {
                         /// TEST FOR CARTESIAN DEFINITIONS
                         if (!JSON::getChildren(jsonPoint, "x").empty() && !JSON::getChildren(jsonPoint, "y").empty() && !JSON::getChildren(jsonPoint, "z").empty()) {
                             points.push_back(
-                                Mach1Point3DCore(
+                                Mach1Point3D(
                                   std::stof(JSON::getChildren(jsonPoint, "x")[0]->value),
                                   std::stof(JSON::getChildren(jsonPoint, "y")[0]->value),
                                   std::stof(JSON::getChildren(jsonPoint, "z")[0]->value))
@@ -223,7 +223,7 @@ void Mach1TranscodeCore::setInputFormatCustomPointsJson(std::string strJson) {
     inCustomPoints = parseCustomPointsJson(strJson);
 }
 
-void Mach1TranscodeCore::setInputFormatCustomPoints(std::vector<Mach1Point3DCore> points) {
+void Mach1TranscodeCore::setInputFormatCustomPoints(std::vector<Mach1Point3D> points) {
     inFmt = getFormatFromString("CustomPoints");
     inCustomPoints = points;
 }
@@ -237,7 +237,7 @@ void Mach1TranscodeCore::setOutputFormatCustomPointsJson(std::string strJson) {
     outCustomPoints = parseCustomPointsJson(strJson);
 }
 
-void Mach1TranscodeCore::setOutputFormatCustomPoints(std::vector<Mach1Point3DCore> points) {
+void Mach1TranscodeCore::setOutputFormatCustomPoints(std::vector<Mach1Point3D> points) {
     outFmt = getFormatFromString("CustomPoints");
     outCustomPoints = points;
 }
@@ -317,20 +317,20 @@ bool Mach1TranscodeCore::processConversionPath() {
     }
 }
 
-std::vector<Mach1Point3DCore> Mach1TranscodeCore::getPointsSet(int fmt) {
+std::vector<Mach1Point3D> Mach1TranscodeCore::getPointsSet(int fmt) {
     /*
      * X = Left(-) to Right(+) (from a top down perspective)
      * Y = Front(+) to Back(-) (from a top down perspective)
      * Z = Top(+) to Bottom(-) (from a top down perspective)
      */
 
-    static std::vector<Mach1Point3DCore> m1Spatial_4_Def = {
+    static std::vector<Mach1Point3D> m1Spatial_4_Def = {
         {-1, 1, 0},
         {1, 1, 0},
         {-1, -1, 0},
         {1, -1, 0}};
 
-    static std::vector<Mach1Point3DCore> m1Spatial_8_Def = {
+    static std::vector<Mach1Point3D> m1Spatial_8_Def = {
         {-1, 1, 1},
         {1, 1, 1},
         {-1, -1, 1},
@@ -341,7 +341,7 @@ std::vector<Mach1Point3DCore> Mach1TranscodeCore::getPointsSet(int fmt) {
         {-1, -1, -1},
         {1, -1, -1}};
 
-    static std::vector<Mach1Point3DCore> m1Spatial_12_Def = {
+    static std::vector<Mach1Point3D> m1Spatial_12_Def = {
         {-1, 1, 1},
         {1, 1, 1},
         {-1, -1, 1},
@@ -357,7 +357,7 @@ std::vector<Mach1Point3DCore> Mach1TranscodeCore::getPointsSet(int fmt) {
         {0, -1 / 0.707, 0},
         {-1 / 0.707, 0, 0}};
 
-    static std::vector<Mach1Point3DCore> m1Spatial_14_Def = {
+    static std::vector<Mach1Point3D> m1Spatial_14_Def = {
         {-1, 1, 1},
         {1, 1, 1},
         {-1, -1, 1},
@@ -376,7 +376,7 @@ std::vector<Mach1Point3DCore> Mach1TranscodeCore::getPointsSet(int fmt) {
         {0, 0, 1 / 0.707},
         {0, 0, -1 / 0.707}};
 
-    static std::map<int, std::vector<Mach1Point3DCore>> standards = {
+    static std::map<int, std::vector<Mach1Point3D>> standards = {
         {getFormatFromString("M1Horizon"), m1Spatial_4_Def},
         {getFormatFromString("M1Spatial-4"), m1Spatial_4_Def},
         {getFormatFromString("M1Spatial"), m1Spatial_8_Def},
@@ -385,7 +385,7 @@ std::vector<Mach1Point3DCore> Mach1TranscodeCore::getPointsSet(int fmt) {
         {getFormatFromString("M1Spatial-14"), m1Spatial_14_Def},
     };
 
-    std::vector<Mach1Point3DCore> vec;
+    std::vector<Mach1Point3D> vec;
     if (standards.find(fmt) != standards.end()) {
         vec = standards[fmt];
     }
@@ -487,7 +487,7 @@ void Mach1TranscodeCore::processConversion(int inFmt, float **inBufs, int outFmt
             int cnt = 0;
             Mach1Point3D *points = customPointsSamplerCallback(sample, cnt);
             for (int i = 0; i < cnt; i++) {
-                inCustomPoints.push_back(*(Mach1Point3DCore *)&points[i]);
+                inCustomPoints.push_back(*(Mach1Point3D *)&points[i]);
             }
 
             currentFormatConversionMatrix = generateCoeffSetForPoints(inCustomPoints, outCustomPoints);

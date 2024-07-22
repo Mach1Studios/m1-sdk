@@ -6,7 +6,7 @@ float clamp(float a, float min, float max) {
 }
 }; // namespace Mach1Utils
 
-std::vector<float> generateCoeffSetForPoint(float x, float y, float z, std::vector<Mach1Point3DCore> targetStandart) {
+std::vector<float> generateCoeffSetForPoint(float x, float y, float z, std::vector<Mach1Point3D> targetStandart) {
     std::vector<float> result;
     result.resize(targetStandart.size());
 
@@ -32,7 +32,7 @@ std::vector<float> generateCoeffSetForPoint(float x, float y, float z, std::vect
     return result;
 }
 
-std::vector<std::vector<float>> generateCoeffSetForPoints(std::vector<Mach1Point3DCore> points, std::vector<Mach1Point3DCore> targetStandart) {
+std::vector<std::vector<float>> generateCoeffSetForPoints(std::vector<Mach1Point3D> points, std::vector<Mach1Point3D> targetStandart) {
     std::vector<std::vector<float>> vec(targetStandart.size());
 
     for (auto &p : points) {

@@ -9,7 +9,6 @@
 #include "M1DSP/M1DSPFilters.h"
 #include "M1DSP/M1DSPUtilities.h"
 #include "Mach1Point3D.h"
-#include "Mach1Point3DCore.h"
 #include <map>
 #include <math.h>
 #include <stddef.h>
@@ -32,8 +31,8 @@ class Mach1TranscodeCore {
 
     std::vector<Mach1TranscodeMatrix> matrices;
 
-    std::vector<Mach1Point3DCore> inCustomPoints;
-    std::vector<Mach1Point3DCore> outCustomPoints;
+    std::vector<Mach1Point3D> inCustomPoints;
+    std::vector<Mach1Point3D> outCustomPoints;
 
     float *buffers[Mach1TranscodeConstants::MAXCHANS];
     int bufferSize;
@@ -45,7 +44,7 @@ class Mach1TranscodeCore {
     std::vector<M1DSP::Filters::CFilterSimpleLP> lpFilters;
     std::vector<int> subChannelIndices;
 
-    std::vector<Mach1Point3DCore> getPointsSet(int fmt);
+    std::vector<Mach1Point3D> getPointsSet(int fmt);
     int findMatrix(int inFmt, int outFmt);
     std::vector<std::vector<float>> getCoeffs(int idxMatrix);
     void processConversion(int inFmt, float **inBufs, int outFmt, float **outBufs, int numSamples);
@@ -80,11 +79,11 @@ class Mach1TranscodeCore {
 
     void setInputFormat(int inFmt);
     void setInputFormatCustomPointsJson(std::string inJson);
-    void setInputFormatCustomPoints(std::vector<Mach1Point3DCore> points);
+    void setInputFormatCustomPoints(std::vector<Mach1Point3D> points);
 
     void setOutputFormat(int outFmt);
     void setOutputFormatCustomPointsJson(std::string outJson);
-    void setOutputFormatCustomPoints(std::vector<Mach1Point3DCore> points);
+    void setOutputFormatCustomPoints(std::vector<Mach1Point3D> points);
 
     void setCustomPointsSamplerCallback(Mach1Point3D *(*callback)(long long, int &));
 

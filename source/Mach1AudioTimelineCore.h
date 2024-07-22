@@ -7,7 +7,7 @@
 #pragma once
 
 #include "Mach1KeyPoint.h"
-#include "Mach1Point3DCore.h"
+#include "Mach1Point3D.h"
 #include <cstring>
 #include <map>
 #include <math.h>

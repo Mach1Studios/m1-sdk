@@ -189,17 +189,12 @@ bool Mach1DecodeCore::linePlaneIntersection(Mach1Point3D &contact, Mach1Point3D 
 }
 
 void Mach1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int numChannelPoints, float Yaw, float Pitch, float Roll, float *result) {
-    Mach1Point3D simulationAngles = Mach1Point3D(Yaw, Pitch, Roll);
+    Mach1Point3D simulationAngles = { .x = Yaw, .y = Pitch, .z = Roll };
 
-    Mach1Point3D faceVector1 = Mach1Point3D(
-                                       sin(mDegToRad(simulationAngles[0])),
-                                       cos(mDegToRad(simulationAngles[0])))
-                                       .normalize();
-
-    Mach1Point3D faceVector11 = Mach1Point3D(
-                                        sin(mDegToRad(simulationAngles[0] - 90)),
-                                        cos(mDegToRad(simulationAngles[0] - 90)))
-                                        .normalize();
+    Mach1Point3D faceVector1 = { sin(mDegToRad(simulationAngles[0])), cos(mDegToRad(simulationAngles[0])), 0 };
+    faceVector1.normalize();
+    Mach1Point3D faceVector11 = { sin(mDegToRad(simulationAngles[0] - 90)), cos(mDegToRad(simulationAngles[0] - 90)), 0 };
+    faceVector11.normalize();
 
     Mach1Point3D faceVector2 = faceVector1.getRotated(-simulationAngles[1], faceVector11);
     Mach1Point3D faceVector21 = faceVector1.getRotated(-simulationAngles[1] - 90, faceVector11);
@@ -208,21 +203,22 @@ void Mach1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int n
     Mach1Point3D faceVectorRight = faceVector21.getRotated(simulationAngles[2] + 90, faceVector2);
 
     Mach1Point3D planes[8][2] =
-        {
-            {Mach1Point3D(1, 0, 0), Mach1Point3D(100, 0, 0)},
-            {Mach1Point3D(-1, 0, 0), Mach1Point3D(-100, 0, 0)},
-            {Mach1Point3D(0, 1, 0), Mach1Point3D(0, 100, 0)},
-            {Mach1Point3D(0, -1, 0), Mach1Point3D(0, -100, 0)},
-            {Mach1Point3D(0, 0, 1), Mach1Point3D(0, 0, 100)},
-            {Mach1Point3D(0, 0, -1), Mach1Point3D(0, 0, -100)}};
+    {
+        {{1, 0, 0}, {100, 0, 0}},
+        {{-1, 0, 0}, {-100, 0, 0}},
+        {{0, 1, 0}, {0, 100, 0}},
+        {{0, -1, 0}, {0, -100, 0}},
+        {{0, 0, 1}, {0, 0, 100}},
+        {{0, 0, -1}, {0, 0, -100}}
+    };
 
     Mach1Point3D contactL = faceVectorLeft * 100 + faceVector2 * 100;
     Mach1Point3D contactR = faceVectorRight * 100 + faceVector2 * 100;
 
     // check for intersection with cube
     for (int j = 0; j < 8; j++) {
-        linePlaneIntersection(contactL, Mach1Point3D(0, 0, 0), faceVectorLeft * 100 + faceVector2 * 100, planes[j][0], planes[j][1]);
-        linePlaneIntersection(contactR, Mach1Point3D(0, 0, 0), faceVectorRight * 100 + faceVector2 * 100, planes[j][0], planes[j][1]);
+        linePlaneIntersection(contactL, {0, 0, 0}, faceVectorLeft * 100 + faceVector2 * 100, planes[j][0], planes[j][1]);
+        linePlaneIntersection(contactR, {0, 0, 0}, faceVectorRight * 100 + faceVector2 * 100, planes[j][0], planes[j][1]);
     }
 
     float d = sqrtf(100 * 100 + 200 * 200);
@@ -273,15 +269,15 @@ void Mach1DecodeCore::spatialAlgoSample_8(float Yaw, float Pitch, float Roll, fl
                 Y (front -> back | where -Y is back)
                 Z (top -> bottom | where -Z is bottom)
              */
-            Mach1Point3D(-100, 100, 100),
-            Mach1Point3D(100, 100, 100),
-            Mach1Point3D(-100, -100, 100),
-            Mach1Point3D(100, -100, 100),
+            {-100, 100, 100},
+            {100, 100, 100},
+            {-100, -100, 100},
+            {100, -100, 100},
 
-            Mach1Point3D(-100, 100, -100),
-            Mach1Point3D(100, 100, -100),
-            Mach1Point3D(-100, -100, -100),
-            Mach1Point3D(100, -100, -100),
+            {-100, 100, -100},
+            {100, 100, -100},
+            {-100, -100, -100},
+            {100, -100, -100},
         };
 
     spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result);
@@ -295,15 +291,15 @@ std::vector<float> Mach1DecodeCore::spatialAlgoSample_8(float Yaw, float Pitch, 
 
     Mach1Point3D channelPoints[numChannelPoints] =
         {
-            Mach1Point3D(-100, 100, 100),
-            Mach1Point3D(100, 100, 100),
-            Mach1Point3D(-100, -100, 100),
-            Mach1Point3D(100, -100, 100),
+            {-100, 100, 100},
+            {100, 100, 100},
+            {-100, -100, 100},
+            {100, -100, 100},
 
-            Mach1Point3D(-100, 100, -100),
-            Mach1Point3D(100, 100, -100),
-            Mach1Point3D(-100, -100, -100),
-            Mach1Point3D(100, -100, -100),
+            {-100, 100, -100},
+            {100, 100, -100},
+            {-100, -100, -100},
+            {100, -100, -100},
         };
 
     spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result.data());
@@ -318,20 +314,20 @@ void Mach1DecodeCore::spatialAlgoSample_12(float Yaw, float Pitch, float Roll, f
 
     Mach1Point3D channelPoints[numChannelPoints] =
         {
-            Mach1Point3D(-100, 100, 100),
-            Mach1Point3D(100, 100, 100),
-            Mach1Point3D(-100, -100, 100),
-            Mach1Point3D(100, -100, 100),
+            {-100, 100, 100},
+            {100, 100, 100},
+            {-100, -100, 100},
+            {100, -100, 100},
 
-            Mach1Point3D(-100, 100, -100),
-            Mach1Point3D(100, 100, -100),
-            Mach1Point3D(-100, -100, -100),
-            Mach1Point3D(100, -100, -100),
+            {-100, 100, -100},
+            {100, 100, -100},
+            {-100, -100, -100},
+            {100, -100, -100},
 
-            Mach1Point3D(0, diag, 0),
-            Mach1Point3D(diag, 0, 0),
-            Mach1Point3D(0, -diag, 0),
-            Mach1Point3D(-diag, 0, 0),
+            {0, diag, 0},
+            {diag, 0, 0},
+            {0, -diag, 0},
+            {-diag, 0, 0},
         };
 
     spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result);
@@ -347,20 +343,20 @@ std::vector<float> Mach1DecodeCore::spatialAlgoSample_12(float Yaw, float Pitch,
 
     Mach1Point3D channelPoints[numChannelPoints] =
         {
-            Mach1Point3D(-100, 100, 100),
-            Mach1Point3D(100, 100, 100),
-            Mach1Point3D(-100, -100, 100),
-            Mach1Point3D(100, -100, 100),
+            {-100, 100, 100},
+            {100, 100, 100},
+            {-100, -100, 100},
+            {100, -100, 100},
 
-            Mach1Point3D(-100, 100, -100),
-            Mach1Point3D(100, 100, -100),
-            Mach1Point3D(-100, -100, -100),
-            Mach1Point3D(100, -100, -100),
+            {-100, 100, -100},
+            {100, 100, -100},
+            {-100, -100, -100},
+            {100, -100, -100},
 
-            Mach1Point3D(0, diag, 0),
-            Mach1Point3D(diag, 0, 0),
-            Mach1Point3D(0, -diag, 0),
-            Mach1Point3D(-diag, 0, 0),
+            {0, diag, 0},
+            {diag, 0, 0},
+            {0, -diag, 0},
+            {-diag, 0, 0},
         };
 
     spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result.data());
@@ -375,23 +371,23 @@ void Mach1DecodeCore::spatialAlgoSample_14(float Yaw, float Pitch, float Roll, f
 
     Mach1Point3D channelPoints[numChannelPoints] =
         {
-            Mach1Point3D(-100, 100, 100),
-            Mach1Point3D(100, 100, 100),
-            Mach1Point3D(-100, -100, 100),
-            Mach1Point3D(100, -100, 100),
+            {-100, 100, 100},
+            {100, 100, 100},
+            {-100, -100, 100},
+            {100, -100, 100},
 
-            Mach1Point3D(-100, 100, -100),
-            Mach1Point3D(100, 100, -100),
-            Mach1Point3D(-100, -100, -100),
-            Mach1Point3D(100, -100, -100),
+            {-100, 100, -100},
+            {100, 100, -100},
+            {-100, -100, -100},
+            {100, -100, -100},
 
-            Mach1Point3D(0, diag, 0),
-            Mach1Point3D(diag, 0, 0),
-            Mach1Point3D(0, -diag, 0),
-            Mach1Point3D(-diag, 0, 0),
+            {0, diag, 0},
+            {diag, 0, 0},
+            {0, -diag, 0},
+            {-diag, 0, 0},
 
-            Mach1Point3D(0, 0, diag),
-            Mach1Point3D(0, 0, -diag),
+            {0, 0, diag},
+            {0, 0, -diag},
         };
 
     spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result);
@@ -407,23 +403,23 @@ std::vector<float> Mach1DecodeCore::spatialAlgoSample_14(float Yaw, float Pitch,
 
     Mach1Point3D channelPoints[numChannelPoints] =
         {
-            Mach1Point3D(-100, 100, 100),
-            Mach1Point3D(100, 100, 100),
-            Mach1Point3D(-100, -100, 100),
-            Mach1Point3D(100, -100, 100),
+            {-100, 100, 100},
+            {100, 100, 100},
+            {-100, -100, 100},
+            {100, -100, 100},
 
-            Mach1Point3D(-100, 100, -100),
-            Mach1Point3D(100, 100, -100),
-            Mach1Point3D(-100, -100, -100),
-            Mach1Point3D(100, -100, -100),
+            {-100, 100, -100},
+            {100, 100, -100},
+            {-100, -100, -100},
+            {100, -100, -100},
 
-            Mach1Point3D(0, diag, 0),
-            Mach1Point3D(diag, 0, 0),
-            Mach1Point3D(0, -diag, 0),
-            Mach1Point3D(-diag, 0, 0),
+            {0, diag, 0},
+            {diag, 0, 0},
+            {0, -diag, 0},
+            {-diag, 0, 0},
 
-            Mach1Point3D(0, 0, diag),
-            Mach1Point3D(0, 0, -diag),
+            {0, 0, diag},
+            {0, 0, -diag},
         };
 
     spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result.data());
@@ -586,7 +582,7 @@ void Mach1DecodeCore::convertAnglesToPlatform(Mach1PlatformType platformType, fl
 }
 
 Mach1Point3D Mach1DecodeCore::getCurrentAngle() {
-    Mach1Point3D angle(currentYaw, currentPitch, currentRoll);
+    Mach1Point3D angle = {currentYaw, currentPitch, currentRoll};
     return angle;
 }
 

@@ -48,7 +48,7 @@ message(STATUS "CMAKE_CXX_COMPILE_OBJECT='${CMAKE_CXX_COMPILE_OBJECT}'")
 #----------------
 
 # Mach1Decode
-set(Mach1DecodeCAPIsrc "../../Mach1DecodeCAPI.cpp" "../../Mach1DecodeCore.cpp" "../../Mach1Point3D.cpp" "../../Mach1Point4D.cpp" "../../include/cpp/Mach1Decode.cpp")
+set(Mach1DecodeCAPIsrc "../../Mach1DecodeCAPI.cpp" "../../Mach1DecodeCore.cpp" "../../include/cpp/Mach1Decode.cpp")
 
 # create the executable
 add_executable(Mach1Decode_Source "../../../examples/mach1spatial-c/commandline/spatial-decode-example/src/main.cpp" ${Mach1DecodeCAPIsrc})

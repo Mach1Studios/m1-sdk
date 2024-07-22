@@ -49,7 +49,7 @@ message(STATUS "CMAKE_CXX_COMPILE_OBJECT='${CMAKE_CXX_COMPILE_OBJECT}'")
 
 # Mach1DecodePositional
 set(Mach1DecodeCAPIsrc "../../Mach1DecodeCAPI.cpp" "../../Mach1DecodeCore.cpp" "../../include/cpp/Mach1Decode.cpp")
-set(Mach1DecodePositionalCAPIsrc "../../Mach1DecodePositionalCAPI.cpp" "../../Mach1DecodePositionalCore.cpp" "../../Mach1Point3D.cpp" "../../Mach1Point4D.cpp" "../../include/cpp/Mach1DecodePositional.cpp" ${Mach1DecodeCAPIsrc})
+set(Mach1DecodePositionalCAPIsrc "../../Mach1DecodePositionalCAPI.cpp" "../../Mach1DecodePositionalCore.cpp" "../../include/cpp/Mach1DecodePositional.cpp" ${Mach1DecodeCAPIsrc})
 
 # create the executable
 add_executable(Mach1DecodePositional_Source "../../../examples/mach1spatial-c/commandline/spatial-decodepositional-example/src/main.cpp" ${Mach1DecodePositionalCAPIsrc})

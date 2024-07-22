@@ -99,10 +99,10 @@ set(Mach1DecodePositionalAdditionalIncludes "${RootAdditionalIncludes}/glm")
 set(Mach1TranscodeAdditionalIncludes "../public" "${RootAdditionalIncludes}/yaml/yaml" "${RootAdditionalIncludes}/pugixml/src" "${RootAdditionalIncludes}/glm")
 
 # collect and add source files
-set(Mach1EncodeAPI_SOURCE "./Mach1EncodeCAPI.cpp" "./Mach1EncodeCore.cpp" "./Mach1Point3D.cpp")
-set(Mach1DecodeAPI_SOURCE "./Mach1DecodeCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1Point3D.cpp" "./Mach1Point4D.cpp")
-set(Mach1DecodePositionalAPI_SOURCE "./Mach1DecodePositionalCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1DecodePositionalCore.cpp" "./Mach1Point3D.cpp" "./Mach1Point4D.cpp")
-set(Mach1TranscodeAPI_SOURCE "./Mach1TranscodeCAPI.cpp" "./Mach1TranscodeCore.cpp" "./Mach1Point3D.cpp" "./Mach1EncodeCore.cpp" "./Mach1GenerateCoeffs.cpp" "${RootAdditionalIncludes}/M1DSP/M1DSPFilters.cpp" "${RootAdditionalIncludes}/M1DSP/M1DSPDynamics.cpp" "${RootAdditionalIncludes}/M1DSP/M1DSPUtilities.cpp" "${RootAdditionalIncludes}/pugixml/src/pugixml.cpp" "${RootAdditionalIncludes}/yaml/yaml/Yaml.cpp" "./Mach1AudioTimelineCore.cpp" "./Mach1AudioTimelineCAPI.cpp")
+set(Mach1EncodeAPI_SOURCE "./Mach1EncodeCAPI.cpp" "./Mach1EncodeCore.cpp")
+set(Mach1DecodeAPI_SOURCE "./Mach1DecodeCAPI.cpp" "./Mach1DecodeCore.cpp")
+set(Mach1DecodePositionalAPI_SOURCE "./Mach1DecodePositionalCAPI.cpp" "./Mach1DecodeCore.cpp" "./Mach1DecodePositionalCore.cpp")
+set(Mach1TranscodeAPI_SOURCE "./Mach1TranscodeCAPI.cpp" "./Mach1TranscodeCore.cpp" "./Mach1EncodeCore.cpp" "./Mach1GenerateCoeffs.cpp" "${RootAdditionalIncludes}/M1DSP/M1DSPFilters.cpp" "${RootAdditionalIncludes}/M1DSP/M1DSPDynamics.cpp" "${RootAdditionalIncludes}/M1DSP/M1DSPUtilities.cpp" "${RootAdditionalIncludes}/pugixml/src/pugixml.cpp" "${RootAdditionalIncludes}/yaml/yaml/Yaml.cpp" "./Mach1AudioTimelineCore.cpp" "./Mach1AudioTimelineCAPI.cpp")
 
 # create the library
 add_library(Mach1DecodeAPI STATIC ${Mach1DecodeAPI_SOURCE})

@@ -199,12 +199,11 @@ std::vector<Mach1Point3D> parseCustomPointsJson(std::string srtJson) {
                     } else {
                         /// TEST FOR CARTESIAN DEFINITIONS
                         if (!JSON::getChildren(jsonPoint, "x").empty() && !JSON::getChildren(jsonPoint, "y").empty() && !JSON::getChildren(jsonPoint, "z").empty()) {
-                            points.push_back(
-                                Mach1Point3D(
+                            points.push_back({
                                   std::stof(JSON::getChildren(jsonPoint, "x")[0]->value),
                                   std::stof(JSON::getChildren(jsonPoint, "y")[0]->value),
-                                  std::stof(JSON::getChildren(jsonPoint, "z")[0]->value))
-                            );
+                                  std::stof(JSON::getChildren(jsonPoint, "z")[0]->value)
+                            });
                         }
                     }
                 } else {

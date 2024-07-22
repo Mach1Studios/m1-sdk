@@ -51,12 +51,12 @@ bool segments_intersection(Mach1Point3D a_first, Mach1Point3D a_second, Mach1Poi
     Mach1Point3D db = b_second - b_first;
     Mach1Point3D dc = b_first - a_first;
 
-    if (Mach1Point3D::dot(dc, da.getCrossed(db)) != 0.0) // lines are not coplanar
+    if (da.dot(dc, da.getCrossed(db)) != 0.0) // lines are not coplanar
         return false;
 
-    float s = Mach1Point3D::dot(dc.getCrossed(db), da.getCrossed(db)) / powf(da.getCrossed(db).length(), 2);
+    float s = da.dot(dc.getCrossed(db), da.getCrossed(db)) / powf(da.getCrossed(db).length(), 2);
     if (s >= 0.0 && s <= 1.0) {
-        ip = a_first + da * Mach1Point3D(s, s, s);
+        ip = a_first + da * Mach1Point3D{s, s, s};
         return true;
     }
 
@@ -71,7 +71,7 @@ bool segment_intersect_face(Mach1Point3D p1line, Mach1Point3D p2line, Mach1Point
     Mach1Point3D dir_norm = dir.getNormalized();
 
     Mach1Point3D h = dir_norm.getCrossed(e1);
-    const float a = Mach1Point3D::dot(e0, h);
+    const float a = h.dot(e0, h);
 
     float eps = 0.00001;
 
@@ -81,22 +81,22 @@ bool segment_intersect_face(Mach1Point3D p1line, Mach1Point3D p2line, Mach1Point
 
     Mach1Point3D s = p1line - p1;
     const float f = 1.0f / a;
-    const float u = f * Mach1Point3D::dot(s, h);
+    const float u = f * s.dot(s, h);
 
     if (u < 0.0f || u > 1.0f) {
         return false;
     }
 
     Mach1Point3D q = s.getCrossed(e0);
-    const float v = f * Mach1Point3D::dot(dir_norm, q);
+    const float v = f * q.dot(dir_norm, q);
 
     if (v < 0.0f || u + v > 1.0f) {
         return false;
     }
 
-    const float t = f * Mach1Point3D::dot(e1, q);
+    const float t = f * q.dot(e1, q);
 
-    if (t > eps && t < sqrtf(Mach1Point3D::dot(dir, dir))) { // segment intersection
+    if (t > eps && t < sqrtf(q.dot(dir, dir))) { // segment intersection
         point = p1line + dir_norm * t;
         return true;
     }

@@ -46,7 +46,6 @@ set(SOURCES
 	src/main.cpp
     ${MACH1SPATIAL_SOURCE_PATH}/Mach1TranscodeCore.cpp
     ${MACH1SPATIAL_SOURCE_PATH}/Mach1EncodeCore.cpp
-    ${MACH1SPATIAL_SOURCE_PATH}/Mach1Point3D.cpp
     ${MACH1SPATIAL_SOURCE_PATH}/Mach1GenerateCoeffs.cpp
     ${MACH1SPATIAL_SOURCE_PATH}/Mach1TranscodeCAPI.cpp
     ${MACH1SPATIAL_SOURCE_PATH}/include/cpp/Mach1Transcode.cpp

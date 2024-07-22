@@ -17,12 +17,72 @@
 #    define PI 3.14159265358979323846f
 #endif
 
-#ifdef __cplusplus
-
-class Mach1Point4D {
-  public:
+struct Mach1Point4D {
     float x, y, z, w;
 
+    Mach1Point4D operator+(const Mach1Point4D &pnt) const {
+        struct Mach1Point4D p;
+        p.x = this->x + pnt.x;
+        p.y = this->y + pnt.y;
+        p.z = this->z + pnt.z;
+        p.w = this->w + pnt.w;
+        return p;
+    }
+
+    Mach1Point4D operator*(const float f) const {
+        struct Mach1Point4D p;
+        p.x = this->x * f;
+        p.y = this->y * f;
+        p.z = this->z * f;
+        p.w = this->w * f;
+        return p;
+    }
+
+    Mach1Point4D operator*(const Mach1Point4D &pnt) const {
+        struct Mach1Point4D p;
+        p.x = this->x * pnt.x;
+        p.y = this->y * pnt.y;
+        p.z = this->z * pnt.z;
+        p.w = this->w * pnt.w;
+        return p;
+    }
+
+    Mach1Point4D operator-(const Mach1Point4D &pnt) const {
+        struct Mach1Point4D p;
+        p.x = this->x - pnt.x;
+        p.y = this->y - pnt.y;
+        p.z = this->z - pnt.z;
+        p.w = this->w - pnt.w;
+        return p;
+    }
+
+    float length() const {
+        return (float)sqrtf(x * x + y * y + z * z + w * w);
+    }
+
+    float operator[](int index) {
+        float arr[4] = {x, y, z, w};
+        return arr[index];
+    }
+
+    Mach1Point4D Mach1Point4D_init() {
+        Mach1Point4D p;
+        p.x = 0;
+        p.y = 0;
+        p.z = 0;
+        p.w = 0;
+        return p;
+    }
+    Mach1Point4D Mach1Point4D_init(float X, float Y, float Z, float W) {
+        Mach1Point4D p;
+        p.x = X;
+        p.y = Y;
+        p.z = Z;
+        p.w = W;
+        return p;
+    }
+
+#ifdef __cplusplus
     Mach1Point4D() {
         x = 0;
         y = 0;
@@ -36,37 +96,6 @@ class Mach1Point4D {
         z = Z;
         w = W;
     }
+#endif /* __cplusplus */
 
-    Mach1Point4D operator+(const Mach1Point4D &pnt) const {
-        return Mach1Point4D(x + pnt.x, y + pnt.y, z + pnt.z, w + pnt.w);
-    }
-
-    Mach1Point4D operator*(const float f) const {
-        return Mach1Point4D(x * f, y * f, z * f, w * f);
-    }
-
-    Mach1Point4D operator*(const Mach1Point4D &vec) const {
-        return Mach1Point4D(x * vec.x, y * vec.y, z * vec.z, w * vec.w);
-    }
-
-    Mach1Point4D operator-(const Mach1Point4D &vec) const {
-        return Mach1Point4D(x - vec.x, y - vec.y, z - vec.z, w - vec.w);
-    }
-
-    float length() const {
-        return (float)sqrtf(x * x + y * y + z * z + w * w);
-    }
-
-    float operator[](int index) {
-        float arr[4] = {x, y, z, w};
-        return arr[index];
-    }
 };
-
-#else
-
-struct Mach1Point4D {
-    float x, y, z, w;
-};
-
-#endif

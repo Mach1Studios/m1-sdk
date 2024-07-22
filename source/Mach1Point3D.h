@@ -175,4 +175,22 @@ struct Mach1Point3D {
         p.z = Z;
         return p;
     }
+
+// #ifdef __cplusplus
+//     Mach1Point3D() {
+//         x = 0;
+//         y = 0;
+//         z = 0;
+//     }
+//     Mach1Point3D(float X, float Y) {
+//         x = X;
+//         y = Y;
+//         z = 0;
+//     }
+//     Mach1Point3D(float X, float Y, float Z) {
+//         x = X;
+//         y = Y;
+//         z = Z;
+//     }
+// #endif /* __cplusplus */
 };

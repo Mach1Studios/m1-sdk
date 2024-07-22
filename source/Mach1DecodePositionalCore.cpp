@@ -252,7 +252,7 @@ void Mach1DecodePositionalCore::setMuteWhenOutsideObject(bool muteWhenOutsideObj
 }
 
 void Mach1DecodePositionalCore::setMuteWhenInsideObject(bool muteWhenInsideObject) {
-    this->muteWhenOutsideObject = muteWhenOutsideObject;
+    this->muteWhenOutsideObject = muteWhenInsideObject;
 }
 
 void Mach1DecodePositionalCore::setUseAttenuation(bool useAttenuation) {
@@ -281,7 +281,7 @@ void Mach1DecodePositionalCore::setListenerPosition(Mach1Point3D *pos) {
 }
 
 void Mach1DecodePositionalCore::setListenerRotation(Mach1Point3D *euler) {
-    Mach1Point3D angle(euler->x, euler->y, euler->z);
+    Mach1Point3D angle = {euler->x, euler->y, euler->z};
     Mach1DecodeCore::convertAnglesToMach1(platformType, &angle.x, &angle.y, &angle.z);
     cameraRotation = EulerToQuaternion(glm::vec3(angle.x, angle.y, angle.z) * DEG_TO_RAD_F);
 }
@@ -296,7 +296,7 @@ void Mach1DecodePositionalCore::setDecoderAlgoPosition(Mach1Point3D *pos) {
 }
 
 void Mach1DecodePositionalCore::setDecoderAlgoRotation(Mach1Point3D *euler) {
-    Mach1Point3D angle(euler->x, euler->y, euler->z);
+    Mach1Point3D angle = {euler->x, euler->y, euler->z};
     Mach1DecodeCore::convertAnglesToMach1(platformType, &angle.x, &angle.y, &angle.z);
     soundRotation = EulerToQuaternion(glm::vec3(angle.x, angle.y, angle.z) * DEG_TO_RAD_F);
 }

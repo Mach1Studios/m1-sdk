@@ -10,8 +10,6 @@ std::vector<float> generateCoeffSetForPoint(float x, float y, float z, std::vect
     std::vector<float> result;
     result.resize(targetStandart.size());
 
-    //    vector<vector<float>> arg = {{0.5, 0.5, 0.3}};
-
     float coeffSum = 0;
 
     for (int i = 0; i < targetStandart.size(); i++) {

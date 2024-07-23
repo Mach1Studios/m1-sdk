@@ -17,7 +17,7 @@
 #    define PI 3.14159265358979323846f
 #endif
 
-struct Mach1Point3D {
+typedef struct Mach1Point3D {
     float x, y, z;
     
     bool operator==(const Mach1Point3D &p2) {
@@ -38,7 +38,7 @@ struct Mach1Point3D {
     }
     
     Mach1Point3D operator+(const Mach1Point3D &pnt) {
-        struct Mach1Point3D p;
+        Mach1Point3D p;
         p.x = this->x + pnt.x;
         p.y = this->y + pnt.y;
         p.z = this->z + pnt.z;
@@ -46,7 +46,7 @@ struct Mach1Point3D {
     }
 
     Mach1Point3D operator*(const float f) {
-        struct Mach1Point3D p;
+        Mach1Point3D p;
         p.x = this->x * f;
         p.y = this->y * f;
         p.z = this->z * f;
@@ -54,7 +54,7 @@ struct Mach1Point3D {
     }
 
     Mach1Point3D operator*(const Mach1Point3D &pnt) {
-        struct Mach1Point3D p;
+        Mach1Point3D p;
         p.x = this->x * pnt.x;
         p.y = this->y * pnt.y;
         p.z = this->z * pnt.z;
@@ -62,7 +62,7 @@ struct Mach1Point3D {
     }
 
     Mach1Point3D operator-(const Mach1Point3D &pnt) {
-        struct Mach1Point3D p;
+        Mach1Point3D p;
         p.x = this->x - pnt.x;
         p.y = this->y - pnt.y;
         p.z = this->z - pnt.z;
@@ -110,13 +110,13 @@ struct Mach1Point3D {
     Mach1Point3D getNormalized() const {
         float length = (float)sqrtf(x * x + y * y + z * z);
         if (length > 0) {
-            struct Mach1Point3D p;
+            Mach1Point3D p;
             p.x = this->x / length;
             p.y = this->y / length;
             p.z = this->z / length;
             return p;
         } else {
-            struct Mach1Point3D p;
+            Mach1Point3D p;
             p.x = 0;
             p.y = 0;
             p.z = 0;
@@ -131,7 +131,7 @@ struct Mach1Point3D {
         float cosa = cosf(a);
         float cosb = 1.0f - cosa;
 
-        struct Mach1Point3D p;
+        Mach1Point3D p;
         p.x = this->x * (ax.x * ax.x * cosb + cosa) + this->y * (ax.x * ax.y * cosb - ax.z * sina) + this->z * (ax.x * ax.z * cosb + ax.y * sina);
         p.y = this->x * (ax.y * ax.x * cosb + ax.z * sina) + this->y * (ax.y * ax.y * cosb + cosa) + this->z * (ax.y * ax.z * cosb - ax.x * sina);
         p.z = this->x * (ax.z * ax.x * cosb - ax.y * sina) + this->y * (ax.z * ax.y * cosb + ax.x * sina) + this->z * (ax.z * ax.z * cosb + cosa);
@@ -139,7 +139,7 @@ struct Mach1Point3D {
     }
 
     Mach1Point3D getCrossed(const Mach1Point3D &b) const {
-        struct Mach1Point3D p;
+        Mach1Point3D p;
         p.x = this->y * b.z - this->z * b.y;
         p.y = this->z * b.x - this->x * b.z;
         p.z = this->x * b.y - this->y * b.x;
@@ -175,4 +175,4 @@ struct Mach1Point3D {
         p.z = Z;
         return p;
     }
-};
+} Mach1Point3D;

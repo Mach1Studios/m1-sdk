@@ -17,11 +17,11 @@
 #    define PI 3.14159265358979323846f
 #endif
 
-struct Mach1Point4D {
+typedef struct Mach1Point4D {
     float x, y, z, w;
 
     Mach1Point4D operator+(const Mach1Point4D &pnt) const {
-        struct Mach1Point4D p;
+        Mach1Point4D p;
         p.x = this->x + pnt.x;
         p.y = this->y + pnt.y;
         p.z = this->z + pnt.z;
@@ -30,7 +30,7 @@ struct Mach1Point4D {
     }
 
     Mach1Point4D operator*(const float f) const {
-        struct Mach1Point4D p;
+        Mach1Point4D p;
         p.x = this->x * f;
         p.y = this->y * f;
         p.z = this->z * f;
@@ -39,7 +39,7 @@ struct Mach1Point4D {
     }
 
     Mach1Point4D operator*(const Mach1Point4D &pnt) const {
-        struct Mach1Point4D p;
+        Mach1Point4D p;
         p.x = this->x * pnt.x;
         p.y = this->y * pnt.y;
         p.z = this->z * pnt.z;
@@ -48,7 +48,7 @@ struct Mach1Point4D {
     }
 
     Mach1Point4D operator-(const Mach1Point4D &pnt) const {
-        struct Mach1Point4D p;
+        Mach1Point4D p;
         p.x = this->x - pnt.x;
         p.y = this->y - pnt.y;
         p.z = this->z - pnt.z;
@@ -81,4 +81,4 @@ struct Mach1Point4D {
         p.w = W;
         return p;
     }
-};
+} Mach1Point4D;

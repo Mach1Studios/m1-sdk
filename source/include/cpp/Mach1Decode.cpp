@@ -121,7 +121,7 @@ std::vector<float> Mach1Decode::decodePannedCoeffs(int bufferSize, int sampleInd
     ///		- applyPanLaw: bool for control over panLaw application
 }
 
-std::vector<float> Mach1Decode::decodeCoeffsUsingTranscodeMatrix(std::vector<std::vector<float>> matrix, int channels, int bufferSize, int sampleIndex) {
+std::vector<float> Mach1Decode::decodeCoeffsUsingTranscodeMatrix(std::vector< std::vector<float> > matrix, int channels, int bufferSize, int sampleIndex) {
     std::vector<float> vec(2 * channels);
 
     int inChans = channels;

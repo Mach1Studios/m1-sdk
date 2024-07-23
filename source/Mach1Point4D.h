@@ -65,7 +65,7 @@ struct Mach1Point4D {
         return arr[index];
     }
 
-    Mach1Point4D Mach1Point4D_init() {
+    Mach1Point4D Mach1Point4D_create() {
         Mach1Point4D p;
         p.x = 0;
         p.y = 0;
@@ -73,7 +73,7 @@ struct Mach1Point4D {
         p.w = 0;
         return p;
     }
-    Mach1Point4D Mach1Point4D_init(float X, float Y, float Z, float W) {
+    Mach1Point4D Mach1Point4D_create(float X, float Y, float Z, float W) {
         Mach1Point4D p;
         p.x = X;
         p.y = Y;
@@ -81,21 +81,4 @@ struct Mach1Point4D {
         p.w = W;
         return p;
     }
-
-#ifdef __cplusplus
-    Mach1Point4D() {
-        x = 0;
-        y = 0;
-        z = 0;
-        w = 0;
-    }
-
-    Mach1Point4D(float X, float Y, float Z, float W) {
-        x = X;
-        y = Y;
-        z = Z;
-        w = W;
-    }
-#endif /* __cplusplus */
-
 };

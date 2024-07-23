@@ -58,6 +58,8 @@ EMSCRIPTEN_BINDINGS(Mach1DecodePositional) {
         .function("evaluatePositionResults", &Mach1DecodePositional::evaluatePositionResults)
         .function("getCoefficients", &Mach1DecodePositional::getCoefficients)
         .function("getDist", &Mach1DecodePositional::getDist)
+        .function("getFormatChannelCount", &Mach1DecodePositional::getFormatChannelCount)
+        .function("getFormatCoeffCount", &Mach1DecodePositional::getFormatCoeffCount)
         .function("getCurrentAngle", &Mach1DecodePositional::getCurrentAngle)
         .function("getCoefficientsRotation", &Mach1DecodePositional::getCoefficientsRotation)
         .function("setFilterSpeed", &Mach1DecodePositional::setFilterSpeed)

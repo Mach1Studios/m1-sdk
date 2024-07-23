@@ -166,22 +166,34 @@ Module['onRuntimeInitialized'] = function() {
             }
         };
 
+        this.getDist = function() {
+            if (this._m1obj) {
+                return this._m1obj.getDist();
+            }
+        };
+
+        this.getFormatChannelCount = function() {
+            if (this._m1obj) {
+                return this._m1obj.getFormatChannelCount();
+            }
+        };
+
+        this.getFormatCoeffCount = function() {
+            if (this._m1obj) {
+                return this._m1obj.getFormatCoeffCount();
+            }
+        };
+
         this.getCoefficients = function() {
             if (this._m1obj) {
                 var vec = new(Module).VectorFloat();
-                vec.resize(18, 0);
+                vec.resize(this._m1obj.getFormatCoeffCount(), 0);
                 this._m1obj.getCoefficients(vec);
                 var arr = [];
                 for (var i = 0; i < vec.size(); i++) {
                     arr[i] = vec.get(i);
                 }
                 return arr;
-            }
-        };
-
-        this.getDist = function() {
-            if (this._m1obj) {
-                return this._m1obj.getDist();
             }
         };
 

@@ -154,43 +154,25 @@ struct Mach1Point3D {
         return sqrt(powf(vec1.x - vec2.x, 2) + powf(vec1.y - vec2.y, 2) + powf(vec1.z - vec2.z, 2));
     }
     
-    Mach1Point3D Mach1Point3D_init() {
+    Mach1Point3D Mach1Point3D_create() {
         Mach1Point3D p;
         p.x = 0;
         p.y = 0;
         p.z = 0;
         return p;
     }
-    Mach1Point3D Mach1Point3D_init(float X, float Y) {
+    Mach1Point3D Mach1Point3D_create(float X, float Y) {
         Mach1Point3D p;
         p.x = X;
         p.y = Y;
         p.z = 0;
         return p;
     }
-    Mach1Point3D Mach1Point3D_init(float X, float Y, float Z) {
+    Mach1Point3D Mach1Point3D_create(float X, float Y, float Z) {
         Mach1Point3D p;
         p.x = X;
         p.y = Y;
         p.z = Z;
         return p;
     }
-
-// #ifdef __cplusplus
-//     Mach1Point3D() {
-//         x = 0;
-//         y = 0;
-//         z = 0;
-//     }
-//     Mach1Point3D(float X, float Y) {
-//         x = X;
-//         y = Y;
-//         z = 0;
-//     }
-//     Mach1Point3D(float X, float Y, float Z) {
-//         x = X;
-//         y = Y;
-//         z = Z;
-//     }
-// #endif /* __cplusplus */
 };

@@ -27,7 +27,7 @@
 #include <math.h>
 #include <chrono>
 
-#include "Mach1Encode.h"
+#include <Mach1Encode.h>
 
 #define DELTA_RADIAN 0.0174533 // equivalent of 1 degrees in radians
 #define DELTA_DEGREE 1.0

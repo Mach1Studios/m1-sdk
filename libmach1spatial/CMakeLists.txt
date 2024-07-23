@@ -96,7 +96,7 @@ set(TRANSCODE_VERSION           "${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1S
 # include headers
 set(RootAdditionalIncludes "./deps")
 set(Mach1DecodePositionalAdditionalIncludes "${RootAdditionalIncludes}/glm")
-set(Mach1TranscodeAdditionalIncludes "../public" "${RootAdditionalIncludes}/yaml/yaml" "${RootAdditionalIncludes}/pugixml/src" "${RootAdditionalIncludes}/glm")
+set(Mach1TranscodeAdditionalIncludes "transcode-formats" "${RootAdditionalIncludes}/yaml/yaml" "${RootAdditionalIncludes}/pugixml/src" "${RootAdditionalIncludes}/glm")
 
 # collect and add source files
 set(Mach1EncodeAPI_SOURCE "./Mach1EncodeCAPI.cpp" "./Mach1EncodeCore.cpp")

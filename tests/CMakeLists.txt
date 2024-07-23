@@ -48,13 +48,13 @@ message(STATUS "CMAKE_CXX_COMPILE_OBJECT='${CMAKE_CXX_COMPILE_OBJECT}'")
 #----------------
 
 # Mach1Encode
-set(Mach1EncodeCAPIsrc "../Mach1EncodeCAPI.cpp" "../Mach1EncodeCore.cpp" "../include/cpp/Mach1Encode.cpp")
+set(Mach1EncodeCAPIsrc "../libmach1spatial/Mach1EncodeCAPI.cpp" "../libmach1spatial/Mach1EncodeCore.cpp" "../libmach1spatial/include/cpp/Mach1Encode.cpp")
 # Mach1Decode
-set(Mach1DecodeCAPIsrc "../Mach1DecodeCAPI.cpp" "../Mach1DecodeCore.cpp" "../include/cpp/Mach1Decode.cpp")
+set(Mach1DecodeCAPIsrc "../libmach1spatial/Mach1DecodeCAPI.cpp" "../libmach1spatial/Mach1DecodeCore.cpp" "../libmach1spatial/include/cpp/Mach1Decode.cpp")
 # Mach1DecodePositional
-set(Mach1DecodePositionalCAPIsrc "../Mach1DecodePositionalCAPI.cpp" "../Mach1DecodePositionalCore.cpp" "../include/cpp/Mach1DecodePositional.cpp"  ${Mach1EncodeCAPIsrc} ${Mach1DecodeCAPIsrc})
+set(Mach1DecodePositionalCAPIsrc "../libmach1spatial/Mach1DecodePositionalCAPI.cpp" "../libmach1spatial/Mach1DecodePositionalCore.cpp" "../libmach1spatial/include/cpp/Mach1DecodePositional.cpp"  ${Mach1EncodeCAPIsrc} ${Mach1DecodeCAPIsrc})
 # Mach1TranscodeTests
-set(Mach1TranscodeCAPIsrc "../Mach1TranscodeCAPI.cpp" "../Mach1TranscodeCore.cpp" "../Mach1EncodeCore.cpp" "../Mach1GenerateCoeffs.cpp" "../deps/M1DSP/M1DSPFilters.cpp" "../deps/M1DSP/M1DSPUtilities.cpp" "../include/cpp/Mach1Transcode.cpp")
+set(Mach1TranscodeCAPIsrc "../libmach1spatial/Mach1TranscodeCAPI.cpp" "../libmach1spatial/Mach1TranscodeCore.cpp" "../libmach1spatial/Mach1EncodeCore.cpp" "../libmach1spatial/Mach1GenerateCoeffs.cpp" "../libmach1spatial/deps/M1DSP/M1DSPFilters.cpp" "../libmach1spatial/deps/M1DSP/M1DSPUtilities.cpp" "../libmach1spatial/include/cpp/Mach1Transcode.cpp")
 
 # create the executable
 add_executable(Mach1EncodeTests "./Mach1EncodeTests/mach1encode-tests.cpp" ${Mach1EncodeCAPIsrc})
@@ -68,11 +68,11 @@ add_executable(Mach1SpatialTests "./Mach1SpatialTests/mach1spatial-tests.cpp" ${
 #----------------
 
 # include headers
-set(Mach1CAPIinclude "../" "../include/cpp" "../deps" "../deps/acutest/include" "../deps/nlohmann/single_include")
+set(Mach1CAPIinclude "../libmach1spatial/" "../libmach1spatial/include/cpp" "../libmach1spatial/deps" "../libmach1spatial/deps/acutest/include" "../libmach1spatial/deps/nlohmann/single_include")
 set(Mach1EncodeCAPIinclude ${Mach1CAPIinclude})
 set(Mach1DecodeCAPIinclude ${Mach1CAPIinclude})
-set(Mach1DecodePositionalCAPIinclude ${Mach1CAPIinclude} "../deps/glm")
-set(Mach1TranscodeCAPIinclude ${Mach1CAPIinclude} "../../public")
+set(Mach1DecodePositionalCAPIinclude ${Mach1CAPIinclude} "../libmach1spatial/deps/glm")
+set(Mach1TranscodeCAPIinclude ${Mach1CAPIinclude} "../libmach1spatial/transcode-includes")
 
 target_include_directories(Mach1EncodeTests PRIVATE "./include" ${Mach1EncodeCAPIinclude})
 target_include_directories(Mach1DecodeTests PRIVATE "./include" ${Mach1DecodeCAPIinclude})
@@ -87,14 +87,9 @@ target_include_directories(Mach1SpatialTests PRIVATE "./include" ${Mach1CAPIincl
 message(STATUS "CMAKE_INSTALL_PREFIX='${CMAKE_INSTALL_PREFIX}'")
 
 install(TARGETS Mach1EncodeTests DESTINATION bin)
-install(CODE "execute_process(COMMAND ${CMAKE_INSTALL_PREFIX}/bin/Mach1EncodeTests)" )
 install(TARGETS Mach1DecodeTests DESTINATION bin)
-install(CODE "execute_process(COMMAND ${CMAKE_INSTALL_PREFIX}/bin/Mach1DecodeTests)" )
 install(TARGETS Mach1DecodePositionalTests DESTINATION bin)
-install(CODE "execute_process(COMMAND ${CMAKE_INSTALL_PREFIX}/bin/Mach1DecodePositionalTests)" )
 install(TARGETS Mach1TranscodeTests DESTINATION bin)
-install(CODE "execute_process(COMMAND ${CMAKE_INSTALL_PREFIX}/bin/Mach1TranscodeTests)" )
 install(TARGETS Mach1SpatialTests DESTINATION bin)
-install(CODE "execute_process(COMMAND ${CMAKE_INSTALL_PREFIX}/bin/Mach1SpatialTests)" )
 
 #-------------------------------------------------------------------------------

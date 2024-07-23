@@ -25,7 +25,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
-#include "Mach1Decode.h"
+#include <Mach1Decode.h>
 
 #define DELTA_ANGLE 0.0174533 // equivalent of 1 degrees in radians
 #define DELTA_VALUE 1.0 // used for incrementing in degrees directly

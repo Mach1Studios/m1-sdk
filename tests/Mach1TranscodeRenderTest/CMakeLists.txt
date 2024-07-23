@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.19.3)
 project(spatial-transcode-render)
 set(CMAKE_CXX_STANDARD 11)
 
-set(MACH1SPATIAL_SOURCE_PATH "../../")
+set(MACH1SPATIAL_SOURCE_PATH "../../libmach1spatial")
 
 # Use pkg-config to get hints about paths
 find_package(PkgConfig QUIET)
@@ -57,7 +57,7 @@ set(SOURCES
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})
 
 # include headers
-set(MACH1SPATIAL_INCLUDES ${MACH1SPATIAL_SOURCE_PATH} ${MACH1SPATIAL_SOURCE_PATH}/include/cpp ${MACH1SPATIAL_SOURCE_PATH}/deps ${MACH1SPATIAL_SOURCE_PATH}/../public)
+set(MACH1SPATIAL_INCLUDES ${MACH1SPATIAL_SOURCE_PATH} ${MACH1SPATIAL_SOURCE_PATH}/include/cpp ${MACH1SPATIAL_SOURCE_PATH}/deps ${MACH1SPATIAL_SOURCE_PATH}/transcode-includes)
 include_directories(${MACH1SPATIAL_INCLUDES})
 include_directories(${LIBSNDFILE_INCLUDE_DIRS})
 

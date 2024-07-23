@@ -48,17 +48,17 @@ message(STATUS "CMAKE_CXX_COMPILE_OBJECT='${CMAKE_CXX_COMPILE_OBJECT}'")
 #----------------
 
 # Mach1Decode
-set(Mach1DecodeCAPIsrc "../../Mach1DecodeCAPI.cpp" "../../Mach1DecodeCore.cpp" "../../include/cpp/Mach1Decode.cpp")
+set(Mach1DecodeCAPIsrc "../../libmach1spatial/Mach1DecodeCAPI.cpp" "../../libmach1spatial/Mach1DecodeCore.cpp" "../../libmach1spatial/include/cpp/Mach1Decode.cpp")
 
 # create the executable
-add_executable(Mach1Decode_Source "../../../examples/mach1spatial-c/commandline/spatial-decode-example/src/main.cpp" ${Mach1DecodeCAPIsrc})
+add_executable(Mach1Decode_Source "../../examples/mach1spatial-c/commandline/spatial-decode-example/src/main.cpp" ${Mach1DecodeCAPIsrc})
 
 #----------------
 # Link
 #----------------
 
 # include headers
-set(Mach1CAPIinclude "../../" "../../include/cpp" "../../deps")
+set(Mach1CAPIinclude "../../libmach1spatial" "../../libmach1spatial/include/cpp" "../../libmach1spatial/deps")
 set(Mach1DecodeCAPIinclude ${Mach1CAPIinclude})
 target_include_directories(Mach1Decode_Source PRIVATE ${Mach1DecodeCAPIinclude})
 

@@ -79,15 +79,15 @@ message(STATUS "CMAKE_MODULE_PATH='${CMAKE_MODULE_PATH}'")
 # Version
 #----------------
 
-set(Mach1SpatialLibraries_VERSION_MAJOR 3)
-set(Mach1SpatialLibraries_VERSION_MINOR 2)
+set(Mach1SpatialLibraries_VERSION_MAJOR 4)
+set(Mach1SpatialLibraries_VERSION_MINOR 0)
 set(Mach1SpatialLibraries_VERSION ${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR})
 
 # SET API VERSIONS
-set(ENCODE_VERSION              "${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR}.1.0")
+set(ENCODE_VERSION              "${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR}.0.0")
 set(DECODE_VERSION              "${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR}.0.0")
-set(DECODEPOSITIONAL_VERSION    "${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR}.1.0")
-set(TRANSCODE_VERSION           "${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR}.1.0")
+set(DECODEPOSITIONAL_VERSION    "${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR}.0.0")
+set(TRANSCODE_VERSION           "${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR}.0.0")
 
 #----------------
 # Sources

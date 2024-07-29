@@ -44,8 +44,8 @@ enum Mach1EncodeInputModeType {
 };
 
 enum Mach1EncodeOutputModeType {
-    Mach1EncodeOutputModeM1Spatial_8 = (int)0,
-    Mach1EncodeOutputModeM1Horizon_4,
+    Mach1EncodeOutputModeM1Spatial_4 = (int)0,
+    Mach1EncodeOutputModeM1Spatial_8,
     Mach1EncodeOutputModeM1Spatial_12,
     Mach1EncodeOutputModeM1Spatial_14
 };

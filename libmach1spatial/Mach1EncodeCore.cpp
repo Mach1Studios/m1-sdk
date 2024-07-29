@@ -279,8 +279,8 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
         {0, 0, -1 / 0.707}};
 
     static std::map<OutputMode, std::vector<Mach1Point3D>> standards = {
+        {OUTPUT_SPATIAL_4CH, m1Spatial_4_Def},
         {OUTPUT_SPATIAL_8CH, m1Spatial_8_Def},
-        {OUTPUT_HORIZON_4CH, m1Spatial_4_Def},
         {OUTPUT_SPATIAL_12CH, m1Spatial_12_Def},
         {OUTPUT_SPATIAL_14CH, m1Spatial_14_Def},
     };
@@ -521,14 +521,14 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
     };
 
     static std::map<OutputMode, std::vector<std::vector<int>>> lines = {
-        {OUTPUT_HORIZON_4CH, m1Spatial_4_Lines_Def},
+        {OUTPUT_SPATIAL_4CH, m1Spatial_4_Lines_Def},
         {OUTPUT_SPATIAL_8CH, m1Spatial_8_Lines_Def},
         {OUTPUT_SPATIAL_12CH, m1Spatial_12_Lines_Def},
         {OUTPUT_SPATIAL_14CH, m1Spatial_14_Lines_Def},
     };
 
     static std::map<OutputMode, std::vector<std::vector<int>>> planes = {
-        {OUTPUT_HORIZON_4CH, m1Spatial_4_Plane_Def},
+        {OUTPUT_SPATIAL_4CH, m1Spatial_4_Plane_Def},
         {OUTPUT_SPATIAL_8CH, m1Spatial_8_Plane_Def},
         {OUTPUT_SPATIAL_12CH, m1Spatial_12_Plane_Def},
         {OUTPUT_SPATIAL_14CH, m1Spatial_14_Plane_Def},
@@ -678,7 +678,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
     }
 
     result = gains;
-    // result = getCoeffSetForStandardPointSet(x, y, z, pointsSet, outputMode == OUTPUT_HORIZON_4CH ? true : false);
+    // result = getCoeffSetForStandardPointSet(x, y, z, pointsSet, outputMode == OUTPUT_SPATIAL_4CH ? true : false);
 }
 
 int M1EncodeCore::getInputModeFromString(std::string name) {
@@ -810,7 +810,7 @@ void M1EncodeCore::generatePointResults() {
         resultingPoints.pointsCount = 1;
         resultingPoints.pointsNames[0] = "M";
 
-        if (outputMode == OUTPUT_HORIZON_4CH) {
+        if (outputMode == OUTPUT_SPATIAL_4CH) {
             resultingPoints.ppoints[0] = centerpoint;
         } else {
             if (pannerMode == MODE_ISOTROPICLINEAR || pannerMode == MODE_ISOTROPICEQUALPOWER) {
@@ -837,7 +837,7 @@ void M1EncodeCore::generatePointResults() {
 
         for (int i = 0; i < resultingPoints.pointsCount; i++) {
             resultingPoints.pointsNames[i] = names[i];
-            if (outputMode == OUTPUT_HORIZON_4CH) {
+            if (outputMode == OUTPUT_SPATIAL_4CH) {
                 resultingPoints.ppoints[i] = pnts[i] + centerpoint;
             } else if (pannerMode == MODE_ISOTROPICLINEAR || pannerMode == MODE_ISOTROPICEQUALPOWER) {
                 resultingPoints.ppoints[i] = pnts[i] + Mach1Point3D{centerpoint.x * (float)sin((elevation + 1) * PI / 2), elevation, centerpoint.z * (float)sin((elevation + 1) * PI / 2)};
@@ -860,7 +860,7 @@ void M1EncodeCore::generatePointResults() {
         for (int i = 0; i < resultingPoints.pointsCount; i++) {
             resultingPoints.pointsNames[i] = names[i];
             resultingPoints.ppoints[i] = pnts[i];
-            if (outputMode == OUTPUT_HORIZON_4CH) {
+            if (outputMode == OUTPUT_SPATIAL_4CH) {
                 resultingPoints.ppoints[i].y = 0;
             }
         }
@@ -886,7 +886,7 @@ void M1EncodeCore::generatePointResults() {
         for (int i = 0; i < resultingPoints.pointsCount; i++) {
             resultingPoints.pointsNames[i] = names[i];
             resultingPoints.ppoints[i] = pnts[i];
-            if (outputMode == OUTPUT_HORIZON_4CH) {
+            if (outputMode == OUTPUT_SPATIAL_4CH) {
                 resultingPoints.ppoints[i].y = 0;
             }
         }
@@ -906,7 +906,7 @@ void M1EncodeCore::generatePointResults() {
         for (int i = 0; i < resultingPoints.pointsCount; i++) {
             resultingPoints.pointsNames[i] = names[i];
             resultingPoints.ppoints[i] = pnts[i];
-            if (outputMode == OUTPUT_HORIZON_4CH) {
+            if (outputMode == OUTPUT_SPATIAL_4CH) {
                 resultingPoints.ppoints[i].y = 0;
             }
         }
@@ -935,7 +935,7 @@ void M1EncodeCore::generatePointResults() {
         for (int i = 0; i < resultingPoints.pointsCount; i++) {
             resultingPoints.pointsNames[i] = names[i];
             resultingPoints.ppoints[i] = pnts[i];
-            if (outputMode == OUTPUT_HORIZON_4CH) {
+            if (outputMode == OUTPUT_SPATIAL_4CH) {
                 resultingPoints.ppoints[i].y = 0;
             }
         }
@@ -958,7 +958,7 @@ void M1EncodeCore::generatePointResults() {
         for (int i = 0; i < resultingPoints.pointsCount; i++) {
             resultingPoints.pointsNames[i] = names[i];
             resultingPoints.ppoints[i] = pnts[i];
-            if (outputMode == OUTPUT_HORIZON_4CH) {
+            if (outputMode == OUTPUT_SPATIAL_4CH) {
                 resultingPoints.ppoints[i].y = 0;
             }
         }
@@ -987,7 +987,7 @@ void M1EncodeCore::generatePointResults() {
         for (int i = 0; i < resultingPoints.pointsCount; i++) {
             resultingPoints.pointsNames[i] = names[i];
             resultingPoints.ppoints[i] = pnts[i];
-            if (outputMode == OUTPUT_HORIZON_4CH) {
+            if (outputMode == OUTPUT_SPATIAL_4CH) {
                 resultingPoints.ppoints[i].y = 0;
             }
         }
@@ -1011,7 +1011,7 @@ void M1EncodeCore::generatePointResults() {
         for (int i = 0; i < resultingPoints.pointsCount; i++) {
             resultingPoints.pointsNames[i] = names[i];
             resultingPoints.ppoints[i] = pnts[i];
-            if (outputMode == OUTPUT_HORIZON_4CH) {
+            if (outputMode == OUTPUT_SPATIAL_4CH) {
                 resultingPoints.ppoints[i].y = 0;
             }
         }
@@ -1037,7 +1037,7 @@ void M1EncodeCore::generatePointResults() {
         for (int i = 0; i < resultingPoints.pointsCount; i++) {
             resultingPoints.pointsNames[i] = names[i];
             resultingPoints.ppoints[i] = pnts[i];
-            if (outputMode == OUTPUT_HORIZON_4CH) {
+            if (outputMode == OUTPUT_SPATIAL_4CH) {
                 resultingPoints.ppoints[i].y = 0;
             }
         }
@@ -1064,7 +1064,7 @@ void M1EncodeCore::generatePointResults() {
         for (int i = 0; i < resultingPoints.pointsCount; i++) {
             resultingPoints.pointsNames[i] = names[i];
             resultingPoints.ppoints[i] = pnts[i];
-            if (outputMode == OUTPUT_HORIZON_4CH) {
+            if (outputMode == OUTPUT_SPATIAL_4CH) {
                 resultingPoints.ppoints[i].y = 0;
             }
         }
@@ -1091,7 +1091,7 @@ void M1EncodeCore::generatePointResults() {
         for (int i = 0; i < resultingPoints.pointsCount; i++) {
             resultingPoints.pointsNames[i] = names[i];
             resultingPoints.ppoints[i] = pnts[i];
-            if (outputMode == OUTPUT_HORIZON_4CH) {
+            if (outputMode == OUTPUT_SPATIAL_4CH) {
                 resultingPoints.ppoints[i].y = 0;
             }
         }
@@ -1118,7 +1118,7 @@ void M1EncodeCore::generatePointResults() {
         for (int i = 0; i < resultingPoints.pointsCount; i++) {
             resultingPoints.pointsNames[i] = names[i];
             resultingPoints.ppoints[i] = pnts[i];
-            if (outputMode == OUTPUT_HORIZON_4CH) {
+            if (outputMode == OUTPUT_SPATIAL_4CH) {
                 resultingPoints.ppoints[i].y = 0;
             }
         }
@@ -1133,7 +1133,7 @@ void M1EncodeCore::generatePointResults() {
 
         // Generating gains
         std::vector<float> gains;
-        if (outputMode == OUTPUT_HORIZON_4CH) {
+        if (outputMode == OUTPUT_SPATIAL_4CH) {
             // force ppoints to center of soundfield's elevation
             processGainsChannels(resultingPoints.ppoints[i].z, resultingPoints.ppoints[i].x, 0, gains);
         } else {
@@ -1157,7 +1157,7 @@ void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, flo
 
     int decodeResultSize = 0;
     switch (decodeType) {
-    case Mach1DecodeAlgoHorizon_4:
+    case Mach1DecodeAlgoSPATIAL_4:
         decodeResultSize = 8;
         break;
     case Mach1DecodeAlgoSpatial_8:
@@ -1242,10 +1242,10 @@ int M1EncodeCore::getInputChannelsCount() {
 
 int M1EncodeCore::getOutputChannelsCount() {
     switch (outputMode) {
+    case OUTPUT_SPATIAL_4CH:
+        return 4;
     case OUTPUT_SPATIAL_8CH:
         return 8;
-    case OUTPUT_HORIZON_4CH:
-        return 4;
     case OUTPUT_SPATIAL_12CH:
         return 12;
     case OUTPUT_SPATIAL_14CH:

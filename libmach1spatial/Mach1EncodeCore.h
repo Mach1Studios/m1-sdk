@@ -82,8 +82,8 @@ class M1EncodeCore {
         INPUT_3OAFUMA
     };
     enum OutputMode {
-        OUTPUT_SPATIAL_8CH = (int)0,
-        OUTPUT_HORIZON_4CH,
+        OUTPUT_SPATIAL_4CH = (int)0,
+        OUTPUT_SPATIAL_8CH,
         OUTPUT_SPATIAL_12CH,
         OUTPUT_SPATIAL_14CH
     };
@@ -122,8 +122,8 @@ class M1EncodeCore {
         std::string name;
     };
     std::vector<OutputModeName> outputModeNames = {
+        {OUTPUT_SPATIAL_4CH, "M1Spatial-4"},
         {OUTPUT_SPATIAL_8CH, "M1Spatial-8"},
-        {OUTPUT_HORIZON_4CH, "M1Horizon-4"},
         {OUTPUT_SPATIAL_12CH, "M1Spatial-12"},
         {OUTPUT_SPATIAL_14CH, "M1Spatial-14"},
     };

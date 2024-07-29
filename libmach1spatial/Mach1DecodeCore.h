@@ -160,7 +160,7 @@ class Mach1DecodeCore {
     //--------------------------------------------------
 
     //
-    //  Four channel audio format
+    //  Four channel audio layout (synonymous with Quad)
     //
     //  Order of input angles:
     //  Y = Yaw in degrees
@@ -168,14 +168,14 @@ class Mach1DecodeCore {
     //  R = Roll in degrees
     //
 
-    std::vector<float> horizonAlgo_4(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
+    std::vector<float> spatialAlgo_4(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
 
-    void horizonAlgo_4(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
+    void spatialAlgo_4(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
 
     // ------------------------------------------------------------------
 
     //
-    //  Eight channel audio format (isotropic version).
+    //  Eight channel audio layout (isotropic version).
     //
     //  Order of input angles:
     //  Y = Yaw in degrees
@@ -190,7 +190,7 @@ class Mach1DecodeCore {
     // ------------------------------------------------------------------
 
     //
-    //  Additional channel audio formats (isotropic version).
+    //  Additional channel audio layouts (isotropic version).
     //
     //  Order of input angles:
     //  Y = Yaw in degrees

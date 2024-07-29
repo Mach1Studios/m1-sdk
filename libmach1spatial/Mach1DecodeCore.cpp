@@ -120,7 +120,7 @@ float Mach1DecodeCore::targetDirectionMultiplier(float angleCurrent, float angle
     return 0.;
 }
 
-// Envelope follower feature is defined here, in updateAngles()
+// Note: Envelope follower feature is defined here, in updateAngles()
 void Mach1DecodeCore::updateAngles() {
     targetYaw = fmod(targetYaw, 360);
     targetPitch = fmod(targetPitch, 360);
@@ -184,7 +184,6 @@ bool Mach1DecodeCore::linePlaneIntersection(Mach1Point3D &contact, Mach1Point3D 
             return true;
         }
     }
-
     return false;
 }
 
@@ -202,24 +201,24 @@ void Mach1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int n
     Mach1Point3D faceVectorLeft = faceVector21.getRotated(simulationAngles[2] - 90, faceVector2);
     Mach1Point3D faceVectorRight = faceVector21.getRotated(simulationAngles[2] + 90, faceVector2);
 
-    Mach1Point3D planes[8][2] =
-    {
-        {{1, 0, 0}, {100, 0, 0}},
-        {{-1, 0, 0}, {-100, 0, 0}},
-        {{0, 1, 0}, {0, 100, 0}},
-        {{0, -1, 0}, {0, -100, 0}},
-        {{0, 0, 1}, {0, 0, 100}},
-        {{0, 0, -1}, {0, 0, -100}}
-    };
+    // Mach1Point3D planes[8][2] =
+    // {
+    //     {{1, 0, 0}, {100, 0, 0}},
+    //     {{-1, 0, 0}, {-100, 0, 0}},
+    //     {{0, 1, 0}, {0, 100, 0}},
+    //     {{0, -1, 0}, {0, -100, 0}},
+    //     {{0, 0, 1}, {0, 0, 100}},
+    //     {{0, 0, -1}, {0, 0, -100}}
+    // };
 
     Mach1Point3D contactL = faceVectorLeft * 100 + faceVector2 * 100;
     Mach1Point3D contactR = faceVectorRight * 100 + faceVector2 * 100;
 
-    // check for intersection with cube
-    for (int j = 0; j < 8; j++) {
-        linePlaneIntersection(contactL, {0, 0, 0}, faceVectorLeft * 100 + faceVector2 * 100, planes[j][0], planes[j][1]);
-        linePlaneIntersection(contactR, {0, 0, 0}, faceVectorRight * 100 + faceVector2 * 100, planes[j][0], planes[j][1]);
-    }
+    // // check for intersection with cube
+    // for (int j = 0; j < 8; j++) {
+    //     linePlaneIntersection(contactL, {0, 0, 0}, faceVectorLeft * 100 + faceVector2 * 100, planes[j][0], planes[j][1]);
+    //     linePlaneIntersection(contactR, {0, 0, 0}, faceVectorRight * 100 + faceVector2 * 100, planes[j][0], planes[j][1]);
+    // }
 
     float d = sqrtf(100 * 100 + 200 * 200);
 
@@ -243,32 +242,34 @@ void Mach1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int n
         result[i * 2 + 1] = vR_clamped[i];
     }
 
-    // Volume Balancer v2.0
+    // Gain normalizer v2.0
     float sumL = 0, sumR = 0;
     for (int i = 0; i < numChannelPoints; i++) {
         sumL += result[i * 2];
         sumR += result[i * 2 + 1];
     }
-
     for (int i = 0; i < numChannelPoints; i++) {
         result[i * 2 + 0] /= sumL;
         result[i * 2 + 1] /= sumR;
     }
-
     // if(sumL > 1.0 || sumR > 1.0) printf("%f - %f\r\n", sumL, sumR);
 }
+
+/*
+ Defined multichannel spatial layouts
+
+ Mach1 XYZ Coordinate Expectation:
+ X (left -> right | where -X is left)
+ Y (front -> back | where -Y is back)
+ Z (top -> bottom | where -Z is bottom)
+ 
+ */
 
 void Mach1DecodeCore::spatialAlgoSample_8(float Yaw, float Pitch, float Roll, float *result) {
     const int numChannelPoints = 8;
 
     Mach1Point3D channelPoints[numChannelPoints] =
         {
-            /*
-            Mach1 XYZ Coordinate Expectation:
-                X (left -> right | where -X is left)
-                Y (front -> back | where -Y is back)
-                Z (top -> bottom | where -Z is bottom)
-             */
             {-100, 100, 100},
             {100, 100, 100},
             {-100, -100, 100},
@@ -651,7 +652,7 @@ Mach1PlatformType Mach1DecodeCore::getPlatformType() {
 
 int Mach1DecodeCore::getFormatChannelCount() {
     switch (algorithmType) {
-    case Mach1DecodeAlgoHorizon_4:
+    case Mach1DecodeAlgoSpatial_4:
         return 4;
     case Mach1DecodeAlgoSpatial_8:
         return 8;
@@ -665,7 +666,7 @@ int Mach1DecodeCore::getFormatChannelCount() {
 
 int Mach1DecodeCore::getFormatCoeffCount() {
     switch (algorithmType) {
-    case Mach1DecodeAlgoHorizon_4:
+    case Mach1DecodeAlgoSpatial_4:
         return (4 * 2);
     case Mach1DecodeAlgoSpatial_8:
         return (8 * 2);
@@ -741,8 +742,8 @@ std::vector<float> Mach1DecodeCore::decodeCoeffs(int bufferSize, int sampleIndex
     float Roll = fmod(rotation.z, 360.0);
 
     switch (algorithmType) {
-        case Mach1DecodeAlgoHorizon_4:
-            res = horizonAlgo_4(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+        case Mach1DecodeAlgoSpatial_4:
+            res = spatialAlgo_4(Yaw, Pitch, Roll, bufferSize, sampleIndex);
             break;
 
         case Mach1DecodeAlgoSpatial_8:
@@ -821,8 +822,8 @@ void Mach1DecodeCore::decodeCoeffs(float *result, int bufferSize, int sampleInde
     float Roll = fmod(rotation.z, 360.0);
 
     switch (algorithmType) {
-        case Mach1DecodeAlgoHorizon_4:
-            horizonAlgo_4(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+        case Mach1DecodeAlgoSpatial_4:
+            spatialAlgo_4(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
             break;
 
         case Mach1DecodeAlgoSpatial_8:
@@ -1029,7 +1030,7 @@ std::vector<float> Mach1DecodeCore::processSample(functionAlgoSample funcAlgoSam
 //  R = Roll in degrees
 //
 
-std::vector<float> Mach1DecodeCore::horizonAlgo_4(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {
+std::vector<float> Mach1DecodeCore::spatialAlgo_4(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {
 
     const int numChannelPoints = 4;
     convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
@@ -1080,7 +1081,7 @@ std::vector<float> Mach1DecodeCore::horizonAlgo_4(float Yaw, float Pitch, float 
     return result;
 }
 
-void Mach1DecodeCore::horizonAlgo_4(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
+void Mach1DecodeCore::spatialAlgo_4(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
 
     const int numChannelPoints = 4;
     convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
@@ -1132,7 +1133,7 @@ void Mach1DecodeCore::horizonAlgo_4(float Yaw, float Pitch, float Roll, float *r
 // ------------------------------------------------------------------
 
 //
-//  Eight channel audio format (isotropic version).
+//  Eight channel audio layout (isotropic version).
 //
 //  Order of input angles:
 //  Y = Yaw in degrees
@@ -1153,7 +1154,7 @@ void Mach1DecodeCore::spatialAlgo_8(float Yaw, float Pitch, float Roll, float *r
 // ------------------------------------------------------------------
 
 //
-//  Additional channel audio formats (isotropic version).
+//  Additional channel audio layouts (isotropic version).
 //
 //  Order of input angles:
 //  Y = Yaw in degrees

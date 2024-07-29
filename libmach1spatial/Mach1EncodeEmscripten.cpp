@@ -26,8 +26,8 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
         .value("Mach1EncodeInputModeB3OAFUMA", Mach1EncodeInputModeB3OAFUMA);
 
     enum_<Mach1EncodeOutputModeType>("Mach1EncodeOutputModeType")
+        .value("Mach1EncodeOutputModeM1Spatial_4", Mach1EncodeOutputModeM1Spatial_4)
         .value("Mach1EncodeOutputModeM1Spatial_8", Mach1EncodeOutputModeM1Spatial_8)
-        .value("Mach1EncodeOutputModeM1Horizon_4", Mach1EncodeOutputModeM1Horizon_4)
         .value("Mach1EncodeOutputModeM1Spatial_12", Mach1EncodeOutputModeM1Spatial_12)
         .value("Mach1EncodeOutputModeM1Spatial_14", Mach1EncodeOutputModeM1Spatial_14);
 
@@ -37,9 +37,8 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
         .value("Mach1EncodePannerModePeriphonicLinear", Mach1EncodePannerModePeriphonicLinear);
 
     enum_<Mach1DecodeAlgoType>("Mach1DecodeAlgoType")
+        .value("Mach1DecodeAlgoSpatial_4", Mach1DecodeAlgoSpatial_4)
         .value("Mach1DecodeAlgoSpatial_8", Mach1DecodeAlgoSpatial_8)
-        .value("Mach1DecodeAlgoHorizon_4", Mach1DecodeAlgoHorizon_4)
-        .value("Mach1DecodeAlgoHorizonPairs", Mach1DecodeAlgoHorizonPairs)
         .value("Mach1DecodeAlgoSpatial_12", Mach1DecodeAlgoSpatial_12)
         .value("Mach1DecodeAlgoSpatial_14", Mach1DecodeAlgoSpatial_14);
 

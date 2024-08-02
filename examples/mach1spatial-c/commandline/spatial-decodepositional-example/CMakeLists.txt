@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.13.0)
 project(spatial-decodepositional-example)
 add_library(${PROJECT_NAME} STATIC)
 
+target_compile_definitions(${PROJECT_NAME} PRIVATE SKIP_ENCODE_API)
+
 # Link with lib
 target_link_libraries(${PROJECT_NAME} PRIVATE Mach1Spatial)
 

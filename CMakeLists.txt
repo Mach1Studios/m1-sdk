@@ -1,0 +1,37 @@
+cmake_minimum_required(VERSION 3.1.0)
+project(Mach1SpatialSDK)
+
+#----------------
+# Setup & Options
+#----------------
+
+# Project options/defaults
+option(M1S_BUILD_TESTS           "Build libmach1spatial unit tests."           ON)
+option(M1S_BUILD_EXAMPLES        "Build libmach1spatial examples."             ON)
+option(BUILD_SHARED_LIBS         "Build shared instead of static libraries."   OFF)
+option(BUILD_MACOS_BUNDLE        "Build shared macos bundle libraries."        OFF)
+option(BUILD_WIN_MT              "Build win multithreaded static libraries."   OFF)
+option(SKIP_ENCODE_API           "Skip building the Mach1Encode API"           OFF)
+option(SKIP_DECODE_API           "Skip building the Mach1Decode API"           OFF)
+option(SKIP_DECODEPOSITIONAL_API "Skip building the Mach1DecodePositional API" OFF)
+option(SKIP_TRANSCODE_API        "Skip building the Mach1Transcode API"        OFF)
+
+#----------------
+# Lib
+#----------------
+
+include(libmach1spatial)
+
+#----------------
+# Repo
+#----------------
+
+# Optionally,  also addthe examples and/or  unit testingprogram 
+if(M1S_BUILD_EXAMPLES)
+    add_subdirectory(examples/mach1spatial-c/commandline)
+endif()
+if(M1S_BUILD_TESTS)
+    add_subdirectory(tests)
+endif()
+
+#-------------------------------------------------------------------------------

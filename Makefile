@@ -66,6 +66,7 @@ build-web-release: FORCE
 	rsync -c "libmach1spatial/include/js/Mach1Decode.js" "../examples/mach1spatial-web/m1-web-spatialaudioplayer/js/Mach1Decode.js"
 	rsync -c "libmach1spatial/include/js/Mach1Decode.wasm" "../examples/mach1spatial-web/m1-web-spatialaudioplayer/js/Mach1Decode.wasm"
 	# OFXMACH1
+	rsync -c  --exclude '*CAPI.h' libmach1spatial/include/include/cpp/* ../examples/mach1spatial-c/openframeworks/ofxMach1/src
 	rsync -c libmach1spatial/include/js/* ../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/emscripten/
 
 # place anything you need all commands to run here

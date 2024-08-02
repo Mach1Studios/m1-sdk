@@ -2,12 +2,12 @@ cmake_minimum_required(VERSION 3.1.0)
 project(spatial-decode-example)
 set(CMAKE_CXX_STANDARD 11)
 
-include(../../../../source)
+include(../../../../libmach1spatial)
 
 # collect and add source files
 set(SOURCES 
 	src/main.cpp
-	${MACH1SPATIAL_LIBS_PATH}/xcode/include/Mach1Decode.cpp
+	../../../../libmach1spatial/include/cpp/Mach1Decode.cpp
 	)
 
 # create the executable

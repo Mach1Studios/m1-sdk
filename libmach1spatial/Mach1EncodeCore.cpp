@@ -1157,7 +1157,7 @@ void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, flo
 
     int decodeResultSize = 0;
     switch (decodeType) {
-    case Mach1DecodeAlgoSPATIAL_4:
+    case Mach1DecodeAlgoSpatial_4:
         decodeResultSize = 8;
         break;
     case Mach1DecodeAlgoSpatial_8:

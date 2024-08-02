@@ -2,8 +2,7 @@
 # Setup
 #----------------
 
-cmake_minimum_required(VERSION 3.1.0)
-project(Mach1Spatial)
+cmake_minimum_required(VERSION 3.13.0)
 
 # Fix behavior of CMAKE_CXX_STANDARD when targeting macOS.
 if (POLICY CMP0025)
@@ -75,14 +74,6 @@ endif()
 list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/cmake)
 message(STATUS "CMAKE_MODULE_PATH='${CMAKE_MODULE_PATH}'")
 
-# include paths
-target_include_directories(${PROJECT_NAME} 
-PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/cpp>
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-)
-include(GNUInstallDirs)
-
 #----------------
 # Version
 #----------------
@@ -101,37 +92,53 @@ set(TRANSCODE_VERSION           "${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1S
 # Sources
 #----------------
 
+project(Mach1Spatial VERSION ${Mach1SpatialLibraries_VERSION})
+add_library(${PROJECT_NAME}) #STATIC
+set_target_properties(${PROJECT_NAME}
+PROPERTIES
+    VERSION ${Mach1SpatialLibraries_VERSION}
+    SOVERSION ${Mach1SpatialLibraries_VERSION} 
+)
+
 # include headers
 set(MACH1_HEADERS 
     Mach1Point3D.h
     Mach1Point4D.h
     )
-include(deps)
+add_subdirectory(deps)
 
 # collect and add source files
-set(Mach1EncodeAPI_SOURCE "Mach1EncodeCAPI.cpp" "Mach1EncodeCore.cpp")
-set(Mach1DecodeAPI_SOURCE "Mach1DecodeCAPI.cpp" "Mach1DecodeCore.cpp")
-set(Mach1DecodePositionalAPI_SOURCE "Mach1DecodePositionalCAPI.cpp" "Mach1DecodeCore.cpp" "Mach1DecodePositionalCore.cpp")
-set(Mach1TranscodeAPI_SOURCE "Mach1TranscodeCAPI.cpp" "Mach1TranscodeCore.cpp" "Mach1EncodeCore.cpp" "Mach1GenerateCoeffs.cpp" "Mach1AudioTimelineCore.cpp" "Mach1AudioTimelineCAPI.cpp")
+set(Mach1EncodeAPI_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/Mach1EncodeCAPI.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1EncodeCore.cpp")
+set(Mach1DecodeAPI_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/Mach1DecodeCAPI.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1DecodeCore.cpp")
+set(Mach1DecodePositionalAPI_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/Mach1DecodePositionalCAPI.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1DecodeCore.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1DecodePositionalCore.cpp")
+set(Mach1TranscodeAPI_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/Mach1TranscodeCAPI.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1TranscodeCore.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1EncodeCore.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1GenerateCoeffs.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1AudioTimelineCore.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1AudioTimelineCAPI.cpp")
 
-# create the library
+# add sources for each API to the library
 if(NOT SKIP_DECODE_API)
     list(APPEND MACH1_HEADERS Mach1DecodeCore.h Mach1DecodeCAPI.h)
-    add_library(Mach1DecodeAPI STATIC ${MACH1_HEADERS} ${Mach1DecodeAPI_SOURCE})
+    target_sources(${PROJECT_NAME} PUBLIC ${MACH1_HEADERS} ${Mach1DecodeAPI_SOURCE})
 endif()
 if(NOT SKIP_DECODEPOSITIONAL_API)
     list(APPEND MACH1_HEADERS Mach1DecodeCAPI.h Mach1DecodePositionalCore.h Mach1DecodePositionalCAPI.h)
-    add_library(Mach1DecodePositionalAPI STATIC ${MACH1_HEADERS} ${Mach1DecodePositionalAPI_SOURCE})
+    target_sources(${PROJECT_NAME} PUBLIC ${MACH1_HEADERS} ${Mach1DecodePositionalAPI_SOURCE})
 endif()
 if(NOT SKIP_ENCODE_API)
     list(APPEND MACH1_HEADERS Mach1DecodeCAPI.h Mach1EncodeCore.h Mach1EncodeCAPI.h)
-    add_library(Mach1EncodeAPI STATIC ${MACH1_HEADERS} ${Mach1EncodeAPI_SOURCE})
+    target_sources(${PROJECT_NAME} PUBLIC ${MACH1_HEADERS} ${Mach1EncodeAPI_SOURCE})
 endif()
 if(NOT SKIP_TRANSCODE_API)
-    include(transcode)
+    add_subdirectory(transcode)
     list(APPEND MACH1_HEADERS Mach1DecodeCAPI.h Mach1EncodeCore.h Mach1GenerateCoeffs.h Mach1AudioTimelineCore.h Mach1AudioTimelineCAPI.h Mach1TranscodeCore.h Mach1TranscodeCAPI.h)
-    add_library(Mach1TranscodeAPI STATIC ${MACH1_HEADERS} ${Mach1TranscodeAPI_SOURCE})
+    target_sources(${PROJECT_NAME} PUBLIC ${MACH1_HEADERS} ${Mach1TranscodeAPI_SOURCE})
 endif()
+
+# include paths
+target_include_directories(${PROJECT_NAME} 
+PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/cpp>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
+include(GNUInstallDirs)
 
 #----------------
 # Compiler flags
@@ -143,14 +150,11 @@ set(CMAKE_C_FLAGS ${COMMON_FLAGS} "-fvisibility=hidden")
 
 if(APPLE)
     message(STATUS "SETUP: Additional MacOS flags set")
-    set(CMAKE_OSX_ARCHITECTURES "$(ARCHS_STANDARD)")
     set(CMAKE_CXX_FLAGS "-stdlib=libc++ ${CMAKE_CXX_FLAGS}")
 endif()
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Android")
     message(STATUS "SETUP: Additional Android flags set")
-    set(CMAKE_CXX_FLAGS "-stdlib=libc++ ${CMAKE_CXX_FLAGS}")
-    set(CMAKE_EXE_LINKER_FLAGS "-static-libstdc++ -Wl,-Bstatic")
 
     # ANDROID macro is not defined by CMake 3.7+, however it is used by
     # some packages like OpenCV
@@ -224,37 +228,9 @@ if(IOS)
 
 endif()
 
-if(NOT SKIP_DECODE_API)
-    set_target_properties(Mach1DecodeAPI PROPERTIES VERSION ${DECODE_VERSION})
-    set_target_properties(Mach1DecodeAPI PROPERTIES OUTPUT_NAME "Mach1DecodeCAPI")
-    set_target_properties(Mach1DecodeAPI PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static)
-endif()
-if(NOT SKIP_DECODEPOSITIONAL_API)
-    set_target_properties(Mach1DecodePositionalAPI PROPERTIES VERSION ${DECODEPOSITIONAL_VERSION})
-    set_target_properties(Mach1DecodePositionalAPI PROPERTIES OUTPUT_NAME "Mach1DecodePositionalCAPI")
-    set_target_properties(Mach1DecodePositionalAPI PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static)
-endif()
-if(NOT SKIP_ENCODE_API)
-    set_target_properties(Mach1EncodeAPI PROPERTIES VERSION ${ENCODE_VERSION})
-    set_target_properties(Mach1EncodeAPI PROPERTIES OUTPUT_NAME "Mach1EncodeCAPI")
-    set_target_properties(Mach1EncodeAPI PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static)
-endif()
-if(NOT SKIP_TRANSCODE_API)
-    set_target_properties(Mach1TranscodeAPI PROPERTIES VERSION ${TRANSCODE_VERSION})
-    set_target_properties(Mach1TranscodeAPI PROPERTIES OUTPUT_NAME "Mach1TranscodeCAPI")
-    set_target_properties(Mach1TranscodeAPI PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/static)
-endif()
-
 #----------------
 # Link
 #----------------
-
-if(NOT SKIP_DECODEPOSITIONAL_API)
-    target_include_directories(Mach1DecodePositionalAPI PRIVATE ${RootAdditionalIncludes} ${Mach1DecodePositionalAdditionalIncludes})
-endif()
-if(NOT SKIP_TRANSCODE_API)
-    target_include_directories(Mach1TranscodeAPI PRIVATE ${RootAdditionalIncludes} ${Mach1TranscodeAdditionalIncludes})
-endif()
 
 # UNITY / SHARED libs
 if(BUILD_SHARED_LIBS)
@@ -400,24 +376,6 @@ if(IOS)
         )
         install(TARGETS Mach1TranscodeCAPIframework DESTINATION Frameworks)
     endif()
-endif()
-
-#----------------
-# Install
-#----------------
-
-message(STATUS "CMAKE_INSTALL_PREFIX='${CMAKE_INSTALL_PREFIX}'")
-if(NOT SKIP_DECODE_API)
-    install(TARGETS Mach1DecodeAPI DESTINATION lib)
-endif()
-if(NOT SKIP_DECODEPOSITIONAL_API)
-    install(TARGETS Mach1DecodePositionalAPI DESTINATION lib)
-endif()
-if(NOT SKIP_ENCODE_API)
-    install(TARGETS Mach1EncodeAPI DESTINATION lib)
-endif()
-if(NOT SKIP_TRANSCODE_API)
-    install(TARGETS Mach1TranscodeAPI DESTINATION lib)
 endif()
 
 #-------------------------------------------------------------------------------

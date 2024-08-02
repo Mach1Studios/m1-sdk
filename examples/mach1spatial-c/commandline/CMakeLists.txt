@@ -1,6 +1,6 @@
 message(STATUS "Configuring Mach1 Spatial SDK examples:")
 
-include(spatial-encode-example)
-include(spatial-decode-example)
-include(spatial-decodepositional-example)
-include(spatial-transcode-example)
+add_subdirectory(spatial-encode-example)
+add_subdirectory(spatial-decode-example)
+add_subdirectory(spatial-decodepositional-example)
+add_subdirectory(spatial-transcode-example)

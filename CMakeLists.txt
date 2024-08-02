@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1.0)
+cmake_minimum_required(VERSION 3.13.0)
 project(Mach1SpatialSDK)
 
 #----------------
@@ -17,10 +17,10 @@ option(SKIP_DECODEPOSITIONAL_API "Skip building the Mach1DecodePositional API" O
 option(SKIP_TRANSCODE_API        "Skip building the Mach1Transcode API"        OFF)
 
 #----------------
-# Lib
+# Library
 #----------------
 
-include(libmach1spatial)
+add_subdirectory(libmach1spatial)
 
 #----------------
 # Repo

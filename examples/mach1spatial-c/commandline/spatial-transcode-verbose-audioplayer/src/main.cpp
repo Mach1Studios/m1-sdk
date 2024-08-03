@@ -50,7 +50,7 @@ __WINDOWS_ASIO__;__WINDOWS_WASAPI__;_CRT_SECURE_NO_WARNINGS
 
 #include "Mach1Transcode.h"
 #include "Mach1Decode.h"
-#include "M1DSPUtilities.h"
+#include "M1DSP/M1DSPUtilities.h"
 #include "sndfile.hh"
 #include "CmdOption.h"
 #include "rtaudio/RtAudio.h"

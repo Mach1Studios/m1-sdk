@@ -55,18 +55,21 @@ set(Mach1DecodePositionalCAPIsrc "../libmach1spatial/Mach1DecodePositionalCAPI.c
 set(Mach1TranscodeCAPIsrc "../libmach1spatial/Mach1TranscodeCAPI.cpp" "../libmach1spatial/Mach1TranscodeCore.cpp" "../libmach1spatial/Mach1EncodeCore.cpp" "../libmach1spatial/Mach1GenerateCoeffs.cpp" "../libmach1spatial/deps/M1DSP/M1DSPFilters.cpp" "../libmach1spatial/deps/M1DSP/M1DSPUtilities.cpp" "../libmach1spatial/include/cpp/Mach1Transcode.cpp")
 
 # create the executable
-add_executable(Mach1EncodeTests "./Mach1EncodeTests/mach1encode-tests.cpp" ${Mach1EncodeCAPIsrc})
-add_executable(Mach1DecodeTests "./Mach1DecodeTests/mach1decode-tests.cpp" ${Mach1DecodeCAPIsrc})
-add_executable(Mach1DecodePositionalTests "./Mach1DecodePositionalTests/mach1decodepositional-tests.cpp" ${Mach1DecodePositionalCAPIsrc})
-add_executable(Mach1TranscodeTests "./Mach1TranscodeTests/mach1transcode-tests.cpp" ${Mach1TranscodeCAPIsrc})
-add_executable(Mach1SpatialTests "./Mach1SpatialTests/mach1spatial-tests.cpp" ${Mach1DecodeCAPIsrc} ${Mach1EncodeCAPIsrc})
+add_executable(Mach1EncodeTests Mach1EncodeTests/mach1encode-tests.cpp ${Mach1EncodeCAPIsrc})
+add_executable(Mach1DecodeTests Mach1DecodeTests/mach1decode-tests.cpp ${Mach1DecodeCAPIsrc})
+add_executable(Mach1DecodePositionalTests Mach1DecodePositionalTests/mach1decodepositional-tests.cpp ${Mach1DecodePositionalCAPIsrc})
+add_executable(Mach1TranscodeTests Mach1TranscodeTests/mach1transcode-tests.cpp ${Mach1TranscodeCAPIsrc})
+add_executable(Mach1SpatialTests Mach1SpatialTests/mach1spatial-tests.cpp ${Mach1DecodeCAPIsrc} ${Mach1EncodeCAPIsrc})
 
 #----------------
 # Link
 #----------------
 
 # include headers
-set(Mach1CAPIinclude "../libmach1spatial/" "../libmach1spatial/include/cpp" "../libmach1spatial/deps" "../libmach1spatial/deps/acutest/include" "../libmach1spatial/deps/nlohmann/single_include")
+set(MACH1SPATIAL_INCLUDES ../libmach1spatial/include/cpp ../libmach1spatial/deps)
+include_directories(${MACH1SPATIAL_INCLUDES})
+
+set(Mach1CAPIinclude ../libmach1spatial ../libmach1spatial/include/cpp ../libmach1spatial/deps ../libmach1spatial/deps/acutest/include ../libmach1spatial/deps/nlohmann/single_include)
 set(Mach1EncodeCAPIinclude ${Mach1CAPIinclude})
 set(Mach1DecodeCAPIinclude ${Mach1CAPIinclude})
 set(Mach1DecodePositionalCAPIinclude ${Mach1CAPIinclude} "../libmach1spatial/deps/glm")

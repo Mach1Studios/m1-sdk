@@ -14,6 +14,9 @@ PRIVATE
 	../../../../libmach1spatial/include/cpp/Mach1Transcode.cpp
 )
 
+set(MACH1SPATIAL_INCLUDES ../../../../libmach1spatial/include/cpp ../../../../libmach1spatial/deps ../../../../libmach1spatial/deps/glm)
+include_directories(${MACH1SPATIAL_INCLUDES})
+
 if(PROJECT_IS_TOP_LEVEL)
 	set(THREADS_PREFER_PTHREAD_FLAG ON)
 	find_package(Threads REQUIRED)

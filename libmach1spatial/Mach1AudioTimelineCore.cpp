@@ -3,7 +3,7 @@
 
 #include "Mach1AudioTimelineCore.h"
 #include "Mach1GenerateCoeffs.h"
-#include <Yaml.hpp>
+#include "yaml/Yaml.hpp"
 
 float Mach1AudioTimelineCore::clamp(float n, float lower, float upper) {
     return std::max(lower, std::min(n, upper));

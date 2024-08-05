@@ -50,7 +50,7 @@ __WINDOWS_ASIO__;__WINDOWS_WASAPI__;_CRT_SECURE_NO_WARNINGS
 
 #include "Mach1Transcode.h"
 #include "Mach1Decode.h"
-#include <M1DSP/M1DSPUtilities.h>
+#include "M1DSP/M1DSPUtilities.h"
 #include "sndfile.hh"
 #include "CmdOption.h"
 #include "rtaudio/RtAudio.h"
@@ -390,7 +390,7 @@ int main(int argc, char* argv[])
 
     // -- Mach1Decode setup
     m1Decode.setPlatformType(Mach1PlatformDefault);
-    m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial);
+    m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial_8);
     m1Decode.setFilterSpeed(0.95f);
     orientation.x = yaw;
     orientation.y = pitch;
@@ -442,8 +442,8 @@ int main(int argc, char* argv[])
                        playbackSampleRate, &bufferFrames, &rtAudioPlayback, (void *)&data );
         dac.startStream();
     }
-    catch ( RtAudioError& e ) {
-        e.printMessage();
+    catch ( RtAudioErrorType& e ) {
+        printf("ERROR: RTAudio returned: " + e);
         exit( 0 );
     }
 
@@ -540,10 +540,8 @@ static void updateMach1DecodeOrientation()
         orientation.y = pitch;
         orientation.z = roll;
 
-        m1Decode.beginBuffer();
         m1Decode.setRotationDegrees(orientation);
         m1Coeffs = m1Decode.decodeCoeffs();
-        m1Decode.endBuffer();
 
 		updateMach1Transcode();
 

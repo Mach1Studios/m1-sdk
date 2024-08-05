@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1.0)
+cmake_minimum_required(VERSION 3.5.0)
 project(spatial-transcode-audioplayer)
 add_executable(${PROJECT_NAME})
 
@@ -85,7 +85,7 @@ PRIVATE
 )
 
 # include headers
-set(MACH1SPATIAL_INCLUDES ../../../../libmach1spatial/include/cpp)
+set(MACH1SPATIAL_INCLUDES ../../../../libmach1spatial/include/cpp ../../../../libmach1spatial/deps)
 include_directories(${MACH1SPATIAL_INCLUDES} ${LIBSNDFILE_INCLUDE_DIRS} ${RTAUDIO_INCLUDE_DIR})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBSNDFILE_LIBRARIES})

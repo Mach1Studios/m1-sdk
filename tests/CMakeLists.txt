@@ -70,13 +70,13 @@ set(Mach1CAPIinclude "../libmach1spatial/" "../libmach1spatial/include/cpp" "../
 set(Mach1EncodeCAPIinclude ${Mach1CAPIinclude})
 set(Mach1DecodeCAPIinclude ${Mach1CAPIinclude})
 set(Mach1DecodePositionalCAPIinclude ${Mach1CAPIinclude} "../libmach1spatial/deps/glm")
-set(Mach1TranscodeCAPIinclude ${Mach1CAPIinclude} "../libmach1spatial/transcode-includes")
+set(Mach1TranscodeCAPIinclude ${Mach1CAPIinclude} "../libmach1spatial/transcode")
 
-target_include_directories(Mach1EncodeTests PRIVATE "./include" ${Mach1EncodeCAPIinclude})
-target_include_directories(Mach1DecodeTests PRIVATE "./include" ${Mach1DecodeCAPIinclude})
-target_include_directories(Mach1DecodePositionalTests PRIVATE "./include" ${Mach1DecodePositionalCAPIinclude})
-target_include_directories(Mach1TranscodeTests PRIVATE "./include" ${Mach1TranscodeCAPIinclude})
-target_include_directories(Mach1SpatialTests PRIVATE "./include" ${Mach1CAPIinclude})
+target_include_directories(Mach1EncodeTests PRIVATE ${Mach1EncodeCAPIinclude})
+target_include_directories(Mach1DecodeTests PRIVATE  ${Mach1DecodeCAPIinclude})
+target_include_directories(Mach1DecodePositionalTests PRIVATE ${Mach1DecodePositionalCAPIinclude})
+target_include_directories(Mach1TranscodeTests PRIVATE ${Mach1TranscodeCAPIinclude})
+target_include_directories(Mach1SpatialTests PRIVATE ${Mach1CAPIinclude})
 
 #----------------
 # Install

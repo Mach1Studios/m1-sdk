@@ -104,36 +104,38 @@ PROPERTIES
 set(MACH1_HEADERS 
     Mach1Point3D.h
     Mach1Point4D.h
-    )
-set(Mach1AdditionalIncludePaths "deps" "deps/yaml/yaml" "deps/pugixml/src" "deps/glm" "deps/yaml/yaml")
-include_directories(${Mach1AdditionalIncludePaths})
+)
+
+set(Mach1AdditionalIncludePaths "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/include/cpp" "${CMAKE_CURRENT_SOURCE_DIR}/deps" "${CMAKE_CURRENT_SOURCE_DIR}/deps/yaml" "${CMAKE_CURRENT_SOURCE_DIR}/deps/pugixml/src" "${CMAKE_CURRENT_SOURCE_DIR}/deps/glm")
+target_include_directories(${PROJECT_NAME} PRIVATE ${Mach1AdditionalIncludePaths})
 
 # collect and add source files
-set(Mach1EncodeAPI_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/Mach1EncodeCAPI.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1EncodeCore.cpp")
-set(Mach1DecodeAPI_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/Mach1DecodeCAPI.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1DecodeCore.cpp")
-set(Mach1DecodePositionalAPI_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/Mach1DecodePositionalCAPI.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1DecodeCore.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1DecodePositionalCore.cpp")
-set(Mach1TranscodeAPI_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/Mach1TranscodeCAPI.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1TranscodeCore.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1EncodeCore.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1GenerateCoeffs.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1AudioTimelineCore.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1AudioTimelineCAPI.cpp")
+set(Mach1EncodeAPI_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/Mach1EncodeCAPI.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1EncodeCore.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/include/cpp/Mach1Encode.cpp")
+set(Mach1DecodeAPI_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/Mach1DecodeCAPI.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1DecodeCore.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/include/cpp/Mach1Decode.cpp")
+set(Mach1DecodePositionalAPI_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/Mach1DecodePositionalCAPI.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1DecodePositionalCore.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/include/cpp/Mach1DecodePositional.cpp" ${Mach1DecodeAPI_SOURCE})
+set(Mach1TranscodeAPI_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/Mach1TranscodeCAPI.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1TranscodeCore.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/include/cpp/Mach1Transcode.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1EncodeCore.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1GenerateCoeffs.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/deps/M1DSP/M1DSPFilters.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/deps/M1DSP/M1DSPUtilities.cpp")
+
+set(MACH1_COMMON_INCLUDE_PATHS ${CMAKE_CURRENT_SOURCE_DIR} "${CMAKE_CURRENT_SOURCE_DIR}/include/cpp" "${CMAKE_CURRENT_SOURCE_DIR}/transcode" "${CMAKE_CURRENT_SOURCE_DIR}/deps" "${CMAKE_CURRENT_SOURCE_DIR}/pugixml/src" "${CMAKE_CURRENT_SOURCE_DIR}/yaml" "${CMAKE_CURRENT_SOURCE_DIR}/glm" "${CMAKE_CURRENT_SOURCE_DIR}/deps/nlohmann/single_include")
+target_include_directories(${PROJECT_NAME} PRIVATE ${MACH1_COMMON_INCLUDE_PATHS})
 
 # add sources for each API to the library
 if(NOT SKIP_DECODE_API)
-    list(APPEND MACH1_HEADERS Mach1DecodeCore.h Mach1DecodeCAPI.h)
+    list(APPEND MACH1_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/Mach1DecodeCore.h" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1DecodeCAPI.h")
     target_sources(${PROJECT_NAME} PUBLIC ${MACH1_HEADERS} ${Mach1DecodeAPI_SOURCE})
 endif()
 if(NOT SKIP_DECODEPOSITIONAL_API)
-    list(APPEND MACH1_HEADERS Mach1DecodeCAPI.h Mach1DecodePositionalCore.h Mach1DecodePositionalCAPI.h)
+    list(APPEND MACH1_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/Mach1DecodeCAPI.h" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1DecodePositionalCore.h" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1DecodePositionalCAPI.h")
     target_sources(${PROJECT_NAME} PUBLIC ${MACH1_HEADERS} ${Mach1DecodePositionalAPI_SOURCE})
 endif()
 if(NOT SKIP_ENCODE_API)
-    list(APPEND MACH1_HEADERS Mach1DecodeCAPI.h Mach1EncodeCore.h Mach1EncodeCAPI.h)
+    list(APPEND MACH1_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/Mach1DecodeCAPI.h" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1EncodeCore.h" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1EncodeCAPI.h")
     target_sources(${PROJECT_NAME} PUBLIC ${MACH1_HEADERS} ${Mach1EncodeAPI_SOURCE})
 endif()
 if(NOT SKIP_TRANSCODE_API)
     include_directories("transcode")
-    list(APPEND MACH1_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/Mach1DecodeCAPI.h" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1EncodeCore.h" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1GenerateCoeffs.h" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1AudioTimelineCore.h" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1AudioTimelineCAPI.h" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1TranscodeCore.h" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1TranscodeCAPI.h" "${CMAKE_CURRENT_SOURCE_DIR}/transcode/Mach1TranscodeConstants.h" "${CMAKE_CURRENT_SOURCE_DIR}/transcode/Mach1TranscodeVectorFormats.h" "${CMAKE_CURRENT_SOURCE_DIR}/transcode/Mach1TranscodeSurroundFormats.h" "${CMAKE_CURRENT_SOURCE_DIR}/transcode/Mach1TranscodeAmbisonicFormats.h" "${CMAKE_CURRENT_SOURCE_DIR}/transcode/Mach1TranscodeMicArrayFormats.h")
+    list(APPEND MACH1_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/Mach1DecodeCAPI.h" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1EncodeCore.h" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1GenerateCoeffs.h" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1AudioTimelineCore.h" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1AudioTimelineCAPI.h" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1TranscodeCore.h" "${CMAKE_CURRENT_SOURCE_DIR}/Mach1TranscodeCAPI.h" "${CMAKE_CURRENT_SOURCE_DIR}/include/cpp/Mach1Transcode.h" "${CMAKE_CURRENT_SOURCE_DIR}/transcode/Mach1TranscodeConstants.h" "${CMAKE_CURRENT_SOURCE_DIR}/transcode/Mach1TranscodeVectorFormats.h" "${CMAKE_CURRENT_SOURCE_DIR}/transcode/Mach1TranscodeSurroundFormats.h" "${CMAKE_CURRENT_SOURCE_DIR}/transcode/Mach1TranscodeAmbisonicFormats.h" "${CMAKE_CURRENT_SOURCE_DIR}/transcode/Mach1TranscodeMicArrayFormats.h")
     target_sources(${PROJECT_NAME} PUBLIC ${MACH1_HEADERS} ${Mach1TranscodeAPI_SOURCE})
 endif()
-
-message(STATUS "Headers: ${MACH1_HEADERS}")
 
 # include paths
 target_include_directories(${PROJECT_NAME} 

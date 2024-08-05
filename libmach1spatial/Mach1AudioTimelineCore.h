@@ -15,7 +15,7 @@
 #include <vector>
 
 #include "adm/ADMParser.h"
-#include <Yaml.hpp>
+#include "yaml/Yaml.hpp"
 
 struct Mach1AudioObjectCore {
   public:

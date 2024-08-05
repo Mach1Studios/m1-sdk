@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1.0)
+cmake_minimum_required(VERSION 3.5.0)
 project(spatial-transcode-objectaudio-example)
 add_executable(${PROJECT_NAME})
 
@@ -36,7 +36,8 @@ if(LIBSNDFILE_FOUND)
 endif(LIBSNDFILE_FOUND)
 
 include(FindPkgConfig)
-add_subdirectory(libs/libbw64)
+
+include_directories(libs/libbw64/include)
 
 mark_as_advanced(LIBSNDFILE_LIBRARY LIBSNDFILE_LIBRARIES LIBSNDFILE_INCLUDE_DIR LIBSNDFILE_INCLUDE_DIRS)
 pkg_search_module(SndFile REQUIRED sndfile)
@@ -49,14 +50,15 @@ target_sources(${PROJECT_NAME}
     ../../../../libmach1spatial/deps/yaml/yaml/Yaml.cpp
     ../../../../libmach1spatial/include/cpp/Mach1Transcode.cpp
     ../../../../libmach1spatial/include/cpp/Mach1AudioTimeline.cpp
+    ../../../../libmach1spatial/Mach1AudioTimelineCAPI.cpp
+    ../../../../libmach1spatial/Mach1AudioTimelineCore.cpp
 )
 
 # include headers
-set(MACH1SPATIAL_INCLUDES ../../../../libmach1spatial/include/cpp ../../../../libmach1spatial/deps)
-include_directories(${MACH1SPATIAL_INCLUDES} ${LIBSNDFILE_INCLUDE_DIRS})
+set(MACH1SPATIAL_INCLUDES ../../../../libmach1spatial/include/cpp ../../../../libmach1spatial/deps ../../../../libmach1spatial/deps/yaml ../../../../libmach1spatial/deps/pugixml/src)
+target_include_directories(${PROJECT_NAME} PRIVATE ${MACH1SPATIAL_INCLUDES} ${LIBSNDFILE_INCLUDE_DIRS})
 
 # link libraries
 target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBSNDFILE_LIBRARIES})
-target_link_libraries(${PROJECT_NAME} PRIVATE bw64)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION build)

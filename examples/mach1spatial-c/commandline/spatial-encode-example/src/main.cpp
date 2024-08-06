@@ -220,9 +220,9 @@ void* encode(void* v)
                 break;
             case 'o':
                 if(outputMode==Mach1EncodeOutputModeM1Spatial_8){
-                    outputMode=Mach1EncodeOutputModeM1Horizon_4;
+                    outputMode=Mach1EncodeOutputModeM1Spatial_4;
                     outputName="MACH1HORIZON-4";
-                }else if(outputMode==Mach1EncodeOutputModeM1Horizon_4){
+                }else if(outputMode==Mach1EncodeOutputModeM1Spatial_4){
                     outputMode=Mach1EncodeOutputModeM1Spatial_14;
                     outputName="MACH1SPATIAL-14";
                 }else if(outputMode==Mach1EncodeOutputModeM1Spatial_14){

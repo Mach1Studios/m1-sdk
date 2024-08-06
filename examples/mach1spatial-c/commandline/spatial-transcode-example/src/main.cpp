@@ -27,7 +27,7 @@
 #include <pthread.h>
 #include <chrono>
 
-#include "Mach1Transcode.h"
+#include <Mach1Transcode.h>
 
 #define DELTA_RADIAN 0.0174533 // equivalent of 1 degrees in radians
 #define DELTA_DEGREE 1.0
@@ -103,9 +103,9 @@ int main(int argc, const char * argv[]) {
     
     printf("Setting up\n");
     inputMode = m1Transcode.getFormatFromString("ACNSN3DmaxRE3oa");
-    outputMode = m1Transcode.getFormatFromString("M1Spatial");
+    outputMode = m1Transcode.getFormatFromString("M1Spatial-8");
     inputName = "ACNSN3D-3OA";
-    outputName = "MACH1 SPATIAL";
+    outputName = "MACH1SPATIAL-8";
     done = false;
     pthread_create(&thread, NULL, &decode, NULL);
     

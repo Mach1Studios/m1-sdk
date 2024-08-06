@@ -13,6 +13,7 @@
 #include <math.h>
 #include <stddef.h>
 #include <vector>
+#include <cassert>
 
 #include "Mach1TranscodeConstants.h"
 

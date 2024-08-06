@@ -2,19 +2,20 @@ cmake_minimum_required(VERSION 3.13.0)
 project(spatial-transcode-example)
 add_executable(${PROJECT_NAME})
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE SKIP_DECODEPOSITIONAL_API)
-
 # Link with lib
-target_link_libraries(${PROJECT_NAME} PRIVATE Mach1Spatial)
+target_link_libraries(${PROJECT_NAME} PRIVATE M1Transcode M1Encode)
+set(M1_LIB_PATH ../../../../libmach1spatial)
 
 # Source files
 target_sources(${PROJECT_NAME}
 PRIVATE
 	src/main.cpp
-	../../../../libmach1spatial/include/cpp/Mach1Transcode.cpp
+	${M1_LIB_PATH}/api_transcode/include/Mach1Transcode.cpp
+	${M1_LIB_PATH}/deps/M1DSP/M1DSPUtilities.cpp
+	${M1_LIB_PATH}/deps/M1DSP/M1DSPFilters.cpp
 )
 
-set(MACH1SPATIAL_INCLUDES ../../../../libmach1spatial/include/cpp ../../../../libmach1spatial/deps ../../../../libmach1spatial/deps/glm)
+set(MACH1SPATIAL_INCLUDES ${M1_LIB_PATH}/api_transcode/include ${M1_LIB_PATH}/deps)
 include_directories(${MACH1SPATIAL_INCLUDES})
 
 if(PROJECT_IS_TOP_LEVEL)

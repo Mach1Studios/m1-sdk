@@ -182,9 +182,9 @@ static void* decode(void* v)
                 break;
             case 'o':
                 if(outputFormat==Mach1DecodeAlgoSpatial_8){
-                    outputFormat=Mach1DecodeAlgoHorizon_4;
+                    outputFormat=Mach1DecodeAlgoSpatial_4;
                     outputName="MACH1HORIZON-4";
-                }else if(outputFormat==Mach1DecodeAlgoHorizon_4){
+                }else if(outputFormat==Mach1DecodeAlgoSpatial_4){
                     outputFormat=Mach1DecodeAlgoSpatial_14;
                     outputName="MACH1SPATIAL-14";
                 }else if(outputFormat==Mach1DecodeAlgoSpatial_14){

@@ -23,7 +23,7 @@ void test_results(void) {
     };
 
     std::map<Mach1DecodeAlgoType, std::string> outputModeNames = {
-        {Mach1DecodeAlgoHorizon_4, "Horizon - 4Ch"},
+        {Mach1DecodeAlgoSpatial_4, "Horizon - 4Ch"},
         {Mach1DecodeAlgoSpatial_8, "Spatial - 8Ch"},
         {Mach1DecodeAlgoSpatial_12, "Spatial - 12Ch"},
         {Mach1DecodeAlgoSpatial_14, "Spatial - 14Ch"},
@@ -651,7 +651,7 @@ void test_results(void) {
 
         // Distance Application:
         float distance = m1Decode.getDist();
-        float attenuation = mapFloat(distance, 0, 10, 1, 0);
+        //float attenuation = mapFloat(distance, 0, 10, 1, 0); // TODO: expand testing for attenuation curve tests
         /*
          Mapping distance to arbitrary linear curve
          Design your own distance coefficient curve here
@@ -674,7 +674,7 @@ void test_results(void) {
             counter += check;
 
             if (check == false) {
-                TEST_CHECK_(check, "%s | Error with index [%d]", test.name.c_str(), i);
+                TEST_CHECK_(check, "%s | Error with index [%zu]", test.name.c_str(), i);
                 std::cout << "index: [" << i << "]: " << results[i] << ", should be: " << test.output.results[i];
                 std::cout << std::endl;
             }

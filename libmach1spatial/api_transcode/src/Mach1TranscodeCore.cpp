@@ -4,10 +4,10 @@
 #include "Mach1TranscodeCore.h"
 #include "Mach1EncodeCore.h"
 #include "Mach1GenerateCoeffs.h"
-#include "Mach1TranscodeAmbisonicFormats.h"
-#include "Mach1TranscodeMicArrayFormats.h"
-#include "Mach1TranscodeSurroundFormats.h"
-#include "Mach1TranscodeVectorFormats.h"
+#include "AmbisonicFormats.h"
+#include "MicArrayFormats.h"
+#include "SurroundFormats.h"
+#include "VectorFormats.h"
 #include "json/json.h"
 #include <cstring>
 #include <string>
@@ -149,6 +149,8 @@ const std::vector<float> Mach1TranscodeCore::getAvgSamplesDiff() {
 }
 
 void Mach1TranscodeCore::setInputFormat(int inFmt) {
+    // Assert that the format is not out of range (e.g., not -1)
+    assert(inFmt >= 0 && inFmt < Mach1TranscodeConstants::formats.size());
     this->inFmt = inFmt;
 }
 
@@ -228,6 +230,8 @@ void Mach1TranscodeCore::setInputFormatCustomPoints(std::vector<Mach1Point3D> po
 }
 
 void Mach1TranscodeCore::setOutputFormat(int outFmt) {
+    // Assert that the format is not out of range (e.g., not -1)
+    assert(outFmt >= 0 && outFmt < Mach1TranscodeConstants::formats.size());
     this->outFmt = outFmt;
 }
 

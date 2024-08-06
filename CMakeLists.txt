@@ -26,7 +26,7 @@ add_subdirectory(libmach1spatial)
 # Repo
 #----------------
 
-# Optionally,  also addthe examples and/or  unit testingprogram 
+# Adds the examples and/or unit testing 
 if(M1S_BUILD_EXAMPLES)
     add_subdirectory(examples/mach1spatial-c/commandline)
 endif()

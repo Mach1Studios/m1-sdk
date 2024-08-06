@@ -7,13 +7,10 @@ project(Mach1SpatialSDK_Tests)
 set(CMAKE_CXX_STANDARD 11)
 
 message(STATUS "TEST: CMAKE_VERSION=${CMAKE_VERSION}")
-message(STATUS "TEST: Build type: ${CMAKE_BUILD_TYPE}")
-
-if (APPLE)
-	set(CMAKE_OSX_ARCHITECTURES "$(ARCHS_STANDARD)")
-	set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED "NO")
+if(NOT CMAKE_BUILD_TYPE)
+   set(CMAKE_BUILD_TYPE "Release")
+   message(STATUS "Build type not specified: default is Release")
 endif()
-
 message(STATUS "TEST: CMAKE_OSX_ARCHITECTURES: ${CMAKE_OSX_ARCHITECTURES}")
 message(STATUS "TEST: CMAKE_HOST_SYSTEM_PROCESSOR: ${CMAKE_HOST_SYSTEM_PROCESSOR}")
 message(STATUS "TEST: CMAKE_SYSTEM_PROCESSOR: ${CMAKE_SYSTEM_PROCESSOR}")
@@ -45,52 +42,45 @@ message(STATUS "CMAKE_CXX_COMPILE_OBJECT='${CMAKE_CXX_COMPILE_OBJECT}'")
 # Sources
 #----------------
 
-# Mach1Encode
-set(Mach1EncodeCAPIsrc "../libmach1spatial/Mach1EncodeCAPI.cpp" "../libmach1spatial/Mach1EncodeCore.cpp" "../libmach1spatial/include/cpp/Mach1Encode.cpp")
-# Mach1Decode
-set(Mach1DecodeCAPIsrc "../libmach1spatial/Mach1DecodeCAPI.cpp" "../libmach1spatial/Mach1DecodeCore.cpp" "../libmach1spatial/include/cpp/Mach1Decode.cpp")
-# Mach1DecodePositional
-set(Mach1DecodePositionalCAPIsrc "../libmach1spatial/Mach1DecodePositionalCAPI.cpp" "../libmach1spatial/Mach1DecodePositionalCore.cpp" "../libmach1spatial/include/cpp/Mach1DecodePositional.cpp"  ${Mach1EncodeCAPIsrc} ${Mach1DecodeCAPIsrc})
-# Mach1TranscodeTests
-set(Mach1TranscodeCAPIsrc "../libmach1spatial/Mach1TranscodeCAPI.cpp" "../libmach1spatial/Mach1TranscodeCore.cpp" "../libmach1spatial/Mach1EncodeCore.cpp" "../libmach1spatial/Mach1GenerateCoeffs.cpp" "../libmach1spatial/deps/M1DSP/M1DSPFilters.cpp" "../libmach1spatial/deps/M1DSP/M1DSPUtilities.cpp" "../libmach1spatial/include/cpp/Mach1Transcode.cpp")
-
-# create the executable
-add_executable(Mach1EncodeTests Mach1EncodeTests/mach1encode-tests.cpp ${Mach1EncodeCAPIsrc})
-add_executable(Mach1DecodeTests Mach1DecodeTests/mach1decode-tests.cpp ${Mach1DecodeCAPIsrc})
-add_executable(Mach1DecodePositionalTests Mach1DecodePositionalTests/mach1decodepositional-tests.cpp ${Mach1DecodePositionalCAPIsrc})
-add_executable(Mach1TranscodeTests Mach1TranscodeTests/mach1transcode-tests.cpp ${Mach1TranscodeCAPIsrc})
-add_executable(Mach1SpatialTests Mach1SpatialTests/mach1spatial-tests.cpp ${Mach1DecodeCAPIsrc} ${Mach1EncodeCAPIsrc})
+set(M1_LIB_PATH ../libmach1spatial)
 
 #----------------
-# Link
-#----------------
+# Mach1 Encode Test
 
-# include headers
-set(MACH1SPATIAL_INCLUDES ../libmach1spatial/include/cpp ../libmach1spatial/deps)
-include_directories(${MACH1SPATIAL_INCLUDES})
-
-set(Mach1CAPIinclude ../libmach1spatial ../libmach1spatial/include/cpp ../libmach1spatial/deps ../libmach1spatial/deps/acutest/include ../libmach1spatial/deps/nlohmann/single_include)
-set(Mach1EncodeCAPIinclude ${Mach1CAPIinclude})
-set(Mach1DecodeCAPIinclude ${Mach1CAPIinclude})
-set(Mach1DecodePositionalCAPIinclude ${Mach1CAPIinclude} "../libmach1spatial/deps/glm")
-set(Mach1TranscodeCAPIinclude ${Mach1CAPIinclude} "../libmach1spatial/transcode")
-
-target_include_directories(Mach1EncodeTests PRIVATE ${Mach1EncodeCAPIinclude})
-target_include_directories(Mach1DecodeTests PRIVATE  ${Mach1DecodeCAPIinclude})
-target_include_directories(Mach1DecodePositionalTests PRIVATE ${Mach1DecodePositionalCAPIinclude})
-target_include_directories(Mach1TranscodeTests PRIVATE ${Mach1TranscodeCAPIinclude})
-target_include_directories(Mach1SpatialTests PRIVATE ${Mach1CAPIinclude})
+add_executable(Mach1EncodeTests Mach1EncodeTests/mach1encode-tests.cpp ${M1_LIB_PATH}/api_encode/include/Mach1Encode.cpp)
+target_link_libraries(Mach1EncodeTests M1Encode)
+target_include_directories(Mach1EncodeTests PRIVATE ../libmach1spatial/api_encode/include)
 
 #----------------
-# Install
+# Mach1 Decode Test
+
+add_executable(Mach1DecodeTests Mach1DecodeTests/mach1decode-tests.cpp ${M1_LIB_PATH}/api_decode/include/Mach1Decode.cpp)
+target_link_libraries(Mach1DecodeTests M1Decode)
+target_include_directories(Mach1DecodeTests PRIVATE ../libmach1spatial/api_decode/include)
+
 #----------------
+# Mach1 Decode Positional Test
 
-message(STATUS "CMAKE_INSTALL_PREFIX='${CMAKE_INSTALL_PREFIX}'")
+add_executable(Mach1DecodePositionalTests Mach1DecodePositionalTests/mach1decodepositional-tests.cpp ${M1_LIB_PATH}/api_decode/include/Mach1Decode.cpp ${M1_LIB_PATH}/api_decodepositional/include/Mach1DecodePositional.cpp)
+target_link_libraries(Mach1DecodePositionalTests M1DecodePositional M1Decode)
+target_include_directories(Mach1DecodePositionalTests PRIVATE ../libmach1spatial/api_decodepositional/include ../libmach1spatial/api_decode/include)
 
-install(TARGETS Mach1EncodeTests DESTINATION bin)
-install(TARGETS Mach1DecodeTests DESTINATION bin)
-install(TARGETS Mach1DecodePositionalTests DESTINATION bin)
-install(TARGETS Mach1TranscodeTests DESTINATION bin)
-install(TARGETS Mach1SpatialTests DESTINATION bin)
+#----------------
+# Mach1 Transcode Test
+
+add_executable(Mach1TranscodeTests Mach1TranscodeTests/mach1transcode-tests.cpp ${M1_LIB_PATH}/api_transcode/include/Mach1Transcode.cpp ${M1_LIB_PATH}/deps/M1DSP/M1DSPUtilities.cpp ${M1_LIB_PATH}/deps/M1DSP/M1DSPFilters.cpp)
+target_link_libraries(Mach1TranscodeTests M1Transcode M1Encode)
+target_include_directories(Mach1TranscodeTests PRIVATE ../libmach1spatial/api_transcode/include ../libmach1spatial/deps/nlohmann/single_include)
+
+#----------------
+# Mach1 Spatial Test
+
+add_executable(Mach1SpatialTests Mach1SpatialTests/mach1spatial-tests.cpp ${M1_LIB_PATH}/api_encode/include/Mach1Encode.cpp ${M1_LIB_PATH}/api_decode/include/Mach1Decode.cpp)
+target_link_libraries(Mach1SpatialTests M1Encode M1Decode)
+target_include_directories(Mach1SpatialTests PRIVATE ../libmach1spatial/api_decode/include ../libmach1spatial/api_encode/include)
+
+include_directories(../libmach1spatial/deps ../libmach1spatial/deps/acutest/include)
 
 #-------------------------------------------------------------------------------
+
+message(STATUS "CMAKE_INSTALL_PREFIX='${CMAKE_INSTALL_PREFIX}'")

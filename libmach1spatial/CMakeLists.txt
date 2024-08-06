@@ -4,6 +4,120 @@
 
 cmake_minimum_required(VERSION 3.13.0)
 
+# Prepend our CMake modules directory
+list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/cmake)
+message(STATUS "CMAKE_MODULE_PATH='${CMAKE_MODULE_PATH}'")
+
+#----------------
+# Version
+#----------------
+
+set(Mach1SpatialLibraries_VERSION_MAJOR 4)
+set(Mach1SpatialLibraries_VERSION_MINOR 0)
+set(Mach1SpatialLibraries_VERSION ${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR})
+
+# SET API VERSIONS
+set(ENCODE_VERSION              "${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR}.0.0")
+set(DECODE_VERSION              "${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR}.0.0")
+set(DECODEPOSITIONAL_VERSION    "${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR}.0.0")
+set(TRANSCODE_VERSION           "${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR}.0.0")
+
+#----------------
+# APIs
+#----------------
+
+project(Mach1Spatial VERSION ${Mach1SpatialLibraries_VERSION})
+
+#----------------
+# Common Files
+
+file(GLOB M1_COMMON_SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/api_common/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_common/src/*.cpp")
+
+#----------------
+# Mach1 Decode API
+
+file(GLOB M1_DECODE_API_SRC_FILES ${M1_COMMON_SRC_FILES} "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/src/*.cpp")
+list(FILTER M1_DECODE_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude the Emscripten files
+list(FILTER M1_DECODE_API_SRC_FILES EXCLUDE REGEX ".*Mach1AudioTimeline.*") # Exclude the Mach1AudioTimeline API
+
+add_library(M1Decode STATIC ${M1_DECODE_API_SRC_FILES})
+set_target_properties(M1Decode
+PROPERTIES
+    VERSION ${DECODE_VERSION}
+    SOVERSION ${DECODE_VERSION} 
+)
+target_include_directories(M1Decode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/include")
+
+# Set include paths for other APIs
+set(M1DECODE_API_INCLUDE_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/src" "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/include")
+
+#----------------
+# Mach1 Encode API
+
+file(GLOB M1_ENCODE_API_SRC_FILES ${M1_COMMON_SRC_FILES} "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/src/*.cpp")
+list(FILTER M1_ENCODE_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude the Emscripten files
+list(FILTER M1_ENCODE_API_SRC_FILES EXCLUDE REGEX ".*Mach1AudioTimeline.*") # Exclude the Mach1AudioTimeline API
+
+add_library(M1Encode STATIC ${M1_ENCODE_API_SRC_FILES})
+set_target_properties(M1Encode
+PROPERTIES
+    VERSION ${ENCODE_VERSION}
+    SOVERSION ${ENCODE_VERSION} 
+)
+target_include_directories(M1Encode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/include" ${M1DECODE_API_INCLUDE_PATHS}) 
+
+# Set include paths for other APIs
+set(M1ENCODE_API_INCLUDE_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/src" "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/include")
+
+#----------------
+# Mach1 Decode Positional API
+
+file(GLOB M1_DECODEPOSITIONAL_API_SRC_FILES ${M1_COMMON_SRC_FILES} "${CMAKE_CURRENT_SOURCE_DIR}/api_decodepositional/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_decodepositional/src/*.cpp")
+list(FILTER M1_DECODEPOSITIONAL_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude the Emscripten files
+list(FILTER M1_DECODEPOSITIONAL_API_SRC_FILES EXCLUDE REGEX ".*Mach1AudioTimeline.*") # Exclude the Mach1AudioTimeline API
+
+add_library(M1DecodePositional STATIC ${M1_DECODEPOSITIONAL_API_SRC_FILES})
+set_target_properties(M1DecodePositional
+PROPERTIES
+    VERSION ${DECODEPOSITIONAL_VERSION}
+    SOVERSION ${DECODEPOSITIONAL_VERSION} 
+)
+target_include_directories(M1DecodePositional PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_decodepositional/include" ${M1DECODE_API_INCLUDE_PATHS} "${CMAKE_CURRENT_SOURCE_DIR}/deps" "${CMAKE_CURRENT_SOURCE_DIR}/deps/glm" "${CMAKE_CURRENT_SOURCE_DIR}/deps/pugixml/src" "${CMAKE_CURRENT_SOURCE_DIR}/deps/yaml") 
+
+#----------------
+# Mach1 Transcode API
+
+file(GLOB M1_TRANSCODE_API_SRC_FILES ${M1_COMMON_SRC_FILES} "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/src/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/matrices/*.h")
+list(FILTER M1_TRANSCODE_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude the Emscripten files
+
+add_library(M1Transcode STATIC ${M1_TRANSCODE_API_SRC_FILES})
+set_target_properties(M1Transcode
+PROPERTIES
+    VERSION ${TRANSCODE_VERSION}
+    SOVERSION ${TRANSCODE_VERSION} 
+)
+target_include_directories(M1Transcode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/matrices" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/src" "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/include" ${M1ENCODE_API_INCLUDE_PATHS} "${CMAKE_CURRENT_SOURCE_DIR}/deps" "${CMAKE_CURRENT_SOURCE_DIR}/deps/yaml" "${CMAKE_CURRENT_SOURCE_DIR}/deps/pugixml/src") 
+
+#----------------
+# Combined Mach1Spatial lib
+
+# Create a combined library target
+add_library(${PROJECT_NAME} STATIC
+    $<TARGET_OBJECTS:M1Decode>
+    $<TARGET_OBJECTS:M1Encode>
+    $<TARGET_OBJECTS:M1DecodePositional>
+    $<TARGET_OBJECTS:M1Transcode>
+)
+set_target_properties(${PROJECT_NAME}
+PROPERTIES
+    VERSION ${Mach1SpatialLibraries_VERSION}
+    SOVERSION ${Mach1SpatialLibraries_VERSION} 
+)
+
+#----------------
+# Compiler flags
+#----------------
+
 # Fix behavior of CMAKE_CXX_STANDARD when targeting macOS.
 if (POLICY CMP0025)
     cmake_policy(SET CMP0025 NEW)
@@ -38,21 +152,6 @@ else()
 endif()
 message(STATUS "SETUP: Using ${CMAKE_CXX_COMPILER}")
 
-if(DEFINED BUILD_MACOS_BUNDLE)
-    set(BUILD_MACOS_BUNDLE 1)
-    message(STATUS "SETUP: Building .bundle libs")
-endif()
-
-if(DEFINED BUILD_SHARED_LIBS)
-    set(BUILD_SHARED_LIBS 1)
-    message(STATUS "SETUP: Building shared libs")
-endif()
-
-if(DEFINED BUILD_WIN_MT)
-    set(BUILD_WIN_MT 1)
-    message(STATUS "SETUP: Building /MT static libs for windows target")
-endif()
-
 if(NOT CMAKE_BUILD_TYPE)
    set(CMAKE_BUILD_TYPE "Release")
    message(STATUS "Build type not specified: default is Release")
@@ -69,73 +168,6 @@ if(MSVC OR WIN32)
         cmake_policy(SET CMP0091 NEW)
     endif()
 endif()
-
-# Prepend our CMake modules directory
-list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/cmake)
-message(STATUS "CMAKE_MODULE_PATH='${CMAKE_MODULE_PATH}'")
-
-#----------------
-# Version
-#----------------
-
-set(Mach1SpatialLibraries_VERSION_MAJOR 4)
-set(Mach1SpatialLibraries_VERSION_MINOR 0)
-set(Mach1SpatialLibraries_VERSION ${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR})
-
-# SET API VERSIONS
-set(ENCODE_VERSION              "${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR}.0.0")
-set(DECODE_VERSION              "${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR}.0.0")
-set(DECODEPOSITIONAL_VERSION    "${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR}.0.0")
-set(TRANSCODE_VERSION           "${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR}.0.0")
-
-#----------------
-# Sources
-#----------------
-
-project(Mach1Spatial VERSION ${Mach1SpatialLibraries_VERSION})
-add_library(${PROJECT_NAME}) #STATIC
-set_target_properties(${PROJECT_NAME}
-PROPERTIES
-    VERSION ${Mach1SpatialLibraries_VERSION}
-    SOVERSION ${Mach1SpatialLibraries_VERSION} 
-)
-
-# collect and add source files
-set(M1_ENCODE_API_SOURCE Mach1EncodeCAPI.cpp Mach1EncodeCore.cpp include/cpp/Mach1Encode.cpp)
-set(M1_DECODE_API_SOURCE Mach1DecodeCAPI.cpp Mach1DecodeCore.cpp include/cpp/Mach1Decode.cpp)
-set(M1_DECODEPOSITIONAL_API_SOURCE Mach1DecodePositionalCAPI.cpp Mach1DecodePositionalCore.cpp include/cpp/Mach1DecodePositional.cpp ${M1_DECODE_API_SOURCE})
-set(M1_TRANSCODE_API_SOURCE Mach1TranscodeCAPI.cpp Mach1TranscodeCore.cpp include/cpp/Mach1Transcode.cpp Mach1EncodeCore.cpp Mach1GenerateCoeffs.cpp deps/M1DSP/M1DSPFilters.cpp deps/M1DSP/M1DSPUtilities.cpp)
-
-set(MACH1_COMMON_INCLUDE_PATHS "${CMAKE_CURRENT_SOURCE_DIR}" include/cpp deps deps/pugixml/src deps/yaml deps/glm /deps/nlohmann/single_include)
-target_include_directories(${PROJECT_NAME} PRIVATE ${MACH1_COMMON_INCLUDE_PATHS})
-
-# add sources for each API to the library
-if(NOT SKIP_DECODE_API)
-    target_sources(${PROJECT_NAME} PUBLIC ${MACH1_HEADERS} ${M1_DECODE_API_SOURCE})
-endif()
-if(NOT SKIP_DECODEPOSITIONAL_API)
-    add_subdirectory(deps/glm)
-    target_sources(${PROJECT_NAME} PUBLIC ${MACH1_HEADERS} ${M1_DECODEPOSITIONAL_API_SOURCE})
-endif()
-if(NOT SKIP_ENCODE_API)
-    target_sources(${PROJECT_NAME} PUBLIC ${MACH1_HEADERS} ${M1_ENCODE_API_SOURCE})
-endif()
-if(NOT SKIP_TRANSCODE_API)
-    target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/transcode)
-    target_sources(${PROJECT_NAME} PUBLIC ${MACH1_HEADERS} ${M1_TRANSCODE_API_SOURCE})
-endif()
-
-# include paths
-target_include_directories(${PROJECT_NAME} 
-PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/cpp>
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-)
-include(GNUInstallDirs)
-
-#----------------
-# Compiler flags
-#----------------
 
 set(COMMON_FLAGS "-Wall")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${COMMON_FLAGS}")

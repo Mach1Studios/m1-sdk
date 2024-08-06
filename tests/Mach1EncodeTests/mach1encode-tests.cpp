@@ -25,7 +25,7 @@ void test_results(void) {
         {Mach1EncodeInputMode5dot1SMTPE, "5.1-SMPTE"}};
 
     std::map<Mach1EncodeOutputModeType, std::string> outputModeNames = {
-        {Mach1EncodeOutputModeM1Horizon_4, "MACH1HORIZON-4"},
+        {Mach1EncodeOutputModeM1Spatial_4, "MACH1SPATIAL-4"},
         {Mach1EncodeOutputModeM1Spatial_8, "MACH1SPATIAL-8"},
         {Mach1EncodeOutputModeM1Spatial_12, "MACH1SPATIAL-12"},
         {Mach1EncodeOutputModeM1Spatial_14, "MACH1SPATIAL-14"},
@@ -81,35 +81,35 @@ void test_results(void) {
         TODO: add all other output modes
          */
         {"case: ENCODE | MONO->MACH1HORIZON-4",
-         {Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Horizon_4, Mach1EncodePannerModeIsotropicLinear, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+         {Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial_4, Mach1EncodePannerModeIsotropicLinear, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
          {
                 {
                     {0.25, 0.25, 0.25, 0.25},
                 },
             }},
         {"case: ENCODE | MONO->MACH1HORIZON-4 | Diverge",
-         {Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Horizon_4, Mach1EncodePannerModeIsotropicLinear, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+         {Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial_4, Mach1EncodePannerModeIsotropicLinear, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
                  {0.5, 0.5, 0.0, 0.0},
              },
          }},
         {"case: ENCODE | MONO->MACH1HORIZON-4 | Azimuth 90",
-         {Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Horizon_4, Mach1EncodePannerModeIsotropicLinear, 90.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+         {Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial_4, Mach1EncodePannerModeIsotropicLinear, 90.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
                  {0.0, 0.5, 0.0, 0.5},
              },
          }},
         {"case: ENCODE | MONO->MACH1HORIZON-4 | Azimuth 180",
-         {Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Horizon_4, Mach1EncodePannerModeIsotropicLinear, 180.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+         {Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial_4, Mach1EncodePannerModeIsotropicLinear, 180.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
                  {0.0, 0.0, 0.5, 0.5},
              },
          }},
         {"case: ENCODE | MONO->MACH1HORIZON-4 | Azimuth 270",
-         {Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Horizon_4, Mach1EncodePannerModeIsotropicLinear, 270.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+         {Mach1EncodeInputModeMono, Mach1EncodeOutputModeM1Spatial_4, Mach1EncodePannerModeIsotropicLinear, 270.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
                  {0.5, 0.0, 0.5, 0.0},
@@ -689,7 +689,7 @@ void test_results(void) {
                 bool check = fabs(test.output.results[i][j] - results[i][j]) < 0.0001;
                 counter += check;
                 if (check == false) {
-                    TEST_CHECK_(check, "%s | Error with index [%d][%d]", test.name.c_str(), i, j);
+                    TEST_CHECK_(check, "%s | Error with index [%zu][%d]", test.name.c_str(), i, j);
                     std::cout << "index: [" << i << "][" << j << "]: " << results[i][j] << ", should be: " << test.output.results[i][j];
                     std::cout << std::endl;
                 }

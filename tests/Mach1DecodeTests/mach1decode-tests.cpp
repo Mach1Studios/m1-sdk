@@ -18,7 +18,7 @@ void test_results(void) {
     };
 
     std::map<Mach1DecodeAlgoType, std::string> outputModeNames = {
-        {Mach1DecodeAlgoHorizon_4, "Horizon - 4Ch"},
+        {Mach1DecodeAlgoSpatial_4, "Horizon - 4Ch"},
         {Mach1DecodeAlgoSpatial_8, "Spatial - 8Ch"},
         {Mach1DecodeAlgoSpatial_12, "Spatial - 12Ch"},
         {Mach1DecodeAlgoSpatial_14, "Spatial - 14Ch"},
@@ -72,7 +72,7 @@ void test_results(void) {
          */
         {
             "case: DECODE | MACH1HORIZON | Y0P0R0",
-            {Mach1PlatformDefault, Mach1DecodeAlgoHorizon_4, 0.0, 0.0, 0.0, 1.0, unsignedDegrees},
+            {Mach1PlatformDefault, Mach1DecodeAlgoSpatial_4, 0.0, 0.0, 0.0, 1.0, unsignedDegrees},
             {
                 {
                     {
@@ -85,7 +85,7 @@ void test_results(void) {
             }},
         {
             "case: DECODE | MACH1HORIZON | Y45P0R0",
-            {Mach1PlatformDefault, Mach1DecodeAlgoHorizon_4, 45.0, 0.0, 0.0, 1.0, unsignedDegrees},
+            {Mach1PlatformDefault, Mach1DecodeAlgoSpatial_4, 45.0, 0.0, 0.0, 1.0, unsignedDegrees},
             {
                 {
                     {
@@ -99,7 +99,7 @@ void test_results(void) {
         },
         {
             "case: DECODE | MACH1HORIZON | Y90P0R0",
-            {Mach1PlatformDefault, Mach1DecodeAlgoHorizon_4, 90.0, 0.0, 0.0, 1.0, unsignedDegrees},
+            {Mach1PlatformDefault, Mach1DecodeAlgoSpatial_4, 90.0, 0.0, 0.0, 1.0, unsignedDegrees},
             {
                 {
                     {
@@ -112,7 +112,7 @@ void test_results(void) {
             }
         },
         {"case: DECODE | MACH1HORIZON | Y180P0R0",
-         {Mach1PlatformDefault, Mach1DecodeAlgoHorizon_4, 180.0, 0.0, 0.0, 1.0, unsignedDegrees},
+         {Mach1PlatformDefault, Mach1DecodeAlgoSpatial_4, 180.0, 0.0, 0.0, 1.0, unsignedDegrees},
          {
              {
                  {
@@ -124,7 +124,7 @@ void test_results(void) {
              },
          }},
         {"case: DECODE | MACH1HORIZON | Y270P0R0",
-         {Mach1PlatformDefault, Mach1DecodeAlgoHorizon_4, 270.0, 0.0, 0.0, 1.0, unsignedDegrees},
+         {Mach1PlatformDefault, Mach1DecodeAlgoSpatial_4, 270.0, 0.0, 0.0, 1.0, unsignedDegrees},
          {
              {
                  {
@@ -560,7 +560,7 @@ TODO: add more input tests with less rounded inputs
             bool check = fabs(test.output.results[i] - results[i]) < 0.0001;
             counter += check;
             if (check == false) {
-                TEST_CHECK_(check, "%s | Error with index [%d]", test.name.c_str(), i);
+                TEST_CHECK_(check, "%s | Error with index [%zu]", test.name.c_str(), i);
                 std::cout << "index: [" << i << "]: " << results[i] << ", should be: " << test.output.results[i];
                 std::cout << std::endl;
             }

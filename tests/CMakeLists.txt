@@ -61,9 +61,9 @@ target_include_directories(Mach1DecodeTests PRIVATE ../libmach1spatial/api_decod
 #----------------
 # Mach1 Decode Positional Test
 
-add_executable(Mach1DecodePositionalTests Mach1DecodePositionalTests/mach1decodepositional-tests.cpp ${M1_LIB_PATH}/api_decode/include/Mach1Decode.cpp ${M1_LIB_PATH}/api_decodepositional/include/Mach1DecodePositional.cpp)
-target_link_libraries(Mach1DecodePositionalTests M1DecodePositional M1Decode)
-target_include_directories(Mach1DecodePositionalTests PRIVATE ../libmach1spatial/api_decodepositional/include ../libmach1spatial/api_decode/include)
+add_executable(Mach1DecodePositionalTests Mach1DecodePositionalTests/mach1decodepositional-tests.cpp ${M1_LIB_PATH}/api_decodepositional/include/Mach1DecodePositional.cpp)
+target_link_libraries(Mach1DecodePositionalTests M1DecodePositional)
+target_include_directories(Mach1DecodePositionalTests PRIVATE ../libmach1spatial/api_decodepositional/include)
 
 #----------------
 # Mach1 Transcode Test

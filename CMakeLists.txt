@@ -5,16 +5,17 @@ project(Mach1SpatialSDK)
 # Setup & Options
 #----------------
 
-# Project options/defaults
-option(M1S_BUILD_TESTS           "Build libmach1spatial unit tests."           ON)
-option(M1S_BUILD_EXAMPLES        "Build libmach1spatial examples."             ON)
-option(BUILD_SHARED_LIBS         "Build shared instead of static libraries."   OFF)
-option(BUILD_MACOS_BUNDLE        "Build shared macos bundle libraries."        OFF)
-option(BUILD_WIN_MT              "Build win multithreaded static libraries."   OFF)
-option(SKIP_ENCODE_API           "Skip building the Mach1Encode API"           OFF)
-option(SKIP_DECODE_API           "Skip building the Mach1Decode API"           OFF)
-option(SKIP_DECODEPOSITIONAL_API "Skip building the Mach1DecodePositional API" OFF)
-option(SKIP_TRANSCODE_API        "Skip building the Mach1Transcode API"        OFF)
+# Project & repo options
+option(M1S_BUILD_TESTS           "Build libmach1spatial unit tests."               ON)
+option(M1S_BUILD_EXAMPLES        "Build libmach1spatial examples."                 ON)
+
+# API options
+option(M1ENCODE_INLINE_DECODE    "Support M1Encode with built in Decode functions" ON)
+
+# Lib output options
+option(BUILD_SHARED_LIBS         "Build shared instead of static libraries."       OFF)
+option(BUILD_MACOS_BUNDLE        "Build shared macos bundle libraries."            OFF)
+option(BUILD_WIN_MT              "Build win multithreaded static libraries."       OFF)
 
 #----------------
 # Library

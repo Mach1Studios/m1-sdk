@@ -54,6 +54,7 @@ set(M1DECODE_API_INCLUDE_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/src" "${C
 
 #----------------
 # Mach1 Encode API
+# Note: (Optional) Mach1Encode API requires Mach1Decode API
 
 file(GLOB M1_ENCODE_API_SRC_FILES ${M1_COMMON_SRC_FILES} "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/src/*.cpp")
 list(FILTER M1_ENCODE_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude the Emscripten files
@@ -65,19 +66,26 @@ PROPERTIES
     VERSION ${ENCODE_VERSION}
     SOVERSION ${ENCODE_VERSION} 
 )
-target_include_directories(M1Encode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/include" ${M1DECODE_API_INCLUDE_PATHS}) 
+target_include_directories(M1Encode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/include")
+
+# Supports inline decode functions in M1Encode API
+# (Requires linking decode api)
+if(M1ENCODE_INLINE_DECODE)
+    target_include_directories(M1Encode PUBLIC ${M1DECODE_API_INCLUDE_PATHS})
+endif()
 
 # Set include paths for other APIs
 set(M1ENCODE_API_INCLUDE_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/src" "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/include")
 
 #----------------
 # Mach1 Decode Positional API
+# Note: Mach1DecodePositional API requires Mach1Decode API
 
 file(GLOB M1_DECODEPOSITIONAL_API_SRC_FILES ${M1_COMMON_SRC_FILES} "${CMAKE_CURRENT_SOURCE_DIR}/api_decodepositional/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_decodepositional/src/*.cpp")
 list(FILTER M1_DECODEPOSITIONAL_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude the Emscripten files
 list(FILTER M1_DECODEPOSITIONAL_API_SRC_FILES EXCLUDE REGEX ".*Mach1AudioTimeline.*") # Exclude the Mach1AudioTimeline API
 
-add_library(M1DecodePositional STATIC ${M1_DECODEPOSITIONAL_API_SRC_FILES})
+add_library(M1DecodePositional STATIC ${M1_DECODEPOSITIONAL_API_SRC_FILES} $<TARGET_OBJECTS:M1Decode>)
 set_target_properties(M1DecodePositional
 PROPERTIES
     VERSION ${DECODEPOSITIONAL_VERSION}
@@ -87,6 +95,7 @@ target_include_directories(M1DecodePositional PUBLIC "${CMAKE_CURRENT_SOURCE_DIR
 
 #----------------
 # Mach1 Transcode API
+# Note: (Optional) Mach1Transcode API requires Mach1Encode API
 
 file(GLOB M1_TRANSCODE_API_SRC_FILES ${M1_COMMON_SRC_FILES} "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/src/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/matrices/*.h")
 list(FILTER M1_TRANSCODE_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude the Emscripten files

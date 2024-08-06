@@ -3,18 +3,17 @@ project(spatial-decodepositional-example)
 add_executable(${PROJECT_NAME})
 
 # Link with lib
-target_link_libraries(${PROJECT_NAME} PRIVATE M1DecodePositional M1Decode)
+target_link_libraries(${PROJECT_NAME} PRIVATE M1DecodePositional)
 set(M1_LIB_PATH ../../../../libmach1spatial)
 
 # Source files
 target_sources(${PROJECT_NAME}
 PRIVATE
     src/main.cpp
-    ${M1_LIB_PATH}/api_decode/include/Mach1Decode.cpp
     ${M1_LIB_PATH}/api_decodepositional/include/Mach1DecodePositional.cpp
 )
 
-set(MACH1SPATIAL_INCLUDES ${M1_LIB_PATH}/api_decodepositional/include ${M1_LIB_PATH}/api_decode/include ${M1_LIB_PATH}/deps)
+set(MACH1SPATIAL_INCLUDES ${M1_LIB_PATH}/api_decodepositional/include ${M1_LIB_PATH}/deps)
 include_directories(${MACH1SPATIAL_INCLUDES})
 
 if(PROJECT_IS_TOP_LEVEL)

@@ -1,17 +1,11 @@
 # README #
 
-
-### Mach1Spatial libs build process ###
-
-- Fill out the `m1-globallocal.mk` file and move it to `~/m1-globallocal.mk` for proper path variables
-- run commands from `makefile` or run `make build-all` from this directory to test everything 
-
-### Travis CI/CD Release Process ###
-
-- `develop` branch is tested per commit
-- When ready to release and update all libs for both `m1-sdk` and `m1-sdk-dev` create and push a new branch named `deploy` off of the desired commit
-- If `deploy` is successful it will create a `master` branch in this repo of the updated recompiled libs that will need to be merged into `develop`
-- **IMPORTANT** After each `deploy` attempt is finished and the `master` branch in this repo is merged in, delete both the local and remote branches of both `deploy` and `master` as a cleanup step
+* It is recommended to build the libs via the SDK root folder CMake steps: 
+```
+# from this directory you can run: 
+cmake ../ -Bbuild -DCMAKE_BUILD_TYPE=Release
+cmake --build build --config Release
+```
 
 ## Recipes ##
 
@@ -50,8 +44,3 @@ set env var ANDROID_NDK_r16b to ndk path
 `cmake --build _builds/ios-11-3-dep-9-0-device-bitcode --config Release --target install`
 
 3. for travis-ci setup run `cd scripts && ./local-ios-setup.sh`
-
-## TODO ##
-- Automate this repo's `master` branch merge back into `develop`
-- Automate deletion of `deploy` and `master` after the above step is completed
-- PR Merge for [../public](public) triggers a CD action/job for recompiling Mach1Transcode API/exec and upping the version

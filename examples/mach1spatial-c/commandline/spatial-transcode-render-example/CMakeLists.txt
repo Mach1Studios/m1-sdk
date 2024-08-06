@@ -39,17 +39,21 @@ include(FindPkgConfig)
 mark_as_advanced(LIBSNDFILE_LIBRARY LIBSNDFILE_LIBRARIES LIBSNDFILE_INCLUDE_DIR LIBSNDFILE_INCLUDE_DIRS)
 pkg_search_module(SndFile REQUIRED sndfile)
 
+# Link with lib
+target_link_libraries(${PROJECT_NAME} PRIVATE M1Transcode M1Encode)
+set(M1_LIB_PATH ../../../../libmach1spatial)
+
 # collect and add source files
 target_sources(${PROJECT_NAME}
 PRIVATE
 	src/main.cpp
-	../../../../libmach1spatial/include/cpp/Mach1Transcode.cpp
+    ${M1_LIB_PATH}/api_transcode/include/Mach1Transcode.cpp
+    ${M1_LIB_PATH}/deps/M1DSP/M1DSPUtilities.cpp
+    ${M1_LIB_PATH}/deps/M1DSP/M1DSPFilters.cpp
 )
 
 # include headers
-set(MACH1SPATIAL_INCLUDES ../../../../libmach1spatial/include/cpp)
+set(MACH1SPATIAL_INCLUDES ${M1_LIB_PATH}/api_transcode/include ${M1_LIB_PATH}/deps)
 include_directories(${MACH1SPATIAL_INCLUDES} ${LIBSNDFILE_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBSNDFILE_LIBRARIES})
-
-install(TARGETS ${PROJECT_NAME} DESTINATION build)

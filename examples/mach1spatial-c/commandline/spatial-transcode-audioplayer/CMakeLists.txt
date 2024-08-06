@@ -76,19 +76,23 @@ endif(RTAUDIO_FOUND)
 mark_as_advanced(RTAUDIO_INCLUDE_DIR RTAUDIO_LIBRARIES)
 pkg_search_module(RtAudio REQUIRED rtaudio)
 
+# Link with lib
+target_link_libraries(${PROJECT_NAME} PRIVATE M1Decode M1Transcode M1Encode)
+set(M1_LIB_PATH ../../../../libmach1spatial)
+
 # collect and add source files
 target_sources(${PROJECT_NAME}
 PRIVATE
 	src/main.cpp
-	../../../../libmach1spatial/include/cpp/Mach1Decode.cpp
-	../../../../libmach1spatial/include/cpp/Mach1Transcode.cpp
+    ${M1_LIB_PATH}/api_decode/include/Mach1Decode.cpp
+    ${M1_LIB_PATH}/api_transcode/include/Mach1Transcode.cpp
+    ${M1_LIB_PATH}/deps/M1DSP/M1DSPUtilities.cpp
+    ${M1_LIB_PATH}/deps/M1DSP/M1DSPFilters.cpp
 )
 
 # include headers
-set(MACH1SPATIAL_INCLUDES ../../../../libmach1spatial/include/cpp ../../../../libmach1spatial/deps)
+set(MACH1SPATIAL_INCLUDES ${M1_LIB_PATH}/api_decode/include ${M1_LIB_PATH}/api_transcode/include ${M1_LIB_PATH}/deps)
 include_directories(${MACH1SPATIAL_INCLUDES} ${LIBSNDFILE_INCLUDE_DIRS} ${RTAUDIO_INCLUDE_DIR})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBSNDFILE_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${RTAUDIO_LIBRARIES})
-
-install(TARGETS ${PROJECT_NAME} DESTINATION build)

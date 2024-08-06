@@ -1,6 +1,5 @@
 #!/bin/bash
 
-cd ${TRAVIS_BUILD_DIR}
 echo "INSTALLING SNDFILE"
 wget --quiet https://github.com/libsndfile/libsndfile/releases/download/1.0.31/libsndfile-1.0.31.tar.bz2
 tar -xf libsndfile-1.0.31.tar.bz2

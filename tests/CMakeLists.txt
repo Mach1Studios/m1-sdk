@@ -79,6 +79,10 @@ add_executable(Mach1SpatialTests Mach1SpatialTests/mach1spatial-tests.cpp ${M1_L
 target_link_libraries(Mach1SpatialTests M1Encode M1Decode)
 target_include_directories(Mach1SpatialTests PRIVATE ../libmach1spatial/api_decode/include ../libmach1spatial/api_encode/include)
 
-include_directories(../libmach1spatial/deps ../libmach1spatial/deps/acutest/include)
+#----------------
+# Mach1 Transcode Render Test
 
+add_subdirectory(Mach1TranscodeRenderTest)
 #-------------------------------------------------------------------------------
+
+include_directories(../libmach1spatial/deps ../libmach1spatial/deps/acutest/include)

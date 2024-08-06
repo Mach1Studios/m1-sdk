@@ -7,6 +7,8 @@ swig -c++ -java -outdir jni/java/com/mach1/spatiallibs -I../ -o jni/cpp/mach1/Ma
 swig -c++ -java -outdir jni/java/com/mach1/spatiallibs -I../ -o jni/cpp/mach1/Mach1EncodeModule_wrap.cxx -package com.mach1.spatiallibs Mach1EncodeModule.i 
 swig -c++ -java -outdir jni/java/com/mach1/spatiallibs -I../ -o jni/cpp/mach1/Mach1TranscodeModule_wrap.cxx -package com.mach1.spatiallibs Mach1TranscodeModule.i 
 swig -c++ -java -outdir jni/java/com/mach1/spatiallibs -I../ -o jni/cpp/mach1/Mach1DecodePositionalModule_wrap.cxx -package com.mach1.spatiallibs Mach1DecodePositionalModule.i 
+
 echo "Removing intermediary modules"
 rm -rf jni/java/com/mach1/spatiallibs/*Module.java
-yes | cp -rf ./jni ../external/java/
+
+yes | cp -rf ./jni ../../examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/main/java/

@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.19.3)
-project(spatial-transcode-render)
-set(CMAKE_CXX_STANDARD 11)
-
-set(MACH1SPATIAL_SOURCE_PATH "../../libmach1spatial")
+project(spatial-transcode-render-test)
+add_executable(${PROJECT_NAME})
 
 # Use pkg-config to get hints about paths
 find_package(PkgConfig QUIET)
@@ -41,27 +39,21 @@ include(FindPkgConfig)
 mark_as_advanced(LIBSNDFILE_LIBRARY LIBSNDFILE_LIBRARIES LIBSNDFILE_INCLUDE_DIR LIBSNDFILE_INCLUDE_DIRS)
 pkg_search_module(SndFile REQUIRED sndfile)
 
-# collect and add source files
-set(SOURCES 
-	src/main.cpp
-    ${MACH1SPATIAL_SOURCE_PATH}/Mach1TranscodeCore.cpp
-    ${MACH1SPATIAL_SOURCE_PATH}/Mach1EncodeCore.cpp
-    ${MACH1SPATIAL_SOURCE_PATH}/Mach1GenerateCoeffs.cpp
-    ${MACH1SPATIAL_SOURCE_PATH}/Mach1TranscodeCAPI.cpp
-    ${MACH1SPATIAL_SOURCE_PATH}/include/cpp/Mach1Transcode.cpp
-    ${MACH1SPATIAL_SOURCE_PATH}/deps/M1DSP/M1DSPFilters.cpp
-    ${MACH1SPATIAL_SOURCE_PATH}/deps/M1DSP/M1DSPUtilities.cpp
-	)
+# Link with lib
+target_link_libraries(${PROJECT_NAME} PRIVATE M1Transcode)
+set(M1_LIB_PATH ../../../../libmach1spatial)
 
-# create the executable
-add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})
+# collect and add source files
+target_sources(${PROJECT_NAME}
+PRIVATE
+    src/main.cpp
+    ${M1_LIB_PATH}/api_transcode/include/Mach1Transcode.cpp
+    ${M1_LIB_PATH}/deps/M1DSP/M1DSPUtilities.cpp
+    ${M1_LIB_PATH}/deps/M1DSP/M1DSPFilters.cpp
+)
 
 # include headers
-set(MACH1SPATIAL_INCLUDES ${MACH1SPATIAL_SOURCE_PATH} ${MACH1SPATIAL_SOURCE_PATH}/include/cpp ${MACH1SPATIAL_SOURCE_PATH}/deps ${MACH1SPATIAL_SOURCE_PATH}/transcode-includes)
-include_directories(${MACH1SPATIAL_INCLUDES})
-include_directories(${LIBSNDFILE_INCLUDE_DIRS})
+set(MACH1SPATIAL_INCLUDES ${M1_LIB_PATH}/api_transcode/include ${M1_LIB_PATH}/deps)
+include_directories(${MACH1SPATIAL_INCLUDES} ${LIBSNDFILE_INCLUDE_DIRS})
 
-target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${MACH1TRANSCODE_LIBRARY})
-target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${LIBSNDFILE_LIBRARIES})
-
-install(TARGETS ${CMAKE_PROJECT_NAME} DESTINATION build)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBSNDFILE_LIBRARIES})

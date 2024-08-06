@@ -1,18 +1,18 @@
 #!/bin/bash
 
-if [[ "$PWD" == *source/tests ]]
+if [[ "$PWD" == *extras/scripts ]]
 then
 	echo "Script called from correct path: $PWD"
 	echo "WIN: TESTS"
-	cmake ./tests -Btests/_builds/vs-15-2017 -G "Visual Studio 15 2017" -A x64 -DCMAKE_INSTALL_PREFIX=tests/_install/vs-15-2017
-	cmake --build tests/_builds/vs-15-2017 --config Release --target install -- //nologo //verbosity:quiet //clp:ErrorsOnly
+	cmake  ../../ -B../../_builds/win -G "Visual Studio 16 2019" -A x64
+	cmake --build ../../_builds/win -- //nologo //verbosity:quiet //clp:ErrorsOnly
 
 	echo "RUN TESTS"
-	echo " " | tests/_install/vs-15-2017/bin/Mach1EncodeTests.exe
-	echo " " | tests/_install/vs-15-2017/bin/Mach1DecodeTests.exe
-	echo " " | tests/_install/vs-15-2017/bin/Mach1DecodePositionalTests.exe
-	echo " " | tests/_install/vs-15-2017/bin/Mach1SpatialTests.exe
-	echo " " | tests/_install/vs-15-2017/bin/Mach1TranscodeTests.exe
+	echo " " | ../../_builds/win/tests/Debug/Mach1EncodeTests.exe
+	echo " " | ../../_builds/win/tests/Debug/Mach1DecodeTests.exe
+	echo " " | ../../_builds/win/tests/Debug/Mach1DecodePositionalTests.exe
+	echo " " | ../../_builds/win/tests/Debug/Mach1SpatialTests.exe
+	echo " " | ../../_builds/win/tests/Debug/Mach1TranscodeTests.exe
 else
-	echo "ERROR: Script called from wrong directory: $PWD"
+	echo "ERROR: Script called from wrong directory: $PWD" ; exit 1;
 fi

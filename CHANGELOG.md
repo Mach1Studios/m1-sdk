@@ -2,7 +2,8 @@
 Currently the Mach1 Spatial SDK has gone through some revisions to improve on its usability based on usage and feedback. This document is to help describe any breaking changes to help anyone migrating from an older version of the repo.
 
 #### Stable legacy versions:
-[Version 2](https://github.com/Mach1Studios/m1-sdk)
+[Version 3](https://github.com/Mach1Studios/m1-sdk/tree/3.2)
+[Version 2](https://github.com/Mach1Studios/m1-sdk/tree/2.1)
 [Version 1](https://github.com/Mach1Studios/m1-sdk/tree/1.2)
 
 ## Breaking changes for migrating to 4.0+

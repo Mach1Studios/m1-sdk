@@ -665,7 +665,7 @@ void test_results(void) {
             << "ListenerPosRot: " << test.input.listenerPosX << "," << test.input.listenerPosY << "," << test.input.listenerPosZ << "|" << test.input.listenerYaw << "," << test.input.listenerPitch << "," << test.input.listenerRoll;
 
         int counter = 0;
-        std::cout << "Array Size: " << results.size();
+        std::cout << " | Array Size: " << results.size();
 
         bool distCheck = fabs(distance - test.output.distance) < 0.0001;
 

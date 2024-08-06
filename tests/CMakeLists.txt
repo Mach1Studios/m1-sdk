@@ -82,5 +82,3 @@ target_include_directories(Mach1SpatialTests PRIVATE ../libmach1spatial/api_deco
 include_directories(../libmach1spatial/deps ../libmach1spatial/deps/acutest/include)
 
 #-------------------------------------------------------------------------------
-
-message(STATUS "CMAKE_INSTALL_PREFIX='${CMAKE_INSTALL_PREFIX}'")

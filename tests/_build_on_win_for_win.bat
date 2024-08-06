@@ -1,21 +1,20 @@
 echo "### CLEANING OLD TESTS ###"
-if exist _install del /f /q _install
 if exist _builds del /f /q _builds
 
 echo "### BUILD WIN ###"
 if defined cmake_generator (
-    cmake . -B_builds/windows-x86_64 -G "%cmake_generator%" -A x64 -DCMAKE_INSTALL_PREFIX=%cd%/_install/windows-x86_64
+    cmake . -B_builds/windows-x86_64 -G "%cmake_generator%" -A x64
 ) else (
-    cmake . -B_builds/windows-x86_64 -A x64 -DCMAKE_INSTALL_PREFIX=%cd%/_install/windows-x86_64
+    cmake . -B_builds/windows-x86_64 -A x64
 )
 
-cmake --build _builds/windows-x86_64 --target install
+cmake --build _builds/windows-x86_64
 
-_install/windows-x86_64/bin/Mach1EncodeTests
-_install/windows-x86_64/bin/Mach1DecodeTests
-_install/windows-x86_64/bin/Mach1DecodePositionalTests
-_install/windows-x86_64/bin/Mach1TranscodeTests
-_install/windows-x86_64/bin/Mach1SpatialTests
+_builds/windows-x86_64/tests/Debug/Mach1EncodeTests
+_builds/windows-x86_64/tests/Debug/Mach1DecodeTests
+_builds/windows-x86_64/tests/Debug/Mach1DecodePositionalTests
+_builds/windows-x86_64/tests/Debug/Mach1TranscodeTests
+_builds/windows-x86_64/tests/Debug/Mach1SpatialTests
 
 echo "### RENDER CHECK ####"
 echo "### 5.1_C -> M1Spatial ###"

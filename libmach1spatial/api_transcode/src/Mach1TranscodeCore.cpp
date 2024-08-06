@@ -1,8 +1,10 @@
 //  Mach1 Spatial SDK
 //  Copyright © 2017-2022 Mach1. All rights reserved.
 
-#include "Mach1TranscodeCore.h"
+#ifdef M1TRANSCODE_INLINE_ENCODE
 #include "Mach1EncodeCore.h"
+#endif
+#include "Mach1TranscodeCore.h"
 #include "Mach1GenerateCoeffs.h"
 #include "AmbisonicFormats.h"
 #include "MicArrayFormats.h"
@@ -415,7 +417,9 @@ std::vector<std::vector<float>> Mach1TranscodeCore::getCoeffs(int idxMatrix) {
             Mach1TranscodeChannelBase *channel = matrices[idxMatrix].channels[i];
             if (Mach1TranscodeCoeffs *c = dynamic_cast<Mach1TranscodeCoeffs *>(channel)) {
                 coeffs.push_back(c->data);
-            } else if (Mach1TranscodePanner *p = dynamic_cast<Mach1TranscodePanner *>(channel)) {
+            }
+#ifdef M1TRANSCODE_INLINE_ENCODE 
+            else if (Mach1TranscodePanner *p = dynamic_cast<Mach1TranscodePanner *>(channel)) {
                 M1EncodeCore m1encode;
 
                 int inputMode = m1encode.getInputModeFromString(matrices[idxMatrix].formatFrom);
@@ -431,6 +435,7 @@ std::vector<std::vector<float>> Mach1TranscodeCore::getCoeffs(int idxMatrix) {
                 std::vector<std::vector<float>> gains = m1encode.resultingPoints.getGains();
                 coeffs.push_back(gains[i]);
             }
+#endif
         }
     }
 

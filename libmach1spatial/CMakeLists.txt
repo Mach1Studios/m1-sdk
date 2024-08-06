@@ -103,13 +103,20 @@ target_include_directories(M1DecodePositional PUBLIC "${CMAKE_CURRENT_SOURCE_DIR
 file(GLOB M1_TRANSCODE_API_SRC_FILES ${M1_COMMON_SRC_FILES} "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/src/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/matrices/*.h")
 list(FILTER M1_TRANSCODE_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude the Emscripten files
 
-add_library(M1Transcode STATIC ${M1_TRANSCODE_API_SRC_FILES})
+if(M1TRANSCODE_INLINE_ENCODE)
+    message(STATUS "TRANSCODE API: Supports inline encoder")
+    add_library(M1Transcode STATIC ${M1_TRANSCODE_API_SRC_FILES} $<TARGET_OBJECTS:M1Encode>)
+else()
+    message(STATUS "TRANSCODE API: Does not support inline encoder")
+    add_library(M1Transcode STATIC ${M1_TRANSCODE_API_SRC_FILES})
+    target_include_directories(M1Transcode PUBLIC ${M1ENCODE_API_INCLUDE_PATHS})
+endif()
 set_target_properties(M1Transcode
 PROPERTIES
     VERSION ${TRANSCODE_VERSION}
     SOVERSION ${TRANSCODE_VERSION} 
 )
-target_include_directories(M1Transcode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/matrices" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/src" "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/include" ${M1ENCODE_API_INCLUDE_PATHS} "${CMAKE_CURRENT_SOURCE_DIR}/deps" "${CMAKE_CURRENT_SOURCE_DIR}/deps/yaml" "${CMAKE_CURRENT_SOURCE_DIR}/deps/pugixml/src") 
+target_include_directories(M1Transcode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/matrices" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/src" "${CMAKE_CURRENT_SOURCE_DIR}/deps" "${CMAKE_CURRENT_SOURCE_DIR}/deps/yaml" "${CMAKE_CURRENT_SOURCE_DIR}/deps/pugixml/src") 
 
 #----------------
 # Combined Mach1Spatial lib

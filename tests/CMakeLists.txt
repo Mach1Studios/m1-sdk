@@ -69,7 +69,7 @@ target_include_directories(Mach1DecodePositionalTests PRIVATE ../libmach1spatial
 # Mach1 Transcode Test
 
 add_executable(Mach1TranscodeTests Mach1TranscodeTests/mach1transcode-tests.cpp ${M1_LIB_PATH}/api_transcode/include/Mach1Transcode.cpp ${M1_LIB_PATH}/deps/M1DSP/M1DSPUtilities.cpp ${M1_LIB_PATH}/deps/M1DSP/M1DSPFilters.cpp)
-target_link_libraries(Mach1TranscodeTests M1Transcode M1Encode)
+target_link_libraries(Mach1TranscodeTests M1Transcode)
 target_include_directories(Mach1TranscodeTests PRIVATE ../libmach1spatial/api_transcode/include ../libmach1spatial/deps/nlohmann/single_include)
 
 #----------------

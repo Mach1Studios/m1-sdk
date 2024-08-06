@@ -40,7 +40,7 @@ mark_as_advanced(LIBSNDFILE_LIBRARY LIBSNDFILE_LIBRARIES LIBSNDFILE_INCLUDE_DIR 
 pkg_search_module(SndFile REQUIRED sndfile)
 
 # Link with lib
-target_link_libraries(${PROJECT_NAME} PRIVATE M1Transcode M1Encode)
+target_link_libraries(${PROJECT_NAME} PRIVATE M1Transcode)
 set(M1_LIB_PATH ../../../../libmach1spatial)
 
 # collect and add source files

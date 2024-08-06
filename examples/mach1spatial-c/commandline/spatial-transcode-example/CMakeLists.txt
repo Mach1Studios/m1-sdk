@@ -3,7 +3,7 @@ project(spatial-transcode-example)
 add_executable(${PROJECT_NAME})
 
 # Link with lib
-target_link_libraries(${PROJECT_NAME} PRIVATE M1Transcode M1Encode)
+target_link_libraries(${PROJECT_NAME} PRIVATE M1Transcode)
 set(M1_LIB_PATH ../../../../libmach1spatial)
 
 # Source files

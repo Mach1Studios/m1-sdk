@@ -77,7 +77,7 @@ mark_as_advanced(RTAUDIO_INCLUDE_DIR RTAUDIO_LIBRARIES)
 pkg_search_module(RtAudio REQUIRED rtaudio)
 
 # Link with lib
-target_link_libraries(${PROJECT_NAME} PRIVATE M1Decode M1Transcode M1Encode)
+target_link_libraries(${PROJECT_NAME} PRIVATE M1Decode M1Transcode)
 set(M1_LIB_PATH ../../../../libmach1spatial)
 
 # collect and add source files

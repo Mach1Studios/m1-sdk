@@ -3,7 +3,9 @@
 
 #pragma once
 
-#include "Mach1DecodeCAPI.h" // TODO: only include if we build with decode API
+#ifdef M1ENCODE_INLINE_DECODE
+#include "Mach1DecodeCAPI.h"
+#endif
 #include "Mach1EncodeCAPI.h"
 #include <string>
 #include <vector>
@@ -28,8 +30,9 @@ class Mach1Encode {
     void generatePointResults();
     int getPointsCount();
 
-    // TODO: only include if we build with decode API
+#ifdef M1ENCODE_INLINE_DECODE
     std::vector<float> getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, std::vector<float> &decodeResult);
+#endif
 
     Mach1EncodeInputModeType getInputMode();
     Mach1EncodeOutputModeType getOutputMode();

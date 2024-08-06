@@ -1,6 +1,8 @@
 #include <emscripten/bind.h>
 
+#ifdef M1ENCODE_INLINE_DECODE
 #include "Mach1DecodeCAPI.h"
+#endif
 #include "Mach1EncodeCAPI.h"
 #include "include/cpp/Mach1Encode.cpp"
 
@@ -36,11 +38,13 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
         .value("Mach1EncodePannerModeIsotropicEqualPower", Mach1EncodePannerModeIsotropicEqualPower)
         .value("Mach1EncodePannerModePeriphonicLinear", Mach1EncodePannerModePeriphonicLinear);
 
+#ifdef M1ENCODE_INLINE_DECODE
     enum_<Mach1DecodeAlgoType>("Mach1DecodeAlgoType")
         .value("Mach1DecodeAlgoSpatial_4", Mach1DecodeAlgoSpatial_4)
         .value("Mach1DecodeAlgoSpatial_8", Mach1DecodeAlgoSpatial_8)
         .value("Mach1DecodeAlgoSpatial_12", Mach1DecodeAlgoSpatial_12)
         .value("Mach1DecodeAlgoSpatial_14", Mach1DecodeAlgoSpatial_14);
+#endif
 
     register_vector<float>("VectorFloat");
     register_vector<std::string>("VectorString");
@@ -62,8 +66,9 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
         .function("generatePointResults", &Mach1Encode::generatePointResults)
         .function("getPointsCount", &Mach1Encode::getPointsCount)
 
+#ifdef M1ENCODE_INLINE_DECODE
         .function("getResultingCoeffsDecoded", &Mach1Encode::getResultingCoeffsDecoded)
-
+#endif
         .function("getInputMode", &Mach1Encode::getInputMode)
         .function("getOutputMode", &Mach1Encode::getOutputMode)
         .function("getInputChannelsCount", &Mach1Encode::setInputMode)

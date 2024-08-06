@@ -106,6 +106,7 @@ int Mach1Encode::getPointsCount() {
     ///     - integer of number of input channels/points
 }
 
+#ifdef M1ENCODE_INLINE_DECODE
 std::vector<float> Mach1Encode::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, std::vector<float> &decodeResult) {
     std::vector<float> vec(Mach1EncodeCAPI_getPointsCount(M1obj) * 2);
 
@@ -123,6 +124,7 @@ std::vector<float> Mach1Encode::getResultingCoeffsDecoded(Mach1DecodeAlgoType de
     ///
     /// - Remark: Each input audio channel results a direct decode instead of the encode coefficients
 }
+#endif
 
 Mach1EncodeInputModeType Mach1Encode::getInputMode() {
     return Mach1EncodeCAPI_getInputMode(M1obj);

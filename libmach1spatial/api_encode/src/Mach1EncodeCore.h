@@ -15,7 +15,9 @@ Mach1EncodeCore normalizes all input ranges to an unsigned "0 to 1" range for Az
 
 #pragma once
 
+#ifdef M1ENCODE_INLINE_DECODE
 #include "Mach1DecodeCAPI.h"
+#endif
 #include "Mach1Point3D.h"
 
 #include <chrono>
@@ -165,7 +167,9 @@ class M1EncodeCore {
     void generatePointResults();
     M1EncodeCorePointResults resultingPoints;
 
+#ifdef M1ENCODE_INLINE_DECODE
     void getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, float *decodeResult, float *result);
+#endif
 
     InputMode getInputMode();
     OutputMode getOutputMode();

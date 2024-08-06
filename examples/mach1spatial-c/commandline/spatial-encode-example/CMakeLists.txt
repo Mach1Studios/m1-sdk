@@ -2,6 +2,12 @@ cmake_minimum_required(VERSION 3.13.0)
 project(spatial-encode-example)
 add_executable(${PROJECT_NAME})
 
+if(M1ENCODE_INLINE_DECODE)
+    message(STATUS "ENCODE API: Supports inline decoding")
+else()
+    message(STATUS "ENCODE API: Does not support inline decoding")
+endif()
+
 # Link with lib
 target_link_libraries(${PROJECT_NAME} PRIVATE M1Encode)
 set(M1_LIB_PATH ../../../../libmach1spatial)

@@ -8,6 +8,8 @@ Currently the Mach1 Spatial SDK has gone through some revisions to improve on it
 
 ## Breaking changes for migrating to 4.0+
 Version 4 removes more deprecated functions and simplifies the APIs to be more modular.
+- Mach1Encode API: Requires the definition of `M1ENCODE_INLINE_DECODE` to allow the inline decode functions to be compiles (and requires additional project linking to Mach1Decode API)
+- Mach1DecodePositional API: Now compiles Mach1Decode API within it to reduce linking requirements on targets
 - Mach1Decode API: Changed the order of the Mach1DecodeAlgoType so that they follow an incremental pattern (changes the default 0th index decode algo type).
 - All APIs: Renamed Mach1Horizon_4 to Mach1Spatial_4 and all naming variations that used "Horizon" are replaced with "Spatial"
 - All APIs: Changed the order for any `outputType` enum to ascend in order of 4->8->12->14 instead of 8->4->12->14 (4 is now the default first index for easier use).

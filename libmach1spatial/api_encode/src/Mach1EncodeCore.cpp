@@ -1148,6 +1148,8 @@ void M1EncodeCore::generatePointResults() {
     timeLastCalculation = getCurrentTime() - tStart;
 }
 
+#ifdef M1ENCODE_INLINE_DECODE
+// if `M1ENCODE_INLINE_DECODE` is defined we support the following function but require linking to M1Decode
 void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, float *decodeResult, float *result) {
     // clear
     for (int i = 0; i < resultingPoints.pointsCount * 2; i++)
@@ -1185,6 +1187,7 @@ void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, flo
         }
     }
 }
+#endif
 
 M1EncodeCore::InputMode M1EncodeCore::getInputMode() {
     return inputMode;

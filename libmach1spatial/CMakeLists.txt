@@ -54,7 +54,7 @@ set(M1DECODE_API_INCLUDE_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/src" "${C
 
 #----------------
 # Mach1 Encode API
-# Note: (Optional) Mach1Encode API requires Mach1Decode API
+# Note: (Optional) Some functions in Mach1Encode API may optionally require Mach1Decode API
 
 file(GLOB M1_ENCODE_API_SRC_FILES ${M1_COMMON_SRC_FILES} "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/src/*.cpp")
 list(FILTER M1_ENCODE_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude the Emscripten files
@@ -71,7 +71,10 @@ target_include_directories(M1Encode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_comm
 # Supports inline decode functions in M1Encode API
 # (Requires linking decode api)
 if(M1ENCODE_INLINE_DECODE)
+    message(STATUS "ENCODE API: Supports inline decoding")
     target_include_directories(M1Encode PUBLIC ${M1DECODE_API_INCLUDE_PATHS})
+else()
+    message(STATUS "ENCODE API: Does not support inline decoding")
 endif()
 
 # Set include paths for other APIs

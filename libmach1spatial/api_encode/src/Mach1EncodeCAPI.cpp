@@ -93,6 +93,7 @@ int Mach1EncodeCAPI_getPointsCount(void *M1obj) {
     return ((M1EncodeCore *)M1obj)->resultingPoints.getPointsCount();
 }
 
+#ifdef M1ENCODE_INLINE_DECODE
 void *Mach1EncodeCAPI_getResultingCoeffsDecoded(void *M1obj, enum Mach1DecodeAlgoType decodeType, float *decodeResult) {
     // clear
     for (int i = 0; i < MAX_CHANNELS_COUNT; i++) {
@@ -103,6 +104,7 @@ void *Mach1EncodeCAPI_getResultingCoeffsDecoded(void *M1obj, enum Mach1DecodeAlg
 
     return ((M1EncodeCore *)M1obj)->arr_ResultingCoeffsDecoded;
 }
+#endif
 
 enum Mach1EncodeInputModeType Mach1EncodeCAPI_getInputMode(void *M1obj) {
     return (Mach1EncodeInputModeType)(int)((M1EncodeCore *)M1obj)->getInputMode();

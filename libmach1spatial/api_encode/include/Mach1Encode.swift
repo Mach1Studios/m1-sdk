@@ -93,6 +93,7 @@ public class Mach1Encode {
         ///     - integer of number of input channels/points
     }
 
+#if M1ENCODE_INLINE_DECODE
     public func getResultingCoeffsDecoded(decodeType: Mach1DecodeAlgoType, decodeResult: [Float] ) -> [Float] {
         let pointer: UnsafeMutablePointer = UnsafeMutablePointer(mutating: decodeResult)
         let volumesPtr = unsafeBitCast( Mach1EncodeCAPI_getResultingCoeffsDecoded(M1obj, decodeType, pointer), to: UnsafeMutablePointer<Float>?.self)
@@ -109,6 +110,7 @@ public class Mach1Encode {
         ///
         /// - Remark: Each input audio channel results a direct decode instead of the encode coefficients
     }
+#endif
 
     public func getInputMode() -> Mach1EncodeInputModeType {
         let inputMode = Mach1EncodeCAPI_getInputMode(M1obj)

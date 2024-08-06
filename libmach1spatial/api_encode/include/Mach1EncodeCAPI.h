@@ -3,7 +3,9 @@
 
 #pragma once
 
+#ifdef M1ENCODE_INLINE_DECODE
 #include "Mach1DecodeCAPI.h"
+#endif
 #include "Mach1Point3D.h"
 
 #if defined(Mach1DecodeCore_h) || defined(Mach1EncodeCore_h) || defined(Mach1PositionalCore_h) || defined(Mach1TranscodeCore_h) || defined(Mach1AudioTimelineCore_h)
@@ -71,7 +73,9 @@ M1_API void *Mach1EncodeCAPI_getGainsForInputChannelNamed(void *M1obj, char *poi
 M1_API void Mach1EncodeCAPI_generatePointResults(void *M1obj);
 M1_API int Mach1EncodeCAPI_getPointsCount(void *M1obj);
 
+#ifdef M1ENCODE_INLINE_DECODE
 M1_API void *Mach1EncodeCAPI_getResultingCoeffsDecoded(void *M1obj, enum Mach1DecodeAlgoType decodeType, float *decodeResult);
+#endif
 
 M1_API enum Mach1EncodeInputModeType Mach1EncodeCAPI_getInputMode(void *M1obj);
 M1_API enum Mach1EncodeOutputModeType Mach1EncodeCAPI_getOutputMode(void *M1obj);

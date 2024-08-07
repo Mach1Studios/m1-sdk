@@ -11,7 +11,6 @@
 #include "SurroundFormats.h"
 #include "VectorFormats.h"
 #include "json/json.h"
-#include <cstring>
 #include <string>
 
 #define _USE_MATH_DEFINES

@@ -10,8 +10,6 @@ updates and should not be integrated in sections but remain as an update-able fa
 #pragma once
 
 #include "Mach1DecodeCore.h"
-
-#include <iostream>
 #include <string>
 
 #define GLM_ENABLE_EXPERIMENTAL

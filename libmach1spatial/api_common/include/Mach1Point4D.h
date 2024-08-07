@@ -3,8 +3,6 @@
 
 #pragma once
 
-#include <cmath>
-
 #ifndef DEG_TO_RAD
 #    define DEG_TO_RAD (PI / 180.0)
 #endif

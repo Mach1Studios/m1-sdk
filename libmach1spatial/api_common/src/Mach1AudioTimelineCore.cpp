@@ -2,7 +2,6 @@
 //  Copyright © 2017-2020 Mach1. All rights reserved.
 
 #include "Mach1AudioTimelineCore.h"
-#include "Mach1GenerateCoeffs.h"
 #include "yaml/Yaml.hpp"
 
 float Mach1AudioTimelineCore::clamp(float n, float lower, float upper) {

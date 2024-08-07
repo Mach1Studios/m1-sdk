@@ -20,8 +20,6 @@ Mach1DecodeCore normalizes all input ranges to an unsigned "0 to 1" range for Ya
  */
 
 #include "Mach1DecodeCore.h"
-
-#include <cmath>
 #include <string>
 
 #ifndef __ANDROID__

@@ -82,7 +82,12 @@ target_include_directories(Mach1SpatialTests PRIVATE ../libmach1spatial/api_deco
 #----------------
 # Mach1 Transcode Render Test
 
-add_subdirectory(Mach1TranscodeRenderTest)
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" OR ${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+   if(NOT BUILD_COCOAPODS_LIBS)
+      # Limiting the inclusion of this test because sndfile might have target limitations
+      add_subdirectory(Mach1TranscodeRenderTest)
+   endif()
+endif()
 #-------------------------------------------------------------------------------
 
 include_directories(../libmach1spatial/deps ../libmach1spatial/deps/acutest/include)

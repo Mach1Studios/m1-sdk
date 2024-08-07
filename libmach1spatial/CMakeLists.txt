@@ -238,104 +238,47 @@ if(MSVC OR WIN32)
     endif()
 endif()
 
-# # UNITY / SHARED libs
-# if(BUILD_SHARED_LIBS)
-#         add_library(Mach1DecodeCAPIshared SHARED ${MACH1_HEADERS} ${M1_DECODE_API_SOURCE})
-#         target_include_directories(Mach1DecodeCAPIshared PRIVATE ${MACH1_COMMON_INCLUDE_PATHS})
-#         set_target_properties(Mach1DecodeCAPIshared PROPERTIES OUTPUT_NAME "Mach1DecodeCAPI")
-#         set_target_properties(Mach1DecodeCAPIshared PROPERTIES VERSION ${DECODE_VERSION})
-#         install(TARGETS Mach1DecodeCAPIshared DESTINATION lib-shared)
-
-#         add_library(Mach1DecodePositionalCAPIshared SHARED ${MACH1_HEADERS} ${M1_DECODEPOSITIONAL_API_SOURCE})
-#         target_include_directories(Mach1DecodePositionalCAPIshared PRIVATE ${MACH1_COMMON_INCLUDE_PATHS})
-#         set_target_properties(Mach1DecodePositionalCAPIshared PROPERTIES OUTPUT_NAME "Mach1DecodePositionalCAPI")
-#         set_target_properties(Mach1DecodePositionalCAPIshared PROPERTIES VERSION ${DECODEPOSITIONAL_VERSION})
-#         install(TARGETS Mach1DecodePositionalCAPIshared DESTINATION lib-shared)
-
-#         add_library(Mach1EncodeCAPIshared SHARED ${MACH1_HEADERS} ${M1_ENCODE_API_SOURCE})
-#         target_include_directories(Mach1EncodeCAPIshared PRIVATE ${MACH1_COMMON_INCLUDE_PATHS})
-#         set_target_properties(Mach1EncodeCAPIshared PROPERTIES OUTPUT_NAME "Mach1EncodeCAPI")
-#         set_target_properties(Mach1EncodeCAPIshared PROPERTIES VERSION ${ENCODE_VERSION})
-#         install(TARGETS Mach1EncodeCAPIshared DESTINATION lib-shared)
-
-#         add_library(Mach1TranscodeCAPIshared SHARED ${MACH1_HEADERS} ${M1_TRANSCODE_API_SOURCE})
-#         target_include_directories(Mach1TranscodeCAPIshared PRIVATE ${MACH1_COMMON_INCLUDE_PATHS} ${Mach1TranscodeAdditionalIncludes})
-#         set_target_properties(Mach1TranscodeCAPIshared PROPERTIES OUTPUT_NAME "Mach1TranscodeCAPI")
-#         set_target_properties(Mach1TranscodeCAPIshared PROPERTIES VERSION ${TRANSCODE_VERSION})
-#         install(TARGETS Mach1TranscodeCAPIshared DESTINATION lib-shared)
-# endif()
-
-# if(BUILD_MACOS_BUNDLE)
-#     # bundles for Unity
-#         add_library(Mach1DecodeCAPIbundle MODULE ${MACH1_HEADERS} ${M1_DECODE_API_SOURCE})
-#         set_target_properties(Mach1DecodeCAPIbundle PROPERTIES BUNDLE TRUE)
-#         set_target_properties(Mach1DecodeCAPIbundle PROPERTIES PREFIX "lib")
-#         set_target_properties(Mach1DecodeCAPIbundle PROPERTIES OUTPUT_NAME "Mach1DecodeCAPI")
-#         set_target_properties(Mach1DecodeCAPIbundle PROPERTIES SUFFIX ".bundle")
-#         set_target_properties(Mach1DecodeCAPIbundle PROPERTIES VERSION ${DECODE_VERSION})
-#         install(TARGETS Mach1DecodeCAPIbundle DESTINATION lib-bundle)
-
-#         add_library(Mach1DecodePositionalCAPIbundle MODULE ${MACH1_HEADERS} ${M1_DECODEPOSITIONAL_API_SOURCE})
-#         target_include_directories(Mach1DecodePositionalCAPIbundle PRIVATE ${MACH1_COMMON_INCLUDE_PATHS})
-#         set_target_properties(Mach1DecodePositionalCAPIbundle PROPERTIES BUNDLE TRUE)
-#         set_target_properties(Mach1DecodePositionalCAPIbundle PROPERTIES PREFIX "lib")
-#         set_target_properties(Mach1DecodePositionalCAPIbundle PROPERTIES OUTPUT_NAME "Mach1DecodePositionalCAPI")
-#         set_target_properties(Mach1DecodePositionalCAPIbundle PROPERTIES SUFFIX ".bundle")
-#         set_target_properties(Mach1DecodePositionalCAPIbundle PROPERTIES VERSION ${DECODEPOSITIONAL_VERSION})
-#         install(TARGETS Mach1DecodePositionalCAPIbundle DESTINATION lib-bundle)
-
-#         add_library(Mach1EncodeCAPIbundle MODULE ${MACH1_HEADERS} ${M1_ENCODE_API_SOURCE})
-#         set_target_properties(Mach1EncodeCAPIbundle PROPERTIES BUNDLE TRUE)
-#         set_target_properties(Mach1EncodeCAPIbundle PROPERTIES PREFIX "lib")
-#         set_target_properties(Mach1EncodeCAPIbundle PROPERTIES OUTPUT_NAME "Mach1EncodeCAPI")
-#         set_target_properties(Mach1EncodeCAPIbundle PROPERTIES SUFFIX ".bundle")
-#         set_target_properties(Mach1EncodeCAPIbundle PROPERTIES VERSION ${ENCODE_VERSION})
-#         install(TARGETS Mach1EncodeCAPIbundle DESTINATION lib-bundle)
-
-#         add_library(Mach1TranscodeCAPIbundle MODULE ${MACH1_HEADERS} ${M1_TRANSCODE_API_SOURCE})
-#         target_include_directories(Mach1TranscodeCAPIbundle PRIVATE ${MACH1_COMMON_INCLUDE_PATHS} ${Mach1TranscodeAdditionalIncludes})
-#         set_target_properties(Mach1TranscodeCAPIbundle PROPERTIES BUNDLE TRUE)
-#         set_target_properties(Mach1TranscodeCAPIbundle PROPERTIES PREFIX "lib")
-#         set_target_properties(Mach1TranscodeCAPIbundle PROPERTIES OUTPUT_NAME "Mach1TranscodeCAPI")
-#         set_target_properties(Mach1TranscodeCAPIbundle PROPERTIES SUFFIX ".bundle")
-#         set_target_properties(Mach1TranscodeCAPIbundle PROPERTIES VERSION ${TRANSCODE_VERSION})
-#         install(TARGETS Mach1TranscodeCAPIbundle DESTINATION lib-bundle)
-# endif()
-
 #----------------
 # INSTALL
 #----------------
 
+if(BUILD_MACOS_BUNDLE) # bundles for typically for Unity
+    if(APPLE)
+        message(STATUS "SETUP: Building .bundle style libs.")
+
+        # Set the destination as ios for the libs
+        set(LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/maccOS")
+        set_target_properties(M1Decode PROPERTIES BUNDLE TRUE)
+        set_target_properties(M1Decode PROPERTIES PREFIX "lib")
+        set_target_properties(M1Decode PROPERTIES OUTPUT_NAME "Mach1DecodeCAPI")
+        set_target_properties(M1Decode PROPERTIES SUFFIX ".bundle")
+
+        set_target_properties(M1DecodePositional PROPERTIES BUNDLE TRUE)
+        set_target_properties(M1DecodePositional PROPERTIES PREFIX "lib")
+        set_target_properties(M1DecodePositional PROPERTIES OUTPUT_NAME "Mach1DecodePositionalCAPI")
+        set_target_properties(M1DecodePositional PROPERTIES SUFFIX ".bundle")
+
+        message(STATUS "INSTALL: Installing bundle libs to ${LIB_DEST_DIR}.")
+        install (TARGETS M1Decode M1DecodePositional
+            LIBRARY DESTINATION "${LIB_DEST_DIR}"
+            ARCHIVE DESTINATION "${LIB_DEST_DIR}"
+        )
+    endif()
+endif()
+
 if(BUILD_COCOAPODS_LIBS)
     message(STATUS "SETUP: Building for Cocoapods")
 
-    if(IOS)
+    if(IOS OR ARCHS STREQUAL OS OR ARCHS STREQUAL OS64 OR ARCHS STREQUAL SIMULATOR OR ARCHS STREQUAL SIMULATOR64 OR ARCHS STREQUAL SIMULATORARM64 OR ARCHS STREQUAL MAC_CATALYST OR ARCHS STREQUAL MAC_CATALYST_ARM64 OR ARCHS STREQUAL MAC_CATALYST_UNIVERSAL)
         # Set the destination as ios for the libs
         set(LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/ios")
-
-        string(COMPARE EQUAL "$ENV{IOS_DEVELOPMENT_TEAM}" "" _is_empty)
-        if(_is_empty)
-            message(WARNING "ERROR: Environment variable IOS_DEVELOPMENT_TEAM is empty")
-        endif()
-        set(CMAKE_XCODE_ATTRIBUTE_DEVELOPMENT_TEAM "$ENV{IOS_DEVELOPMENT_TEAM}")
-
-        string(COMPARE EQUAL "$ENV{IOS_BUNDLE_IDENTIFIER}" "" _is_empty)  
-        if(_is_empty)
-            message(WARNING "ERROR: Environment variable IOS_BUNDLE_IDENTIFIER is empty")
-        else()
-            set(MACOSX_BUNDLE_GUI_IDENTIFIER $ENV{IOS_BUNDLE_IDENTIFIER}) # https://cmake.org/cmake/help/latest/prop_tgt/MACOSX_BUNDLE_INFO_PLIST.html
-        endif()
-        set_target_properties(M1Decode PROPERTIES CMAKE_XCODE_ATTRIBUTE_BITCODE_GENERATION_MODE "bitcode")
-        set_target_properties(M1Decode PROPERTIES XCODE_ATTRIBUTE_ENABLE_BITCODE "YES")
-        set_target_properties(M1DecodePositional PROPERTIES CMAKE_XCODE_ATTRIBUTE_BITCODE_GENERATION_MODE "bitcode")
-        set_target_properties(M1DecodePositional PROPERTIES XCODE_ATTRIBUTE_ENABLE_BITCODE "YES")
-        set_target_properties(M1Encode PROPERTIES CMAKE_XCODE_ATTRIBUTE_BITCODE_GENERATION_MODE "bitcode")
-        set_target_properties(M1Encode PROPERTIES XCODE_ATTRIBUTE_ENABLE_BITCODE "YES")
-        set_target_properties(M1Transcode PROPERTIES CMAKE_XCODE_ATTRIBUTE_BITCODE_GENERATION_MODE "bitcode")
-        set_target_properties(M1Transcode PROPERTIES XCODE_ATTRIBUTE_ENABLE_BITCODE "YES")
-    elseif(APPLE)
+    elseif(APPLE OR ARCHS STREQUAL MAC OR ARCHS STREQUAL MAC_ARM64 OR ARCHS STREQUAL MAC_UNIVERSAL)
         # Set the destination as osx for the libs
         set(LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/osx")
+    elseif(ARCHS STREQUAL TVOS OR ARCHS STREQUAL SIMULATOR_TVOS OR ARCHS STREQUAL SIMULATORARM64_TVOS)
+    elseif(ARCHS STREQUAL WATCHOS OR ARCHS STREQUAL SIMULATOR_WATCHOS OR ARCHS STREQUAL SIMULATORARM64_WATCHOS)
+    elseif()
+        message(WARNING "SETUP: Did not find the correct osx target.")
     endif()
 
     # Rename the output .a files to match the old naming (TODO: decide on updating the naming univerally)
@@ -346,7 +289,7 @@ if(BUILD_COCOAPODS_LIBS)
 
     # Create the destination directory if it doesn't exist
     file(MAKE_DIRECTORY "${LIB_DEST_DIR}")
-    message(DEBUG "INSTALL dest dir: ${LIB_DEST_DIR}")
+    message(STATUS "INSTALL dest dir: ${LIB_DEST_DIR}")
     
     if(EXISTS "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI")
         message(STATUS "INSTALL: Installing includes and classes into cocoapods example.")

@@ -43,11 +43,72 @@ ifeq ($(detected_OS),Darwin)
 else ifeq ($(detected_OS),Windows)
 endif
 
+deploy-android: FORCE clear
+	# BUILD arm64
+	cmake . -B_builds/android-arm64-v8a \
+	-DM1S_BUILD_EXAMPLES=OFF -BUILD_JITPACK_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_SYSTEM_NAME=Android \
+	-DCMAKE_SYSTEM_VERSION=21 \
+	-DCMAKE_ANDROID_ARCH_ABI=arm64-v8a \
+	-DCMAKE_ANDROID_NDK=$ANDROID_NDK_HOME \
+	-DCMAKE_ANDROID_NDK_TOOLCHAIN_VERSION=clang \
+	-DCMAKE_ANDROID_STL_TYPE=c++_static \
+	-DBUILD_SHARED_LIBS=ON \
+	-DCMAKE_INSTALL_PREFIX=`pwd`/_install/android-arm64-v8a
+	cmake --build _builds/android-arm64-v8a --config Release --target install
+	# BUILD armeabi-v7a
+	cmake . -B_builds/android-armeabi-v7a \
+	-DM1S_BUILD_EXAMPLES=OFF -BUILD_JITPACK_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_SYSTEM_NAME=Android \
+	-DCMAKE_SYSTEM_VERSION=21 \
+	-DCMAKE_ANDROID_ARCH=armeabi-v7a \
+	-DCMAKE_ANDROID_NDK=$ANDROID_NDK_HOME \
+	-DCMAKE_ANDROID_ARM_NEON=ON \
+	-DCMAKE_ANDROID_ARM_MODE=ON \
+	-DCMAKE_ANDROID_NDK_TOOLCHAIN_VERSION=clang \
+	-DCMAKE_ANDROID_STL_TYPE=c++_static \
+	-DBUILD_SHARED_LIBS=ON \
+	-DCMAKE_INSTALL_PREFIX=`pwd`/_install/android-armeabi-v7a
+	cmake --build _builds/android-armeabi-v7a --config Release --target install
+	# BUILD x86
+	cmake . -B_builds/android-x86 \
+	-DM1S_BUILD_EXAMPLES=OFF -BUILD_JITPACK_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_SYSTEM_NAME=Android \
+	-DCMAKE_SYSTEM_VERSION=21 \
+	-DCMAKE_ANDROID_ARCH=x86 \
+	-DCMAKE_ANDROID_NDK=$ANDROID_NDK_HOME \
+	-DCMAKE_ANDROID_NDK_TOOLCHAIN_VERSION=clang \
+	-DCMAKE_ANDROID_STL_TYPE=c++_static \
+	-DBUILD_SHARED_LIBS=ON \
+	-DCMAKE_INSTALL_PREFIX=`pwd`/_install/android-x86
+	cmake --build _builds/android-x86 --config Release --target install
+	# BUILD x64
+	cmake . -B_builds/android-x86-64 \
+	-DM1S_BUILD_EXAMPLES=OFF -BUILD_JITPACK_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_SYSTEM_NAME=Android \
+	-DCMAKE_SYSTEM_VERSION=21 \
+	-DCMAKE_ANDROID_ARCH=x86_64 \
+	-DCMAKE_ANDROID_NDK=$ANDROID_NDK_HOME \
+	-DCMAKE_ANDROID_NDK_TOOLCHAIN_VERSION=clang \
+	-DCMAKE_ANDROID_STL_TYPE=c++_static \
+	-DBUILD_SHARED_LIBS=ON \
+	-DCMAKE_INSTALL_PREFIX=`pwd`/_install/android-x86-64
+	cmake --build _builds/android-x86-64 --config Release --target install
+
 deploy-ios: FORCE clear
-	cmake . -B_builds/ios -GXcode -DCMAKE_BUILD_TYPE=Release -DM1S_BUILD_EXAMPLES=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_DEPLOYMENT_TARGET=12 -DCMAKE_XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH=NO -DCMAKE_IOS_INSTALL_COMBINED=YES
-	cmake --build _builds/ios --config Release --target install
-	cmake . -B_builds/osx -GXcode -DCMAKE_BUILD_TYPE=Release -DM1S_BUILD_EXAMPLES=OFF -DBUILD_COCOAPODS_LIBS=ON
+ifeq ($(detected_OS),Darwin)
+	cmake . -B_builds/osx \
+	-GXcode \
+	-DM1S_BUILD_EXAMPLES=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=MAC_UNIVERSAL
 	cmake --build _builds/osx --config Release --target install
+	cmake . -B_builds/ios \
+	-GXcode \
+	-DM1S_BUILD_EXAMPLES=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=OS64COMBINED
+	cmake --build _builds/ios --config Release # separate build and install steps for fat-lib
+	cmake --install _builds/ios --config Release
+endif
 
 deploy-web: FORCE clear
 	source $(EMSDK_PATH)/emsdk_env.sh && emcc -O3 --minify 0 --closure 0 -s MODULARIZE=1 --bind -s "EXPORT_NAME='Mach1DecodeModule'" -s ALLOW_TABLE_GROWTH=1 --pre-js Mach1DecodeEmscripten.js -o include/js/Mach1Decode.js Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodeEmscripten.cpp

@@ -462,7 +462,7 @@ int main(int argc, char* argv[])
         dac.startStream();
     }
     catch ( RtAudioErrorType& e ) {
-        printf("ERROR: RTAudio returned: " + e);
+        printf("ERROR: RTAudio returned: %u", e);
         exit( 0 );
     }
     

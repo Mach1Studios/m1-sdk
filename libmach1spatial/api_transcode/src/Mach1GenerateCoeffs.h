@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include "Mach1Point3D.h"
 
 std::vector<float> generateCoeffSetForPoint(float x, float y, float z, std::vector<Mach1Point3D> targetStandart);

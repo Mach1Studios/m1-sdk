@@ -157,7 +157,7 @@ void test_results(void) {
                 // TODO: Finalize the index [i] x [j] relationship after we finish the design for the coeffsFlipped() function
                 bool check = fabs(test.output.matrix[j][i] - matrix[i][j]) < 0.01;
                 if (check == false) {
-                    TEST_CHECK_(check, "%s | Error with index [%d, %d]", test.name.c_str(), i, j);
+                    TEST_CHECK_(check, "%s | Error with index [%zu, %d]", test.name.c_str(), i, j);
                     std::cout << "index: [" << i << " , " << j << "]: " << matrix[i][j] << ", should be: " << test.output.matrix[j][i];
                     std::cout << std::endl;
                 }

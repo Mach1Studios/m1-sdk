@@ -689,7 +689,7 @@ void test_results(void) {
                 bool check = fabs(test.output.results[i][j] - results[i][j]) < 0.0001;
                 counter += check;
                 if (check == false) {
-                    TEST_CHECK_(check, "%s | Error with index [%zu][%d]", test.name.c_str(), i, j);
+                    TEST_CHECK_(check, "%s | Error with index [%zu][%zu]", test.name.c_str(), i, j);
                     std::cout << "index: [" << i << "][" << j << "]: " << results[i][j] << ", should be: " << test.output.results[i][j];
                     std::cout << std::endl;
                 }

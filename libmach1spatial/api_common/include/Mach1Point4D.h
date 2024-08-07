@@ -3,11 +3,7 @@
 
 #pragma once
 
-#include <algorithm>
-#include <chrono>
 #include <cmath>
-#include <string>
-#include <vector>
 
 #ifndef DEG_TO_RAD
 #    define DEG_TO_RAD (PI / 180.0)

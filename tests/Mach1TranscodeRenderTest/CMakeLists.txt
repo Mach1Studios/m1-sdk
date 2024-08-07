@@ -41,7 +41,7 @@ pkg_search_module(SndFile REQUIRED sndfile)
 
 # Link with lib
 target_link_libraries(${PROJECT_NAME} PRIVATE M1Transcode)
-set(M1_LIB_PATH ../../../../libmach1spatial)
+set(M1_LIB_PATH ../../libmach1spatial)
 
 # collect and add source files
 target_sources(${PROJECT_NAME}

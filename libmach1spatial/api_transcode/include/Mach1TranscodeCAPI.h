@@ -4,7 +4,6 @@
 #pragma once
 
 #include "Mach1Point3D.h"
-#include <stdbool.h>
 #include <vector>
 #include <string>
 

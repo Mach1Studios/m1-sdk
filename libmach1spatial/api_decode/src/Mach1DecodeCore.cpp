@@ -21,8 +21,6 @@ Mach1DecodeCore normalizes all input ranges to an unsigned "0 to 1" range for Ya
 
 #include "Mach1DecodeCore.h"
 
-#include <algorithm>
-#include <chrono>
 #include <cmath>
 #include <string>
 

@@ -20,7 +20,6 @@ Mach1EncodeCore normalizes all input ranges to an unsigned "0 to 1" range for Az
 #endif
 #include "Mach1Point3D.h"
 
-#include <chrono>
 #include <string>
 #include <vector>
 

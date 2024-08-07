@@ -543,7 +543,7 @@ int main(int argc, char* argv[])
 		if (inputFormat == SF_FORMAT_FLOAT)  format = SF_FORMAT_WAV | SF_FORMAT_FLOAT;
 		char outfilestr[1024];
 		if (numOutFiles > 1) {
-			sprintf(outfilestr, "%s_%0d.wav", outfilename, i);
+            printf(outfilestr, "%s_%0d.wav", outfilename, i);
 		} else {
 			strcpy(outfilestr, outfilename);
 		}

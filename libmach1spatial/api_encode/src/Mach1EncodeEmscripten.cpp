@@ -4,7 +4,7 @@
 #include "Mach1DecodeCAPI.h"
 #endif
 #include "Mach1EncodeCAPI.h"
-#include "include/cpp/Mach1Encode.cpp"
+#include "../include/Mach1Encode.cpp"
 
 using namespace emscripten;
 

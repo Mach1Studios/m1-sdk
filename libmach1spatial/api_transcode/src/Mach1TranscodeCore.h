@@ -9,9 +9,6 @@
 #include "M1DSP/M1DSPFilters.h"
 #include "M1DSP/M1DSPUtilities.h"
 #include "Mach1Point3D.h"
-#include <map>
-#include <math.h>
-#include <stddef.h>
 #include <vector>
 #include <cassert>
 

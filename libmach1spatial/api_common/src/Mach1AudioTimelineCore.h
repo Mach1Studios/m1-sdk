@@ -8,11 +8,6 @@
 
 #include "Mach1KeyPoint.h"
 #include "Mach1Point3D.h"
-#include <cstring>
-#include <map>
-#include <math.h>
-#include <stddef.h>
-#include <vector>
 
 #include "adm/ADMParser.h"
 #include "yaml/Yaml.hpp"

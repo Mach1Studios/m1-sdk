@@ -148,6 +148,7 @@ ifeq ($(detected_OS),Darwin)
 	-DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=OS64COMBINED
 	cmake --build _builds/ios --config Release # separate build and install steps for fat-lib
 	cmake --install _builds/ios --config Release
+	# TODO: test the libs are codesigned and built properly
 endif
 
 deploy-web: generate-js

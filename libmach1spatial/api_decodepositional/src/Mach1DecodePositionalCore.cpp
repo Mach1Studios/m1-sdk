@@ -247,12 +247,12 @@ void Mach1DecodePositionalCore::setAttenuationCurve(float attenuationCurve) {
     this->falloffCurve = attenuationCurve;
 }
 
-void Mach1DecodePositionalCore::setMuteWhenOutsideObject(bool muteWhenOutsideObject) {
-    this->muteWhenOutsideObject = muteWhenOutsideObject;
+void Mach1DecodePositionalCore::setMuteWhenOutsideObject(bool _muteWhenOutsideObject) {
+    this->muteWhenOutsideObject = _muteWhenOutsideObject;
 }
 
-void Mach1DecodePositionalCore::setMuteWhenInsideObject(bool muteWhenInsideObject) {
-    this->muteWhenOutsideObject = muteWhenInsideObject;
+void Mach1DecodePositionalCore::setMuteWhenInsideObject(bool _muteWhenInsideObject) {
+    this->muteWhenOutsideObject = _muteWhenInsideObject;
 }
 
 void Mach1DecodePositionalCore::setUseAttenuation(bool useAttenuation) {
@@ -263,16 +263,16 @@ void Mach1DecodePositionalCore::setUsePlaneCalculation(bool usePlaneCalculation)
     this->useClosestPointRotationMuteInside = usePlaneCalculation;
 }
 
-void Mach1DecodePositionalCore::setUseYawForRotation(bool useYawForRotation) {
-    this->useYawForRotation = useYawForRotation;
+void Mach1DecodePositionalCore::setUseYawForRotation(bool _useYawForRotation) {
+    this->useYawForRotation = _useYawForRotation;
 }
 
-void Mach1DecodePositionalCore::setUsePitchForRotation(bool usePitchForRotation) {
-    this->usePitchForRotation = usePitchForRotation;
+void Mach1DecodePositionalCore::setUsePitchForRotation(bool _usePitchForRotation) {
+    this->usePitchForRotation = _usePitchForRotation;
 }
 
-void Mach1DecodePositionalCore::setUseRollForRotation(bool useRollForRotation) {
-    this->useRollForRotation = useRollForRotation;
+void Mach1DecodePositionalCore::setUseRollForRotation(bool _useRollForRotation) {
+    this->useRollForRotation = _useRollForRotation;
 }
 
 void Mach1DecodePositionalCore::setListenerPosition(Mach1Point3D *pos) {

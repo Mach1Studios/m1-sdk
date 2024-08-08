@@ -48,13 +48,15 @@ ifeq ($(detected_OS),Darwin)
 else ifeq ($(detected_OS),Windows)
 endif
 
-generate-go:
-
 generate-jni:
 
 generate-csharp:
 
 generate-python:
+	# TODO
+
+generate-go:
+	# TODO
 
 generate-js: FORCE
 	emcc -O3 --closure 0 --minify 0 -s MODULARIZE=1 --bind -s ALLOW_TABLE_GROWTH=1 \
@@ -161,7 +163,23 @@ deploy-web: generate-js
 	rsync -c libmach1spatial/api_*/include/js/* examples/mach1spatial-web/js
 	rsync -c libmach1spatial/api_decode/include/js/* examples/mach1spatial-web/m1-web-spatialaudioplayer/js
 	# OFXMACH1
-	#rsync -c libmach1spatial/api_*/include/js/* examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/emscripten/
+	rsync -c libmach1spatial/api_*/include/js/* examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/emscripten/
+
+deploy-ue: FORCE
+	# api_common
+	rsync -c libmach1spatial/api_common/include/Mach1Point*.h examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/Source/Mach1DecodeAPI/Public
+	# api_decode
+	rsync -c libmach1spatial/api_decode/src/*.cpp examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/Source/Mach1DecodeAPI/Private --exclude='js/' --exclude='*.swift' --exclude='*.cs' --exclude='*Emscripten*'
+	rsync -c libmach1spatial/api_decode/include/Mach1DecodeCAPI.h examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/Source/Mach1DecodeAPI/Public
+	rsync -c libmach1spatial/api_decode/src/Mach1DecodeCore.h examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/Source/Mach1DecodeAPI/Public
+	rsync -c libmach1spatial/api_decode/include/Mach1Decode.cpp  examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/Source/Mach1DecodePlugin/Private
+	rsync -c libmach1spatial/api_decode/include/Mach1Decode.h  examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/Source/Mach1DecodePlugin/Public
+	# api_decodepositional
+	rsync -c libmach1spatial/api_decodepositional/src/*.cpp examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/Source/Mach1DecodeAPI/Private --exclude='js/' --exclude='*.swift' --exclude='*.cs' --exclude='*Emscripten*'
+	rsync -c libmach1spatial/api_decodepositional/include/Mach1DecodePositionalCAPI.h examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/Source/Mach1DecodeAPI/Public
+	rsync -c libmach1spatial/api_decodepositional/src/Mach1DecodePositionalCore.h examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/Source/Mach1DecodeAPI/Public
+	rsync -c libmach1spatial/api_decodepositional/include/Mach1DecodePositional.cpp  examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/Source/Mach1DecodePlugin/Private
+	rsync -c libmach1spatial/api_decodepositional/include/Mach1DecodePositional.h  examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/Source/Mach1DecodePlugin/Public
 
 # place anything you need all commands to run here
 FORCE: test

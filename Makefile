@@ -159,7 +159,7 @@ deploy-web: generate-js
 	rsync -c libmach1spatial/api_transcode/include/js/* examples/mach1spatial-nodejs/mach1spatial-transcode/lib
 	# EXAMPLES
 	rsync -c libmach1spatial/api_*/include/js/* examples/mach1spatial-web/js
-	rsync -c libmach1spatial/api_decode/include/js/ examples/mach1spatial-web/m1-web-spatialaudioplayer/js
+	rsync -c libmach1spatial/api_decode/include/js/* examples/mach1spatial-web/m1-web-spatialaudioplayer/js
 	# OFXMACH1
 	#rsync -c libmach1spatial/api_*/include/js/* examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/emscripten/
 

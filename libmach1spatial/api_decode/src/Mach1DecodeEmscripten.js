@@ -15,7 +15,7 @@ Module['onRuntimeInitialized'] = function() {
         };
 
         this.Mach1DecodeAlgoType = {
-            "Mach1DecodeAlgoHorizon_4": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoHorizon_4,
+            "Mach1DecodeAlgoSpatial_4": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_4,
             "Mach1DecodeAlgoSpatial_8": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_8,
             "Mach1DecodeAlgoSpatial_12": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_12,
             "Mach1DecodeAlgoSpatial_14": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_14,

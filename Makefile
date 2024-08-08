@@ -14,7 +14,12 @@ pull:
 	git pull --recurse-submodules
 
 setup:
+ifeq ($(detected_OS),Windows)
+else ifeq ($(detected_OS),Darwin)
+	brew install cmake emscripten
+else
 	source $(EMSDK_PATH)/emsdk_env.sh
+endif
 
 clear:
 ifeq ($(detected_OS),Windows)
@@ -26,14 +31,14 @@ else
 endif
 
 # use cmake_generator="" to specify generator.
-test: FORCE clear
+test: clear
 ifeq ($(detected_OS),Darwin)
-	cd tests && ./_build_on_osx_for_osx.sh
+	tests/_build_on_osx_for_osx.sh
 else ifeq ($(detected_OS),Windows)
 	@set "cmake_generator=$(cmake_generator)"
-	cd tests && _build_on_win_for_win.bat 
+	_tests/build_on_win_for_win.bat 
 else
-	cd tests && ./_build_on_linux_for_linux.sh
+	tests/_build_on_linux_for_linux.sh
 endif
 
 build: FORCE
@@ -43,7 +48,41 @@ ifeq ($(detected_OS),Darwin)
 else ifeq ($(detected_OS),Windows)
 endif
 
-deploy-android: FORCE clear
+generate-go:
+
+generate-jni:
+
+generate-csharp:
+
+generate-python:
+
+generate-js: FORCE
+	emcc -O3 --closure 0 --minify 0 -s MODULARIZE=1 --bind -s ALLOW_TABLE_GROWTH=1 \
+	-s "EXPORT_NAME='Mach1DecodeModule'" \
+	--pre-js libmach1spatial/api_decode/src/Mach1DecodeEmscripten.js \
+	-Ilibmach1spatial/api_common/include -Ilibmach1spatial/api_decode/include \
+	libmach1spatial/api_decode/src/Mach1DecodeCore.cpp libmach1spatial/api_decode/src/Mach1DecodeCAPI.cpp libmach1spatial/api_decode/src/Mach1DecodeEmscripten.cpp \
+	-o libmach1spatial/api_decode/include/js/Mach1Decode.js
+	emcc -O3 --closure 0 --minify 0 -s MODULARIZE=1 --bind -s ALLOW_TABLE_GROWTH=1 \
+	-s "EXPORT_NAME='Mach1DecodePositionalModule'" \
+	--pre-js libmach1spatial/api_decodepositional/src/Mach1DecodePositionalEmscripten.js \
+	-Ilibmach1spatial/api_decodepositional/include -Ilibmach1spatial/api_common/include -Ilibmach1spatial/api_decode/include -Ilibmach1spatial/api_decode/src -Ilibmach1spatial/deps/ -Ilibmach1spatial/deps/glm \
+	libmach1spatial/api_decode/src/Mach1DecodeCore.cpp libmach1spatial/api_decode/src/Mach1DecodeCAPI.cpp libmach1spatial/api_decodepositional/src/Mach1DecodePositionalCore.cpp libmach1spatial/api_decodepositional/src/Mach1DecodePositionalCAPI.cpp libmach1spatial/api_decodepositional/src/Mach1DecodePositionalEmscripten.cpp \
+	-o libmach1spatial/api_decodepositional/include/js/Mach1DecodePositional.js
+	emcc -O3 --closure 0 --minify 0 -s MODULARIZE=1 --bind -s ALLOW_TABLE_GROWTH=1 \
+	-s "EXPORT_NAME='Mach1EncodeModule'" \
+	--pre-js libmach1spatial/api_encode/src/Mach1EncodeEmscripten.js \
+	-Ilibmach1spatial/api_common/include -Ilibmach1spatial/api_encode/include \
+	libmach1spatial/api_encode/src/Mach1EncodeCore.cpp libmach1spatial/api_encode/src/Mach1EncodeCAPI.cpp libmach1spatial/api_encode/src/Mach1EncodeEmscripten.cpp \
+	-o libmach1spatial/api_encode/include/js/Mach1Encode.js
+	emcc -O3 --closure 0 --minify 0 -s MODULARIZE=1 --bind -s ALLOW_TABLE_GROWTH=1 \
+	-s "EXPORT_NAME='Mach1TranscodeModule'" \
+	--pre-js libmach1spatial/api_transcode/src/Mach1TranscodeEmscripten.js \
+	-Ilibmach1spatial/api_common/include -Ilibmach1spatial/api_transcode/include -Ilibmach1spatial/api_transcode/matrices -Ilibmach1spatial/deps \
+	libmach1spatial/api_transcode/src/Mach1TranscodeCore.cpp libmach1spatial/api_transcode/src/Mach1TranscodeCAPI.cpp libmach1spatial/api_transcode/src/Mach1TranscodeEmscripten.cpp libmach1spatial/api_encode/src/Mach1EncodeCore.cpp libmach1spatial/api_transcode/src/Mach1GenerateCoeffs.cpp libmach1spatial/deps/M1DSP/M1DSPUtilities.cpp libmach1spatial/deps/M1DSP/M1DSPFilters.cpp \
+	-o libmach1spatial/api_transcode/include/js/Mach1Transcode.js
+
+deploy-android: FORCE
 	# BUILD arm64
 	cmake . -B_builds/android-arm64-v8a \
 	-DM1S_BUILD_EXAMPLES=OFF -BUILD_JITPACK_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
@@ -95,13 +134,14 @@ deploy-android: FORCE clear
 	-DCMAKE_INSTALL_PREFIX=`pwd`/_install/android-x86-64
 	cmake --build _builds/android-x86-64 --config Release --target install
 
-deploy-ios: FORCE clear
+deploy-ios: FORCE
 ifeq ($(detected_OS),Darwin)
 	cmake . -B_builds/osx \
 	-GXcode \
 	-DM1S_BUILD_EXAMPLES=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=MAC_UNIVERSAL
-	cmake --build _builds/osx --config Release --target install
+	cmake --build _builds/osx --config Release
+	cmake --install _builds/osx --config Release
 	cmake . -B_builds/ios \
 	-GXcode \
 	-DM1S_BUILD_EXAMPLES=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
@@ -110,27 +150,17 @@ ifeq ($(detected_OS),Darwin)
 	cmake --install _builds/ios --config Release
 endif
 
-deploy-web: FORCE clear
-	source $(EMSDK_PATH)/emsdk_env.sh && emcc -O3 --minify 0 --closure 0 -s MODULARIZE=1 --bind -s "EXPORT_NAME='Mach1DecodeModule'" -s ALLOW_TABLE_GROWTH=1 --pre-js Mach1DecodeEmscripten.js -o include/js/Mach1Decode.js Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodeEmscripten.cpp
-	source $(EMSDK_PATH)/emsdk_env.sh && emcc -O3 --minify 0 --closure 0 -s MODULARIZE=1 --bind -s "EXPORT_NAME='Mach1DecodePositionalModule'" -s ALLOW_TABLE_GROWTH=1 -Ideps/ --pre-js Mach1DecodePositionalEmscripten.js -o include/js/Mach1DecodePositional.js Mach1DecodeCore.cpp Mach1DecodeCAPI.cpp Mach1DecodePositionalCore.cpp Mach1DecodePositionalCAPI.cpp Mach1DecodePositionalEmscripten.cpp
-	source $(EMSDK_PATH)/emsdk_env.sh && emcc -O3 --minify 0 --closure 0 -s MODULARIZE=1 --bind -s "EXPORT_NAME='Mach1EncodeModule'" -s ALLOW_TABLE_GROWTH=1 --pre-js Mach1EncodeEmscripten.js -o include/js/Mach1Encode.js Mach1EncodeCore.cpp Mach1EncodeCAPI.cpp Mach1EncodeEmscripten.cpp
-	source $(EMSDK_PATH)/emsdk_env.sh && emcc -O3 --minify 0 --closure 0 -s MODULARIZE=1 --bind -s "EXPORT_NAME='Mach1TranscodeModule'" -s ALLOW_TABLE_GROWTH=1 --pre-js Mach1TranscodeEmscripten.js -o include/js/Mach1Transcode.js -Iinclude -I../public -Ideps Mach1TranscodeCore.cpp Mach1TranscodeCAPI.cpp Mach1TranscodeEmscripten.cpp Mach1EncodeCore.cpp Mach1GenerateCoeffs.cpp deps/M1DSP/M1DSPUtilities.cpp deps/M1DSP/M1DSPFilters.cpp
+deploy-web: generate-js
 	# NODEJS
-	rsync -c "libmach1spatial/include/js/Mach1Decode.js" "../examples/mach1spatial-nodejs/mach1spatial-decode/lib/Mach1Decode.js"
-	rsync -c "libmach1spatial/include/js/Mach1Decode.wasm" "../examples/mach1spatial-nodejs/mach1spatial-decode/lib/Mach1Decode.wasm"
-	rsync -c "libmach1spatial/include/js/Mach1DecodePositional.js" "../examples/mach1spatial-nodejs/mach1spatial-decode/lib/Mach1DecodePositional.js"
-	rsync -c "libmach1spatial/include/js/Mach1DecodePositional.wasm" "../examples/mach1spatial-nodejs/mach1spatial-decode/lib/Mach1DecodePositional.wasm"
-	rsync -c "libmach1spatial/include/js/Mach1Encode.js" "../examples/mach1spatial-nodejs/mach1spatial-encode/lib/Mach1Encode.js"
-	rsync -c "libmach1spatial/include/js/Mach1Encode.wasm" "../examples/mach1spatial-nodejs/mach1spatial-encode/lib/Mach1Encode.wasm"
-	rsync -c "libmach1spatial/include/js/Mach1Transcode.js" "../examples/mach1spatial-nodejs/mach1spatial-transcode/lib/Mach1Transcode.js"
-	rsync -c "libmach1spatial/include/js/Mach1Transcode.wasm" "../examples/mach1spatial-nodejs/mach1spatial-transcode/lib/Mach1Transcode.wasm"
+	rsync -c libmach1spatial/api_decode/include/js/* examples/mach1spatial-nodejs/mach1spatial-decode/lib
+	rsync -c libmach1spatial/api_decodepositional/include/js/* examples/mach1spatial-nodejs/mach1spatial-decode/lib
+	rsync -c libmach1spatial/api_encode/include/js/* examples/mach1spatial-nodejs/mach1spatial-encode/lib
+	rsync -c libmach1spatial/api_transcode/include/js/* examples/mach1spatial-nodejs/mach1spatial-transcode/lib
 	# EXAMPLES
-	rsync -c libmach1spatial/include/js/* ../examples/mach1spatial-web/js
-	rsync -c "libmach1spatial/include/js/Mach1Decode.js" "../examples/mach1spatial-web/m1-web-spatialaudioplayer/js/Mach1Decode.js"
-	rsync -c "libmach1spatial/include/js/Mach1Decode.wasm" "../examples/mach1spatial-web/m1-web-spatialaudioplayer/js/Mach1Decode.wasm"
+	rsync -c libmach1spatial/api_*/include/js/* examples/mach1spatial-web/js
+	rsync -c libmach1spatial/api_decode/include/js/ examples/mach1spatial-web/m1-web-spatialaudioplayer/js
 	# OFXMACH1
-	rsync -c  --exclude '*CAPI.h' libmach1spatial/include/include/cpp/* ../examples/mach1spatial-c/openframeworks/ofxMach1/src
-	rsync -c libmach1spatial/include/js/* ../examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/emscripten/
+	#rsync -c libmach1spatial/api_*/include/js/* examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/emscripten/
 
 # place anything you need all commands to run here
-FORCE:
+FORCE: test

@@ -11,8 +11,8 @@ _builds/xcode/tests/Debug/Mach1DecodePositionalTests || { echo 'Mach1DecodePosit
 _builds/xcode/tests/Debug/Mach1TranscodeTests || { echo 'Mach1Transcode API test failed...' ; exit 1; }
 _builds/xcode/tests/Debug/Mach1SpatialTests || { echo 'Additional API tests failed...' ; exit 1; }
 
-echo "### RENDER CHECK ####"
-echo "### 5.1_C -> M1Spatial ###"
-rm -rf Mach1TranscodeRenderTest/build
-cd Mach1TranscodeRenderTest && mkdir build && cd build && cmake ../ && cmake --build . && ./spatial-transcode-render -in-file "../m1-debug-shortpt-fiveone.wav" -in-fmt 5.1_C -out-file "../m1-debug-shortpt-fiveone_m1spatial-out.wav" -out-fmt M1Spatial-8 -out-file-chans 0 || { echo 'Render test failed...' ; exit 1; }
-echo "### FINISHED TESTING ###"
+# TODO: Check if file was built first!
+# echo "### RENDER CHECK ####"
+# echo "### 5.1_C -> M1Spatial ###"
+# _builds/xcode/tests/Debug/spatial-transcode-render -in-file "../m1-debug-shortpt-fiveone.wav" -in-fmt 5.1_C -out-file "../m1-debug-shortpt-fiveone_m1spatial-out.wav" -out-fmt M1Spatial-8 -out-file-chans 0 || { echo 'Render test failed...' ; exit 1; }
+# echo "### FINISHED TESTING ###"

@@ -33,7 +33,7 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
         .value("Mach1EncodeOutputModeM1Spatial_12", Mach1EncodeOutputModeM1Spatial_12)
         .value("Mach1EncodeOutputModeM1Spatial_14", Mach1EncodeOutputModeM1Spatial_14);
 
-    enum_<Mach1EncodePannerMode>("Mach1EncodePannerMode")
+    enum_<Mach1EncodePannerModeType>("Mach1EncodePannerModeType")
         .value("Mach1EncodePannerModeIsotropicLinear", Mach1EncodePannerModeIsotropicLinear)
         .value("Mach1EncodePannerModeIsotropicEqualPower", Mach1EncodePannerModeIsotropicEqualPower)
         .value("Mach1EncodePannerModePeriphonicLinear", Mach1EncodePannerModePeriphonicLinear);

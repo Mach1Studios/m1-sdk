@@ -61,6 +61,6 @@ EMSCRIPTEN_BINDINGS(Mach1DecodePositional) {
         .function("getFormatChannelCount", &Mach1DecodePositional::getFormatChannelCount)
         .function("getFormatCoeffCount", &Mach1DecodePositional::getFormatCoeffCount)
         .function("getCurrentAngle", &Mach1DecodePositional::getCurrentAngle)
-        .function("getCoefficientsRotation", &Mach1DecodePositional::getCoefficientsRotation)
-        .function("setFilterSpeed", &Mach1DecodePositional::setFilterSpeed)
+        .function("getPositionalRotation", &Mach1DecodePositional::getPositionalRotation)
+        .function("setFilterSpeed", &Mach1DecodePositional::setFilterSpeed);
 }

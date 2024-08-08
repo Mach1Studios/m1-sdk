@@ -28,6 +28,12 @@ Module['onRuntimeInitialized'] = function() {
             "Mach1EncodeOutputModeM1Spatial_14": (Module).Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_14,
         };
 
+        this.Mach1EncodePannerModeType = {
+            "Mach1EncodePannerModeIsotropicLinear": (Module).Mach1EncodePannerModeType.Mach1EncodePannerModeIsotropicLinear,
+            "Mach1EncodePannerModeIsotropicEqualPower": (Module).Mach1EncodePannerModeType.Mach1EncodePannerModeIsotropicEqualPower,
+            "Mach1EncodePannerModePeriphonicLinear": (Module).Mach1EncodePannerModeType.Mach1EncodePannerModePeriphonicLinear,
+        };
+
         this.Mach1DecodeAlgoType = {
             "Mach1DecodeAlgoSpatial_4": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_4,
             "Mach1DecodeAlgoSpatial_8": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_8,

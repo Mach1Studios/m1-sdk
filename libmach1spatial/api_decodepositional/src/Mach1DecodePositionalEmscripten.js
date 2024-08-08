@@ -204,9 +204,9 @@ Module['onRuntimeInitialized'] = function() {
             }
         };
 
-        this.getCoefficientsRotation = function() {
+        this.getPositionalRotation = function() {
             if (this._m1obj) {
-                var point = this._m1obj.getCoefficientsRotation()
+                var point = this._m1obj.getPositionalRotation()
                 return [point.x, point.y, point.z];
             }
         };

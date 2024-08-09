@@ -49,8 +49,44 @@ else ifeq ($(detected_OS),Windows)
 endif
 
 generate-jni:
+	mkdir -p libmach1spatial/jni/java/com/mach1/spatiallibs
+	swig -java \
+	-outdir libmach1spatial/jni/java/com/mach1/spatiallibs \
+	-Ilibmach1spatial/api_common \
+	-package com.mach1.spatiallibs libmach1spatial/swig/Mach1FloatArrayModule.i 
+
+	swig -java \
+	-outdir libmach1spatial/jni/java/com/mach1/spatiallibs \
+	-Ilibmach1spatial/api_common/swift \
+	-package com.mach1.spatiallibs libmach1spatial/swig/Mach1Point3DModule.i 
+
+	swig -java \
+	-outdir libmach1spatial/jni/java/com/mach1/spatiallibs \
+	-Ilibmach1spatial/api_common/swift \
+	-package com.mach1.spatiallibs libmach1spatial/swig/Mach1Point4DModule.i 
+
+	swig -java \
+	-outdir libmach1spatial/jni/java/com/mach1/spatiallibs `\
+	-Ilibmach1spatial/api_decode/include \
+	-package com.mach1.spatiallibs libmach1spatial/swig/Mach1DecodeModule.i 
+
+	swig -java \
+	-outdir libmach1spatial/jni/java/com/mach1/spatiallibs \
+	-Ilibmach1spatial/api_encode/include \
+	-package com.mach1.spatiallibs libmach1spatial/swig/Mach1EncodeModule.i 
+
+	swig -java \
+	-outdir libmach1spatial/jni/java/com/mach1/spatiallibs \
+	-Ilibmach1spatial/api_transcode/include \
+	-package com.mach1.spatiallibs libmach1spatial/swig/Mach1TranscodeModule.i 
+
+	swig -java \
+	-outdir libmach1spatial/jni/java/com/mach1/spatiallibs \
+	-Ilibmach1spatial/api_decodepositional/include \
+	-package com.mach1.spatiallibs libmach1spatial/swig/Mach1DecodePositionalModule.i 
 
 generate-csharp:
+
 
 generate-python:
 	# TODO
@@ -85,6 +121,8 @@ generate-js: FORCE
 	-o libmach1spatial/api_transcode/include/js/Mach1Transcode.js
 
 deploy-android: FORCE
+	# Using CMake install since we will be building a lib instead of copying source code
+	# TODO: Create jni source files
 	# BUILD arm64
 	cmake . -B_builds/android-arm64-v8a \
 	-DM1S_BUILD_EXAMPLES=OFF -BUILD_JITPACK_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
@@ -138,6 +176,8 @@ deploy-android: FORCE
 
 deploy-ios: FORCE
 ifeq ($(detected_OS),Darwin)
+	# Using CMake install since we will be building a lib instead of copying source code
+	# TODO: Create .swift source files
 	cmake . -B_builds/osx \
 	-GXcode \
 	-DM1S_BUILD_EXAMPLES=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
@@ -180,6 +220,9 @@ deploy-ue: FORCE
 	rsync -c libmach1spatial/api_decodepositional/src/Mach1DecodePositionalCore.h examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/Source/Mach1DecodeAPI/Public
 	rsync -c libmach1spatial/api_decodepositional/include/Mach1DecodePositional.cpp  examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/Source/Mach1DecodePlugin/Private
 	rsync -c libmach1spatial/api_decodepositional/include/Mach1DecodePositional.h  examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/Source/Mach1DecodePlugin/Public
+
+deploy-unity: FORCE
+
 
 # place anything you need all commands to run here
 FORCE: test

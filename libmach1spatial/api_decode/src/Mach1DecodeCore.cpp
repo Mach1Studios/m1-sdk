@@ -197,24 +197,8 @@ void Mach1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int n
     Mach1Point3D faceVectorLeft = faceVector21.getRotated(simulationAngles[2] - 90, faceVector2);
     Mach1Point3D faceVectorRight = faceVector21.getRotated(simulationAngles[2] + 90, faceVector2);
 
-    // Mach1Point3D planes[8][2] =
-    // {
-    //     {{1, 0, 0}, {100, 0, 0}},
-    //     {{-1, 0, 0}, {-100, 0, 0}},
-    //     {{0, 1, 0}, {0, 100, 0}},
-    //     {{0, -1, 0}, {0, -100, 0}},
-    //     {{0, 0, 1}, {0, 0, 100}},
-    //     {{0, 0, -1}, {0, 0, -100}}
-    // };
-
     Mach1Point3D contactL = faceVectorLeft * 100 + faceVector2 * 100;
     Mach1Point3D contactR = faceVectorRight * 100 + faceVector2 * 100;
-
-    // // check for intersection with cube
-    // for (int j = 0; j < 8; j++) {
-    //     linePlaneIntersection(contactL, {0, 0, 0}, faceVectorLeft * 100 + faceVector2 * 100, planes[j][0], planes[j][1]);
-    //     linePlaneIntersection(contactR, {0, 0, 0}, faceVectorRight * 100 + faceVector2 * 100, planes[j][0], planes[j][1]);
-    // }
 
     float d = sqrtf(100 * 100 + 200 * 200);
 

@@ -1,8 +1,8 @@
 %module Mach1TranscodeModule
 
 %import(module="Mach1Point3DModule") "Mach1Point3D.h"
-%import(module="M1DSPFiltersModule") "include/M1DSP/M1DSPFilters.h"
-%import(module="M1DSPUtilitiesModule") "include/M1DSP/M1DSPUtilities.h"
+%import(module="M1DSPFiltersModule") "../deps/M1DSP/M1DSPFilters.h"
+%import(module="M1DSPUtilitiesModule") "../deps/M1DSP/M1DSPUtilities.h"
 %import(module="jsonModule") "../deps/json/json.h"
 
 %{

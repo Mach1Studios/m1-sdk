@@ -66,33 +66,135 @@ generate-jni:
 	-package com.mach1.spatiallibs libmach1spatial/swig/Mach1Point4DModule.i 
 
 	swig -java \
-	-outdir libmach1spatial/jni/java/com/mach1/spatiallibs `\
-	-Ilibmach1spatial/api_decode/include \
+	-outdir libmach1spatial/jni/java/com/mach1/spatiallibs \
+	-Ilibmach1spatial/api_decode/include -Ilibmach1spatial/api_common/swift \
 	-package com.mach1.spatiallibs libmach1spatial/swig/Mach1DecodeModule.i 
 
 	swig -java \
 	-outdir libmach1spatial/jni/java/com/mach1/spatiallibs \
-	-Ilibmach1spatial/api_encode/include \
+	-Ilibmach1spatial/api_encode/include -Ilibmach1spatial/api_decode/include -Ilibmach1spatial/api_common/swift \
 	-package com.mach1.spatiallibs libmach1spatial/swig/Mach1EncodeModule.i 
 
 	swig -java \
 	-outdir libmach1spatial/jni/java/com/mach1/spatiallibs \
-	-Ilibmach1spatial/api_transcode/include \
+	-Ilibmach1spatial/api_transcode/include -Ilibmach1spatial/api_common/swift \
 	-package com.mach1.spatiallibs libmach1spatial/swig/Mach1TranscodeModule.i 
 
 	swig -java \
 	-outdir libmach1spatial/jni/java/com/mach1/spatiallibs \
-	-Ilibmach1spatial/api_decodepositional/include \
+	-Ilibmach1spatial/api_decodepositional/include -Ilibmach1spatial/api_decode/include -Ilibmach1spatial/api_common/swift \
 	-package com.mach1.spatiallibs libmach1spatial/swig/Mach1DecodePositionalModule.i 
 
 generate-csharp:
+	mkdir -p libmach1spatial/csharp
+	swig -csharp \
+	-outdir libmach1spatial/csharp \
+	-Ilibmach1spatial/api_common \
+	libmach1spatial/swig/Mach1FloatArrayModule.i 
 
+	swig -csharp \
+	-outdir libmach1spatial/csharp \
+	-Ilibmach1spatial/api_common/swift \
+	libmach1spatial/swig/Mach1Point3DModule.i 
+
+	swig -csharp \
+	-outdir libmach1spatial/csharp \
+	-Ilibmach1spatial/api_common/swift \
+	libmach1spatial/swig/Mach1Point4DModule.i 
+
+	swig -csharp \
+	-outdir libmach1spatial/csharp \
+	-Ilibmach1spatial/api_decode/include -Ilibmach1spatial/api_common/swift \
+	libmach1spatial/swig/Mach1DecodeModule.i 
+
+	swig -csharp \
+	-outdir libmach1spatial/csharp \
+	-Ilibmach1spatial/api_encode/include -Ilibmach1spatial/api_decode/include -Ilibmach1spatial/api_common/swift \
+	libmach1spatial/swig/Mach1EncodeModule.i 
+
+	swig -csharp \
+	-outdir libmach1spatial/csharp \
+	-Ilibmach1spatial/api_transcode/include -Ilibmach1spatial/api_common/swift \
+	libmach1spatial/swig/Mach1TranscodeModule.i 
+
+	swig -csharp \
+	-outdir libmach1spatial/csharp \
+	-Ilibmach1spatial/api_decodepositional/include -Ilibmach1spatial/api_decode/include -Ilibmach1spatial/api_common/swift \
+	libmach1spatial/swig/Mach1DecodePositionalModule.i 
 
 generate-python:
-	# TODO
+	mkdir -p libmach1spatial/python
+	swig -python \
+	-outdir libmach1spatial/python \
+	-Ilibmach1spatial/api_common \
+	libmach1spatial/swig/Mach1FloatArrayModule.i 
+
+	swig -python \
+	-outdir libmach1spatial/python \
+	-Ilibmach1spatial/api_common/swift \
+	libmach1spatial/swig/Mach1Point3DModule.i 
+
+	swig -python \
+	-outdir libmach1spatial/python \
+	-Ilibmach1spatial/api_common/swift \
+	libmach1spatial/swig/Mach1Point4DModule.i 
+
+	swig -python \
+	-outdir libmach1spatial/python \
+	-Ilibmach1spatial/api_decode/include -Ilibmach1spatial/api_common/swift \
+	libmach1spatial/swig/Mach1DecodeModule.i 
+
+	swig -python \
+	-outdir libmach1spatial/python \
+	-Ilibmach1spatial/api_encode/include -Ilibmach1spatial/api_decode/include -Ilibmach1spatial/api_common/swift \
+	libmach1spatial/swig/Mach1EncodeModule.i 
+
+	swig -python \
+	-outdir libmach1spatial/python \
+	-Ilibmach1spatial/api_transcode/include -Ilibmach1spatial/api_common/swift \
+	libmach1spatial/swig/Mach1TranscodeModule.i 
+
+	swig -python \
+	-outdir libmach1spatial/python \
+	-Ilibmach1spatial/api_decodepositional/include -Ilibmach1spatial/api_decode/include -Ilibmach1spatial/api_common/swift \
+	libmach1spatial/swig/Mach1DecodePositionalModule.i 
 
 generate-go:
-	# TODO
+	mkdir -p libmach1spatial/go
+	swig -go \
+	-outdir libmach1spatial/go \
+	-Ilibmach1spatial/api_common \
+	libmach1spatial/swig/Mach1FloatArrayModule.i 
+
+	swig -go \
+	-outdir libmach1spatial/go \
+	-Ilibmach1spatial/api_common/swift \
+	libmach1spatial/swig/Mach1Point3DModule.i 
+
+	swig -go \
+	-outdir libmach1spatial/go \
+	-Ilibmach1spatial/api_common/swift \
+	libmach1spatial/swig/Mach1Point4DModule.i 
+
+	swig -go \
+	-outdir libmach1spatial/go \
+	-Ilibmach1spatial/api_decode/include -Ilibmach1spatial/api_common/swift \
+	libmach1spatial/swig/Mach1DecodeModule.i 
+
+	swig -go \
+	-outdir libmach1spatial/go \
+	-Ilibmach1spatial/api_encode/include -Ilibmach1spatial/api_decode/include -Ilibmach1spatial/api_common/swift \
+	libmach1spatial/swig/Mach1EncodeModule.i 
+
+	swig -go \
+	-outdir libmach1spatial/go \
+	-Ilibmach1spatial/api_transcode/include -Ilibmach1spatial/api_common/swift \
+	libmach1spatial/swig/Mach1TranscodeModule.i 
+
+	swig -go \
+	-outdir libmach1spatial/go \
+	-Ilibmach1spatial/api_decodepositional/include -Ilibmach1spatial/api_decode/include -Ilibmach1spatial/api_common/swift \
+	libmach1spatial/swig/Mach1DecodePositionalModule.i 
 
 generate-js: FORCE
 	emcc -O3 --closure 0 --minify 0 -s MODULARIZE=1 --bind -s ALLOW_TABLE_GROWTH=1 \

@@ -157,6 +157,14 @@ deploy-ue: FORCE
 	rsync -c libmach1spatial/api_decodepositional/include/Mach1DecodePositional.h  examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/Source/Mach1DecodePlugin/Public
 
 deploy-unity: FORCE
+	# api_common
+	rsync -c libmach1spatial/api_common/include examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/libMach1Spatial/api_common --exclude='*AudioTimeline*' --exclude='*Mach1KeyPoint.h'
+	# api_decode
+	rsync -c libmach1spatial/api_decode/include examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/libMach1Spatial/api_decode --exclude='js/' --exclude='*.swift' --exclude='*Emscripten*'
+	rsync -c libmach1spatial/api_decode/src examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/libMach1Spatial/api_decode --exclude='js/' --exclude='*.swift' --exclude='*Emscripten*'
+	# api_decodepositional
+	rsync -c libmach1spatial/api_decodepositional/include examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/libMach1Spatial/api_decodepositional --exclude='js/' --exclude='*.swift' --exclude='*Emscripten*'
+	rsync -c libmach1spatial/api_decodepositional/src examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/libMach1Spatial/api_decodepositional --exclude='js/' --exclude='*.swift' --exclude='*Emscripten*'
 
 generate-jni-wrapper:
 	mkdir -p libmach1spatial/swig/jni/java/com/mach1/spatiallibs

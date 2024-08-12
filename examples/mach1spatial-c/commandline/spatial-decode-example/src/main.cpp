@@ -211,7 +211,7 @@ static void* decode(void* v)
         
         checkSumL = 0; // zeroed for next loop
         checkSumR = 0; // zeroed for next loop
-        for (int i = 0; i < m1Coeffs.size()-2; i++){ //minus 2 for removing the static stereo indices
+        for (int i = 0; i < m1Coeffs.size(); i++){
             if(i % 2 == 0){
                 checkSumL=checkSumL+m1Coeffs[i];
             } else {
@@ -226,16 +226,14 @@ static void* decode(void* v)
         printf("Output M1 Format: %s\n", outputName.c_str());
         printf("\n");
         printf("Decode Coeffs:\n");
-        for (int i = 0; i < (m1Coeffs.size()-2)/2; i++){
+        for (int i = 0; i < (m1Coeffs.size())/2; i++){
             printf(" %iL: %f", i, m1Coeffs[i * 2]);
             printf(" %iR: %f\n", i, m1Coeffs[i * 2 + 1]);
         }
-        printf("Headlock Stereo Coeffs:\n");
-        printf("%f %f\n", m1Coeffs[m1Decode.getFormatCoeffCount()-2], m1Coeffs[m1Decode.getFormatCoeffCount()-1]);
         printf("\n");
         printf("Number of Active Coeffs:\n");
         int activeCount = 0;
-        for (int i = 0; i < (m1Coeffs.size())-2; i++){
+        for (int i = 0; i < (m1Coeffs.size()); i++){
             if (m1Coeffs[i] > 0.0) {
                 activeCount++;
             }
@@ -248,7 +246,7 @@ static void* decode(void* v)
         printf("SUM CHECK R: %f    R REM: %f\n", checkSumR, abs(checkSumR-1.0f));
         printf("\n");
         printf("Decode Panned Coeffs:\n");
-        for (int i = 0; i < (m1PannedCoeffs.size()-2)/2; i++){
+        for (int i = 0; i < (m1PannedCoeffs.size())/2; i++){
             // within each parent channel index of `m1PannedCoeffs` are two floats: [0]gain, [1]pan
             // - The `gain` float is normalized from 0.0 -> 1.0
             // - The `pan` float is normalized from -1.0 -> 1.0, from left -> right

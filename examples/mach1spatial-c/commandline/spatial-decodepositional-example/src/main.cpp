@@ -259,13 +259,10 @@ static void* decode(void* v)
         printf("x / y / z: %f %f %f\n", x, y, z);
         printf("\n");
         printf("Decode Coeffs:\n");
-        for (int i = 0; i < (m1Coeffs.size()-2)/2; i++){
+        for (int i = 0; i < (m1Coeffs.size())/2; i++){
             printf(" %iL: %f", i, m1Coeffs[i * 2]);
             printf(" %iR: %f\n", i, m1Coeffs[i * 2 + 1]);
         }
-        printf("\n");
-        printf("Headlock Stereo Coeffs:\n");
-        printf("%f %f\n", m1Coeffs[m1Coeffs.size()-2], m1Coeffs[m1Coeffs.size()-1]);
         printf("\n");
         printf("Distance:\n");
         printf("%f\n", distance);

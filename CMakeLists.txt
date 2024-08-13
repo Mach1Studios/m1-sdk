@@ -7,7 +7,7 @@ project(Mach1SpatialSDK)
 
 # Project & repo options
 option(M1S_BUILD_TESTS           "Build libmach1spatial unit tests."                  ON)
-option(M1S_BUILD_EXAMPLES        "Build libmach1spatial examples."                    ON)
+option(M1S_BUILD_EXAMPLES        "Build commandline examples."                        ON)
 
 # API options
 option(M1ENCODE_INLINE_DECODE    "Support M1Encode with built in Decode functions"    ON)

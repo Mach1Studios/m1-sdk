@@ -1,0 +1,82 @@
+name: Build-webjs
+
+# run after tests are verified and the lib source files were edited
+on:
+  workflow_run:
+    workflows: ['Test']
+    types: [completed]
+  push:
+    paths:
+      - libmach1spatial/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+          lfs: true
+          fetch-depth: 1
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+          lfs: true
+          fetch-depth: 1
+
+      - uses: mymindstorm/setup-emsdk@v14
+
+      - name: Verify emscripten installation
+        run: emcc -v
+
+      - name: Generate JS via Emscripten
+        run: make deploy-web
+
+      - name: Push to web js example
+        run: |
+          cd $GITHUB_WORKSPACE/examples/mach1spatial-web/js
+          git add .
+          git commit -m "Update prebuilt libraries from CMake build"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push to m1-web-spatialaudioplayer example
+        run: |
+          cd $GITHUB_WORKSPACE/examples/mach1spatial-web/m1-web-spatialaudioplayer/js
+          git add .
+          git commit -m "Update prebuilt libraries from CMake build"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push to NodeJS decode example
+        run: |
+          cd $GITHUB_WORKSPACE/examples/mach1spatial-nodejs/mach1spatial-decode/lib
+          git add .
+          git commit -m "Update prebuilt libraries from CMake build"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push to NodeJS encode example
+        run: |
+          cd $GITHUB_WORKSPACE/examples/mach1spatial-nodejs/mach1spatial-encode/lib
+          git add .
+          git commit -m "Update prebuilt libraries from CMake build"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push to NodeJS transcode example
+        run: |
+          cd $GITHUB_WORKSPACE/examples/mach1spatial-nodejs/mach1spatial-transcode/lib
+          git add .
+          git commit -m "Update prebuilt libraries from CMake build"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

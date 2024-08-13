@@ -38,9 +38,67 @@ Please view the [license/](license) directory for more information and proper at
 * Mach1DecodePositional: Add additional optional decoding layer to decode spatial mixes with 6DOF for positional and orientational decoding.
 * Mach1Transcode: Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatial VVBP format.
 
+### [SETUP](#setup) ###
+
+#### CMake
+The easiest way to use this project is to use CMake from the root directory to setup all the APIs, examples and tests as needed. An example of this is running the following from this directory: 
+```
+cmake . -B build -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=ON -DM1ENCODE_INLINE_DECODE=ON -DM1TRANSCODE_INLINE_ENCODE=ON
+cmake --build build --config Release
+```
+View the [CMakeLists.txt](CMakeLists.txt) file to see any options, by default the examples and tests are enabled. 
+
+##### Options
+- `M1ENCODE_INLINE_DECODE`: Includes Mach1Decode API into Mach1Encode API as a dependency to allow more features.
+- `M1TRANSCODE_INLINE_ENCODE`: Includes Mach1Encode API into Mach1Transcode API as a dependency to allow more features.
+
+#### Makefile
+The makefile also has quick commands for setting up and building the entire SDK
+```
+make test
+make build
+```
+
 ### [INSTALL](#install) ###
 
 #### CMake
+Linking or including any of the APIs to a project can also be easily done via cmake, and the APIs are individually modular in case you want to limit which of them is needed.
+
+##### Rebuild Cocoapods libs
+```
+cmake . -B_builds/ios -GXcode \
+  -DM1S_BUILD_EXAMPLES=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=OS64COMBINED
+cmake --build _builds/ios --config Release # separate build and install steps for fat-lib
+cmake --install _builds/ios --config Release
+```
+
+##### Rebuild Android libs
+Make sure you have setup or preinstalled your Android NDK and set the following environment var: `CMAKE_ANDROID_NDK`
+```
+	cmake . -B_builds/android-arm64-v8a \
+	-DM1S_BUILD_EXAMPLES=OFF -DBUILD_JITPACK_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_TOOLCHAIN_FILE=${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake \
+	-DCMAKE_SYSTEM_NAME=Android \
+	-DANDROID_PLATFORM=21 \
+	-DANDROID_ABI=arm64-v8a \
+	-DCMAKE_ANDROID_STL_TYPE=c++_static \
+	-DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}
+	cmake --build _builds/android-arm64-v8a --config Release --target install
+```
+
+#### Makefile
+Call any of these premade make commands from this directory to quickly recompile any libs as needed.
+
+##### Rebuild WASM/JS Web libs
+- `make deploy-web`
+
+##### Rebuild Cocoapods libs
+- `make deploy-ios`
+
+##### Rebuild Android libs
+- `make deploy-android`
+
 
 #### Implementation Examples
 * Unreal Engine Plugin <a href="https://www.mach1.tech/download-spatialgameengine">Unreal Engine Plugin</a>

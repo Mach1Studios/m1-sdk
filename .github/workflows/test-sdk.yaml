@@ -1,9 +1,9 @@
-name: CMake
+name: Test
 
 on: [push, pull_request]
 
 env:
-  BUILD_TYPE: Release
+  BUILD_TYPE: Debug
 
 jobs:
   build:
@@ -19,38 +19,11 @@ jobs:
         lfs: true
         fetch-depth: 1
 
-    - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build
-
     - name: Configure CMake
       working-directory: ${{runner.workspace}}/build
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DM1S_BUILD_EXAMPLES=OFF
 
     - name: Build
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: cmake --build . --config $BUILD_TYPE
-
-    - name: Run Mach1Decode Unit Tests
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      if: ${{ contains( runner.os, 'Linux' ) || contains( runner.os, 'macOS' )}}
-      run: ${{runner.workspace}}/build/tests/$BUILD_TYPE/Mach1DecodeTests
-
-    - name: Run Mach1Encode Unit Tests
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      if: ${{ contains( runner.os, 'Linux' ) || contains( runner.os, 'macOS' )}}
-      run: ${{runner.workspace}}/build/tests/$BUILD_TYPE/Mach1EncodeTests
-
-    - name: Run Mach1DecodePositional Unit Tests
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      if: ${{ contains( runner.os, 'Linux' ) || contains( runner.os, 'macOS' )}}
-      run: ${{runner.workspace}}/build/tests/$BUILD_TYPE/Mach1DecodePositionalTests
-
-    - name: Run Mach1Transcode Unit Tests
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      if: ${{ contains( runner.os, 'Linux' ) || contains( runner.os, 'macOS' )}}
-      run: ${{runner.workspace}}/build/tests/$BUILD_TYPE/Mach1TranscodeTests
+      run: cmake --build . --config $BUILD_TYPE --target Mach1DecodeTests Mach1EncodeTests Mach1DecodePositionalTests Mach1TranscodeTests

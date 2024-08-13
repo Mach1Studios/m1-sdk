@@ -55,61 +55,53 @@ else ifeq ($(detected_OS),Windows)
 	cmake --build _builds/windows-x86_64 --config Release
 endif
 
-deploy-android: FORCE generate-jni-wrapper 
+deploy-android: FORCE clear generate-jni-wrapper 
 	# Using CMake install since we will be building a lib instead of copying source code
 	# TODO: Create jni source files
 	# BUILD arm64
 	cmake . -B_builds/android-arm64-v8a \
-	-DM1S_BUILD_EXAMPLES=OFF -BUILD_JITPACK_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_JITPACK_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_TOOLCHAIN_FILE=${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake \
 	-DCMAKE_SYSTEM_NAME=Android \
-	-DCMAKE_SYSTEM_VERSION=21 \
-	-DCMAKE_ANDROID_ARCH_ABI=arm64-v8a \
-	-DCMAKE_ANDROID_NDK=$ANDROID_NDK_HOME \
-	-DCMAKE_ANDROID_NDK_TOOLCHAIN_VERSION=clang \
+	-DANDROID_PLATFORM=21 \
+	-DANDROID_ABI=arm64-v8a \
 	-DCMAKE_ANDROID_STL_TYPE=c++_static \
-	-DBUILD_SHARED_LIBS=ON \
-	-DCMAKE_INSTALL_PREFIX=`pwd`/_install/android-arm64-v8a
+	-DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}
 	cmake --build _builds/android-arm64-v8a --config Release --target install
 	# BUILD armeabi-v7a
 	cmake . -B_builds/android-armeabi-v7a \
-	-DM1S_BUILD_EXAMPLES=OFF -BUILD_JITPACK_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_JITPACK_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_TOOLCHAIN_FILE=${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake \
 	-DCMAKE_SYSTEM_NAME=Android \
-	-DCMAKE_SYSTEM_VERSION=21 \
-	-DCMAKE_ANDROID_ARCH=armeabi-v7a \
-	-DCMAKE_ANDROID_NDK=$ANDROID_NDK_HOME \
+	-DANDROID_PLATFORM=21 \
+	-DANDROID_ABI=armeabi-v7a \
 	-DCMAKE_ANDROID_ARM_NEON=ON \
 	-DCMAKE_ANDROID_ARM_MODE=ON \
-	-DCMAKE_ANDROID_NDK_TOOLCHAIN_VERSION=clang \
 	-DCMAKE_ANDROID_STL_TYPE=c++_static \
-	-DBUILD_SHARED_LIBS=ON \
-	-DCMAKE_INSTALL_PREFIX=`pwd`/_install/android-armeabi-v7a
+	-DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}
 	cmake --build _builds/android-armeabi-v7a --config Release --target install
 	# BUILD x86
 	cmake . -B_builds/android-x86 \
-	-DM1S_BUILD_EXAMPLES=OFF -BUILD_JITPACK_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_JITPACK_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_TOOLCHAIN_FILE=${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake \
 	-DCMAKE_SYSTEM_NAME=Android \
-	-DCMAKE_SYSTEM_VERSION=21 \
-	-DCMAKE_ANDROID_ARCH=x86 \
-	-DCMAKE_ANDROID_NDK=$ANDROID_NDK_HOME \
-	-DCMAKE_ANDROID_NDK_TOOLCHAIN_VERSION=clang \
+	-DANDROID_PLATFORM=21 \
+	-DANDROID_ABI=x86 \
 	-DCMAKE_ANDROID_STL_TYPE=c++_static \
-	-DBUILD_SHARED_LIBS=ON \
-	-DCMAKE_INSTALL_PREFIX=`pwd`/_install/android-x86
+	-DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}
 	cmake --build _builds/android-x86 --config Release --target install
 	# BUILD x64
 	cmake . -B_builds/android-x86-64 \
-	-DM1S_BUILD_EXAMPLES=OFF -BUILD_JITPACK_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_JITPACK_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_TOOLCHAIN_FILE=${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake \
 	-DCMAKE_SYSTEM_NAME=Android \
-	-DCMAKE_SYSTEM_VERSION=21 \
-	-DCMAKE_ANDROID_ARCH=x86_64 \
-	-DCMAKE_ANDROID_NDK=$ANDROID_NDK_HOME \
-	-DCMAKE_ANDROID_NDK_TOOLCHAIN_VERSION=clang \
+	-DANDROID_PLATFORM=21 \
+	-DANDROID_ABI=x86_64 \
 	-DCMAKE_ANDROID_STL_TYPE=c++_static \
-	-DBUILD_SHARED_LIBS=ON \
-	-DCMAKE_INSTALL_PREFIX=`pwd`/_install/android-x86-64
+	-DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}
 	cmake --build _builds/android-x86-64 --config Release --target install
 
-deploy-ios: FORCE
+deploy-ios: FORCE clear
 ifeq ($(detected_OS),Darwin)
 	# Using CMake install since we will be building a lib instead of copying source code
 	# TODO: Create .swift source files
@@ -168,31 +160,31 @@ deploy-unity: FORCE
 
 generate-jni-wrapper:
 	mkdir -p libmach1spatial/swig/jni/java/com/mach1/spatiallibs
-	swig -java \
+	swig -c++ -java \
 	-outdir libmach1spatial/swig/jni/java/com/mach1/spatiallibs \
 	-Ilibmach1spatial/api_common \
 	-package com.mach1.spatiallibs libmach1spatial/swig/Mach1FloatArrayModule.i 
-	swig -java \
+	swig -c++ -java \
 	-outdir libmach1spatial/swig/jni/java/com/mach1/spatiallibs \
 	-Ilibmach1spatial/api_common/swift \
 	-package com.mach1.spatiallibs libmach1spatial/swig/Mach1Point3DModule.i 
-	swig -java \
+	swig -c++ -java \
 	-outdir libmach1spatial/swig/jni/java/com/mach1/spatiallibs \
 	-Ilibmach1spatial/api_common/swift \
 	-package com.mach1.spatiallibs libmach1spatial/swig/Mach1Point4DModule.i 
-	swig -java \
+	swig -c++ -java \
 	-outdir libmach1spatial/swig/jni/java/com/mach1/spatiallibs \
 	-Ilibmach1spatial/api_decode/include -Ilibmach1spatial/api_common/swift \
 	-package com.mach1.spatiallibs libmach1spatial/swig/Mach1DecodeModule.i 
-	swig -java \
+	swig -c++ -java \
 	-outdir libmach1spatial/swig/jni/java/com/mach1/spatiallibs \
 	-Ilibmach1spatial/api_encode/include -Ilibmach1spatial/api_decode/include -Ilibmach1spatial/api_common/swift \
 	-package com.mach1.spatiallibs libmach1spatial/swig/Mach1EncodeModule.i 
-	swig -java \
+	swig -c++ -java \
 	-outdir libmach1spatial/swig/jni/java/com/mach1/spatiallibs \
 	-Ilibmach1spatial/api_transcode/include -Ilibmach1spatial/api_common/swift \
 	-package com.mach1.spatiallibs libmach1spatial/swig/Mach1TranscodeModule.i 
-	swig -java \
+	swig -c++ -java \
 	-outdir libmach1spatial/swig/jni/java/com/mach1/spatiallibs \
 	-Ilibmach1spatial/api_decodepositional/include -Ilibmach1spatial/api_decode/include -Ilibmach1spatial/api_common/swift \
 	-package com.mach1.spatiallibs libmach1spatial/swig/Mach1DecodePositionalModule.i 

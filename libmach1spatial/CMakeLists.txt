@@ -71,7 +71,7 @@ target_include_directories(M1Encode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_comm
 # Supports inline decode functions in M1Encode API
 # (Requires linking decode api)
 if(M1ENCODE_INLINE_DECODE)
-    message(STATUS "ENCODE API: Supports inline decoding")
+    message(STATUS "ENCODE API: Supports inline decoder")
     target_include_directories(M1Encode PUBLIC ${M1DECODE_API_INCLUDE_PATHS})
 else()
     message(STATUS "ENCODE API: Does not support inline decoding")
@@ -161,6 +161,7 @@ else()
         if (CMAKE_SYSTEM_NAME STREQUAL "Android")
             message(STATUS "SETUP: Additional Android based c++11 flags set")
             set(CMAKE_CXX_FLAGS_INIT "-std=c++11")
+            set(CMAKE_CXX_FLAGS "-std=c++11")
         else()
             set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
         endif()
@@ -196,21 +197,6 @@ set(CMAKE_C_FLAGS ${COMMON_FLAGS} "-fvisibility=hidden")
 if(APPLE)
     message(STATUS "SETUP: Additional MacOS flags set")
     set(CMAKE_CXX_FLAGS "-stdlib=libc++ ${CMAKE_CXX_FLAGS}")
-endif()
-
-if (CMAKE_SYSTEM_NAME STREQUAL "Android")
-    message(STATUS "SETUP: Additional Android flags set")
-
-    # ANDROID macro is not defined by CMake 3.7+, however it is used by
-    # some packages like OpenCV
-    # (https://gitlab.kitware.com/cmake/cmake/merge_requests/62)
-    add_definitions("-DANDROID")
-
-    message(STATUS "[Android] CMAKE_ANDROID_NDK='${CMAKE_ANDROID_NDK}'")
-    message(STATUS "[Android] ANDROID_NDK_VERSION='${ANDROID_NDK_VERSION}'")
-    message(STATUS "[Android] CMAKE_SYSTEM_VERSION='${CMAKE_SYSTEM_VERSION}'")
-    message(STATUS "[Android] CMAKE_ANDROID_ARCH_ABI='${CMAKE_ANDROID_ARCH_ABI}'")
-    message(STATUS "[Android] CMAKE_ANDROID_ARCH='${CMAKE_ANDROID_ARCH}'")
 endif()
 
 message(STATUS "CMAKE_CXX_COMPILER_VERSION='${CMAKE_CXX_COMPILER_VERSION}'")
@@ -271,10 +257,10 @@ if(BUILD_COCOAPODS_LIBS)
 
     if(IOS OR ARCHS STREQUAL OS OR ARCHS STREQUAL OS64 OR ARCHS STREQUAL SIMULATOR OR ARCHS STREQUAL SIMULATOR64 OR ARCHS STREQUAL SIMULATORARM64 OR ARCHS STREQUAL MAC_CATALYST OR ARCHS STREQUAL MAC_CATALYST_ARM64 OR ARCHS STREQUAL MAC_CATALYST_UNIVERSAL)
         # Set the destination as ios for the libs
-        set(LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/ios")
+        set(IOS_LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/ios")
     elseif(APPLE OR ARCHS STREQUAL MAC OR ARCHS STREQUAL MAC_ARM64 OR ARCHS STREQUAL MAC_UNIVERSAL)
         # Set the destination as osx for the libs
-        set(LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/osx")
+        set(IOS_LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/osx")
     elseif(ARCHS STREQUAL TVOS OR ARCHS STREQUAL SIMULATOR_TVOS OR ARCHS STREQUAL SIMULATORARM64_TVOS)
     elseif(ARCHS STREQUAL WATCHOS OR ARCHS STREQUAL SIMULATOR_WATCHOS OR ARCHS STREQUAL SIMULATORARM64_WATCHOS)
     elseif()
@@ -288,8 +274,8 @@ if(BUILD_COCOAPODS_LIBS)
     set_target_properties(M1Transcode PROPERTIES OUTPUT_NAME "Mach1TranscodeCAPI")
 
     # Create the destination directory if it doesn't exist
-    file(MAKE_DIRECTORY "${LIB_DEST_DIR}")
-    message(STATUS "INSTALL dest dir: ${LIB_DEST_DIR}")
+    file(MAKE_DIRECTORY "${IOS_LIB_DEST_DIR}")
+    message(STATUS "INSTALL dest dir: ${IOS_LIB_DEST_DIR}")
     
     if(EXISTS "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI")
         message(STATUS "INSTALL: Installing includes and classes into cocoapods example.")
@@ -322,8 +308,82 @@ if(BUILD_COCOAPODS_LIBS)
 
         message(STATUS "INSTALL: Install target set to install libs into cocoapods example.")
         install (TARGETS M1Decode M1DecodePositional M1Encode M1Transcode
-            LIBRARY DESTINATION "${LIB_DEST_DIR}"
-            ARCHIVE DESTINATION "${LIB_DEST_DIR}"
+            LIBRARY DESTINATION "${IOS_LIB_DEST_DIR}"
+            ARCHIVE DESTINATION "${IOS_LIB_DEST_DIR}"
+        )
+    endif()
+endif()
+
+if(BUILD_JITPACK_LIBS)
+    message(STATUS "SETUP: Building for JitPack")
+
+    if (CMAKE_SYSTEM_NAME STREQUAL "Android")
+        message(STATUS "SETUP: Additional Android flags set")
+
+        # ANDROID macro is not defined by CMake 3.7+, however it is used by
+        # some packages like OpenCV
+        # (https://gitlab.kitware.com/cmake/cmake/merge_requests/62)
+        add_definitions("-DANDROID")
+
+        message(STATUS "[Android] CMAKE_ANDROID_NDK='${ANDROID_ABI}'")
+        message(STATUS "[Android] CMAKE_ANDROID_ARCH_ABI='${CMAKE_ANDROID_ARCH_ABI}'")
+        message(STATUS "[Android] CMAKE_ANDROID_ARCH='${CMAKE_ANDROID_ARCH}'")
+    endif()
+
+    set(ANDROID_LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/jniLibs/${ANDROID_ABI}")
+    message(STATUS "Android Setup: lib install dir=${ANDROID_LIB_DEST_DIR}")
+
+    if(EXISTS "${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake")
+        message(STATUS "SETUP: Found Android NDK and toolchain at ${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake")
+    else()
+        message(FATAL_ERROR "Unable to locate the Android NDK and Android toolchain. Please set `CMAKE_ANDROID_NDK`.")
+    endif()
+
+    # Rename the output .a files to match the old naming (TODO: decide on updating the naming univerally)
+    set_target_properties(M1Decode PROPERTIES OUTPUT_NAME "Mach1DecodeCAPI")
+    set_target_properties(M1DecodePositional PROPERTIES OUTPUT_NAME "Mach1DecodePositionalCAPI")
+    set_target_properties(M1Encode PROPERTIES OUTPUT_NAME "Mach1EncodeCAPI")
+    set_target_properties(M1Transcode PROPERTIES OUTPUT_NAME "Mach1TranscodeCAPI")
+
+    # Create the destination directory if it doesn't exist
+    file(MAKE_DIRECTORY "${ANDROID_LIB_DEST_DIR}")
+    message(STATUS "INSTALL dest dir: ${ANDROID_LIB_DEST_DIR}")
+    
+    if(EXISTS "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/jniLibs")
+        message(STATUS "INSTALL: Installing includes and libs into Jitpack example.")
+
+        # Copy jni swig genreated java wrappers
+        file(COPY "${CMAKE_SOURCE_DIR}/libmach1spatial/swig/jni/java"
+            DESTINATION "${CMAKE_BINARY_DIR}/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main"
+        )
+
+        # Copy jni swig genreated cpp java wrappers
+        file(COPY "${CMAKE_SOURCE_DIR}/libmach1spatial/swig"
+            DESTINATION "${CMAKE_BINARY_DIR}/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1"
+            FILES_MATCHING 
+            PATTERN "*.cxx"
+        )
+
+        # Copy CAPI includes
+        set(SOURCE_DIRS
+            "${CMAKE_SOURCE_DIR}/libmach1spatial/api_decode/include"
+            "${CMAKE_SOURCE_DIR}/libmach1spatial/api_decodepositional/include"
+            "${CMAKE_SOURCE_DIR}/libmach1spatial/api_encode/include"
+            "${CMAKE_SOURCE_DIR}/libmach1spatial/api_transcode/include"
+        )
+        foreach(SOURCE_DIR ${SOURCE_DIRS})
+            file(COPY "${SOURCE_DIR}/"
+                DESTINATION "${CMAKE_BINARY_DIR}/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1"
+                FILES_MATCHING 
+                PATTERN "*CAPI.h"
+                PATTERN "*js*" EXCLUDE
+            )
+        endforeach()
+
+        message(STATUS "INSTALL: Install target set to install libs into cocoapods example.")
+        install (TARGETS M1Decode M1DecodePositional M1Encode M1Transcode
+            LIBRARY DESTINATION "${ANDROID_LIB_DEST_DIR}"
+            ARCHIVE DESTINATION "${ANDROID_LIB_DEST_DIR}"
         )
     endif()
 endif()

@@ -3,7 +3,7 @@
 ## MACH1 SPATIAL SDK ##
 [![Slack Channel](https://img.shields.io/badge/Slack-Join-purple)](https://join.slack.com/t/spatialaudio/shared_invite/enQtNjk0ODE4NjQ4NjExLWQ5YWUyNWQ4NWEwMDEwZmJiNmI5MzBhYjM3OTE3NTYxYzdjZDE2YTlhZDI4OGY0ZjdkNmM1NzgxNjI5OGU4ZWE)
 [![YouTube Channel](https://img.shields.io/badge/YouTube-Subscribe-red)](https://www.youtube.com/channel/UCqoFv8OnTYjkwjHeo6JDUFg)
-[![Mach1SpatialAPI CocoaPods](https://cocoapod-badges.herokuapp.com/v/Mach1SpatialAPI/badge.png)](https://www.mach1.tech/developers)
+[![Mach1SpatialAPI CocoaPods](https://img.shields.io/cocoapods/v/Mach1SpatialAPI.svg?style=flat)](https://www.mach1.tech/developers)
 [![Mach1SpatialAPI Jitpack](https://jitpack.io/v/Mach1Studios/JitPack-Mach1SpatialAPI.svg)](https://www.mach1.tech/developers)
 
 * [LICENSE](#license)
@@ -42,10 +42,9 @@ Please view the [license/](license) directory for more information and proper at
 
 #### CMake
 The easiest way to use this project is to use CMake from the root directory to setup all the APIs, examples and tests as needed. An example of this is running the following from this directory: 
-```
-cmake . -B build -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=ON -DM1ENCODE_INLINE_DECODE=ON -DM1TRANSCODE_INLINE_ENCODE=ON
-cmake --build build --config Release
-```
+- `cmake . -B build -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=ON -DM1ENCODE_INLINE_DECODE=ON -DM1TRANSCODE_INLINE_ENCODE=ON`
+- `cmake --build build --config Release`
+
 View the [CMakeLists.txt](CMakeLists.txt) file to see any options, by default the examples and tests are enabled. 
 
 ##### Options
@@ -54,10 +53,8 @@ View the [CMakeLists.txt](CMakeLists.txt) file to see any options, by default th
 
 #### Makefile
 The makefile also has quick commands for setting up and building the entire SDK
-```
-make test
-make build
-```
+- `make test`
+- `make build`
 
 ### [INSTALL](#install) ###
 
@@ -65,27 +62,23 @@ make build
 Linking or including any of the APIs to a project can also be easily done via cmake, and the APIs are individually modular in case you want to limit which of them is needed.
 
 ##### Rebuild Cocoapods libs
-```
-cmake . -B_builds/ios -GXcode \
+- `cmake . -B_builds/ios -GXcode \
   -DM1S_BUILD_EXAMPLES=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=OS64COMBINED
-cmake --build _builds/ios --config Release # separate build and install steps for fat-lib
-cmake --install _builds/ios --config Release
-```
+  -DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=OS64COMBINED`
+- `cmake --build _builds/ios --config Release # separate build and install steps for fat-lib`
+- `cmake --install _builds/ios --config Release`
 
 ##### Rebuild Android libs
 Make sure you have setup or preinstalled your Android NDK and set the following environment var: `CMAKE_ANDROID_NDK`
-```
-	cmake . -B_builds/android-arm64-v8a \
-	-DM1S_BUILD_EXAMPLES=OFF -DBUILD_JITPACK_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
-	-DCMAKE_TOOLCHAIN_FILE=${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake \
-	-DCMAKE_SYSTEM_NAME=Android \
-	-DANDROID_PLATFORM=21 \
-	-DANDROID_ABI=arm64-v8a \
-	-DCMAKE_ANDROID_STL_TYPE=c++_static \
-	-DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}
-	cmake --build _builds/android-arm64-v8a --config Release --target install
-```
+- `cmake . -B_builds/android-arm64-v8a \
+  -DM1S_BUILD_EXAMPLES=OFF -DBUILD_JITPACK_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_TOOLCHAIN_FILE=${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake \
+  -DCMAKE_SYSTEM_NAME=Android \
+  -DANDROID_PLATFORM=21 \
+  -DANDROID_ABI=arm64-v8a \
+  -DCMAKE_ANDROID_STL_TYPE=c++_static \
+  -DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}`
+- `cmake --build _builds/android-arm64-v8a --config Release --target install`
 
 #### Makefile
 Call any of these premade make commands from this directory to quickly recompile any libs as needed.

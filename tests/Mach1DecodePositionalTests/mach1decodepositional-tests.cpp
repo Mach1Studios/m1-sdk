@@ -14,7 +14,7 @@ void test_results(void) {
         {Mach1PlatformDefault, "Default"}, // y, p, r
         {Mach1PlatformUnity, "Unity"}, // p, y, r
         {Mach1PlatformUE, "UE"}, // p, r, y
-        {Mach1PlatformOfEasyCam, "OFEasyCam"}, 
+        {Mach1PlatformOfEasyCam, "OFEasyCam"},
         {Mach1PlatformAndroid, "Android"},
         {Mach1PlatformiOS, "iOS"},
         {Mach1PlatformiOSTableTop_ZVertical, "iOS_ZVertical"},
@@ -506,14 +506,14 @@ void test_results(void) {
             },
             {
                 {
-                    0.449698, 0.000000,
-                    0.278955, 0.345074,
-                    0.176489, 0.000000,
-                    0.073994, 0.222423,
-                    0.020865, 0.000000,
-                    0.000000, 0.268909,
+                    0.517423, 0.000000,
+                    0.289145, 0.385604,
+                    0.160141, 0.000000,
+                    0.033290, 0.209912,
                     0.000000, 0.000000,
-                    0.000000, 0.163594,
+                    0.000000, 0.274696,
+                    0.000000, 0.000000,
+                    0.000000, 0.129788,
                 },
                 5.0,
             }
@@ -606,14 +606,14 @@ void test_results(void) {
             },
             {
                 {
-                    0.449697, 0.000000,
-                    0.278955, 0.345074,
-                    0.176489, 0.000000,
-                    0.073994, 0.222423,
-                    0.020865, 0.000000,
-                    0.000000, 0.268909,
+                    0.517423, 0.000000,
+                    0.289145, 0.385604,
+                    0.160141, 0.000000,
+                    0.033290, 0.209912,
                     0.000000, 0.000000,
-                    0.000000, 0.163594,
+                    0.000000, 0.274696,
+                    0.000000, 0.000000,
+                    0.000000, 0.129788,
                 },
                 5.0,
             }
@@ -643,20 +643,21 @@ void test_results(void) {
         m1Decode.setUseYawForRotation(true);
         m1Decode.setUsePitchForRotation(true);
         m1Decode.setUseRollForRotation(true);
-        
+
         std::vector<float> results;
         results.resize(m1Decode.getFormatCoeffCount());
         m1Decode.evaluatePositionResults();
         m1Decode.getCoefficients(results);
 
         // Distance Application:
-        float distance = m1Decode.getDist();
         //float attenuation = mapFloat(distance, 0, 10, 1, 0); // TODO: expand testing for attenuation curve tests
         /*
          Mapping distance to arbitrary linear curve
          Design your own distance coefficient curve here
          This example: Linear curve of 100% -> 0% from 0 to 10 distance away
         */
+        float distance = m1Decode.getDist();
+        float attenuation = mapFloat(distance, 0, 10, 1, 0);
 
         std::cout
             << "testing " << test.name << ": "
@@ -685,7 +686,7 @@ void test_results(void) {
         }
 
         if (distCheck == false) {
-                std::cout << "\033[31m" << "FAILED " << "\033[0m" << "Distance: " << distance << " should be: " << test.output.distance;  
+                std::cout << "\033[31m" << "FAILED " << "\033[0m" << "Distance: " << distance << " should be: " << test.output.distance;
                 std::cout << std::endl;
         }
 

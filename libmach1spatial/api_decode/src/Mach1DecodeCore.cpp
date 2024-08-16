@@ -184,7 +184,10 @@ bool Mach1DecodeCore::linePlaneIntersection(Mach1Point3D &contact, Mach1Point3D 
 }
 
 void Mach1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int numChannelPoints, float Yaw, float Pitch, float Roll, float *result) {
-    Mach1Point3D simulationAngles = { .x = Yaw, .y = Pitch, .z = Roll };
+    Mach1Point3D simulationAngles;
+    simulationAngles.x = Yaw;
+    simulationAngles.y = Pitch;
+    simulationAngles.z = Roll;
 
     Mach1Point3D faceVector1 = { sin(mDegToRad(simulationAngles[0])), cos(mDegToRad(simulationAngles[0])), 0 };
     faceVector1.normalize();

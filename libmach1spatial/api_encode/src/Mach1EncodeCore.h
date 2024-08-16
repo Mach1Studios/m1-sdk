@@ -22,6 +22,7 @@ Mach1EncodeCore normalizes all input ranges to an unsigned "0 to 1" range for Az
 
 #include <string>
 #include <vector>
+#include <chrono>
 
 #ifndef SWIG
 using namespace std::chrono;

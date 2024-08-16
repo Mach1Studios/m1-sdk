@@ -23,6 +23,7 @@ Mach1DecodeCore normalizes all input ranges to an unsigned "0 to 1" range for Ya
 
 #include <string>
 #include <vector>
+#include <chrono>
 
 #include "Mach1DecodeCAPI.h"
 #include "Mach1Point3D.h"

@@ -19,7 +19,7 @@
 
 #include <iostream>
 #include <time.h>
-#include <pthread.h>
+#include <thread>
 #include <chrono>
 
 #include <string.h>
@@ -61,7 +61,7 @@ BOOLEAN nanosleep(struct timespec* ts, void* p) {
 #endif
 
 static void* decode(void* v);
-static pthread_t thread;
+static std::thread thread;
 static bool done = false;
 Mach1Decode m1Decode;
 Mach1DecodeAlgoType outputFormat;
@@ -111,7 +111,7 @@ int main(int argc, const char * argv[]) {
     outputFormat = Mach1DecodeAlgoSpatial_8;
     outputName = "MACH1 SPATIAL";
     done = false;
-    pthread_create(&thread, NULL, &decode, NULL);
+    thread = std::thread(decode, nullptr);
     
     while (!done) {
         nanosleep(&ts, NULL);

@@ -15,8 +15,13 @@ pull:
 
 setup:
 ifeq ($(detected_OS),Windows)
+	@if not exist "$(VCPKG_ROOT)\vcpkg.exe" (echo "vcpkg is not installed" && exit 1)
+	@vcpkg version >nul || (echo "vcpkg is not working" && exit 1)
+	@echo "vcpkg is installed and working"
+	vcpkg install cmake emscripten pre-commit sndfile rtaudio
+	pre-commit install
 else ifeq ($(detected_OS),Darwin)
-	brew install cmake emscripten pre-commit
+	brew install cmake emscripten pre-commit sndfile rtaudio
 	pre-commit install
 else
 	source $(EMSDK_PATH)/emsdk_env.sh

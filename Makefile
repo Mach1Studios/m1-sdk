@@ -13,12 +13,14 @@ endif
 pull:
 	git pull --recurse-submodules
 
+# Windows: requires cmake and pip to be installed first
 setup:
 ifeq ($(detected_OS),Windows)
-	@if not exist "$(VCPKG_ROOT)\vcpkg.exe" (echo "vcpkg is not installed" && exit 1)
+	@if not exist "$(VCPKG_ROOT)\vcpkg.exe" (echo "vcpkg is not installed, if it is add VCPKG_ROOT with '$env:VCPKG_ROOT = C:/path/to/vcpkg' and then '$env:PATH = \"$env:VCPKG_ROOT;$env:PATH\"'" && exit 1)
 	@vcpkg version >nul || (echo "vcpkg is not working" && exit 1)
 	@echo "vcpkg is installed and working"
-	vcpkg install cmake emscripten pre-commit sndfile rtaudio
+	vcpkg install sndfile rtaudio
+	@if not exist "$(pip show pre-commit)" (pip install pre-commit)
 	pre-commit install
 else ifeq ($(detected_OS),Darwin)
 	brew install cmake emscripten pre-commit sndfile rtaudio
@@ -54,9 +56,9 @@ ifeq ($(detected_OS),Darwin)
 else ifeq ($(detected_OS),Windows)
 	@set "cmake_generator=$(cmake_generator)"
 	if defined cmake_generator (
-		cmake . -B_builds/windows-x86_64 -G "%cmake_generator%" -A x64 -DCMAKE_BUILD_TYPE=Release
+		cmake . -B_builds/windows-x86_64 -G "%cmake_generator%" -A x64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="\$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
 	) else (
-		cmake . -B_builds/windows-x86_64 -A x64
+		cmake . -B_builds/windows-x86_64 -A x64 -DCMAKE_TOOLCHAIN_FILE="\$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
 	)
 	cmake --build _builds/windows-x86_64 --config Release
 endif

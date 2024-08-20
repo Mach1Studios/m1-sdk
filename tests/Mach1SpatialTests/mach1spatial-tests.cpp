@@ -26,10 +26,10 @@ int main()
     m1Encode.setOrbitRotationDegrees(0.0);
     m1Encode.setPannerMode(Mach1EncodePannerModeType::Mach1EncodePannerModeIsotropicLinear);
     m1Encode.generatePointResults();
-    
+
     // auto points = m1Encode.getPoints();
     auto resultsEncode = m1Encode.getGains();
-    
+
     if (showDebug) {
         for (size_t i = 0; i < resultsEncode.size(); i++) {
             for (size_t j = 0; j < resultsEncode[i].size(); j++) {
@@ -42,21 +42,21 @@ int main()
         std::cout << std::endl;
         std::cout << "monitor:" << std::endl;
     }
-    
+
     Mach1Decode m1Decode;
     m1Decode.setPlatformType(Mach1PlatformDefault);
     m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial_14);// Mach1DecodeAlgoSpatial_8);
     m1Decode.setFilterSpeed(1.0);
     m1Decode.setRotationDegrees(Mach1Point3D{0.0, 0.0, 0.0});
-    
+
     auto resultsDecode = m1Decode.decodeCoeffs(0, 0);
-    
+
     if (showDebug) {
         for (size_t i = 0; i < resultsDecode.size() - 2; i++) {
             std::cout << resultsDecode[i] << std::endl;
         }
     }
-    
+
     int channels = m1Decode.getFormatChannelCount();
     float outBufferL = 0;
     float outBufferR = 0;
@@ -64,7 +64,7 @@ int main()
         outBufferL += resultsEncode[0][input_channel] * resultsDecode[input_channel * 2 + 0];
         outBufferR += resultsEncode[0][input_channel] * resultsDecode[input_channel * 2 + 1];
     }
-    
+
     if (showDebug) {
         std::cout << std::endl;
         std::cout << "out" << std::endl;
@@ -72,10 +72,6 @@ int main()
         std::cout << outBufferR << std::endl;
         std::cout << std::endl;
     }
-    
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-    getchar();
-#endif
 }
 
 //std::map<Mach1EncodeInputModeType, std::string> encodeInputModeNames = {
@@ -281,10 +277,6 @@ int main()
 //                      << "\033[1;32mpassed\033[0m\n";
 //        }
 //    }
-//
-//#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-//    getchar();
-//#endif
 //}
 //
 //TEST_LIST = {

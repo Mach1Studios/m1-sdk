@@ -691,10 +691,6 @@ void test_results(void) {
         }
 
     }
-
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-    getchar();
-#endif
 }
 
 TEST_LIST = {

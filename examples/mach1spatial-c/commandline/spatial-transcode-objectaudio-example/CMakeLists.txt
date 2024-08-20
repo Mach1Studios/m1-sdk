@@ -7,7 +7,6 @@ include(FindPkgConfig)
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
     pkg_check_modules(LIBSNDFILE_PKGCONF sndfile)
-    pkg_check_modules(LIBBW64_PKGCONF bw64)
 endif(PKG_CONFIG_FOUND)
 
 # - Try to find libsndfile
@@ -30,6 +29,8 @@ find_library(LIBSNDFILE_LIBRARY
 
 find_package(PackageHandleStandardArgs)
 find_package_handle_standard_args(LibSndFile  DEFAULT_MSG  LIBSNDFILE_LIBRARY LIBSNDFILE_INCLUDE_DIR)
+mark_as_advanced(LIBSNDFILE_LIBRARY LIBSNDFILE_LIBRARIES LIBSNDFILE_INCLUDE_DIR LIBSNDFILE_INCLUDE_DIRS)
+pkg_search_module(SndFile REQUIRED sndfile)
 
 if(LIBSNDFILE_FOUND)
     set(LIBSNDFILE_LIBRARIES ${LIBSNDFILE_LIBRARY})
@@ -41,9 +42,6 @@ add_subdirectory(libs/libbw64)
 add_library(IRT::bw64 INTERFACE IMPORTED GLOBAL)
 set_target_properties(IRT::bw64 PROPERTIES
         INTERFACE_INCLUDE_DIRECTORIES $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libbw64/include>)
-
-mark_as_advanced(LIBSNDFILE_LIBRARY LIBSNDFILE_LIBRARIES LIBSNDFILE_INCLUDE_DIR LIBSNDFILE_INCLUDE_DIRS)
-pkg_search_module(SndFile REQUIRED sndfile)
 
 # Link with lib
 target_link_libraries(${PROJECT_NAME} PRIVATE M1Transcode)

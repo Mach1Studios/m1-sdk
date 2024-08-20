@@ -9,11 +9,11 @@ if defined cmake_generator (
 )
 cmake --build _builds/windows-x86_64 --config "Debug"
 
-_builds/windows-x86_64/tests/Debug/Mach1EncodeTests
-_builds/windows-x86_64/tests/Debug/Mach1DecodeTests
-_builds/windows-x86_64/tests/Debug/Mach1DecodePositionalTests
-_builds/windows-x86_64/tests/Debug/Mach1TranscodeTests
-_builds/windows-x86_64/tests/Debug/Mach1SpatialTests
+start /WAIT /B _builds/windows-x86_64/tests/Debug/Mach1EncodeTests
+start /WAIT /B _builds/windows-x86_64/tests/Debug/Mach1DecodeTests
+start /WAIT /B _builds/windows-x86_64/tests/Debug/Mach1DecodePositionalTests
+start /WAIT /B _builds/windows-x86_64/tests/Debug/Mach1TranscodeTests
+start /WAIT /B _builds/windows-x86_64/tests/Debug/Mach1SpatialTests
 
 echo "### FINISHED TESTING ###"
 endlocal

@@ -46,7 +46,7 @@ void test_results(void) {
         },
         {
             "case: TRANSCODE | ACNSN3DmaxRE1oa -> M1SPATIAL-8 | Basic Check #2",
-            {   
+            {
                 false,
                 "ACNSN3DmaxRE1oa",
                 "M1Spatial-8",
@@ -172,10 +172,6 @@ void test_results(void) {
                       << "\033[1;32mpassed\033[0m\n";
         }
     }
-
-#if defined(_WINDOWS) || defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-    getchar();
-#endif
 }
 
 TEST_LIST = {

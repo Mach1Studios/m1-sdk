@@ -704,12 +704,7 @@ void test_results(void) {
             passedCases++;
         }
     }
-
     std::cout << "passed cases: " << passedCases << "\n"; // TODO: make this also work in windows
-
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-    getchar();
-#endif
 }
 
 TEST_LIST = {

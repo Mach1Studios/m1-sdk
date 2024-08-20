@@ -3,6 +3,7 @@ project(spatial-transcode-objectaudio-example)
 add_executable(${PROJECT_NAME})
 
 # Use pkg-config to get hints about paths
+include(FindPkgConfig)
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
     pkg_check_modules(LIBSNDFILE_PKGCONF sndfile)
@@ -35,9 +36,11 @@ if(LIBSNDFILE_FOUND)
     set(LIBSNDFILE_INCLUDE_DIRS ${LIBSNDFILE_INCLUDE_DIR})
 endif(LIBSNDFILE_FOUND)
 
-include(FindPkgConfig)
-
-include_directories(libs/libbw64/include)
+# libbw64
+add_subdirectory(libs/libbw64)
+add_library(IRT::bw64 INTERFACE IMPORTED GLOBAL)
+set_target_properties(IRT::bw64 PROPERTIES
+        INTERFACE_INCLUDE_DIRECTORIES $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libbw64/include>)
 
 mark_as_advanced(LIBSNDFILE_LIBRARY LIBSNDFILE_LIBRARIES LIBSNDFILE_INCLUDE_DIR LIBSNDFILE_INCLUDE_DIRS)
 pkg_search_module(SndFile REQUIRED sndfile)

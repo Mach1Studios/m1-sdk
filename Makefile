@@ -23,17 +23,18 @@ ifeq ($(detected_OS),Windows)
 	@if not exist "$(pip show pre-commit)" (pip install pre-commit)
 	pre-commit install
 else ifeq ($(detected_OS),Darwin)
-	brew install cmake emscripten pre-commit sndfile rtaudio
+	brew install cmake emscripten pre-commit libsndfile rtaudio
 	pre-commit install
 else
-	source $(EMSDK_PATH)/emsdk_env.sh
+	sudo apt-get update && sudo apt install libsndfile-dev cmake emscripten librtaudio-dev pre-commit
+	pre-commit install
 endif
 
 clean:
 ifeq ($(detected_OS),Windows)
-	@if exist _build (rmdir /s /q _build)
+	@if exist _builds (rmdir /s /q _builds)
 else
-	rm -rf _build
+	rm -rf _builds
 endif
 
 # use cmake_generator="" to specify generator.
@@ -41,7 +42,6 @@ test: clean
 ifeq ($(detected_OS),Darwin)
 	tests/_build_on_osx_for_osx.sh
 else ifeq ($(detected_OS),Windows)
-	@set "cmake_generator=$(cmake_generator)"
 	.\\tests\\_build_on_win_for_win.bat
 else
 	tests/_build_on_linux_for_linux.sh
@@ -52,13 +52,12 @@ ifeq ($(detected_OS),Darwin)
 	cmake . -B_builds/osx -GXcode -DCMAKE_BUILD_TYPE=Release
 	cmake --build _builds/osx --config Release
 else ifeq ($(detected_OS),Windows)
-	@set "cmake_generator=$(cmake_generator)"
 	if defined cmake_generator (
-		cmake . -B_builds/windows-x86_64 -G "%cmake_generator%" -A x64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="\$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
+	    cmake . -B_builds/windows-x86_64 -G %cmake_generator% -A x64 -DCMAKE_TOOLCHAIN_FILE="%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake"
 	) else (
-		cmake . -B_builds/windows-x86_64 -A x64 -DCMAKE_TOOLCHAIN_FILE="\$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
+	    cmake . -B_builds/windows-x86_64 -A x64 -DCMAKE_TOOLCHAIN_FILE="%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake"
 	)
-	cmake --build _builds/windows-x86_64 --config Release
+	cmake --build _builds/windows-x86_64 --config "Release"
 endif
 
 deploy-android: test clean generate-jni-wrapper

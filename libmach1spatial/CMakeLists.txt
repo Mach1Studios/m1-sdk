@@ -45,7 +45,7 @@ add_library(M1Decode STATIC ${M1_DECODE_API_SRC_FILES})
 set_target_properties(M1Decode
 PROPERTIES
     VERSION ${DECODE_VERSION}
-    SOVERSION ${DECODE_VERSION} 
+    SOVERSION ${DECODE_VERSION}
 )
 target_include_directories(M1Decode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/include")
 
@@ -64,7 +64,7 @@ add_library(M1Encode STATIC ${M1_ENCODE_API_SRC_FILES})
 set_target_properties(M1Encode
 PROPERTIES
     VERSION ${ENCODE_VERSION}
-    SOVERSION ${ENCODE_VERSION} 
+    SOVERSION ${ENCODE_VERSION}
 )
 target_include_directories(M1Encode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/include")
 
@@ -92,9 +92,9 @@ add_library(M1DecodePositional STATIC ${M1_DECODEPOSITIONAL_API_SRC_FILES} $<TAR
 set_target_properties(M1DecodePositional
 PROPERTIES
     VERSION ${DECODEPOSITIONAL_VERSION}
-    SOVERSION ${DECODEPOSITIONAL_VERSION} 
+    SOVERSION ${DECODEPOSITIONAL_VERSION}
 )
-target_include_directories(M1DecodePositional PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_decodepositional/include" ${M1DECODE_API_INCLUDE_PATHS} "${CMAKE_CURRENT_SOURCE_DIR}/deps" "${CMAKE_CURRENT_SOURCE_DIR}/deps/glm" "${CMAKE_CURRENT_SOURCE_DIR}/deps/pugixml/src" "${CMAKE_CURRENT_SOURCE_DIR}/deps/yaml") 
+target_include_directories(M1DecodePositional PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_decodepositional/include" ${M1DECODE_API_INCLUDE_PATHS} "${CMAKE_CURRENT_SOURCE_DIR}/deps" "${CMAKE_CURRENT_SOURCE_DIR}/deps/glm" "${CMAKE_CURRENT_SOURCE_DIR}/deps/pugixml/src" "${CMAKE_CURRENT_SOURCE_DIR}/deps/yaml")
 
 #----------------
 # Mach1 Transcode API
@@ -114,9 +114,9 @@ endif()
 set_target_properties(M1Transcode
 PROPERTIES
     VERSION ${TRANSCODE_VERSION}
-    SOVERSION ${TRANSCODE_VERSION} 
+    SOVERSION ${TRANSCODE_VERSION}
 )
-target_include_directories(M1Transcode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/matrices" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/src" "${CMAKE_CURRENT_SOURCE_DIR}/deps" "${CMAKE_CURRENT_SOURCE_DIR}/deps/yaml" "${CMAKE_CURRENT_SOURCE_DIR}/deps/pugixml/src") 
+target_include_directories(M1Transcode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/matrices" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/src" "${CMAKE_CURRENT_SOURCE_DIR}/deps" "${CMAKE_CURRENT_SOURCE_DIR}/deps/yaml" "${CMAKE_CURRENT_SOURCE_DIR}/deps/pugixml/src")
 
 #----------------
 # Combined Mach1Spatial lib
@@ -131,7 +131,7 @@ add_library(${PROJECT_NAME} STATIC
 set_target_properties(${PROJECT_NAME}
 PROPERTIES
     VERSION ${Mach1SpatialLibraries_VERSION}
-    SOVERSION ${Mach1SpatialLibraries_VERSION} 
+    SOVERSION ${Mach1SpatialLibraries_VERSION}
 )
 
 #----------------
@@ -197,6 +197,11 @@ set(CMAKE_C_FLAGS ${COMMON_FLAGS} "-fvisibility=hidden")
 if(APPLE)
     message(STATUS "SETUP: Additional MacOS flags set")
     set(CMAKE_CXX_FLAGS "-stdlib=libc++ ${CMAKE_CXX_FLAGS}")
+endif()
+
+if(WIN32 OR MSVC OR MINGW)
+    add_compile_definitions(M1_STATIC)
+    message(STATUS "Adding windows OS flags")
 endif()
 
 message(STATUS "CMAKE_CXX_COMPILER_VERSION='${CMAKE_CXX_COMPILER_VERSION}'")
@@ -276,7 +281,7 @@ if(BUILD_COCOAPODS_LIBS)
     # Create the destination directory if it doesn't exist
     file(MAKE_DIRECTORY "${IOS_LIB_DEST_DIR}")
     message(STATUS "INSTALL dest dir: ${IOS_LIB_DEST_DIR}")
-    
+
     if(EXISTS "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI")
         message(STATUS "INSTALL: Installing includes and classes into cocoapods example.")
 
@@ -290,7 +295,7 @@ if(BUILD_COCOAPODS_LIBS)
 
         file(COPY "${CMAKE_SOURCE_DIR}/libmach1spatial/api_common/swift/"
             DESTINATION "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Classes"
-            FILES_MATCHING 
+            FILES_MATCHING
             PATTERN "*.h"
             PATTERN "*.swift"
         )
@@ -299,7 +304,7 @@ if(BUILD_COCOAPODS_LIBS)
         foreach(SOURCE_DIR ${SOURCE_DIRS})
             file(COPY "${SOURCE_DIR}/"
                 DESTINATION "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Classes"
-                FILES_MATCHING 
+                FILES_MATCHING
                 PATTERN "*CAPI.h"
                 PATTERN "*.swift"
                 PATTERN "*js*" EXCLUDE
@@ -348,7 +353,7 @@ if(BUILD_JITPACK_LIBS)
     # Create the destination directory if it doesn't exist
     file(MAKE_DIRECTORY "${ANDROID_LIB_DEST_DIR}")
     message(STATUS "INSTALL dest dir: ${ANDROID_LIB_DEST_DIR}")
-    
+
     if(EXISTS "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/jniLibs")
         message(STATUS "INSTALL: Installing includes and libs into Jitpack example.")
 
@@ -360,7 +365,7 @@ if(BUILD_JITPACK_LIBS)
         # Copy jni swig genreated cpp java wrappers
         file(COPY "${CMAKE_SOURCE_DIR}/libmach1spatial/swig"
             DESTINATION "${CMAKE_BINARY_DIR}/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1"
-            FILES_MATCHING 
+            FILES_MATCHING
             PATTERN "*.cxx"
         )
 
@@ -374,7 +379,7 @@ if(BUILD_JITPACK_LIBS)
         foreach(SOURCE_DIR ${SOURCE_DIRS})
             file(COPY "${SOURCE_DIR}/"
                 DESTINATION "${CMAKE_BINARY_DIR}/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1"
-                FILES_MATCHING 
+                FILES_MATCHING
                 PATTERN "*CAPI.h"
                 PATTERN "*js*" EXCLUDE
             )

@@ -14,21 +14,10 @@ This is a stripped down transcoding commmandline example, please reference or li
 ##### macOS Setup
  - install homebrew: https://brew.sh/
  - `brew install libsndfile` _(project is currently linked to 1.0.31)_
- - `brew tap irt-open-source/homebrew-nga`
- - `brew install libbw64` _(project is currently linked to 0.10.0)_
  - Open each xcode project
 
 ##### Linux Setup
 - Change directory to `src/`
-- Install libbw64: https://github.com/ebu/libbw64
-```
-git clone git@github.com:irt-open-source/libbw64.git
-cd libbw64
-mkdir build && cd build
-cmake ..
-make
-make install
-```
 - Install libsndfile: http://www.mega-nerd.com/libsndfile/#Download
 
 ##### Windows Setup

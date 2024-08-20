@@ -86,7 +86,7 @@ jobs:
           build/tests/${{ env.BUILD_TYPE }}/Mach1EncodeTests.exe & \
           build/tests/${{ env.BUILD_TYPE }}/Mach1DecodeTests.exe & \
           build/tests/${{ env.BUILD_TYPE }}/Mach1DecodePositionalTests.exe & \
-          build/tests/${{ env.BUILD_TYPE }}/Mach1TranscodeTests.exe && fg
+          build/tests/${{ env.BUILD_TYPE }}/Mach1TranscodeTests.exe
         else
           build/tests/Mach1EncodeTests
           build/tests/Mach1DecodeTests

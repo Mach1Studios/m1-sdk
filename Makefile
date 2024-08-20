@@ -19,7 +19,7 @@ ifeq ($(detected_OS),Windows)
 	@if not exist "$(VCPKG_ROOT)\vcpkg.exe" (echo "vcpkg is not installed, if it is add VCPKG_ROOT with '$env:VCPKG_ROOT = C:/path/to/vcpkg' and then '$env:PATH = \"$env:VCPKG_ROOT;$env:PATH\"'" && exit 1)
 	@vcpkg version >nul || (echo "vcpkg is not working" && exit 1)
 	@echo "vcpkg is installed and working"
-	vcpkg install sndfile rtaudio
+	vcpkg install rtaudio libvorbis:x64-windows-static libflac:x64-windows-static opus:x64-windows-static
 	@if not exist "$(pip show pre-commit)" (pip install pre-commit)
 	pre-commit install
 else ifeq ($(detected_OS),Darwin)

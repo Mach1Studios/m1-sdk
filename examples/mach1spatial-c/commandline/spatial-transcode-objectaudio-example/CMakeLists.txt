@@ -42,6 +42,7 @@ add_subdirectory(libs/libbw64)
 add_library(IRT::bw64 INTERFACE IMPORTED GLOBAL)
 set_target_properties(IRT::bw64 PROPERTIES
         INTERFACE_INCLUDE_DIRECTORIES $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libbw64/include>)
+target_include_directories(${PROJECT_NAME} PRIVATE libs/libbw64/include)
 
 # Link with lib
 target_link_libraries(${PROJECT_NAME} PRIVATE M1Transcode)

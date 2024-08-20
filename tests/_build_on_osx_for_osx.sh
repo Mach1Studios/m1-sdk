@@ -3,7 +3,7 @@ rm -rf ./_builds
 
 echo "### BUILD macOS ###"
 cmake . -B_builds/xcode -GXcode
-cmake --build _builds/xcode
+cmake --build _builds/xcode --config "Debug"
 
 _builds/xcode/tests/Debug/Mach1EncodeTests || { echo 'Mach1Encode API test failed...' ; exit 1; }
 _builds/xcode/tests/Debug/Mach1DecodeTests || { echo 'Mach1Decode API test failed...' ; exit 1; }

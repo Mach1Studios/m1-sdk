@@ -2,15 +2,16 @@
 //  Copyright © 2017-2022 Mach1. All rights reserved.
 
 #ifdef M1TRANSCODE_INLINE_ENCODE
-#include "Mach1EncodeCore.h"
+#    include "Mach1EncodeCore.h"
 #endif
-#include "Mach1TranscodeCore.h"
-#include "Mach1GenerateCoeffs.h"
 #include "AmbisonicFormats.h"
+#include "Mach1GenerateCoeffs.h"
+#include "Mach1TranscodeCore.h"
 #include "MicArrayFormats.h"
 #include "SurroundFormats.h"
 #include "VectorFormats.h"
 #include "json/json.h"
+#include <cstring>
 #include <string>
 
 #define _USE_MATH_DEFINES
@@ -75,24 +76,24 @@ int Mach1TranscodeCore::getFormatFromString(const char *str) {
     return -1;
 }
 
-const char* Mach1TranscodeCore::getFormatName(int fmt) {
+const char *Mach1TranscodeCore::getFormatName(int fmt) {
     if (fmt < Mach1TranscodeConstants::formats.size()) {
         return Mach1TranscodeConstants::formats[fmt].name.data();
     }
     return nullptr;
 }
 
-const char** Mach1TranscodeCore::getAllFormatNames() {
-    static std::vector<char*> formatNames; 
-	
-	if (formatNames.size() == 0) {
-		for (auto it = Mach1TranscodeConstants::formats.begin(); it != Mach1TranscodeConstants::formats.end(); ++it) {
-			formatNames.push_back((char*)it->name.data());
-		}
-		formatNames.push_back(nullptr);
-	}
+const char **Mach1TranscodeCore::getAllFormatNames() {
+    static std::vector<char *> formatNames;
+
+    if (formatNames.size() == 0) {
+        for (auto it = Mach1TranscodeConstants::formats.begin(); it != Mach1TranscodeConstants::formats.end(); ++it) {
+            formatNames.push_back((char *)it->name.data());
+        }
+        formatNames.push_back(nullptr);
+    }
     numFormats = formatNames.size();
-    return (const char**)formatNames.data();
+    return (const char **)formatNames.data();
 }
 
 int Mach1TranscodeCore::getFormatsCount() {
@@ -162,7 +163,7 @@ std::vector<Mach1Point3D> parseCustomPointsJson(std::string srtJson) {
     if (doc.size() > 0) {
         auto jsonPoints = JSON::getChildren(doc, "points");
         if (jsonPoints.size() > 0) {
-            for (int i = 0; ; i++) {
+            for (int i = 0;; i++) {
                 auto jsonPoint = JSON::getElement(jsonPoints, 3, i);
                 if (jsonPoint.size() > 0) {
                     /// TEST FOR SPHERICAL / POLAR DEFINITIONS
@@ -171,14 +172,16 @@ std::vector<Mach1Point3D> parseCustomPointsJson(std::string srtJson) {
                         float diverge_radius = 0, azimuth = 0, elevation = 0;
                         if (!JSON::getChildren(jsonPoint, "diverge").empty()) {
                             diverge_radius = std::stof(JSON::getChildren(jsonPoint, "diverge")[0]->value);
-                            if (diverge_radius > 1.0) diverge_radius = 1.0;
-                            if (diverge_radius < -1.0) diverge_radius = -1.0;
+                            if (diverge_radius > 1.0)
+                                diverge_radius = 1.0;
+                            if (diverge_radius < -1.0)
+                                diverge_radius = -1.0;
                         }
                         if (!JSON::getChildren(jsonPoint, "azimuth").empty()) {
                             float azimuth_degrees = (std::stof(JSON::getChildren(jsonPoint, "azimuth")[0]->value));
                             // convert the -180 -> 180 degree range to 0 -> 1
                             azimuth_degrees = std::fmod(azimuth_degrees, 360.0); // protect a 360 cycle
-                            if (azimuth_degrees < 0) { // check if -180 to 180, convert to 0-360
+                            if (azimuth_degrees < 0) {                           // check if -180 to 180, convert to 0-360
                                 azimuth_degrees += 360.0;
                             }
                             azimuth = azimuth_degrees / 360.0;
@@ -189,7 +192,7 @@ std::vector<Mach1Point3D> parseCustomPointsJson(std::string srtJson) {
                             elevation_degrees = clamp_local(elevation_degrees, -90, 90);
                             elevation = elevation_degrees / 90;
                         }
-                        
+
                         float normalisedOutputDiverge = diverge_radius * (1 / std::cos(PI * 0.25f)); // normalize for entire cube space and not just spherical space
 
                         points.push_back({
@@ -198,15 +201,13 @@ std::vector<Mach1Point3D> parseCustomPointsJson(std::string srtJson) {
                             std::cos((azimuth)*PI * 2) * normalisedOutputDiverge * std::sin((-elevation + 1) * PI / 2),
                             std::cos((-elevation + 1) * PI / 2) * normalisedOutputDiverge,
                         });
-                        
+
                     } else {
                         /// TEST FOR CARTESIAN DEFINITIONS
                         if (!JSON::getChildren(jsonPoint, "x").empty() && !JSON::getChildren(jsonPoint, "y").empty() && !JSON::getChildren(jsonPoint, "z").empty()) {
-                            points.push_back({
-                                  std::stof(JSON::getChildren(jsonPoint, "x")[0]->value),
-                                  std::stof(JSON::getChildren(jsonPoint, "y")[0]->value),
-                                  std::stof(JSON::getChildren(jsonPoint, "z")[0]->value)
-                            });
+                            points.push_back({std::stof(JSON::getChildren(jsonPoint, "x")[0]->value),
+                                              std::stof(JSON::getChildren(jsonPoint, "y")[0]->value),
+                                              std::stof(JSON::getChildren(jsonPoint, "z")[0]->value)});
                         }
                     }
                 } else {
@@ -271,9 +272,8 @@ bool Mach1TranscodeCore::processConversionPath() {
             for (int j = 0; j < Mach1TranscodeConstants::formats.size(); j++) {
                 if (findMatrix(fmt, j) >= 0 ||
                     (fmt == getFormatFromString("CustomPoints") && j == getFormatFromString("CustomPoints")) ||
-                    (fmt == getFormatFromString("CustomPoints") && getPointsSet(j).size()>0) ||
-                    (getPointsSet(fmt).size()>0 && j == getFormatFromString("CustomPoints"))
-                    ) {
+                    (fmt == getFormatFromString("CustomPoints") && getPointsSet(j).size() > 0) ||
+                    (getPointsSet(fmt).size() > 0 && j == getFormatFromString("CustomPoints"))) {
 
                     // check if this format already exist on that path
                     int k = i;
@@ -417,7 +417,7 @@ std::vector<std::vector<float>> Mach1TranscodeCore::getCoeffs(int idxMatrix) {
             if (Mach1TranscodeCoeffs *c = dynamic_cast<Mach1TranscodeCoeffs *>(channel)) {
                 coeffs.push_back(c->data);
             }
-#ifdef M1TRANSCODE_INLINE_ENCODE 
+#ifdef M1TRANSCODE_INLINE_ENCODE
             else if (Mach1TranscodePanner *p = dynamic_cast<Mach1TranscodePanner *>(channel)) {
                 M1EncodeCore m1encode;
 
@@ -542,10 +542,10 @@ void Mach1TranscodeCore::getMatrixConversion(float *matrix) {
     std::memset(mCurrent, 0, mSize);
     std::memset(mRes, 0, mSize);
 
-	// find a path if it is empty
-	if (formatConversionPath.size() == 0) {
-		processConversionPath();
-	}
+    // find a path if it is empty
+    if (formatConversionPath.size() == 0) {
+        processConversionPath();
+    }
 
     for (int k = 0; k < formatConversionPath.size() - 1; k++) {
         int inFmt = formatConversionPath[k];
@@ -630,10 +630,10 @@ void Mach1TranscodeCore::getMatrixConversion(float *matrix) {
 // }
 
 void Mach1TranscodeCore::processConversion(float **inBufs, float **outBufs, int numSamples) {
-	// find a path if it is empty
-	if (formatConversionPath.size() == 0) {
-		processConversionPath();
-	}
+    // find a path if it is empty
+    if (formatConversionPath.size() == 0) {
+        processConversionPath();
+    }
 
     // reinit internal buffer
     if (numSamples > bufferSize) {

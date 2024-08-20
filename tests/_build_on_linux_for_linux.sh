@@ -3,7 +3,7 @@ rm -rf ./_builds
 
 echo "### BUILD Linux ###"
 cmake . -B_builds/gcc
-cmake --build _builds/gcc
+cmake --build _builds/gcc --config "Debug"
 
 _builds/gcc/tests/Debug/Mach1EncodeTests || { echo 'Mach1Encode API test failed...' ; exit 1; }
 _builds/gcc/tests/Debug/Mach1DecodeTests || { echo 'Mach1Decode API test failed...' ; exit 1; }

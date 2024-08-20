@@ -3,11 +3,9 @@ name: Build-webjs
 # run after tests are verified and the lib source files were edited
 on:
   workflow_run:
-    workflows: ['Test']
-    types: [completed]
-  push:
-    paths:
-      - libmach1spatial/**
+    workflows: ["Test"]
+    types:
+      - completed
 
 jobs:
   build:

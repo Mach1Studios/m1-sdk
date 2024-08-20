@@ -14,8 +14,9 @@ Mach1EncodeCore normalizes all input ranges to an unsigned "0 to 1" range for Az
  */
 
 #include "Mach1EncodeCore.h"
-#include <vector>
+#include <cstring>
 #include <map>
+#include <vector>
 
 float M1EncodeCore::clamp(float n, float lower, float upper) {
     return (std::max)(lower, (std::min)(n, upper));
@@ -751,12 +752,12 @@ M1EncodeCore::~M1EncodeCore() {
 }
 
 // Copy constructor
-M1EncodeCore::M1EncodeCore(const M1EncodeCore& other) : M1EncodeCore() {
+M1EncodeCore::M1EncodeCore(const M1EncodeCore &other) : M1EncodeCore() {
     *this = other;
 }
 
 // Copy assignment operator
-M1EncodeCore& M1EncodeCore::operator=(const M1EncodeCore& other) {
+M1EncodeCore &M1EncodeCore::operator=(const M1EncodeCore &other) {
     if (this != &other) {
         inputMode = other.inputMode;
         outputMode = other.outputMode;

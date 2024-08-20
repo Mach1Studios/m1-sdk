@@ -44,7 +44,7 @@ ifeq ($(detected_OS),Darwin)
 	tests/_build_on_osx_for_osx.sh
 else ifeq ($(detected_OS),Windows)
 	@set "cmake_generator=$(cmake_generator)"
-	.\tests\_build_on_win_for_win.bat
+	.\\tests\\_build_on_win_for_win.bat
 else
 	tests/_build_on_linux_for_linux.sh
 endif

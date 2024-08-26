@@ -1,0 +1,12 @@
+#ifndef MACH1SPATIALSDK_TRANSCODELINK_H
+#define MACH1SPATIALSDK_TRANSCODELINK_H
+
+namespace Mach1 {
+
+class TranscodeLink {
+
+};
+
+} // Mach1
+
+#endif //MACH1SPATIALSDK_TRANSCODELINK_H

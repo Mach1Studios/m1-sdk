@@ -63,7 +63,7 @@ target_sources(${PROJECT_NAME}
 )
 
 # include headers
-set(MACH1SPATIAL_INCLUDES ${M1_LIB_PATH}/api_transcode/include ${M1_LIB_PATH}/deps ${M1_LIB_PATH}/deps/yaml ${M1_LIB_PATH}/pugixml/src)
+set(MACH1SPATIAL_INCLUDES ${M1_LIB_PATH}/api_transcode/include ${M1_LIB_PATH}/api_common/include ${M1_LIB_PATH}/deps ${M1_LIB_PATH}/deps/yaml ${M1_LIB_PATH}/pugixml/src)
 target_include_directories(${PROJECT_NAME} PRIVATE ${MACH1SPATIAL_INCLUDES} ${LIBSNDFILE_INCLUDE_DIRS})
 
 # link libraries

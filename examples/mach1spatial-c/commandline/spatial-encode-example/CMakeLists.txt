@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.13.0)
+set(CMAKE_CXX_STANDARD 17)
 project(spatial-encode-example)
 add_executable(${PROJECT_NAME})
 
@@ -19,7 +20,7 @@ PRIVATE
     ${M1_LIB_PATH}/api_encode/include/Mach1Encode.cpp
 )
 
-set(MACH1SPATIAL_INCLUDES ${M1_LIB_PATH}/api_encode/include ${M1_LIB_PATH}/deps)
+set(MACH1SPATIAL_INCLUDES ${M1_LIB_PATH}/api_encode/include ${M1_LIB_PATH}/api_common/include ${M1_LIB_PATH}/deps)
 include_directories(${MACH1SPATIAL_INCLUDES})
 
 if(PROJECT_IS_TOP_LEVEL)

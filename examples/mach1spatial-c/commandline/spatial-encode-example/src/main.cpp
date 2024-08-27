@@ -6,9 +6,7 @@
 //  Copyright © 2019 Mach1. All rights reserved.
 //
 
-#define M1_STATIC
-
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__WIN32__) || defined(__WINDOWS__)
 #include <time.h>
 #include <windows.h>
 #include <conio.h>
@@ -37,11 +35,7 @@
 #define PI 3.14159265358979323846
 #endif
 
-#ifndef M_PI
-#define M_PI 3.14159265358979323846264338327950288
-#endif
-
-#ifdef _WIN32
+#if defined(_WIN32) || defined(__WIN32__) || defined(__WINDOWS__)
 BOOLEAN nanosleep(struct timespec* ts, void* p) {
 	/* Declarations */
 	HANDLE timer;	/* Timer handle */
@@ -76,14 +70,14 @@ std::string outputName;
 
 /*
  Orientation Euler
- 
+
  Yaw[0]+ = rotate right [Range: 0->360 | -180->180]
  Yaw[0]- = rotate left [Range: 0->360 | -180->180]
  Pitch[1]+ = rotate up [Range: -90->90]
  Pitch[1]- = rotate down [Range: -90->90]
  Roll[2]+ = tilt right [Range: -90->90]
  Roll[2]- = tilt left [Range: -90->90]
- 
+
  http://dev.mach1.tech/#mach1-internal-angle-standard
  */
 float azimuth = 0.0;
@@ -107,7 +101,7 @@ int main(int argc, const char * argv[]) {
     struct timespec ts;
     ts.tv_sec =  0;
     ts.tv_nsec = (long)1e7;
-    
+
     printf("Setting up\n");
     inputMode = Mach1EncodeInputModeMono;
     outputMode = Mach1EncodeOutputModeM1Spatial_8;
@@ -115,7 +109,7 @@ int main(int argc, const char * argv[]) {
     outputName = "MACH1 SPATIAL";
     done = false;
     thread = std::thread(encode, nullptr);
-    
+
     while (!done) {
         nanosleep(&ts, NULL);
         auto start = std::chrono::high_resolution_clock::now();
@@ -136,7 +130,7 @@ int main(int argc, const char * argv[]) {
         std::chrono::duration<double> elapsed = end - start;
         timeReturned = (float)elapsed.count();
     }
-    
+
     return 0;
 }
 
@@ -156,15 +150,15 @@ void* encode(void* v)
     char c;
     printf("Enter a command:\n");
     while (1) {
-        
+
 #ifdef _WIN32
 		c = _getch();
-#else 
+#else
 		c = getchar();
-#endif     
-        
+#endif
+
         if (c == 'q') break;
-        
+
         // delete entered character
         printf("\b");
         switch (c) {
@@ -259,7 +253,7 @@ void* encode(void* v)
             default:
                 printf("Input not recognized.\n");
         }
-        
+
         // check that the values are in proper range
         if (diverge < -1.0) diverge = -1.0;
         else if (diverge > 1.0) diverge = 1.0;
@@ -271,7 +265,7 @@ void* encode(void* v)
         else if (stereoOrbitRotation > 360.0) stereoOrbitRotation = 0;
         if (elevation < -180.0) elevation = -180.0;
         else if (elevation > 180.0) elevation = 180.0;
-        
+
         // Mach1EncodeCAPI Log:
         printf("\n");
         printf("Input: %s\n", inputName.c_str());

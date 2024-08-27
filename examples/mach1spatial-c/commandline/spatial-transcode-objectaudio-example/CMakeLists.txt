@@ -2,6 +2,14 @@ cmake_minimum_required(VERSION 3.5.0)
 project(spatial-transcode-objectaudio-example)
 add_executable(${PROJECT_NAME})
 
+if(PROJECT_IS_TOP_LEVEL)
+    list(APPEND CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/../../../../cmake")
+    include(common-defaults)
+
+    # include libMach1Spatial
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../../../libmach1spatial ${CMAKE_CURRENT_BINARY_DIR}/libmach1spatial)
+endif()
+
 # Use pkg-config to get hints about paths
 include(FindPkgConfig)
 find_package(PkgConfig QUIET)

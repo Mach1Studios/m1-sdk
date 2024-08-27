@@ -5,6 +5,8 @@ echo "### BUILD macOS ###"
 cmake . -B_builds/xcode -GXcode
 cmake --build _builds/xcode --config "Debug"
 
+# these commands are expected to execute if this script was run from the parent ../ directory
+# TODO: add install command in cmake so that we can predict where these exes exist
 _builds/xcode/tests/Debug/Mach1EncodeTests || { echo 'Mach1Encode API test failed...' ; exit 1; }
 _builds/xcode/tests/Debug/Mach1DecodeTests || { echo 'Mach1Decode API test failed...' ; exit 1; }
 _builds/xcode/tests/Debug/Mach1DecodePositionalTests || { echo 'Mach1DecodePositional API test failed...' ; exit 1; }

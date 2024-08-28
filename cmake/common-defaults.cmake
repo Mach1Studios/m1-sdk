@@ -44,7 +44,7 @@ else()
 endif()
 message(STATUS "SETUP: Using ${CMAKE_CXX_COMPILER}")
 
-if(MSVC OR WIN32)
+if(WIN32 OR MSVC OR MINGW)
     set(CMAKE_DEBUG_POSTFIX d)
     # enable MSVC_RUNTIME_LIBRARY target property
     # see https://cmake.org/cmake/help/latest/policy/CMP0091.html
@@ -67,7 +67,7 @@ message(STATUS "CMAKE_CXX_FLAGS_RELEASE='${CMAKE_CXX_FLAGS_RELEASE}'")
 # Link
 #----------------
 
-if(MSVC OR WIN32)
+if(WIN32 OR MSVC OR MINGW)
     if(BUILD_WIN_MT)
         message(STATUS "Adding /MT compile options for win targets")
         add_compile_options(

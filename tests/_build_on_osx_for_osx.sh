@@ -2,7 +2,7 @@ echo "### CLEANING OLD TESTS ###"
 rm -rf ./_builds
 
 echo "### BUILD macOS ###"
-cmake . -B_builds/xcode -GXcode
+cmake . -B_builds/xcode -GXcode -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_SIGNAL_SUITE=OFF
 cmake --build _builds/xcode --config "Debug"
 
 # these commands are expected to execute if this script was run from the parent ../ directory

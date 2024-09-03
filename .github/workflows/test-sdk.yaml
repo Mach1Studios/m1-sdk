@@ -74,7 +74,7 @@ jobs:
       run: sudo apt-get update && sudo apt install libsndfile-dev
 
     - name: Configure CMake
-      run: cmake . -B build -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DM1S_BUILD_EXAMPLES=OFF
+      run: cmake . -B build -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_SIGNAL_SUITE=OFF
 
     - name: Build
       shell: bash

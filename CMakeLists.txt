@@ -8,6 +8,7 @@ project(Mach1SpatialSDK)
 # Project & repo options
 option(M1S_BUILD_TESTS           "Build libmach1spatial unit tests."                  ON)
 option(M1S_BUILD_EXAMPLES        "Build commandline examples."                        ON)
+option(M1S_BUILD_SIGNAL_SUITE    "Build libmach1spatial unit tests."                  OFF)
 
 # API options
 option(M1ENCODE_INLINE_DECODE    "Support M1Encode with built in Decode functions"    ON)
@@ -30,7 +31,7 @@ add_subdirectory(libmach1spatial)
 # Repo
 #----------------
 
-# Adds the examples and/or unit testing 
+# Adds the examples and/or unit testing
 if(M1S_BUILD_EXAMPLES)
     add_subdirectory(examples/mach1spatial-c/commandline)
 endif()

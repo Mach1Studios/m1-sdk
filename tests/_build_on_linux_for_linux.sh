@@ -2,7 +2,7 @@ echo "### CLEANING OLD TESTS ###"
 rm -rf ./_builds
 
 echo "### BUILD Linux ###"
-cmake . -B_builds/gcc
+cmake . -B_builds/gcc -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_SIGNAL_SUITE=OFF
 cmake --build _builds/gcc --config "Debug"
 
 _builds/gcc/tests/Debug/Mach1EncodeTests || { echo 'Mach1Encode API test failed...' ; exit 1; }

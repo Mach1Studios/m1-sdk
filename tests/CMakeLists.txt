@@ -55,12 +55,16 @@ target_link_libraries(Mach1TranscodeTests PRIVATE M1Transcode)
 target_include_directories(Mach1TranscodeTests PRIVATE ${M1SDK_SOURCE_PATH}/api_transcode/include ${M1SDK_SOURCE_PATH}/api_common/include ${M1SDK_SOURCE_PATH}/deps/nlohmann/single_include)
 
 #----------------
-# Mach1 Transcode Render Test
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" OR ${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+   # Mach1 Transcode Render Test
    if(NOT BUILD_COCOAPODS_LIBS)
       # Limiting the inclusion of this test because sndfile might have target limitations
       add_subdirectory(Mach1TranscodeRenderTest)
+   endif()
+   # Mach1 Signal Suite Tests
+   if(M1S_BUILD_SIGNAL_SUITE)
+      # Include the signal suite test, ideally skipping it in most common test runs
       add_subdirectory(spatial-signal-testing)
    endif()
 endif()

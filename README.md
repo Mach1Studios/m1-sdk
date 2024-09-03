@@ -41,11 +41,11 @@ Please view the [license/](license) directory for more information and proper at
 ### [SETUP](#setup) ###
 
 #### CMake
-The easiest way to use this project is to use CMake from the root directory to setup all the APIs, examples and tests as needed. An example of this is running the following from this directory: 
-- `cmake . -B build -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=ON -DM1ENCODE_INLINE_DECODE=ON -DM1TRANSCODE_INLINE_ENCODE=ON`
+The easiest way to use this project is to use CMake from the root directory to setup all the APIs, examples and tests as needed. An example of this is running the following from this directory:
+- `cmake . -B build -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=ON -DM1ENCODE_INLINE_DECODE=ON -DM1TRANSCODE_INLINE_ENCODE=ON -DM1S_BUILD_SIGNAL_SUITE=ON`
 - `cmake --build build --config Release`
 
-View the [CMakeLists.txt](CMakeLists.txt) file to see any options, by default the examples and tests are enabled. 
+View the [CMakeLists.txt](CMakeLists.txt) file to see any options, by default the examples and tests are enabled.
 
 ##### Options
 - `M1ENCODE_INLINE_DECODE`: Includes Mach1Decode API into Mach1Encode API as a dependency to allow more features.

@@ -6,7 +6,7 @@
 //  Copyright © 2019 Mach1. All rights reserved.
 //
 
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__WIN32__) || defined(__WINDOWS__)
 #include <time.h>
 #include <windows.h>
 #include <conio.h>
@@ -33,11 +33,7 @@
 #define PI 3.14159265358979323846
 #endif
 
-#ifndef M_PI
-#define M_PI 3.14159265358979323846264338327950288
-#endif
-
-#ifdef _WIN32
+#if defined(_WIN32) || defined(__WIN32__) || defined(__WINDOWS__)
 BOOLEAN nanosleep(struct timespec* ts, void* p) {
 	/* Declarations */
 	HANDLE timer;	/* Timer handle */
@@ -97,7 +93,7 @@ static float checkSumL = 0;
 static float checkSumR = 0;
 
 float radToDeg (float input){
-    float output = input * (180.0/M_PI);
+    float output = input * (180.0/PI);
     return output;
 }
 
@@ -106,13 +102,13 @@ int main(int argc, const char * argv[]) {
     struct timespec ts;
     ts.tv_sec =  0;
     ts.tv_nsec = (long)1e7; // 1/100 seconds
-    
+
     printf("Setting up\n");
     outputFormat = Mach1DecodeAlgoSpatial_8;
     outputName = "MACH1 SPATIAL";
     done = false;
     thread = std::thread(decode, nullptr);
-    
+
     while (!done) {
         nanosleep(&ts, NULL);
         auto start = std::chrono::high_resolution_clock::now();
@@ -150,15 +146,15 @@ static void* decode(void* v)
     char c;
     printf("Enter a command:\n");
     while (1) {
-        
+
 #ifdef _WIN32
 		c = _getch();
-#else 
+#else
 		c = getchar();
-#endif     
+#endif
 
 		if (c == 'q') break;
-        
+
         // delete entered character
         printf("\b");
         switch (c) {
@@ -200,7 +196,7 @@ static void* decode(void* v)
             default:
                 printf("Input not recognized.\n");
         }
-        
+
         // check that the values are in proper range
         if (yaw < 0.0) yaw = 360.0;
         else if (yaw > 360.0) yaw = 0.0;
@@ -208,7 +204,7 @@ static void* decode(void* v)
         else if (pitch > 90.0) pitch = 90.0;
         if (roll < -90.0) roll = -90.0;
         else if (roll > 90.0) roll = 90.0;
-        
+
         checkSumL = 0; // zeroed for next loop
         checkSumR = 0; // zeroed for next loop
         for (int i = 0; i < m1Coeffs.size(); i++){
@@ -218,7 +214,7 @@ static void* decode(void* v)
                 checkSumR=checkSumR+m1Coeffs[i];
             }
         }
-        
+
         // Mach1DecodeCAPI Log:
         printf("\n");
         printf("y / p / r: %f %f %f\n", yaw, pitch, roll);

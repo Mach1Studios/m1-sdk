@@ -12,10 +12,10 @@ if(NOT CMAKE_BUILD_TYPE)
    message(STATUS "Build type not specified: default is Debug")
 endif()
 
-if(PROJECT_IS_TOP_LEVEL)
-   list(APPEND CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/../cmake")
-   include(common-defaults)
+list(APPEND CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/../cmake")
+include(common-defaults)
 
+if(PROJECT_IS_TOP_LEVEL)
    # include libMach1Spatial
    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../libmach1spatial ${CMAKE_CURRENT_BINARY_DIR}/libmach1spatial)
 endif()

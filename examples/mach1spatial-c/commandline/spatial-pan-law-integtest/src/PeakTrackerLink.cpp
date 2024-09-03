@@ -95,7 +95,7 @@ void PeakTrackerLink::Print() const {
 
     std::cout << "\n\t";
     for (unsigned int idx = 0; idx < m_current_peak.size(); idx++) {
-        std::cout << std::fixed << std::setprecision(3) << GetCurrentPeakDecibels(idx) << "\t";
+        std::cout << std::fixed << std::setprecision(3) << GetMaxPeakDecibels(idx) << "\t";
     }
 
     float sum = 0.0;

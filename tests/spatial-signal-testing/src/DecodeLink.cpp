@@ -3,12 +3,30 @@
 using namespace Mach1;
 
 void DecodeLink::Process(AudioBuffers &buffers, double playback_time) {
+    // TODO: fix decodeBuffer
+    /*
     m_decode.decodeBuffer(
             &buffers.GetOutputBuffers(),
             &buffers.GetOutputBuffers(),
             m_points,
             buffers.GetBufferSize()
     );
+     */
+
+    // get output gain multipliers
+    auto decode_gains = m_decode.decodeCoeffs();
+
+    // process the samples manually
+    for (int sample = 0; sample < buffers.m_buffer_size; sample++) {
+        for (int input_channel = 0; input_channel < buffers.m_input_channel_count; input_channel++) {
+
+            //std::vector<float> outBufferL = buffers.GetOutputBuffers()[0]
+            //std::vector<float> outBufferR = buffers.GetOutputBuffers()[1]
+
+            //outBufferL[sample] += tempBuffer.getReadPointer(input_channel * 2    )[sample] * smoothedChannelCoeffs[input_channel_reordered][0].getNextValue();
+            //outBufferR[sample] += tempBuffer.getReadPointer(input_channel * 2 + 1)[sample] * smoothedChannelCoeffs[input_channel_reordered][1].getNextValue();
+        }
+    }
 }
 
 void DecodeLink::SetPlatformType(Mach1PlatformType type) {
@@ -41,4 +59,8 @@ void DecodeLink::SetFilterSpeed(float filterSpeed) {
 
 void DecodeLink::SetPointCount(int points) {
     m_points = points;
+}
+
+std::vector<float> DecodeLink::GetGains() {
+    return m_decode.decodeCoeffs();
 }

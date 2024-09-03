@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
     chain.AddLink(&decode_link);
     chain.AddLink(&peak_tracker_link[3]);
 
-    chain.SetInputChannelCount(2);
+    chain.SetInputChannelCount(1);
     chain.SetOutputChannelCount(2);
     chain.SetAudioBufferInputChannelCount(14);
     chain.SetAudioBufferOutputChannelCount(14);
@@ -42,31 +42,29 @@ int main(int argc, char *argv[]) {
 
     sine_wave_link.SetFrequency(1000);
     sine_wave_link.SetGainDecibels(0);
-    sine_wave_link.SetChannelMask(1); // disable all channels except first
+    sine_wave_link.SetChannelEnabled(0, true); // enable only first channel
 
     noise_gen_link.SetStrategy(White);
     noise_gen_link.SetGainDecibels(0);
-    noise_gen_link.SetChannelMask(0); // disable all channels
-    noise_gen_link.SetChannelEnabled(0, true); // enable only first channel
+    //noise_gen_link.SetChannelEnabled(0, true); // enable only first channel
 
     encode_link.SetInputMode(Mach1EncodeInputModeType::Mach1EncodeInputModeMono);
-    encode_link.SetOutputMode(Mach1EncodeOutputModeType::Mach1EncodeOutputModeM1Spatial_14);
-    encode_link.SetAzimuth(0);
+    encode_link.SetOutputMode(Mach1EncodeOutputModeType::Mach1EncodeOutputModeM1Spatial_4);
+    encode_link.SetAzimuthDegrees(45);
     encode_link.SetElevation(0);
+    encode_link.SetDiverge(0.6);
     encode_link.SetIsotropicMode(false);
     encode_link.SetEqualPowerMode(false);
     encode_link.SetOutputGain(0.0, true);
     encode_link.SetOrbitRotation(0.0);
-    encode_link.SetDiverge(0.5);
     encode_link.SetStereoSpread(0.5);
     encode_link.SetAutoOrbit(true);
+    encode_link.GeneratePointResults();
 
     decode_link.SetRotationDegrees({0, 0, 0});
-    decode_link.SetDecodeAlgoType(Mach1DecodeAlgoSpatial_14);
+    decode_link.SetDecodeAlgoType(Mach1DecodeAlgoSpatial_4);
     decode_link.SetPlatformType(Mach1PlatformDefault);
     decode_link.SetFilterSpeed(1.0);
-
-    encode_link.GeneratePointResults();
     decode_link.SetPointCount(encode_link.GetPointsCount());
 
     chain.Start();

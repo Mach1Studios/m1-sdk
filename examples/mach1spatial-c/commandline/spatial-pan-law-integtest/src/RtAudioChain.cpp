@@ -22,14 +22,20 @@ int ProcessBuffers(void *outputBuffer, void *inputBuffer, unsigned int nFrames, 
             break;
     }
 
+    // TODO: Audio buffer channel count should be independent from device channel count.
     AudioBuffers* buffs = chain->GetBuffers();
-    buffs->Restructure(nFrames, in_count, out_count);
+    buffs->Restructure(
+            nFrames,
+            chain->GetAudioBufferInputChannelCount(),
+            chain->GetAudioBufferOutputChannelCount()
+    );
 
     buffs->EmplaceIntoOutput((float*)outputBuffer, nFrames, out_count);
     buffs->EmplaceIntoInput((float*)inputBuffer, nFrames, in_count);
     chain->Process(*buffs);
     buffs->DumpOutputIntoBuffer((float*)outputBuffer, nFrames, out_count);
     buffs->DumpInputIntoBuffer((float*)inputBuffer, nFrames, in_count);
+
 
     return 0;
 }
@@ -113,4 +119,20 @@ void RtAudioChain::SetBufferSize(unsigned int buffer_size) {
 
 AudioBuffers *RtAudioChain::GetBuffers() {
     return &m_buffers;
+}
+
+void RtAudioChain::SetAudioBufferInputChannelCount(size_t channel_count) {
+    m_audio_buffer_input_channel_count = channel_count;
+}
+
+size_t RtAudioChain::GetAudioBufferInputChannelCount() const {
+    return m_audio_buffer_input_channel_count;
+}
+
+void RtAudioChain::SetAudioBufferOutputChannelCount(size_t channel_count) {
+    m_audio_buffer_output_channel_count = channel_count;
+}
+
+size_t RtAudioChain::GetAudioBufferOutputChannelCount() const {
+    return m_audio_buffer_output_channel_count;
 }

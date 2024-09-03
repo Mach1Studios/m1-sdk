@@ -8,7 +8,6 @@
 namespace Mach1 {
 
 class RtAudioChain {
-
 public:
 
     ~RtAudioChain();
@@ -21,6 +20,12 @@ public:
 
     void Start();
     void Stop();
+
+    void SetAudioBufferInputChannelCount(size_t channel_count);
+    size_t GetAudioBufferInputChannelCount() const;
+
+    void SetAudioBufferOutputChannelCount(size_t channel_count);
+    size_t GetAudioBufferOutputChannelCount() const;
 
     void SetInputChannelCount(size_t channel_count);
     size_t GetInputChannelCount() const;
@@ -51,6 +56,8 @@ private:
     bool m_started = false;
     double m_time_elapsed_per_sample = 0;
     double m_playback_time = 0;
+    size_t m_audio_buffer_input_channel_count = 0;
+    size_t m_audio_buffer_output_channel_count = 0;
 };
 
 } // Mach1

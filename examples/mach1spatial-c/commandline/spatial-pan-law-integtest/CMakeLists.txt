@@ -77,7 +77,7 @@ mark_as_advanced(RTAUDIO_INCLUDE_DIR RTAUDIO_LIBRARIES)
 pkg_search_module(RtAudio REQUIRED rtaudio)
 
 # Link with lib
-target_link_libraries(${PROJECT_NAME} PRIVATE M1Decode M1Transcode)
+target_link_libraries(${PROJECT_NAME} PRIVATE M1Encode M1Decode M1Transcode)
 set(M1_LIB_PATH ../../../../libmach1spatial)
 
 # collect and add source files
@@ -98,7 +98,13 @@ PRIVATE
     src/EncodeLink.cpp
     src/DecodeLink.h
     src/DecodeLink.cpp
+    src/TranscodeLink.h
+    src/TranscodeLink.cpp
+    src/NoiseGenLink.h
+    src/NoiseGenLink.cpp
+    src/NoiseGenStrategy.h
 
+    ${M1_LIB_PATH}/api_encode/include/Mach1Encode.cpp
     ${M1_LIB_PATH}/api_decode/include/Mach1Decode.cpp
     ${M1_LIB_PATH}/api_transcode/include/Mach1Transcode.cpp
     ${M1_LIB_PATH}/deps/M1DSP/M1DSPUtilities.cpp

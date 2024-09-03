@@ -23,14 +23,17 @@ public:
 
     float GetSineWave(float time) const;
 
+    bool IsChannelEnabled(size_t index) const;
+
+    void SetChannelEnabled(size_t index, bool is_enabled);
+
+    void SetChannelMask(long long bitmask);
+
 private:
     float m_frequency = 440.0f;
-
     float m_gain = 1.0f;
-
-private:
-
     double m_time_per_sample;
+    long long m_channel_mask;
 };
 
 } // Mach1

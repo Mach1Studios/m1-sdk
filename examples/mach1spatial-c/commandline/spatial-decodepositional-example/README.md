@@ -1,4 +1,4 @@
-# Mach1Decode C++ Example
+# Mach1DecodePositional C++ Example
 
 ## CMake Setup
  - `mkdir build`
@@ -18,3 +18,10 @@
  - S: orientation: pitch -- down
  - Z: orientation: roll -- left
  - X: orientation: roll ++ right
+
+ - I: position: z ++ forward
+ - K: position: z -- back
+ - J: position: x -- left
+ - L: position: x ++ right
+ - Y: position: y ++ up
+ - H: position: y -- down

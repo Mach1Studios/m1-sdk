@@ -1,5 +1,5 @@
 # Mach1 Spatial SDK
-# Compile and test Mach1Encode API
+# Compile and Mach1Transcode API as a light transcode file renderer
 
 # getting OS type
 ifeq ($(OS),Windows_NT)

@@ -6,17 +6,8 @@
  - `cmake ../`
  - `cmake --build .`
 
-### IDE Project Files
- - `spatial-encode-example.xcodeproj` Xcode project file
- - `spatial-encode-example.vcxproj` Visual Studio project file
-
 ### Makefile Options
- - `build`: generic build instructions for macos & linux
- - `build-beaglebone`: build instructions for Beaglebone Black
- - `build-arm-cortexm0`: build instrcutions for cortexm0 (soft float, cxx14)
- - `build-armhf-neonvfpv4`: build instrcutions for arm neon vfpv4 (hard float, cxx11)
- - `build-rpi2`: build instructions for Raspberry Pi 2 (cxx11)
- - `build-rpi3`: build instructions for Raspberry Pi 3 (cxx11)
+ - `build`: generic build instructions crossplatform via cmake (the above steps)
 
 ## Common Key Commands
 

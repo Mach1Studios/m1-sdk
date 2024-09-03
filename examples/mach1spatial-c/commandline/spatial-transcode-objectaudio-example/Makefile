@@ -1,5 +1,5 @@
 # Mach1 Spatial SDK
-# Compile and test Mach1Encode API
+# Compile and Mach1Transcode API with an object audio detection example
 
 # getting OS type
 ifeq ($(OS),Windows_NT)

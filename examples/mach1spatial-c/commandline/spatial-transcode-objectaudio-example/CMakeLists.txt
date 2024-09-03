@@ -2,6 +2,14 @@ cmake_minimum_required(VERSION 3.5.0)
 project(spatial-transcode-objectaudio-example)
 add_executable(${PROJECT_NAME})
 
+if(PROJECT_IS_TOP_LEVEL)
+    list(APPEND CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/../../../../cmake")
+    include(common-defaults)
+
+    # include libMach1Spatial
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../../../libmach1spatial ${CMAKE_CURRENT_BINARY_DIR}/libmach1spatial)
+endif()
+
 # Use pkg-config to get hints about paths
 include(FindPkgConfig)
 find_package(PkgConfig QUIET)
@@ -63,7 +71,7 @@ target_sources(${PROJECT_NAME}
 )
 
 # include headers
-set(MACH1SPATIAL_INCLUDES ${M1_LIB_PATH}/api_transcode/include ${M1_LIB_PATH}/deps ${M1_LIB_PATH}/deps/yaml ${M1_LIB_PATH}/pugixml/src)
+set(MACH1SPATIAL_INCLUDES ${M1_LIB_PATH}/api_transcode/include ${M1_LIB_PATH}/api_common/include ${M1_LIB_PATH}/deps ${M1_LIB_PATH}/deps/yaml ${M1_LIB_PATH}/pugixml/src)
 target_include_directories(${PROJECT_NAME} PRIVATE ${MACH1SPATIAL_INCLUDES} ${LIBSNDFILE_INCLUDE_DIRS})
 
 # link libraries

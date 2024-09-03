@@ -55,19 +55,13 @@ target_link_libraries(Mach1TranscodeTests PRIVATE M1Transcode)
 target_include_directories(Mach1TranscodeTests PRIVATE ${M1SDK_SOURCE_PATH}/api_transcode/include ${M1SDK_SOURCE_PATH}/api_common/include ${M1SDK_SOURCE_PATH}/deps/nlohmann/single_include)
 
 #----------------
-# Mach1 Spatial Test
-
-add_executable(Mach1SpatialTests Mach1SpatialTests/mach1spatial-tests.cpp ${M1SDK_SOURCE_PATH}/api_encode/include/Mach1Encode.cpp ${M1SDK_SOURCE_PATH}/api_decode/include/Mach1Decode.cpp)
-target_link_libraries(Mach1SpatialTests PRIVATE M1Encode M1Decode)
-target_include_directories(Mach1SpatialTests PRIVATE ${M1SDK_SOURCE_PATH}/api_decode/include ${M1SDK_SOURCE_PATH}/api_encode/include ${M1SDK_SOURCE_PATH}/api_common/include)
-
-#----------------
 # Mach1 Transcode Render Test
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" OR ${CMAKE_SYSTEM_NAME} MATCHES "Linux")
    if(NOT BUILD_COCOAPODS_LIBS)
       # Limiting the inclusion of this test because sndfile might have target limitations
       add_subdirectory(Mach1TranscodeRenderTest)
+      add_subdirectory(spatial-signal-testing)
    endif()
 endif()
 #-------------------------------------------------------------------------------

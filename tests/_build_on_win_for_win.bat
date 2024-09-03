@@ -13,7 +13,6 @@ start /WAIT /B _builds/windows-x86_64/tests/Debug/Mach1EncodeTests
 start /WAIT /B _builds/windows-x86_64/tests/Debug/Mach1DecodeTests
 start /WAIT /B _builds/windows-x86_64/tests/Debug/Mach1DecodePositionalTests
 start /WAIT /B _builds/windows-x86_64/tests/Debug/Mach1TranscodeTests
-start /WAIT /B _builds/windows-x86_64/tests/Debug/Mach1SpatialTests
 
 echo "### FINISHED TESTING ###"
 endlocal

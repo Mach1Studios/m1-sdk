@@ -1,10 +1,8 @@
 # Mach1Decode C++ Example
 
 ## CMake Setup
- - `mkdir build`
- - `cd build`
- - `cmake ../`
- - `cmake --build .`
+ - `cmake . -Bbuild`
+ - `cmake --build build`
 
 ### Makefile Options
  - `build`: generic build instructions crossplatform via cmake (the above steps)

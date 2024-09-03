@@ -9,7 +9,6 @@ _builds/gcc/tests/Debug/Mach1EncodeTests || { echo 'Mach1Encode API test failed.
 _builds/gcc/tests/Debug/Mach1DecodeTests || { echo 'Mach1Decode API test failed...' ; exit 1; }
 _builds/gcc/tests/Debug/Mach1DecodePositionalTests || { echo 'Mach1DecodePositional API test failed...' ; exit 1; }
 _builds/gcc/tests/Debug/Mach1TranscodeTests || { echo 'Mach1Transcode API test failed...' ; exit 1; }
-_builds/gcc/tests/Debug/Mach1SpatialTests || { echo 'Additional API tests failed...' ; exit 1; }
 
 echo "### RENDER CHECK ####"
 echo "### 5.1_C -> M1Spatial ###"

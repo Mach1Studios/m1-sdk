@@ -15,5 +15,3 @@ add_subdirectory(spatial-transcode-objectaudio-example)
 add_subdirectory(spatial-transcode-render-example)
 add_subdirectory(spatial-transcode-audioplayer)
 add_subdirectory(spatial-transcode-verbose-audioplayer)
-
-add_subdirectory(spatial-pan-law-integtest)

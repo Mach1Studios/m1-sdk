@@ -7,16 +7,11 @@ This is another transcoding commmandline example that passes resulting buffers t
 _Please reference or link/use the full feature Mach1 Transcode commandline tool located at [m1-sdk/executables/](https://github.com/Mach1Studios/m1-sdk/tree/master/executables)_
 
 ## Setup
- - install homebrew: https://brew.sh/
- - `brew install libsndfile` _(project is currently linked to 1.0.31)_
- - `brew install rt-audio` _(project is currently linked to 5.0.1_1)_
- - Open each xcode project
+ - Run the `make setup` command from the root dir of this repo
 
 ## CMake Setup
- - `mkdir build`
- - `cd build`
- - `cmake ../`
- - `cmake --build .`
+ - `cmake . -Bbuild`
+ - `cmake --build build`
 
 ## Usage
 Example command:

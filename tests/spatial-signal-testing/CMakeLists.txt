@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5.0)
-project(spatial-pan-law-integtest)
+project(spatial-signal-testing)
 add_executable(${PROJECT_NAME})
 
 # Use pkg-config to get hints about paths

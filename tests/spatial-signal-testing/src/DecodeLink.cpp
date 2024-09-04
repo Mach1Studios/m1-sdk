@@ -15,16 +15,19 @@ void DecodeLink::Process(AudioBuffers &buffers, double playback_time) {
 
     // get output gain multipliers
     auto decode_gains = m_decode.decodeCoeffs();
+    auto &output_buffer = buffers.GetOutputBuffers();
+
+    for (int sample = 0; sample < buffers.GetBufferSize(); sample++) {
+        for (int output_channel = 0; output_channel < buffers.GetOutputChannelCount(); output_channel++) {
+            output_buffer[output_channel][sample] = 0;
+        }
+    }
 
     // process the samples manually
-    for (int sample = 0; sample < buffers.m_buffer_size; sample++) {
-        for (int input_channel = 0; input_channel < buffers.m_input_channel_count; input_channel++) {
-
-            //std::vector<float> outBufferL = buffers.GetOutputBuffers()[0]
-            //std::vector<float> outBufferR = buffers.GetOutputBuffers()[1]
-
-            //outBufferL[sample] += tempBuffer.getReadPointer(input_channel * 2    )[sample] * smoothedChannelCoeffs[input_channel_reordered][0].getNextValue();
-            //outBufferR[sample] += tempBuffer.getReadPointer(input_channel * 2 + 1)[sample] * smoothedChannelCoeffs[input_channel_reordered][1].getNextValue();
+    for (int sample = 0; sample < buffers.GetBufferSize(); sample++) {
+        for (int input_channel = 0; input_channel < buffers.GetInputChannelCount(); input_channel++) {
+            output_buffer[0][sample] += output_buffer[input_channel * 2    ][sample] * decode_gains[input_channel];
+            output_buffer[1][sample] += output_buffer[input_channel * 2 + 1][sample] * decode_gains[input_channel];
         }
     }
 }
@@ -59,8 +62,4 @@ void DecodeLink::SetFilterSpeed(float filterSpeed) {
 
 void DecodeLink::SetPointCount(int points) {
     m_points = points;
-}
-
-std::vector<float> DecodeLink::GetGains() {
-    return m_decode.decodeCoeffs();
 }

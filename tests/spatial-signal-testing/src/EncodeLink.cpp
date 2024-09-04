@@ -3,7 +3,7 @@
 using namespace Mach1;
 
 void EncodeLink::Process(AudioBuffers &buffers, double playback_time) {
-    // TODO: fix decodeBuffer
+    // TODO: fix encodeBuffer
     /*
     m_encode.encodeBuffer<float>(
             &buffers.GetOutputBuffers(),
@@ -14,12 +14,13 @@ void EncodeLink::Process(AudioBuffers &buffers, double playback_time) {
 
     // get output gain multipliers
     auto encode_gains = m_encode.getGains();
+    auto &output_buffer = buffers.GetOutputBuffers();
 
     // process the samples manually
-    for (int sample = 0; sample < buffers.m_buffer_size; sample++) {
-        for (int input_channel = 0; input_channel < buffers.m_input_channel_count; input_channel++) {
-            for (int output_channel = 0; output_channel < buffers.m_output_channel_count; output_channel++){
-                //buffers.GetOutputBuffers()[input_channel][output_channel].setTargetValue(encode_gains[input_channel][output_channel]);
+    for (int sample = 0; sample < buffers.GetBufferSize(); sample++) {
+        for (int input_channel = 0; input_channel < m_encode.getPointsCount(); input_channel++) {
+            for (int output_channel = 0; output_channel < buffers.GetOutputChannelCount(); output_channel++){
+                output_buffer[output_channel][sample] = output_buffer[output_channel][sample] * encode_gains[input_channel][output_channel];
             }
         }
     }
@@ -91,10 +92,6 @@ void EncodeLink::SetAutoOrbit(bool autoOrbit) {
 
 void EncodeLink::GeneratePointResults() {
     m_encode.generatePointResults();
-}
-
-std::vector< std::vector<float> > EncodeLink::GetGains() {
-    return m_encode.getGains();
 }
 
 int EncodeLink::GetPointsCount() {

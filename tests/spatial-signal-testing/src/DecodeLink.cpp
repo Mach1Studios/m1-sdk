@@ -17,17 +17,18 @@ void DecodeLink::Process(AudioBuffers &buffers, double playback_time) {
     auto decode_gains = m_decode.decodeCoeffs();
     auto &output_buffer = buffers.GetOutputBuffers();
 
-    for (int sample = 0; sample < buffers.GetBufferSize(); sample++) {
-        for (int output_channel = 0; output_channel < buffers.GetOutputChannelCount(); output_channel++) {
-            output_buffer[output_channel][sample] = 0;
-        }
-    }
-
     // process the samples manually
-    for (int sample = 0; sample < buffers.GetBufferSize(); sample++) {
-        for (int input_channel = 0; input_channel < buffers.GetInputChannelCount(); input_channel++) {
-            output_buffer[0][sample] += output_buffer[input_channel * 2    ][sample] * decode_gains[input_channel];
-            output_buffer[1][sample] += output_buffer[input_channel * 2 + 1][sample] * decode_gains[input_channel];
+    for (int decode_coeffs = 0; decode_coeffs < decode_gains.size(); decode_coeffs+=2) {
+        for (int sample = 0; sample < buffers.GetBufferSize(); sample++) {
+
+            // get the sample in each loop
+            float val = output_buffer[decode_coeffs/2][sample];
+
+            // clear the output for the new values to come in
+            output_buffer[decode_coeffs/2][sample] = 0;
+
+            output_buffer[0][sample] += val * decode_gains[decode_coeffs + 0];
+            output_buffer[1][sample] += val * decode_gains[decode_coeffs + 1];
         }
     }
 }

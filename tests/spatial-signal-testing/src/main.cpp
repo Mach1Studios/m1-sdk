@@ -30,8 +30,8 @@ int main(int argc, char *argv[]) {
 
     chain.SetInputChannelCount(1);
     chain.SetOutputChannelCount(2);
-    chain.SetAudioBufferInputChannelCount(14);
-    chain.SetAudioBufferOutputChannelCount(14);
+    chain.SetAudioBufferInputChannelCount(8); // TODO: use global channel counts
+    chain.SetAudioBufferOutputChannelCount(8); // TODO: use global channel counts
     chain.SetSampleRate(48000);
     chain.SetBufferSize(512);
 
@@ -41,16 +41,17 @@ int main(int argc, char *argv[]) {
     peak_tracker_link[3].SetName("Decoded");
 
     sine_wave_link.SetFrequency(1000);
-    sine_wave_link.SetGainDecibels(0);
-    sine_wave_link.SetChannelEnabled(0, true); // enable only first channel
+    sine_wave_link.SetGainDecibels(-24);
+    sine_wave_link.SetChannelMask(~0); // flip all bits to 1, fill all channels
+    //sine_wave_link.SetChannelEnabled(0, true); // enable only first channel
 
     noise_gen_link.SetStrategy(White);
-    noise_gen_link.SetGainDecibels(0);
+    noise_gen_link.SetGainDecibels(-24);
     //noise_gen_link.SetChannelEnabled(0, true); // enable only first channel
 
     encode_link.SetInputMode(Mach1EncodeInputModeType::Mach1EncodeInputModeMono);
-    encode_link.SetOutputMode(Mach1EncodeOutputModeType::Mach1EncodeOutputModeM1Spatial_4);
-    encode_link.SetAzimuthDegrees(45);
+    encode_link.SetOutputMode(Mach1EncodeOutputModeType::Mach1EncodeOutputModeM1Spatial_8); // TODO: use global channel counts
+    encode_link.SetAzimuthDegrees(-45);
     encode_link.SetElevation(0);
     encode_link.SetDiverge(0.6);
     encode_link.SetIsotropicMode(false);
@@ -62,7 +63,7 @@ int main(int argc, char *argv[]) {
     encode_link.GeneratePointResults();
 
     decode_link.SetRotationDegrees({0, 0, 0});
-    decode_link.SetDecodeAlgoType(Mach1DecodeAlgoSpatial_4);
+    decode_link.SetDecodeAlgoType(Mach1DecodeAlgoSpatial_8); // TODO: use global channel counts
     decode_link.SetPlatformType(Mach1PlatformDefault);
     decode_link.SetFilterSpeed(1.0);
     decode_link.SetPointCount(encode_link.GetPointsCount());

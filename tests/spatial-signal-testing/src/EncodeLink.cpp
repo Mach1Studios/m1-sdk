@@ -19,7 +19,7 @@ void EncodeLink::Process(AudioBuffers &buffers, double playback_time) {
     // process the samples manually
     for (int sample = 0; sample < buffers.GetBufferSize(); sample++) {
         for (int input_channel = 0; input_channel < m_encode.getPointsCount(); input_channel++) {
-            for (int output_channel = 0; output_channel < buffers.GetOutputChannelCount(); output_channel++){
+            for (int output_channel = 0; output_channel < m_encode.getOutputChannelsCount(); output_channel++){
                 output_buffer[output_channel][sample] = output_buffer[output_channel][sample] * encode_gains[input_channel][output_channel];
             }
         }

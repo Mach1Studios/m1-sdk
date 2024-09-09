@@ -1,29 +1,14 @@
 #include "EncodeLink.h"
+#include "Settings.h"
 
 using namespace Mach1;
 
 void EncodeLink::Process(AudioBuffers &buffers, double playback_time) {
-    // TODO: fix encodeBuffer
-    /*
-    m_encode.encodeBuffer<float>(
-            &buffers.GetOutputBuffers(),
-            &buffers.GetOutputBuffers(),
-            buffers.GetBufferSize()
-    );
-     */
-
-    // get output gain multipliers
-    auto encode_gains = m_encode.getGains();
-    auto &output_buffer = buffers.GetOutputBuffers();
-
-    // process the samples manually
-    for (int sample = 0; sample < buffers.GetBufferSize(); sample++) {
-        for (int input_channel = 0; input_channel < m_encode.getPointsCount(); input_channel++) {
-            for (int output_channel = 0; output_channel < m_encode.getOutputChannelsCount(); output_channel++){
-                output_buffer[output_channel][sample] = output_buffer[output_channel][sample] * encode_gains[input_channel][output_channel];
-            }
-        }
-    }
+#if REBUFFERED_ENCODE
+    m_encode.encodeBufferInPlaceRebuffer(buffers.GetOutputBuffers(), buffers.GetBufferSize());
+#else
+    m_encode.encodeBufferInPlace(buffers.GetOutputBuffers(), buffers.GetBufferSize());
+#endif
 }
 
 void EncodeLink::SetInputMode(Mach1EncodeInputModeType inputMode) {

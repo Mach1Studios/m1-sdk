@@ -22,9 +22,9 @@ int main(int argc, char *argv[]) {
     Mach1::DecodeLink decode_link{};
 
     chain.AddLink(&sine_wave_link);
-    chain.AddLink(&peak_tracker_link[0]);
+//    chain.AddLink(&peak_tracker_link[0]);
     chain.AddLink(&encode_link);
-    chain.AddLink(&peak_tracker_link[1]);
+//    chain.AddLink(&peak_tracker_link[1]);
 //    chain.AddLink(&transode_link);
 //    chain.AddLink(&peak_tracker_link[2]);
     chain.AddLink(&decode_link);
@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
     peak_tracker_link[1].SetOutputChannelCount(M1_FORMAT_CHANNEL_COUNT);
 //    peak_tracker_link[2].SetName("Transcoded");
     peak_tracker_link[3].SetName("Decoded");
-    peak_tracker_link[3].SetOutputChannelCount(2); // limit to number of output channels
+    peak_tracker_link[3].SetOutputChannelCount(M1_FORMAT_CHANNEL_COUNT); // limit to number of output channels
 
     // We copy the generators to each channel to make it easy for Mach1Encode to apply gain coeffs
     sine_wave_link.SetFrequency(1000);

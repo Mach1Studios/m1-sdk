@@ -1,36 +1,15 @@
 #include "DecodeLink.h"
+#include "Settings.h"
+
 
 using namespace Mach1;
 
 void DecodeLink::Process(AudioBuffers &buffers, double playback_time) {
-    // TODO: fix decodeBuffer
-    /*
-    m_decode.decodeBuffer(
-            &buffers.GetOutputBuffers(),
-            &buffers.GetOutputBuffers(),
-            m_points,
-            buffers.GetBufferSize()
-    );
-     */
-
-    // get output gain multipliers
-    auto decode_gains = m_decode.decodeCoeffs();
-    auto &output_buffer = buffers.GetOutputBuffers();
-
-    // process the samples manually
-    for (int decode_coeffs = 0; decode_coeffs < decode_gains.size(); decode_coeffs+=2) {
-        for (int sample = 0; sample < buffers.GetBufferSize(); sample++) {
-
-            // get the sample in each loop
-            float val = output_buffer[decode_coeffs/2][sample];
-
-            // clear the output for the new values to come in
-            output_buffer[decode_coeffs/2][sample] = 0;
-
-            output_buffer[0][sample] += val * decode_gains[decode_coeffs + 0];
-            output_buffer[1][sample] += val * decode_gains[decode_coeffs + 1];
-        }
-    }
+#if REBUFFERED_DECODE
+    m_decode.decodeBufferInPlaceRebuffer(buffers.GetOutputBuffers(), buffers.GetBufferSize());
+#else
+    m_decode.decodeBufferInPlace(buffers.GetOutputBuffers(), buffers.GetBufferSize());
+#endif
 }
 
 void DecodeLink::SetPlatformType(Mach1PlatformType type) {

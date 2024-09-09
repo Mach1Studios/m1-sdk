@@ -8,8 +8,6 @@
 #include <vector>
 
 class Mach1Decode {
-    void *M1obj;
-
   public:
     Mach1Decode();
     ~Mach1Decode();
@@ -37,10 +35,16 @@ class Mach1Decode {
     void setFilterSpeed(float filterSpeed);
 
     template <typename T>
-    void decodeBuffer(std::vector< std::vector<T> > *inBuffer, std::vector< std::vector<T> > *outBuffer, int inputPoints, int bufferSize);
+    inline void decodeBuffer(std::vector< std::vector<T> > &in, std::vector< std::vector<T> > &out, int size);
 
     template <typename T>
-    void decodeBuffer(std::vector<T *> *inBuffer, std::vector<T *> *outBuffer, int inputPoints, int bufferSize);
+    inline void decodeBufferInPlace(std::vector< std::vector<T> > &buffer, int size);
+
+    template <typename T>
+    inline void decodeBufferRebuffer(std::vector< std::vector<T> > &in, std::vector< std::vector<T> > &out, int size);
+
+    template <typename T>
+    inline void decodeBufferInPlaceRebuffer(std::vector< std::vector<T> > &buffer, int size);
 
     long getCurrentTime();
 #ifndef __EMSCRIPTEN__
@@ -50,65 +54,93 @@ class Mach1Decode {
 #endif
 
     Mach1Point3D getCurrentAngle();
+
+private:
+    inline void restructureIntermediaryBuffer(int channel_count, size_t buffer_size);
+    inline void clearIntermediaryBuffer();
+
+private:
+    void *M1obj;
+
+    std::vector<std::vector<float > > intermediary_buffer;
+    int ib_channel_count;
+    size_t ib_buffer_size;
 };
 
-template <typename T>
-void Mach1Decode::decodeBuffer(std::vector< std::vector<T> > *inBuffer, std::vector< std::vector<T> > *outBuffer, int inputPoints, int bufferSize) {
-    T sample = 0;
-    int cOffset = 0;
-    int inputChannelsCount = inBuffer->size() / inputPoints;
-    int outChannelsCount = outBuffer->size();
+void Mach1Decode::restructureIntermediaryBuffer(int channel_count, size_t buffer_size) {
+    if (ib_channel_count == channel_count && ib_buffer_size == buffer_size) return;
 
-    std::vector<float> startVolumes = decodeCoeffs(bufferSize, 0);
-    std::vector<float> endVolumes = decodeCoeffs(bufferSize, bufferSize);
-    std::vector<float> volumes(inputChannelsCount * 2);
+    intermediary_buffer.resize(channel_count);
 
-    float *startVol = startVolumes.data();
-    float *endVol = endVolumes.data();
-    float *vol = volumes.data();
+    for (int i = 0; i < channel_count; i++) {
+        intermediary_buffer[i].resize(buffer_size);
+    }
 
-    for (size_t i = 0; i < bufferSize; i++) {
-        float lerp = float(i) / bufferSize;
-        for (size_t c = 0; c < volumes.size(); c++) {
-            vol[c] = startVol[c] * (1 - lerp) + endVol[c] * lerp;
-        }
+    ib_channel_count = channel_count;
+    ib_buffer_size = buffer_size;
+}
 
-        for (size_t c = 0; c < outChannelsCount; c++) {
-            sample = 0;
-            cOffset = c < inputPoints ? (int)c : 0;
-            for (size_t k = 0; k < inputChannelsCount; k++) {
-                sample += inBuffer->operator[](k * inputPoints + cOffset)[i] * vol[k * 2 + c];
-            }
-            outBuffer->operator[](c)[i] = sample;
-        }
+void Mach1Decode::clearIntermediaryBuffer() {
+    for (int i = 0; i < ib_channel_count; i++) {
+        memset(intermediary_buffer[i].data(), 0, sizeof(float) * ib_buffer_size);
     }
 }
 
 template <typename T>
-void Mach1Decode::decodeBuffer(std::vector<T *> *inBuffer, std::vector<T *> *outBuffer, int inputPoints, int bufferSize) {
-    T sample = 0;
-    int offset = 0;
-    std::vector<float> startVolumes = decodeCoeffs(bufferSize, 0);
-    std::vector<float> endVolumes = decodeCoeffs(bufferSize, bufferSize);
-    std::vector<float> volumes(inBuffer->size() * 2);
+void Mach1Decode::decodeBuffer(std::vector< std::vector<T> > &in, std::vector< std::vector<T> > &out, int size) {
+    // get output gain multipliers
+    auto decode_gains = decodeCoeffs(); // TODO: Implement interpolation between coeffs.
 
-    float *startVol = startVolumes.data();
-    float *endVol = endVolumes.data();
-    float *vol = volumes.data();
+    // process the samples manually
+    for (int decode_idx = 0, output_idx = 0; decode_idx < decode_gains.size(); decode_idx += 2, output_idx += 1) {
+        for (int sample_idx = 0; sample_idx < size; sample_idx++) {
 
-    for (size_t i = 0; i < bufferSize; i++) {
-        float lerp = float(i) / bufferSize;
-        for (size_t c = 0; c < volumes.size(); c++) {
-            vol[c] = startVol[c] * (1 - lerp) + endVol[c] * lerp;
-        }
+            // get the sample in each loop
+            float sample = in[output_idx][sample_idx];
 
-        for (size_t c = 0; c < outBuffer->size(); c++) {
-            sample = 0;
-            offset = c < inputPoints ? (int)c : 0;
-            for (size_t k = 0; k < inBuffer->size(); k++) {
-                sample += inBuffer->operator[](k * inputPoints + offset)[i] * vol[k * 2 + c];
-            }
-            outBuffer->operator[](c)[i] = sample;
+            // clear the output for the new values to come in
+            out[output_idx][sample_idx] = 0;
+            out[0][sample_idx] += sample * decode_gains[decode_idx + 0];
+            out[1][sample_idx] += sample * decode_gains[decode_idx + 1];
         }
     }
 }
+
+template<typename T>
+void Mach1Decode::decodeBufferInPlace(std::vector<std::vector<T>> &buffer, int size) {
+    decodeBuffer(buffer, buffer, size);
+}
+
+template<typename T>
+void Mach1Decode::decodeBufferRebuffer(std::vector<std::vector<T>> &in, std::vector<std::vector<T>> &out, int size)
+{
+    restructureIntermediaryBuffer(2, size);
+    clearIntermediaryBuffer();
+
+    // get output gain multipliers
+    auto decode_gains = decodeCoeffs(); // TODO: Implement interpolation between coeffs.
+
+    // process the samples manually
+    for (int decode_idx = 0, output_idx = 0; decode_idx < decode_gains.size(); decode_idx += 2, output_idx += 1) {
+        for (int sample_idx = 0; sample_idx < size; sample_idx++) {
+
+            // get the sample in each loop
+            float sample = in[output_idx][sample_idx];
+
+            intermediary_buffer[0][sample_idx] += sample * decode_gains[decode_idx + 0];
+            intermediary_buffer[1][sample_idx] += sample * decode_gains[decode_idx + 1];
+        }
+    }
+
+    for (int output_idx = 0; output_idx < 2; output_idx++) {
+        memcpy(out[output_idx].data(), intermediary_buffer[output_idx].data(), sizeof(float) * size);
+    }
+
+}
+
+template<typename T>
+void Mach1Decode::decodeBufferInPlaceRebuffer(std::vector< std::vector<T> > &buffer, int size)
+{
+    decodeBufferRebuffer(buffer, buffer, size);
+}
+

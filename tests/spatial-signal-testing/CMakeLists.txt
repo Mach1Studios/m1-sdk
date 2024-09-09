@@ -85,6 +85,7 @@ target_sources(${PROJECT_NAME}
 PRIVATE
 	src/main.cpp
 
+    src/Settings.h
     src/AudioBuffers.h
     src/AudioBuffers.cpp
     src/RtAudioChain.h

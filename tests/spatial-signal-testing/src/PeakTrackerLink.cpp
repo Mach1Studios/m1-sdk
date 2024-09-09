@@ -101,7 +101,7 @@ void PeakTrackerLink::Print(bool show_values_as_dB = true) const {
     // max peak per channel
     std::cout << "\tMax: ";
     for (unsigned int idx = 0; idx < m_current_peak.size(); idx++) {
-        std::cout << std::fixed << std::setprecision(3) << (show_values_as_dB ? GetCurrentPeakDecibels(idx) : GetCurrentPeak(idx)) << ", ";
+        std::cout << std::fixed << std::setprecision(3) << (show_values_as_dB ? GetMaxPeakDecibels(idx) : GetMaxPeak(idx)) << ", ";
     }
     std::cout << std::endl;
 

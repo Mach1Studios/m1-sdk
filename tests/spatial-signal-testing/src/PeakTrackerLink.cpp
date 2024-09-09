@@ -42,7 +42,7 @@ void PeakTrackerLink::Process(AudioBuffers &buffers, double playback_time) {
         }
     }
 
-    Print();
+    Print(false);
 }
 
 void PeakTrackerLink::SetPeakDecayTime(double decay_time) {
@@ -82,22 +82,26 @@ float PeakTrackerLink::GetMaxPeakDecibels(unsigned int channel_index) const {
     return logf(GetMaxPeak(channel_index)) * MACH1_LOG_2_DB;
 }
 
-void PeakTrackerLink::Print() const {
+void PeakTrackerLink::Print(bool show_values_as_dB = true) const {
 
-    std::cout << m_name << " (dB)";
-    std::cout << std::endl;
-
-    // current peak dB per channel
-    std::cout << "\t";
-    for (unsigned int idx = 0; idx < m_current_peak.size(); idx++) {
-        std::cout << std::fixed << std::setprecision(3) << GetCurrentPeakDecibels(idx) << ", ";
+    if (show_values_as_dB) {
+        std::cout << m_name << " (dB)";
+    } else {
+        std::cout << m_name << " (%)";
     }
     std::cout << std::endl;
 
-    // max peak dB per channel
-    std::cout << "\t";
+    // current peak per channel
+    std::cout << "\tCur: ";
     for (unsigned int idx = 0; idx < m_current_peak.size(); idx++) {
-        std::cout << std::fixed << std::setprecision(3) << GetMaxPeakDecibels(idx) << ", ";
+        std::cout << std::fixed << std::setprecision(3) << (show_values_as_dB ? GetCurrentPeakDecibels(idx) : GetCurrentPeak(idx)) << ", ";
+    }
+    std::cout << std::endl;
+
+    // max peak per channel
+    std::cout << "\tMax: ";
+    for (unsigned int idx = 0; idx < m_current_peak.size(); idx++) {
+        std::cout << std::fixed << std::setprecision(3) << (show_values_as_dB ? GetCurrentPeakDecibels(idx) : GetCurrentPeak(idx)) << ", ";
     }
     std::cout << std::endl;
 
@@ -105,6 +109,7 @@ void PeakTrackerLink::Print() const {
     for (unsigned int idx = 0; idx < m_current_peak.size(); idx++) {
         sum += GetMaxPeak(idx);
     }
+    sum /= m_current_peak.size(); // divide by number of channels
 
     std::cout << std::fixed << std::setprecision(3) << "\tSum: " << sum;
     std::cout << std::endl;

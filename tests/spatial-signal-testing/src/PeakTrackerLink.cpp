@@ -88,26 +88,30 @@ float PeakTrackerLink::GetMaxPeakDecibels(unsigned int channel_index) const {
 
 void PeakTrackerLink::Print() const {
 
-    std::cout << m_name << " (dB)\n\t";
-    for (unsigned int idx = 0; idx < m_current_peak.size(); idx++) {
-        std::cout << std::fixed << std::setprecision(3) << GetCurrentPeakDecibels(idx) << "\t";
-    }
+    std::cout << m_name << " (dB)";
+    std::cout << std::endl;
 
-    std::cout << "\n\t";
+    // current peak dB per channel
+    std::cout << "\t";
     for (unsigned int idx = 0; idx < m_current_peak.size(); idx++) {
-        std::cout << std::fixed << std::setprecision(3) << GetMaxPeakDecibels(idx) << "\t";
+        std::cout << std::fixed << std::setprecision(3) << GetCurrentPeakDecibels(idx) << ", ";
     }
+    std::cout << std::endl;
+
+    // max peak dB per channel
+    std::cout << "\t";
+    for (unsigned int idx = 0; idx < m_current_peak.size(); idx++) {
+        std::cout << std::fixed << std::setprecision(3) << GetMaxPeakDecibels(idx) << ", ";
+    }
+    std::cout << std::endl;
 
     float sum = 0.0;
     for (unsigned int idx = 0; idx < m_current_peak.size(); idx++) {
         sum += GetMaxPeak(idx);
     }
-    std::cout << "\n\t";
-    std::cout << std::fixed << std::setprecision(3) << sum << "\t";
 
-
+    std::cout << std::fixed << std::setprecision(3) << "\tSum: " << sum;
     std::cout << std::endl;
-
 }
 
 void PeakTrackerLink::SetName(const std::string &name) {

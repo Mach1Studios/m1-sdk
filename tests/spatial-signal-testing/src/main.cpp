@@ -40,6 +40,7 @@ int main(int argc, char *argv[]) {
 //    peak_tracker_link[2].SetName("Transcoded");
     peak_tracker_link[3].SetName("Decoded");
 
+    // We copy the generators to each channel to make it easy for Mach1Encode to apply gain coeffs
     sine_wave_link.SetFrequency(1000);
     sine_wave_link.SetGainDecibels(-24);
     sine_wave_link.SetChannelMask(~0); // flip all bits to 1, fill all channels
@@ -51,9 +52,9 @@ int main(int argc, char *argv[]) {
 
     encode_link.SetInputMode(Mach1EncodeInputModeType::Mach1EncodeInputModeMono);
     encode_link.SetOutputMode(Mach1EncodeOutputModeType::Mach1EncodeOutputModeM1Spatial_8); // TODO: use global channel counts
-    encode_link.SetAzimuthDegrees(-45);
+    encode_link.SetAzimuthDegrees(0);
     encode_link.SetElevation(0);
-    encode_link.SetDiverge(0.6);
+    encode_link.SetDiverge(1.0);
     encode_link.SetIsotropicMode(false);
     encode_link.SetEqualPowerMode(false);
     encode_link.SetOutputGain(0.0, true);

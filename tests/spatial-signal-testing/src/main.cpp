@@ -36,9 +36,12 @@ int main(int argc, char *argv[]) {
     chain.SetBufferSize(512);
 
     peak_tracker_link[0].SetName("Clean");
+    peak_tracker_link[0].SetOutputChannelCount(8); // TODO: use global channel counts
     peak_tracker_link[1].SetName("Encoded");
+    peak_tracker_link[1].SetOutputChannelCount(8); // TODO: use global channel counts
 //    peak_tracker_link[2].SetName("Transcoded");
     peak_tracker_link[3].SetName("Decoded");
+    peak_tracker_link[3].SetOutputChannelCount(2); // limit to number of output channels
 
     // We copy the generators to each channel to make it easy for Mach1Encode to apply gain coeffs
     sine_wave_link.SetFrequency(1000);
@@ -63,10 +66,10 @@ int main(int argc, char *argv[]) {
     encode_link.SetAutoOrbit(true);
     encode_link.GeneratePointResults();
 
-    decode_link.SetRotationDegrees({0, 0, 0});
+    decode_link.SetRotationDegrees({0, 0, 0}); // ypr
     decode_link.SetDecodeAlgoType(Mach1DecodeAlgoSpatial_8); // TODO: use global channel counts
     decode_link.SetPlatformType(Mach1PlatformDefault);
-    decode_link.SetFilterSpeed(1.0);
+    decode_link.SetFilterSpeed(0.99);
     decode_link.SetPointCount(encode_link.GetPointsCount());
 
     chain.Start();

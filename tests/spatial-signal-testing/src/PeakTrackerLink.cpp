@@ -18,10 +18,6 @@ void PeakTrackerLink::Process(AudioBuffers &buffers, double playback_time) {
 
     auto &out = buffers.GetOutputBuffers();
 
-    if (m_output_channel_count < buffers.GetOutputChannelCount()) {
-        SetOutputChannelCount(buffers.GetOutputChannelCount());
-    }
-
     for (unsigned int sample_idx = 0; sample_idx < buffers.GetBufferSize(); sample_idx++) {
         for (unsigned int channel_idx = 0; channel_idx < buffers.GetOutputChannelCount(); channel_idx++) {
 

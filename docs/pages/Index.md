@@ -1,31 +1,4 @@
----
-title: Mach1 SDK Reference & Documentation
-
-language_tabs:
-  - cpp: C/C++
-  - swift
-  - javascript
-
-toc_footers:
-  - <a href='https://mach1-public.s3.amazonaws.com/research/Mach1SpatialSystem-WhitePaper_180523.pdf'>Research Paper</a>
-
-includes:
-  - mach1encode
-  - mach1decode
-  - mach1decodepositional
-  - mach1transcode
-  - commonissues
-  - credit
-
-search: true
-code_clipboard: false
-
-meta:
-  - name: description
-    content: Documentation for the Mach1 Spatial APIs
-  - name: keywords
-    content: Mach1,Mach1Spatial,Spatial,Documentation
----
+# Mach1 SDK Reference & Documentation
 
 # Introduction
 
@@ -37,14 +10,15 @@ Mach1 Spatial SDK includes APIs to allow developers to design applications that 
 
 The Mach1 Spatial SDK includes the following components and libraries:
 
-  - **_Mach1Encode lib:_**
+  - ***Mach1Encode lib:***
     Encode and process input streams/audio into a Mach1Spatial VVBP format.
-  - **_Mach1Decode lib:_**
+  - ***Mach1Decode lib:***
     Decode and process a Mach1Spatial VVBP format with device orientation / headtracking to output directional spatial audio.
-  - **_Mach1DecodePositional lib:_**
+  - ***Mach1DecodePositional lib:***
     Add additional optional decoding layer to decode spatial mixes with 6DOF for positional and orientational decoding.
-  - **_Mach1Transcode lib:_**
+  - ***Mach1Transcode lib:***
     Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatial VVBP format.
+
 
 Mach1Encode and Mach1Decode are C based and cross compiler friendly with pre-built library files supported on OSX 10.7+, Windows 10+, ARM based devices (Raspberry Pi), iOS 9.0+ and Android API 19+. Unity 4.0+ and Unreal Engine 4.10+ examples are available and said engines are supported too on the aforementioned platforms.
 
@@ -119,7 +93,7 @@ Each input channel is described as a "point", this can be described either spher
 
 ### Example
 The following is a 2 channel example description
-```
+```cpp
  {
     "points": [
         {

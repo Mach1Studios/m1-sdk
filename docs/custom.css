@@ -1,0 +1,57 @@
+html {
+    /* Make sure sidebar is wide enough to contain the page title (logo + title + version) */
+    --side-nav-fixed-width: 335px;
+
+    /* primary theme color. This will affect the entire websites color scheme: links, arrows, labels, ... */
+    --primary-color: #cbbb0c;
+    --primary-dark-color: #cbbb0c;
+    --primary-light-color: #cbbb0c;
+    --primary-lighter-color: #cbbb0c;
+    --primary-lightest-color: #cbbb0c;
+
+    /* page base colors */
+    --page-background-color: white;
+    --page-foreground-color: #2c3e50;
+    --page-secondary-foreground-color: #67727e;
+
+
+    --border-radius-large: 22px;
+    --border-radius-small: 9px;
+    --border-radius-medium: 14px;
+    --spacing-small: 8px;
+    --spacing-medium: 14px;
+    --spacing-large: 19px;
+
+    --top-height: 125px;
+
+    --side-nav-background: #d6d7d8;
+    --side-nav-foreground: black;
+    --header-foreground: var(--side-nav-foreground);
+    --searchbar-background: var(--side-nav-foreground);
+    --searchbar-border-radius: var(--border-radius-medium);
+    --header-background: var(--side-nav-background);
+    --header-foreground: var(--side-nav-foreground);
+
+    --toc-background: rgb(243, 240, 252);
+    --toc-foreground: var(--page-foreground-color);
+}
+
+html.dark-mode {
+    color-scheme: dark;
+
+    --primary-color: #eee953;
+    --primary-dark-color: #eee953;
+    --primary-light-color: #f2ee74;
+    --primary-lighter-color: #f3f085;
+    --primary-lightest-color: #ebe9bd;
+
+    --page-background-color: #121212;
+    --page-foreground-color: #d2dbde;
+    --page-secondary-foreground-color: #859399;
+    --separator-color: #505036;
+    --side-nav-background: #212223;
+    --side-nav-foreground: #F1FDFF;
+    --toc-background: #20142C;
+    --searchbar-background: var(--page-background-color);
+
+}

@@ -67,7 +67,7 @@ PROJECT_LOGO           = ./assets/logo_big.png
 # when the HTML document is shown. Doxygen will copy the logo to the output
 # directory.
 
-PROJECT_ICON           = ./assets/logo.png
+PROJECT_ICON           = ./assets/logo_big.png
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) path
 # into which the generated documentation will be written. If a relative path is
@@ -1361,8 +1361,9 @@ HTML_STYLESHEET        =
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
 HTML_EXTRA_STYLESHEET  = doxygen-awesome-css/doxygen-awesome.css \
-			 doxygen-awesome-css/doxygen-awesome-sidebar-only.css \
-			 doxygen-awesome-sidebar-only-darkmode-toggle.css \
+                         custom.css \
+			             doxygen-awesome-css/doxygen-awesome-sidebar-only.css \
+			             doxygen-awesome-sidebar-only-darkmode-toggle.css \
 
 # The HTML_EXTRA_FILES tag can be used to specify one or more extra images or
 # other source files which should be copied to the HTML output directory. Note
@@ -1373,10 +1374,10 @@ HTML_EXTRA_STYLESHEET  = doxygen-awesome-css/doxygen-awesome.css \
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
 HTML_EXTRA_FILES       = doxygen-awesome-css/doxygen-awesome-darkmode-toggle.js \
-                        doxygen-awesome-css/doxygen-awesome-fragment-copy-button.js \
-                        doxygen-awesome-css/doxygen-awesome-paragraph-link.js \
-                        doxygen-awesome-css/doxygen-awesome-interactive-toc.js \
-                        doxygen-awesome-css/doxygen-awesome-tabs.js \
+                         doxygen-awesome-css/doxygen-awesome-fragment-copy-button.js \
+                         doxygen-awesome-css/doxygen-awesome-paragraph-link.js \
+                         doxygen-awesome-css/doxygen-awesome-interactive-toc.js \
+                         doxygen-awesome-css/doxygen-awesome-tabs.js
 
 # The HTML_COLORSTYLE tag can be used to specify if the generated HTML output
 # should be rendered with a dark or light theme.
@@ -1752,7 +1753,7 @@ SHOW_ENUM_VALUES       = NO
 # Minimum value: 0, maximum value: 1500, default value: 250.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-TREEVIEW_WIDTH         = 250
+TREEVIEW_WIDTH         = 335
 
 # If the EXT_LINKS_IN_WINDOW option is set to YES, Doxygen will open links to
 # external symbols imported via tag files in a separate window.

@@ -1,8 +1,9 @@
-# Mach1Transcode CommandLine
+# Mach1Transcode Commandline
 
 Mach1Transcode includes functions for use cases that utilizing Mach1Spatial's agnostic abilities and allows 1:1 VBAP style conversions from any surround or spatial audio format and to any other surround or spatial audio format. This is very helpful for apps that have certain input requirements but different output requirements based on whether the app is launched for VR/AR/MR or just mobile use without completely redesigning the application's structure for audio. This is also a recommended method of carrying one master spatial audio container and at endpoints converting it as needed without adverse signal altering effects seen in other spatial audio formats.
 
 ## Usage
+
 Rapidly offline render to and from Mach1 formats.
 
 > Example in command line for converting Mach1Spatial mix to First Order ambisonics: ACNSN3D
@@ -27,18 +28,13 @@ m1-transcode -in-file /path/to/file.wav -in-fmt M1Spatial-8 -out-fmt Mach1Horizo
 
 > Mach1Spatial-8 = `mach1spatial-8`
 
-
 > Mach1Spatial-12= `mach1spatial-12`
-
 
 > Mach1Spatial-14 = `mach1spatial-16`
 
-
 > Mach1 StSP = `mach1stsp-2`
 
-
 > Mach1Spatial-4 = `mach1horizon-4`
-
 
 > Mach1Horizon Pairs = `mach1horizon-8`
 
@@ -46,7 +42,7 @@ Metadata is not required for decoding any Mach1 Spatial VVBP format, and often i
 
 If autodetection is still required, use the following suggested specifications which will be applied to mixes that run out of M1-Transcoder and soon m1-transcode directly:
 
-<aside class="notice">Implemented via ICMT/comment of common codec tags</aside>
+@note Implemented via ICMT/comment of common codec tags
 
 > Example:
 
@@ -75,7 +71,7 @@ The most up to date location for the supported formats are: [Supported Formats L
 
 ### [Mic Array Formats](https://github.com/Mach1Studios/m1-sdk/blob/master/public/Mach1TranscodeMicArrayFormats.h)
 
-<aside class="notice">Additional formats available upon request.</aside>
+@note Additional formats available upon request.
 
 ### Custom Format/Configuration
 
@@ -126,6 +122,10 @@ Mach1Transcode leverages the benefits of the Mach1 Spatial virtual vector based 
 Multichannel audio development and creative use currently has a lot of challenges plagued by legacy surround implementations, the Mach1Transcode API can be used to help customize multichannel and spatial audio pipelines in development and garner control without requiring adoption of legacy practices.
 
 ## Summary of Use
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 static void* decode(void* v);
 Mach1Transcode m1Transcode;
@@ -151,7 +151,7 @@ m1Transcode.setSpatialDownmixer();
 m1Transcode.processConversionPath();
 m1Coeffs = m1Transcode.getMatrixConversion();
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 import Mach1SpatialAPI
 private var m1Decode = Mach1Decode()
@@ -179,6 +179,9 @@ m1Decode.setRotationDegrees(newRotationDegrees: Mach1Point3D(x: Float(deviceYaw)
 let result: [Float] = m1Decode.decodeCoeffsUsingTranscodeMatrix(matrix: matrix, channels: m1Transcode.getInputNumChannels())
 m1Decode.endBuffer()
 ```
+
+</div>
+
 The Mach1Transcode API is designed openly by supplying a coefficient matrix for conversion, intepreted as needed.
 However, the following will be an example of setting up Mach1Transcode for any input and for direct conversion to Mach1Spatial to be decoded with orientation to stereo for spatial previewing applications:
 
@@ -187,40 +190,60 @@ However, the following will be an example of setting up Mach1Transcode for any i
 Import and link the appropriate target device's / IDE's library file and headers.
 
 ## Set / Get Input Format
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 Mach1TranscodeFormatType inputMode;
 m1Transcode.setInputFormat(inputMode);
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 m1Transcode.setInputFormat(inFmt: Mach1TranscodeFormatFiveOneFilm_Cinema)
 ```
 
+</div>
+
 Set or return the input format/configuration for processing.
 
 ## Set / Get Output Format
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 Mach1TranscodeFormatType outputMode;
 m1Transcode.setOutputFormat(outputMode);
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 m1Transcode.setOutputFormat(outFmt: Mach1TranscodeFormatM1Spatial)
 ```
 
+</div>
+
 Set or return the output format/configuration for processing.
 
 ## Set / Get Spatial Downmixer
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 m1Transcode.setSpatialDownmixer();
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 m1Transcode.setSpatialDownmixer()
 ```
 
+</div>
+
 Sets the threshold float for `getSpatialDownmixerPossibility` calculation. The `getSpatialDownmixerPossibility` returns true if the compared signals are less than the `setSpatialDownmixer(corrThreshold)`.
+
 > Float from 0.0 to 1.0 where 0.0 no difference and incrementing to 1.0 is more difference
+
 > When returned true; transcodings that are set to ouput to `Mach1Spatial` will process an additional conversion to `Mach1Horizon`
 
 ## Set LFE / Sub Channels
@@ -238,6 +261,7 @@ Sets the input format for transcoding from the parsed ADM metadata within the au
 ## Process Master Gain
 
 Applys an input gain to the output soundfield.
+
 > Parameters: Input buffer, Integer of input number of samples, Float for gain multiplier
 
 ## Process Conversion Path
@@ -249,21 +273,25 @@ Use this function to control when to call for calculating the format transcoding
 Returns the shortest found conversion path to get from input format X to output format Y, both set by `Mach1Transcode::setInputFormat(Mach1TranscodeFormatType inFmt)` and `Mach1Transcode::setOutputFormat(Mach1TranscodeFormatType outFmt)`. Majority of format instances will use Mach1Spatial as the middle format for non-Mach1-format -> non-Mach1-format transcodings. This is due to Mach1 Spatial being a platonic solid format, ideal for safe calculations without loss
 
 ## Process Conversion Matrix
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 std::vector<std::vector<float>> m1Coeffs; //2D array, [input channel][input channel's coeff]
 m1Coeffs = m1Transcode.getMatrixConversion();
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 private var matrix: [[Float]] = []
 matrix = m1Transcode.getMatrixConversion()
 ```
 
+</div>
+
 Returns the transcoding matrix of coefficients based on the set input and output formats.
 
 ## Process Conversion
-```cpp
-```
 
 ```swift
 m1Transcode.processConversion(float: inBufs, float: outBufs, int: numSamples)
@@ -272,6 +300,10 @@ m1Transcode.processConversion(float: inBufs, float: outBufs, int: numSamples)
 Call to process the conversion as set by previous functions.
 
 ## Direct Agnostic Playback of All Input Formats via Mach1Decode
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```swift
 // Basic struct for input audio/format
 struct AudioInput {
@@ -303,3 +335,5 @@ for i in 0..<result.count {
     players[i].setVolume(result[i], fadeDuration: 0)
 }
 ```
+
+</div>

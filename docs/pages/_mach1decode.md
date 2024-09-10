@@ -3,6 +3,9 @@
 Mach1Decode supplies the functions needed to playback Mach1 Spatial VVBP formats to a stereo stream based on the device's orientation, this can be used for mobile device windowing or first person based media such as AR/VR/MR without any additional processing effects required.
 
 ## Summary Use
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 void setup(){
     mach1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial_8);
@@ -18,7 +21,7 @@ void loop(){
     // Apply gainCoeffs to gain/volume of array of audioplayers for custom spatial audio mixer
 }
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 override func viewDidLoad() {
     mach1Decode.setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoSpatial_8)
@@ -33,7 +36,7 @@ func update() {
     // Apply gainCoeffs to gain/volume of array of audioplayers for custom spatial audio mixer
 }
 ```
-
+- <b class="tab-title">JavaScript</b>
 ```javascript
 let mach1Decode = null;
 Mach1DecodeModule().then(function(m1DecodeModule) {
@@ -50,6 +53,8 @@ function update() {
     // Apply gainCoeffs to gain/volume of array of audioplayers for custom spatial audio mixer
 }
 ```
+
+</div>
 
 The Mach1Decode API is designed to be used the following way:
 
@@ -83,17 +88,23 @@ Import and link the appropriate target device's / IDE's library file.
 ## Set Platform Type
 > Set the Angular Type for the target device via the enum
 
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 mach1Decode.setPlatformType(Mach1PlatformDefault);
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 mach1Decode.setPlatformType(type: Mach1PlatformType.Mach1PlatformiOS)
 ```
-
+- <b class="tab-title">JavaScript</b>
 ```javascript
 mach1Decode.setPlatformType(m1Decode.Mach1PlatformType.Mach1PlatformOfEasyCam);
 ```
+
+</div>
+
 Use the `setPlatformType` function to set the device's angle order and convention if applicable:
 
 ### Preset Types(enum):
@@ -115,34 +126,46 @@ Use the `setPlatformType` function to set the device's angle order and conventio
 - Unreal Engine: Right handed z-y-x
 
 ## Set Filter Speed
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 float filterSpeed = 1.0f;
 
 mach1Decode.setFilterSpeed(filterSpeed);
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 mach1Decode.setFilterSpeed(filterSpeed: 1.0)
 ```
-
+- <b class="tab-title">JavaScript</b>
 ```javascript
 mach1Decode.setFilterSpeed(0.95);
 ```
 
+</div>
+
 Filter speed determines the amount of angle smoothing applied to the orientation angles used for the Mach1DecodeCore class. 1.0 would mean that there is no filtering applied, 0.1 would add a long ramp effect of intermediary angles between each angle sample. It should be noted that you will not have any negative effects with >0.9 but could get some orientation latency when <0.85. The reason you might want angle smoothing is that it might help remove a zipper effect seen on some poorer performing platforms or devices.
 
 ## Set Decoding Algorithm
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 void setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType);
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 func setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoType)
 ```
-
+- <b class="tab-title">JavaScript</b>
 ```javascript
 mach1Decode.setDecodeAlgoType(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_8);
 ```
+
+</div>
 
 Use this function to setup and choose the required Mach1 decoding algorithm.
 
@@ -163,32 +186,44 @@ Also able to decode and virtualize a first person perspective of Quad Surround m
 Mach1HorizonPairs. 8 channel spatial mix decoding for compass / yaw only that can support headlocked / non-diegetic stereo elements to be mastered within the mix / 8 channels. Supports and decodes Quad-Binaural mixes.
 
 ## Begin Buffer
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 mach1Decode.beginBuffer();
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 mach1Decode.beginBuffer()
 ```
-
+- <b class="tab-title">JavaScript</b>
 ```javascript
 mach1Decode.beginBuffer();
 ```
+
+</div>
 
 Call this function before reading from the Mach1Decode buffer.
 
 ## End Buffer
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 mach1Decode.endBuffer();
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 mach1Decode.endBuffer()
 ```
-
+- <b class="tab-title">JavaScript</b>
 ```javascript
 mach1Decode.endBuffer();
 ```
+
+</div>
 
 Call this function after reading from the Mach1Decode buffer.
 
@@ -200,37 +235,50 @@ There are four exposed functions that can be called at any time to set the next 
 3. Use `decodeCoeffsUsingTranscodeMatrix()`
 
 ### 1. DecodeCoeffs()
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 mach1Decode.setRotationDegrees(float deviceYaw, float devicePitch, float deviceRoll);
 std::vector<float> decodedGains = mach1Decode.decodeCoeffs();
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 mach1Decode.setRotationDegrees(Yaw: Float(deviceYaw), Pitch: Float(devicePitch), Roll: Float(deviceRoll))
 let decodedGains: [Float]  = mach1Decode.decodeCoeffs()
 ```
-
+- <b class="tab-title">JavaScript</b>
 ```javascript
 m1Decode.setRotationDegrees(params.decoderRotationY, params.decoderRotationP, params.decoderRotationR);
 var decodedGains = m1Decode.decodeCoeffs();
 ```
+
+</div>
 
 For easier use with more design cases we have a function for "decode" that uses the last called `setRotation` function in case your use case needs different input rotation descriptions or have different places that the orientation is updated compared to the audio thread your decode might be applied within.
 
 Please view the section on `setRotation` to learn more about the different functions for updating input rotations to Mach1Decode.
 
 ### 2. Decode()
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 std::vector<float> decodedGains = mach1Decode.decode(float deviceYaw, float devicePitch, float deviceRoll);
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 let decodedGains: [Float]  = mach1Decode.decode(Yaw: Float(deviceYaw), Pitch: Float(devicePitch), Roll: Float(deviceRoll))
 ```
-
+- <b class="tab-title">JavaScript</b>
 ```javascript
 var decodedGains = m1Decode.decode(params.decoderRotationY, params.decoderRotationP, params.decoderRotationR);
 ```
+
+</div>
+
 An all in one call to `decode(float yaw, float pitch, float roll)` with the input orientation rotation described in absolute Euler degrees can be used.
 
 ### Decoding Design
@@ -238,12 +286,21 @@ An all in one call to `decode(float yaw, float pitch, float roll)` with the inpu
 
 > lower performance version for non audio thread operation or for use in managed languages
 
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 std::vector<float> volumes = mach1Decode.decode(float deviceYaw, float devicePitch, float deviceRoll);
 ```
 
+</div>
+
 > you can get a per sample gains/volumes frame if you specify the buffer size and the current sample index
 
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 std::vector<float> decodedGains = mach1Decode.decode(float deviceYaw, float devicePitch, float deviceRoll, int bufferSize, int sampleIndex);
 
@@ -254,13 +311,19 @@ float decodedGainsFrame [18];
 mach1Decode.decode(float deviceYaw, float devicePitch, float deviceRoll, float *decodedGainsFrame, int bufferSize, int sampleIndex);
 ```
 
+</div>
+
 The decode function's purpose is to give you updated gains/volumes for each input audio channel for each frame in order for spatial effect to manifest itself. There are two versions of this function - one for cases when you might not need very low latency or couldn't include C/C++ directly, and another version for C/C++ high performance use.
 
 If using on audio thread, high performance version is recommended if possible.
 
 ## Example of Using Decoded Coefficients
+
 > Sample based example
 
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 decodedGains = mach1Decode.decode(deivceYaw, devicePitch, deviceRoll);
 
@@ -269,7 +332,7 @@ for (int i = 0; i < 8; i++) {
     playersRight[i].setVolume(decodedGains[i * 2 + 1] * overallVolume);
 }
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 //Send device orientation to mach1Decode object with the preferred algo
 mach1Decode.beginBuffer()
@@ -283,8 +346,13 @@ for i in 0...7 {
 }
 ```
 
+</div>
+
 > Buffer based example
 
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 //16 coefficients of spatial, 2 coefficients of headlocked stereo
 float decodedGains[18];
@@ -307,76 +375,103 @@ mach1Decode.endBuffer();
 bufferRead += samples;
 ```
 
+</div>
+
 Input orientation angles and return the current sample/buffers coefficients
 
 ## Set Rotation
+
 > Call this before you call `decodeCoeffs()` to properly update the calculated gains before applying to your native audio player/handler.
 
 Use one of these functions to update new rotation values for Mach1Decode, ideally before calling `decodeCoeffs()` which will return the calculated spatial gains you will be applying to your native audio player/handler as per our examples. To make things more human interpretable in terms of the expected ranges and values you can use in each of these `setRotation` functions we have explicitly named the input arguments.
 
 ### Rotation: Normalized
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 mach1Decode.setRotation(float deviceYawNorm, float devicePitchNorm, float deviceRollNorm);
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 mach1Decode.setRotation(Yaw: Float(deviceYawNorm), Pitch: Float(devicePitchNorm), Roll: Float(deviceRollNorm))
 ```
-
+- <b class="tab-title">JavaScript</b>
 ```javascript
 m1Decode.setRotation(params.decoderRotationYNorm, params.decoderRotationPNorm, params.decoderRotationRNorm);
 ```
+
+</div>
 
  - Yaw: float for device/listener yaw angle: [Range: -1.0 -> 1.0]
  - Pitch: float for device/listener pitch angle: [Range: -0.25 -> 0.25]
  - Roll: float for device/listener roll angle: [Range: -0.25 -> 0.25]
 
 ### Rotation: Degrees
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 mach1Decode.setRotationDegrees(float deviceYawDegrees, float devicePitchDegrees, float deviceRollDegrees);
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 mach1Decode.setRotationDegrees(Yaw: Float(deviceYawDegrees), Pitch: Float(devicePitchDegrees), Roll: Float(deviceRollDegrees))
 ```
-
+- <b class="tab-title">JavaScript</b>
 ```javascript
 m1Decode.setRotationDegrees(params.decoderRotationYDegrees, params.decoderRotationPDegrees, params.decoderRotationRDegrees);
 ```
+
+</div>
 
  - Yaw: float for device/listener yaw angle: [Range: 0->360 | -180->180]
  - Pitch: float for device/listener pitch angle: [Range: -90->90]
  - Roll: float for device/listener roll angle: [Range: -90->90]
 
 ### Rotation: Radians
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 mach1Decode.setRotationRadians(float deviceYawRads, float devicePitchRads, float deviceRollRads);
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 mach1Decode.setRotationRadians(Yaw: Float(deviceYawRads), Pitch: Float(devicePitchRads), Roll: Float(deviceRollRads))
 ```
-
+- <b class="tab-title">JavaScript</b>
 ```javascript
 m1Decode.setRotationRadians(params.decoderRotationYRads, params.decoderRotationPRads, params.decoderRotationRRads);
 ```
+
+</div>
 
  - Yaw: float for device/listener yaw angle: [Range: 0->2PI | -PI->PI]
  - Pitch: float for device/listener pitch angle: -PI/2 -> PI/2
  - Roll: float for device/listener roll angle: -PI/2 -> PI/2
 
 ### Rotation: Quaternion
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 mach1Decode.setRotationQuat(float deviceW, float deviceX, float deviceY, float deviceZ);
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 mach1Decode.setRotationQuat(W: Float(deviceW), X: Float(deviceX), Y: Float(deviceY), Z: Float(deviceZ))
 ```
-
+- <b class="tab-title">JavaScript</b>
 ```javascript
 m1Decode.setRotationQuat(params.deviceW, params.deviceX, params.deviceY, params.deviceZ);
 ```
+
+</div>
 
  - W: float for device/listener W: [Range: -1.0->1.0]
  - X: float for device/listener X: [Range: -1.0->1.0]

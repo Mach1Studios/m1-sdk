@@ -5,6 +5,10 @@ Mach1Encode allows you to transform input audio streams into the Mach1Spatial VV
 The typical encoding process starts with creating an object of a class Mach1EncodeCore, and setting it up as described below. After that, you're meant to generate Points by calling generatePointResults() on the object of this class. You'll get as many points as there are input channels and as many gains in each point as there are output channels. You then copy each input channel to each output channel with the according gain.
 
 ## Summary of Use
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 void update(){
     m1Encode.setAzimuth(azimuth);
@@ -14,7 +18,7 @@ void update(){
     m1Encode.setStereoRotate(sRotation);
     m1Encode.setStereoSpread(sSpread);
     m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial);
-    m1Encode.setPannerMode(Mach1EncodePannerModeType::Mach1EncodePannerModeIsotropicLinear);
+    m1Encode.setPannerMode(Mach1EncodePannerMode::Mach1EncodePannerModeIsotropicLinear);
     m1Encode.setInputMode(Mach1EncodeInputModeType::Mach1EncodeInputModeMono);
     m1Encode.setOutputMode(Mach1EncodeOutputModeType::Mach1EncodeOutputModeM1Spatial_8);
 
@@ -29,7 +33,7 @@ void update(){
     mtx.unlock();
 }
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 func update(decodeArray: [Float], decodeType: Mach1DecodeAlgoType){
     m1Encode.setAzimuth(azimuth: azimuth)
@@ -50,26 +54,29 @@ func update(decodeArray: [Float], decodeType: Mach1DecodeAlgoType){
     for i in 0..<players.count {
         players[i].volume = gains[i] * volume
     }
-```
-
-```javascript
-let m1Encode = null;
-Mach1EncodeModule().then(function(m1EncodeModule) {
-    m1Encode = new(m1EncodeModule).Mach1Encode();
-});
-function update() {
-    m1Encode.setAzimuth(params.azimuth);
-    m1Encode.setElevation(params.elevation);
-    m1Encode.setDiverge(params.diverge);
-    m1Encode.setStereoRotate(params.sRotation);
-    m1Encode.setStereoSpread(params.sSpread);
-    m1Encode.setAutoOrbit(params.autoOrbit);
-    m1Encode.setPannerMode(params.pannerMode);
-
-    m1Encode.generatePointResults();
-    var encodeCoeffs = m1Encode.getGains();
 }
 ```
+- <b class="tab-title">JavaScript</b>
+```js
+    let m1Encode = null;
+    Mach1EncodeModule().then(function(m1EncodeModule) {
+    m1Encode = new(m1EncodeModule).Mach1Encode();
+    });
+    function update() {
+        m1Encode.setAzimuth(params.azimuth);
+        m1Encode.setElevation(params.elevation);
+        m1Encode.setDiverge(params.diverge);
+        m1Encode.setStereoRotate(params.sRotation);
+        m1Encode.setStereoSpread(params.sSpread);
+        m1Encode.setAutoOrbit(params.autoOrbit);
+        m1Encode.setPannerMode(params.pannerMode);
+
+        m1Encode.generatePointResults();
+        var encodeCoeffs = m1Encode.getGains();
+    }
+```
+
+</div>
 
 The Mach1Encode API is designed to aid in developing tools for inputting to a Mach1 VVBP/SPS format. They give access to common calculations needed for the audio processing and UI/UX handling for panning/encoding Mach1 VVBP/SPS formats via the following common structure:
 
@@ -79,21 +86,30 @@ Import and link the appropriate target device's / IDE's library file.
 
 ## Generate Point Results
 
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 m1Encode.generatePointResults();
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 m1Encode.generatePointResults()
 ```
-
-```javascript
+- <b class="tab-title">JavaScript</b>
+```js
 m1Encode.generatePointResults();
 ```
+
+</div>
 
 Returns the resulting `points` coefficients based on selected and calculated input/output configuration.
 
 ## Set Input Mode
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 if (inputKind == 0) { // Input: MONO
     m1Encode.inputMode = M1Encode::INPUT_MONO;
@@ -111,7 +127,7 @@ if (inputKind == 4) { // Input: BFORMAT
     m1Encode.inputMode = M1Encode::INPUT_FOAACN;
 }
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 var type : Mach1EncodeInputModeType = Mach1EncodeInputModeMono
 m1Encode.setInputMode(inputMode: type)
@@ -134,8 +150,8 @@ else if (soundFiles[soundIndex].count == 4) {
 	}
 }
 ```
-
-```javascript
+- <b class="tab-title">JavaScript</b>
+```js
 if (params.inputKind == 0) { // Input: MONO
     m1Encode.setInputMode(m1Encode.Mach1EncodeInputModeType.Mach1EncodeInputModeMono);
 }
@@ -153,6 +169,8 @@ if (params.inputKind == 4) { // Input: 1st Order Ambisonics (ACNSN3D)
 }
 ```
 
+</div>
+
 Sets the number of input streams to be positioned as points.
 
  - INPUT_MONO
@@ -169,6 +187,10 @@ Sets the number of input streams to be positioned as points.
  - INPUT_LCR
 
 ## Set Output Mode
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 if (outputKind == 0) { // Output: 4CH Mach1Horizon
     m1Encode.outputMode = M1Encode::Mach1EncodeOutputModeM1Horizon_4;
@@ -177,7 +199,7 @@ if (outputKind == 1) { // Output: 8CH Mach1Spatial
     m1Encode.outputMode = M1Encode::Mach1EncodeOutputModeM1Spatial_8;
 }
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 if (outputKind == 0) { // Output: 4CH Mach1Horizon
     m1Encode.setOutputMode(outputMode: Mach1EncodeOutputModeM1Horizon_4)
@@ -186,8 +208,8 @@ if (outputKind == 1) { // Output: 8CH Mach1Spatial
     m1Encode.setOutputMode(outputMode: Mach1EncodeOutputModeM1Spatial_8)
 }
 ```
-
-```javascript
+- <b class="tab-title">JavaScript</b>
+```js
 if (params.outputKind == 0) { // Output: 4CH Mach1Horizon
     m1Encode.setOutputMode(m1Encode.Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Horizon_4);
 }
@@ -195,6 +217,8 @@ if (params.outputKind == 1) { // Output: 8CH Mach1Spatial
     m1Encode.setOutputMode(m1Encode.Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_8);
 }
 ```
+
+</div>
 
 Sets the output spatial format, Mach1Spatial or Mach1Horizon
 
@@ -239,7 +263,7 @@ if (pannerMode == 2) {
 }
 ```
 
-```javascript
+```js
 if (params.pannerMode == 0) {
     m1Encode.setPannerMode(m1Encode.Mach1EncodePannerModeType.Mach1EncodePannerModeIsotropicLinear);
 }
@@ -252,166 +276,230 @@ if (params.pannerMode == 2) {
 ``` -->
 
 ## Set Azimuth
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 m1Encode.setAzimuth = azimuthFromMinus1To1;
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 m1Encode.setAzimuth(azimuth: azimuthFromMinus1To1)
 ```
-
-```javascript
+- <b class="tab-title">JavaScript</b>
+```js
 m1Encode.setAzimuth(params.azimuthFromMinus1To1);
 ```
+
+</div>
 
 Rotates the point(s) around the center origin of the vector space.
 > UI value range: 0.0 -> 1.0 (0 -> 360)
 
 ## Set Azimuth Degrees
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 m1Encode.setAzimuthDegrees = azimuthDegrees;
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 m1Encode.setAzimuthDegrees(azimuth: azimuthDegrees)
 ```
-
-```javascript
+- <b class="tab-title">JavaScript</b>
+```js
 m1Encode.setAzimuthDegrees(params.azimuthDegrees);
 ```
+
+</div>
 
 Rotates the point(s) around the center origin of the vector space.
 > UI value range: 0.0 -> 360.0
 
 ## Set Azimuth Radians
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 m1Encode.setAzimuthRadians = azimuthRadians;
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 m1Encode.setAzimuthRadians(azimuth: azimuthRadians)
 ```
-
-```javascript
+- <b class="tab-title">JavaScript</b>
+```js
 m1Encode.setAzimuthRadians(params.azimuthRadians);
 ```
+
+</div>
 
 Rotates the point(s) around the center origin of the vector space.
 > UI value range: 0 -> 2PI (0 -> 360)
 
 ## Set Diverge
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 m1Encode.setDiverge = diverge;
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 m1Encode.setDiverge(diverge: diverge)
 ```
-
-```javascript
+- <b class="tab-title">JavaScript</b>
+```js
 m1Encode.setDiverge(params.diverge);
 ```
+
+</div>
 
 Moves the point(s) to/from center origin of the vector space.
 > UI value range: -1.0 -> 1.0
 
 ## Set Elevation
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 m1Encode.setElevation = elevationFromMinus1to1;
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 m1Encode.setElevation(elevation: elevationFromMinus1to1)
 ```
-
-```javascript
+- <b class="tab-title">JavaScript</b>
+```js
 m1Encode.setElevation(params.elevationFromMinus1to1);
 ```
+
+</div>
 
 Moves the point(s) up/down the vector space.
 > UI value range: -1.0 -> 1.0 (-90 -> 90)
 
 ## Set Elevation Degrees
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 m1Encode.setElevationDegrees = elevationFromMinus90to90;
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 m1Encode.setElevationDegrees(elevation: elevationFromMinus90to90)
 ```
-
-```javascript
+- <b class="tab-title">JavaScript</b>
+```js
 m1Encode.setElevationDegrees(params.elevationFromMinus90to90);
 ```
+
+</div>
 
 Moves the point(s) up/down the vector space.
 > UI value range: -90 -> 90
 
 ## Set Elevation Radians
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 m1Encode.setElevationRadians = elevationFromMinusHalfPItoHalfPI;
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 m1Encode.setElevationRadians(elevation: elevationFromMinusHalfPItoHalfPI)
 ```
-
-```javascript
+- <b class="tab-title">JavaScript</b>
+```js
 m1Encode.setElevationRadians(params.elevationFromMinusHalfPItoHalfPI);
 ```
+
+</div>
 
 Moves the point(s) up/down the vector space.
 > UI value range: -PI/2 -> PI/2 (-90 -> 90)
 
 ## Set Stereo Rotation
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 m1Encode.setStereoRotate = sRotation;
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 m1Encode.setStereoRotate(setStereoRotate: stereoRotate)
 ```
-
-```javascript
+- <b class="tab-title">JavaScript</b>
+```js
 m1Encode.setStereoRotate(params.sRotation);
 ```
+
+</div>
 
 Rotates the two stereo points around the axis of the center point between them.
 > UI value range: -180.0 -> 180.0
 
 ## Set Stereo Spread
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 m1Encode.setStereoSpread = sSpread;
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 m1Encode.setStereoSpread(setStereoSpread: stereoSpread)
 ```
-
-```javascript
+- <b class="tab-title">JavaScript</b>
+```js
 m1Encode.setStereoSpread(params.sSpread);
 ```
+
+</div>
 
 Increases or decreases the space between the two stereo points.
 > UI value range: 0.0 -> 1.0
 
 ## Set Auto Orbit
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 m1Encode.setAutoOrbit = autoOrbit;
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 m1Encode.setAutoOrbit(setAutoOrbit: true)
 ```
-
-```javascript
+- <b class="tab-title">JavaScript</b>
+```js
 m1Encode.setAutoOrbit(params.autoOrbit);
 ```
+
+</div>
 
 When active both stereo points rotate in relation to the center point between them so that they always triangulate toward center of the cuboid.
 > default value: true
 
 ## Inline Mach1Encode Object Decoder
+
+<div class="tabbed">
+
+- <b class="tab-title">C++</b>
 ```cpp
 //Use each coeff to decode multichannel Mach1 Spatial mix
 volumes = m1Encode.getResultingCoeffsDecoded(decodeType, decodeArray)
@@ -420,7 +508,7 @@ for (int i = 0; i < 8; i++) {
     players[i].volume = volumes[i] * volume
 }
 ```
-
+- <b class="tab-title">Swift</b>
 ```swift
 //Use each coeff to decode multichannel Mach1 Spatial mix
 var volumes : [Float] = m1Encode.getResultingCoeffsDecoded(decodeType: decodeType, decodeResult: decodeArray)
@@ -429,8 +517,8 @@ for i in 0..<players.count {
     players[i].volume = volumes[i] * volume
 }
 ```
-
-```javascript
+- <b class="tab-title">JavaScript</b>
+```js
 m1Encode.generatePointResults();
 
 m1Decode.beginBuffer();
@@ -442,6 +530,8 @@ if (params.outputKind == 1) { // Output: Mach1Spatial
     vol = m1Encode.getResultingCoeffsDecoded(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial, decoded);
 }
 ```
+
+</div>
 
 This function allows designs where only previewing or live rendering to decoded audio output is required without any step of rendering or exporting to disk. This enables designs where developers can stack and sum multiple Mach1Encode object's decoded outputs instead of using Mach1Encode objects to write to a master 8 channel intermediary file. Allowing shorthand versions of Mach1Encode->Mach1Decode->Stereo if only live playback is needed.
 

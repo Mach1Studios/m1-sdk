@@ -6,9 +6,7 @@
 //  Copyright © 2020 Mach1. All rights reserved.
 //
 
-#define M1_STATIC
-
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__WIN32__) || defined(__WINDOWS__)
 #include <time.h>
 #include <windows.h>
 #include <conio.h>
@@ -24,24 +22,16 @@
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
-#include <pthread.h>
+#include <thread>
 #include <chrono>
 
-#include "Mach1Transcode.h"
+#include <Mach1Transcode.h>
 
 #define DELTA_RADIAN 0.0174533 // equivalent of 1 degrees in radians
 #define DELTA_DEGREE 1.0
 #define DELTA_DIVERGE 0.01
 
-#ifndef PI
-#define PI 3.14159265358979323846
-#endif
-
-#ifndef M_PI
-#define M_PI 3.14159265358979323846264338327950288
-#endif
-
-#ifdef _WIN32
+#if defined(_WIN32) || defined(__WIN32__) || defined(__WINDOWS__)
 BOOLEAN nanosleep(struct timespec* ts, void* p) {
     /* Declarations */
     HANDLE timer;    /* Timer handle */
@@ -65,7 +55,7 @@ BOOLEAN nanosleep(struct timespec* ts, void* p) {
 #endif
 
 static void* decode(void* v);
-static pthread_t thread;
+static std::thread thread;
 static bool done = false;
 Mach1Transcode m1Transcode;
 static std::vector< std::vector<float> > m1Coeffs; //2D array, [input channel][input channel's coeff]
@@ -76,14 +66,14 @@ std::string outputName;
 
 /*
  Orientation Euler
- 
+
  Yaw[0]+ = rotate right [Range: 0->360 | -180->180]
  Yaw[0]- = rotate left [Range: 0->360 | -180->180]
  Pitch[1]+ = rotate up [Range: -90->90]
  Pitch[1]- = rotate down [Range: -90->90]
  Roll[2]+ = tilt right [Range: -90->90]
  Roll[2]- = tilt left [Range: -90->90]
- 
+
  http://dev.mach1.tech/#mach1-internal-angle-standard
  */
 
@@ -100,15 +90,15 @@ int main(int argc, const char * argv[]) {
     struct timespec ts;
     ts.tv_sec =  0;
     ts.tv_nsec = (long)1e7;
-    
+
     printf("Setting up\n");
     inputMode = m1Transcode.getFormatFromString("ACNSN3DmaxRE3oa");
-    outputMode = m1Transcode.getFormatFromString("M1Spatial");
+    outputMode = m1Transcode.getFormatFromString("M1Spatial-8");
     inputName = "ACNSN3D-3OA";
-    outputName = "MACH1 SPATIAL";
+    outputName = "MACH1SPATIAL-8";
     done = false;
-    pthread_create(&thread, NULL, &decode, NULL);
-    
+    thread = std::thread(decode, nullptr);
+
     while (!done) {
         nanosleep(&ts, NULL);
         auto start = std::chrono::high_resolution_clock::now();
@@ -122,7 +112,7 @@ int main(int argc, const char * argv[]) {
         std::chrono::duration<double> elapsed = end - start;
         timeReturned = (float)elapsed.count();
     }
-    
+
     return 0;
 }
 
@@ -142,15 +132,15 @@ static void* decode(void* v)
     char c;
     printf("Enter a command:\n");
     while (1) {
-        
+
 #ifdef _WIN32
         c = _getch();
 #else
         c = getchar();
 #endif
-        
+
         if (c == 'q') break;
-        
+
         // delete entered character
         printf("\b");
         switch (c) {
@@ -189,7 +179,7 @@ static void* decode(void* v)
             default:
                 printf("Input not recognized.\n");
         }
-        
+
         // Mach1TranscodeAPI Log:
         printf("\n");
         printf("Input: %s\n", inputName.c_str());

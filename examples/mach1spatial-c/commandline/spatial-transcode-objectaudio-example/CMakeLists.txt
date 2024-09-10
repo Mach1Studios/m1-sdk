@@ -1,38 +1,20 @@
-cmake_minimum_required(VERSION 3.1.0)
+cmake_minimum_required(VERSION 3.5.0)
 project(spatial-transcode-objectaudio-example)
-set(CMAKE_CXX_STANDARD 11)
+add_executable(${PROJECT_NAME})
 
-set(MACH1SPATIAL_SDK_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../../")
+if(PROJECT_IS_TOP_LEVEL)
+    list(APPEND CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/../../../../cmake")
+    include(common-defaults)
 
-if(WIN32 OR MSVC)
-    if (NOT "$ENV{VCPKG_PATH}" STREQUAL "")
-        set(VCPKG_PATH "$ENV{VCPKG_PATH}" CACHE INTERNAL "Copied from environment variable")
-        message("VCPKG_PATH is set: ${VCPKG_PATH}")
-        include(${VCPKG_PATH}/scripts/buildsystems/vcpkg.cmake)
-        if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-            # 64 bits
-            set(MACH1SPATIAL_LIBS_PATH ${MACH1SPATIAL_SDK_PATH}/mach1spatial-libs/vs-15-2017-x86_64)
-        elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
-            # 32 bits
-            set(MACH1SPATIAL_LIBS_PATH ${MACH1SPATIAL_SDK_PATH}/mach1spatial-libs/vs-15-2017-x86)
-        endif()
-    else()
-        message(FATAL_ERROR "unexpected: the local VCPKG_PATH environment variable is not set or is empty!")
-    endif()
-elseif(APPLE)
-    set(MACH1SPATIAL_LIBS_PATH ${MACH1SPATIAL_SDK_PATH}/mach1spatial-libs/xcode)
-elseif(UNIX AND NOT APPLE)
-    set(MACH1SPATIAL_LIBS_PATH ${MACH1SPATIAL_SDK_PATH}/mach1spatial-libs/linux)
-else()
-    set(MACH1SPATIAL_LIBS_PATH ${MACH1SPATIAL_SDK_PATH}/mach1spatial-libs/linux)
+    # include libMach1Spatial
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../../../libmach1spatial ${CMAKE_CURRENT_BINARY_DIR}/libmach1spatial)
 endif()
-message("MACH1SPATIAL_LIBS_PATH is set: ${MACH1SPATIAL_LIBS_PATH}")
 
 # Use pkg-config to get hints about paths
+include(FindPkgConfig)
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
     pkg_check_modules(LIBSNDFILE_PKGCONF sndfile)
-    pkg_check_modules(LIBBW64_PKGCONF bw64)
 endif(PKG_CONFIG_FOUND)
 
 # - Try to find libsndfile
@@ -55,55 +37,42 @@ find_library(LIBSNDFILE_LIBRARY
 
 find_package(PackageHandleStandardArgs)
 find_package_handle_standard_args(LibSndFile  DEFAULT_MSG  LIBSNDFILE_LIBRARY LIBSNDFILE_INCLUDE_DIR)
+mark_as_advanced(LIBSNDFILE_LIBRARY LIBSNDFILE_LIBRARIES LIBSNDFILE_INCLUDE_DIR LIBSNDFILE_INCLUDE_DIRS)
+pkg_search_module(SndFile REQUIRED sndfile)
 
 if(LIBSNDFILE_FOUND)
     set(LIBSNDFILE_LIBRARIES ${LIBSNDFILE_LIBRARY})
     set(LIBSNDFILE_INCLUDE_DIRS ${LIBSNDFILE_INCLUDE_DIR})
 endif(LIBSNDFILE_FOUND)
 
-include(FindPkgConfig)
+# libbw64
 add_subdirectory(libs/libbw64)
+add_library(IRT::bw64 INTERFACE IMPORTED GLOBAL)
+set_target_properties(IRT::bw64 PROPERTIES
+        INTERFACE_INCLUDE_DIRECTORIES $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libbw64/include>)
+target_include_directories(${PROJECT_NAME} PRIVATE libs/libbw64/include)
 
-mark_as_advanced(LIBSNDFILE_LIBRARY LIBSNDFILE_LIBRARIES LIBSNDFILE_INCLUDE_DIR LIBSNDFILE_INCLUDE_DIRS)
-pkg_search_module(SndFile REQUIRED sndfile)
+# Link with lib
+target_link_libraries(${PROJECT_NAME} PRIVATE M1Transcode)
+set(M1_LIB_PATH ../../../../libmach1spatial)
 
 # collect and add source files
-set(SOURCES
-	  src/main.cpp
-    src/xml/pugixml.cpp
-    src/yaml/Yaml.cpp
-	  ${MACH1SPATIAL_LIBS_PATH}/include/Mach1Transcode.cpp
-    ${MACH1SPATIAL_LIBS_PATH}/include/Mach1AudioTimeline.cpp
+target_sources(${PROJECT_NAME}
+    PRIVATE
+    src/main.cpp
+    ${M1_LIB_PATH}/deps/pugixml/src/pugixml.cpp
+    ${M1_LIB_PATH}/deps/yaml/yaml/Yaml.cpp
+    ${M1_LIB_PATH}/api_transcode/include/Mach1Transcode.cpp
+    ${M1_LIB_PATH}/deps/M1DSP/M1DSPUtilities.cpp
+    ${M1_LIB_PATH}/deps/M1DSP/M1DSPFilters.cpp
+    ${M1_LIB_PATH}/api_common/include/Mach1AudioTimeline.cpp
+    ${M1_LIB_PATH}/api_common/src/Mach1AudioTimelineCAPI.cpp
+    ${M1_LIB_PATH}/api_common/src/Mach1AudioTimelineCore.cpp
 )
 
-# create the executable
-add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})
-
-# link Mach1Spatial libraries
-if(WIN32 OR MSVC)
-  # Definition added for windows to check for static lib usage
-  add_definitions(-DM1_STATIC)
-  # Change `PATH` to reflect `/MT` or `/MD` as needed!
-  # Mach1Transcode
-  set(MACH1TRANSCODE_LIBRARY_DEBUG ${MACH1SPATIAL_LIBS_PATH}/lib/Static/MD/Debug/Mach1TranscodeCAPId.lib)
-  set(MACH1TRANSCODE_LIBRARY_RELEASE ${MACH1SPATIAL_LIBS_PATH}/lib/Static/MD/Release/Mach1TranscodeCAPI.lib)
-	set(MACH1TRANSCODE_LIBRARY debug ${MACH1TRANSCODE_LIBRARY_DEBUG} optimized ${MACH1TRANSCODE_LIBRARY_RELEASE})
-  target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${MACH1TRANSCODE_LIBRARY})
-else()
-	find_library(MACH1TRANSCODE_LIBRARY
-		           NAMES Mach1TranscodeCAPI libMach1TranscodeCAPI
-		           HINTS ${MACH1SPATIAL_LIBS_PATH}/lib
-	)
-  target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${MACH1TRANSCODE_LIBRARY})
-endif()
-
 # include headers
-set(MACH1SPATIAL_INCLUDES "src/xml" "src/yaml" ${MACH1SPATIAL_LIBS_PATH}/include ${MACH1SPATIAL_LIBS_PATH}/include/M1DSP)
-include_directories(${MACH1SPATIAL_INCLUDES})
-include_directories(${LIBSNDFILE_INCLUDE_DIRS})
+set(MACH1SPATIAL_INCLUDES ${M1_LIB_PATH}/api_transcode/include ${M1_LIB_PATH}/api_common/include ${M1_LIB_PATH}/deps ${M1_LIB_PATH}/deps/yaml ${M1_LIB_PATH}/pugixml/src)
+target_include_directories(${PROJECT_NAME} PRIVATE ${MACH1SPATIAL_INCLUDES} ${LIBSNDFILE_INCLUDE_DIRS})
 
 # link libraries
-target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${LIBSNDFILE_LIBRARIES})
-target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE bw64)
-
-install(TARGETS ${CMAKE_PROJECT_NAME} DESTINATION build)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBSNDFILE_LIBRARIES})

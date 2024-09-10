@@ -3,7 +3,7 @@
 ## MACH1 SPATIAL SDK ##
 [![Slack Channel](https://img.shields.io/badge/Slack-Join-purple)](https://join.slack.com/t/spatialaudio/shared_invite/enQtNjk0ODE4NjQ4NjExLWQ5YWUyNWQ4NWEwMDEwZmJiNmI5MzBhYjM3OTE3NTYxYzdjZDE2YTlhZDI4OGY0ZjdkNmM1NzgxNjI5OGU4ZWE)
 [![YouTube Channel](https://img.shields.io/badge/YouTube-Subscribe-red)](https://www.youtube.com/channel/UCqoFv8OnTYjkwjHeo6JDUFg)
-[![Mach1SpatialAPI CocoaPods](https://cocoapod-badges.herokuapp.com/v/Mach1SpatialAPI/badge.png)](https://www.mach1.tech/developers)
+[![Mach1SpatialAPI CocoaPods](https://img.shields.io/cocoapods/v/Mach1SpatialAPI.svg?style=flat)](https://www.mach1.tech/developers)
 [![Mach1SpatialAPI Jitpack](https://jitpack.io/v/Mach1Studios/JitPack-Mach1SpatialAPI.svg)](https://www.mach1.tech/developers)
 
 * [LICENSE](#license)
@@ -38,81 +38,60 @@ Please view the [license/](license) directory for more information and proper at
 * Mach1DecodePositional: Add additional optional decoding layer to decode spatial mixes with 6DOF for positional and orientational decoding.
 * Mach1Transcode: Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatial VVBP format.
 
+### [SETUP](#setup) ###
+
+#### CMake
+The easiest way to use this project is to use CMake from the root directory to setup all the APIs, examples and tests as needed. An example of this is running the following from this directory:
+- `cmake . -B build -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=ON -DM1ENCODE_INLINE_DECODE=ON -DM1TRANSCODE_INLINE_ENCODE=ON -DM1S_BUILD_SIGNAL_SUITE=ON`
+- `cmake --build build --config Release`
+
+View the [CMakeLists.txt](CMakeLists.txt) file to see any options, by default the examples and tests are enabled.
+
+##### Options
+- `M1ENCODE_INLINE_DECODE`: Includes Mach1Decode API into Mach1Encode API as a dependency to allow more features.
+- `M1TRANSCODE_INLINE_ENCODE`: Includes Mach1Encode API into Mach1Transcode API as a dependency to allow more features.
+
+#### Makefile
+The makefile also has quick commands for setting up and building the entire SDK
+- `make test`
+- `make build`
+
 ### [INSTALL](#install) ###
 
 #### CMake
-There are several ways to link or fetch the pre-built m1-sdk libs and includes for a cmake project. 
+Linking or including any of the APIs to a project can also be easily done via cmake, and the APIs are individually modular in case you want to limit which of them is needed.
 
-- Using `FetchContent()` & `Find_Library()` to link required libs as needed
-```
-# Avoid warning about DOWNLOAD_EXTRACT_TIMESTAMP in CMake 3.24:
-if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.24.0")
-	cmake_policy(SET CMP0135 NEW)
-endif()
+##### Rebuild Cocoapods libs
+- `cmake . -B_builds/ios -GXcode \
+  -DM1S_BUILD_EXAMPLES=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=OS64COMBINED`
+- `cmake --build _builds/ios --config Release # separate build and install steps for fat-lib`
+- `cmake --install _builds/ios --config Release`
 
-include(FetchContent)
+##### Rebuild Android libs
+Make sure you have setup or preinstalled your Android NDK and set the following environment var: `CMAKE_ANDROID_NDK`
+- `cmake . -B_builds/android-arm64-v8a \
+  -DM1S_BUILD_EXAMPLES=OFF -DBUILD_JITPACK_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_TOOLCHAIN_FILE=${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake \
+  -DCMAKE_SYSTEM_NAME=Android \
+  -DANDROID_PLATFORM=21 \
+  -DANDROID_ABI=arm64-v8a \
+  -DCMAKE_ANDROID_STL_TYPE=c++_static \
+  -DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}`
+- `cmake --build _builds/android-arm64-v8a --config Release --target install`
 
-# Fetch the latest pre-built libs
-FetchContent_Declare(
-  m1-sdk
-  URL      https://github.com/mach1studios/m1-sdk/releases/latest/download/mach1spatial-libs.zip
-)
+#### Makefile
+Call any of these premade make commands from this directory to quickly recompile any libs as needed.
 
-FetchContent_GetProperties(m1-sdk)
+##### Rebuild WASM/JS Web libs
+- `make deploy-web`
 
-if (NOT m1-sdk_POPULATED)
-    FetchContent_Populate(m1-sdk)
+##### Rebuild Cocoapods libs
+- `make deploy-ios`
 
-    # Perform arbitrary actions on the m1-sdk project
-    # Avoid `add_subdirectory()` until a CMakeFile.txt is added to this directory
-    set(MACH1SPATIAL_LIBS_PATH "${m1-sdk_SOURCE_DIR}")
-endif()
+##### Rebuild Android libs
+- `make deploy-android`
 
-# collect and add source files
-set(SOURCES 
-	src/main.cpp
-	${MACH1SPATIAL_LIBS_PATH}/xcode/include/Mach1Decode.cpp
-	)
-
-# create the executable
-add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})
-
-# link libraries
-find_library(MACH1DECODE_LIBRARY 
-             NAMES Mach1DecodeCAPI libMach1DecodeCAPI libMach1DecodeCAPI.a libMach1DecodeCAPI.so libMach1DecodeCAPI.lib
-             PATHS ${MACH1SPATIAL_LIBS_UNIX_PATH}/lib ${MACH1SPATIAL_LIBS_PATH}/windows-x86 ${MACH1SPATIAL_LIBS_PATH}/windows-x86_64
-)
-
-# include headers
-set(MACH1SPATIAL_INCLUDES ${MACH1SPATIAL_LIBS_PATH}/linux/include ${MACH1SPATIAL_LIBS_PATH}/linux/include/M1DSP ${MACH1SPATIAL_LIBS_PATH}/xcode/include ${MACH1SPATIAL_LIBS_PATH}/xcode/include/M1DSP ${MACH1SPATIAL_LIBS_PATH}/windows-x86/include ${MACH1SPATIAL_LIBS_PATH}/windows-x86/include/M1DSP)
-include_directories(${MACH1SPATIAL_INCLUDES})
-
-target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${MACH1DECODE_LIBRARY})
-```
-
-### [INCLUDED](#included) ###
-
-#### Prebuilt libraries
-* Android (libs prebuilt in multiple archs, jitpack)
-* iOS (cocoapod, lib, frameworks)
-* MacOS (xcode)
-* Linux (x86 & ARM)
-* Win-x86 (MD, MDd, MT, MTd)
-* Win-x86_64 (MD, MDd, MT, MTd)
-* Windows-x86 (Visual Studio)
-* Windows-x86-64 (Visual Studio)
-* RaspberryPi2
-* RaspberryPi3
-* Various embedded ARM chipsets
-
-#### Includes
-* C/C++
-* C#
-* Java
-* js/web
-* Swift/Obj-C
-* Python (in progress)
-* Golang (in progress)
 
 #### Implementation Examples
 * Unreal Engine Plugin <a href="https://www.mach1.tech/download-spatialgameengine">Unreal Engine Plugin</a>

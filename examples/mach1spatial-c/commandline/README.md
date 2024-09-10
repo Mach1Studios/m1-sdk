@@ -19,10 +19,18 @@ These examples are for simple implementation and testing of returned results fro
 ### Build Instructions
 
 #### Windows Dependency
+ - Install `rtaudio`, `bw64` `sndfile`
  - Install pthread win32 via vcpkg: `vcpkg install pthreadw32`
  - Install pthread manually: https://sourceware.org/pthreads-win32/
 
 #### CMake Setup
+ - Install `rtaudio`, `bw64` `sndfile`
+   ```
+brew install rtaudio sndfile
+   ```
+ - Setup the master SDK project at the root of this repo via `cmake . -Bbuild`
+
+#### CMake Individual Project Setup
  - `mkdir build`
  - `cd build`
  - `cmake ../`
@@ -30,13 +38,6 @@ These examples are for simple implementation and testing of returned results fro
 
  - Open each xcode project file, run and input the appropriate key commands into the console
  - There is also a Makefile available for some of the [Coefficient Test Examples](Coefficient-Test-Examples) to easily test platform linking for the static libs supplied within this SDK
-
-#### Makefile Options
- - `build`: generic build instructions for macos & linux
- - `build-beaglebone`: build instructions for Beaglebone Black
- - `build-arm-cortexm0`: build instrcutions for cortexm0 (soft float, cxx14)
- - `build-rpi2`: build instructions for Raspberry Pi 2 (cxx11)
- - `build-rpi3`: build instructions for Raspberry Pi 3 (cxx11)
 
 ## Common Key Commands
 

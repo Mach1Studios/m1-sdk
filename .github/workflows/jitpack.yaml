@@ -1,0 +1,42 @@
+name: Build-Jitpack
+
+# run after tests are verified and the lib source files were edited
+on:
+  workflow_run:
+    workflows: ["Test"]
+    types:
+      - completed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+          lfs: true
+          fetch-depth: 1
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+          lfs: true
+          fetch-depth: 1
+
+      - name: Set up CMake
+        uses: lukka/get-cmake@v3
+
+      - name: Configure, build and install
+        run: make deploy-android
+
+      - name: Push to jitpack submodule
+        run: |
+          cd $GITHUB_WORKSPACE/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI
+          git add .
+          git commit -m "Update prebuilt libraries from CMake build"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

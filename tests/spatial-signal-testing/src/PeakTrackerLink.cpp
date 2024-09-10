@@ -42,7 +42,7 @@ void PeakTrackerLink::Process(AudioBuffers &buffers, double playback_time) {
         }
     }
 
-    Print(false);
+    Print(false, true, false);
 }
 
 void PeakTrackerLink::SetPeakDecayTime(double decay_time) {
@@ -82,7 +82,7 @@ float PeakTrackerLink::GetMaxPeakDecibels(unsigned int channel_index) const {
     return logf(GetMaxPeak(channel_index)) * MACH1_LOG_2_DB;
 }
 
-void PeakTrackerLink::Print(bool show_values_as_dB = true) const {
+void PeakTrackerLink::Print(bool show_current_peaks = false, bool show_max_peaks = true, bool show_values_as_dB = true) const {
 
     if (show_values_as_dB) {
         std::cout << m_name << " (dB)";
@@ -91,19 +91,21 @@ void PeakTrackerLink::Print(bool show_values_as_dB = true) const {
     }
     std::cout << std::endl;
 
-    // current peak per channel
-    std::cout << "\tCur: ";
-    for (unsigned int idx = 0; idx < m_current_peak.size(); idx++) {
-        std::cout << std::fixed << std::setprecision(3) << (show_values_as_dB ? GetCurrentPeakDecibels(idx) : GetCurrentPeak(idx)) << ", ";
+    if (show_current_peaks) {
+        // current peak per channel
+        std::cout << "\tCur: ";
+        for (unsigned int idx = 0; idx < m_current_peak.size(); idx++) {
+            std::cout << std::fixed << std::setprecision(3) << (show_values_as_dB ? GetCurrentPeakDecibels(idx) : GetCurrentPeak(idx)) << (idx < m_current_peak.size() - 1 ? ", " : "\n");
+        }
     }
-    std::cout << std::endl;
 
-    // max peak per channel
-    std::cout << "\tMax: ";
-    for (unsigned int idx = 0; idx < m_current_peak.size(); idx++) {
-        std::cout << std::fixed << std::setprecision(3) << (show_values_as_dB ? GetMaxPeakDecibels(idx) : GetMaxPeak(idx)) << ", ";
+    if (show_max_peaks) {
+        // max peak per channel
+        std::cout << "\tMax: ";
+        for (unsigned int idx = 0; idx < m_current_peak.size(); idx++) {
+            std::cout << std::fixed << std::setprecision(3) << (show_values_as_dB ? GetMaxPeakDecibels(idx) : GetMaxPeak(idx)) << (idx < m_current_peak.size() - 1 ? ", " : "\n");
+        }
     }
-    std::cout << std::endl;
 
     float sum = 0.0;
     for (unsigned int idx = 0; idx < m_current_peak.size(); idx++) {

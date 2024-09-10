@@ -28,7 +28,7 @@ public:
 
     float GetMaxPeakDecibels(unsigned int channel_index) const;
 
-    void Print(bool show_values_as_dB) const;
+    void Print(bool show_current_peaks, bool show_max_peaks, bool show_values_as_dB) const;
 
     void SetName(const std::string &name);
 

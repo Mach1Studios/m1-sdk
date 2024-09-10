@@ -102,9 +102,9 @@ std::string convertToString(char* a, int size)
 void printHelp()
 {
 	std::cout << "spatial-transcode-audio -- light command line example conversion tool" << std::endl;
-    std::cout << "note: for a complete transcoding tool use `m1-transcode` from the `executables` directory" << std::endl;
+    std::cout << "note: for a complete transcoding tool use `m1-transcode`." << std::endl;
     std::cout << std::endl;
-    std::cout << "usage: -in-file test_FiveOneFilm.wav -in-fmt 5.1_C -out-file test_b.wav -out-fmt M1Spatial -out-file-chans 0 -yaw 90.0 -pitch 15.0 -roll 0.0" << std::endl;
+    std::cout << "usage: -in-file test_FiveOneFilm.wav -in-fmt 5.1_C -out-file test_b.wav -out-file-chans 0 -yaw 90.0 -pitch 15.0 -roll 0.0" << std::endl;
     std::cout << std::endl;
     std::cout << "  -help                 - list command line options" << std::endl;
     std::cout << "  -in-file  <filename>  - input file: put quotes around sets of files" << std::endl;
@@ -112,12 +112,10 @@ void printHelp()
     std::cout << "  -in-json  <json>      - input json: for input custom json Mach1Transcode templates" << std::endl;
     std::cout << "  -normalize            - two pass normalize absolute peak to zero dBFS" << std::endl;
     std::cout << "  -master-gain <#>      - final output gain in dB like -3 or 2.3" << std::endl;
-    std::cout << "  -spatial-downmix <#>  - compare top vs. bottom of the input soundfield, if difference is less than the set threshold (float) output format will be Mach1 Horizon" << std::endl;
-    std::cout << "  -yaw <#>              - yaw angle for decoded output's yaw orientation in float" << std::endl;
-    std::cout << "  -pitch <#>              - yaw angle for decoded output's pitch orientation in float" << std::endl;
-    std::cout << "  -roll <#>              - yaw angle for decoded output's roll orientation in float" << std::endl;
-    std::cout << std::endl;
-    std::cout << "  Formats Supported: https://dev.mach1.tech/#formats-supported" << std::endl;
+    std::cout << "  -spatial-downmix <#>  - compare top vs. bottom of the input soundfield, if difference is less than the set threshold (float) output format will be Mach1Spatial-4" << std::endl;
+    std::cout << "  -yaw <#>              - Angle for decoded output's yaw orientation in float" << std::endl;
+    std::cout << "  -pitch <#>            - Angle for decoded output's pitch orientation in float" << std::endl;
+    std::cout << "  -roll <#>             - Angle for decoded output's roll orientation in float" << std::endl;
     std::cout << std::endl;
 }
 
@@ -208,10 +206,6 @@ int rtAudioPlayback( void *outputBuffer, void *inputBuffer, unsigned int nBuffer
         float *inputFileBufferPtr = fileBuffer;
 
 		// play audio
-        float coeffs[6 * 2];
-        for (int I = 0; I < 6 * 2; I ++) {
-            coeffs[I] = 0.25;
-        }
 		for (i = 0; i < nBufferFrames; i++) {
 			stereoOutputBuffer[i * 2 + 0] = 0;
 			stereoOutputBuffer[i * 2 + 1] = 0;
@@ -339,6 +333,18 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
+    pStr = getCmdOption(argv, argv + argc, "-out-fmt");
+    if (pStr && (strlen(pStr) > 0)) {
+        outFmtStr = pStr;
+        if (strcmp(outFmtStr, "CustomPoints") == 0) {
+            pStr = getCmdOption(argv, argv + argc, "-out-json");
+            if (pStr && (strlen(pStr) > 0)) {
+                std::ifstream file(pStr);
+                std::string strJson((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+                m1transcode.setOutputFormatCustomPointsJson((char*)strJson.c_str());
+            }
+        }
+    }
 
 	bool foundInFmt = false;
 	inFmt = m1transcode.getFormatFromString(inFmtStr);
@@ -349,7 +355,9 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
-    outFmt = m1transcode.getFormatFromString("M1Spatial");
+    // default to 14ch output for decoding
+    // TODO: expand to search for other M1 formats and apply to decoder too
+    outFmt = m1transcode.getFormatFromString("M1Spatial-14");
 
 	//=================================================================
 	// initialize inputs, outputs and components
@@ -390,7 +398,7 @@ int main(int argc, char* argv[])
 
     // -- Mach1Decode setup
     m1Decode.setPlatformType(Mach1PlatformDefault);
-    m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial_8);
+    m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial_14); // TODO: allow other M1 output from transcoder and apply here too
     m1Decode.setFilterSpeed(0.95f);
     orientation.x = yaw;
     orientation.y = pitch;

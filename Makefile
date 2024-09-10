@@ -22,11 +22,14 @@ ifeq ($(detected_OS),Windows)
 	vcpkg install rtaudio libvorbis:x64-windows-static libflac:x64-windows-static opus:x64-windows-static
 	@if not exist "$(pip show pre-commit)" (pip install pre-commit)
 	pre-commit install
+	@choco version >nul || (echo "choco is not installed" && exit 1)
+	@echo "choco is installed and working"
+	choco install doxygen.install
 else ifeq ($(detected_OS),Darwin)
-	brew install cmake emscripten pre-commit libsndfile rtaudio
+	brew install cmake emscripten pre-commit libsndfile rtaudio doxygen
 	pre-commit install
 else
-	sudo apt-get update && sudo apt install libsndfile-dev cmake emscripten librtaudio-dev pre-commit
+	sudo apt-add-repository universe && sudo apt-get update && sudo apt install libsndfile-dev cmake emscripten librtaudio-dev pre-commit doxygen
 	pre-commit install
 endif
 
@@ -36,6 +39,9 @@ ifeq ($(detected_OS),Windows)
 else
 	rm -rf _builds
 endif
+
+doxygen:
+	cd docs && doxygen Doxyfile
 
 # use cmake_generator="" to specify generator.
 test: clean

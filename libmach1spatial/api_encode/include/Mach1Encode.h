@@ -8,6 +8,7 @@
 #endif
 #include "Mach1EncodeCAPI.h"
 #include <string>
+#include <cstring>
 #include <vector>
 
 class Mach1Encode {

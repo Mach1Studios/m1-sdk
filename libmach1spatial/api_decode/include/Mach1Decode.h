@@ -5,6 +5,7 @@
 
 #include "Mach1DecodeCAPI.h"
 #include <string>
+#include <cstring>
 #include <vector>
 
 class Mach1Decode {

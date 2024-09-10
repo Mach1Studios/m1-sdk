@@ -22,15 +22,8 @@ void update(){
     m1Encode.setInputMode(Mach1EncodeInputModeType::Mach1EncodeInputModeMono);
     m1Encode.setOutputMode(Mach1EncodeOutputModeType::Mach1EncodeOutputModeM1Spatial_8);
 
-    mtx.lock();
     m1Encode.generatePointResults();
-
-    m1Decode.beginBuffer();
-    decoded = m1Decode.decode(decoderRotationY, decoderRotationP, decoderRotationR, 0, 0);
-    m1Decode.endBuffer();
-
     std::vector<float> gains = this->gains;
-    mtx.unlock();
 }
 ```
 - <b class="tab-title">Swift</b>

@@ -2,7 +2,7 @@
 
 Mach1Decode supplies the functions needed to playback Mach1 Spatial VVBP formats to a stereo stream based on the device's orientation, this can be used for mobile device windowing or first person based media such as AR/VR/MR without any additional processing effects required.
 
-## Summary Use
+## Summary of Use
 <div class="tabbed">
 
 - <b class="tab-title">C++</b>
@@ -14,9 +14,7 @@ void setup(){
 }
 void loop(){
     mach1Decode.setRotation(deviceYaw, devicePitch, deviceRoll); // normalized rotation input
-    mach1Decode.beginBuffer();
     auto gainCoeffs = mach1Decode.decodeCoeffs();
-    mach1Decode.endBuffer();
 
     // Apply gainCoeffs to gain/volume of array of audioplayers for custom spatial audio mixer
 }
@@ -29,9 +27,7 @@ override func viewDidLoad() {
     mach1Decode.setFilterSpeed(filterSpeed: 1.0)
 }
 func update() {
-    mach1Decode.beginBuffer()
     let decodeArray: [Float]  = mach1Decode.decode(Yaw: Float(deviceYaw), Pitch: Float(devicePitch), Roll: Float(deviceRoll))
-    mach1Decode.endBuffer()
 
     // Apply gainCoeffs to gain/volume of array of audioplayers for custom spatial audio mixer
 }
@@ -46,9 +42,7 @@ Mach1DecodeModule().then(function(m1DecodeModule) {
     m1Decode.setFilterSpeed(0.95);
 });
 function update() {
-    mach1Decode.beginBuffer();
     var decoded = mach1Decode.decode(params.decoderRotationY, params.decoderRotationP, params.decoderRotationR);
-    mach1Decode.endBuffer();
 
     // Apply gainCoeffs to gain/volume of array of audioplayers for custom spatial audio mixer
 }
@@ -66,11 +60,9 @@ Setup Step (setup/start):
 
 Audio Loop:
 
- - `beginBuffer`
  - `setRotation` / `setRotationDegrees` / `setRotationRadians` / `setRotationQuat`
  - `decode` / `decodeCoeffs`
  - `getCurrentAngle` (debug/optional)
- - `endBuffer`
 
 ### Using Mach1Decode `decode` Callback Options
 The Mach1Decode class's decode function returns the coefficients for each external audio players' gains/volumes to create the spatial decode per update at the current angle. The timing of when this callback can be designed with two different modes of use:
@@ -170,60 +162,18 @@ mach1Decode.setDecodeAlgoType(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatia
 Use this function to setup and choose the required Mach1 decoding algorithm.
 
 ### Mach1 Decoding Algorithm Types:
- - `Mach1DecodeAlgoSpatial_8` = 0 (default spatial | 8 channels)
- - `Mach1DecodeAlgoHorizon_4` (compass / yaw | 4 channels)
- - `Mach1DecodeAlgoHorizonPairs` (compass / yaw | 4x stereo mastered pairs)
+ - `Mach1DecodeAlgoSpatial_4` = 0 (compass / yaw | 4 channels)
+ - `Mach1DecodeAlgoSpatial_8` (default spatial | 8 channels)
+ - `Mach1DecodeAlgoSpatial_12` (default spatial | 8 channels)
+ - `Mach1DecodeAlgoSpatial_14` (default spatial | 8 channels)
 
-#### Mach1DecodeAlgoSpatial_8
-Mach1Spatial. 8 Channel spatial mix decoding from our cuboid configuration.
-This is the default and recommended decoding utilizing isotropic decoding behavior.
-
-#### Mach1DecodeAlgoHorizon_4
-Mach1Horizon. 4 channel spatial mix decoding for compass / yaw only configurations.
+#### Mach1DecodeAlgoSpatial_4
+Previously named Mach1Horizon and now named Mach1Spatial-4 channel spatial mix decoding for compass / yaw only configurations.
 Also able to decode and virtualize a first person perspective of Quad Surround mixes.
 
-#### Mach1DecodeAlgoHorizonPairs
-Mach1HorizonPairs. 8 channel spatial mix decoding for compass / yaw only that can support headlocked / non-diegetic stereo elements to be mastered within the mix / 8 channels. Supports and decodes Quad-Binaural mixes.
-
-## Begin Buffer
-
-<div class="tabbed">
-
-- <b class="tab-title">C++</b>
-```cpp
-mach1Decode.beginBuffer();
-```
-- <b class="tab-title">Swift</b>
-```swift
-mach1Decode.beginBuffer()
-```
-- <b class="tab-title">JavaScript</b>
-```javascript
-mach1Decode.beginBuffer();
-```
-
-</div>
-
-Call this function before reading from the Mach1Decode buffer.
-
-## End Buffer
-
-<div class="tabbed">
-
-- <b class="tab-title">C++</b>
-```cpp
-mach1Decode.endBuffer();
-```
-- <b class="tab-title">Swift</b>
-```swift
-mach1Decode.endBuffer()
-```
-- <b class="tab-title">JavaScript</b>
-```javascript
-mach1Decode.endBuffer();
-```
-
-</div>
+#### Mach1DecodeAlgoSpatial_8
+Mach1Spatial-8 Channel spatial mix decoding from our cuboid configuration.
+This is the default and recommended decoding utilizing isotropic decoding behavior.
 
 Call this function after reading from the Mach1Decode buffer.
 

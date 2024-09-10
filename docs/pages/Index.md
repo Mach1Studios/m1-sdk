@@ -19,11 +19,6 @@ The Mach1 Spatial SDK includes the following components and libraries:
   - ***Mach1Transcode lib:***
     Transcode / convert any audio format (surround/spatial) to or from a Mach1Spatial VVBP format.
 
-
-Mach1Encode and Mach1Decode are C based and cross compiler friendly with pre-built library files supported on OSX 10.7+, Windows 10+, ARM based devices (Raspberry Pi), iOS 9.0+ and Android API 19+. Unity 4.0+ and Unreal Engine 4.10+ examples are available and said engines are supported too on the aforementioned platforms.
-
-Mach1Transcode is supported on macOS, linux and Windows, game engine support coming soon.
-
 # Mach1 Internal Angle Standard
 We decided to cherrypick and clarify how we think and describe rotations & translations in space, focused more to unify creators and developers and derived more from a first person perspective. After long deliberation on using various existing standards, they had places where they worked and places where they didn’t, they also were not very “humanized” and in an effort to fix this, we follow these guidelines:
 

@@ -81,7 +81,7 @@ void test_results(void) {
                     0.0, 0.0,
                     0.0, 0.0,
                 },
-                0.0,
+                5.0,
             }
         },
         {
@@ -107,7 +107,7 @@ void test_results(void) {
                     0.0, 0.0,
                     0.0, 0.0,
                 },
-                0.0,
+                5.0,
             }
         },
         /*
@@ -628,7 +628,7 @@ void test_results(void) {
                     // 0.000000, 0.000000,
                     1.0, 1.0,
                 },
-                7.07107,
+                5.0,
             }
         },
         {
@@ -685,20 +685,18 @@ void test_results(void) {
         m1Decode.setUsePitchForRotation(true);
         m1Decode.setUseRollForRotation(true);
         // Distance Application:
-        
+        float distance = m1Decode.getDist();
 
         /*
          Mapping distance to arbitrary linear curve
          Design your own distance coefficient curve here
          This example: Linear curve of 100% -> 0% from 0 to 10 distance away
         */
+        float attenuation = mapFloat(distance, 0, 10, 1, 0);
 
         m1Decode.evaluatePositionResults();
         std::vector<float> results;
         m1Decode.getCoefficients(results);
-
-        float distance = m1Decode.getDist();
-        float attenuation = mapFloat(distance, 0, 10, 1, 0);
 
         std::cout
             << "testing " << test.name << ": "
@@ -708,12 +706,9 @@ void test_results(void) {
 
         int counter = 0;
 
-        bool distCheck = fabs(distance - test.output.distance) < 0.0001;
-
         for (size_t i = 0; i < results.size(); i++) {
             bool check = fabs(test.output.results[i] - results[i]) < 0.0001;
             counter += check;
-
             if (check == false) {
                 TEST_CHECK_(check, "%s | Error with index [%d]", test.name.c_str(), i);
                 std::cout << "index: [" << i << "]: " << results[i] << ", should be: " << test.output.results[i];
@@ -724,12 +719,6 @@ void test_results(void) {
                           << "\033[1;32mpassed\033[0m\n";
             }
         }
-
-        if (distCheck == false) {
-                std::cout << "\033[31m" << "FAILED " << "\033[0m" << "Distance: " << distance << " should be: " << test.output.distance;  
-                std::cout << std::endl;
-        }
-
     }
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)

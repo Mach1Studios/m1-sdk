@@ -12,28 +12,44 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          submodules: 'recursive'
-          lfs: true
-          fetch-depth: 1
+    - uses: actions/checkout@v4
+      with:
+        lfs: true
+        fetch-depth: 1
 
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          submodules: 'recursive'
-          lfs: true
-          fetch-depth: 1
+    - uses: actions/checkout@v4
+      with:
+        repository: mity/acutest
+        path: libmach1spatial/deps/acutest
 
-      - name: Configure, build and install
-        run: make deploy-android
+    - uses: actions/checkout@v4
+      with:
+        repository: g-truc/glm
+        path: libmach1spatial/deps/glm
 
-      - name: Push to jitpack submodule
-        run: |
-          cd $GITHUB_WORKSPACE/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI
-          git add .
-          git commit -m "Update prebuilt libraries from CMake build"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v4
+      with:
+        repository: zeux/pugixml
+        path: libmach1spatial/deps/pugixml
+
+    - uses: actions/checkout@v4
+      with:
+        repository: jimmiebergmann/mini-yaml
+        path: libmach1spatial/deps/yaml
+
+    - uses: actions/checkout@v4
+      with:
+        repository: nlohmann/json
+        path: libmach1spatial/deps/nlohmann
+
+    - name: Configure, build and install
+      run: make deploy-android
+
+    - name: Push to jitpack submodule
+      run: |
+        cd $GITHUB_WORKSPACE/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI
+        git add .
+        git commit -m "Update prebuilt libraries from CMake build"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

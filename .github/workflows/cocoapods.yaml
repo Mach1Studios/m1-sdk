@@ -12,21 +12,68 @@ jobs:
     runs-on: macOS-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          submodules: 'recursive'
-          lfs: true
-          fetch-depth: 1
+    - uses: actions/checkout@v4
+      with:
+        lfs: true
+        fetch-depth: 1
 
-      - name: Configure, build and install
-        run: make deploy-ios
+    - uses: actions/checkout@v4
+      with:
+        repository: mity/acutest
+        path: libmach1spatial/deps/acutest
 
-      - name: Push to cocoapods submodule
-        run: |
-          cd $GITHUB_WORKSPACE/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI
-          git add .
-          git commit -m "Update prebuilt libraries from CMake build"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v4
+      with:
+        repository: g-truc/glm
+        path: libmach1spatial/deps/glm
+
+    - uses: actions/checkout@v4
+      with:
+        repository: zeux/pugixml
+        path: libmach1spatial/deps/pugixml
+
+    - uses: actions/checkout@v4
+      with:
+        repository: jimmiebergmann/mini-yaml
+        path: libmach1spatial/deps/yaml
+
+    - uses: actions/checkout@v4
+      with:
+        repository: nlohmann/json
+        path: libmach1spatial/deps/nlohmann
+
+    - uses: actions/checkout@v4
+      with:
+        repository: leetal/ios-cmake
+        path: libmach1spatial/cmake/ios-cmake
+
+    - name: Configure CMake (macos)
+      run: cmake . -B_build/osx -GXcode -DCMAKE_BUILD_TYPE=Release -DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_SIGNAL_SUITE=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=MAC_UNIVERSAL
+
+    - name: Build (macos)
+      shell: bash
+      run: cmake --build _builds/osx --config Release
+
+    - name: Install (macos)
+      shell: bash
+      run: cmake --install _builds/osx --config Release
+
+    - name: Configure CMake (ios)
+      run: cmake . -B_build/ios -GXcode -DCMAKE_BUILD_TYPE=Release -DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_SIGNAL_SUITE=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=OS64COMBINED
+
+    - name: Build (ios)
+      shell: bash
+      run: cmake --build _builds/ios --config Release
+
+    - name: Install (ios)
+      shell: bash
+      run: cmake --install _builds/ios --config Release
+
+    - name: Push to cocoapods submodule
+      run: |
+        cd $GITHUB_WORKSPACE/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI
+        git add .
+        git commit -m "Update prebuilt libraries from CMake build"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

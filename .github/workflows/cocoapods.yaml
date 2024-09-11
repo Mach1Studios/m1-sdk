@@ -47,6 +47,9 @@ jobs:
         repository: leetal/ios-cmake
         path: libmach1spatial/cmake/ios-cmake
 
+    - name: Create dirs
+      run: mkdir -p _build/osx _build/ios
+
     - name: Configure CMake (macos)
       run: cmake . -B_build/osx -GXcode -DCMAKE_BUILD_TYPE=Release -DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_SIGNAL_SUITE=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=MAC_UNIVERSAL
 

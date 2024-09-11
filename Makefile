@@ -50,7 +50,7 @@ else
 	tests/_build_on_linux_for_linux.sh
 endif
 
-build: test clean
+build: clean
 ifeq ($(detected_OS),Darwin)
 	cmake . -B_builds/xcode -GXcode -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=ON -DM1S_BUILD_SIGNAL_SUITE=ON
 	cmake --build _builds/xcode --config Release
@@ -63,7 +63,7 @@ else ifeq ($(detected_OS),Windows)
 	cmake --build _builds/windows-x86_64 --config "Release"
 endif
 
-deploy-android: test clean generate-jni-wrapper
+deploy-android: clean generate-jni-wrapper
 	# Using CMake install since we will be building a lib instead of copying source code
 	# TODO: Create jni source files
 	# BUILD arm64
@@ -109,7 +109,7 @@ deploy-android: test clean generate-jni-wrapper
 	-DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}
 	cmake --build _builds/android-x86-64 --config Release --target install
 
-deploy-ios: test clean
+deploy-ios: clean
 ifeq ($(detected_OS),Darwin)
 	# Using CMake install since we will be building a lib instead of copying source code
 	# TODO: Create .swift source files
@@ -140,7 +140,7 @@ deploy-web: generate-js
 	# OFXMACH1
 	rsync -c libmach1spatial/api_*/include/js/* examples/mach1spatial-c/openframeworks/ofxMach1/libs/libmach1/lib/emscripten/
 
-deploy-ue: test clean build
+deploy-ue: clean build
 	# api_common
 	rsync -c libmach1spatial/api_common/include/Mach1Point*.h examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/Source/Mach1DecodeAPI/Public
 	# api_decode
@@ -156,7 +156,7 @@ deploy-ue: test clean build
 	rsync -c libmach1spatial/api_decodepositional/include/Mach1DecodePositional.cpp  examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/Source/Mach1DecodePlugin/Private
 	rsync -c libmach1spatial/api_decodepositional/include/Mach1DecodePositional.h  examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/Source/Mach1DecodePlugin/Public
 
-deploy-unity: test clean build
+deploy-unity: clean build
 	# api_common
 	rsync -c libmach1spatial/api_common/include examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/libMach1Spatial/api_common --exclude='*AudioTimeline*' --exclude='*Mach1KeyPoint.h'
 	# api_decode
@@ -321,7 +321,7 @@ generate-go:
 	-Ilibmach1spatial/api_decodepositional/include -Ilibmach1spatial/api_decode/include -Ilibmach1spatial/api_common/swift \
 	libmach1spatial/swig/Mach1DecodePositional.i
 
-generate-js: test
+generate-js:
 	emcc -O3 --closure 0 --minify 0 -s MODULARIZE=1 --bind -s ALLOW_TABLE_GROWTH=1 \
 	-s "EXPORT_NAME='Mach1DecodeModule'" \
 	--pre-js libmach1spatial/api_decode/src/Mach1DecodeEmscripten.js \

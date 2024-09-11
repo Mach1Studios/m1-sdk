@@ -80,10 +80,13 @@ jobs:
     - name: Push to cocoapods submodule
       run: |
         cd $GITHUB_WORKSPACE/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI
-        git config --global user.name "$(git log -n 1 --pretty=format:%an)"
+        git config --global user.name "github-actions[bot]"
         git config --global user.email "$(git log -n 1 --pretty=format:%ae)"
         git add .
         git commit -m "Update prebuilt libraries from CMake build"
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        directory: $GITHUB_WORKSPACE/examples/mach1spatial-nodejs/mach1spatial-decode
+        github_token: ${{ secrets.GITHUB_TOKEN }}

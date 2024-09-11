@@ -73,54 +73,68 @@ jobs:
     - name: Push to web js example
       run: |
         cd $GITHUB_WORKSPACE/examples/mach1spatial-web/js
-        git config --global user.name "$(git log -n 1 --pretty=format:%an)"
+        git config --global user.name "github-actions[bot]"
         git config --global user.email "$(git log -n 1 --pretty=format:%ae)"
         git add .
         git commit -m "Update prebuilt libraries from CMake build"
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Push to m1-web-spatialaudioplayer example
       run: |
         cd $GITHUB_WORKSPACE/examples/mach1spatial-web/m1-web-spatialaudioplayer/js
-        git config --global user.name "$(git log -n 1 --pretty=format:%an)"
+        git config --global user.name "github-actions[bot]"
         git config --global user.email "$(git log -n 1 --pretty=format:%ae)"
         git add .
         git commit -m "Update prebuilt libraries from CMake build"
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        directory: $GITHUB_WORKSPACE/examples/mach1spatial-web/m1-web-spatialaudioplayer
+        github_token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Push to NodeJS decode example
       run: |
         cd $GITHUB_WORKSPACE/examples/mach1spatial-nodejs/mach1spatial-decode/lib
-        git config --global user.name "$(git log -n 1 --pretty=format:%an)"
+        git config --global user.name "github-actions[bot]"
         git config --global user.email "$(git log -n 1 --pretty=format:%ae)"
         git add .
         git commit -m "Update prebuilt libraries from CMake build"
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        directory: $GITHUB_WORKSPACE/examples/mach1spatial-nodejs/mach1spatial-decode
+        github_token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Push to NodeJS encode example
       run: |
         cd $GITHUB_WORKSPACE/examples/mach1spatial-nodejs/mach1spatial-encode/lib
-        git config --global user.name "$(git log -n 1 --pretty=format:%an)"
+        git config --global user.name "github-actions[bot]"
         git config --global user.email "$(git log -n 1 --pretty=format:%ae)"
         git add .
         git commit -m "Update prebuilt libraries from CMake build"
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        directory: $GITHUB_WORKSPACE/examples/mach1spatial-nodejs/mach1spatial-encode
+        github_token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Push to NodeJS transcode example
       run: |
         cd $GITHUB_WORKSPACE/examples/mach1spatial-nodejs/mach1spatial-transcode/lib
-        git config --global user.name "$(git log -n 1 --pretty=format:%an)"
+        git config --global user.name "github-actions[bot]"
         git config --global user.email "$(git log -n 1 --pretty=format:%ae)"
         git add .
         git commit -m "Update prebuilt libraries from CMake build"
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        directory: $GITHUB_WORKSPACE/examples/mach1spatial-nodejs/mach1spatial-transcode
+        github_token: ${{ secrets.GITHUB_TOKEN }}

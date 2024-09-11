@@ -237,7 +237,7 @@ int rtAudioPlayback( void *outputBuffer, void *inputBuffer, unsigned int nBuffer
 
 	// run transocde
 	m1transcode.processConversion(inputBuffers, transcodedBuffers);
-	m1Decode.decodeBuffer<float>(&transcodedBuffers, &outputBuffers, 1, nBufferFrames);
+	m1Decode.decodeBuffer<float>(transcodedBuffers, outputBuffers, nBufferFrames);
 
 	for (i = 0; i < nBufferFrames; i++) {
 		// LEFT:

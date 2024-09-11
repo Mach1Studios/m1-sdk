@@ -16,41 +16,49 @@ jobs:
       with:
         lfs: true
         fetch-depth: 1
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
       with:
         repository: mity/acutest
         path: libmach1spatial/deps/acutest
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
       with:
         repository: g-truc/glm
         path: libmach1spatial/deps/glm
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
       with:
         repository: zeux/pugixml
         path: libmach1spatial/deps/pugixml
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
       with:
         repository: jimmiebergmann/mini-yaml
         path: libmach1spatial/deps/yaml
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
       with:
         repository: nlohmann/json
         path: libmach1spatial/deps/nlohmann
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
       with:
         repository: leetal/ios-cmake
         path: libmach1spatial/cmake/ios-cmake
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
       with:
         repository: Mach1Studios/Pod-Mach1SpatialAPI
         path: examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - name: Create dirs
       run: mkdir -p _builds/osx _builds/ios
@@ -88,6 +96,6 @@ jobs:
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
-        directory: $GITHUB_WORKSPACE/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI
+        directory: examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI
         repository: Mach1Studios/Pod-Mach1SpatialAPI
         github_token: ${{ secrets.GITHUB_TOKEN }}

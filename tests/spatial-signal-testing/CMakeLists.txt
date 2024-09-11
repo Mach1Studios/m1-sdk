@@ -91,6 +91,8 @@ PRIVATE
     src/RtAudioChain.h
     src/RtAudioChain.cpp
     src/RtAudioLink.h
+    src/GainLink.h
+    src/GainLink.cpp
     src/SineWaveLink.h
     src/SineWaveLink.cpp
     src/PeakTrackerLink.h

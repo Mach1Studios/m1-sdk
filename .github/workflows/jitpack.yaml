@@ -16,36 +16,43 @@ jobs:
       with:
         lfs: true
         fetch-depth: 1
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
       with:
         repository: mity/acutest
         path: libmach1spatial/deps/acutest
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
       with:
         repository: g-truc/glm
         path: libmach1spatial/deps/glm
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
       with:
         repository: zeux/pugixml
         path: libmach1spatial/deps/pugixml
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
       with:
         repository: jimmiebergmann/mini-yaml
         path: libmach1spatial/deps/yaml
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
       with:
         repository: nlohmann/json
         path: libmach1spatial/deps/nlohmann
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
       with:
         repository: Mach1Studios/JitPack-Mach1SpatialAPI
         path: examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - name: Install Deps
       run: sudo apt-get update && sudo apt install libsndfile-dev

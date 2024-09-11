@@ -16,51 +16,61 @@ jobs:
       with:
         lfs: true
         fetch-depth: 1
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
       with:
         repository: mity/acutest
         path: libmach1spatial/deps/acutest
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
       with:
         repository: g-truc/glm
         path: libmach1spatial/deps/glm
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
       with:
         repository: zeux/pugixml
         path: libmach1spatial/deps/pugixml
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
       with:
         repository: jimmiebergmann/mini-yaml
         path: libmach1spatial/deps/yaml
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
       with:
         repository: nlohmann/json
         path: libmach1spatial/deps/nlohmann
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
       with:
         repository: Mach1Studios/m1-web-spatialaudioplayer
         path: examples/mach1spatial-web/m1-web-spatialaudioplayer
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
       with:
         repository: Mach1Studios/NodeJS-Mach1Decode
         path: examples/mach1spatial-nodejs/mach1spatial-decode
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
       with:
         repository: Mach1Studios/NodeJS-Mach1Encode
         path: examples/mach1spatial-nodejs/mach1spatial-encode
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
       with:
         repository: Mach1Studios/NodeJS-Mach1Transcode
         path: examples/mach1spatial-nodejs/mach1spatial-transcode
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: mymindstorm/setup-emsdk@v14
 
@@ -109,7 +119,7 @@ jobs:
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
-        directory: $GITHUB_WORKSPACE/examples/mach1spatial-nodejs/mach1spatial-decode
+        directory: examples/mach1spatial-nodejs/mach1spatial-decode
         repository: Mach1Studios/NodeJS-Mach1Decode
         github_token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -124,7 +134,7 @@ jobs:
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
-        directory: $GITHUB_WORKSPACE/examples/mach1spatial-nodejs/mach1spatial-encode
+        directory: examples/mach1spatial-nodejs/mach1spatial-encode
         repository: Mach1Studios/NodeJS-Mach1Encode
         github_token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -139,6 +149,6 @@ jobs:
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
-        directory: $GITHUB_WORKSPACE/examples/mach1spatial-nodejs/mach1spatial-transcode
+        directory: examples/mach1spatial-nodejs/mach1spatial-transcode
         repository: Mach1Studios/NodeJS-Mach1Transcode
         github_token: ${{ secrets.GITHUB_TOKEN }}

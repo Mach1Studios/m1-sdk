@@ -47,6 +47,11 @@ jobs:
         repository: leetal/ios-cmake
         path: libmach1spatial/cmake/ios-cmake
 
+    - uses: actions/checkout@v4
+      with:
+        repository: Mach1Studios/Pod-Mach1SpatialAPI
+        path: examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI
+
     - name: Create dirs
       run: mkdir -p _builds/osx _builds/ios
 

@@ -42,6 +42,11 @@ jobs:
         repository: nlohmann/json
         path: libmach1spatial/deps/nlohmann
 
+    - uses: actions/checkout@v4
+      with:
+        repository: Mach1Studios/JitPack-Mach1SpatialAPI
+        path: examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI
+
     - name: Install Deps
       run: sudo apt-get update && sudo apt install libsndfile-dev
 

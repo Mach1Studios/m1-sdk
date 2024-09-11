@@ -42,6 +42,26 @@ jobs:
         repository: nlohmann/json
         path: libmach1spatial/deps/nlohmann
 
+    - uses: actions/checkout@v4
+      with:
+        repository: Mach1Studios/m1-web-spatialaudioplayer
+        path: examples/mach1spatial-web/m1-web-spatialaudioplayer
+
+    - uses: actions/checkout@v4
+      with:
+        repository: Mach1Studios/NodeJS-Mach1Decode
+        path: examples/mach1spatial-nodejs/mach1spatial-decode
+
+    - uses: actions/checkout@v4
+      with:
+        repository: Mach1Studios/NodeJS-Mach1Encode
+        path: examples/mach1spatial-nodejs/mach1spatial-encode
+
+    - uses: actions/checkout@v4
+      with:
+        repository: Mach1Studios/NodeJS-Mach1Transcode
+        path: examples/mach1spatial-nodejs/mach1spatial-transcode
+
     - uses: mymindstorm/setup-emsdk@v14
 
     - name: Verify emscripten installation
@@ -53,6 +73,8 @@ jobs:
     - name: Push to web js example
       run: |
         cd $GITHUB_WORKSPACE/examples/mach1spatial-web/js
+        git config --global user.name "$(git log -n 1 --pretty=format:%an)"
+        git config --global user.email "$(git log -n 1 --pretty=format:%ae)"
         git add .
         git commit -m "Update prebuilt libraries from CMake build"
         git push
@@ -62,6 +84,8 @@ jobs:
     - name: Push to m1-web-spatialaudioplayer example
       run: |
         cd $GITHUB_WORKSPACE/examples/mach1spatial-web/m1-web-spatialaudioplayer/js
+        git config --global user.name "$(git log -n 1 --pretty=format:%an)"
+        git config --global user.email "$(git log -n 1 --pretty=format:%ae)"
         git add .
         git commit -m "Update prebuilt libraries from CMake build"
         git push
@@ -71,6 +95,8 @@ jobs:
     - name: Push to NodeJS decode example
       run: |
         cd $GITHUB_WORKSPACE/examples/mach1spatial-nodejs/mach1spatial-decode/lib
+        git config --global user.name "$(git log -n 1 --pretty=format:%an)"
+        git config --global user.email "$(git log -n 1 --pretty=format:%ae)"
         git add .
         git commit -m "Update prebuilt libraries from CMake build"
         git push
@@ -80,6 +106,8 @@ jobs:
     - name: Push to NodeJS encode example
       run: |
         cd $GITHUB_WORKSPACE/examples/mach1spatial-nodejs/mach1spatial-encode/lib
+        git config --global user.name "$(git log -n 1 --pretty=format:%an)"
+        git config --global user.email "$(git log -n 1 --pretty=format:%ae)"
         git add .
         git commit -m "Update prebuilt libraries from CMake build"
         git push

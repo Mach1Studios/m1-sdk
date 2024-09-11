@@ -51,8 +51,8 @@ jobs:
     - name: Push to jitpack submodule
       run: |
         cd $GITHUB_WORKSPACE/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI
-        git config user.name "$(git log -n 1 --pretty=format:%an)"
-        git config user.email "$(git log -n 1 --pretty=format:%ae)"
+        git config --global user.name "$(git log -n 1 --pretty=format:%an)"
+        git config --global user.email "$(git log -n 1 --pretty=format:%ae)"
         git add .
         git commit -m "Update prebuilt libraries from CMake build"
         git push

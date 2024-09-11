@@ -1,6 +1,7 @@
 #include "RtAudioChain.h"
 #include "SineWaveLink.h"
 #include "PeakTrackerLink.h"
+#include "GainLink.h"
 #include "EncodeLink.h"
 #include "DecodeLink.h"
 #include "TranscodeLink.h"
@@ -20,6 +21,7 @@ int main(int argc, char *argv[]) {
     Mach1::EncodeLink encode_link{};
 //    Mach1::TranscodeLink transode_link{};
     Mach1::DecodeLink decode_link{};
+    Mach1::GainLink gain_link{};
 
     chain.AddLink(&sine_wave_link);
     chain.AddLink(&peak_tracker_link[0]);
@@ -29,6 +31,7 @@ int main(int argc, char *argv[]) {
 //    chain.AddLink(&peak_tracker_link[2]);
     chain.AddLink(&decode_link);
     chain.AddLink(&peak_tracker_link[3]);
+    chain.AddLink(&gain_link);
 
     chain.SetInputChannelCount(1);
     chain.SetOutputChannelCount(2);
@@ -90,6 +93,8 @@ int main(int argc, char *argv[]) {
     decode_link.SetPlatformType(Mach1PlatformDefault);
     decode_link.SetFilterSpeed(1.0);
     decode_link.SetPointCount(encode_link.GetPointsCount());
+
+    gain_link.SetGain(1.0); // use this to mute the output if needed
 
     chain.Start();
 

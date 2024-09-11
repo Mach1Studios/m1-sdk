@@ -17,16 +17,9 @@ public:
 
     void SetGainDecibels(float gain_decibels);
 
-    bool IsChannelEnabled(size_t index) const;
-
-    void SetChannelEnabled(size_t index, bool is_enabled);
-
-    void SetChannelMask(long long bitmask);
-
 private:
     float m_gain = 1.0f;
     double m_time_per_sample;
-    long long m_channel_mask;
 };
 
 } // Mach1

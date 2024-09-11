@@ -77,7 +77,7 @@ jobs:
       shell: bash
       run: cmake --install _builds/ios --config Release
 
-    - name: Push to cocoapods submodule
+    - name: Commit to cocoapods submodule
       run: |
         cd $GITHUB_WORKSPACE/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI
         git config --global user.name "github-actions[bot]"
@@ -88,5 +88,6 @@ jobs:
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
-        directory: $GITHUB_WORKSPACE/examples/mach1spatial-nodejs/mach1spatial-decode
+        directory: $GITHUB_WORKSPACE/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI
+        repository: Mach1Studios/Pod-Mach1SpatialAPI
         github_token: ${{ secrets.GITHUB_TOKEN }}

@@ -70,12 +70,12 @@ jobs:
     - name: Generate JS via Emscripten
       run: make deploy-web
 
-    - name: Push to web js example
+    - name: Commit to web js example
       run: |
-        cd $GITHUB_WORKSPACE/examples/mach1spatial-web/js
         git config --global user.name "github-actions[bot]"
         git config --global user.email "$(git log -n 1 --pretty=format:%ae)"
-        git add .
+        git ls-files ./ | grep '\.wasm$' | xargs git add
+        git ls-files ./ | grep '\.js$' | xargs git add
         git commit -m "Update prebuilt libraries from CMake build"
 
     - name: Push changes
@@ -83,7 +83,7 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Push to m1-web-spatialaudioplayer example
+    - name: Commit to m1-web-spatialaudioplayer example
       run: |
         cd $GITHUB_WORKSPACE/examples/mach1spatial-web/m1-web-spatialaudioplayer/js
         git config --global user.name "github-actions[bot]"
@@ -94,10 +94,11 @@ jobs:
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
-        directory: $GITHUB_WORKSPACE/examples/mach1spatial-web/m1-web-spatialaudioplayer
+        directory: examples/mach1spatial-web/m1-web-spatialaudioplayer
+        repository: Mach1Studios/m1-web-spatialaudioplayer
         github_token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Push to NodeJS decode example
+    - name: Commit to NodeJS decode example
       run: |
         cd $GITHUB_WORKSPACE/examples/mach1spatial-nodejs/mach1spatial-decode/lib
         git config --global user.name "github-actions[bot]"
@@ -109,9 +110,10 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         directory: $GITHUB_WORKSPACE/examples/mach1spatial-nodejs/mach1spatial-decode
+        repository: Mach1Studios/NodeJS-Mach1Decode
         github_token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Push to NodeJS encode example
+    - name: Commit to NodeJS encode example
       run: |
         cd $GITHUB_WORKSPACE/examples/mach1spatial-nodejs/mach1spatial-encode/lib
         git config --global user.name "github-actions[bot]"
@@ -123,9 +125,10 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         directory: $GITHUB_WORKSPACE/examples/mach1spatial-nodejs/mach1spatial-encode
+        repository: Mach1Studios/NodeJS-Mach1Encode
         github_token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Push to NodeJS transcode example
+    - name: Commit to NodeJS transcode example
       run: |
         cd $GITHUB_WORKSPACE/examples/mach1spatial-nodejs/mach1spatial-transcode/lib
         git config --global user.name "github-actions[bot]"
@@ -137,4 +140,5 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         directory: $GITHUB_WORKSPACE/examples/mach1spatial-nodejs/mach1spatial-transcode
+        repository: Mach1Studios/NodeJS-Mach1Transcode
         github_token: ${{ secrets.GITHUB_TOKEN }}

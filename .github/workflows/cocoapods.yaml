@@ -48,10 +48,10 @@ jobs:
         path: libmach1spatial/cmake/ios-cmake
 
     - name: Create dirs
-      run: mkdir -p _build/osx _build/ios
+      run: mkdir -p _builds/osx _builds/ios
 
     - name: Configure CMake (macos)
-      run: cmake . -B_build/osx -GXcode -DCMAKE_BUILD_TYPE=Release -DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_SIGNAL_SUITE=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=MAC_UNIVERSAL
+      run: cmake . -B_builds/osx -GXcode -DCMAKE_BUILD_TYPE=Release -DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_SIGNAL_SUITE=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=MAC_UNIVERSAL
 
     - name: Build (macos)
       shell: bash
@@ -62,7 +62,7 @@ jobs:
       run: cmake --install _builds/osx --config Release
 
     - name: Configure CMake (ios)
-      run: cmake . -B_build/ios -GXcode -DCMAKE_BUILD_TYPE=Release -DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_SIGNAL_SUITE=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=OS64COMBINED
+      run: cmake . -B_builds/ios -GXcode -DCMAKE_BUILD_TYPE=Release -DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_SIGNAL_SUITE=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=OS64COMBINED
 
     - name: Build (ios)
       shell: bash
@@ -75,6 +75,8 @@ jobs:
     - name: Push to cocoapods submodule
       run: |
         cd $GITHUB_WORKSPACE/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI
+        git config user.name "$(git log -n 1 --pretty=format:%an)"
+        git config user.email "$(git log -n 1 --pretty=format:%ae)"
         git add .
         git commit -m "Update prebuilt libraries from CMake build"
         git push

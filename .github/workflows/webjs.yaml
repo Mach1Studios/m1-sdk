@@ -89,6 +89,8 @@ jobs:
     - name: Push to NodeJS transcode example
       run: |
         cd $GITHUB_WORKSPACE/examples/mach1spatial-nodejs/mach1spatial-transcode/lib
+        git config user.name "$(git log -n 1 --pretty=format:%an)"
+        git config user.email "$(git log -n 1 --pretty=format:%ae)"
         git add .
         git commit -m "Update prebuilt libraries from CMake build"
         git push

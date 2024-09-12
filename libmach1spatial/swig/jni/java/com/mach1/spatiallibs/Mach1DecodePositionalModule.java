@@ -22,8 +22,8 @@ public class Mach1DecodePositionalModule {
     Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_setPlatformType(SWIGTYPE_p_void.getCPtr(M1obj), platformType.swigValue());
   }
 
-  public static void Mach1DecodePositionalCAPI_setDecodeAlgoType(SWIGTYPE_p_void M1obj, Mach1DecodeAlgoType newAlgorithmType) {
-    Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_setDecodeAlgoType(SWIGTYPE_p_void.getCPtr(M1obj), newAlgorithmType.swigValue());
+  public static void Mach1DecodePositionalCAPI_setDecodeMode(SWIGTYPE_p_void M1obj, Mach1DecodeMode mode) {
+    Mach1DecodePositionalModuleJNI.Mach1DecodePositionalCAPI_setDecodeMode(SWIGTYPE_p_void.getCPtr(M1obj), mode.swigValue());
   }
 
   public static void Mach1DecodePositionalCAPI_setMuteWhenOutsideObject(SWIGTYPE_p_void M1obj, boolean muteWhenOutsideObject) {

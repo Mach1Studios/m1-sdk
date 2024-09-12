@@ -9,14 +9,14 @@
 package com.mach1.spatiallibs;
 
 class Mach1EncodeModuleJNI {
- 
+
   static {
     System.loadLibrary("Mach1EncodeModule_lib");
   }
 
-  public final static native int Mach1EncodeInputModeMono_get();
-  public final static native int Mach1EncodeOutputModeM1Spatial_4_get();
-  public final static native int Mach1EncodePannerModeIsotropicLinear_get();
+  public final static native int Mono_get();
+  public final static native int M1Spatial_4_get();
+  public final static native int IsotropicLinear_get();
   public final static native long Mach1EncodeCAPI_create();
   public final static native void Mach1EncodeCAPI_copy(long jarg1, long jarg2);
   public final static native void Mach1EncodeCAPI_delete(long jarg1);

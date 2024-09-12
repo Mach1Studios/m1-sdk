@@ -165,7 +165,7 @@ class ADMParser {
         }
     };
 
-    typedef std::map<std::string, std::vector<KeyPoint>> AudioTracks;
+    typedef std::map<std::string, std::vector<KeyPoint> > AudioTracks;
 
     bool sessionDataFound = false;
 

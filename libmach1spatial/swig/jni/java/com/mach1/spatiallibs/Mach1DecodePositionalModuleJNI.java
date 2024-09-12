@@ -9,7 +9,7 @@
 package com.mach1.spatiallibs;
 
 class Mach1DecodePositionalModuleJNI {
- 
+
   static {
     System.loadLibrary("Mach1DecodePositionalModule_lib");
   }
@@ -17,7 +17,7 @@ class Mach1DecodePositionalModuleJNI {
   public final static native long Mach1DecodePositionalCAPI_create();
   public final static native void Mach1DecodePositionalCAPI_delete(long jarg1);
   public final static native void Mach1DecodePositionalCAPI_setPlatformType(long jarg1, int jarg2);
-  public final static native void Mach1DecodePositionalCAPI_setDecodeAlgoType(long jarg1, int jarg2);
+  public final static native void Mach1DecodePositionalCAPI_setDecodeMode(long jarg1, int jarg2);
   public final static native void Mach1DecodePositionalCAPI_setMuteWhenOutsideObject(long jarg1, boolean jarg2);
   public final static native void Mach1DecodePositionalCAPI_setMuteWhenInsideObject(long jarg1, boolean jarg2);
   public final static native void Mach1DecodePositionalCAPI_setUseAttenuation(long jarg1, boolean jarg2);

@@ -11,11 +11,11 @@ void EncodeLink::Process(AudioBuffers &buffers, double playback_time) {
 #endif
 }
 
-void EncodeLink::SetInputMode(Mach1EncodeInputModeType inputMode) {
+void EncodeLink::SetInputMode(Mach1EncodeInputMode inputMode) {
     m_encode.setInputMode(inputMode);
 }
 
-void EncodeLink::SetOutputMode(Mach1EncodeOutputModeType outputMode) {
+void EncodeLink::SetOutputMode(Mach1EncodeOutputMode outputMode) {
     m_encode.setOutputMode(outputMode);
 }
 
@@ -97,12 +97,12 @@ void EncodeLink::ResolvePannerMode() {
 
     if (m_is_isotropic) {
         if (m_is_equal_power) {
-            m_encode.setPannerMode(Mach1EncodePannerModeType::Mach1EncodePannerModeIsotropicEqualPower);
+            m_encode.setPannerMode(Mach1EncodePannerMode::IsotropicEqualPower);
         } else {
-            m_encode.setPannerMode(Mach1EncodePannerModeType::Mach1EncodePannerModeIsotropicLinear);
+            m_encode.setPannerMode(Mach1EncodePannerMode::IsotropicLinear);
         }
     } else {
-        m_encode.setPannerMode(Mach1EncodePannerModeType::Mach1EncodePannerModePeriphonicLinear);
+        m_encode.setPannerMode(Mach1EncodePannerMode::PeriphonicLinear);
     }
 
 }

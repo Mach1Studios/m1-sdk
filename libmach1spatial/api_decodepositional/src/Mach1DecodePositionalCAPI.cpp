@@ -21,9 +21,9 @@ void Mach1DecodePositionalCAPI_setPlatformType(void *M1obj, Mach1PlatformType ty
     }
 }
 
-void Mach1DecodePositionalCAPI_setDecodeAlgoType(void *M1obj, enum Mach1DecodeAlgoType newAlgorithmType) {
+void Mach1DecodePositionalCAPI_setDecodeMode(void *M1obj, enum Mach1DecodeMode mode) {
     if (M1obj != nullptr) {
-        ((Mach1DecodePositionalCore *)M1obj)->setDecodeAlgoType(newAlgorithmType);
+        ((Mach1DecodePositionalCore *)M1obj)->setDecodeMode(mode);
     }
 }
 

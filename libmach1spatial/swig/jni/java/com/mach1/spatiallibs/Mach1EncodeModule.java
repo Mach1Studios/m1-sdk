@@ -50,16 +50,16 @@ public class Mach1EncodeModule {
     return Mach1EncodeModuleJNI.Mach1EncodeCAPI_getPointsCount(SWIGTYPE_p_void.getCPtr(M1obj));
   }
 
-  public static Mach1EncodeInputModeType Mach1EncodeCAPI_getInputMode(SWIGTYPE_p_void M1obj) {
-    return Mach1EncodeInputModeType.swigToEnum(Mach1EncodeModuleJNI.Mach1EncodeCAPI_getInputMode(SWIGTYPE_p_void.getCPtr(M1obj)));
+  public static Mach1EncodeInputMode Mach1EncodeCAPI_getInputMode(SWIGTYPE_p_void M1obj) {
+    return Mach1EncodeInputMode.swigToEnum(Mach1EncodeModuleJNI.Mach1EncodeCAPI_getInputMode(SWIGTYPE_p_void.getCPtr(M1obj)));
   }
 
-  public static Mach1EncodeOutputModeType Mach1EncodeCAPI_getOutputMode(SWIGTYPE_p_void M1obj) {
-    return Mach1EncodeOutputModeType.swigToEnum(Mach1EncodeModuleJNI.Mach1EncodeCAPI_getOutputMode(SWIGTYPE_p_void.getCPtr(M1obj)));
+  public static Mach1EncodeOutputMode Mach1EncodeCAPI_getOutputMode(SWIGTYPE_p_void M1obj) {
+    return Mach1EncodeOutputMode.swigToEnum(Mach1EncodeModuleJNI.Mach1EncodeCAPI_getOutputMode(SWIGTYPE_p_void.getCPtr(M1obj)));
   }
 
-  public static Mach1EncodePannerModeType Mach1EncodeCAPI_getPannerMode(SWIGTYPE_p_void M1obj) {
-    return Mach1EncodePannerModeType.swigToEnum(Mach1EncodeModuleJNI.Mach1EncodeCAPI_getPannerMode(SWIGTYPE_p_void.getCPtr(M1obj)));
+  public static Mach1EncodePannerMode Mach1EncodeCAPI_getPannerMode(SWIGTYPE_p_void M1obj) {
+    return Mach1EncodePannerMode.swigToEnum(Mach1EncodeModuleJNI.Mach1EncodeCAPI_getPannerMode(SWIGTYPE_p_void.getCPtr(M1obj)));
   }
 
   public static boolean Mach1EncodeCAPI_getAutoOrbit(SWIGTYPE_p_void M1obj) {
@@ -74,11 +74,11 @@ public class Mach1EncodeModule {
     return Mach1EncodeModuleJNI.Mach1EncodeCAPI_getOutputChannelsCount(SWIGTYPE_p_void.getCPtr(M1obj));
   }
 
-  public static void Mach1EncodeCAPI_setInputMode(SWIGTYPE_p_void M1obj, Mach1EncodeInputModeType inputMode) {
+  public static void Mach1EncodeCAPI_setInputMode(SWIGTYPE_p_void M1obj, Mach1EncodeInputMode inputMode) {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setInputMode(SWIGTYPE_p_void.getCPtr(M1obj), inputMode.swigValue());
   }
 
-  public static void Mach1EncodeCAPI_setOutputMode(SWIGTYPE_p_void M1obj, Mach1EncodeOutputModeType outputMode) {
+  public static void Mach1EncodeCAPI_setOutputMode(SWIGTYPE_p_void M1obj, Mach1EncodeOutputMode outputMode) {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setOutputMode(SWIGTYPE_p_void.getCPtr(M1obj), outputMode.swigValue());
   }
 
@@ -110,7 +110,7 @@ public class Mach1EncodeModule {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setElevationRadians(SWIGTYPE_p_void.getCPtr(M1obj), elevationFromMinusHalfPItoHalfPI);
   }
 
-  public static void Mach1EncodeCAPI_setPannerMode(SWIGTYPE_p_void M1obj, Mach1EncodePannerModeType pannerMode) {
+  public static void Mach1EncodeCAPI_setPannerMode(SWIGTYPE_p_void M1obj, Mach1EncodePannerMode pannerMode) {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setPannerMode(SWIGTYPE_p_void.getCPtr(M1obj), pannerMode.swigValue());
   }
 

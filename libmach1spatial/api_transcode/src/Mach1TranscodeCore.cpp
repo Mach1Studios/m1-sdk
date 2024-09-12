@@ -380,7 +380,7 @@ std::vector<Mach1Point3D> Mach1TranscodeCore::getPointsSet(int fmt) {
         {0, 0, 1 / 0.707},
         {0, 0, -1 / 0.707}};
 
-    static std::map<int, std::vector<Mach1Point3D>> standards = {
+    static std::map<int, std::vector<Mach1Point3D> > standards = {
         {getFormatFromString("M1Horizon"), m1Spatial_4_Def},
         {getFormatFromString("M1Spatial-4"), m1Spatial_4_Def},
         {getFormatFromString("M1Spatial"), m1Spatial_8_Def},
@@ -408,8 +408,8 @@ int Mach1TranscodeCore::findMatrix(int inFmt, int outFmt) {
     return -1;
 }
 
-std::vector<std::vector<float>> Mach1TranscodeCore::getCoeffs(int idxMatrix) {
-    std::vector<std::vector<float>> coeffs;
+std::vector<std::vector<float> > Mach1TranscodeCore::getCoeffs(int idxMatrix) {
+    std::vector<std::vector<float> > coeffs;
 
     if (idxMatrix >= 0) {
         for (int i = 0; i < matrices[idxMatrix].channels.size(); i++) {
@@ -431,14 +431,14 @@ std::vector<std::vector<float>> Mach1TranscodeCore::getCoeffs(int idxMatrix) {
                 m1encode.setElevationDegrees(p->elevation);
                 m1encode.setOutputGain(p->outputGain.gain, p->outputGain.isDecibel);
                 m1encode.generatePointResults();
-                std::vector<std::vector<float>> gains = m1encode.resultingPoints.getGains();
+                std::vector<std::vector<float> > gains = m1encode.resultingPoints.getGains();
                 coeffs.push_back(gains[i]);
             }
 #endif
         }
     }
 
-    std::vector<std::vector<float>> coeffsFlipped(coeffs[0].size(), std::vector<float>(coeffs.size()));
+    std::vector<std::vector<float> > coeffsFlipped(coeffs[0].size(), std::vector<float>(coeffs.size()));
     for (size_t i = 0; i < coeffs.size(); i++) {
         for (size_t j = 0; j < coeffs[0].size(); j++) {
             coeffsFlipped[j][i] = coeffs[i][j];
@@ -450,7 +450,7 @@ std::vector<std::vector<float>> Mach1TranscodeCore::getCoeffs(int idxMatrix) {
 void Mach1TranscodeCore::processConversion(int inFmt, float **inBufs, int outFmt, float **outBufs, int numSamples) {
     int inChans = getNumChannels(inFmt, true);
     int outChans = getNumChannels(outFmt, false);
-    std::vector<std::vector<float>> currentFormatConversionMatrix;
+    std::vector<std::vector<float> > currentFormatConversionMatrix;
 
     // TODO: if `inFmt` or `outFmt` is not a m1spatial format return an informative error
     if (inFmt == getFormatFromString("CustomPoints") && outFmt != getFormatFromString("CustomPoints")) {
@@ -553,7 +553,7 @@ void Mach1TranscodeCore::getMatrixConversion(float *matrix) {
 
         int inChans = getNumChannels(inFmt, true);
         int outChans = getNumChannels(outFmt, false);
-        std::vector<std::vector<float>> currentFormatConversionMatrix;
+        std::vector<std::vector<float> > currentFormatConversionMatrix;
 
         // TODO: if `inFmt` or `outFmt` is not a m1spatial format return an informative error
         if (inFmt == getFormatFromString("CustomPoints") && outFmt != getFormatFromString("CustomPoints")) {

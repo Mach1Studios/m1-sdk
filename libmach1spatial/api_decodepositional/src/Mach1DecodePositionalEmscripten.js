@@ -14,11 +14,11 @@ Module['onRuntimeInitialized'] = function() {
             "Mach1PlatformiOSPortrait_YawOnly": (Module).Mach1PlatformiOSPortrait_YawOnly,
         };
 
-        this.Mach1DecodeAlgoType = {
-            "Mach1DecodeAlgoSpatial_4": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_4,
-            "Mach1DecodeAlgoSpatial_8": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_8,
-            "Mach1DecodeAlgoSpatial_12": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_12,
-            "Mach1DecodeAlgoSpatial_14": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_14,
+        this.Mach1DecodeMode = {
+            "M1Spatial_4": (Module).Mach1DecodeMode.M1DecodeSpatial_4,
+            "M1Spatial_8": (Module).Mach1DecodeMode.M1DecodeSpatial_8,
+            "M1Spatial_12": (Module).Mach1DecodeMode.M1DecodeSpatial_12,
+            "M1Spatial_14": (Module).Mach1DecodeMode.M1DecodeSpatial_14,
         };
 
         this.delete = function() {
@@ -34,9 +34,9 @@ Module['onRuntimeInitialized'] = function() {
             }
         };
 
-        this.setDecodeAlgoType = function(decodeAlgo) {
+        this.setDecodeMode = function(decodeMode) {
             if (this._m1obj) {
-                this._m1obj.setDecodeAlgoType(decodeAlgo);
+                this._m1obj.setDecodeMode(decodeMode);
             }
         };
 

@@ -5,7 +5,7 @@ import Foundation
 
 public class Mach1DecodePositional {
     var M1obj : UnsafeMutableRawPointer
-    
+
     public init() {
         M1obj = Mach1DecodePositionalCAPI_create()
     }
@@ -13,7 +13,7 @@ public class Mach1DecodePositional {
     deinit {
         Mach1DecodePositionalCAPI_delete(M1obj)
     }
-    
+
     public func setPlatformType(type: Mach1PlatformType) {
         Mach1DecodePositionalCAPI_setPlatformType(M1obj, type)
         /// Set the device's angle order and convention if applicable
@@ -29,30 +29,29 @@ public class Mach1DecodePositional {
         ///     - Mach1PlatformiOSPortraitHandheld_YVertical = 7
         ///     - Mach1PlatformiOSPortrait_YawOnly = 8
     }
-    public func setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoType) {
-        Mach1DecodePositionalCAPI_setDecodeAlgoType(M1obj, newAlgorithmType)
+    public func setDecodeMode(mode: Mach1DecodeMode) {
+        Mach1DecodePositionalCAPI_setDecodeMode(M1obj, mode)
         /// Set the decoding algorithm
         ///
         /// - Parameters:
-        ///     - Mach1DecodeAlgoSpatial_8 (default spatial | 8 channels)
-        ///     - Mach1DecodeAlgoHorizon_4 (compass / yaw | 4 channels)
-        ///     - Mach1DecodeAlgoHorizonPairs (compass / yaw | 4x stereo mastered pairs)
-        ///     - Mach1DecodeAlgoSpatial_12 (higher order spatial | 12 channels)
-        ///     - Mach1DecodeAlgoSpatial_14 (higher order spatial | 14 channels)
+        ///     - M1Spatial_4 (default spatial | 8 channels)
+        ///     - M1Spatial_8 (compass / yaw | 4 channels)
+        ///     - M1Spatial_12 (higher order spatial | 12 channels)
+        ///     - M1Spatial_14 (higher order spatial | 14 channels)
     }
-    
+
     public func setMuteWhenOutsideObject(muteWhenOutsideObject: Bool) {
         Mach1DecodePositionalCAPI_setMuteWhenOutsideObject(M1obj, muteWhenOutsideObject)
-        /// Mute mach1decode object (all coefficifient results becomes 0) 
+        /// Mute mach1decode object (all coefficifient results becomes 0)
         /// when outside the positional reference shape/point
     }
-    
+
     public func setMuteWhenInsideObject(muteWhenInsideObject: Bool) {
         Mach1DecodePositionalCAPI_setMuteWhenInsideObject(M1obj, muteWhenInsideObject)
-        /// Mute mach1decode object (all coefficifient results becomes 0) 
+        /// Mute mach1decode object (all coefficifient results becomes 0)
         /// when inside the positional reference shape/point
     }
-    
+
     public func setUseAttenuation(useAttenuation: Bool) {
         Mach1DecodePositionalCAPI_setUseAttenuation(M1obj, useAttenuation)
         /// Set distance attenuation calculations on that mach1decode object on/off
@@ -64,10 +63,10 @@ public class Mach1DecodePositional {
         Mach1DecodePositionalCAPI_setAttenuationCurve(M1obj, attenuationCurve)
         /// Set the current normalized distance per update for attenuation coefficient
         ///
-        /// - Parameters: 
+        /// - Parameters:
         ///     - Normalized range: 0.0 -> 1.0
     }
-    
+
     public func setUsePlaneCalculation(bool usePlaneCalculation: Bool) {
         Mach1DecodePositionalCAPI_setUsePlaneCalculation(M1obj, usePlaneCalculation)
         /// Calculate the rotation to the decode object from it's center point
@@ -75,9 +74,9 @@ public class Mach1DecodePositional {
         ///
         /// - Parameters:
         ///     - True: Closest point of plane of object for calculations of rotation
-        ///     - False (default): center point of object for calculations of rotation 
+        ///     - False (default): center point of object for calculations of rotation
     }
-    
+
     public func setUseYawForRotation(bool useYawForRotation: Bool) {
         Mach1DecodePositionalCAPI_setUseYawForRotation(M1obj, useYawForRotation)
         /// Set use/ignore Yaw angle rotation results from pivoting positionally
@@ -98,7 +97,7 @@ public class Mach1DecodePositional {
         ///
         /// - Remark: Default is true
     }
-    
+
     public func setListenerPosition(point: Mach1Point3D) {
         Mach1DecodePositionalCAPI_setListenerPosition(M1obj, point)
         /// Sets the device/camera's position in desired x,y,z space
@@ -154,11 +153,11 @@ public class Mach1DecodePositional {
         /// - Parameters:
         ///     - Mach1Point3D Scale: x,y,z multiplier
     }
-    
+
     public func evaluatePositionResults() {
         Mach1DecodePositionalCAPI_evaluatePositionResults(M1obj)
     }
-    
+
     public func getCoefficients(result: inout [Float]) {
         let pointer: UnsafeMutablePointer< Float > = UnsafeMutablePointer(&result)
         Mach1DecodePositionalCAPI_getCoefficients(M1obj, pointer);
@@ -182,24 +181,24 @@ public class Mach1DecodePositional {
         return Mach1DecodePositionalCAPI_getFormatCoeffCount(M1obj)
         /// Return number of coeffs for resizing the results
     }
-    
+
     public func getCurrentAngle() -> Mach1Point3D {
         return Mach1DecodePositionalCAPI_getCurrentAngle(M1obj)
         /// Return the current orientation angle of the m1obj
     }
-    
+
     public func getCoefficientsRotation() -> Mach1Point3D {
         return Mach1DecodePositionalCAPI_getCoefficientsRotation(M1obj)
         /// Return the current pivot rotation due to the m1obj comparison to the
         /// device/camera
     }
-    
+
     public func setFilterSpeed(filterSpeed: Float) {
         Mach1DecodePositionalCAPI_setFilterSpeed(M1obj, filterSpeed)
-        /// Filter speed determines the amount of angle smoothing applied 
+        /// Filter speed determines the amount of angle smoothing applied
         /// to the orientation angles used for the Mach1DecodeCore class
         ///
-        /// - Parameters: 
+        /// - Parameters:
         ///     - value range: 0.0001 -> 1.0 (where 0.1 would be a slow filter
         ///     and 1.0 is no filter)
     }

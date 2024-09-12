@@ -1,7 +1,7 @@
 #include <emscripten/bind.h>
 
-#include "Mach1TranscodeCAPI.h"
 #include "../include/Mach1Transcode.cpp"
+#include "Mach1TranscodeCAPI.h"
 
 using namespace emscripten;
 
@@ -9,7 +9,7 @@ EMSCRIPTEN_BINDINGS(Mach1Transcode) {
     register_vector<float>("VectorFloat");
     register_vector<std::string>("VectorString");
     register_vector<Mach1Point3D>("VectorMach1Point3D");
-    register_vector<std::vector<float>>("VectorVectorFloat");
+    register_vector<std::vector<float> >("VectorVectorFloat");
 
     value_object<Mach1Point3D>("Mach1Point3D")
         .field("x", &Mach1Point3D::x)

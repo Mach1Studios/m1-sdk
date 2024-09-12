@@ -18,16 +18,16 @@ public class Mach1DecodeModule {
     Mach1DecodeModuleJNI.Mach1DecodeCAPI_delete(SWIGTYPE_p_void.getCPtr(M1obj));
   }
 
-  public static void Mach1DecodeCAPI_setDecodeAlgoType(SWIGTYPE_p_void M1obj, Mach1DecodeAlgoType algorithmType) {
-    Mach1DecodeModuleJNI.Mach1DecodeCAPI_setDecodeAlgoType(SWIGTYPE_p_void.getCPtr(M1obj), algorithmType.swigValue());
+  public static void Mach1DecodeCAPI_setDecodeMode(SWIGTYPE_p_void M1obj, Mach1DecodeMode mode) {
+    Mach1DecodeModuleJNI.Mach1DecodeCAPI_setDecodeMode(SWIGTYPE_p_void.getCPtr(M1obj), mode.swigValue());
   }
 
   public static void Mach1DecodeCAPI_setPlatformType(SWIGTYPE_p_void M1obj, Mach1PlatformType platformType) {
     Mach1DecodeModuleJNI.Mach1DecodeCAPI_setPlatformType(SWIGTYPE_p_void.getCPtr(M1obj), platformType.swigValue());
   }
 
-  public static Mach1DecodeAlgoType Mach1DecodeCAPI_getDecodeAlgoType(SWIGTYPE_p_void M1obj) {
-    return Mach1DecodeAlgoType.swigToEnum(Mach1DecodeModuleJNI.Mach1DecodeCAPI_getDecodeAlgoType(SWIGTYPE_p_void.getCPtr(M1obj)));
+  public static Mach1DecodeMode Mach1DecodeCAPI_getDecodeMode(SWIGTYPE_p_void M1obj) {
+    return Mach1DecodeMode.swigToEnum(Mach1DecodeModuleJNI.Mach1DecodeCAPI_getDecodeMode(SWIGTYPE_p_void.getCPtr(M1obj)));
   }
 
   public static Mach1PlatformType Mach1DecodeCAPI_getPlatformType(SWIGTYPE_p_void M1obj) {

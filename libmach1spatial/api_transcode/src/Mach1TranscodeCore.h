@@ -9,8 +9,8 @@
 #include "M1DSP/M1DSPFilters.h"
 #include "M1DSP/M1DSPUtilities.h"
 #include "Mach1Point3D.h"
-#include <vector>
 #include <cassert>
+#include <vector>
 
 #include "Mach1TranscodeConstants.h"
 
@@ -25,7 +25,7 @@ class Mach1TranscodeCore {
     int inFmt;
     int outFmt;
 
-    int numFormats; 
+    int numFormats;
 
     std::vector<Mach1TranscodeMatrix> matrices;
 
@@ -44,7 +44,7 @@ class Mach1TranscodeCore {
 
     std::vector<Mach1Point3D> getPointsSet(int fmt);
     int findMatrix(int inFmt, int outFmt);
-    std::vector<std::vector<float>> getCoeffs(int idxMatrix);
+    std::vector<std::vector<float> > getCoeffs(int idxMatrix);
     void processConversion(int inFmt, float **inBufs, int outFmt, float **outBufs, int numSamples);
     int getNumChannels(int fmt, bool isInput);
 
@@ -60,8 +60,8 @@ class Mach1TranscodeCore {
     int getInputNumChannels();
     int getOutputNumChannels();
     int getFormatFromString(const char *str);
-    const char* getFormatName(int fmt);
-    const char** getAllFormatNames();
+    const char *getFormatName(int fmt);
+    const char **getAllFormatNames();
     int getFormatsCount();
 
     float processNormalization(float **bufs, int numSamples);

@@ -36,11 +36,11 @@ enum Mach1PlatformType {
     Mach1PlatformiOSPortrait_YawOnly
 };
 
-enum Mach1DecodeAlgoType {
-    Mach1DecodeAlgoSpatial_4 = (int)0,
-    Mach1DecodeAlgoSpatial_8,
-    Mach1DecodeAlgoSpatial_12,
-    Mach1DecodeAlgoSpatial_14,
+enum Mach1DecodeMode {
+    M1DecodeSpatial_4 = (int)0,
+    M1DecodeSpatial_8,
+    M1DecodeSpatial_12,
+    M1DecodeSpatial_14,
 };
 
 #ifdef __cplusplus
@@ -49,10 +49,10 @@ extern "C" {
 M1_API void *Mach1DecodeCAPI_create();
 M1_API void Mach1DecodeCAPI_delete(void *M1obj);
 
-M1_API void Mach1DecodeCAPI_setDecodeAlgoType(void *M1obj, enum Mach1DecodeAlgoType algorithmType);
+M1_API void Mach1DecodeCAPI_setDecodeMode(void *M1obj, enum Mach1DecodeMode mode);
 M1_API void Mach1DecodeCAPI_setPlatformType(void *M1obj, enum Mach1PlatformType platformType);
 
-M1_API enum Mach1DecodeAlgoType Mach1DecodeCAPI_getDecodeAlgoType(void *M1obj);
+M1_API enum Mach1DecodeMode Mach1DecodeCAPI_getDecodeMode(void *M1obj);
 M1_API enum Mach1PlatformType Mach1DecodeCAPI_getPlatformType(void *M1obj);
 
 M1_API void Mach1DecodeCAPI_decode(void *M1obj, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);

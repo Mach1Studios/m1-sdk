@@ -30,7 +30,7 @@ M1_API void *Mach1DecodePositionalCAPI_create();
 M1_API void Mach1DecodePositionalCAPI_delete(void *M1obj);
 
 M1_API void Mach1DecodePositionalCAPI_setPlatformType(void *M1obj, enum Mach1PlatformType platformType);
-M1_API void Mach1DecodePositionalCAPI_setDecodeAlgoType(void *M1obj, enum Mach1DecodeAlgoType newAlgorithmType);
+M1_API void Mach1DecodePositionalCAPI_setDecodeMode(void *M1obj, enum Mach1DecodeMode mode);
 
 M1_API void Mach1DecodePositionalCAPI_setMuteWhenOutsideObject(void *M1obj, bool muteWhenOutsideObject);
 M1_API void Mach1DecodePositionalCAPI_setMuteWhenInsideObject(void *M1obj, bool muteWhenInsideObject);

@@ -30,7 +30,7 @@ public class Mach1Encode {
 #endif
         }
         return array
-        /// Retruns the control center reference point's normalized coordinate location (XYZ) 
+        /// Retruns the control center reference point's normalized coordinate location (XYZ)
         /// within the vector panning space
         ///
         /// - Parameters:
@@ -94,9 +94,9 @@ public class Mach1Encode {
     }
 
 #if M1ENCODE_INLINE_DECODE
-    public func getResultingCoeffsDecoded(decodeType: Mach1DecodeAlgoType, decodeResult: [Float] ) -> [Float] {
+    public func getResultingCoeffsDecoded(decodeMode: Mach1DecodeMode, decodeResult: [Float] ) -> [Float] {
         let pointer: UnsafeMutablePointer = UnsafeMutablePointer(mutating: decodeResult)
-        let volumesPtr = unsafeBitCast( Mach1EncodeCAPI_getResultingCoeffsDecoded(M1obj, decodeType, pointer), to: UnsafeMutablePointer<Float>?.self)
+        let volumesPtr = unsafeBitCast( Mach1EncodeCAPI_getResultingCoeffsDecoded(M1obj, decodeMode, pointer), to: UnsafeMutablePointer<Float>?.self)
 
         var array: [Float] = Array(repeating: 0.0, count: 18)
         for i in 0..<array.count {
@@ -105,14 +105,14 @@ public class Mach1Encode {
         return array
         /// A shorthand function for encoding->decoding audio object handling,
         /// useful preview UX so that a full input->mach1spatial_multichannel->stereo
-        /// rendeering to disk isnt required and instead designs that stack decode results 
+        /// rendeering to disk isnt required and instead designs that stack decode results
         /// live can more easily be created
         ///
         /// - Remark: Each input audio channel results a direct decode instead of the encode coefficients
     }
 #endif
 
-    public func getInputMode() -> Mach1EncodeInputModeType {
+    public func getInputMode() -> Mach1EncodeInputMode {
         let inputMode = Mach1EncodeCAPI_getInputMode(M1obj)
         return inputMode
         /// Returns the number of input channels/points that Mach1Encode instance has
@@ -121,7 +121,7 @@ public class Mach1Encode {
         ///     - integer of number of input channels/points
     }
 
-    public func getOutputMode() -> Mach1EncodeOutputModeType {
+    public func getOutputMode() -> Mach1EncodeOutputMode {
         let outputMode = Mach1EncodeCAPI_getOutputMode(M1obj)
         return outputMode
         /// Returns the number of input channels/points that Mach1Encode instance has
@@ -148,7 +148,7 @@ public class Mach1Encode {
         ///     - integer of number of output channels/points
     }
 
-    public func setInputMode(inputMode: Mach1EncodeInputModeType) {
+    public func setInputMode(inputMode: Mach1EncodeInputMode) {
         Mach1EncodeCAPI_setInputMode(M1obj, inputMode)
         /// Sets the number of input streams to be positioned as points
         ///
@@ -159,25 +159,25 @@ public class Mach1Encode {
         ///     - Mach1EncodeInputModeQuad
         ///     - Mach1EncodeInputModeLCRS
         ///     - Mach1EncodeInputModeAFormat
-        ///     - Mach1EncodeInputMode5dot0
-        ///     - Mach1EncodeInputMode5dot1Film
-        ///     - Mach1EncodeInputMode5dot1DTS
-        ///     - Mach1EncodeInputMode5dot1SMTPE
+        ///     - Mach1EncodeInputModeFiveDotZero
+        ///     - Mach1EncodeInputModeFiveDotOneFilm
+        ///     - Mach1EncodeInputModeFiveDotOneDTS
+        ///     - Mach1EncodeInputModeFiveDotOneSMTPE
         ///     - Mach1EncodeInputModeBFOAACN
         ///     - Mach1EncodeInputModeBFOAFUM
         ///     - Mach1EncodeInputModeB2OAACN
         ///     - Mach1EncodeInputModeB2OAFUMA
-        ///     - Mach1EncodeInputModeB3OAACN, 
+        ///     - Mach1EncodeInputModeB3OAACN,
         ///     - Mach1EncodeInputModeB3OAFUMA
     }
 
-    public func setOutputMode(outputMode: Mach1EncodeOutputModeType) {
+    public func setOutputMode(outputMode: Mach1EncodeOutputMode) {
         Mach1EncodeCAPI_setOutputMode(M1obj, outputMode)
         /// Sets the output spatial format, Mach1Spatial or Mach1Horizon
         ///
         /// - Parameters:
+        ///     - Mach1Spatial_4 (4ch) [Yaw]
         ///     - Mach1Spatial_8 (8ch) [Yaw, Pitch, Roll]
-        ///     - Mach1Horizon_4 (4ch) [Yaw]
         ///     - Mach1Spatial_12 (12ch) [Yaw, Pitch, Roll]
         ///     - Mach1Spatial_14 (14ch) [Yaw, Pitch, Roll]
     }
@@ -238,14 +238,14 @@ public class Mach1Encode {
         ///     - value range: -PI/2 -> PI/2
     }
 
-    public func setPannerMode(pannerMode: Mach1EncodePannerModeType) {
+    public func setPannerMode(pannerMode: Mach1EncodePannerMode) {
         Mach1EncodeCAPI_setPannerMode(M1obj, pannerMode)
         /// Sets the style and mode of panner input calculation
         ///
         /// - Parameters:
-        ///     - Mach1EncodePannerModeIsotropicLinear
-        ///     - Mach1EncodePannerModeIsotropicEqualPower
-        ///     - Mach1EncodePannerModePeriphonicLinear
+        ///     - IsotropicLinear
+        ///     - IsotropicEqualPower
+        ///     - PeriphonicLinear
 
     }
 
@@ -254,7 +254,7 @@ public class Mach1Encode {
         /// Sets the encoding behavior of the Center input channels of relevant Surround format,
         /// when true the encoding behavior assumes first person perspective encoding Center channels
         /// toward the front of the soundfield, when false we use Center channel literally making it
-        /// encoded MONO and omni-directional. 
+        /// encoded MONO and omni-directional.
         ///
         /// Remark: Default is true
     }

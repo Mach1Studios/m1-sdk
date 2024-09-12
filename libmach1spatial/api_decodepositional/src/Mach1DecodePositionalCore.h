@@ -65,7 +65,7 @@ class Mach1DecodePositionalCore {
     static glm::quat EulerToQuaternion(glm::vec3 euler);
 
     Mach1PlatformType platformType;
-    Mach1DecodeAlgoType algorithmType;
+    Mach1DecodeMode decodeMode;
 
     static glm::vec3 GetRightVector();
     static glm::vec3 GetUpVector();
@@ -86,7 +86,7 @@ class Mach1DecodePositionalCore {
   public:
     Mach1DecodePositionalCore();
 
-    void setDecodeAlgoType(Mach1DecodeAlgoType type);
+    void setDecodeMode(Mach1DecodeMode mode);
     void setPlatformType(Mach1PlatformType type);
 
     // settings

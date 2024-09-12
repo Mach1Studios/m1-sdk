@@ -21,9 +21,9 @@ Mach1DecodeCore normalizes all input ranges to an unsigned "0 to 1" range for Ya
 
 #pragma once
 
+#include <chrono>
 #include <string>
 #include <vector>
-#include <chrono>
 
 #include "Mach1DecodeCAPI.h"
 #include "Mach1Point3D.h"
@@ -79,7 +79,7 @@ class Mach1DecodeCore {
 
     // Selected algo type
 
-    Mach1DecodeAlgoType algorithmType;
+    Mach1DecodeMode decodeMode;
 
     inline float _dot(const Mach1Point3D &p1, const Mach1Point3D &p2) const;
 
@@ -136,8 +136,8 @@ class Mach1DecodeCore {
 
     // Set the algorithm type to use when decoding
 
-    void setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType);
-    Mach1DecodeAlgoType getDecodeAlgoType();
+    void setDecodeMode(Mach1DecodeMode mode);
+    Mach1DecodeMode getDecodeMode();
 
     // Decode using the current algorithm type
 

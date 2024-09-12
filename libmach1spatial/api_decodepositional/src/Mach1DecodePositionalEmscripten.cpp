@@ -1,7 +1,7 @@
 #include <emscripten/bind.h>
 
-#include "Mach1DecodePositionalCAPI.h"
 #include "../include/Mach1DecodePositional.cpp"
+#include "Mach1DecodePositionalCAPI.h"
 
 using namespace emscripten;
 
@@ -17,11 +17,11 @@ EMSCRIPTEN_BINDINGS(Mach1DecodePositional) {
         .value("Mach1PlatformiOSPortraitHandheld_YVertical", Mach1PlatformiOSPortraitHandheld_YVertical)
         .value("Mach1PlatformiOSPortrait_YawOnly", Mach1PlatformiOSPortrait_YawOnly);
 
-    enum_<Mach1DecodeAlgoType>("Mach1DecodeAlgoType")
-        .value("Mach1DecodeAlgoSpatial_4", Mach1DecodeAlgoSpatial_4)
-        .value("Mach1DecodeAlgoSpatial_8", Mach1DecodeAlgoSpatial_8)
-        .value("Mach1DecodeAlgoSpatial_12", Mach1DecodeAlgoSpatial_12)
-        .value("Mach1DecodeAlgoSpatial_14", Mach1DecodeAlgoSpatial_14);
+    enum_<Mach1DecodeMode>("Mach1DecodeMode")
+        .value("M1Spatial_4", M1DecodeSpatial_4)
+        .value("M1Spatial_8", M1DecodeSpatial_8)
+        .value("M1Spatial_12", M1DecodeSpatial_12)
+        .value("M1Spatial_14", M1DecodeSpatial_14);
 
     register_vector<float>("VectorFloat");
 
@@ -39,7 +39,7 @@ EMSCRIPTEN_BINDINGS(Mach1DecodePositional) {
     class_<Mach1DecodePositional>("Mach1DecodePositionalInternal")
         .constructor<>()
         .function("setPlatformType", &Mach1DecodePositional::setPlatformType)
-        .function("setDecodeAlgoType", &Mach1DecodePositional::setDecodeAlgoType)
+        .function("setDecodeMode", &Mach1DecodePositional::setDecodeMode)
         .function("setMuteWhenOutsideObject", &Mach1DecodePositional::setMuteWhenOutsideObject)
         .function("setMuteWhenInsideObject", &Mach1DecodePositional::setMuteWhenInsideObject)
         .function("setUseAttenuation", &Mach1DecodePositional::setUseAttenuation)

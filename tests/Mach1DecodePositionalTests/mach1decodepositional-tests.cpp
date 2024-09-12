@@ -22,16 +22,16 @@ void test_results(void) {
         {Mach1PlatformiOSPortrait_YawOnly, "iOS_YawOnly"},
     };
 
-    std::map<Mach1DecodeAlgoType, std::string> outputModeNames = {
-        {Mach1DecodeAlgoSpatial_4, "Horizon - 4Ch"},
-        {Mach1DecodeAlgoSpatial_8, "Spatial - 8Ch"},
-        {Mach1DecodeAlgoSpatial_12, "Spatial - 12Ch"},
-        {Mach1DecodeAlgoSpatial_14, "Spatial - 14Ch"},
+    std::map<Mach1DecodeMode, std::string> outputModeNames = {
+        {M1DecodeSpatial_4, "Spatial - 4Ch"},
+        {M1DecodeSpatial_8, "Spatial - 8Ch"},
+        {M1DecodeSpatial_12, "Spatial - 12Ch"},
+        {M1DecodeSpatial_14, "Spatial - 14Ch"},
     };
 
     struct INPUT_DATA {
         Mach1PlatformType platformMode;
-        Mach1DecodeAlgoType outputMode;
+        Mach1DecodeMode outputMode;
         float listenerPosX, listenerPosY, listenerPosZ;
         float listenerYaw, listenerPitch, listenerRoll;
         float m1PosX, m1PosY, m1PosZ;
@@ -60,7 +60,7 @@ void test_results(void) {
         {
             "case: POSITIONAL | INSIDE OBJECT MUTE",
             {
-                Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
+                Mach1PlatformDefault, M1DecodeSpatial_8,
                 0.0, 0.0, 0.0, // listener pos
                 0.0, 0.0, 0.0, // listener rot
                 0.0, 0.0, 0.0, // m1 pos
@@ -85,7 +85,7 @@ void test_results(void) {
         {
             "case: POSITIONAL | OUTSIDE OBJECT MUTE",
             {
-                Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
+                Mach1PlatformDefault, M1DecodeSpatial_8,
                 2.0, 2.0, 2.0, // listener pos
                 0.0, 0.0, 0.0, // listener rot
                 0.0, 0.0, 0.0, // m1 pos
@@ -115,7 +115,7 @@ void test_results(void) {
         {
             "case: POSITIONAL | 0Y",
             {
-                Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
+                Mach1PlatformDefault, M1DecodeSpatial_8,
                 0.0, 0.0, 0.0, // listener pos
                 0.0, 0.0, 0.0, // listener rot
                 0.0, 0.0, 5.0, // m1 pos
@@ -141,7 +141,7 @@ void test_results(void) {
             "case: POSITIONAL | 0Y | Test Pos 1",
             // should require a 45 yaw deg rotation to face
             {
-                Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
+                Mach1PlatformDefault, M1DecodeSpatial_8,
                 10.0, 0.0, 0.0, // listener pos
                 0.0, 0.0, 0.0, // listener rot
                 0.0, 0.0, 10.0, // m1 pos
@@ -166,7 +166,7 @@ void test_results(void) {
         {
             "case: POSITIONAL | 0Y | Test Pos 2",
             {
-                Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
+                Mach1PlatformDefault, M1DecodeSpatial_8,
                 40.0, 0.0, 0.0, // listener pos
                 -90.0, 0.0, 0.0, // listener rot
                 0.0, 0.0, 0.0, // m1 pos
@@ -191,7 +191,7 @@ void test_results(void) {
         {
             "case: POSITIONAL | 0Y | Test Pos 3",
             {
-                Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
+                Mach1PlatformDefault, M1DecodeSpatial_8,
                 0.0, 0.0, 0.0, // listener pos
                 0.0, 90.0, 0.0, // listener rot
                 0.0, 80.0, 0.0, // m1 pos
@@ -216,7 +216,7 @@ void test_results(void) {
         {
             "case: POSITIONAL | 90Y",
             {
-                Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
+                Mach1PlatformDefault, M1DecodeSpatial_8,
                 0.0, 0.0, 0.0, //listener pos
                 90.0, 0.0, 0.0, //listener rot
                 0.0, 0.0, 5.0, //m1 pos
@@ -241,7 +241,7 @@ void test_results(void) {
         {
             "case: POSITIONAL | -90Y",
             {
-                Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
+                Mach1PlatformDefault, M1DecodeSpatial_8,
                 0.0, 0.0, 0.0, //listener pos
                 -90.0, 0.0, 0.0, //listener rot
                 0.0, 0.0, 5.0, //m1 pos
@@ -266,7 +266,7 @@ void test_results(void) {
         {
             "case: POSITIONAL | -90Y 45P",
             {
-                Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
+                Mach1PlatformDefault, M1DecodeSpatial_8,
                 0.0, 0.0, 0.0, //listener pos
                 -90.0, 45.0, 0.0, //listener rot
                 0.0, 0.0, 5.0, //m1 pos
@@ -291,7 +291,7 @@ void test_results(void) {
         {
             "case: POSITIONAL | 10Distance 45R",
             {
-                Mach1PlatformDefault, Mach1DecodeAlgoSpatial_8,
+                Mach1PlatformDefault, M1DecodeSpatial_8,
                 0.0, 0.0, 0.0, //listener pos
                 0.0, 0.0, 45.0, //listener rot
                 0.0, 0.0, 10.0, //m1 pos
@@ -319,7 +319,7 @@ void test_results(void) {
         {
             "case: POSITIONAL | Unity | 0Y",
             {
-                Mach1PlatformUnity, Mach1DecodeAlgoSpatial_8,
+                Mach1PlatformUnity, M1DecodeSpatial_8,
                 0.0, 0.0, 0.0, //listener pos in UNITY
                 0.0, 0.0, 0.0, //listener rot in UNITY
                 0.0, 0.0, 5.0, //m1 pos in UNITY
@@ -344,7 +344,7 @@ void test_results(void) {
         {
             "case: POSITIONAL | Unity | 90Y",
             {
-                Mach1PlatformUnity, Mach1DecodeAlgoSpatial_8,
+                Mach1PlatformUnity, M1DecodeSpatial_8,
                 0.0, 0.0, 0.0, //listener pos in UNITY
                 0.0, 90.0, 0.0, //listener rot in UNITY
                 0.0, 0.0, 5.0, //m1 pos in UNITY
@@ -369,7 +369,7 @@ void test_results(void) {
         {
             "case: POSITIONAL | Unity | POS LEFT 0Y0P0R",
             {
-                Mach1PlatformUnity, Mach1DecodeAlgoSpatial_8,
+                Mach1PlatformUnity, M1DecodeSpatial_8,
                 0.0, 0.0, 0.0, //listener pos in UNITY
                 0.0, 0.0, 0.0, //listener rot in UNITY
                 -3.0, 0.0, 0.0, //m1 pos in UNITY
@@ -396,7 +396,7 @@ void test_results(void) {
             // This is equivelent to the obj being forward and to the right, and the listener facing to +90 Yaw to the right
             // meaning by facing -45deg Yaw to the left we face the obj
             {
-                Mach1PlatformUnity, Mach1DecodeAlgoSpatial_8,
+                Mach1PlatformUnity, M1DecodeSpatial_8,
                 0.0, 0.0, 0.0, //listener pos in UNITY
                 0.0, 90.0, 0.0, //listener rot in UNITY
                 5.0, 0.0, 5.0, //m1 pos in UNITY
@@ -421,7 +421,7 @@ void test_results(void) {
         {
             "case: POSITIONAL | Unity | 90P",
             {
-                Mach1PlatformUnity, Mach1DecodeAlgoSpatial_8,
+                Mach1PlatformUnity, M1DecodeSpatial_8,
                 0.0, 0.0, 0.0, //listener pos in UNITY
                 -90.0, 0.0, 0.0, //listener rot in UNITY
                 0.0, 0.0, 5.0, //m1 pos in UNITY
@@ -446,7 +446,7 @@ void test_results(void) {
         {
             "case: POSITIONAL | Unity | 90R",
             {
-                Mach1PlatformUnity, Mach1DecodeAlgoSpatial_8,
+                Mach1PlatformUnity, M1DecodeSpatial_8,
                 0.0, 0.0, 0.0, //listener pos in UNITY
                 0.0, 0.0, -90.0, //listener rot in UNITY
                 0.0, 0.0, 5.0, //m1 pos in UNITY
@@ -471,7 +471,7 @@ void test_results(void) {
         {
             "case: POSITIONAL | Unity | 45R",
             {
-                Mach1PlatformUnity, Mach1DecodeAlgoSpatial_8,
+                Mach1PlatformUnity, M1DecodeSpatial_8,
                 0.0, 0.0, 0.0, //listener pos in UNITY
                 0.0, 0.0, -45.0, //listener rot in UNITY
                 0.0, 0.0, 5.0, //m1 pos in UNITY
@@ -496,7 +496,7 @@ void test_results(void) {
         {
             "case: POSITIONAL | Unity | 45Y 45P 45R",
             {
-                Mach1PlatformUnity, Mach1DecodeAlgoSpatial_8,
+                Mach1PlatformUnity, M1DecodeSpatial_8,
                 0.0, 0.0, 0.0, //listener pos in UNITY
                 -45.0, 45.0, -45.0, //listener rot in UNITY
                 0.0, 0.0, 5.0, //m1 pos in UNITY
@@ -521,7 +521,7 @@ void test_results(void) {
         {
             "case: POSITIONAL | UE | 0Y",
             {
-                Mach1PlatformUE, Mach1DecodeAlgoSpatial_8,
+                Mach1PlatformUE, M1DecodeSpatial_8,
                 0.0, 0.0, 0.0, //listener pos
                 0.0, 0.0, 0.0, //listener rot
                 5.0, 0.0, 0.0, //m1 pos
@@ -546,7 +546,7 @@ void test_results(void) {
         {
             "case: POSITIONAL | UE | 90Y",
             {
-                Mach1PlatformUE, Mach1DecodeAlgoSpatial_8,
+                Mach1PlatformUE, M1DecodeSpatial_8,
                 0.0, 0.0, 0.0, //listener pos
                 0.0, 0.0, 90.0, //listener rot
                 5.0, 0.0, 0.0, //m1 pos
@@ -571,7 +571,7 @@ void test_results(void) {
         {
             "case: POSITIONAL | UE | LEFT POS 90Y",
             {
-                Mach1PlatformUE, Mach1DecodeAlgoSpatial_8,
+                Mach1PlatformUE, M1DecodeSpatial_8,
                 0.0, 0.0, 0.0, //listener pos
                 0.0, 0.0, 90.0, //listener rot
                 5.0, 5.0, 0.0, //m1 pos
@@ -596,7 +596,7 @@ void test_results(void) {
         {
             "case: POSITIONAL | UE | 45Y 45P 45R",
             {
-                Mach1PlatformUE, Mach1DecodeAlgoSpatial_8,
+                Mach1PlatformUE, M1DecodeSpatial_8,
                 0.0, 0.0, 0.0, //listener pos
                 45.0, 45.0, 45.0, //listener rot
                 5.0, 0.0, 0.0, //m1 pos
@@ -626,7 +626,7 @@ void test_results(void) {
         Mach1DecodePositional m1Decode;
 
         m1Decode.setPlatformType(test.input.platformMode);
-        m1Decode.setDecodeAlgoType(test.input.outputMode);
+        m1Decode.setDecodeMode(test.input.outputMode);
         m1Decode.setFilterSpeed(test.input.filterSpeed);
         m1Decode.setMuteWhenInsideObject(test.input.muteWhenInside);
         m1Decode.setMuteWhenOutsideObject(test.input.muteWhenOutside);

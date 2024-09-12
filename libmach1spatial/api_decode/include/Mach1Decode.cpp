@@ -27,15 +27,15 @@ void Mach1Decode::setPlatformType(Mach1PlatformType type) {
     ///     - Mach1PlatformiOSPortrait_YawOnly
 }
 
-void Mach1Decode::setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType) {
-    Mach1DecodeCAPI_setDecodeAlgoType(M1obj, newAlgorithmType);
+void Mach1Decode::setDecodeMode(Mach1DecodeMode mode) {
+    Mach1DecodeCAPI_setDecodeMode(M1obj, mode);
     /// Set the decoding algorithm
     ///
     /// - Parameters:
-    ///     - Mach1DecodeAlgoHorizon_4 (compass / yaw | 4 channels)
-    ///     - Mach1DecodeAlgoSpatial_8 (spatial | 8 channels)
-    ///     - Mach1DecodeAlgoSpatial_12 (higher order spatial | 12 channels)
-    ///     - Mach1DecodeAlgoSpatial_14 (higher order spatial | 14 channels)
+    ///     - M1DecodeSpatial_4 (compass / yaw | 4 channels)
+    ///     - M1DecodeSpatial_8 (spatial | 8 channels)
+    ///     - M1DecodeSpatial_12 (higher order spatial | 12 channels)
+    ///     - M1DecodeSpatial_14 (higher order spatial | 14 channels)
 }
 
 #ifndef __EMSCRIPTEN__
@@ -121,7 +121,7 @@ std::vector<float> Mach1Decode::decodePannedCoeffs(int bufferSize, int sampleInd
     ///		- applyPanLaw: bool for control over panLaw application
 }
 
-std::vector<float> Mach1Decode::decodeCoeffsUsingTranscodeMatrix(std::vector< std::vector<float> > matrix, int channels, int bufferSize, int sampleIndex) {
+std::vector<float> Mach1Decode::decodeCoeffsUsingTranscodeMatrix(std::vector<std::vector<float> > matrix, int channels, int bufferSize, int sampleIndex) {
     std::vector<float> vec(2 * channels);
 
     int inChans = channels;

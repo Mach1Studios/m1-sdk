@@ -16,13 +16,13 @@ Mach1EncodeCore normalizes all input ranges to an unsigned "0 to 1" range for Az
 #pragma once
 
 #ifdef M1ENCODE_INLINE_DECODE
-#include "Mach1DecodeCAPI.h"
+#    include "Mach1DecodeCAPI.h"
 #endif
 #include "Mach1Point3D.h"
 
+#include <chrono>
 #include <string>
 #include <vector>
-#include <chrono>
 
 #ifndef SWIG
 using namespace std::chrono;
@@ -48,7 +48,7 @@ class M1EncodeCorePointResults {
     Mach1Point3D ppoints[MAX_POINTS_COUNT];
     int pointsCount;
     std::string pointsNames[MAX_POINTS_COUNT];
-    std::vector<std::vector<float>> gains;
+    std::vector<std::vector<float> > gains;
 
     friend class M1EncodeCore;
 
@@ -57,7 +57,7 @@ class M1EncodeCorePointResults {
     ~M1EncodeCorePointResults();
 
     std::vector<Mach1Point3D> getPoints();
-    std::vector<std::vector<float>> getGains();
+    std::vector<std::vector<float> > getGains();
     std::vector<std::string> getPointsNames();
     std::vector<float> getGainsForInputChannelNamed(std::string pointName);
     int getPointsCount();
@@ -161,20 +161,20 @@ class M1EncodeCore {
     M1EncodeCore();
     ~M1EncodeCore();
 
-	M1EncodeCore(const M1EncodeCore& other); 
-    M1EncodeCore& operator=(const M1EncodeCore& other);
+    M1EncodeCore(const M1EncodeCore &other);
+    M1EncodeCore &operator=(const M1EncodeCore &other);
 
     void generatePointResults();
     M1EncodeCorePointResults resultingPoints;
 
 #ifdef M1ENCODE_INLINE_DECODE
-    void getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, float *decodeResult, float *result);
+    void getResultingCoeffsDecoded(Mach1DecodeMode decodeMode, float *decodeResult, float *result);
 #endif
 
     InputMode getInputMode();
     OutputMode getOutputMode();
-	PannerMode getPannerMode();
-	bool getAutoOrbit();
+    PannerMode getPannerMode();
+    bool getAutoOrbit();
     int getInputChannelsCount();
     int getOutputChannelsCount();
 

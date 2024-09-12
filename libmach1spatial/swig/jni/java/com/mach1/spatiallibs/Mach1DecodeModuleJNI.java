@@ -9,18 +9,18 @@
 package com.mach1.spatiallibs;
 
 class Mach1DecodeModuleJNI {
- 
+
   static {
     System.loadLibrary("Mach1DecodeModule_lib");
   }
 
   public final static native int Mach1PlatformDefault_get();
-  public final static native int Mach1DecodeAlgoSpatial_4_get();
+  public final static native int M1DecodeSpatial_4_get();
   public final static native long Mach1DecodeCAPI_create();
   public final static native void Mach1DecodeCAPI_delete(long jarg1);
-  public final static native void Mach1DecodeCAPI_setDecodeAlgoType(long jarg1, int jarg2);
+  public final static native void Mach1DecodeCAPI_setDecodeMode(long jarg1, int jarg2);
   public final static native void Mach1DecodeCAPI_setPlatformType(long jarg1, int jarg2);
-  public final static native int Mach1DecodeCAPI_getDecodeAlgoType(long jarg1);
+  public final static native int Mach1DecodeCAPI_getDecodeMode(long jarg1);
   public final static native int Mach1DecodeCAPI_getPlatformType(long jarg1);
   public final static native void Mach1DecodeCAPI_decode(long jarg1, float jarg2, float jarg3, float jarg4, long jarg5, int jarg6, int jarg7);
   public final static native void Mach1DecodeCAPI_decodeCoeffs(long jarg1, long jarg2, int jarg3, int jarg4);

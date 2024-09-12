@@ -42,7 +42,7 @@ void *Mach1EncodeCAPI_getPoints(void *M1obj) {
 }
 
 void *Mach1EncodeCAPI_getGains(void *M1obj) {
-    std::vector<std::vector<float>> vec = ((M1EncodeCore *)M1obj)->resultingPoints.getGains();
+    std::vector<std::vector<float> > vec = ((M1EncodeCore *)M1obj)->resultingPoints.getGains();
 
     // clear
     for (int i = 0; i < MAX_POINTS_COUNT; i++) {
@@ -94,28 +94,28 @@ int Mach1EncodeCAPI_getPointsCount(void *M1obj) {
 }
 
 #ifdef M1ENCODE_INLINE_DECODE
-void *Mach1EncodeCAPI_getResultingCoeffsDecoded(void *M1obj, enum Mach1DecodeAlgoType decodeType, float *decodeResult) {
+void *Mach1EncodeCAPI_getResultingCoeffsDecoded(void *M1obj, enum Mach1DecodeMode decodeMode, float *decodeResult) {
     // clear
     for (int i = 0; i < MAX_CHANNELS_COUNT; i++) {
         ((M1EncodeCore *)M1obj)->arr_ResultingCoeffsDecoded[i] = 0;
     }
 
-    ((M1EncodeCore *)M1obj)->getResultingCoeffsDecoded(decodeType, decodeResult, ((M1EncodeCore *)M1obj)->arr_ResultingCoeffsDecoded);
+    ((M1EncodeCore *)M1obj)->getResultingCoeffsDecoded(decodeMode, decodeResult, ((M1EncodeCore *)M1obj)->arr_ResultingCoeffsDecoded);
 
     return ((M1EncodeCore *)M1obj)->arr_ResultingCoeffsDecoded;
 }
 #endif
 
-enum Mach1EncodeInputModeType Mach1EncodeCAPI_getInputMode(void *M1obj) {
-    return (Mach1EncodeInputModeType)(int)((M1EncodeCore *)M1obj)->getInputMode();
+enum Mach1EncodeInputMode Mach1EncodeCAPI_getInputMode(void *M1obj) {
+    return (Mach1EncodeInputMode)(int)((M1EncodeCore *)M1obj)->getInputMode();
 }
 
-enum Mach1EncodeOutputModeType Mach1EncodeCAPI_getOutputMode(void *M1obj) {
-    return (Mach1EncodeOutputModeType)(int)((M1EncodeCore *)M1obj)->getOutputMode();
+enum Mach1EncodeOutputMode Mach1EncodeCAPI_getOutputMode(void *M1obj) {
+    return (Mach1EncodeOutputMode)(int)((M1EncodeCore *)M1obj)->getOutputMode();
 }
 
-enum Mach1EncodePannerModeType Mach1EncodeCAPI_getPannerMode(void *M1obj) {
-    return (Mach1EncodePannerModeType)(int)((M1EncodeCore *)M1obj)->getPannerMode();
+enum Mach1EncodePannerMode Mach1EncodeCAPI_getPannerMode(void *M1obj) {
+    return (Mach1EncodePannerMode)(int)((M1EncodeCore *)M1obj)->getPannerMode();
 }
 
 bool Mach1EncodeCAPI_getAutoOrbit(void *M1obj) {
@@ -130,11 +130,11 @@ int Mach1EncodeCAPI_getOutputChannelsCount(void *M1obj) {
     return ((M1EncodeCore *)M1obj)->getOutputChannelsCount();
 }
 
-void Mach1EncodeCAPI_setInputMode(void *M1obj, enum Mach1EncodeInputModeType inputMode) {
+void Mach1EncodeCAPI_setInputMode(void *M1obj, enum Mach1EncodeInputMode inputMode) {
     ((M1EncodeCore *)M1obj)->setInputMode(static_cast<M1EncodeCore::InputMode>(inputMode));
 }
 
-void Mach1EncodeCAPI_setOutputMode(void *M1obj, enum Mach1EncodeOutputModeType outputMode) {
+void Mach1EncodeCAPI_setOutputMode(void *M1obj, enum Mach1EncodeOutputMode outputMode) {
     ((M1EncodeCore *)M1obj)->setOutputMode(static_cast<M1EncodeCore::OutputMode>(outputMode));
 }
 
@@ -186,7 +186,7 @@ void Mach1EncodeCAPI_setStereoSpread(void *M1obj, float sSpreadFrom0to1) {
     ((M1EncodeCore *)M1obj)->setStereoSpread(sSpreadFrom0to1);
 }
 
-void Mach1EncodeCAPI_setPannerMode(void *M1obj, enum Mach1EncodePannerModeType pannerMode) {
+void Mach1EncodeCAPI_setPannerMode(void *M1obj, enum Mach1EncodePannerMode pannerMode) {
     ((M1EncodeCore *)M1obj)->setPannerMode(static_cast<M1EncodeCore::PannerMode>(pannerMode));
 }
 

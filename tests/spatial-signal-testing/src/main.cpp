@@ -60,24 +60,24 @@ int main(int argc, char *argv[]) {
     //noise_gen_link.SetChannelEnabled(0, true); // enable only first channel
 
     if (M1_FORMAT_CHANNEL_COUNT == 4) {
-        encode_link.SetOutputMode(Mach1EncodeOutputModeM1Spatial_4);
-        decode_link.SetDecodeAlgoType(Mach1DecodeAlgoSpatial_4);
+        encode_link.SetOutputMode(M1Spatial_4);
+        decode_link.SetDecodeMode(M1DecodeSpatial_4);
     } else if (M1_FORMAT_CHANNEL_COUNT == 8) {
-        encode_link.SetOutputMode(Mach1EncodeOutputModeM1Spatial_8);
-        decode_link.SetDecodeAlgoType(Mach1DecodeAlgoSpatial_8);
+        encode_link.SetOutputMode(M1Spatial_8);
+        decode_link.SetDecodeMode(M1DecodeSpatial_8);
     } else if (M1_FORMAT_CHANNEL_COUNT == 12) {
-        encode_link.SetOutputMode(Mach1EncodeOutputModeM1Spatial_12);
-        decode_link.SetDecodeAlgoType(Mach1DecodeAlgoSpatial_12);
+        encode_link.SetOutputMode(M1Spatial_12);
+        decode_link.SetDecodeMode(M1DecodeSpatial_12);
     } else if (M1_FORMAT_CHANNEL_COUNT == 14) {
-        encode_link.SetOutputMode(Mach1EncodeOutputModeM1Spatial_14);
-        decode_link.SetDecodeAlgoType(Mach1DecodeAlgoSpatial_14);
+        encode_link.SetOutputMode(M1Spatial_14);
+        decode_link.SetDecodeMode(M1DecodeSpatial_14);
     } else {
         // default Mach1Spatial_8
-        encode_link.SetOutputMode(Mach1EncodeOutputModeM1Spatial_8);
-        decode_link.SetDecodeAlgoType(Mach1DecodeAlgoSpatial_8);
+        encode_link.SetOutputMode(M1Spatial_8);
+        decode_link.SetDecodeMode(M1DecodeSpatial_8);
     }
 
-    encode_link.SetInputMode(Mach1EncodeInputModeType::Mach1EncodeInputModeMono);
+    encode_link.SetInputMode(Mach1EncodeInputMode::Mono);
     encode_link.SetAzimuthDegrees(0);
     encode_link.SetElevation(0);
     encode_link.SetDiverge(1.0);
@@ -91,7 +91,7 @@ int main(int argc, char *argv[]) {
 
     decode_link.SetRotationDegrees({0, 0, 0}); // ypr
     decode_link.SetPlatformType(Mach1PlatformDefault);
-    decode_link.SetFilterSpeed(1.0);
+    decode_link.SetFilterSpeed(0.95);
     decode_link.SetPointCount(encode_link.GetPointsCount());
 
     gain_link.SetGain(1.0); // use this to mute the output if needed

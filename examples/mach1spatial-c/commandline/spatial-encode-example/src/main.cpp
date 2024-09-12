@@ -63,8 +63,8 @@ static std::thread thread;
 bool done = false;
 Mach1Encode m1Encode;
 std::vector< std::vector<float> > m1Coeffs; //2D array, [input channel][input channel's coeff]
-Mach1EncodeInputModeType inputMode;
-Mach1EncodeOutputModeType outputMode;
+Mach1EncodeInputMode inputMode;
+Mach1EncodeOutputMode outputMode;
 std::string inputName;
 std::string outputName;
 
@@ -103,8 +103,8 @@ int main(int argc, const char * argv[]) {
     ts.tv_nsec = (long)1e7;
 
     printf("Setting up\n");
-    inputMode = Mach1EncodeInputModeMono;
-    outputMode = Mach1EncodeOutputModeM1Spatial_8;
+    inputMode = Mono;
+    outputMode = M1Spatial_8;
     inputName = "MONO";
     outputName = "MACH1 SPATIAL";
     done = false;
@@ -118,7 +118,7 @@ int main(int argc, const char * argv[]) {
         m1Encode.setElevationDegrees(elevation);
         m1Encode.setInputMode(inputMode);
         m1Encode.setOutputMode(outputMode);
-        m1Encode.setPannerMode((isIsotroptic) ? Mach1EncodePannerModeIsotropicLinear : Mach1EncodePannerModePeriphonicLinear);
+        m1Encode.setPannerMode((isIsotroptic) ? IsotropicLinear : PeriphonicLinear);
         m1Encode.setAutoOrbit(isAutoOrbit);
         if (!isAutoOrbit){
             m1Encode.setOrbitRotationDegrees(stereoOrbitRotation);
@@ -181,46 +181,46 @@ void* encode(void* v)
                 elevation -= DELTA_DEGREE;
                 break;
             case 'i':
-                if(inputMode==Mach1EncodeInputModeMono){
-                    inputMode=Mach1EncodeInputModeStereo;
+                if(inputMode==Mono){
+                    inputMode=Stereo;
                     inputName="STEREO";
-                }else if(inputMode==Mach1EncodeInputModeStereo){
-                    inputMode=Mach1EncodeInputModeLCR;
+                }else if(inputMode==Stereo){
+                    inputMode=LCR;
                     inputName="LCR";
-                }else if(inputMode==Mach1EncodeInputModeLCR){
-                    inputMode=Mach1EncodeInputModeQuad;
+                }else if(inputMode==LCR){
+                    inputMode=Quad;
                     inputName="QUAD";
-                }else if(inputMode==Mach1EncodeInputModeQuad){
-                    inputMode=Mach1EncodeInputModeLCRS;
+                }else if(inputMode==Quad){
+                    inputMode=LCRS;
                     inputName="LCRS";
-                }else if(inputMode==Mach1EncodeInputModeLCRS){
-                    inputMode=Mach1EncodeInputModeAFormat;
+                }else if(inputMode==LCRS){
+                    inputMode=AFormat;
                     inputName="AFORMAT";
-                }else if(inputMode==Mach1EncodeInputModeAFormat){
-                    inputMode=Mach1EncodeInputModeBFOAACN;
+                }else if(inputMode==AFormat){
+                    inputMode=BFOAACN;
                     inputName="1OA ACN";
-                }else if(inputMode==Mach1EncodeInputModeBFOAACN){
-                    inputMode=Mach1EncodeInputModeBFOAACN;
+                }else if(inputMode==BFOAACN){
+                    inputMode=BFOAACN;
                     inputName="1OA ACN";
-                }else if(inputMode==Mach1EncodeInputModeBFOAACN){
-                    inputMode=Mach1EncodeInputModeBFOAFUMA;
+                }else if(inputMode==BFOAACN){
+                    inputMode=BFOAFUMA;
                     inputName="1OA FUMA";
-                }else if(inputMode==Mach1EncodeInputModeBFOAFUMA){
-                    inputMode=Mach1EncodeInputModeMono;
+                }else if(inputMode==BFOAFUMA){
+                    inputMode=Mono;
                     inputName="MONO";
                 }else{
                     printf("Input out of scope.");
                 }
                 break;
             case 'o':
-                if(outputMode==Mach1EncodeOutputModeM1Spatial_8){
-                    outputMode=Mach1EncodeOutputModeM1Spatial_4;
+                if(outputMode==M1Spatial_8){
+                    outputMode=M1Spatial_4;
                     outputName="MACH1HORIZON-4";
-                }else if(outputMode==Mach1EncodeOutputModeM1Spatial_4){
-                    outputMode=Mach1EncodeOutputModeM1Spatial_14;
+                }else if(outputMode==M1Spatial_4){
+                    outputMode=M1Spatial_14;
                     outputName="MACH1SPATIAL-14";
-                }else if(outputMode==Mach1EncodeOutputModeM1Spatial_14){
-                    outputMode=Mach1EncodeOutputModeM1Spatial_8;
+                }else if(outputMode==M1Spatial_14){
+                    outputMode=M1Spatial_8;
                     outputName="MACH1SPATIAL-8";
                 }else{
                     printf("Input out of scope.");

@@ -119,7 +119,7 @@ int main(int argc, const char * argv[]) {
 
     printf("Setting up\n");
 	m1Decode.setPlatformType(Mach1PlatformType::Mach1PlatformDefault);
-	m1Decode.setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial_8);
+	m1Decode.setDecodeMode(Mach1DecodeMode::M1DecodeSpatial_8);
 	m1Decode.setFilterSpeed(1.0);
 
     m1Decode.setMuteWhenInsideObject(false);

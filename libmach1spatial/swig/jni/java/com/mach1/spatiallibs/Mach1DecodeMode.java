@@ -8,11 +8,11 @@
 
 package com.mach1.spatiallibs;
 
-public final class Mach1DecodeAlgoType {
-  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_4 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_4", Mach1DecodeModuleJNI.Mach1DecodeAlgoSpatial_4_get());
-  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_8 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_8");
-  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_12 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_12");
-  public final static Mach1DecodeAlgoType Mach1DecodeAlgoSpatial_14 = new Mach1DecodeAlgoType("Mach1DecodeAlgoSpatial_14");
+public final class Mach1DecodeMode {
+  public final static Mach1DecodeMode M1DecodeSpatial_4 = new Mach1DecodeMode("M1DecodeSpatial_4", Mach1DecodeModuleJNI.M1DecodeSpatial_4_get());
+  public final static Mach1DecodeMode M1DecodeSpatial_8 = new Mach1DecodeMode("M1DecodeSpatial_8");
+  public final static Mach1DecodeMode M1DecodeSpatial_12 = new Mach1DecodeMode("M1DecodeSpatial_12");
+  public final static Mach1DecodeMode M1DecodeSpatial_14 = new Mach1DecodeMode("M1DecodeSpatial_14");
 
   public final int swigValue() {
     return swigValue;
@@ -22,35 +22,34 @@ public final class Mach1DecodeAlgoType {
     return swigName;
   }
 
-  public static Mach1DecodeAlgoType swigToEnum(int swigValue) {
+  public static Mach1DecodeMode swigToEnum(int swigValue) {
     if (swigValue < swigValues.length && swigValue >= 0 && swigValues[swigValue].swigValue == swigValue)
       return swigValues[swigValue];
     for (int i = 0; i < swigValues.length; i++)
       if (swigValues[i].swigValue == swigValue)
         return swigValues[i];
-    throw new IllegalArgumentException("No enum " + Mach1DecodeAlgoType.class + " with value " + swigValue);
+    throw new IllegalArgumentException("No enum " + Mach1DecodeMode.class + " with value " + swigValue);
   }
 
-  private Mach1DecodeAlgoType(String swigName) {
+  private Mach1DecodeMode(String swigName) {
     this.swigName = swigName;
     this.swigValue = swigNext++;
   }
 
-  private Mach1DecodeAlgoType(String swigName, int swigValue) {
+  private Mach1DecodeMode(String swigName, int swigValue) {
     this.swigName = swigName;
     this.swigValue = swigValue;
     swigNext = swigValue+1;
   }
 
-  private Mach1DecodeAlgoType(String swigName, Mach1DecodeAlgoType swigEnum) {
+  private Mach1DecodeMode(String swigName, Mach1DecodeMode swigEnum) {
     this.swigName = swigName;
     this.swigValue = swigEnum.swigValue;
     swigNext = this.swigValue+1;
   }
 
-  private static Mach1DecodeAlgoType[] swigValues = { Mach1DecodeAlgoSpatial_4, Mach1DecodeAlgoSpatial_8, Mach1DecodeAlgoSpatial_12, Mach1DecodeAlgoSpatial_14 };
+  private static Mach1DecodeMode[] swigValues = { M1DecodeSpatial_4, M1DecodeSpatial_8, M1DecodeSpatial_12, M1DecodeSpatial_14 };
   private static int swigNext = 0;
   private final int swigValue;
   private final String swigName;
 }
-

@@ -8,7 +8,7 @@ Mach1Decode supplies the functions needed to playback Mach1 Spatial VVBP formats
 - <b class="tab-title">C++</b>
 ```cpp
 void setup(){
-    mach1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial_8);
+    mach1Decode.setDecodeMode(M1Spatial_8);
     mach1Decode.setPlatformType(Mach1PlatformDefault);
     mach1Decode.setFilterSpeed(0.95f);
 }
@@ -22,7 +22,7 @@ void loop(){
 - <b class="tab-title">Swift</b>
 ```swift
 override func viewDidLoad() {
-    mach1Decode.setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoSpatial_8)
+    mach1Decode.setDecodeMode(mode: M1Spatial_8)
     mach1Decode.setPlatformType(type: Mach1PlatformiOS)
     mach1Decode.setFilterSpeed(filterSpeed: 1.0)
 }
@@ -38,7 +38,7 @@ let mach1Decode = null;
 Mach1DecodeModule().then(function(m1DecodeModule) {
     m1Decode = new(m1DecodeModule).Mach1Decode();
     m1Decode.setPlatformType(m1Decode.Mach1PlatformType.Mach1PlatformDefault);
-    m1Decode.setDecodeAlgoType(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_8);
+    m1Decode.setDecodeMode(m1Decode.Mach1DecodeMode.M1Spatial_8);
     m1Decode.setFilterSpeed(0.95);
 });
 function update() {
@@ -54,7 +54,7 @@ The Mach1Decode API is designed to be used the following way:
 
 Setup Step (setup/start):
 
- - `setAlgorithmType`
+ - `setDecodeMode`
  - `setAngularSettingsType`
  - `setFilterSpeed`
 
@@ -146,32 +146,32 @@ Filter speed determines the amount of angle smoothing applied to the orientation
 
 - <b class="tab-title">C++</b>
 ```cpp
-void setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType);
+void setDecodeMode(Mach1DecodeMode mode);
 ```
 - <b class="tab-title">Swift</b>
 ```swift
-func setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoType)
+func setDecodeMode(mode: Mach1DecodeMode)
 ```
 - <b class="tab-title">JavaScript</b>
 ```javascript
-mach1Decode.setDecodeAlgoType(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_8);
+mach1Decode.setDecodeMode(m1Decode.Mach1DecodeMode.M1Spatial_8);
 ```
 
 </div>
 
 Use this function to setup and choose the required Mach1 decoding algorithm.
 
-### Mach1 Decoding Algorithm Types:
- - `Mach1DecodeAlgoSpatial_4` = 0 (compass / yaw | 4 channels)
- - `Mach1DecodeAlgoSpatial_8` (default spatial | 8 channels)
- - `Mach1DecodeAlgoSpatial_12` (default spatial | 8 channels)
- - `Mach1DecodeAlgoSpatial_14` (default spatial | 8 channels)
+### Mach1 Decoding Algorithm Modes:
+ - `M1Spatial_4` = 0 (compass / yaw | 4 channels)
+ - `M1Spatial_8` (default spatial | 8 channels)
+ - `M1Spatial_12` (default spatial | 8 channels)
+ - `M1Spatial_14` (default spatial | 8 channels)
 
-#### Mach1DecodeAlgoSpatial_4
+#### M1Spatial_4
 Previously named Mach1Horizon and now named Mach1Spatial-4 channel spatial mix decoding for compass / yaw only configurations.
 Also able to decode and virtualize a first person perspective of Quad Surround mixes.
 
-#### Mach1DecodeAlgoSpatial_8
+#### M1Spatial_8
 Mach1Spatial-8 Channel spatial mix decoding from our cuboid configuration.
 This is the default and recommended decoding utilizing isotropic decoding behavior.
 
@@ -255,9 +255,9 @@ std::vector<float> volumes = mach1Decode.decode(float deviceYaw, float devicePit
 std::vector<float> decodedGains = mach1Decode.decode(float deviceYaw, float devicePitch, float deviceRoll, int bufferSize, int sampleIndex);
 
 // high performance version is meant to be used on the audio thread, it puts the resulting channel gains/volumes
-// into a float array instead of allocating a result vector. Notice the pointer to volumeFrame array passed. The array itself has to have a size of 18 floats
+// into a float array instead of allocating a result vector. Notice the pointer to volumeFrame array passed.
 
-float decodedGainsFrame [18];
+float decodedGainsFrame [mach1Decode.getFormatCoeffCount()];
 mach1Decode.decode(float deviceYaw, float devicePitch, float deviceRoll, float *decodedGainsFrame, int bufferSize, int sampleIndex);
 ```
 
@@ -284,10 +284,8 @@ for (int i = 0; i < 8; i++) {
 ```
 - <b class="tab-title">Swift</b>
 ```swift
-//Send device orientation to mach1Decode object with the preferred algo
-mach1Decode.beginBuffer()
+//Send device orientation to mach1Decode object with the preferred decode mode
 let decodedGains: [Float]  = mach1Decode.decode(Yaw: Float(deviceYaw), Pitch: Float(devicePitch), Roll: Float(deviceRoll))
-mach1Decode.endBuffer()
 
 //Use each coeff to decode multichannel Mach1 Spatial mix
 for i in 0...7 {
@@ -304,15 +302,13 @@ for i in 0...7 {
 
 - <b class="tab-title">C++</b>
 ```cpp
-//16 coefficients of spatial, 2 coefficients of headlocked stereo
-float decodedGains[18];
+float decodedGains[mach1Decode.getFormatCoeffCount()];
 
-mach1Decode.beginBuffer();
 for (size_t i = 0; i < samples; i++)
 {
     mach1Decode.decode(Yaw, Pitch, Roll, decodedGains, samples, i);
 
-    for (int j = 0; j < 8; j++)
+    for (int j = 0; j < mach1Decode.getFormatChannelCount(); j++)
     {
         sndL += decodedGains[j * 2 + 0] * buffer[j][idx];
         sndR += decodedGains[j * 2 + 1] * buffer[j][idx];
@@ -321,7 +317,6 @@ for (size_t i = 0; i < samples; i++)
     buf[i * 2 + 0] = (short) (sndL * (SHRT_MAX-1));
     buf[i * 2 + 1] = (short) (sndR * (SHRT_MAX-1));
 }
-mach1Decode.endBuffer();
 bufferRead += samples;
 ```
 

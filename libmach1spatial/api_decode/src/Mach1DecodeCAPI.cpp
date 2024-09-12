@@ -15,16 +15,16 @@ void Mach1DecodeCAPI_delete(void *M1obj) {
     }
 }
 
-void Mach1DecodeCAPI_setDecodeAlgoType(void *M1obj, enum Mach1DecodeAlgoType newAlgorithmType) {
-    ((Mach1DecodeCore *)M1obj)->setDecodeAlgoType(newAlgorithmType);
+void Mach1DecodeCAPI_setDecodeMode(void *M1obj, enum Mach1DecodeMode mode) {
+    ((Mach1DecodeCore *)M1obj)->setDecodeMode(mode);
 }
 
 void Mach1DecodeCAPI_setPlatformType(void *M1obj, enum Mach1PlatformType type) {
     ((Mach1DecodeCore *)M1obj)->setPlatformType(type);
 }
 
-Mach1DecodeAlgoType Mach1DecodeCAPI_getDecodeAlgoType(void *M1obj) {
-    return ((Mach1DecodeCore *)M1obj)->getDecodeAlgoType();
+Mach1DecodeMode Mach1DecodeCAPI_getDecodeMode(void *M1obj) {
+    return ((Mach1DecodeCore *)M1obj)->getDecodeMode();
 }
 
 Mach1PlatformType Mach1DecodeCAPI_getPlatformType(void *M1obj) {

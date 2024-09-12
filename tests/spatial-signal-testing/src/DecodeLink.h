@@ -12,7 +12,7 @@ public:
     void Process(AudioBuffers &buffers, double playback_time) override;
 
     void SetPlatformType(Mach1PlatformType type);
-    void SetDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType);
+    void SetDecodeMode(Mach1DecodeMode mode);
 
     void SetRotation(Mach1Point3D newRotationFromMinusOnetoOne);
     void SetRotationDegrees(Mach1Point3D newRotationDegrees);

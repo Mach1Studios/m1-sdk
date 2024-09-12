@@ -17,10 +17,9 @@ void update(){
     m1Encode.setAutoOrbit(autoOrbit);
     m1Encode.setStereoRotate(sRotation);
     m1Encode.setStereoSpread(sSpread);
-    m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial);
-    m1Encode.setPannerMode(Mach1EncodePannerMode::Mach1EncodePannerModeIsotropicLinear);
-    m1Encode.setInputMode(Mach1EncodeInputModeType::Mach1EncodeInputModeMono);
-    m1Encode.setOutputMode(Mach1EncodeOutputModeType::Mach1EncodeOutputModeM1Spatial_8);
+    m1Encode.setPannerMode(Mach1EncodePannerMode::IsotropicLinear);
+    m1Encode.setInputMode(Mach1EncodeInputMode::Mono);
+    m1Encode.setOutputMode(Mach1EncodeOutputMode::M1Spatial_8);
 
     m1Encode.generatePointResults();
     std::vector<float> gains = this->gains;
@@ -28,21 +27,21 @@ void update(){
 ```
 - <b class="tab-title">Swift</b>
 ```swift
-func update(decodeArray: [Float], decodeType: Mach1DecodeAlgoType){
+func update(decodeArray: [Float], decodeMode: Mach1DecodeMode){
     m1Encode.setAzimuth(azimuth: azimuth)
     m1Encode.setElevation(elevation: elevation)
     m1Encode.setDiverge(diverge: diverge)
     m1Encode.setAutoOrbit(setAutoOrbit: true)
     m1Encode.setStereoRotate(setStereoRotation: sRotation)
     m1Encode.setStereoSpread(setStereoSpread: stereoSpread)
-    m1Encode.setPannerMode(pannerMode: type)
-    m1Encode.setInputMode(inputMode: type)
-    m1Encode.setOutputMode(outputMode: type)
+    m1Encode.setPannerMode(pannerMode: mode)
+    m1Encode.setInputMode(inputMode: mode)
+    m1Encode.setOutputMode(outputMode: mode)
 
     m1Encode.generatePointResults()
 
     //Use each coeff to decode multichannel Mach1 Spatial mix
-    var gains : [Float] = m1Encode.getResultingCoeffsDecoded(decodeType: decodeType, decodeResult: decodeArray)
+    var gains : [Float] = m1Encode.getResultingCoeffsDecoded(decodeMode: decodeMode, decodeResult: decodeArray)
 
     for i in 0..<players.count {
         players[i].volume = gains[i] * volume
@@ -122,43 +121,43 @@ if (inputKind == 4) { // Input: BFORMAT
 ```
 - <b class="tab-title">Swift</b>
 ```swift
-var type : Mach1EncodeInputModeType = Mach1EncodeInputModeMono
-m1Encode.setInputMode(inputMode: type)
+var mode : Mach1EncodeInputMode = Mach1EncodeInputMode::Mono
+m1Encode.setInputMode(inputMode: mode)
 
 if(soundFiles[soundIndex].count == 1) {
-    type = Mach1EncodeInputModeMono
+    mode = Mach1EncodeInputMode::Mono
 }
 else if(soundFiles[soundIndex].count == 2) {
-    type = Mach1EncodeInputModeStereo
+    mode = Mach1EncodeInputMode::Stereo
 }
 else if (soundFiles[soundIndex].count == 4) {
 	if (quadMode){
-		type = Mach1EncodeInputModeQuad
+		mode = Mach1EncodeInputMode::Quad
 	}
 	if (aFormatMode){
-		type = Mach1EncodeInputModeAFormat
+		mode = Mach1EncodeInputMode::AFormat
 	}
 	if (bFormatMode){
-		type = Mach1EncodeInputModeBFOAACN
+		mode = Mach1EncodeInputMode::BFOAACN
 	}
 }
 ```
 - <b class="tab-title">JavaScript</b>
 ```js
 if (params.inputKind == 0) { // Input: MONO
-    m1Encode.setInputMode(m1Encode.Mach1EncodeInputModeType.Mach1EncodeInputModeMono);
+    m1Encode.setInputMode(m1Encode.Mach1EncodeInputMode.Mono);
 }
 if (params.inputKind == 1) { // Input: STERO
-    m1Encode.setInputMode(m1Encode.Mach1EncodeInputModeType.Mach1EncodeInputModeStereo);
+    m1Encode.setInputMode(m1Encode.Mach1EncodeInputMode.Stereo);
 }
 if (params.inputKind == 2) { // Input: Quad
-    m1Encode.setInputMode(m1Encode.Mach1EncodeInputModeType.Mach1EncodeInputModeQuad);
+    m1Encode.setInputMode(m1Encode.Mach1EncodeInputMode.Quad);
 }
 if (params.inputKind == 3) { // Input: AFORMAT
-    m1Encode.setInputMode(m1Encode.Mach1EncodeInputModeType.Mach1EncodeInputModeAFormat);
+    m1Encode.setInputMode(m1Encode.Mach1EncodeInputMode.AFormat);
 }
 if (params.inputKind == 4) { // Input: 1st Order Ambisonics (ACNSN3D)
-    m1Encode.setInputMode(m1Encode.Mach1EncodeInputModeType.Mach1EncodeInputModeBFOAACN);
+    m1Encode.setInputMode(m1Encode.Mach1EncodeInputMode.BFOAACN);
 }
 ```
 
@@ -186,28 +185,28 @@ Sets the number of input streams to be positioned as points.
 - <b class="tab-title">C++</b>
 ```cpp
 if (outputKind == 0) { // Output: 4CH Mach1Horizon
-    m1Encode.outputMode = M1Encode::Mach1EncodeOutputModeM1Horizon_4;
+    m1Encode.outputMode = M1Encode::M1Spatial_4;
 }
 if (outputKind == 1) { // Output: 8CH Mach1Spatial
-    m1Encode.outputMode = M1Encode::Mach1EncodeOutputModeM1Spatial_8;
+    m1Encode.outputMode = M1Encode::M1Spatial_8;
 }
 ```
 - <b class="tab-title">Swift</b>
 ```swift
 if (outputKind == 0) { // Output: 4CH Mach1Horizon
-    m1Encode.setOutputMode(outputMode: Mach1EncodeOutputModeM1Horizon_4)
+    m1Encode.setOutputMode(outputMode: M1Spatial_4)
 }
 if (outputKind == 1) { // Output: 8CH Mach1Spatial
-    m1Encode.setOutputMode(outputMode: Mach1EncodeOutputModeM1Spatial_8)
+    m1Encode.setOutputMode(outputMode: M1Spatial_8)
 }
 ```
 - <b class="tab-title">JavaScript</b>
 ```js
 if (params.outputKind == 0) { // Output: 4CH Mach1Horizon
-    m1Encode.setOutputMode(m1Encode.Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Horizon_4);
+    m1Encode.setOutputMode(m1Encode.mode.M1Spatial_4);
 }
 if (params.outputKind == 1) { // Output: 8CH Mach1Spatial
-    m1Encode.setOutputMode(m1Encode.Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_8);
+    m1Encode.setOutputMode(m1Encode.mode.M1Spatial_8);
 }
 ```
 
@@ -215,10 +214,10 @@ if (params.outputKind == 1) { // Output: 8CH Mach1Spatial
 
 Sets the output spatial format, Mach1Spatial or Mach1Horizon
 
- - Mach1EncodeOutputModeM1Spatial_8 (8ch) [Yaw, Pitch, Roll] {default}
- - Mach1EncodeOutputModeM1Horizon_4 (4ch) [Yaw]
- - Mach1EncodeOutputModeM1Spatial_12 (12ch) [Yaw, Pitch, Roll]
- - Mach1EncodeOutputModeM1Spatial_14 (14ch) [Yaw, Pitch, Roll]
+ - M1Spatial_4 (4ch) [Yaw]
+ - M1Spatial_8 (8ch) [Yaw, Pitch, Roll] {default}
+ - M1Spatial_12 (12ch) [Yaw, Pitch, Roll]
+ - M1Spatial_14 (14ch) [Yaw, Pitch, Roll]
 
 <!-- ## Set Panner Mode
 Sets the style and mode of panner input calculation
@@ -234,37 +233,37 @@ Acts evenly with distribution across azimuth/rotation angles but crossfades betw
 
 ```cpp
 if (pannerMode == 0) {
-    m1Encode.setPannerMode = Mach1EncodePannerModeType::Mach1EncodePannerModeIsotropicLinear;
+    m1Encode.setPannerMode = Mach1EncodePannerMode::IsotropicLinear;
 }
 if (pannerMode == 1) {
-    m1Encode.setPannerMode = Mach1EncodePannerModeType::Mach1EncodePannerModeIsotropicEqualPower;
+    m1Encode.setPannerMode = Mach1EncodePannerMode::IsotropicEqualPower;
 }
 if (pannerMode == 2) {
-    m1Encode.setPannerMode = Mach1EncodePannerModeType::Mach1EncodePannerModePeriphonicLinear;
+    m1Encode.setPannerMode = Mach1EncodePannerMode::PeriphonicLinear;
 }
 ```
 
 ```swift
 if (pannerMode == 0) {
-    m1Encode.setPannerMode(pannerMode: Mach1EncodePannerModeIsotropicLinear)
+    m1Encode.setPannerMode(pannerMode: IsotropicLinear)
 }
 if (pannerMode == 1) {
-    m1Encode.setPannerMode(pannerMode: Mach1EncodePannerModeIsotropicEqualPower)
+    m1Encode.setPannerMode(pannerMode: IsotropicEqualPower)
 }
 if (pannerMode == 2) {
-    m1Encode.setPannerMode(pannerMode: Mach1EncodePannerModePeriphonicLinear)
+    m1Encode.setPannerMode(pannerMode: PeriphonicLinear)
 }
 ```
 
 ```js
 if (params.pannerMode == 0) {
-    m1Encode.setPannerMode(m1Encode.Mach1EncodePannerModeType.Mach1EncodePannerModeIsotropicLinear);
+    m1Encode.setPannerMode(m1Encode.Mach1EncodePannerMode.IsotropicLinear);
 }
 if (params.pannerMode == 1) {
-    m1Encode.setPannerMode(m1Encode.Mach1EncodePannerModeType.Mach1EncodePannerModeIsotropicEqualPower);
+    m1Encode.setPannerMode(m1Encode.Mach1EncodePannerMode.IsotropicEqualPower);
 }
 if (params.pannerMode == 2) {
-    m1Encode.setPannerMode(m1Encode.Mach1EncodePannerModeType.Mach1EncodePannerModePeriphonicLinear);
+    m1Encode.setPannerMode(m1Encode.Mach1EncodePannerMode.PeriphonicLinear);
 }
 ``` -->
 
@@ -495,7 +494,7 @@ When active both stereo points rotate in relation to the center point between th
 - <b class="tab-title">C++</b>
 ```cpp
 //Use each coeff to decode multichannel Mach1 Spatial mix
-volumes = m1Encode.getResultingCoeffsDecoded(decodeType, decodeArray)
+volumes = m1Encode.getResultingCoeffsDecoded(decodeMode, decodeArray)
 
 for (int i = 0; i < 8; i++) {
     players[i].volume = volumes[i] * volume
@@ -504,7 +503,7 @@ for (int i = 0; i < 8; i++) {
 - <b class="tab-title">Swift</b>
 ```swift
 //Use each coeff to decode multichannel Mach1 Spatial mix
-var volumes : [Float] = m1Encode.getResultingCoeffsDecoded(decodeType: decodeType, decodeResult: decodeArray)
+var volumes : [Float] = m1Encode.getResultingCoeffsDecoded(decodeMode: decodeMode, decodeResult: decodeArray)
 
 for i in 0..<players.count {
     players[i].volume = volumes[i] * volume
@@ -514,13 +513,11 @@ for i in 0..<players.count {
 ```js
 m1Encode.generatePointResults();
 
-m1Decode.beginBuffer();
 var decoded = m1Decode.decode(params.decoderRotationY, params.decoderRotationP, params.decoderRotationR);
-m1Decode.endBuffer();
 
 var vol = [];
 if (params.outputKind == 1) { // Output: Mach1Spatial
-    vol = m1Encode.getResultingCoeffsDecoded(m1Decode.Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial, decoded);
+    vol = m1Encode.getResultingCoeffsDecoded(m1Decode.Mach1DecodeMode.M1Spatial_8, decoded);
 }
 ```
 

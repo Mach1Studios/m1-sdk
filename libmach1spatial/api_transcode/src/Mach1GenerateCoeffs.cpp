@@ -30,8 +30,8 @@ std::vector<float> generateCoeffSetForPoint(float x, float y, float z, std::vect
     return result;
 }
 
-std::vector<std::vector<float>> generateCoeffSetForPoints(std::vector<Mach1Point3D> points, std::vector<Mach1Point3D> targetStandart) {
-    std::vector<std::vector<float>> vec(targetStandart.size());
+std::vector<std::vector<float> > generateCoeffSetForPoints(std::vector<Mach1Point3D> points, std::vector<Mach1Point3D> targetStandart) {
+    std::vector<std::vector<float> > vec(targetStandart.size());
 
     for (auto &p : points) {
         std::vector<float> v = generateCoeffSetForPoint(p.x, p.y, p.z, targetStandart);

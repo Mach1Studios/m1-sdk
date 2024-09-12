@@ -42,12 +42,12 @@ std::string Mach1Transcode::getFormatName(int fmt) {
 }
 
 std::vector<std::string> Mach1Transcode::getAllFormatNames() {
-	const char** formats = Mach1TranscodeCAPI_getAllFormatNames(M1obj);
-	std::vector<std::string> formatNames;
-	for (size_t i = 0; formats[i] != nullptr; i++) {
-		formatNames.push_back(std::string(formats[i]));
-	}
-	return formatNames;
+    const char **formats = Mach1TranscodeCAPI_getAllFormatNames(M1obj);
+    std::vector<std::string> formatNames;
+    for (size_t i = 0; formats[i] != nullptr; i++) {
+        formatNames.push_back(std::string(formats[i]));
+    }
+    return formatNames;
     /// Returns a list of all the names of available formats in Mach1Transcode API
     ///
     /// - Returns:
@@ -78,7 +78,7 @@ void Mach1Transcode::processMasterGain(float **bufs, int numSamples, float maste
 }
 #endif
 
-float Mach1Transcode::processNormalization(std::vector<std::vector<float>> &bufs) {
+float Mach1Transcode::processNormalization(std::vector<std::vector<float> > &bufs) {
     if (bufs.size() == 0)
         return 0;
 
@@ -92,7 +92,7 @@ float Mach1Transcode::processNormalization(std::vector<std::vector<float>> &bufs
     return peak;
 }
 
-void Mach1Transcode::processMasterGain(std::vector<std::vector<float>> &bufs, float masterGain) {
+void Mach1Transcode::processMasterGain(std::vector<std::vector<float> > &bufs, float masterGain) {
     if (bufs.size() == 0)
         return;
 
@@ -206,11 +206,11 @@ bool Mach1Transcode::processConversionPath() {
     ///     Needs to be called before `processConversion()` is called.
 }
 
-std::vector<std::vector<float>> Mach1Transcode::getMatrixConversion() {
+std::vector<std::vector<float> > Mach1Transcode::getMatrixConversion() {
     float *matrix = new float[getInputNumChannels() * getOutputNumChannels()];
     Mach1TranscodeCAPI_getMatrixConversion(M1obj, matrix);
 
-    std::vector<std::vector<float>> vec;
+    std::vector<std::vector<float> > vec;
     vec.resize(getOutputNumChannels());
     for (size_t i = 0; i < vec.size(); i++) {
         vec[i].resize(getInputNumChannels());
@@ -230,7 +230,7 @@ void Mach1Transcode::processConversion(float **inBufs, float **outBufs, int numS
 }
 #endif
 
-void Mach1Transcode::processConversion(std::vector<std::vector<float>> &inBufs, std::vector<std::vector<float>> &outBufs) {
+void Mach1Transcode::processConversion(std::vector<std::vector<float> > &inBufs, std::vector<std::vector<float> > &outBufs) {
     if (inBufs.size() == 0 || outBufs.size() == 0)
         return;
 

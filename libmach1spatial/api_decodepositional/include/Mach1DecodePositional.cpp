@@ -35,16 +35,15 @@ void Mach1DecodePositional::setPlatformType(Mach1PlatformType type) {
     ///     - Mach1PlatformiOSPortrait_YawOnly
 }
 
-void Mach1DecodePositional::setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType) {
-    Mach1DecodePositionalCAPI_setDecodeAlgoType(M1obj, newAlgorithmType);
+void Mach1DecodePositional::setDecodeMode(Mach1DecodeMode mode) {
+    Mach1DecodePositionalCAPI_setDecodeMode(M1obj, mode);
     /// Set the decoding algorithm
     ///
     /// - Parameters:
-    ///     - Mach1DecodeAlgoSpatial_8 (default spatial | 8 channels)
-    ///     - Mach1DecodeAlgoHorizon_4 (compass / yaw | 4 channels)
-    ///     - Mach1DecodeAlgoHorizonPairs (compass / yaw | 4x stereo mastered pairs)
-    ///     - Mach1DecodeAlgoSpatial_12 (higher order spatial | 12 channels)
-    ///     - Mach1DecodeAlgoSpatial_14 (higher order spatial | 14 channels)
+    ///     - M1Spatial_4 (default spatial | 8 channels)
+    ///     - M1Spatial_8 (compass / yaw | 4 channels)
+    ///     - M1Spatial_12 (higher order spatial | 12 channels)
+    ///     - M1Spatial_14 (higher order spatial | 14 channels)
 }
 
 void Mach1DecodePositional::setMuteWhenOutsideObject(bool muteWhenOutsideObject) {

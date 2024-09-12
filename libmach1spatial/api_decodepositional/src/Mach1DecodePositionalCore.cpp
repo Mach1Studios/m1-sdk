@@ -230,12 +230,12 @@ Mach1DecodePositionalCore::Mach1DecodePositionalCore() {
     ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     timeLastCalculation = 0;
 
-    setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial_8);
+    setDecodeMode(Mach1DecodeMode::M1DecodeSpatial_8);
 }
 
-void Mach1DecodePositionalCore::setDecodeAlgoType(Mach1DecodeAlgoType type) {
-    algorithmType = type;
-    mach1Decode.setDecodeAlgoType(type);
+void Mach1DecodePositionalCore::setDecodeMode(Mach1DecodeMode mode) {
+    decodeMode = mode;
+    mach1Decode.setDecodeMode(decodeMode);
 }
 
 void Mach1DecodePositionalCore::setPlatformType(Mach1PlatformType type) {
@@ -338,8 +338,7 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
         if (useFalloff) {
             gain = gain * falloffCurve;
         }
-    } 
-    else if (hasSoundOutside || hasSoundInside) // useCenterPointRotation
+    } else if (hasSoundOutside || hasSoundInside) // useCenterPointRotation
     {
         dist = glm::distance(cameraPosition, point);
 
@@ -348,8 +347,7 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
                 gain = gain * falloffCurve;
             }
         }
-    } 
-    else {
+    } else {
         gain = 0;
     }
 
@@ -360,7 +358,7 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
         // Compute rotation for sound
         // http://www.aclockworkberry.com/world-coordinate-systems-in-3ds-max-unity-and-unreal-engine/
         glm::quat quat;
-        quat = glm::quatLookAtLH(glm::normalize(dir), GetUpVector() ) * glm::inverse(soundRotation);
+        quat = glm::quatLookAtLH(glm::normalize(dir), GetUpVector()) * glm::inverse(soundRotation);
 
         glm::vec3 quatEulerAngles = QuaternionToEuler(glm::normalize(quat));
 
@@ -371,14 +369,13 @@ void Mach1DecodePositionalCore::evaluatePositionResults() {
         quat = EulerToQuaternion(glm::vec3(useXForRotation ? quatEulerAngles.x : 0, useYForRotation ? quatEulerAngles.y : 0, useZForRotation ? quatEulerAngles.z : 0));
         eulerAnglesCube = QuaternionToEuler(glm::normalize(quat)) * RAD_TO_DEG_F;
 
-        quat = glm::inverse(quat) * cameraRotation; // * glm::inverse(soundRotation); 
+        quat = glm::inverse(quat) * cameraRotation; // * glm::inverse(soundRotation);
         eulerAngles = QuaternionToEuler(glm::normalize(quat)) * RAD_TO_DEG_F;
 
         // SoundAlgorithm
         mach1Decode.setRotationDegrees(Mach1Point3D{eulerAngles.x, eulerAngles.y, eulerAngles.z});
         coeffs = mach1Decode.decodeCoeffs(0, 0);
-    } 
-    else {
+    } else {
         // Fixed zero distance
         eulerAngles = glm::vec3(0, 0, 0);
 

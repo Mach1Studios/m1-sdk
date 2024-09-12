@@ -23,13 +23,13 @@ namespace Mach1
         internal static extern void Mach1DecodeCAPI_delete(IntPtr M1obj);
 
         [DllImport(libname)]
-        internal static extern void Mach1DecodeCAPI_setDecodeAlgoType(IntPtr M1obj, Mach1DecodeAlgoType type);
+        internal static extern void Mach1DecodeCAPI_setDecodeMode(IntPtr M1obj, Mach1DecodeMode type);
 
         [DllImport(libname)]
         internal static extern void Mach1DecodeCAPI_setPlatformType(IntPtr M1obj, Mach1PlatformType type);
 
         [DllImport(libname)]
-        internal static extern Mach1DecodeAlgoType Mach1DecodeCAPI_getDecodeAlgoType(IntPtr M1obj);
+        internal static extern Mach1DecodeMode Mach1DecodeCAPI_getDecodeMode(IntPtr M1obj);
 
         [DllImport(libname)]
         internal static extern Mach1PlatformType Mach1DecodeCAPI_getPlatformType(IntPtr M1obj);
@@ -91,16 +91,16 @@ namespace Mach1
             Mach1DecodeCAPI_delete(M1obj);
         }
 
-        public void setDecodeAlgoType(Mach1DecodeAlgoType type)
+        public void setDecodeMode(Mach1DecodeMode mode)
         {
-            Mach1DecodeCAPI_setDecodeAlgoType(M1obj, type);
+            Mach1DecodeCAPI_setDecodeMode(M1obj, mode);
             /// Set the decoding algorithm
             ///
             /// - Parameters:
-            ///     - Mach1DecodeAlgoHorizon_4 (compass / yaw | 4 channels)
-            ///     - Mach1DecodeAlgoSpatial_8 (spatial | 8 channels)
-            ///     - Mach1DecodeAlgoSpatial_12 (higher order spatial | 12 channels)
-            ///     - Mach1DecodeAlgoSpatial_14 (higher order spatial | 14 channels)
+            ///     - M1DecodeSpatial_4 (compass / yaw | 4 channels)
+            ///     - M1DecodeSpatial_8 (spatial | 8 channels)
+            ///     - M1DecodeSpatial_12 (higher order spatial | 12 channels)
+            ///     - M1DecodeSpatial_14 (higher order spatial | 14 channels)
         }
 
         public void setPlatformType(Mach1PlatformType type)
@@ -120,9 +120,9 @@ namespace Mach1
             ///     - Mach1PlatformiOSPortrait_YawOnly
         }
 
-        public Mach1DecodeAlgoType getDecodeAlgoType()
+        public Mach1DecodeMode getDecodeMode()
         {
-            return Mach1DecodeCAPI_getDecodeAlgoType(M1obj);
+            return Mach1DecodeCAPI_getDecodeMode(M1obj);
             /// Returns the current decoding algorithm (or also known as the Mach1Decode's input channel mode)
         }
 
@@ -149,7 +149,7 @@ namespace Mach1
             /// + Update decode results via main loop (or any loop)
             ///   + *Default null or 0 values to **bufferSize** or **sampleIndex** will use the second mode*
             ///
-            /// - Parameters: 
+            /// - Parameters:
             ///     - Yaw: float for device/listener yaw angle: [Range: 0->360 | -180->180]
             ///     - Pitch: float for device/listener pitch angle: [Range: -90->90]
             ///     - Roll: float for device/listener roll angle: [Range: -90->90]
@@ -174,7 +174,7 @@ namespace Mach1
             /// + Update decode results via main loop (or any loop)
             ///   + *Default null or 0 values to **bufferSize** or **sampleIndex** will use the second mode*
             ///
-            /// - Parameters: 
+            /// - Parameters:
             ///     - bufferSize: int for number of samples in a buffer, ideally supplied from your audioplayer/engine
             ///     - sampleIndex: int for current sample index array, ideally supplied from your audioplayer/engine
         }

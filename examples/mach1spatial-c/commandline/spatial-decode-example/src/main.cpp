@@ -60,7 +60,7 @@ static void* decode(void* v);
 static std::thread thread;
 static bool done = false;
 Mach1Decode m1Decode;
-Mach1DecodeAlgoType outputFormat;
+Mach1DecodeMode outputFormat;
 std::string outputName;
 static std::vector<float> m1Coeffs;
 static std::vector<float> m1PannedCoeffs;
@@ -104,7 +104,7 @@ int main(int argc, const char * argv[]) {
     ts.tv_nsec = (long)1e7; // 1/100 seconds
 
     printf("Setting up\n");
-    outputFormat = Mach1DecodeAlgoSpatial_8;
+    outputFormat = M1DecodeSpatial_8;
     outputName = "MACH1 SPATIAL";
     done = false;
     thread = std::thread(decode, nullptr);
@@ -113,7 +113,7 @@ int main(int argc, const char * argv[]) {
         nanosleep(&ts, NULL);
         auto start = std::chrono::high_resolution_clock::now();
         m1Decode.setPlatformType(Mach1PlatformDefault);
-        m1Decode.setDecodeAlgoType(outputFormat);
+        m1Decode.setDecodeMode(outputFormat);
         m1Decode.setFilterSpeed(1.0);
 
         orientation.x = yaw;
@@ -177,20 +177,20 @@ static void* decode(void* v)
                 roll -= DELTA_VALUE;
                 break;
             case 'o':
-                if(outputFormat==Mach1DecodeAlgoSpatial_8){
-                    outputFormat=Mach1DecodeAlgoSpatial_4;
+                if(outputFormat==M1DecodeSpatial_8){
+                    outputFormat=M1DecodeSpatial_4;
                     outputName="MACH1HORIZON-4";
-                }else if(outputFormat==Mach1DecodeAlgoSpatial_4){
-                    outputFormat=Mach1DecodeAlgoSpatial_14;
+                }else if(outputFormat==M1DecodeSpatial_4){
+                    outputFormat=M1DecodeSpatial_14;
                     outputName="MACH1SPATIAL-14";
-                }else if(outputFormat==Mach1DecodeAlgoSpatial_14){
-                    outputFormat=Mach1DecodeAlgoSpatial_8;
+                }else if(outputFormat==M1DecodeSpatial_14){
+                    outputFormat=M1DecodeSpatial_8;
                     outputName="MACH1SPATIAL-8";
                 }else{
                     printf("Input out of scope.");
                 }
                 //resize coeffs array to the size of the current output
-                m1Decode.setDecodeAlgoType(outputFormat);
+                m1Decode.setDecodeMode(outputFormat);
                 m1Coeffs.resize(m1Decode.getFormatCoeffCount(), 0.0f);
                 break;
             default:

@@ -4,8 +4,8 @@
 #pragma once
 
 #include "Mach1DecodeCAPI.h"
-#include <string>
 #include <cstring>
+#include <string>
 #include <vector>
 
 class Mach1Decode {
@@ -14,7 +14,7 @@ class Mach1Decode {
     ~Mach1Decode();
 
     void setPlatformType(Mach1PlatformType type);
-    void setDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType);
+    void setDecodeMode(Mach1DecodeMode mode);
 
 #ifndef __EMSCRIPTEN__
     void decode(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
@@ -24,7 +24,7 @@ class Mach1Decode {
     std::vector<float> decode(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
     std::vector<float> decodeCoeffs(int bufferSize = 0, int sampleIndex = 0);
     std::vector<float> decodePannedCoeffs(int bufferSize = 0, int sampleIndex = 0, bool applyPanLaw = true);
-    std::vector<float> decodeCoeffsUsingTranscodeMatrix(std::vector< std::vector<float> > matrix, int channels, int bufferSize = 0, int sampleIndex = 0);
+    std::vector<float> decodeCoeffsUsingTranscodeMatrix(std::vector<std::vector<float> > matrix, int channels, int bufferSize = 0, int sampleIndex = 0);
 
     int getFormatChannelCount();
     int getFormatCoeffCount();
@@ -36,16 +36,16 @@ class Mach1Decode {
     void setFilterSpeed(float filterSpeed);
 
     template <typename T>
-    inline void decodeBuffer(std::vector< std::vector<T> > &in, std::vector< std::vector<T> > &out, int size);
+    inline void decodeBuffer(std::vector<std::vector<T> > &in, std::vector<std::vector<T> > &out, int size);
 
     template <typename T>
-    inline void decodeBufferInPlace(std::vector< std::vector<T> > &buffer, int size);
+    inline void decodeBufferInPlace(std::vector<std::vector<T> > &buffer, int size);
 
     template <typename T>
-    inline void decodeBufferRebuffer(std::vector< std::vector<T> > &in, std::vector< std::vector<T> > &out, int size);
+    inline void decodeBufferRebuffer(std::vector<std::vector<T> > &in, std::vector<std::vector<T> > &out, int size);
 
     template <typename T>
-    inline void decodeBufferInPlaceRebuffer(std::vector< std::vector<T> > &buffer, int size);
+    inline void decodeBufferInPlaceRebuffer(std::vector<std::vector<T> > &buffer, int size);
 
     long getCurrentTime();
 #ifndef __EMSCRIPTEN__
@@ -56,20 +56,21 @@ class Mach1Decode {
 
     Mach1Point3D getCurrentAngle();
 
-private:
+  private:
     inline void restructureIntermediaryBuffer(int channel_count, size_t buffer_size);
     inline void clearIntermediaryBuffer();
 
-private:
+  private:
     void *M1obj;
 
-    std::vector<std::vector<float > > intermediary_buffer;
+    std::vector<std::vector<float> > intermediary_buffer;
     int ib_channel_count;
     size_t ib_buffer_size;
 };
 
 void Mach1Decode::restructureIntermediaryBuffer(int channel_count, size_t buffer_size) {
-    if (ib_channel_count == channel_count && ib_buffer_size == buffer_size) return;
+    if (ib_channel_count == channel_count && ib_buffer_size == buffer_size)
+        return;
 
     intermediary_buffer.resize(channel_count);
 
@@ -88,7 +89,7 @@ void Mach1Decode::clearIntermediaryBuffer() {
 }
 
 template <typename T>
-void Mach1Decode::decodeBuffer(std::vector< std::vector<T> > &in, std::vector< std::vector<T> > &out, int size) {
+void Mach1Decode::decodeBuffer(std::vector<std::vector<T> > &in, std::vector<std::vector<T> > &out, int size) {
     // get output gain multipliers
     auto decode_gains = decodeCoeffs(); // TODO: Implement interpolation between coeffs.
 
@@ -107,14 +108,13 @@ void Mach1Decode::decodeBuffer(std::vector< std::vector<T> > &in, std::vector< s
     }
 }
 
-template<typename T>
-void Mach1Decode::decodeBufferInPlace(std::vector<std::vector<T>> &buffer, int size) {
+template <typename T>
+void Mach1Decode::decodeBufferInPlace(std::vector<std::vector<T> > &buffer, int size) {
     decodeBuffer(buffer, buffer, size);
 }
 
-template<typename T>
-void Mach1Decode::decodeBufferRebuffer(std::vector<std::vector<T>> &in, std::vector<std::vector<T>> &out, int size)
-{
+template <typename T>
+void Mach1Decode::decodeBufferRebuffer(std::vector<std::vector<T> > &in, std::vector<std::vector<T> > &out, int size) {
     restructureIntermediaryBuffer(2, size);
     clearIntermediaryBuffer();
 
@@ -136,12 +136,9 @@ void Mach1Decode::decodeBufferRebuffer(std::vector<std::vector<T>> &in, std::vec
     for (int output_idx = 0; output_idx < 2; output_idx++) {
         memcpy(out[output_idx].data(), intermediary_buffer[output_idx].data(), sizeof(float) * size);
     }
-
 }
 
-template<typename T>
-void Mach1Decode::decodeBufferInPlaceRebuffer(std::vector< std::vector<T> > &buffer, int size)
-{
+template <typename T>
+void Mach1Decode::decodeBufferInPlaceRebuffer(std::vector<std::vector<T> > &buffer, int size) {
     decodeBufferRebuffer(buffer, buffer, size);
 }
-

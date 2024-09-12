@@ -16,8 +16,8 @@ void DecodeLink::SetPlatformType(Mach1PlatformType type) {
     m_decode.setPlatformType(type);
 }
 
-void DecodeLink::SetDecodeAlgoType(Mach1DecodeAlgoType newAlgorithmType) {
-    m_decode.setDecodeAlgoType(newAlgorithmType);
+void DecodeLink::SetDecodeMode(Mach1DecodeMode mode) {
+    m_decode.setDecodeMode(mode);
 }
 
 void DecodeLink::SetRotation(Mach1Point3D newRotationFromMinusOnetoOne) {

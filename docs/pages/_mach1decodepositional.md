@@ -9,7 +9,7 @@ Mach1DecodePositional allows the 3DOF orientation decoding to decode in a dev en
 - <b class="tab-title">C++</b>
 ```cpp
 void setup(){
-    mach1DecodePositional.setDecodeAlgoType(Mach1DecodeAlgoSpatial_8);
+    mach1DecodePositional.setDecodeMode(M1Spatial_8);
     mach1DecodePositional.setPlatformType(Mach1PlatformDefault);
     mach1DecodePositional.setUseAttenuation(bool useAttenuation);
     mach1DecodePositional.setAttenuationCurve(float attenuationCurve);
@@ -19,9 +19,9 @@ void setup(){
 void loop(){
     mach1DecodePositional.setListenerPosition(Mach1Point3D devicePos);
     mach1DecodePositional.setListenerRotation(Mach1Point3D deviceRot);
-    mach1DecodePositional.setDecoderAlgoPosition(Mach1Point3D objPos);
-    mach1DecodePositional.setDecoderAlgoRotation(Mach1Point3D objRot);
-    mach1DecodePositional.setDecoderAlgoScale(Mach1Point3D objScale);
+    mach1DecodePositional.setDecoderPosition(Mach1Point3D objPos);
+    mach1DecodePositional.setDecoderRotation(Mach1Point3D objRot);
+    mach1DecodePositional.setDecoderScale(Mach1Point3D objScale);
 
     mach1DecodePositional.getDist();
     mach1DecodePositional.getCoefficients(float* result);
@@ -30,7 +30,7 @@ void loop(){
 - <b class="tab-title">Swift</b>
 ```swift
 override func viewDidLoad() {
-    mach1DecodePositional.setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoSpatial_8)
+    mach1DecodePositional.setDecodeMode(mode: M1Spatial_8)
     mach1DecodePositional.setPlatformType(type: Mach1PlatformiOS)
     mach1DecodePositional.setFilterSpeed(filterSpeed: 1.0)
     mach1DecodePositional.setUseAttenuation(useAttenuation: true)
@@ -39,9 +39,9 @@ override func viewDidLoad() {
 func update() {
     mach1DecodePositional.setListenerPosition(point: (devicePos))
     mach1DecodePositional.setListenerRotation(point: Mach1Point3D(deviceRot))
-    mach1DecodePositional.setDecoderAlgoPosition(point: (objectPosition))
-    mach1DecodePositional.setDecoderAlgoRotation(point: Mach1Point3D(objectRotation))
-    mach1DecodePositional.setDecoderAlgoScale(point: Mach1Point3D(x: 0.1, y: 0.1, z: 0.1))
+    mach1DecodePositional.setDecoderPosition(point: (objectPosition))
+    mach1DecodePositional.setDecoderRotation(point: Mach1Point3D(objectRotation))
+    mach1DecodePositional.setDecoderScale(point: Mach1Point3D(x: 0.1, y: 0.1, z: 0.1))
 
     mach1DecodePositional.evaluatePositionResults()
 
@@ -61,7 +61,7 @@ The Mach1DecodePositional API is designed to be added if 6DOF or positional plac
 
 Setup Step (setup/start):
 
- - `setDecodeAlgoType`
+ - `setDecodeMode`
  - `setPlatformType`
  - `setUseAttenuation` set distance attenuation for soundfield
  - `setAttenuationCurve` design custom distance attenuation curves
@@ -288,11 +288,11 @@ Updates the device/camera's orientation with Quaternion
 
 - <b class="tab-title">C++</b>
 ```cpp
-void setDecoderAlgoPosition(Mach1Point3DCore* pos);
+void setDecoderPosition(Mach1Point3DCore* pos);
 ```
 - <b class="tab-title">Swift</b>
 ```swift
-func setDecoderAlgoPosition(point: Mach1Point3D)
+func setDecoderPosition(point: Mach1Point3D)
 ```
 
 </div>
@@ -303,11 +303,11 @@ Updates the decode object's position in desired x,y,z space
 
 - <b class="tab-title">C++</b>
 ```cpp
-void setDecoderAlgoRotation(Mach1Point3DCore* euler);
+void setDecoderRotation(Mach1Point3DCore* euler);
 ```
 - <b class="tab-title">Swift</b>
 ```swift
-func setDecoderAlgoRotation(point: Mach1Point3D)
+func setDecoderRotation(point: Mach1Point3D)
 ```
 
 </div>
@@ -318,11 +318,11 @@ Updates the decode object's orientation with Euler angles (yaw, pitch, roll)
 
 - <b class="tab-title">C++</b>
 ```cpp
-void setDecoderAlgoRotationQuat(Mach1Point4DCore* quat);
+void setDecoderRotationQuat(Mach1Point4DCore* quat);
 ```
 - <b class="tab-title">Swift</b>
 ```swift
-func setDecoderAlgoRotationQuat(point: Mach1Point4D)
+func setDecoderRotationQuat(point: Mach1Point4D)
 ```
 
 </div>
@@ -333,11 +333,11 @@ Updates the decode object's orientation with Quaternion
 
 - <b class="tab-title">C++</b>
 ```cpp
-void setDecoderAlgoScale(Mach1Point3DCore* scale);
+void setDecoderScale(Mach1Point3DCore* scale);
 ```
 - <b class="tab-title">Swift</b>
 ```swift
-func setDecoderAlgoScale(point: Mach1Point3D)
+func setDecoderScale(point: Mach1Point3D)
 ```
 
 </div>

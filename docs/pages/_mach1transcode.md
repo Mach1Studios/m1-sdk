@@ -164,7 +164,7 @@ m1Transcode.processConversionPath()
 matrix = m1Transcode.getMatrixConversion()
 // Mach1 Decode Setup
 m1Decode.setPlatformType(type: Mach1PlatformiOS)
-m1Decode.setDecodeAlgoType(newAlgorithmType: Mach1DecodeAlgoSpatial_8)
+m1Decode.setDecodeMode(newAlgorithmType: M1Spatial_8)
 m1Decode.setFilterSpeed(filterSpeed: 1.0)
 
 // Called when updating InputFormat for Mach1Transcode

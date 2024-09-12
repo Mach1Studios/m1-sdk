@@ -2,43 +2,43 @@ Module['onRuntimeInitialized'] = function() {
     console.log('loaded Mach1Encode');
 
     Module['Mach1Encode'] = function() {
-        this.Mach1EncodeInputModeType = {
-            "Mach1EncodeInputModeMono": (Module).Mach1EncodeInputModeType.Mach1EncodeInputModeMono,
-            "Mach1EncodeInputModeStereo": (Module).Mach1EncodeInputModeType.Mach1EncodeInputModeStereo,
-            "Mach1EncodeInputModeLCR": (Module).Mach1EncodeInputModeType.Mach1EncodeInputModeLCR,
-            "Mach1EncodeInputModeQuad": (Module).Mach1EncodeInputModeType.Mach1EncodeInputModeQuad,
-            "Mach1EncodeInputModeLCRS": (Module).Mach1EncodeInputModeType.Mach1EncodeInputModeLCRS,
-            "Mach1EncodeInputModeAFormat": (Module).Mach1EncodeInputModeType.Mach1EncodeInputModeAFormat,
-            "Mach1EncodeInputMode5dot0": (Module).Mach1EncodeInputModeType.Mach1EncodeInputMode5dot0,
-            "Mach1EncodeInputMode5dot1Film": (Module).Mach1EncodeInputModeType.Mach1EncodeInputMode5dot1Film,
-            "Mach1EncodeInputMode5dot1DTS": (Module).Mach1EncodeInputModeType.Mach1EncodeInputMode5dot1DTS,
-            "Mach1EncodeInputMode5dot1SMTPE": (Module).Mach1EncodeInputModeType.Mach1EncodeInputMode5dot1SMTPE,
-            "Mach1EncodeInputModeBFOAACN": (Module).Mach1EncodeInputModeType.Mach1EncodeInputModeBFOAACN,
-            "Mach1EncodeInputModeBFOAFUMA": (Module).Mach1EncodeInputModeType.Mach1EncodeInputModeBFOAFUMA,
-            "Mach1EncodeInputModeB2OAACN": (Module).Mach1EncodeInputModeType.Mach1EncodeInputModeB2OAACN,
-            "Mach1EncodeInputModeB2OAFUMA": (Module).Mach1EncodeInputModeType.Mach1EncodeInputModeB2OAFUMA,
-            "Mach1EncodeInputModeB3OAACN": (Module).Mach1EncodeInputModeType.Mach1EncodeInputModeB3OAACN,
-            "Mach1EncodeInputModeB3OAFUMA": (Module).Mach1EncodeInputModeType.Mach1EncodeInputModeB3OAFUMA,
+        this.Mach1EncodeInputMode = {
+            "Mono": (Module).Mach1EncodeInputMode.Mono,
+            "Stereo": (Module).Mach1EncodeInputMode.Stereo,
+            "LCR": (Module).Mach1EncodeInputMode.LCR,
+            "Quad": (Module).Mach1EncodeInputMode.Quad,
+            "LCRS": (Module).Mach1EncodeInputMode.LCRS,
+            "AFormat": (Module).Mach1EncodeInputMode.AFormat,
+            "FiveDotZero": (Module).Mach1EncodeInputMode.otZero,
+            "FiveDotOneFilm": (Module).Mach1EncodeInputMode.FiveDotOneFilm,
+            "FiveDotOneDTS": (Module).Mach1EncodeInputMode.FiveDotOneDTS,
+            "FiveDotOneSMTPE": (Module).Mach1EncodeInputMode.FiveDotOneSMTPE,
+            "BFOAACN": (Module).Mach1EncodeInputMode.BFOAACN,
+            "BFOAFUMA": (Module).Mach1EncodeInputMode.BFOAFUMA,
+            "B2OAACN": (Module).Mach1EncodeInputMode.B2OAACN,
+            "B2OAFUMA": (Module).Mach1EncodeInputMode.B2OAFUMA,
+            "B3OAACN": (Module).Mach1EncodeInputMode.B3OAACN,
+            "B3OAFUMA": (Module).Mach1EncodeInputMode.B3OAFUMA,
         };
 
-        this.Mach1EncodeOutputModeType = {
-            "Mach1EncodeOutputModeM1Spatial_4": (Module).Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_4,
-            "Mach1EncodeOutputModeM1Spatial_8": (Module).Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_8,
-            "Mach1EncodeOutputModeM1Spatial_12": (Module).Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_12,
-            "Mach1EncodeOutputModeM1Spatial_14": (Module).Mach1EncodeOutputModeType.Mach1EncodeOutputModeM1Spatial_14,
+        this.Mach1EncodeOutputMode = {
+            "M1Spatial_4": (Module).Mach1EncodeOutputMode.M1Spatial_4,
+            "M1Spatial_8": (Module).Mach1EncodeOutputMode.M1Spatial_8,
+            "M1Spatial_12": (Module).Mach1EncodeOutputMode.M1Spatial_12,
+            "M1Spatial_14": (Module).Mach1EncodeOutputMode.M1Spatial_14,
         };
 
-        this.Mach1EncodePannerModeType = {
-            "Mach1EncodePannerModeIsotropicLinear": (Module).Mach1EncodePannerModeType.Mach1EncodePannerModeIsotropicLinear,
-            "Mach1EncodePannerModeIsotropicEqualPower": (Module).Mach1EncodePannerModeType.Mach1EncodePannerModeIsotropicEqualPower,
-            "Mach1EncodePannerModePeriphonicLinear": (Module).Mach1EncodePannerModeType.Mach1EncodePannerModePeriphonicLinear,
+        this.Mach1EncodePannerMode = {
+            "IsotropicLinear": (Module).Mach1EncodePannerMode.IsotropicLinear,
+            "IsotropicEqualPower": (Module).Mach1EncodePannerMode.IsotropicEqualPower,
+            "PeriphonicLinear": (Module).Mach1EncodePannerMode.PeriphonicLinear,
         };
 
-        this.Mach1DecodeAlgoType = {
-            "Mach1DecodeAlgoSpatial_4": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_4,
-            "Mach1DecodeAlgoSpatial_8": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_8,
-            "Mach1DecodeAlgoSpatial_12": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_12,
-            "Mach1DecodeAlgoSpatial_14": (Module).Mach1DecodeAlgoType.Mach1DecodeAlgoSpatial_14,
+        this.Mach1DecodeMode = {
+            "M1Spatial_4": (Module).Mach1DecodeMode.M1Spatial_4,
+            "M1Spatial_8": (Module).Mach1DecodeMode.M1Spatial_8,
+            "M1Spatial_12": (Module).Mach1DecodeMode.M1Spatial_12,
+            "M1Spatial_14": (Module).Mach1DecodeMode.M1Spatial_14,
         };
 
         this.delete = function() {
@@ -86,14 +86,14 @@ Module['onRuntimeInitialized'] = function() {
             }
         };
 
-        this.getResultingCoeffsDecoded  = function(decodeType, decodeResult) {
+        this.getResultingCoeffsDecoded  = function(decodeMode, decodeResult) {
             if (this._m1obj) {
                 var vec = new(Module).VectorFloat();
                 for (var i = 0; i < decodeResult.length; i++) {
                     vec.push_back(decodeResult[i]);
                 }
 
-                var arr = this._m1obj.getResultingCoeffsDecoded(decodeType, vec);
+                var arr = this._m1obj.getResultingCoeffsDecoded(decodeMode, vec);
                 var volumes = [];
                 for (var i = 0; i < arr.size(); i++) {
                     volumes[i] = arr.get(i);

@@ -11,8 +11,8 @@ class EncodeLink : public virtual RtAudioLink {
 public:
     void Process(AudioBuffers &buffers, double playback_time) override;
 
-    void SetInputMode(Mach1EncodeInputModeType inputMode);
-    void SetOutputMode(Mach1EncodeOutputModeType outputMode);
+    void SetInputMode(Mach1EncodeInputMode inputMode);
+    void SetOutputMode(Mach1EncodeOutputMode outputMode);
 
     void SetAzimuth(float azimuthFromMinus1To1);
     void SetAzimuthDegrees(float azimuthDegrees);

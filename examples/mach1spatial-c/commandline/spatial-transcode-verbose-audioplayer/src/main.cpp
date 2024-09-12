@@ -407,7 +407,7 @@ int main(int argc, char* argv[])
 
     // -- Mach1Decode setup
     m1Decode.setPlatformType(Mach1PlatformDefault);
-    m1Decode.setDecodeAlgoType(Mach1DecodeAlgoSpatial_14);
+    m1Decode.setDecodeMode(M1DecodeSpatial_14);
     m1Decode.setFilterSpeed(0.95f);
     orientation.x = yaw;
     orientation.y = pitch;

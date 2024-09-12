@@ -139,7 +139,7 @@ std::vector<Mach1Point3D> M1EncodeCorePointResults::getPoints() {
     return std::vector<Mach1Point3D>(ppoints, std::end(ppoints));
 }
 
-std::vector<std::vector<float>> M1EncodeCorePointResults::getGains() {
+std::vector<std::vector<float> > M1EncodeCorePointResults::getGains() {
     return gains;
 }
 
@@ -275,7 +275,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
         {0, 0, 1 / 0.707},
         {0, 0, -1 / 0.707}};
 
-    static std::map<OutputMode, std::vector<Mach1Point3D>> standards = {
+    static std::map<OutputMode, std::vector<Mach1Point3D> > standards = {
         {OUTPUT_SPATIAL_4CH, m1Spatial_4_Def},
         {OUTPUT_SPATIAL_8CH, m1Spatial_8_Def},
         {OUTPUT_SPATIAL_12CH, m1Spatial_12_Def},
@@ -297,14 +297,14 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
        |          |
      [2]_________[3]
      */
-    std::vector<std::vector<int>> m1Spatial_4_Lines_Def = {
+    std::vector<std::vector<int> > m1Spatial_4_Lines_Def = {
         /// QUAD LINES
         {0, 1},
         {1, 3},
         {3, 2},
         {2, 0},
     };
-    std::vector<std::vector<int>> m1Spatial_4_Plane_Def = {
+    std::vector<std::vector<int> > m1Spatial_4_Plane_Def = {
         {0, 1, 2},
         {1, 2, 3},
     };
@@ -317,7 +317,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
        |          |
      [2]_________[3]
      */
-    std::vector<std::vector<int>> m1Spatial_8_Lines_Def = {
+    std::vector<std::vector<int> > m1Spatial_8_Lines_Def = {
         /// TOP QUAD LINES
         {0, 1},
         {1, 3},
@@ -334,7 +334,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
         {7, 6},
         {6, 4},
     };
-    std::vector<std::vector<int>> m1Spatial_8_Plane_Def = {
+    std::vector<std::vector<int> > m1Spatial_8_Plane_Def = {
         /// FRONT FACE
         {0, 1, 5},
         {5, 4, 0},
@@ -363,7 +363,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
       |           |
      [2]___[10]__[3]
      */
-    std::vector<std::vector<int>> m1Spatial_12_Lines_Def = {
+    std::vector<std::vector<int> > m1Spatial_12_Lines_Def = {
         /// TOP QUAD LINES
         {0, 1},
         {1, 3},
@@ -400,7 +400,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
         {4, 11},
         {6, 11},
     };
-    std::vector<std::vector<int>> m1Spatial_12_Plane_Def = {
+    std::vector<std::vector<int> > m1Spatial_12_Plane_Def = {
         /// FRONT FACE TO POINT [8]
         {0, 1, 8},
         {1, 5, 8},
@@ -437,7 +437,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
       |           |
      [2]___[10]__[3]
      */
-    std::vector<std::vector<int>> m1Spatial_14_Lines_Def = {
+    std::vector<std::vector<int> > m1Spatial_14_Lines_Def = {
         /// TOP QUAD LINES
         {0, 1},
         {1, 3},
@@ -484,7 +484,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
         {6, 13},
         {7, 13},
     };
-    std::vector<std::vector<int>> m1Spatial_14_Plane_Def = {
+    std::vector<std::vector<int> > m1Spatial_14_Plane_Def = {
         /// FRONT FACE TO POINT [8]
         {0, 1, 8},
         {1, 5, 8},
@@ -517,22 +517,22 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
         {6, 4, 13},
     };
 
-    static std::map<OutputMode, std::vector<std::vector<int>>> lines = {
+    static std::map<OutputMode, std::vector<std::vector<int> > > lines = {
         {OUTPUT_SPATIAL_4CH, m1Spatial_4_Lines_Def},
         {OUTPUT_SPATIAL_8CH, m1Spatial_8_Lines_Def},
         {OUTPUT_SPATIAL_12CH, m1Spatial_12_Lines_Def},
         {OUTPUT_SPATIAL_14CH, m1Spatial_14_Lines_Def},
     };
 
-    static std::map<OutputMode, std::vector<std::vector<int>>> planes = {
+    static std::map<OutputMode, std::vector<std::vector<int> > > planes = {
         {OUTPUT_SPATIAL_4CH, m1Spatial_4_Plane_Def},
         {OUTPUT_SPATIAL_8CH, m1Spatial_8_Plane_Def},
         {OUTPUT_SPATIAL_12CH, m1Spatial_12_Plane_Def},
         {OUTPUT_SPATIAL_14CH, m1Spatial_14_Plane_Def},
     };
 
-    std::vector<std::vector<int>> linesSet = lines[outputMode];
-    std::vector<std::vector<int>> planesSet = planes[outputMode];
+    std::vector<std::vector<int> > linesSet = lines[outputMode];
+    std::vector<std::vector<int> > planesSet = planes[outputMode];
 
     // simple clamp
     float minX = std::numeric_limits<float>::max(), maxX = std::numeric_limits<float>::min();
@@ -1147,7 +1147,7 @@ void M1EncodeCore::generatePointResults() {
 
 #ifdef M1ENCODE_INLINE_DECODE
 // if `M1ENCODE_INLINE_DECODE` is defined we support the following function but require linking to M1Decode
-void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, float *decodeResult, float *result) {
+void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeMode decodeMode, float *decodeResult, float *result) {
     // clear
     for (int i = 0; i < resultingPoints.pointsCount * 2; i++)
         result[i] = 0;
@@ -1155,7 +1155,7 @@ void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, flo
     // TODO: check on these numbers
 
     int decodeResultSize = 0;
-    switch (decodeType) {
+    switch (decodeMode) {
     case Mach1DecodeAlgoSpatial_4:
         decodeResultSize = 8;
         break;
@@ -1172,9 +1172,9 @@ void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, flo
         break;
     }
 
-    // decode - 8, 16
+    // decode
     if (getOutputChannelsCount() * 2 != decodeResultSize) {
-        std::cout << "[MACH1] Warning: The Mach1EncodeOutputModeType in use is not suitable for the Mach1DecodeAlgoType selected" << std::endl;
+        std::cout << "[MACH1] Warning: The Mach1EncodeOutputMode in use is not suitable for the Mach1DecodeMode selected" << std::endl;
     }
 
     for (int j = 0; j < resultingPoints.pointsCount; j++) {

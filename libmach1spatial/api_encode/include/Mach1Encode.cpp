@@ -42,8 +42,8 @@ std::vector<Mach1Point3D> Mach1Encode::getPoints() {
     ///     - Z: left-right (0.0 (left) -> 1.0 (right))
 }
 
-std::vector<std::vector<float>> Mach1Encode::getGains() {
-    std::vector<std::vector<float>> vec(Mach1EncodeCAPI_getPointsCount(M1obj));
+std::vector<std::vector<float> > Mach1Encode::getGains() {
+    std::vector<std::vector<float> > vec(Mach1EncodeCAPI_getPointsCount(M1obj));
 
     float **arr = (float **)Mach1EncodeCAPI_getGains(M1obj);
 
@@ -107,10 +107,10 @@ int Mach1Encode::getPointsCount() {
 }
 
 #ifdef M1ENCODE_INLINE_DECODE
-std::vector<float> Mach1Encode::getResultingCoeffsDecoded(Mach1DecodeAlgoType decodeType, std::vector<float> &decodeResult) {
+std::vector<float> Mach1Encode::getResultingCoeffsDecoded(Mach1DecodeMode decodeMode, std::vector<float> &decodeResult) {
     std::vector<float> vec(Mach1EncodeCAPI_getPointsCount(M1obj) * 2);
 
-    float *arr = (float *)Mach1EncodeCAPI_getResultingCoeffsDecoded(M1obj, decodeType, decodeResult.data());
+    float *arr = (float *)Mach1EncodeCAPI_getResultingCoeffsDecoded(M1obj, decodeMode, decodeResult.data());
 
     for (int i = 0; i < vec.size(); i++) {
         vec[i] = arr[i];
@@ -126,20 +126,20 @@ std::vector<float> Mach1Encode::getResultingCoeffsDecoded(Mach1DecodeAlgoType de
 }
 #endif
 
-Mach1EncodeInputModeType Mach1Encode::getInputMode() {
+Mach1EncodeInputMode Mach1Encode::getInputMode() {
     return Mach1EncodeCAPI_getInputMode(M1obj);
 }
 
-Mach1EncodeOutputModeType Mach1Encode::getOutputMode() {
+Mach1EncodeOutputMode Mach1Encode::getOutputMode() {
     return Mach1EncodeCAPI_getOutputMode(M1obj);
 }
 
-Mach1EncodePannerModeType Mach1Encode::getPannerMode() {
-	return Mach1EncodeCAPI_getPannerMode(M1obj);
+Mach1EncodePannerMode Mach1Encode::getPannerMode() {
+    return Mach1EncodeCAPI_getPannerMode(M1obj);
 }
 
 bool Mach1Encode::getAutoOrbit() {
-	return Mach1EncodeCAPI_getAutoOrbit(M1obj);
+    return Mach1EncodeCAPI_getAutoOrbit(M1obj);
 }
 
 int Mach1Encode::getInputChannelsCount() {
@@ -158,38 +158,38 @@ int Mach1Encode::getOutputChannelsCount() {
     ///     - integer of number of output channels/points
 }
 
-void Mach1Encode::setInputMode(Mach1EncodeInputModeType inputMode) {
+void Mach1Encode::setInputMode(Mach1EncodeInputMode inputMode) {
     Mach1EncodeCAPI_setInputMode(M1obj, inputMode);
     /// Sets the number of input streams to be positioned as points
     ///
     /// - Parameters:
     /// 	- Mach1EncodeInputModeMono
-    /// 	- Mach1EncodeInputModeStereo
-    /// 	- Mach1EncodeInputModeLCR
-    /// 	- Mach1EncodeInputModeQuad
-    /// 	- Mach1EncodeInputModeLCRS
-    /// 	- Mach1EncodeInputModeAFormat
-    /// 	- Mach1EncodeInputMode5dot0
-    /// 	- Mach1EncodeInputMode5dot1Film
-    /// 	- Mach1EncodeInputMode5dot1DTS
-    /// 	- Mach1EncodeInputMode5dot1SMTPE
-    /// 	- Mach1EncodeInputModeBFOAACN
-    /// 	- Mach1EncodeInputModeBFOAFUM
-    /// 	- Mach1EncodeInputModeB2OAACN
-    /// 	- Mach1EncodeInputModeB2OAFUMA
-    /// 	- Mach1EncodeInputModeB3OAACN,
-    /// 	- Mach1EncodeInputModeB3OAFUMA
+    /// 	- Stereo
+    /// 	- LCR
+    /// 	- Quad
+    /// 	- LCRS
+    /// 	- AFormat
+    /// 	- FiveDotZero
+    /// 	- FiveDotOneFilm
+    /// 	- FiveDotOneDTS
+    /// 	- FiveDotOneSMTPE
+    /// 	- BFOAACN
+    /// 	- BFOAFUM
+    /// 	- B2OAACN
+    /// 	- B2OAFUMA
+    /// 	- B3OAACN,
+    /// 	- B3OAFUMA
 }
 
-void Mach1Encode::setOutputMode(Mach1EncodeOutputModeType outputMode) {
+void Mach1Encode::setOutputMode(Mach1EncodeOutputMode outputMode) {
     Mach1EncodeCAPI_setOutputMode(M1obj, outputMode);
-    /// Sets the output spatial format, Mach1Spatial or Mach1Horizon
+    /// Sets the output Mach1Spatial mode
     ///
     /// - Parameters:
-    ///     - Mach1Spatial_8 (8ch) [Yaw, Pitch, Roll]
-    ///     - Mach1Horizon_4 (4ch) [Yaw]
-    ///     - Mach1Spatial_12 (12ch) [Yaw, Pitch, Roll]
-    ///     - Mach1Spatial_14 (14ch) [Yaw, Pitch, Roll]
+    ///     - M1Spatial_4 (4ch) [Yaw]
+    ///     - M1Spatial_8 (8ch) [Yaw, Pitch, Roll]
+    ///     - M1Spatial_12 (12ch) [Yaw, Pitch, Roll]
+    ///     - M1Spatial_14 (14ch) [Yaw, Pitch, Roll]
 }
 
 void Mach1Encode::setAzimuth(float azimuthFromMinus1To1) {
@@ -248,14 +248,14 @@ void Mach1Encode::setElevationRadians(float elevationFromMinusHalfPItoHalfPI) {
     ///     - value range: -PI/2 -> PI/2
 }
 
-void Mach1Encode::setPannerMode(Mach1EncodePannerModeType pannerMode) {
+void Mach1Encode::setPannerMode(Mach1EncodePannerMode pannerMode) {
     Mach1EncodeCAPI_setPannerMode(M1obj, pannerMode);
     /// Sets the style and mode of panner input calculation
     ///
     /// - Parameters:
-    ///		- Mach1EncodePannerModeIsotropicLinear
-    ///		- Mach1EncodePannerModeIsotropicEqualPower
-    ///		- Mach1EncodePannerModePeriphonicLinear
+    ///		- IsotropicLinear
+    ///		- IsotropicEqualPower
+    ///		- PeriphonicLinear
 }
 
 void Mach1Encode::setFrontSurroundPerspective(bool frontSurroundPerspective) {

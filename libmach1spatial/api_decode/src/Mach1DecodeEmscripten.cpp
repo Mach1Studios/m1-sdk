@@ -1,7 +1,7 @@
 #include <emscripten/bind.h>
 
-#include "Mach1DecodeCAPI.h"
 #include "../include/Mach1Decode.cpp"
+#include "Mach1DecodeCAPI.h"
 
 using namespace emscripten;
 
@@ -17,11 +17,11 @@ EMSCRIPTEN_BINDINGS(Mach1Decode) {
         .value("Mach1PlatformiOSPortraitHandheld_YVertical", Mach1PlatformiOSPortraitHandheld_YVertical)
         .value("Mach1PlatformiOSPortrait_YawOnly", Mach1PlatformiOSPortrait_YawOnly);
 
-    enum_<Mach1DecodeAlgoType>("Mach1DecodeAlgoType")
-        .value("Mach1DecodeAlgoSpatial_4", Mach1DecodeAlgoSpatial_4)
-        .value("Mach1DecodeAlgoSpatial_8", Mach1DecodeAlgoSpatial_8)
-        .value("Mach1DecodeAlgoSpatial_12", Mach1DecodeAlgoSpatial_12)
-        .value("Mach1DecodeAlgoSpatial_14", Mach1DecodeAlgoSpatial_14);
+    enum_<Mach1DecodeMode>("Mach1DecodeMode")
+        .value("M1Spatial_4", M1DecodeSpatial_4)
+        .value("M1Spatial_8", M1DecodeSpatial_8)
+        .value("M1Spatial_12", M1DecodeSpatial_12)
+        .value("M1Spatial_14", M1DecodeSpatial_14);
 
     register_vector<float>("VectorFloat");
 
@@ -39,7 +39,7 @@ EMSCRIPTEN_BINDINGS(Mach1Decode) {
     class_<Mach1Decode>("Mach1DecodeInternal")
         .constructor<>()
         .function("setPlatformType", &Mach1Decode::setPlatformType)
-        .function("setDecodeAlgoType", &Mach1Decode::setDecodeAlgoType)
+        .function("setDecodeMode", &Mach1Decode::setDecodeMode)
         .function("decode", &Mach1Decode::decode)
         .function("decodeCoeffs", &Mach1Decode::decodeCoeffs)
         .function("setFilterSpeed", &Mach1Decode::setFilterSpeed)

@@ -10,6 +10,10 @@ endif
 pull:
 	git pull --recurse-submodules
 
+git-nuke:
+	git submodule foreach --recursive git clean -x -f -d
+	make pull
+
 # Windows: requires cmake and pip to be installed first
 setup:
 ifeq ($(detected_OS),Windows)
@@ -23,13 +27,17 @@ ifeq ($(detected_OS),Windows)
 	@echo "choco is installed and working"
 	choco install doxygen.install
 else ifeq ($(detected_OS),Darwin)
-	brew install cmake emscripten pre-commit libsndfile rtaudio doxygen
+	brew install cmake emscripten pre-commit libsndfile rtaudio doxygen llvm
+	sudo ln -s "$(brew --prefix llvm)/bin/clang-format" "/usr/local/bin/clang-format"
+	sudo ln -s "$(brew --prefix llvm)/bin/clang-tidy" "/usr/local/bin/clang-tidy"
+	sudo ln -s "$(brew --prefix llvm)/bin/clang-apply-replacements" "/usr/local/bin/clang-apply-replacements"
 	pre-commit install
 else
 	sudo apt-add-repository universe && sudo apt-get update && sudo apt install libsndfile-dev cmake emscripten librtaudio-dev pre-commit doxygen
 	pre-commit install
 endif
 
+.PHONY: clean
 clean:
 ifeq ($(detected_OS),Windows)
 	@if exist _builds (rmdir /s /q _builds)
@@ -39,6 +47,40 @@ endif
 
 doxygen:
 	cd docs && doxygen Doxyfile
+
+SOURCES := $(shell find libmach1spatial/api_*/** -name '*.cpp')
+HEADERS := $(shell find libmach1spatial/api_*/** -name '*.h')
+SOURCES += $(HEADERS)
+
+# Filter out any files that have "emscripten" in their name
+SOURCES := $(filter-out %Emscripten%, $(SOURCES))
+
+CLANG_TIDY='clang-tidy'
+
+.PHONY: lint
+lint:
+	command -v ${CLANG_TIDY} >/dev/null 2>&1 || { echo >&2 "I require ${CLANG_TIDY} but it's not installed.  Aborting."; exit 1; }
+	@for FILE in $(SOURCES) ; do \
+		echo "Running clang-tidy on $$FILE with config:$(CURDIR)/libmach1spatial/.clang-tidy..." ; \
+		clang-tidy -fix-errors "$$FILE" --config-file=$(CURDIR)/libmach1spatial/.clang-tidy -- -I$(HEADERS) ; \
+	done
+	@echo "Done: libmach1spatial styled and tidied"
+
+.PHONY: check-style
+check-style:
+	@for FILE in $(SOURCES) ; do \
+		var=`clang-format "$$FILE" | diff "$$FILE" - | wc -l` ; \
+		if [ $$var -ne 0 ] ; then \
+			echo "$$FILE does not respect the coding style (diff: $$var lines)" ; \
+			exit 1 ; \
+		fi ; \
+		var2=`clang-tidy "$$FILE" | diff "$$FILE" - | wc -l` ; \
+		if [ $$var2 -ne 0 ] ; then \
+			echo "$$FILE does not respect the coding style (diff: $$var2 lines)" ; \
+			exit 1 ; \
+		fi ; \
+	done
+	@echo "Passed: libmach1spatial checks pass"
 
 # use cmake_generator="" to specify generator.
 test: clean
@@ -56,9 +98,9 @@ ifeq ($(detected_OS),Darwin)
 	cmake --build _builds/xcode --config Release
 else ifeq ($(detected_OS),Windows)
 	if defined cmake_generator (
-	    cmake . -B_builds/windows-x86_64 -G %cmake_generator% -A x64 -DCMAKE_TOOLCHAIN_FILE="%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake" -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=ON -DM1S_BUILD_SIGNAL_SUITE=ON
+		cmake . -B_builds/windows-x86_64 -G %cmake_generator% -A x64 -DCMAKE_TOOLCHAIN_FILE="%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake" -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=ON -DM1S_BUILD_SIGNAL_SUITE=ON
 	) else (
-	    cmake . -B_builds/windows-x86_64 -A x64 -DCMAKE_TOOLCHAIN_FILE="%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake" -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=ON -DM1S_BUILD_SIGNAL_SUITE=ON
+		cmake . -B_builds/windows-x86_64 -A x64 -DCMAKE_TOOLCHAIN_FILE="%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake" -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=ON -DM1S_BUILD_SIGNAL_SUITE=ON
 	)
 	cmake --build _builds/windows-x86_64 --config "Release"
 endif

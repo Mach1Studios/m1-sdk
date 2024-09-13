@@ -1,7 +1,8 @@
+#ifndef MACH1POINT4D_H
+#define MACH1POINT4D_H
+
 //  Mach1 Spatial SDK
 //  Copyright © 2017-2020 Mach1. All rights reserved.
-
-#pragma once
 
 #ifndef DEG_TO_RAD
 #    define DEG_TO_RAD (PI / 180.0)
@@ -76,3 +77,5 @@ typedef struct Mach1Point4D {
         return p;
     }
 } Mach1Point4D;
+
+#endif // MACH1POINT4D_H

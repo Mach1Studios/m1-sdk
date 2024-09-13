@@ -1,7 +1,8 @@
+#ifndef MACH1POINT3D_H
+#define MACH1POINT3D_H
+
 //  Mach1 Spatial SDK
 //  Copyright © 2017-2020 Mach1. All rights reserved.
-
-#pragma once
 
 #include <cmath>
 
@@ -172,3 +173,5 @@ typedef struct Mach1Point3D {
         return p;
     }
 } Mach1Point3D;
+
+#endif // MACH1POINT3D_H

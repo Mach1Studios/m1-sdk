@@ -1,7 +1,8 @@
+#ifndef MACH1AUDIOTIMELINECAPI_H
+#define MACH1AUDIOTIMELINECAPI_H
+
 //  Mach1 Spatial SDK
 //  Copyright © 2017-2020 Mach1. All rights reserved.
-
-#pragma once
 
 #include "Mach1KeyPoint.h"
 #include "Mach1Point3D.h"
@@ -50,3 +51,5 @@ M1_API void Mach1AudioTimelineCAPI_parseAtmos(void *M1obj, char *inDotAtmos, cha
 #ifdef __cplusplus
 }
 #endif
+
+#endif // MACH1AUDIOTIMELINECAPI_H

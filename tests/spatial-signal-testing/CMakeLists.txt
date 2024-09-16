@@ -107,9 +107,9 @@ PRIVATE
     src/NoiseGenLink.cpp
     src/NoiseGenStrategy.h
 
-    ${M1_LIB_PATH}/api_encode/include/Mach1Encode.cpp
-    ${M1_LIB_PATH}/api_decode/include/Mach1Decode.cpp
-    ${M1_LIB_PATH}/api_transcode/include/Mach1Transcode.cpp
+    ${M1_LIB_PATH}/api_encode/include/Mach1Encode.tpp
+    ${M1_LIB_PATH}/api_decode/include/Mach1Decode.tpp
+    ${M1_LIB_PATH}/api_transcode/include/Mach1Transcode.tpp
     ${M1_LIB_PATH}/deps/M1DSP/M1DSPUtilities.cpp
     ${M1_LIB_PATH}/deps/M1DSP/M1DSPFilters.cpp
 )

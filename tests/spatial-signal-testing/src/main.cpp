@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
     Mach1::SineWaveLink sine_wave_link{};
     Mach1::NoiseGenLink noise_gen_link{};
     Mach1::EncodeLink encode_link{};
-//    Mach1::TranscodeLink transode_link{};
+    Mach1::TranscodeLink transode_link{};
     Mach1::DecodeLink decode_link{};
     Mach1::GainLink gain_link{};
 
@@ -44,8 +44,8 @@ int main(int argc, char *argv[]) {
     peak_tracker_link[0].SetOutputChannelCount(M1_FORMAT_CHANNEL_COUNT);
     peak_tracker_link[1].SetName("Encoded");
     peak_tracker_link[1].SetOutputChannelCount(M1_FORMAT_CHANNEL_COUNT);
-//    peak_tracker_link[2].SetName("Transcoded");
-//    peak_tracker_link[2].SetOutputChannelCount(M1_FORMAT_CHANNEL_COUNT);
+    peak_tracker_link[2].SetName("Transcoded");
+    peak_tracker_link[2].SetOutputChannelCount(M1_FORMAT_CHANNEL_COUNT);
     peak_tracker_link[3].SetName("Decoded");
     peak_tracker_link[3].SetOutputChannelCount(M1_FORMAT_CHANNEL_COUNT); // limit to number of output channels
 
@@ -88,6 +88,10 @@ int main(int argc, char *argv[]) {
     encode_link.SetStereoSpread(0.5);
     encode_link.SetAutoOrbit(true);
     encode_link.GeneratePointResults();
+
+    transode_link.SetInputFormat(M1_FORMAT_CHANNEL_COUNT);
+    transode_link.SetOutputFormat(M1_FORMAT_CHANNEL_COUNT);
+//    transode_link.ProcessConversionPath();
 
     decode_link.SetRotationDegrees({0, 0, 0}); // ypr
     decode_link.SetPlatformType(Mach1PlatformDefault);

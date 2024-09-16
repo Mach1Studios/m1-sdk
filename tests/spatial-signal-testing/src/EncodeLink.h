@@ -44,7 +44,7 @@ private:
     void ResolvePannerMode();
 
 private:
-    Mach1Encode m_encode;
+    Mach1Encode<float> m_encode;
     bool m_is_equal_power = false;
     bool m_is_isotropic = false;
 };

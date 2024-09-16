@@ -1,5 +1,5 @@
 //  Mach1 Spatial SDK
-//  Copyright © 2017-2020 Mach1. All rights reserved.
+//  Copyright © 2017 Mach1. All rights reserved.
 
 #include "Mach1Decode.h"
 
@@ -29,7 +29,7 @@ void Mach1Decode::setPlatformType(Mach1PlatformType type) {
 
 void Mach1Decode::setDecodeMode(Mach1DecodeMode mode) {
     Mach1DecodeCAPI_setDecodeMode(M1obj, mode);
-    /// Set the decoding algorithm
+    /// Set the decoding mode
     ///
     /// - Parameters:
     ///     - M1DecodeSpatial_4 (compass / yaw | 4 channels)

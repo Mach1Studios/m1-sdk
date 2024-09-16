@@ -11,6 +11,8 @@ class TranscodeLink : public RtAudioLink {
 public:
     void Process(AudioBuffers &buffers, double playback_time) override;
 
+    bool ProcessConversionPath();
+
     void SetLFESub(std::vector<int> subChannelIndices, int sampleRate);
     void SetSpatialDownmixer(float corrThreshold = 0.1);
     void SetInputFormat(int inFmt);
@@ -22,7 +24,7 @@ public:
     void SetCustomPointsSamplerCallback(Mach1Point3D *(*callback)(long long, int &));
 
 private:
-    Mach1Transcode m_transcode{};
+    Mach1Transcode<float> m_transcode{};
 
 };
 

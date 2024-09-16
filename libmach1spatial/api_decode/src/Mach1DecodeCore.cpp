@@ -1,5 +1,5 @@
 //  Mach1 Spatial SDK
-//  Copyright © 2017-2020 Mach1. All rights reserved.
+//  Copyright © 2017 Mach1. All rights reserved.
 
 /*
 DISCLAIMER:
@@ -294,7 +294,7 @@ std::vector<float> Mach1DecodeCore::spatialAlgoSample_8(float Yaw, float Pitch, 
 void Mach1DecodeCore::spatialAlgoSample_12(float Yaw, float Pitch, float Roll, float *result) {
     const int numChannelPoints = 8 + 4;
 
-    float diag = sqrtf(2 * 100 * 100);
+    float diag = 100 * sqrtf(2);
 
     Mach1Point3D channelPoints[numChannelPoints] =
         {

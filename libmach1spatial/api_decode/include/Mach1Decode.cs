@@ -94,7 +94,7 @@ namespace Mach1
         public void setDecodeMode(Mach1DecodeMode mode)
         {
             Mach1DecodeCAPI_setDecodeMode(M1obj, mode);
-            /// Set the decoding algorithm
+            /// Set the decoding mode
             ///
             /// - Parameters:
             ///     - M1DecodeSpatial_4 (compass / yaw | 4 channels)
@@ -123,7 +123,7 @@ namespace Mach1
         public Mach1DecodeMode getDecodeMode()
         {
             return Mach1DecodeCAPI_getDecodeMode(M1obj);
-            /// Returns the current decoding algorithm (or also known as the Mach1Decode's input channel mode)
+            /// Returns the current decoding mode (or also known as the Mach1Decode's input channel mode)
         }
 
         public Mach1PlatformType getPlatformType()

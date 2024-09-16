@@ -3,8 +3,9 @@
 #ifdef M1ENCODE_INLINE_DECODE
 #    include "Mach1DecodeCAPI.h"
 #endif
-#include "../include/Mach1Encode.cpp"
+
 #include "Mach1EncodeCAPI.h"
+#include "../include/Mach1Encode.tpp"
 
 using namespace emscripten;
 

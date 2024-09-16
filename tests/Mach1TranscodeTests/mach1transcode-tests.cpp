@@ -133,7 +133,7 @@ void test_results(void) {
 
     for (auto test : cases) {
         // encode part
-        Mach1Transcode m1Transcode;
+        Mach1Transcode<float> m1Transcode;
 
         if (test.input.isCustomPointsJson) {
             m1Transcode.setInputFormatCustomPointsJson(test.input.customJson);

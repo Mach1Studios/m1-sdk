@@ -149,7 +149,7 @@ float outBuffers[Mach1TranscodeMAXCHANS][BUFFERLEN];
 float *outPtrs[Mach1TranscodeMAXCHANS];
 
 // Mach1Transcode variables & objects
-Mach1Transcode m1transcode;
+Mach1Transcode<float> m1transcode;
 int inFmt;
 int outFmt;
 float corrThreshold = 0.1; // 10% difference in signal or less will auto downmix
@@ -157,7 +157,7 @@ std::vector< std::vector<float> > conversionMatrix;
 std::vector<float> transcodeToDecodeCoeffs;
 
 // Mach1Decode variables & objects
-Mach1Decode m1Decode;
+Mach1Decode<float> m1Decode;
 Mach1Point3D orientation;
 float yaw = 0.0f;
 float pitch = 0.0f;
@@ -236,8 +236,8 @@ int rtAudioPlayback( void *outputBuffer, void *inputBuffer, unsigned int nBuffer
 	totalSamplesRead += samplesRead;
 
 	// run transocde
-	m1transcode.processConversion(inputBuffers, transcodedBuffers);
-	m1Decode.decodeBuffer<float>(transcodedBuffers, outputBuffers, nBufferFrames);
+	m1transcode.processConversion(inputBuffers, transcodedBuffers, nBufferFrames);
+	m1Decode.decodeBuffer(transcodedBuffers, outputBuffers, nBufferFrames);
 
 	for (i = 0; i < nBufferFrames; i++) {
 		// LEFT:

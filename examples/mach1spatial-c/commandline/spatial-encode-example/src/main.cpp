@@ -61,7 +61,7 @@ BOOLEAN nanosleep(struct timespec* ts, void* p) {
 void* encode(void* v);
 static std::thread thread;
 bool done = false;
-Mach1Encode m1Encode;
+Mach1Encode<float> m1Encode;
 std::vector< std::vector<float> > m1Coeffs; //2D array, [input channel][input channel's coeff]
 Mach1EncodeInputMode inputMode;
 Mach1EncodeOutputMode outputMode;

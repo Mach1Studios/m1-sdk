@@ -59,7 +59,7 @@ BOOLEAN nanosleep(struct timespec* ts, void* p) {
 static void* decode(void* v);
 static std::thread thread;
 static bool done = false;
-Mach1Decode m1Decode;
+Mach1Decode<float> m1Decode;
 Mach1DecodeMode outputFormat;
 std::string outputName;
 static std::vector<float> m1Coeffs;

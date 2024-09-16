@@ -92,7 +92,7 @@ void printFileInfo(SndfileHandle file)
 
 int main(int argc, char* argv[])
 {
-	Mach1Transcode m1transcode;
+	Mach1Transcode<float> m1transcode;
 
 	// locals for cmd line parameters
 	bool fileOut = false;

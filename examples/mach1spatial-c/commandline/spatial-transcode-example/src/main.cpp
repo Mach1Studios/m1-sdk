@@ -57,7 +57,7 @@ BOOLEAN nanosleep(struct timespec* ts, void* p) {
 static void* decode(void* v);
 static std::thread thread;
 static bool done = false;
-Mach1Transcode m1Transcode;
+Mach1Transcode<float> m1Transcode;
 static std::vector< std::vector<float> > m1Coeffs; //2D array, [input channel][input channel's coeff]
 int inputMode;
 int outputMode;

@@ -633,7 +633,7 @@ void test_results(void) {
     int passedCases = 0;
 
     for (auto test : cases) {
-        Mach1Encode m1Encode;
+        Mach1Encode<float> m1Encode;
 
         m1Encode.setInputMode(test.input.inputMode);
         m1Encode.setOutputMode(test.input.outputMode);

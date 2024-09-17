@@ -29,14 +29,14 @@ set(M1SDK_SOURCE_PATH ../libmach1spatial)
 #----------------
 # Mach1 Encode Test
 
-add_executable(Mach1EncodeTests Mach1EncodeTests/mach1encode-tests.cpp ${M1SDK_SOURCE_PATH}/api_encode/include/Mach1Encode.tpp)
+add_executable(Mach1EncodeTests Mach1EncodeTests/mach1encode-tests.cpp)
 target_link_libraries(Mach1EncodeTests PRIVATE M1Encode)
 target_include_directories(Mach1EncodeTests PRIVATE ${M1SDK_SOURCE_PATH}/api_encode/include ${M1SDK_SOURCE_PATH}/api_common/include)
 
 #----------------
 # Mach1 Decode Test
 
-add_executable(Mach1DecodeTests Mach1DecodeTests/mach1decode-tests.cpp ${M1SDK_SOURCE_PATH}/api_decode/include/Mach1Decode.tpp)
+add_executable(Mach1DecodeTests Mach1DecodeTests/mach1decode-tests.cpp)
 target_link_libraries(Mach1DecodeTests PRIVATE M1Decode)
 target_include_directories(Mach1DecodeTests PRIVATE ${M1SDK_SOURCE_PATH}/api_decode/include ${M1SDK_SOURCE_PATH}/api_common/include)
 
@@ -50,7 +50,7 @@ target_include_directories(Mach1DecodePositionalTests PRIVATE ${M1SDK_SOURCE_PAT
 #----------------
 # Mach1 Transcode Test
 
-add_executable(Mach1TranscodeTests Mach1TranscodeTests/mach1transcode-tests.cpp ${M1SDK_SOURCE_PATH}/api_transcode/include/Mach1Transcode.tpp ${M1SDK_SOURCE_PATH}/deps/M1DSP/M1DSPUtilities.cpp ${M1SDK_SOURCE_PATH}/deps/M1DSP/M1DSPFilters.cpp)
+add_executable(Mach1TranscodeTests Mach1TranscodeTests/mach1transcode-tests.cpp ${M1SDK_SOURCE_PATH}/deps/M1DSP/M1DSPUtilities.cpp ${M1SDK_SOURCE_PATH}/deps/M1DSP/M1DSPFilters.cpp)
 target_link_libraries(Mach1TranscodeTests PRIVATE M1Transcode)
 target_include_directories(Mach1TranscodeTests PRIVATE ${M1SDK_SOURCE_PATH}/api_transcode/include ${M1SDK_SOURCE_PATH}/api_common/include ${M1SDK_SOURCE_PATH}/deps/nlohmann/single_include)
 

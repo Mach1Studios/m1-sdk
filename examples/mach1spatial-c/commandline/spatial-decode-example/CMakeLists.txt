@@ -18,7 +18,6 @@ set(M1_LIB_PATH ../../../../libmach1spatial)
 target_sources(${PROJECT_NAME}
 PRIVATE
 	src/main.cpp
-	${M1_LIB_PATH}/api_decode/include/Mach1Decode.tpp
 )
 
 set(MACH1SPATIAL_INCLUDES ${M1_LIB_PATH}/api_common/include ${M1_LIB_PATH}/api_decode/include ${M1_LIB_PATH}/deps)

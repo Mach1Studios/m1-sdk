@@ -1861,7 +1861,7 @@ var getFunctionName = signature => {
 };
 
 var __embind_register_class_function = (rawClassType, methodName, argCount, rawArgTypesAddr, // [ReturnType, ThisType, Args...]
-invokerSignature, rawInvoker, context, isPureVirtual, isAsync) => {
+invokerSignature, rawInvoker, context, isPureVirtual, isAsync, isNonnullReturn) => {
   var rawArgTypes = heap32VectorToArray(argCount, rawArgTypesAddr);
   methodName = readLatin1String(methodName);
   methodName = getFunctionName(methodName);

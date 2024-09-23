@@ -662,20 +662,28 @@ void M1EncodeCore::processGains(float x, float y, float z, std::vector<float> &r
     for (int i = 0; i < gains.size(); i++) {
         gSum += gains[i];
     }
-
     for (int i = 0; i < gains.size(); i++) {
-        gains[i] = gains[i] / gSum;
+        gains[i] /= gSum;
     }
 
-    // use gains normalization for center point
-    float dist_to_center = clamp(sqrt(dist_sq(x, y, z, 0, 0, 0)) / 0.5, 0, 1);
-    // dist_to_center = 1 - powf(1 - dist_to_center, 5); // easeOutQuint
+    // Use gains normalization for center point
+    float dist_to_center = clamp(sqrt(dist_sq(x, y, z, 0, 0, 0)) / 0.5f, 0.0f, 1.0f);
     for (int i = 0; i < gains.size(); i++) {
-        gains[i] = map_(dist_to_center, 0, 1, 1.0 / pointsSet.size(), gains[i]);
+        gains[i] = map_(dist_to_center, 0.0f, 1.0f, 1.0f / gains.size(), gains[i]);
+    }
+
+    // **Add normalization here to ensure gains sum to 1.0 after mapping**
+    float totalGain = 0.0f;
+    for (int i = 0; i < gains.size(); i++) {
+        totalGain += gains[i];
+    }
+    if (totalGain > 0.0f) {
+        for (int i = 0; i < gains.size(); i++) {
+            gains[i] /= totalGain;
+        }
     }
 
     result = gains;
-    // result = getCoeffSetForStandardPointSet(x, y, z, pointsSet, outputMode == OUTPUT_SPATIAL_4CH ? true : false);
 }
 
 int M1EncodeCore::getInputModeFromString(std::string name) {

@@ -18,7 +18,6 @@ set(M1_LIB_PATH ../../../../libmach1spatial)
 target_sources(${PROJECT_NAME}
 PRIVATE
 	src/main.cpp
-	${M1_LIB_PATH}/api_transcode/include/Mach1Transcode.cpp
 	${M1_LIB_PATH}/deps/M1DSP/M1DSPUtilities.cpp
 	${M1_LIB_PATH}/deps/M1DSP/M1DSPFilters.cpp
 )

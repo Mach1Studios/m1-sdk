@@ -529,7 +529,7 @@ TODO: add more input tests with less rounded inputs
     std::cout << std::endl;
 
     for (auto test : cases) {
-        Mach1Decode m1Decode;
+        Mach1Decode<float> m1Decode;
 
         m1Decode.setPlatformType(test.input.platformMode);
         m1Decode.setDecodeMode(test.input.outputMode);

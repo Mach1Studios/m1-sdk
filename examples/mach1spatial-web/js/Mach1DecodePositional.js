@@ -1,7 +1,7 @@
 
 var Mach1DecodePositionalModule = (() => {
   var _scriptName = typeof document != 'undefined' ? document.currentScript?.src : undefined;
-  if (typeof __filename != 'undefined') _scriptName = _scriptName || __filename;
+  if (typeof __filename != 'undefined') _scriptName ||= __filename;
   return (
 function(moduleArg = {}) {
   var moduleRtn;
@@ -45,7 +45,7 @@ if (ENVIRONMENT_IS_NODE) {}
 
 // --pre-jses are emitted after the Module integration code, so that they can
 // refer to Module (if they choose; they can also define Module)
-// include: /home/runner/work/m1-sdk-dev/m1-sdk-dev/libmach1spatial/api_decodepositional/src/Mach1DecodePositionalEmscripten.js
+// include: /Users/tsarvul/nerd_stuff/mach1_work/m1-sdk-dev/libmach1spatial/api_decodepositional/src/Mach1DecodePositionalEmscripten.js
 Module["onRuntimeInitialized"] = function() {
   console.log("loaded Mach1DecodePositional");
   Module["Mach1DecodePositional"] = function() {
@@ -125,9 +125,9 @@ Module["onRuntimeInitialized"] = function() {
     this.setListenerPosition = function(x, y, z) {
       if (this._m1obj) {
         this._m1obj.setListenerPosition({
-          x,
-          y,
-          z
+          x: x,
+          y: y,
+          z: z
         });
       }
     };
@@ -143,19 +143,19 @@ Module["onRuntimeInitialized"] = function() {
     this.setListenerRotationQuat = function(x, y, z, w) {
       if (this._m1obj) {
         this._m1obj.setListenerRotationQuat({
-          x,
-          y,
-          z,
-          w
+          x: x,
+          y: y,
+          z: z,
+          w: w
         });
       }
     };
     this.setDecoderAlgoPosition = function(x, y, z) {
       if (this._m1obj) {
         this._m1obj.setDecoderAlgoPosition({
-          x,
-          y,
-          z
+          x: x,
+          y: y,
+          z: z
         });
       }
     };
@@ -171,19 +171,19 @@ Module["onRuntimeInitialized"] = function() {
     this.setDecoderAlgoRotationQuat = function(x, y, z, w) {
       if (this._m1obj) {
         this._m1obj.setDecoderAlgoRotationQuat({
-          x,
-          y,
-          z,
-          w
+          x: x,
+          y: y,
+          z: z,
+          w: w
         });
       }
     };
     this.setDecoderAlgoScale = function(x, y, z) {
       if (this._m1obj) {
         this._m1obj.setDecoderAlgoScale({
-          x,
-          y,
-          z
+          x: x,
+          y: y,
+          z: z
         });
       }
     };
@@ -240,7 +240,7 @@ Module["onRuntimeInitialized"] = function() {
   };
 };
 
-// end include: /home/runner/work/m1-sdk-dev/m1-sdk-dev/libmach1spatial/api_decodepositional/src/Mach1DecodePositionalEmscripten.js
+// end include: /Users/tsarvul/nerd_stuff/mach1_work/m1-sdk-dev/libmach1spatial/api_decodepositional/src/Mach1DecodePositionalEmscripten.js
 // Sometimes an existing Module object exists with properties
 // meant to overwrite the default module functionality. Here
 // we collect those properties and reapply _after_ we configure
@@ -346,7 +346,7 @@ if (ENVIRONMENT_IS_WEB || ENVIRONMENT_IS_WORKER) {
       // Cordova or Electron apps are typically loaded from a file:// url.
       // So use XHR on webview if URL is a file URL.
       if (isFileURI(url)) {
-        return new Promise((resolve, reject) => {
+        return new Promise((reject, resolve) => {
           var xhr = new XMLHttpRequest;
           xhr.open("GET", url, true);
           xhr.responseType = "arraybuffer";
@@ -354,7 +354,6 @@ if (ENVIRONMENT_IS_WEB || ENVIRONMENT_IS_WORKER) {
             if (xhr.status == 200 || (xhr.status == 0 && xhr.response)) {
               // file URLs can return 0
               resolve(xhr.response);
-              return;
             }
             reject(xhr.status);
           };
@@ -394,6 +393,8 @@ if (Module["arguments"]) arguments_ = Module["arguments"];
 
 if (Module["thisProgram"]) thisProgram = Module["thisProgram"];
 
+if (Module["quit"]) quit_ = Module["quit"];
+
 // perform assertions in shell.js after we set up out() and err(), as otherwise if an assertion fails it cannot print the message
 // end include: shell.js
 // include: preamble.js
@@ -405,7 +406,9 @@ if (Module["thisProgram"]) thisProgram = Module["thisProgram"];
 // You can also build docs locally as HTML or other formats in site/
 // An online HTML version (which may be of a different version of Emscripten)
 //    is up at http://kripken.github.io/emscripten-site/docs/api_reference/preamble.js.html
-var wasmBinary = Module["wasmBinary"];
+var wasmBinary;
+
+if (Module["wasmBinary"]) wasmBinary = Module["wasmBinary"];
 
 // Wasm globals
 var wasmMemory;
@@ -416,6 +419,11 @@ var wasmMemory;
 // whether we are quitting the application. no code should run after this.
 // set in exit() and abort()
 var ABORT = false;
+
+// set by exit() and abort().  Passed to 'onExit' handler.
+// NOTE: This is also used as the process return code code in shell environments
+// but only when noExitRuntime is false.
+var EXITSTATUS;
 
 // Memory management
 var /** @type {!Int8Array} */ HEAP8, /** @type {!Uint8Array} */ HEAPU8, /** @type {!Int16Array} */ HEAP16, /** @type {!Uint16Array} */ HEAPU16, /** @type {!Int32Array} */ HEAP32, /** @type {!Uint32Array} */ HEAPU32, /** @type {!Float32Array} */ HEAPF32, /** @type {!Float64Array} */ HEAPF64;
@@ -436,6 +444,8 @@ function updateMemoryViews() {
 // end include: runtime_shared.js
 // include: runtime_stack_check.js
 // end include: runtime_stack_check.js
+// include: runtime_assertions.js
+// end include: runtime_assertions.js
 var __ATPRERUN__ = [];
 
 // functions called before the runtime is initialized
@@ -531,6 +541,7 @@ function removeRunDependency(id) {
   // catches the exception?
   err(what);
   ABORT = true;
+  EXITSTATUS = 1;
   what += ". Build with -sASSERTIONS for more info.";
   // Use a wasm runtime error, because a JS error might be seen as a foreign
   // exception, which means we'd run destructors on it. We need the error to
@@ -744,6 +755,21 @@ class ExceptionInfo {
   get_adjusted_ptr() {
     return HEAPU32[(((this.ptr) + (16)) >> 2)];
   }
+  // Get pointer which is expected to be received by catch clause in C++ code. It may be adjusted
+  // when the pointer is casted to some of the exception object base classes (e.g. when virtual
+  // inheritance is used). When a pointer is thrown this method should return the thrown pointer
+  // itself.
+  get_exception_ptr() {
+    // Work around a fastcomp bug, this code is still included for some reason in a build without
+    // exceptions support.
+    var isPointer = ___cxa_is_pointer_type(this.get_type());
+    if (isPointer) {
+      return HEAPU32[((this.excPtr) >> 2)];
+    }
+    var adjusted = this.get_adjusted_ptr();
+    if (adjusted !== 0) return adjusted;
+    return this.excPtr;
+  }
 }
 
 var exceptionLast = 0;
@@ -790,7 +816,9 @@ var throwInternalError = message => {
 };
 
 var whenDependentTypesAreResolved = (myTypes, dependentTypes, getTypeConverters) => {
-  myTypes.forEach(type => typeDependencies[type] = dependentTypes);
+  myTypes.forEach(function(type) {
+    typeDependencies[type] = dependentTypes;
+  });
   function onComplete(typeConverters) {
     var myTypeConverters = getTypeConverters(typeConverters);
     if (myTypeConverters.length !== myTypes.length) {
@@ -878,7 +906,7 @@ var __embind_finalize_value_object = structType => {
         }
         return ptr;
       },
-      argPackAdvance: GenericWireTypeSize,
+      "argPackAdvance": GenericWireTypeSize,
       "readValueFromPointer": readPointer,
       destructorFunction: rawDestructor
     } ];
@@ -934,6 +962,9 @@ var throwBindingError = message => {
 }
 
 /** @param {Object=} options */ function registerType(rawType, registeredInstance, options = {}) {
+  if (!("argPackAdvance" in registeredInstance)) {
+    throw new TypeError("registerType registeredInstance requires argPackAdvance");
+  }
   return sharedRegisterType(rawType, registeredInstance, options);
 }
 
@@ -942,7 +973,7 @@ var GenericWireTypeSize = 8;
 /** @suppress {globalThis} */ var __embind_register_bool = (rawType, name, trueValue, falseValue) => {
   name = readLatin1String(name);
   registerType(rawType, {
-    name,
+    name: name,
     "fromWireType": function(wt) {
       // ambiguous emscripten ABI: sometimes return values are
       // true or false, and sometimes integers (0 or 1)
@@ -951,7 +982,7 @@ var GenericWireTypeSize = 8;
     "toWireType": function(destructors, o) {
       return o ? trueValue : falseValue;
     },
-    argPackAdvance: GenericWireTypeSize,
+    "argPackAdvance": GenericWireTypeSize,
     "readValueFromPointer": function(pointer) {
       return this["fromWireType"](HEAPU8[pointer]);
     },
@@ -1124,7 +1155,7 @@ var makeClassHandle = (prototype, record) => {
     } else {
       return makeClassHandle(this.registeredClass.instancePrototype, {
         ptrType: this,
-        ptr
+        ptr: ptr
       });
     }
   }
@@ -1176,7 +1207,7 @@ var attachFinalizer = handle => {
     if (hasSmartPtr) {
       // We should not call the destructor on raw pointers in case other code expects the pointee to live
       var info = {
-        $$
+        $$: $$
       };
       finalizationRegistry.register(handle, info, handle);
     }
@@ -1465,7 +1496,7 @@ var init_RegisteredPointer = () => {
     destructor(ptr) {
       this.rawDestructor?.(ptr);
     },
-    argPackAdvance: GenericWireTypeSize,
+    "argPackAdvance": GenericWireTypeSize,
     "readValueFromPointer": readPointer,
     "fromWireType": RegisteredPointer_fromWireType
   });
@@ -1717,32 +1748,30 @@ function newFunc(constructor, argumentList) {
 
 function createJsInvoker(argTypes, isClassMethodFunc, returns, isAsync) {
   var needsDestructorStack = usesDestructorStack(argTypes);
-  var argCount = argTypes.length - 2;
-  var argsList = [];
-  var argsListWired = [ "fn" ];
-  if (isClassMethodFunc) {
-    argsListWired.push("thisWired");
+  var argCount = argTypes.length;
+  var argsList = "";
+  var argsListWired = "";
+  for (var i = 0; i < argCount - 2; ++i) {
+    argsList += (i !== 0 ? ", " : "") + "arg" + i;
+    argsListWired += (i !== 0 ? ", " : "") + "arg" + i + "Wired";
   }
-  for (var i = 0; i < argCount; ++i) {
-    argsList.push(`arg${i}`);
-    argsListWired.push(`arg${i}Wired`);
-  }
-  argsList = argsList.join(",");
-  argsListWired = argsListWired.join(",");
-  var invokerFnBody = `\n        return function (${argsList}) {\n        if (arguments.length !== ${argCount}) {\n          throwBindingError('function ' + humanName + ' called with ' + arguments.length + ' arguments, expected ${argCount}');\n        }`;
+  var invokerFnBody = `\n        return function (${argsList}) {\n        if (arguments.length !== ${argCount - 2}) {\n          throwBindingError('function ' + humanName + ' called with ' + arguments.length + ' arguments, expected ${argCount - 2}');\n        }`;
   if (needsDestructorStack) {
     invokerFnBody += "var destructors = [];\n";
   }
   var dtorStack = needsDestructorStack ? "destructors" : "null";
   var args1 = [ "humanName", "throwBindingError", "invoker", "fn", "runDestructors", "retType", "classParam" ];
   if (isClassMethodFunc) {
-    invokerFnBody += `var thisWired = classParam['toWireType'](${dtorStack}, this);\n`;
+    invokerFnBody += "var thisWired = classParam['toWireType'](" + dtorStack + ", this);\n";
   }
-  for (var i = 0; i < argCount; ++i) {
-    invokerFnBody += `var arg${i}Wired = argType${i}['toWireType'](${dtorStack}, arg${i});\n`;
-    args1.push(`argType${i}`);
+  for (var i = 0; i < argCount - 2; ++i) {
+    invokerFnBody += "var arg" + i + "Wired = argType" + i + "['toWireType'](" + dtorStack + ", arg" + i + ");\n";
+    args1.push("argType" + i);
   }
-  invokerFnBody += (returns || isAsync ? "var rv = " : "") + `invoker(${argsListWired});\n`;
+  if (isClassMethodFunc) {
+    argsListWired = "thisWired" + (argsListWired.length > 0 ? ", " : "") + argsListWired;
+  }
+  invokerFnBody += (returns || isAsync ? "var rv = " : "") + "invoker(fn" + (argsListWired.length > 0 ? ", " : "") + argsListWired + ");\n";
   if (needsDestructorStack) {
     invokerFnBody += "runDestructors(destructors);\n";
   } else {
@@ -1951,7 +1980,7 @@ var EmValType = {
     return rv;
   },
   "toWireType": (destructors, value) => Emval.toHandle(value),
-  argPackAdvance: GenericWireTypeSize,
+  "argPackAdvance": GenericWireTypeSize,
   "readValueFromPointer": readPointer,
   destructorFunction: null
 };
@@ -1994,13 +2023,13 @@ var enumReadValueFromPointer = (name, width, signed) => {
   function ctor() {}
   ctor.values = {};
   registerType(rawType, {
-    name,
+    name: name,
     constructor: ctor,
     "fromWireType": function(c) {
       return this.constructor.values[c];
     },
     "toWireType": (destructors, c) => c.value,
-    argPackAdvance: GenericWireTypeSize,
+    "argPackAdvance": GenericWireTypeSize,
     "readValueFromPointer": enumReadValueFromPointer(name, size, isSigned),
     destructorFunction: null
   });
@@ -2063,10 +2092,10 @@ var floatReadValueFromPointer = (name, width) => {
 var __embind_register_float = (rawType, name, size) => {
   name = readLatin1String(name);
   registerType(rawType, {
-    name,
+    name: name,
     "fromWireType": value => value,
     "toWireType": (destructors, value) => value,
-    argPackAdvance: GenericWireTypeSize,
+    "argPackAdvance": GenericWireTypeSize,
     "readValueFromPointer": floatReadValueFromPointer(name, size),
     destructorFunction: null
   });
@@ -2119,10 +2148,10 @@ var integerReadValueFromPointer = (name, width, signed) => {
     };
   }
   registerType(primitiveType, {
-    name,
+    name: name,
     "fromWireType": fromWireType,
     "toWireType": toWireType,
-    argPackAdvance: GenericWireTypeSize,
+    "argPackAdvance": GenericWireTypeSize,
     "readValueFromPointer": integerReadValueFromPointer(name, size, minRange !== 0),
     destructorFunction: null
   });
@@ -2139,9 +2168,9 @@ var __embind_register_memory_view = (rawType, dataTypeIndex, name) => {
   }
   name = readLatin1String(name);
   registerType(rawType, {
-    name,
+    name: name,
     "fromWireType": decodeMemoryView,
-    argPackAdvance: GenericWireTypeSize,
+    "argPackAdvance": GenericWireTypeSize,
     "readValueFromPointer": decodeMemoryView
   }, {
     ignoreDuplicateRegistrations: true
@@ -2300,7 +2329,7 @@ var __embind_register_std_string = (rawType, name) => {
   var stdStringIsUTF8 = //process only std::string bindings with UTF8 support, in contrast to e.g. std::basic_string<unsigned char>
   (name === "std::string");
   registerType(rawType, {
-    name,
+    name: name,
     // For some method names we use string keys here since they are part of
     // the public/external API and/or used by the runtime-generated code.
     "fromWireType"(value) {
@@ -2375,7 +2404,7 @@ var __embind_register_std_string = (rawType, name) => {
       }
       return base;
     },
-    argPackAdvance: GenericWireTypeSize,
+    "argPackAdvance": GenericWireTypeSize,
     "readValueFromPointer": readPointer,
     destructorFunction(ptr) {
       _free(ptr);
@@ -2508,7 +2537,7 @@ var __embind_register_std_wstring = (rawType, charSize, name) => {
     readCharAt = pointer => HEAPU32[((pointer) >> 2)];
   }
   registerType(rawType, {
-    name,
+    name: name,
     "fromWireType": value => {
       // Code mostly taken from _embind_register_std_string fromWireType
       var length = HEAPU32[((value) >> 2)];
@@ -2546,7 +2575,7 @@ var __embind_register_std_wstring = (rawType, charSize, name) => {
       }
       return ptr;
     },
-    argPackAdvance: GenericWireTypeSize,
+    "argPackAdvance": GenericWireTypeSize,
     "readValueFromPointer": readPointer,
     destructorFunction(ptr) {
       _free(ptr);
@@ -2566,12 +2595,12 @@ var __embind_register_value_object = (rawType, name, constructorSignature, rawCo
 var __embind_register_value_object_field = (structType, fieldName, getterReturnType, getterSignature, getter, getterContext, setterArgumentType, setterSignature, setter, setterContext) => {
   structRegistrations[structType].fields.push({
     fieldName: readLatin1String(fieldName),
-    getterReturnType,
+    getterReturnType: getterReturnType,
     getter: embind__requireFunction(getterSignature, getter),
-    getterContext,
-    setterArgumentType,
+    getterContext: getterContext,
+    setterArgumentType: setterArgumentType,
     setter: embind__requireFunction(setterSignature, setter),
-    setterContext
+    setterContext: setterContext
   });
 };
 
@@ -2580,8 +2609,8 @@ var __embind_register_void = (rawType, name) => {
   registerType(rawType, {
     isVoid: true,
     // void return values can be optimized out sometimes
-    name,
-    argPackAdvance: 0,
+    name: name,
+    "argPackAdvance": 0,
     "fromWireType": () => undefined,
     // TODO: assert if anything else is given?
     "toWireType": (destructors, o) => undefined
@@ -2684,6 +2713,8 @@ var _malloc = a0 => (_malloc = wasmExports["D"])(a0);
 
 var _free = a0 => (_free = wasmExports["E"])(a0);
 
+var ___cxa_is_pointer_type = a0 => (___cxa_is_pointer_type = wasmExports["F"])(a0);
+
 // include: postamble.js
 // === Auto-generated postamble setup entry stuff ===
 var calledRun;
@@ -2718,8 +2749,10 @@ function run() {
   }
   if (Module["setStatus"]) {
     Module["setStatus"]("Running...");
-    setTimeout(() => {
-      setTimeout(() => Module["setStatus"](""), 1);
+    setTimeout(function() {
+      setTimeout(function() {
+        Module["setStatus"]("");
+      }, 1);
       doRun();
     }, 1);
   } else {

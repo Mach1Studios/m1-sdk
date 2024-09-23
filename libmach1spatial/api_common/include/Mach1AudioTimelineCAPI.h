@@ -2,7 +2,7 @@
 #define MACH1AUDIOTIMELINECAPI_H
 
 //  Mach1 Spatial SDK
-//  Copyright © 2017-2020 Mach1. All rights reserved.
+//  Copyright © 2017 Mach1. All rights reserved.
 
 #include "Mach1KeyPoint.h"
 #include "Mach1Point3D.h"

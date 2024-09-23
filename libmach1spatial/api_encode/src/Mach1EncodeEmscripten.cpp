@@ -3,7 +3,8 @@
 #ifdef M1ENCODE_INLINE_DECODE
 #    include "Mach1DecodeCAPI.h"
 #endif
-#include "../include/Mach1Encode.cpp"
+
+#include "../include/Mach1Encode.h"
 #include "Mach1EncodeCAPI.h"
 
 using namespace emscripten;
@@ -56,44 +57,44 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
         .field("y", &Mach1Point3D::y)
         .field("z", &Mach1Point3D::z);
 
-    class_<Mach1Encode>("Mach1EncodeInternal")
+    class_<Mach1Encode<float> >("Mach1EncodeInternal")
         .constructor<>()
-        .function("getPoints", &Mach1Encode::getPoints)
-        .function("getGains", &Mach1Encode::getGains)
-        .function("getPointsNames", &Mach1Encode::getPointsNames)
-        .function("getGainsForInputChannelNamed", &Mach1Encode::getGainsForInputChannelNamed)
+        .function("getPoints", &Mach1Encode<float>::getPoints)
+        .function("getGains", &Mach1Encode<float>::getGains)
+        .function("getPointsNames", &Mach1Encode<float>::getPointsNames)
+        .function("getGainsForInputChannelNamed", &Mach1Encode<float>::getGainsForInputChannelNamed)
 
-        .function("generatePointResults", &Mach1Encode::generatePointResults)
-        .function("getPointsCount", &Mach1Encode::getPointsCount)
+        .function("generatePointResults", &Mach1Encode<float>::generatePointResults)
+        .function("getPointsCount", &Mach1Encode<float>::getPointsCount)
 
 #ifdef M1ENCODE_INLINE_DECODE
-        .function("getResultingCoeffsDecoded", &Mach1Encode::getResultingCoeffsDecoded)
+        .function("getResultingCoeffsDecoded", &Mach1Encode<float>::getResultingCoeffsDecoded)
 #endif
-        .function("getInputMode", &Mach1Encode::getInputMode)
-        .function("getOutputMode", &Mach1Encode::getOutputMode)
-        .function("getInputChannelsCount", &Mach1Encode::setInputMode)
-        .function("getOutputChannelsCount", &Mach1Encode::setOutputMode)
+        .function("getInputMode", &Mach1Encode<float>::getInputMode)
+        .function("getOutputMode", &Mach1Encode<float>::getOutputMode)
+        .function("getInputChannelsCount", &Mach1Encode<float>::setInputMode)
+        .function("getOutputChannelsCount", &Mach1Encode<float>::setOutputMode)
 
-        .function("setInputMode", &Mach1Encode::setInputMode)
-        .function("setOutputMode", &Mach1Encode::setOutputMode)
+        .function("setInputMode", &Mach1Encode<float>::setInputMode)
+        .function("setOutputMode", &Mach1Encode<float>::setOutputMode)
 
-        .function("setAzimuth", &Mach1Encode::setAzimuth)
-        .function("setAzimuthDegrees", &Mach1Encode::setAzimuthDegrees)
-        .function("setAzimuthRadians", &Mach1Encode::setAzimuthRadians)
+        .function("setAzimuth", &Mach1Encode<float>::setAzimuth)
+        .function("setAzimuthDegrees", &Mach1Encode<float>::setAzimuthDegrees)
+        .function("setAzimuthRadians", &Mach1Encode<float>::setAzimuthRadians)
 
-        .function("setDiverge", &Mach1Encode::setDiverge)
+        .function("setDiverge", &Mach1Encode<float>::setDiverge)
 
-        .function("setElevation", &Mach1Encode::setElevation)
-        .function("setElevationDegrees", &Mach1Encode::setElevationDegrees)
-        .function("setElevationRadians", &Mach1Encode::setElevationRadians)
+        .function("setElevation", &Mach1Encode<float>::setElevation)
+        .function("setElevationDegrees", &Mach1Encode<float>::setElevationDegrees)
+        .function("setElevationRadians", &Mach1Encode<float>::setElevationRadians)
 
-        .function("setPannerMode", &Mach1Encode::setPannerMode)
-        .function("setFrontSurroundPerspective", &Mach1Encode::setFrontSurroundPerspective)
-        .function("setOutputGain", &Mach1Encode::setOutputGain)
+        .function("setPannerMode", &Mach1Encode<float>::setPannerMode)
+        .function("setFrontSurroundPerspective", &Mach1Encode<float>::setFrontSurroundPerspective)
+        .function("setOutputGain", &Mach1Encode<float>::setOutputGain)
 
-        .function("setAutoOrbit", &Mach1Encode::setAutoOrbit)
-        .function("setOrbitRotation", &Mach1Encode::setOrbitRotation)
-        .function("setOrbitRotationDegrees", &Mach1Encode::setOrbitRotationDegrees)
-        .function("setOrbitRotationRadians", &Mach1Encode::setOrbitRotationRadians)
-        .function("setStereoSpread", &Mach1Encode::setStereoSpread);
+        .function("setAutoOrbit", &Mach1Encode<float>::setAutoOrbit)
+        .function("setOrbitRotation", &Mach1Encode<float>::setOrbitRotation)
+        .function("setOrbitRotationDegrees", &Mach1Encode<float>::setOrbitRotationDegrees)
+        .function("setOrbitRotationRadians", &Mach1Encode<float>::setOrbitRotationRadians)
+        .function("setStereoSpread", &Mach1Encode<float>::setStereoSpread);
 }

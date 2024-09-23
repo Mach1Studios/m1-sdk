@@ -10,7 +10,13 @@
 #include <iostream>
 #include <memory>
 
-#define M1_FORMAT_CHANNEL_COUNT 14
+float calculateRMS(const float* samples, int numSamples) {
+    float sumSquares = 0.0f;
+    for (int i = 0; i < numSamples; i++) {
+        sumSquares += samples[i] * samples[i];
+    }
+    return sqrt(sumSquares / numSamples);
+}
 
 int main(int argc, char *argv[]) {
 
@@ -19,20 +25,32 @@ int main(int argc, char *argv[]) {
     Mach1::SineWaveLink sine_wave_link{};
     Mach1::NoiseGenLink noise_gen_link{};
     Mach1::EncodeLink encode_link{};
-//    Mach1::TranscodeLink transode_link{};
+    Mach1::TranscodeLink transode_link{};
     Mach1::DecodeLink decode_link{};
-    Mach1::GainLink gain_link{};
-
+    Mach1::GainLink gain_link[3];
+    
     chain.AddLink(&sine_wave_link);
     chain.AddLink(&peak_tracker_link[0]);
     chain.AddLink(&encode_link);
     chain.AddLink(&peak_tracker_link[1]);
 //    chain.AddLink(&transode_link);
 //    chain.AddLink(&peak_tracker_link[2]);
+    chain.AddLink(&gain_link[0]); // Gain pre-Decode
     chain.AddLink(&decode_link);
+    chain.AddLink(&gain_link[1]); // Gain post-Decode
     chain.AddLink(&peak_tracker_link[3]);
-    chain.AddLink(&gain_link);
+    chain.AddLink(&gain_link[2]); // Output Gain
 
+    #define M1_FORMAT_CHANNEL_COUNT 8
+    float diverge = 0.3;
+    float azimuth = 45.0;
+    //float enc_mult = (diverge > 0.0) ? M1_FORMAT_CHANNEL_COUNT * diverge : 1.0;
+    float enc_mult = M1_FORMAT_CHANNEL_COUNT;
+    float dec_mult = 1.0;
+    encode_link.SetOutputGain(enc_mult, false);
+    gain_link[0].SetGain(dec_mult); // pre-Decode
+    gain_link[1].SetGain(2.0); // post-Decode for stereo
+    
     chain.SetInputChannelCount(1);
     chain.SetOutputChannelCount(2);
     chain.SetAudioBufferInputChannelCount(M1_FORMAT_CHANNEL_COUNT);
@@ -44,8 +62,8 @@ int main(int argc, char *argv[]) {
     peak_tracker_link[0].SetOutputChannelCount(M1_FORMAT_CHANNEL_COUNT);
     peak_tracker_link[1].SetName("Encoded");
     peak_tracker_link[1].SetOutputChannelCount(M1_FORMAT_CHANNEL_COUNT);
-//    peak_tracker_link[2].SetName("Transcoded");
-//    peak_tracker_link[2].SetOutputChannelCount(M1_FORMAT_CHANNEL_COUNT);
+    peak_tracker_link[2].SetName("Transcoded");
+    peak_tracker_link[2].SetOutputChannelCount(M1_FORMAT_CHANNEL_COUNT);
     peak_tracker_link[3].SetName("Decoded");
     peak_tracker_link[3].SetOutputChannelCount(M1_FORMAT_CHANNEL_COUNT); // limit to number of output channels
 
@@ -78,23 +96,26 @@ int main(int argc, char *argv[]) {
     }
 
     encode_link.SetInputMode(Mach1EncodeInputMode::Mono);
-    encode_link.SetAzimuthDegrees(0);
+    encode_link.SetAzimuthDegrees(azimuth);
     encode_link.SetElevation(0);
-    encode_link.SetDiverge(1.0);
+    encode_link.SetDiverge(diverge);
     encode_link.SetIsotropicMode(false);
     encode_link.SetEqualPowerMode(false);
-    encode_link.SetOutputGain(4.0, false);
     encode_link.SetOrbitRotation(0.0);
     encode_link.SetStereoSpread(0.5);
     encode_link.SetAutoOrbit(true);
     encode_link.GeneratePointResults();
+
+//    transode_link.SetInputFormat(M1_FORMAT_CHANNEL_COUNT);
+//    transode_link.SetOutputFormat(M1_FORMAT_CHANNEL_COUNT);
+//    transode_link.ProcessConversionPath();
 
     decode_link.SetRotationDegrees({0, 0, 0}); // ypr
     decode_link.SetPlatformType(Mach1PlatformDefault);
     decode_link.SetFilterSpeed(0.95);
     decode_link.SetPointCount(encode_link.GetPointsCount());
 
-    gain_link.SetGain(1.0); // use this to mute the output if needed
+    gain_link[2].SetGain(0.0); // use this to mute the output if needed
 
     chain.Start();
 

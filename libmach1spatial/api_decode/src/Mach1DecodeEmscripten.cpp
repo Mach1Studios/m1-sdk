@@ -1,6 +1,6 @@
 #include <emscripten/bind.h>
 
-#include "../include/Mach1Decode.cpp"
+#include "../include/Mach1Decode.h"
 #include "Mach1DecodeCAPI.h"
 
 using namespace emscripten;
@@ -36,19 +36,19 @@ EMSCRIPTEN_BINDINGS(Mach1Decode) {
         .field("z", &Mach1Point4D::z)
         .field("w", &Mach1Point4D::w);
 
-    class_<Mach1Decode>("Mach1DecodeInternal")
+    class_<Mach1Decode<float> >("Mach1DecodeInternal")
         .constructor<>()
-        .function("setPlatformType", &Mach1Decode::setPlatformType)
-        .function("setDecodeMode", &Mach1Decode::setDecodeMode)
-        .function("decode", &Mach1Decode::decode)
-        .function("decodeCoeffs", &Mach1Decode::decodeCoeffs)
-        .function("setFilterSpeed", &Mach1Decode::setFilterSpeed)
-        .function("getFormatChannelCount", &Mach1Decode::getFormatChannelCount)
-        .function("setRotation", &Mach1Decode::setRotation)
-        .function("setRotationDegrees", &Mach1Decode::setRotationDegrees)
-        .function("setRotationRadians", &Mach1Decode::setRotationRadians)
-        .function("setRotationQuat", &Mach1Decode::setRotationQuat)
-        .function("getCurrentTime", &Mach1Decode::getCurrentTime)
-        .function("getCurrentAngle", &Mach1Decode::getCurrentAngle)
-        .function("getLog", &Mach1Decode::getLog);
+        .function("setPlatformType", &Mach1Decode<float>::setPlatformType)
+        .function("setDecodeMode", &Mach1Decode<float>::setDecodeMode)
+        .function("decode", &Mach1Decode<float>::decode)
+        .function("decodeCoeffs", &Mach1Decode<float>::decodeCoeffs)
+        .function("setFilterSpeed", &Mach1Decode<float>::setFilterSpeed)
+        .function("getFormatChannelCount", &Mach1Decode<float>::getFormatChannelCount)
+        .function("setRotation", &Mach1Decode<float>::setRotation)
+        .function("setRotationDegrees", &Mach1Decode<float>::setRotationDegrees)
+        .function("setRotationRadians", &Mach1Decode<float>::setRotationRadians)
+        .function("setRotationQuat", &Mach1Decode<float>::setRotationQuat)
+        .function("getCurrentTime", &Mach1Decode<float>::getCurrentTime)
+        .function("getCurrentAngle", &Mach1Decode<float>::getCurrentAngle)
+        .function("getLog", &Mach1Decode<float>::getLog);
 }

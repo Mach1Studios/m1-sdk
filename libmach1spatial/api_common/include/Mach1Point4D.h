@@ -2,7 +2,7 @@
 #define MACH1POINT4D_H
 
 //  Mach1 Spatial SDK
-//  Copyright © 2017-2020 Mach1. All rights reserved.
+//  Copyright © 2017 Mach1. All rights reserved.
 
 #ifndef DEG_TO_RAD
 #    define DEG_TO_RAD (PI / 180.0)

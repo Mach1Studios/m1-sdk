@@ -265,7 +265,7 @@ public:
 int main(int argc, char* argv[])
 {
 	Mach1AudioTimeline m1audioTimeline;
-	Mach1Transcode m1transcode;
+	Mach1Transcode<float> m1transcode;
 	m1transcode.setCustomPointsSamplerCallback(callbackPointsSampler);
 
 	// locals for cmd line parameters

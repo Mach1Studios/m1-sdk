@@ -1,5 +1,5 @@
 //  Mach1 Spatial SDK
-//  Copyright © 2017-2020 Mach1. All rights reserved.
+//  Copyright © 2017 Mach1. All rights reserved.
 
 /*
 Internal Orientation Implementation:
@@ -48,7 +48,7 @@ class M1EncodeCorePointResults {
     Mach1Point3D ppoints[MAX_POINTS_COUNT];
     int pointsCount;
     std::string pointsNames[MAX_POINTS_COUNT];
-    std::vector<std::vector<float> > gains;
+    std::vector< std::vector<float> > gains;
 
     friend class M1EncodeCore;
 
@@ -56,10 +56,10 @@ class M1EncodeCorePointResults {
     M1EncodeCorePointResults();
     ~M1EncodeCorePointResults();
 
-    std::vector<Mach1Point3D> getPoints();
-    std::vector<std::vector<float> > getGains();
-    std::vector<std::string> getPointsNames();
-    std::vector<float> getGainsForInputChannelNamed(std::string pointName);
+    std::vector<Mach1Point3D> getChannelPoints();
+    std::vector< std::vector<float> > getGains();
+    std::vector<std::string> getChannelPointsNames();
+    std::vector<float> getGainsForInputChannelByName(std::string pointName);
     int getPointsCount();
 };
 
@@ -148,9 +148,9 @@ class M1EncodeCore {
     bool frontSurroundPerspective;
     float outputGainLinearMultipler;
 
-    float getCoeffForStandardPoint(float x, float y, float z, Mach1Point3D point, bool ignoreZ);
-    std::vector<float> getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<Mach1Point3D> &pointSet, bool ignoreZ);
-    void processGainsChannels(float x, float y, float z, std::vector<float> &result);
+    float getCoeffForChannelPoint(float x, float y, float z, Mach1Point3D point, bool ignoreZ);
+    std::vector<float> getCoeffSetForChannelPointSet(float x, float y, float z, std::vector<Mach1Point3D> &pointSet, bool ignoreZ);
+    void processGains(float x, float y, float z, std::vector<float> &result);
 
     milliseconds ms;
     long timeLastCalculation;

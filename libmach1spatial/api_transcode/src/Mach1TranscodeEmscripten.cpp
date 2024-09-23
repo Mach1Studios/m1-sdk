@@ -1,6 +1,6 @@
 #include <emscripten/bind.h>
 
-#include "../include/Mach1Transcode.cpp"
+#include "../include/Mach1Transcode.h"
 #include "Mach1TranscodeCAPI.h"
 
 using namespace emscripten;
@@ -16,35 +16,35 @@ EMSCRIPTEN_BINDINGS(Mach1Transcode) {
         .field("y", &Mach1Point3D::y)
         .field("z", &Mach1Point3D::z);
 
-    class_<Mach1Transcode>("Mach1TranscodeInternal")
+    class_<Mach1Transcode<float> >("Mach1TranscodeInternal")
         .constructor<>()
-        .function("getInputNumChannels", &Mach1Transcode::getInputNumChannels)
-        .function("getOutputNumChannels", &Mach1Transcode::getOutputNumChannels)
-        .function("getFormatFromString", &Mach1Transcode::getFormatFromString)
-        .function("getFormatName", &Mach1Transcode::getFormatName)
-        .function("getAllFormatNames", &Mach1Transcode::getAllFormatNames)
+        .function("getInputNumChannels", &Mach1Transcode<float>::getInputNumChannels)
+        .function("getOutputNumChannels", &Mach1Transcode<float>::getOutputNumChannels)
+        .function("getFormatFromString", &Mach1Transcode<float>::getFormatFromString)
+        .function("getFormatName", &Mach1Transcode<float>::getFormatName)
+        .function("getAllFormatNames", &Mach1Transcode<float>::getAllFormatNames)
 
-        .function("processNormalization", &Mach1Transcode::processNormalization)
-        .function("processMasterGain", &Mach1Transcode::processMasterGain)
+        .function("processNormalization", &Mach1Transcode<float>::processNormalization)
+        .function("processMasterGain", &Mach1Transcode<float>::processMasterGain)
 
-        .function("db2level", &Mach1Transcode::db2level)
-        .function("level2db", &Mach1Transcode::level2db)
+        .function("db2level", &Mach1Transcode<float>::db2level)
+        .function("level2db", &Mach1Transcode<float>::level2db)
 
-        .function("setLFESub", &Mach1Transcode::setLFESub)
-        .function("setSpatialDownmixer", &Mach1Transcode::setSpatialDownmixer)
-        .function("getSpatialDownmixerPossibility", &Mach1Transcode::getSpatialDownmixerPossibility)
+        .function("setLFESub", &Mach1Transcode<float>::setLFESub)
+        .function("setSpatialDownmixer", &Mach1Transcode<float>::setSpatialDownmixer)
+        .function("getSpatialDownmixerPossibility", &Mach1Transcode<float>::getSpatialDownmixerPossibility)
 
-        .function("setInputFormat", &Mach1Transcode::setInputFormat)
-        .function("setInputFormatCustomPointsJson", &Mach1Transcode::setInputFormatCustomPointsJson)
-        .function("setInputFormatCustomPoints", &Mach1Transcode::setInputFormatCustomPoints)
+        .function("setInputFormat", &Mach1Transcode<float>::setInputFormat)
+        .function("setInputFormatCustomPointsJson", &Mach1Transcode<float>::setInputFormatCustomPointsJson)
+        .function("setInputFormatCustomPoints", &Mach1Transcode<float>::setInputFormatCustomPoints)
 
-        .function("setOutputFormat", &Mach1Transcode::setOutputFormat)
-        .function("setOutputFormatCustomPointsJson", &Mach1Transcode::setOutputFormatCustomPointsJson)
-        .function("setOutputFormatCustomPoints", &Mach1Transcode::setOutputFormatCustomPoints)
+        .function("setOutputFormat", &Mach1Transcode<float>::setOutputFormat)
+        .function("setOutputFormatCustomPointsJson", &Mach1Transcode<float>::setOutputFormatCustomPointsJson)
+        .function("setOutputFormatCustomPoints", &Mach1Transcode<float>::setOutputFormatCustomPoints)
 
-        .function("processConversionPath", &Mach1Transcode::processConversionPath)
-        .function("getMatrixConversion", &Mach1Transcode::getMatrixConversion)
-        .function("processConversion", &Mach1Transcode::processConversion)
+        .function("processConversionPath", &Mach1Transcode<float>::processConversionPath)
+        .function("getMatrixConversion", &Mach1Transcode<float>::getMatrixConversion)
+        .function("processConversion", &Mach1Transcode<float>::processConversion)
 
-        .function("getFormatConversionPath", &Mach1Transcode::getFormatConversionPath);
+        .function("getFormatConversionPath", &Mach1Transcode<float>::getFormatConversionPath);
 }

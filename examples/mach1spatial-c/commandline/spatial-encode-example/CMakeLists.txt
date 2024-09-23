@@ -24,7 +24,6 @@ set(M1_LIB_PATH ../../../../libmach1spatial)
 target_sources(${PROJECT_NAME}
 PRIVATE
     src/main.cpp
-    ${M1_LIB_PATH}/api_encode/include/Mach1Encode.cpp
 )
 
 set(MACH1SPATIAL_INCLUDES ${M1_LIB_PATH}/api_common/include ${M1_LIB_PATH}/api_encode/include ${M1_LIB_PATH}/deps)

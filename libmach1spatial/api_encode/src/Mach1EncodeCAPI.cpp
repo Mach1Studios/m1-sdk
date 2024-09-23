@@ -1,5 +1,5 @@
 //  Mach1 Spatial SDK
-//  Copyright © 2017-2020 Mach1. All rights reserved.
+//  Copyright © 2017 Mach1. All rights reserved.
 
 #include "Mach1EncodeCAPI.h"
 #include "Mach1EncodeCore.h"
@@ -28,7 +28,7 @@ void Mach1EncodeCAPI_delete(void *M1obj) {
 }
 
 void *Mach1EncodeCAPI_getPoints(void *M1obj) {
-    std::vector<Mach1Point3D> vec = ((M1EncodeCore *)M1obj)->resultingPoints.getPoints();
+    std::vector<Mach1Point3D> vec = ((M1EncodeCore *)M1obj)->resultingPoints.getChannelPoints();
 
     // clear
     for (int i = 0; i < MAX_POINTS_COUNT; i++) {
@@ -58,7 +58,7 @@ void *Mach1EncodeCAPI_getGains(void *M1obj) {
 }
 
 void *Mach1EncodeCAPI_getPointsNames(void *M1obj) {
-    std::vector<std::string> vec = ((M1EncodeCore *)M1obj)->resultingPoints.getPointsNames();
+    std::vector<std::string> vec = ((M1EncodeCore *)M1obj)->resultingPoints.getChannelPointsNames();
 
     // clear
     for (int i = 0; i < MAX_POINTS_COUNT; i++) {
@@ -72,7 +72,7 @@ void *Mach1EncodeCAPI_getPointsNames(void *M1obj) {
 }
 
 void *Mach1EncodeCAPI_getGainsForInputChannelNamed(void *M1obj, char *pointName) {
-    std::vector<float> vec = ((M1EncodeCore *)M1obj)->resultingPoints.getGainsForInputChannelNamed(pointName);
+    std::vector<float> vec = ((M1EncodeCore *)M1obj)->resultingPoints.getGainsForInputChannelByName(pointName);
 
     // clear
     for (int i = 0; i < MAX_CHANNELS_COUNT; i++) {

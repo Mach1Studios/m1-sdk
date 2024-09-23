@@ -298,7 +298,7 @@ lang/cs/Proposals
 lang/cs/Resources
 lang/cs/Proposals/M1 Test Application Plan 0.1-1.0.docx
 lang/cs/Proposals/M1 Test Application Plan 1.1-1.x.docx
- 
+
 # ============================================= #
 # Visual Studio / MonoDevelop / Rider generated #
 # ============================================= #
@@ -403,3 +403,4 @@ freeline_project_description.json
 ._.DS_Store
 **/.DS_Store
 **/._.DS_Store
+**/cmake-build-*

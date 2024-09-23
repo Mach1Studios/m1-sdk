@@ -1,11 +1,16 @@
 #include "TranscodeLink.h"
 
+#include "Settings.h"
 #include <utility>
 
 using namespace Mach1;
 
 void TranscodeLink::Process(AudioBuffers &buffers, double playback_time) {
-    m_transcode.processConversion(buffers.GetOutputBuffers(), buffers.GetOutputBuffers());
+#if REBUFFERED_TRANSCODE
+    m_transcode.processConversionRebuffer(buffers.GetOutputBuffers(), buffers.GetOutputBuffers(), buffers.GetBufferSize());
+#else
+    m_transcode.processConversion(buffers.GetOutputBuffers(), buffers.GetOutputBuffers(), buffers.GetBufferSize());
+#endif
 }
 
 void TranscodeLink::SetLFESub(std::vector<int> subChannelIndices, int sampleRate) {
@@ -42,4 +47,8 @@ void TranscodeLink::SetOutputFormatCustomPoints(std::vector<Mach1Point3D> points
 
 void TranscodeLink::SetCustomPointsSamplerCallback(Mach1Point3D *(*callback)(long long int, int &)) {
 
+}
+
+bool TranscodeLink::ProcessConversionPath() {
+    return m_transcode.processConversionPath();
 }

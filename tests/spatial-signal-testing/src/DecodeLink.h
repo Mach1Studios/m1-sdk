@@ -24,7 +24,7 @@ public:
     void SetPointCount(int points);
 
 private:
-    Mach1Decode m_decode{};
+    Mach1Decode<float> m_decode{};
 
     int m_points{};
 };

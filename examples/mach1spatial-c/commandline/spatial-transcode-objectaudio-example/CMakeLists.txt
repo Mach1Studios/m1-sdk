@@ -62,7 +62,6 @@ target_sources(${PROJECT_NAME}
     src/main.cpp
     ${M1_LIB_PATH}/deps/pugixml/src/pugixml.cpp
     ${M1_LIB_PATH}/deps/yaml/yaml/Yaml.cpp
-    ${M1_LIB_PATH}/api_transcode/include/Mach1Transcode.cpp
     ${M1_LIB_PATH}/deps/M1DSP/M1DSPUtilities.cpp
     ${M1_LIB_PATH}/deps/M1DSP/M1DSPFilters.cpp
     ${M1_LIB_PATH}/api_common/include/Mach1AudioTimeline.cpp

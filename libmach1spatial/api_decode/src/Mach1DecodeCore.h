@@ -47,11 +47,11 @@ class Mach1DecodeCore {
     static float clamp(float a, float min, float max);
 
   private:
-    typedef std::vector<float> (Mach1DecodeCore::*functionAlgoSample)(float Yaw, float Pitch, float Roll);
-    typedef void (Mach1DecodeCore::*functionAlgoSampleHP)(float Yaw, float Pitch, float Roll, float *result);
+    typedef std::vector<float> (Mach1DecodeCore::*processSampleForMultichannel)(float Yaw, float Pitch, float Roll);
+    typedef void (Mach1DecodeCore::*processSampleForStereoPairs)(float Yaw, float Pitch, float Roll, float *result);
 
-    std::vector<float> processSample(functionAlgoSample funcAlgoSample, float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-    void processSample(functionAlgoSampleHP funcAlgoSampleHP, float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
+    std::vector<float> processSample(processSampleForMultichannel _processSampleForMultichannel, float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
+    void processSample(processSampleForStereoPairs _processSampleForStereoPairs, float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
 
     milliseconds ms;
 
@@ -104,13 +104,11 @@ class Mach1DecodeCore {
 
   public:
     char *getLog();
-
     float filterSpeed;
 
     // Angular settings functions
     static void convertAnglesToMach1(Mach1PlatformType platformType, float *Y, float *P, float *R);
     static void convertAnglesToPlatform(Mach1PlatformType platformType, float *Y, float *P, float *R);
-
     // static void convertQuaternionToMach1(Mach1PlatformType platformType, float* X, float* Y, float* Z, float* W);
     // static void convertQuaternionToPlatform(Mach1PlatformType platformType, float* Y, float* P, float* R);
 

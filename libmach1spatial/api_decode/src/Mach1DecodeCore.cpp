@@ -235,7 +235,6 @@ void Mach1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int n
         result[i * 2 + 0] /= sumL;
         result[i * 2 + 1] /= sumR;
     }
-    // if(sumL > 1.0 || sumR > 1.0) printf("%f - %f\r\n", sumL, sumR);
 }
 
 /*
@@ -871,20 +870,20 @@ void Mach1DecodeCore::decodeCoeffsUsingTranscodeMatrix(void *M1obj, float *matri
     std::vector<float> coeffs = decodeCoeffs(bufferSize, sampleIndex);
 
     int inChans = channels;
-    int outChans = (getFormatChannelCount() - 1) / 2;
-    int stereoChans = 2;
+    int outChans = getFormatCoeffCount();
+    int outStereoDecodeChans = 2;
 
     for (int i = 0; i < inChans; i++) {
-        for (int j = 0; j < stereoChans; j++) {
-            result[i * stereoChans + j] = 0;
+        for (int j = 0; j < outStereoDecodeChans; j++) {
+            result[i * outStereoDecodeChans + j] = 0;
             for (int k = 0; k < outChans; k++) {
-                result[i * stereoChans + j] += matrix[k * inChans + i] * coeffs[k * stereoChans + j];
+                result[i * outStereoDecodeChans + j] += matrix[k * inChans + i] * coeffs[k * outStereoDecodeChans + j];
             }
         }
     }
 }
 
-void Mach1DecodeCore::processSample(functionAlgoSampleHP funcAlgoSampleHP, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
+void Mach1DecodeCore::processSample(processSampleForStereoPairs _processSampleForStereoPairs, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
     convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
     if (smoothAngles) {
         targetYaw = Yaw;
@@ -895,16 +894,16 @@ void Mach1DecodeCore::processSample(functionAlgoSampleHP funcAlgoSampleHP, float
             // we're in per sample mode
             // returning values from right here!
 
-            std::vector<float> volumes1(getFormatCoeffCount());
-            std::vector<float> volumes2(getFormatCoeffCount());
-            (this->*funcAlgoSampleHP)(previousYaw, previousPitch, previousRoll, volumes1.data());
-            (this->*funcAlgoSampleHP)(currentYaw, currentPitch, currentRoll, volumes2.data());
+            std::vector<float> gainsL(getFormatCoeffCount());
+            std::vector<float> gainsR(getFormatCoeffCount());
+            (this->*_processSampleForStereoPairs)(previousYaw, previousPitch, previousRoll, gainsL.data());
+            (this->*_processSampleForStereoPairs)(currentYaw, currentPitch, currentRoll, gainsR.data());
             float phase = (float)sampleIndex / (float)bufferSize;
 
-            std::vector<float> volumes_lerp(getFormatCoeffCount());
-            for (int i = 0; i < 16; i++) {
-                volumes_lerp[i] = volumes1[i] * (1 - phase) + volumes2[i] * phase;
-                result[i] = volumes_lerp[i];
+            std::vector<float> gains_lerp(getFormatCoeffCount());
+            for (int i = 0; i < 16; i++) { // designed for (4 * stereo_inputs * stereo_output) of 16ch
+                gains_lerp[i] = gainsL[i] * (1 - phase) + gainsR[i] * phase;
+                result[i] = gains_lerp[i];
             }
             return;
         } else {
@@ -945,10 +944,10 @@ void Mach1DecodeCore::processSample(functionAlgoSampleHP funcAlgoSampleHP, float
 
     // printf("%f, %f, %f\r\n", Yaw, Pitch, Roll);
 
-    (this->*funcAlgoSampleHP)(Yaw, Pitch, Roll, result);
+    (this->*_processSampleForStereoPairs)(Yaw, Pitch, Roll, result);
 }
 
-std::vector<float> Mach1DecodeCore::processSample(functionAlgoSample funcAlgoSample, float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {
+std::vector<float> Mach1DecodeCore::processSample(processSampleForMultichannel _processSampleForMultichannel, float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {
     convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
     if (smoothAngles) {
         targetYaw = Yaw;
@@ -958,15 +957,15 @@ std::vector<float> Mach1DecodeCore::processSample(functionAlgoSample funcAlgoSam
         if (bufferSize > 0) {
             // we're in per sample mode
             // returning values from right here!
-            std::vector<float> volumes1 = (this->*funcAlgoSample)(previousYaw, previousPitch, previousRoll);
-            std::vector<float> volumes2 = (this->*funcAlgoSample)(currentYaw, currentPitch, currentRoll);
+            std::vector<float> gainsL = (this->*_processSampleForMultichannel)(previousYaw, previousPitch, previousRoll);
+            std::vector<float> gainsR = (this->*_processSampleForMultichannel)(currentYaw, currentPitch, currentRoll);
             float phase = (float)sampleIndex / (float)bufferSize;
-            std::vector<float> volumes_lerp;
-            volumes_lerp.resize(volumes1.size());
-            for (int i = 0; i < volumes1.size(); i++) {
-                volumes_lerp[i] = volumes1[i] * (1 - phase) + volumes2[i] * phase;
+            std::vector<float> gains_lerp;
+            gains_lerp.resize(gainsL.size());
+            for (int i = 0; i < gainsR.size(); i++) {
+                gains_lerp[i] = gainsL[i] * (1 - phase) + gainsR[i] * phase;
             }
-            return volumes_lerp;
+            return gains_lerp;
         } else {
             // Filtering per-buffer
             if (filterSpeed >= 1.0) {
@@ -1001,7 +1000,7 @@ std::vector<float> Mach1DecodeCore::processSample(functionAlgoSample funcAlgoSam
         previousPitch = currentPitch;
         previousRoll = currentRoll;
     }
-    return (this->*funcAlgoSample)(Yaw, Pitch, Roll);
+    return (this->*_processSampleForMultichannel)(Yaw, Pitch, Roll);
 }
 
 //

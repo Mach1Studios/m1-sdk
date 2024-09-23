@@ -135,7 +135,7 @@ M1EncodeCorePointResults::M1EncodeCorePointResults() {
 M1EncodeCorePointResults::~M1EncodeCorePointResults() {
 }
 
-std::vector<Mach1Point3D> M1EncodeCorePointResults::getPoints() {
+std::vector<Mach1Point3D> M1EncodeCorePointResults::getChannelPoints() {
     return std::vector<Mach1Point3D>(ppoints, std::end(ppoints));
 }
 
@@ -143,11 +143,11 @@ std::vector<std::vector<float> > M1EncodeCorePointResults::getGains() {
     return gains;
 }
 
-std::vector<std::string> M1EncodeCorePointResults::getPointsNames() {
+std::vector<std::string> M1EncodeCorePointResults::getChannelPointsNames() {
     return std::vector<std::string>(pointsNames, std::end(pointsNames));
 }
 
-std::vector<float> M1EncodeCorePointResults::getGainsForInputChannelNamed(std::string pointName) {
+std::vector<float> M1EncodeCorePointResults::getGainsForInputChannelByName(std::string pointName) {
     for (int i = 0; i < pointsCount; i++) {
         if (pointsNames[i] == pointName)
             return gains[i];
@@ -164,7 +164,7 @@ int M1EncodeCorePointResults::getPointsCount() {
     return pointsCount;
 }
 
-float M1EncodeCore::getCoeffForStandardPoint(float x, float y, float z, Mach1Point3D point, bool ignoreZ) {
+float M1EncodeCore::getCoeffForChannelPoint(float x, float y, float z, Mach1Point3D point, bool ignoreZ) {
     // map from [-1,1] to [0,1]
     point.x = (point.x / (1 / 0.707) + 1) / 2;
     point.y = (point.y / (1 / 0.707) + 1) / 2;
@@ -184,7 +184,7 @@ float M1EncodeCore::getCoeffForStandardPoint(float x, float y, float z, Mach1Poi
     return dist;
 }
 
-std::vector<float> M1EncodeCore::getCoeffSetForStandardPointSet(float x, float y, float z, std::vector<Mach1Point3D> &pointSet, bool ignoreZ) {
+std::vector<float> M1EncodeCore::getCoeffSetForChannelPointSet(float x, float y, float z, std::vector<Mach1Point3D> &pointSet, bool ignoreZ) {
     std::vector<float> result;
 
     std::vector<Mach1Point3D> points = pointSet;
@@ -199,7 +199,7 @@ std::vector<float> M1EncodeCore::getCoeffSetForStandardPointSet(float x, float y
     }
 
     for (auto &i : points) {
-        result.push_back(getCoeffForStandardPoint(x, y, z, i, ignoreZ));
+        result.push_back(getCoeffForChannelPoint(x, y, z, i, ignoreZ));
     }
 
     // normalize coeffs
@@ -215,7 +215,7 @@ std::vector<float> M1EncodeCore::getCoeffSetForStandardPointSet(float x, float y
     return result;
 }
 
-void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<float> &result) {
+void M1EncodeCore::processGains(float x, float y, float z, std::vector<float> &result) {
 
     /*
      * X = Left(-) to Right(+) (from a top down perspective)
@@ -657,7 +657,7 @@ void M1EncodeCore::processGainsChannels(float x, float y, float z, std::vector<f
         gains.push_back(g);
     }
 
-    // normalize gains
+    // normalize initial gains
     float gSum = 0;
     for (int i = 0; i < gains.size(); i++) {
         gSum += gains[i];
@@ -1132,10 +1132,10 @@ void M1EncodeCore::generatePointResults() {
         std::vector<float> gains;
         if (outputMode == OUTPUT_SPATIAL_4CH) {
             // force ppoints to center of soundfield's elevation
-            processGainsChannels(resultingPoints.ppoints[i].z, resultingPoints.ppoints[i].x, 0, gains);
+            processGains(resultingPoints.ppoints[i].z, resultingPoints.ppoints[i].x, 0, gains);
         } else {
             // process 3d ppoints
-            processGainsChannels(resultingPoints.ppoints[i].z, resultingPoints.ppoints[i].x, resultingPoints.ppoints[i].y, gains);
+            processGains(resultingPoints.ppoints[i].z, resultingPoints.ppoints[i].x, resultingPoints.ppoints[i].y, gains);
         }
         // applying output gain to gains and assigning to the current index channel
         for (int j = 0; j < getOutputChannelsCount(); j++) {

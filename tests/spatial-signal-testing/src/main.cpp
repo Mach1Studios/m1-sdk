@@ -21,17 +21,19 @@ int main(int argc, char *argv[]) {
     Mach1::EncodeLink encode_link{};
     Mach1::TranscodeLink transode_link{};
     Mach1::DecodeLink decode_link{};
-    Mach1::GainLink gain_link{};
-
+    Mach1::GainLink gain_link[3];
+    
     chain.AddLink(&sine_wave_link);
     chain.AddLink(&peak_tracker_link[0]);
     chain.AddLink(&encode_link);
     chain.AddLink(&peak_tracker_link[1]);
 //    chain.AddLink(&transode_link);
 //    chain.AddLink(&peak_tracker_link[2]);
+    chain.AddLink(&gain_link[0]); // Gain pre-Decode
     chain.AddLink(&decode_link);
+    chain.AddLink(&gain_link[1]); // Gain post-Decode
     chain.AddLink(&peak_tracker_link[3]);
-    chain.AddLink(&gain_link);
+    chain.AddLink(&gain_link[2]); // Output Gain
 
     chain.SetInputChannelCount(1);
     chain.SetOutputChannelCount(2);
@@ -89,8 +91,8 @@ int main(int argc, char *argv[]) {
     encode_link.SetAutoOrbit(true);
     encode_link.GeneratePointResults();
 
-    transode_link.SetInputFormat(M1_FORMAT_CHANNEL_COUNT);
-    transode_link.SetOutputFormat(M1_FORMAT_CHANNEL_COUNT);
+//    transode_link.SetInputFormat(M1_FORMAT_CHANNEL_COUNT);
+//    transode_link.SetOutputFormat(M1_FORMAT_CHANNEL_COUNT);
 //    transode_link.ProcessConversionPath();
 
     decode_link.SetRotationDegrees({0, 0, 0}); // ypr
@@ -98,7 +100,7 @@ int main(int argc, char *argv[]) {
     decode_link.SetFilterSpeed(0.95);
     decode_link.SetPointCount(encode_link.GetPointsCount());
 
-    gain_link.SetGain(1.0); // use this to mute the output if needed
+    gain_link[2].SetGain(0.0); // use this to mute the output if needed
 
     chain.Start();
 

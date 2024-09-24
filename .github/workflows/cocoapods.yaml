@@ -18,74 +18,96 @@ jobs:
         fetch-depth: 1
         persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
+    - name: Verify Source files changed
+      uses: tj-actions/verify-changed-files@v20
+      id: verify-changed-files
+      with:
+        files: |
+           libmach1spatial/**/*.{h,cpp,swift}
+
     - uses: actions/checkout@v4
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
       with:
         repository: mity/acutest
         path: libmach1spatial/deps/acutest
         persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
       with:
         repository: g-truc/glm
         path: libmach1spatial/deps/glm
         persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
       with:
         repository: zeux/pugixml
         path: libmach1spatial/deps/pugixml
         persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
       with:
         repository: jimmiebergmann/mini-yaml
         path: libmach1spatial/deps/yaml
         persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
       with:
         repository: nlohmann/json
         path: libmach1spatial/deps/nlohmann
         persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
       with:
         repository: leetal/ios-cmake
         path: libmach1spatial/cmake/ios-cmake
         persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - uses: actions/checkout@v4
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
       with:
         repository: Mach1Studios/Pod-Mach1SpatialAPI
         path: examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI
         persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
 
     - name: Create dirs
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
       run: mkdir -p _builds/osx _builds/ios
 
     - name: Configure CMake (macos)
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
       run: cmake . -B_builds/osx -GXcode -DCMAKE_BUILD_TYPE=Release -DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_SIGNAL_SUITE=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=MAC_UNIVERSAL
 
     - name: Build (macos)
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
       shell: bash
       run: cmake --build _builds/osx --config Release
 
     - name: Install (macos)
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
       shell: bash
       run: cmake --install _builds/osx --config Release
 
     - name: Configure CMake (ios)
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
       run: cmake . -B_builds/ios -GXcode -DCMAKE_BUILD_TYPE=Release -DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_SIGNAL_SUITE=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=OS64COMBINED
 
     - name: Build (ios)
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
       shell: bash
       run: cmake --build _builds/ios --config Release
 
     - name: Install (ios)
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
       shell: bash
       run: cmake --install _builds/ios --config Release
 
     - name: Commit to cocoapods submodule
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
       run: |
         cd $GITHUB_WORKSPACE/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI
         git config --global user.name "github-actions[bot]"
@@ -94,6 +116,7 @@ jobs:
         git commit -m "Update prebuilt libraries from CMake build"
 
     - name: Push changes
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
       uses: ad-m/github-push-action@master
       with:
         directory: examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI

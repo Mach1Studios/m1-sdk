@@ -414,15 +414,15 @@ void Mach1Transcode<PCM>::processConversion(std::vector<std::vector<PCM> > &in, 
     }
 
     // restructure output buffer
-    if (oc_channel_count != in.size() || oc_buffer_size != numSamples) {
-        output_conversion_buffer.resize(in.size());
-        output_ptrs.resize(in.size());
+    if (oc_channel_count != out.size() || oc_buffer_size != numSamples) {
+        output_conversion_buffer.resize(out.size());
+        output_ptrs.resize(out.size());
 
-        for (int i = 0; i < in.size(); i++) {
+        for (int i = 0; i < out.size(); i++) {
             output_conversion_buffer[i].resize(numSamples);
         }
 
-        oc_channel_count = in.size();
+        oc_channel_count = out.size();
         oc_buffer_size = numSamples;
     }
 
@@ -458,15 +458,15 @@ void Mach1Transcode<PCM>::processConversionRebuffer(std::vector<std::vector<PCM>
     }
 
     // restructure output buffer
-    if (oc_channel_count != in.size() || oc_buffer_size != numSamples) {
-        output_conversion_buffer.resize(in.size());
-        output_ptrs.resize(in.size());
+    if (oc_channel_count != out.size() || oc_buffer_size != numSamples) {
+        output_conversion_buffer.resize(out.size());
+        output_ptrs.resize(out.size());
 
-        for (int i = 0; i < in.size(); i++) {
+        for (int i = 0; i < out.size(); i++) {
             output_conversion_buffer[i].resize(numSamples);
         }
 
-        oc_channel_count = in.size();
+        oc_channel_count = out.size();
         oc_buffer_size = numSamples;
     }
 

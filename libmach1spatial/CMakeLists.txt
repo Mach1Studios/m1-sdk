@@ -40,6 +40,15 @@ project(Mach1Spatial VERSION ${Mach1SpatialLibraries_VERSION})
 
 file(GLOB M1_COMMON_SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/api_common/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_common/src/*.cpp")
 
+set(M1_DSP_UTILITIES_SRC_FILES
+        deps/M1DSP/M1DSPDynamics.h
+        deps/M1DSP/M1DSPDynamics.cpp
+        deps/M1DSP/M1DSPFilters.h
+        deps/M1DSP/M1DSPFilters.cpp
+        deps/M1DSP/M1DSPUtilities.h
+        deps/M1DSP/M1DSPUtilities.cpp
+)
+
 #----------------
 # Mach1 Decode API
 
@@ -47,7 +56,7 @@ file(GLOB M1_DECODE_API_SRC_FILES ${M1_COMMON_SRC_FILES} "${CMAKE_CURRENT_SOURCE
 list(FILTER M1_DECODE_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude the Emscripten files
 list(FILTER M1_DECODE_API_SRC_FILES EXCLUDE REGEX ".*Mach1AudioTimeline.*") # Exclude the Mach1AudioTimeline API
 
-add_library(M1Decode STATIC ${M1_DECODE_API_SRC_FILES})
+add_library(M1Decode STATIC ${M1_DECODE_API_SRC_FILES} ${M1_DSP_UTILITIES_SRC_FILES})
 set_target_properties(M1Decode
 PROPERTIES
     VERSION ${DECODE_VERSION}
@@ -66,7 +75,7 @@ file(GLOB M1_ENCODE_API_SRC_FILES ${M1_COMMON_SRC_FILES} "${CMAKE_CURRENT_SOURCE
 list(FILTER M1_ENCODE_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude the Emscripten files
 list(FILTER M1_ENCODE_API_SRC_FILES EXCLUDE REGEX ".*Mach1AudioTimeline.*") # Exclude the Mach1AudioTimeline API
 
-add_library(M1Encode STATIC ${M1_ENCODE_API_SRC_FILES})
+add_library(M1Encode STATIC ${M1_ENCODE_API_SRC_FILES} ${M1_DSP_UTILITIES_SRC_FILES})
 set_target_properties(M1Encode
 PROPERTIES
     VERSION ${ENCODE_VERSION}
@@ -94,7 +103,7 @@ file(GLOB M1_DECODEPOSITIONAL_API_SRC_FILES ${M1_COMMON_SRC_FILES} "${CMAKE_CURR
 list(FILTER M1_DECODEPOSITIONAL_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude the Emscripten files
 list(FILTER M1_DECODEPOSITIONAL_API_SRC_FILES EXCLUDE REGEX ".*Mach1AudioTimeline.*") # Exclude the Mach1AudioTimeline API
 
-add_library(M1DecodePositional STATIC ${M1_DECODEPOSITIONAL_API_SRC_FILES} $<TARGET_OBJECTS:M1Decode>)
+add_library(M1DecodePositional STATIC ${M1_DECODEPOSITIONAL_API_SRC_FILES} ${M1_DSP_UTILITIES_SRC_FILES} $<TARGET_OBJECTS:M1Decode>)
 set_target_properties(M1DecodePositional
 PROPERTIES
     VERSION ${DECODEPOSITIONAL_VERSION}
@@ -111,10 +120,10 @@ list(FILTER M1_TRANSCODE_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude
 
 if(M1TRANSCODE_INLINE_ENCODE)
     message(STATUS "TRANSCODE API: Supports inline encoder")
-    add_library(M1Transcode STATIC ${M1_TRANSCODE_API_SRC_FILES} $<TARGET_OBJECTS:M1Encode>)
+    add_library(M1Transcode STATIC ${M1_TRANSCODE_API_SRC_FILES} ${M1_DSP_UTILITIES_SRC_FILES} $<TARGET_OBJECTS:M1Encode>)
 else()
     message(STATUS "TRANSCODE API: Does not support inline encoder")
-    add_library(M1Transcode STATIC ${M1_TRANSCODE_API_SRC_FILES})
+    add_library(M1Transcode STATIC ${M1_TRANSCODE_API_SRC_FILES}  ${M1_DSP_UTILITIES_SRC_FILES})
     target_include_directories(M1Transcode PUBLIC ${M1ENCODE_API_INCLUDE_PATHS})
 endif()
 set_target_properties(M1Transcode

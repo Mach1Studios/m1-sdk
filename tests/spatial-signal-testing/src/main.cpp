@@ -41,15 +41,16 @@ int main(int argc, char *argv[]) {
     chain.AddLink(&peak_tracker_link[3]);
     chain.AddLink(&gain_link[2]); // Output Gain
 
-    #define M1_FORMAT_CHANNEL_COUNT 8
-    float diverge = 0.3;
-    float azimuth = 45.0;
+    #define M1_FORMAT_CHANNEL_COUNT 4
+    float diverge = 1;
+    float azimuth = 45;
+    float elevation = 0;
     //float enc_mult = (diverge > 0.0) ? M1_FORMAT_CHANNEL_COUNT * diverge : 1.0;
-    float enc_mult = M1_FORMAT_CHANNEL_COUNT;
-    float dec_mult = 1.0;
+    float enc_mult = 1.0;
+    float dec_mult = M1_FORMAT_CHANNEL_COUNT/2;
     encode_link.SetOutputGain(enc_mult, false);
     gain_link[0].SetGain(dec_mult); // pre-Decode
-    gain_link[1].SetGain(2.0); // post-Decode for stereo
+    gain_link[1].SetGain(1); // post-Decode for stereo
     
     chain.SetInputChannelCount(1);
     chain.SetOutputChannelCount(2);
@@ -65,7 +66,7 @@ int main(int argc, char *argv[]) {
     peak_tracker_link[2].SetName("Transcoded");
     peak_tracker_link[2].SetOutputChannelCount(M1_FORMAT_CHANNEL_COUNT);
     peak_tracker_link[3].SetName("Decoded");
-    peak_tracker_link[3].SetOutputChannelCount(M1_FORMAT_CHANNEL_COUNT); // limit to number of output channels
+    peak_tracker_link[3].SetOutputChannelCount(2); // limit to number of output channels, otherwise the peak sum accounts for channels not outputting
 
     // We copy the generators to each channel to make it easy for Mach1Encode to apply gain coeffs
     sine_wave_link.SetFrequency(1000);
@@ -97,10 +98,10 @@ int main(int argc, char *argv[]) {
 
     encode_link.SetInputMode(Mach1EncodeInputMode::Mono);
     encode_link.SetAzimuthDegrees(azimuth);
-    encode_link.SetElevation(0);
+    encode_link.SetElevation(elevation);
     encode_link.SetDiverge(diverge);
     encode_link.SetIsotropicMode(false);
-    encode_link.SetEqualPowerMode(false);
+    encode_link.SetEqualPowerMode(true);
     encode_link.SetOrbitRotation(0.0);
     encode_link.SetStereoSpread(0.5);
     encode_link.SetAutoOrbit(true);

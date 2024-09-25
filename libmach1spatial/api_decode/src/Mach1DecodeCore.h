@@ -48,10 +48,10 @@ class Mach1DecodeCore {
 
   private:
     typedef std::vector<float> (Mach1DecodeCore::*processSampleForMultichannel)(float Yaw, float Pitch, float Roll);
-    typedef void (Mach1DecodeCore::*processSampleForStereoPairs)(float Yaw, float Pitch, float Roll, float *result);
+    typedef void (Mach1DecodeCore::*processSampleForMultichannelPtr)(float Yaw, float Pitch, float Roll, float *result);
 
     std::vector<float> processSample(processSampleForMultichannel _processSampleForMultichannel, float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-    void processSample(processSampleForStereoPairs _processSampleForStereoPairs, float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
+    void processSample(processSampleForMultichannelPtr _processSampleForMultichannelPtr, float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
 
     milliseconds ms;
 

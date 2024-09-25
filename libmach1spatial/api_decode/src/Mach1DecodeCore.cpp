@@ -1005,7 +1005,7 @@ void Mach1DecodeCore::decodeCoeffsUsingTranscodeMatrix(void *M1obj, float *matri
     }
 }
 
-void Mach1DecodeCore::processSample(processSampleForMultichannel _processSampleForMultichannel, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
+void Mach1DecodeCore::processSample(processSampleForMultichannelPtr _processSampleForMultichannelPtr, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
     convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
     
     targetYaw = Yaw;
@@ -1018,8 +1018,8 @@ void Mach1DecodeCore::processSample(processSampleForMultichannel _processSampleF
 
         std::vector<float> gainsL(getFormatCoeffCount());
         std::vector<float> gainsR(getFormatCoeffCount());
-        (this->*_processSampleForMultichannel)(previousYaw, previousPitch, previousRoll, gainsL.data());
-        (this->*_processSampleForMultichannel)(currentYaw, currentPitch, currentRoll, gainsR.data());
+        (this->*_processSampleForMultichannelPtr)(previousYaw, previousPitch, previousRoll, gainsL.data());
+        (this->*_processSampleForMultichannelPtr)(currentYaw, currentPitch, currentRoll, gainsR.data());
         float phase = (float)sampleIndex / (float)bufferSize;
 
         std::vector<float> gains_lerp(getFormatCoeffCount());
@@ -1057,7 +1057,7 @@ void Mach1DecodeCore::processSample(processSampleForMultichannel _processSampleF
 
     // printf("%f, %f, %f\r\n", Yaw, Pitch, Roll);
 
-    (this->*_processSampleForMultichannel)(Yaw, Pitch, Roll, result);
+    (this->*_processSampleForMultichannelPtr)(Yaw, Pitch, Roll, result);
 }
 
 std::vector<float> Mach1DecodeCore::processSample(processSampleForMultichannel _processSampleForMultichannel, float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {

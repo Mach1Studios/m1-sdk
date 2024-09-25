@@ -54,35 +54,27 @@ class Mach1DecodeCore {
     std::vector<float> processSample(processSampleForMultichannel _processSampleForMultichannel, float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
     void processSample(processSampleForMultichannelPtr _processSampleForMultichannelPtr, float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
 
-    milliseconds ms;
-
     // Math utilities
     static float alignAngle(float a, float min = -180, float max = 180);
     static float lerp(float x1, float x2, float t);
     float radialDistance(float angle1, float angle2);
     float targetDirectionMultiplier(float angleCurrent, float angleTarget);
-
+    inline float _dot(const Mach1Point3D &p1, const Mach1Point3D &p2) const;
+    bool linePlaneIntersection(Mach1Point3D &contact, Mach1Point3D ray, Mach1Point3D rayOrigin, Mach1Point3D normal, Mach1Point3D coord);
+    
     // Filter features
     // Envelope follower feature is defined here, in updateAngles()
-
     void updateAngles();
-
     float currentYaw, currentPitch, currentRoll;
     float targetYaw, targetPitch, targetRoll;
     float previousYaw, previousPitch, previousRoll;
 
+    milliseconds ms;
     long timeLastUpdate;
     long timeLastCalculation;
 
     Mach1PlatformType platformType;
-
-    // Selected algo type
-
     Mach1DecodeMode decodeMode;
-
-    inline float _dot(const Mach1Point3D &p1, const Mach1Point3D &p2) const;
-
-    bool linePlaneIntersection(Mach1Point3D &contact, Mach1Point3D ray, Mach1Point3D rayOrigin, Mach1Point3D normal, Mach1Point3D coord);
 
     void spatialMultichannelAlgo(Mach1Point3D *channelPoints, int numChannelPoints, float Yaw, float Pitch, float Roll, float *result);
     

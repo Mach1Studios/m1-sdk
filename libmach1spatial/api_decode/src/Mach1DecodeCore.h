@@ -73,8 +73,6 @@ class Mach1DecodeCore {
     long timeLastUpdate;
     long timeLastCalculation;
 
-    bool smoothAngles;
-
     Mach1PlatformType platformType;
 
     // Selected algo type

@@ -184,6 +184,31 @@ bool Mach1DecodeCore::linePlaneIntersection(Mach1Point3D &contact, Mach1Point3D 
 }
 
 void Mach1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int numChannelPoints, float Yaw, float Pitch, float Roll, float *result) {
+    
+    if (filterSpeed <= 1.0f && filterSpeed > 0.0f) { // filter and lerp the input angles for smoothing
+        targetYaw = Yaw;
+        targetPitch = Pitch;
+        targetRoll = Roll;
+
+        updateAngles();
+
+        Yaw = currentYaw;
+        Pitch = currentPitch;
+        Roll = currentRoll;
+    } else {
+        targetYaw = Yaw;
+        targetPitch = Pitch;
+        targetRoll = Roll;
+
+        currentYaw = Yaw;
+        currentPitch = Pitch;
+        currentRoll = Roll;
+
+        previousYaw = currentYaw;
+        previousPitch = currentPitch;
+        previousRoll = currentRoll;
+    }
+    
     Mach1Point3D simulationAngles;
     simulationAngles.x = Yaw;
     simulationAngles.y = Pitch;
@@ -252,7 +277,7 @@ void Mach1DecodeCore::spatialAlgo_4(float Yaw, float Pitch, float Roll, float *r
     const int numChannelPoints = 4;
     convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
 
-    if (smoothAngles) {
+    if (filterSpeed <= 1.0f && filterSpeed > 0.0f) { // filter and lerp the input angles for smoothing
         targetYaw = Yaw;
         targetPitch = Pitch;
         targetRoll = Roll;
@@ -300,7 +325,7 @@ std::vector<float> Mach1DecodeCore::spatialAlgo_4(float Yaw, float Pitch, float 
     const int numChannelPoints = 4;
     convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
 
-    if (smoothAngles) {
+    if (filterSpeed <= 1.0f && filterSpeed > 0.0f) { // filter and lerp the input angles for smoothing
         targetYaw = Yaw;
         targetPitch = Pitch;
         targetRoll = Roll;
@@ -710,8 +735,6 @@ Mach1DecodeCore::Mach1DecodeCore() {
 
     ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
-    smoothAngles = true;
-
     strLog.resize(0);
 }
 
@@ -982,122 +1005,105 @@ void Mach1DecodeCore::decodeCoeffsUsingTranscodeMatrix(void *M1obj, float *matri
     }
 }
 
-void Mach1DecodeCore::processSample(processSampleForStereoPairs _processSampleForStereoPairs, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
+void Mach1DecodeCore::processSample(processSampleForMultichannel _processSampleForMultichannel, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
     convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
-    if (smoothAngles) {
-        targetYaw = Yaw;
-        targetPitch = Pitch;
-        targetRoll = Roll;
+    
+    targetYaw = Yaw;
+    targetPitch = Pitch;
+    targetRoll = Roll;
 
-        if (bufferSize > 0) {
-            // we're in per sample mode
-            // returning values from right here!
+    if (bufferSize > 0) {
+        // we're in per sample mode
+        // returning values from right here!
 
-            std::vector<float> gainsL(getFormatCoeffCount());
-            std::vector<float> gainsR(getFormatCoeffCount());
-            (this->*_processSampleForStereoPairs)(previousYaw, previousPitch, previousRoll, gainsL.data());
-            (this->*_processSampleForStereoPairs)(currentYaw, currentPitch, currentRoll, gainsR.data());
-            float phase = (float)sampleIndex / (float)bufferSize;
+        std::vector<float> gainsL(getFormatCoeffCount());
+        std::vector<float> gainsR(getFormatCoeffCount());
+        (this->*_processSampleForMultichannel)(previousYaw, previousPitch, previousRoll, gainsL.data());
+        (this->*_processSampleForMultichannel)(currentYaw, currentPitch, currentRoll, gainsR.data());
+        float phase = (float)sampleIndex / (float)bufferSize;
 
-            std::vector<float> gains_lerp(getFormatCoeffCount());
-            for (int i = 0; i < 16; i++) { // designed for (4 * stereo_inputs * stereo_output) of 16ch
-                gains_lerp[i] = gainsL[i] * (1 - phase) + gainsR[i] * phase;
-                result[i] = gains_lerp[i];
-            }
-            return;
-        } else {
-            // Filtering per-buffer
-            if (filterSpeed >= 1.0) {
-                currentYaw = Yaw;
-                currentPitch = Pitch;
-                currentRoll = Roll;
-
-                previousYaw = currentYaw;
-                previousPitch = currentPitch;
-                previousRoll = currentRoll;
-
-            } else {
-                Yaw = currentYaw;
-                Pitch = currentPitch;
-                Roll = currentRoll;
-
-                previousYaw = currentYaw;
-                previousPitch = currentPitch;
-                previousRoll = currentRoll;
-            }
+        std::vector<float> gains_lerp(getFormatCoeffCount());
+        for (int i = 0; i < 16; i++) { // designed for (4 * stereo_inputs * stereo_output) of 16ch
+            gains_lerp[i] = gainsL[i] * (1 - phase) + gainsR[i] * phase;
+            result[i] = gains_lerp[i];
         }
+        return;
     } else {
-        // for test purpose only!
-        targetYaw = Yaw;
-        targetPitch = Pitch;
-        targetRoll = Roll;
+        // Filtering per-buffer
+        if (filterSpeed <= 1.0f && filterSpeed > 0.0f) { // filter and lerp the input angles for smoothing
+            targetYaw = Yaw;
+            targetPitch = Pitch;
+            targetRoll = Roll;
 
-        currentYaw = Yaw;
-        currentPitch = Pitch;
-        currentRoll = Roll;
+            updateAngles();
 
-        previousYaw = currentYaw;
-        previousPitch = currentPitch;
-        previousRoll = currentRoll;
+            Yaw = currentYaw;
+            Pitch = currentPitch;
+            Roll = currentRoll;
+        } else {
+            targetYaw = Yaw;
+            targetPitch = Pitch;
+            targetRoll = Roll;
+
+            currentYaw = Yaw;
+            currentPitch = Pitch;
+            currentRoll = Roll;
+
+            previousYaw = currentYaw;
+            previousPitch = currentPitch;
+            previousRoll = currentRoll;
+        }
     }
 
     // printf("%f, %f, %f\r\n", Yaw, Pitch, Roll);
 
-    (this->*_processSampleForStereoPairs)(Yaw, Pitch, Roll, result);
+    (this->*_processSampleForMultichannel)(Yaw, Pitch, Roll, result);
 }
 
 std::vector<float> Mach1DecodeCore::processSample(processSampleForMultichannel _processSampleForMultichannel, float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {
     convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
-    if (smoothAngles) {
-        targetYaw = Yaw;
-        targetPitch = Pitch;
-        targetRoll = Roll;
+    
+    targetYaw = Yaw;
+    targetPitch = Pitch;
+    targetRoll = Roll;
 
-        if (bufferSize > 0) {
-            // we're in per sample mode
-            // returning values from right here!
-            std::vector<float> gainsL = (this->*_processSampleForMultichannel)(previousYaw, previousPitch, previousRoll);
-            std::vector<float> gainsR = (this->*_processSampleForMultichannel)(currentYaw, currentPitch, currentRoll);
-            float phase = (float)sampleIndex / (float)bufferSize;
-            std::vector<float> gains_lerp;
-            gains_lerp.resize(gainsL.size());
-            for (int i = 0; i < gainsR.size(); i++) {
-                gains_lerp[i] = gainsL[i] * (1 - phase) + gainsR[i] * phase;
-            }
-            return gains_lerp;
-        } else {
-            // Filtering per-buffer
-            if (filterSpeed >= 1.0) {
-                currentYaw = Yaw;
-                currentPitch = Pitch;
-                currentRoll = Roll;
-
-                previousYaw = currentYaw;
-                previousPitch = currentPitch;
-                previousRoll = currentRoll;
-
-            } else {
-                Yaw = currentYaw;
-                Pitch = currentPitch;
-                Roll = currentRoll;
-
-                previousYaw = currentYaw;
-                previousPitch = currentPitch;
-                previousRoll = currentRoll;
-            }
+    if (bufferSize > 0) {
+        // we're in per sample mode
+        // returning values from right here!
+        std::vector<float> gainsL = (this->*_processSampleForMultichannel)(previousYaw, previousPitch, previousRoll);
+        std::vector<float> gainsR = (this->*_processSampleForMultichannel)(currentYaw, currentPitch, currentRoll);
+        float phase = (float)sampleIndex / (float)bufferSize;
+        std::vector<float> gains_lerp;
+        gains_lerp.resize(gainsL.size());
+        for (int i = 0; i < gainsR.size(); i++) {
+            gains_lerp[i] = gainsL[i] * (1 - phase) + gainsR[i] * phase;
         }
+        return gains_lerp;
     } else {
-        targetYaw = Yaw;
-        targetPitch = Pitch;
-        targetRoll = Roll;
+        // Filtering per-buffer
+        if (filterSpeed <= 1.0f && filterSpeed > 0.0f) { // filter and lerp the input angles for smoothing
+            targetYaw = Yaw;
+            targetPitch = Pitch;
+            targetRoll = Roll;
 
-        currentYaw = Yaw;
-        currentPitch = Pitch;
-        currentRoll = Roll;
+            updateAngles();
 
-        previousYaw = currentYaw;
-        previousPitch = currentPitch;
-        previousRoll = currentRoll;
+            Yaw = currentYaw;
+            Pitch = currentPitch;
+            Roll = currentRoll;
+        } else {
+            targetYaw = Yaw;
+            targetPitch = Pitch;
+            targetRoll = Roll;
+
+            currentYaw = Yaw;
+            currentPitch = Pitch;
+            currentRoll = Roll;
+
+            previousYaw = currentYaw;
+            previousPitch = currentPitch;
+            previousRoll = currentRoll;
+        }
     }
     return (this->*_processSampleForMultichannel)(Yaw, Pitch, Roll);
 }

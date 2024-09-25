@@ -9,12 +9,12 @@ updates and should not be integrated in sections but remain as an update-able fa
 
 /*
 Internal Orientation Implementation:
-  -  Yaw[0]+ = rotate right 0-1 [Range: 0->360 | -180->180]
-  -  Yaw[0]- = rotate left 0-1 [Range: 0->360 | -180->180]
-  -  Pitch[1]+ = rotate up 0-1 [Range: -90->90]
-  -  Pitch[1]- = rotate down 0-1 [Range: -90->90]
-  -  Roll[2]+ = rotate up 0-1 [Range: -90->90]
-  -  Roll[2]- = rotate down 0-1 [Range: -90->90]
+    -  Yaw   [0]+ = rotate right 0-1 [Range: 0->360 | -180->180]
+    -  Yaw   [0]- = rotate left 0-1  [Range: 0->360 | -180->180]
+    -  Pitch [1]+ = rotate up 0-1    [Range: -90->90]
+    -  Pitch [1]- = rotate down 0-1  [Range: -90->90]
+    -  Roll  [2]+ = rotate up 0-1    [Range: -90->90]
+    -  Roll  [2]- = rotate down 0-1  [Range: -90->90]
 
 Mach1DecodeCore normalizes all input ranges to an unsigned "0 to 1" range for Yaw, Pitch and Roll.
  */

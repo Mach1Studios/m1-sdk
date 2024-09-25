@@ -247,7 +247,107 @@ void Mach1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int n
 
  */
 
-void Mach1DecodeCore::spatialAlgoSample_8(float Yaw, float Pitch, float Roll, float *result) {
+// TODO: Use `spatialMultichannelAlgo` instead
+void Mach1DecodeCore::spatialAlgo_4(float Yaw, float Pitch, float Roll, float *result) {
+    const int numChannelPoints = 4;
+    convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
+
+    if (smoothAngles) {
+        targetYaw = Yaw;
+        targetPitch = Pitch;
+        targetRoll = Roll;
+
+        updateAngles();
+
+        Yaw = currentYaw;
+        Pitch = currentPitch;
+        Roll = currentRoll;
+    } else {
+        targetYaw = Yaw;
+        targetPitch = Pitch;
+        targetRoll = Roll;
+
+        currentYaw = Yaw;
+        currentPitch = Pitch;
+        currentRoll = Roll;
+
+        previousYaw = currentYaw;
+        previousPitch = currentPitch;
+        previousRoll = currentRoll;
+    }
+
+    // Orientation input safety clamps/alignment
+    Yaw = alignAngle(Yaw, 0, 360);
+
+    float coefficients[numChannelPoints];
+    coefficients[0] = 1.f - std::min(1.f, std::min(360.f - Yaw, Yaw) / 90.f);
+    coefficients[1] = 1.f - std::min(1.f, std::abs(90.f - Yaw) / 90.f);
+    coefficients[2] = 1.f - std::min(1.f, std::abs(180.f - Yaw) / 90.f);
+    coefficients[3] = 1.f - std::min(1.f, std::abs(270.f - Yaw) / 90.f);
+
+    // result.resize(numChannelPoints * 2);
+    result[0] = coefficients[0]; // 1 left
+    result[1] = coefficients[3]; //   right
+    result[2] = coefficients[1]; // 2 left
+    result[3] = coefficients[0]; //   right
+    result[4] = coefficients[3]; // 3 left
+    result[5] = coefficients[2]; //   right
+    result[6] = coefficients[2]; // 4 left
+    result[7] = coefficients[1]; //   right
+}
+
+// TODO: Use `spatialMultichannelAlgo` instead
+std::vector<float> Mach1DecodeCore::spatialAlgo_4(float Yaw, float Pitch, float Roll) {
+    const int numChannelPoints = 4;
+    convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
+
+    if (smoothAngles) {
+        targetYaw = Yaw;
+        targetPitch = Pitch;
+        targetRoll = Roll;
+
+        updateAngles();
+
+        Yaw = currentYaw;
+        Pitch = currentPitch;
+        Roll = currentRoll;
+    } else {
+        targetYaw = Yaw;
+        targetPitch = Pitch;
+        targetRoll = Roll;
+
+        currentYaw = Yaw;
+        currentPitch = Pitch;
+        currentRoll = Roll;
+
+        previousYaw = currentYaw;
+        previousPitch = currentPitch;
+        previousRoll = currentRoll;
+    }
+
+    // Orientation input safety clamps/alignment
+    Yaw = alignAngle(Yaw, 0, 360);
+
+    float coefficients[numChannelPoints];
+    coefficients[0] = 1.f - std::min(1.f, std::min(360.f - Yaw, Yaw) / 90.f);
+    coefficients[1] = 1.f - std::min(1.f, std::abs(90.f - Yaw) / 90.f);
+    coefficients[2] = 1.f - std::min(1.f, std::abs(180.f - Yaw) / 90.f);
+    coefficients[3] = 1.f - std::min(1.f, std::abs(270.f - Yaw) / 90.f);
+
+    std::vector<float> result;
+    result.resize(numChannelPoints * 2);
+    result[0] = coefficients[0]; // 1 left
+    result[1] = coefficients[3]; //   right
+    result[2] = coefficients[1]; // 2 left
+    result[3] = coefficients[0]; //   right
+    result[4] = coefficients[3]; // 3 left
+    result[5] = coefficients[2]; //   right
+    result[6] = coefficients[2]; // 4 left
+    result[7] = coefficients[1]; //   right
+    return result;
+}
+
+void Mach1DecodeCore::spatialAlgo_8(float Yaw, float Pitch, float Roll, float *result) {
     const int numChannelPoints = 8;
 
     Mach1Point3D channelPoints[numChannelPoints] =
@@ -266,7 +366,7 @@ void Mach1DecodeCore::spatialAlgoSample_8(float Yaw, float Pitch, float Roll, fl
     spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result);
 }
 
-std::vector<float> Mach1DecodeCore::spatialAlgoSample_8(float Yaw, float Pitch, float Roll) {
+std::vector<float> Mach1DecodeCore::spatialAlgo_8(float Yaw, float Pitch, float Roll) {
     const int numChannelPoints = 8;
 
     std::vector<float> result;
@@ -290,7 +390,7 @@ std::vector<float> Mach1DecodeCore::spatialAlgoSample_8(float Yaw, float Pitch, 
     return result;
 }
 
-void Mach1DecodeCore::spatialAlgoSample_12(float Yaw, float Pitch, float Roll, float *result) {
+void Mach1DecodeCore::spatialAlgo_12(float Yaw, float Pitch, float Roll, float *result) {
     const int numChannelPoints = 8 + 4;
 
     float diag = sqrtf(2);
@@ -316,7 +416,7 @@ void Mach1DecodeCore::spatialAlgoSample_12(float Yaw, float Pitch, float Roll, f
     spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result);
 }
 
-std::vector<float> Mach1DecodeCore::spatialAlgoSample_12(float Yaw, float Pitch, float Roll) {
+std::vector<float> Mach1DecodeCore::spatialAlgo_12(float Yaw, float Pitch, float Roll) {
     const int numChannelPoints = 8 + 4;
 
     float diag = sqrtf(2);
@@ -347,7 +447,7 @@ std::vector<float> Mach1DecodeCore::spatialAlgoSample_12(float Yaw, float Pitch,
     return result;
 }
 
-void Mach1DecodeCore::spatialAlgoSample_14(float Yaw, float Pitch, float Roll, float *result) {
+void Mach1DecodeCore::spatialAlgo_14(float Yaw, float Pitch, float Roll, float *result) {
     const int numChannelPoints = 8 + 4 + 2;
 
     float diag = sqrtf(2);
@@ -376,7 +476,7 @@ void Mach1DecodeCore::spatialAlgoSample_14(float Yaw, float Pitch, float Roll, f
     spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result);
 }
 
-std::vector<float> Mach1DecodeCore::spatialAlgoSample_14(float Yaw, float Pitch, float Roll) {
+std::vector<float> Mach1DecodeCore::spatialAlgo_14(float Yaw, float Pitch, float Roll) {
     const int numChannelPoints = 8 + 4 + 2;
 
     float diag = sqrtf(2);
@@ -725,19 +825,19 @@ std::vector<float> Mach1DecodeCore::decodeCoeffs(int bufferSize, int sampleIndex
 
     switch (decodeMode) {
     case M1DecodeSpatial_4:
-        res = spatialAlgo_4(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+        res = processSample(&Mach1DecodeCore::spatialAlgo_4, Yaw, Pitch, Roll, bufferSize, sampleIndex);
         break;
 
     case M1DecodeSpatial_8:
-        res = spatialAlgo_8(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+        res = processSample(&Mach1DecodeCore::spatialAlgo_8, Yaw, Pitch, Roll, bufferSize, sampleIndex);
         break;
 
     case M1DecodeSpatial_12:
-        res = spatialAlgo_12(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+        res = processSample(&Mach1DecodeCore::spatialAlgo_12, Yaw, Pitch, Roll, bufferSize, sampleIndex);
         break;
 
     case M1DecodeSpatial_14:
-        res = spatialAlgo_14(Yaw, Pitch, Roll, bufferSize, sampleIndex);
+        res = processSample(&Mach1DecodeCore::spatialAlgo_14, Yaw, Pitch, Roll, bufferSize, sampleIndex);
         break;
 
     default:
@@ -805,19 +905,19 @@ void Mach1DecodeCore::decodeCoeffs(float *result, int bufferSize, int sampleInde
 
     switch (decodeMode) {
     case M1DecodeSpatial_4:
-        spatialAlgo_4(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+        processSample(&Mach1DecodeCore::spatialAlgo_4, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
         break;
 
     case M1DecodeSpatial_8:
-        spatialAlgo_8(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+        processSample(&Mach1DecodeCore::spatialAlgo_8, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
         break;
 
     case M1DecodeSpatial_12:
-        spatialAlgo_12(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+        processSample(&Mach1DecodeCore::spatialAlgo_12, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
         break;
 
     case M1DecodeSpatial_14:
-        spatialAlgo_14(Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+        processSample(&Mach1DecodeCore::spatialAlgo_14, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
         break;
 
     default:
@@ -1002,172 +1102,3 @@ std::vector<float> Mach1DecodeCore::processSample(processSampleForMultichannel _
     }
     return (this->*_processSampleForMultichannel)(Yaw, Pitch, Roll);
 }
-
-//
-//  Four channel audio format
-//
-//  Order of input angles:
-//  Y = Yaw in degrees
-//  P = Pitch in degrees
-//  R = Roll in degrees
-//
-
-std::vector<float> Mach1DecodeCore::spatialAlgo_4(float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {
-
-    const int numChannelPoints = 4;
-    convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
-
-    if (smoothAngles) {
-        targetYaw = Yaw;
-        targetPitch = Pitch;
-        targetRoll = Roll;
-
-        updateAngles();
-
-        Yaw = currentYaw;
-        Pitch = currentPitch;
-        Roll = currentRoll;
-    } else {
-        targetYaw = Yaw;
-        targetPitch = Pitch;
-        targetRoll = Roll;
-
-        currentYaw = Yaw;
-        currentPitch = Pitch;
-        currentRoll = Roll;
-
-        previousYaw = currentYaw;
-        previousPitch = currentPitch;
-        previousRoll = currentRoll;
-    }
-
-    // Orientation input safety clamps/alignment
-    Yaw = alignAngle(Yaw, 0, 360);
-
-    float coefficients[numChannelPoints];
-    coefficients[0] = 1.f - std::min(1.f, std::min(360.f - Yaw, Yaw) / 90.f);
-    coefficients[1] = 1.f - std::min(1.f, std::abs(90.f - Yaw) / 90.f);
-    coefficients[2] = 1.f - std::min(1.f, std::abs(180.f - Yaw) / 90.f);
-    coefficients[3] = 1.f - std::min(1.f, std::abs(270.f - Yaw) / 90.f);
-
-    std::vector<float> result;
-    result.resize(numChannelPoints * 2);
-    result[0] = coefficients[0]; // 1 left
-    result[1] = coefficients[3]; //   right
-    result[2] = coefficients[1]; // 2 left
-    result[3] = coefficients[0]; //   right
-    result[4] = coefficients[3]; // 3 left
-    result[5] = coefficients[2]; //   right
-    result[6] = coefficients[2]; // 4 left
-    result[7] = coefficients[1]; //   right
-    return result;
-}
-
-void Mach1DecodeCore::spatialAlgo_4(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
-
-    const int numChannelPoints = 4;
-    convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
-
-    if (smoothAngles) {
-        targetYaw = Yaw;
-        targetPitch = Pitch;
-        targetRoll = Roll;
-
-        updateAngles();
-
-        Yaw = currentYaw;
-        Pitch = currentPitch;
-        Roll = currentRoll;
-    } else {
-        targetYaw = Yaw;
-        targetPitch = Pitch;
-        targetRoll = Roll;
-
-        currentYaw = Yaw;
-        currentPitch = Pitch;
-        currentRoll = Roll;
-
-        previousYaw = currentYaw;
-        previousPitch = currentPitch;
-        previousRoll = currentRoll;
-    }
-
-    // Orientation input safety clamps/alignment
-    Yaw = alignAngle(Yaw, 0, 360);
-
-    float coefficients[numChannelPoints];
-    coefficients[0] = 1.f - std::min(1.f, std::min(360.f - Yaw, Yaw) / 90.f);
-    coefficients[1] = 1.f - std::min(1.f, std::abs(90.f - Yaw) / 90.f);
-    coefficients[2] = 1.f - std::min(1.f, std::abs(180.f - Yaw) / 90.f);
-    coefficients[3] = 1.f - std::min(1.f, std::abs(270.f - Yaw) / 90.f);
-
-    // result.resize(numChannelPoints * 2);
-    result[0] = coefficients[0]; // 1 left
-    result[1] = coefficients[3]; //   right
-    result[2] = coefficients[1]; // 2 left
-    result[3] = coefficients[0]; //   right
-    result[4] = coefficients[3]; // 3 left
-    result[5] = coefficients[2]; //   right
-    result[6] = coefficients[2]; // 4 left
-    result[7] = coefficients[1]; //   right
-}
-
-// ------------------------------------------------------------------
-
-//
-//  Eight channel audio layout (isotropic version).
-//
-//  Order of input angles:
-//  Y = Yaw in degrees
-//  P = Pitch in degrees
-//  R = Roll in degrees
-//
-
-std::vector<float> Mach1DecodeCore::spatialAlgo_8(float Yaw, float Pitch, float Roll,
-                                                  int bufferSize, int sampleIndex) {
-
-    return processSample(&Mach1DecodeCore::spatialAlgoSample_8, Yaw, Pitch, Roll, bufferSize, sampleIndex);
-}
-
-void Mach1DecodeCore::spatialAlgo_8(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
-    processSample(&Mach1DecodeCore::spatialAlgoSample_8, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-}
-
-// ------------------------------------------------------------------
-
-//
-//  Additional channel audio layouts (isotropic version).
-//
-//  Order of input angles:
-//  Y = Yaw in degrees
-//  P = Pitch in degrees
-//  R = Roll in degrees
-//
-
-std::vector<float> Mach1DecodeCore::spatialAlgo_12(float Yaw, float Pitch, float Roll,
-                                                   int bufferSize, int sampleIndex) {
-
-    return processSample(&Mach1DecodeCore::spatialAlgoSample_12, Yaw, Pitch, Roll, bufferSize, sampleIndex);
-}
-
-void Mach1DecodeCore::spatialAlgo_12(float Yaw, float Pitch, float Roll, float *result,
-                                     int bufferSize, int sampleIndex) {
-
-    return processSample(&Mach1DecodeCore::spatialAlgoSample_12, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-}
-
-// ------------------------------------------------------------------
-
-std::vector<float> Mach1DecodeCore::spatialAlgo_14(float Yaw, float Pitch, float Roll,
-                                                   int bufferSize, int sampleIndex) {
-
-    return processSample(&Mach1DecodeCore::spatialAlgoSample_14, Yaw, Pitch, Roll, bufferSize, sampleIndex);
-}
-
-void Mach1DecodeCore::spatialAlgo_14(float Yaw, float Pitch, float Roll, float *result,
-                                     int bufferSize, int sampleIndex) {
-
-    return processSample(&Mach1DecodeCore::spatialAlgoSample_14, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-}
-
-// ------------------------------------------------------------------

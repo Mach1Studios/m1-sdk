@@ -86,15 +86,18 @@ class Mach1DecodeCore {
     bool linePlaneIntersection(Mach1Point3D &contact, Mach1Point3D ray, Mach1Point3D rayOrigin, Mach1Point3D normal, Mach1Point3D coord);
 
     void spatialMultichannelAlgo(Mach1Point3D *channelPoints, int numChannelPoints, float Yaw, float Pitch, float Roll, float *result);
+    
+    void spatialAlgo_4(float Yaw, float Pitch, float Roll, float *result);
+    std::vector<float> spatialAlgo_4(float Yaw, float Pitch, float Roll);
 
-    void spatialAlgoSample_8(float Yaw, float Pitch, float Roll, float *result);
-    std::vector<float> spatialAlgoSample_8(float Yaw, float Pitch, float Roll);
+    void spatialAlgo_8(float Yaw, float Pitch, float Roll, float *result);
+    std::vector<float> spatialAlgo_8(float Yaw, float Pitch, float Roll);
 
-    void spatialAlgoSample_12(float Yaw, float Pitch, float Roll, float *result);
-    std::vector<float> spatialAlgoSample_12(float Yaw, float Pitch, float Roll);
+    void spatialAlgo_12(float Yaw, float Pitch, float Roll, float *result);
+    std::vector<float> spatialAlgo_12(float Yaw, float Pitch, float Roll);
 
-    void spatialAlgoSample_14(float Yaw, float Pitch, float Roll, float *result);
-    std::vector<float> spatialAlgoSample_14(float Yaw, float Pitch, float Roll);
+    void spatialAlgo_14(float Yaw, float Pitch, float Roll, float *result);
+    std::vector<float> spatialAlgo_14(float Yaw, float Pitch, float Roll);
 
     // log
     std::vector<std::string> strLog;
@@ -155,56 +158,4 @@ class Mach1DecodeCore {
     void decodePannedCoeffs(float *result, int bufferSize = 0, int sampleIndex = 0, bool applyPanLaw = true);
     void decodeCoeffsUsingTranscodeMatrix(void *M1obj, float *matrix, int channels, float *result, int bufferSize = 0, int sampleIndex = 0);
 
-    // The following functions are deprecated as of now
-
-    //--------------------------------------------------
-
-    //
-    //  Four channel audio layout (synonymous with Quad)
-    //
-    //  Order of input angles:
-    //  Y = Yaw in degrees
-    //  P = Pitch in degrees
-    //  R = Roll in degrees
-    //
-
-    std::vector<float> spatialAlgo_4(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-
-    void spatialAlgo_4(float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
-
-    // ------------------------------------------------------------------
-
-    //
-    //  Eight channel audio layout (isotropic version).
-    //
-    //  Order of input angles:
-    //  Y = Yaw in degrees
-    //  P = Pitch in degrees
-    //  R = Roll in degrees
-    //
-
-    std::vector<float> spatialAlgo_8(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-
-    void spatialAlgo_8(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
-
-    // ------------------------------------------------------------------
-
-    //
-    //  Additional channel audio layouts (isotropic version).
-    //
-    //  Order of input angles:
-    //  Y = Yaw in degrees
-    //  P = Pitch in degrees
-    //  R = Roll in degrees
-    //
-
-    std::vector<float> spatialAlgo_12(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-    void spatialAlgo_12(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
-
-    // ------------------------------------------------------------------
-
-    std::vector<float> spatialAlgo_14(float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
-    void spatialAlgo_14(float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex);
-
-    // ------------------------------------------------------------------
 };

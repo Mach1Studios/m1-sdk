@@ -189,21 +189,21 @@ void Mach1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int n
     simulationAngles.y = Pitch;
     simulationAngles.z = Roll;
 
-    Mach1Point3D faceVector1 = {sin(mDegToRad(simulationAngles[0])), cos(mDegToRad(simulationAngles[0])), 0};
-    faceVector1.normalize();
-    Mach1Point3D faceVector11 = {sin(mDegToRad(simulationAngles[0] - 90)), cos(mDegToRad(simulationAngles[0] - 90)), 0};
-    faceVector11.normalize();
+    Mach1Point3D fVec_1a = {sin(mDegToRad(simulationAngles[0])), cos(mDegToRad(simulationAngles[0])), 0};
+    fVec_1a.normalize();
+    Mach1Point3D fVec_1b = {sin(mDegToRad(simulationAngles[0] - 90)), cos(mDegToRad(simulationAngles[0] - 90)), 0};
+    fVec_1b.normalize();
 
-    Mach1Point3D faceVector2 = faceVector1.getRotated(-simulationAngles[1], faceVector11);
-    Mach1Point3D faceVector21 = faceVector1.getRotated(-simulationAngles[1] - 90, faceVector11);
+    Mach1Point3D fVec_2a = fVec_1a.getRotated(-simulationAngles[1], fVec_1b);
+    Mach1Point3D fVec_2b = fVec_1a.getRotated(-simulationAngles[1] - 90, fVec_1b);
 
-    Mach1Point3D faceVectorLeft = faceVector21.getRotated(simulationAngles[2] - 90, faceVector2);
-    Mach1Point3D faceVectorRight = faceVector21.getRotated(simulationAngles[2] + 90, faceVector2);
+    Mach1Point3D fVecL = fVec_2b.getRotated(simulationAngles[2] - 90, fVec_2a);
+    Mach1Point3D fVecR = fVec_2b.getRotated(simulationAngles[2] + 90, fVec_2a);
 
-    Mach1Point3D contactL = faceVectorLeft * 100 + faceVector2 * 100;
-    Mach1Point3D contactR = faceVectorRight * 100 + faceVector2 * 100;
+    Mach1Point3D contactL = fVecL + fVec_2a;
+    Mach1Point3D contactR = fVecR + fVec_2a;
 
-    float d = sqrtf(100 * 100 + 200 * 200);
+    float d = sqrtf(5); // 100*100+200*200
 
     std::vector<float> vL(numChannelPoints);
     std::vector<float> vR(numChannelPoints);
@@ -252,15 +252,15 @@ void Mach1DecodeCore::spatialAlgoSample_8(float Yaw, float Pitch, float Roll, fl
 
     Mach1Point3D channelPoints[numChannelPoints] =
         {
-            {-100, 100, 100},
-            {100, 100, 100},
-            {-100, -100, 100},
-            {100, -100, 100},
+            {-1, 1, 1},
+            {1, 1, 1},
+            {-1, -1, 1},
+            {1, -1, 1},
 
-            {-100, 100, -100},
-            {100, 100, -100},
-            {-100, -100, -100},
-            {100, -100, -100},
+            {-1, 1, -1},
+            {1, 1, -1},
+            {-1, -1, -1},
+            {1, -1, -1},
         };
 
     spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result);
@@ -274,15 +274,15 @@ std::vector<float> Mach1DecodeCore::spatialAlgoSample_8(float Yaw, float Pitch, 
 
     Mach1Point3D channelPoints[numChannelPoints] =
         {
-            {-100, 100, 100},
-            {100, 100, 100},
-            {-100, -100, 100},
-            {100, -100, 100},
+            {-1, 1, 1},
+            {1, 1, 1},
+            {-1, -1, 1},
+            {1, -1, 1},
 
-            {-100, 100, -100},
-            {100, 100, -100},
-            {-100, -100, -100},
-            {100, -100, -100},
+            {-1, 1, -1},
+            {1, 1, -1},
+            {-1, -1, -1},
+            {1, -1, -1},
         };
 
     spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result.data());
@@ -293,19 +293,19 @@ std::vector<float> Mach1DecodeCore::spatialAlgoSample_8(float Yaw, float Pitch, 
 void Mach1DecodeCore::spatialAlgoSample_12(float Yaw, float Pitch, float Roll, float *result) {
     const int numChannelPoints = 8 + 4;
 
-    float diag = 100 * sqrtf(2);
+    float diag = sqrtf(2);
 
     Mach1Point3D channelPoints[numChannelPoints] =
         {
-            {-100, 100, 100},
-            {100, 100, 100},
-            {-100, -100, 100},
-            {100, -100, 100},
+            {-1, 1, 1},
+            {1, 1, 1},
+            {-1, -1, 1},
+            {1, -1, 1},
 
-            {-100, 100, -100},
-            {100, 100, -100},
-            {-100, -100, -100},
-            {100, -100, -100},
+            {-1, 1, -1},
+            {1, 1, -1},
+            {-1, -1, -1},
+            {1, -1, -1},
 
             {0, diag, 0},
             {diag, 0, 0},
@@ -319,22 +319,22 @@ void Mach1DecodeCore::spatialAlgoSample_12(float Yaw, float Pitch, float Roll, f
 std::vector<float> Mach1DecodeCore::spatialAlgoSample_12(float Yaw, float Pitch, float Roll) {
     const int numChannelPoints = 8 + 4;
 
-    float diag = sqrtf(2 * 100 * 100);
+    float diag = sqrtf(2);
 
     std::vector<float> result;
     result.resize(numChannelPoints * 2);
 
     Mach1Point3D channelPoints[numChannelPoints] =
         {
-            {-100, 100, 100},
-            {100, 100, 100},
-            {-100, -100, 100},
-            {100, -100, 100},
+            {-1, 1, 1},
+            {1, 1, 1},
+            {-1, -1, 1},
+            {1, -1, 1},
 
-            {-100, 100, -100},
-            {100, 100, -100},
-            {-100, -100, -100},
-            {100, -100, -100},
+            {-1, 1, -1},
+            {1, 1, -1},
+            {-1, -1, -1},
+            {1, -1, -1},
 
             {0, diag, 0},
             {diag, 0, 0},
@@ -350,19 +350,19 @@ std::vector<float> Mach1DecodeCore::spatialAlgoSample_12(float Yaw, float Pitch,
 void Mach1DecodeCore::spatialAlgoSample_14(float Yaw, float Pitch, float Roll, float *result) {
     const int numChannelPoints = 8 + 4 + 2;
 
-    float diag = sqrtf(2 * 100 * 100);
+    float diag = sqrtf(2);
 
     Mach1Point3D channelPoints[numChannelPoints] =
         {
-            {-100, 100, 100},
-            {100, 100, 100},
-            {-100, -100, 100},
-            {100, -100, 100},
+            {-1, 1, 1},
+            {1, 1, 1},
+            {-1, -1, 1},
+            {1, -1, 1},
 
-            {-100, 100, -100},
-            {100, 100, -100},
-            {-100, -100, -100},
-            {100, -100, -100},
+            {-1, 1, -1},
+            {1, 1, -1},
+            {-1, -1, -1},
+            {1, -1, -1},
 
             {0, diag, 0},
             {diag, 0, 0},
@@ -379,22 +379,22 @@ void Mach1DecodeCore::spatialAlgoSample_14(float Yaw, float Pitch, float Roll, f
 std::vector<float> Mach1DecodeCore::spatialAlgoSample_14(float Yaw, float Pitch, float Roll) {
     const int numChannelPoints = 8 + 4 + 2;
 
-    float diag = sqrtf(2 * 100 * 100);
+    float diag = sqrtf(2);
 
     std::vector<float> result;
     result.resize(numChannelPoints * 2);
 
     Mach1Point3D channelPoints[numChannelPoints] =
         {
-            {-100, 100, 100},
-            {100, 100, 100},
-            {-100, -100, 100},
-            {100, -100, 100},
+            {-1, 1, 1},
+            {1, 1, 1},
+            {-1, -1, 1},
+            {1, -1, 1},
 
-            {-100, 100, -100},
-            {100, 100, -100},
-            {-100, -100, -100},
-            {100, -100, -100},
+            {-1, 1, -1},
+            {1, 1, -1},
+            {-1, -1, -1},
+            {1, -1, -1},
 
             {0, diag, 0},
             {diag, 0, 0},

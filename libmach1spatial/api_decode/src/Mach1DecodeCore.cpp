@@ -272,102 +272,38 @@ void Mach1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int n
 
  */
 
-// TODO: Use `spatialMultichannelAlgo` instead
 void Mach1DecodeCore::spatialAlgo_4(float Yaw, float Pitch, float Roll, float *result) {
     const int numChannelPoints = 4;
-    convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
 
-    if (filterSpeed <= 1.0f && filterSpeed > 0.0f) { // filter and lerp the input angles for smoothing
-        targetYaw = Yaw;
-        targetPitch = Pitch;
-        targetRoll = Roll;
+    // Ideally Z should be 0, but this results in unexpected results from a lack of a 3D shape
+    Mach1Point3D channelPoints[numChannelPoints] =
+        {
+            {-1, 1, 1},
+            {1, 1, 1},
+            {-1, -1, 1},
+            {1, -1, 1},
+        };
 
-        updateAngles();
-
-        Yaw = currentYaw;
-        Pitch = currentPitch;
-        Roll = currentRoll;
-    } else {
-        targetYaw = Yaw;
-        targetPitch = Pitch;
-        targetRoll = Roll;
-
-        currentYaw = Yaw;
-        currentPitch = Pitch;
-        currentRoll = Roll;
-
-        previousYaw = currentYaw;
-        previousPitch = currentPitch;
-        previousRoll = currentRoll;
-    }
-
-    // Orientation input safety clamps/alignment
-    Yaw = alignAngle(Yaw, 0, 360);
-
-    float coefficients[numChannelPoints];
-    coefficients[0] = 1.f - std::min(1.f, std::min(360.f - Yaw, Yaw) / 90.f);
-    coefficients[1] = 1.f - std::min(1.f, std::abs(90.f - Yaw) / 90.f);
-    coefficients[2] = 1.f - std::min(1.f, std::abs(180.f - Yaw) / 90.f);
-    coefficients[3] = 1.f - std::min(1.f, std::abs(270.f - Yaw) / 90.f);
-
-    result[0] = coefficients[0]; // 1 left
-    result[1] = coefficients[3]; //   right
-    result[2] = coefficients[1]; // 2 left
-    result[3] = coefficients[0]; //   right
-    result[4] = coefficients[3]; // 3 left
-    result[5] = coefficients[2]; //   right
-    result[6] = coefficients[2]; // 4 left
-    result[7] = coefficients[1]; //   right
+    spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result);
 }
 
-// TODO: Use `spatialMultichannelAlgo` instead
 std::vector<float> Mach1DecodeCore::spatialAlgo_4(float Yaw, float Pitch, float Roll) {
     const int numChannelPoints = 4;
-    convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
-
-    if (filterSpeed <= 1.0f && filterSpeed > 0.0f) { // filter and lerp the input angles for smoothing
-        targetYaw = Yaw;
-        targetPitch = Pitch;
-        targetRoll = Roll;
-
-        updateAngles();
-
-        Yaw = currentYaw;
-        Pitch = currentPitch;
-        Roll = currentRoll;
-    } else {
-        targetYaw = Yaw;
-        targetPitch = Pitch;
-        targetRoll = Roll;
-
-        currentYaw = Yaw;
-        currentPitch = Pitch;
-        currentRoll = Roll;
-
-        previousYaw = currentYaw;
-        previousPitch = currentPitch;
-        previousRoll = currentRoll;
-    }
-
-    // Orientation input safety clamps/alignment
-    Yaw = alignAngle(Yaw, 0, 360);
-
-    float coefficients[numChannelPoints];
-    coefficients[0] = 1.f - std::min(1.f, std::min(360.f - Yaw, Yaw) / 90.f);
-    coefficients[1] = 1.f - std::min(1.f, std::abs(90.f - Yaw) / 90.f);
-    coefficients[2] = 1.f - std::min(1.f, std::abs(180.f - Yaw) / 90.f);
-    coefficients[3] = 1.f - std::min(1.f, std::abs(270.f - Yaw) / 90.f);
 
     std::vector<float> result;
     result.resize(numChannelPoints * 2);
-    result[0] = coefficients[0]; // 1 left
-    result[1] = coefficients[3]; //   right
-    result[2] = coefficients[1]; // 2 left
-    result[3] = coefficients[0]; //   right
-    result[4] = coefficients[3]; // 3 left
-    result[5] = coefficients[2]; //   right
-    result[6] = coefficients[2]; // 4 left
-    result[7] = coefficients[1]; //   right
+
+    // Ideally Z should be 0, but this results in unexpected results from a lack of a 3D shape
+    Mach1Point3D channelPoints[numChannelPoints] =
+        {
+            {-1, 1, 1},
+            {1, 1, 1},
+            {-1, -1, 1},
+            {1, -1, 1},
+        };
+
+    spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result.data());
+
     return result;
 }
 

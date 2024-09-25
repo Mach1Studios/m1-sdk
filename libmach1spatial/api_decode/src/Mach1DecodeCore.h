@@ -47,6 +47,7 @@ class Mach1DecodeCore {
     static float clamp(float a, float min, float max);
 
   private:
+    // TODO: Why do we use typedef? Can we remove it?
     typedef std::vector<float> (Mach1DecodeCore::*processSampleForMultichannel)(float Yaw, float Pitch, float Roll);
     typedef void (Mach1DecodeCore::*processSampleForMultichannelPtr)(float Yaw, float Pitch, float Roll, float *result);
 

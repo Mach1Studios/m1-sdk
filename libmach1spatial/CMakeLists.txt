@@ -15,6 +15,12 @@ message(STATUS "CMAKE_MODULE_PATH='${CMAKE_MODULE_PATH}'")
 
 include(common-defaults)
 
+option(BUILD_M1DECODE "Build M1Decode target" ON)
+option(BUILD_M1ENCODE "Build M1Encode target" ON)
+option(BUILD_M1DECODEPOSITIONAL "Build M1DecodePositional target (requires M1Decode)" ON)
+option(BUILD_M1TRANSCODE "Build M1Transcode target (requires M1Encode)" ON)
+option(BUILD_MACH1SPATIAL_COMBINED_LIB "Build Mach1Spatial combined target" OFF)
+
 #----------------
 # Version
 #----------------
@@ -56,13 +62,15 @@ file(GLOB M1_DECODE_API_SRC_FILES ${M1_COMMON_SRC_FILES} "${CMAKE_CURRENT_SOURCE
 list(FILTER M1_DECODE_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude the Emscripten files
 list(FILTER M1_DECODE_API_SRC_FILES EXCLUDE REGEX ".*Mach1AudioTimeline.*") # Exclude the Mach1AudioTimeline API
 
-add_library(M1Decode STATIC ${M1_DECODE_API_SRC_FILES} ${M1_DSP_UTILITIES_SRC_FILES})
-set_target_properties(M1Decode
-PROPERTIES
-    VERSION ${DECODE_VERSION}
-    SOVERSION ${DECODE_VERSION}
-)
-target_include_directories(M1Decode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/include")
+if(BUILD_M1DECODE)
+    add_library(M1Decode STATIC ${M1_DECODE_API_SRC_FILES} ${M1_DSP_UTILITIES_SRC_FILES})
+    set_target_properties(M1Decode
+    PROPERTIES
+        VERSION ${DECODE_VERSION}
+        SOVERSION ${DECODE_VERSION}
+    )
+    target_include_directories(M1Decode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/include")
+endif()
 
 # Set include paths for other APIs
 set(M1DECODE_API_INCLUDE_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/src" "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/include")
@@ -75,21 +83,23 @@ file(GLOB M1_ENCODE_API_SRC_FILES ${M1_COMMON_SRC_FILES} "${CMAKE_CURRENT_SOURCE
 list(FILTER M1_ENCODE_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude the Emscripten files
 list(FILTER M1_ENCODE_API_SRC_FILES EXCLUDE REGEX ".*Mach1AudioTimeline.*") # Exclude the Mach1AudioTimeline API
 
-add_library(M1Encode STATIC ${M1_ENCODE_API_SRC_FILES} ${M1_DSP_UTILITIES_SRC_FILES})
-set_target_properties(M1Encode
-PROPERTIES
-    VERSION ${ENCODE_VERSION}
-    SOVERSION ${ENCODE_VERSION}
-)
-target_include_directories(M1Encode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/include")
+if(BUILD_M1ENCODE)
+    add_library(M1Encode STATIC ${M1_ENCODE_API_SRC_FILES} ${M1_DSP_UTILITIES_SRC_FILES})
+    set_target_properties(M1Encode
+    PROPERTIES
+        VERSION ${ENCODE_VERSION}
+        SOVERSION ${ENCODE_VERSION}
+    )
+    target_include_directories(M1Encode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/include")
 
-# Supports inline decode functions in M1Encode API
-# (Requires linking decode api)
-if(M1ENCODE_INLINE_DECODE)
-    message(STATUS "ENCODE API: Supports inline decoder")
-    target_include_directories(M1Encode PUBLIC ${M1DECODE_API_INCLUDE_PATHS})
-else()
-    message(STATUS "ENCODE API: Does not support inline decoding")
+    # Supports inline decode functions in M1Encode API
+    # (Requires linking decode api)
+    if(M1ENCODE_INLINE_DECODE)
+        message(STATUS "ENCODE API: Supports inline decoder")
+        target_include_directories(M1Encode PUBLIC ${M1DECODE_API_INCLUDE_PATHS})
+    else()
+        message(STATUS "ENCODE API: Does not support inline decoding")
+    endif()
 endif()
 
 # Set include paths for other APIs
@@ -103,13 +113,19 @@ file(GLOB M1_DECODEPOSITIONAL_API_SRC_FILES ${M1_COMMON_SRC_FILES} "${CMAKE_CURR
 list(FILTER M1_DECODEPOSITIONAL_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude the Emscripten files
 list(FILTER M1_DECODEPOSITIONAL_API_SRC_FILES EXCLUDE REGEX ".*Mach1AudioTimeline.*") # Exclude the Mach1AudioTimeline API
 
-add_library(M1DecodePositional STATIC ${M1_DECODEPOSITIONAL_API_SRC_FILES} ${M1_DSP_UTILITIES_SRC_FILES} $<TARGET_OBJECTS:M1Decode>)
-set_target_properties(M1DecodePositional
-PROPERTIES
-    VERSION ${DECODEPOSITIONAL_VERSION}
-    SOVERSION ${DECODEPOSITIONAL_VERSION}
-)
-target_include_directories(M1DecodePositional PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_decodepositional/include" ${M1DECODE_API_INCLUDE_PATHS} "${CMAKE_CURRENT_SOURCE_DIR}/deps" "${CMAKE_CURRENT_SOURCE_DIR}/deps/glm" "${CMAKE_CURRENT_SOURCE_DIR}/deps/pugixml/src" "${CMAKE_CURRENT_SOURCE_DIR}/deps/yaml")
+if(BUILD_M1DECODEPOSITIONAL)
+    if(NOT BUILD_M1DECODE)
+        message(FATAL_ERROR "M1DecodePositional requires M1Decode, but BUILD_M1DECODE is OFF")
+    endif()
+
+    add_library(M1DecodePositional STATIC ${M1_DECODEPOSITIONAL_API_SRC_FILES} ${M1_DSP_UTILITIES_SRC_FILES} $<TARGET_OBJECTS:M1Decode>)
+    set_target_properties(M1DecodePositional
+    PROPERTIES
+        VERSION ${DECODEPOSITIONAL_VERSION}
+        SOVERSION ${DECODEPOSITIONAL_VERSION}
+    )
+    target_include_directories(M1DecodePositional PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_decodepositional/include" ${M1DECODE_API_INCLUDE_PATHS} "${CMAKE_CURRENT_SOURCE_DIR}/deps" "${CMAKE_CURRENT_SOURCE_DIR}/deps/glm" "${CMAKE_CURRENT_SOURCE_DIR}/deps/pugixml/src" "${CMAKE_CURRENT_SOURCE_DIR}/deps/yaml")
+endif()
 
 #----------------
 # Mach1 Transcode API
@@ -118,36 +134,54 @@ target_include_directories(M1DecodePositional PUBLIC "${CMAKE_CURRENT_SOURCE_DIR
 file(GLOB M1_TRANSCODE_API_SRC_FILES ${M1_COMMON_SRC_FILES} "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/src/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/matrices/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/matrices/*.tpp")
 list(FILTER M1_TRANSCODE_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude the Emscripten files
 
-if(M1TRANSCODE_INLINE_ENCODE)
-    message(STATUS "TRANSCODE API: Supports inline encoder")
-    add_library(M1Transcode STATIC ${M1_TRANSCODE_API_SRC_FILES} ${M1_DSP_UTILITIES_SRC_FILES} $<TARGET_OBJECTS:M1Encode>)
-else()
-    message(STATUS "TRANSCODE API: Does not support inline encoder")
-    add_library(M1Transcode STATIC ${M1_TRANSCODE_API_SRC_FILES}  ${M1_DSP_UTILITIES_SRC_FILES})
-    target_include_directories(M1Transcode PUBLIC ${M1ENCODE_API_INCLUDE_PATHS})
+if(BUILD_M1TRANSCODE)
+    if(NOT BUILD_M1ENCODE AND M1TRANSCODE_INLINE_ENCODE)
+        message(FATAL_ERROR "M1DecodePositional requires M1Encode, but BUILD_M1DECODE is OFF")
+    endif()
+
+    if(M1TRANSCODE_INLINE_ENCODE)
+        message(STATUS "TRANSCODE API: Supports inline encoder")
+        add_library(M1Transcode STATIC ${M1_TRANSCODE_API_SRC_FILES} ${M1_DSP_UTILITIES_SRC_FILES} $<TARGET_OBJECTS:M1Encode>)
+    else()
+        message(STATUS "TRANSCODE API: Does not support inline encoder")
+        add_library(M1Transcode STATIC ${M1_TRANSCODE_API_SRC_FILES}  ${M1_DSP_UTILITIES_SRC_FILES})
+        target_include_directories(M1Transcode PUBLIC ${M1ENCODE_API_INCLUDE_PATHS})
+    endif()
+    set_target_properties(M1Transcode
+    PROPERTIES
+        VERSION ${TRANSCODE_VERSION}
+        SOVERSION ${TRANSCODE_VERSION}
+    )
+    target_include_directories(M1Transcode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/matrices" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/src" "${CMAKE_CURRENT_SOURCE_DIR}/deps" "${CMAKE_CURRENT_SOURCE_DIR}/deps/yaml" "${CMAKE_CURRENT_SOURCE_DIR}/deps/pugixml/src")
 endif()
-set_target_properties(M1Transcode
-PROPERTIES
-    VERSION ${TRANSCODE_VERSION}
-    SOVERSION ${TRANSCODE_VERSION}
-)
-target_include_directories(M1Transcode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/matrices" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/src" "${CMAKE_CURRENT_SOURCE_DIR}/deps" "${CMAKE_CURRENT_SOURCE_DIR}/deps/yaml" "${CMAKE_CURRENT_SOURCE_DIR}/deps/pugixml/src")
 
 #----------------
 # Combined Mach1Spatial lib
 
-# Create a combined library target
-add_library(${PROJECT_NAME} STATIC
-    $<TARGET_OBJECTS:M1Decode>
-    $<TARGET_OBJECTS:M1Encode>
-    $<TARGET_OBJECTS:M1DecodePositional>
-    $<TARGET_OBJECTS:M1Transcode>
-)
-set_target_properties(${PROJECT_NAME}
-PROPERTIES
-    VERSION ${Mach1SpatialLibraries_VERSION}
-    SOVERSION ${Mach1SpatialLibraries_VERSION}
-)
+if(BUILD_MACH1SPATIAL_COMBINED_LIB)
+    # Create a combined library target
+    set(MACH1SPATIAL_OBJECTS)
+    if(BUILD_M1DECODE)
+        list(APPEND MACH1SPATIAL_OBJECTS $<TARGET_OBJECTS:M1Decode>)
+    endif()
+    if(BUILD_M1ENCODE)
+        list(APPEND MACH1SPATIAL_OBJECTS $<TARGET_OBJECTS:M1Encode>)
+    endif()
+    if(BUILD_M1DECODEPOSITIONAL)
+        list(APPEND MACH1SPATIAL_OBJECTS $<TARGET_OBJECTS:M1DecodePositional>)
+    endif()
+    if(BUILD_M1TRANSCODE)
+        list(APPEND MACH1SPATIAL_OBJECTS $<TARGET_OBJECTS:M1Transcode>)
+    endif()
+
+    add_library(${PROJECT_NAME} STATIC ${MACH1SPATIAL_OBJECTS})
+
+    set_target_properties(${PROJECT_NAME}
+    PROPERTIES
+        VERSION ${Mach1SpatialLibraries_VERSION}
+        SOVERSION ${Mach1SpatialLibraries_VERSION}
+    )
+endif()
 
 #----------------
 # Compiler flags

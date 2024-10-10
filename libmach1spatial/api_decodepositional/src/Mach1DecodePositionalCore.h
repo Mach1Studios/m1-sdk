@@ -34,7 +34,7 @@ updates and should not be integrated in sections but remain as an update-able fa
 class Mach1DecodePositionalCore {
 
   private:
-    Mach1DecodeCore mach1Decode;
+    M1DecodeCore mach1Decode;
 
     bool useFalloff = false;
     float falloffCurve;

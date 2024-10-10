@@ -16,7 +16,7 @@ Internal Orientation Implementation:
     -  Roll  [2]+ = rotate up 0-1    [Range: -90->90]
     -  Roll  [2]- = rotate down 0-1  [Range: -90->90]
 
-Mach1DecodeCore normalizes all input ranges to an unsigned "0 to 1" range for Yaw, Pitch and Roll.
+M1DecodeCore normalizes all input ranges to an unsigned "0 to 1" range for Yaw, Pitch and Roll.
  */
 
 #pragma once
@@ -39,7 +39,7 @@ using namespace std::chrono;
 
 //////////////
 
-class Mach1DecodeCore {
+class M1DecodeCore {
 
   public:
     static float mDegToRad(float degrees);
@@ -48,8 +48,8 @@ class Mach1DecodeCore {
 
   private:
     // TODO: Why do we use typedef? Can we remove it?
-    typedef std::vector<float> (Mach1DecodeCore::*processSampleForMultichannel)(float Yaw, float Pitch, float Roll);
-    typedef void (Mach1DecodeCore::*processSampleForMultichannelPtr)(float Yaw, float Pitch, float Roll, float *result);
+    typedef std::vector<float> (M1DecodeCore::*processSampleForMultichannel)(float Yaw, float Pitch, float Roll);
+    typedef void (M1DecodeCore::*processSampleForMultichannelPtr)(float Yaw, float Pitch, float Roll, float *result);
 
     std::vector<float> processSample(processSampleForMultichannel _processSampleForMultichannel, float Yaw, float Pitch, float Roll, int bufferSize = 0, int sampleIndex = 0);
     void processSample(processSampleForMultichannelPtr _processSampleForMultichannelPtr, float Yaw, float Pitch, float Roll, float *result, int bufferSize = 0, int sampleIndex = 0);
@@ -108,7 +108,7 @@ class Mach1DecodeCore {
 
     Mach1Point3D getCurrentAngle();
 
-    Mach1DecodeCore();
+    M1DecodeCore();
 
     void setPlatformType(Mach1PlatformType type);
     Mach1PlatformType getPlatformType();

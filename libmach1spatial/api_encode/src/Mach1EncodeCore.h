@@ -10,7 +10,7 @@ Internal Orientation Implementation:
   -  OrbitRotation[+] = rotate right 0-1 [Range: 0->360 | -180->180]
   -  OrbitRotation[-] = rotate left 0-1 [Range: 0->360 | -180->180]
 
-Mach1EncodeCore normalizes all input ranges to an unsigned "0 to 1" range for Azimuth, Elevation and OrbitRotation.
+M1EncodeCore normalizes all input ranges to an unsigned "0 to 1" range for Azimuth, Elevation and OrbitRotation.
  */
 
 #pragma once

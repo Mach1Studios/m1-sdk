@@ -282,7 +282,7 @@ void Mach1DecodePositionalCore::setListenerPosition(Mach1Point3D *pos) {
 
 void Mach1DecodePositionalCore::setListenerRotation(Mach1Point3D *euler) {
     Mach1Point3D angle = {euler->x, euler->y, euler->z};
-    Mach1DecodeCore::convertAnglesToMach1(platformType, &angle.x, &angle.y, &angle.z);
+    M1DecodeCore::convertAnglesToMach1(platformType, &angle.x, &angle.y, &angle.z);
     cameraRotation = EulerToQuaternion(glm::vec3(angle.x, angle.y, angle.z) * DEG_TO_RAD_F);
 }
 
@@ -297,7 +297,7 @@ void Mach1DecodePositionalCore::setDecoderAlgoPosition(Mach1Point3D *pos) {
 
 void Mach1DecodePositionalCore::setDecoderAlgoRotation(Mach1Point3D *euler) {
     Mach1Point3D angle = {euler->x, euler->y, euler->z};
-    Mach1DecodeCore::convertAnglesToMach1(platformType, &angle.x, &angle.y, &angle.z);
+    M1DecodeCore::convertAnglesToMach1(platformType, &angle.x, &angle.y, &angle.z);
     soundRotation = EulerToQuaternion(glm::vec3(angle.x, angle.y, angle.z) * DEG_TO_RAD_F);
 }
 
@@ -403,7 +403,7 @@ int Mach1DecodePositionalCore::getFormatCoeffCount() {
 
 Mach1Point3D Mach1DecodePositionalCore::getCurrentAngle() {
     glm::vec3 angle = eulerAngles;
-    Mach1DecodeCore::convertAnglesToPlatform(platformType, &angle.x, &angle.y, &angle.z);
+    M1DecodeCore::convertAnglesToPlatform(platformType, &angle.x, &angle.y, &angle.z);
     return Mach1Point3D{angle.x, angle.y, angle.z};
 }
 
@@ -413,7 +413,7 @@ Mach1Point3D Mach1DecodePositionalCore::getCurrentAngleInternal() {
 
 Mach1Point3D Mach1DecodePositionalCore::getPositionalRotation() {
     glm::vec3 angle = eulerAnglesCube;
-    Mach1DecodeCore::convertAnglesToPlatform(platformType, &angle.x, &angle.y, &angle.z);
+    M1DecodeCore::convertAnglesToPlatform(platformType, &angle.x, &angle.y, &angle.z);
     return Mach1Point3D{angle.x, angle.y, angle.z};
 }
 

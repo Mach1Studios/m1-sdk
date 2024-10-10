@@ -198,15 +198,109 @@ deploy-ue: clean build
 	rsync -c libmach1spatial/api_decodepositional/include/Mach1DecodePositional.cpp  examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/Source/Mach1DecodePlugin/Private
 	rsync -c libmach1spatial/api_decodepositional/include/Mach1DecodePositional.h  examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/Source/Mach1DecodePlugin/Public
 
-deploy-unity: clean build
-	# api_common
-	rsync -c libmach1spatial/api_common/include examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/libMach1Spatial/api_common --exclude='*AudioTimeline*' --exclude='*Mach1KeyPoint.h'
-	# api_decode
-	rsync -c libmach1spatial/api_decode/include examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/libMach1Spatial/api_decode --exclude='js/' --exclude='*.swift' --exclude='*Emscripten*'
-	rsync -c libmach1spatial/api_decode/src examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/libMach1Spatial/api_decode --exclude='js/' --exclude='*.swift' --exclude='*Emscripten*'
-	# api_decodepositional
-	rsync -c libmach1spatial/api_decodepositional/include examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/libMach1Spatial/api_decodepositional --exclude='js/' --exclude='*.swift' --exclude='*Emscripten*'
-	rsync -c libmach1spatial/api_decodepositional/src examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/libMach1Spatial/api_decodepositional --exclude='js/' --exclude='*.swift' --exclude='*Emscripten*'
+deploy-unity: clean
+ifeq ($(detected_OS),Darwin)
+	# macos
+	# deletes the old bundle directories for cmake to nicely reinstall
+	rm -rf examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/libMach1DecodeCAPI.bundle
+	rm -rf examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/libMach1DecodePositionalCAPI.bundle
+	rm -rf examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/libMach1EncodeCAPI.bundle
+	rm -rf examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/libMach1TranscodeCAPI.bundle
+	cmake . -B_builds/macos -GXcode -DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release
+	cmake --build _builds/macos --config Release --target install
+	mv examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/Mach1DecodeCAPI.bundle examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/libMach1DecodeCAPI.bundle
+	mv examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/Mach1DecodePositionalCAPI.bundle examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/libMach1DecodePositionalCAPI.bundle
+	mv examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/Mach1EncodeCAPI.bundle examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/libMach1EncodeCAPI.bundle
+	mv examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/Mach1TranscodeCAPI.bundle examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/libMach1TranscodeCAPI.bundle
+	# ios
+	cmake . -B_builds/ios \
+	-GXcode \
+	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=OS64COMBINED
+	cmake --build _builds/ios --config Release # separate build and install steps for fat-lib
+	cmake --install _builds/ios --config Release
+	# tvos
+	#cmake . -B_builds/tvos \
+	#-GXcode \
+	#-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	#-DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=TVOSCOMBINED
+	#cmake --build _builds/tvos --config Release
+	#cmake --build _builds/tvos --config Release --target install
+	# visionos
+	cmake . -B_builds/visionos \
+	-GXcode \
+	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=VISIONOS
+	cmake --build _builds/visionos --config Release --target install
+	# visionos simulator
+	cmake . -B_builds/visionsimulator \
+	-GXcode \
+	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=SIMULATOR_VISIONOS
+	cmake --build _builds/visionsimulator --config Release --target install
+endif
+ifeq ($(detected_OS),Windows)
+	# 64bit
+	cmake . -B_builds/windows-x86_64 -A x64 \
+	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_TOOLCHAIN_FILE="%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake"
+	cmake --build _builds/windows-x86_64 --config Release --target install
+	# 32bit
+	cmake . -B_builds/windows-x86 -A Win32 \
+	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_TOOLCHAIN_FILE="%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake"
+	cmake --build _builds/windows-x86 --config Release --target install
+endif
+	# BUILD arm64
+	cmake . -B_builds/android-arm64-v8a \
+	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_TOOLCHAIN_FILE=${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake \
+	-DCMAKE_SYSTEM_NAME=Android \
+	-DANDROID_PLATFORM=21 \
+	-DANDROID_ABI=arm64-v8a \
+	-DCMAKE_ANDROID_STL_TYPE=c++_static \
+	-DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}
+	cmake --build _builds/android-arm64-v8a --config Release --target install
+	# BUILD armeabi-v7a
+	cmake . -B_builds/android-armeabi-v7a \
+	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_TOOLCHAIN_FILE=${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake \
+	-DCMAKE_SYSTEM_NAME=Android \
+	-DANDROID_PLATFORM=21 \
+	-DANDROID_ABI=armeabi-v7a \
+	-DCMAKE_ANDROID_ARM_NEON=ON \
+	-DCMAKE_ANDROID_ARM_MODE=ON \
+	-DCMAKE_ANDROID_STL_TYPE=c++_static \
+	-DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}
+	cmake --build _builds/android-armeabi-v7a --config Release --target install
+	# BUILD x86
+	cmake . -B_builds/android-x86 \
+	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_TOOLCHAIN_FILE=${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake \
+	-DCMAKE_SYSTEM_NAME=Android \
+	-DANDROID_PLATFORM=21 \
+	-DANDROID_ABI=x86 \
+	-DCMAKE_ANDROID_STL_TYPE=c++_static \
+	-DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}
+	cmake --build _builds/android-x86 --config Release --target install
+	# BUILD x64
+	cmake . -B_builds/android-x86-64 \
+	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_TOOLCHAIN_FILE=${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake \
+	-DCMAKE_SYSTEM_NAME=Android \
+	-DANDROID_PLATFORM=21 \
+	-DANDROID_ABI=x86_64 \
+	-DCMAKE_ANDROID_STL_TYPE=c++_static \
+	-DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}
+	cmake --build _builds/android-x86-64 --config Release --target install
+	## api_common
+	#rsync -c libmach1spatial/api_common/include examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/libMach1Spatial/api_common --exclude='*AudioTimeline*' --exclude='*Mach1KeyPoint.h'
+	## api_decode
+	#rsync -c libmach1spatial/api_decode/include examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/libMach1Spatial/api_decode --exclude='js/' --exclude='*.swift' --exclude='*Emscripten*'
+	#rsync -c libmach1spatial/api_decode/src examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/libMach1Spatial/api_decode --exclude='js/' --exclude='*.swift' --exclude='*Emscripten*'
+	## api_decodepositional
+	#rsync -c libmach1spatial/api_decodepositional/include examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/libMach1Spatial/api_decodepositional --exclude='js/' --exclude='*.swift' --exclude='*Emscripten*'
+	#rsync -c libmach1spatial/api_decodepositional/src examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/libMach1Spatial/api_decodepositional --exclude='js/' --exclude='*.swift' --exclude='*Emscripten*'
 
 generate-jni-wrapper:
 	mkdir -p libmach1spatial/swig/jni/java/com/mach1/spatiallibs

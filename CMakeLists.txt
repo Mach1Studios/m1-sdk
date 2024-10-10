@@ -18,7 +18,7 @@ option(M1TRANSCODE_INLINE_ENCODE "Support M1Transcode with built in Encode funct
 option(BUILD_SHARED_LIBS         "Build shared instead of static libraries."          OFF)
 option(BUILD_COCOAPODS_LIBS      "Build libs and deploy into Cocoapods example."      OFF)
 option(BUILD_JITPACK_LIBS        "Build libs and deploy into Jitpack example."        OFF)
-option(BUILD_MACOS_BUNDLE        "Build shared macos bundle libraries."               OFF)
+option(BUILD_UNITY_LIBS          "Build shared macos bundle libraries."               OFF)
 option(BUILD_WIN_MT              "Build win multithreaded static libraries."          OFF)
 
 #----------------

@@ -36,6 +36,48 @@ set(DECODEPOSITIONAL_VERSION    "${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1S
 set(TRANSCODE_VERSION           "${Mach1SpatialLibraries_VERSION_MAJOR}.${Mach1SpatialLibraries_VERSION_MINOR}.0.0")
 
 #----------------
+# Determine Library Type Based on Platform
+#----------------
+
+# Default to not building shared libs
+set(BUILD_SHARED_LIBS_FOR_UNITY FALSE)
+
+# Determine Library Type Based on Platform and settings
+if(BUILD_UNITY_LIBS)
+    if(APPLE)
+        message(STATUS "SETUP: Building macOS or iOS or tvOS or visionOS libs.")
+        if(IOS)
+            set(BUILD_SHARED_LIBS_FOR_UNITY FALSE)
+            set(LIB_TYPE STATIC)
+        elseif(TVOS)
+            set(BUILD_SHARED_LIBS_FOR_UNITY FALSE)
+            set(LIB_TYPE STATIC)
+        elseif(VISIONOS)
+            set(BUILD_SHARED_LIBS_FOR_UNITY FALSE)
+            set(LIB_TYPE STATIC)
+        else()
+            message(STATUS "SETUP: Building .bundle style libs for macOS.")
+            set(BUILD_SHARED_LIBS_FOR_UNITY TRUE)
+            set(LIB_TYPE MODULE)  # Set the library type to MODULE for macOS bundles
+        endif()
+    elseif (CMAKE_SYSTEM_NAME STREQUAL "Android")
+        message(STATUS "SETUP: Building shared libs for Android.")
+        set(BUILD_SHARED_LIBS_FOR_UNITY TRUE)
+        set(LIB_TYPE SHARED)
+    elseif(WIN32 OR MSVC OR MINGW)
+        message(STATUS "SETUP: Building shared libs for Windows.")
+        set(BUILD_SHARED_LIBS_FOR_UNITY TRUE)
+        set(LIB_TYPE SHARED)
+    else()
+        set(BUILD_SHARED_LIBS_FOR_UNITY FALSE)
+        set(LIB_TYPE STATIC)
+    endif()
+else() 
+    set(BUILD_SHARED_LIBS_FOR_UNITY FALSE)
+    set(LIB_TYPE STATIC)   
+endif()
+
+#----------------
 # APIs
 #----------------
 
@@ -43,8 +85,6 @@ project(Mach1Spatial VERSION ${Mach1SpatialLibraries_VERSION})
 
 #----------------
 # Common Files
-
-file(GLOB M1_COMMON_SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/api_common/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_common/src/*.cpp")
 
 set(M1_DSP_UTILITIES_SRC_FILES
         deps/M1DSP/M1DSPDynamics.h
@@ -58,17 +98,19 @@ set(M1_DSP_UTILITIES_SRC_FILES
 #----------------
 # Mach1 Decode API
 
-file(GLOB M1_DECODE_API_SRC_FILES ${M1_COMMON_SRC_FILES} "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/src/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/src/*.tpp")
+file(GLOB M1_DECODE_API_SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/src/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/src/*.tpp")
 list(FILTER M1_DECODE_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude the Emscripten files
 list(FILTER M1_DECODE_API_SRC_FILES EXCLUDE REGEX ".*Mach1AudioTimeline.*") # Exclude the Mach1AudioTimeline API
 
 if(BUILD_M1DECODE)
-    add_library(M1Decode STATIC ${M1_DECODE_API_SRC_FILES} ${M1_DSP_UTILITIES_SRC_FILES})
-    set_target_properties(M1Decode
-    PROPERTIES
-        VERSION ${DECODE_VERSION}
-        SOVERSION ${DECODE_VERSION}
-    )
+    add_library(M1Decode ${LIB_TYPE} ${M1_DECODE_API_SRC_FILES} ${M1_DSP_UTILITIES_SRC_FILES})
+    if(NOT (APPLE AND BUILD_SHARED_LIBS_FOR_UNITY))
+        set_target_properties(M1Decode
+        PROPERTIES
+            VERSION ${DECODE_VERSION}
+            SOVERSION ${DECODE_VERSION}
+        )
+    endif()
     target_include_directories(M1Decode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/include")
 endif()
 
@@ -79,17 +121,19 @@ set(M1DECODE_API_INCLUDE_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/src" "${C
 # Mach1 Encode API
 # Note: (Optional) Some functions in Mach1Encode API may optionally require Mach1Decode API
 
-file(GLOB M1_ENCODE_API_SRC_FILES ${M1_COMMON_SRC_FILES} "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/src/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/src/*.tpp")
+file(GLOB M1_ENCODE_API_SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/src/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/src/*.tpp")
 list(FILTER M1_ENCODE_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude the Emscripten files
 list(FILTER M1_ENCODE_API_SRC_FILES EXCLUDE REGEX ".*Mach1AudioTimeline.*") # Exclude the Mach1AudioTimeline API
 
 if(BUILD_M1ENCODE)
-    add_library(M1Encode STATIC ${M1_ENCODE_API_SRC_FILES} ${M1_DSP_UTILITIES_SRC_FILES})
-    set_target_properties(M1Encode
-    PROPERTIES
-        VERSION ${ENCODE_VERSION}
-        SOVERSION ${ENCODE_VERSION}
-    )
+    add_library(M1Encode ${LIB_TYPE} ${M1_ENCODE_API_SRC_FILES} ${M1_DSP_UTILITIES_SRC_FILES})
+    if(NOT (APPLE AND BUILD_SHARED_LIBS_FOR_UNITY))
+        set_target_properties(M1Encode
+        PROPERTIES
+            VERSION ${ENCODE_VERSION}
+            SOVERSION ${ENCODE_VERSION}
+        )
+    endif()
     target_include_directories(M1Encode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/include")
 
     # Supports inline decode functions in M1Encode API
@@ -109,7 +153,7 @@ set(M1ENCODE_API_INCLUDE_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/src" "${C
 # Mach1 Decode Positional API
 # Note: Mach1DecodePositional API requires Mach1Decode API
 
-file(GLOB M1_DECODEPOSITIONAL_API_SRC_FILES ${M1_COMMON_SRC_FILES} "${CMAKE_CURRENT_SOURCE_DIR}/api_decodepositional/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_decodepositional/src/*.cpp")
+file(GLOB M1_DECODEPOSITIONAL_API_SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/api_decodepositional/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_decodepositional/src/*.cpp")
 list(FILTER M1_DECODEPOSITIONAL_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude the Emscripten files
 list(FILTER M1_DECODEPOSITIONAL_API_SRC_FILES EXCLUDE REGEX ".*Mach1AudioTimeline.*") # Exclude the Mach1AudioTimeline API
 
@@ -118,12 +162,14 @@ if(BUILD_M1DECODEPOSITIONAL)
         message(FATAL_ERROR "M1DecodePositional requires M1Decode, but BUILD_M1DECODE is OFF")
     endif()
 
-    add_library(M1DecodePositional STATIC ${M1_DECODEPOSITIONAL_API_SRC_FILES} ${M1_DSP_UTILITIES_SRC_FILES} $<TARGET_OBJECTS:M1Decode>)
-    set_target_properties(M1DecodePositional
-    PROPERTIES
-        VERSION ${DECODEPOSITIONAL_VERSION}
-        SOVERSION ${DECODEPOSITIONAL_VERSION}
-    )
+    add_library(M1DecodePositional ${LIB_TYPE} ${M1_DECODEPOSITIONAL_API_SRC_FILES} $<TARGET_OBJECTS:M1Decode>)
+    if(NOT (APPLE AND BUILD_SHARED_LIBS_FOR_UNITY))
+        set_target_properties(M1DecodePositional
+        PROPERTIES
+            VERSION ${DECODEPOSITIONAL_VERSION}
+            SOVERSION ${DECODEPOSITIONAL_VERSION}
+        )
+    endif()
     target_include_directories(M1DecodePositional PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_decodepositional/include" ${M1DECODE_API_INCLUDE_PATHS} "${CMAKE_CURRENT_SOURCE_DIR}/deps" "${CMAKE_CURRENT_SOURCE_DIR}/deps/glm" "${CMAKE_CURRENT_SOURCE_DIR}/deps/pugixml/src" "${CMAKE_CURRENT_SOURCE_DIR}/deps/yaml")
 endif()
 
@@ -131,27 +177,29 @@ endif()
 # Mach1 Transcode API
 # Note: (Optional) Mach1Transcode API requires Mach1Encode API
 
-file(GLOB M1_TRANSCODE_API_SRC_FILES ${M1_COMMON_SRC_FILES} "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/src/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/matrices/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/matrices/*.tpp")
+file(GLOB M1_TRANSCODE_API_SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/src/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/matrices/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/matrices/*.tpp")
 list(FILTER M1_TRANSCODE_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude the Emscripten files
 
 if(BUILD_M1TRANSCODE)
     if(NOT BUILD_M1ENCODE AND M1TRANSCODE_INLINE_ENCODE)
-        message(FATAL_ERROR "M1DecodePositional requires M1Encode, but BUILD_M1DECODE is OFF")
+        message(FATAL_ERROR "M1Transcode requires M1Encode, but BUILD_M1ENCODE is OFF")
     endif()
 
     if(M1TRANSCODE_INLINE_ENCODE)
         message(STATUS "TRANSCODE API: Supports inline encoder")
-        add_library(M1Transcode STATIC ${M1_TRANSCODE_API_SRC_FILES} ${M1_DSP_UTILITIES_SRC_FILES} $<TARGET_OBJECTS:M1Encode>)
+        add_library(M1Transcode ${LIB_TYPE} ${M1_TRANSCODE_API_SRC_FILES} $<TARGET_OBJECTS:M1Encode>)
     else()
         message(STATUS "TRANSCODE API: Does not support inline encoder")
-        add_library(M1Transcode STATIC ${M1_TRANSCODE_API_SRC_FILES}  ${M1_DSP_UTILITIES_SRC_FILES})
+        add_library(M1Transcode ${LIB_TYPE} ${M1_TRANSCODE_API_SRC_FILES}  ${M1_DSP_UTILITIES_SRC_FILES})
         target_include_directories(M1Transcode PUBLIC ${M1ENCODE_API_INCLUDE_PATHS})
     endif()
-    set_target_properties(M1Transcode
-    PROPERTIES
-        VERSION ${TRANSCODE_VERSION}
-        SOVERSION ${TRANSCODE_VERSION}
-    )
+    if(NOT (APPLE AND BUILD_SHARED_LIBS_FOR_UNITY))
+        set_target_properties(M1Transcode
+        PROPERTIES
+            VERSION ${TRANSCODE_VERSION}
+            SOVERSION ${TRANSCODE_VERSION}
+        )
+    endif()
     target_include_directories(M1Transcode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/matrices" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/src" "${CMAKE_CURRENT_SOURCE_DIR}/deps" "${CMAKE_CURRENT_SOURCE_DIR}/deps/yaml" "${CMAKE_CURRENT_SOURCE_DIR}/deps/pugixml/src")
 endif()
 
@@ -204,41 +252,105 @@ endif()
 # INSTALL
 #----------------
 
-if(BUILD_MACOS_BUNDLE) # bundles for typically for Unity
+if(BUILD_UNITY_LIBS) # Bundles typically for Unity
+    # Rename the output files to match the old naming (TODO: decide on updating the naming universally)
+    set_target_properties(M1Decode PROPERTIES OUTPUT_NAME "Mach1DecodeCAPI")
+    set_target_properties(M1DecodePositional PROPERTIES OUTPUT_NAME "Mach1DecodePositionalCAPI")
+    set_target_properties(M1Encode PROPERTIES OUTPUT_NAME "Mach1EncodeCAPI")
+    set_target_properties(M1Transcode PROPERTIES OUTPUT_NAME "Mach1TranscodeCAPI")
+
     if(APPLE)
-        message(STATUS "SETUP: Building .bundle style libs.")
+        if(IOS)
+            message(STATUS "SETUP: Building for iOS!")
+            set(LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/iOS")
+        elseif(TVOS)
+            # TODO: Figure out why this doesnt catch
+            message(STATUS "SETUP: Building for tvOS!")
+            set(LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/tvOS")
+        elseif(VISIONOS)
+            message(STATUS "SETUP: Building for visionOS!")
+            set(LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/visionOS")
+        elseif(VISIONOS AND SIMULATOR)
+            message(STATUS "SETUP: Building for VisionSimulator!")
+            set(LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/VisionSimulator")
+        else()
+            message(STATUS "SETUP: Building for macOS!")
+            set(LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS")
+            # Set additional properties for macOS .bundle files
+            set_target_properties(M1Decode PROPERTIES
+                BUNDLE TRUE
+                PREFIX "lib"
+                OUTPUT_NAME "Mach1DecodeCAPI"
+                SUFFIX ".bundle"
+            )
+            set_target_properties(M1DecodePositional PROPERTIES
+                BUNDLE TRUE
+                PREFIX "lib"
+                OUTPUT_NAME "Mach1DecodePositionalCAPI"
+                SUFFIX ".bundle"
+            )
+            set_target_properties(M1Encode PROPERTIES
+                BUNDLE TRUE
+                PREFIX "lib"
+                OUTPUT_NAME "Mach1EncodeCAPI"
+                SUFFIX ".bundle"
+            )
+            set_target_properties(M1Transcode PROPERTIES
+                BUNDLE TRUE
+                PREFIX "lib"
+                OUTPUT_NAME "Mach1TranscodeCAPI"
+                SUFFIX ".bundle"
+            )
+        endif()
+    elseif(CMAKE_SYSTEM_NAME STREQUAL "Android")
+        # Android libs
+        add_definitions("-DANDROID")
+        message(STATUS "SETUP: Additional Android flags set")
+        message(STATUS "[Android] CMAKE_ANDROID_NDK='${ANDROID_ABI}'")
+        message(STATUS "[Android] CMAKE_ANDROID_ARCH_ABI='${CMAKE_ANDROID_ARCH_ABI}'")
+        message(STATUS "[Android] CMAKE_ANDROID_ARCH='${CMAKE_ANDROID_ARCH}'")
+        set(LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/Android/${ANDROID_ABI}")
+        if(EXISTS "${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake")
+            message(STATUS "SETUP: Found Android NDK and toolchain at ${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake")
+        else()
+            message(FATAL_ERROR "Unable to locate the Android NDK and Android toolchain. Please set `CMAKE_ANDROID_NDK`.")
+        endif()
+    elseif(WIN32 OR MSVC OR MINGW)
+        # Windows libs
+        if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+            # 64-bit build
+            set(LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/Windows/x86_64")
+        else()
+            # 32-bit build
+            set(LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/Windows/x86")
+        endif()
+    endif()
 
-        # Set the destination as ios for the libs
-        set(LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/maccOS")
-        set_target_properties(M1Decode PROPERTIES BUNDLE TRUE)
-        set_target_properties(M1Decode PROPERTIES PREFIX "lib")
-        set_target_properties(M1Decode PROPERTIES OUTPUT_NAME "Mach1DecodeCAPI")
-        set_target_properties(M1Decode PROPERTIES SUFFIX ".bundle")
-
-        set_target_properties(M1DecodePositional PROPERTIES BUNDLE TRUE)
-        set_target_properties(M1DecodePositional PROPERTIES PREFIX "lib")
-        set_target_properties(M1DecodePositional PROPERTIES OUTPUT_NAME "Mach1DecodePositionalCAPI")
-        set_target_properties(M1DecodePositional PROPERTIES SUFFIX ".bundle")
-
-        message(STATUS "INSTALL: Installing bundle libs to ${LIB_DEST_DIR}.")
-        install (TARGETS M1Decode M1DecodePositional
-            LIBRARY DESTINATION "${LIB_DEST_DIR}"
-            ARCHIVE DESTINATION "${LIB_DEST_DIR}"
-        )
+    # Install the libraries
+    if(EXISTS "${LIB_DEST_DIR}")
+            message(STATUS "INSTALL: Installing libraries to ${LIB_DEST_DIR}.")
+            install(TARGETS M1Decode M1DecodePositional M1Encode M1Transcode
+                BUNDLE DESTINATION "${LIB_DEST_DIR}"
+                LIBRARY DESTINATION "${LIB_DEST_DIR}"
+                ARCHIVE DESTINATION "${LIB_DEST_DIR}"
+            )
     endif()
 endif()
 
 if(BUILD_COCOAPODS_LIBS)
     message(STATUS "SETUP: Building for Cocoapods")
 
-    if(IOS OR ARCHS STREQUAL OS OR ARCHS STREQUAL OS64 OR ARCHS STREQUAL SIMULATOR OR ARCHS STREQUAL SIMULATOR64 OR ARCHS STREQUAL SIMULATORARM64 OR ARCHS STREQUAL MAC_CATALYST OR ARCHS STREQUAL MAC_CATALYST_ARM64 OR ARCHS STREQUAL MAC_CATALYST_UNIVERSAL)
-        # Set the destination as ios for the libs
+    if(IOS)
         set(IOS_LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/ios")
-    elseif(APPLE OR ARCHS STREQUAL MAC OR ARCHS STREQUAL MAC_ARM64 OR ARCHS STREQUAL MAC_UNIVERSAL)
+    elseif(TVOS)
+        set(IOS_LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/tvos")
+    elseif(WATCHOS)
+        set(IOS_LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/watchos")
+    elseif(VISIONOS)
+        set(IOS_LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/visionos")
+    elseif(APPLE)
         # Set the destination as osx for the libs
         set(IOS_LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/osx")
-    elseif(ARCHS STREQUAL TVOS OR ARCHS STREQUAL SIMULATOR_TVOS OR ARCHS STREQUAL SIMULATORARM64_TVOS)
-    elseif(ARCHS STREQUAL WATCHOS OR ARCHS STREQUAL SIMULATOR_WATCHOS OR ARCHS STREQUAL SIMULATORARM64_WATCHOS)
     elseif()
         message(WARNING "SETUP: Did not find the correct osx target.")
     endif()
@@ -356,7 +468,7 @@ if(BUILD_JITPACK_LIBS)
             )
         endforeach()
 
-        message(STATUS "INSTALL: Install target set to install libs into cocoapods example.")
+        message(STATUS "INSTALL: Install target set to install libs into jitpack example.")
         install (TARGETS M1Decode M1DecodePositional M1Encode M1Transcode
             LIBRARY DESTINATION "${ANDROID_LIB_DEST_DIR}"
             ARCHIVE DESTINATION "${ANDROID_LIB_DEST_DIR}"

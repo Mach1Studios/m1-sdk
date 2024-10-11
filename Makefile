@@ -198,6 +198,12 @@ deploy-ue: clean build
 	rsync -c libmach1spatial/api_decodepositional/include/Mach1DecodePositional.cpp  examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/Source/Mach1DecodePlugin/Private
 	rsync -c libmach1spatial/api_decodepositional/include/Mach1DecodePositional.h  examples/mach1spatial-c/Unreal\ Engine/UE-Mach1SpatialAPI/Mach1DecodePlugin/Source/Mach1DecodePlugin/Public
 
+# Define variables
+WIN64_SRC_DIR = _builds/windows-x86_64/libmach1spatial/Release
+WIN64_DEST_DIR = examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/Windows/x86_64
+WIN32_SRC_DIR = _builds/windows-x86/libmach1spatial/Release
+WIN32_DEST_DIR = examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/Windows/x86
+
 deploy-unity: clean
 ifeq ($(detected_OS),Darwin)
 	@echo "Making folders if they do not exist..."
@@ -251,10 +257,16 @@ ifeq ($(detected_OS),Windows)
 	cmake . -B_builds/windows-x86_64 -A x64 \
 	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release
 	cmake --build _builds/windows-x86_64 --config Release --target install
+	@echo "Copying DLLs from $(WIN64_SRC_DIR) to $(WIN64_DEST_DIR)"
+	@mkdir $(WIN64_DEST_DIR) 2>nul || echo "Folder already exists"
+	@copy /Y "$(WIN64_SRC_DIR)\*.dll" "$(WIN64_DEST_DIR)"
 	@echo "Starting Windows x86 Unity build..."
 	cmake . -B_builds/windows-x86 -A Win32 \
 	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release
 	cmake --build _builds/windows-x86 --config Release --target install
+	@echo "Copying DLLs from $(WIN32_SRC_DIR) to $(WIN32_DEST_DIR)"
+	@mkdir $(WIN32_DEST_DIR) 2>nul || echo "Folder already exists"
+	@copy /Y "$(WIN32_SRC_DIR)\*.dll" "$(WIN32_DEST_DIR)"
 endif
 	@echo "Starting Android arm64 Unity build..."
 	cmake . -B_builds/android-arm64-v8a \

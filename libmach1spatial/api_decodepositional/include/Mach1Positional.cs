@@ -135,11 +135,11 @@ namespace Mach1
         public void setDecodeMode(Mach1DecodeMode mode)
 		{
 			Mach1DecodePositionalCAPI_setDecodeMode(M1obj, mode);
-            /// Set the decoding algorithm
+            /// Set the decoding mode
             ///
             /// - Parameters:
-            ///     - M1DecodeSpatial_4 (default spatial | 8 channels)
-            ///     - M1DecodeSpatial_8 (compass / yaw | 4 channels)
+            ///     - M1DecodeSpatial_4  (compass / yaw | 4 channels)
+            ///     - M1DecodeSpatial_8  (default spatial | 8 channels)
             ///     - M1DecodeSpatial_12 (higher order spatial | 12 channels)
             ///     - M1DecodeSpatial_14 (higher order spatial | 14 channels)
 		}

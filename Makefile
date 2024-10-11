@@ -200,8 +200,13 @@ deploy-ue: clean build
 
 deploy-unity: clean
 ifeq ($(detected_OS),Darwin)
-	# macos
-	# deletes the old bundle directories for cmake to nicely reinstall
+	@echo "Making folders if they do not exist..."
+	@mkdir -p examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/iOS
+	@mkdir -p examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/visionOS
+	@mkdir -p examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/visionSimulator
+	@mkdir -p examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS
+	@echo "Starting macOS Unity build..."
+	@echo "deleting the old bundle directories for cmake to nicely reinstall"
 	rm -rf examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/libMach1DecodeCAPI.bundle
 	rm -rf examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/libMach1DecodePositionalCAPI.bundle
 	rm -rf examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/libMach1EncodeCAPI.bundle
@@ -212,46 +217,46 @@ ifeq ($(detected_OS),Darwin)
 	mv examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/Mach1DecodePositionalCAPI.bundle examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/libMach1DecodePositionalCAPI.bundle
 	mv examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/Mach1EncodeCAPI.bundle examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/libMach1EncodeCAPI.bundle
 	mv examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/Mach1TranscodeCAPI.bundle examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/libMach1TranscodeCAPI.bundle
-	# ios
+	@echo "Starting iOS Unity build..."
 	cmake . -B_builds/ios \
 	-GXcode \
 	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=OS64COMBINED
 	cmake --build _builds/ios --config Release # separate build and install steps for fat-lib
 	cmake --install _builds/ios --config Release
-	# tvos
+	#@echo "Starting tvOS Unity build..."
 	#cmake . -B_builds/tvos \
 	#-GXcode \
 	#-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
 	#-DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=TVOSCOMBINED
 	#cmake --build _builds/tvos --config Release
 	#cmake --build _builds/tvos --config Release --target install
-	# visionos
+	@echo "Starting visionOS Unity build..."
 	cmake . -B_builds/visionos \
 	-GXcode \
 	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
-	-DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=VISIONOS
-	cmake --build _builds/visionos --config Release --target install
-	# visionos simulator
+	-DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=VISIONOS #TODO: make fat lib
+	cmake --build _builds/visionos --config Release
+	cmake --install _builds/visionos --config Release
+	@echo "Starting visionOS Simulator Unity build..."
 	cmake . -B_builds/visionsimulator \
 	-GXcode \
 	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=SIMULATOR_VISIONOS
-	cmake --build _builds/visionsimulator --config Release --target install
+	cmake --build _builds/visionsimulator --config Release 
+	cmake --install _builds/visionsimulator --config Release
 endif
 ifeq ($(detected_OS),Windows)
-	# 64bit
+	@echo "Starting Windows x86_64 Unity build..."
 	cmake . -B_builds/windows-x86_64 -A x64 \
-	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
-	-DCMAKE_TOOLCHAIN_FILE="%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake"
+	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release
 	cmake --build _builds/windows-x86_64 --config Release --target install
-	# 32bit
+	@echo "Starting Windows x86 Unity build..."
 	cmake . -B_builds/windows-x86 -A Win32 \
-	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
-	-DCMAKE_TOOLCHAIN_FILE="%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake"
+	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release
 	cmake --build _builds/windows-x86 --config Release --target install
 endif
-	# BUILD arm64
+	@echo "Starting Android arm64 Unity build..."
 	cmake . -B_builds/android-arm64-v8a \
 	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_TOOLCHAIN_FILE=${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake \
@@ -261,7 +266,7 @@ endif
 	-DCMAKE_ANDROID_STL_TYPE=c++_static \
 	-DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}
 	cmake --build _builds/android-arm64-v8a --config Release --target install
-	# BUILD armeabi-v7a
+	@echo "Starting Android armeabi-v7a Unity build..."
 	cmake . -B_builds/android-armeabi-v7a \
 	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_TOOLCHAIN_FILE=${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake \
@@ -273,7 +278,7 @@ endif
 	-DCMAKE_ANDROID_STL_TYPE=c++_static \
 	-DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}
 	cmake --build _builds/android-armeabi-v7a --config Release --target install
-	# BUILD x86
+	@echo "Starting Android x86 Unity build..."
 	cmake . -B_builds/android-x86 \
 	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_TOOLCHAIN_FILE=${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake \
@@ -283,7 +288,7 @@ endif
 	-DCMAKE_ANDROID_STL_TYPE=c++_static \
 	-DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}
 	cmake --build _builds/android-x86 --config Release --target install
-	# BUILD x64
+	@echo "Starting Android x64 Unity build..."
 	cmake . -B_builds/android-x86-64 \
 	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_TOOLCHAIN_FILE=${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake \
@@ -293,14 +298,8 @@ endif
 	-DCMAKE_ANDROID_STL_TYPE=c++_static \
 	-DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}
 	cmake --build _builds/android-x86-64 --config Release --target install
-	## api_common
-	#rsync -c libmach1spatial/api_common/include examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/libMach1Spatial/api_common --exclude='*AudioTimeline*' --exclude='*Mach1KeyPoint.h'
-	## api_decode
-	#rsync -c libmach1spatial/api_decode/include examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/libMach1Spatial/api_decode --exclude='js/' --exclude='*.swift' --exclude='*Emscripten*'
-	#rsync -c libmach1spatial/api_decode/src examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/libMach1Spatial/api_decode --exclude='js/' --exclude='*.swift' --exclude='*Emscripten*'
-	## api_decodepositional
-	#rsync -c libmach1spatial/api_decodepositional/include examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/libMach1Spatial/api_decodepositional --exclude='js/' --exclude='*.swift' --exclude='*Emscripten*'
-	#rsync -c libmach1spatial/api_decodepositional/src examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/libMach1Spatial/api_decodepositional --exclude='js/' --exclude='*.swift' --exclude='*Emscripten*'
+	@echo "Copy all .cs files..."
+	rsync -c --include='*.cs' --include='*/' --exclude='*' libmach1spatial/ examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1
 
 generate-jni-wrapper:
 	mkdir -p libmach1spatial/swig/jni/java/com/mach1/spatiallibs

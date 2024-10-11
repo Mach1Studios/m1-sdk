@@ -268,11 +268,13 @@ if(BUILD_UNITY_LIBS) # Bundles typically for Unity
             message(STATUS "SETUP: Building for tvOS!")
             set(LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/tvOS")
         elseif(VISIONOS)
-            message(STATUS "SETUP: Building for visionOS!")
-            set(LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/visionOS")
-        elseif(VISIONOS AND SIMULATOR)
-            message(STATUS "SETUP: Building for VisionSimulator!")
-            set(LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/VisionSimulator")
+            if (PLATFORM STREQUAL "SIMULATOR_VISIONOS")
+                message(STATUS "SETUP: Building for visionOS Simulator!")
+                set(LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/visionSimulator")
+            else()
+                message(STATUS "SETUP: Building for visionOS!")
+                set(LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/visionOS")
+            endif()
         else()
             message(STATUS "SETUP: Building for macOS!")
             set(LIB_DEST_DIR "${CMAKE_SOURCE_DIR}/examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS")
@@ -316,6 +318,13 @@ if(BUILD_UNITY_LIBS) # Bundles typically for Unity
             message(FATAL_ERROR "Unable to locate the Android NDK and Android toolchain. Please set `CMAKE_ANDROID_NDK`.")
         endif()
     elseif(WIN32 OR MSVC OR MINGW)
+        set(vcpkg "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
+        if(NOT CMAKE_TOOLCHAIN_FILE AND EXISTS "${vcpkg}")
+          set(CMAKE_TOOLCHAIN_FILE "${vcpkg}"
+              CACHE FILEPATH "CMake toolchain file")
+          message(STATUS "vcpkg toolchain found: ${CMAKE_TOOLCHAIN_FILE}")
+        endif()
+
         # Windows libs
         if(CMAKE_SIZEOF_VOID_P EQUAL 8)
             # 64-bit build

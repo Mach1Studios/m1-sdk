@@ -155,18 +155,52 @@ deploy-ios: clean
 ifeq ($(detected_OS),Darwin)
 	# Using CMake install since we will be building a lib instead of copying source code
 	# TODO: Create .swift source files
+	@echo "Starting macOS build..."
 	cmake . -B_builds/osx \
 	-GXcode \
 	-DM1S_BUILD_EXAMPLES=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=MAC_UNIVERSAL
 	cmake --build _builds/osx --config Release
 	cmake --install _builds/osx --config Release
+	@echo "Starting iOS build..."
 	cmake . -B_builds/ios \
 	-GXcode \
 	-DM1S_BUILD_EXAMPLES=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=OS64COMBINED
 	cmake --build _builds/ios --config Release # separate build and install steps for fat-lib
 	cmake --install _builds/ios --config Release
+	@echo "Starting tvOS build..."
+	cmake . -B_builds/tvos \
+	-GXcode \
+	-DM1S_BUILD_TESTS=OFF -DM1S_BUILD_EXAMPLES=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=TVOSCOMBINED
+	cmake --build _builds/tvos --config Release # separate build and install steps for fat-lib
+	cmake --install _builds/tvos --config Release
+	@echo "Starting watchOS build..."
+	cmake . -B_builds/watchos \
+	-GXcode \
+	-DM1S_BUILD_TESTS=OFF -DM1S_BUILD_EXAMPLES=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=WATCHOSCOMBINED
+	cmake --build _builds/watchos --config Release # separate build and install steps for fat-lib
+	cmake --install _builds/watchos --config Release
+	@echo "Starting visionOS build..."
+	cmake . -B_builds/xros \
+	-GXcode \
+	-DM1S_BUILD_TESTS=OFF -DM1S_BUILD_EXAMPLES=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=VISIONOS
+	cmake --build _builds/xros --config Release # separate build and install steps for fat-lib
+	cmake --install _builds/xros --config Release
+	@echo "Starting visionSimulator build..."
+	cmake . -B_builds/xrsimulator \
+	-GXcode \
+	-DM1S_BUILD_TESTS=OFF -DM1S_BUILD_EXAMPLES=OFF -DBUILD_COCOAPODS_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=SIMULATOR_VISIONOS
+	cmake --build _builds/xrsimulator --config Release # separate build and install steps for fat-lib
+	cmake --install _builds/xrsimulator --config Release
+	xcodebuild -create-xcframework -library examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/device/libMach1DecodeCAPI.a -library examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/simulator/libMach1DecodeCAPI.a -output examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/libMach1DecodeCAPI.xcframework
+	xcodebuild -create-xcframework -library examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/device/libMach1DecodePositionalCAPI.a -library examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/simulator/libMach1DecodePositionalCAPI.a -output examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/libMach1DecodePositionalCAPI.xcframework
+	xcodebuild -create-xcframework -library examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/device/libMach1EncodeCAPI.a -library examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/simulator/libMach1EncodeCAPI.a -output examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/libMach1EncodeCAPI.xcframework
+	xcodebuild -create-xcframework -library examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/device/libMach1TranscodeCAPI.a -library examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/simulator/libMach1TranscodeCAPI.a -output examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/libMach1TranscodeCAPI.xcframework
 	# TODO: test the libs are codesigned and built properly
 endif
 
@@ -208,8 +242,8 @@ deploy-unity: clean
 ifeq ($(detected_OS),Darwin)
 	@echo "Making folders if they do not exist..."
 	@mkdir -p examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/iOS
-	@mkdir -p examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/visionOS
-	@mkdir -p examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/visionSimulator
+	@mkdir -p examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/visionOS/Device
+	@mkdir -p examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/visionOS/Simulator
 	@mkdir -p examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS
 	@echo "Starting macOS Unity build..."
 	@echo "deleting the old bundle directories for cmake to nicely reinstall"
@@ -224,6 +258,7 @@ ifeq ($(detected_OS),Darwin)
 	mv examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/Mach1EncodeCAPI.bundle examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/libMach1EncodeCAPI.bundle
 	mv examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/Mach1TranscodeCAPI.bundle examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/macOS/libMach1TranscodeCAPI.bundle
 	@echo "Starting iOS Unity build..."
+	mkdir -p examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/Plugins/iOS
 	cmake . -B_builds/ios \
 	-GXcode \
 	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release \

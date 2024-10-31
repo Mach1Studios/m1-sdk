@@ -293,12 +293,6 @@ Mach1Encode<PCM>& Mach1Encode<PCM>::operator=(const Mach1Encode<PCM>& other) {
         // Create a new M1obj
         M1obj = Mach1EncodeCAPI_create();
 
-        // Ensure M1obj was successfully created
-        if (M1obj == nullptr) {
-            // Handle error: failed to allocate M1obj
-            throw std::runtime_error("Failed to allocate M1obj");
-        }
-
         // Copy from other.M1obj into M1obj
         Mach1EncodeCAPI_copy(other.M1obj, M1obj);
     }

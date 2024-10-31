@@ -742,21 +742,42 @@ M1EncodeCore::M1EncodeCore() {
 }
 
 M1EncodeCore::~M1EncodeCore() {
-    delete[] arr_Points;
-
-    for (int i = 0; i < MAX_POINTS_COUNT; i++) {
-        delete[] arr_Gains[i];
+    if (arr_Points) {
+        delete[] arr_Points;
+        arr_Points = nullptr;
     }
-    delete[] arr_Gains;
 
-    for (int i = 0; i < MAX_POINTS_COUNT; i++) {
-        delete[] arr_PointsNames[i];
+    if (arr_Gains) {
+        for (int i = 0; i < MAX_POINTS_COUNT; i++) {
+            if (arr_Gains[i]) {
+                delete[] arr_Gains[i];
+                arr_Gains[i] = nullptr;
+            }
+        }
+        delete[] arr_Gains;
+        arr_Gains = nullptr;
     }
-    delete[] arr_PointsNames;
 
-    delete[] arr_GainsForInputChannelNamed;
+    if (arr_PointsNames) {
+        for (int i = 0; i < MAX_POINTS_COUNT; i++) {
+            if (arr_PointsNames[i]) {
+                delete[] arr_PointsNames[i];
+                arr_PointsNames[i] = nullptr;
+            }
+        }
+        delete[] arr_PointsNames;
+        arr_PointsNames = nullptr;
+    }
 
-    delete[] arr_ResultingCoeffsDecoded;
+    if (arr_GainsForInputChannelNamed) {
+        delete[] arr_GainsForInputChannelNamed;
+        arr_GainsForInputChannelNamed = nullptr;
+    }
+
+    if (arr_ResultingCoeffsDecoded) {
+        delete[] arr_ResultingCoeffsDecoded;
+        arr_ResultingCoeffsDecoded = nullptr;
+    }
 }
 
 // Copy constructor
@@ -765,8 +786,9 @@ M1EncodeCore::M1EncodeCore(const M1EncodeCore &other) : M1EncodeCore() {
 }
 
 // Copy assignment operator
-M1EncodeCore &M1EncodeCore::operator=(const M1EncodeCore &other) {
+M1EncodeCore& M1EncodeCore::operator=(const M1EncodeCore& other) {
     if (this != &other) {
+        // Copy basic data members
         inputMode = other.inputMode;
         outputMode = other.outputMode;
         pannerMode = other.pannerMode;
@@ -781,19 +803,34 @@ M1EncodeCore &M1EncodeCore::operator=(const M1EncodeCore &other) {
         timeLastCalculation = other.timeLastCalculation;
         outputGainLinearMultipler = other.outputGainLinearMultipler;
 
-        // Copy additional arrays
-        std::copy(other.arr_Points, other.arr_Points + MAX_POINTS_COUNT, arr_Points);
-
-        for (int i = 0; i < MAX_POINTS_COUNT; i++) {
-            std::copy(other.arr_Gains[i], other.arr_Gains[i] + MAX_CHANNELS_COUNT, arr_Gains[i]);
+        // Copy arrays safely
+        if (other.arr_Points && arr_Points) {
+            std::copy(other.arr_Points, other.arr_Points + MAX_POINTS_COUNT, arr_Points);
         }
 
-        for (int i = 0; i < MAX_POINTS_COUNT; i++) {
-            std::strcpy(arr_PointsNames[i], other.arr_PointsNames[i]);
+        if (other.arr_Gains && arr_Gains) {
+            for (int i = 0; i < MAX_POINTS_COUNT; i++) {
+                if (other.arr_Gains[i] && arr_Gains[i]) {
+                    std::copy(other.arr_Gains[i], other.arr_Gains[i] + MAX_CHANNELS_COUNT, arr_Gains[i]);
+                }
+            }
         }
 
-        std::copy(other.arr_GainsForInputChannelNamed, other.arr_GainsForInputChannelNamed + MAX_CHANNELS_COUNT, arr_GainsForInputChannelNamed);
-        std::copy(other.arr_ResultingCoeffsDecoded, other.arr_ResultingCoeffsDecoded + MAX_CHANNELS_COUNT, arr_ResultingCoeffsDecoded);
+        if (other.arr_PointsNames && arr_PointsNames) {
+            for (int i = 0; i < MAX_POINTS_COUNT; i++) {
+                if (other.arr_PointsNames[i] && arr_PointsNames[i]) {
+                    std::strcpy(arr_PointsNames[i], other.arr_PointsNames[i]);
+                }
+            }
+        }
+
+        if (other.arr_GainsForInputChannelNamed && arr_GainsForInputChannelNamed) {
+            std::copy(other.arr_GainsForInputChannelNamed, other.arr_GainsForInputChannelNamed + MAX_CHANNELS_COUNT, arr_GainsForInputChannelNamed);
+        }
+
+        if (other.arr_ResultingCoeffsDecoded && arr_ResultingCoeffsDecoded) {
+            std::copy(other.arr_ResultingCoeffsDecoded, other.arr_ResultingCoeffsDecoded + MAX_CHANNELS_COUNT, arr_ResultingCoeffsDecoded);
+        }
     }
     return *this;
 }

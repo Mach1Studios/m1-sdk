@@ -19,14 +19,10 @@ template <typename PCM>
 class Mach1Encode {
   public:
     Mach1Encode();
-
     Mach1Encode(const Mach1Encode &other);
-
     Mach1Encode &operator=(const Mach1Encode &other);
-
-    Mach1Encode(Mach1Encode &&other) = default;            // TODO: Implement
-    Mach1Encode &operator=(Mach1Encode &&other) = default; // TODO: Implement
-
+    Mach1Encode(Mach1Encode&& other) noexcept;
+    Mach1Encode& operator=(Mach1Encode&& other) noexcept;
     ~Mach1Encode();
 
     /**
@@ -286,13 +282,47 @@ Mach1Encode<PCM>::Mach1Encode(const Mach1Encode<PCM> &other) {
 }
 
 template <typename PCM>
-Mach1Encode<PCM> &Mach1Encode<PCM>::operator=(const Mach1Encode<PCM> &other) {
-    if (this == &other) {
-        return *this;
+Mach1Encode<PCM>& Mach1Encode<PCM>::operator=(const Mach1Encode<PCM>& other) {
+    if (this != &other) {
+        // Delete current M1obj if it's not nullptr
+        if (M1obj != nullptr) {
+            Mach1EncodeCAPI_delete(M1obj);
+            M1obj = nullptr;
+        }
+
+        // Create a new M1obj
+        M1obj = Mach1EncodeCAPI_create();
+
+        // Ensure M1obj was successfully created
+        if (M1obj == nullptr) {
+            // Handle error: failed to allocate M1obj
+            throw std::runtime_error("Failed to allocate M1obj");
+        }
+
+        // Copy from other.M1obj into M1obj
+        Mach1EncodeCAPI_copy(other.M1obj, M1obj);
     }
+    return *this;
+}
 
-    Mach1EncodeCAPI_copy(other.M1obj, M1obj);
+template <typename PCM>
+Mach1Encode<PCM>::Mach1Encode(Mach1Encode&& other) noexcept {
+    M1obj = other.M1obj;
+    other.M1obj = nullptr;
+}
 
+template <typename PCM>
+Mach1Encode<PCM>& Mach1Encode<PCM>::operator=(Mach1Encode&& other) noexcept {
+    if (this != &other) {
+        // Delete current M1obj
+        if (M1obj != nullptr) {
+            Mach1EncodeCAPI_delete(M1obj);
+        }
+
+        // Transfer ownership
+        M1obj = other.M1obj;
+        other.M1obj = nullptr;
+    }
     return *this;
 }
 

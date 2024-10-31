@@ -17,6 +17,13 @@ void Mach1EncodeCAPI_copy(void *M1str, void *M1dst) {
     M1EncodeCore *src = static_cast<M1EncodeCore *>(M1str);
     M1EncodeCore *dst = static_cast<M1EncodeCore *>(M1dst);
 
+    // Ensure that src and dst are properly constructed
+    if (!src || !dst) {
+        // Handle error: one of the objects is not properly constructed
+        return;
+    }
+
+    // Use the copy assignment operator with null checks
     *dst = *src;
 }
 

@@ -197,6 +197,11 @@ ifeq ($(detected_OS),Darwin)
 	-DCMAKE_TOOLCHAIN_FILE=libmach1spatial/cmake/ios-cmake/ios.toolchain.cmake -DPLATFORM=SIMULATOR_VISIONOS
 	cmake --build _builds/xrsimulator --config Release # separate build and install steps for fat-lib
 	cmake --install _builds/xrsimulator --config Release
+	@echo "Delete the previous xcframework files..."
+	rm -rf examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/libMach1DecodeCAPI.xcframework
+	rm -rf examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/libMach1DecodePositionalCAPI.xcframework
+	rm -rf examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/libMach1EncodeCAPI.xcframework
+	rm -rf examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/libMach1TranscodeCAPI.xcframework
 	xcodebuild -create-xcframework -library examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/device/libMach1DecodeCAPI.a -library examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/simulator/libMach1DecodeCAPI.a -output examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/libMach1DecodeCAPI.xcframework
 	xcodebuild -create-xcframework -library examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/device/libMach1DecodePositionalCAPI.a -library examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/simulator/libMach1DecodePositionalCAPI.a -output examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/libMach1DecodePositionalCAPI.xcframework
 	xcodebuild -create-xcframework -library examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/device/libMach1EncodeCAPI.a -library examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/simulator/libMach1EncodeCAPI.a -output examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI/Mach1SpatialAPI/Lib/xros/libMach1EncodeCAPI.xcframework

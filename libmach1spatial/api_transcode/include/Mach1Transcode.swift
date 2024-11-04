@@ -32,12 +32,12 @@ public class Mach1Transcode {
         ///     - integer of number of output channels
     }
 
-    public func getFormatFromString(str:String) -> Mach1TranscodeFormat {
+    public func getFormatFromString(str:String) -> Int {
         let pointer = UnsafeMutablePointer<Int8>(mutating: (str as NSString).utf8String)
         return Mach1TranscodeCAPI_getFormatFromString(M1obj, pointer)
     }
 
-    public func getFormatName(fmt:Mach1TranscodeFormat) -> String {
+    public func getFormatName(fmt:Int) -> String {
         let cStr = Mach1TranscodeCAPI_getFormatName(M1obj, fmt)
         return String(cString: cStr!)
         /// Returns the format index of a specified format string name
@@ -120,7 +120,7 @@ public class Mach1Transcode {
         ///     - when true; transcodings that are set to ouput to `Mach1Spatial` will process an additional conversion to `Mach1Horizon`
     }
 
-    public func setInputFormat(inFmt:Mach1TranscodeFormat) {
+    public func setInputFormat(inFmt:Int) {
         Mach1TranscodeCAPI_setInputFormat(M1obj, inFmt)
         /// Sets the input format for transcoding from the preset Mach1Transcode options
         ///
@@ -146,7 +146,7 @@ public class Mach1Transcode {
         ///     View the JSON spec for describing a format here: https://dev.mach1.tech/#json-descriptions
     }
 
-    public func setOutputFormat(outFmt:Mach1TranscodeFormat) {
+    public func setOutputFormat(outFmt:Int) {
         Mach1TranscodeCAPI_setOutputFormat(M1obj, outFmt)
         /// Sets the output format for transcoding from the preset Mach1Transcode options
         ///
@@ -201,9 +201,9 @@ public class Mach1Transcode {
         Mach1TranscodeCAPI_processConversion(M1obj, inBufs, outBufs, CInt(numSamples))
     }
 
-    public func getFormatConversionPath() -> [Mach1TranscodeFormat] {
+    public func getFormatConversionPath() -> [Int] {
         var count:CInt = 0
-        let pointer:UnsafeMutablePointer<Mach1TranscodeFormat> = Mach1TranscodeCAPI_getFormatConversionPath(M1obj, &count)
+        let pointer:UnsafeMutablePointer<Int> = Mach1TranscodeCAPI_getFormatConversionPath(M1obj, &count)
 
         let vec = Array(UnsafeBufferPointer(start: pointer, count: Int(count)))
         return vec

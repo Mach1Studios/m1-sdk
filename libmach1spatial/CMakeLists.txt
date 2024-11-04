@@ -87,23 +87,35 @@ project(Mach1Spatial VERSION ${Mach1SpatialLibraries_VERSION})
 # Common Files
 
 set(M1_DSP_UTILITIES_SRC_FILES
-        deps/M1DSP/M1DSPDynamics.h
-        deps/M1DSP/M1DSPDynamics.cpp
-        deps/M1DSP/M1DSPFilters.h
-        deps/M1DSP/M1DSPFilters.cpp
-        deps/M1DSP/M1DSPUtilities.h
-        deps/M1DSP/M1DSPUtilities.cpp
+    deps/M1DSP/M1DSPDynamics.h
+    deps/M1DSP/M1DSPDynamics.cpp
+    deps/M1DSP/M1DSPFilters.h
+    deps/M1DSP/M1DSPFilters.cpp
+    deps/M1DSP/M1DSPUtilities.h
+    deps/M1DSP/M1DSPUtilities.cpp
 )
+
+# List of shared source files
+set(M1_SHARED_SRC_FILES    
+    api_common/include/Mach1Point3D.h
+    api_common/include/Mach1Point4D.h
+)
+
+# M1 object library for the shared code
+# TODO: Move m1-mathematics here
+add_library(M1Shared OBJECT ${M1_SHARED_SRC_FILES} ${M1_DSP_UTILITIES_SRC_FILES})
 
 #----------------
 # Mach1 Decode API
 
-file(GLOB M1_DECODE_API_SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/src/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/src/*.tpp")
+file(GLOB M1_DECODE_API_SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/src/*.cpp")
 list(FILTER M1_DECODE_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude the Emscripten files
-list(FILTER M1_DECODE_API_SRC_FILES EXCLUDE REGEX ".*Mach1AudioTimeline.*") # Exclude the Mach1AudioTimeline API
 
 if(BUILD_M1DECODE)
-    add_library(M1Decode ${LIB_TYPE} ${M1_DECODE_API_SRC_FILES} ${M1_DSP_UTILITIES_SRC_FILES})
+    add_library(M1Decode ${LIB_TYPE} 
+        ${M1_DECODE_API_SRC_FILES}
+        $<TARGET_OBJECTS:M1Shared>
+    )
     if(NOT (APPLE AND BUILD_SHARED_LIBS_FOR_UNITY))
         set_target_properties(M1Decode
         PROPERTIES
@@ -121,12 +133,14 @@ set(M1DECODE_API_INCLUDE_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/src" "${C
 # Mach1 Encode API
 # Note: (Optional) Some functions in Mach1Encode API may optionally require Mach1Decode API
 
-file(GLOB M1_ENCODE_API_SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/src/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/src/*.tpp")
+file(GLOB M1_ENCODE_API_SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/src/*.cpp")
 list(FILTER M1_ENCODE_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude the Emscripten files
-list(FILTER M1_ENCODE_API_SRC_FILES EXCLUDE REGEX ".*Mach1AudioTimeline.*") # Exclude the Mach1AudioTimeline API
 
 if(BUILD_M1ENCODE)
-    add_library(M1Encode ${LIB_TYPE} ${M1_ENCODE_API_SRC_FILES} ${M1_DSP_UTILITIES_SRC_FILES})
+    add_library(M1Encode ${LIB_TYPE} 
+        ${M1_ENCODE_API_SRC_FILES}
+        $<TARGET_OBJECTS:M1Shared>
+    )
     if(NOT (APPLE AND BUILD_SHARED_LIBS_FOR_UNITY))
         set_target_properties(M1Encode
         PROPERTIES
@@ -140,6 +154,12 @@ if(BUILD_M1ENCODE)
     # (Requires linking decode api)
     if(M1ENCODE_INLINE_DECODE)
         message(STATUS "ENCODE API: Supports inline decoder")
+        # Only link M1Decode if it is not a MODULE library
+        if(NOT LIB_TYPE STREQUAL "MODULE")
+            target_link_libraries(M1Encode PUBLIC M1Decode)
+        else()
+            message(STATUS "Skipping linking M1Decode as it's a MODULE library.")
+        endif()
         target_include_directories(M1Encode PUBLIC ${M1DECODE_API_INCLUDE_PATHS})
     else()
         message(STATUS "ENCODE API: Does not support inline decoding")
@@ -155,14 +175,30 @@ set(M1ENCODE_API_INCLUDE_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/src" "${C
 
 file(GLOB M1_DECODEPOSITIONAL_API_SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/api_decodepositional/src/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/api_decodepositional/src/*.cpp")
 list(FILTER M1_DECODEPOSITIONAL_API_SRC_FILES EXCLUDE REGEX ".*Emscripten.*") # Exclude the Emscripten files
-list(FILTER M1_DECODEPOSITIONAL_API_SRC_FILES EXCLUDE REGEX ".*Mach1AudioTimeline.*") # Exclude the Mach1AudioTimeline API
 
 if(BUILD_M1DECODEPOSITIONAL)
     if(NOT BUILD_M1DECODE)
         message(FATAL_ERROR "M1DecodePositional requires M1Decode, but BUILD_M1DECODE is OFF")
     endif()
 
-    add_library(M1DecodePositional ${LIB_TYPE} ${M1_DECODEPOSITIONAL_API_SRC_FILES} $<TARGET_OBJECTS:M1Decode>)
+    # If building a MODULE library (macOS .bundle), include M1Decode sources directly
+    if(LIB_TYPE STREQUAL "MODULE")
+        message(STATUS "Including M1Decode sources directly into M1DecodePositional for MODULE library")
+        add_library(M1DecodePositional ${LIB_TYPE}
+            ${M1_DECODEPOSITIONAL_API_SRC_FILES}
+            ${M1_DECODE_API_SRC_FILES}  # Include M1Decode sources
+            $<TARGET_OBJECTS:M1Shared>
+        )
+    else()
+        # For other library types, link to M1Decode
+        add_library(M1DecodePositional ${LIB_TYPE}
+            ${M1_DECODEPOSITIONAL_API_SRC_FILES}
+            $<TARGET_OBJECTS:M1Shared>
+        )
+        target_link_libraries(M1DecodePositional PUBLIC M1Decode)
+    endif()
+
+    # Set target properties and include directories
     if(NOT (APPLE AND BUILD_SHARED_LIBS_FOR_UNITY))
         set_target_properties(M1DecodePositional
         PROPERTIES
@@ -170,7 +206,16 @@ if(BUILD_M1DECODEPOSITIONAL)
             SOVERSION ${DECODEPOSITIONAL_VERSION}
         )
     endif()
-    target_include_directories(M1DecodePositional PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_decodepositional/include" ${M1DECODE_API_INCLUDE_PATHS} "${CMAKE_CURRENT_SOURCE_DIR}/deps" "${CMAKE_CURRENT_SOURCE_DIR}/deps/glm" "${CMAKE_CURRENT_SOURCE_DIR}/deps/pugixml/src" "${CMAKE_CURRENT_SOURCE_DIR}/deps/yaml")
+
+    target_include_directories(M1DecodePositional PUBLIC
+        "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include"
+        "${CMAKE_CURRENT_SOURCE_DIR}/api_decodepositional/include"
+        ${M1DECODE_API_INCLUDE_PATHS}
+        "${CMAKE_CURRENT_SOURCE_DIR}/deps"
+        "${CMAKE_CURRENT_SOURCE_DIR}/deps/glm"
+        "${CMAKE_CURRENT_SOURCE_DIR}/deps/pugixml/src"
+        "${CMAKE_CURRENT_SOURCE_DIR}/deps/yaml"
+    )
 endif()
 
 #----------------
@@ -185,14 +230,24 @@ if(BUILD_M1TRANSCODE)
         message(FATAL_ERROR "M1Transcode requires M1Encode, but BUILD_M1ENCODE is OFF")
     endif()
 
+    add_library(M1Transcode ${LIB_TYPE} 
+        ${M1_TRANSCODE_API_SRC_FILES}
+        $<TARGET_OBJECTS:M1Shared>
+    )
+
     if(M1TRANSCODE_INLINE_ENCODE)
         message(STATUS "TRANSCODE API: Supports inline encoder")
-        add_library(M1Transcode ${LIB_TYPE} ${M1_TRANSCODE_API_SRC_FILES} $<TARGET_OBJECTS:M1Encode>)
+        # Only link M1Encode if it is not a MODULE library
+        if(NOT LIB_TYPE STREQUAL "MODULE")
+            target_link_libraries(M1Transcode PUBLIC M1Encode)
+        else()
+            message(STATUS "Skipping linking M1Encode as it's a MODULE library.")
+        endif()
+        target_include_directories(M1Transcode PUBLIC ${M1ENCODE_API_INCLUDE_PATHS})
     else()
         message(STATUS "TRANSCODE API: Does not support inline encoder")
-        add_library(M1Transcode ${LIB_TYPE} ${M1_TRANSCODE_API_SRC_FILES}  ${M1_DSP_UTILITIES_SRC_FILES})
-        target_include_directories(M1Transcode PUBLIC ${M1ENCODE_API_INCLUDE_PATHS})
     endif()
+
     if(NOT (APPLE AND BUILD_SHARED_LIBS_FOR_UNITY))
         set_target_properties(M1Transcode
         PROPERTIES
@@ -200,6 +255,7 @@ if(BUILD_M1TRANSCODE)
             SOVERSION ${TRANSCODE_VERSION}
         )
     endif()
+
     target_include_directories(M1Transcode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/matrices" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/src" "${CMAKE_CURRENT_SOURCE_DIR}/deps" "${CMAKE_CURRENT_SOURCE_DIR}/deps/yaml" "${CMAKE_CURRENT_SOURCE_DIR}/deps/pugixml/src")
 endif()
 
@@ -209,6 +265,7 @@ endif()
 if(BUILD_MACH1SPATIAL_COMBINED_LIB)
     # Create a combined library target
     set(MACH1SPATIAL_OBJECTS)
+    list(APPEND MACH1SPATIAL_OBJECTS $<TARGET_OBJECTS:M1Shared>)
     if(BUILD_M1DECODE)
         list(APPEND MACH1SPATIAL_OBJECTS $<TARGET_OBJECTS:M1Decode>)
     endif()

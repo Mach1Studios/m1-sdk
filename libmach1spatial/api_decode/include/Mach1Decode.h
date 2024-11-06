@@ -25,6 +25,16 @@ class Mach1Decode {
      * @brief Set the decoding mode.
      */
     void setDecodeMode(Mach1DecodeMode mode);
+    
+    /**
+     * @brief Get the device's angle order and convention if applicable.
+     */
+    Mach1PlatformType getPlatformType();
+
+    /**
+     * @brief Get the decoding mode.
+     */
+    Mach1DecodeMode getDecodeMode();
 
     /**
      * @brief Get the get amount of channels that this Mach1Decode expects to decode, based on the
@@ -216,6 +226,16 @@ void Mach1Decode<PCM>::setPlatformType(Mach1PlatformType type) {
 template <typename PCM>
 void Mach1Decode<PCM>::setDecodeMode(Mach1DecodeMode mode) {
     Mach1DecodeCAPI_setDecodeMode(M1obj, mode);
+}
+
+template <typename PCM>
+Mach1PlatformType Mach1Decode<PCM>::getPlatformType() {
+    return Mach1DecodeCAPI_getPlatformType(M1obj);
+}
+
+template <typename PCM>
+Mach1DecodeMode Mach1Decode<PCM>::getDecodeMode() {
+    return Mach1DecodeCAPI_getDecodeMode(M1obj);
 }
 
 #ifndef __EMSCRIPTEN__

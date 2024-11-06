@@ -775,27 +775,27 @@ std::vector<float> M1DecodeCore::decode(float Yaw, float Pitch, float Roll, int 
 
 std::vector<float> M1DecodeCore::decodeCoeffs(int bufferSize, int sampleIndex) {
     long tStart = getCurrentTime();
-    std::vector<float> res;
+    std::vector<float> coeffs;
 
-    float Yaw = fmod(rotation.x, 360.0); // protect a 360 cycle
-    float Pitch = fmod(rotation.y, 360.0);
-    float Roll = fmod(rotation.z, 360.0);
+    float yaw = fmod(rotation.x, 360.0); // protect a 360 cycle
+    float pitch = fmod(rotation.y, 360.0);
+    float roll = fmod(rotation.z, 360.0);
 
     switch (decodeMode) {
     case M1DecodeSpatial_4:
-        res = processSample(&M1DecodeCore::spatialAlgo_4, Yaw, Pitch, Roll, bufferSize, sampleIndex);
+        coeffs = processSample(&M1DecodeCore::spatialAlgo_4, yaw, pitch, roll, bufferSize, sampleIndex);
         break;
 
     case M1DecodeSpatial_8:
-        res = processSample(&M1DecodeCore::spatialAlgo_8, Yaw, Pitch, Roll, bufferSize, sampleIndex);
+        coeffs = processSample(&M1DecodeCore::spatialAlgo_8, yaw, pitch, roll, bufferSize, sampleIndex);
         break;
 
     case M1DecodeSpatial_12:
-        res = processSample(&M1DecodeCore::spatialAlgo_12, Yaw, Pitch, Roll, bufferSize, sampleIndex);
+        coeffs = processSample(&M1DecodeCore::spatialAlgo_12, yaw, pitch, roll, bufferSize, sampleIndex);
         break;
 
     case M1DecodeSpatial_14:
-        res = processSample(&M1DecodeCore::spatialAlgo_14, Yaw, Pitch, Roll, bufferSize, sampleIndex);
+        coeffs = processSample(&M1DecodeCore::spatialAlgo_14, yaw, pitch, roll, bufferSize, sampleIndex);
         break;
 
     default:
@@ -803,7 +803,7 @@ std::vector<float> M1DecodeCore::decodeCoeffs(int bufferSize, int sampleIndex) {
     }
 
     timeLastCalculation = getCurrentTime() - tStart;
-    return res;
+    return coeffs;
 }
 
 // Return decode Coeffs for audio players that support pan & gain functions to reduce verbosity of the client side spatial mixer
@@ -954,12 +954,12 @@ void M1DecodeCore::processSample(processSampleForMultichannelPtr _processSampleF
 
         std::vector<float> gainsL(getFormatCoeffCount());
         std::vector<float> gainsR(getFormatCoeffCount());
-        (this->*_processSampleForMultichannelPtr)(previousYaw, previousPitch, previousRoll, gainsL.data());
+        (this->*_processSampleForMultichannelPtr)(currentYaw, currentPitch, currentRoll, gainsL.data());
         (this->*_processSampleForMultichannelPtr)(currentYaw, currentPitch, currentRoll, gainsR.data());
         float phase = (float)sampleIndex / (float)bufferSize;
 
         std::vector<float> gains_lerp(getFormatCoeffCount());
-        for (int i = 0; i < 16; i++) { // designed for (4 * stereo_inputs * stereo_output) of 16ch
+        for (int i = 0; i < gains_lerp.size(); i++) {
             gains_lerp[i] = gainsL[i] * (1 - phase) + gainsR[i] * phase;
             result[i] = gains_lerp[i];
         }
@@ -1006,12 +1006,12 @@ std::vector<float> M1DecodeCore::processSample(processSampleForMultichannel _pro
     if (bufferSize > 0) {
         // we're in per sample mode
         // returning values from right here!
-        std::vector<float> gainsL = (this->*_processSampleForMultichannel)(previousYaw, previousPitch, previousRoll);
+        std::vector<float> gainsL = (this->*_processSampleForMultichannel)(currentYaw, currentPitch, currentRoll);
         std::vector<float> gainsR = (this->*_processSampleForMultichannel)(currentYaw, currentPitch, currentRoll);
         float phase = (float)sampleIndex / (float)bufferSize;
         std::vector<float> gains_lerp;
         gains_lerp.resize(gainsL.size());
-        for (int i = 0; i < gainsR.size(); i++) {
+        for (int i = 0; i < gainsL.size(); i++) {
             gains_lerp[i] = gainsL[i] * (1 - phase) + gainsR[i] * phase;
         }
         return gains_lerp;

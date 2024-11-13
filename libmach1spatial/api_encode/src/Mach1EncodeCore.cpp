@@ -1165,29 +1165,9 @@ void M1EncodeCore::generatePointResults() {
             }
         }
     }
-    
-    // Calculate adjusted diverge for gain compensation
-    float adjustedOutputGain = 1.0f;
-    float divergeThreshold = 0.707106f;
-    float maxGainCompensation_dB = 6.0f; // Maximum gain compensation at diverge = 0.0
 
-    float d_comp = 0.0f;
-    if (diverge <= divergeThreshold) {
-        d_comp = 1.0f - (diverge / divergeThreshold);
-    } else {
-        d_comp = 0.0f; // No compensation needed
-    }
+    // Generating channel gains
 
-    // Calculate the gain compensation in decibels
-    float gainCompensation_dB = maxGainCompensation_dB * d_comp;
-
-    // Calculate the gain multiplier based on d_comp
-    float gainMultiplier = powf(2.0f, d_comp); // Exponential increase up to 6dB
-    //float gainMultiplier = powf(10.0f, gainCompensation_dB / 20.0f);
-
-    // Apply the gain multiplier to the output gain
-    adjustedOutputGain = outputGainLinearMultipler * gainMultiplier;
-    
     resultingPoints.gains.resize(resultingPoints.pointsCount);
     for (int i = 0; i < resultingPoints.pointsCount; i++) {
 
@@ -1204,7 +1184,7 @@ void M1EncodeCore::generatePointResults() {
         }
         // applying output gain to gains and assigning to the current index channel
         for (int j = 0; j < getOutputChannelsCount(); j++) {
-            resultingPoints.gains[i][j] = gains[j] * adjustedOutputGain;
+            resultingPoints.gains[i][j] = gains[j] * outputGainLinearMultipler;
         }
     }
     timeLastCalculation = getCurrentTime() - tStart;

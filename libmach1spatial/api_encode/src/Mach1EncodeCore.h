@@ -149,7 +149,6 @@ class M1EncodeCore {
     float outputGainLinearMultipler;
 
     float getCoeffForChannelPoint(float x, float y, float z, Mach1Point3D point, bool ignoreZ);
-    std::vector<float> getCoeffSetForChannelPointSet(float x, float y, float z, std::vector<Mach1Point3D> &pointSet, bool ignoreZ);
     void processGains(float x, float y, float z, std::vector<float> &result);
 
     milliseconds ms;

@@ -164,55 +164,48 @@ int M1EncodeCorePointResults::getPointsCount() {
     return pointsCount;
 }
 
+// TODO: Refactor all functions to use this and finalize this design
 float M1EncodeCore::getCoeffForChannelPoint(float x, float y, float z, Mach1Point3D point, bool ignoreZ) {
     // map from [-1,1] to [0,1]
     point.x = (point.x / (1 / 0.707) + 1) / 2;
     point.y = (point.y / (1 / 0.707) + 1) / 2;
     point.z = (point.z / (1 / 0.707) + 1) / 2;
 
+    // Calculate distance from center point (0.5, 0.5, 0.5) in normalized space
+    float centerX = 0.5f, centerY = 0.5f, centerZ = 0.5f;
+    float distFromCenter = pow(
+        pow(x - centerX, 2.0) + 
+        pow(y - centerY, 2.0) + 
+        pow(z - centerZ, 2.0), 
+        0.5
+    );
+
+    // Calculate max possible distance from center to corners
+    // In a normalized unit cube [0,1], max distance from center to corner is sqrt(3)/2
+    float maxDistFromCenter = 0.866f; // sqrt(3)/2 ≈ 0.866
+    
+    // Normalize distance from center to [0,1] range
+    float normalizedDistFromCenter = distFromCenter / maxDistFromCenter;
+    
+    // Calculate point-to-point distance for regular coefficient
     float dist = pow(pow(point.x - x, 2.0) + pow(point.y - y, 2.0) + pow(point.z - z, 2.0), 0.5);
     dist = 1 - dist;
     dist = (dist - 0.6) / 0.4;
     dist = clamp(dist, 0, 1);
-    // dist = dist * dist * dist * dist; // apply easeInQuart
 
-    // "pan law" experiment
+    // Apply isotropic equal power curve if enabled
     if (pannerMode == MODE_ISOTROPICEQUALPOWER) {
+        // Apply equal power curve
         dist = sqrt(1 - pow(dist - 1, 2));
+        
+        // Apply center-based gain compensation
+        // As we approach center (normalizedDistFromCenter = 0), add up to +6dB gain
+        float centerGainDB = 6.0f * (1.0f - normalizedDistFromCenter);
+        float centerGainMultiplier = pow(10.0f, centerGainDB / 20.0f);
+        dist *= centerGainMultiplier;
     }
 
     return dist;
-}
-
-std::vector<float> M1EncodeCore::getCoeffSetForChannelPointSet(float x, float y, float z, std::vector<Mach1Point3D> &pointSet, bool ignoreZ) {
-    std::vector<float> result;
-
-    std::vector<Mach1Point3D> points = pointSet;
-    float len = 0;
-
-    // normalize cube
-    for (auto &i : points) {
-        len = (std::max)(len, i.length());
-    }
-    for (auto &i : points) {
-        i = i / len;
-    }
-
-    for (auto &i : points) {
-        result.push_back(getCoeffForChannelPoint(x, y, z, i, ignoreZ));
-    }
-
-    // normalize coeffs
-    float c = 0;
-    for (auto &i : result) {
-        c += i;
-    }
-
-    for (auto &i : result) {
-        i /= c;
-    }
-
-    return result;
 }
 
 void M1EncodeCore::processGains(float x, float y, float z, std::vector<float> &result) {

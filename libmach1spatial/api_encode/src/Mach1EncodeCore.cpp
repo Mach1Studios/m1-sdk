@@ -1166,27 +1166,19 @@ void M1EncodeCore::generatePointResults() {
         }
     }
     
-    // Calculate adjusted diverge for gain compensation
-    float adjustedOutputGain = 1.0f;
-    float divergeThreshold = 0.707106f;
-    float maxGainCompensation_dB = 6.0f; // Maximum gain compensation at diverge = 0.0
+    // Calculate adjusted diverge for gain compensation only for isotropic equal power mode
+    float adjustedOutputGain = outputGainLinearMultipler;  // Default to regular output gain
+    
+    if (pannerMode == MODE_ISOTROPICEQUALPOWER) {
+        float divergeThreshold = 0.707106f;
+        float maxGainCompensation_dB = 6.0f; // Maximum gain compensation at diverge = 0.0
 
-    float d_comp = 0.0f;
-    if (diverge <= divergeThreshold) {
-        d_comp = 1.0f - (diverge / divergeThreshold);
-    } else {
-        d_comp = 0.0f; // No compensation needed
+        float d_comp = (diverge <= divergeThreshold) ? 1.0f - (diverge / divergeThreshold) : 0.0f;
+
+        // Calculate the gain multiplier based on d_comp
+        float gainMultiplier = powf(2.0f, d_comp); // Exponential increase up to 6dB
+        adjustedOutputGain *= gainMultiplier;
     }
-
-    // Calculate the gain compensation in decibels
-    float gainCompensation_dB = maxGainCompensation_dB * d_comp;
-
-    // Calculate the gain multiplier based on d_comp
-    float gainMultiplier = powf(2.0f, d_comp); // Exponential increase up to 6dB
-    //float gainMultiplier = powf(10.0f, gainCompensation_dB / 20.0f);
-
-    // Apply the gain multiplier to the output gain
-    adjustedOutputGain = outputGainLinearMultipler * gainMultiplier;
     
     resultingPoints.gains.resize(resultingPoints.pointsCount);
     for (int i = 0; i < resultingPoints.pointsCount; i++) {

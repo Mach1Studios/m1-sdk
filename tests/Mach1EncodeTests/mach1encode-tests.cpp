@@ -268,6 +268,99 @@ void test_results(void) {
                  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
              },
          }},
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-8 | IsotropicLinear - Center",
+            {Mono, M1Spatial_8, IsotropicLinear, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    {0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125},
+                },
+            }
+        },
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-8 | IsotropicEqualPower - Center",
+            {Mono, M1Spatial_8, IsotropicEqualPower, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25}, // boost by +6dB  
+                },
+            }
+        },
+        // Equal Power Mode - Cardinal Direction Tests
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-8 | IsotropicEqualPower - Front",
+            {Mono, M1Spatial_8, IsotropicEqualPower, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    {0.25, 0.25, 0.0, 0.0, 0.25, 0.25, 0.0, 0.0},
+                },
+            }
+        },
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-8 | IsotropicEqualPower - Right",
+            {Mono, M1Spatial_8, IsotropicEqualPower, 90.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    {0.0, 0.25, 0.0, 0.25, 0.0, 0.25, 0.0, 0.25},
+                },
+            }
+        },
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-8 | IsotropicEqualPower - Back",
+            {Mono, M1Spatial_8, IsotropicEqualPower, 180.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    {0.0, 0.0, 0.25, 0.25, 0.0, 0.0, 0.25, 0.25},
+                },
+            }
+        },
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-8 | IsotropicEqualPower - Left",
+            {Mono, M1Spatial_8, IsotropicEqualPower, 270.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    {0.25, 0.0, 0.25, 0.0, 0.25, 0.0, 0.25, 0.0},
+                },
+            }
+        },
+        // Equal Power Mode - Diagonal Tests
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-8 | IsotropicEqualPower - Front-Right",
+            {Mono, M1Spatial_8, IsotropicEqualPower, 45.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    {0.0, 0.5, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0},
+                },
+            }
+        },
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-8 | IsotropicEqualPower - Edge Gain",
+            {Mono, M1Spatial_8, IsotropicEqualPower, 90.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    {0.0, 0.25, 0.0, 0.25, 0.0, 0.25, 0.0, 0.25}, // No boost at edge
+                },
+            }
+        },
+        // Height Tests with Equal Power
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-8 | IsotropicEqualPower - Top Center",
+            {Mono, M1Spatial_8, IsotropicEqualPower, 0.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    {0.25, 0.25, 0.25, 0.25, 0.0, 0.0, 0.0, 0.0},
+                },
+            }
+        },
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-8 | IsotropicEqualPower - Bottom Center",
+            {Mono, M1Spatial_8, IsotropicEqualPower, 0.0, 1.0, -90.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    {0.0, 0.0, 0.0, 0.0, 0.25, 0.25, 0.25, 0.25},
+                },
+            }
+        },
         /*
         STEREO - MACH1SPATIAL-8
         TODO: add more input tests with less rounded inputs
@@ -690,7 +783,7 @@ void test_results(void) {
                 counter += check;
                 if (check == false) {
                     TEST_CHECK_(check, "%s | Error with index [%zu][%zu]", test.name.c_str(), i, j);
-                    std::cout << "index: [" << i << "][" << j << "]: " << results[i][j] << ", should be: " << test.output.results[i][j];
+                    std::cout << "index: [" << i << "][" << j << "]: " << test.output.results[i][j] << ", should be: " << results[i][j];
                     std::cout << std::endl;
                 }
             }

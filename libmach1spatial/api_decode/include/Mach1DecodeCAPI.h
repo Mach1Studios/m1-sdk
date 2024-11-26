@@ -40,6 +40,7 @@ enum Mach1DecodeMode {
     M1DecodeSpatial_4 = (int)0,
     M1DecodeSpatial_8,
     M1DecodeSpatial_14,
+    M1DecodeSpatial_38,
 };
 
 #ifdef __cplusplus

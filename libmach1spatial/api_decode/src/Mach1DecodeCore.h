@@ -87,6 +87,9 @@ class M1DecodeCore {
     void spatialAlgo_14(float Yaw, float Pitch, float Roll, float *result);
     std::vector<float> spatialAlgo_14(float Yaw, float Pitch, float Roll);
 
+    void spatialAlgo_38(float Yaw, float Pitch, float Roll, float *result);
+    std::vector<float> spatialAlgo_38(float Yaw, float Pitch, float Roll);
+
     // log
     std::vector<std::string> strLog;
     void addToLog(std::string str, int maxCount = 100);

@@ -264,10 +264,56 @@ void M1EncodeCore::processGains(float x, float y, float z, std::vector<float> &r
         {0, 0, 1 / 0.707},
         {0, 0, -1 / 0.707}};
 
+    static std::vector<Mach1Point3D> m1Spatial_38_Def = {
+        // 8ch
+            {-1, 1, 1},
+            {1, 1, 1},
+            {-1, -1, 1},
+            {1, -1, 1},
+            {-1, 1, -1},
+            {1, 1, -1},
+            {-1, -1, -1},
+            {1, -1, -1},
+
+            // 14ch
+            {0, 1 / 0.707, 0},
+            {1 / 0.707, 0, 0},
+            {0, -1 / 0.707, 0},
+            {-1 / 0.707, 0, 0},
+            {0, 0, 1 / 0.707},
+            {0, 0, -1 / 0.707},
+
+            // 38ch
+            {0.0, 1.2031836039, -0.743608362},
+            {0.5046988542, 1.321318754, 0.0},
+            {0.0, 1.2031836039, 0.743608362},
+            {-0.5046988542, 1.321318754, 0.0},
+            {1.2031836039, 0.743608362, 0.0},
+            {-1.2031836039, 0.743608362, 0.0},
+            {0.0, 0.5046988542, -1.321318754},
+            {0.0, 0.5046988542, 1.321318754},
+            {0.743608362, 0.0, -1.2031836039},
+            {1.321318754, 0.0, -0.5046988542},
+            {1.321318754, 0.0, 0.5046988542},
+            {0.743608362, 0.0, 1.2031836039},
+            {-0.743608362, 0.0, 1.2031836039},
+            {-1.321318754, 0.0, 0.5046988542},
+            {-1.321318754, 0.0, -0.5046988542},
+            {-0.743608362, 0.0, -1.2031836039},
+            {0.0, -0.5046988542, -1.321318754},
+            {0.0, -0.5046988542, 1.321318754},
+            {1.2031836039, -0.743608362, 0.0},
+            {-1.2031836039, -0.743608362, 0.0},
+            {0.0, -1.2031836039, -0.743608362},
+            {0.5046988542, -1.321318754, 0.0},
+            {0.0, -1.2031836039, 0.743608362},
+            {-0.5046988542, -1.321318754, 0.0}};
+
     static std::map<OutputMode, std::vector<Mach1Point3D> > standards = {
         {OUTPUT_SPATIAL_4CH, m1Spatial_4_Def},
         {OUTPUT_SPATIAL_8CH, m1Spatial_8_Def},
         {OUTPUT_SPATIAL_14CH, m1Spatial_14_Def},
+        {OUTPUT_SPATIAL_38CH, m1Spatial_38_Def}
     };
 
     std::vector<Mach1Point3D> pointsSet;
@@ -431,16 +477,224 @@ void M1EncodeCore::processGains(float x, float y, float z, std::vector<float> &r
         {6, 4, 13},
     };
 
+    // MACH1SPATIAL-38
+    //TODO add top view here
+    std::vector<std::vector<int> > m1Spatial_38_Lines_Def = {
+        /// TOP-LOWER-LEFT HEXACONE
+        {0, 14},
+        {0, 17},
+        {0, 19},
+        {0, 20},
+        {0, 28},
+        {0, 29},
+        /// TOP-LOWER-RIGHT HEXACONE
+        {1, 14},
+        {1, 15},
+        {1, 18},
+        {1, 20},
+        {1, 22},
+        {1, 23},
+        /// TOP-UPPER-LEFT HEXACONE
+        {2, 16},
+        {2, 17},
+        {2, 19},
+        {2, 21},
+        {2, 26},
+        {2, 27},
+        /// TOP-UPPER-RIGHT HEXACONE
+        {3, 15},
+        {3, 16},
+        {3, 18},
+        {3, 21},
+        {3, 24},
+        {3, 25},
+        /// BOTTOM-LOWER-LEFT HEXACONE
+        {4, 28},
+        {4, 29},
+        {4, 30},
+        {4, 33},
+        {4, 34},
+        {4, 37},
+        /// BOTTOM-LOWER-RIGHT HEXACONE
+        {5, 22},
+        {5, 23},
+        {5, 30},
+        {5, 32},
+        {5, 34},
+        {5, 35},
+        /// BOTTOM-UPPER-LEFT HEXACONE
+        {6, 26},
+        {6, 27},
+        {6, 31},
+        {6, 33},
+        {6, 36},
+        {6, 37},
+        /// BOTTOM-UPPER-RIGHT HEXACONE
+        {7, 24},
+        {7, 25},
+        {7, 31},
+        {7, 32},
+        {7, 35},
+        {7, 36},
+        /// FRONT RHOMBIC PYRAMID
+        {20, 8},
+        {20, 22},
+        {20, 29},
+        {30, 8},
+        {30, 22},
+        {30, 29},
+        /// RIGHT RHOMBIC PYRAMID
+        {23, 9},
+        {23, 18},
+        {23, 32},
+        {24, 9},
+        {24, 18},
+        {24, 32},
+        /// REAR RHOMBIC PYRAMID
+        {21, 10},
+        {21, 25},
+        {21, 26},
+        {31, 10},
+        {31, 25},
+        {31, 26},
+        /// LEFT RHOMBIC PYRAMID
+        {27, 11},
+        {27, 19},
+        {27, 33},
+        {28, 11},
+        {28, 19},
+        {28, 33},
+        /// TOP RHOMBIC PYRAMID
+        {15, 12},
+        {15, 14},
+        {15, 16},
+        {17, 12},
+        {17, 14},
+        {17, 16},
+        /// BOTTOM RHOMBIC PYRAMID
+        {35, 13},
+        {35, 34},
+        {35, 36},
+        {37, 13},
+        {37, 34},
+        {37, 36},
+        /// X-AXIS CONNECTING LINES
+        {22, 23},
+        {24, 25},
+        {26, 27},
+        {28, 29},
+        /// Y-AXIS CONNECTING LINES
+        {15, 18},
+        {32, 35},
+        {33, 37},
+        {17, 19},
+        /// Z-AXIS CONNECTING LINES
+        {16, 21},
+        {31, 36},
+        {30, 34},
+        {14, 20},
+    };
+    std::vector<std::vector<int> > m1Spatial_38_Plane_Def = {
+        /// HEXACONE FACES TO POINT [0]
+        {0, 20, 14},
+        {0, 20, 29},
+        {0, 14, 17},
+        {0, 17, 19},
+        {0, 19, 28},
+        {0, 28, 29},
+        /// HEXACONE FACES TO POINT [1]
+        {1, 14, 15},
+        {1, 14, 20},
+        {1, 18, 15},
+        {1, 18, 23},
+        {1, 22, 20},
+        {1, 22, 23},
+        /// HEXACONE FACES TO POINT [2]
+        {2, 16, 17},
+        {2, 16, 21},
+        {2, 19, 17},
+        {2, 19, 27},
+        {2, 26, 21},
+        {2, 26, 27},
+        /// HEXACONE FACES TO POINT [3]
+        {3, 15, 16},
+        {3, 15, 18},
+        {3, 21, 16},
+        {3, 21, 25},
+        {3, 24, 18},
+        {3, 24, 25},
+        /// HEXACONE FACES TO POINT [4]
+        {4, 28, 29},
+        {4, 28, 33},
+        {4, 30, 29},
+        {4, 30, 34},
+        {4, 37, 33},
+        {4, 37, 34},
+        /// HEXACONE FACES TO POINT [5]
+        {5, 22, 23},
+        {5, 22, 30},
+        {5, 32, 23},
+        {5, 32, 35},
+        {5, 34, 30},
+        {5, 34, 35},
+        /// HEXACONE FACES TO POINT [6]
+        {6, 26, 27},
+        {6, 26, 31},
+        {6, 33, 27},
+        {6, 33, 37},
+        {6, 36, 37},
+        {6, 36, 31},
+        /// HEXACONE FACES TO POINT [7]
+        {7, 24, 25},
+        {7, 24, 32},
+        {7, 31, 25},
+        {7, 31, 36},
+        {7, 35, 32},
+        {7, 35, 36},
+        /// RHOMBIC PYRAMID FACES TO POINT [8]
+        {8, 20, 22},
+        {8, 20, 29},
+        {8, 30, 22},
+        {8, 30, 29},
+        /// RHOMBIC PYRAMID FACES TO POINT [9]
+        {9, 23, 18},
+        {9, 23, 32},
+        {9, 24, 18},
+        {9, 24, 32},
+        /// RHOMBIC PYRAMID FACES TO POINT [10]
+        {10, 21, 25},
+        {10, 21, 26},
+        {10, 31, 25},
+        {10, 31, 26},
+        /// RHOMBIC PYRAMID FACES TO POINT [11]
+        {11, 27, 19},
+        {11, 27, 33},
+        {11, 28, 19},
+        {11, 28, 33},
+        /// RHOMBIC PYRAMID FACES TO POINT [12]
+        {12, 15, 14},
+        {12, 15, 16},
+        {12, 17, 14},
+        {12, 17, 16},
+        /// RHOMBIC PYRAMID FACES TO POINT [13]
+        {13, 35, 34},
+        {13, 35, 36},
+        {13, 37, 34},
+        {13, 37, 36},
+    };
+
     static std::map<OutputMode, std::vector<std::vector<int> > > lines = {
         {OUTPUT_SPATIAL_4CH, m1Spatial_4_Lines_Def},
         {OUTPUT_SPATIAL_8CH, m1Spatial_8_Lines_Def},
         {OUTPUT_SPATIAL_14CH, m1Spatial_14_Lines_Def},
+        {OUTPUT_SPATIAL_38CH, m1Spatial_38_Lines_Def},
     };
 
     static std::map<OutputMode, std::vector<std::vector<int> > > planes = {
         {OUTPUT_SPATIAL_4CH, m1Spatial_4_Plane_Def},
         {OUTPUT_SPATIAL_8CH, m1Spatial_8_Plane_Def},
         {OUTPUT_SPATIAL_14CH, m1Spatial_14_Plane_Def},
+        {OUTPUT_SPATIAL_38CH, m1Spatial_38_Plane_Def},
     };
 
     std::vector<std::vector<int> > linesSet = lines[outputMode];
@@ -1081,6 +1335,9 @@ void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeMode decodeMode, float *
     case Mach1DecodeAlgoSpatial_14:
         decodeResultSize = 28;
         break;
+    case Mach1DecodeAlgoSpatial_38:
+        decodeResultSize = 76;
+        break;
     default:
         break;
     }
@@ -1161,6 +1418,8 @@ int M1EncodeCore::getOutputChannelsCount() {
         return 8;
     case OUTPUT_SPATIAL_14CH:
         return 14;
+    case OUTPUT_SPATIAL_38CH:
+        return 38;
     }
     return 0;
 }

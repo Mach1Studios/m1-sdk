@@ -429,6 +429,121 @@ std::vector<float> M1DecodeCore::spatialAlgo_14(float Yaw, float Pitch, float Ro
     return result;
 }
 
+void M1DecodeCore::spatialAlgo_38(float Yaw, float Pitch, float Roll, float *result) {
+    const int numChannelPoints = 24 + 8 + 4 + 2;
+
+    float diag = sqrtf(2);
+
+    Mach1Point3D channelPoints[numChannelPoints] =
+        {
+            // 8ch
+            {-1, 1, 1},
+            {1, 1, 1},
+            {-1, -1, 1},
+            {1, -1, 1},
+            {-1, 1, -1},
+            {1, 1, -1},
+            {-1, -1, -1},
+            {1, -1, -1},
+
+            // 14ch
+            {0, diag, 0},
+            {diag, 0, 0},
+            {0, -diag, 0},
+            {-diag, 0, 0},
+            {0, 0, diag},
+            {0, 0, -diag},
+
+            // 38ch
+            {0.0, 1.2031836039, -0.743608362},
+            {0.5046988542, 1.321318754, 0.0},
+            {0.0, 1.2031836039, 0.743608362},
+            {-0.5046988542, 1.321318754, 0.0},
+            {1.2031836039, 0.743608362, 0.0},
+            {-1.2031836039, 0.743608362, 0.0},
+            {0.0, 0.5046988542, -1.321318754},
+            {0.0, 0.5046988542, 1.321318754},
+            {0.743608362, 0.0, -1.2031836039},
+            {1.321318754, 0.0, -0.5046988542},
+            {1.321318754, 0.0, 0.5046988542},
+            {0.743608362, 0.0, 1.2031836039},
+            {-0.743608362, 0.0, 1.2031836039},
+            {-1.321318754, 0.0, 0.5046988542},
+            {-1.321318754, 0.0, -0.5046988542},
+            {-0.743608362, 0.0, -1.2031836039},
+            {0.0, -0.5046988542, -1.321318754},
+            {0.0, -0.5046988542, 1.321318754},
+            {1.2031836039, -0.743608362, 0.0},
+            {-1.2031836039, -0.743608362, 0.0},
+            {0.0, -1.2031836039, -0.743608362},
+            {0.5046988542, -1.321318754, 0.0},
+            {0.0, -1.2031836039, 0.743608362},
+            {-0.5046988542, -1.321318754, 0.0},
+        };
+
+    spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result);
+}
+
+std::vector<float> M1DecodeCore::spatialAlgo_38(float Yaw, float Pitch, float Roll) {
+    const int numChannelPoints = 24 + 8 + 4 + 2;
+
+    float diag = sqrtf(2);
+
+    std::vector<float> result;
+    result.resize(numChannelPoints * 2);
+
+    Mach1Point3D channelPoints[numChannelPoints] =
+        {
+            // 8ch
+            {-1, 1, 1},
+            {1, 1, 1},
+            {-1, -1, 1},
+            {1, -1, 1},
+            {-1, 1, -1},
+            {1, 1, -1},
+            {-1, -1, -1},
+            {1, -1, -1},
+
+            // 14ch
+            {0, diag, 0},
+            {diag, 0, 0},
+            {0, -diag, 0},
+            {-diag, 0, 0},
+            {0, 0, diag},
+            {0, 0, -diag},
+
+            // 38ch
+            {0.0, 1.2031836039, -0.743608362},
+            {0.5046988542, 1.321318754, 0.0},
+            {0.0, 1.2031836039, 0.743608362},
+            {-0.5046988542, 1.321318754, 0.0},
+            {1.2031836039, 0.743608362, 0.0},
+            {-1.2031836039, 0.743608362, 0.0},
+            {0.0, 0.5046988542, -1.321318754},
+            {0.0, 0.5046988542, 1.321318754},
+            {0.743608362, 0.0, -1.2031836039},
+            {1.321318754, 0.0, -0.5046988542},
+            {1.321318754, 0.0, 0.5046988542},
+            {0.743608362, 0.0, 1.2031836039},
+            {-0.743608362, 0.0, 1.2031836039},
+            {-1.321318754, 0.0, 0.5046988542},
+            {-1.321318754, 0.0, -0.5046988542},
+            {-0.743608362, 0.0, -1.2031836039},
+            {0.0, -0.5046988542, -1.321318754},
+            {0.0, -0.5046988542, 1.321318754},
+            {1.2031836039, -0.743608362, 0.0},
+            {-1.2031836039, -0.743608362, 0.0},
+            {0.0, -1.2031836039, -0.743608362},
+            {0.5046988542, -1.321318754, 0.0},
+            {0.0, -1.2031836039, 0.743608362},
+            {-0.5046988542, -1.321318754, 0.0},
+        };
+
+    spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result.data());
+
+    return result;
+}
+
 // Angular settings functions
 void M1DecodeCore::convertAnglesToMach1(Mach1PlatformType platformType, float *Y, float *P, float *R) {
     float _Y = 0, _P = 0, _R = 0;
@@ -657,6 +772,8 @@ int M1DecodeCore::getFormatChannelCount() {
         return 8;
     case M1DecodeSpatial_14:
         return 14;
+    case M1DecodeSpatial_38:
+        return 38;
     }
     return 0;
 }
@@ -669,6 +786,8 @@ int M1DecodeCore::getFormatCoeffCount() {
         return (8 * 2);
     case M1DecodeSpatial_14:
         return (14 * 2);
+    case M1DecodeSpatial_38:
+        return (38 * 2);
     }
     return 0;
 }
@@ -749,6 +868,11 @@ std::vector<float> M1DecodeCore::decodeCoeffs(int bufferSize, int sampleIndex) {
         coeffs = processSample(&M1DecodeCore::spatialAlgo_14, yaw, pitch, roll, bufferSize, sampleIndex);
         break;
 
+    case M1DecodeSpatial_38:
+        coeffs = processSample(&M1DecodeCore::spatialAlgo_38, yaw, pitch, roll, bufferSize, sampleIndex);
+        gainMultiplier = 4.57088137f; //! Apply 38ch gain coeffs
+        break;
+
     default:
         break;
     }
@@ -823,6 +947,11 @@ void M1DecodeCore::decodeCoeffs(float *result, int bufferSize, int sampleIndex) 
 
     case M1DecodeSpatial_14:
         processSample(&M1DecodeCore::spatialAlgo_14, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+        break;
+
+    case M1DecodeSpatial_38:
+        processSample(&M1DecodeCore::spatialAlgo_38, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+        gainMultiplier = 4.57088137f; //! Apply 38ch gain coeffs
         break;
 
     default:

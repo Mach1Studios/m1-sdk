@@ -236,7 +236,22 @@ void M1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int numC
     std::vector<float> vL_clamped(numChannelPoints);
     std::vector<float> vR_clamped(numChannelPoints);
 
+    // Calculate pitch influence (0 = horizontal plane, 1 = directly up, -1 = directly down)
+    float pitchInfluence = sin(mDegToRad(Pitch));  // -1 to +1
+
     for (int i = 0; i < numChannelPoints; i++) {
+        // Calculate vertical attenuation
+        // When looking up (+pitch), attenuate lower channels
+        // When looking down (-pitch), attenuate upper channels
+        float verticalAttenuation;
+        if (pitchInfluence >= 0) {
+            // Looking up - attenuate lower channels
+            verticalAttenuation = channelPoints[i].z < 0 ? (1.0f - pitchInfluence) : 1.0f;
+        } else {
+            // Looking down - attenuate upper channels
+            verticalAttenuation = channelPoints[i].z > 0 ? (1.0f + pitchInfluence) : 1.0f;
+        }
+
         Mach1Point3D qL = (contactL - channelPoints[i]);
         Mach1Point3D qR = (contactR - channelPoints[i]);
 
@@ -246,8 +261,9 @@ void M1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int numC
         vL_clamped[i] = M1DecodeCore::clamp(M1DecodeCore::mmap(vL[i], 0, d, 1.f, 0.f, false), 0, 1);
         vR_clamped[i] = M1DecodeCore::clamp(M1DecodeCore::mmap(vR[i], 0, d, 1.f, 0.f, false), 0, 1);
 
-        result[i * 2 + 0] = vL_clamped[i];
-        result[i * 2 + 1] = vR_clamped[i];
+        // Combine horizontal and vertical influences
+        result[i * 2 + 0] = vL_clamped[i] * verticalAttenuation;
+        result[i * 2 + 1] = vR_clamped[i] * verticalAttenuation;
     }
 
     // Gain normalizer v2.0

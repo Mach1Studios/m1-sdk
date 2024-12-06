@@ -71,7 +71,7 @@ void test_results(void) {
         TODO: add all other modes
          */
         {
-            "case: DECODE | MACH1HORIZON | Y0P0R0",
+            "case: DECODE | MACH1SPATIAL-4 | Y0P0R0",
             {Mach1PlatformDefault, M1DecodeSpatial_4, 0.0, 0.0, 0.0, 1.0, unsignedDegrees},
             {
                 {
@@ -84,7 +84,7 @@ void test_results(void) {
                 },
             }},
         {
-            "case: DECODE | MACH1HORIZON | Y45P0R0",
+            "case: DECODE | MACH1SPATIAL-4 | Y45P0R0",
             {Mach1PlatformDefault, M1DecodeSpatial_4, 45.0, 0.0, 0.0, 1.0, unsignedDegrees},
             {
                 {
@@ -98,7 +98,7 @@ void test_results(void) {
             }
         },
         {
-            "case: DECODE | MACH1HORIZON | Y90P0R0",
+            "case: DECODE | MACH1SPATIAL-4 | Y90P0R0",
             {Mach1PlatformDefault, M1DecodeSpatial_4, 90.0, 0.0, 0.0, 1.0, unsignedDegrees},
             {
                 {
@@ -111,7 +111,7 @@ void test_results(void) {
                 },
             }
         },
-        {"case: DECODE | MACH1HORIZON | Y180P0R0",
+        {"case: DECODE | MACH1SPATIAL-4 | Y180P0R0",
          {Mach1PlatformDefault, M1DecodeSpatial_4, 180.0, 0.0, 0.0, 1.0, unsignedDegrees},
          {
              {
@@ -123,7 +123,7 @@ void test_results(void) {
                  },
              },
          }},
-        {"case: DECODE | MACH1HORIZON | Y270P0R0",
+        {"case: DECODE | MACH1SPATIAL-4 | Y270P0R0",
          {Mach1PlatformDefault, M1DecodeSpatial_4, 270.0, 0.0, 0.0, 1.0, unsignedDegrees},
          {
              {
@@ -327,6 +327,38 @@ void test_results(void) {
                  },
              },
          }},
+        {"case: DECODE | MACH1SPATIAL-8 | Y45P90R0",
+         {Mach1PlatformDefault, M1DecodeSpatial_8, 45.0, 90.0, 0.0, 1.0, signedDegrees},
+        {
+            {
+                {
+                    2.57516, 0.0,
+                    0.71242, 0.71242,
+                    0.71242, 0.71242,
+                    0.0, 2.57516,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                },
+            },
+        }},
+        {"case: DECODE | MACH1SPATIAL-8 | Y-45P90R0",
+         {Mach1PlatformDefault, M1DecodeSpatial_8, -45.0, 90.0, 0.0, 1.0, signedDegrees},
+        {
+            {
+                {
+                    0.71242, 0.71242,
+                    0.0, 2.57516,
+                    2.57516, 0.0,
+                    0.71242, 0.71242,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                },
+            },
+        }},
         {"case: DECODE | MACH1SPATIAL-8 | Y0P90R0 (Radians)",
          {Mach1PlatformDefault, M1DecodeSpatial_8, 0.0, 1.5708, 0.0, 1.0, signedRadians},
          {

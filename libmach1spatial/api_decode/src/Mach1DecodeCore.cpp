@@ -796,29 +796,22 @@ std::vector<float> M1DecodeCore::decodeCoeffs(int bufferSize, int sampleIndex) {
     float yaw = fmod(rotation.x, 360.0); // protect a 360 cycle
     float pitch = fmod(rotation.y, 360.0);
     float roll = fmod(rotation.z, 360.0);
-
-    // Initialize gain compensation in dB
-    float gainMultiplier = 1.0f; // No compensation
     
     switch (decodeMode) {
     case M1DecodeSpatial_4:
         coeffs = processSample(&M1DecodeCore::spatialAlgo_4, yaw, pitch, roll, bufferSize, sampleIndex);
-        gainMultiplier = 2.0f; // +6 dB for 4CH
         break;
 
     case M1DecodeSpatial_8:
         coeffs = processSample(&M1DecodeCore::spatialAlgo_8, yaw, pitch, roll, bufferSize, sampleIndex);
-        gainMultiplier = 4.0f; // +12 dB for 8CH
         break;
 
     case M1DecodeSpatial_12:
         coeffs = processSample(&M1DecodeCore::spatialAlgo_12, yaw, pitch, roll, bufferSize, sampleIndex);
-        gainMultiplier = 4.5f; // +12.8dB for 12CH
         break;
 
     case M1DecodeSpatial_14:
         coeffs = processSample(&M1DecodeCore::spatialAlgo_14, yaw, pitch, roll, bufferSize, sampleIndex);
-        gainMultiplier = 4.57088137f; // +13.2 dB for 14CH
         break;
 
     default:
@@ -826,6 +819,7 @@ std::vector<float> M1DecodeCore::decodeCoeffs(int bufferSize, int sampleIndex) {
     }
 
     // Apply the gain multiplier to each coefficient
+    double gainMultiplier = -0.003118 * std::pow(getFormatChannelCount(), 3) + 0.0609  * std::pow(getFormatChannelCount(), 2) - 0.1316  * getFormatChannelCount() + 0.7515;
     for (size_t i = 0; i < coeffs.size(); i++) {
         coeffs[i] *= gainMultiplier;
     }
@@ -889,28 +883,21 @@ void M1DecodeCore::decodeCoeffs(float *result, int bufferSize, int sampleIndex) 
     float Pitch = fmod(rotation.y, 360.0);
     float Roll = fmod(rotation.z, 360.0);
 
-    // Initialize gain compensation in dB
-    float gainMultiplier = 1.0f; // No compensation
-
     switch (decodeMode) {
     case M1DecodeSpatial_4:
         processSample(&M1DecodeCore::spatialAlgo_4, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-        gainMultiplier = 2.0f; // +6 dB for 4CH
         break;
 
     case M1DecodeSpatial_8:
         processSample(&M1DecodeCore::spatialAlgo_8, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-        gainMultiplier = 4.0f; // +12 dB for 8CH
         break;
 
     case M1DecodeSpatial_12:
         processSample(&M1DecodeCore::spatialAlgo_12, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-        gainMultiplier = 4.5f; // +12.8 dB for 14CH
         break;
 
     case M1DecodeSpatial_14:
         processSample(&M1DecodeCore::spatialAlgo_14, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-        gainMultiplier = 4.57088137f; // +13.2 dB for 14CH
         break;
 
     default:
@@ -918,6 +905,7 @@ void M1DecodeCore::decodeCoeffs(float *result, int bufferSize, int sampleIndex) 
     }
 
     // Apply the gain multiplier to each coefficient
+    double gainMultiplier = -0.003118 * std::pow(getFormatChannelCount(), 3) + 0.0609  * std::pow(getFormatChannelCount(), 2) - 0.1316  * getFormatChannelCount() + 0.7515;
     for (size_t i = 0; i < getFormatCoeffCount(); i++) {
         result[i] *= gainMultiplier;
     }

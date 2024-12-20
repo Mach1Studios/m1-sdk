@@ -714,7 +714,10 @@ M1EncodeCore::M1EncodeCore() {
     ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     timeLastCalculation = 0;
 
-    outputGainLinearMultipler = 1.0;
+    // NOTE: This +6dB boost is to ensure that after encoding->decoding we gain match
+    // to the source sound if we are encoded and decoded at the same azimuth and elevation values
+    // It is advised to use `setOutputGain(float gain)` when exploring signal based gain adjustment solutions
+    outputGainLinearMultipler = 2.0;
 
     // init additional arrays
     arr_Points = new Mach1Point3D[MAX_POINTS_COUNT];
@@ -1361,6 +1364,14 @@ void M1EncodeCore::setOutputGain(float outputGainMultipler, bool isDecibel) {
         this->outputGainLinearMultipler = std::pow(10.0f, outputGainMultipler / 20.0f);
     } else {
         this->outputGainLinearMultipler = outputGainMultipler;
+    }
+}
+
+float M1EncodeCore::getOutputGain(bool isDecibel = false) {
+    if (isDecibel) {
+        return 20.0f * std::log10(outputGainLinearMultipler);
+    } else {
+        return outputGainLinearMultipler;
     }
 }
 

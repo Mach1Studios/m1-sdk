@@ -192,6 +192,8 @@ class M1EncodeCore {
     void setIsotropicEncode(bool isotropicEncode);
     void setPannerMode(PannerMode pannerMode);
     void setFrontSurroundPerspective(bool frontSurroundPerspective);
+    
+    float getOutputGain(bool isDecibel);
     void setOutputGain(float outputGainMultipler, bool isDecibel);
 
     void setAutoOrbit(bool autoOrbit);

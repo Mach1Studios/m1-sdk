@@ -100,6 +100,8 @@ M1_API void Mach1EncodeCAPI_setElevationRadians(void *M1obj, float elevationFrom
 
 M1_API void Mach1EncodeCAPI_setPannerMode(void *M1obj, enum Mach1EncodePannerMode pannerMode);
 M1_API void Mach1EncodeCAPI_setFrontSurroundPerspective(void *M1obj, bool frontSurroundPerspective);
+
+M1_API float Mach1EncodeCAPI_getOutputGain(void *M1obj, bool isDecibel);
 M1_API void Mach1EncodeCAPI_setOutputGain(void *M1obj, float outputGainMultipler, bool isDecibel);
 
 M1_API void Mach1EncodeCAPI_setAutoOrbit(void *M1obj, bool autoOrbit);

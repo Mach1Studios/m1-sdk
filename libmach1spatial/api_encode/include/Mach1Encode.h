@@ -166,9 +166,16 @@ class Mach1Encode {
     void setFrontSurroundPerspective(bool frontSurroundPerspective);
 
     /**
+     * Gets the current global gain multiplier which is applied to all output channels equally.
+     * Can be calculated with a linear amplitude multiplier or a decibel multiplier.
+     * @note +6dB gain is applied by default upon the construction of a new Mach1Encode instance.
+     */
+    float getOutputGain(bool isDecibel);
+
+    /**
      * Applies an additional gain multiplier to all output channels equally.
      * Can be calculated with a linear amplitude multiplier or a decibel multiplier.
-     * @note No gain is applied by default upon the construction of a new Mach1Encode instance.
+     * @note +6dB gain is applied by default upon the construction of a new Mach1Encode instance.
      */
     void setOutputGain(float outputGainMultipler, bool isDecibel);
 
@@ -468,6 +475,10 @@ template <typename PCM>
 void Mach1Encode<PCM>::setFrontSurroundPerspective(bool frontSurroundPerspective) {
     Mach1EncodeCAPI_setFrontSurroundPerspective(M1obj, frontSurroundPerspective);
 }
+
+template <typename PCM>
+float Mach1Encode<PCM>::getOutputGain(bool isDecibel) {
+    Mach1EncodeCAPI_getOutputGain(M1obj, isDecibel);
 
 template <typename PCM>
 void Mach1Encode<PCM>::setOutputGain(float outputGainMultipler, bool isDecibel) {

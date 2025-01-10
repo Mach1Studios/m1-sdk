@@ -16,6 +16,16 @@ class Mach1Transcode {
     ~Mach1Transcode();
 
     /**
+     * @brief Get the input format that this Mach1Transcode has been configured to process.
+     */
+    int getInputFormat();
+
+    /**
+     * @brief Get the output format that this Mach1Transcode has been configured to process.
+     */
+    int getOutputFormat();
+
+    /**
      * @brief Get the number of channels that this Mach1Transcode has been configured to process, based
      * on the input format.
      */
@@ -219,6 +229,16 @@ Mach1Transcode<PCM>::Mach1Transcode() {
 template <typename PCM>
 Mach1Transcode<PCM>::~Mach1Transcode() {
     Mach1TranscodeCAPI_delete(M1obj);
+}
+
+template <typename PCM>
+int Mach1Transcode<PCM>::getInputFormat() {
+    return Mach1TranscodeCAPI_getInputFormat(M1obj);
+}
+
+template <typename PCM>
+int Mach1Transcode<PCM>::getOutputFormat() {
+    return Mach1TranscodeCAPI_getOutputFormat(M1obj);
 }
 
 template <typename PCM>

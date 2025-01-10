@@ -59,6 +59,14 @@ Mach1TranscodeCore::~Mach1TranscodeCore() {
     }
 }
 
+int Mach1TranscodeCore::getInputFormat() {
+    return inFmt;
+}
+
+int Mach1TranscodeCore::getOutputFormat() {
+    return outFmt;
+}
+
 int Mach1TranscodeCore::getInputNumChannels() {
     return getNumChannels(inFmt, true);
 }

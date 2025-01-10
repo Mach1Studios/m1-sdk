@@ -57,6 +57,8 @@ class Mach1TranscodeCore {
     Mach1TranscodeCore();
     ~Mach1TranscodeCore();
 
+    int getInputFormat();
+    int getOutputFormat();
     int getInputNumChannels();
     int getOutputNumChannels();
     int getFormatFromString(const char *str);

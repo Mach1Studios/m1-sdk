@@ -16,6 +16,14 @@ void Mach1TranscodeCAPI_delete(void *M1obj) {
     }
 }
 
+int Mach1TranscodeCAPI_getInputFormat(void *M1obj) {
+    return ((Mach1TranscodeCore *)M1obj)->getInputFormat();
+}
+
+int Mach1TranscodeCAPI_getOutputFormat(void *M1obj) {
+    return ((Mach1TranscodeCore *)M1obj)->getOutputFormat();
+}
+
 int Mach1TranscodeCAPI_getInputNumChannels(void *M1obj) {
     return ((Mach1TranscodeCore *)M1obj)->getInputNumChannels();
 }

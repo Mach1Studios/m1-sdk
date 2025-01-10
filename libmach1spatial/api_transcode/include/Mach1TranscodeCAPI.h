@@ -41,6 +41,8 @@ extern "C" {
 M1_API void *Mach1TranscodeCAPI_create();
 M1_API void Mach1TranscodeCAPI_delete(void *M1obj);
 
+M1_API int Mach1TranscodeCAPI_getInputFormat(void *M1obj);
+M1_API int Mach1TranscodeCAPI_getOutputFormat(void *M1obj);
 M1_API int Mach1TranscodeCAPI_getInputNumChannels(void *M1obj);
 M1_API int Mach1TranscodeCAPI_getOutputNumChannels(void *M1obj);
 M1_API int Mach1TranscodeCAPI_getFormatFromString(void *M1obj, const char *str);

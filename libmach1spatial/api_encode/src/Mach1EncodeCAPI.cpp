@@ -138,7 +138,7 @@ int Mach1EncodeCAPI_getOutputChannelsCount(void *M1obj) {
 }
 
 float Mach1EncodeCAPI_getOutputGain(void *M1obj, bool isDecibel) {
-    ((M1EncodeCore *)M1obj)->getOutputGain(isDecibel);
+    return ((M1EncodeCore *)M1obj)->getOutputGain(isDecibel);
 }
 
 void Mach1EncodeCAPI_setInputMode(void *M1obj, enum Mach1EncodeInputMode inputMode) {

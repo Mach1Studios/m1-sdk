@@ -268,7 +268,8 @@ int Mach1Transcode<PCM>::getFormatFromString(std::string str) {
 
 template <typename PCM>
 std::string Mach1Transcode<PCM>::getFormatName(int fmt) {
-    return std::string(Mach1TranscodeCAPI_getFormatName(M1obj, fmt));
+    const char *name = Mach1TranscodeCAPI_getFormatName(M1obj, fmt);
+    return name ? std::string(name) : std::string();
 }
 
 template <typename PCM>

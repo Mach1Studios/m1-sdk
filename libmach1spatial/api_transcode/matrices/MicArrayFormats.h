@@ -33,7 +33,6 @@ class MatricesMicArray {
             {"1.0", "M1Spatial-8", {
                                        Mach1TranscodeChannel::Panner(0, 0, 1, {-6, true}),
                                    }},
-            {"2.0", "M1Spatial-8", {Mach1TranscodeChannel::Panner(-45, 0, 1), Mach1TranscodeChannel::Coeffs({0, 0.5f, 0, 0, 0, 0.5f, 0, 0})}},
             {"Ambeo", "M1Spatial-8", {
                                          Mach1TranscodeChannel::Coeffs({1.70710599f, -0.001728f, 0.000685f, -0.31546f, 0.005525f, -0.317307f, -0.311014f, -0.037532f}),
                                          Mach1TranscodeChannel::Coeffs({-0.31979799f, 0.024362f, -0.083181f, -0.31374699f, -0.004715f, 1.77277803f, -0.32243899f, -0.001391f}),

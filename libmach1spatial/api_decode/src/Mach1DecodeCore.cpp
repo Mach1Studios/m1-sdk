@@ -752,12 +752,6 @@ std::vector<float> M1DecodeCore::decodeCoeffs(int bufferSize, int sampleIndex) {
     default:
         break;
     }
-
-    // Apply the gain multiplier to each coefficient
-    double gainMultiplier = -0.003118 * std::pow(getFormatChannelCount(), 3) + 0.0609  * std::pow(getFormatChannelCount(), 2) - 0.1316  * getFormatChannelCount() + 0.7515;
-    for (size_t i = 0; i < coeffs.size(); i++) {
-        coeffs[i] *= gainMultiplier;
-    }
     
     timeLastCalculation = getCurrentTime() - tStart;
     return coeffs;
@@ -833,12 +827,6 @@ void M1DecodeCore::decodeCoeffs(float *result, int bufferSize, int sampleIndex) 
 
     default:
         break;
-    }
-
-    // Apply the gain multiplier to each coefficient
-    double gainMultiplier = -0.003118 * std::pow(getFormatChannelCount(), 3) + 0.0609  * std::pow(getFormatChannelCount(), 2) - 0.1316  * getFormatChannelCount() + 0.7515;
-    for (size_t i = 0; i < getFormatCoeffCount(); i++) {
-        result[i] *= gainMultiplier;
     }
     
     timeLastCalculation = getCurrentTime() - tStart;

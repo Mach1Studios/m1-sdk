@@ -20,7 +20,6 @@ void test_results(void) {
     std::map<Mach1DecodeMode, std::string> outputModeNames = {
         {M1DecodeSpatial_4, "Horizon - 4Ch"},
         {M1DecodeSpatial_8, "Spatial - 8Ch"},
-        {M1DecodeSpatial_12, "Spatial - 12Ch"},
         {M1DecodeSpatial_14, "Spatial - 14Ch"},
     };
 
@@ -482,77 +481,7 @@ void test_results(void) {
                  },
              },
          }},
-        // MACH1SPATIAL-12
-        // {
-        //  "case: DECODE | MACH1SPATIAL-12 | Y0P0R0",
-        //  { Mach1PlatformDefault, M1DecodeSpatial_12, 0.0, 0.0, 0.0, 1.0, unsignedDegrees },
-        //  {
-        //      {
-        //          {
-        //              0.5, 0.0,
-        //              0.0, 0.5,
-        //              0.0, 0.0,
-        //              0.0, 0.0,
-        //              0.5, 0.0,
-        //              0.0, 0.5,
-        //              0.0, 0.0,
-        //              0.0, 0.0,
-
-        //              0.5, 0.5,
-        //              0.0, 0.0,
-        //              0.0, 0.0,
-        //              0.0, 0.0,
-        //          },
-        //      },
-        //  }
-        // },
-        // {
-        //  "case: DECODE | MACH1SPATIAL-12 | Y45P0R0",
-        //  { Mach1PlatformDefault, M1DecodeSpatial_12, 45.0, 0.0, 0.0, 1.0, unsignedDegrees },
-        //  {
-        //      {
-        //          {
-        //              0.25, 0.0,
-        //              0.25, 0.25,
-        //              0.0, 0.0,
-        //              0.0, 0.25,
-        //              0.25, 0.0,
-        //              0.25, 0.25,
-        //              0.0, 0.0,
-        //              0.0, 0.25,
-
-        //              0.5, 0.5,
-        //              0.0, 0.0,
-        //              0.0, 0.0,
-        //              0.0, 0.0,
-        //          },
-        //      },
-        //  }
-        // },
-        // {
-        //  "case: DECODE | MACH1SPATIAL-12 | Y90P0R0",
-        //  { Mach1PlatformDefault, M1DecodeSpatial_12, 90.0, 0.0, 0.0, 1.0, unsignedDegrees },
-        //  {
-        //      {
-        //          {
-        //              0.0, 0.0,
-        //              0.5, 0.0,
-        //              0.0, 0.0,
-        //              0.0, 0.5,
-        //              0.0, 0.0,
-        //              0.5, 0.0,
-        //              0.0, 0.0,
-        //              0.0, 0.5,
-
-        //              0.5, 0.5,
-        //              0.0, 0.0,
-        //              0.0, 0.0,
-        //              0.0, 0.0,
-        //          },
-        //      },
-        //  }
-        // },
-        /*
+/*
 PLATFORM TESTING
 TODO: add more input tests with less rounded inputs
  */

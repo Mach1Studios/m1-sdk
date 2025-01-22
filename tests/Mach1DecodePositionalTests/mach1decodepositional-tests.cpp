@@ -25,7 +25,6 @@ void test_results(void) {
     std::map<Mach1DecodeMode, std::string> outputModeNames = {
         {M1DecodeSpatial_4, "Spatial - 4Ch"},
         {M1DecodeSpatial_8, "Spatial - 8Ch"},
-        {M1DecodeSpatial_12, "Spatial - 12Ch"},
         {M1DecodeSpatial_14, "Spatial - 14Ch"},
     };
 

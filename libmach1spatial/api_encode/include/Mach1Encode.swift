@@ -178,7 +178,6 @@ public class Mach1Encode {
         /// - Parameters:
         ///     - Mach1Spatial_4 (4ch) [Yaw]
         ///     - Mach1Spatial_8 (8ch) [Yaw, Pitch, Roll]
-        ///     - Mach1Spatial_12 (12ch) [Yaw, Pitch, Roll]
         ///     - Mach1Spatial_14 (14ch) [Yaw, Pitch, Roll]
     }
 

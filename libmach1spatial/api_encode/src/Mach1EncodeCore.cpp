@@ -233,22 +233,6 @@ void M1EncodeCore::processGains(float x, float y, float z, std::vector<float> &r
         {-1, -1, -1},
         {1, -1, -1}};
 
-    static std::vector<Mach1Point3D> m1Spatial_12_Def = {
-        {-1, 1, 1},
-        {1, 1, 1},
-        {-1, -1, 1},
-        {1, -1, 1},
-
-        {-1, 1, -1},
-        {1, 1, -1},
-        {-1, -1, -1},
-        {1, -1, -1},
-
-        {0, 1 / 0.707, 0},
-        {1 / 0.707, 0, 0},
-        {0, -1 / 0.707, 0},
-        {-1 / 0.707, 0, 0}};
-
     static std::vector<Mach1Point3D> m1Spatial_14_Def = {
         {-1, 1, 1},
         {1, 1, 1},
@@ -271,7 +255,6 @@ void M1EncodeCore::processGains(float x, float y, float z, std::vector<float> &r
     static std::map<OutputMode, std::vector<Mach1Point3D> > standards = {
         {OUTPUT_SPATIAL_4CH, m1Spatial_4_Def},
         {OUTPUT_SPATIAL_8CH, m1Spatial_8_Def},
-        {OUTPUT_SPATIAL_12CH, m1Spatial_12_Def},
         {OUTPUT_SPATIAL_14CH, m1Spatial_14_Def},
     };
 
@@ -346,80 +329,6 @@ void M1EncodeCore::processGains(float x, float y, float z, std::vector<float> &r
         /// BOTTOM FACE
         {4, 5, 7},
         {7, 6, 4},
-    };
-
-    /// MACH1SPATIAL-12
-    /* TOP VIEW
-     [0]___[8]___[1]
-      |           |
-   [11]           [9]
-      |           |
-     [2]___[10]__[3]
-     */
-    std::vector<std::vector<int> > m1Spatial_12_Lines_Def = {
-        /// TOP QUAD LINES
-        {0, 1},
-        {1, 3},
-        {3, 2},
-        {2, 0},
-        /// TOP TO BOTTOM LINES
-        {0, 4},
-        {1, 5},
-        {2, 6},
-        {3, 7},
-        /// BOTTOM QUAD LINES
-        {4, 5},
-        {5, 7},
-        {7, 6},
-        {6, 4},
-        /// FRONT FACE LINES
-        {0, 8},
-        {1, 8},
-        {4, 8},
-        {5, 8},
-        /// RIGHT FACE LINES
-        {1, 9},
-        {3, 9},
-        {5, 9},
-        {7, 9},
-        /// BACK FACE LINES
-        {3, 10},
-        {2, 10},
-        {7, 10},
-        {6, 10},
-        /// LEFT FACE LINES
-        {0, 11},
-        {2, 11},
-        {4, 11},
-        {6, 11},
-    };
-    std::vector<std::vector<int> > m1Spatial_12_Plane_Def = {
-        /// FRONT FACE TO POINT [8]
-        {0, 1, 8},
-        {1, 5, 8},
-        {5, 4, 8},
-        {4, 0, 8},
-        /// RIGHT FACE TO POINT [9]
-        {1, 3, 9},
-        {3, 7, 9},
-        {7, 5, 9},
-        {5, 1, 9},
-        /// BACK FACE TO POINT [10]
-        {3, 2, 10},
-        {2, 6, 10},
-        {6, 7, 10},
-        {7, 3, 10},
-        /// LEFT FACE TO POINT [11]
-        {2, 0, 11},
-        {0, 4, 11},
-        {4, 6, 11},
-        {6, 2, 11},
-        /// TOP FACE
-        {0, 1, 2},
-        {1, 2, 3},
-        /// BOTTOM FACE
-        {4, 5, 6},
-        {5, 6, 7},
     };
 
     /// MACH1SPATIAL-14
@@ -513,14 +422,12 @@ void M1EncodeCore::processGains(float x, float y, float z, std::vector<float> &r
     static std::map<OutputMode, std::vector<std::vector<int> > > lines = {
         {OUTPUT_SPATIAL_4CH, m1Spatial_4_Lines_Def},
         {OUTPUT_SPATIAL_8CH, m1Spatial_8_Lines_Def},
-        {OUTPUT_SPATIAL_12CH, m1Spatial_12_Lines_Def},
         {OUTPUT_SPATIAL_14CH, m1Spatial_14_Lines_Def},
     };
 
     static std::map<OutputMode, std::vector<std::vector<int> > > planes = {
         {OUTPUT_SPATIAL_4CH, m1Spatial_4_Plane_Def},
         {OUTPUT_SPATIAL_8CH, m1Spatial_8_Plane_Def},
-        {OUTPUT_SPATIAL_12CH, m1Spatial_12_Plane_Def},
         {OUTPUT_SPATIAL_14CH, m1Spatial_14_Plane_Def},
     };
 
@@ -1211,9 +1118,6 @@ void M1EncodeCore::getResultingCoeffsDecoded(Mach1DecodeMode decodeMode, float *
     case Mach1DecodeAlgoSpatial_8:
         decodeResultSize = 16;
         break;
-    case Mach1DecodeAlgoSpatial_12:
-        decodeResultSize = 24;
-        break;
     case Mach1DecodeAlgoSpatial_14:
         decodeResultSize = 28;
         break;
@@ -1295,8 +1199,6 @@ int M1EncodeCore::getOutputChannelsCount() {
         return 4;
     case OUTPUT_SPATIAL_8CH:
         return 8;
-    case OUTPUT_SPATIAL_12CH:
-        return 12;
     case OUTPUT_SPATIAL_14CH:
         return 14;
     }

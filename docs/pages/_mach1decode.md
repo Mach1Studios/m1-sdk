@@ -164,7 +164,6 @@ Use this function to setup and choose the required Mach1 decoding algorithm.
 ### Mach1 Decoding Algorithm Modes:
  - `M1Spatial_4` = 0 (compass / yaw | 4 channels)
  - `M1Spatial_8` (default spatial | 8 channels)
- - `M1Spatial_12` (default spatial | 8 channels)
  - `M1Spatial_14` (default spatial | 8 channels)
 
 #### M1Spatial_4

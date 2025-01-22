@@ -216,7 +216,6 @@ Sets the output spatial format, Mach1Spatial or Mach1Horizon
 
  - M1Spatial_4 (4ch) [Yaw]
  - M1Spatial_8 (8ch) [Yaw, Pitch, Roll] {default}
- - M1Spatial_12 (12ch) [Yaw, Pitch, Roll]
  - M1Spatial_14 (14ch) [Yaw, Pitch, Roll]
 
 <!-- ## Set Panner Mode

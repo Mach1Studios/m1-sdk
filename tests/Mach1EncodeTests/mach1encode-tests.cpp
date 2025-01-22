@@ -177,52 +177,6 @@ void test_results(void) {
              },
          }},
         /*
-        MONO - MACH1SPATIAL-12
-        */
-        {
-            "case: ENCODE | MONO->MACH1SPATIAL-12",
-            {Mono, M1Spatial_12, IsotropicLinear, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
-            {
-                {
-                    {0.166666, 0.166666, 0.166666, 0.166666, 0.166666, 0.166666, 0.166666, 0.166666, 0.166666, 0.166666, 0.166666, 0.166666},
-                },
-            }},
-        {"case: ENCODE | MONO->MACH1SPATIAL-12 | Diverge",
-         {Mono, M1Spatial_12, IsotropicLinear, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
-         {
-             {
-                 {0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0},
-             },
-         }},
-        {"case: ENCODE | MONO->MACH1SPATIAL-12 | Azimuth 90",
-         {Mono, M1Spatial_12, IsotropicLinear, 90.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
-         {
-             {
-                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0},
-             },
-         }},
-        {"case: ENCODE | MONO->MACH1SPATIAL-12 | Azimuth 180",
-         {Mono, M1Spatial_12, IsotropicLinear, 180.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
-         {
-             {
-                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0},
-             },
-         }},
-        {"case: ENCODE | MONO->MACH1SPATIAL-12 | Azimuth 270",
-         {Mono, M1Spatial_12, IsotropicLinear, 270.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
-         {
-             {
-                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-             },
-         }},
-        {"case: ENCODE | MONO->MACH1SPATIAL-12 | Height",
-         {Mono, M1Spatial_12, IsotropicLinear, 90.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees},
-         {
-             {
-                 {0.5, 0.5, 0.5, 0.5, 0, 0, 0, 0, 0, 0, 0, 0},
-             },
-         }},
-        /*
         MONO - MACH1SPATIAL-14
         */
         {

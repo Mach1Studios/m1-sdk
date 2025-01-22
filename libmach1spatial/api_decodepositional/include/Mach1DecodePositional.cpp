@@ -42,7 +42,6 @@ void Mach1DecodePositional::setDecodeMode(Mach1DecodeMode mode) {
     /// - Parameters:
     ///     - M1Spatial_4 (default spatial | 8 channels)
     ///     - M1Spatial_8 (compass / yaw | 4 channels)
-    ///     - M1Spatial_12 (higher order spatial | 12 channels)
     ///     - M1Spatial_14 (higher order spatial | 14 channels)
 }
 

@@ -366,63 +366,6 @@ std::vector<float> M1DecodeCore::spatialAlgo_8(float Yaw, float Pitch, float Rol
     return result;
 }
 
-void M1DecodeCore::spatialAlgo_12(float Yaw, float Pitch, float Roll, float *result) {
-    const int numChannelPoints = 8 + 4;
-
-    float diag = sqrtf(2);
-
-    Mach1Point3D channelPoints[numChannelPoints] =
-        {
-            {-1, 1, 1},
-            {1, 1, 1},
-            {-1, -1, 1},
-            {1, -1, 1},
-
-            {-1, 1, -1},
-            {1, 1, -1},
-            {-1, -1, -1},
-            {1, -1, -1},
-
-            {0, diag, 0},
-            {diag, 0, 0},
-            {0, -diag, 0},
-            {-diag, 0, 0},
-        };
-
-    spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result);
-}
-
-std::vector<float> M1DecodeCore::spatialAlgo_12(float Yaw, float Pitch, float Roll) {
-    const int numChannelPoints = 8 + 4;
-
-    float diag = sqrtf(2);
-
-    std::vector<float> result;
-    result.resize(numChannelPoints * 2);
-
-    Mach1Point3D channelPoints[numChannelPoints] =
-        {
-            {-1, 1, 1},
-            {1, 1, 1},
-            {-1, -1, 1},
-            {1, -1, 1},
-
-            {-1, 1, -1},
-            {1, 1, -1},
-            {-1, -1, -1},
-            {1, -1, -1},
-
-            {0, diag, 0},
-            {diag, 0, 0},
-            {0, -diag, 0},
-            {-diag, 0, 0},
-        };
-
-    spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result.data());
-
-    return result;
-}
-
 void M1DecodeCore::spatialAlgo_14(float Yaw, float Pitch, float Roll, float *result) {
     const int numChannelPoints = 8 + 4 + 2;
 
@@ -712,8 +655,6 @@ int M1DecodeCore::getFormatChannelCount() {
         return 4;
     case M1DecodeSpatial_8:
         return 8;
-    case M1DecodeSpatial_12:
-        return 12;
     case M1DecodeSpatial_14:
         return 14;
     }
@@ -726,8 +667,6 @@ int M1DecodeCore::getFormatCoeffCount() {
         return (4 * 2);
     case M1DecodeSpatial_8:
         return (8 * 2);
-    case M1DecodeSpatial_12:
-        return (12 * 2);
     case M1DecodeSpatial_14:
         return (14 * 2);
     }
@@ -804,10 +743,6 @@ std::vector<float> M1DecodeCore::decodeCoeffs(int bufferSize, int sampleIndex) {
 
     case M1DecodeSpatial_8:
         coeffs = processSample(&M1DecodeCore::spatialAlgo_8, yaw, pitch, roll, bufferSize, sampleIndex);
-        break;
-
-    case M1DecodeSpatial_12:
-        coeffs = processSample(&M1DecodeCore::spatialAlgo_12, yaw, pitch, roll, bufferSize, sampleIndex);
         break;
 
     case M1DecodeSpatial_14:
@@ -890,10 +825,6 @@ void M1DecodeCore::decodeCoeffs(float *result, int bufferSize, int sampleIndex) 
 
     case M1DecodeSpatial_8:
         processSample(&M1DecodeCore::spatialAlgo_8, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-        break;
-
-    case M1DecodeSpatial_12:
-        processSample(&M1DecodeCore::spatialAlgo_12, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
         break;
 
     case M1DecodeSpatial_14:

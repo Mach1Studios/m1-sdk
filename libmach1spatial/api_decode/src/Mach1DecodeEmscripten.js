@@ -17,7 +17,6 @@ Module['onRuntimeInitialized'] = function() {
         this.Mach1DecodeMode = {
             "M1Spatial_4": (Module).Mach1DecodeMode.M1DecodeSpatial_4,
             "M1Spatial_8": (Module).Mach1DecodeMode.M1DecodeSpatial_8,
-            "M1Spatial_12": (Module).Mach1DecodeMode.M1DecodeSpatial_12,
             "M1Spatial_14": (Module).Mach1DecodeMode.M1DecodeSpatial_14,
         };
 

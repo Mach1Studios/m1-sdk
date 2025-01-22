@@ -84,9 +84,6 @@ int main(int argc, char *argv[]) {
     } else if (M1_FORMAT_CHANNEL_COUNT == 8) {
         encode_link.SetOutputMode(M1Spatial_8);
         decode_link.SetDecodeMode(M1DecodeSpatial_8);
-    } else if (M1_FORMAT_CHANNEL_COUNT == 12) {
-        encode_link.SetOutputMode(M1Spatial_12);
-        decode_link.SetDecodeMode(M1DecodeSpatial_12);
     } else if (M1_FORMAT_CHANNEL_COUNT == 14) {
         encode_link.SetOutputMode(M1Spatial_14);
         decode_link.SetDecodeMode(M1DecodeSpatial_14);

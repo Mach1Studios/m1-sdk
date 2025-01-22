@@ -140,7 +140,6 @@ namespace Mach1
             /// - Parameters:
             ///     - M1DecodeSpatial_4  (compass / yaw | 4 channels)
             ///     - M1DecodeSpatial_8  (default spatial | 8 channels)
-            ///     - M1DecodeSpatial_12 (higher order spatial | 12 channels)
             ///     - M1DecodeSpatial_14 (higher order spatial | 14 channels)
 		}
 

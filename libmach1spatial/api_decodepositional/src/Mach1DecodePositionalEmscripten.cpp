@@ -20,7 +20,6 @@ EMSCRIPTEN_BINDINGS(Mach1DecodePositional) {
     enum_<Mach1DecodeMode>("Mach1DecodeMode")
         .value("M1Spatial_4", M1DecodeSpatial_4)
         .value("M1Spatial_8", M1DecodeSpatial_8)
-        .value("M1Spatial_12", M1DecodeSpatial_12)
         .value("M1Spatial_14", M1DecodeSpatial_14);
 
     register_vector<float>("VectorFloat");

@@ -278,10 +278,9 @@ bool Mach1TranscodeCore::processConversionPath() {
         if (tree[i].processed == false) {
             int fmt = tree[i].fmt;
             for (int j = 0; j < Mach1TranscodeConstants::formats.size(); j++) {
-                if (findMatrix(fmt, j) >= 0 ||
-                    (fmt == getFormatFromString("CustomPoints") && j == getFormatFromString("CustomPoints")) ||
-                    (fmt == getFormatFromString("CustomPoints") && getPointsSet(j).size() > 0) ||
-                    (getPointsSet(fmt).size() > 0 && j == getFormatFromString("CustomPoints"))) {
+                const bool isInCustomFmt = (fmt == getFormatFromString("CustomPoints") && !inCustomPoints.empty());
+                const bool isOutCustomFmt = (j == getFormatFromString("CustomPoints") && !outCustomPoints.empty());
+                if (findMatrix(fmt, j) >= 0 || (isInCustomFmt && isOutCustomFmt) || (isInCustomFmt && !getPointsSet(j).empty()) || (!getPointsSet(fmt).empty() && isOutCustomFmt)) {
 
                     // check if this format already exist on that path
                     int k = i;

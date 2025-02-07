@@ -404,3 +404,5 @@ freeline_project_description.json
 **/.DS_Store
 **/._.DS_Store
 **/cmake-build-*
+license/LICENSE.txt
+license/Mach1-LicenseSummary.png

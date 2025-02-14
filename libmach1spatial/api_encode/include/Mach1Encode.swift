@@ -258,6 +258,14 @@ public class Mach1Encode {
         /// Remark: Default is true
     }
 
+    public func getOutputGain(isDecibel: Bool) -> Float {
+        return Mach1EncodeCAPI_getOutputGain(M1obj, isDecibel)
+        /// Returns the output gain value
+        ///
+        /// - Parameters:
+        ///     - isDecibel: true if the output gain is in decibels, false if it is a linear multiplier
+    }
+
     public func setOutputGain(outputGainMultipler: Float, isDecibel: Bool) {
         Mach1EncodeCAPI_setOutputGain(M1obj, outputGainMultipler, isDecibel)
         /// Applies an additional gain multiplier to all output channels equally

@@ -164,6 +164,20 @@ int M1EncodeCorePointResults::getPointsCount() {
     return pointsCount;
 }
 
+// Helper method to assign names & points to resultingPoints, applying the 4CH Y=0 flatten if needed
+void M1EncodeCore::assignResultingPointsNamesAndCoordinates(
+    const std::vector<std::string> &names,
+    const std::vector<Mach1Point3D> &pnts)
+{
+    for (int i = 0; i < resultingPoints.pointsCount; i++) {
+        resultingPoints.pointsNames[i] = names[i];
+        resultingPoints.ppoints[i] = pnts[i];
+        if (outputMode == OUTPUT_SPATIAL_4CH) {
+            resultingPoints.ppoints[i].y = 0.0f;
+        }
+    }
+}
+
 // TODO: Refactor all functions to use this and finalize this design
 float M1EncodeCore::getCoeffForChannelPoint(float x, float y, float z, Mach1Point3D point, bool ignoreZ) {
     // map from [-1,1] to [0,1]
@@ -747,12 +761,10 @@ void M1EncodeCore::generatePointResults() {
     }
 
     Mach1Point3D centerpoint;
-
     float normalisedOutputDiverge = diverge * (1 / cos(PI * 0.25f));
     centerpoint = {(float)cos((azimuth)*PI * 2) * normalisedOutputDiverge, 0, (float)sin((azimuth)*PI * 2) * normalisedOutputDiverge};
 
     if (inputMode == INPUT_MONO) {
-
         resultingPoints.pointsCount = 1;
         resultingPoints.pointsNames[0] = "M";
 
@@ -803,13 +815,7 @@ void M1EncodeCore::generatePointResults() {
             {(float)cos((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge},
         };
 
-        for (int i = 0; i < resultingPoints.pointsCount; i++) {
-            resultingPoints.pointsNames[i] = names[i];
-            resultingPoints.ppoints[i] = pnts[i];
-            if (outputMode == OUTPUT_SPATIAL_4CH) {
-                resultingPoints.ppoints[i].y = 0;
-            }
-        }
+        assignResultingPointsNamesAndCoordinates(names, pnts);
     } else if (inputMode == INPUT_LCRS) {
 
         resultingPoints.pointsCount = 4;
@@ -829,13 +835,7 @@ void M1EncodeCore::generatePointResults() {
         pnts[1] = (pnts[0] + pnts[2]) / 2;
         pnts[3] = -pnts[1];
 
-        for (int i = 0; i < resultingPoints.pointsCount; i++) {
-            resultingPoints.pointsNames[i] = names[i];
-            resultingPoints.ppoints[i] = pnts[i];
-            if (outputMode == OUTPUT_SPATIAL_4CH) {
-                resultingPoints.ppoints[i].y = 0;
-            }
-        }
+        assignResultingPointsNamesAndCoordinates(names, pnts);
 
     } else if (inputMode == INPUT_AFORMAT) {
 
@@ -849,13 +849,7 @@ void M1EncodeCore::generatePointResults() {
             {(float)cos((azimuth + 0.125f + 0.25f) * PI * 2) * diverge, (1 * diverge), (float)sin((azimuth + 0.125f + 0.25f) * PI * 2) * diverge},
         };
 
-        for (int i = 0; i < resultingPoints.pointsCount; i++) {
-            resultingPoints.pointsNames[i] = names[i];
-            resultingPoints.ppoints[i] = pnts[i];
-            if (outputMode == OUTPUT_SPATIAL_4CH) {
-                resultingPoints.ppoints[i].y = 0;
-            }
-        }
+        assignResultingPointsNamesAndCoordinates(names, pnts);
 
     } else if (inputMode == INPUT_1OAACN) { // duplicate?
 
@@ -872,19 +866,7 @@ void M1EncodeCore::generatePointResults() {
             {(float)cos((azimuth + 0.5f) * PI * 2) * diverge, 0, (float)sin((azimuth + 0.5f) * PI * 2) * diverge},     // -Front/Back / B
         };
 
-        /*
-        X = left/right angle
-        Y = up/down angle
-        Z = front/back angle
-         */
-
-        for (int i = 0; i < resultingPoints.pointsCount; i++) {
-            resultingPoints.pointsNames[i] = names[i];
-            resultingPoints.ppoints[i] = pnts[i];
-            if (outputMode == OUTPUT_SPATIAL_4CH) {
-                resultingPoints.ppoints[i].y = 0;
-            }
-        }
+        assignResultingPointsNamesAndCoordinates(names, pnts);
 
     } else if (inputMode == INPUT_1OAFUMA) {
 
@@ -901,13 +883,7 @@ void M1EncodeCore::generatePointResults() {
             {0, -1.0f * diverge, 0},                                                                                 // -Top/Bottom / B
         };
 
-        for (int i = 0; i < resultingPoints.pointsCount; i++) {
-            resultingPoints.pointsNames[i] = names[i];
-            resultingPoints.ppoints[i] = pnts[i];
-            if (outputMode == OUTPUT_SPATIAL_4CH) {
-                resultingPoints.ppoints[i].y = 0;
-            }
-        }
+        assignResultingPointsNamesAndCoordinates(names, pnts);
     } else if (inputMode == INPUT_2OAACN || inputMode == INPUT_2OAFUMA || inputMode == INPUT_3OAACN || inputMode == INPUT_3OAFUMA) { // duplicate?
 
         /*
@@ -930,13 +906,7 @@ void M1EncodeCore::generatePointResults() {
             {(float)cos((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge, -1.0f * diverge, (float)(float)sin((azimuth + 0.125f + 0.5f) * PI * 2) * normalisedOutputDiverge},
         };
 
-        for (int i = 0; i < resultingPoints.pointsCount; i++) {
-            resultingPoints.pointsNames[i] = names[i];
-            resultingPoints.ppoints[i] = pnts[i];
-            if (outputMode == OUTPUT_SPATIAL_4CH) {
-                resultingPoints.ppoints[i].y = 0;
-            }
-        }
+        assignResultingPointsNamesAndCoordinates(names, pnts);
     } else if (inputMode == INPUT_LCR) {
 
         resultingPoints.pointsCount = 3;
@@ -954,13 +924,7 @@ void M1EncodeCore::generatePointResults() {
         };
         pnts[1] = (pnts[0] + pnts[2]) / 2;
 
-        for (int i = 0; i < resultingPoints.pointsCount; i++) {
-            resultingPoints.pointsNames[i] = names[i];
-            resultingPoints.ppoints[i] = pnts[i];
-            if (outputMode == OUTPUT_SPATIAL_4CH) {
-                resultingPoints.ppoints[i].y = 0;
-            }
-        }
+        assignResultingPointsNamesAndCoordinates(names, pnts);
     } else if (inputMode == INPUT_FIVE_ZERO) {
 
         resultingPoints.pointsCount = 5;
@@ -979,13 +943,7 @@ void M1EncodeCore::generatePointResults() {
             {(float)cos((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge},
         };
 
-        for (int i = 0; i < resultingPoints.pointsCount; i++) {
-            resultingPoints.pointsNames[i] = names[i];
-            resultingPoints.ppoints[i] = pnts[i];
-            if (outputMode == OUTPUT_SPATIAL_4CH) {
-                resultingPoints.ppoints[i].y = 0;
-            }
-        }
+        assignResultingPointsNamesAndCoordinates(names, pnts);
     } else if (inputMode == INPUT_FIVE_ONE_FILM) {
 
         resultingPoints.pointsCount = 6;
@@ -1005,13 +963,7 @@ void M1EncodeCore::generatePointResults() {
             {0, 0, 0},
         };
 
-        for (int i = 0; i < resultingPoints.pointsCount; i++) {
-            resultingPoints.pointsNames[i] = names[i];
-            resultingPoints.ppoints[i] = pnts[i];
-            if (outputMode == OUTPUT_SPATIAL_4CH) {
-                resultingPoints.ppoints[i].y = 0;
-            }
-        }
+        assignResultingPointsNamesAndCoordinates(names, pnts);
     } else if (inputMode == INPUT_FIVE_ONE_DTS) {
 
         resultingPoints.pointsCount = 6;
@@ -1031,13 +983,7 @@ void M1EncodeCore::generatePointResults() {
             {0, 0, 0},
         };
 
-        for (int i = 0; i < resultingPoints.pointsCount; i++) {
-            resultingPoints.pointsNames[i] = names[i];
-            resultingPoints.ppoints[i] = pnts[i];
-            if (outputMode == OUTPUT_SPATIAL_4CH) {
-                resultingPoints.ppoints[i].y = 0;
-            }
-        }
+        assignResultingPointsNamesAndCoordinates(names, pnts);
     } else if (inputMode == INPUT_FIVE_ONE_SMPTE) {
 
         resultingPoints.pointsCount = 6;
@@ -1057,13 +1003,7 @@ void M1EncodeCore::generatePointResults() {
             {(float)cos((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge, elevation, (float)sin((azimuth + 0.125f + 0.25f) * PI * 2) * normalisedOutputDiverge},
         };
 
-        for (int i = 0; i < resultingPoints.pointsCount; i++) {
-            resultingPoints.pointsNames[i] = names[i];
-            resultingPoints.ppoints[i] = pnts[i];
-            if (outputMode == OUTPUT_SPATIAL_4CH) {
-                resultingPoints.ppoints[i].y = 0;
-            }
-        }
+        assignResultingPointsNamesAndCoordinates(names, pnts);
     }
     
     // Calculate adjusted diverge for gain compensation only for isotropic equal power mode

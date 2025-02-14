@@ -180,6 +180,30 @@ class Mach1Encode {
     void setOutputGain(float outputGainMultipler, bool isDecibel);
 
     /**
+     * @brief Gets the current gain compensation value.
+     * @param isDecibel true if the gain compensation is in decibels, false if it is a linear multiplier
+     */
+    float getGainCompensation(bool isDecibel);
+
+    /**
+     * @brief Sets the gain compensation value.
+     * @param gainMultipler the gain compensation value
+     * @param isDecibel true if the gain compensation is in decibels, false if it is a linear multiplier
+     */
+    void setGainCompensation(float gainMultipler, bool isDecibel);
+
+    /**
+     * @brief Gets whether gain compensation is active.
+     */
+    bool getGainCompensationActive();
+
+    /**
+     * @brief Sets whether gain compensation is active.
+     * @param active true if gain compensation is active, false if it is not
+     */
+    void setGainCompensationActive(bool active);
+
+    /**
      * @brief Sets the two stereo points around the axis of the center point between them
      * @param orbitRotationFromMinusOnetoOne floating point value in the range [-1.0; 1.0]
      */
@@ -484,6 +508,26 @@ float Mach1Encode<PCM>::getOutputGain(bool isDecibel) {
 template <typename PCM>
 void Mach1Encode<PCM>::setOutputGain(float outputGainMultipler, bool isDecibel) {
     Mach1EncodeCAPI_setOutputGain(M1obj, outputGainMultipler, isDecibel);
+}
+
+template <typename PCM>
+float Mach1Encode<PCM>::getGainCompensation(bool isDecibel) {
+    return Mach1EncodeCAPI_getGainCompensation(M1obj, isDecibel);
+}
+
+template <typename PCM>
+void Mach1Encode<PCM>::setGainCompensation(float gainMultipler, bool isDecibel) {
+    Mach1EncodeCAPI_setGainCompensation(M1obj, gainMultipler, isDecibel);
+}
+
+template <typename PCM>
+bool Mach1Encode<PCM>::getGainCompensationActive() {
+    return Mach1EncodeCAPI_getGainCompensationActive(M1obj);
+}
+
+template <typename PCM>
+void Mach1Encode<PCM>::setGainCompensationActive(bool active) {
+    Mach1EncodeCAPI_setGainCompensationActive(M1obj, active);
 }
 
 template <typename PCM>

@@ -145,6 +145,8 @@ class M1EncodeCore {
     bool autoOrbit;
     bool frontSurroundPerspective;
     float outputGainLinearMultipler;
+    bool gainCompensationActive = false;
+    float gainCompensationLinearMultiplier;
 
     float getCoeffForChannelPoint(float x, float y, float z, Mach1Point3D point, bool ignoreZ);
     void processGains(float x, float y, float z, std::vector<float> &result);
@@ -202,4 +204,9 @@ class M1EncodeCore {
 
     long getCurrentTime();
     long getLastCalculationTime();
+
+    float getGainCompensation(bool isDecibel);
+    bool getGainCompensationActive();
+    void setGainCompensation(float gainMultipler, bool isDecibel);
+    void setGainCompensationActive(bool active);
 };

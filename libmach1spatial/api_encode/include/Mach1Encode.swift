@@ -274,6 +274,37 @@ public class Mach1Encode {
         /// Remark: Default is passthrough (1.0, false)
     }
 
+    public func getGainCompensation(isDecibel: Bool) -> Float {
+        return Mach1EncodeCAPI_getGainCompensation(M1obj, isDecibel)
+        /// Returns the gain compensation value
+        ///
+        /// - Parameters:
+        ///     - isDecibel: true if the gain compensation is in decibels, false if it is a linear multiplier
+    }
+
+    public func getGainCompensationActive() -> Bool {
+        return Mach1EncodeCAPI_getGainCompensationActive(M1obj)
+        /// Returns the gain compensation active value
+        ///
+        /// - Returns:
+        ///     - true if the gain compensation is active, false if it is not
+    }
+
+    public func setGainCompensation(gainMultipler: Float, isDecibel: Bool) {
+        Mach1EncodeCAPI_setGainCompensation(M1obj, gainMultipler, isDecibel)
+        /// Sets the gain compensation value
+        ///
+        /// - Parameters:
+        ///     - gainMultipler: the gain compensation value
+    }
+
+    public func setGainCompensationActive(active: Bool) {
+        Mach1EncodeCAPI_setGainCompensationActive(M1obj, active)
+        /// Sets the gain compensation active value
+        ///
+        /// - Parameters:
+        ///     - active: true if the gain compensation is active, false if it is not
+    }
     public func setOrbitRotation(orbitRotationFromMinusOnetoOne: Float) {
         Mach1EncodeCAPI_setOrbitRotation(M1obj, orbitRotationFromMinusOnetoOne)
         /// Sets the two stereo points around the axis of the center point between them

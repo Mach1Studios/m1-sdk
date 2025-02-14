@@ -141,6 +141,14 @@ float Mach1EncodeCAPI_getOutputGain(void *M1obj, bool isDecibel) {
     return ((M1EncodeCore *)M1obj)->getOutputGain(isDecibel);
 }
 
+float Mach1EncodeCAPI_getGainCompensation(void *M1obj, bool isDecibel) {
+    return ((M1EncodeCore *)M1obj)->getGainCompensation(isDecibel);
+}
+
+bool Mach1EncodeCAPI_getGainCompensationActive(void *M1obj) {
+    return ((M1EncodeCore *)M1obj)->getGainCompensationActive();
+}
+
 void Mach1EncodeCAPI_setInputMode(void *M1obj, enum Mach1EncodeInputMode inputMode) {
     ((M1EncodeCore *)M1obj)->setInputMode(static_cast<M1EncodeCore::InputMode>(inputMode));
 }
@@ -207,6 +215,14 @@ void Mach1EncodeCAPI_setFrontSurroundPerspective(void *M1obj, bool frontSurround
 
 void Mach1EncodeCAPI_setOutputGain(void *M1obj, float outputGainMultipler, bool isDecibel) {
     ((M1EncodeCore *)M1obj)->setOutputGain(outputGainMultipler, isDecibel);
+}
+
+void Mach1EncodeCAPI_setGainCompensation(void *M1obj, float gainMultipler, bool isDecibel) {
+    ((M1EncodeCore *)M1obj)->setGainCompensation(gainMultipler, isDecibel);
+}
+
+void Mach1EncodeCAPI_setGainCompensationActive(void *M1obj, bool active) {
+    ((M1EncodeCore *)M1obj)->setGainCompensationActive(active);
 }
 
 long Mach1EncodeCAPI_getLastCalculationTime(void *M1obj) {

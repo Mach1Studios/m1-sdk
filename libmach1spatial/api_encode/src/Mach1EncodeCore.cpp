@@ -625,6 +625,7 @@ M1EncodeCore::M1EncodeCore() {
     // to the source sound if we are encoded and decoded at the same azimuth and elevation values
     // It is advised to use `setOutputGain(float gain)` when exploring signal based gain adjustment solutions
     outputGainLinearMultipler = 2.0;
+    gainCompensationLinearMultiplier = 1.0;
 
     // init additional arrays
     arr_Points = new Mach1Point3D[MAX_POINTS_COUNT];
@@ -1067,6 +1068,24 @@ void M1EncodeCore::generatePointResults() {
     
     // Calculate adjusted diverge for gain compensation only for isotropic equal power mode
     float adjustedOutputGain = outputGainLinearMultipler;  // Default to regular output gain
+
+    // Calculate a channel based gain compensation since we will lose power from dividing the signal into the soundfield
+    if (gainCompensationActive)
+    {
+        switch (getOutputChannelsCount())
+        {
+            case 4:
+                gainCompensationLinearMultiplier *= 1.0f;
+                break;
+            case 8:
+                gainCompensationLinearMultiplier *= 2.0f;
+                break;
+            case 14:
+                gainCompensationLinearMultiplier *= 4.57088137f;
+                break;
+        }
+        adjustedOutputGain *= gainCompensationLinearMultiplier;
+    }
     
     if (pannerMode == MODE_ISOTROPICEQUALPOWER) {
         float divergeThreshold = 0.707106f;
@@ -1211,6 +1230,21 @@ void M1EncodeCore::setInputMode(InputMode inputMode) {
 
 void M1EncodeCore::setOutputMode(OutputMode outputMode) {
     this->outputMode = outputMode;
+    
+    // Set default gain compensation based on output mode
+    switch (outputMode) {
+        case OUTPUT_SPATIAL_4CH:
+            gainCompensationLinearMultiplier = 1.0f;
+            break;
+        case OUTPUT_SPATIAL_8CH:
+            gainCompensationLinearMultiplier = 2.0f;
+            break;
+        case OUTPUT_SPATIAL_14CH:
+            gainCompensationLinearMultiplier = 4.57088137f;
+            break;
+    }
+    // Enable gain compensation by default when changing output mode
+    gainCompensationActive = true;
 }
 
 void M1EncodeCore::setAzimuth(float azimuthFromMinus1To1) {
@@ -1275,6 +1309,36 @@ float M1EncodeCore::getOutputGain(bool isDecibel = false) {
     } else {
         return outputGainLinearMultipler;
     }
+}
+
+void M1EncodeCore::setGainCompensation(float gainMultipler, bool isDecibel) {
+    float linearValue;
+    if (isDecibel) {
+        linearValue = std::pow(10.0f, gainMultipler / 20.0f);
+    } else {
+        linearValue = gainMultipler;
+    }
+    
+    this->gainCompensationLinearMultiplier = linearValue;
+    
+    // Check if the value is close to unity gain (within ±0.01 linear or ±0.086dB)
+    const float epsilon = 0.01f;
+    this->gainCompensationActive = std::abs(linearValue - 1.0f) > epsilon;
+}
+
+void M1EncodeCore::setGainCompensationActive(bool active) {
+    gainCompensationActive = active;
+}
+
+float M1EncodeCore::getGainCompensation(bool isDecibel) {
+    if (isDecibel) {
+        return 20.0f * log10f(gainCompensationLinearMultiplier);
+    }
+    return gainCompensationLinearMultiplier;
+}
+
+bool M1EncodeCore::getGainCompensationActive() {
+    return gainCompensationActive;
 }
 
 void M1EncodeCore::setAutoOrbit(bool autoOrbit) {

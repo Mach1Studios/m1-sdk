@@ -91,7 +91,8 @@ def process_license_psd(psd_path):
                         
                     if text.startswith('•'):
                         # Convert bullet point to dash and clean up any non-breaking spaces
-                        text = f" - {text[1:].strip().replace('\xa0', ' ')}"
+                        cleaned_text = text[1:].strip().replace('\xa0', ' ')
+                        text = f" - {cleaned_text}"
                         sections[current_section].append(text)
                     elif not any(text.startswith(header) for header in ['MACH1 SPATIAL SDK', 'License Version', 'OPEN USE']):
                         sections[current_section].append(text)

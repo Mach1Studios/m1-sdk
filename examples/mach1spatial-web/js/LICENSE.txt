@@ -1,4 +1,27 @@
-﻿MACH1 SPATIAL SDK
+MACH1 SPATIAL SDK
+License Version 3.0
+MACH1 Spatial SDK Open Use License
+
+------------
+
+Mach1 Spatial SDK License Summary
+
+CAN:
+ - Distribute with integrated libraries for commercial use, until distribution threshold is reached
+ - Privately Use
+ - Statically Link or Dynamically Link API(s) for private use
+ - Statically Link or Dynamically Link API(s) for commercial use, until distribution threshold is reached
+
+CANNOT:
+ - Distribute more than 100,000 copies of integrated Developer Application commercially without further licensing from Mach1
+ - Rename Mach1 API libraries
+
+MUST:
+ - Contact Mach1 for further licensing when the Developer Application distribution reaches more than 100,000 distributions
+ - Include a copy of the Mach1 Spatial SDK Open Use License with integrated Mach1 Spatial APIs within Developer Applications integrated with Mach1 SDK APIs
+ - Adhere to the Mach1 Spatial SDK Open Use License outlined attribution steps
+
+------------﻿MACH1 SPATIAL SDK
 Open Use License Version 3.0
 
  

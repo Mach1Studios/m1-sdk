@@ -105,7 +105,6 @@ M1_API void Mach1EncodeCAPI_setOutputGain(void *M1obj, float outputGainMultipler
 
 M1_API float Mach1EncodeCAPI_getGainCompensation(void *M1obj, bool isDecibel);
 M1_API bool Mach1EncodeCAPI_getGainCompensationActive(void *M1obj);
-M1_API void Mach1EncodeCAPI_setGainCompensation(void *M1obj, float gainMultipler, bool isDecibel);
 M1_API void Mach1EncodeCAPI_setGainCompensationActive(void *M1obj, bool active);
 
 M1_API void Mach1EncodeCAPI_setAutoOrbit(void *M1obj, bool autoOrbit);

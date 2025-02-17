@@ -217,10 +217,6 @@ void Mach1EncodeCAPI_setOutputGain(void *M1obj, float outputGainMultipler, bool 
     ((M1EncodeCore *)M1obj)->setOutputGain(outputGainMultipler, isDecibel);
 }
 
-void Mach1EncodeCAPI_setGainCompensation(void *M1obj, float gainMultipler, bool isDecibel) {
-    ((M1EncodeCore *)M1obj)->setGainCompensation(gainMultipler, isDecibel);
-}
-
 void Mach1EncodeCAPI_setGainCompensationActive(void *M1obj, bool active) {
     ((M1EncodeCore *)M1obj)->setGainCompensationActive(active);
 }

@@ -290,14 +290,6 @@ public class Mach1Encode {
         ///     - true if the gain compensation is active, false if it is not
     }
 
-    public func setGainCompensation(gainMultipler: Float, isDecibel: Bool) {
-        Mach1EncodeCAPI_setGainCompensation(M1obj, gainMultipler, isDecibel)
-        /// Sets the gain compensation value
-        ///
-        /// - Parameters:
-        ///     - gainMultipler: the gain compensation value
-    }
-
     public func setGainCompensationActive(active: Bool) {
         Mach1EncodeCAPI_setGainCompensationActive(M1obj, active)
         /// Sets the gain compensation active value

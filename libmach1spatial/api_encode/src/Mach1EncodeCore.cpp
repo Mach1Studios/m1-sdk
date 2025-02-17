@@ -165,9 +165,7 @@ int M1EncodeCorePointResults::getPointsCount() {
 }
 
 // Helper method to assign names & points to resultingPoints, applying the 4CH Y=0 flatten if needed
-void M1EncodeCore::assignResultingPointsNamesAndCoordinates(
-    const std::vector<std::string> &names,
-    const std::vector<Mach1Point3D> &pnts)
+void M1EncodeCore::assignResultingPointsNamesAndCoordinates(const std::vector<std::string> &names, const std::vector<Mach1Point3D> &pnts)
 {
     for (int i = 0; i < resultingPoints.pointsCount; i++) {
         resultingPoints.pointsNames[i] = names[i];
@@ -720,6 +718,7 @@ M1EncodeCore& M1EncodeCore::operator=(const M1EncodeCore& other) {
         ms = other.ms;
         timeLastCalculation = other.timeLastCalculation;
         outputGainLinearMultipler = other.outputGainLinearMultipler;
+        gainCompensationLinearMultiplier = other.gainCompensationLinearMultiplier;
 
         // Copy arrays safely
         if (other.arr_Points && arr_Points) {
@@ -1249,21 +1248,6 @@ float M1EncodeCore::getOutputGain(bool isDecibel = false) {
     } else {
         return outputGainLinearMultipler;
     }
-}
-
-void M1EncodeCore::setGainCompensation(float gainMultipler, bool isDecibel) {
-    float linearValue;
-    if (isDecibel) {
-        linearValue = std::pow(10.0f, gainMultipler / 20.0f);
-    } else {
-        linearValue = gainMultipler;
-    }
-    
-    this->gainCompensationLinearMultiplier = linearValue;
-    
-    // Check if the value is close to unity gain (within ±0.01 linear or ±0.086dB)
-    const float epsilon = 0.01f;
-    this->gainCompensationActive = std::abs(linearValue - 1.0f) > epsilon;
 }
 
 void M1EncodeCore::setGainCompensationActive(bool active) {

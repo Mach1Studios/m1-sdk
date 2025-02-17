@@ -186,13 +186,6 @@ class Mach1Encode {
     float getGainCompensation(bool isDecibel);
 
     /**
-     * @brief Sets the gain compensation value.
-     * @param gainMultipler the gain compensation value
-     * @param isDecibel true if the gain compensation is in decibels, false if it is a linear multiplier
-     */
-    void setGainCompensation(float gainMultipler, bool isDecibel);
-
-    /**
      * @brief Gets whether gain compensation is active.
      */
     bool getGainCompensationActive();
@@ -513,11 +506,6 @@ void Mach1Encode<PCM>::setOutputGain(float outputGainMultipler, bool isDecibel) 
 template <typename PCM>
 float Mach1Encode<PCM>::getGainCompensation(bool isDecibel) {
     return Mach1EncodeCAPI_getGainCompensation(M1obj, isDecibel);
-}
-
-template <typename PCM>
-void Mach1Encode<PCM>::setGainCompensation(float gainMultipler, bool isDecibel) {
-    Mach1EncodeCAPI_setGainCompensation(M1obj, gainMultipler, isDecibel);
 }
 
 template <typename PCM>

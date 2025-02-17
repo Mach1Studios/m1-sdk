@@ -270,6 +270,30 @@ Module['onRuntimeInitialized'] = function() {
             }
         };
 
+        this.getOutputGain = function(isDecibel) {
+            if (this._m1obj) {
+                return this._m1obj.getOutputGain(isDecibel);
+            }
+        };
+
+        this.getGainCompensationActive = function() {
+            if (this._m1obj) {
+                return this._m1obj.getGainCompensationActive();
+            }
+        };
+
+        this.setGainCompensationActive = function(active) {
+            if (this._m1obj) {
+                this._m1obj.setGainCompensationActive(active);
+            }
+        };
+
+        this.getGainCompensation = function(isDecibel) {
+            if (this._m1obj) {
+                return this._m1obj.getGainCompensation(isDecibel);
+            }
+        };
+
         this._m1obj = new(Module).Mach1EncodeInternal();
     };
 };

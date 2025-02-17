@@ -89,6 +89,10 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
         .function("setPannerMode", &Mach1Encode<float>::setPannerMode)
         .function("setFrontSurroundPerspective", &Mach1Encode<float>::setFrontSurroundPerspective)
         .function("setOutputGain", &Mach1Encode<float>::setOutputGain)
+        .function("getOutputGain", &Mach1Encode<float>::getOutputGain)
+        .function("getGainCompensationActive", &Mach1Encode<float>::getGainCompensationActive)
+        .function("setGainCompensationActive", &Mach1Encode<float>::setGainCompensationActive)
+        .function("getGainCompensation", &Mach1Encode<float>::getGainCompensation)
 
         .function("setAutoOrbit", &Mach1Encode<float>::setAutoOrbit)
         .function("setOrbitRotation", &Mach1Encode<float>::setOrbitRotation)

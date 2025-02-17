@@ -148,13 +148,13 @@ class M1EncodeCore {
     bool gainCompensationActive = false;
     float gainCompensationLinearMultiplier;
 
+    float clamp(float n, float lower, float upper);
+    void assignResultingPointsNamesAndCoordinates(const std::vector<std::string> &names, const std::vector<Mach1Point3D> &pnts);
     float getCoeffForChannelPoint(float x, float y, float z, Mach1Point3D point, bool ignoreZ);
     void processGains(float x, float y, float z, std::vector<float> &result);
 
     milliseconds ms;
     long timeLastCalculation;
-
-    float clamp(float n, float lower, float upper);
 
   public:
     M1EncodeCore();
@@ -207,6 +207,5 @@ class M1EncodeCore {
 
     float getGainCompensation(bool isDecibel);
     bool getGainCompensationActive();
-    void setGainCompensation(float gainMultipler, bool isDecibel);
     void setGainCompensationActive(bool active);
 };

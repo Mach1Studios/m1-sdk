@@ -15,22 +15,17 @@
 
 ### [LICENSE](#license) ###
 
-***IMPORTANT NOTICE: PLEASE READ CAREFULLY BEFORE DOWNLOADING, INSTALLING OR USING THE MACH1 SPATIAL SDK:***
- - BY CLICKING ON THE “ACCEPT” BUTTON, OR BY DOWNLOADING, INSTALLING, OR USING THE MACH1 SPATIAL SDK, YOU AGREE TO THE TERMS OF THIS AGREEMENT, AND ALL INCORPORATED TERMS INCLUDING THE PRIVACY POLICY, AS APPLICABLE, WHICH WILL BIND YOU.
-- YOU MUST JOIN THE SPATIALAUDIO.SLACK.COM WORKSPACE TO KEEP IN TOUCH ABOUT THIS LICENSE AND MOST RECENT FEATURES ABOUT THE MACH1 SPATIAL SDK.
-- The most current version of the MACH1 SPATIAL SDK ROYALTY FREE LICENSE will be posted at www.mach1.tech/license. If the Current Version has a more recent effective date than this document, then this document is replaced by the Currnt Version and by clicking on the appropriate button below, or by downloading, installing, activating or using any of the SDK, or any other update method Mach1 may choose, you agree to be bound by the Current Version. You may not use an old version of any SDK if you have not agreed to the Current Version.
- - IF YOU DO NOT AGREE TO THE TERMS OF THIS AGREEMENT, WE WILL NOT LICENSE THE MACH1 SPATIAL SDK TO YOU AND YOU MUST DISCONTINUE THE INSTALLATION OR DOWNLOAD PROCESS OR CEASE USE OF THE MACH1 SPATIAL SDK.
-
-By downloading and/or using the Mach1 Spatial SDK, including use of any of the contents within the [mach1spatial-libs/](mach1spatial-libs),
-you agree to and acknowledge the terms of use set forth by the [Mach1 Spatial SDK License](https://www.mach1.tech/license).
-If you do not agree to the terms set forth by the [Mach1 Spatial SDK License](https://www.mach1.tech/license) you are not
+By downloading and/or using the Mach1 Spatial SDK, including use of any of the contents within the [libmach1spatial/](libmach1spatial/),
+you agree to and acknowledge the terms of use set forth by the [Mach1 Spatial SDK License](LICENSE.txt).
+If you do not agree to the terms set forth by the [Mach1 Spatial SDK License](LICENSE.txt) you are not
 permitted to use, link, compile and/or distribute any of the contents of this repository.
 
 Please view the [license/](license) directory for more information and proper attribution resources.
 
 ### [SUMMARY](#summary) ###
 
-*Mach1 Spatial VVBP (Virtual Vector Based Panning) is a controlled virtual version of traditional VBAP (Vector Based Amplitude Panning) or SPS (Spatial PCM Sampling). The Mach1 Spatial formats are designed for simplicity and ease of use & implementation both for the content creators and the developers. The Mach1 Spatial audio mixes are based on only amplitude based coefficients changes for both encoding and decoding, and unlike many other spatial audio approaches, there are no additional signal altering processes (such as room modeling, delays or filters) to create coherent and accurate spatial sound fields and play them back from a first person headtracked perspective. Due to the simplicity of the format and vector space it relies on, it is also ideal for converting and carrying surround and spatial audio mixes without altering the mix to do so, making it an ideal server side audio middleman container. Bringing controlled post-produced spatial audio into new mediums easily.*
+*Mach1 Spatial VVBP (Virtual Vector Based Panning) is a virtual VBAP (Vector Based Amplitude Panning) or SPS (Spatial PCM Sampling) framework of multichannel symmetrical layouts designed for inter-operability with other multichannel audio approaches and packaged in flexible APIs for use.*
+*The Mach1 Spatial layouts are designed for simplicity and ease of use & implementation both for the content creators and the developers. The Mach1 Spatial audio mixes are based on only amplitude based coefficients changes for both encoding and decoding, and unlike many other spatial audio approaches, there are no additional signal altering processes (such as room modeling, delays or filters) to create coherent and accurate spatial sound fields and play them back from a first person headtracked perspective. Due to the simplicity of the framework and vector space it relies on, it is also ideal for converting and carrying surround and spatial audio mixes without altering the mix to do so, making it an ideal server side audio middleman container and bringing controlled post-produced spatial audio into new mediums more easily.*
 
 #### The Mach1 Spatial SDK includes four components and libraries: ####
 

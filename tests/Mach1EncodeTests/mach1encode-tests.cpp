@@ -27,7 +27,6 @@ void test_results(void) {
     std::map<Mach1EncodeOutputMode, std::string> outputModeNames = {
         {M1Spatial_4, "MACH1SPATIAL-4"},
         {M1Spatial_8, "MACH1SPATIAL-8"},
-        {M1Spatial_12, "MACH1SPATIAL-12"},
         {M1Spatial_14, "MACH1SPATIAL-14"},
     };
 

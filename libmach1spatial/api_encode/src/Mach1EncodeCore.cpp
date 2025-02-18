@@ -776,6 +776,7 @@ void M1EncodeCore::generatePointResults() {
                 resultingPoints.ppoints[0] = {centerpoint.x, elevation, centerpoint.z};
             }
         }
+        // TODO: Refactor and use assignResultingPointsNamesAndCoordinates
     } else if (inputMode == INPUT_STEREO) {
 
         float sRotationInRadians;
@@ -802,6 +803,7 @@ void M1EncodeCore::generatePointResults() {
                 resultingPoints.ppoints[i] = pnts[i] + Mach1Point3D{centerpoint.x, elevation, centerpoint.z};
             }
         }
+        // TODO: Refactor and use assignResultingPointsNamesAndCoordinates
     } else if (inputMode == INPUT_QUAD) {
 
         resultingPoints.pointsCount = 4;

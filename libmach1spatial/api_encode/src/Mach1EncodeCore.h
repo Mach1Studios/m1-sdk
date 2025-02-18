@@ -146,7 +146,7 @@ class M1EncodeCore {
     bool frontSurroundPerspective;
     float outputGainLinearMultipler;
     bool gainCompensationActive = false;
-    float gainCompensationLinearMultiplier;
+    float gainCompensationLinearMultiplier = 1.0f;
 
     float clamp(float n, float lower, float upper);
     void assignResultingPointsNamesAndCoordinates(const std::vector<std::string> &names, const std::vector<Mach1Point3D> &pnts);

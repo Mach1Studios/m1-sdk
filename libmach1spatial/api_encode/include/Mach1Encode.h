@@ -181,7 +181,7 @@ class Mach1Encode {
 
     /**
      * @brief Gets the current gain compensation value.
-     * @param isDecibel true if the gain compensation is in decibels, false if it is a linear multiplier
+     * @param isDecibel true if the gain compensation is in decibels, false to return as a linear multiplier
      */
     float getGainCompensation(bool isDecibel);
 

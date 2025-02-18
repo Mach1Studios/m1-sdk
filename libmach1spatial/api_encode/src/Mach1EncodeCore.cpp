@@ -1014,13 +1014,13 @@ void M1EncodeCore::generatePointResults() {
         switch (getOutputChannelsCount())
         {
             case 4:
-                gainCompensationLinearMultiplier *= 1.0f;
+                gainCompensationLinearMultiplier = 1.0f;
                 break;
             case 8:
-                gainCompensationLinearMultiplier *= 2.0f;
+                gainCompensationLinearMultiplier = 2.0f;
                 break;
             case 14:
-                gainCompensationLinearMultiplier *= 4.57088137f;
+                gainCompensationLinearMultiplier = 4.57088137f;
                 break;
         }
         adjustedOutputGain *= gainCompensationLinearMultiplier;

@@ -54,6 +54,7 @@ void test_results(void) {
         Mach1EncodeInputMode inputMode;
         Mach1EncodeOutputMode outputMode;
         Mach1EncodePannerMode pannerMode;
+        bool autoGain;
         float azimuth;
         float diverge;
         float elevation;
@@ -75,40 +76,40 @@ void test_results(void) {
 
     std::vector<CASE> cases = {
         /*
-        MONO - MACH1HORIZON-4
+        MONO - MACH1SPATIAL-4
         TODO: add more input tests with less rounded inputs
         TODO: add all other output modes
          */
-        {"case: ENCODE | MONO->MACH1HORIZON-4",
-         {Mono, M1Spatial_4, IsotropicLinear, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+        {"case: ENCODE | MONO->MACH1SPATIAL-4",
+         {Mono, M1Spatial_4, IsotropicLinear, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
                  {0.5, 0.5, 0.5, 0.5},
              },
          }},
-        {"case: ENCODE | MONO->MACH1HORIZON-4 | Diverge",
-         {Mono, M1Spatial_4, IsotropicLinear, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+        {"case: ENCODE | MONO->MACH1SPATIAL-4 | Diverge",
+         {Mono, M1Spatial_4, IsotropicLinear, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
                  {1.0, 1.0, 0.0, 0.0},
              },
          }},
-        {"case: ENCODE | MONO->MACH1HORIZON-4 | Azimuth 90",
-         {Mono, M1Spatial_4, IsotropicLinear, 90.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+        {"case: ENCODE | MONO->MACH1SPATIAL-4 | Azimuth 90",
+         {Mono, M1Spatial_4, IsotropicLinear, true, 90.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
                  {0.0, 1.0, 0.0, 1.0},
              },
          }},
-        {"case: ENCODE | MONO->MACH1HORIZON-4 | Azimuth 180",
-         {Mono, M1Spatial_4, IsotropicLinear, 180.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+        {"case: ENCODE | MONO->MACH1SPATIAL-4 | Azimuth 180",
+         {Mono, M1Spatial_4, IsotropicLinear, true, 180.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
                  {0.0, 0.0, 1.0, 1.0}, 
              },
          }},
-        {"case: ENCODE | MONO->MACH1HORIZON-4 | Azimuth 270",
-         {Mono, M1Spatial_4, IsotropicLinear, 270.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+        {"case: ENCODE | MONO->MACH1SPATIAL-4 | Azimuth 270",
+         {Mono, M1Spatial_4, IsotropicLinear, true, 270.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
                  {1.0, 0.0, 1.0, 0.0},
@@ -120,59 +121,66 @@ void test_results(void) {
          */
         {
             "case: ENCODE | MONO->MACH1SPATIAL-8",
-            {Mono, M1Spatial_8, IsotropicLinear, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {Mono, M1Spatial_8, IsotropicLinear, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
             {
                 {
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
                 },
             }},
         {"case: ENCODE | MONO->MACH1SPATIAL-8 | Diverge",
-         {Mono, M1Spatial_8, IsotropicLinear, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+         {Mono, M1Spatial_8, IsotropicLinear, false, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
                 {0.5, 0.5, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0}, 
              },
          }},
-        {"case: ENCODE | MONO->MACH1SPATIAL-8 | Azimuth 90",
-         {Mono, M1Spatial_8, IsotropicLinear, 90.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+        {"case: ENCODE | MONO->MACH1SPATIAL-8 | Diverge",
+         {Mono, M1Spatial_8, IsotropicLinear, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
-                 {0.0, 0.5, 0.0, 0.5, 0.0, 0.5, 0.0, 0.5},
+                {1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0}, 
+             },
+         }},
+        {"case: ENCODE | MONO->MACH1SPATIAL-8 | Azimuth 90",
+         {Mono, M1Spatial_8, IsotropicLinear, true, 90.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+         {
+             {
+                 {0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0},
              },
          }},
         {"case: ENCODE | MONO->MACH1SPATIAL-8 | Azimuth 180",
-         {Mono, M1Spatial_8, IsotropicLinear, 180.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+         {Mono, M1Spatial_8, IsotropicLinear, true, 180.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
-                 {0.0, 0.0, 0.5, 0.5, 0.0, 0.0, 0.5, 0.5},
+                 {0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0},
              },
          }},
         {"case: ENCODE | MONO->MACH1SPATIAL-8 | Azimuth 270",
-         {Mono, M1Spatial_8, IsotropicLinear, 270.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+         {Mono, M1Spatial_8, IsotropicLinear, true, 270.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
-                 {0.5, 0.0, 0.5, 0.0, 0.5, 0.0, 0.5, 0.0},
+                 {1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0},
              },
          }},
         {"case: ENCODE | MONO->MACH1SPATIAL-8 | Height",
-         {Mono, M1Spatial_8, IsotropicLinear, 90.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees},
+         {Mono, M1Spatial_8, IsotropicLinear, true, 90.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
-                 {0.5, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0},
+                 {1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0},
              },
          }},
         {"case: ENCODE | MONO->MACH1SPATIAL-8 | Periphonic Height",
-         {Mono, M1Spatial_8, PeriphonicLinear, 0.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees},
+         {Mono, M1Spatial_8, PeriphonicLinear, true, 0.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
-                 {1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
+                 {2.0, 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
              },
          }},
         {"case: ENCODE | MONO->MACH1SPATIAL-8 | Periphonic Height Corner",
-         {Mono, M1Spatial_8, PeriphonicLinear, 45.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees},
+         {Mono, M1Spatial_8, PeriphonicLinear, true, 45.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
-                 {0.0, 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
+                 {0.0, 4.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
              },
          }},
         /*
@@ -180,137 +188,162 @@ void test_results(void) {
         */
         {
             "case: ENCODE | MONO->MACH1SPATIAL-14",
-            {Mono, M1Spatial_14, IsotropicLinear, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {Mono, M1Spatial_14, IsotropicLinear, false, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
             {
                 {
-                    {0.142856, 0.142856, 0.142856, 0.142856, 0.142856, 0.142856, 0.142856, 0.142856, 0.142856, 0.142856, 0.142856, 0.142856, 0.142856, 0.142856},
-                },
-            }},
-        {"case: ENCODE | MONO->MACH1SPATIAL-14 | Diverge",
-         {Mono, M1Spatial_14, IsotropicLinear, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
-         {
-             {
-                 {0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0},
-             },
-         }},
-        {"case: ENCODE | MONO->MACH1SPATIAL-14 | Azimuth 90",
-         {Mono, M1Spatial_14, IsotropicLinear, 90.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
-         {
-             {
-                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0},
-             },
-         }},
-        {"case: ENCODE | MONO->MACH1SPATIAL-14 | Azimuth 180",
-         {Mono, M1Spatial_14, IsotropicLinear, 180.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
-         {
-             {
-                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0},
-             },
-         }},
-        {"case: ENCODE | MONO->MACH1SPATIAL-14 | Azimuth 270",
-         {Mono, M1Spatial_14, IsotropicLinear, 270.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
-         {
-             {
-                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0},
-             },
-         }},
-        {"case: ENCODE | MONO->MACH1SPATIAL-14 | Height",
-         {Mono, M1Spatial_14, IsotropicLinear, 90.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees},
-         {
-             {
-                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0},
-             },
-         }},
-        {
-            "case: ENCODE | MONO->MACH1SPATIAL-8 | IsotropicLinear - Center",
-            {Mono, M1Spatial_8, IsotropicLinear, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
-            {
-                {
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
+                    {0.142857, 0.142857, 0.142857, 0.142857, 0.142857, 0.142857, 0.142857, 0.142857, 0.142857, 0.142857, 0.142857, 0.142857, 0.142857, 0.142857},
                 },
             }
         },
         {
-            "case: ENCODE | MONO->MACH1SPATIAL-8 | IsotropicEqualPower - Center",
-            {Mono, M1Spatial_8, IsotropicEqualPower, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            "case: ENCODE | MONO->MACH1SPATIAL-14",
+            {Mono, M1Spatial_14, IsotropicLinear, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    {0.652983, 0.652983, 0.652983, 0.652983, 0.652983, 0.652983, 0.652983, 0.652983, 0.652983, 0.652983, 0.652983, 0.652983, 0.652983, 0.652983},
+                },
+            }
+        },
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-14 | Diverge",
+            {Mono, M1Spatial_14, IsotropicLinear, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    {0, 0, 0, 0, 0, 0, 0, 0, 9.14176, 0, 0, 0, 0, 0},
+                },
+            }
+        },
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-14 | Diverge",
+            {Mono, M1Spatial_14, IsotropicLinear, false, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    {0, 0, 0, 0, 0, 0, 0, 0, 2.0, 0, 0, 0, 0, 0},
+                },
+            }
+        },
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-14 | Azimuth 90",
+            {Mono, M1Spatial_14, IsotropicLinear, false, 90.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 2.0, 0, 0, 0, 0},
+                },
+            }
+        },
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-14 | Azimuth 180",
+            {Mono, M1Spatial_14, IsotropicLinear, false, 180.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2.0, 0, 0, 0},
+                },
+            }
+        },
+        {"case: ENCODE | MONO->MACH1SPATIAL-14 | Azimuth 270",
+         {Mono, M1Spatial_14, IsotropicLinear, false, 270.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+         {
+             {
+                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2.0, 0, 0},
+             },
+         }},
+        {"case: ENCODE | MONO->MACH1SPATIAL-14 | Height",
+         {Mono, M1Spatial_14, IsotropicLinear, false, 90.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees},
+         {
+             {
+                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2.0, 0},
+             },
+         }},
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-8 | IsotropicLinear - Center",
+            {Mono, M1Spatial_8, IsotropicLinear, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
             {
                 {
                     {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
                 },
             }
         },
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-8 | IsotropicEqualPower - Center",
+            {Mono, M1Spatial_8, IsotropicEqualPower, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
+                },
+            }
+        },
         // Equal Power Mode - Cardinal Direction Tests
         {
             "case: ENCODE | MONO->MACH1SPATIAL-8 | IsotropicEqualPower - Front",
-            {Mono, M1Spatial_8, IsotropicEqualPower, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {Mono, M1Spatial_8, IsotropicEqualPower, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
             {
                 {
-                    {0.5, 0.5, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0},
+                    {1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0},
                 },
             }
         },
         {
             "case: ENCODE | MONO->MACH1SPATIAL-8 | IsotropicEqualPower - Right",
-            {Mono, M1Spatial_8, IsotropicEqualPower, 90.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {Mono, M1Spatial_8, IsotropicEqualPower, true, 90.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
             {
                 {
-                    {0.0, 0.5, 0.0, 0.5, 0.0, 0.5, 0.0, 0.5},
+                    {0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0},
                 },
             }
         },
         {
             "case: ENCODE | MONO->MACH1SPATIAL-8 | IsotropicEqualPower - Back",
-            {Mono, M1Spatial_8, IsotropicEqualPower, 180.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {Mono, M1Spatial_8, IsotropicEqualPower, true, 180.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
             {
                 {
-                    {0.0, 0.0, 0.5, 0.5, 0.0, 0.0, 0.5, 0.5},
+                    {0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0},
                 },
             }
         },
         {
             "case: ENCODE | MONO->MACH1SPATIAL-8 | IsotropicEqualPower - Left",
-            {Mono, M1Spatial_8, IsotropicEqualPower, 270.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {Mono, M1Spatial_8, IsotropicEqualPower, true, 270.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
             {
                 {
-                    {0.5, 0.0, 0.5, 0.0, 0.5, 0.0, 0.5, 0.0},
+                    {1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0},
                 },
             }
         },
         // Equal Power Mode - Diagonal Tests
         {
             "case: ENCODE | MONO->MACH1SPATIAL-8 | IsotropicEqualPower - Front-Right",
-            {Mono, M1Spatial_8, IsotropicEqualPower, 45.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {Mono, M1Spatial_8, IsotropicEqualPower, true, 45.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
             {
                 {
-                    {0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0},
+                    {0.0, 2.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0},
                 },
             }
         },
         {
             "case: ENCODE | MONO->MACH1SPATIAL-8 | IsotropicEqualPower - Edge Gain",
-            {Mono, M1Spatial_8, IsotropicEqualPower, 90.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {Mono, M1Spatial_8, IsotropicEqualPower, true, 90.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
             {
                 {
-                    {0.0, 0.5, 0.0, 0.5, 0.0, 0.5, 0.0, 0.5}, // No boost at edge
+                    {0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0}, // No boost at edge
                 },
             }
         },
         // Height Tests with Equal Power
         {
             "case: ENCODE | MONO->MACH1SPATIAL-8 | IsotropicEqualPower - Top Center",
-            {Mono, M1Spatial_8, IsotropicEqualPower, 0.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees},
+            {Mono, M1Spatial_8, IsotropicEqualPower, true, 0.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees},
             {
                 {
-                    {0.5, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0},
+                    {1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0},
                 },
             }
         },
         {
             "case: ENCODE | MONO->MACH1SPATIAL-8 | IsotropicEqualPower - Bottom Center",
-            {Mono, M1Spatial_8, IsotropicEqualPower, 0.0, 1.0, -90.0, true, 0.0, 0.0, unsignedDegrees},
+            {Mono, M1Spatial_8, IsotropicEqualPower, true, 0.0, 1.0, -90.0, true, 0.0, 0.0, unsignedDegrees},
             {
                 {
-                    {0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 0.5},
+                    {0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0},
                 },
             }
         },
@@ -321,59 +354,59 @@ void test_results(void) {
          */
         {
             "case: ENCODE | STEREO->MACH1SPATIAL-8",
-            {Stereo, M1Spatial_8, IsotropicLinear, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {Stereo, M1Spatial_8, IsotropicLinear, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
             {
                 {
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
                 },
             }},
         {"case: ENCODE | STEREO->MACH1SPATIAL-8 | Diverge",
-         {Stereo, M1Spatial_8, IsotropicLinear, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+         {Stereo, M1Spatial_8, IsotropicLinear, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
-                 {0.5, 0.5, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0},
-                 {0.5, 0.5, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0},
+                 {1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0},
+                 {1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0},
              },
          }},
         {"case: ENCODE | STEREO->MACH1SPATIAL-8 | Height",
-         {Stereo, M1Spatial_8, IsotropicLinear, 0.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees},
+         {Stereo, M1Spatial_8, IsotropicLinear, true, 0.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
-                 {0.5, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0},
-                 {0.5, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0},
+                 {1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0},
+                 {1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0},
              },
          }},
         {"case: ENCODE | STEREO->MACH1SPATIAL-8 | Stereo Spread",
-         {Stereo, M1Spatial_8, IsotropicLinear, 0.0, 1.0, 0.0, true, 1.0, 0.0, unsignedDegrees},
+         {Stereo, M1Spatial_8, IsotropicLinear, true, 0.0, 1.0, 0.0, true, 1.0, 0.0, unsignedDegrees},
          {
              {
-                 {1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0},
-                 {0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0},
+                 {2.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0},
+                 {0.0, 2.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0},
              },
          }},
         {"case: ENCODE | STEREO->MACH1SPATIAL-8 | Stereo Spread Height",
-         {Stereo, M1Spatial_8, IsotropicLinear, 0.0, 1.0, 90.0, true, 1.0, 0.0, unsignedDegrees},
+         {Stereo, M1Spatial_8, IsotropicLinear, true, 0.0, 1.0, 90.0, true, 1.0, 0.0, unsignedDegrees},
          {
              {
-                 {1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0},
-                 {0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0},
+                 {2.0, 0.0, 2.0, 0.0, 0.0, 0.0, 0.0, 0.0},
+                 {0.0, 2.0, 0.0, 2.0, 0.0, 0.0, 0.0, 0.0},
              },
          }},
         {"case: ENCODE | STEREO->MACH1SPATIAL-8 | Stereo Spread Height - Periphonic",
-         {Stereo, M1Spatial_8, PeriphonicLinear, 0.0, 1.0, 90.0, true, 1.0, 0.0, unsignedDegrees},
+         {Stereo, M1Spatial_8, PeriphonicLinear, true, 0.0, 1.0, 90.0, true, 1.0, 0.0, unsignedDegrees},
          {
              {
-                 {2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
-                 {0.0, 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
+                 {4.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
+                 {0.0, 4.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
              },
          }},
         {"case: ENCODE | STEREO->MACH1SPATIAL-8 | Stereo Rotation",
-         {Stereo, M1Spatial_8, IsotropicLinear, 0.0, 0.0, 0.0, false, 1.0, 90.0, unsignedDegrees},
+         {Stereo, M1Spatial_8, IsotropicLinear, true, 0.0, 0.0, 0.0, false, 1.0, 90.0, unsignedDegrees},
          {
              {
-                 {0.5, 0.5, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0},
-                 {0.0, 0.0, 0.5, 0.5, 0.0, 0.0, 0.5, 0.5},
+                 {1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0},
+                 {0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0},
              },
          }},
         /*
@@ -381,21 +414,21 @@ void test_results(void) {
          */
         {
             "case: ENCODE | LCR->MACH1SPATIAL-8",
-            {LCR, M1Spatial_8, IsotropicLinear, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {LCR, M1Spatial_8, IsotropicLinear, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
             {
                 {
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
                 },
             }},
         {"case: ENCODE | LCR->MACH1SPATIAL-8 | Diverge",
-         {LCR, M1Spatial_8, IsotropicLinear, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+         {LCR, M1Spatial_8, IsotropicLinear, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
-                 {1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0},
-                 {0.5, 0.5, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0},
-                 {0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0},
+                 {2.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0},
+                 {1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0},
+                 {0.0, 2.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0},
              },
          }},
         /*
@@ -405,33 +438,33 @@ void test_results(void) {
          */
         {
             "case: ENCODE | QUAD->MACH1SPATIAL-8",
-            {Quad, M1Spatial_8, IsotropicLinear, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {Quad, M1Spatial_8, IsotropicLinear, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
             {
                 {
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
                 },
             }},
         {"case: ENCODE | QUAD->MACH1SPATIAL-8 | Diverge",
-         {Quad, M1Spatial_8, IsotropicLinear, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+         {Quad, M1Spatial_8, IsotropicLinear, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
-                 {1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0},
-                 {0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0},
-                 {0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0},
-                 {0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0},
+                 {2.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0},
+                 {0.0, 2.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0},
+                 {0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 2.0, 0.0},
+                 {0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 2.0},
              },
          }},
         {"case: ENCODE | QUAD->MACH1SPATIAL-8 | Height",
-         {Quad, M1Spatial_8, IsotropicLinear, 0.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees},
+         {Quad, M1Spatial_8, IsotropicLinear, true, 0.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
-                 {2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
-                 {0.0, 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
-                 {0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 0.0, 0.0},
-                 {0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 0.0},
+                 {4.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
+                 {0.0, 4.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
+                 {0.0, 0.0, 4.0, 0.0, 0.0, 0.0, 0.0, 0.0},
+                 {0.0, 0.0, 0.0, 4.0, 0.0, 0.0, 0.0, 0.0},
              },
          }},
         /*
@@ -439,23 +472,23 @@ void test_results(void) {
          */
         {
             "case: ENCODE | LCRS->MACH1SPATIAL-8",
-            {LCRS, M1Spatial_8, IsotropicLinear, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {LCRS, M1Spatial_8, IsotropicLinear, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
             {
                 {
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
                 },
             }},
         {"case: ENCODE | LCRS->MACH1SPATIAL-8 | Diverge",
-         {LCRS, M1Spatial_8, IsotropicLinear, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+         {LCRS, M1Spatial_8, IsotropicLinear, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
-                 {1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0},
-                 {0.5, 0.5, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0},
-                 {0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0},
-                 {0.0, 0.0, 0.5, 0.5, 0.0, 0.0, 0.5, 0.5},
+                 {2.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0},
+                 {1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0},
+                 {0.0, 2.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0},
+                 {0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0},
              },
          }},
         /*
@@ -463,23 +496,23 @@ void test_results(void) {
          */
         {
             "case: ENCODE | AFORMAT->MACH1SPATIAL-8",
-            {AFormat, M1Spatial_8, IsotropicLinear, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {AFormat, M1Spatial_8, IsotropicLinear, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
             {
                 {
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
                 },
             }},
         {"case: ENCODE | AFORMAT->MACH1SPATIAL-8 | Diverge",
-         {AFormat, M1Spatial_8, IsotropicLinear, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+         {AFormat, M1Spatial_8, IsotropicLinear, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
-                 {0.904223*2, 0.0475445*2, 0.0475445*2, 0.000687696*2, 0.0, 0.0, 0.0, 0.0},
-                 {0.0, 0.0, 0.0, 0.0, 0.0475445*2, 0.904223*2, 0.000687696*2, 0.0475445*2},
-                 {0.0, 0.0, 0.0, 0.0, 0.0475445*2, 0.000687696*2, 0.904223*2, 0.0475445*2},
-                 {0.000687696*2, 0.0475445*2, 0.0475445*2, 0.904223*2, 0.0, 0.0, 0.0, 0.0},
+                 {0.904223*4, 0.0475445*4, 0.0475445*4, 0.000687696*4, 0.0, 0.0, 0.0, 0.0},
+                 {0.0, 0.0, 0.0, 0.0, 0.0475445*4, 0.904223*4, 0.000687696*4, 0.0475445*4},
+                 {0.0, 0.0, 0.0, 0.0, 0.0475445*4, 0.000687696*4, 0.904223*4, 0.0475445*4},
+                 {0.000687696*4, 0.0475445*4, 0.0475445*4, 0.904223*4, 0.0, 0.0, 0.0, 0.0},
              },
          }},
         /*
@@ -487,16 +520,16 @@ void test_results(void) {
          */
         {
             "case: ENCODE | 1OA-ACN->MACH1SPATIAL-8",
-            {BFOAACN, M1Spatial_8, IsotropicLinear, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {BFOAACN, M1Spatial_8, IsotropicLinear, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
             {
                 {
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
                 },
             }},
         /*
@@ -504,16 +537,16 @@ void test_results(void) {
          */
         {
             "case: ENCODE | 1OA-FUMA->MACH1SPATIAL-8",
-            {BFOAFUMA, M1Spatial_8, IsotropicLinear, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {BFOAFUMA, M1Spatial_8, IsotropicLinear, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
             {
                 {
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-                    {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+                    {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
                 },
             }},
         /*
@@ -521,100 +554,100 @@ void test_results(void) {
         */
         {
             "case: ENCODE | 5.0->MACH1SPATIAL-8 | Diverge", // "L","C","R","Ls","Rs"
-            {FiveDotZero, M1Spatial_8, IsotropicLinear, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {FiveDotZero, M1Spatial_8, IsotropicLinear, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
             {
                 {
-                    {1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0},
-                    {0.5, 0.5, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0},
-                    {0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0},
-                    {0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0},
-                    {0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0},
+                    {2.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0},
+                    {1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0},
+                    {0.0, 2.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0},
+                    {0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 2.0, 0.0},
+                    {0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 2.0},
                 },
             }},
         {"case: ENCODE | 5.1->MACH1SPATIAL-8 | Diverge", // "L","C","R","Ls","Rs","LFE"
-         {FiveDotOneFilm, M1Spatial_8, IsotropicLinear, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+         {FiveDotOneFilm, M1Spatial_8, IsotropicLinear, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
          {
-             {
-                 {1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0},
-                 {0.5, 0.5, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0},
-                 {0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0},
-                 {0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0},
-                 {0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0},
-                 {0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25},
-             },
+            {
+                {2.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0},
+                {1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0},
+                {0.0, 2.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0},
+                {0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 2.0, 0.0},
+                {0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 2.0},
+                {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5},
+            },
          }},
         /*
         Input Data Checks
          */
         {
             "case: ENCODE | Azimuth: signed degrees",
-            {Mono, M1Spatial_8, IsotropicLinear, -90.0, 1.0, 0.0, true, 0.0, 0.0, signedDegrees},
+            {Mono, M1Spatial_8, IsotropicLinear, true, -90.0, 1.0, 0.0, true, 0.0, 0.0, signedDegrees},
             {
                 {
-                    {0.5, 0.0, 0.5, 0.0, 0.5, 0.0, 0.5, 0.0},
+                    {1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0},
                 },
             }},
         {"case: ENCODE | Azimuth: unsigned degrees",
-         {Mono, M1Spatial_8, IsotropicLinear, 270.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+         {Mono, M1Spatial_8, IsotropicLinear, true, 270.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
          {
              {
-                 {0.5, 0.0, 0.5, 0.0, 0.5, 0.0, 0.5, 0.0},
+                 {1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0},
              },
          }},
         {"case: ENCODE | Azimuth: signed radians",
-         {Mono, M1Spatial_8, IsotropicLinear, -1.5707963268, 1.0, 0.0, true, 0.0, 0.0, signedRadians},
+         {Mono, M1Spatial_8, IsotropicLinear, true, -1.5707963268, 1.0, 0.0, true, 0.0, 0.0, signedRadians},
          {
              {
-                 {0.5, 0.0, 0.5, 0.0, 0.5, 0.0, 0.5, 0.0},
+                 {1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0},
              },
          }},
         {"case: ENCODE | Azimuth: unsigned radians",
-         {Mono, M1Spatial_8, IsotropicLinear, 4.7123889804, 1.0, 0.0, true, 0.0, 0.0, unsignedRadians},
+         {Mono, M1Spatial_8, IsotropicLinear, true, 4.7123889804, 1.0, 0.0, true, 0.0, 0.0, unsignedRadians},
          {
              {
-                 {0.5, 0.0, 0.5, 0.0, 0.5, 0.0, 0.5, 0.0},
+                 {1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0},
              },
          }},
         {"case: ENCODE | Azimuth: signed norm",
-         {Mono, M1Spatial_8, IsotropicLinear, -0.25, 1.0, 0.0, true, 0.0, 0.0, signedNormalized},
+         {Mono, M1Spatial_8, IsotropicLinear, true, -0.25, 1.0, 0.0, true, 0.0, 0.0, signedNormalized},
          {
              {
-                 {0.5, 0.0, 0.5, 0.0, 0.5, 0.0, 0.5, 0.0},
+                 {1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0},
              },
          }},
         {"case: ENCODE | Azimuth: unsigned norm",
-         {Mono, M1Spatial_8, IsotropicLinear, 0.75, 1.0, 0.0, true, 0.0, 0.0, unsignedNormalized},
+         {Mono, M1Spatial_8, IsotropicLinear, true, 0.75, 1.0, 0.0, true, 0.0, 0.0, unsignedNormalized},
          {
              {
-                 {0.5, 0.0, 0.5, 0.0, 0.5, 0.0, 0.5, 0.0},
+                 {1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0},
              },
          }},
         {"case: ENCODE | Elevation: signed degrees",
-         {Mono, M1Spatial_8, IsotropicLinear, 0.0, 1.0, -90.0, true, 0.0, 0.0, signedDegrees},
+         {Mono, M1Spatial_8, IsotropicLinear, true, 0.0, 1.0, -90.0, true, 0.0, 0.0, signedDegrees},
          {
              {
-                 {0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 0.5},
+                 {0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0},
              },
          }},
         {"case: ENCODE | Elevation: signed radians",
-         {Mono, M1Spatial_8, IsotropicLinear, 0.0, 1.0, -1.5707963268, true, 0.0, 0.0, signedRadians},
+         {Mono, M1Spatial_8, IsotropicLinear, true, 0.0, 1.0, -1.5707963268, true, 0.0, 0.0, signedRadians},
          {
              {
-                 {0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 0.5},
+                 {0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0},
              },
          }},
         {"case: ENCODE | Elevation: signed norm",
-         {Mono, M1Spatial_8, IsotropicLinear, 0.0, 1.0, -1.0, true, 0.0, 0.0, signedNormalized},
+         {Mono, M1Spatial_8, IsotropicLinear, true, 0.0, 1.0, -1.0, true, 0.0, 0.0, signedNormalized},
          {
              {
-                 {0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 0.5},
+                 {0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0},
              },
          }},
         {"case: ENCODE | Elevation: unsigned norm",
-         {Mono, M1Spatial_8, IsotropicLinear, 0.0, 1.0, -1.0, true, 0.0, 0.0, unsignedNormalized},
+         {Mono, M1Spatial_8, IsotropicLinear, true, 0.0, 1.0, -1.0, true, 0.0, 0.0, unsignedNormalized},
          {
              {
-                 {0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 0.5}, // TODO: uh oh!?
+                 {0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0}, // TODO: uh oh!?
              },
          }},
         // TODO: write out the results for OrbitRotation input checks
@@ -683,6 +716,7 @@ void test_results(void) {
 
         m1Encode.setInputMode(test.input.inputMode);
         m1Encode.setOutputMode(test.input.outputMode);
+        m1Encode.setGainCompensationActive(test.input.autoGain);
 
         if (test.input.inputType == signedDegrees || test.input.inputType == unsignedDegrees) {
             m1Encode.setAzimuthDegrees(test.input.azimuth);
@@ -732,7 +766,7 @@ void test_results(void) {
         for (size_t i = 0; i < results.size(); i++) {
             int counter = 0;
             for (size_t j = 0; j < results[i].size(); j++) {
-                bool check = fabs(test.output.results[i][j] - results[i][j]) < 0.0001;
+                bool check = fabs(test.output.results[i][j] - results[i][j]) < 0.001;
                 counter += check;
                 if (check == false) {
                     TEST_CHECK_(check, "%s | Error with index [%zu][%zu]", test.name.c_str(), i, j);

@@ -103,6 +103,10 @@ M1_API void Mach1EncodeCAPI_setFrontSurroundPerspective(void *M1obj, bool frontS
 M1_API float Mach1EncodeCAPI_getOutputGain(void *M1obj, bool isDecibel);
 M1_API void Mach1EncodeCAPI_setOutputGain(void *M1obj, float outputGainMultipler, bool isDecibel);
 
+M1_API float Mach1EncodeCAPI_getGainCompensation(void *M1obj, bool isDecibel);
+M1_API bool Mach1EncodeCAPI_getGainCompensationActive(void *M1obj);
+M1_API void Mach1EncodeCAPI_setGainCompensationActive(void *M1obj, bool active);
+
 M1_API void Mach1EncodeCAPI_setAutoOrbit(void *M1obj, bool autoOrbit);
 M1_API void Mach1EncodeCAPI_setOrbitRotation(void *M1obj, float orbitRotationFromMinusOnetoOne);
 M1_API void Mach1EncodeCAPI_setOrbitRotationDegrees(void *M1obj, float orbitRotationDegrees);

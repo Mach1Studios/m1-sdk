@@ -94,9 +94,35 @@ class Mach1Encode {
     void setOutputMode(Mach1EncodeOutputMode outputMode);
 
     /**
-     * @brief Get the strategy by which to position the points in this Mach1Encode.
+     * @brief Get the calculation strategy by which the points in this Mach1Encode are calculated.
+     *
+     * Panner modes govern how Mach1Encode distributes your input signal(s) across the Mach1
+     * output points.
+     *
+     * @return Which Mach1EncodePannerMode the Mach1Encode instance is currently using.
      */
     Mach1EncodePannerMode getPannerMode();
+
+    /**
+     * @brief Sets the style and mode of panner input calculation.
+     *
+     * Panner modes govern how Mach1Encode distributes your input signal(s) across the Mach1
+     * output points. The following modes exist:
+     *
+     * - MODE_ISOTROPICLINEAR:
+     *   Distributes signal without prioritizing any particular direction. More natural expectations of
+     *   signal distribution.
+     *
+     * - MODE_ISOTROPICEQUALPOWER:
+     *   Uses an equal-power distribution approach for smoother panning and also applies an additional
+     *   gain multiplier based on the diverge value to the center point.
+     *
+     * - MODE_PERIPHONICLINEAR:
+     *   Naturally distributes signal horizontally but crossfades between channels vertically.
+     *
+     * @param pannerMode The Mach1EncodePannerMode to use for calculation.
+     */
+    void setPannerMode(enum Mach1EncodePannerMode pannerMode);
 
     /**
      * @brief Get whether auto-orbit mode is enabled. If true, then orbit rotation is extrapolated from
@@ -153,11 +179,6 @@ class Mach1Encode {
     void setElevationRadians(float elevationFromMinusHalfPItoHalfPI);
 
     /**
-     * @brief Sets the style and mode of panner input calculation
-     */
-    void setPannerMode(enum Mach1EncodePannerMode pannerMode);
-
-    /**
      * Sets the encoding behavior of the Center input channels of relevant Surround format, when true the
      * encoding behavior assumes first person perspective encoding Center channels toward the front of the
      * sound field, when false we use Center channel literally making it encoded MONO and omni-directional.
@@ -178,6 +199,29 @@ class Mach1Encode {
      * @note +6dB gain is applied by default upon the construction of a new Mach1Encode instance.
      */
     void setOutputGain(float outputGainMultipler, bool isDecibel);
+
+    /**
+     * @brief Gets the current gain compensation value.
+     * @param isDecibel true if the gain compensation is in decibels, false to return as a linear multiplier
+     */
+    float getGainCompensation(bool isDecibel);
+
+    /**
+     * @brief Gets whether gain compensation is active.
+     */
+    bool getGainCompensationActive();
+
+    /**
+     * @brief Sets whether gain compensation is active.
+     * @param active true if gain compensation is active, false if it is not
+     * 
+     * Gain compensation is an automatic adjustment to the gain of the output channels 
+     * to compensate for the gain loss on Mach1Decode side based on the number of output channels of Mach1Encode. 
+     * This can be useful for ensuring that Mach1Encode instances have the same gain structure when setting a new output mode.
+     * 
+     * @note Is true by default upon the construction of a new Mach1Encode instance.
+     */
+    void setGainCompensationActive(bool active);
 
     /**
      * @brief Sets the two stereo points around the axis of the center point between them
@@ -484,6 +528,21 @@ float Mach1Encode<PCM>::getOutputGain(bool isDecibel) {
 template <typename PCM>
 void Mach1Encode<PCM>::setOutputGain(float outputGainMultipler, bool isDecibel) {
     Mach1EncodeCAPI_setOutputGain(M1obj, outputGainMultipler, isDecibel);
+}
+
+template <typename PCM>
+float Mach1Encode<PCM>::getGainCompensation(bool isDecibel) {
+    return Mach1EncodeCAPI_getGainCompensation(M1obj, isDecibel);
+}
+
+template <typename PCM>
+bool Mach1Encode<PCM>::getGainCompensationActive() {
+    return Mach1EncodeCAPI_getGainCompensationActive(M1obj);
+}
+
+template <typename PCM>
+void Mach1Encode<PCM>::setGainCompensationActive(bool active) {
+    Mach1EncodeCAPI_setGainCompensationActive(M1obj, active);
 }
 
 template <typename PCM>

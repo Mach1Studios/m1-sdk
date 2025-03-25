@@ -13,6 +13,9 @@
 #include "json/json.h"
 #include <cstring>
 #include <string>
+#include <queue>
+#include <unordered_map>
+#include <unordered_set>
 
 #define _USE_MATH_DEFINES
 #include <cmath>
@@ -260,73 +263,137 @@ void Mach1TranscodeCore::setCustomPointsSamplerCallback(Mach1Point3D *(*callback
 }
 
 bool Mach1TranscodeCore::processConversionPath() {
-    // compute tree of pathes from inFmt to all others
-    struct Node {
-        int prev;
-        int fmt;
-        bool processed;
-    };
-
-    std::vector<Node> tree;
-    Node node;
-    node.fmt = inFmt;
-    node.prev = -1;
-    node.processed = false;
-    tree.push_back(node);
-
-    for (int i = 0; i < tree.size(); i++) {
-        if (tree[i].processed == false) {
-            int fmt = tree[i].fmt;
-            for (int j = 0; j < Mach1TranscodeConstants::formats.size(); j++) {
-                const bool isInCustomFmt = (fmt == getFormatFromString("CustomPoints") && !inCustomPoints.empty());
-                const bool isOutCustomFmt = (j == getFormatFromString("CustomPoints") && !outCustomPoints.empty());
-                if (findMatrix(fmt, j) >= 0 || (isInCustomFmt && isOutCustomFmt) || (isInCustomFmt && !getPointsSet(j).empty()) || (!getPointsSet(fmt).empty() && isOutCustomFmt)) {
-
-                    // check if this format already exist on that path
-                    int k = i;
-                    bool exist = false;
-                    while (!exist && k != -1) {
-                        if (tree[k].fmt == j) {
-                            exist = true;
-                            break;
-                        } else {
-                            k = tree[k].prev;
-                        }
-                    }
-
-                    if (exist == false) {
-                        Node node;
-                        node.fmt = (int)j;
-                        node.prev = i;
-                        node.processed = false;
-                        tree.push_back(node);
-                    }
-                }
-            }
-            tree[i].processed = true;
-        }
-    }
-
-    // find shortest path first
-    std::vector<int> intermediateFormatsList;
-    intermediateFormatsList.reserve(100);
-    for (int i = 0; i < tree.size(); i++) {
-        if (tree[i].fmt == outFmt) {
-            for (int k = i; k != -1; k = tree[k].prev) {
-                intermediateFormatsList.insert(intermediateFormatsList.begin(), tree[k].fmt); // push_front
-            }
-            break;
-        }
-    }
-
-    if (intermediateFormatsList.size() < 2 && inFmt != outFmt) {
-        formatConversionPath.clear();
-        return false;
-    } else {
-        formatConversionPath = intermediateFormatsList;
+    // return for identical formats
+    if (inFmt == outFmt) {
+        formatConversionPath = {inFmt};
         return true;
     }
+
+    // direct connection check
+    bool directConnection = findMatrix(inFmt, outFmt) >= 0 ||
+        (inFmt == getFormatFromString("CustomPoints") && outFmt == getFormatFromString("CustomPoints")) ||
+        (inFmt == getFormatFromString("CustomPoints") && getPointsSet(outFmt).size() > 0) ||
+        (getPointsSet(inFmt).size() > 0 && outFmt == getFormatFromString("CustomPoints"));
+    
+    if (directConnection) {
+        formatConversionPath = {inFmt, outFmt};
+        return true;
+    }
+
+    // get the total number of formats
+    const int maxFormats = Mach1TranscodeConstants::formats.size();
+    
+    // build adjacency lists for forward and backward connections
+    std::vector<std::vector<int>> forwardAdjList(maxFormats);
+    std::vector<std::vector<int>> backwardAdjList(maxFormats);
+    
+    // populate adjacency lists (precompute once)
+    for (int i = 0; i < maxFormats; i++) {
+        for (int j = 0; j < maxFormats; j++) {
+            bool isCompatible = 
+                findMatrix(i, j) >= 0 ||
+                (i == getFormatFromString("CustomPoints") && j == getFormatFromString("CustomPoints")) ||
+                (i == getFormatFromString("CustomPoints") && getPointsSet(j).size() > 0) ||
+                (getPointsSet(i).size() > 0 && j == getFormatFromString("CustomPoints"));
+            
+            if (isCompatible) {
+                forwardAdjList[i].push_back(j);
+                backwardAdjList[j].push_back(i);
+            }
+        }
+    }
+    
+    // bidirectional BFS
+    std::vector<bool> forwardVisited(maxFormats, false);
+    std::vector<bool> backwardVisited(maxFormats, false);
+    std::vector<int> forwardParent(maxFormats, -1);
+    std::vector<int> backwardParent(maxFormats, -1);
+    
+    std::deque<int> forwardQueue, backwardQueue;
+    
+    forwardQueue.push_back(inFmt);
+    backwardQueue.push_back(outFmt);
+    forwardVisited[inFmt] = true;
+    backwardVisited[outFmt] = true;
+    
+    int meetingPoint = -1;
+    
+    while (!forwardQueue.empty() && !backwardQueue.empty() && meetingPoint == -1) {
+        // process one level of forward search
+        int forwardSize = forwardQueue.size();
+        for (int i = 0; i < forwardSize; i++) {
+            int currentFmt = forwardQueue.front();
+            forwardQueue.pop_front();
+            
+            // iterate only through adjacent formats (not all formats)
+            for (int nextFmt : forwardAdjList[currentFmt]) {
+                if (!forwardVisited[nextFmt]) {
+                    forwardVisited[nextFmt] = true;
+                    forwardParent[nextFmt] = currentFmt;
+                    
+                    // check if we've met the backward search
+                    if (backwardVisited[nextFmt]) {
+                        meetingPoint = nextFmt;
+                        break;
+                    }
+                    
+                    forwardQueue.push_back(nextFmt);
+                }
+            }
+            
+            if (meetingPoint != -1) break;
+        }
+        
+        if (meetingPoint != -1) break;
+        
+        // process one level of backward search
+        int backwardSize = backwardQueue.size();
+        for (int i = 0; i < backwardSize; i++) {
+            int currentFmt = backwardQueue.front();
+            backwardQueue.pop_front();
+            
+            // iterate only through adjacent formats
+            for (int prevFmt : backwardAdjList[currentFmt]) {
+                if (!backwardVisited[prevFmt]) {
+                    backwardVisited[prevFmt] = true;
+                    backwardParent[prevFmt] = currentFmt;
+                    
+                    // check if we've met the forward search
+                    if (forwardVisited[prevFmt]) {
+                        meetingPoint = prevFmt;
+                        break;
+                    }
+                    
+                    backwardQueue.push_back(prevFmt);
+                }
+            }
+            
+            if (meetingPoint != -1) break;
+        }
+    }
+    
+    // reconstruct path if a meeting point was found
+    if (meetingPoint != -1) {
+        formatConversionPath.clear();
+        
+        // build forward path
+        for (int fmt = meetingPoint; fmt != -1; fmt = forwardParent[fmt]) {
+            formatConversionPath.insert(formatConversionPath.begin(), fmt);
+        }
+        
+        // build backward path (excluding meeting point which is already included)
+        for (int fmt = backwardParent[meetingPoint]; fmt != -1; fmt = backwardParent[fmt]) {
+            formatConversionPath.push_back(fmt);
+        }
+        
+        return true;
+    }
+    
+    // no path found
+    formatConversionPath.clear();
+    return false;
 }
+
 
 std::vector<Mach1Point3D> Mach1TranscodeCore::getPointsSet(int fmt) {
     /*

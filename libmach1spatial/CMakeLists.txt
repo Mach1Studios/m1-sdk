@@ -1,4 +1,3 @@
-
 #----------------
 # Setup
 #----------------
@@ -116,14 +115,40 @@ if(BUILD_M1DECODE)
         ${M1_DECODE_API_SRC_FILES}
         $<TARGET_OBJECTS:M1Shared>
     )
+    
+    # Modified Windows export definitions
+    if(WIN32)
+        target_compile_definitions(M1Decode PRIVATE
+            $<$<BOOL:${BUILD_SHARED_LIBS_FOR_UNITY}>:M1_DECODE_EXPORTS>
+        )
+        # Add this to ensure consistent linkage
+        set_target_properties(M1Decode PROPERTIES
+            WINDOWS_EXPORT_ALL_SYMBOLS TRUE
+            CXX_VISIBILITY_PRESET hidden
+        )
+    endif()
+
     if(NOT (APPLE AND BUILD_SHARED_LIBS_FOR_UNITY))
         set_target_properties(M1Decode
         PROPERTIES
             VERSION ${DECODE_VERSION}
             SOVERSION ${DECODE_VERSION}
+            # Add Windows-specific output naming
+            OUTPUT_NAME "Mach1DecodeCAPI"
+            RUNTIME_OUTPUT_NAME "Mach1DecodeCAPI"
         )
     endif()
-    target_include_directories(M1Decode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/include")
+    
+    target_include_directories(M1Decode PUBLIC 
+        "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include"
+        "${CMAKE_CURRENT_SOURCE_DIR}/api_decode/include"
+    )
+
+    if(WIN32)
+        message(STATUS "Building M1Decode as: ${LIB_TYPE} library")
+        get_target_property(target_type M1Decode TYPE)
+        message(STATUS "M1Decode actual type: ${target_type}")
+    endif()
 endif()
 
 # Set include paths for other APIs

@@ -105,7 +105,34 @@ else ifeq ($(detected_OS),Windows)
 	cmake --build _builds/windows-x86_64 --config "Release"
 endif
 
-deploy-android: clean generate-jni-wrapper
+# Add a new target to update JitPack-Mach1SpatialAPI with the latest libmach1spatial code
+update-jitpack:
+	@echo "Updating JitPack-Mach1SpatialAPI with the latest libmach1spatial code..."
+	# Update common header files
+	rsync -c libmach1spatial/api_common/include/*.h examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/include/
+	# Update decode headers and sources
+	rsync -c libmach1spatial/api_decode/include/*.h examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/include/
+	rsync -c libmach1spatial/api_decode/src/*.cpp examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/src/ --exclude='*Emscripten*'
+	rsync -c libmach1spatial/api_decode/src/*.h examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/src/
+	# Update decode positional headers and sources
+	rsync -c libmach1spatial/api_decodepositional/include/*.h examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/include/
+	rsync -c libmach1spatial/api_decodepositional/src/*.cpp examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/src/ --exclude='*Emscripten*'
+	rsync -c libmach1spatial/api_decodepositional/src/*.h examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/src/
+	# Update encode headers and sources
+	rsync -c libmach1spatial/api_encode/include/*.h examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/include/
+	rsync -c libmach1spatial/api_encode/src/*.cpp examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/src/ --exclude='*Emscripten*'
+	rsync -c libmach1spatial/api_encode/src/*.h examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/src/
+	# Update transcode headers and sources
+	rsync -c libmach1spatial/api_transcode/include/*.h examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/include/
+	rsync -c libmach1spatial/api_transcode/src/*.cpp examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/src/ --exclude='*Emscripten*'
+	rsync -c libmach1spatial/api_transcode/src/*.h examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/src/
+	# Update JNI wrapper files
+	rsync -c libmach1spatial/swig/jni/java/com/mach1/spatiallibs/* examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/java/com/mach1/spatiallibs/
+	rsync -c libmach1spatial/swig/jni/*.cxx examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/
+	@echo "JitPack-Mach1SpatialAPI updated successfully!"
+
+# Also modify deploy-android to run update-jitpack first
+deploy-android: clean generate-jni-wrapper update-jitpack
 	# Using CMake install since we will be building a lib instead of copying source code
 	# TODO: Create jni source files
 	# BUILD arm64

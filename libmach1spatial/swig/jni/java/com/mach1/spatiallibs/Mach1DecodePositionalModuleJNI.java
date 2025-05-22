@@ -9,7 +9,7 @@
 package com.mach1.spatiallibs;
 
 class Mach1DecodePositionalModuleJNI {
-
+ 
   static {
     System.loadLibrary("Mach1DecodePositionalModule_lib");
   }

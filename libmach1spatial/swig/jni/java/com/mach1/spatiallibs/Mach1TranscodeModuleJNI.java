@@ -17,6 +17,8 @@ class Mach1TranscodeModuleJNI {
   public final static native int Mach1TranscodeMAXCHANS_get();
   public final static native long Mach1TranscodeCAPI_create();
   public final static native void Mach1TranscodeCAPI_delete(long jarg1);
+  public final static native int Mach1TranscodeCAPI_getInputFormat(long jarg1);
+  public final static native int Mach1TranscodeCAPI_getOutputFormat(long jarg1);
   public final static native int Mach1TranscodeCAPI_getInputNumChannels(long jarg1);
   public final static native int Mach1TranscodeCAPI_getOutputNumChannels(long jarg1);
   public final static native int Mach1TranscodeCAPI_getFormatFromString(long jarg1, String jarg2);

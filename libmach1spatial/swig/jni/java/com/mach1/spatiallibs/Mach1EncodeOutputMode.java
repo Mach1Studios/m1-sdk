@@ -52,3 +52,4 @@ public final class Mach1EncodeOutputMode {
   private final int swigValue;
   private final String swigName;
 }
+

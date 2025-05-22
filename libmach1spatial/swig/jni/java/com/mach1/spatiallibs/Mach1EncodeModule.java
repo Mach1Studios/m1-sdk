@@ -118,8 +118,24 @@ public class Mach1EncodeModule {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setFrontSurroundPerspective(SWIGTYPE_p_void.getCPtr(M1obj), frontSurroundPerspective);
   }
 
+  public static float Mach1EncodeCAPI_getOutputGain(SWIGTYPE_p_void M1obj, boolean isDecibel) {
+    return Mach1EncodeModuleJNI.Mach1EncodeCAPI_getOutputGain(SWIGTYPE_p_void.getCPtr(M1obj), isDecibel);
+  }
+
   public static void Mach1EncodeCAPI_setOutputGain(SWIGTYPE_p_void M1obj, float outputGainMultipler, boolean isDecibel) {
     Mach1EncodeModuleJNI.Mach1EncodeCAPI_setOutputGain(SWIGTYPE_p_void.getCPtr(M1obj), outputGainMultipler, isDecibel);
+  }
+
+  public static float Mach1EncodeCAPI_getGainCompensation(SWIGTYPE_p_void M1obj, boolean isDecibel) {
+    return Mach1EncodeModuleJNI.Mach1EncodeCAPI_getGainCompensation(SWIGTYPE_p_void.getCPtr(M1obj), isDecibel);
+  }
+
+  public static boolean Mach1EncodeCAPI_getGainCompensationActive(SWIGTYPE_p_void M1obj) {
+    return Mach1EncodeModuleJNI.Mach1EncodeCAPI_getGainCompensationActive(SWIGTYPE_p_void.getCPtr(M1obj));
+  }
+
+  public static void Mach1EncodeCAPI_setGainCompensationActive(SWIGTYPE_p_void M1obj, boolean active) {
+    Mach1EncodeModuleJNI.Mach1EncodeCAPI_setGainCompensationActive(SWIGTYPE_p_void.getCPtr(M1obj), active);
   }
 
   public static void Mach1EncodeCAPI_setAutoOrbit(SWIGTYPE_p_void M1obj, boolean autoOrbit) {

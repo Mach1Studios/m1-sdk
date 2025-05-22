@@ -65,3 +65,4 @@ public final class Mach1EncodeInputMode {
   private final int swigValue;
   private final String swigName;
 }
+

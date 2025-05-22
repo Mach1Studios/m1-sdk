@@ -52,3 +52,4 @@ public final class Mach1DecodeMode {
   private final int swigValue;
   private final String swigName;
 }
+

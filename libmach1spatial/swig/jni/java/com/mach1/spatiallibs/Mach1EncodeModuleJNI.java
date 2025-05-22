@@ -9,7 +9,7 @@
 package com.mach1.spatiallibs;
 
 class Mach1EncodeModuleJNI {
-
+ 
   static {
     System.loadLibrary("Mach1EncodeModule_lib");
   }
@@ -43,7 +43,11 @@ class Mach1EncodeModuleJNI {
   public final static native void Mach1EncodeCAPI_setElevationRadians(long jarg1, float jarg2);
   public final static native void Mach1EncodeCAPI_setPannerMode(long jarg1, int jarg2);
   public final static native void Mach1EncodeCAPI_setFrontSurroundPerspective(long jarg1, boolean jarg2);
+  public final static native float Mach1EncodeCAPI_getOutputGain(long jarg1, boolean jarg2);
   public final static native void Mach1EncodeCAPI_setOutputGain(long jarg1, float jarg2, boolean jarg3);
+  public final static native float Mach1EncodeCAPI_getGainCompensation(long jarg1, boolean jarg2);
+  public final static native boolean Mach1EncodeCAPI_getGainCompensationActive(long jarg1);
+  public final static native void Mach1EncodeCAPI_setGainCompensationActive(long jarg1, boolean jarg2);
   public final static native void Mach1EncodeCAPI_setAutoOrbit(long jarg1, boolean jarg2);
   public final static native void Mach1EncodeCAPI_setOrbitRotation(long jarg1, float jarg2);
   public final static native void Mach1EncodeCAPI_setOrbitRotationDegrees(long jarg1, float jarg2);

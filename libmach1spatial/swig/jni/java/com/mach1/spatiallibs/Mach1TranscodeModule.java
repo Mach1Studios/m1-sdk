@@ -22,6 +22,14 @@ public class Mach1TranscodeModule {
     Mach1TranscodeModuleJNI.Mach1TranscodeCAPI_delete(SWIGTYPE_p_void.getCPtr(M1obj));
   }
 
+  public static int Mach1TranscodeCAPI_getInputFormat(SWIGTYPE_p_void M1obj) {
+    return Mach1TranscodeModuleJNI.Mach1TranscodeCAPI_getInputFormat(SWIGTYPE_p_void.getCPtr(M1obj));
+  }
+
+  public static int Mach1TranscodeCAPI_getOutputFormat(SWIGTYPE_p_void M1obj) {
+    return Mach1TranscodeModuleJNI.Mach1TranscodeCAPI_getOutputFormat(SWIGTYPE_p_void.getCPtr(M1obj));
+  }
+
   public static int Mach1TranscodeCAPI_getInputNumChannels(SWIGTYPE_p_void M1obj) {
     return Mach1TranscodeModuleJNI.Mach1TranscodeCAPI_getInputNumChannels(SWIGTYPE_p_void.getCPtr(M1obj));
   }

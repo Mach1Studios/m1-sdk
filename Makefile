@@ -128,7 +128,7 @@ update-jitpack:
 	rsync -c libmach1spatial/api_transcode/src/*.h examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/src/
 	# Update JNI wrapper files
 	rsync -c libmach1spatial/swig/jni/java/com/mach1/spatiallibs/* examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/java/com/mach1/spatiallibs/
-	rsync -c libmach1spatial/swig/jni/*.cxx examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/
+	rsync -c libmach1spatial/swig/*Module_wrap.cxx examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI/Mach1SpatialLibs/src/main/cpp/mach1/
 	@echo "JitPack-Mach1SpatialAPI updated successfully!"
 
 # Also modify deploy-android to run update-jitpack first
@@ -378,7 +378,7 @@ endif
 	-DCMAKE_ANDROID_NDK=${CMAKE_ANDROID_NDK}
 	cmake --build _builds/android-x86-64 --config Release --target install
 	@echo "Copy all .cs files..."
-	rsync -c --include='*.cs' --include='*/' --exclude='*' libmach1spatial/ examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1
+	find libmach1spatial -name "*.cs" -exec cp {} examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI/M1UnityDecode/Assets/Mach1/ \;
 
 generate-jni-wrapper:
 	mkdir -p libmach1spatial/swig/jni/java/com/mach1/spatiallibs

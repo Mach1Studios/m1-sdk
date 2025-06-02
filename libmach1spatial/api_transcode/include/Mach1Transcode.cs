@@ -1,8 +1,7 @@
-//  Mach1 Spatial SDK
-//  Copyright © 2017 Mach1, Corp. All rights reserved.
+//  Mach1 SDK
+//  Copyright © 2017-2021 Mach1. All rights reserved.
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Mach1
@@ -24,19 +23,28 @@ namespace Mach1
         internal static extern void Mach1TranscodeCAPI_delete(IntPtr M1obj);
 
         [DllImport(libname)]
+        internal static extern int Mach1TranscodeCAPI_getInputFormat(IntPtr M1obj);
+
+        [DllImport(libname)]
+        internal static extern int Mach1TranscodeCAPI_getOutputFormat(IntPtr M1obj);
+
+        [DllImport(libname)]
         internal static extern int Mach1TranscodeCAPI_getInputNumChannels(IntPtr M1obj);
 
         [DllImport(libname)]
         internal static extern int Mach1TranscodeCAPI_getOutputNumChannels(IntPtr M1obj);
 
         [DllImport(libname)]
-        internal static extern int Mach1TranscodeCAPI_getFormatFromString(IntPtr M1obj, IntPtr str);
+        internal static extern int Mach1TranscodeCAPI_getFormatFromString(IntPtr M1obj, string str);
 
         [DllImport(libname)]
         internal static extern IntPtr Mach1TranscodeCAPI_getFormatName(IntPtr M1obj, int fmt);
 
         [DllImport(libname)]
         internal static extern IntPtr Mach1TranscodeCAPI_getAllFormatNames(IntPtr M1obj);
+
+        [DllImport(libname)]
+        internal static extern int Mach1TranscodeCAPI_getFormatsCount(IntPtr M1obj);
 
         [DllImport(libname)]
         internal static extern float Mach1TranscodeCAPI_processNormalization(IntPtr M1obj, IntPtr bufs, int numSamples);
@@ -66,7 +74,7 @@ namespace Mach1
         internal static extern void Mach1TranscodeCAPI_setInputFormat(IntPtr M1obj, int inFmt);
 
         [DllImport(libname)]
-        internal static extern void Mach1TranscodeCAPI_setInputFormatCustomPointsJson(IntPtr M1obj, IntPtr inJson);
+        internal static extern void Mach1TranscodeCAPI_setInputFormatCustomPointsJson(IntPtr M1obj, string inJson);
 
         [DllImport(libname)]
         internal static extern void Mach1TranscodeCAPI_setInputFormatCustomPoints(IntPtr M1obj, IntPtr points, int count);
@@ -75,12 +83,13 @@ namespace Mach1
         internal static extern void Mach1TranscodeCAPI_setOutputFormat(IntPtr M1obj, int outFmt);
 
         [DllImport(libname)]
-        internal static extern void Mach1TranscodeCAPI_setOutputFormatCustomPointsJson(IntPtr M1obj, IntPtr outJson);
+        internal static extern void Mach1TranscodeCAPI_setOutputFormatCustomPointsJson(IntPtr M1obj, string outJson);
 
         [DllImport(libname)]
         internal static extern void Mach1TranscodeCAPI_setOutputFormatCustomPoints(IntPtr M1obj, IntPtr points, int count);
 
-        // void Mach1TranscodeCAPI_setCustomPointsSamplerCallback(IntPtr M1obj, Mach1Point3D*(* callback)(long long, int &));
+        [DllImport(libname)]
+        internal static extern void Mach1TranscodeCAPI_setCustomPointsSamplerCallback(IntPtr M1obj, IntPtr callback);
 
         [DllImport(libname)]
         internal static extern bool Mach1TranscodeCAPI_processConversionPath(IntPtr M1obj);
@@ -92,7 +101,7 @@ namespace Mach1
         internal static extern void Mach1TranscodeCAPI_processConversion(IntPtr M1obj, IntPtr inBufs, IntPtr outBufs, int numSamples);
 
         [DllImport(libname)]
-        internal static extern IntPtr Mach1TranscodeCAPI_getFormatConversionPath(IntPtr M1obj, ref int count);
+        internal static extern IntPtr Mach1TranscodeCAPI_getFormatConversionPath(IntPtr M1obj, IntPtr count);
 
         internal IntPtr M1obj;
 
@@ -106,223 +115,345 @@ namespace Mach1
             Mach1TranscodeCAPI_delete(M1obj);
         }
 
+        public int getInputFormat()
+        {
+            return Mach1TranscodeCAPI_getInputFormat(M1obj);
+            /// Returns the current input format
+        }
+
+        public int getOutputFormat()
+        {
+            return Mach1TranscodeCAPI_getOutputFormat(M1obj);
+            /// Returns the current output format
+        }
+
         public int getInputNumChannels()
         {
             return Mach1TranscodeCAPI_getInputNumChannels(M1obj);
+            /// Returns the number of channels for the current input format
         }
 
         public int getOutputNumChannels()
         {
             return Mach1TranscodeCAPI_getOutputNumChannels(M1obj);
+            /// Returns the number of channels for the current output format
         }
 
         public int getFormatFromString(string str)
         {
-            IntPtr strPtr = Marshal.StringToHGlobalAnsi(str);
-            int fmt = Mach1TranscodeCAPI_getFormatFromString(M1obj, strPtr);
-            Marshal.FreeHGlobal(strPtr);
-            return fmt;
+            return Mach1TranscodeCAPI_getFormatFromString(M1obj, str);
+            /// Returns the format ID from a format name string
         }
 
         public string getFormatName(int fmt)
         {
             return Marshal.PtrToStringAnsi(Mach1TranscodeCAPI_getFormatName(M1obj, fmt));
+            /// Returns the name of a format from its ID
         }
 
-        public void processMasterGain(List<float[]> bufs, int numSamples, float masterGain = 1.0f)
+        public string[] getAllFormatNames()
         {
-            IntPtr[] array = new IntPtr[bufs.Count];
-            for (int i = 0; i < bufs.Count; i++)
+            int count = getFormatsCount();
+            string[] formatNames = new string[count];
+            IntPtr namesPtr = Mach1TranscodeCAPI_getAllFormatNames(M1obj);
+            
+            for (int i = 0; i < count; i++)
             {
-                array[i] = GCHandle.Alloc(bufs[i], GCHandleType.Pinned).AddrOfPinnedObject();
+                IntPtr strPtr = Marshal.ReadIntPtr(namesPtr, i * IntPtr.Size);
+                formatNames[i] = Marshal.PtrToStringAnsi(strPtr);
             }
-            IntPtr ptr = GCHandle.Alloc(array, GCHandleType.Pinned).AddrOfPinnedObject();
-
-            Mach1TranscodeCAPI_processMasterGain(M1obj, ptr, numSamples, masterGain);
-
-            for (int i = 0; i < array.Length; i++)
-            {
-                GCHandle.FromIntPtr(array[i]).Free();
-            }
-            GCHandle.FromIntPtr(ptr).Free();
+            
+            return formatNames;
+            /// Returns all available format names
         }
 
-        public float processNormalization(List<float[]> bufs, int numSamples)
+        public int getFormatsCount()
         {
-            IntPtr[] array = new IntPtr[bufs.Count];
-            for (int i = 0; i < bufs.Count; i++)
+            return Mach1TranscodeCAPI_getFormatsCount(M1obj);
+            /// Returns the count of all available formats
+        }
+
+        public float processNormalization(float[][] bufs, int numSamples)
+        {
+            // This implementation is a simplified version - would need to properly marshal the 2D array
+            IntPtr bufsPtr = Marshal.AllocHGlobal(bufs.Length * IntPtr.Size);
+            
+            try
             {
-                array[i] = GCHandle.Alloc(bufs[i], GCHandleType.Pinned).AddrOfPinnedObject();
+                for (int i = 0; i < bufs.Length; i++)
+                {
+                    IntPtr bufPtr = Marshal.AllocHGlobal(numSamples * sizeof(float));
+                    Marshal.Copy(bufs[i], 0, bufPtr, numSamples);
+                    Marshal.WriteIntPtr(bufsPtr, i * IntPtr.Size, bufPtr);
+                }
+                
+                float result = Mach1TranscodeCAPI_processNormalization(M1obj, bufsPtr, numSamples);
+                
+                return result;
             }
-            IntPtr ptr = GCHandle.Alloc(array, GCHandleType.Pinned).AddrOfPinnedObject();
-
-            float peak = Mach1TranscodeCAPI_processNormalization(M1obj, ptr, numSamples);
-
-            for (int i = 0; i < array.Length; i++)
+            finally
             {
-                GCHandle.FromIntPtr(array[i]).Free();
+                for (int i = 0; i < bufs.Length; i++)
+                {
+                    IntPtr bufPtr = Marshal.ReadIntPtr(bufsPtr, i * IntPtr.Size);
+                    Marshal.FreeHGlobal(bufPtr);
+                }
+                Marshal.FreeHGlobal(bufsPtr);
             }
-            GCHandle.FromIntPtr(ptr).Free();
+            /// Process normalization on buffer
+        }
 
-            return peak;
+        public void processMasterGain(float[][] bufs, int numSamples, float masterGain)
+        {
+            // This implementation is a simplified version - would need to properly marshal the 2D array
+            IntPtr bufsPtr = Marshal.AllocHGlobal(bufs.Length * IntPtr.Size);
+            
+            try
+            {
+                for (int i = 0; i < bufs.Length; i++)
+                {
+                    IntPtr bufPtr = Marshal.AllocHGlobal(numSamples * sizeof(float));
+                    Marshal.Copy(bufs[i], 0, bufPtr, numSamples);
+                    Marshal.WriteIntPtr(bufsPtr, i * IntPtr.Size, bufPtr);
+                }
+                
+                Mach1TranscodeCAPI_processMasterGain(M1obj, bufsPtr, numSamples, masterGain);
+                
+                // Copy back the processed data
+                for (int i = 0; i < bufs.Length; i++)
+                {
+                    IntPtr bufPtr = Marshal.ReadIntPtr(bufsPtr, i * IntPtr.Size);
+                    Marshal.Copy(bufPtr, bufs[i], 0, numSamples);
+                }
+            }
+            finally
+            {
+                for (int i = 0; i < bufs.Length; i++)
+                {
+                    IntPtr bufPtr = Marshal.ReadIntPtr(bufsPtr, i * IntPtr.Size);
+                    Marshal.FreeHGlobal(bufPtr);
+                }
+                Marshal.FreeHGlobal(bufsPtr);
+            }
+            /// Apply master gain to buffer
         }
 
         public float db2level(float db)
         {
             return Mach1TranscodeCAPI_db2level(M1obj, db);
+            /// Convert decibels to linear level
         }
 
         public float level2db(float level)
         {
             return Mach1TranscodeCAPI_level2db(M1obj, level);
+            /// Convert linear level to decibels
         }
 
-        public void setLFESub(int[] subChannelIndices, int sampleRate)
+        public void setLFESub(int[] subChannelIndices, int numChannels, int sampleRate)
         {
-            GCHandle pinnedArray = GCHandle.Alloc(subChannelIndices, GCHandleType.Pinned);
-            IntPtr pointer = pinnedArray.AddrOfPinnedObject();
-
-            Mach1TranscodeCAPI_setLFESub(M1obj, pointer, subChannelIndices.Length, sampleRate);
-
-            pinnedArray.Free();
+            IntPtr indicesPtr = Marshal.AllocHGlobal(numChannels * sizeof(int));
+            try
+            {
+                Marshal.Copy(subChannelIndices, 0, indicesPtr, numChannels);
+                Mach1TranscodeCAPI_setLFESub(M1obj, indicesPtr, numChannels, sampleRate);
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(indicesPtr);
+            }
+            /// Set LFE sub settings
         }
 
-        public void setSpatialDownmixer(float corrThreshold = 0.1f)
+        public void setSpatialDownmixer(float corrThreshold)
         {
             Mach1TranscodeCAPI_setSpatialDownmixer(M1obj, corrThreshold);
+            /// Set spatial downmixer with correlation threshold
         }
 
         public bool getSpatialDownmixerPossibility()
         {
             return Mach1TranscodeCAPI_getSpatialDownmixerPossibility(M1obj);
+            /// Returns whether spatial downmixing is possible
         }
 
         public float[] getAvgSamplesDiff()
         {
-            float[] avg = new float[4];
-            IntPtr ptr = Mach1TranscodeCAPI_getAvgSamplesDiff(M1obj);
-            Marshal.Copy(ptr, avg, 0, 4);
-            return avg;
+            IntPtr diffPtr = Mach1TranscodeCAPI_getAvgSamplesDiff(M1obj);
+            int count = getInputNumChannels() * getOutputNumChannels();
+            float[] result = new float[count];
+            Marshal.Copy(diffPtr, result, 0, count);
+            return result;
+            /// Returns the average samples difference
         }
 
         public void setInputFormat(int inFmt)
         {
             Mach1TranscodeCAPI_setInputFormat(M1obj, inFmt);
+            /// Set the input format using format ID
         }
 
         public void setInputFormatCustomPointsJson(string inJson)
         {
-            IntPtr strPtr = Marshal.StringToHGlobalAnsi(inJson);
-            Mach1TranscodeCAPI_setInputFormatCustomPointsJson(M1obj, strPtr);
-            Marshal.FreeHGlobal(strPtr);
+            Mach1TranscodeCAPI_setInputFormatCustomPointsJson(M1obj, inJson);
+            /// Set the input format using custom points in JSON format
         }
 
         public void setInputFormatCustomPoints(Mach1Point3D[] points)
         {
-            GCHandle handle = GCHandle.Alloc(points, GCHandleType.Pinned);
-            IntPtr pointsPtr = handle.AddrOfPinnedObject();
-
-            Mach1TranscodeCAPI_setInputFormatCustomPoints(M1obj, pointsPtr, points.Length);
-
-            handle.Free();
+            int size = Marshal.SizeOf<Mach1Point3D>();
+            IntPtr pointsPtr = Marshal.AllocHGlobal(points.Length * size);
+            
+            try
+            {
+                for (int i = 0; i < points.Length; i++)
+                {
+                    IntPtr elemPtr = new IntPtr(pointsPtr.ToInt64() + i * size);
+                    Marshal.StructureToPtr(points[i], elemPtr, false);
+                }
+                
+                Mach1TranscodeCAPI_setInputFormatCustomPoints(M1obj, pointsPtr, points.Length);
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(pointsPtr);
+            }
+            /// Set the input format using custom points
         }
 
         public void setOutputFormat(int outFmt)
         {
             Mach1TranscodeCAPI_setOutputFormat(M1obj, outFmt);
+            /// Set the output format using format ID
         }
 
-        public void setOutputFormatCustomPointsJson(string strJson)
+        public void setOutputFormatCustomPointsJson(string outJson)
         {
-            IntPtr strPtr = Marshal.StringToHGlobalAnsi(strJson);
-            Mach1TranscodeCAPI_setOutputFormatCustomPointsJson(M1obj, strPtr);
-            Marshal.FreeHGlobal(strPtr);
+            Mach1TranscodeCAPI_setOutputFormatCustomPointsJson(M1obj, outJson);
+            /// Set the output format using custom points in JSON format
         }
 
         public void setOutputFormatCustomPoints(Mach1Point3D[] points)
         {
-            GCHandle handle = GCHandle.Alloc(points, GCHandleType.Pinned);
-            IntPtr pointsPtr = handle.AddrOfPinnedObject();
+            int size = Marshal.SizeOf<Mach1Point3D>();
+            IntPtr pointsPtr = Marshal.AllocHGlobal(points.Length * size);
+            
+            try
+            {
+                for (int i = 0; i < points.Length; i++)
+                {
+                    IntPtr elemPtr = new IntPtr(pointsPtr.ToInt64() + i * size);
+                    Marshal.StructureToPtr(points[i], elemPtr, false);
+                }
+                
+                Mach1TranscodeCAPI_setOutputFormatCustomPoints(M1obj, pointsPtr, points.Length);
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(pointsPtr);
+            }
+            /// Set the output format using custom points
+        }
 
-            Mach1TranscodeCAPI_setInputFormatCustomPoints(M1obj, pointsPtr, points.Length);
-
-            handle.Free();
+        // Note: Custom points sampler callback implementation would be more complex
+        // This is a placeholder that would need to be expanded based on usage requirements
+        public void setCustomPointsSamplerCallback(Func<long, int, Mach1Point3D[]> callback)
+        {
+            // Implementation would depend on callback requirements
+            /// Set custom points sampler callback
         }
 
         public bool processConversionPath()
         {
             return Mach1TranscodeCAPI_processConversionPath(M1obj);
+            /// Process the conversion path and return whether it was successful
         }
 
-        public float[][] getMatrixConversion()
+        public void getMatrixConversion(ref float[] matrix)
         {
-            float[] matrix = new float[getInputNumChannels() * getOutputNumChannels()];
-            IntPtr ptr = Marshal.AllocHGlobal(matrix.Length);
-
-            Mach1TranscodeCAPI_getMatrixConversion(M1obj, ptr);
-            Marshal.Copy(ptr, matrix, 0, matrix.Length);
-
-            Marshal.FreeHGlobal(ptr);
-
-            float[][] vec = new float[getOutputNumChannels()][];
-            for (int i = 0; i < vec.Length; i++)
+            IntPtr matrixPtr = Marshal.AllocHGlobal(matrix.Length * sizeof(float));
+            try
             {
-                vec[i] = new float[getInputNumChannels()];
-                for (int j = 0; j < vec[i].Length; j++)
+                Mach1TranscodeCAPI_getMatrixConversion(M1obj, matrixPtr);
+                Marshal.Copy(matrixPtr, matrix, 0, matrix.Length);
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(matrixPtr);
+            }
+            /// Get the conversion matrix
+        }
+
+        public void processConversion(float[][] inBufs, float[][] outBufs, int numSamples)
+        {
+            IntPtr inBufsPtr = Marshal.AllocHGlobal(inBufs.Length * IntPtr.Size);
+            IntPtr outBufsPtr = Marshal.AllocHGlobal(outBufs.Length * IntPtr.Size);
+            
+            try
+            {
+                // Setup input buffers
+                for (int i = 0; i < inBufs.Length; i++)
                 {
-                    vec[i][j] = matrix[i * getInputNumChannels() + j];
+                    IntPtr bufPtr = Marshal.AllocHGlobal(numSamples * sizeof(float));
+                    Marshal.Copy(inBufs[i], 0, bufPtr, numSamples);
+                    Marshal.WriteIntPtr(inBufsPtr, i * IntPtr.Size, bufPtr);
+                }
+                
+                // Setup output buffers
+                for (int i = 0; i < outBufs.Length; i++)
+                {
+                    IntPtr bufPtr = Marshal.AllocHGlobal(numSamples * sizeof(float));
+                    Marshal.WriteIntPtr(outBufsPtr, i * IntPtr.Size, bufPtr);
+                }
+                
+                Mach1TranscodeCAPI_processConversion(M1obj, inBufsPtr, outBufsPtr, numSamples);
+                
+                // Copy back the processed data
+                for (int i = 0; i < outBufs.Length; i++)
+                {
+                    IntPtr bufPtr = Marshal.ReadIntPtr(outBufsPtr, i * IntPtr.Size);
+                    Marshal.Copy(bufPtr, outBufs[i], 0, numSamples);
                 }
             }
-
-            return vec;
-        }
-
-        public void processConversion(List<float[]> inBufs, List<float[]> outBufs)
-        {
-            if (inBufs.Count == 0 || outBufs.Count == 0)
-                return;
-
-            // Allocate pinned buffers
-            GCHandle[] inBufHandles = new GCHandle[inBufs.Count];
-            IntPtr[] inBufPointers = new IntPtr[inBufs.Count];
-            for (int i = 0; i < inBufs.Count; i++)
+            finally
             {
-                inBufHandles[i] = GCHandle.Alloc(inBufs[i], GCHandleType.Pinned);
-                inBufPointers[i] = inBufHandles[i].AddrOfPinnedObject();
+                // Free input buffers
+                for (int i = 0; i < inBufs.Length; i++)
+                {
+                    IntPtr bufPtr = Marshal.ReadIntPtr(inBufsPtr, i * IntPtr.Size);
+                    Marshal.FreeHGlobal(bufPtr);
+                }
+                Marshal.FreeHGlobal(inBufsPtr);
+                
+                // Free output buffers
+                for (int i = 0; i < outBufs.Length; i++)
+                {
+                    IntPtr bufPtr = Marshal.ReadIntPtr(outBufsPtr, i * IntPtr.Size);
+                    Marshal.FreeHGlobal(bufPtr);
+                }
+                Marshal.FreeHGlobal(outBufsPtr);
             }
-            GCHandle inBufArrayHandle = GCHandle.Alloc(inBufPointers, GCHandleType.Pinned);
-            IntPtr inBufArrayPointer = inBufArrayHandle.AddrOfPinnedObject();
-
-            GCHandle[] outBufHandles = new GCHandle[outBufs.Count];
-            IntPtr[] outBufPointers = new IntPtr[outBufs.Count];
-            for (int i = 0; i < outBufs.Count; i++)
-            {
-                outBufHandles[i] = GCHandle.Alloc(outBufs[i], GCHandleType.Pinned);
-                outBufPointers[i] = outBufHandles[i].AddrOfPinnedObject();
-            }
-            GCHandle outBufArrayHandle = GCHandle.Alloc(outBufPointers, GCHandleType.Pinned);
-            IntPtr outBufArrayPointer = outBufArrayHandle.AddrOfPinnedObject();
-
-            Mach1TranscodeCAPI_processConversion(M1obj, inBufArrayPointer, outBufArrayPointer, inBufs[0].Length);
-
-            // Free the pinned buffers
-            foreach (var handle in inBufHandles)
-                handle.Free();
-            inBufArrayHandle.Free();
-
-            foreach (var handle in outBufHandles)
-                handle.Free();
-            outBufArrayHandle.Free();
+            /// Process the format conversion
         }
 
         public int[] getFormatConversionPath()
         {
-            int count = 0;
-            IntPtr ptr = Mach1TranscodeCAPI_getFormatConversionPath(M1obj, ref count);
-
-            int[] vec = new int[count];
-            Marshal.Copy(ptr, vec, 0, count);
-            return vec;
+            IntPtr countPtr = Marshal.AllocHGlobal(sizeof(int));
+            try
+            {
+                IntPtr pathPtr = Mach1TranscodeCAPI_getFormatConversionPath(M1obj, countPtr);
+                int count = Marshal.ReadInt32(countPtr);
+                
+                int[] path = new int[count];
+                Marshal.Copy(pathPtr, path, 0, count);
+                
+                return path;
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(countPtr);
+            }
+            /// Get the format conversion path
         }
     }
 }

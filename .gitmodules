@@ -1,0 +1,54 @@
+[submodule "examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI"]
+	path = examples/mach1spatial-c/ios/Pod-Mach1SpatialAPI
+	url = git@github.com:Mach1Studios/Pod-Mach1SpatialAPI.git
+	active = true
+[submodule "examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI"]
+	path = examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI
+	url = git@github.com:Mach1Studios/JitPack-Mach1SpatialAPI.git
+	active = true
+[submodule "examples/mach1spatial-web/m1-web-spatialaudioplayer"]
+	path = examples/mach1spatial-web/m1-web-spatialaudioplayer
+	url = git@github.com:Mach1Studios/m1-web-spatialaudioplayer.git
+	active = true
+[submodule "examples/mach1spatial-nodejs/mach1spatial-decode"]
+	path = examples/mach1spatial-nodejs/mach1spatial-decode
+	url = git@github.com:Mach1Studios/NodeJS-Mach1Decode.git
+[submodule "examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI"]
+	path = examples/mach1spatial-c/Unreal Engine/UE-Mach1SpatialAPI
+	url = git@github.com:Mach1Studios/UE-Mach1SpatialAPI.git
+[submodule "examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI"]
+	path = examples/mach1spatial-c/Unity/Unity-Mach1SpatialAPI
+	url = git@github.com:Mach1Studios/Unity-Mach1SpatialAPI.git
+[submodule "examples/mach1spatial-nodejs/mach1spatial-encode"]
+	path = examples/mach1spatial-nodejs/mach1spatial-encode
+	url = git@github.com:Mach1Studios/NodeJS-Mach1Encode.git
+[submodule "examples/mach1spatial-nodejs/mach1spatial-transcode"]
+	path = examples/mach1spatial-nodejs/mach1spatial-transcode
+	url = git@github.com:Mach1Studios/NodeJS-Mach1Transcode.git
+[submodule "examples/mach1spatial-c/FMOD/FMOD-Mach1SpatialAPI"]
+	path = examples/mach1spatial-c/FMOD/FMOD-Mach1SpatialAPI
+	url = git@github.com:Mach1Studios/FMOD-Mach1SpatialAPI.git
+[submodule "libmach1spatial/deps/glm"]
+	path = libmach1spatial/deps/glm
+	url = git@github.com:g-truc/glm.git
+[submodule "libmach1spatial/deps/pugixml"]
+	path = libmach1spatial/deps/pugixml
+	url = git@github.com:zeux/pugixml.git
+[submodule "libmach1spatial/deps/yaml"]
+	path = libmach1spatial/deps/yaml
+	url = git@github.com:jimmiebergmann/mini-yaml.git
+[submodule "libmach1spatial/deps/acutest"]
+	path = libmach1spatial/deps/acutest
+	url = git@github.com:mity/acutest.git
+[submodule "libmach1spatial/deps/nlohmann"]
+	path = libmach1spatial/deps/nlohmann
+	url = git@github.com:nlohmann/json.git
+[submodule "libmach1spatial/cmake/ios-cmake"]
+	path = libmach1spatial/cmake/ios-cmake
+	url = git@github.com:leetal/ios-cmake.git
+[submodule "examples/mach1spatial-c/commandline/spatial-transcode-objectaudio-example/libs/libbw64"]
+	path = examples/mach1spatial-c/commandline/spatial-transcode-objectaudio-example/libs/libbw64
+	url = https://github.com/ebu/libbw64.git
+[submodule "docs/doxygen-awesome-css"]
+	path = docs/doxygen-awesome-css
+	url = https://github.com/jothepro/doxygen-awesome-css.git

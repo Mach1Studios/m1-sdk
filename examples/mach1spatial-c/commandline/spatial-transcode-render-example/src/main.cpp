@@ -92,7 +92,7 @@ void printFileInfo(SndfileHandle file)
 
 int main(int argc, char* argv[])
 {
-	Mach1Transcode m1transcode;
+	Mach1Transcode<float> m1transcode;
 
 	// locals for cmd line parameters
 	bool fileOut = false;
@@ -407,7 +407,7 @@ int main(int argc, char* argv[])
                 if (inputFormat == SF_FORMAT_FLOAT)  format = SF_FORMAT_WAV | SF_FORMAT_FLOAT;
 				char outfilestr[1024];
 				if (numOutFiles > 1)
-					sprintf(outfilestr, "%s_%0d.wav", outfilename, i);
+					printf(outfilestr, "%s_%0d.wav", outfilename, i);
 				else
 					strcpy(outfilestr, outfilename);
 				outfiles[i] = SndfileHandle(outfilestr, SFM_WRITE, format, actualOutFileChannels, (int)sampleRate);

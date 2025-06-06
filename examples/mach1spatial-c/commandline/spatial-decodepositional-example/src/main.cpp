@@ -6,11 +6,7 @@
 //  Copyright © 2019 Mach1. All rights reserved.
 //
 
-
-
-#define M1_STATIC
-
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__WIN32__) || defined(__WINDOWS__)
 #include <time.h>
 #include <windows.h>
 #include <conio.h>
@@ -23,14 +19,14 @@
 
 #include <iostream>
 #include <time.h>
-#include <pthread.h>
+#include <thread>
 #include <chrono>
 
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
 
-#include "Mach1DecodePositional.h"
+#include <Mach1DecodePositional.h>
 
 #define DELTA_ANGLE 0.0174533 // equivalent of 1 degrees in radians
 #define DELTA_VALUE 1.0 // used for incrementing in degrees directly
@@ -39,11 +35,7 @@
 #define PI 3.14159265358979323846
 #endif
 
-#ifndef M_PI
-#define M_PI 3.14159265358979323846264338327950288
-#endif
-
-#ifdef _WIN32
+#if defined(_WIN32) || defined(__WIN32__) || defined(__WINDOWS__)
 BOOLEAN nanosleep(struct timespec* ts, void* p) {
 	/* Declarations */
 	HANDLE timer;	/* Timer handle */
@@ -67,23 +59,23 @@ BOOLEAN nanosleep(struct timespec* ts, void* p) {
 #endif
 
 static void* decode(void* v);
-static pthread_t thread;
+static std::thread thread;
 static bool done = false;
 Mach1DecodePositional m1Decode;
-static std::vector<float> m1Coeffs;
+std::vector<float> m1Coeffs;
 
 /*
  Positional 3D Coords
- 
+
  X+ = strafe right
  X- = strafe left
  Y+ = up
  Y- = down
  Z+ = forward
  Z- = backward
- 
+
  Orientation Euler
- 
+
  Yaw[0]+ = rotate right [Range: 0->360 | -180->180]
  Yaw[0]- = rotate left [Range: 0->360 | -180->180]
  Pitch[1]+ = rotate up [Range: -90->90]
@@ -124,20 +116,18 @@ int main(int argc, const char * argv[]) {
     struct timespec ts;
     ts.tv_sec =  0;
     ts.tv_nsec = (long)1e7; // 1/100 seconds
-    
+
     printf("Setting up\n");
 	m1Decode.setPlatformType(Mach1PlatformType::Mach1PlatformDefault);
-	m1Decode.setDecodeAlgoType(Mach1DecodeAlgoType::Mach1DecodeAlgoSpatial_8);
+	m1Decode.setDecodeMode(Mach1DecodeMode::M1DecodeSpatial_8);
 	m1Decode.setFilterSpeed(1.0);
-    
-    m1Decode.setUseBlendMode(false);
-    m1Decode.setIgnoreTopBottom(false);
+
     m1Decode.setMuteWhenInsideObject(false);
     m1Decode.setMuteWhenOutsideObject(false);
-        
+
     done = false;
-    pthread_create(&thread, NULL, &decode, NULL);
-    
+    thread = std::thread(decode, nullptr);
+
     while (!done) {
 		nanosleep(&ts, NULL);
 		auto start = std::chrono::high_resolution_clock::now();
@@ -152,8 +142,9 @@ int main(int argc, const char * argv[]) {
         m1Decode.setUseYawForRotation(true);
         m1Decode.setUsePitchForRotation(true);
         m1Decode.setUseRollForRotation(true);
-        m1Decode.evaluatePositionResults();
         m1Decode.setUsePlaneCalculation(false);
+        m1Decode.evaluatePositionResults();
+
         //Distance Application:
         distance = m1Decode.getDist();
         /*
@@ -164,6 +155,8 @@ int main(int argc, const char * argv[]) {
         m1Decode.setUseAttenuation(attenuationActive);
         attenuation = mapFloat(distance, 0, 10, 1, 0);
         m1Decode.setAttenuationCurve(attenuation);
+
+        m1Coeffs.resize(m1Decode.getFormatCoeffCount());
         m1Decode.getCoefficients(m1Coeffs);
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> elapsed = end - start;
@@ -188,15 +181,15 @@ static void* decode(void* v)
     char c;
     printf("Enter a command:\n");
     while (1) {
-        
+
 #ifdef _WIN32
 		c = _getch();
-#else 
+#else
 		c = getchar();
-#endif   
+#endif
 
         if (c == 'q') break;
-        
+
         // delete entered character
         printf("\b");
         switch (c) {
@@ -242,7 +235,7 @@ static void* decode(void* v)
             default:
                 printf("Input not recognized.\n");
         }
-        
+
         // check that the values are in proper range
         if (dYaw < 0.0) dYaw = 360.0;
         else if (dYaw > 360.0) dYaw = 0.0;
@@ -250,7 +243,7 @@ static void* decode(void* v)
         else if (dPitch > 90.0) dPitch = 90.0;
         if (dRoll < -90.0) dRoll = -90.0;
         else if (dRoll > 90.0) dRoll = 90.0;
-        
+
         // Mach1DecodeCAPI Log:
         printf("\n");
         printf("y / p / r: %f %f %f\n", dYaw, dPitch, dRoll);
@@ -258,13 +251,10 @@ static void* decode(void* v)
         printf("x / y / z: %f %f %f\n", x, y, z);
         printf("\n");
         printf("Decode Coeffs:\n");
-        for (int i = 0; i < (m1Coeffs.size()-2)/2; i++){
+        for (int i = 0; i < (m1Coeffs.size())/2; i++){
             printf(" %iL: %f", i, m1Coeffs[i * 2]);
             printf(" %iR: %f\n", i, m1Coeffs[i * 2 + 1]);
         }
-        printf("\n");
-        printf("Headlock Stereo Coeffs:\n");
-        printf("%f %f\n", m1Coeffs[m1Coeffs.size()-2], m1Coeffs[m1Coeffs.size()-1]);
         printf("\n");
         printf("Distance:\n");
         printf("%f\n", distance);

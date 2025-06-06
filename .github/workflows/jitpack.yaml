@@ -1,0 +1,87 @@
+name: Build-Jitpack
+
+# run after tests are verified and the lib source files were edited
+on:
+  workflow_run:
+    workflows: ["Test"]
+    types:
+      - completed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        lfs: true
+        fetch-depth: 1
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
+
+    - name: Verify Source files changed
+      uses: tj-actions/verify-changed-files@v20
+      id: verify-changed-files
+      with:
+        files: |
+           libmach1spatial/**/*.{h,cpp,cs}
+
+    - uses: actions/checkout@v4
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
+      with:
+        repository: mity/acutest
+        path: libmach1spatial/deps/acutest
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
+
+    - uses: actions/checkout@v4
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
+      with:
+        repository: g-truc/glm
+        path: libmach1spatial/deps/glm
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
+
+    - uses: actions/checkout@v4
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
+      with:
+        repository: zeux/pugixml
+        path: libmach1spatial/deps/pugixml
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
+
+    - uses: actions/checkout@v4
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
+      with:
+        repository: jimmiebergmann/mini-yaml
+        path: libmach1spatial/deps/yaml
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
+
+    - uses: actions/checkout@v4
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
+      with:
+        repository: nlohmann/json
+        path: libmach1spatial/deps/nlohmann
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
+
+    - uses: actions/checkout@v4
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
+      with:
+        repository: Mach1Studios/JitPack-Mach1SpatialAPI
+        path: examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI
+        persist-credentials: false # So that we can push with BOT_TOKEN, otherwise it doesn't trigger CI
+
+    - name: Install Deps
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
+      run: sudo apt-get update && sudo apt install libsndfile-dev
+
+    - name: Configure, build and install
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
+      run: make deploy-android
+
+    - name: Commit to jitpack submodule
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
+      run: |
+        cd $GITHUB_WORKSPACE/examples/mach1spatial-c/android/JitPack-Mach1SpatialAPI
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "$(git log -n 1 --pretty=format:%ae)"
+        git add .
+        git commit -m "Update prebuilt libraries from CMake build"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

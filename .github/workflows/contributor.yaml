@@ -1,0 +1,117 @@
+name: Contributor Lint & Test
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+
+jobs:
+  # -------------------------------
+  # Lint Job: runs clang-format / clang-tidy
+  # -------------------------------
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate Branch Name
+        if: github.event_name == 'pull_request'
+        run: |
+          # Grab the incoming branch name from the pull request head ref
+          branch_ref="${{ github.event.pull_request.head.ref }}"
+
+          if [[ ! "$branch_ref" =~ ^(feature|fix)/.*$ ]]; then
+            echo "Branch name '$branch_ref' does not match the required pattern: 'feature/...' or 'fix/...'."
+            new_branch_ref="fix/${branch_ref}"
+          else
+            echo "Branch name '$branch_ref' already follows the expected pattern."
+        shell: bash
+
+      - name: Validate PR Labels
+        if: github.event_name == 'pull_request'
+        run: |
+          labels=$(jq -r '.pull_request.labels[].name' "$GITHUB_EVENT_PATH")
+          if [[ ! "$labels" =~ (bug|enhancement|documentation) ]]; then
+            echo "No required label found (e.g., 'bug', 'documentation' or 'enhancement')."
+            exit 1
+          fi
+        shell: bash
+
+      - name: Install clang tools
+        run: sudo apt-get update && sudo apt-get install -y clang-format clang-tidy
+
+      - name: Run clang-format (dry run to detect style issues)
+        run: |
+          # Adjust the directories to your project structure as needed.
+          find . -regex '.*\.\(cpp\|c\|h\|hpp\)' -exec clang-format --dry-run --Werror {} \;
+
+      - name: Run clang-tidy (analysis-only)
+        run: |
+          # Adjust this invocation as needed. Typically you'd generate a compile_commands.json
+          # via CMake, then run clang-tidy in a loop or use a script. 
+          # The example below shows a minimal usage referencing the existing .clang-tidy file.
+          cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+          cd build
+          cmake --build .
+          cd ..
+          # Example: run clang-tidy on all .cpp files. Adjust patterns/paths as needed.
+          find . -regex '.*\.\(cpp\|cc\|cxx\)' -exec clang-tidy -p build {} \;
+
+  # -------------------------------
+  # Test Job: builds and runs tests (similar to test-sdk.yaml)
+  # -------------------------------
+  test:
+    name: Build & Test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Linux
+            os: ubuntu-latest
+          - name: macOS
+            os: macos-latest
+          - name: Windows
+            os: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      # This step references the ios-cmake submodule/ repo, just like in test-sdk.yaml
+      - uses: actions/checkout@v4
+        with:
+          repository: leetal/ios-cmake
+          path: libmach1spatial/cmake/ios-cmake
+
+      - name: Install dependencies on macOS
+        if: ${{ runner.os == 'macOS' }}
+        run: brew install libsndfile
+
+      - name: Install dependencies on Linux
+        if: ${{ runner.os == 'Linux' }}
+        run: sudo apt-get update && sudo apt-get install -y libsndfile-dev
+
+      - name: Configure CMake
+        run: cmake . -B build -DCMAKE_BUILD_TYPE=Debug -DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_SIGNAL_SUITE=OFF
+
+      - name: Build
+        run: cmake --build build --config Debug --target Mach1DecodeTests Mach1EncodeTests Mach1DecodePositionalTests Mach1TranscodeTests
+
+      - name: Run Tests
+        run: |
+          if [[ "${{ runner.os }}" == "Windows" ]]; then
+            build\\tests\\Debug\\Mach1EncodeTests.exe
+            build\\tests\\Debug\\Mach1DecodeTests.exe
+            build\\tests\\Debug\\Mach1DecodePositionalTests.exe
+            build\\tests\\Debug\\Mach1TranscodeTests.exe
+          else
+            build/tests/Mach1EncodeTests
+            build/tests/Mach1DecodeTests
+            build/tests/Mach1DecodePositionalTests
+            build/tests/Mach1TranscodeTests
+          fi 

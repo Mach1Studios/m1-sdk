@@ -6,7 +6,7 @@
 //  Copyright © 2019 Mach1. All rights reserved.
 //
 
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__WIN32__) || defined(__WINDOWS__)
 #include <time.h>
 #include <windows.h>
 #include <conio.h>
@@ -19,13 +19,13 @@
 
 #include <iostream>
 #include <time.h>
-#include <pthread.h>
+#include <thread>
 #include <chrono>
 
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
-#include "Mach1Decode.h"
+#include <Mach1Decode.h>
 
 #define DELTA_ANGLE 0.0174533 // equivalent of 1 degrees in radians
 #define DELTA_VALUE 1.0 // used for incrementing in degrees directly
@@ -33,11 +33,7 @@
 #define PI 3.14159265358979323846
 #endif
 
-#ifndef M_PI
-#define M_PI 3.14159265358979323846264338327950288
-#endif
-
-#ifdef _WIN32
+#if defined(_WIN32) || defined(__WIN32__) || defined(__WINDOWS__)
 BOOLEAN nanosleep(struct timespec* ts, void* p) {
 	/* Declarations */
 	HANDLE timer;	/* Timer handle */
@@ -61,10 +57,10 @@ BOOLEAN nanosleep(struct timespec* ts, void* p) {
 #endif
 
 static void* decode(void* v);
-static pthread_t thread;
+static std::thread thread;
 static bool done = false;
-Mach1Decode m1Decode;
-Mach1DecodeAlgoType outputFormat;
+Mach1Decode<float> m1Decode;
+Mach1DecodeMode outputFormat;
 std::string outputName;
 static std::vector<float> m1Coeffs;
 static std::vector<float> m1PannedCoeffs;
@@ -97,7 +93,7 @@ static float checkSumL = 0;
 static float checkSumR = 0;
 
 float radToDeg (float input){
-    float output = input * (180.0/M_PI);
+    float output = input * (180.0/PI);
     return output;
 }
 
@@ -106,28 +102,27 @@ int main(int argc, const char * argv[]) {
     struct timespec ts;
     ts.tv_sec =  0;
     ts.tv_nsec = (long)1e7; // 1/100 seconds
-    
+
     printf("Setting up\n");
-    outputFormat = Mach1DecodeAlgoSpatial_8;
+    outputFormat = M1DecodeSpatial_8;
     outputName = "MACH1 SPATIAL";
     done = false;
-    pthread_create(&thread, NULL, &decode, NULL);
-    
+    thread = std::thread(decode, nullptr);
+
     while (!done) {
         nanosleep(&ts, NULL);
         auto start = std::chrono::high_resolution_clock::now();
         m1Decode.setPlatformType(Mach1PlatformDefault);
-        m1Decode.setDecodeAlgoType(outputFormat);
+        m1Decode.setDecodeMode(outputFormat);
         m1Decode.setFilterSpeed(1.0);
 
-        m1Decode.beginBuffer();
         orientation.x = yaw;
         orientation.y = pitch;
         orientation.z = roll;
         m1Decode.setRotationDegrees(orientation);
         m1Coeffs = m1Decode.decodeCoeffs();
         m1PannedCoeffs = m1Decode.decodePannedCoeffs();
-        m1Decode.endBuffer();
+
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> elapsed = end - start;
         timeReturned = (float)elapsed.count();
@@ -151,15 +146,15 @@ static void* decode(void* v)
     char c;
     printf("Enter a command:\n");
     while (1) {
-        
+
 #ifdef _WIN32
 		c = _getch();
-#else 
+#else
 		c = getchar();
-#endif     
+#endif
 
 		if (c == 'q') break;
-        
+
         // delete entered character
         printf("\b");
         switch (c) {
@@ -182,26 +177,26 @@ static void* decode(void* v)
                 roll -= DELTA_VALUE;
                 break;
             case 'o':
-                if(outputFormat==Mach1DecodeAlgoSpatial_8){
-                    outputFormat=Mach1DecodeAlgoHorizon_4;
+                if(outputFormat==M1DecodeSpatial_8){
+                    outputFormat=M1DecodeSpatial_4;
                     outputName="MACH1HORIZON-4";
-                }else if(outputFormat==Mach1DecodeAlgoHorizon_4){
-                    outputFormat=Mach1DecodeAlgoSpatial_14;
+                }else if(outputFormat==M1DecodeSpatial_4){
+                    outputFormat=M1DecodeSpatial_14;
                     outputName="MACH1SPATIAL-14";
-                }else if(outputFormat==Mach1DecodeAlgoSpatial_14){
-                    outputFormat=Mach1DecodeAlgoSpatial_8;
+                }else if(outputFormat==M1DecodeSpatial_14){
+                    outputFormat=M1DecodeSpatial_8;
                     outputName="MACH1SPATIAL-8";
                 }else{
                     printf("Input out of scope.");
                 }
                 //resize coeffs array to the size of the current output
-                m1Decode.setDecodeAlgoType(outputFormat);
+                m1Decode.setDecodeMode(outputFormat);
                 m1Coeffs.resize(m1Decode.getFormatCoeffCount(), 0.0f);
                 break;
             default:
                 printf("Input not recognized.\n");
         }
-        
+
         // check that the values are in proper range
         if (yaw < 0.0) yaw = 360.0;
         else if (yaw > 360.0) yaw = 0.0;
@@ -209,17 +204,17 @@ static void* decode(void* v)
         else if (pitch > 90.0) pitch = 90.0;
         if (roll < -90.0) roll = -90.0;
         else if (roll > 90.0) roll = 90.0;
-        
+
         checkSumL = 0; // zeroed for next loop
         checkSumR = 0; // zeroed for next loop
-        for (int i = 0; i < m1Coeffs.size()-2; i++){ //minus 2 for removing the static stereo indices
+        for (int i = 0; i < m1Coeffs.size(); i++){
             if(i % 2 == 0){
                 checkSumL=checkSumL+m1Coeffs[i];
             } else {
                 checkSumR=checkSumR+m1Coeffs[i];
             }
         }
-        
+
         // Mach1DecodeCAPI Log:
         printf("\n");
         printf("y / p / r: %f %f %f\n", yaw, pitch, roll);
@@ -227,16 +222,14 @@ static void* decode(void* v)
         printf("Output M1 Format: %s\n", outputName.c_str());
         printf("\n");
         printf("Decode Coeffs:\n");
-        for (int i = 0; i < (m1Coeffs.size()-2)/2; i++){
+        for (int i = 0; i < (m1Coeffs.size())/2; i++){
             printf(" %iL: %f", i, m1Coeffs[i * 2]);
             printf(" %iR: %f\n", i, m1Coeffs[i * 2 + 1]);
         }
-        printf("Headlock Stereo Coeffs:\n");
-        printf("%f %f\n", m1Coeffs[m1Decode.getFormatCoeffCount()-2], m1Coeffs[m1Decode.getFormatCoeffCount()-1]);
         printf("\n");
         printf("Number of Active Coeffs:\n");
         int activeCount = 0;
-        for (int i = 0; i < (m1Coeffs.size())-2; i++){
+        for (int i = 0; i < (m1Coeffs.size()); i++){
             if (m1Coeffs[i] > 0.0) {
                 activeCount++;
             }
@@ -249,7 +242,7 @@ static void* decode(void* v)
         printf("SUM CHECK R: %f    R REM: %f\n", checkSumR, abs(checkSumR-1.0f));
         printf("\n");
         printf("Decode Panned Coeffs:\n");
-        for (int i = 0; i < (m1PannedCoeffs.size()-2)/2; i++){
+        for (int i = 0; i < (m1PannedCoeffs.size())/2; i++){
             // within each parent channel index of `m1PannedCoeffs` are two floats: [0]gain, [1]pan
             // - The `gain` float is normalized from 0.0 -> 1.0
             // - The `pan` float is normalized from -1.0 -> 1.0, from left -> right

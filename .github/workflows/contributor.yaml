@@ -35,8 +35,15 @@ jobs:
         run: |
           labels=$(jq -r '.pull_request.labels[].name' "$GITHUB_EVENT_PATH")
           if [[ ! "$labels" =~ (bug|enhancement|documentation) ]]; then
-            echo "No required label found (e.g., 'bug', 'documentation' or 'enhancement')."
-            exit 1
+            echo "No required label found. Adding default 'enhancement' label..."
+            curl -X POST \
+              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github.v3+json" \
+              "${{ github.api_url }}/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/labels" \
+              -d '["enhancement"]'
+            echo "Default 'enhancement' label added to PR."
+          else
+            echo "Required label found: $labels"
           fi
         shell: bash
 

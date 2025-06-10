@@ -27,6 +27,7 @@ jobs:
             new_branch_ref="fix/${branch_ref}"
           else
             echo "Branch name '$branch_ref' already follows the expected pattern."
+          fi
         shell: bash
 
       - name: Validate PR Labels

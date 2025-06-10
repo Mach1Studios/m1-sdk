@@ -1,0 +1,115 @@
+/*
+ * This file is part of the µOS++ distribution.
+ *   (https://github.com/micro-os-plus/)
+ * Copyright (c) 2016 Liviu Ionescu. All rights reserved.
+ *
+ * Permission to use, copy, modify, and/or distribute this software
+ * for any purpose is hereby granted, under the terms of the MIT license.
+ *
+ * If a copy of the license was not distributed with this file, it can
+ * be obtained from https://opensource.org/licenses/MIT/.
+ */
+
+/*
+ * Preliminary support for cards; may change at any time.
+ *
+ * https://www.w3schools.com/howto/howto_css_cards.asp
+ * https://www.w3schools.com/howto/howto_css_two_columns.asp
+ */
+
+/* -------------------------------------------------------------------------- */
+
+.cards {
+  display: flex;
+  grid-gap: 2rem;
+  margin-top: 40px;
+  margin-bottom: 40px
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 10px;
+  /* rounded corners */
+  flex: 50%;
+  padding: 16px;
+}
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Add some padding inside the card container */
+.card_container {
+  padding: 20px 16px 16px 16px;
+}
+
+/* Clear floats after the columns */
+.cards:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+div.card a {
+  text-decoration: none;
+}
+
+div.card_container a.anchorlink {
+  visibility: hidden;
+}
+
+div.card_container a.anchorlink svg {
+  display: none;
+}
+
+div.card h2 {
+  color: var(--page-foreground-color);
+}
+
+div.card p {
+  font-size: 0.9rem;
+  color: var(--page-foreground-color);
+  line-height: 160%;
+  margin: 1em 0 0 0;
+}
+
+div.command {
+  padding-top: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+div.command div.fragment {
+  padding-left: 3em;
+  padding-right: 3em;
+  margin: 0;
+}
+
+div.command div.fragment div.line {
+  text-align: center;
+}
+
+/* -------------------------------------------------------------------------- */
+
+div.card_container svg {
+  height: 64px;
+  width: 64px;
+}
+
+div.card_container svg path {
+  stroke: var(--page-foreground-color);
+  fill: var(--page-background-color);
+  stroke-width: 1.5;
+}
+
+div.footer {
+  text-align: center;
+}
+
+div.footer p {
+  font-size: 0.8rem;
+}
+
+/* -------------------------------------------------------------------------- */

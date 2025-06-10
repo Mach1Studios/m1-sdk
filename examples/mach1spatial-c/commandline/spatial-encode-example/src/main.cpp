@@ -6,9 +6,7 @@
 //  Copyright © 2019 Mach1. All rights reserved.
 //
 
-#define M1_STATIC
-
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__WIN32__) || defined(__WINDOWS__)
 #include <time.h>
 #include <windows.h>
 #include <conio.h>
@@ -23,11 +21,11 @@
 #include <time.h>
 #include <string.h>
 #include <stdio.h>
-#include <pthread.h>
+#include <thread>
 #include <math.h>
 #include <chrono>
 
-#include "Mach1Encode.h"
+#include <Mach1Encode.h>
 
 #define DELTA_RADIAN 0.0174533 // equivalent of 1 degrees in radians
 #define DELTA_DEGREE 1.0
@@ -37,11 +35,7 @@
 #define PI 3.14159265358979323846
 #endif
 
-#ifndef M_PI
-#define M_PI 3.14159265358979323846264338327950288
-#endif
-
-#ifdef _WIN32
+#if defined(_WIN32) || defined(__WIN32__) || defined(__WINDOWS__)
 BOOLEAN nanosleep(struct timespec* ts, void* p) {
 	/* Declarations */
 	HANDLE timer;	/* Timer handle */
@@ -65,25 +59,25 @@ BOOLEAN nanosleep(struct timespec* ts, void* p) {
 #endif
 
 void* encode(void* v);
-static pthread_t thread;
+static std::thread thread;
 bool done = false;
-Mach1Encode m1Encode;
+Mach1Encode<float> m1Encode;
 std::vector< std::vector<float> > m1Coeffs; //2D array, [input channel][input channel's coeff]
-Mach1EncodeInputModeType inputMode;
-Mach1EncodeOutputModeType outputMode;
+Mach1EncodeInputMode inputMode;
+Mach1EncodeOutputMode outputMode;
 std::string inputName;
 std::string outputName;
 
 /*
  Orientation Euler
- 
+
  Yaw[0]+ = rotate right [Range: 0->360 | -180->180]
  Yaw[0]- = rotate left [Range: 0->360 | -180->180]
  Pitch[1]+ = rotate up [Range: -90->90]
  Pitch[1]- = rotate down [Range: -90->90]
  Roll[2]+ = tilt right [Range: -90->90]
  Roll[2]- = tilt left [Range: -90->90]
- 
+
  http://dev.mach1.tech/#mach1-internal-angle-standard
  */
 float azimuth = 0.0;
@@ -107,15 +101,15 @@ int main(int argc, const char * argv[]) {
     struct timespec ts;
     ts.tv_sec =  0;
     ts.tv_nsec = (long)1e7;
-    
+
     printf("Setting up\n");
-    inputMode = Mach1EncodeInputModeMono;
-    outputMode = Mach1EncodeOutputModeM1Spatial_8;
+    inputMode = Mono;
+    outputMode = M1Spatial_8;
     inputName = "MONO";
     outputName = "MACH1 SPATIAL";
     done = false;
-    pthread_create(&thread, NULL, &encode, NULL);
-    
+    thread = std::thread(encode, nullptr);
+
     while (!done) {
         nanosleep(&ts, NULL);
         auto start = std::chrono::high_resolution_clock::now();
@@ -124,7 +118,7 @@ int main(int argc, const char * argv[]) {
         m1Encode.setElevationDegrees(elevation);
         m1Encode.setInputMode(inputMode);
         m1Encode.setOutputMode(outputMode);
-        m1Encode.setPannerMode((isIsotroptic) ? Mach1EncodePannerModeIsotropicLinear : Mach1EncodePannerModePeriphonicLinear);
+        m1Encode.setPannerMode((isIsotroptic) ? IsotropicLinear : PeriphonicLinear);
         m1Encode.setAutoOrbit(isAutoOrbit);
         if (!isAutoOrbit){
             m1Encode.setOrbitRotationDegrees(stereoOrbitRotation);
@@ -136,7 +130,7 @@ int main(int argc, const char * argv[]) {
         std::chrono::duration<double> elapsed = end - start;
         timeReturned = (float)elapsed.count();
     }
-    
+
     return 0;
 }
 
@@ -156,15 +150,15 @@ void* encode(void* v)
     char c;
     printf("Enter a command:\n");
     while (1) {
-        
+
 #ifdef _WIN32
 		c = _getch();
-#else 
+#else
 		c = getchar();
-#endif     
-        
+#endif
+
         if (c == 'q') break;
-        
+
         // delete entered character
         printf("\b");
         switch (c) {
@@ -187,46 +181,46 @@ void* encode(void* v)
                 elevation -= DELTA_DEGREE;
                 break;
             case 'i':
-                if(inputMode==Mach1EncodeInputModeMono){
-                    inputMode=Mach1EncodeInputModeStereo;
+                if(inputMode==Mono){
+                    inputMode=Stereo;
                     inputName="STEREO";
-                }else if(inputMode==Mach1EncodeInputModeStereo){
-                    inputMode=Mach1EncodeInputModeLCR;
+                }else if(inputMode==Stereo){
+                    inputMode=LCR;
                     inputName="LCR";
-                }else if(inputMode==Mach1EncodeInputModeLCR){
-                    inputMode=Mach1EncodeInputModeQuad;
+                }else if(inputMode==LCR){
+                    inputMode=Quad;
                     inputName="QUAD";
-                }else if(inputMode==Mach1EncodeInputModeQuad){
-                    inputMode=Mach1EncodeInputModeLCRS;
+                }else if(inputMode==Quad){
+                    inputMode=LCRS;
                     inputName="LCRS";
-                }else if(inputMode==Mach1EncodeInputModeLCRS){
-                    inputMode=Mach1EncodeInputModeAFormat;
+                }else if(inputMode==LCRS){
+                    inputMode=AFormat;
                     inputName="AFORMAT";
-                }else if(inputMode==Mach1EncodeInputModeAFormat){
-                    inputMode=Mach1EncodeInputModeBFOAACN;
+                }else if(inputMode==AFormat){
+                    inputMode=BFOAACN;
                     inputName="1OA ACN";
-                }else if(inputMode==Mach1EncodeInputModeBFOAACN){
-                    inputMode=Mach1EncodeInputModeBFOAACN;
+                }else if(inputMode==BFOAACN){
+                    inputMode=BFOAACN;
                     inputName="1OA ACN";
-                }else if(inputMode==Mach1EncodeInputModeBFOAACN){
-                    inputMode=Mach1EncodeInputModeBFOAFUMA;
+                }else if(inputMode==BFOAACN){
+                    inputMode=BFOAFUMA;
                     inputName="1OA FUMA";
-                }else if(inputMode==Mach1EncodeInputModeBFOAFUMA){
-                    inputMode=Mach1EncodeInputModeMono;
+                }else if(inputMode==BFOAFUMA){
+                    inputMode=Mono;
                     inputName="MONO";
                 }else{
                     printf("Input out of scope.");
                 }
                 break;
             case 'o':
-                if(outputMode==Mach1EncodeOutputModeM1Spatial_8){
-                    outputMode=Mach1EncodeOutputModeM1Horizon_4;
+                if(outputMode==M1Spatial_8){
+                    outputMode=M1Spatial_4;
                     outputName="MACH1HORIZON-4";
-                }else if(outputMode==Mach1EncodeOutputModeM1Horizon_4){
-                    outputMode=Mach1EncodeOutputModeM1Spatial_14;
+                }else if(outputMode==M1Spatial_4){
+                    outputMode=M1Spatial_14;
                     outputName="MACH1SPATIAL-14";
-                }else if(outputMode==Mach1EncodeOutputModeM1Spatial_14){
-                    outputMode=Mach1EncodeOutputModeM1Spatial_8;
+                }else if(outputMode==M1Spatial_14){
+                    outputMode=M1Spatial_8;
                     outputName="MACH1SPATIAL-8";
                 }else{
                     printf("Input out of scope.");
@@ -259,7 +253,7 @@ void* encode(void* v)
             default:
                 printf("Input not recognized.\n");
         }
-        
+
         // check that the values are in proper range
         if (diverge < -1.0) diverge = -1.0;
         else if (diverge > 1.0) diverge = 1.0;
@@ -271,7 +265,7 @@ void* encode(void* v)
         else if (stereoOrbitRotation > 360.0) stereoOrbitRotation = 0;
         if (elevation < -180.0) elevation = -180.0;
         else if (elevation > 180.0) elevation = 180.0;
-        
+
         // Mach1EncodeCAPI Log:
         printf("\n");
         printf("Input: %s\n", inputName.c_str());

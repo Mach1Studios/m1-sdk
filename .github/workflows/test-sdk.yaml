@@ -1,0 +1,95 @@
+name: Test
+
+on: [push]
+
+# When pushing new commits, cancel any running builds on that branch
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  BUILD_TYPE: Debug
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false # show all errors for each platform (vs. cancel jobs on error)
+      matrix:
+        include:
+          - name: Linux
+            os: ubuntu-latest
+          - name: macOS
+            os: macos-latest
+          - name: Windows
+            os: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        lfs: true
+        fetch-depth: 1
+
+    - uses: actions/checkout@v4
+      with:
+        repository: mity/acutest
+        path: libmach1spatial/deps/acutest
+
+    - uses: actions/checkout@v4
+      with:
+        repository: g-truc/glm
+        path: libmach1spatial/deps/glm
+
+    - uses: actions/checkout@v4
+      with:
+        repository: zeux/pugixml
+        path: libmach1spatial/deps/pugixml
+
+    - uses: actions/checkout@v4
+      with:
+        repository: jimmiebergmann/mini-yaml
+        path: libmach1spatial/deps/yaml
+
+    - uses: actions/checkout@v4
+      with:
+        repository: nlohmann/json
+        path: libmach1spatial/deps/nlohmann
+
+    - uses: actions/checkout@v4
+      with:
+        repository: leetal/ios-cmake
+        path: libmach1spatial/cmake/ios-cmake
+
+    - name: Install macOS Deps
+      if: ${{ runner.os == 'macOS' }}
+      run: brew install libsndfile
+
+    - name: Install linux Deps
+      if: ${{ runner.os == 'Linux' }}
+      run: sudo apt-get update && sudo apt install libsndfile-dev
+
+    - name: Configure CMake
+      run: cmake . -B build -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_SIGNAL_SUITE=OFF
+
+    - name: Build
+      shell: bash
+      run: cmake --build build --config ${{ env.BUILD_TYPE }} --target Mach1DecodeTests Mach1EncodeTests Mach1DecodePositionalTests Mach1TranscodeTests
+
+    - name: Run Tests
+      run: |
+        if [[ "$RUNNER_OS" == "Windows" ]]; then
+          build/tests/${{ env.BUILD_TYPE }}/Mach1EncodeTests.exe & \
+          build/tests/${{ env.BUILD_TYPE }}/Mach1DecodeTests.exe & \
+          build/tests/${{ env.BUILD_TYPE }}/Mach1DecodePositionalTests.exe & \
+          build/tests/${{ env.BUILD_TYPE }}/Mach1TranscodeTests.exe
+        else
+          build/tests/Mach1EncodeTests
+          build/tests/Mach1DecodeTests
+          build/tests/Mach1DecodePositionalTests
+          build/tests/Mach1TranscodeTests
+        fi

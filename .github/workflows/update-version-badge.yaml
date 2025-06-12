@@ -1,0 +1,59 @@
+name: Update Version Badge
+
+on:
+  push:
+    paths:
+      - 'libmach1spatial/CMakeLists.txt'
+      - '.github/workflows/update-version-badge.yaml'
+  workflow_dispatch: # Allow manual trigger
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  update-version-badge:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+
+    - name: Extract version from CMakeLists.txt
+      id: get-version
+      run: |
+        # Extract major and minor version from CMakeLists.txt
+        MAJOR=$(grep "set(Mach1SpatialLibraries_VERSION_MAJOR" libmach1spatial/CMakeLists.txt | sed 's/.*VERSION_MAJOR \([0-9]*\)).*/\1/')
+        MINOR=$(grep "set(Mach1SpatialLibraries_VERSION_MINOR" libmach1spatial/CMakeLists.txt | sed 's/.*VERSION_MINOR \([0-9]*\)).*/\1/')
+        VERSION="${MAJOR}.${MINOR}"
+        echo "version=${VERSION}" >> $GITHUB_OUTPUT
+        echo "Extracted version: ${VERSION}"
+
+    - name: Update README badge
+      run: |
+        # Update the version badge in README.md
+        sed -i "s|libmach1spatial-v[0-9]*\.[0-9]*|libmach1spatial-v${{ steps.get-version.outputs.version }}|g" README.md
+        echo "Updated README.md badge to version ${{ steps.get-version.outputs.version }}"
+
+    - name: Check for changes
+      id: check-changes
+      run: |
+        if git diff --quiet; then
+          echo "No changes detected"
+          echo "has-changes=false" >> $GITHUB_OUTPUT
+        else
+          echo "Changes detected"
+          echo "has-changes=true" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Commit and push changes
+      if: steps.check-changes.outputs.has-changes == 'true'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add VERSION README.md
+        git commit -m "Auto-update version badge to v${{ steps.get-version.outputs.version }}"
+        git push 

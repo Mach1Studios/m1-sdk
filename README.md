@@ -2,8 +2,7 @@
 
 ## MACH1 SPATIAL SDK ##
 [![Test](https://github.com/Mach1Studios/m1-sdk-dev/actions/workflows/test-sdk.yaml/badge.svg)](https://github.com/Mach1Studios/m1-sdk-dev/actions/workflows/test-sdk.yaml)
-[![libmach1spatial Version](https://img.shields.io/badge/dynamic/plain?url=https://raw.githubusercontent.com/Mach1Studios/m1-sdk/master/VERSION&label=libmach1spatial&color=blue&prefix=v)](https://www.mach1.tech/developers)
-[![Slack Channel](https://img.shields.io/badge/Slack-Join-purple)](https://join.slack.com/t/spatialaudio/shared_invite/enQtNjk0ODE4NjQ4NjExLWQ5YWUyNWQ4NWEwMDEwZmJiNmI5MzBhYjM3OTE3NTYxYzdjZDE2YTlhZDI4OGY0ZjdkNmM1NzgxNjI5OGU4ZWE)
+[![libmach1spatial Version](https://img.shields.io/badge/libmach1spatial-v4.0-blue)](https://www.mach1.tech/developers)
 [![YouTube Channel](https://img.shields.io/badge/YouTube-Subscribe-red)](https://www.youtube.com/channel/UCqoFv8OnTYjkwjHeo6JDUFg)
 [![Mach1SpatialAPI CocoaPods](https://img.shields.io/cocoapods/v/Mach1SpatialAPI.svg?style=flat)](https://www.mach1.tech/developers)
 [![Mach1SpatialAPI Jitpack](https://jitpack.io/v/Mach1Studios/JitPack-Mach1SpatialAPI.svg)](https://www.mach1.tech/developers)

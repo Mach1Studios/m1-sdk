@@ -35,7 +35,7 @@ jobs:
     - name: Update README badge
       run: |
         # Update the version badge in README.md
-        sed -i "s|libmach1spatial-v[0-9]*\.[0-9]*|libmach1spatial-v${{ steps.get-version.outputs.version }}|g" README.md
+        sed -i "s|libmach1spatial-v[0-9]*\.[0-9]*-blue|libmach1spatial-v${{ steps.get-version.outputs.version }}-blue|g" README.md
         echo "Updated README.md badge to version ${{ steps.get-version.outputs.version }}"
 
     - name: Check for changes
@@ -54,6 +54,6 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add VERSION README.md
+        git add README.md
         git commit -m "Auto-update version badge to v${{ steps.get-version.outputs.version }}"
         git push 

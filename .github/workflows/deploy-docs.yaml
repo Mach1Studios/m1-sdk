@@ -1,0 +1,79 @@
+name: Deploy Documentation
+
+on:
+  push:
+    branches: [ master, main ]
+    paths:
+      - 'libmach1spatial/**'
+      - 'docs/**'
+      - '.github/workflows/deploy-docs.yaml'
+  pull_request:
+    branches: [ master, main ]
+    paths:
+      - 'libmach1spatial/**'
+      - 'docs/**'
+      - '.github/workflows/deploy-docs.yaml'
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  deploy-docs:
+    name: Generate and Deploy Doxygen Documentation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive  # Include submodules for complete documentation
+          
+      - name: Install Doxygen and dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz
+          
+      - name: Install dependencies for documentation
+        run: |
+          # Install any dependencies needed for the project
+          sudo apt-get install -y libsndfile-dev
+          
+          # Checkout the same dependencies as other workflows
+          git clone https://github.com/mity/acutest.git libmach1spatial/deps/acutest || true
+          git clone https://github.com/g-truc/glm.git libmach1spatial/deps/glm || true
+          git clone https://github.com/zeux/pugixml.git libmach1spatial/deps/pugixml || true
+          git clone https://github.com/jimmiebergmann/mini-yaml.git libmach1spatial/deps/yaml || true
+          git clone https://github.com/nlohmann/json.git libmach1spatial/deps/nlohmann || true
+          
+      - name: Generate Doxygen Documentation
+        run: |
+          cd docs
+          doxygen Doxyfile
+          
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1  # Adjust region as needed
+          
+      - name: Deploy to S3
+        run: |
+          # Sync the generated documentation to S3
+          aws s3 sync docs/html/ s3://dev-mach1-public/docs/ --delete --cache-control "max-age=3600"
+          
+      - name: Invalidate CloudFront (if applicable)
+        run: |
+          # Uncomment and configure if you have CloudFront distribution
+          # aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths "/docs/*"
+          echo "Documentation deployed successfully to s3://dev-mach1-public/docs/"
+          
+      - name: Comment on PR (if PR)
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '📚 Documentation preview has been generated and deployed to the staging environment.'
+            }) 

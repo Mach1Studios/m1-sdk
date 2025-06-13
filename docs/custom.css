@@ -1,6 +1,4 @@
 :root {
-  /* Mach1 Original Color Palette */
-  --yellow: #FCCC0A;
   --dark-grey: #1A1A1A;
   --light-grey: #626161;
   --white: #FEFEFE;
@@ -22,18 +20,25 @@
   --off-white: #FBFBFB;
   --new-white: #FAFAFA;
   --v2-yellow: #F3C635;
+  
+  /* Accent colors - using light grays instead of yellow for most UI elements */
+  --accent-light-gray: #999999;
+  --accent-medium-gray: #707070;
+  --accent-dark-gray: #555555;
+  --border-gray: #333333;
+  --muted-gray: #888888;
 }
 
 html {
     /* Make sure sidebar is wide enough to contain the page title (logo + title + version) */
     --side-nav-fixed-width: 335px;
 
-    /* primary theme color. This will affect the entire websites color scheme: links, arrows, labels, ... */
-    --primary-color: #cbbb0c;
-    --primary-dark-color: #cbbb0c;
-    --primary-light-color: #cbbb0c;
-    --primary-lighter-color: #cbbb0c;
-    --primary-lightest-color: #cbbb0c;
+    /* primary theme color - using light gray instead of yellow for most elements */
+    --primary-color: var(--accent-medium-gray);
+    --primary-dark-color: var(--accent-dark-gray);
+    --primary-light-color: var(--accent-light-gray);
+    --primary-lighter-color: #aaaaaa;
+    --primary-lightest-color: #cccccc;
 
     /* page base colors */
     --page-background-color: white;
@@ -64,19 +69,43 @@ html {
 html.dark-mode {
     color-scheme: dark;
 
-    --primary-color: var(--m1yellow);
-    --primary-dark-color: var(--m1yellow);
-    --primary-light-color: #f2ee74;
-    --primary-lighter-color: #f3f085;
-    --primary-lightest-color: #ebe9bd;
+    /* Use light gray as primary, yellow only for interactive hints */
+    --primary-color: var(--accent-light-gray);
+    --primary-dark-color: var(--accent-medium-gray);
+    --primary-light-color: #bbbbbb;
+    --primary-lighter-color: #cccccc;
+    --primary-lightest-color: #dddddd;
 
     --page-background-color: #121212;
     --page-foreground-color: #d2dbde;
     --page-secondary-foreground-color: #859399;
-    --separator-color: #505036;
+    --separator-color: var(--border-gray);
     --side-nav-background: #212223;
     --side-nav-foreground: #F1FDFF;
     --toc-background: #20142C;
     --searchbar-background: var(--page-background-color);
+}
 
+/* Custom overrides to reduce yellow usage */
+/* Links use subtle yellow only on hover, like the reference theme */
+a {
+    color: var(--page-foreground-color);
+    border-bottom: 1px dotted rgba(153, 153, 153, 0.3);
+}
+
+a:hover {
+    color: var(--page-foreground-color);
+    border-bottom-color: var(--m1yellow);
+    text-decoration: none;
+}
+
+
+/* Use gray for borders and dividers instead of yellow */
+.navpath,
+.tabs,
+.tablist,
+hr,
+.separator {
+    border-color: var(--border-gray) !important;
+}
 }

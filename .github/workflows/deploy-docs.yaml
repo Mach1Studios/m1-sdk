@@ -57,14 +57,14 @@ jobs:
           
       - name: Deploy to S3
         run: |
-          # Sync the generated documentation to S3
-          aws s3 sync docs/html/ s3://dev-mach1-public/docs/ --delete --cache-control "max-age=3600"
+          # Sync the generated documentation to S3 root
+          aws s3 sync docs/html/ s3://dev-mach1-public/ --delete --cache-control "max-age=3600"
           
       - name: Invalidate CloudFront (if applicable)
         run: |
           # Uncomment and configure if you have CloudFront distribution
-          # aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths "/docs/*"
-          echo "Documentation deployed successfully to s3://dev-mach1-public/docs/"
+          # aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths "/*"
+          echo "Documentation deployed successfully to s3://dev-mach1-public/ (root)"
           
       - name: Comment on PR (if PR)
         if: github.event_name == 'pull_request'

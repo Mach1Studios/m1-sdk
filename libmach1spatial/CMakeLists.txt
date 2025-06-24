@@ -9,7 +9,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 message(STATUS "CMAKE_MODULE_PATH='${CMAKE_MODULE_PATH}'")
 
 # Prepend the global CMake modules directory
-list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/../cmake)
+list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_CURRENT_SOURCE_DIR}/../cmake)
 message(STATUS "CMAKE_MODULE_PATH='${CMAKE_MODULE_PATH}'")
 
 include(common-defaults)

@@ -166,6 +166,19 @@ if(BUILD_M1ENCODE)
         ${M1_ENCODE_API_SRC_FILES}
         $<TARGET_OBJECTS:M1Shared>
     )
+    
+    # Windows export definitions for M1Encode
+    if(WIN32)
+        target_compile_definitions(M1Encode PRIVATE
+            M1_ENCODE_EXPORTS
+        )
+        # Add this to ensure consistent linkage
+        set_target_properties(M1Encode PROPERTIES
+            WINDOWS_EXPORT_ALL_SYMBOLS TRUE
+            CXX_VISIBILITY_PRESET hidden
+        )
+    endif()
+    
     if(NOT (APPLE AND BUILD_SHARED_LIBS_FOR_UNITY))
         set_target_properties(M1Encode
         PROPERTIES
@@ -190,6 +203,12 @@ if(BUILD_M1ENCODE)
         target_include_directories(M1Encode PUBLIC ${M1DECODE_API_INCLUDE_PATHS})
     else()
         message(STATUS "ENCODE API: Does not support inline decoding")
+    endif()
+
+    if(WIN32)
+        message(STATUS "Building M1Encode as: ${LIB_TYPE} library")
+        get_target_property(target_type M1Encode TYPE)
+        message(STATUS "M1Encode actual type: ${target_type}")
     endif()
 endif()
 
@@ -261,6 +280,18 @@ if(BUILD_M1TRANSCODE)
         ${M1_TRANSCODE_API_SRC_FILES}
         $<TARGET_OBJECTS:M1Shared>
     )
+    
+    # Windows export definitions for M1Transcode
+    if(WIN32)
+        target_compile_definitions(M1Transcode PRIVATE
+            M1_TRANSCODE_EXPORTS
+        )
+        # Add this to ensure consistent linkage
+        set_target_properties(M1Transcode PROPERTIES
+            WINDOWS_EXPORT_ALL_SYMBOLS TRUE
+            CXX_VISIBILITY_PRESET hidden
+        )
+    endif()
 
     if(M1TRANSCODE_INLINE_ENCODE)
         message(STATUS "TRANSCODE API: Supports inline encoder")
@@ -286,6 +317,12 @@ if(BUILD_M1TRANSCODE)
     endif()
 
     target_include_directories(M1Transcode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/matrices" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/src" "${CMAKE_CURRENT_SOURCE_DIR}/deps" "${CMAKE_CURRENT_SOURCE_DIR}/deps/yaml" "${CMAKE_CURRENT_SOURCE_DIR}/deps/pugixml/src")
+
+    if(WIN32)
+        message(STATUS "Building M1Transcode as: ${LIB_TYPE} library")
+        get_target_property(target_type M1Transcode TYPE)
+        message(STATUS "M1Transcode actual type: ${target_type}")
+    endif()
 endif()
 
 #----------------

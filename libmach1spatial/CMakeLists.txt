@@ -171,6 +171,8 @@ if(BUILD_M1ENCODE)
         PROPERTIES
             VERSION ${ENCODE_VERSION}
             SOVERSION ${ENCODE_VERSION}
+            OUTPUT_NAME "Mach1EncodeCAPI"
+            RUNTIME_OUTPUT_NAME "Mach1EncodeCAPI"
         )
     endif()
     target_include_directories(M1Encode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/include")
@@ -278,6 +280,8 @@ if(BUILD_M1TRANSCODE)
         PROPERTIES
             VERSION ${TRANSCODE_VERSION}
             SOVERSION ${TRANSCODE_VERSION}
+            OUTPUT_NAME "Mach1TranscodeCAPI"
+            RUNTIME_OUTPUT_NAME "Mach1TranscodeCAPI"
         )
     endif()
 

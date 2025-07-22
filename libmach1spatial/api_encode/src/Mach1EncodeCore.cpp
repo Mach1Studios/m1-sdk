@@ -1165,12 +1165,12 @@ int M1EncodeCore::getOutputChannelsCount() {
     return 0;
 }
 
-void M1EncodeCore::setInputMode(InputMode inputMode) {
-    this->inputMode = inputMode;
+void M1EncodeCore::setInputMode(InputMode newInputMode) {
+    this->inputMode = newInputMode;
 }
 
-void M1EncodeCore::setOutputMode(OutputMode outputMode) {
-    this->outputMode = outputMode;
+void M1EncodeCore::setOutputMode(OutputMode newOutputMode) {
+    this->outputMode = newOutputMode;
     
     // Set default gain compensation based on output mode
     switch (outputMode) {
@@ -1228,12 +1228,12 @@ void M1EncodeCore::setElevationRadians(float elevationFromMinusHalfPItoHalfPI) {
     this->elevation = elevationFromMinusHalfPItoHalfPI / (PI / 2);
 }
 
-void M1EncodeCore::setPannerMode(PannerMode pannerMode) {
-    this->pannerMode = pannerMode;
+void M1EncodeCore::setPannerMode(PannerMode newPannerMode) {
+    this->pannerMode = newPannerMode;
 }
 
-void M1EncodeCore::setFrontSurroundPerspective(bool frontSurroundPerspective) {
-    this->frontSurroundPerspective = frontSurroundPerspective;
+void M1EncodeCore::setFrontSurroundPerspective(bool newFrontSurroundPerspective) {
+    this->frontSurroundPerspective = newFrontSurroundPerspective;
 }
 
 void M1EncodeCore::setOutputGain(float outputGainMultipler, bool isDecibel) {
@@ -1267,8 +1267,8 @@ bool M1EncodeCore::getGainCompensationActive() {
     return gainCompensationActive;
 }
 
-void M1EncodeCore::setAutoOrbit(bool autoOrbit) {
-    this->autoOrbit = autoOrbit;
+void M1EncodeCore::setAutoOrbit(bool newAutoOrbit) {
+    this->autoOrbit = newAutoOrbit;
 }
 
 void M1EncodeCore::setOrbitRotation(float orbitRotationFromMinusOnetoOne) {

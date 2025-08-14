@@ -20,7 +20,7 @@ ifeq ($(detected_OS),Windows)
 	@powershell -Command "if (-not (Test-Path \"$$env:VCPKG_ROOT\\vcpkg.exe\")) { Write-Host 'vcpkg is not installed, if it is add VCPKG_ROOT with: $$env:VCPKG_ROOT = \"C:/path/to/vcpkg\" and then $$env:PATH = \"$$env:VCPKG_ROOT;$$env:PATH\"'; exit 1 }"
 	@powershell -Command "vcpkg version | Out-Null; if ($$LASTEXITCODE -ne 0) { Write-Host 'vcpkg is not working'; exit 1 }"
 	@echo "vcpkg is installed and working"
-	vcpkg install rtaudio libvorbis:x64-windows-static libflac:x64-windows-static opus:x64-windows-static
+	vcpkg install rtaudio libsndfile pkgconf libvorbis:x64-windows-static libflac:x64-windows-static opus:x64-windows-static
 	@powershell -Command "try { pip show pre-commit | Out-Null } catch { pip install pre-commit }"
 	pre-commit install
 	@powershell -Command "choco version | Out-Null; if ($$LASTEXITCODE -ne 0) { Write-Host 'choco is not installed'; exit 1 }"
@@ -102,7 +102,7 @@ ifeq ($(detected_OS),Darwin)
 	cmake . -B_builds/xcode -GXcode -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=ON -DM1S_BUILD_SIGNAL_SUITE=ON
 	cmake --build _builds/xcode --config Release
 else ifeq ($(detected_OS),Windows)
-	@powershell -Command "if ($$env:cmake_generator) { cmake . -B_builds/windows-x86_64 -G \"$$env:cmake_generator\" -A x64 -DCMAKE_TOOLCHAIN_FILE=\"$$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake\" -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=ON -DM1S_BUILD_SIGNAL_SUITE=ON } else { cmake . -B_builds/windows-x86_64 -A x64 -DCMAKE_TOOLCHAIN_FILE=\"$$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake\" -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=ON -DM1S_BUILD_SIGNAL_SUITE=ON }"
+	@powershell -Command "if ($$env:cmake_generator) { cmake . -B_builds/windows-x86_64 -G \"$$env:cmake_generator\" -A x64 -DCMAKE_TOOLCHAIN_FILE=\"$$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake\" -DVCPKG_TARGET_TRIPLET=x64-windows -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=ON -DM1S_BUILD_SIGNAL_SUITE=ON } else { cmake . -B_builds/windows-x86_64 -A x64 -DCMAKE_TOOLCHAIN_FILE=\"$$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake\" -DVCPKG_TARGET_TRIPLET=x64-windows -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=ON -DM1S_BUILD_SIGNAL_SUITE=ON }"
 	cmake --build _builds/windows-x86_64 --config "Release"
 endif
 

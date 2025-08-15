@@ -53,9 +53,6 @@ namespace Mach1
         internal static extern void Mach1DecodePositionalCAPI_setUseRollForRotation(IntPtr M1obj, bool useRollForRotation);
 
         [DllImport(libname)]
-        internal static extern void Mach1DecodePositionalCAPI_setPlatformType(IntPtr M1obj, bool type);
-
-        [DllImport(libname)]
         internal static extern void Mach1DecodePositionalCAPI_setListenerPosition(IntPtr M1obj, Mach1Point3D point);
 
         [DllImport(libname)]

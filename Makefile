@@ -324,17 +324,19 @@ ifeq ($(detected_OS),Windows)
 	@echo "Starting Windows x86_64 Unity build..."
 	cmake . -B_builds/windows-x86_64 -A x64 \
 	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release
-	cmake --build _builds/windows-x86_64 --config Release --target install
+	cmake --build _builds/windows-x86_64 --config Release
 	@echo "Copying DLLs from $(WIN64_SRC_DIR) to $(WIN64_DEST_DIR)"
-	@mkdir $(WIN64_DEST_DIR) 2>nul || echo "Folder already exists"
-	@copy /Y "$(WIN64_SRC_DIR)\*.dll" "$(WIN64_DEST_DIR)"
+	@if not exist "$(WIN64_DEST_DIR)" mkdir "$(WIN64_DEST_DIR)"
+	@copy /Y "$(WIN64_SRC_DIR)\*.dll" "$(WIN64_DEST_DIR)" >nul
+	@echo "Successfully copied x86_64 DLLs"
 	@echo "Starting Windows x86 Unity build..."
 	cmake . -B_builds/windows-x86 -A Win32 \
 	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release
-	cmake --build _builds/windows-x86 --config Release --target install
+	cmake --build _builds/windows-x86 --config Release
 	@echo "Copying DLLs from $(WIN32_SRC_DIR) to $(WIN32_DEST_DIR)"
-	@mkdir $(WIN32_DEST_DIR) 2>nul || echo "Folder already exists"
-	@copy /Y "$(WIN32_SRC_DIR)\*.dll" "$(WIN32_DEST_DIR)"
+	@if not exist "$(WIN32_DEST_DIR)" mkdir "$(WIN32_DEST_DIR)"
+	@copy /Y "$(WIN32_SRC_DIR)\*.dll" "$(WIN32_DEST_DIR)" >nul
+	@echo "Successfully copied x86 DLLs"
 endif
 	@echo "Starting Android arm64 Unity build..."
 	cmake . -B_builds/android-arm64-v8a \

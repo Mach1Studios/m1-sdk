@@ -227,9 +227,13 @@ if(BUILD_M1DECODEPOSITIONAL)
         message(FATAL_ERROR "M1DecodePositional requires M1Decode, but BUILD_M1DECODE is OFF")
     endif()
 
-    # If building a MODULE library (macOS .bundle), include M1Decode sources directly
-    if(LIB_TYPE STREQUAL "MODULE")
-        message(STATUS "Including M1Decode sources directly into M1DecodePositional for MODULE library")
+    # If building a MODULE library (macOS .bundle) or Windows SHARED library, include M1Decode sources directly
+    if(LIB_TYPE STREQUAL "MODULE" OR (WIN32 AND LIB_TYPE STREQUAL "SHARED"))
+        if(LIB_TYPE STREQUAL "MODULE")
+            message(STATUS "Including M1Decode sources directly into M1DecodePositional for MODULE library")
+        else()
+            message(STATUS "Including M1Decode sources directly into M1DecodePositional for Windows SHARED library")
+        endif()
         add_library(M1DecodePositional ${LIB_TYPE}
             ${M1_DECODEPOSITIONAL_API_SRC_FILES}
             ${M1_DECODE_API_SRC_FILES}  # Include M1Decode sources
@@ -244,12 +248,26 @@ if(BUILD_M1DECODEPOSITIONAL)
         target_link_libraries(M1DecodePositional PUBLIC M1Decode)
     endif()
 
+    # Windows export definitions for M1DecodePositional
+    if(WIN32)
+        target_compile_definitions(M1DecodePositional PRIVATE
+            M1_DECODEPOSITIONAL_EXPORTS
+        )
+        # Add this to ensure consistent linkage
+        set_target_properties(M1DecodePositional PROPERTIES
+            WINDOWS_EXPORT_ALL_SYMBOLS TRUE
+            CXX_VISIBILITY_PRESET hidden
+        )
+    endif()
+
     # Set target properties and include directories
     if(NOT (APPLE AND BUILD_SHARED_LIBS_FOR_UNITY))
         set_target_properties(M1DecodePositional
         PROPERTIES
             VERSION ${DECODEPOSITIONAL_VERSION}
             SOVERSION ${DECODEPOSITIONAL_VERSION}
+            OUTPUT_NAME "Mach1DecodePositionalCAPI"
+            RUNTIME_OUTPUT_NAME "Mach1DecodePositionalCAPI"
         )
     endif()
 
@@ -262,6 +280,12 @@ if(BUILD_M1DECODEPOSITIONAL)
         "${CMAKE_CURRENT_SOURCE_DIR}/deps/pugixml/src"
         "${CMAKE_CURRENT_SOURCE_DIR}/deps/yaml"
     )
+
+    if(WIN32)
+        message(STATUS "Building M1DecodePositional as: ${LIB_TYPE} library")
+        get_target_property(target_type M1DecodePositional TYPE)
+        message(STATUS "M1DecodePositional actual type: ${target_type}")
+    endif()
 endif()
 
 #----------------

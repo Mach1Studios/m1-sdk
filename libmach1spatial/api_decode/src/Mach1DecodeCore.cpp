@@ -184,7 +184,7 @@ bool M1DecodeCore::linePlaneIntersection(Mach1Point3D &contact, Mach1Point3D ray
 }
 
 void M1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int numChannelPoints, float Yaw, float Pitch, float Roll, float *result) {
-    
+
     if (filterSpeed <= 1.0f && filterSpeed > 0.0f) { // filter and lerp the input angles for smoothing
         targetYaw = Yaw;
         targetPitch = Pitch;
@@ -208,7 +208,7 @@ void M1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int numC
         previousPitch = currentPitch;
         previousRoll = currentRoll;
     }
-    
+
     Mach1Point3D simulationAngles;
     simulationAngles.x = Yaw;
     simulationAngles.y = Pitch;
@@ -854,7 +854,7 @@ std::vector<float> M1DecodeCore::decodeCoeffs(int bufferSize, int sampleIndex) {
     float yaw = fmod(rotation.x, 360.0); // protect a 360 cycle
     float pitch = fmod(rotation.y, 360.0);
     float roll = fmod(rotation.z, 360.0);
-    
+
     switch (decodeMode) {
     case M1DecodeSpatial_4:
         coeffs = processSample(&M1DecodeCore::spatialAlgo_4, yaw, pitch, roll, bufferSize, sampleIndex);
@@ -870,13 +870,12 @@ std::vector<float> M1DecodeCore::decodeCoeffs(int bufferSize, int sampleIndex) {
 
     case M1DecodeSpatial_38:
         coeffs = processSample(&M1DecodeCore::spatialAlgo_38, yaw, pitch, roll, bufferSize, sampleIndex);
-        gainMultiplier = 4.57088137f; //! Apply 38ch gain coeffs
         break;
 
     default:
         break;
     }
-    
+
     timeLastCalculation = getCurrentTime() - tStart;
     return coeffs;
 }
@@ -951,13 +950,12 @@ void M1DecodeCore::decodeCoeffs(float *result, int bufferSize, int sampleIndex) 
 
     case M1DecodeSpatial_38:
         processSample(&M1DecodeCore::spatialAlgo_38, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
-        gainMultiplier = 4.57088137f; //! Apply 38ch gain coeffs
         break;
 
     default:
         break;
     }
-    
+
     timeLastCalculation = getCurrentTime() - tStart;
 }
 
@@ -1019,7 +1017,7 @@ void M1DecodeCore::decodeCoeffsUsingTranscodeMatrix(void *M1obj, float *matrix, 
 
 void M1DecodeCore::processSample(processSampleForMultichannelPtr _processSampleForMultichannelPtr, float Yaw, float Pitch, float Roll, float *result, int bufferSize, int sampleIndex) {
     convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
-    
+
     targetYaw = Yaw;
     targetPitch = Pitch;
     targetRoll = Roll;
@@ -1074,7 +1072,7 @@ void M1DecodeCore::processSample(processSampleForMultichannelPtr _processSampleF
 
 std::vector<float> M1DecodeCore::processSample(processSampleForMultichannel _processSampleForMultichannel, float Yaw, float Pitch, float Roll, int bufferSize, int sampleIndex) {
     convertAnglesToMach1(platformType, &Yaw, &Pitch, &Roll);
-    
+
     targetYaw = Yaw;
     targetPitch = Pitch;
     targetRoll = Roll;

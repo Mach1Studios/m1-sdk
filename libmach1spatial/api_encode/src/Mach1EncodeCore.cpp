@@ -186,19 +186,19 @@ float M1EncodeCore::getCoeffForChannelPoint(float x, float y, float z, Mach1Poin
     // Calculate distance from center point (0.5, 0.5, 0.5) in normalized space
     float centerX = 0.5f, centerY = 0.5f, centerZ = 0.5f;
     float distFromCenter = pow(
-        pow(x - centerX, 2.0) + 
-        pow(y - centerY, 2.0) + 
-        pow(z - centerZ, 2.0), 
+        pow(x - centerX, 2.0) +
+        pow(y - centerY, 2.0) +
+        pow(z - centerZ, 2.0),
         0.5
     );
 
     // Calculate max possible distance from center to corners
     // In a normalized unit cube [0,1], max distance from center to corner is sqrt(3)/2
     float maxDistFromCenter = 0.866f; // sqrt(3)/2 ≈ 0.866
-    
+
     // Normalize distance from center to [0,1] range
     float normalizedDistFromCenter = distFromCenter / maxDistFromCenter;
-    
+
     // Calculate point-to-point distance for regular coefficient
     float dist = pow(pow(point.x - x, 2.0) + pow(point.y - y, 2.0) + pow(point.z - z, 2.0), 0.5);
     dist = 1 - dist;
@@ -209,7 +209,7 @@ float M1EncodeCore::getCoeffForChannelPoint(float x, float y, float z, Mach1Poin
     if (pannerMode == MODE_ISOTROPICEQUALPOWER) {
         // Apply equal power curve
         dist = sqrt(1 - pow(dist - 1, 2));
-        
+
         // Apply center-based gain compensation
         // As we approach center (normalizedDistFromCenter = 0), add up to +6dB gain
         float centerGainDB = 6.0f * (1.0f - normalizedDistFromCenter);
@@ -1260,7 +1260,7 @@ void M1EncodeCore::generatePointResults() {
 
         assignResultingPointsNamesAndCoordinates(names, pnts);
     }
-    
+
     // Calculate adjusted diverge for gain compensation only for isotropic equal power mode
     float adjustedOutputGain = outputGainLinearMultipler;  // Default to regular output gain
 
@@ -1281,7 +1281,7 @@ void M1EncodeCore::generatePointResults() {
         }
         adjustedOutputGain *= gainCompensationLinearMultiplier;
     }
-    
+
     if (pannerMode == MODE_ISOTROPICEQUALPOWER) {
         float divergeThreshold = 0.707106f;
         float maxGainCompensation_dB = 6.0f; // Maximum gain compensation at diverge = 0.0
@@ -1292,7 +1292,7 @@ void M1EncodeCore::generatePointResults() {
         float gainMultiplier = powf(2.0f, d_comp); // Exponential increase up to 6dB
         adjustedOutputGain *= gainMultiplier;
     }
-    
+
     resultingPoints.gains.resize(resultingPoints.pointsCount);
     for (int i = 0; i < resultingPoints.pointsCount; i++) {
 
@@ -1430,7 +1430,7 @@ void M1EncodeCore::setInputMode(InputMode newInputMode) {
 
 void M1EncodeCore::setOutputMode(OutputMode newOutputMode) {
     this->outputMode = newOutputMode;
-    
+
     // Set default gain compensation based on output mode
     switch (outputMode) {
         case OUTPUT_SPATIAL_4CH:
@@ -1440,6 +1440,9 @@ void M1EncodeCore::setOutputMode(OutputMode newOutputMode) {
             gainCompensationLinearMultiplier = 2.0f;
             break;
         case OUTPUT_SPATIAL_14CH:
+            gainCompensationLinearMultiplier = 4.57088137f;
+            break;
+        case OUTPUT_SPATIAL_38CH:
             gainCompensationLinearMultiplier = 4.57088137f;
             break;
     }

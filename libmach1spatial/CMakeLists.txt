@@ -9,7 +9,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 message(STATUS "CMAKE_MODULE_PATH='${CMAKE_MODULE_PATH}'")
 
 # Prepend the global CMake modules directory
-list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/../cmake)
+list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_CURRENT_SOURCE_DIR}/../cmake)
 message(STATUS "CMAKE_MODULE_PATH='${CMAKE_MODULE_PATH}'")
 
 include(common-defaults)
@@ -166,11 +166,26 @@ if(BUILD_M1ENCODE)
         ${M1_ENCODE_API_SRC_FILES}
         $<TARGET_OBJECTS:M1Shared>
     )
+    
+    # Windows export definitions for M1Encode
+    if(WIN32)
+        target_compile_definitions(M1Encode PRIVATE
+            M1_ENCODE_EXPORTS
+        )
+        # Add this to ensure consistent linkage
+        set_target_properties(M1Encode PROPERTIES
+            WINDOWS_EXPORT_ALL_SYMBOLS TRUE
+            CXX_VISIBILITY_PRESET hidden
+        )
+    endif()
+    
     if(NOT (APPLE AND BUILD_SHARED_LIBS_FOR_UNITY))
         set_target_properties(M1Encode
         PROPERTIES
             VERSION ${ENCODE_VERSION}
             SOVERSION ${ENCODE_VERSION}
+            OUTPUT_NAME "Mach1EncodeCAPI"
+            RUNTIME_OUTPUT_NAME "Mach1EncodeCAPI"
         )
     endif()
     target_include_directories(M1Encode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_encode/include")
@@ -189,6 +204,12 @@ if(BUILD_M1ENCODE)
     else()
         message(STATUS "ENCODE API: Does not support inline decoding")
     endif()
+
+    if(WIN32)
+        message(STATUS "Building M1Encode as: ${LIB_TYPE} library")
+        get_target_property(target_type M1Encode TYPE)
+        message(STATUS "M1Encode actual type: ${target_type}")
+    endif()
 endif()
 
 # Set include paths for other APIs
@@ -206,9 +227,13 @@ if(BUILD_M1DECODEPOSITIONAL)
         message(FATAL_ERROR "M1DecodePositional requires M1Decode, but BUILD_M1DECODE is OFF")
     endif()
 
-    # If building a MODULE library (macOS .bundle), include M1Decode sources directly
-    if(LIB_TYPE STREQUAL "MODULE")
-        message(STATUS "Including M1Decode sources directly into M1DecodePositional for MODULE library")
+    # If building a MODULE library (macOS .bundle) or Windows SHARED library, include M1Decode sources directly
+    if(LIB_TYPE STREQUAL "MODULE" OR (WIN32 AND LIB_TYPE STREQUAL "SHARED"))
+        if(LIB_TYPE STREQUAL "MODULE")
+            message(STATUS "Including M1Decode sources directly into M1DecodePositional for MODULE library")
+        else()
+            message(STATUS "Including M1Decode sources directly into M1DecodePositional for Windows SHARED library")
+        endif()
         add_library(M1DecodePositional ${LIB_TYPE}
             ${M1_DECODEPOSITIONAL_API_SRC_FILES}
             ${M1_DECODE_API_SRC_FILES}  # Include M1Decode sources
@@ -223,12 +248,26 @@ if(BUILD_M1DECODEPOSITIONAL)
         target_link_libraries(M1DecodePositional PUBLIC M1Decode)
     endif()
 
+    # Windows export definitions for M1DecodePositional
+    if(WIN32)
+        target_compile_definitions(M1DecodePositional PRIVATE
+            M1_DECODEPOSITIONAL_EXPORTS
+        )
+        # Add this to ensure consistent linkage
+        set_target_properties(M1DecodePositional PROPERTIES
+            WINDOWS_EXPORT_ALL_SYMBOLS TRUE
+            CXX_VISIBILITY_PRESET hidden
+        )
+    endif()
+
     # Set target properties and include directories
     if(NOT (APPLE AND BUILD_SHARED_LIBS_FOR_UNITY))
         set_target_properties(M1DecodePositional
         PROPERTIES
             VERSION ${DECODEPOSITIONAL_VERSION}
             SOVERSION ${DECODEPOSITIONAL_VERSION}
+            OUTPUT_NAME "Mach1DecodePositionalCAPI"
+            RUNTIME_OUTPUT_NAME "Mach1DecodePositionalCAPI"
         )
     endif()
 
@@ -241,6 +280,12 @@ if(BUILD_M1DECODEPOSITIONAL)
         "${CMAKE_CURRENT_SOURCE_DIR}/deps/pugixml/src"
         "${CMAKE_CURRENT_SOURCE_DIR}/deps/yaml"
     )
+
+    if(WIN32)
+        message(STATUS "Building M1DecodePositional as: ${LIB_TYPE} library")
+        get_target_property(target_type M1DecodePositional TYPE)
+        message(STATUS "M1DecodePositional actual type: ${target_type}")
+    endif()
 endif()
 
 #----------------
@@ -259,6 +304,18 @@ if(BUILD_M1TRANSCODE)
         ${M1_TRANSCODE_API_SRC_FILES}
         $<TARGET_OBJECTS:M1Shared>
     )
+    
+    # Windows export definitions for M1Transcode
+    if(WIN32)
+        target_compile_definitions(M1Transcode PRIVATE
+            M1_TRANSCODE_EXPORTS
+        )
+        # Add this to ensure consistent linkage
+        set_target_properties(M1Transcode PROPERTIES
+            WINDOWS_EXPORT_ALL_SYMBOLS TRUE
+            CXX_VISIBILITY_PRESET hidden
+        )
+    endif()
 
     if(M1TRANSCODE_INLINE_ENCODE)
         message(STATUS "TRANSCODE API: Supports inline encoder")
@@ -278,10 +335,18 @@ if(BUILD_M1TRANSCODE)
         PROPERTIES
             VERSION ${TRANSCODE_VERSION}
             SOVERSION ${TRANSCODE_VERSION}
+            OUTPUT_NAME "Mach1TranscodeCAPI"
+            RUNTIME_OUTPUT_NAME "Mach1TranscodeCAPI"
         )
     endif()
 
     target_include_directories(M1Transcode PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/api_common/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/include" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/matrices" "${CMAKE_CURRENT_SOURCE_DIR}/api_transcode/src" "${CMAKE_CURRENT_SOURCE_DIR}/deps" "${CMAKE_CURRENT_SOURCE_DIR}/deps/yaml" "${CMAKE_CURRENT_SOURCE_DIR}/deps/pugixml/src")
+
+    if(WIN32)
+        message(STATUS "Building M1Transcode as: ${LIB_TYPE} library")
+        get_target_property(target_type M1Transcode TYPE)
+        message(STATUS "M1Transcode actual type: ${target_type}")
+    endif()
 endif()
 
 #----------------

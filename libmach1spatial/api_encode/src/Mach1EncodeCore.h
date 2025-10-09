@@ -182,8 +182,8 @@ class M1EncodeCore {
     int getInputModeFromString(std::string name);
     int getOutputModeFromString(std::string name);
 
-    void setInputMode(InputMode inputMode);
-    void setOutputMode(OutputMode outputMode);
+    void setInputMode(InputMode newInputMode);
+    void setOutputMode(OutputMode newOutputMode);
     void setAzimuth(float azimuthFromMinus1To1);
     void setAzimuthDegrees(float azimuthDegrees);
     void setAzimuthRadians(float azimuthRadians);
@@ -192,13 +192,13 @@ class M1EncodeCore {
     void setElevationDegrees(float elevationFromMinus90to90);
     void setElevationRadians(float elevationFromMinusHalfPItoHalfPI);
     void setIsotropicEncode(bool isotropicEncode);
-    void setPannerMode(PannerMode pannerMode);
-    void setFrontSurroundPerspective(bool frontSurroundPerspective);
+    void setPannerMode(PannerMode newPannerMode);
+    void setFrontSurroundPerspective(bool newFrontSurroundPerspective);
     
     float getOutputGain(bool isDecibel);
     void setOutputGain(float outputGainMultipler, bool isDecibel);
 
-    void setAutoOrbit(bool autoOrbit);
+    void setAutoOrbit(bool newAutoOrbit);
     void setOrbitRotation(float orbitRotationFromMinusOnetoOne);
     void setOrbitRotationDegrees(float orbitRotationDegrees);
     void setOrbitRotationRadians(float orbitRotationRadians);

@@ -17,13 +17,13 @@ git-nuke:
 # Windows: requires cmake and pip to be installed first
 setup:
 ifeq ($(detected_OS),Windows)
-	@if not exist "$(VCPKG_ROOT)\vcpkg.exe" (echo "vcpkg is not installed, if it is add VCPKG_ROOT with '$env:VCPKG_ROOT = C:/path/to/vcpkg' and then '$env:PATH = \"$env:VCPKG_ROOT;$env:PATH\"'" && exit 1)
-	@vcpkg version >nul || (echo "vcpkg is not working" && exit 1)
+	@powershell -Command "if (-not (Test-Path \"$$env:VCPKG_ROOT\\vcpkg.exe\")) { Write-Host 'vcpkg is not installed, if it is add VCPKG_ROOT with: $$env:VCPKG_ROOT = \"C:/path/to/vcpkg\" and then $$env:PATH = \"$$env:VCPKG_ROOT;$$env:PATH\"'; exit 1 }"
+	@powershell -Command "vcpkg version | Out-Null; if ($$LASTEXITCODE -ne 0) { Write-Host 'vcpkg is not working'; exit 1 }"
 	@echo "vcpkg is installed and working"
-	vcpkg install rtaudio libvorbis:x64-windows-static libflac:x64-windows-static opus:x64-windows-static
-	@if not exist "$(pip show pre-commit)" (pip install pre-commit)
+	vcpkg install rtaudio libsndfile pkgconf libvorbis:x64-windows-static libflac:x64-windows-static opus:x64-windows-static
+	@powershell -Command "try { pip show pre-commit | Out-Null } catch { pip install pre-commit }"
 	pre-commit install
-	@choco version >nul || (echo "choco is not installed" && exit 1)
+	@powershell -Command "choco version | Out-Null; if ($$LASTEXITCODE -ne 0) { Write-Host 'choco is not installed'; exit 1 }"
 	@echo "choco is installed and working"
 	choco install doxygen.install
 else ifeq ($(detected_OS),Darwin)
@@ -48,8 +48,13 @@ endif
 doxygen:
 	cd docs && doxygen Doxyfile
 
+ifeq ($(detected_OS),Windows)
+SOURCES := $(shell powershell -Command "Get-ChildItem -Path 'libmach1spatial/api_*' -Recurse -Include '*.cpp' | ForEach-Object { $$_.FullName -replace '\\', '/' }")
+HEADERS := $(shell powershell -Command "Get-ChildItem -Path 'libmach1spatial/api_*' -Recurse -Include '*.h' | ForEach-Object { $$_.FullName -replace '\\', '/' }")
+else
 SOURCES := $(shell find libmach1spatial/api_*/** -name '*.cpp')
 HEADERS := $(shell find libmach1spatial/api_*/** -name '*.h')
+endif
 SOURCES += $(HEADERS)
 
 # Filter out any files that have "emscripten" in their name
@@ -97,11 +102,7 @@ ifeq ($(detected_OS),Darwin)
 	cmake . -B_builds/xcode -GXcode -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=ON -DM1S_BUILD_SIGNAL_SUITE=ON
 	cmake --build _builds/xcode --config Release
 else ifeq ($(detected_OS),Windows)
-	if defined cmake_generator (
-		cmake . -B_builds/windows-x86_64 -G %cmake_generator% -A x64 -DCMAKE_TOOLCHAIN_FILE="%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake" -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=ON -DM1S_BUILD_SIGNAL_SUITE=ON
-	) else (
-		cmake . -B_builds/windows-x86_64 -A x64 -DCMAKE_TOOLCHAIN_FILE="%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake" -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=ON -DM1S_BUILD_SIGNAL_SUITE=ON
-	)
+	@powershell -Command "if ($$env:cmake_generator) { cmake . -B_builds/windows-x86_64 -G \"$$env:cmake_generator\" -A x64 -DCMAKE_TOOLCHAIN_FILE=\"$$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake\" -DVCPKG_TARGET_TRIPLET=x64-windows -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=ON -DM1S_BUILD_SIGNAL_SUITE=ON } else { cmake . -B_builds/windows-x86_64 -A x64 -DCMAKE_TOOLCHAIN_FILE=\"$$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake\" -DVCPKG_TARGET_TRIPLET=x64-windows -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=ON -DM1S_BUILD_SIGNAL_SUITE=ON }"
 	cmake --build _builds/windows-x86_64 --config "Release"
 endif
 
@@ -323,17 +324,19 @@ ifeq ($(detected_OS),Windows)
 	@echo "Starting Windows x86_64 Unity build..."
 	cmake . -B_builds/windows-x86_64 -A x64 \
 	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release
-	cmake --build _builds/windows-x86_64 --config Release --target install
+	cmake --build _builds/windows-x86_64 --config Release
 	@echo "Copying DLLs from $(WIN64_SRC_DIR) to $(WIN64_DEST_DIR)"
-	@mkdir $(WIN64_DEST_DIR) 2>nul || echo "Folder already exists"
-	@copy /Y "$(WIN64_SRC_DIR)\*.dll" "$(WIN64_DEST_DIR)"
+	@if not exist "$(WIN64_DEST_DIR)" mkdir "$(WIN64_DEST_DIR)"
+	@copy /Y "$(WIN64_SRC_DIR)\*.dll" "$(WIN64_DEST_DIR)" >nul
+	@echo "Successfully copied x86_64 DLLs"
 	@echo "Starting Windows x86 Unity build..."
 	cmake . -B_builds/windows-x86 -A Win32 \
 	-DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_TESTS=OFF -DBUILD_UNITY_LIBS=ON -DCMAKE_BUILD_TYPE=Release
-	cmake --build _builds/windows-x86 --config Release --target install
+	cmake --build _builds/windows-x86 --config Release
 	@echo "Copying DLLs from $(WIN32_SRC_DIR) to $(WIN32_DEST_DIR)"
-	@mkdir $(WIN32_DEST_DIR) 2>nul || echo "Folder already exists"
-	@copy /Y "$(WIN32_SRC_DIR)\*.dll" "$(WIN32_DEST_DIR)"
+	@if not exist "$(WIN32_DEST_DIR)" mkdir "$(WIN32_DEST_DIR)"
+	@copy /Y "$(WIN32_SRC_DIR)\*.dll" "$(WIN32_DEST_DIR)" >nul
+	@echo "Successfully copied x86 DLLs"
 endif
 	@echo "Starting Android arm64 Unity build..."
 	cmake . -B_builds/android-arm64-v8a \

@@ -8,6 +8,7 @@ namespace Mach1
         M1DecodeSpatial_4 = 0,
         M1DecodeSpatial_8,
         M1DecodeSpatial_12,
-        M1DecodeSpatial_14
+        M1DecodeSpatial_14,
+        M1DecodeSpatial_38
     };
 }

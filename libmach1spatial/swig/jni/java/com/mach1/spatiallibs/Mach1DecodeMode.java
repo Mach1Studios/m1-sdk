@@ -12,6 +12,7 @@ public final class Mach1DecodeMode {
   public final static Mach1DecodeMode M1DecodeSpatial_4 = new Mach1DecodeMode("M1DecodeSpatial_4", Mach1DecodeModuleJNI.M1DecodeSpatial_4_get());
   public final static Mach1DecodeMode M1DecodeSpatial_8 = new Mach1DecodeMode("M1DecodeSpatial_8");
   public final static Mach1DecodeMode M1DecodeSpatial_14 = new Mach1DecodeMode("M1DecodeSpatial_14");
+  public final static Mach1DecodeMode M1DecodeSpatial_38 = new Mach1DecodeMode("M1DecodeSpatial_38");
 
   public final int swigValue() {
     return swigValue;
@@ -47,7 +48,7 @@ public final class Mach1DecodeMode {
     swigNext = this.swigValue+1;
   }
 
-  private static Mach1DecodeMode[] swigValues = { M1DecodeSpatial_4, M1DecodeSpatial_8, M1DecodeSpatial_14 };
+  private static Mach1DecodeMode[] swigValues = { M1DecodeSpatial_4, M1DecodeSpatial_8, M1DecodeSpatial_14, M1DecodeSpatial_38 };
   private static int swigNext = 0;
   private final int swigValue;
   private final String swigName;

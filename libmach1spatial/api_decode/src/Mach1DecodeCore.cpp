@@ -276,6 +276,27 @@ void M1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int numC
         result[i * 2 + 0] /= sumL;
         result[i * 2 + 1] /= sumR;
     }
+
+/// EXPERIMENT START
+    // decrease mono channels
+    for (int i = 0; i < numChannelPoints; i++) {
+        //float k = 1.0 / (0.5 + fabs(result[i * 2 + 0] - result[i * 2 + 1]) / 2);
+        float k = powf(1.0 / (0.5 + fabs(result[i * 2 + 0] - result[i * 2 + 1]) / 2), 2);        result[i * 2 + 0] /= k;
+        result[i * 2 + 1] /= k;
+    }
+
+    // second normalize
+    sumL = 0, sumR = 0;
+    for (int i = 0; i < numChannelPoints; i++) {
+        sumL += result[i * 2];
+        sumR += result[i * 2 + 1];
+    }
+
+    for (int i = 0; i < numChannelPoints; i++) {
+        result[i * 2 + 0] /= sumL;
+        result[i * 2 + 1] /= sumR;
+    }
+/// EXPERIMENT END
 }
 
 /*

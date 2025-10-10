@@ -92,6 +92,9 @@ static float timeReturned = 0;
 static float checkSumL = 0;
 static float checkSumR = 0;
 
+float signalUnionMeasurement = 0;
+int signalUnionPairCounter = 0;
+
 float radToDeg (float input){
     float output = input * (180.0/PI);
     return output;
@@ -207,9 +210,18 @@ static void* decode(void* v)
 
         checkSumL = 0; // zeroed for next loop
         checkSumR = 0; // zeroed for next loop
+        signalUnionMeasurement = 0; // zeroed for next loop
+        signalUnionPairCounter = 0; // zeroed for next loop
+
         for (int i = 0; i < m1Coeffs.size(); i++){
-            if(i % 2 == 0){
+            if(i % 2 == 0){ // if even
                 checkSumL=checkSumL+m1Coeffs[i];
+
+                // signal union measurement
+                if (m1Coeffs[i] > 0.0 && m1Coeffs[i+1] > 0.0){
+                    signalUnionPairCounter++;
+                    signalUnionMeasurement += std::min(m1Coeffs[i], m1Coeffs[i+1]); // sum of UNION signal only
+                }
             } else {
                 checkSumR=checkSumR+m1Coeffs[i];
             }
@@ -227,19 +239,12 @@ static void* decode(void* v)
             printf(" %iR: %f\n", i, m1Coeffs[i * 2 + 1]);
         }
         printf("\n");
-        printf("Number of Active Coeffs:\n");
-        int activeCount = 0;
-        for (int i = 0; i < (m1Coeffs.size()); i++){
-            if (m1Coeffs[i] > 0.0) {
-                activeCount++;
-            }
-        }
-        printf("%i\n", activeCount);
-        printf("\n");
         printf("Elapsed time: %f Seconds\n", timeReturned);
         printf("\n");
         printf("SUM CHECK L: %f    L REM: %f\n", checkSumL, abs(checkSumL-1.0f));
         printf("SUM CHECK R: %f    R REM: %f\n", checkSumR, abs(checkSumR-1.0f));
+        printf("\n");
+        printf("SIGNAL UNION CHECK: %f%%\n", signalUnionMeasurement*100);
         printf("\n");
         printf("Decode Panned Coeffs:\n");
         for (int i = 0; i < (m1PannedCoeffs.size())/2; i++){
@@ -248,6 +253,14 @@ static void* decode(void* v)
             // - The `pan` float is normalized from -1.0 -> 1.0, from left -> right
             printf(" Channel[%i] Gain: %f | Pan: %f\n", i, m1PannedCoeffs[i * 2], m1PannedCoeffs[i * 2 + 1]);
         }
+        printf("Number of Active Coeffs:");
+        int activeCount = 0;
+        for (int i = 0; i < (m1Coeffs.size())-2; i++){
+            if (m1Coeffs[i] > 0.0) {
+                activeCount++;
+            }
+        }
+        printf("%i\n", activeCount);
     }
     printf("\n");
     printf("Exiting\n");

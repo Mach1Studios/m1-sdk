@@ -374,6 +374,174 @@ void test_results(void) {
                 },
             }
         },
+        // Equal Power Mode - Cardinal Direction Tests
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-38 | IsotropicEqualPower - Center",
+            {Mono, M1Spatial_38, IsotropicEqualPower, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                },
+            }
+        },
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-38 | IsotropicEqualPower - Front",
+            {Mono, M1Spatial_38, IsotropicEqualPower, true, 0.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    1.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                },
+            }
+        },
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-38 | IsotropicEqualPower - Right",
+            {Mono, M1Spatial_38, IsotropicEqualPower, true, 90.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 1.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                },
+            }
+        },
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-38 | IsotropicEqualPower - Back",
+            {Mono, M1Spatial_38, IsotropicEqualPower, true, 180.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 1.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                },
+            }
+        },
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-38 | IsotropicEqualPower - Left",
+            {Mono, M1Spatial_38, IsotropicEqualPower, true, 270.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 1.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                },
+            }
+        },
+        // Equal Power Mode - Diagonal Tests
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-38 | IsotropicEqualPower - Front-Right",
+            {Mono, M1Spatial_38, IsotropicEqualPower, true, 45.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                },
+            }
+        },
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-38 | IsotropicEqualPower - Front-Left",
+            {Mono, M1Spatial_38, IsotropicEqualPower, true, 315.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                },
+            }
+        },
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-38 | IsotropicEqualPower - Back-Right",
+            {Mono, M1Spatial_38, IsotropicEqualPower, true, 135.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                },
+            }
+        },
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-38 | IsotropicEqualPower - Back-Left",
+            {Mono, M1Spatial_38, IsotropicEqualPower, true, 225.0, 1.0, 0.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                },
+            }
+        },
+        // Equal Power Mode - Height Tests
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-38 | IsotropicEqualPower - Top Center",
+            {Mono, M1Spatial_38, IsotropicEqualPower, true, 0.0, 1.0, 90.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    1.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                },
+            }
+        },
+        {
+            "case: ENCODE | MONO->MACH1SPATIAL-38 | IsotropicEqualPower - Bottom Center",
+            {Mono, M1Spatial_38, IsotropicEqualPower, true, 0.0, 1.0, -90.0, true, 0.0, 0.0, unsignedDegrees},
+            {
+                {
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 1.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                },
+            }
+        },
         {
             "case: ENCODE | MONO->MACH1SPATIAL-8 | IsotropicLinear - Center",
             {Mono, M1Spatial_8, IsotropicLinear, true, 0.0, 0.0, 0.0, true, 0.0, 0.0, unsignedDegrees},

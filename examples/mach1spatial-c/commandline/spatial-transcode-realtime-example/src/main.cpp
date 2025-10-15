@@ -514,8 +514,6 @@ int main(int argc, char* argv[])
         m1Decode.setDecodeMode(M1DecodeSpatial_8);
     } else if (actualOutputFormat == m1transcode.getFormatFromString("M1Spatial-14")) {
         m1Decode.setDecodeMode(M1DecodeSpatial_14);
-    } else if (actualOutputFormat == m1transcode.getFormatFromString("M1Spatial-38")) {
-        m1Decode.setDecodeMode(M1DecodeSpatial_38);
     } else {
         // Default to M1Spatial-8 if we can't determine
         m1Decode.setDecodeMode(M1DecodeSpatial_8);

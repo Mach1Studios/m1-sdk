@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+  <meta content="utf-8" http-equiv="encoding" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.6/dat.gui.min.js"></script>
+
+  <style type="text/css">
+    @font-face {
+      font-family: 'Roboto Mono';
+      src: local('Roboto Mono'), local('RobotoMono-Regular'), url('resources/RobotoMono-Regular.woff2') format('woff2');
+      font-style: normal;
+      font-weight: 400;
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0px;
+      overflow: hidden;
+      background: #1a1a1a;
+      color: #ffffff;
+    }
+
+    * {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 12px;
+    }
+
+    .container {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 8px;
+      padding: 20px;
+      min-width: 300px;
+    }
+
+    .button {
+      background-color: #5C5C5C;
+      text-indent: 0;
+      border: 0px;
+      color: #ffffff;
+      font-weight: bold;
+      font-style: normal;
+      height: 31px;
+      line-height: 31px;
+      width: 100%;
+      text-decoration: none;
+      text-align: center;
+      margin-bottom: 15px;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: #EEEEEE;
+      color: #000000;
+    }
+
+    .button:disabled {
+      background-color: #333333;
+      color: #666666;
+      cursor: not-allowed;
+    }
+
+    .status {
+      margin: 10px 0;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+    }
+
+    .status.success {
+      background: rgba(0, 255, 0, 0.2);
+      border: 1px solid #00ff00;
+    }
+
+    .status.error {
+      background: rgba(255, 0, 0, 0.2);
+      border: 1px solid #ff0000;
+    }
+
+    .status.warning {
+      background: rgba(255, 255, 0, 0.2);
+      border: 1px solid #ffff00;
+    }
+
+    .controls {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 8px;
+      padding: 20px;
+      min-width: 200px;
+    }
+
+    .orientation-display {
+      margin: 10px 0;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    .orientation-value {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 5px 0;
+    }
+
+    .file-input {
+      margin: 10px 0;
+    }
+
+    .file-input input[type="file"] {
+      width: 100%;
+      padding: 5px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #5C5C5C;
+      border-radius: 4px;
+      color: #ffffff;
+    }
+
+    .debug-panel {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 8px;
+      padding: 20px;
+      max-width: 400px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .debug-panel h3 {
+      margin-top: 0;
+      color: #5C5C5C;
+    }
+
+    .debug-item {
+      margin: 5px 0;
+      padding: 5px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 3px;
+      font-size: 11px;
+    }
+
+    .debug-toggle {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* DatGUI Styling */
+    .dg.main.taller-than-window .close-button {
+      border-top: 1px solid #5C5C5C;
+    }
+
+    .dg.main .close-button {
+      background-color: #5C5C5C;
+      color: #fff;
+    }
+
+    .dg.main .close-button:hover {
+      background-color: #5C5C5C;
+    }
+
+    .dg {
+      color: #000;
+      text-shadow: none !important;
+    }
+
+    .dg.main::-webkit-scrollbar {
+      background: #fafafa;
+    }
+
+    .dg.main::-webkit-scrollbar-thumb {
+      background: #bbb;
+    }
+
+    .dg li:not(.folder) {
+      background: var(--hl-yellow);
+      border-bottom: 1px solid #ddd;
+    }
+
+    .dg li.save-row .button {
+      text-shadow: none !important;
+    }
+
+    .dg li.title {
+      background: #e8e8e8 url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlI+hKgFxoCgAOw==) 6px 10px no-repeat;
+    }
+
+    .dg .cr.function:hover,
+    .dg .cr.boolean:hover {
+      background: #fff;
+    }
+
+    .dg .c input[type=text] {
+      background: #e9e9e9;
+    }
+
+    .dg .c input[type=text]:hover {
+      background: #eee;
+    }
+
+    .dg .c input[type=text]:focus {
+      background: #eee;
+      color: #555;
+    }
+
+    .dg .c .slider {
+      background: #e9e9e9;
+    }
+
+    .dg .c .slider:hover {
+      background: #eee;
+    }
+
+    .dg .c .slider-fg {
+      background: #5C5C5C;
+    }
+
+    .dg .c .slider:hover .slider-fg {
+      background: #000;
+    }
+
+    /* Disable left borders */
+    .dg .cr.boolean {
+      border-left: 3px solid #5C5C5C;
+    }
+
+    .dg .cr.color {
+      border-left: 3px solid #5C5C5C;
+    }
+
+    .dg .cr.function {
+      border-left: 3px solid #5C5C5C;
+    }
+
+    .dg .cr.number {
+      border-left: 3px solid #5C5C5C;
+    }
+
+    .dg .cr.number input[type="text"] {
+      color: #5C5C5C;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="main">
+    <!-- Main Controls -->
+    <div class="container">
+      <h2>Mach1 Real-time Transcode & Decode</h2>
+      
+      <div class="file-input">
+        <label for="audioFile">Audio File:</label>
+        <input type="file" id="audioFile" accept="audio/*" />
+      </div>
+
+      <button id="loadButton" class="button" onclick="loadAudioFile()">Load Audio</button>
+      <button id="playButton" class="button" onclick="togglePlayback()" disabled>Play</button>
+      <button id="stopButton" class="button" onclick="stopPlayback()" disabled>Stop</button>
+
+      <div id="status" class="status">
+        Ready to load audio file
+      </div>
+
+      <div class="orientation-display">
+        <div>Orientation</div>
+        <div class="orientation-value">
+          Yaw: <span id="yawValue">0.0</span>°
+        </div>
+        <div class="orientation-value">
+          Pitch: <span id="pitchValue">0.0</span>°
+        </div>
+        <div class="orientation-value">
+          Roll: <span id="rollValue">0.0</span>°
+        </div>
+      </div>
+    </div>
+
+    <!-- Orientation Controls -->
+    <div class="controls">
+      <h3>Orientation Controls</h3>
+      <div>
+        <label>Yaw: <span id="yawControl">0</span>°</label>
+        <input type="range" id="yawSlider" min="-180" max="180" value="0" step="1" />
+      </div>
+      <div>
+        <label>Pitch: <span id="pitchControl">0</span>°</label>
+        <input type="range" id="pitchSlider" min="-90" max="90" value="0" step="1" />
+      </div>
+      <div>
+        <label>Roll: <span id="rollControl">0</span>°</label>
+        <input type="range" id="rollSlider" min="-180" max="180" value="0" step="1" />
+      </div>
+      <button class="button" onclick="resetOrientation()">Reset</button>
+    </div>
+
+    <!-- Debug Panel -->
+    <div id="debugPanel" class="debug-panel hidden">
+      <h3>Debug Information</h3>
+      <div id="debugContent">
+        <div class="debug-item">Waiting for audio to load...</div>
+      </div>
+    </div>
+
+    <!-- Debug Toggle -->
+    <div class="debug-toggle">
+      <button class="button" onclick="toggleDebug()">Toggle Debug</button>
+    </div>
+  </div>
+
+  <!-- Standalone JavaScript Implementation -->
+  <script>
+    // Mock Mach1 APIs - Inline implementation
+    class MockMach1Transcode {
+      constructor() {
+        this.inputFormat = '5.1_C';
+        this.outputFormat = 'M1Spatial-8';
+        this.inputChannels = 6;
+        this.outputChannels = 8;
+        this.isInitialized = false;
+      }
+
+      setPlatformType(type) {
+        console.log('Mock Mach1Transcode: Platform type set to', type);
+      }
+
+      setInputFormat(format) {
+        this.inputFormat = format;
+        console.log('Mock Mach1Transcode: Input format set to', format);
+      }
+
+      setOutputFormat(format) {
+        this.outputFormat = format;
+        console.log('Mock Mach1Transcode: Output format set to', format);
+      }
+
+      setInputNumChannels(channels) {
+        this.inputChannels = channels;
+        console.log('Mock Mach1Transcode: Input channels set to', channels);
+      }
+
+      setOutputNumChannels(channels) {
+        this.outputChannels = channels;
+        console.log('Mock Mach1Transcode: Output channels set to', channels);
+      }
+
+      processConversionPath() {
+        this.isInitialized = true;
+        console.log('Mock Mach1Transcode: Conversion path processed');
+      }
+
+      processConversion(inputData, outputData, bufferSize) {
+        if (!this.isInitialized) {
+          console.warn('Mock Mach1Transcode: Not initialized');
+          return;
+        }
+
+        // Validate inputs
+        if (!inputData || !outputData || !bufferSize) {
+          console.warn('Mock Mach1Transcode: Invalid input parameters');
+          return;
+        }
+
+        // Mock transcoding: simple channel mapping and processing
+        for (let outChannel = 0; outChannel < this.outputChannels; outChannel++) {
+          if (!outputData[outChannel]) {
+            outputData[outChannel] = new Float32Array(bufferSize);
+          }
+          
+          for (let i = 0; i < bufferSize; i++) {
+            let sample = 0;
+            
+            // Map input channels to output channels with some processing
+            if (outChannel < this.inputChannels && 
+                inputData[outChannel] && 
+                inputData[outChannel].length > i) {
+              sample = inputData[outChannel][i] * 0.8; // Simple processing
+            }
+            
+            // Add some spatial processing simulation
+            const spatialFactor = Math.sin((outChannel * Math.PI) / this.outputChannels);
+            sample *= (0.5 + 0.5 * spatialFactor);
+            
+            outputData[outChannel][i] = sample;
+          }
+        }
+      }
+    }
+
+    class MockMach1Decode {
+      constructor() {
+        this.decodeMode = 1;
+        this.filterSpeed = 0.5;
+        this.orientation = { x: 0, y: 0, z: 0 };
+        this.isInitialized = false;
+      }
+
+      setPlatformType(type) {
+        console.log('Mock Mach1Decode: Platform type set to', type);
+      }
+
+      setDecodeMode(mode) {
+        this.decodeMode = mode;
+        console.log('Mock Mach1Decode: Decode mode set to', mode);
+      }
+
+      setFilterSpeed(speed) {
+        this.filterSpeed = speed;
+        console.log('Mock Mach1Decode: Filter speed set to', speed);
+      }
+
+      setRotationDegrees(rotation) {
+        this.orientation = rotation;
+        console.log('Mock Mach1Decode: Rotation set to', rotation);
+      }
+
+      decodeBuffer(inputData, outputData, bufferSize) {
+        if (!this.isInitialized) {
+          this.isInitialized = true;
+          console.log('Mock Mach1Decode: Initialized');
+        }
+
+        // Validate inputs
+        if (!inputData || !outputData || !bufferSize) {
+          console.warn('Mock Mach1Decode: Invalid input parameters');
+          return;
+        }
+
+        // Mock decoding: apply orientation-based processing
+        const yawRad = (this.orientation.x * Math.PI) / 180;
+        const pitchRad = (this.orientation.y * Math.PI) / 180;
+        const rollRad = (this.orientation.z * Math.PI) / 180;
+
+        // Ensure output buffers exist
+        if (!outputData[0]) outputData[0] = new Float32Array(bufferSize);
+        if (!outputData[1]) outputData[1] = new Float32Array(bufferSize);
+
+        for (let i = 0; i < bufferSize; i++) {
+          let leftMix = 0;
+          let rightMix = 0;
+
+          // Process each input channel with orientation-based mixing
+          for (let channel = 0; channel < inputData.length; channel++) {
+            if (inputData[channel] && inputData[channel].length > i) {
+              const sample = inputData[channel][i] || 0;
+              
+              // Calculate channel position (simplified)
+              const channelAngle = (channel * 2 * Math.PI) / inputData.length;
+              
+              // Apply orientation transformations
+              const transformedAngle = channelAngle + yawRad;
+              const panFactor = Math.cos(transformedAngle);
+              
+              // Mix to stereo based on pan factor
+              const leftGain = Math.max(0, -panFactor);
+              const rightGain = Math.max(0, panFactor);
+              
+              leftMix += sample * leftGain;
+              rightMix += sample * rightGain;
+            }
+          }
+
+          // Apply pitch and roll effects (simplified)
+          const pitchEffect = Math.sin(pitchRad * 0.1);
+          const rollEffect = Math.cos(rollRad * 0.1);
+          
+          leftMix *= (1 + pitchEffect * 0.1);
+          rightMix *= (1 + rollEffect * 0.1);
+
+          // Output to stereo channels
+          outputData[0][i] = leftMix;
+          outputData[1][i] = rightMix;
+        }
+      }
+    }
+
+    // Application state
+    let audioContext = null;
+    let sourceNode = null;
+    let processorNode = null;
+    let m1Transcode = null;
+    let m1Decode = null;
+    let isPlaying = false;
+    let currentAudioBuffer = null;
+    let debugVisible = false;
+
+    // DOM elements
+    const audioFileInput = document.getElementById('audioFile');
+    const loadButton = document.getElementById('loadButton');
+    const playButton = document.getElementById('playButton');
+    const stopButton = document.getElementById('stopButton');
+    const statusDiv = document.getElementById('status');
+    const debugPanel = document.getElementById('debugPanel');
+    const debugContent = document.getElementById('debugContent');
+    const yawSlider = document.getElementById('yawSlider');
+    const pitchSlider = document.getElementById('pitchSlider');
+    const rollSlider = document.getElementById('rollSlider');
+    const yawValue = document.getElementById('yawValue');
+    const pitchValue = document.getElementById('pitchValue');
+    const rollValue = document.getElementById('rollValue');
+
+    // Initialize Mach1 APIs
+    function initializeMach1() {
+      try {
+        // Initialize Mach1Transcode
+        m1Transcode = new MockMach1Transcode();
+        m1Transcode.setPlatformType('Mach1PlatformType.Mach1PlatformDefault');
+        m1Transcode.setInputFormat('5.1_C');
+        m1Transcode.setOutputFormat('M1Spatial-8');
+        m1Transcode.setInputNumChannels(6);
+        m1Transcode.setOutputNumChannels(8);
+        m1Transcode.processConversionPath();
+
+        // Initialize Mach1Decode
+        m1Decode = new MockMach1Decode();
+        m1Decode.setPlatformType('Mach1PlatformType.Mach1PlatformDefault');
+        m1Decode.setDecodeMode(1);
+        m1Decode.setFilterSpeed(0.5);
+
+        addDebugInfo('✅ Mach1 APIs initialized successfully');
+        addDebugInfo(`📊 Transcode: ${m1Transcode.inputFormat} → ${m1Transcode.outputFormat}`);
+        addDebugInfo(`📊 Decode: Mode ${m1Decode.decodeMode}, Filter Speed: ${m1Decode.filterSpeed}`);
+        addDebugInfo(`🔍 Mach1 objects created: m1Transcode=${!!m1Transcode}, m1Decode=${!!m1Decode}`);
+        
+        return true;
+      } catch (error) {
+        addDebugInfo(`❌ Failed to initialize Mach1 APIs: ${error.message}`);
+        return false;
+      }
+    }
+
+    // Load audio file
+    async function loadAudioFile() {
+      const file = audioFileInput.files[0];
+      if (!file) {
+        updateStatus('Please select an audio file first', 'error');
+        return;
+      }
+
+      try {
+        if (!audioContext) {
+          audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          addDebugInfo(`🎵 Audio Context created: ${audioContext.sampleRate} Hz`);
+        }
+
+        if (!initializeMach1()) {
+          return;
+        }
+
+        const arrayBuffer = await file.arrayBuffer();
+        currentAudioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+        
+        addDebugInfo(`🎵 Audio loaded: ${file.name}`);
+        addDebugInfo(`📊 Sample Rate: ${currentAudioBuffer.sampleRate} Hz`);
+        addDebugInfo(`📊 Duration: ${currentAudioBuffer.duration.toFixed(2)}s`);
+        addDebugInfo(`📊 Channels: ${currentAudioBuffer.numberOfChannels}`);
+        
+        playButton.disabled = false;
+        updateStatus('Audio loaded - ready to play', 'success');
+        
+      } catch (error) {
+        addDebugInfo(`❌ Failed to load audio: ${error.message}`);
+        updateStatus('Failed to load audio file', 'error');
+      }
+    }
+
+    // Toggle playback
+    function togglePlayback() {
+      if (isPlaying) {
+        stopPlayback();
+      } else {
+        play();
+      }
+    }
+
+        // Play audio with real-time processing
+        function play() {
+            if (isPlaying || !currentAudioBuffer) return;
+
+            try {
+                // Check if Mach1 objects are initialized
+                if (!m1Transcode || !m1Decode) {
+                    addDebugInfo('❌ Mach1 objects not initialized - cannot start playback');
+                    updateStatus('Mach1 objects not initialized', 'error');
+                    return;
+                }
+                
+                // Resume audio context if suspended
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume().then(() => {
+                        addDebugInfo('🎵 Audio context resumed');
+                    });
+                }
+                
+                // Create source node
+                sourceNode = audioContext.createBufferSource();
+                sourceNode.buffer = currentAudioBuffer;
+
+        // Create processor node for real-time processing
+        // Use smaller buffer size for better real-time performance
+        // Note: (bufferSize, inputChannels, outputChannels) - we need input channels!
+        processorNode = audioContext.createScriptProcessor(1024, currentAudioBuffer.numberOfChannels, 2);
+        
+        // Set up processing
+        processorNode.onaudioprocess = function(event) {
+          try {
+            // Validate event and buffers
+            if (!event) {
+              console.warn('Audio processing: No event object');
+              return;
+            }
+            
+            const inputBuffer = event.inputBuffer;
+            const outputBuffer = event.outputBuffer;
+            
+            // Validate inputs first - check if audio buffers are available
+            if (!inputBuffer || !outputBuffer) {
+              console.warn('Audio processing: Missing audio buffers', {
+                inputBuffer: !!inputBuffer,
+                outputBuffer: !!outputBuffer,
+                event: !!event
+              });
+              return;
+            }
+            
+            // Additional buffer validation
+            if (!inputBuffer.length || !outputBuffer.length) {
+              console.warn('Audio processing: Invalid buffer lengths', {
+                inputLength: inputBuffer.length,
+                outputLength: outputBuffer.length
+              });
+              return;
+            }
+            
+            if (!m1Transcode || !m1Decode) {
+              console.warn('Audio processing: Mach1 objects not initialized');
+              console.log('m1Transcode:', m1Transcode, 'm1Decode:', m1Decode);
+              // Fallback: pass through audio without processing
+              const inputBuffer = event.inputBuffer;
+              const outputBuffer = event.outputBuffer;
+              for (let channel = 0; channel < Math.min(inputBuffer.numberOfChannels, outputBuffer.numberOfChannels); channel++) {
+                const inputChannelData = inputBuffer.getChannelData(channel);
+                const outputChannelData = outputBuffer.getChannelData(channel);
+                for (let i = 0; i < inputChannelData.length; i++) {
+                  outputChannelData[i] = inputChannelData[i];
+                }
+              }
+              return;
+            }
+            
+            const bufferSize = inputBuffer.length;
+            
+            // Validate buffer size
+            if (!bufferSize || bufferSize <= 0) {
+              console.warn('Audio processing: Invalid buffer size:', bufferSize);
+              return;
+            }
+            
+            // Debug logging
+            console.log('Audio processing: bufferSize =', bufferSize, 'inputChannels =', inputBuffer.numberOfChannels, 'outputChannels =', outputBuffer.numberOfChannels);
+            
+            // Convert input to multi-channel format
+            const inputData = [];
+            const numChannels = inputBuffer.numberOfChannels || 0;
+            
+            for (let channel = 0; channel < numChannels; channel++) {
+              try {
+                const channelData = inputBuffer.getChannelData(channel);
+                if (channelData && channelData.length > 0) {
+                  inputData[channel] = channelData;
+                } else {
+                  inputData[channel] = new Float32Array(bufferSize);
+                }
+              } catch (error) {
+                console.warn(`Audio processing: Error getting channel ${channel} data:`, error);
+                inputData[channel] = new Float32Array(bufferSize);
+              }
+            }
+            
+            // Create transcoded buffer
+            const transcodedData = [];
+            for (let channel = 0; channel < 8; channel++) {
+              transcodedData[channel] = new Float32Array(bufferSize);
+            }
+            
+            // Create output buffer
+            const outputData = [];
+            for (let channel = 0; channel < 2; channel++) {
+              outputData[channel] = new Float32Array(bufferSize);
+            }
+            
+            // Process through Mach1Transcode
+            if (m1Transcode && m1Transcode.processConversion) {
+              m1Transcode.processConversion(inputData, transcodedData, bufferSize);
+            }
+            
+            // Process through Mach1Decode
+            if (m1Decode && m1Decode.decodeBuffer) {
+              m1Decode.decodeBuffer(transcodedData, outputData, bufferSize);
+            }
+            
+            // Write to output
+            for (let channel = 0; channel < 2; channel++) {
+              try {
+                const outputChannelData = outputBuffer.getChannelData(channel);
+                if (outputChannelData && outputData[channel]) {
+                  for (let i = 0; i < bufferSize; i++) {
+                    outputChannelData[i] = outputData[channel][i] || 0;
+                  }
+                }
+              } catch (error) {
+                console.warn(`Audio processing: Error writing to output channel ${channel}:`, error);
+                // Fill with silence on error
+                const outputChannelData = outputBuffer.getChannelData(channel);
+                if (outputChannelData) {
+                  outputChannelData.fill(0);
+                }
+              }
+            }
+          } catch (error) {
+            console.error('Audio processing error:', error);
+            // Fill output with silence on error
+            try {
+              const outputBuffer = event.outputBuffer;
+              if (outputBuffer && outputBuffer.numberOfChannels) {
+                for (let channel = 0; channel < outputBuffer.numberOfChannels; channel++) {
+                  const outputChannelData = outputBuffer.getChannelData(channel);
+                  if (outputChannelData) {
+                    outputChannelData.fill(0);
+                  }
+                }
+              }
+            } catch (fallbackError) {
+              console.error('Error in fallback silence fill:', fallbackError);
+            }
+          }
+        };
+
+        // Connect nodes with fallback
+        try {
+          sourceNode.connect(processorNode);
+          processorNode.connect(audioContext.destination);
+          addDebugInfo('✅ Audio nodes connected successfully');
+        } catch (error) {
+          addDebugInfo(`❌ Audio connection failed: ${error.message}`);
+          // Fallback: connect directly without processing
+          sourceNode.connect(audioContext.destination);
+          addDebugInfo('⚠️ Using fallback: direct connection without processing');
+        }
+
+        // Start playback
+        sourceNode.start();
+        isPlaying = true;
+        
+        playButton.textContent = 'Pause';
+        stopButton.disabled = false;
+        addDebugInfo('▶️ Playback started with real-time processing');
+        updateStatus('Playing with real-time Mach1 processing', 'success');
+        
+      } catch (error) {
+        addDebugInfo(`❌ Playback failed: ${error.message}`);
+        updateStatus('Playback failed', 'error');
+      }
+    }
+
+    // Stop playback
+    function stopPlayback() {
+      if (!isPlaying) return;
+
+      try {
+        if (sourceNode) {
+          sourceNode.stop();
+          sourceNode.disconnect();
+          sourceNode = null;
+        }
+        
+        if (processorNode) {
+          processorNode.disconnect();
+          processorNode = null;
+        }
+        
+        isPlaying = false;
+        playButton.textContent = 'Play';
+        stopButton.disabled = true;
+        addDebugInfo('⏹️ Playback stopped');
+        updateStatus('Stopped', 'info');
+        
+      } catch (error) {
+        addDebugInfo(`❌ Stop failed: ${error.message}`);
+      }
+    }
+
+    // Update orientation
+    function updateOrientation() {
+      const yaw = parseFloat(yawSlider.value);
+      const pitch = parseFloat(pitchSlider.value);
+      const roll = parseFloat(rollSlider.value);
+      
+      yawValue.textContent = yaw.toFixed(1);
+      pitchValue.textContent = pitch.toFixed(1);
+      rollValue.textContent = roll.toFixed(1);
+      
+      if (m1Decode) {
+        m1Decode.setRotationDegrees({ x: yaw, y: pitch, z: roll });
+        addDebugInfo(`🧭 Orientation updated: Yaw=${yaw.toFixed(1)}°, Pitch=${pitch.toFixed(1)}°, Roll=${roll.toFixed(1)}°`);
+      }
+    }
+
+    // Toggle debug panel
+    function toggleDebug() {
+      debugVisible = !debugVisible;
+      if (debugVisible) {
+        debugPanel.classList.remove('hidden');
+      } else {
+        debugPanel.classList.add('hidden');
+      }
+    }
+
+    // Add debug information
+    function addDebugInfo(message) {
+      const timestamp = new Date().toLocaleTimeString();
+      const debugItem = document.createElement('div');
+      debugItem.className = 'debug-item';
+      debugItem.textContent = `[${timestamp}] ${message}`;
+      debugContent.appendChild(debugItem);
+      debugContent.scrollTop = debugContent.scrollHeight;
+    }
+
+    // Update status
+    function updateStatus(message, type) {
+      statusDiv.textContent = message;
+      statusDiv.className = `status ${type}`;
+    }
+
+    // Event listeners
+    yawSlider.addEventListener('input', updateOrientation);
+    pitchSlider.addEventListener('input', updateOrientation);
+    rollSlider.addEventListener('input', updateOrientation);
+
+    // Initialize
+    addDebugInfo('🚀 Mach1 Real-time Transcode & Decode Demo');
+    addDebugInfo('📁 Please select an audio file and click "Load Audio" to begin');
+    updateStatus('Ready to load audio file', 'info');
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+{
+  "name": "mach1spatial-transcode-realtime",
+  "version": "1.0.0",
+  "description": "Mach1 Spatial NodeJS module for real-time Mach1Transcode and Mach1Decode processing",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint ./src",
+    "example": "node --experimental-import-meta-resolve -r esm ./configs/browser-sync.js",
+    "start": "npm run example",
+    "test": "npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Mach1Studios/NodeJS-Mach1TranscodeRealtime.git"
+  },
+  "keywords": [
+    "Mach1",
+    "Spatial",
+    "Mach1Spatial",
+    "SpatialAudio",
+    "Spatial",
+    "Audio",
+    "Real-time",
+    "Transcode",
+    "Decode"
+  ],
+  "author": "Mach1",
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "bugs": {
+    "url": "https://github.com/Mach1Studios/NodeJS-Mach1TranscodeRealtime/issues"
+  },
+  "homepage": "https://github.com/Mach1Studios/NodeJS-Mach1TranscodeRealtime#readme",
+  "devDependencies": {
+    "@babel/core": "^7.14.5",
+    "@babel/eslint-parser": "^7.14.5",
+    "@babel/plugin-transform-runtime": "^7.14.5",
+    "@babel/preset-env": "^7.14.5",
+    "@babel/runtime": "^7.14.5",
+    "babel-loader": "^8.2.2",
+    "browser-sync": "^2.26.14",
+    "eslint": "^7.28.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "esm": "^3.2.25",
+    "portscanner": "^2.2.0",
+    "webpack": "^5.50.0",
+    "webpack-dev-middleware": "^5.0.0"
+  },
+  "dependencies": {
+    "core-js": "^3.14.0",
+    "regenerator-runtime": "^0.13.7"
+  }
+}

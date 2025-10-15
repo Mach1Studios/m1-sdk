@@ -48,6 +48,21 @@ __WINDOWS_ASIO__;__WINDOWS_WASAPI__;_CRT_SECURE_NO_WARNINGS
 #include <termios.h>
 #endif
 
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
+#if defined(_WIN32)
+#include <time.h>
+#include <windows.h>
+#include <conio.h>
+#define _TIMESPEC_DEFINED
+#else
+#include <sys/time.h>
+#include <unistd.h>
+#include <termios.h>
+#endif
+
 #include <stdlib.h>
 #include <cstring>
 #include <iostream>
@@ -55,7 +70,6 @@ __WINDOWS_ASIO__;__WINDOWS_WASAPI__;_CRT_SECURE_NO_WARNINGS
 #include <sstream>
 #include <fstream>
 #include <string>
-#include <iostream>
 #include <time.h>
 #include <thread>
 #include <chrono>
@@ -73,6 +87,15 @@ __WINDOWS_ASIO__;__WINDOWS_WASAPI__;_CRT_SECURE_NO_WARNINGS
 #define DELTA_VALUE 1.0 // used for incrementing in degrees directly
 #ifndef PI
 #define PI 3.14159265358979323846
+#endif
+
+// Debug output control - comment out to disable debug messages
+// #define SHOW_DEBUG
+
+#ifdef SHOW_DEBUG
+#define DEBUG_PRINT(...) printf(__VA_ARGS__)
+#else
+#define DEBUG_PRINT(...) do {} while(0)
 #endif
 
 #ifndef M_PI
@@ -166,9 +189,10 @@ float roll = 0.0f;
 std::vector<float> m1Coeffs;
 
 // Real-time processing buffers
-std::vector< std::vector<float> > inputBuffers;
-std::vector< std::vector<float> > transcodedBuffers;
-std::vector< std::vector<float> > intermediateBuffers;
+std::vector< std::vector<float> > inputAudioBuffers;
+std::vector< std::vector<float> > transcodedAudioBuffers;
+std::vector< std::vector<float> > decodedAudioBuffers;
+std::vector< std::vector<float> > intermediateAudioBuffers;
 std::vector< std::vector<float> > outputBuffers;
 
 // Performance monitoring
@@ -194,8 +218,24 @@ static std::atomic<bool> done{false};
 int rtAudioPlayback( void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
                      double streamTime, RtAudioStreamStatus status, void *userData )
 {
+    static unsigned int expectedBufferFrames = 0;
+    static int callbackCount = 0;
+    static auto lastTime = std::chrono::high_resolution_clock::now();
+    static long totalProcessedSamples = 0;
+    static long totalProcessingTime = 0;
+    static int bufferUnderruns = 0;
+    
     unsigned int i, c;
     double *stereoOutputBuffer = (double *)outputBuffer;
+    
+    // Track buffer size consistency
+    if (expectedBufferFrames == 0) {
+        expectedBufferFrames = nBufferFrames;
+        DEBUG_PRINT("DEBUG: First callback - setting expected buffer frames to %d\n", expectedBufferFrames);
+    } else if (expectedBufferFrames != nBufferFrames) {
+        DEBUG_PRINT("WARNING: Buffer size changed from %d to %d frames\n", expectedBufferFrames, nBufferFrames);
+        expectedBufferFrames = nBufferFrames;
+    }
     
     if ( status ) {
         std::cout << "Stream underflow detected!" << std::endl;
@@ -215,26 +255,54 @@ int rtAudioPlayback( void *outputBuffer, void *inputBuffer, unsigned int nBuffer
         return 0;
     }
     
-    if (inputBuffers.size() != inputChannels) {
-        inputBuffers.resize(inputChannels);
+    if (inputAudioBuffers.size() != inputChannels) {
+        inputAudioBuffers.resize(inputChannels);
         for (c = 0; c < inputChannels; c++) {
-            inputBuffers[c].resize(nBufferFrames);
+            inputAudioBuffers[c].resize(nBufferFrames);
         }
+        DEBUG_PRINT("DEBUG: Resized inputAudioBuffers to %zu channels, each with %zu frames\n", 
+               inputAudioBuffers.size(), inputAudioBuffers[0].size());
     }
     
-    if (transcodedBuffers.size() != outputChannels) {
-        transcodedBuffers.resize(outputChannels);
+    if (transcodedAudioBuffers.size() != outputChannels) {
+        transcodedAudioBuffers.resize(outputChannels);
         for (c = 0; c < outputChannels; c++) {
-            transcodedBuffers[c].resize(nBufferFrames);
+            transcodedAudioBuffers[c].resize(nBufferFrames);
+        }
+        DEBUG_PRINT("DEBUG: Resized transcodedAudioBuffers to %zu channels, each with %zu frames\n", 
+               transcodedAudioBuffers.size(), transcodedAudioBuffers[0].size());
+    } else {
+        // Check if buffer sizes are consistent
+        for (c = 0; c < outputChannels; c++) {
+            if (transcodedAudioBuffers[c].size() != nBufferFrames) {
+                DEBUG_PRINT("WARNING: transcodedAudioBuffers[%d].size() = %zu != nBufferFrames = %d, resizing\n", 
+                       c, transcodedAudioBuffers[c].size(), nBufferFrames);
+                transcodedAudioBuffers[c].resize(nBufferFrames);
+            }
         }
     }
     
-    if (outputBuffers.size() != 2) {
-        outputBuffers.resize(2);
-        for (c = 0; c < 2; c++) {
-            outputBuffers[c].resize(nBufferFrames);
+        // Mach1Decode expects output buffers to match the input format channel count
+        // For M1Spatial-8, we need 8 output channels, not just 2
+        int expectedOutputChannels = outputChannels; // Same as transcoded format channels
+        
+        if (decodedAudioBuffers.size() != expectedOutputChannels) {
+            decodedAudioBuffers.resize(expectedOutputChannels);
+            for (c = 0; c < expectedOutputChannels; c++) {
+                decodedAudioBuffers[c].resize(nBufferFrames);
+            }
+            DEBUG_PRINT("DEBUG: Resized decodedAudioBuffers to %zu channels (matching input format), each with %zu frames\n", 
+                   decodedAudioBuffers.size(), decodedAudioBuffers[0].size());
+        } else {
+            // Check if buffer sizes are consistent
+            for (c = 0; c < expectedOutputChannels; c++) {
+                if (decodedAudioBuffers[c].size() != nBufferFrames) {
+                    DEBUG_PRINT("WARNING: decodedAudioBuffers[%d].size() = %zu != nBufferFrames = %d, resizing\n", 
+                           c, decodedAudioBuffers[c].size(), nBufferFrames);
+                    decodedAudioBuffers[c].resize(nBufferFrames);
+                }
+            }
         }
-    }
 
     // Read next buffer from each infile with bounds checking
     sf_count_t samplesRead = 0;
@@ -254,48 +322,158 @@ int rtAudioPlayback( void *outputBuffer, void *inputBuffer, unsigned int nBuffer
             samplesRead = framesRead / thisChannels;
         }
         
-        // Demultiplex into process buffers with bounds checking
-        float *inputFileBufferPtr = fileBuffer;
-        
-        for (c = 0; c < inChannels && c < inputChannels; c++) {
-            for (i = 0; i < nBufferFrames && i < samplesRead; i++) {
-                if (c < inputBuffers.size() && i < inputBuffers[c].size()) {
-                    inputBuffers[c][i] = inputFileBufferPtr[i * thisChannels + c];
+                // Demultiplex into process buffers with bounds checking
+                float *inputFileBufferPtr = fileBuffer;
+
+                for (c = 0; c < inChannels && c < inputChannels; c++) {
+                    for (i = 0; i < nBufferFrames && i < samplesRead; i++) {
+                        if (c < inputAudioBuffers.size() && i < inputAudioBuffers[c].size()) {
+                            inputAudioBuffers[c][i] = inputFileBufferPtr[i * thisChannels + c];
+                        }
+                    }
                 }
-            }
-        }
     }
     totalSamplesRead += samplesRead;
 
     // REAL-TIME PROCESSING: Call Mach1Transcode.processConversion() for each buffer
     auto startTime = std::chrono::high_resolution_clock::now();
     
-    try {
-        // This is the key difference - we call processConversion() in real-time
-        m1transcode.processConversion(inputBuffers, transcodedBuffers, nBufferFrames);
+        try {
+            // This is the key difference - we call processConversion() in real-time
+            m1transcode.processConversion(inputAudioBuffers, transcodedAudioBuffers, nBufferFrames);
         
         // Handle any intermediate buffer conversions that might occur
         // (This is where multiple buffer conversions would be handled)
         std::vector<int> conversionPath = m1transcode.getFormatConversionPath();
         if (conversionPath.size() > 2) {
             // Multiple conversion steps detected - handle intermediate buffers
-            if (intermediateBuffers.size() != outputChannels) {
-                intermediateBuffers.resize(outputChannels);
+            if (intermediateAudioBuffers.size() != outputChannels) {
+                intermediateAudioBuffers.resize(outputChannels);
                 for (c = 0; c < outputChannels; c++) {
-                    intermediateBuffers[c].resize(nBufferFrames);
+                    intermediateAudioBuffers[c].resize(nBufferFrames);
                 }
             }
-            
+
             // Copy transcoded output to intermediate buffers for further processing
-            for (c = 0; c < outputChannels && c < transcodedBuffers.size(); c++) {
-                for (i = 0; i < nBufferFrames && i < transcodedBuffers[c].size(); i++) {
-                    intermediateBuffers[c][i] = transcodedBuffers[c][i];
+            for (c = 0; c < outputChannels && c < transcodedAudioBuffers.size(); c++) {
+                for (i = 0; i < nBufferFrames && i < transcodedAudioBuffers[c].size(); i++) {
+                    intermediateAudioBuffers[c][i] = transcodedAudioBuffers[c][i];
                 }
             }
         }
         
-        // Apply Mach1Decode to the final transcoded buffer
-        m1Decode.decodeBuffer(transcodedBuffers, outputBuffers, nBufferFrames);
+        // Apply Mach1Decode to the final transcoded buffer with comprehensive bounds checking
+        DEBUG_PRINT("DEBUG: About to decode - transcodedAudioBuffers.size() = %zu, decodedAudioBuffers.size() = %zu, nBufferFrames = %d\n",
+               transcodedAudioBuffers.size(), decodedAudioBuffers.size(), nBufferFrames);
+        
+        if (transcodedAudioBuffers.size() > 0) {
+            DEBUG_PRINT("DEBUG: transcodedAudioBuffers[0].size() = %zu\n", transcodedAudioBuffers[0].size());
+        }
+        if (decodedAudioBuffers.size() > 0) {
+            DEBUG_PRINT("DEBUG: decodedAudioBuffers[0].size() = %zu\n", decodedAudioBuffers[0].size());
+        }
+        
+        // Ensure all buffers are properly sized before decode
+        bool canDecode = true;
+        
+        // Check transcodedAudioBuffers
+        if (transcodedAudioBuffers.size() == 0) {
+            DEBUG_PRINT("ERROR: transcodedAudioBuffers is empty\n");
+            canDecode = false;
+        } else {
+            for (int c = 0; c < transcodedAudioBuffers.size(); c++) {
+                if (transcodedAudioBuffers[c].size() != nBufferFrames) {
+                    DEBUG_PRINT("ERROR: transcodedAudioBuffers[%d].size() = %zu != nBufferFrames = %d\n", 
+                           c, transcodedAudioBuffers[c].size(), nBufferFrames);
+                    canDecode = false;
+                }
+            }
+        }
+        
+        // Check decodedAudioBuffers - should match input format channel count
+        if (decodedAudioBuffers.size() != outputChannels) {
+            DEBUG_PRINT("ERROR: decodedAudioBuffers.size() = %zu != expected %d channels\n", decodedAudioBuffers.size(), outputChannels);
+            canDecode = false;
+        } else {
+            for (int c = 0; c < outputChannels; c++) {
+                if (decodedAudioBuffers[c].size() != nBufferFrames) {
+                    DEBUG_PRINT("ERROR: decodedAudioBuffers[%d].size() = %zu != nBufferFrames = %d\n", 
+                           c, decodedAudioBuffers[c].size(), nBufferFrames);
+                    canDecode = false;
+                }
+            }
+        }
+        
+        if (canDecode) {
+            DEBUG_PRINT("DEBUG: All buffers valid, calling decodeBuffer\n");
+            
+            // Additional safety check - ensure Mach1Decode is properly initialized
+            if (m1Decode.getFormatCoeffCount() > 0) {
+                DEBUG_PRINT("DEBUG: Mach1Decode has %d coefficients, proceeding with decode\n", m1Decode.getFormatCoeffCount());
+                
+                // Final validation - check each buffer individually
+                DEBUG_PRINT("DEBUG: Final buffer validation:\n");
+                for (int c = 0; c < transcodedAudioBuffers.size(); c++) {
+                    DEBUG_PRINT("  transcodedAudioBuffers[%d]: size=%zu, capacity=%zu\n", c, transcodedAudioBuffers[c].size(), transcodedAudioBuffers[c].capacity());
+                }
+                for (int c = 0; c < decodedAudioBuffers.size(); c++) {
+                    DEBUG_PRINT("  decodedAudioBuffers[%d]: size=%zu, capacity=%zu\n", c, decodedAudioBuffers[c].size(), decodedAudioBuffers[c].capacity());
+                }
+                
+                // Try to access the first few elements to ensure they're valid
+                DEBUG_PRINT("DEBUG: Testing buffer access - transcodedAudioBuffers[0][0] = %f\n", transcodedAudioBuffers[0][0]);
+                DEBUG_PRINT("DEBUG: Testing buffer access - decodedAudioBuffers[0][0] = %f\n", decodedAudioBuffers[0][0]);
+                
+                // Additional check - ensure nBufferFrames is within bounds
+                if (nBufferFrames > transcodedAudioBuffers[0].size() || nBufferFrames > decodedAudioBuffers[0].size()) {
+                    DEBUG_PRINT("ERROR: nBufferFrames (%d) exceeds buffer sizes (transcoded: %zu, decoded: %zu)\n", 
+                           nBufferFrames, transcodedAudioBuffers[0].size(), decodedAudioBuffers[0].size());
+                    // Fill with silence
+                    for (i = 0; i < nBufferFrames; i++) {
+                        stereoOutputBuffer[i * 2 + 0] = 0.0;
+                        stereoOutputBuffer[i * 2 + 1] = 0.0;
+                    }
+                    return 0;
+                }
+                
+                try {
+                    m1Decode.decodeBuffer(transcodedAudioBuffers, decodedAudioBuffers, nBufferFrames);
+                    DEBUG_PRINT("DEBUG: decodeBuffer completed successfully\n");
+                } catch (const std::exception& e) {
+                    DEBUG_PRINT("ERROR: decodeBuffer threw exception: %s\n", e.what());
+                    // Fill with silence
+                    for (i = 0; i < nBufferFrames; i++) {
+                        stereoOutputBuffer[i * 2 + 0] = 0.0;
+                        stereoOutputBuffer[i * 2 + 1] = 0.0;
+                    }
+                    return 0;
+                } catch (...) {
+                    DEBUG_PRINT("ERROR: decodeBuffer threw unknown exception\n");
+                    // Fill with silence
+                    for (i = 0; i < nBufferFrames; i++) {
+                        stereoOutputBuffer[i * 2 + 0] = 0.0;
+                        stereoOutputBuffer[i * 2 + 1] = 0.0;
+                    }
+                    return 0;
+                }
+            } else {
+                DEBUG_PRINT("ERROR: Mach1Decode not properly initialized (no coefficients)\n");
+                // Fill with silence
+                for (i = 0; i < nBufferFrames; i++) {
+                    stereoOutputBuffer[i * 2 + 0] = 0.0;
+                    stereoOutputBuffer[i * 2 + 1] = 0.0;
+                }
+                return 0;
+            }
+        } else {
+            DEBUG_PRINT("ERROR: Buffer validation failed, filling with silence\n");
+            // Fill with silence if buffers are invalid
+            for (i = 0; i < nBufferFrames; i++) {
+                stereoOutputBuffer[i * 2 + 0] = 0.0;
+                stereoOutputBuffer[i * 2 + 1] = 0.0;
+            }
+            return 0;
+        }
     } catch (...) {
         // If transcode/decode fails, fill with silence
         for (i = 0; i < nBufferFrames; i++) {
@@ -310,25 +488,32 @@ int rtAudioPlayback( void *outputBuffer, void *inputBuffer, unsigned int nBuffer
     totalProcessingTime += processingTime.count();
     totalProcessedSamples += nBufferFrames;
 
-    // Output final stereo mix with bounds checking
-    for (i = 0; i < nBufferFrames; i++) {
-        // LEFT:
-        if (outputBuffers.size() > 0 && i < outputBuffers[0].size()) {
-            stereoOutputBuffer[i * 2 + 0] = outputBuffers[0][i];
-        } else {
-            stereoOutputBuffer[i * 2 + 0] = 0.0;
+        // Output final stereo mix with bounds checking
+        // Mix all output channels down to stereo (left and right)
+        for (i = 0; i < nBufferFrames; i++) {
+            float leftMix = 0.0f;
+            float rightMix = 0.0f;
+            
+            // Sum all channels into left and right mix
+            for (c = 0; c < outputChannels && c < decodedAudioBuffers.size(); c++) {
+                if (i < decodedAudioBuffers[c].size()) {
+                    // For now, distribute channels evenly between left and right
+                    // This is a simple mix - in a real implementation you might want
+                    // more sophisticated panning based on the spatial format
+                    if (c % 2 == 0) {
+                        leftMix += decodedAudioBuffers[c][i];
+                    } else {
+                        rightMix += decodedAudioBuffers[c][i];
+                    }
+                }
+            }
+            
+            stereoOutputBuffer[i * 2 + 0] = leftMix;
+            stereoOutputBuffer[i * 2 + 1] = rightMix;
         }
-        // RIGHT:
-        if (outputBuffers.size() > 1 && i < outputBuffers[1].size()) {
-            stereoOutputBuffer[i * 2 + 1] = outputBuffers[1][i];
-        } else {
-            stereoOutputBuffer[i * 2 + 1] = 0.0;
-        }
-    }
 
     // Debug: Print audio level every 1000 samples to verify audio is being processed
     static int debugCounter = 0;
-    static int callbackCount = 0;
     callbackCount++;
     
     if (++debugCounter >= 1000) {
@@ -339,7 +524,7 @@ int rtAudioPlayback( void *outputBuffer, void *inputBuffer, unsigned int nBuffer
         }
         leftLevel /= nBufferFrames;
         rightLevel /= nBufferFrames;
-        printf("Audio callback #%d - Levels L: %.6f, R: %.6f\n", callbackCount, leftLevel, rightLevel);
+        DEBUG_PRINT("Audio callback #%d - Levels L: %.6f, R: %.6f\n", callbackCount, leftLevel, rightLevel);
         debugCounter = 0;
     }
 

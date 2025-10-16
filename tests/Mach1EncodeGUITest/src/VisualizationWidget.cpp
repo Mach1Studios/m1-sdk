@@ -865,42 +865,49 @@ void VisualizationWidget::setupSpatialPoints(int outputChannels) {
             {-0.618033989, -1.618033989, 0.0}
         };
         
-        // Complete 38ch connecting lines from Mach1EncodeCore.cpp
+        // 38ch connecting lines - using proper edge structure to avoid intersecting lines
+        // This creates a wireframe of the 38ch shape without internal intersecting lines
         m_spatialLines = {
-            // TOP-LOWER-LEFT HEXACONE
-            {0, 14}, {0, 17}, {0, 19}, {0, 20}, {0, 28}, {0, 29},
-            // TOP-LOWER-RIGHT HEXACONE
-            {1, 14}, {1, 15}, {1, 18}, {1, 20}, {1, 22}, {1, 23},
-            // TOP-UPPER-LEFT HEXACONE
-            {2, 16}, {2, 17}, {2, 19}, {2, 21}, {2, 26}, {2, 27},
-            // TOP-UPPER-RIGHT HEXACONE
-            {3, 15}, {3, 16}, {3, 18}, {3, 21}, {3, 24}, {3, 25},
-            // BOTTOM-LOWER-LEFT HEXACONE
-            {4, 28}, {4, 29}, {4, 30}, {4, 33}, {4, 34}, {4, 37},
-            // BOTTOM-LOWER-RIGHT HEXACONE
-            {5, 22}, {5, 23}, {5, 30}, {5, 32}, {5, 34}, {5, 35},
-            // BOTTOM-UPPER-LEFT HEXACONE
-            {6, 26}, {6, 27}, {6, 31}, {6, 33}, {6, 36}, {6, 37},
-            // BOTTOM-UPPER-RIGHT HEXACONE
-            {7, 24}, {7, 25}, {7, 31}, {7, 32}, {7, 35}, {7, 36},
-            // FRONT RHOMBIC PYRAMID
-            {20, 8}, {20, 22}, {20, 29}, {30, 8}, {30, 22}, {30, 29},
-            // RIGHT RHOMBIC PYRAMID
-            {23, 9}, {23, 18}, {23, 32}, {24, 9}, {24, 18}, {24, 32},
-            // REAR RHOMBIC PYRAMID
-            {21, 10}, {21, 25}, {21, 26}, {31, 10}, {31, 25}, {31, 26},
-            // LEFT RHOMBIC PYRAMID
-            {27, 11}, {27, 19}, {27, 33}, {28, 11}, {28, 19}, {28, 33},
-            // TOP RHOMBIC PYRAMID
-            {15, 12}, {15, 14}, {15, 16}, {17, 12}, {17, 14}, {17, 16},
-            // BOTTOM RHOMBIC PYRAMID
-            {35, 13}, {35, 34}, {35, 36}, {37, 13}, {37, 34}, {37, 36},
-            // X-AXIS CONNECTING LINES
-            {22, 23}, {24, 25}, {26, 27}, {28, 29},
-            // Y-AXIS CONNECTING LINES
-            {15, 18}, {32, 35}, {33, 37}, {17, 19},
-            // Z-AXIS CONNECTING LINES
-            {16, 21}, {31, 36}, {30, 34}, {14, 20}
+            // Base cube edges (8ch structure)
+            // Top face
+            {0, 1}, {1, 3}, {3, 2}, {2, 0},
+            // Bottom face  
+            {4, 5}, {5, 7}, {7, 6}, {6, 4},
+            // Vertical edges
+            {0, 4}, {1, 5}, {2, 6}, {3, 7},
+            
+            // 14ch additions - center points to cube corners
+            // Front center (8) connections
+            {8, 0}, {8, 1}, {8, 4}, {8, 5},
+            // Right center (9) connections
+            {9, 1}, {9, 3}, {9, 5}, {9, 7},
+            // Back center (10) connections
+            {10, 2}, {10, 3}, {10, 6}, {10, 7},
+            // Left center (11) connections
+            {11, 0}, {11, 2}, {11, 4}, {11, 6},
+            // Top center (12) connections
+            {12, 0}, {12, 1}, {12, 2}, {12, 3},
+            // Bottom center (13) connections
+            {13, 4}, {13, 5}, {13, 6}, {13, 7},
+            
+            // 38ch additional points - key structural edges only
+            // Front face edges
+            {14, 15}, {15, 16}, {16, 17}, {17, 14},
+            // Back face edges
+            {18, 19}, {19, 20}, {20, 21}, {21, 18},
+            // Left face edges
+            {22, 23}, {23, 24}, {24, 25}, {25, 22},
+            // Right face edges
+            {26, 27}, {27, 28}, {28, 29}, {29, 26},
+            // Top face edges
+            {30, 31}, {31, 32}, {32, 33}, {33, 30},
+            // Bottom face edges
+            {34, 35}, {35, 36}, {36, 37}, {37, 34},
+            
+            // Key connecting edges between faces
+            {14, 18}, {15, 19}, {16, 20}, {17, 21},
+            {22, 26}, {23, 27}, {24, 28}, {25, 29},
+            {30, 34}, {31, 35}, {32, 36}, {33, 37}
         };
     }
 }

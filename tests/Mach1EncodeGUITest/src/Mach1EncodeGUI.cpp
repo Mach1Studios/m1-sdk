@@ -3,12 +3,16 @@
 #include "VisualizationWidget.h"
 #include <iostream>
 #include <chrono>
+#include <GL/glew.h>
 
 Mach1EncodeGUI::Mach1EncodeGUI() 
     : m_encoder(std::make_unique<Mach1Encode<float>>())
     , m_parameterControls(std::make_unique<ParameterControls>())
     , m_visualizationWidget(std::make_unique<VisualizationWidget>())
 {
+    // Set default output mode to 4-channel
+    m_encoder->setOutputMode(M1Spatial_4);
+    
     // Initialize with default settings
     updateEncodeResults();
 }
@@ -16,36 +20,44 @@ Mach1EncodeGUI::Mach1EncodeGUI()
 Mach1EncodeGUI::~Mach1EncodeGUI() = default;
 
 void Mach1EncodeGUI::render() {
-    setupDocking();
-    renderMenuBar();
+    // Render as a side panel (no window decorations)
+    ImGui::Begin("Mach1Encode Controls", nullptr, 
+                 ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | 
+                 ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
 
-    // Main content area
-    ImGui::Begin("Mach1Encode Parameter Tester", nullptr, ImGuiWindowFlags_NoCollapse);
-
-    // Split the main window into two panes
-    static float splitterWidth = 450.0f; // Increased width for better readability
-    static float windowWidth = ImGui::GetContentRegionAvail().x;
-    
-    // Left pane - Parameter Controls
-    ImGui::BeginChild("ParameterControls", ImVec2(splitterWidth, 0), true);
+    // Parameter Controls
     if (m_parameterControls) {
         m_parameterControls->render(*m_encoder, m_needsUpdate);
     }
-    ImGui::EndChild();
 
-    ImGui::SameLine();
+    ImGui::Separator();
 
-    // Right pane - Visualization
-    ImGui::BeginChild("Visualization", ImVec2(0, 0), true);
+    // Visualization Controls (non-3D parts)
     if (m_visualizationWidget) {
-        m_visualizationWidget->render(m_lastGains, m_lastPoints, m_lastPointNames);
+        m_visualizationWidget->renderControls(m_lastGains, m_lastPoints, m_lastPointNames);
     }
-    ImGui::EndChild();
 
     ImGui::End();
 
     // Status bar
     renderStatusBar();
+}
+
+void Mach1EncodeGUI::render3DScene() {
+    // Clear the 3D viewport
+    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    // Enable depth testing for 3D rendering
+    glEnable(GL_DEPTH_TEST);
+    
+    // Render the 3D scene using the visualization widget
+    if (m_visualizationWidget) {
+        m_visualizationWidget->render3DScene(m_lastPoints, m_lastPointNames);
+    }
+    
+    // Disable depth testing
+    glDisable(GL_DEPTH_TEST);
 
     // About dialog
     if (m_showAbout) {
@@ -116,7 +128,18 @@ void Mach1EncodeGUI::renderMenuBar() {
 }
 
 void Mach1EncodeGUI::renderStatusBar() {
-    ImGui::Begin("Status", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar);
+    // Position the status bar at the bottom right of the window
+    ImGuiViewport* viewport = ImGui::GetMainViewport();
+    ImVec2 window_pos = ImVec2(viewport->Pos.x + viewport->Size.x - 700, viewport->Pos.y + viewport->Size.y - 30);
+    ImVec2 window_size = ImVec2(700, 30);
+    
+    ImGui::SetNextWindowPos(window_pos, ImGuiCond_Always);
+    ImGui::SetNextWindowSize(window_size, ImGuiCond_Always);
+    
+    ImGui::Begin("Status", nullptr, 
+                 ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | 
+                 ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar |
+                 ImGuiWindowFlags_NoBackground);
     
     ImGui::Text("Input Channels: %d | Output Channels: %d | Points: %d", 
                 m_inputChannels, m_outputChannels, m_pointsCount);
@@ -147,6 +170,11 @@ void Mach1EncodeGUI::updateEncodeResults() {
         m_inputChannels = m_encoder->getInputChannelsCount();
         m_outputChannels = m_encoder->getOutputChannelsCount();
         m_pointsCount = m_encoder->getPointsCount();
+        
+        // Setup spatial points for the current output mode
+        if (m_visualizationWidget) {
+            m_visualizationWidget->setupSpatialPoints(m_outputChannels);
+        }
         
         auto end = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);

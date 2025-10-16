@@ -2,26 +2,61 @@
 #include <algorithm>
 #include <numeric>
 #include <cmath>
+#include <iostream>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 VisualizationWidget::VisualizationWidget() {
     // Initialize with default settings
 }
 
+VisualizationWidget::~VisualizationWidget() {
+    cleanup3DRendering();
+}
+
 void VisualizationWidget::render(const std::vector<std::vector<float>>& gains, 
                                 const std::vector<Mach1Point3D>& points,
                                 const std::vector<std::string>& pointNames) {
-    ImGui::Text("Visualization");
+    // This is the original method - now just calls renderControls
+    renderControls(gains, points, pointNames);
+}
+
+void VisualizationWidget::renderControls(const std::vector<std::vector<float>>& gains, 
+                                        const std::vector<Mach1Point3D>& points,
+                                        const std::vector<std::string>& pointNames) {
+    ImGui::Text("Visualization Controls");
     ImGui::Separator();
 
+    // 3D Controls
+    if (ImGui::CollapsingHeader("3D Controls")) {
+        ImGui::SliderFloat("Point Size", &m_pointSize, 0.01f, 0.5f, "%.3f");
+        ImGui::Checkbox("Show Grid", &m_showGrid);
+        ImGui::Checkbox("Show Axis", &m_showAxis);
+        ImGui::Checkbox("Show Spatial Points", &m_showSpatialPoints);
+        ImGui::Checkbox("Show Connecting Lines", &m_showConnectingLines);
+        ImGui::Checkbox("Show Point Labels", &m_showPointLabels);
+        ImGui::Checkbox("Auto Rotate", &m_autoRotate);
+        if (m_autoRotate) {
+            ImGui::SliderFloat("Rotation Speed", &m_rotationSpeed, 0.1f, 5.0f, "%.1f");
+        }
+        ImGui::SliderFloat("Camera Distance", &m_cameraDistance, 1.0f, 20.0f, "%.1f");
+        
+        if (ImGui::Button("Reset Camera")) {
+            m_cameraDistance = 5.0f;
+            m_cameraRotationX = 0.0f;
+            m_cameraRotationY = 0.0f;
+            m_cameraPanX = 0.0f;
+            m_cameraPanY = 0.0f;
+        }
+    }
+
     // Visualization options
+    ImGui::Separator();
+    ImGui::Text("Display Options");
     ImGui::Checkbox("Gain Matrix", &m_showGainMatrix);
-    ImGui::SameLine();
-    ImGui::Checkbox("3D Points", &m_show3DVisualization);
-    ImGui::SameLine();
     ImGui::Checkbox("Gain Bars", &m_showGainBars);
-    
     ImGui::Checkbox("Statistics", &m_showStatistics);
-    ImGui::SameLine();
     ImGui::Checkbox("Channel Analysis", &m_showChannelAnalysis);
 
     // Visualization settings
@@ -37,13 +72,9 @@ void VisualizationWidget::render(const std::vector<std::vector<float>>& gains,
 
     ImGui::Separator();
 
-    // Render different visualization modes
+    // Render non-3D visualization modes
     if (m_showGainMatrix) {
         renderGainMatrix(gains, pointNames);
-    }
-
-    if (m_show3DVisualization) {
-        render3DVisualization(points, pointNames);
     }
 
     if (m_showGainBars) {
@@ -56,6 +87,77 @@ void VisualizationWidget::render(const std::vector<std::vector<float>>& gains,
 
     if (m_showChannelAnalysis) {
         renderChannelAnalysis(gains, pointNames);
+    }
+}
+
+void VisualizationWidget::render3DScene(const std::vector<Mach1Point3D>& points,
+                                       const std::vector<std::string>& pointNames) {
+    if (points.empty()) return;
+
+    // Setup 3D rendering if not already done
+    if (!m_3DInitialized) {
+        setup3DRendering();
+    }
+    
+    // Handle mouse input for camera control
+    handleMouseInput();
+    
+    // Update camera for auto-rotation
+    if (m_autoRotate) {
+        m_cameraRotationY += m_rotationSpeed * 0.01f;
+    }
+    
+    // Get current viewport dimensions
+    GLint viewport[4];
+    glGetIntegerv(GL_VIEWPORT, viewport);
+    int viewport_width = viewport[2];
+    int viewport_height = viewport[3];
+    
+    // Setup projection matrix
+    float aspect = (float)viewport_width / (float)viewport_height;
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 100.0f);
+    
+    // Setup view matrix
+    glm::mat4 view = glm::mat4(1.0f);
+    view = glm::translate(view, glm::vec3(m_cameraPanX, m_cameraPanY, -m_cameraDistance));
+    view = glm::rotate(view, m_cameraRotationX, glm::vec3(1.0f, 0.0f, 0.0f));
+    view = glm::rotate(view, m_cameraRotationY, glm::vec3(0.0f, 1.0f, 0.0f));
+    
+    // Use shader program
+    glUseProgram(m_shaderProgram);
+    
+    // Set matrices
+    GLint projLoc = glGetUniformLocation(m_shaderProgram, "projection");
+    GLint viewLoc = glGetUniformLocation(m_shaderProgram, "view");
+    GLint modelLoc = glGetUniformLocation(m_shaderProgram, "model");
+    
+    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+    
+    // Draw grid
+    if (m_showGrid) {
+        draw3DGrid();
+    }
+    
+    // Draw axis
+    if (m_showAxis) {
+        draw3DAxis();
+    }
+    
+    // Draw spatial points and connecting lines
+    if (m_showSpatialPoints) {
+        drawSpatialPoints();
+    }
+    
+    if (m_showConnectingLines) {
+        drawConnectingLines();
+    }
+    
+    // Draw input points (if any)
+    for (size_t i = 0; i < points.size(); ++i) {
+        const auto& point = points[i];
+        bool isSelected = (m_selectedPoint == static_cast<int>(i));
+        draw3DPoint(point, pointNames.empty() ? "" : pointNames[i], isSelected);
     }
 }
 
@@ -127,80 +229,6 @@ void VisualizationWidget::renderGainMatrix(const std::vector<std::vector<float>>
     }
 }
 
-void VisualizationWidget::render3DVisualization(const std::vector<Mach1Point3D>& points,
-                                               const std::vector<std::string>& pointNames) {
-    if (points.empty()) return;
-
-    ImGui::Text("3D Spatial Points");
-    
-    // Create a simple 2D projection of the 3D points
-    ImDrawList* drawList = ImGui::GetWindowDrawList();
-    ImVec2 canvasPos = ImGui::GetCursorScreenPos();
-    ImVec2 canvasSize = ImVec2(300, 300);
-    
-    // Draw canvas background
-    ImGui::InvisibleButton("3DCanvas", canvasSize);
-    drawList->AddRectFilled(canvasPos, ImVec2(canvasPos.x + canvasSize.x, canvasPos.y + canvasSize.y), 
-                           IM_COL32(50, 50, 50, 255));
-    
-    // Draw grid
-    for (int i = 0; i <= 10; ++i) {
-        float t = i / 10.0f;
-        // Vertical lines
-        drawList->AddLine(
-            ImVec2(canvasPos.x + t * canvasSize.x, canvasPos.y),
-            ImVec2(canvasPos.x + t * canvasSize.x, canvasPos.y + canvasSize.y),
-            IM_COL32(100, 100, 100, 100)
-        );
-        // Horizontal lines
-        drawList->AddLine(
-            ImVec2(canvasPos.x, canvasPos.y + t * canvasSize.y),
-            ImVec2(canvasPos.x + canvasSize.x, canvasPos.y + t * canvasSize.y),
-            IM_COL32(100, 100, 100, 100)
-        );
-    }
-    
-    // Draw points
-    for (size_t i = 0; i < points.size(); ++i) {
-        const auto& point = points[i];
-        bool isSelected = (m_selectedPoint == static_cast<int>(i));
-        
-        // Convert 3D coordinates to 2D screen coordinates
-        // X: left-right (Z coordinate), Y: front-back (X coordinate)
-        float screenX = canvasPos.x + (point.z + 1.0f) * 0.5f * canvasSize.x;
-        float screenY = canvasPos.y + (1.0f - point.x) * 0.5f * canvasSize.y;
-        
-        // Draw point
-        ImU32 pointColor = isSelected ? IM_COL32(255, 255, 0, 255) : IM_COL32(255, 255, 255, 255);
-        float pointRadius = isSelected ? 8.0f : 5.0f;
-        drawList->AddCircleFilled(ImVec2(screenX, screenY), pointRadius, pointColor);
-        
-        // Draw point label
-        if (i < pointNames.size()) {
-            drawList->AddText(ImVec2(screenX + 10, screenY - 10), IM_COL32(255, 255, 255, 255), 
-                             pointNames[i].c_str());
-        }
-        
-        // Handle point selection
-        if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(0)) {
-            float mouseX = ImGui::GetMousePos().x - canvasPos.x;
-            float mouseY = ImGui::GetMousePos().y - canvasPos.y;
-            
-            float dist = sqrtf((mouseX - screenX) * (mouseX - screenX) + (mouseY - screenY) * (mouseY - screenY));
-            if (dist < pointRadius + 5.0f) {
-                m_selectedPoint = static_cast<int>(i);
-            }
-        }
-    }
-    
-    // Draw coordinate labels
-    drawList->AddText(ImVec2(canvasPos.x + 10, canvasPos.y + 10), IM_COL32(255, 255, 255, 255), "Front");
-    drawList->AddText(ImVec2(canvasPos.x + canvasSize.x - 30, canvasPos.y + 10), IM_COL32(255, 255, 255, 255), "Back");
-    drawList->AddText(ImVec2(canvasPos.x + 10, canvasPos.y + canvasSize.y - 20), IM_COL32(255, 255, 255, 255), "Left");
-    drawList->AddText(ImVec2(canvasPos.x + canvasSize.x - 30, canvasPos.y + canvasSize.y - 20), IM_COL32(255, 255, 255, 255), "Right");
-    
-    ImGui::Dummy(canvasSize);
-}
 
 void VisualizationWidget::renderGainBars(const std::vector<std::vector<float>>& gains,
                                         const std::vector<std::string>& pointNames) {
@@ -359,8 +387,607 @@ void VisualizationWidget::drawGainBar(float gain, float maxGain, const ImVec2& s
     ImGui::Dummy(size);
 }
 
+void VisualizationWidget::setup3DRendering() {
+    if (m_3DInitialized) return;
+    
+    // Create simple shader program
+    setupShaders();
+    
+    // Setup render-to-texture
+    setupRenderTexture();
+    
+    // Create sphere geometry
+    createSphere(m_pointSize, 16, 16);
+    
+    // Create grid geometry
+    createGrid(20, 0.5f);
+    
+    // Create axis geometry
+    std::vector<float> axisVertices = {
+        // X axis (red) - Left to Right
+        0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+        2.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+        // Y axis (green) - Front to Back (Mach1 coordinate system)
+        0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+        0.0f, 2.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+        // Z axis (blue) - Top to Bottom
+        0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 2.0f, 0.0f, 0.0f, 1.0f
+    };
+    
+    glGenVertexArrays(1, &m_axisVAO);
+    glGenBuffers(1, &m_axisVBO);
+    
+    glBindVertexArray(m_axisVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, m_axisVBO);
+    glBufferData(GL_ARRAY_BUFFER, axisVertices.size() * sizeof(float), axisVertices.data(), GL_STATIC_DRAW);
+    
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+    
+    glBindVertexArray(0);
+    
+    m_3DInitialized = true;
+}
+
+
+void VisualizationWidget::handleMouseInput() {
+    ImGuiIO& io = ImGui::GetIO();
+    
+    // Get current viewport to check if mouse is in 3D area
+    GLint viewport[4];
+    glGetIntegerv(GL_VIEWPORT, viewport);
+    int viewport_x = viewport[0];
+    int viewport_y = viewport[1];
+    int viewport_width = viewport[2];
+    int viewport_height = viewport[3];
+    
+    ImVec2 mousePos = ImGui::GetMousePos();
+    bool mouseInViewport = (mousePos.x >= viewport_x && mousePos.x <= viewport_x + viewport_width &&
+                           mousePos.y >= viewport_y && mousePos.y <= viewport_y + viewport_height);
+    
+    if (mouseInViewport && !io.WantCaptureMouse) {
+        // Handle mouse wheel for zoom
+        if (io.MouseWheel != 0.0f) {
+            m_cameraDistance -= io.MouseWheel * 0.5f;
+            m_cameraDistance = std::max(1.0f, std::min(20.0f, m_cameraDistance));
+        }
+        
+        // Handle mouse drag for rotation
+        if (ImGui::IsMouseDown(0)) {
+            if (!m_mouseDragging) {
+                m_mouseDragging = true;
+                m_lastMousePos = ImGui::GetMousePos();
+            } else {
+                ImVec2 currentMousePos = ImGui::GetMousePos();
+                ImVec2 delta = ImVec2(currentMousePos.x - m_lastMousePos.x, currentMousePos.y - m_lastMousePos.y);
+                
+                m_cameraRotationY += delta.x * 0.01f;
+                m_cameraRotationX += delta.y * 0.01f;
+                
+                // Clamp rotation
+                m_cameraRotationX = std::max(-1.57f, std::min(1.57f, m_cameraRotationX));
+                
+                m_lastMousePos = currentMousePos;
+            }
+        } else {
+            m_mouseDragging = false;
+        }
+        
+        // Handle right mouse drag for panning
+        if (ImGui::IsMouseDown(1)) {
+            ImVec2 currentMousePos = ImGui::GetMousePos();
+            ImVec2 delta = ImVec2(currentMousePos.x - m_lastMousePos.x, currentMousePos.y - m_lastMousePos.y);
+            
+            m_cameraPanX += delta.x * 0.01f;
+            m_cameraPanY -= delta.y * 0.01f;
+            
+            m_lastMousePos = currentMousePos;
+        }
+    } else {
+        m_mouseDragging = false;
+    }
+}
+
+void VisualizationWidget::draw3DGrid() {
+    if (m_gridVAO == 0) return;
+    
+    glm::mat4 model = glm::mat4(1.0f);
+    GLint modelLoc = glGetUniformLocation(m_shaderProgram, "model");
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+    
+    glBindVertexArray(m_gridVAO);
+    glDrawArrays(GL_LINES, 0, 80); // 20x20 grid = 80 lines
+    glBindVertexArray(0);
+}
+
+void VisualizationWidget::draw3DAxis() {
+    if (m_axisVAO == 0) return;
+    
+    glm::mat4 model = glm::mat4(1.0f);
+    GLint modelLoc = glGetUniformLocation(m_shaderProgram, "model");
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+    
+    glBindVertexArray(m_axisVAO);
+    glDrawArrays(GL_LINES, 0, 6); // 3 axes = 6 vertices
+    glBindVertexArray(0);
+}
+
 void VisualizationWidget::draw3DPoint(const Mach1Point3D& point, const std::string& name, bool isSelected) {
-    // This is a placeholder for more advanced 3D rendering
-    // In a full implementation, you might use OpenGL or a 3D library
-    ImGui::Text("Point: %s (%.3f, %.3f, %.3f)", name.c_str(), point.x, point.y, point.z);
+    if (m_sphereVAO == 0) return;
+    
+    // Create model matrix for this point
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(point.x, point.y, point.z));
+    
+    // Scale based on selection
+    float scale = isSelected ? 1.5f : 1.0f;
+    model = glm::scale(model, glm::vec3(scale));
+    
+    GLint modelLoc = glGetUniformLocation(m_shaderProgram, "model");
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+    
+    // Set color based on selection
+    GLint colorLoc = glGetUniformLocation(m_shaderProgram, "color");
+    if (isSelected) {
+        glUniform3f(colorLoc, 1.0f, 1.0f, 0.0f); // Yellow for selected
+    } else {
+        glUniform3f(colorLoc, 0.0f, 0.8f, 1.0f); // Blue for normal
+    }
+    
+    glBindVertexArray(m_sphereVAO);
+    glDrawElements(GL_TRIANGLES, 1536, GL_UNSIGNED_INT, 0); // 16x16 sphere = 1536 triangles
+    glBindVertexArray(0);
+}
+
+void VisualizationWidget::createSphere(float radius, int segments, int rings) {
+    std::vector<float> vertices;
+    std::vector<unsigned int> indices;
+    
+    // Generate vertices
+    for (int i = 0; i <= rings; ++i) {
+        float lat = M_PI * (-0.5f + (float)i / rings);
+        float y = radius * sin(lat);
+        float r = radius * cos(lat);
+        
+        for (int j = 0; j <= segments; ++j) {
+            float lng = 2.0f * M_PI * (float)j / segments;
+            float x = r * cos(lng);
+            float z = r * sin(lng);
+            
+            vertices.push_back(x);
+            vertices.push_back(y);
+            vertices.push_back(z);
+        }
+    }
+    
+    // Generate indices
+    for (int i = 0; i < rings; ++i) {
+        for (int j = 0; j < segments; ++j) {
+            int first = i * (segments + 1) + j;
+            int second = first + segments + 1;
+            
+            indices.push_back(first);
+            indices.push_back(second);
+            indices.push_back(first + 1);
+            
+            indices.push_back(second);
+            indices.push_back(second + 1);
+            indices.push_back(first + 1);
+        }
+    }
+    
+    // Create VAO, VBO, EBO
+    glGenVertexArrays(1, &m_sphereVAO);
+    glGenBuffers(1, &m_sphereVBO);
+    glGenBuffers(1, &m_sphereEBO);
+    
+    glBindVertexArray(m_sphereVAO);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, m_sphereVBO);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_sphereEBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
+    
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    
+    glBindVertexArray(0);
+}
+
+void VisualizationWidget::createGrid(int size, float spacing) {
+    std::vector<float> vertices;
+    
+    // Generate grid lines
+    for (int i = -size/2; i <= size/2; ++i) {
+        float pos = i * spacing;
+        
+        // Vertical lines
+        vertices.push_back(pos);
+        vertices.push_back(0.0f);
+        vertices.push_back(-size/2 * spacing);
+        vertices.push_back(pos);
+        vertices.push_back(0.0f);
+        vertices.push_back(size/2 * spacing);
+        
+        // Horizontal lines
+        vertices.push_back(-size/2 * spacing);
+        vertices.push_back(0.0f);
+        vertices.push_back(pos);
+        vertices.push_back(size/2 * spacing);
+        vertices.push_back(0.0f);
+        vertices.push_back(pos);
+    }
+    
+    glGenVertexArrays(1, &m_gridVAO);
+    glGenBuffers(1, &m_gridVBO);
+    
+    glBindVertexArray(m_gridVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, m_gridVBO);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
+    
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    
+    glBindVertexArray(0);
+}
+
+void VisualizationWidget::setupRenderTexture() {
+    // Create framebuffer
+    glGenFramebuffers(1, &m_framebuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffer);
+    
+    // Create texture
+    glGenTextures(1, &m_renderTexture);
+    glBindTexture(GL_TEXTURE_2D, m_renderTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_textureWidth, m_textureHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_renderTexture, 0);
+    
+    // Create depth buffer
+    glGenRenderbuffers(1, &m_depthBuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, m_depthBuffer);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_textureWidth, m_textureHeight);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_depthBuffer);
+    
+    // Check framebuffer status
+    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+        std::cerr << "Framebuffer not complete!" << std::endl;
+    } else {
+        std::cout << "Framebuffer setup complete. Texture ID: " << m_renderTexture << std::endl;
+    }
+    
+    // Unbind framebuffer
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void VisualizationWidget::setupShaders() {
+    // Simple vertex shader
+    const char* vertexShaderSource = R"(
+        #version 330 core
+        layout (location = 0) in vec3 aPos;
+        layout (location = 1) in vec3 aColor;
+        
+        uniform mat4 model;
+        uniform mat4 view;
+        uniform mat4 projection;
+        uniform vec3 color;
+        
+        out vec3 vertexColor;
+        
+        void main() {
+            gl_Position = projection * view * model * vec4(aPos, 1.0);
+            vertexColor = color;
+        }
+    )";
+    
+    // Simple fragment shader
+    const char* fragmentShaderSource = R"(
+        #version 330 core
+        in vec3 vertexColor;
+        out vec4 FragColor;
+        
+        void main() {
+            FragColor = vec4(vertexColor, 1.0);
+        }
+    )";
+    
+    // Compile vertex shader
+    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+    glCompileShader(vertexShader);
+    
+    // Compile fragment shader
+    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+    glCompileShader(fragmentShader);
+    
+    // Create shader program
+    m_shaderProgram = glCreateProgram();
+    glAttachShader(m_shaderProgram, vertexShader);
+    glAttachShader(m_shaderProgram, fragmentShader);
+    glLinkProgram(m_shaderProgram);
+    
+    // Clean up shaders
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
+}
+
+void VisualizationWidget::cleanup3DRendering() {
+    if (m_sphereVAO) {
+        glDeleteVertexArrays(1, &m_sphereVAO);
+        glDeleteBuffers(1, &m_sphereVBO);
+        glDeleteBuffers(1, &m_sphereEBO);
+    }
+    
+    if (m_gridVAO) {
+        glDeleteVertexArrays(1, &m_gridVAO);
+        glDeleteBuffers(1, &m_gridVBO);
+    }
+    
+    if (m_axisVAO) {
+        glDeleteVertexArrays(1, &m_axisVAO);
+        glDeleteBuffers(1, &m_axisVBO);
+    }
+    
+    if (m_framebuffer) {
+        glDeleteFramebuffers(1, &m_framebuffer);
+    }
+    
+    if (m_renderTexture) {
+        glDeleteTextures(1, &m_renderTexture);
+    }
+    
+    if (m_depthBuffer) {
+        glDeleteRenderbuffers(1, &m_depthBuffer);
+    }
+    
+    if (m_shaderProgram) {
+        glDeleteProgram(m_shaderProgram);
+    }
+    
+    m_3DInitialized = false;
+}
+
+void VisualizationWidget::setupSpatialPoints(int outputChannels) {
+    m_spatialPoints.clear();
+    m_spatialLines.clear();
+    
+    // Define spatial points based on output channels
+    if (outputChannels == 4) {
+        // MACH1SPATIAL-4 - Proper plane/square
+        m_spatialPoints = {
+            {-1, 1, 0},   // 0: Front-left
+            {1, 1, 0},    // 1: Front-right
+            {-1, -1, 0},  // 2: Back-left
+            {1, -1, 0}    // 3: Back-right
+        };
+        
+        // Connecting lines for 4ch - just the quad lines (no Z-axis)
+        m_spatialLines = {
+            {0, 1}, {1, 3}, {3, 2}, {2, 0}  // Quad lines only
+        };
+    }
+    else if (outputChannels == 8) {
+        // MACH1SPATIAL-8
+        m_spatialPoints = {
+            {-1, 1, 1},   // 0: Top-left-front
+            {1, 1, 1},    // 1: Top-right-front
+            {-1, -1, 1},  // 2: Top-left-back
+            {1, -1, 1},   // 3: Top-right-back
+            {-1, 1, -1},  // 4: Bottom-left-Front
+            {1, 1, -1},   // 5: Bottom-right-Front
+            {-1, -1, -1}, // 6: Bottom-left-back
+            {1, -1, -1}   // 7: Bottom-right-back
+        };
+        
+        // Connecting lines for 8ch (cube)
+        m_spatialLines = {
+            // Top quad lines
+            {0, 1}, {1, 3}, {3, 2}, {2, 0},
+            // Top to bottom lines
+            {0, 4}, {1, 5}, {2, 6}, {3, 7},
+            // Bottom quad lines
+            {4, 5}, {5, 7}, {7, 6}, {6, 4}
+        };
+    }
+    else if (outputChannels == 14) {
+        // MACH1SPATIAL-14
+        m_spatialPoints = {
+            {-1, 1, 1},   // 0: Top-left-front
+            {1, 1, 1},    // 1: Top-right-front
+            {-1, -1, 1},  // 2: Bottom-left-front
+            {1, -1, 1},   // 3: Bottom-right-front
+            {-1, 1, -1},  // 4: Top-left-back
+            {1, 1, -1},   // 5: Top-right-back
+            {-1, -1, -1}, // 6: Bottom-left-back
+            {1, -1, -1},  // 7: Bottom-right-back
+            {0, 1.414f, 0},    // 8: Front center
+            {1.414f, 0, 0},    // 9: Right center
+            {0, -1.414f, 0},   // 10: Back center
+            {-1.414f, 0, 0},   // 11: Left center
+            {0, 0, 1.414f},    // 12: Top center
+            {0, 0, -1.414f}    // 13: Bottom center
+        };
+        
+        // Connecting lines for 14ch
+        m_spatialLines = {
+            // Cube lines
+            {0, 1}, {1, 3}, {3, 2}, {2, 0},
+            {0, 4}, {1, 5}, {2, 6}, {3, 7},
+            {4, 5}, {5, 7}, {7, 6}, {6, 4},
+            // Center point connections
+            {0, 8}, {1, 8}, {4, 8}, {5, 8},  // Front
+            {1, 9}, {3, 9}, {5, 9}, {7, 9},  // Right
+            {3, 10}, {2, 10}, {7, 10}, {6, 10}, // Back
+            {0, 11}, {2, 11}, {4, 11}, {6, 11}, // Left
+            {0, 12}, {1, 12}, {2, 12}, {3, 12}, // Top
+            {4, 13}, {5, 13}, {6, 13}, {7, 13}  // Bottom
+        };
+    }
+    else if (outputChannels == 38) {
+        // MACH1SPATIAL-38 - Complete implementation from Mach1EncodeCore.cpp
+        m_spatialPoints = {
+            // 8ch cube
+            {-1, 1, 1}, {1, 1, 1}, {-1, -1, 1}, {1, -1, 1},
+            {-1, 1, -1}, {1, 1, -1}, {-1, -1, -1}, {1, -1, -1},
+            // 14ch additions
+            {0, 1.414f, 0}, {1.414f, 0, 0}, {0, -1.414f, 0}, {-1.414f, 0, 0},
+            {0, 0, 1.414f}, {0, 0, -1.414f},
+            // 38ch additional points
+            {0.0, 1.473370419, -0.910592997},
+            {0.618033989, 1.618033989, 0.0},
+            {0.0, 1.473370419, 0.910592997},
+            {-0.618033989, 1.618033989, 0.0},
+            {1.473370419, 0.910592997, 0.0},
+            {-1.473370419, 0.910592997, 0.0},
+            {0.0, 0.618033989, -1.618033989},
+            {0.0, 0.618033989, 1.618033989},
+            {0.910592997, 0.0, -1.473370419},
+            {1.618033989, 0.0, -0.618033989},
+            {1.618033989, 0.0, 0.618033989},
+            {0.910592997, 0.0, 1.473370419},
+            {-0.910592997, 0.0, 1.473370419},
+            {-1.618033989, 0.0, 0.618033989},
+            {-1.618033989, 0.0, -0.618033989},
+            {-0.910592997, 0.0, -1.473370419},
+            {0.0, -0.618033989, -1.618033989},
+            {0.0, -0.618033989, 1.618033989},
+            {1.473370419, -0.910592997, 0.0},
+            {-1.473370419, -0.910592997, 0.0},
+            {0.0, -1.473370419, -0.910592997},
+            {0.618033989, -1.618033989, 0.0},
+            {0.0, -1.473370419, 0.910592997},
+            {-0.618033989, -1.618033989, 0.0}
+        };
+        
+        // Complete 38ch connecting lines from Mach1EncodeCore.cpp
+        m_spatialLines = {
+            // TOP-LOWER-LEFT HEXACONE
+            {0, 14}, {0, 17}, {0, 19}, {0, 20}, {0, 28}, {0, 29},
+            // TOP-LOWER-RIGHT HEXACONE
+            {1, 14}, {1, 15}, {1, 18}, {1, 20}, {1, 22}, {1, 23},
+            // TOP-UPPER-LEFT HEXACONE
+            {2, 16}, {2, 17}, {2, 19}, {2, 21}, {2, 26}, {2, 27},
+            // TOP-UPPER-RIGHT HEXACONE
+            {3, 15}, {3, 16}, {3, 18}, {3, 21}, {3, 24}, {3, 25},
+            // BOTTOM-LOWER-LEFT HEXACONE
+            {4, 28}, {4, 29}, {4, 30}, {4, 33}, {4, 34}, {4, 37},
+            // BOTTOM-LOWER-RIGHT HEXACONE
+            {5, 22}, {5, 23}, {5, 30}, {5, 32}, {5, 34}, {5, 35},
+            // BOTTOM-UPPER-LEFT HEXACONE
+            {6, 26}, {6, 27}, {6, 31}, {6, 33}, {6, 36}, {6, 37},
+            // BOTTOM-UPPER-RIGHT HEXACONE
+            {7, 24}, {7, 25}, {7, 31}, {7, 32}, {7, 35}, {7, 36},
+            // FRONT RHOMBIC PYRAMID
+            {20, 8}, {20, 22}, {20, 29}, {30, 8}, {30, 22}, {30, 29},
+            // RIGHT RHOMBIC PYRAMID
+            {23, 9}, {23, 18}, {23, 32}, {24, 9}, {24, 18}, {24, 32},
+            // REAR RHOMBIC PYRAMID
+            {21, 10}, {21, 25}, {21, 26}, {31, 10}, {31, 25}, {31, 26},
+            // LEFT RHOMBIC PYRAMID
+            {27, 11}, {27, 19}, {27, 33}, {28, 11}, {28, 19}, {28, 33},
+            // TOP RHOMBIC PYRAMID
+            {15, 12}, {15, 14}, {15, 16}, {17, 12}, {17, 14}, {17, 16},
+            // BOTTOM RHOMBIC PYRAMID
+            {35, 13}, {35, 34}, {35, 36}, {37, 13}, {37, 34}, {37, 36},
+            // X-AXIS CONNECTING LINES
+            {22, 23}, {24, 25}, {26, 27}, {28, 29},
+            // Y-AXIS CONNECTING LINES
+            {15, 18}, {32, 35}, {33, 37}, {17, 19},
+            // Z-AXIS CONNECTING LINES
+            {16, 21}, {31, 36}, {30, 34}, {14, 20}
+        };
+    }
+}
+
+void VisualizationWidget::drawSpatialPoints() {
+    if (m_spatialPoints.empty()) return;
+    
+    // Set color for spatial points (green)
+    GLint colorLoc = glGetUniformLocation(m_shaderProgram, "color");
+    glUniform3f(colorLoc, 0.0f, 1.0f, 0.0f);
+    
+    // Transform from Mach1 coordinate system to OpenGL coordinate system
+    // Mach1: X=left-right, Y=front-back, Z=top-bottom
+    // OpenGL: X=left-right, Y=up-down, Z=back-front
+    // For 4-channel points (Z=0 in Mach1), we want them on the floor (Y=0 in OpenGL)
+    glm::mat4 coordTransform = glm::rotate(glm::mat4(1.0f), glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    
+    for (size_t i = 0; i < m_spatialPoints.size(); ++i) {
+        const auto& point = m_spatialPoints[i];
+        
+        // Transform the point from Mach1 coordinates to OpenGL coordinates
+        glm::vec4 transformedPoint = coordTransform * glm::vec4(point.x, point.y, point.z, 1.0f);
+        
+        // Create model matrix for this point
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(transformedPoint.x, transformedPoint.y, transformedPoint.z));
+        model = glm::scale(model, glm::vec3(m_pointSize * 2.0f)); // Make spatial points larger
+        
+        GLint modelLoc = glGetUniformLocation(m_shaderProgram, "model");
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        
+        glBindVertexArray(m_sphereVAO);
+        glDrawElements(GL_TRIANGLES, 1536, GL_UNSIGNED_INT, 0);
+        glBindVertexArray(0);
+    }
+}
+
+void VisualizationWidget::drawConnectingLines() {
+    if (m_spatialLines.empty() || m_spatialPoints.empty()) return;
+    
+    // Set color for connecting lines (white)
+    GLint colorLoc = glGetUniformLocation(m_shaderProgram, "color");
+    glUniform3f(colorLoc, 1.0f, 1.0f, 1.0f);
+    
+    // Transform from Mach1 coordinate system to OpenGL coordinate system
+    glm::mat4 coordTransform = glm::rotate(glm::mat4(1.0f), glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    
+    // Create line geometry
+    std::vector<float> lineVertices;
+    for (const auto& line : m_spatialLines) {
+        if (line.size() >= 2) {
+            const auto& p1 = m_spatialPoints[line[0]];
+            const auto& p2 = m_spatialPoints[line[1]];
+            
+            // Transform both points from Mach1 coordinates to OpenGL coordinates
+            glm::vec4 transformedP1 = coordTransform * glm::vec4(p1.x, p1.y, p1.z, 1.0f);
+            glm::vec4 transformedP2 = coordTransform * glm::vec4(p2.x, p2.y, p2.z, 1.0f);
+            
+            lineVertices.insert(lineVertices.end(), {transformedP1.x, transformedP1.y, transformedP1.z});
+            lineVertices.insert(lineVertices.end(), {transformedP2.x, transformedP2.y, transformedP2.z});
+        }
+    }
+    
+    if (lineVertices.empty()) return;
+    
+    // Create temporary VAO for lines
+    GLuint lineVAO, lineVBO;
+    glGenVertexArrays(1, &lineVAO);
+    glGenBuffers(1, &lineVBO);
+    
+    glBindVertexArray(lineVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, lineVBO);
+    glBufferData(GL_ARRAY_BUFFER, lineVertices.size() * sizeof(float), lineVertices.data(), GL_STATIC_DRAW);
+    
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    
+    // Draw lines
+    glm::mat4 model = glm::mat4(1.0f);
+    GLint modelLoc = glGetUniformLocation(m_shaderProgram, "model");
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+    
+    glBindVertexArray(lineVAO);
+    glDrawArrays(GL_LINES, 0, lineVertices.size() / 3);
+    glBindVertexArray(0);
+    
+    // Cleanup
+    glDeleteVertexArrays(1, &lineVAO);
+    glDeleteBuffers(1, &lineVBO);
 }

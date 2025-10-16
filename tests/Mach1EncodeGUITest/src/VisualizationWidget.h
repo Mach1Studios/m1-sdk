@@ -3,32 +3,54 @@
 #include <vector>
 #include <string>
 #include <imgui.h>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include "Mach1Point3D.h"
 
 class VisualizationWidget {
 public:
     VisualizationWidget();
-    ~VisualizationWidget() = default;
+    ~VisualizationWidget();
 
     void render(const std::vector<std::vector<float>>& gains, 
                 const std::vector<Mach1Point3D>& points,
                 const std::vector<std::string>& pointNames);
+    void renderControls(const std::vector<std::vector<float>>& gains, 
+                       const std::vector<Mach1Point3D>& points,
+                       const std::vector<std::string>& pointNames);
+    void render3DScene(const std::vector<Mach1Point3D>& points,
+                      const std::vector<std::string>& pointNames);
+    void setupSpatialPoints(int outputChannels);
 
 private:
     void renderGainMatrix(const std::vector<std::vector<float>>& gains, 
                          const std::vector<std::string>& pointNames);
-    void render3DVisualization(const std::vector<Mach1Point3D>& points,
-                              const std::vector<std::string>& pointNames);
     void renderGainBars(const std::vector<std::vector<float>>& gains,
                        const std::vector<std::string>& pointNames);
     void renderStatistics(const std::vector<std::vector<float>>& gains);
     void renderChannelAnalysis(const std::vector<std::vector<float>>& gains,
                               const std::vector<std::string>& pointNames);
 
+    // 3D rendering functions
+    void setup3DRendering();
+    void updateCamera();
+    void handleMouseInput();
+    void draw3DGrid();
+    void draw3DPoint(const Mach1Point3D& point, const std::string& name, bool isSelected = false);
+    void draw3DAxis();
+    void drawSpatialPoints();
+    void drawConnectingLines();
+    
+    // OpenGL utilities
+    void createSphere(float radius, int segments, int rings);
+    void createGrid(int size, float spacing);
+    void setupShaders();
+    void setupRenderTexture();
+    void cleanup3DRendering();
+
     // Helper functions
     ImVec4 getGainColor(float gain, float maxGain = 1.0f);
     void drawGainBar(float gain, float maxGain, const ImVec2& size);
-    void draw3DPoint(const Mach1Point3D& point, const std::string& name, bool isSelected = false);
 
     // State
     int m_selectedPoint = -1;
@@ -46,4 +68,41 @@ private:
     ImVec4 m_positiveGainColor = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
     ImVec4 m_negativeGainColor = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
     ImVec4 m_zeroGainColor = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
+    
+    // 3D rendering state
+    bool m_3DInitialized = false;
+    GLuint m_sphereVAO = 0, m_sphereVBO = 0, m_sphereEBO = 0;
+    GLuint m_gridVAO = 0, m_gridVBO = 0;
+    GLuint m_axisVAO = 0, m_axisVBO = 0;
+    GLuint m_shaderProgram = 0;
+    
+    // Render-to-texture for 3D scene
+    GLuint m_framebuffer = 0;
+    GLuint m_renderTexture = 0;
+    GLuint m_depthBuffer = 0;
+    int m_textureWidth = 400;
+    int m_textureHeight = 400;
+    
+    // Camera controls
+    float m_cameraDistance = 5.0f;
+    float m_cameraRotationX = 0.0f;
+    float m_cameraRotationY = 0.0f;
+    float m_cameraPanX = 0.0f;
+    float m_cameraPanY = 0.0f;
+    bool m_mouseDragging = false;
+    ImVec2 m_lastMousePos;
+    
+    // 3D visualization settings
+    bool m_showGrid = true;
+    bool m_showAxis = true;
+    bool m_showSpatialPoints = true;
+    bool m_showConnectingLines = true;
+    bool m_showPointLabels = true;
+    float m_pointSize = 0.1f;
+    bool m_autoRotate = false;
+    float m_rotationSpeed = 1.0f;
+    
+    // Spatial point definitions
+    std::vector<Mach1Point3D> m_spatialPoints;
+    std::vector<std::vector<int>> m_spatialLines;
 };

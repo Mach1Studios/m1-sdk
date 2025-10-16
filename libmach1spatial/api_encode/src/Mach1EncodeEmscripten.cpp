@@ -31,7 +31,8 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
     enum_<Mach1EncodeOutputMode>("Mach1EncodeOutputMode")
         .value("M1Spatial_4", M1Spatial_4)
         .value("M1Spatial_8", M1Spatial_8)
-        .value("M1Spatial_14", M1Spatial_14);
+        .value("M1Spatial_14", M1Spatial_14)
+        .value("M1Spatial_38", M1Spatial_38);
 
     enum_<Mach1EncodePannerMode>("Mach1EncodePannerMode")
         .value("IsotropicLinear", IsotropicLinear)
@@ -42,7 +43,8 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
     enum_<Mach1DecodeMode>("Mach1DecodeMode")
         .value("M1Spatial_4", M1Spatial_4)
         .value("M1Spatial_8", M1Spatial_8)
-        .value("M1Spatial_14", M1Spatial_14);
+        .value("M1Spatial_14", M1Spatial_14)
+        .value("M1Spatial_38", M1Spatial_38);
 #endif
 
     register_vector<float>("VectorFloat");

@@ -80,6 +80,7 @@ target_include_directories(Mach1EncodeGUITest PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/../../libmach1spatial/api_encode/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../../libmach1spatial/api_common/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../libmach1spatial/deps/glm
     ${IMGUI_INCLUDE_DIR}
     ${IMGUI_INCLUDE_DIR}/backends
 )

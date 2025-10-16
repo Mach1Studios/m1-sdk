@@ -27,8 +27,8 @@ int main() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-    // Create window
-    GLFWwindow* window = glfwCreateWindow(1400, 900, "Mach1Encode GUI Test Tool", nullptr, nullptr);
+    // Create window - wider to accommodate side panel
+    GLFWwindow* window = glfwCreateWindow(1600, 900, "Mach1Encode GUI Test Tool", nullptr, nullptr);
     if (!window) {
         std::cerr << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
@@ -69,24 +69,32 @@ int main() {
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
 
+        // Get window dimensions
+        int display_w, display_h;
+        glfwGetFramebufferSize(window, &display_w, &display_h);
+        
+        // Define layout: left panel for controls, right area for 3D view
+        int panel_width = 400;
+        int viewport_x = panel_width;
+        int viewport_width = display_w - panel_width;
+        
+        // Render 3D scene to the main viewport
+        glViewport(viewport_x, 0, viewport_width, display_h);
+        gui->render3DScene();
+
         // Start the Dear ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        // Render our GUI
+        // Render ImGui controls in the left panel
+        ImGui::SetNextWindowPos(ImVec2(0, 0));
+        ImGui::SetNextWindowSize(ImVec2(panel_width, display_h));
         gui->render();
 
         // Rendering
         ImGui::Render();
-        int display_w, display_h;
-        glfwGetFramebufferSize(window, &display_w, &display_h);
-        glViewport(0, 0, display_w, display_h);
-        glClearColor(0.45f, 0.55f, 0.60f, 1.00f);
-        glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-        // No additional platform windows for now
 
         glfwSwapBuffers(window);
     }

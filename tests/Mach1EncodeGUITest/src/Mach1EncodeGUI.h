@@ -15,6 +15,7 @@ public:
     ~Mach1EncodeGUI();
 
     void render();
+    void render3DScene();
 
 private:
     void setupDocking();

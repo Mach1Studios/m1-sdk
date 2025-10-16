@@ -829,6 +829,86 @@ void VisualizationWidget::setupSpatialPoints(int outputChannels) {
             {4, 13}, {5, 13}, {6, 13}, {7, 13}  // Bottom
         };
     }
+    else if (outputChannels == 26) {
+        // MACH1SPATIAL-26 - From Mach1EncodeCore.cpp
+        m_spatialPoints = {
+            // 8ch cube corners
+            {-1, 1, 1},   // 0: Top-left-front
+            {1, 1, 1},    // 1: Top-right-front
+            {-1, -1, 1},  // 2: Bottom-left-front
+            {1, -1, 1},   // 3: Bottom-right-front
+            {-1, 1, -1},  // 4: Top-left-back
+            {1, 1, -1},   // 5: Top-right-back
+            {-1, -1, -1}, // 6: Bottom-left-back
+            {1, -1, -1},  // 7: Bottom-right-back
+            
+            // 14ch center points
+            {0, 1.414f, 0},    // 8: Top center
+            {1.414f, 0, 0},    // 9: Right center
+            {0, -1.414f, 0},   // 10: Bottom center
+            {-1.414f, 0, 0},   // 11: Left center
+            {0, 0, 1.414f},    // 12: Front center
+            {0, 0, -1.414f},   // 13: Back center
+            
+            // 26ch additional edge points
+            {0, 1.207, 1.207},     // 14: Top-front edge
+            {1.207, 0, 1.207},     // 15: Right-front edge
+            {0, -1.207, 1.207},    // 16: Bottom-front edge
+            {-1.207, 0, 1.207},    // 17: Left-front edge
+            {1.207, 1.207, 0},     // 18: Top-right edge
+            {1.207, -1.207, 0},    // 19: Bottom-right edge
+            {-1.207, -1.207, 0},   // 20: Bottom-left edge
+            {-1.207, 1.207, 0},    // 21: Top-left edge
+            {0, 1.207, -1.207},    // 22: Top-back edge
+            {1.207, 0, -1.207},    // 23: Right-back edge
+            {0, -1.207, -1.207},   // 24: Bottom-back edge
+            {-1.207, 0, -1.207}    // 25: Left-back edge
+        };
+        
+        // 26ch connecting lines - using proper edge structure
+        m_spatialLines = {
+            // Base cube edges (8ch structure)
+            // Top face
+            {0, 1}, {1, 3}, {3, 2}, {2, 0},
+            // Bottom face  
+            {4, 5}, {5, 7}, {7, 6}, {6, 4},
+            // Vertical edges
+            {0, 4}, {1, 5}, {2, 6}, {3, 7},
+            
+            // 14ch center points to cube corners
+            // Top center (8) connections
+            {8, 0}, {8, 1}, {8, 4}, {8, 5},
+            // Right center (9) connections
+            {9, 1}, {9, 3}, {9, 5}, {9, 7},
+            // Bottom center (10) connections
+            {10, 2}, {10, 3}, {10, 6}, {10, 7},
+            // Left center (11) connections
+            {11, 0}, {11, 2}, {11, 4}, {11, 6},
+            // Front center (12) connections
+            {12, 0}, {12, 1}, {12, 2}, {12, 3},
+            // Back center (13) connections
+            {13, 4}, {13, 5}, {13, 6}, {13, 7},
+            
+            // 26ch edge points - connecting to adjacent corners and centers
+            // Front face edge points
+            {14, 0}, {14, 1}, {14, 12}, {14, 8},  // Top-front edge
+            {15, 1}, {15, 3}, {15, 12}, {15, 9},  // Right-front edge
+            {16, 2}, {16, 3}, {16, 12}, {16, 10}, // Bottom-front edge
+            {17, 0}, {17, 2}, {17, 12}, {17, 11}, // Left-front edge
+            
+            // Side face edge points
+            {18, 0}, {18, 1}, {18, 8}, {18, 9},   // Top-right edge
+            {19, 3}, {19, 7}, {19, 9}, {19, 10},  // Bottom-right edge
+            {20, 2}, {20, 6}, {20, 10}, {20, 11}, // Bottom-left edge
+            {21, 0}, {21, 4}, {21, 8}, {21, 11},  // Top-left edge
+            
+            // Back face edge points
+            {22, 4}, {22, 5}, {22, 13}, {22, 8},  // Top-back edge
+            {23, 5}, {23, 7}, {23, 13}, {23, 9},  // Right-back edge
+            {24, 6}, {24, 7}, {24, 13}, {24, 10}, // Bottom-back edge
+            {25, 4}, {25, 6}, {25, 13}, {25, 11}  // Left-back edge
+        };
+    }
     else if (outputChannels == 38) {
         // MACH1SPATIAL-38 - Complete implementation from Mach1EncodeCore.cpp
         m_spatialPoints = {

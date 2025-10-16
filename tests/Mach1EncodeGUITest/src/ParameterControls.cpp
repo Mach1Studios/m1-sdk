@@ -61,7 +61,7 @@ void ParameterControls::renderInputOutputModes(Mach1Encode<float>& encoder, bool
 
     // Output Mode Selection
     const char* outputModes[] = {
-        "M1Spatial-4", "M1Spatial-8", "M1Spatial-14", "M1Spatial-38"
+        "M1Spatial-4", "M1Spatial-8", "M1Spatial-14", "M1Spatial-26", "M1Spatial-38"
     };
     
     if (ImGui::Combo("Output Mode", &m_selectedOutputMode, outputModes, IM_ARRAYSIZE(outputModes))) {
@@ -329,6 +329,7 @@ const char* ParameterControls::getOutputModeName(Mach1EncodeOutputMode mode) {
         case M1Spatial_4: return "M1Spatial-4";
         case M1Spatial_8: return "M1Spatial-8";
         case M1Spatial_14: return "M1Spatial-14";
+        case M1Spatial_26: return "M1Spatial-26";
         case M1Spatial_38: return "M1Spatial-38";
         default: return "Unknown";
     }

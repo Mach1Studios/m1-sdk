@@ -12,6 +12,7 @@ public final class Mach1EncodeOutputMode {
   public final static Mach1EncodeOutputMode M1Spatial_4 = new Mach1EncodeOutputMode("M1Spatial_4", Mach1EncodeModuleJNI.M1Spatial_4_get());
   public final static Mach1EncodeOutputMode M1Spatial_8 = new Mach1EncodeOutputMode("M1Spatial_8");
   public final static Mach1EncodeOutputMode M1Spatial_14 = new Mach1EncodeOutputMode("M1Spatial_14");
+  public final static Mach1EncodeOutputMode M1Spatial_38 = new Mach1EncodeOutputMode("M1Spatial_38");
 
   public final int swigValue() {
     return swigValue;
@@ -47,7 +48,7 @@ public final class Mach1EncodeOutputMode {
     swigNext = this.swigValue+1;
   }
 
-  private static Mach1EncodeOutputMode[] swigValues = { M1Spatial_4, M1Spatial_8, M1Spatial_14 };
+  private static Mach1EncodeOutputMode[] swigValues = { M1Spatial_4, M1Spatial_8, M1Spatial_14, M1Spatial_38 };
   private static int swigNext = 0;
   private final int swigValue;
   private final String swigName;

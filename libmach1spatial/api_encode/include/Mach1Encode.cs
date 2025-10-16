@@ -30,7 +30,8 @@ namespace Mach1
     {
         M1Spatial_4 = 0,
         M1Spatial_8,
-        M1Spatial_14
+        M1Spatial_14,
+        M1Spatial_38
     }
 
     public enum Mach1EncodePannerMode

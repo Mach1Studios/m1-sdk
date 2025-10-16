@@ -87,6 +87,7 @@ class M1EncodeCore {
         OUTPUT_SPATIAL_4CH = (int)0,
         OUTPUT_SPATIAL_8CH,
         OUTPUT_SPATIAL_14CH,
+        OUTPUT_SPATIAL_26CH,
         OUTPUT_SPATIAL_38CH,
     };
 
@@ -127,6 +128,7 @@ class M1EncodeCore {
         {OUTPUT_SPATIAL_4CH, "M1Spatial-4"},
         {OUTPUT_SPATIAL_8CH, "M1Spatial-8"},
         {OUTPUT_SPATIAL_14CH, "M1Spatial-14"},
+        {OUTPUT_SPATIAL_26CH, "M1Spatial-26"},
         {OUTPUT_SPATIAL_38CH, "M1Spatial-38"},
     };
 

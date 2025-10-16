@@ -71,6 +71,7 @@ Module["onRuntimeInitialized"] = function() {
       "M1Spatial_4": (Module).Mach1EncodeOutputMode.M1Spatial_4,
       "M1Spatial_8": (Module).Mach1EncodeOutputMode.M1Spatial_8,
       "M1Spatial_14": (Module).Mach1EncodeOutputMode.M1Spatial_14,
+      "M1Spatial_26": (Module).Mach1EncodeOutputMode.M1Spatial_26,
       "M1Spatial_38": (Module).Mach1EncodeOutputMode.M1Spatial_38
     };
     this.Mach1EncodePannerMode = {
@@ -82,6 +83,7 @@ Module["onRuntimeInitialized"] = function() {
       "M1Spatial_4": (Module).Mach1DecodeMode.M1Spatial_4,
       "M1Spatial_8": (Module).Mach1DecodeMode.M1Spatial_8,
       "M1Spatial_14": (Module).Mach1DecodeMode.M1Spatial_14,
+      "M1Spatial_26": (Module).Mach1DecodeMode.M1Spatial_26,
       "M1Spatial_38": (Module).Mach1DecodeMode.M1Spatial_38
     };
     this.delete = function() {

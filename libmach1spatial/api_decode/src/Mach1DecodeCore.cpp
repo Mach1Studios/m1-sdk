@@ -429,6 +429,97 @@ std::vector<float> M1DecodeCore::spatialAlgo_14(float Yaw, float Pitch, float Ro
     return result;
 }
 
+void M1DecodeCore::spatialAlgo_26(float Yaw, float Pitch, float Roll, float *result) {
+    const int numChannelPoints = 8 + 4 + 2 + 12;
+
+    float diag = sqrtf(2);
+
+    Mach1Point3D channelPoints[numChannelPoints] =
+        {
+            // 8ch
+            {-1, 1, 1},
+            {1, 1, 1},
+            {-1, -1, 1},
+            {1, -1, 1},
+            {-1, 1, -1},
+            {1, 1, -1},
+            {-1, -1, -1},
+            {1, -1, -1},
+
+            // 14ch
+            {0, diag, 0},
+            {diag, 0, 0},
+            {0, -diag, 0},
+            {-diag, 0, 0},
+            {0, 0, diag},
+            {0, 0, -diag},
+
+            // 26ch
+            {0, 1.207, 1.207},
+            {1.207, 0, 1.207},
+            {0, -1.207, 1.207},
+            {-1.207, 0, 1.207},
+            {1.207, 1.207, 0},
+            {1.207, -1.207, 0},
+            {-1.207, -1.207, 0},
+            {-1.207, 1.207, 0},
+            {0, 1.207, -1.207},
+            {1.207, 0, -1.207},
+            {0, -1.207, -1.207},
+            {-1.207, 0, -1.207},
+        };
+
+    spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result);
+}
+
+std::vector<float> M1DecodeCore::spatialAlgo_26(float Yaw, float Pitch, float Roll) {
+    const int numChannelPoints = 8 + 4 + 2 + 12;
+
+    float diag = sqrtf(2);
+
+    std::vector<float> result;
+    result.resize(numChannelPoints * 2);
+
+    Mach1Point3D channelPoints[numChannelPoints] =
+        {
+            // 8ch
+            {-1, 1, 1},
+            {1, 1, 1},
+            {-1, -1, 1},
+            {1, -1, 1},
+            {-1, 1, -1},
+            {1, 1, -1},
+            {-1, -1, -1},
+            {1, -1, -1},
+
+            // 14ch
+            {0, diag, 0},
+            {diag, 0, 0},
+            {0, -diag, 0},
+            {-diag, 0, 0},
+            {0, 0, diag},
+            {0, 0, -diag},
+
+            // 26ch
+            {0, 1.207, 1.207},
+            {1.207, 0, 1.207},
+            {0, -1.207, 1.207},
+            {-1.207, 0, 1.207},
+            {1.207, 1.207, 0},
+            {1.207, -1.207, 0},
+            {-1.207, -1.207, 0},
+            {-1.207, 1.207, 0},
+            {0, 1.207, -1.207},
+            {1.207, 0, -1.207},
+            {0, -1.207, -1.207},
+            {-1.207, 0, -1.207},
+        };
+
+    spatialMultichannelAlgo(channelPoints, numChannelPoints, Yaw, Pitch, Roll, result.data());
+
+    return result;
+}
+
 void M1DecodeCore::spatialAlgo_38(float Yaw, float Pitch, float Roll, float *result) {
     const int numChannelPoints = 24 + 8 + 4 + 2;
 
@@ -772,6 +863,8 @@ int M1DecodeCore::getFormatChannelCount() {
         return 8;
     case M1DecodeSpatial_14:
         return 14;
+    case M1DecodeSpatial_26:
+        return 26;
     case M1DecodeSpatial_38:
         return 38;
     }
@@ -786,6 +879,8 @@ int M1DecodeCore::getFormatCoeffCount() {
         return (8 * 2);
     case M1DecodeSpatial_14:
         return (14 * 2);
+    case M1DecodeSpatial_26:
+        return (26 * 2);
     case M1DecodeSpatial_38:
         return (38 * 2);
     }
@@ -868,6 +963,10 @@ std::vector<float> M1DecodeCore::decodeCoeffs(int bufferSize, int sampleIndex) {
         coeffs = processSample(&M1DecodeCore::spatialAlgo_14, yaw, pitch, roll, bufferSize, sampleIndex);
         break;
 
+    case M1DecodeSpatial_26:
+        coeffs = processSample(&M1DecodeCore::spatialAlgo_26, yaw, pitch, roll, bufferSize, sampleIndex);
+        break;
+
     case M1DecodeSpatial_38:
         coeffs = processSample(&M1DecodeCore::spatialAlgo_38, yaw, pitch, roll, bufferSize, sampleIndex);
         break;
@@ -946,6 +1045,10 @@ void M1DecodeCore::decodeCoeffs(float *result, int bufferSize, int sampleIndex) 
 
     case M1DecodeSpatial_14:
         processSample(&M1DecodeCore::spatialAlgo_14, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
+        break;
+
+    case M1DecodeSpatial_26:
+        processSample(&M1DecodeCore::spatialAlgo_26, Yaw, Pitch, Roll, result, bufferSize, sampleIndex);
         break;
 
     case M1DecodeSpatial_38:

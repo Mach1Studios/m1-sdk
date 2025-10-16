@@ -50,6 +50,7 @@ enum Mach1EncodeOutputMode {
     M1Spatial_4 = (int)0,
     M1Spatial_8,
     M1Spatial_14,
+    M1Spatial_26,
     M1Spatial_38,
 };
 

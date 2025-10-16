@@ -32,6 +32,7 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
         .value("M1Spatial_4", M1Spatial_4)
         .value("M1Spatial_8", M1Spatial_8)
         .value("M1Spatial_14", M1Spatial_14)
+        .value("M1Spatial_26", M1Spatial_26)
         .value("M1Spatial_38", M1Spatial_38);
 
     enum_<Mach1EncodePannerMode>("Mach1EncodePannerMode")
@@ -44,6 +45,7 @@ EMSCRIPTEN_BINDINGS(Mach1Encode) {
         .value("M1Spatial_4", M1Spatial_4)
         .value("M1Spatial_8", M1Spatial_8)
         .value("M1Spatial_14", M1Spatial_14)
+        .value("M1Spatial_26", M1Spatial_26)
         .value("M1Spatial_38", M1Spatial_38);
 #endif
 

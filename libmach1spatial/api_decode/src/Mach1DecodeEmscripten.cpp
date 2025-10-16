@@ -21,6 +21,7 @@ EMSCRIPTEN_BINDINGS(Mach1Decode) {
         .value("M1Spatial_4", M1DecodeSpatial_4)
         .value("M1Spatial_8", M1DecodeSpatial_8)
         .value("M1Spatial_14", M1DecodeSpatial_14)
+        .value("M1Spatial_26", M1DecodeSpatial_26)
         .value("M1Spatial_38", M1DecodeSpatial_38);
 
     register_vector<float>("VectorFloat");

@@ -87,6 +87,9 @@ class M1DecodeCore {
     void spatialAlgo_14(float Yaw, float Pitch, float Roll, float *result);
     std::vector<float> spatialAlgo_14(float Yaw, float Pitch, float Roll);
 
+    void spatialAlgo_26(float Yaw, float Pitch, float Roll, float *result);
+    std::vector<float> spatialAlgo_26(float Yaw, float Pitch, float Roll);
+
     void spatialAlgo_38(float Yaw, float Pitch, float Roll, float *result);
     std::vector<float> spatialAlgo_38(float Yaw, float Pitch, float Roll);
 

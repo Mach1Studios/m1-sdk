@@ -18,6 +18,7 @@ Module['onRuntimeInitialized'] = function() {
             "M1Spatial_4": (Module).Mach1DecodeMode.M1DecodeSpatial_4,
             "M1Spatial_8": (Module).Mach1DecodeMode.M1DecodeSpatial_8,
             "M1Spatial_14": (Module).Mach1DecodeMode.M1DecodeSpatial_14,
+            "M1Spatial_26": (Module).Mach1DecodeMode.M1DecodeSpatial_26,
             "M1Spatial_38": (Module).Mach1DecodeMode.M1DecodeSpatial_38,
         };
 

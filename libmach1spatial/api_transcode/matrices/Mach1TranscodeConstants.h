@@ -106,6 +106,7 @@ const std::vector<Mach1FormatInfo> formats = {
     {"M1Spatial-8_2", 10}, // MACH1SPATIAL-8 + HEADLOCKED STEREO
     {"M1Spatial-12", 12},  // MACH1SPATIAL-12 (hexadron vertices + horizontal hexadron planes)
     {"M1Spatial-14", 14},  // MACH1SPATIAL-14 (Tetrakis Hexahedron)
+    {"M1Spatial-26", 26},  // MACH1SPATIAL-26
     {"M1Spatial-38", 38},  // MACH1SPATIAL-38
     /*
      * SURROUND

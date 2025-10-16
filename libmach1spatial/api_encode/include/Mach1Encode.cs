@@ -31,6 +31,7 @@ namespace Mach1
         M1Spatial_4 = 0,
         M1Spatial_8,
         M1Spatial_14,
+        M1Spatial_26,
         M1Spatial_38
     }
 

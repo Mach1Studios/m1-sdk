@@ -264,6 +264,38 @@ void M1EncodeCore::processGains(float x, float y, float z, std::vector<float> &r
         {0, 0, 1 / 0.707},
         {0, 0, -1 / 0.707}};
 
+    static std::vector<Mach1Point3D> m1Spatial_26_Def = {
+        {-1, 1, 1},
+        {1, 1, 1},
+        {-1, -1, 1},
+        {1, -1, 1},
+    
+        {-1, 1, -1},
+        {1, 1, -1},
+        {-1, -1, -1},
+        {1, -1, -1},
+    
+        {0, 1 / 0.707, 0},
+        {1 / 0.707, 0, 0},
+        {0, -1 / 0.707, 0},
+        {-1 / 0.707, 0, 0},
+        {0, 0, 1 / 0.707},
+        {0, 0, -1 / 0.707},
+    
+        {0, 1.207, 1.207},
+        {1.207, 0, 1.207},
+        {0, -1.207, 1.207},
+        {-1.207, 0, 1.207},
+        {1.207, 1.207, 0},
+        {1.207, -1.207, 0},
+        {-1.207, -1.207, 0},
+        {-1.207, 1.207, 0},
+        {0, 1.207, -1.207},
+        {1.207, 0, -1.207},
+        {0, -1.207, -1.207},
+        {-1.207, 0, -1.207},};
+
+
     static std::vector<Mach1Point3D> m1Spatial_38_Def = {
         // 8ch
             {-1, 1, 1},
@@ -313,6 +345,7 @@ void M1EncodeCore::processGains(float x, float y, float z, std::vector<float> &r
         {OUTPUT_SPATIAL_4CH, m1Spatial_4_Def},
         {OUTPUT_SPATIAL_8CH, m1Spatial_8_Def},
         {OUTPUT_SPATIAL_14CH, m1Spatial_14_Def},
+        {OUTPUT_SPATIAL_26CH, m1Spatial_26_Def},
         {OUTPUT_SPATIAL_38CH, m1Spatial_38_Def}
     };
 
@@ -475,6 +508,120 @@ void M1EncodeCore::processGains(float x, float y, float z, std::vector<float> &r
         {5, 7, 13},
         {7, 6, 13},
         {6, 4, 13},
+    };
+
+    /// MACH1SPATIAL-26
+    std::vector<std::vector<int> > m1Spatial_26_Lines_Def = {
+        {1, 8},
+        {8, 0},
+        {3, 7},
+        {7, 9},
+        {3, 9},
+        {9, 1},
+        {4, 11},
+        {11, 0},
+        {10, 7},
+        {4, 8},
+        {5, 8},
+        {5, 9},
+        {6, 11},
+        {2, 11},
+        {6, 10},
+        {2, 10},
+        {10, 3},
+        {0, 12},
+        {1, 12},
+        {2, 12},
+        {3, 12},
+        {4, 13},
+        {5, 13},
+        {6, 13},
+        {7, 13},
+        {0, 14},
+        {0, 21},
+        {0, 17},
+        {1, 14},
+        {1, 15},
+        {1, 18},
+        {2, 16},
+        {2, 17},
+        {2, 20},
+        {3, 16},
+        {3, 15},
+        {3, 19},
+        {4, 21},
+        {4, 25},
+        {4, 22},
+        {5, 18},
+        {5, 22},
+        {5, 23},
+        {6, 20},
+        {6, 24},
+        {6, 25},
+        {7, 19},
+        {7, 23},
+        {7, 24},
+        {8, 14},
+        {8, 18},
+        {8, 21},
+        {8, 22},
+        {9, 15},
+        {9, 18},
+        {9, 19},
+        {9, 23},
+        {10, 16},
+        {10, 19},
+        {10, 20},
+        {10, 24},
+        {11, 17},
+        {11, 20},
+        {11, 21},
+        {11, 25},
+        {12, 14},
+        {12, 15},
+        {12, 16},
+        {12, 17},
+        {13, 22},
+        {13, 23},
+        {13, 24},
+        {13, 25},
+    };
+    std::vector<std::vector<int> > m1Spatial_26_Plane_Def = {
+        // FRONT (z +) — axis 12; corners 0,1,3,2; edges 14(top),15(right),16(bottom),17(left)
+        {0, 14, 12}, {0, 12, 17},
+        {1, 14, 12}, {1, 12, 15},
+        {3, 15, 12}, {3, 12, 16},
+        {2, 16, 12}, {2, 12, 17},
+
+        // BACK (z −) — axis 13; corners 4,5,7,6; edges 22(top),23(right),24(bottom),25(left)
+        {4, 22, 13}, {4, 13, 25},
+        {5, 22, 13}, {5, 13, 23},
+        {7, 23, 13}, {7, 13, 24},
+        {6, 24, 13}, {6, 13, 25},
+
+        // TOP (y +) — axis 8; corners 4,5,1,0; edges 22(back),18(right),14(front),21(left)
+        {4, 22, 8}, {4, 8, 21},
+        {5, 22, 8}, {5, 8, 18},
+        {1, 18, 8}, {1, 8, 14},
+        {0, 14, 8}, {0, 8, 21},
+
+        // BOTTOM (y −) — axis 10; corners 6,7,3,2; edges 24(back),19(right),16(front),20(left)
+        {6, 24, 10}, {6, 10, 20},
+        {7, 24, 10}, {7, 10, 19},
+        {3, 19, 10}, {3, 10, 16},
+        {2, 16, 10}, {2, 10, 20},
+
+        // RIGHT (x +) — axis 9; corners 1,3,7,5; edges 18(top),15(front),19(bottom),23(back)
+        {1, 18, 9}, {1, 9, 15},
+        {3, 15, 9}, {3, 9, 19},
+        {7, 19, 9}, {7, 9, 23},
+        {5, 23, 9}, {5, 9, 18},
+  
+        // LEFT (x −) — axis 11; corners 4,0,2,6; edges 21(top),17(front),20(bottom),25(back)
+        {4, 21, 11}, {4, 11, 25},
+        {0, 21, 11}, {0, 11, 17},
+        {2, 17, 11}, {2, 11, 20},
+        {6, 20, 11}, {6, 11, 25},
     };
 
     // MACH1SPATIAL-38
@@ -687,6 +834,7 @@ void M1EncodeCore::processGains(float x, float y, float z, std::vector<float> &r
         {OUTPUT_SPATIAL_4CH, m1Spatial_4_Lines_Def},
         {OUTPUT_SPATIAL_8CH, m1Spatial_8_Lines_Def},
         {OUTPUT_SPATIAL_14CH, m1Spatial_14_Lines_Def},
+        {OUTPUT_SPATIAL_26CH, m1Spatial_26_Lines_Def},
         {OUTPUT_SPATIAL_38CH, m1Spatial_38_Lines_Def},
     };
 
@@ -694,6 +842,7 @@ void M1EncodeCore::processGains(float x, float y, float z, std::vector<float> &r
         {OUTPUT_SPATIAL_4CH, m1Spatial_4_Plane_Def},
         {OUTPUT_SPATIAL_8CH, m1Spatial_8_Plane_Def},
         {OUTPUT_SPATIAL_14CH, m1Spatial_14_Plane_Def},
+        {OUTPUT_SPATIAL_26CH, m1Spatial_26_Plane_Def},
         {OUTPUT_SPATIAL_38CH, m1Spatial_38_Plane_Def},
     };
 
@@ -1418,6 +1567,8 @@ int M1EncodeCore::getOutputChannelsCount() {
         return 8;
     case OUTPUT_SPATIAL_14CH:
         return 14;
+    case OUTPUT_SPATIAL_26CH:
+        return 26;
     case OUTPUT_SPATIAL_38CH:
         return 38;
     }
@@ -1440,6 +1591,9 @@ void M1EncodeCore::setOutputMode(OutputMode newOutputMode) {
             gainCompensationLinearMultiplier = 2.0f;
             break;
         case OUTPUT_SPATIAL_14CH:
+            gainCompensationLinearMultiplier = 4.57088137f;
+            break;
+        case OUTPUT_SPATIAL_26CH:
             gainCompensationLinearMultiplier = 4.57088137f;
             break;
         case OUTPUT_SPATIAL_38CH:

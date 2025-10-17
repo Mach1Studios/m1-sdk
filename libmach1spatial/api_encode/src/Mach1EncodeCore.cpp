@@ -514,7 +514,6 @@ void M1EncodeCore::processGains(float x, float y, float z, std::vector<float> &r
     std::vector<std::vector<int> > m1Spatial_26_Lines_Def = {
         {1, 8},
         {8, 0},
-        {3, 7},
         {7, 9},
         {3, 9},
         {9, 1},

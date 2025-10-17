@@ -873,7 +873,7 @@ void VisualizationWidget::setupSpatialPoints(int outputChannels) {
             // Bottom face  
             {4, 5}, {5, 7}, {7, 6}, {6, 4},
             // Vertical edges
-            {0, 4}, {1, 5}, {2, 6}, {3, 7},
+            {0, 4}, {1, 5}, {2, 6},
             
             // 14ch center points to cube corners
             // Top center (8) connections
@@ -897,7 +897,7 @@ void VisualizationWidget::setupSpatialPoints(int outputChannels) {
             {17, 0}, {17, 2}, {17, 12}, {17, 11}, // Left-front edge
             
             // Side face edge points
-            {18, 0}, {18, 1}, {18, 8}, {18, 9},   // Top-right edge
+            {18, 5}, {18, 8}, {18, 1}, {18, 9},   // Top-right edge
             {19, 3}, {19, 7}, {19, 9}, {19, 10},  // Bottom-right edge
             {20, 2}, {20, 6}, {20, 10}, {20, 11}, // Bottom-left edge
             {21, 0}, {21, 4}, {21, 8}, {21, 11},  // Top-left edge

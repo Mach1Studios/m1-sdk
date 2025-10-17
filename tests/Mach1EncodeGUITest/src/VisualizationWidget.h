@@ -5,6 +5,7 @@
 #include <imgui.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 #include "Mach1Point3D.h"
 
 class VisualizationWidget {
@@ -21,6 +22,9 @@ public:
     void render3DScene(const std::vector<Mach1Point3D>& points,
                       const std::vector<std::string>& pointNames);
     void setupSpatialPoints(int outputChannels);
+    void drawPointLabel(const glm::vec4& position, const std::string& label);
+    void drawCharacter(std::vector<float>& vertices, char c, float x, float y, float z, float width, float height);
+    void addLine(std::vector<float>& vertices, float x1, float y1, float x2, float y2, float z);
 
 private:
     void renderGainMatrix(const std::vector<std::vector<float>>& gains, 
@@ -97,7 +101,7 @@ private:
     bool m_showAxis = true;
     bool m_showSpatialPoints = true;
     bool m_showConnectingLines = true;
-    bool m_showPointLabels = true;
+    bool m_showPointLabels = false;
     float m_pointSize = 0.1f;
     bool m_autoRotate = false;
     float m_rotationSpeed = 1.0f;

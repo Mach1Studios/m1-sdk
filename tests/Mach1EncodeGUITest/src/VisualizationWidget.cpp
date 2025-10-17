@@ -1022,6 +1022,11 @@ void VisualizationWidget::drawSpatialPoints() {
         glBindVertexArray(m_sphereVAO);
         glDrawElements(GL_TRIANGLES, 1536, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
+        
+        // Draw point label if enabled
+        if (m_showPointLabels) {
+            drawPointLabel(transformedPoint, std::to_string(i));
+        }
     }
 }
 
@@ -1077,4 +1082,152 @@ void VisualizationWidget::drawConnectingLines() {
     // Cleanup
     glDeleteVertexArrays(1, &lineVAO);
     glDeleteBuffers(1, &lineVBO);
+}
+
+void VisualizationWidget::drawPointLabel(const glm::vec4& position, const std::string& label) {
+    if (label.empty()) return;
+    
+    // Set color for labels (bright white)
+    GLint colorLoc = glGetUniformLocation(m_shaderProgram, "color");
+    glUniform3f(colorLoc, 1.0f, 1.0f, 1.0f);
+    
+    // Create proper text rendering using geometric shapes for each character
+    std::vector<float> labelVertices;
+    float charWidth = 0.15f;
+    float charHeight = 0.2f;
+    float labelHeight = 0.8f;
+    
+    // Position the label above the point
+    float labelX = position.x;
+    float labelY = position.y;
+    float labelZ = position.z + labelHeight;
+    
+    // Calculate total width for centering
+    float totalWidth = label.length() * charWidth * 0.8f; // 0.8f for spacing
+    float startX = labelX - totalWidth / 2.0f;
+    
+    // Render each character
+    for (size_t i = 0; i < label.length() && i < 5; ++i) { // Limit to 5 characters max
+        char c = label[i];
+        float charX = startX + i * charWidth * 0.8f;
+        
+        // Draw character using line segments
+        drawCharacter(labelVertices, c, charX, labelY, labelZ, charWidth, charHeight);
+    }
+    
+    if (labelVertices.empty()) return;
+    
+    // Create temporary VAO and VBO for label
+    GLuint labelVAO, labelVBO;
+    glGenVertexArrays(1, &labelVAO);
+    glGenBuffers(1, &labelVBO);
+    
+    glBindVertexArray(labelVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, labelVBO);
+    glBufferData(GL_ARRAY_BUFFER, labelVertices.size() * sizeof(float), labelVertices.data(), GL_STATIC_DRAW);
+    
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    
+    // Set model matrix to identity
+    glm::mat4 model = glm::mat4(1.0f);
+    GLint modelLoc = glGetUniformLocation(m_shaderProgram, "model");
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+    
+    // Draw label lines
+    glBindVertexArray(labelVAO);
+    glDrawArrays(GL_LINES, 0, labelVertices.size() / 3);
+    glBindVertexArray(0);
+    
+    // Cleanup
+    glDeleteVertexArrays(1, &labelVAO);
+    glDeleteBuffers(1, &labelVBO);
+}
+
+void VisualizationWidget::drawCharacter(std::vector<float>& vertices, char c, float x, float y, float z, float width, float height) {
+    // Simple bitmap font rendering using line segments
+    // Each character is defined by line segments
+    
+    switch (c) {
+        case '0':
+            // Draw '0' as a rectangle
+            addLine(vertices, x, y, x + width, y, z);                    // top
+            addLine(vertices, x + width, y, x + width, y + height, z);   // right
+            addLine(vertices, x + width, y + height, x, y + height, z);  // bottom
+            addLine(vertices, x, y + height, x, y, z);                   // left
+            break;
+        case '1':
+            // Draw '1' as a vertical line with a small top line
+            addLine(vertices, x + width/2, y, x + width/2, y + height, z); // vertical
+            break;
+        case '2':
+            // Draw '2' as segments
+            addLine(vertices, x, y, x + width, y, z);                    // top
+            addLine(vertices, x + width, y, x + width, y + height/2, z); // right top
+            addLine(vertices, x + width, y + height/2, x, y + height/2, z); // middle
+            addLine(vertices, x, y + height/2, x, y + height, z);        // left bottom
+            addLine(vertices, x, y + height, x + width, y + height, z);  // bottom
+            break;
+        case '3':
+            // Draw '3' as segments
+            addLine(vertices, x, y, x + width, y, z);                    // top
+            addLine(vertices, x + width, y, x + width, y + height, z);   // right
+            addLine(vertices, x, y + height/2, x + width, y + height/2, z); // middle
+            addLine(vertices, x, y + height, x + width, y + height, z);  // bottom
+            break;
+        case '4':
+            // Draw '4' as segments
+            addLine(vertices, x, y, x, y + height/2, z);                 // left top
+            addLine(vertices, x, y + height/2, x + width, y + height/2, z); // middle
+            addLine(vertices, x + width, y, x + width, y + height, z);   // right
+            break;
+        case '5':
+            // Draw '5' as segments
+            addLine(vertices, x + width, y, x, y, z);                    // top
+            addLine(vertices, x, y, x, y + height/2, z);                 // left top
+            addLine(vertices, x, y + height/2, x + width, y + height/2, z); // middle
+            addLine(vertices, x + width, y + height/2, x + width, y + height, z); // right bottom
+            addLine(vertices, x + width, y + height, x, y + height, z);  // bottom
+            break;
+        case '6':
+            // Draw '6' as segments
+            addLine(vertices, x + width, y, x, y, z);                    // top
+            addLine(vertices, x, y, x, y + height, z);                   // left
+            addLine(vertices, x, y + height/2, x + width, y + height/2, z); // middle
+            addLine(vertices, x + width, y + height/2, x + width, y + height, z); // right bottom
+            addLine(vertices, x + width, y + height, x, y + height, z);  // bottom
+            break;
+        case '7':
+            // Draw '7' as segments
+            addLine(vertices, x, y, x + width, y, z);                    // top
+            addLine(vertices, x + width, y, x + width, y + height, z);   // right
+            break;
+        case '8':
+            // Draw '8' as two rectangles
+            addLine(vertices, x, y, x + width, y, z);                    // top
+            addLine(vertices, x + width, y, x + width, y + height/2, z); // right top
+            addLine(vertices, x + width, y + height/2, x, y + height/2, z); // middle
+            addLine(vertices, x, y + height/2, x, y, z);                 // left top
+            addLine(vertices, x, y + height/2, x, y + height, z);        // left bottom
+            addLine(vertices, x, y + height, x + width, y + height, z);  // bottom
+            addLine(vertices, x + width, y + height, x + width, y + height/2, z); // right bottom
+            break;
+        case '9':
+            // Draw '9' as segments
+            addLine(vertices, x, y, x + width, y, z);                    // top
+            addLine(vertices, x + width, y, x + width, y + height, z);   // right
+            addLine(vertices, x, y, x, y + height/2, z);                 // left top
+            addLine(vertices, x, y + height/2, x + width, y + height/2, z); // middle
+            addLine(vertices, x + width, y + height, x, y + height, z);  // bottom
+            break;
+        default:
+            // For unknown characters, draw a simple cross
+            addLine(vertices, x, y, x + width, y + height, z);
+            addLine(vertices, x + width, y, x, y + height, z);
+            break;
+    }
+}
+
+void VisualizationWidget::addLine(std::vector<float>& vertices, float x1, float y1, float x2, float y2, float z) {
+    vertices.insert(vertices.end(), {x1, y1, z, x2, y2, z});
 }

@@ -27,7 +27,7 @@ void AudioBuffers::Restructure(unsigned int buffer_size, unsigned int input_chan
     for (int idx = 0; idx < input_channel_count; idx++) m_input_buffers[idx].resize(buffer_size);
 
     m_output_buffers.resize(output_channel_count);
-    for (int idx = 0; idx < input_channel_count; idx++) m_output_buffers[idx].resize(buffer_size);
+    for (int idx = 0; idx < output_channel_count; idx++) m_output_buffers[idx].resize(buffer_size);
 
     m_buffer_size = buffer_size;
     m_input_channel_count = input_channel_count;

@@ -21,6 +21,7 @@ M1DecodeCore normalizes all input ranges to an unsigned "0 to 1" range for Yaw, 
 
 #include "Mach1DecodeCore.h"
 #include <string>
+#include <vector>
 
 #ifndef __ANDROID__
 // TODO: Remove this and figure out how to get ANDROID builds to accept newer stdlib
@@ -278,14 +279,88 @@ void M1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int numC
     }
 
 /// EXPERIMENT START
-    // decrease mono channels
-    for (int i = 0; i < numChannelPoints; i++) {
-        //float k = 1.0 / (0.5 + fabs(result[i * 2 + 0] - result[i * 2 + 1]) / 2);
-        float k = powf(1.0 / (0.5 + fabs(result[i * 2 + 0] - result[i * 2 + 1]) / 2), 2);        result[i * 2 + 0] /= k;
-        result[i * 2 + 1] /= k;
-    }
+    fprintf(stderr, "\n========== MACH1 DECODE EXPERIMENT START ==========\n");
+    fflush(stderr);
 
-    // second normalize
+    // Print result coefficients (evens and odds in separate columns)
+    fprintf(stderr, "\nPRE Result Coefficients:\n");
+    fprintf(stderr, "Channel | Even (L)      | Odd (R)\n");
+    fprintf(stderr, "--------|---------------|---------------\n");
+    for (int i = 0; i < numChannelPoints; i++) {
+        fprintf(stderr, "  %2d    | %13.6f | %13.6f\n", i, result[i * 2 + 0], result[i * 2 + 1]);
+    }
+    fprintf(stderr, "\n");
+    fflush(stderr);
+    
+
+    // Reduce channels with both L and R above threshold, then redistribute proportionally
+    const float threshold = 0.1f;
+    const float reductionAmount = 0.3f;
+    
+    float totalLReduction = 0.0f;
+    float totalRReduction = 0.0f;
+    std::vector<bool> isReduced(numChannelPoints, false);
+    
+    // Calculate and apply smooth reduction to channels with both L and R > threshold
+    for (int i = 0; i < numChannelPoints; i++) {
+        float L = result[i * 2 + 0];
+        float R = result[i * 2 + 1];
+        
+        if (L > threshold && R > threshold) {
+            // fades from 0 at threshold to full reduction above 2*threshold
+            float factorL = M1DecodeCore::clamp((L - threshold) / threshold, 0.0f, 1.0f);
+            float factorR = M1DecodeCore::clamp((R - threshold) / threshold, 0.0f, 1.0f);
+            float reduction = reductionAmount * (factorL + factorR) * 0.5f;
+            
+            totalLReduction += L * reduction;
+            totalRReduction += R * reduction;
+            result[i * 2 + 0] *= (1.0f - reduction);
+            result[i * 2 + 1] *= (1.0f - reduction);
+            isReduced[i] = true;
+        }
+    }
+    
+    // Distribute reductions proportionally to eligible (non-zero) channels
+    // L and R are distributed independently based on each channel's current value
+    for (int channel = 0; channel < 2; channel++) {  // 0 = L, 1 = R
+        float totalReduction = (channel == 0) ? totalLReduction : totalRReduction;
+        if (totalReduction <= 0.0f) continue;
+        
+        // Calculate total weight (sum of eligible channel values)
+        float totalWeight = 0.0f;
+        for (int i = 0; i < numChannelPoints; i++) {
+            if (!isReduced[i]) {
+                float value = result[i * 2 + channel];
+                if (value > 0.0f) {
+                    totalWeight += value;
+                }
+            }
+        }
+        
+        // Distribute proportionally
+        if (totalWeight > 0.0f) {
+            for (int i = 0; i < numChannelPoints; i++) {
+                if (!isReduced[i]) {
+                    float value = result[i * 2 + channel];
+                    if (value > 0.0f) {
+                        result[i * 2 + channel] += totalReduction * (value / totalWeight);
+                    }
+                }
+            }
+        }
+    }
+    
+    // Print result coefficients (evens and odds in separate columns)
+    fprintf(stderr, "\nPOST Result Coefficients:\n");
+    fprintf(stderr, "Channel | Even (L)      | Odd (R)\n");
+    fprintf(stderr, "--------|---------------|---------------\n");
+    for (int i = 0; i < numChannelPoints; i++) {
+        fprintf(stderr, "  %2d    | %13.6f | %13.6f\n", i, result[i * 2 + 0], result[i * 2 + 1]);
+    }
+    fprintf(stderr, "\n");
+    fflush(stderr);
+    
+    // re-normalize
     sumL = 0, sumR = 0;
     for (int i = 0; i < numChannelPoints; i++) {
         sumL += result[i * 2];
@@ -296,6 +371,8 @@ void M1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int numC
         result[i * 2 + 0] /= sumL;
         result[i * 2 + 1] /= sumR;
     }
+    fprintf(stderr, "========== MACH1 DECODE EXPERIMENT END ==========\n\n");
+    fflush(stderr);
 /// EXPERIMENT END
 }
 

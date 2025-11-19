@@ -350,6 +350,28 @@ void M1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int numC
         }
     }
     
+    // Apply pan law compensation: compensate for power loss when signal is distributed to both L and R
+    const float panLawDB = -7.7f;
+    const float panLawLinear = powf(10.0f, -panLawDB / 20.0f);
+    
+    for (int i = 0; i < numChannelPoints; i++) {
+        float L = result[i * 2 + 0];
+        float R = result[i * 2 + 1];
+        
+        // Apply pan law compensation to channels with both L and R > 0
+        if (L > 0.0f && R > 0.0f) {
+            float maxLR = (L > R) ? L : R;
+            float minLR = (L > R) ? R : L;
+            float similarity = minLR / maxLR;
+            
+            // Apply compensation: use linear similarity for more aggressive compensation
+            float compensationFactor = 1.0f + similarity * (panLawLinear - 1.0f);
+            
+            result[i * 2 + 0] *= compensationFactor;
+            result[i * 2 + 1] *= compensationFactor;
+        }
+    }
+    
     // Print result coefficients (evens and odds in separate columns)
     fprintf(stderr, "\nPOST Result Coefficients:\n");
     fprintf(stderr, "Channel | Even (L)      | Odd (R)\n");
@@ -361,7 +383,7 @@ void M1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int numC
     fflush(stderr);
     
     // re-normalize
-    sumL = 0, sumR = 0;
+    /*sumL = 0, sumR = 0;
     for (int i = 0; i < numChannelPoints; i++) {
         sumL += result[i * 2];
         sumR += result[i * 2 + 1];
@@ -370,7 +392,7 @@ void M1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int numC
     for (int i = 0; i < numChannelPoints; i++) {
         result[i * 2 + 0] /= sumL;
         result[i * 2 + 1] /= sumR;
-    }
+    }*/
     fprintf(stderr, "========== MACH1 DECODE EXPERIMENT END ==========\n\n");
     fflush(stderr);
 /// EXPERIMENT END

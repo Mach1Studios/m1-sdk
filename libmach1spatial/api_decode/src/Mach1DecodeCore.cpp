@@ -223,11 +223,24 @@ void M1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int numC
     Mach1Point3D fVec_2a = fVec_1a.getRotated(-simulationAngles[1], fVec_1b);
     Mach1Point3D fVec_2b = fVec_1a.getRotated(-simulationAngles[1] - 90, fVec_1b);
 
-    Mach1Point3D fVecL = fVec_2b.getRotated(simulationAngles[2] - 90, fVec_2a);
-    Mach1Point3D fVecR = fVec_2b.getRotated(simulationAngles[2] + 90, fVec_2a);
+    // Calculate contact points based on field of hearing
+    // We construct vectors perpendicular to the view direction (fVec_2a) rotated by Roll.
+    // Then we mix the view direction and these perpendicular vectors based on fieldOfHearingDegrees.
+    
+    // Vectors on the ring (plane perpendicular to view) corresponding to Left and Right channels
+    // Use -90/+90 to establish Left/Right perpendicular vectors relative to Roll
+    Mach1Point3D fVecRingL = fVec_2b.getRotated(simulationAngles[2] - 90, fVec_2a);
+    Mach1Point3D fVecRingR = fVec_2b.getRotated(simulationAngles[2] + 90, fVec_2a);
 
-    Mach1Point3D contactL = fVecL + fVec_2a;
-    Mach1Point3D contactR = fVecR + fVec_2a;
+    float fohRad = mDegToRad(fieldOfHearingDegrees);
+    float cosFOH = cos(fohRad);
+    float sinFOH = sin(fohRad);
+
+    // Scale by sqrt(2) to maintain gain compatibility with original algorithm which used vector addition (1+1)
+    float gainScale = sqrtf(2.0f);
+
+    Mach1Point3D contactL = (fVec_2a * cosFOH + fVecRingL * sinFOH) * gainScale;
+    Mach1Point3D contactR = (fVec_2a * cosFOH + fVecRingR * sinFOH) * gainScale;
 
     float d = sqrtf(5); // 100*100+200*200
 
@@ -277,100 +290,6 @@ void M1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int numC
         result[i * 2 + 0] /= sumL;
         result[i * 2 + 1] /= sumR;
     }
-
-/// EXPERIMENT START
-    fprintf(stderr, "\n========== MACH1 DECODE EXPERIMENT START ==========\n");
-    fflush(stderr);
-
-    // Print result coefficients (evens and odds in separate columns)
-    fprintf(stderr, "\nPRE Result Coefficients:\n");
-    fprintf(stderr, "Channel | Even (L)      | Odd (R)\n");
-    fprintf(stderr, "--------|---------------|---------------\n");
-    for (int i = 0; i < numChannelPoints; i++) {
-        fprintf(stderr, "  %2d    | %13.6f | %13.6f\n", i, result[i * 2 + 0], result[i * 2 + 1]);
-    }
-    fprintf(stderr, "\n");
-    fflush(stderr);
-    
-
-    // Reduce channels with both L and R above threshold, then redistribute proportionally
-    const float threshold = 0.1f;
-    const float reductionAmount = 0.3f;
-    
-    float totalLReduction = 0.0f;
-    float totalRReduction = 0.0f;
-    std::vector<bool> isReduced(numChannelPoints, false);
-    
-    // Calculate and apply smooth reduction to channels with both L and R > threshold
-    for (int i = 0; i < numChannelPoints; i++) {
-        float L = result[i * 2 + 0];
-        float R = result[i * 2 + 1];
-        
-        if (L > threshold && R > threshold) {
-            // fades from 0 at threshold to full reduction above 2*threshold
-            float factorL = M1DecodeCore::clamp((L - threshold) / threshold, 0.0f, 1.0f);
-            float factorR = M1DecodeCore::clamp((R - threshold) / threshold, 0.0f, 1.0f);
-            float reduction = reductionAmount * (factorL + factorR) * 0.5f;
-            
-            totalLReduction += L * reduction;
-            totalRReduction += R * reduction;
-            result[i * 2 + 0] *= (1.0f - reduction);
-            result[i * 2 + 1] *= (1.0f - reduction);
-            isReduced[i] = true;
-        }
-    }
-    
-    // Distribute reductions proportionally to eligible (non-zero) channels
-    // L and R are distributed independently based on each channel's current value
-    for (int channel = 0; channel < 2; channel++) {  // 0 = L, 1 = R
-        float totalReduction = (channel == 0) ? totalLReduction : totalRReduction;
-        if (totalReduction <= 0.0f) continue;
-        
-        // Calculate total weight (sum of eligible channel values)
-        float totalWeight = 0.0f;
-        for (int i = 0; i < numChannelPoints; i++) {
-            if (!isReduced[i]) {
-                float value = result[i * 2 + channel];
-                if (value > 0.0f) {
-                    totalWeight += value;
-                }
-            }
-        }
-        
-        // Distribute proportionally
-        if (totalWeight > 0.0f) {
-            for (int i = 0; i < numChannelPoints; i++) {
-                if (!isReduced[i]) {
-                    float value = result[i * 2 + channel];
-                    if (value > 0.0f) {
-                        result[i * 2 + channel] += totalReduction * (value / totalWeight);
-                    }
-                }
-            }
-        }
-    }
-    
-    // Apply pan law compensation: compensate for power loss when signal is distributed to both L and R
-    const float panLawDB = -7.7f;
-    const float panLawLinear = powf(10.0f, -panLawDB / 20.0f);
-    
-    for (int i = 0; i < numChannelPoints; i++) {
-        float L = result[i * 2 + 0];
-        float R = result[i * 2 + 1];
-        
-        // Apply pan law compensation to channels with both L and R > 0
-        if (L > 0.0f && R > 0.0f) {
-            float maxLR = (L > R) ? L : R;
-            float minLR = (L > R) ? R : L;
-            float similarity = minLR / maxLR;
-            
-            // Apply compensation: use linear similarity for more aggressive compensation
-            float compensationFactor = 1.0f + similarity * (panLawLinear - 1.0f);
-            
-            result[i * 2 + 0] *= compensationFactor;
-            result[i * 2 + 1] *= compensationFactor;
-        }
-    }
     
     // Print result coefficients (evens and odds in separate columns)
     fprintf(stderr, "\nPOST Result Coefficients:\n");
@@ -383,7 +302,7 @@ void M1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int numC
     fflush(stderr);
     
     // re-normalize
-    /*sumL = 0, sumR = 0;
+    sumL = 0, sumR = 0;
     for (int i = 0; i < numChannelPoints; i++) {
         sumL += result[i * 2];
         sumR += result[i * 2 + 1];
@@ -392,7 +311,7 @@ void M1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int numC
     for (int i = 0; i < numChannelPoints; i++) {
         result[i * 2 + 0] /= sumL;
         result[i * 2 + 1] /= sumR;
-    }*/
+    }
     fprintf(stderr, "========== MACH1 DECODE EXPERIMENT END ==========\n\n");
     fflush(stderr);
 /// EXPERIMENT END
@@ -948,6 +867,7 @@ M1DecodeCore::M1DecodeCore() {
     previousRoll = 0;
 
     filterSpeed = 0.9f;
+    fieldOfHearingDegrees = 45.0f; // Default ±45 degrees field of hearing
     timeLastUpdate = 0;
     timeLastCalculation = 0;
 
@@ -1045,6 +965,14 @@ void M1DecodeCore::setRotationQuat(Mach1Point4D newRotationQuat) {
 
 void M1DecodeCore::setFilterSpeed(float newFilterSpeed) {
     filterSpeed = newFilterSpeed;
+}
+
+void M1DecodeCore::setFieldOfHearingDegrees(float degrees) {
+    fieldOfHearingDegrees = degrees;
+}
+
+float M1DecodeCore::getFieldOfHearingDegrees() const {
+    return fieldOfHearingDegrees;
 }
 
 //--------------------------------------------------

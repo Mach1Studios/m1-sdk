@@ -51,6 +51,14 @@ void Mach1DecodeCAPI_setFilterSpeed(void *M1obj, float filterSpeed) {
     ((M1DecodeCore *)M1obj)->setFilterSpeed(filterSpeed);
 }
 
+void Mach1DecodeCAPI_setFieldOfHearingDegrees(void *M1obj, float degrees) {
+    ((M1DecodeCore *)M1obj)->setFieldOfHearingDegrees(degrees);
+}
+
+float Mach1DecodeCAPI_getFieldOfHearingDegrees(void *M1obj) {
+    return ((M1DecodeCore *)M1obj)->getFieldOfHearingDegrees();
+}
+
 int Mach1DecodeCAPI_getFormatChannelCount(void *M1obj) {
     return ((M1DecodeCore *)M1obj)->getFormatChannelCount();
 }

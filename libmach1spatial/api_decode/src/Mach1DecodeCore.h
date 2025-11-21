@@ -102,6 +102,7 @@ class M1DecodeCore {
   public:
     char *getLog();
     float filterSpeed;
+    float fieldOfHearingDegrees;
 
     // Angular settings functions
     static void convertAnglesToMach1(Mach1PlatformType platformType, float *Y, float *P, float *R);
@@ -125,6 +126,9 @@ class M1DecodeCore {
     void setRotationQuat(Mach1Point4D newRotationQuat);
 
     void setFilterSpeed(float filterSpeed);
+    
+    void setFieldOfHearingDegrees(float degrees);
+    float getFieldOfHearingDegrees() const;
 
     long getCurrentTime();
     long getLastCalculationTime();

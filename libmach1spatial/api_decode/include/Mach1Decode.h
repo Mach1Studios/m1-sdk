@@ -100,6 +100,19 @@ class Mach1Decode {
     void setFilterSpeed(float filterSpeed);
 
     /**
+     * @brief Set the field of hearing angle in degrees. This controls the angular spread of the listening field.
+     * @param degrees The field of hearing angle in degrees. Default is 45.0 (representing ±45 degrees from center).
+     *                Higher values will widen the field, removing channels directly in front.
+     */
+    void setFieldOfHearingDegrees(float degrees);
+
+    /**
+     * @brief Get the current field of hearing angle in degrees.
+     * @return The field of hearing angle in degrees.
+     */
+    float getFieldOfHearingDegrees();
+
+    /**
      * @brief Get the current elapsed time in milliseconds (ms) this Mach1Decode has been constructed.
      */
     long getCurrentTime();
@@ -335,6 +348,16 @@ void Mach1Decode<PCM>::setRotationQuat(Mach1Point4D newRotationQuat) {
 template <typename PCM>
 void Mach1Decode<PCM>::setFilterSpeed(float filterSpeed) {
     Mach1DecodeCAPI_setFilterSpeed(M1obj, filterSpeed);
+}
+
+template <typename PCM>
+void Mach1Decode<PCM>::setFieldOfHearingDegrees(float degrees) {
+    Mach1DecodeCAPI_setFieldOfHearingDegrees(M1obj, degrees);
+}
+
+template <typename PCM>
+float Mach1Decode<PCM>::getFieldOfHearingDegrees() {
+    return Mach1DecodeCAPI_getFieldOfHearingDegrees(M1obj);
 }
 
 template <typename PCM>

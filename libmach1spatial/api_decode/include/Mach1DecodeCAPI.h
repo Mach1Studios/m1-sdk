@@ -62,6 +62,8 @@ M1_API void Mach1DecodeCAPI_decodePannedCoeffs(void *M1obj, float *result, int b
 M1_API void Mach1DecodeCAPI_decodeCoeffsUsingTranscodeMatrix(void *M1obj, float *matrix, int channels, float *result, int bufferSize, int sampleIndex);
 
 M1_API void Mach1DecodeCAPI_setFilterSpeed(void *M1obj, float filterSpeed);
+M1_API void Mach1DecodeCAPI_setFieldOfHearingDegrees(void *M1obj, float degrees);
+M1_API float Mach1DecodeCAPI_getFieldOfHearingDegrees(void *M1obj);
 M1_API int Mach1DecodeCAPI_getFormatChannelCount(void *M1obj);
 M1_API int Mach1DecodeCAPI_getFormatCoeffCount(void *M1obj);
 M1_API void Mach1DecodeCAPI_setRotation(void *M1obj, Mach1Point3D newRotationFromMinusOnetoOne);

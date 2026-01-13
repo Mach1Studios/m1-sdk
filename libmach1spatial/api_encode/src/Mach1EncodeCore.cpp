@@ -245,6 +245,25 @@ void M1EncodeCore::processGains(float x, float y, float z, std::vector<float> &r
         {-1, -1, -1},
         {1, -1, -1}};
 
+    // M1Spatial-12: 8 cube corners + 4 horizon face centers (no top/bottom)
+    static std::vector<Mach1Point3D> m1Spatial_12_Def = {
+        // 8 cube corners
+        {-1, 1, 1},
+        {1, 1, 1},
+        {-1, -1, 1},
+        {1, -1, 1},
+
+        {-1, 1, -1},
+        {1, 1, -1},
+        {-1, -1, -1},
+        {1, -1, -1},
+
+        // 4 horizon face centers (Front, Right, Back, Left)
+        {0, 1 / 0.707, 0},
+        {1 / 0.707, 0, 0},
+        {0, -1 / 0.707, 0},
+        {-1 / 0.707, 0, 0}};
+
     static std::vector<Mach1Point3D> m1Spatial_14_Def = {
         {-1, 1, 1},
         {1, 1, 1},
@@ -418,6 +437,80 @@ void M1EncodeCore::processGains(float x, float y, float z, std::vector<float> &r
         {0, 1, 3},
         {3, 2, 0},
         /// BOTTOM FACE
+        {4, 5, 7},
+        {7, 6, 4},
+    };
+
+    /// MACH1SPATIAL-12
+    /* TOP VIEW
+     [0]___[8]___[1]
+      |           |
+   [11]          [9]
+      |           |
+     [2]___[10]__[3]
+     */
+    std::vector<std::vector<int> > m1Spatial_12_Lines_Def = {
+        /// TOP QUAD LINES
+        {0, 1},
+        {1, 3},
+        {3, 2},
+        {2, 0},
+        /// TOP TO BOTTOM LINES
+        {0, 4},
+        {1, 5},
+        {2, 6},
+        {3, 7},
+        /// BOTTOM QUAD LINES
+        {4, 5},
+        {5, 7},
+        {7, 6},
+        {6, 4},
+        /// FRONT FACE LINES (to point 8)
+        {0, 8},
+        {1, 8},
+        {4, 8},
+        {5, 8},
+        /// RIGHT FACE LINES (to point 9)
+        {1, 9},
+        {3, 9},
+        {5, 9},
+        {7, 9},
+        /// BACK FACE LINES (to point 10)
+        {3, 10},
+        {2, 10},
+        {7, 10},
+        {6, 10},
+        /// LEFT FACE LINES (to point 11)
+        {0, 11},
+        {2, 11},
+        {4, 11},
+        {6, 11},
+    };
+    std::vector<std::vector<int> > m1Spatial_12_Plane_Def = {
+        /// FRONT FACE TO POINT [8]
+        {0, 1, 8},
+        {1, 5, 8},
+        {5, 4, 8},
+        {4, 0, 8},
+        /// RIGHT FACE TO POINT [9]
+        {1, 3, 9},
+        {3, 7, 9},
+        {7, 5, 9},
+        {5, 1, 9},
+        /// BACK FACE TO POINT [10]
+        {3, 2, 10},
+        {2, 6, 10},
+        {6, 7, 10},
+        {7, 3, 10},
+        /// LEFT FACE TO POINT [11]
+        {2, 0, 11},
+        {0, 4, 11},
+        {4, 6, 11},
+        {6, 2, 11},
+        /// TOP FACE (flat quad triangulation)
+        {0, 1, 3},
+        {3, 2, 0},
+        /// BOTTOM FACE (flat quad triangulation)
         {4, 5, 7},
         {7, 6, 4},
     };

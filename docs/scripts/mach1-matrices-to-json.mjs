@@ -445,6 +445,279 @@ function parseFormatList(content) {
 }
 
 // ============================================================================
+// Standard Surround Format Positions
+// ============================================================================
+
+/**
+ * Standard speaker positions for common surround formats
+ * Coordinate system: X = Left(-) to Right(+), Y = Front(+) to Back(-), Z = Top(+) to Bottom(-)
+ * Positions use normalized unit sphere/cube coordinates
+ */
+const STANDARD_FORMAT_POSITIONS = {
+  // ---- Stereo / LCR ----
+  '1.0': [
+    { x: 0, y: 1, z: 0, label: 'C' }  // Center/Mono
+  ],
+  '2.0_M': [
+    { x: -0.5, y: 1, z: 0, label: 'L' },
+    { x: 0.5, y: 1, z: 0, label: 'R' }
+  ],
+  '2.0_C': [
+    { x: -0.5, y: 1, z: 0, label: 'L' },
+    { x: 0.5, y: 1, z: 0, label: 'R' }
+  ],
+  '3.0_LCR': [
+    { x: -0.5, y: 1, z: 0, label: 'L' },
+    { x: 0, y: 1, z: 0, label: 'C' },
+    { x: 0.5, y: 1, z: 0, label: 'R' }
+  ],
+  
+  // ---- 5.x Surround ----
+  '5.0_M': [
+    { x: -0.5, y: 0.866, z: 0, label: 'L' },      // 30 deg left
+    { x: 0, y: 1, z: 0, label: 'C' },              // Center
+    { x: 0.5, y: 0.866, z: 0, label: 'R' },       // 30 deg right
+    { x: -0.866, y: -0.5, z: 0, label: 'Ls' },   // 120 deg left (rear)
+    { x: 0.866, y: -0.5, z: 0, label: 'Rs' }     // 120 deg right (rear)
+  ],
+  '5.0_C': [
+    { x: -0.5, y: 0.866, z: 0, label: 'L' },
+    { x: 0, y: 1, z: 0, label: 'C' },
+    { x: 0.5, y: 0.866, z: 0, label: 'R' },
+    { x: -0.866, y: -0.5, z: 0, label: 'Ls' },
+    { x: 0.866, y: -0.5, z: 0, label: 'Rs' }
+  ],
+  '5.1_M': [  // L C R Ls Rs LFE
+    { x: -0.5, y: 0.866, z: 0, label: 'L' },
+    { x: 0, y: 1, z: 0, label: 'C' },
+    { x: 0.5, y: 0.866, z: 0, label: 'R' },
+    { x: -0.866, y: -0.5, z: 0, label: 'Ls' },
+    { x: 0.866, y: -0.5, z: 0, label: 'Rs' },
+    { x: 0, y: 0.5, z: -0.5, label: 'LFE' }  // LFE below front
+  ],
+  '5.1_C': [
+    { x: -0.5, y: 0.866, z: 0, label: 'L' },
+    { x: 0, y: 1, z: 0, label: 'C' },
+    { x: 0.5, y: 0.866, z: 0, label: 'R' },
+    { x: -0.866, y: -0.5, z: 0, label: 'Ls' },
+    { x: 0.866, y: -0.5, z: 0, label: 'Rs' },
+    { x: 0, y: 0.5, z: -0.5, label: 'LFE' }
+  ],
+  '5.1_M_SMPTE': [  // L R C LFE Ls Rs
+    { x: -0.5, y: 0.866, z: 0, label: 'L' },
+    { x: 0.5, y: 0.866, z: 0, label: 'R' },
+    { x: 0, y: 1, z: 0, label: 'C' },
+    { x: 0, y: 0.5, z: -0.5, label: 'LFE' },
+    { x: -0.866, y: -0.5, z: 0, label: 'Ls' },
+    { x: 0.866, y: -0.5, z: 0, label: 'Rs' }
+  ],
+  
+  // ---- 5.x.2 Height (Atmos/Auro) ----
+  '5.0.2_C': [
+    { x: -0.5, y: 0.866, z: 0, label: 'L' },
+    { x: 0, y: 1, z: 0, label: 'C' },
+    { x: 0.5, y: 0.866, z: 0, label: 'R' },
+    { x: -0.866, y: -0.5, z: 0, label: 'Ls' },
+    { x: 0.866, y: -0.5, z: 0, label: 'Rs' },
+    { x: -0.5, y: 0.866, z: 0.7, label: 'Ltf' },  // Top front left
+    { x: 0.5, y: 0.866, z: 0.7, label: 'Rtf' }   // Top front right
+  ],
+  '5.1.2_C': [
+    { x: -0.5, y: 0.866, z: 0, label: 'L' },
+    { x: 0, y: 1, z: 0, label: 'C' },
+    { x: 0.5, y: 0.866, z: 0, label: 'R' },
+    { x: -0.866, y: -0.5, z: 0, label: 'Ls' },
+    { x: 0.866, y: -0.5, z: 0, label: 'Rs' },
+    { x: 0, y: 0.5, z: -0.5, label: 'LFE' },
+    { x: -0.5, y: 0.866, z: 0.7, label: 'Ltf' },
+    { x: 0.5, y: 0.866, z: 0.7, label: 'Rtf' }
+  ],
+  
+  // ---- 5.x.4 Height ----
+  '5.0.4_C': [
+    { x: -0.5, y: 0.866, z: 0, label: 'L' },
+    { x: 0, y: 1, z: 0, label: 'C' },
+    { x: 0.5, y: 0.866, z: 0, label: 'R' },
+    { x: -0.866, y: -0.5, z: 0, label: 'Ls' },
+    { x: 0.866, y: -0.5, z: 0, label: 'Rs' },
+    { x: -0.5, y: 0.866, z: 0.7, label: 'Ltf' },
+    { x: 0.5, y: 0.866, z: 0.7, label: 'Rtf' },
+    { x: -0.866, y: -0.5, z: 0.7, label: 'Ltr' },  // Top rear left
+    { x: 0.866, y: -0.5, z: 0.7, label: 'Rtr' }   // Top rear right
+  ],
+  '5.1.4_C': [
+    { x: -0.5, y: 0.866, z: 0, label: 'L' },
+    { x: 0, y: 1, z: 0, label: 'C' },
+    { x: 0.5, y: 0.866, z: 0, label: 'R' },
+    { x: -0.866, y: -0.5, z: 0, label: 'Ls' },
+    { x: 0.866, y: -0.5, z: 0, label: 'Rs' },
+    { x: 0, y: 0.5, z: -0.5, label: 'LFE' },
+    { x: -0.5, y: 0.866, z: 0.7, label: 'Ltf' },
+    { x: 0.5, y: 0.866, z: 0.7, label: 'Rtf' },
+    { x: -0.866, y: -0.5, z: 0.7, label: 'Ltr' },
+    { x: 0.866, y: -0.5, z: 0.7, label: 'Rtr' }
+  ],
+  
+  // ---- 7.x Surround ----
+  '7.0_M': [
+    { x: -0.5, y: 0.866, z: 0, label: 'L' },
+    { x: 0, y: 1, z: 0, label: 'C' },
+    { x: 0.5, y: 0.866, z: 0, label: 'R' },
+    { x: -1, y: 0, z: 0, label: 'Lss' },    // Side left (90 deg)
+    { x: 1, y: 0, z: 0, label: 'Rss' },     // Side right (90 deg)
+    { x: -0.707, y: -0.707, z: 0, label: 'Lsr' },  // Rear left (135 deg)
+    { x: 0.707, y: -0.707, z: 0, label: 'Rsr' }   // Rear right (135 deg)
+  ],
+  '7.0_C': [
+    { x: -0.5, y: 0.866, z: 0, label: 'L' },
+    { x: 0, y: 1, z: 0, label: 'C' },
+    { x: 0.5, y: 0.866, z: 0, label: 'R' },
+    { x: -1, y: 0, z: 0, label: 'Lss' },
+    { x: 1, y: 0, z: 0, label: 'Rss' },
+    { x: -0.707, y: -0.707, z: 0, label: 'Lsr' },
+    { x: 0.707, y: -0.707, z: 0, label: 'Rsr' }
+  ],
+  '7.1_M': [
+    { x: -0.5, y: 0.866, z: 0, label: 'L' },
+    { x: 0, y: 1, z: 0, label: 'C' },
+    { x: 0.5, y: 0.866, z: 0, label: 'R' },
+    { x: -1, y: 0, z: 0, label: 'Lss' },
+    { x: 1, y: 0, z: 0, label: 'Rss' },
+    { x: -0.707, y: -0.707, z: 0, label: 'Lsr' },
+    { x: 0.707, y: -0.707, z: 0, label: 'Rsr' },
+    { x: 0, y: 0.5, z: -0.5, label: 'LFE' }
+  ],
+  '7.1_C': [
+    { x: -0.5, y: 0.866, z: 0, label: 'L' },
+    { x: 0, y: 1, z: 0, label: 'C' },
+    { x: 0.5, y: 0.866, z: 0, label: 'R' },
+    { x: -1, y: 0, z: 0, label: 'Lss' },
+    { x: 1, y: 0, z: 0, label: 'Rss' },
+    { x: -0.707, y: -0.707, z: 0, label: 'Lsr' },
+    { x: 0.707, y: -0.707, z: 0, label: 'Rsr' },
+    { x: 0, y: 0.5, z: -0.5, label: 'LFE' }
+  ],
+  
+  // ---- 7.x.2 Height ----
+  '7.0.2_M': [
+    { x: -0.5, y: 0.866, z: 0, label: 'L' },
+    { x: 0, y: 1, z: 0, label: 'C' },
+    { x: 0.5, y: 0.866, z: 0, label: 'R' },
+    { x: -1, y: 0, z: 0, label: 'Lss' },
+    { x: 1, y: 0, z: 0, label: 'Rss' },
+    { x: -0.707, y: -0.707, z: 0, label: 'Lsr' },
+    { x: 0.707, y: -0.707, z: 0, label: 'Rsr' },
+    { x: -0.5, y: 0.866, z: 0.7, label: 'Ltf' },
+    { x: 0.5, y: 0.866, z: 0.7, label: 'Rtf' }
+  ],
+  '7.1.2_M': [
+    { x: -0.5, y: 0.866, z: 0, label: 'L' },
+    { x: 0, y: 1, z: 0, label: 'C' },
+    { x: 0.5, y: 0.866, z: 0, label: 'R' },
+    { x: -1, y: 0, z: 0, label: 'Lss' },
+    { x: 1, y: 0, z: 0, label: 'Rss' },
+    { x: -0.707, y: -0.707, z: 0, label: 'Lsr' },
+    { x: 0.707, y: -0.707, z: 0, label: 'Rsr' },
+    { x: 0, y: 0.5, z: -0.5, label: 'LFE' },
+    { x: -0.5, y: 0.866, z: 0.7, label: 'Ltf' },
+    { x: 0.5, y: 0.866, z: 0.7, label: 'Rtf' }
+  ],
+  '7.0.2_C': [
+    { x: -0.5, y: 0.866, z: 0, label: 'L' },
+    { x: 0, y: 1, z: 0, label: 'C' },
+    { x: 0.5, y: 0.866, z: 0, label: 'R' },
+    { x: -1, y: 0, z: 0, label: 'Lss' },
+    { x: 1, y: 0, z: 0, label: 'Rss' },
+    { x: -0.707, y: -0.707, z: 0, label: 'Lsr' },
+    { x: 0.707, y: -0.707, z: 0, label: 'Rsr' },
+    { x: -0.5, y: 0.866, z: 0.7, label: 'Ltf' },
+    { x: 0.5, y: 0.866, z: 0.7, label: 'Rtf' }
+  ],
+  '7.1.2_C': [
+    { x: -0.5, y: 0.866, z: 0, label: 'L' },
+    { x: 0, y: 1, z: 0, label: 'C' },
+    { x: 0.5, y: 0.866, z: 0, label: 'R' },
+    { x: -1, y: 0, z: 0, label: 'Lss' },
+    { x: 1, y: 0, z: 0, label: 'Rss' },
+    { x: -0.707, y: -0.707, z: 0, label: 'Lsr' },
+    { x: 0.707, y: -0.707, z: 0, label: 'Rsr' },
+    { x: 0, y: 0.5, z: -0.5, label: 'LFE' },
+    { x: -0.5, y: 0.866, z: 0.7, label: 'Ltf' },
+    { x: 0.5, y: 0.866, z: 0.7, label: 'Rtf' }
+  ],
+  
+  // ---- 7.x.4 Height ----
+  '7.0.4_M': [
+    { x: -0.5, y: 0.866, z: 0, label: 'L' },
+    { x: 0, y: 1, z: 0, label: 'C' },
+    { x: 0.5, y: 0.866, z: 0, label: 'R' },
+    { x: -1, y: 0, z: 0, label: 'Lss' },
+    { x: 1, y: 0, z: 0, label: 'Rss' },
+    { x: -0.707, y: -0.707, z: 0, label: 'Lsr' },
+    { x: 0.707, y: -0.707, z: 0, label: 'Rsr' },
+    { x: -0.5, y: 0.866, z: 0.7, label: 'Ltf' },
+    { x: 0.5, y: 0.866, z: 0.7, label: 'Rtf' },
+    { x: -0.707, y: -0.707, z: 0.7, label: 'Ltr' },
+    { x: 0.707, y: -0.707, z: 0.7, label: 'Rtr' }
+  ],
+  '7.1.4_M': [
+    { x: -0.5, y: 0.866, z: 0, label: 'L' },
+    { x: 0, y: 1, z: 0, label: 'C' },
+    { x: 0.5, y: 0.866, z: 0, label: 'R' },
+    { x: -1, y: 0, z: 0, label: 'Lss' },
+    { x: 1, y: 0, z: 0, label: 'Rss' },
+    { x: -0.707, y: -0.707, z: 0, label: 'Lsr' },
+    { x: 0.707, y: -0.707, z: 0, label: 'Rsr' },
+    { x: 0, y: 0.5, z: -0.5, label: 'LFE' },
+    { x: -0.5, y: 0.866, z: 0.7, label: 'Ltf' },
+    { x: 0.5, y: 0.866, z: 0.7, label: 'Rtf' },
+    { x: -0.707, y: -0.707, z: 0.7, label: 'Ltr' },
+    { x: 0.707, y: -0.707, z: 0.7, label: 'Rtr' }
+  ],
+  '7.0.4_C': [
+    { x: -0.5, y: 0.866, z: 0, label: 'L' },
+    { x: 0, y: 1, z: 0, label: 'C' },
+    { x: 0.5, y: 0.866, z: 0, label: 'R' },
+    { x: -1, y: 0, z: 0, label: 'Lss' },
+    { x: 1, y: 0, z: 0, label: 'Rss' },
+    { x: -0.707, y: -0.707, z: 0, label: 'Lsr' },
+    { x: 0.707, y: -0.707, z: 0, label: 'Rsr' },
+    { x: -0.5, y: 0.866, z: 0.7, label: 'Ltf' },
+    { x: 0.5, y: 0.866, z: 0.7, label: 'Rtf' },
+    { x: -0.707, y: -0.707, z: 0.7, label: 'Ltr' },
+    { x: 0.707, y: -0.707, z: 0.7, label: 'Rtr' }
+  ],
+  '7.1.4_C': [
+    { x: -0.5, y: 0.866, z: 0, label: 'L' },
+    { x: 0, y: 1, z: 0, label: 'C' },
+    { x: 0.5, y: 0.866, z: 0, label: 'R' },
+    { x: -1, y: 0, z: 0, label: 'Lss' },
+    { x: 1, y: 0, z: 0, label: 'Rss' },
+    { x: -0.707, y: -0.707, z: 0, label: 'Lsr' },
+    { x: 0.707, y: -0.707, z: 0, label: 'Rsr' },
+    { x: 0, y: 0.5, z: -0.5, label: 'LFE' },
+    { x: -0.5, y: 0.866, z: 0.7, label: 'Ltf' },
+    { x: 0.5, y: 0.866, z: 0.7, label: 'Rtf' },
+    { x: -0.707, y: -0.707, z: 0.7, label: 'Ltr' },
+    { x: 0.707, y: -0.707, z: 0.7, label: 'Rtr' }
+  ],
+  
+  // ---- Quad / LCRs ----
+  'Quad': [
+    { x: -0.707, y: 0.707, z: 0, label: 'FL' },
+    { x: 0.707, y: 0.707, z: 0, label: 'FR' },
+    { x: -0.707, y: -0.707, z: 0, label: 'RL' },
+    { x: 0.707, y: -0.707, z: 0, label: 'RR' }
+  ],
+  'M1Horizon': [
+    { x: -0.707, y: 0.707, z: 0, label: 'FL' },
+    { x: 0.707, y: 0.707, z: 0, label: 'FR' },
+    { x: -0.707, y: -0.707, z: 0, label: 'RL' },
+    { x: 0.707, y: -0.707, z: 0, label: 'RR' }
+  ]
+};
+
+// ============================================================================
 // Main
 // ============================================================================
 
@@ -516,28 +789,33 @@ async function main() {
     console.error(`  Error: ${err.message}`);
   }
   
-  // Extract positions from matrices for non-Mach1 formats
+  // Build format positions from:
+  // 1. Standard format positions (known speaker layouts)
+  // 2. Panner data from matrices (if available)
   const formatPositions = {};
   
+  // First, add all known standard format positions
+  for (const [formatName, positions] of Object.entries(STANDARD_FORMAT_POSITIONS)) {
+    formatPositions[formatName] = positions;
+  }
+  
+  // Then, extract any additional positions from matrices with Panner data
   for (const matrix of allMatrices) {
-    // Check if this matrix has Panner data (positional info)
     const pannerChannels = matrix.channels.filter(ch => ch.kind === 'Panner');
     
-    if (pannerChannels.length > 0) {
-      // Store positions for the source format
-      if (!formatPositions[matrix.formatFrom]) {
-        formatPositions[matrix.formatFrom] = [];
-      }
-      if (formatPositions[matrix.formatFrom].length === 0) {
-        formatPositions[matrix.formatFrom] = pannerChannels.map(ch => ({
-          azimuth: ch.azimuth,
-          elevation: ch.elevation,
-          diverge: ch.diverge,
-          gain: ch.gain
-        }));
-      }
+    if (pannerChannels.length > 0 && !formatPositions[matrix.formatFrom]) {
+      // Store positions for the source format if not already defined
+      formatPositions[matrix.formatFrom] = pannerChannels.map(ch => ({
+        azimuth: ch.azimuth,
+        elevation: ch.elevation,
+        diverge: ch.diverge,
+        gain: ch.gain
+      }));
     }
   }
+  
+  console.log(`  Standard format positions: ${Object.keys(STANDARD_FORMAT_POSITIONS).length}`);
+  console.log(`  Total format positions: ${Object.keys(formatPositions).length}`);
   
   // Convert sets to arrays
   const outputFormatsReferenced = {

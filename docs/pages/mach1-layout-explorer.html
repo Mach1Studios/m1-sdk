@@ -436,9 +436,18 @@
         return () => observer.disconnect();
       }, []);
       
-      // Get overlay positions
+      // Get overlay positions - first check standard format positions, then matrix Panner data
       const getOverlayPositions = useCallback((formatName) => {
         if (!data) return [];
+        
+        // Check standard format positions first
+        const stdPositions = data.formatPositions?.[formatName];
+        if (stdPositions && stdPositions.length > 0) {
+          // Convert {x, y, z} to [x, y, z] array format, scaled to fit visualization
+          return stdPositions.map(pos => [pos.x * 1.5, pos.y * 1.5, pos.z * 1.5]);
+        }
+        
+        // Fallback to matrix Panner data
         for (const matrix of data.matrices) {
           if (matrix.formatFrom === formatName) {
             const panners = matrix.channels.filter(ch => ch.kind === 'Panner');
@@ -446,6 +455,16 @@
               return panners.map(ch => sphericalToCartesian(ch.azimuth || 0, ch.elevation || 0, 1.8));
             }
           }
+        }
+        return [];
+      }, [data]);
+      
+      // Get labels for overlay format channels
+      const getOverlayLabels = useCallback((formatName) => {
+        if (!data) return [];
+        const stdPositions = data.formatPositions?.[formatName];
+        if (stdPositions && stdPositions.length > 0) {
+          return stdPositions.map(pos => pos.label || '');
         }
         return [];
       }, [data]);
@@ -673,17 +692,19 @@
           const formatName = overlayFormats[formatIdx];
           const color = COLORS.overlay[formatIdx % COLORS.overlay.length];
           const positions = getOverlayPositions(formatName);
+          const labels = getOverlayLabels(formatName);
           const isolated = isolatedChannels.get(formatName);
           
           for (let i = 0; i < positions.length; i++) {
             const isIsolated = isolated && isolated.size > 0;
             const isActive = !isIsolated || isolated.has(i);
-            objects.push({ type: 'point', vertices: [positions[i]], color: isActive ? color : COLORS.grayFour, label: showLabels ? `${i}` : undefined, depth: 0, opacity: isActive ? 1 : 0.3 });
+            const label = showLabels ? (labels[i] || `${i}`) : undefined;
+            objects.push({ type: 'point', vertices: [positions[i]], color: isActive ? color : COLORS.grayFour, label, depth: 0, opacity: isActive ? 1 : 0.3 });
           }
         }
         
         return objects;
-      }, [data, selectedMach1Format, overlayFormats, showPlanes, showLines, showLabels, showDistribution, showConnectionLines, getOverlayPositions, getCoefficientsToMach1, channelInfluence, maxInfluence, isolatedChannels, getHeatmapColor]);
+      }, [data, selectedMach1Format, overlayFormats, showPlanes, showLines, showLabels, showDistribution, showConnectionLines, getOverlayPositions, getOverlayLabels, getCoefficientsToMach1, channelInfluence, maxInfluence, isolatedChannels, getHeatmapColor]);
       
       // Camera matrices
       const { viewMatrix, projMatrix } = useMemo(() => {
@@ -893,6 +914,7 @@
                 {overlayFormats.map((formatName, formatIdx) => {
                   const color = COLORS.overlay[formatIdx % COLORS.overlay.length];
                   const positions = getOverlayPositions(formatName);
+                  const labels = getOverlayLabels(formatName);
                   const coeffData = getCoefficientsToMach1(formatName);
                   const channelCount = positions.length || (coeffData?.inputChannels || 0);
                   const isolated = isolatedChannels.get(formatName);
@@ -906,14 +928,16 @@
                         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                           <div style={colorDotStyle(color)} />
                           <span style={{ fontSize: '12px', fontWeight: 500 }}>{formatName}</span>
+                          <span style={{ fontSize: '10px', color: COLORS.textMuted }}>({channelCount}ch)</span>
                         </div>
                         {hasIsolation && <button style={{ ...buttonStyle, padding: '2px 6px', fontSize: '9px', color: COLORS.textMuted }} onClick={() => clearIsolation(formatName)}>Clear</button>}
                       </div>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', maxHeight: '80px', overflowY: 'auto' }}>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', maxHeight: '100px', overflowY: 'auto' }}>
                         {Array.from({ length: channelCount }, (_, i) => {
                           const isActive = !hasIsolation || (isolated && isolated.has(i));
+                          const channelLabel = labels[i] || `${i}`;
                           return (
-                            <button key={i} style={{ width: '28px', height: '24px', padding: '2px 4px', fontSize: '10px', fontFamily: 'inherit', backgroundColor: isActive && hasIsolation ? color : COLORS.bgTertiary, color: isActive ? COLORS.textPrimary : COLORS.textMuted, border: `1px solid ${isActive && hasIsolation ? color : COLORS.border}`, borderRadius: '3px', cursor: 'pointer', opacity: isActive ? 1 : 0.5 }} onClick={() => toggleChannelIsolation(formatName, i)}>{i}</button>
+                            <button key={i} style={{ minWidth: '32px', height: '24px', padding: '2px 6px', fontSize: '9px', fontFamily: 'inherit', backgroundColor: isActive && hasIsolation ? color : COLORS.bgTertiary, color: isActive ? COLORS.textPrimary : COLORS.textMuted, border: `1px solid ${isActive && hasIsolation ? color : COLORS.border}`, borderRadius: '3px', cursor: 'pointer', opacity: isActive ? 1 : 0.5 }} onClick={() => toggleChannelIsolation(formatName, i)} title={`Channel ${i}: ${channelLabel}`}>{channelLabel}</button>
                           );
                         })}
                       </div>

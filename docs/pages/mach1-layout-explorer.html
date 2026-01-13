@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mach1 Format Layout Explorer</title>
+  <meta name="description" content="3D visualization tool for comparing Mach1 spatial format layouts and channel positions.">
+  
+  <!-- React -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Reset and base (from custom.css) */
+    :root {
+      --dark-grey: #1A1A1A;
+      --light-grey: #626161;
+      --white: #FEFEFE;
+      --m1yellow: #FFC61E;
+      --hl-yellow: #F2FF5F;
+      --hl-blue: #14DFBA;
+      --hl-green: #38F708;
+      --gray-zero: #181818;
+      --gray-one: #282828;
+      --gray-two: #363636;
+      --gray-three: #404040;
+      --gray-four: #707070;
+      --gray-five: #E4E4E4;
+      --off-white: #FBFBFB;
+      --border-gray: #333333;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    html, body {
+      height: 100%;
+      width: 100%;
+      background-color: var(--gray-zero);
+      color: var(--white);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    
+    #root {
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      background-color: var(--gray-one);
+      border-bottom: 1px solid var(--border-gray);
+    }
+    
+    .page-header h1 {
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .page-header .logo {
+      width: 32px;
+      height: 32px;
+    }
+    
+    .page-header nav {
+      display: flex;
+      gap: 16px;
+    }
+    
+    .page-header nav a {
+      color: var(--gray-five);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.15s;
+    }
+    
+    .page-header nav a:hover {
+      color: var(--m1yellow);
+    }
+    
+    .explorer-container {
+      flex: 1;
+      min-height: 0;
+    }
+    
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: var(--gray-one);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: var(--gray-three);
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--gray-four);
+    }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <header class="page-header">
+      <h1>
+        Mach1 Format Layout Explorer
+      </h1>
+      <nav>
+        <a href="https://www.mach1.tech" target="_blank">Mach1.tech</a>
+        <a href="https://github.com/Mach1Studios/m1-sdk" target="_blank">GitHub</a>
+        <a href="../html/index.html">API Docs</a>
+      </nav>
+    </header>
+    <div class="explorer-container" id="explorer"></div>
+  </div>
+  
+  <script type="text/babel">
+    // ============================================================================
+    // Mach1 Layout Explorer Component (Inline for standalone page)
+    // ============================================================================
+    
+    const { useState, useEffect, useRef, useMemo, useCallback } = React;
+    
+    // Color palette
+    const COLORS = {
+      bgPrimary: '#181818',
+      bgSecondary: '#282828',
+      bgTertiary: '#363636',
+      textPrimary: '#FAFAFA',
+      textSecondary: '#E4E4E4',
+      textMuted: '#707070',
+      m1Yellow: '#FFC61E',
+      hlYellow: '#F2FF5F',
+      hlBlue: '#14DFBA',
+      hlGreen: '#38F708',
+      grayOne: '#282828',
+      grayTwo: '#363636',
+      grayThree: '#404040',
+      grayFour: '#707070',
+      grayFive: '#E4E4E4',
+      border: '#333333',
+      mach1Point: '#FFFFFF',
+      mach1Line: '#707070',
+      mach1Plane: 'rgba(112, 112, 112, 0.15)',
+      overlay: [
+        '#14DFBA', '#F78166', '#A371F7', '#38F708',
+        '#F2FF5F', '#58A6FF', '#F85149', '#D29922'
+      ]
+    };
+    
+    // 3D Math utilities
+    function vec3Sub(a, b) { return [a[0] - b[0], a[1] - b[1], a[2] - b[2]]; }
+    function vec3Dot(a, b) { return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]; }
+    function vec3Cross(a, b) {
+      return [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+    }
+    function vec3Length(v) { return Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]); }
+    function vec3Normalize(v) {
+      const len = vec3Length(v);
+      return len === 0 ? [0, 0, 0] : [v[0] / len, v[1] / len, v[2] / len];
+    }
+    
+    function mat4Perspective(fov, aspect, near, far) {
+      const f = 1 / Math.tan(fov / 2);
+      const nf = 1 / (near - far);
+      return [f / aspect, 0, 0, 0, 0, f, 0, 0, 0, 0, (far + near) * nf, -1, 0, 0, 2 * far * near * nf, 0];
+    }
+    
+    function mat4LookAt(eye, target, up) {
+      const z = vec3Normalize(vec3Sub(eye, target));
+      const x = vec3Normalize(vec3Cross(up, z));
+      const y = vec3Cross(z, x);
+      return [x[0], y[0], z[0], 0, x[1], y[1], z[1], 0, x[2], y[2], z[2], 0,
+        -vec3Dot(x, eye), -vec3Dot(y, eye), -vec3Dot(z, eye), 1];
+    }
+    
+    function mat4Transform(m, v) {
+      const w = m[3] * v[0] + m[7] * v[1] + m[11] * v[2] + m[15];
+      return [
+        (m[0] * v[0] + m[4] * v[1] + m[8] * v[2] + m[12]) / w,
+        (m[1] * v[0] + m[5] * v[1] + m[9] * v[2] + m[13]) / w,
+        (m[2] * v[0] + m[6] * v[1] + m[10] * v[2] + m[14]) / w
+      ];
+    }
+    
+    function sphericalToCartesian(azimuth, elevation, radius = 1) {
+      const azRad = (azimuth * Math.PI) / 180;
+      const elRad = (elevation * Math.PI) / 180;
+      const cosEl = Math.cos(elRad);
+      return [Math.sin(azRad) * cosEl * radius, Math.cos(azRad) * cosEl * radius, Math.sin(elRad) * radius];
+    }
+    
+    function projectToScreen(point, viewMatrix, projMatrix, width, height) {
+      const viewPoint = mat4Transform(viewMatrix, point);
+      const clipPoint = mat4Transform(projMatrix, viewPoint);
+      if (clipPoint[2] < -1 || clipPoint[2] > 1) return null;
+      return {
+        x: (clipPoint[0] + 1) * 0.5 * width,
+        y: (1 - clipPoint[1]) * 0.5 * height,
+        z: clipPoint[2]
+      };
+    }
+    
+    function drawGrid(ctx, viewMatrix, projMatrix, width, height) {
+      const gridSize = 4;
+      const gridStep = 0.5;
+      ctx.strokeStyle = COLORS.grayTwo;
+      ctx.lineWidth = 0.5;
+      
+      for (let i = -gridSize; i <= gridSize; i += gridStep) {
+        const p1 = projectToScreen([-gridSize, i, 0], viewMatrix, projMatrix, width, height);
+        const p2 = projectToScreen([gridSize, i, 0], viewMatrix, projMatrix, width, height);
+        if (p1 && p2) { ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke(); }
+        
+        const p3 = projectToScreen([i, -gridSize, 0], viewMatrix, projMatrix, width, height);
+        const p4 = projectToScreen([i, gridSize, 0], viewMatrix, projMatrix, width, height);
+        if (p3 && p4) { ctx.beginPath(); ctx.moveTo(p3.x, p3.y); ctx.lineTo(p4.x, p4.y); ctx.stroke(); }
+      }
+    }
+    
+    function drawAxisIndicator(ctx, viewMatrix, projMatrix, width, height) {
+      const origin = projectToScreen([0, 0, 0], viewMatrix, projMatrix, width, height);
+      if (!origin) return;
+      
+      const axisLength = 0.5;
+      const axes = [
+        { dir: [axisLength, 0, 0], color: '#F85149', label: 'X' },
+        { dir: [0, axisLength, 0], color: '#38F708', label: 'Y' },
+        { dir: [0, 0, axisLength], color: '#58A6FF', label: 'Z' }
+      ];
+      
+      for (const axis of axes) {
+        const end = projectToScreen(axis.dir, viewMatrix, projMatrix, width, height);
+        if (end) {
+          ctx.beginPath();
+          ctx.moveTo(origin.x, origin.y);
+          ctx.lineTo(end.x, end.y);
+          ctx.strokeStyle = axis.color;
+          ctx.lineWidth = 2;
+          ctx.stroke();
+          
+          const dx = end.x - origin.x;
+          const dy = end.y - origin.y;
+          const len = Math.sqrt(dx * dx + dy * dy);
+          if (len > 10) {
+            const nx = dx / len;
+            const ny = dy / len;
+            ctx.beginPath();
+            ctx.moveTo(end.x, end.y);
+            ctx.lineTo(end.x - nx * 6 - ny * 3, end.y - ny * 6 + nx * 3);
+            ctx.lineTo(end.x - nx * 6 + ny * 3, end.y - ny * 6 - nx * 3);
+            ctx.closePath();
+            ctx.fillStyle = axis.color;
+            ctx.fill();
+            
+            ctx.font = '10px JetBrains Mono, monospace';
+            ctx.fillStyle = axis.color;
+            ctx.textAlign = 'center';
+            ctx.fillText(axis.label, end.x + nx * 12, end.y + ny * 12);
+          }
+        }
+      }
+      
+      // Draw prominent FRONT indicator along Y+ axis
+      const frontEnd = projectToScreen([0, 1.2, 0], viewMatrix, projMatrix, width, height);
+      if (frontEnd) {
+        ctx.save();
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(origin.x, origin.y);
+        ctx.lineTo(frontEnd.x, frontEnd.y);
+        ctx.strokeStyle = 'rgba(56, 247, 8, 0.3)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.restore();
+        
+        ctx.font = 'bold 11px JetBrains Mono, monospace';
+        ctx.fillStyle = '#38F708';
+        ctx.textAlign = 'center';
+        ctx.fillText('FRONT', frontEnd.x, frontEnd.y - 8);
+        
+        const dx = frontEnd.x - origin.x;
+        const dy = frontEnd.y - origin.y;
+        const len = Math.sqrt(dx * dx + dy * dy);
+        if (len > 20) {
+          const nx = dx / len;
+          const ny = dy / len;
+          ctx.beginPath();
+          ctx.moveTo(frontEnd.x, frontEnd.y);
+          ctx.lineTo(frontEnd.x - nx * 8 - ny * 5, frontEnd.y - ny * 8 + nx * 5);
+          ctx.lineTo(frontEnd.x - nx * 8 + ny * 5, frontEnd.y - ny * 8 - nx * 5);
+          ctx.closePath();
+          ctx.fillStyle = 'rgba(56, 247, 8, 0.6)';
+          ctx.fill();
+        }
+      }
+    }
+    
+    function renderScene(ctx, objects, viewMatrix, projMatrix, width, height) {
+      ctx.fillStyle = COLORS.bgPrimary;
+      ctx.fillRect(0, 0, width, height);
+      
+      drawGrid(ctx, viewMatrix, projMatrix, width, height);
+      drawAxisIndicator(ctx, viewMatrix, projMatrix, width, height);
+      
+      const sortedObjects = objects.map(obj => {
+        const centerZ = obj.vertices.reduce((sum, v) => {
+          const projected = projectToScreen(v, viewMatrix, projMatrix, width, height);
+          return sum + (projected ? projected.z : 0);
+        }, 0) / obj.vertices.length;
+        return { ...obj, sortDepth: centerZ };
+      }).sort((a, b) => b.sortDepth - a.sortDepth);
+      
+      for (const obj of sortedObjects) {
+        if (obj.type === 'triangle') {
+          const projected = obj.vertices.map(v => projectToScreen(v, viewMatrix, projMatrix, width, height));
+          if (projected.every(p => p !== null)) {
+            ctx.beginPath();
+            ctx.moveTo(projected[0].x, projected[0].y);
+            ctx.lineTo(projected[1].x, projected[1].y);
+            ctx.lineTo(projected[2].x, projected[2].y);
+            ctx.closePath();
+            ctx.fillStyle = obj.color;
+            ctx.fill();
+          }
+        } else if (obj.type === 'line') {
+          const p1 = projectToScreen(obj.vertices[0], viewMatrix, projMatrix, width, height);
+          const p2 = projectToScreen(obj.vertices[1], viewMatrix, projMatrix, width, height);
+          if (p1 && p2) {
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = obj.color;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        } else if (obj.type === 'point') {
+          const p = projectToScreen(obj.vertices[0], viewMatrix, projMatrix, width, height);
+          if (p) {
+            const baseRadius = 6;
+            const sizeMultiplier = obj.opacity || 1;
+            const radius = baseRadius * sizeMultiplier;
+            const alpha = typeof obj.opacity === 'number' && obj.opacity < 1 ? obj.opacity : 1;
+            
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, radius + 3, 0, Math.PI * 2);
+            const glowAlpha = sizeMultiplier > 1 ? 0.3 : 0.1;
+            ctx.fillStyle = `rgba(255, 255, 255, ${glowAlpha * alpha})`;
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
+            if (alpha < 1 && obj.color.startsWith('#')) {
+              const r = parseInt(obj.color.slice(1, 3), 16);
+              const g = parseInt(obj.color.slice(3, 5), 16);
+              const b = parseInt(obj.color.slice(5, 7), 16);
+              ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+            } else {
+              ctx.fillStyle = obj.color;
+            }
+            ctx.fill();
+            
+            if (obj.label) {
+              ctx.font = '11px JetBrains Mono, monospace';
+              ctx.fillStyle = alpha < 1 ? `rgba(228, 228, 228, ${alpha})` : COLORS.textSecondary;
+              ctx.textAlign = 'center';
+              ctx.fillText(obj.label, p.x, p.y - radius - 6);
+            }
+          }
+        }
+      }
+    }
+    
+    // Main Component
+    function Mach1LayoutExplorer({ dataUrl = '../public/mach1-matrices.json' }) {
+      const [data, setData] = useState(null);
+      const [loading, setLoading] = useState(true);
+      const [error, setError] = useState(null);
+      const [selectedMach1Format, setSelectedMach1Format] = useState('M1Spatial-8');
+      const [overlayFormats, setOverlayFormats] = useState([]);
+      const [cameraMode, setCameraMode] = useState('orbit');
+      const [cameraDistance, setCameraDistance] = useState(6);
+      const [cameraAzimuth, setCameraAzimuth] = useState(45);
+      const [cameraElevation, setCameraElevation] = useState(30);
+      const [showPlanes, setShowPlanes] = useState(true);
+      const [showLines, setShowLines] = useState(true);
+      const [showLabels, setShowLabels] = useState(true);
+      const [showDistribution, setShowDistribution] = useState(true);
+      const [showConnectionLines, setShowConnectionLines] = useState(false);
+      const [selectedOverlayDetail, setSelectedOverlayDetail] = useState(null);
+      const [isolatedChannels, setIsolatedChannels] = useState(new Map());
+      
+      const canvasRef = useRef(null);
+      const containerRef = useRef(null);
+      const [dimensions, setDimensions] = useState({ width: 800, height: 600 });
+      const isDragging = useRef(false);
+      const lastMousePos = useRef({ x: 0, y: 0 });
+      
+      // Load data
+      useEffect(() => {
+        fetch(dataUrl)
+          .then(res => { if (!res.ok) throw new Error(`Failed: ${res.status}`); return res.json(); })
+          .then(setData)
+          .catch(err => setError(err.message))
+          .finally(() => setLoading(false));
+      }, [dataUrl]);
+      
+      // Resize observer
+      useEffect(() => {
+        if (!containerRef.current) return;
+        const observer = new ResizeObserver(entries => {
+          const entry = entries[0];
+          if (entry) setDimensions({ width: entry.contentRect.width, height: entry.contentRect.height });
+        });
+        observer.observe(containerRef.current);
+        return () => observer.disconnect();
+      }, []);
+      
+      // Get overlay positions
+      const getOverlayPositions = useCallback((formatName) => {
+        if (!data) return [];
+        for (const matrix of data.matrices) {
+          if (matrix.formatFrom === formatName) {
+            const panners = matrix.channels.filter(ch => ch.kind === 'Panner');
+            if (panners.length > 0) {
+              return panners.map(ch => sphericalToCartesian(ch.azimuth || 0, ch.elevation || 0, 1.8));
+            }
+          }
+        }
+        return [];
+      }, [data]);
+      
+      // Get coefficients to Mach1 - returns coeffs[inputCh][outputCh]
+      const getCoefficientsToMach1 = useCallback((formatName) => {
+        if (!data) return null;
+        for (const matrix of data.matrices) {
+          if (matrix.formatFrom === formatName && matrix.formatTo.includes('M1')) {
+            const coeffs = [];
+            let maxOutputChannels = 0;
+            for (const channel of matrix.channels) {
+              if (channel.kind === 'Coeffs' && channel.data) {
+                coeffs.push(channel.data);
+                maxOutputChannels = Math.max(maxOutputChannels, channel.data.length);
+              }
+            }
+            if (coeffs.length > 0) return { coeffs, inputChannels: coeffs.length, outputChannels: maxOutputChannels, direction: 'to', targetFormat: matrix.formatTo };
+          }
+        }
+        for (const matrix of data.matrices) {
+          if (matrix.formatTo === formatName && matrix.formatFrom.includes('M1')) {
+            const coeffs = [];
+            let maxOutputChannels = 0;
+            for (const channel of matrix.channels) {
+              if (channel.kind === 'Coeffs' && channel.data) { coeffs.push(channel.data); maxOutputChannels = Math.max(maxOutputChannels, channel.data.length); }
+            }
+            if (coeffs.length > 0) return { coeffs, inputChannels: maxOutputChannels, outputChannels: coeffs.length, direction: 'from', targetFormat: matrix.formatFrom };
+          }
+        }
+        return null;
+      }, [data]);
+      
+      // Channel influence calculation
+      const channelInfluence = useMemo(() => {
+        if (!data || overlayFormats.length === 0) return new Map();
+        const influence = new Map();
+        const mach1Format = data.mach1SpatialFormats[selectedMach1Format];
+        if (!mach1Format) return influence;
+        
+        for (let i = 0; i < mach1Format.points.length; i++) {
+          influence.set(i, { total: 0, byFormat: new Map() });
+        }
+        
+        for (const formatName of overlayFormats) {
+          const coeffData = getCoefficientsToMach1(formatName);
+          if (!coeffData) continue;
+          
+          const isolated = isolatedChannels.get(formatName);
+          const channelsToUse = isolated && isolated.size > 0 ? Array.from(isolated) : Array.from({ length: coeffData.inputChannels }, (_, i) => i);
+          
+          for (let m1Ch = 0; m1Ch < Math.min(coeffData.outputChannels, mach1Format.points.length); m1Ch++) {
+            let channelTotal = 0;
+            for (const srcCh of channelsToUse) {
+              // coeffs[srcCh][m1Ch] for 'to' direction, coeffs[m1Ch][srcCh] for 'from' direction
+              const coeff = coeffData.direction === 'to' ? (coeffData.coeffs[srcCh] || [])[m1Ch] || 0 : (coeffData.coeffs[m1Ch] || [])[srcCh] || 0;
+              channelTotal += Math.abs(coeff);
+            }
+            const entry = influence.get(m1Ch);
+            if (entry) entry.total += channelTotal;
+          }
+        }
+        return influence;
+      }, [data, overlayFormats, selectedMach1Format, isolatedChannels, getCoefficientsToMach1]);
+      
+      const maxInfluence = useMemo(() => {
+        let max = 0;
+        for (const [_, inf] of channelInfluence) max = Math.max(max, inf.total);
+        return max || 1;
+      }, [channelInfluence]);
+      
+      const toggleChannelIsolation = useCallback((formatName, channelIdx) => {
+        setIsolatedChannels(prev => {
+          const newMap = new Map(prev);
+          const current = newMap.get(formatName) || new Set();
+          const newSet = new Set(current);
+          if (newSet.has(channelIdx)) newSet.delete(channelIdx);
+          else newSet.add(channelIdx);
+          if (newSet.size === 0) newMap.delete(formatName);
+          else newMap.set(formatName, newSet);
+          return newMap;
+        });
+      }, []);
+      
+      const clearIsolation = useCallback((formatName) => {
+        setIsolatedChannels(prev => { const newMap = new Map(prev); newMap.delete(formatName); return newMap; });
+      }, []);
+      
+      const getHeatmapColor = useCallback((intensity) => {
+        const t = Math.min(1, Math.max(0, intensity));
+        if (t < 0.25) { const s = t / 0.25; return `rgb(${Math.round(50 + s * 0)}, ${Math.round(80 + s * 175)}, ${Math.round(180 + s * 75)})`; }
+        else if (t < 0.5) { const s = (t - 0.25) / 0.25; return `rgb(${Math.round(50 + s * 6)}, ${Math.round(255 - s * 8)}, ${Math.round(255 - s * 247)})`; }
+        else if (t < 0.75) { const s = (t - 0.5) / 0.25; return `rgb(${Math.round(56 + s * 186)}, ${Math.round(247 - s * 55)}, ${Math.round(8 + s * 22)})`; }
+        else { const s = (t - 0.75) / 0.25; return `rgb(${Math.round(242 + s * 13)}, ${Math.round(192 - s * 66)}, ${Math.round(30 - s * 30)})`; }
+      }, []);
+      
+      // Available overlay formats with full matrix reference info
+      const availableOverlayFormats = useMemo(() => {
+        if (!data) return [];
+        const formatMap = new Map();
+        
+        for (const matrix of data.matrices) {
+          const hasPanner = matrix.channels.some(ch => ch.kind === 'Panner');
+          
+          // Track formatFrom
+          if (!formatMap.has(matrix.formatFrom)) {
+            formatMap.set(matrix.formatFrom, {
+              name: matrix.formatFrom,
+              hasPositions: false,
+              groups: new Set(),
+              asSource: [],
+              asTarget: [],
+              channelCount: matrix.channels.length
+            });
+          }
+          const fromEntry = formatMap.get(matrix.formatFrom);
+          fromEntry.groups.add(matrix.group);
+          fromEntry.asSource.push({ to: matrix.formatTo, group: matrix.group });
+          if (hasPanner) fromEntry.hasPositions = true;
+          
+          // Track formatTo
+          if (!formatMap.has(matrix.formatTo)) {
+            formatMap.set(matrix.formatTo, {
+              name: matrix.formatTo,
+              hasPositions: false,
+              groups: new Set(),
+              asSource: [],
+              asTarget: [],
+              channelCount: 0
+            });
+          }
+          const toEntry = formatMap.get(matrix.formatTo);
+          toEntry.groups.add(matrix.group);
+          toEntry.asTarget.push({ from: matrix.formatFrom, group: matrix.group });
+        }
+        
+        return Array.from(formatMap.values())
+          .filter(f => !f.name.startsWith('M1'))
+          .sort((a, b) => a.name.localeCompare(b.name));
+      }, [data]);
+      
+      // Selected format detail info
+      const selectedOverlayInfo = useMemo(() => {
+        if (!selectedOverlayDetail || !data) return null;
+        return availableOverlayFormats.find(f => f.name === selectedOverlayDetail) || null;
+      }, [selectedOverlayDetail, availableOverlayFormats, data]);
+      
+      // Render objects
+      const renderObjects = useMemo(() => {
+        if (!data) return [];
+        const objects = [];
+        const mach1Format = data.mach1SpatialFormats[selectedMach1Format];
+        
+        if (mach1Format) {
+          if (showPlanes) {
+            for (const plane of mach1Format.planes) {
+              const vertices = plane.map(i => {
+                const p = mach1Format.points[i];
+                return [p.x, p.y, p.z];
+              });
+              objects.push({ type: 'triangle', vertices, color: COLORS.mach1Plane, depth: 0 });
+            }
+          }
+          
+          if (showLines) {
+            for (const line of mach1Format.lines) {
+              const p1 = mach1Format.points[line[0]];
+              const p2 = mach1Format.points[line[1]];
+              objects.push({ type: 'line', vertices: [[p1.x, p1.y, p1.z], [p2.x, p2.y, p2.z]], color: COLORS.mach1Line, depth: 0 });
+            }
+          }
+          
+          // Connection lines from overlay to M1
+          if (showConnectionLines && overlayFormats.length > 0) {
+            for (let formatIdx = 0; formatIdx < overlayFormats.length; formatIdx++) {
+              const formatName = overlayFormats[formatIdx];
+              const color = COLORS.overlay[formatIdx % COLORS.overlay.length];
+              const positions = getOverlayPositions(formatName);
+              const coeffData = getCoefficientsToMach1(formatName);
+              
+              if (coeffData && positions.length > 0) {
+                const isolated = isolatedChannels.get(formatName);
+                const channelsToShow = isolated && isolated.size > 0 ? Array.from(isolated) : Array.from({ length: positions.length }, (_, i) => i);
+                
+                for (const srcCh of channelsToShow) {
+                  if (srcCh >= positions.length) continue;
+                  const srcPos = positions[srcCh];
+                  for (let m1Ch = 0; m1Ch < Math.min(coeffData.outputChannels, mach1Format.points.length); m1Ch++) {
+                    const coeff = coeffData.direction === 'to' ? (coeffData.coeffs[srcCh] || [])[m1Ch] || 0 : (coeffData.coeffs[m1Ch] || [])[srcCh] || 0;
+                    const absCoeff = Math.abs(coeff);
+                    if (absCoeff > 0.05) {
+                      const m1Point = mach1Format.points[m1Ch];
+                      const alpha = Math.min(0.8, absCoeff);
+                      const r = parseInt(color.slice(1, 3), 16);
+                      const g = parseInt(color.slice(3, 5), 16);
+                      const b = parseInt(color.slice(5, 7), 16);
+                      objects.push({ type: 'line', vertices: [srcPos, [m1Point.x, m1Point.y, m1Point.z]], color: `rgba(${r}, ${g}, ${b}, ${alpha})`, depth: 0 });
+                    }
+                  }
+                }
+              }
+            }
+          }
+          
+          // M1 points with heatmap
+          for (let i = 0; i < mach1Format.points.length; i++) {
+            const p = mach1Format.points[i];
+            const influence = channelInfluence.get(i);
+            let pointColor = COLORS.mach1Point;
+            let pointSize = 1;
+            
+            if (showDistribution && influence && overlayFormats.length > 0 && maxInfluence > 0) {
+              const intensity = influence.total / maxInfluence;
+              if (intensity > 0.01) {
+                pointColor = getHeatmapColor(intensity);
+                pointSize = 1 + intensity * 0.5;
+              }
+            }
+            objects.push({ type: 'point', vertices: [[p.x, p.y, p.z]], color: pointColor, label: showLabels ? `${i}` : undefined, depth: 0, opacity: pointSize });
+          }
+        }
+        
+        // Overlay points
+        for (let formatIdx = 0; formatIdx < overlayFormats.length; formatIdx++) {
+          const formatName = overlayFormats[formatIdx];
+          const color = COLORS.overlay[formatIdx % COLORS.overlay.length];
+          const positions = getOverlayPositions(formatName);
+          const isolated = isolatedChannels.get(formatName);
+          
+          for (let i = 0; i < positions.length; i++) {
+            const isIsolated = isolated && isolated.size > 0;
+            const isActive = !isIsolated || isolated.has(i);
+            objects.push({ type: 'point', vertices: [positions[i]], color: isActive ? color : COLORS.grayFour, label: showLabels ? `${i}` : undefined, depth: 0, opacity: isActive ? 1 : 0.3 });
+          }
+        }
+        
+        return objects;
+      }, [data, selectedMach1Format, overlayFormats, showPlanes, showLines, showLabels, showDistribution, showConnectionLines, getOverlayPositions, getCoefficientsToMach1, channelInfluence, maxInfluence, isolatedChannels, getHeatmapColor]);
+      
+      // Camera matrices
+      const { viewMatrix, projMatrix } = useMemo(() => {
+        const aspect = dimensions.width / dimensions.height;
+        const proj = mat4Perspective(Math.PI / 4, aspect, 0.1, 100);
+        
+        let eye, target = [0, 0, 0], up = [0, 0, 1];
+        
+        if (cameraMode === 'topDown') {
+          eye = [0, 0, cameraDistance * 1.5];
+          up = [0, 1, 0];
+        } else if (cameraMode === 'firstPerson') {
+          eye = [0, 0, 0];
+          target = [0, 1, 0];
+          up = [0, 0, 1];
+        } else {
+          const azRad = (cameraAzimuth * Math.PI) / 180;
+          const elRad = (cameraElevation * Math.PI) / 180;
+          const cosEl = Math.cos(elRad);
+          eye = [Math.sin(azRad) * cosEl * cameraDistance, -Math.cos(azRad) * cosEl * cameraDistance, Math.sin(elRad) * cameraDistance];
+        }
+        
+        return { viewMatrix: mat4LookAt(eye, target, up), projMatrix: proj };
+      }, [cameraMode, cameraDistance, cameraAzimuth, cameraElevation, dimensions]);
+      
+      // Render
+      useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+        
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = dimensions.width * dpr;
+        canvas.height = dimensions.height * dpr;
+        ctx.scale(dpr, dpr);
+        
+        renderScene(ctx, renderObjects, viewMatrix, projMatrix, dimensions.width, dimensions.height);
+      }, [renderObjects, viewMatrix, projMatrix, dimensions]);
+      
+      // Mouse handlers
+      const handleMouseDown = (e) => { isDragging.current = true; lastMousePos.current = { x: e.clientX, y: e.clientY }; };
+      const handleMouseMove = (e) => {
+        if (!isDragging.current) return;
+        const dx = e.clientX - lastMousePos.current.x;
+        const dy = e.clientY - lastMousePos.current.y;
+        lastMousePos.current = { x: e.clientX, y: e.clientY };
+        if (cameraMode === 'orbit') {
+          setCameraAzimuth(prev => prev - dx * 0.5);
+          setCameraElevation(prev => Math.max(-89, Math.min(89, prev + dy * 0.5)));
+        }
+      };
+      const handleMouseUp = () => { isDragging.current = false; };
+      const handleWheel = (e) => { e.preventDefault(); setCameraDistance(prev => Math.max(2, Math.min(20, prev + e.deltaY * 0.01))); };
+      
+      const toggleOverlayFormat = (formatName) => {
+        setOverlayFormats(prev => prev.includes(formatName) ? prev.filter(f => f !== formatName) : [...prev, formatName]);
+      };
+      
+      // Styles
+      const containerStyle = { display: 'flex', height: '100%', backgroundColor: COLORS.bgPrimary, color: COLORS.textPrimary, fontFamily: "'JetBrains Mono', monospace" };
+      const sidebarStyle = { width: '280px', backgroundColor: COLORS.bgSecondary, borderRight: `1px solid ${COLORS.border}`, overflowY: 'auto', flexShrink: 0 };
+      const viewerStyle = { flex: 1, position: 'relative', overflow: 'hidden' };
+      const canvasStyle = { width: '100%', height: '100%', cursor: cameraMode === 'orbit' ? 'grab' : 'default' };
+      const selectStyle = { backgroundColor: COLORS.bgTertiary, color: COLORS.textPrimary, border: `1px solid ${COLORS.border}`, borderRadius: '4px', padding: '6px 10px', fontSize: '13px', fontFamily: 'inherit', cursor: 'pointer', outline: 'none', width: '100%' };
+      const buttonStyle = { backgroundColor: COLORS.bgTertiary, color: COLORS.textPrimary, border: `1px solid ${COLORS.border}`, borderRadius: '4px', padding: '6px 12px', fontSize: '12px', fontFamily: 'inherit', cursor: 'pointer' };
+      const buttonActiveStyle = { ...buttonStyle, backgroundColor: COLORS.grayFour, borderColor: COLORS.m1Yellow };
+      const sectionStyle = { padding: '12px 16px', borderBottom: `1px solid ${COLORS.border}` };
+      const sectionTitleStyle = { fontSize: '11px', fontWeight: 600, color: COLORS.textMuted, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '10px' };
+      const checkboxLabelStyle = { display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', cursor: 'pointer', padding: '4px 0' };
+      const formatItemStyle = (isActive, color) => ({ display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 10px', borderRadius: '4px', cursor: 'pointer', backgroundColor: isActive ? COLORS.bgTertiary : 'transparent', border: `1px solid ${isActive ? (color || COLORS.m1Yellow) : 'transparent'}` });
+      const colorDotStyle = (color) => ({ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: color, flexShrink: 0 });
+      
+      if (loading) return <div style={{ ...containerStyle, justifyContent: 'center', alignItems: 'center' }}><div style={{ color: COLORS.textMuted }}>Loading format data...</div></div>;
+      if (error) return <div style={{ ...containerStyle, justifyContent: 'center', alignItems: 'center' }}><div style={{ color: '#F85149' }}>Error: {error}</div></div>;
+      if (!data) return null;
+      
+      const mach1FormatNames = Object.keys(data.mach1SpatialFormats).sort((a, b) => parseInt(a.replace(/\D/g, '')) - parseInt(b.replace(/\D/g, '')));
+      const currentFormat = data.mach1SpatialFormats[selectedMach1Format];
+      
+      return (
+        <div style={containerStyle}>
+          {/* Sidebar */}
+          <div style={sidebarStyle}>
+            {/* Format selector */}
+            <div style={sectionStyle}>
+              <div style={sectionTitleStyle}>Mach1 Format</div>
+              <select value={selectedMach1Format} onChange={e => setSelectedMach1Format(e.target.value)} style={selectStyle}>
+                {mach1FormatNames.map(name => <option key={name} value={name}>{name}</option>)}
+              </select>
+              {currentFormat && (
+                <div style={{ fontSize: '12px', color: COLORS.textMuted, marginTop: '8px' }}>
+                  {currentFormat.points.length} channels | {currentFormat.lines.length} lines | {currentFormat.planes.length} planes
+                </div>
+              )}
+            </div>
+            
+            {/* Camera controls */}
+            <div style={sectionStyle}>
+              <div style={sectionTitleStyle}>Camera</div>
+              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                <button style={cameraMode === 'orbit' ? buttonActiveStyle : buttonStyle} onClick={() => setCameraMode('orbit')}>Orbit</button>
+                <button style={cameraMode === 'firstPerson' ? buttonActiveStyle : buttonStyle} onClick={() => setCameraMode('firstPerson')}>First Person</button>
+                <button style={cameraMode === 'topDown' ? buttonActiveStyle : buttonStyle} onClick={() => setCameraMode('topDown')}>Top Down</button>
+              </div>
+            </div>
+            
+            {/* Display options */}
+            <div style={sectionStyle}>
+              <div style={sectionTitleStyle}>Display</div>
+              <label style={checkboxLabelStyle}><input type="checkbox" checked={showPlanes} onChange={e => setShowPlanes(e.target.checked)} /> Show Planes</label>
+              <label style={checkboxLabelStyle}><input type="checkbox" checked={showLines} onChange={e => setShowLines(e.target.checked)} /> Show Lines</label>
+              <label style={checkboxLabelStyle}><input type="checkbox" checked={showLabels} onChange={e => setShowLabels(e.target.checked)} /> Show Labels</label>
+              
+              <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: `1px solid ${COLORS.border}` }}>
+                <div style={{ fontSize: '10px', color: COLORS.textMuted, marginBottom: '8px' }}>COEFFICIENT VISUALIZATION</div>
+                <label style={checkboxLabelStyle}><input type="checkbox" checked={showDistribution} onChange={e => setShowDistribution(e.target.checked)} /> Heatmap (M1 influence)</label>
+                <label style={checkboxLabelStyle}><input type="checkbox" checked={showConnectionLines} onChange={e => setShowConnectionLines(e.target.checked)} /> Connection Lines</label>
+              </div>
+              
+              {showDistribution && overlayFormats.length > 0 && (
+                <div style={{ marginTop: '10px' }}>
+                  <div style={{ fontSize: '10px', color: COLORS.textMuted, marginBottom: '4px' }}>Influence intensity:</div>
+                  <div style={{ height: '12px', borderRadius: '2px', background: 'linear-gradient(to right, rgb(50, 80, 180), rgb(50, 255, 255), rgb(56, 247, 8), rgb(242, 192, 30), rgb(255, 126, 0))', marginBottom: '4px' }} />
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9px', color: COLORS.textMuted }}><span>Low</span><span>High</span></div>
+                </div>
+              )}
+            </div>
+            
+            {/* Overlay formats */}
+            <div style={sectionStyle}>
+              <div style={sectionTitleStyle}>Compare Formats ({availableOverlayFormats.length})</div>
+              <div style={{ fontSize: '11px', color: COLORS.textMuted, marginBottom: '10px' }}>Click checkbox to overlay | Click name for details</div>
+              <div style={{ maxHeight: '250px', overflowY: 'auto' }}>
+                {availableOverlayFormats.map((format, idx) => {
+                  const isOverlaid = overlayFormats.includes(format.name);
+                  const isSelected = selectedOverlayDetail === format.name;
+                  const colorIdx = isOverlaid ? overlayFormats.indexOf(format.name) : idx;
+                  const color = COLORS.overlay[colorIdx % COLORS.overlay.length];
+                  const groupList = Array.from(format.groups).join(', ');
+                  return (
+                    <div key={format.name} style={{ ...formatItemStyle(isSelected, isOverlaid ? color : COLORS.grayFour), flexDirection: 'column', alignItems: 'stretch', gap: '4px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <input type="checkbox" checked={isOverlaid} onChange={() => toggleOverlayFormat(format.name)} style={{ accentColor: color }} onClick={e => e.stopPropagation()} />
+                        <div style={colorDotStyle(isOverlaid ? color : COLORS.grayFour)} />
+                        <span style={{ fontSize: '12px', cursor: 'pointer', flex: 1, color: format.hasPositions ? COLORS.textPrimary : COLORS.textMuted }} onClick={() => setSelectedOverlayDetail(isSelected ? null : format.name)}>
+                          {format.name}
+                        </span>
+                        {!format.hasPositions && <span style={{ fontSize: '9px', color: COLORS.textMuted, fontStyle: 'italic' }}>no pos</span>}
+                      </div>
+                      <div style={{ fontSize: '10px', color: COLORS.textMuted, paddingLeft: '48px' }}>
+                        {groupList} | {format.asSource.length + format.asTarget.length} matrices
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            
+            {/* Format Detail Panel */}
+            {selectedOverlayInfo && (
+              <div style={sectionStyle}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                  <div style={sectionTitleStyle}>Format Detail</div>
+                  <button style={{ ...buttonStyle, padding: '2px 8px', fontSize: '10px' }} onClick={() => setSelectedOverlayDetail(null)}>Close</button>
+                </div>
+                <div style={{ fontSize: '14px', fontWeight: 600, color: COLORS.hlBlue, marginBottom: '8px' }}>{selectedOverlayInfo.name}</div>
+                <div style={{ fontSize: '11px', color: COLORS.textMuted, marginBottom: '12px' }}>
+                  {selectedOverlayInfo.hasPositions ? <span style={{ color: COLORS.hlGreen }}>Has position data</span> : <span>No position data (coefficients only)</span>}
+                  {selectedOverlayInfo.channelCount > 0 && <span> | {selectedOverlayInfo.channelCount} channels</span>}
+                </div>
+                {selectedOverlayInfo.asSource.length > 0 && (
+                  <div style={{ marginBottom: '12px' }}>
+                    <div style={{ fontSize: '10px', color: COLORS.textMuted, marginBottom: '4px' }}>TRANSCODE FROM ({selectedOverlayInfo.asSource.length})</div>
+                    <div style={{ maxHeight: '100px', overflowY: 'auto' }}>
+                      {selectedOverlayInfo.asSource.map((ref, i) => (
+                        <div key={i} style={{ fontSize: '11px', padding: '2px 0', display: 'flex', gap: '8px' }}>
+                          <span style={{ color: COLORS.textSecondary }}>{ref.to}</span>
+                          <span style={{ color: COLORS.textMuted, fontSize: '10px' }}>({ref.group})</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {selectedOverlayInfo.asTarget.length > 0 && (
+                  <div>
+                    <div style={{ fontSize: '10px', color: COLORS.textMuted, marginBottom: '4px' }}>TRANSCODE TO ({selectedOverlayInfo.asTarget.length})</div>
+                    <div style={{ maxHeight: '100px', overflowY: 'auto' }}>
+                      {selectedOverlayInfo.asTarget.map((ref, i) => (
+                        <div key={i} style={{ fontSize: '11px', padding: '2px 0', display: 'flex', gap: '8px' }}>
+                          <span style={{ color: COLORS.textSecondary }}>{ref.from}</span>
+                          <span style={{ color: COLORS.textMuted, fontSize: '10px' }}>({ref.group})</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+            
+            {/* Channel Isolation Panel */}
+            {overlayFormats.length > 0 && (
+              <div style={sectionStyle}>
+                <div style={sectionTitleStyle}>Isolate Channels</div>
+                <div style={{ fontSize: '11px', color: COLORS.textMuted, marginBottom: '10px' }}>Select specific channels to view their distribution</div>
+                
+                {overlayFormats.map((formatName, formatIdx) => {
+                  const color = COLORS.overlay[formatIdx % COLORS.overlay.length];
+                  const positions = getOverlayPositions(formatName);
+                  const coeffData = getCoefficientsToMach1(formatName);
+                  const channelCount = positions.length || (coeffData?.inputChannels || 0);
+                  const isolated = isolatedChannels.get(formatName);
+                  const hasIsolation = isolated && isolated.size > 0;
+                  
+                  if (channelCount === 0) return null;
+                  
+                  return (
+                    <div key={formatName} style={{ marginBottom: '12px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <div style={colorDotStyle(color)} />
+                          <span style={{ fontSize: '12px', fontWeight: 500 }}>{formatName}</span>
+                        </div>
+                        {hasIsolation && <button style={{ ...buttonStyle, padding: '2px 6px', fontSize: '9px', color: COLORS.textMuted }} onClick={() => clearIsolation(formatName)}>Clear</button>}
+                      </div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', maxHeight: '80px', overflowY: 'auto' }}>
+                        {Array.from({ length: channelCount }, (_, i) => {
+                          const isActive = !hasIsolation || (isolated && isolated.has(i));
+                          return (
+                            <button key={i} style={{ width: '28px', height: '24px', padding: '2px 4px', fontSize: '10px', fontFamily: 'inherit', backgroundColor: isActive && hasIsolation ? color : COLORS.bgTertiary, color: isActive ? COLORS.textPrimary : COLORS.textMuted, border: `1px solid ${isActive && hasIsolation ? color : COLORS.border}`, borderRadius: '3px', cursor: 'pointer', opacity: isActive ? 1 : 0.5 }} onClick={() => toggleChannelIsolation(formatName, i)}>{i}</button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            
+            {/* Channel list */}
+            {currentFormat && (
+              <div style={sectionStyle}>
+                <div style={sectionTitleStyle}>Channels (X, Y, Z)</div>
+                <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                  {currentFormat.points.map((p, i) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '4px 0', fontSize: '12px', fontFamily: 'monospace' }}>
+                      <span style={{ width: '24px', color: COLORS.m1Yellow, fontWeight: 600 }}>{i}</span>
+                      <span style={{ color: COLORS.textSecondary }}>({p.x.toFixed(3)}, {p.y.toFixed(3)}, {p.z.toFixed(3)})</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+          
+          {/* 3D Viewer */}
+          <div ref={containerRef} style={viewerStyle}>
+            <canvas
+              ref={canvasRef}
+              style={canvasStyle}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+              onWheel={handleWheel}
+            />
+            
+            {/* Camera info */}
+            <div style={{ position: 'absolute', bottom: '12px', left: '12px', fontSize: '11px', color: COLORS.textMuted, backgroundColor: 'rgba(0,0,0,0.6)', padding: '6px 10px', borderRadius: '4px' }}>
+              {cameraMode === 'orbit' && `Azimuth: ${cameraAzimuth.toFixed(0)}° | Elevation: ${cameraElevation.toFixed(0)}° | Distance: ${cameraDistance.toFixed(1)}`}
+              {cameraMode === 'firstPerson' && 'First Person View (Looking Forward)'}
+              {cameraMode === 'topDown' && 'Top Down View'}
+            </div>
+            
+            {/* Overlay legend */}
+            {overlayFormats.length > 0 && (
+              <div style={{ position: 'absolute', top: '12px', right: '12px', backgroundColor: 'rgba(0,0,0,0.7)', padding: '10px', borderRadius: '4px', fontSize: '11px' }}>
+                <div style={{ marginBottom: '6px', color: COLORS.textMuted }}>Overlays:</div>
+                {overlayFormats.map((name, idx) => (
+                  <div key={name} style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '4px' }}>
+                    <div style={colorDotStyle(COLORS.overlay[idx % COLORS.overlay.length])} />
+                    <span>{name}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+            
+            {/* Coordinate system legend */}
+            <div style={{ position: 'absolute', bottom: '12px', right: '12px', backgroundColor: 'rgba(0,0,0,0.6)', padding: '8px 12px', borderRadius: '4px', fontSize: '10px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '2px' }}>
+                <div style={{ width: '12px', height: '2px', backgroundColor: '#F85149' }} />
+                <span>X: Left(-) / Right(+)</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '2px' }}>
+                <div style={{ width: '12px', height: '2px', backgroundColor: '#38F708' }} />
+                <span>Y: Back(-) / Front(+)</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <div style={{ width: '12px', height: '2px', backgroundColor: '#58A6FF' }} />
+                <span>Z: Bottom(-) / Top(+)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    
+    // Render
+    const root = ReactDOM.createRoot(document.getElementById('explorer'));
+    root.render(<Mach1LayoutExplorer />);
+  </script>
+  
+  <!-- Babel for JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</body>
+</html>

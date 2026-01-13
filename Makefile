@@ -48,6 +48,23 @@ endif
 doxygen:
 	cd docs && doxygen Doxyfile
 
+# Deploy the standalone Mach1 Layout Explorer page
+# Generates JSON data and serves for local testing
+deploy-layout-explorer:
+	@echo "Generating mach1-matrices.json from C++ headers..."
+	cd docs && node scripts/mach1-matrices-to-json.mjs
+	@echo ""
+	@echo "Layout Explorer ready at: docs/pages/mach1-layout-explorer.html"
+	@echo "Data file generated at: docs/public/mach1-matrices.json"
+	@echo ""
+	@echo "To serve locally, run:"
+	@echo "  cd docs && python3 -m http.server 8000"
+	@echo "Then open: http://localhost:8000/pages/mach1-layout-explorer.html"
+
+# Serve layout explorer locally (runs in foreground)
+serve-layout-explorer: deploy-layout-explorer
+	cd docs && python3 -m http.server 8000
+
 ifeq ($(detected_OS),Windows)
 SOURCES := $(shell powershell -Command "Get-ChildItem -Path 'libmach1spatial/api_*' -Recurse -Include '*.cpp' | ForEach-Object { $$_.FullName -replace '\\', '/' }")
 HEADERS := $(shell powershell -Command "Get-ChildItem -Path 'libmach1spatial/api_*' -Recurse -Include '*.h' | ForEach-Object { $$_.FullName -replace '\\', '/' }")

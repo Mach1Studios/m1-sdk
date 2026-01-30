@@ -596,6 +596,11 @@ Mach1Encode<PCM>::encodeBuffer(std::vector<std::vector<PCM> > &in, std::vector<s
 
     float size_reciprocal = 1.0f / (float)size;
 
+    // clear output buffer before accumulating
+    for (int output_idx = 0; output_idx < getOutputChannelsCount(); output_idx++) {
+        memset(out[output_idx].data(), 0, sizeof(PCM) * size);
+    }
+
     // process the samples manually
     for (int point_idx = 0; point_idx < getPointsCount(); point_idx++) {
         for (int output_idx = 0; output_idx < getOutputChannelsCount(); output_idx++) {
@@ -606,11 +611,13 @@ Mach1Encode<PCM>::encodeBuffer(std::vector<std::vector<PCM> > &in, std::vector<s
                 auto prc = (float)sample_idx * size_reciprocal;
                 auto gain = encode_gain * (1.0f - prc) + last_encode_gain * prc;
 
-                auto val = in[output_idx][sample_idx];
-                out[output_idx][sample_idx] = gain * val;
+                auto val = in[point_idx][sample_idx];
+                out[output_idx][sample_idx] += gain * val;
             }
         }
     }
+
+    last_gains = encode_gains;
 }
 
 template <typename PCM>
@@ -661,7 +668,7 @@ Mach1Encode<PCM>::encodeBufferRebuffer(std::vector<std::vector<PCM> > &in, std::
             for (int sample_idx = 0; sample_idx < size; sample_idx++) {
                 auto prc = (float)sample_idx * size_reciprocal;
                 auto gain = encode_gain * (1.0f - prc) + last_encode_gain * prc;
-                auto val = in[output_idx][sample_idx];
+                auto val = in[point_idx][sample_idx];
                 intermediary_buffer[output_idx][sample_idx] += gain * val;
             }
         }

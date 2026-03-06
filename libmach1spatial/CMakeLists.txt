@@ -281,9 +281,11 @@ if(BUILD_M1DECODEPOSITIONAL)
         "${CMAKE_CURRENT_SOURCE_DIR}/deps/yaml"
     )
 
-    # Bundled GLM 0.9.9 has operator[] overload issues with GCC 13 in C++20/23 mode.
-    # Cap to C++17 for this target on Linux/GCC so CI builds succeed.
-    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    # Bundled GLM 0.9.9 needs C++14+ (constexpr rules, for-loops in constexpr) and has
+    # operator[] overload issues with GCC 13 in C++20/23 and with Clang in C++11.
+    # Use C++17 for this target on Linux/GCC and macOS/Clang so CI builds succeed.
+    if((CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
+        OR (CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang" AND CMAKE_SYSTEM_NAME STREQUAL "Darwin"))
         set_target_properties(M1DecodePositional PROPERTIES CXX_STANDARD 17)
     endif()
 

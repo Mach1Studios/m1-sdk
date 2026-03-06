@@ -2,15 +2,17 @@ echo "### CLEANING OLD TESTS ###"
 rm -rf ./_builds
 
 echo "### BUILD macOS ###"
-cmake . -B_builds/xcode -GXcode -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_SIGNAL_SUITE=OFF
-cmake --build _builds/xcode --config "Debug"
+# Use Unix Makefiles so CMake finds CC/CXX from PATH without invoking xcodebuild (avoids
+# IDESimulatorFoundation/DVTDownloads plugin failures when Xcode generator is broken).
+cmake . -B_builds/xcode -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DM1S_BUILD_TESTS=ON -DM1S_BUILD_EXAMPLES=OFF -DM1S_BUILD_SIGNAL_SUITE=OFF
+cmake --build _builds/xcode
 
-# these commands are expected to execute if this script was run from the parent ../ directory
+# Single-config generator: test executables are under tests/ (no Debug/ subdir)
 # TODO: add install command in cmake so that we can predict where these exes exist
-_builds/xcode/tests/Debug/Mach1EncodeTests || { echo 'Mach1Encode API test failed...' ; exit 1; }
-_builds/xcode/tests/Debug/Mach1DecodeTests || { echo 'Mach1Decode API test failed...' ; exit 1; }
-_builds/xcode/tests/Debug/Mach1DecodePositionalTests || { echo 'Mach1DecodePositional API test failed...' ; exit 1; }
-_builds/xcode/tests/Debug/Mach1TranscodeTests || { echo 'Mach1Transcode API test failed...' ; exit 1; }
+_builds/xcode/tests/Mach1EncodeTests || { echo 'Mach1Encode API test failed...' ; exit 1; }
+_builds/xcode/tests/Mach1DecodeTests || { echo 'Mach1Decode API test failed...' ; exit 1; }
+_builds/xcode/tests/Mach1DecodePositionalTests || { echo 'Mach1DecodePositional API test failed...' ; exit 1; }
+_builds/xcode/tests/Mach1TranscodeTests || { echo 'Mach1Transcode API test failed...' ; exit 1; }
 
 # TODO: Check if file was built first!
 # echo "### RENDER CHECK ####"

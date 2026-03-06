@@ -214,9 +214,9 @@ void M1DecodeCore::spatialMultichannelAlgo(Mach1Point3D *channelPoints, int numC
     simulationAngles.y = Pitch;
     simulationAngles.z = Roll;
 
-    Mach1Point3D fVec_1a = {sin(mDegToRad(simulationAngles[0])), cos(mDegToRad(simulationAngles[0])), 0};
+    Mach1Point3D fVec_1a = {static_cast<float>(sin(mDegToRad(simulationAngles[0]))), static_cast<float>(cos(mDegToRad(simulationAngles[0]))), 0.f};
     fVec_1a.normalize();
-    Mach1Point3D fVec_1b = {sin(mDegToRad(simulationAngles[0] - 90)), cos(mDegToRad(simulationAngles[0] - 90)), 0};
+    Mach1Point3D fVec_1b = {static_cast<float>(sin(mDegToRad(simulationAngles[0] - 90))), static_cast<float>(cos(mDegToRad(simulationAngles[0] - 90))), 0.f};
     fVec_1b.normalize();
 
     Mach1Point3D fVec_2a = fVec_1a.getRotated(-simulationAngles[1], fVec_1b);

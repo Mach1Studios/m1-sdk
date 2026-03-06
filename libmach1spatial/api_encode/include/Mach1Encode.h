@@ -522,7 +522,7 @@ void Mach1Encode<PCM>::setFrontSurroundPerspective(bool frontSurroundPerspective
 
 template <typename PCM>
 float Mach1Encode<PCM>::getOutputGain(bool isDecibel) {
-    Mach1EncodeCAPI_getOutputGain(M1obj, isDecibel);
+    return Mach1EncodeCAPI_getOutputGain(M1obj, isDecibel);
 }
 
 template <typename PCM>

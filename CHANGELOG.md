@@ -6,6 +6,11 @@ Currently the Mach1 Spatial SDK has gone through some revisions to improve on it
 [Version 2](https://github.com/Mach1Studios/m1-sdk/tree/2.1)
 [Version 1](https://github.com/Mach1Studios/m1-sdk/tree/1.2)
 
+## Unreleased
+- Mach1Transcode API: Changed the `M1Spatial-8` to `M1Spatial-4` vertical-pair
+  collapse coefficients from `0.707106` to `0.5`. Coherent upper/lower pairs now
+  retain their input gain and headroom without external master-gain compensation.
+
 ## Breaking changes for migrating to 4.0+
 Version 4 removes more deprecated functions and simplifies the APIs to be more modular.
 - Mach1Encode API: Requires the definition of `M1ENCODE_INLINE_DECODE` to allow the inline decode functions to be compiles (and requires additional project linking to Mach1Decode API)

@@ -34,14 +34,14 @@ void test_results(void) {
                 ""
             },
             {{
-                {0.70710678f, 0, 0, 0},
-                {0, 0.70710678f, 0, 0},
-                {0, 0, 0.70710678f, 0},
-                {0, 0, 0, 0.70710678f},
-                {0.70710678f, 0, 0, 0},
-                {0, 0.70710678f, 0, 0},
-                {0, 0, 0.70710678f, 0},
-                {0, 0, 0, 0.70710678f},
+                {0.5f, 0, 0, 0},
+                {0, 0.5f, 0, 0},
+                {0, 0, 0.5f, 0},
+                {0, 0, 0, 0.5f},
+                {0.5f, 0, 0, 0},
+                {0, 0.5f, 0, 0},
+                {0, 0, 0.5f, 0},
+                {0, 0, 0, 0.5f},
             }}
         },
         {
@@ -174,6 +174,48 @@ void test_results(void) {
     }
 }
 
+void test_m1spatial_8_to_4_gain_match(void) {
+    constexpr int numInputChannels = 8;
+    constexpr int numOutputChannels = 4;
+    constexpr int numSamples = 4;
+    constexpr float inputLevel = 0.8f;
+
+    Mach1Transcode<float> m1Transcode;
+    m1Transcode.setInputFormat(m1Transcode.getFormatFromString("M1Spatial-8"));
+    m1Transcode.setOutputFormat(m1Transcode.getFormatFromString("M1Spatial-4"));
+    TEST_CHECK(m1Transcode.processConversionPath());
+
+    float input[numInputChannels][numSamples] = {};
+    float output[numOutputChannels][numSamples] = {};
+    float *inputPointers[numInputChannels];
+    float *outputPointers[numOutputChannels];
+
+    for (int channel = 0; channel < numInputChannels; channel++) {
+        inputPointers[channel] = input[channel];
+        for (int sample = 0; sample < numSamples; sample++) {
+            input[channel][sample] = inputLevel;
+        }
+    }
+    for (int channel = 0; channel < numOutputChannels; channel++) {
+        outputPointers[channel] = output[channel];
+    }
+
+    m1Transcode.processConversion(inputPointers, outputPointers, numSamples);
+
+    for (int channel = 0; channel < numOutputChannels; channel++) {
+        for (int sample = 0; sample < numSamples; sample++) {
+            TEST_CHECK_(
+                fabs(output[channel][sample] - inputLevel) < 0.000001f,
+                "M1Spatial-8 -> M1Spatial-4 changed coherent pair gain at [%d, %d]: %f",
+                channel,
+                sample,
+                output[channel][sample]
+            );
+        }
+    }
+}
+
 TEST_LIST = {
     {"results", test_results},
+    {"m1spatial-8-to-4-gain-match", test_m1spatial_8_to_4_gain_match},
     {NULL, NULL}};
